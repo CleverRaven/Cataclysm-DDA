@@ -393,6 +393,7 @@
             "pipe",
             "pointy_stick",
             "pool_cue",
+            "PR24",
             "primitive_knife",
             "q_staff",
             "rebar",
@@ -668,7 +669,7 @@
         "type" : "martial_art",
         "id" : "style_centipede",
         "name" : "Centipede Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increase your speed by 4.",
+        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your speed by 4.",
         "arm_block" : 3,
         "onhit_buffs" : [
             {

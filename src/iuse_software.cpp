@@ -1,14 +1,3 @@
-#include <string>
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <iterator>
-#include <map>
-#include <vector>
-
 #include "game.h"
 #include "output.h"
 #include "catacharset.h"
@@ -21,6 +10,17 @@
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
 #include "translations.h"
+
+#include <string>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <iterator>
+#include <map>
+#include <vector>
 
 bool play_videogame(std::string function_name, std::map<std::string, std::string> & game_data, int &score)
 {
@@ -48,7 +48,6 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
         return foundkitten;
 
         return true;
-    /* } else if( function_name == "tetris" ) { */
     } else if ( function_name == "snake_game" ) {
         snake_game sg;
         int iScore = sg.start_game();

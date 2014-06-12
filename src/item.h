@@ -395,7 +395,7 @@ bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);
 
-//the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
+//the assigned numbers are a result of legacy stuff in draw_item_info(),
 //it would be better long-term to rewrite stuff so that we don't need that hack
 enum hint_rating {
  HINT_CANT = 0, //meant to display as gray

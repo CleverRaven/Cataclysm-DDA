@@ -667,7 +667,7 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                 }
                 int side = random_side(hit);
                 n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name(hit, side).c_str());
-                n->hit(NULL, hit, side, 0, damage);              
+                n->hit(NULL, hit, side, 0, damage);
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
                   n->add_disease("tetanus",1,true);
               }
@@ -749,7 +749,7 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
     g->u.add_memorial_log(pgettext("memorial_male", "Stepped into a sinkhole."),
                         pgettext("memorial_female", "Stepped into a sinkhole."));
     if (g->u.has_amount("grapnel", 1) &&
-        query_yn(_("There is a sinkhole here. Throw your grappling hook out to try to catch something?"))) {
+        query_yn(_("You step into a sinkhole! Throw your grappling hook out to try to catch something?"))) {
         int throwroll = rng(g->u.skillLevel("throw"),
                             g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
         if (throwroll >= 6) {
@@ -796,8 +796,52 @@ void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
             g->m.ter_set(g->u.posx, g->u.posy, t_hole);
             g->vertical_move(-1, true);
         }
+    } else if(g->u.has_amount("bullwhip", 1) &&
+              query_yn(_("You step into a sinkhole! Throw your whip out to try and snag something?"))) {
+            int whiproll = rng(g->u.skillLevel("melee"),
+                               g->u.skillLevel("melee") + g->u.dex_cur + g->u.str_cur);
+
+            if(whiproll < 8) {
+                add_msg(m_bad, _("Your whip flails uselessly through the air!"));
+                g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                g->vertical_move(-1, true);
+            } else {
+                add_msg(m_good, _("Your whip wraps around something!"));
+                if(g->u.str_cur < 5) {
+                    add_msg(m_bad, _("But you're too weak to pull yourself out..."));
+                    g->u.moves -= 100;
+                    g->u.use_amount("bullwhip", 1);
+                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "bullwhip");
+                    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                    g->vertical_move(-1, true);
+                } else {
+                    // Determine safe places for the character to get pulled to
+                    std::vector<point> safe;
+                    for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
+                        for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
+                            if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit) {
+                                safe.push_back(point(i, j));
+                            }
+                        }
+                    }
+                    if (safe.empty()) {
+                        add_msg(m_bad, _("There's nowhere to pull yourself to, and you sink!"));
+                        g->u.use_amount("bullwhip", 1);
+                        g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "bullwhip");
+                        g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                        g->vertical_move(-1, true);
+                    } else {
+                        add_msg(m_good, _("You pull yourself to safety!  The sinkhole collapses."));
+                        int index = rng(0, safe.size() - 1);
+                        g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+                        g->u.posx = safe[index].x;
+                        g->u.posy = safe[index].y;
+                        g->update_map(g->u.posx, g->u.posy);
+                    }
+                }
+            }
     } else if (g->u.has_amount("rope_30", 1) &&
-               query_yn(_("There is a sinkhole here. Throw your rope out to try to catch something?"))) {
+               query_yn(_("You step into a sinkhole! Throw your rope out to try to catch something?"))) {
         int throwroll = rng(g->u.skillLevel("throw"),
                             g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
         if (throwroll >= 12) {

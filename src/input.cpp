@@ -688,7 +688,7 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
 
         // We're generating a list separated by "," and "or"
         if(i + 2 == inputs_to_show.size()) {
-            rval << " or ";
+            rval << _(" or ");
         } else if(i + 1 < inputs_to_show.size()) {
             rval << ", ";
         }

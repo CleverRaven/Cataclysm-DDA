@@ -290,7 +290,6 @@ void uimenu::setup() {
     }
     max_entry_len = 0;
     std::vector<int> autoassign;
-    autoassign.clear();
     int pad = pad_left + pad_right + 2;
     for ( int i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(entries[ i ].txt.c_str());
@@ -319,26 +318,16 @@ void uimenu::setup() {
         }
         fentries.push_back( i );
     }
-    if ( !autoassign.empty() ) {
-        int modifier = 0; //Increase this by one if assignment fails (the key is already used then).
-        for ( int a = 0; a < autoassign.size(); ) {
-            int setkey=-1;
-            if ( (a + modifier) < 9 ) {
-                setkey = (a + modifier) + 49; // 1-9;
-            } else if ( (a + modifier) == 9 ) {
-                setkey = (a + modifier) + 39; // 0;
-            } else if ( (a + modifier) < 36 ) {
-                setkey = (a + modifier) + 87; // a-z
-            } else if ( (a + modifier) < 61 ) {
-                setkey = (a + modifier) + 29; // A-Z
-            }
-            if ( setkey != -1 && keymap.count(setkey) <= 0 ) {
-                int palloc = autoassign[ a ];
-                entries[ palloc ].hotkey = setkey;
-                keymap[ setkey ] = palloc;
-                a++;
-            } else {
-                modifier++; //Keymap.count was not <= 0
+    static const std::string hotkeys("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    size_t next_free_hotkey = 0;
+    for( auto it = autoassign.begin(); it != autoassign.end() && next_free_hotkey < hotkeys.size(); ++it ) {
+        while( next_free_hotkey < hotkeys.size() ) {
+            const int setkey = hotkeys[next_free_hotkey];
+            next_free_hotkey++;
+            if( keymap.count( setkey ) == 0 ) {
+                entries[*it].hotkey = setkey;
+                keymap[setkey] = *it;
+                break;
             }
         }
     }

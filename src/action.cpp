@@ -577,7 +577,7 @@ action_id handle_action_menu()
 
         if(category == "back") {
             std::vector<std::pair<action_id, int> >::iterator it;
-            for (it = sorted_pairs.begin(); it != sorted_pairs.end(); it++) {
+            for (it = sorted_pairs.begin(); it != sorted_pairs.end(); ++it) {
                 if(it->second >= 200) {
                     REGISTER_ACTION(it->first);
                 }
@@ -706,8 +706,8 @@ action_id handle_action_menu()
 
         int width = 0;
         for (std::vector<uimenu_entry>::iterator entry = entries.begin();
-             entry != entries.end(); entry++) {
-            if (width<entry->txt.length()) {
+             entry != entries.end(); ++entry) {
+            if (width < entry->txt.length()) {
                 width = entry->txt.length();
             }
         }
@@ -748,8 +748,8 @@ bool choose_direction(const std::string &message, int &x, int &y)
     ctxt.register_action("HELP_KEYBINDINGS"); // why not?
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
-    wrefresh(stdscr);
+    mvwprintw(g->w_terrain, 0, 0, "%s", query_text.c_str());
+    wrefresh(g->w_terrain);
     const std::string action = ctxt.handle_input();
     if (input_context::get_direction(x, y, action)) {
         return true;
@@ -784,7 +784,7 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
 
             if(can_interact_at(action_to_highlight, x, y)) {
                 highlighted = true;
-                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos(), g->u.ypos());
+                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos() + g->u.view_offset_x, g->u.ypos() + g->u.view_offset_y);
             }
         }
     }

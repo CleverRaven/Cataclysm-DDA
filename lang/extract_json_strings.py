@@ -19,6 +19,7 @@ not_json = {
 # these objects have no translatable strings
 ignorable = {
     "colordef",
+    "ITEM_BLACKLIST",
     "item_group",
     "mapgen",
     "monstergroup",
@@ -242,7 +243,8 @@ use_action_msgs = {
     "need_fire_msg",
     "need_charges_msg",
     "non_interactive_msg",
-    "unfold_msg"
+    "unfold_msg",
+    "activation_message"
 }
 
 def extract_use_action_msgs(outfile, use_action, kwargs):

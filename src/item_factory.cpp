@@ -186,9 +186,9 @@ void Item_factory::init(){
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
     iuse_function_list["ALCOHOL_STRONG"] = &iuse::alcohol_strong;
-    iuse_function_list["PKILL"] = &iuse::pkill;
     iuse_function_list["XANAX"] = &iuse::xanax;
-    iuse_function_list["CIG"] = &iuse::cig;
+    iuse_function_list["SMOKING"] = &iuse::smoking;
+    iuse_function_list["SMOKING_PIPE"] = &iuse::smoking_pipe;
     iuse_function_list["ECIG"] = &iuse::ecig;
     iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
     iuse_function_list["EYEDROPS"] = &iuse::eyedrops;
@@ -196,16 +196,13 @@ void Item_factory::init(){
     iuse_function_list["ANTIFUNGAL"] = &iuse::antifungal;
     iuse_function_list["ANTIPARASITIC"] = &iuse::antiparasitic;
     iuse_function_list["ANTICONVULSANT"] = &iuse::anticonvulsant;
-    iuse_function_list["WEED"] = &iuse::weed;
     iuse_function_list["WEED_BROWNIE"] = &iuse::weed_brownie;
     iuse_function_list["COKE"] = &iuse::coke;
-    iuse_function_list["CRACK"] = &iuse::crack;
     iuse_function_list["GRACK"] = &iuse::grack;
     iuse_function_list["METH"] = &iuse::meth;
     iuse_function_list["VITAMINS"] = &iuse::vitamins;
     iuse_function_list["VACCINE"] = &iuse::vaccine;
     iuse_function_list["POISON"] = &iuse::poison;
-    iuse_function_list["HALLU"] = &iuse::hallu;
     iuse_function_list["FUN_HALLU"] = &iuse::fun_hallu;
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
     iuse_function_list["PROZAC"] = &iuse::prozac;
@@ -301,6 +298,7 @@ void Item_factory::init(){
     iuse_function_list["MANHACK"] = &iuse::manhack;
     iuse_function_list["TURRET"] = &iuse::turret;
     iuse_function_list["TURRET_LASER"] = &iuse::turret_laser;
+    iuse_function_list["TURRET_RIFLE"] = &iuse::turret_rifle;
     iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
     iuse_function_list["UPS_ON"] = &iuse::UPS_on;
     iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
@@ -673,7 +671,15 @@ void Item_factory::load_armor(JsonObject& jo)
     armor_template->encumber = jo.get_int("encumbrance");
     armor_template->coverage = jo.get_int("coverage");
     armor_template->thickness = jo.get_int("material_thickness");
-    armor_template->env_resist = jo.get_int("enviromental_protection");
+    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
+    // only "environmental_protection" and not "enviromental_protection".
+    if (jo.has_member("enviromental_protection")) {
+        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+        "please change the json data for item %d", armor_template->id.c_str());
+        armor_template->env_resist = jo.get_int("enviromental_protection");
+    } else {
+        armor_template->env_resist = jo.get_int("environmental_protection");
+    }
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
     armor_template->power_armor = jo.get_bool("power_armor", false);
@@ -724,7 +730,15 @@ void Item_factory::load_tool_armor(JsonObject& jo)
     armor_template->encumber = jo.get_int("encumbrance");
     armor_template->coverage = jo.get_int("coverage");
     armor_template->thickness = jo.get_int("material_thickness");
-    armor_template->env_resist = jo.get_int("enviromental_protection");
+    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
+    // only "environmental_protection" and not "enviromental_protection".
+    if (jo.has_member("enviromental_protection")) {
+        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+        "please change the json data for item %d", armor_template->id.c_str());
+        armor_template->env_resist = jo.get_int("enviromental_protection");
+    } else {
+        armor_template->env_resist = jo.get_int("environmental_protection");
+    }
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
     armor_template->power_armor = jo.get_bool("power_armor", false);
@@ -769,7 +783,15 @@ void Item_factory::load_comestible(JsonObject& jo)
       comest_template->stack_size = comest_template->charges;
     }
     comest_template->stim = jo.get_int("stim", 0);
-    comest_template->healthy = jo.get_int("heal", 0);
+    // TODO: sometimes in the future: remove this if clause and accept
+    // only "healthy" and not "heal".
+    if (jo.has_member("heal")) {
+        debugmsg("the item property \"heal\" has been renamed to \"healthy\"\n"
+        "please change the json data for item %d", comest_template->id.c_str());
+        comest_template->healthy = jo.get_int("heal");
+    } else {
+        comest_template->healthy = jo.get_int("healthy", 0);
+    }
     comest_template->fun = jo.get_int("fun", 0);
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
@@ -956,10 +978,8 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     new_item_template->techniques = jo.get_tags("techniques");
 
-    if (jo.has_string("use_action")) {
-        new_item_template->use = use_from_string(jo.get_string("use_action"));
-    } else if (jo.has_object("use_action")) {
-        new_item_template->use = use_from_object(jo.get_object("use_action"));
+    if (jo.has_member("use_action")) {
+        set_use_methods_from_json( jo, "use_action", new_item_template  );
     }
 
     if(jo.has_member("category")) {
@@ -987,12 +1007,12 @@ void Item_factory::load_item_category(JsonObject &jo)
 
 void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, itype* new_item_template)
 {
-
     if ( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more()){
+        while (jarr.has_more()) {
             JsonArray curr = jarr.next_array();
-            new_item_template->qualities.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+            new_item_template->qualities.insert(
+                std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
         }
     } else {
         debugmsg("Qualities list for item %s not an array", new_item_template->id.c_str());
@@ -1239,6 +1259,37 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
     }
 }
 
+void Item_factory::set_use_methods_from_json( JsonObject& jo, std::string member,
+                                              itype *new_item_template)
+{
+    if( jo.has_array( member ) ) {
+        JsonArray jarr = jo.get_array( member );
+        while( jarr.has_more() ) {
+            use_function new_function;
+            if( jarr.test_string() ) {
+                new_function = use_from_string( jarr.next_string() );
+            } else if( jarr.test_object() ) {
+                new_function = use_from_object( jarr.next_object() );
+            } else {
+                debugmsg("use_action array element for item %s is neither string nor object.",
+                         new_item_template->id.c_str());
+            }
+            new_item_template->use_methods.push_back( new_function );
+        }
+    } else {
+        use_function new_function;
+        if( jo.has_string("use_action") ) {
+            new_function = use_from_string( jo.get_string("use_action") );
+        } else if( jo.has_object("use_action") ) {
+            new_function = use_from_object( jo.get_object("use_action") );
+        } else {
+            debugmsg("use_action member for item %s is neither string nor object.",
+                     new_item_template->id.c_str());
+        }
+        new_item_template->use_methods.push_back( new_function );
+    }
+}
+
 use_function Item_factory::use_from_object(JsonObject obj) {
     const std::string type = obj.get_string("type");
     if (type == "transform") {
@@ -1323,6 +1374,16 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("unfold_msg", actor->unfold_msg);
         actor->unfold_msg = _(actor->unfold_msg.c_str());
         obj.read("moves", actor->moves);
+        return use_function(actor.release());
+    } else if (type == "consume_drug") {
+        std::unique_ptr<consume_drug_iuse> actor(new consume_drug_iuse);
+        // Are these optional? The need to be.
+        obj.read("activation_message", actor->activation_message);
+        obj.read("charges_needed", actor->charges_needed);
+        obj.read("tools_needed", actor->tools_needed);
+        obj.read("diseases", actor->diseases);
+        obj.read("stat_adjustments", actor->stat_adjustments);
+        obj.read("fields_produced", actor->fields_produced);
         return use_function(actor.release());
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
@@ -1415,6 +1476,11 @@ const item_category *Item_factory::get_category(const std::string &id)
     cat.id = id;
     cat.name = id;
     return &cat;
+}
+
+const use_function *Item_factory::get_iuse( const std::string &id )
+{
+    return &iuse_function_list.at( id );
 }
 
 const std::string &Item_factory::calc_category(itype *it)

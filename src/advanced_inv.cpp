@@ -1650,8 +1650,8 @@ void advanced_inventory::display(player *pp)
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"),
                                              center_text(_("[down / page down] next"),
                                                      rightWidth - 4)));
-                ret = compare_split_screen_popup(colstart + ( src == left ? w_width / 2 : 0 ),
-                                                 rightWidth, 0, it->tname(), vThisItem, vDummy );
+                ret = draw_item_info(colstart + ( src == left ? w_width / 2 : 0 ),
+                                     rightWidth, 0, 0, it->tname(), vThisItem, vDummy );
             }
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;

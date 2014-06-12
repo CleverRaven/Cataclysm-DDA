@@ -1,5 +1,4 @@
 #include "item_factory.h"
-#include "iuse.h"
 #include "helper.h"
 #include "game.h"
 #include "mapdata.h"
@@ -132,7 +131,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
 
         max = dep->charges;
-        std::string popupmsg=string_format(ngettext("Deposit how much? Max:%d cent. (0 to cancel) ",
+        popupmsg=string_format(ngettext("Deposit how much? Max:%d cent. (0 to cancel) ",
                                                     "Deposit how much? Max:%d cents. (0 to cancel) ",
                                                     max),
                                            max);
@@ -221,7 +220,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
 
         max = with->charges;
         std::string popupmsg=string_format(ngettext("Transfer how much? Max:%d cent. (0 to cancel) ",
-                                                    "Transfer how much? Max:%d cents. (0 to cancel) ", 
+                                                    "Transfer how much? Max:%d cents. (0 to cancel) ",
                                                     max),
                                            max);
         amount = helper::to_int( string_input_popup( popupmsg, 20,
@@ -472,7 +471,8 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy) {
      }
   }
   for (int i = 0; i < g->num_zombies(); i++) {
-   if (g->zombie(i).type->id == "mon_turret") {
+   if ( (g->zombie(i).type->id == "mon_turret") ||
+    (g->zombie(i).type->id == "mon_turret_rifle") ) {
     g->remove_zombie(i);
     i--;
    }
@@ -488,7 +488,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy) {
                            query_yn(_("Use fingerhack on the reader?")));
   if (using_electrohack || using_fingerhack) {
    p->moves -= 500;
-   p->practice(calendar::turn, "computer", 20);
+   p->practice( "computer", 20 );
    int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
    success += rng(-3, 3);
    if (using_fingerhack)
@@ -1389,12 +1389,14 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
         case 1:
             add_msg(_("It is about halfway done fermenting.")); break;
         case 2:
-            add_msg(_("It will be ready for bottling soon.")); break; //More messages can be added to show progress if desired
+            add_msg(_("It will be ready for bottling soon.")); break;
+            // More messages can be added to show progress if desired
         default:
-            if ( (calendar::turn.get_turn() > (brew_i.bday + brew_time) ) //Double-checking that the brew is actually ready
-            && m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?")) )
-            {
-                itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(5); //declare fermenting result as the brew's ID minus "brew_"
+            // Double-checking that the brew is actually ready
+            if( (calendar::turn.get_turn() > (brew_i.bday + brew_time) ) &&
+                m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
+                //declare fermenting result as the brew's ID minus "brew_"
+                itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(5);
                 SkillLevel& cooking = p->skillLevel("cooking");
                 if (alcoholType=="hb_beer" && cooking<5)
                     alcoholType=alcoholType.substr(3); //hb_beer -> beer
@@ -1405,11 +1407,8 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
                 m->i_at(examx, examy).push_back(booze);
                 p->moves -= 500;
 
-                p->practice( calendar::turn, "cooking", std::min(brew_time/600, 72) ); //low xp: you also get xp from crafting the brew
-                /*if ((cooking<4 && !one_in(cooking)) || (cooking>=4 && !one_in(4))) { //Couldn't figure out how to spawn yeast
-                    add_msg(_("You manage to retrieve some yeast from the vat!"));  //directly into the player's inventory,
-                    // add_item(???)                                                   //then decided that yeast culturing was
-                }                                                                      //a better idea. */
+                //low xp: you also get xp from crafting the brew
+                p->practice( "cooking", std::min(brew_time/600, 72) );
                 add_msg(_("The %s is now ready for bottling."), booze.name.c_str());
             }
         }
@@ -1475,8 +1474,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         for (int i=0; i<charges_held && !keg_full; i++) {
             g->u.use_charges(drink.typeId(), 1);
             drink.charges++;
-            int d_vol = (drink.count_by_charges()) ? drink.volume(false, true)/1000
-                : drink.volume(false, true)/1000*drink.charges;
+            int d_vol = drink.volume(false, true)/1000;
             if (d_vol >= keg_cap)
                 keg_full = true;
         }
@@ -1528,21 +1526,23 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         }
 
         if(menu_items[choice]==_("Have a drink")){
+            if (!p->eat(drink, dynamic_cast<it_comest*>(drink->type))) {
+                return; // They didn't actually drink
+            }
+
             drink->charges--;
             if (drink->charges == 0) {
                 m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
                 add_msg(_("You squeeze the last drops of %s from the %s."), drink->name.c_str(),
                            m->name(examx, examy).c_str());
             }
-            p->eat(drink, dynamic_cast<it_comest*>(drink->type));
             p->moves -= 250;
             return;
         }
 
         if(menu_items[choice]==_("Refill")){
             int charges_held = p->charges_of(drink->typeId());
-            int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
-                : drink->volume(false, true)/1000*drink->charges;
+            int d_vol = drink->volume(false, true)/1000;
             if (d_vol >= keg_cap){
                 add_msg(_("The %s is completely full."), m->name(examx, examy).c_str());
                 return;
@@ -1555,8 +1555,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
             for (int i=0; i<charges_held; i++) {
                 g->u.use_charges(drink->typeId(), 1);
                 drink->charges++;
-                int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
-                    : drink->volume(false, true)/1000*drink->charges;
+                int d_vol = drink->volume(false, true)/1000;
                 if (d_vol >= keg_cap) {
                     add_msg(_("You completely fill the %s with %s."), m->name(examx, examy).c_str(),
                                drink->name.c_str());
@@ -1572,43 +1571,41 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
 
         if(menu_items[choice]==_("Examine")){
             add_msg(m_info, _("That is a %s."), m->name(examx, examy).c_str());
-            int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
-                : drink->volume(false, true)/1000*drink->charges;
-            if (d_vol < 1)
-                add_msg(m_info, ngettext("It has %d portion of %s left.",
-                                    "It has %d portions of %s left.",
-                                    drink->charges),
-                           drink->charges, drink->name.c_str());
-            else
-                add_msg(m_info, _("%s contained: %d/%d"), drink->name.c_str(), d_vol, keg_cap);
+            int full_pct = drink->volume(false, true) / (keg_cap*10);
+            add_msg(m_info, _("It contains %s (%d), %d%% full."),
+                    drink->name.c_str(), drink->charges, full_pct);
             return;
         }
     }
 }
 
-void iexamine::pick_plant(player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds) {
-  if (!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
-    none(p, m, examx, examy);
-    return;
-  }
+void iexamine::pick_plant(player *p, map *m, int examx, int examy,
+                          std::string itemType, int new_ter, bool seeds) {
+    if (!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
 
-  SkillLevel& survival = p->skillLevel("survival");
-  if (survival < 1)
-    p->practice(calendar::turn, "survival", rng(5, 12));
-  else if (survival < 6)
-    p->practice(calendar::turn, "survival", rng(1, 12 / survival));
+    SkillLevel& survival = p->skillLevel("survival");
+    if (survival < 1) {
+        p->practice( "survival", rng(5, 12) );
+    } else if (survival < 6) {
+        p->practice("survival", rng(1, 12 / survival) );
+    }
 
-  int plantCount = rng(survival / 2, survival);
-  if (plantCount > 12)
-    plantCount = 12;
+    int plantCount = rng(survival / 2, survival);
+    if (plantCount > 12) {
+        plantCount = 12;
+    }
 
-  m->spawn_item(examx, examy, itemType, plantCount, 0, calendar::turn);
+    m->spawn_item(examx, examy, itemType, plantCount, 0, calendar::turn);
 
-  if (seeds) {
-    m->spawn_item(examx, examy, "seed_" + itemType, 1, rng(plantCount / 4, plantCount / 2), calendar::turn);
-  }
+    if (seeds) {
+        m->spawn_item(examx, examy, "seed_" + itemType, 1,
+                      rng(plantCount / 4, plantCount / 2), calendar::turn);
+    }
 
-  m->ter_set(examx, examy, (ter_id)new_ter);
+    m->ter_set(examx, examy, (ter_id)new_ter);
 }
 
 void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
@@ -1916,16 +1913,20 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     if (pos == INT_MIN) {
         const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
         if (amount > 0) {
+            //~ The <piece of furniture> contains <number> <items>.
             add_msg("The %s contains %d %s.", f.name.c_str(), amount, ammo->name.c_str());
         }
+        //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg(m_info, "You need some %s to reload this %s.", ammo->name.c_str(), f.name.c_str());
         return;
     }
     const long max_amount = p->inv.find_item(pos).charges;
-    const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"), ammo->name.c_str(), f.name.c_str());
-    long amount = helper::to_int(
-        string_input_popup(
-            popupmsg, 20, helper::to_string_int(max_amount), "", "", -1, true));
+    //~ Loading fuel or other items into a piece of furniture.
+    const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
+                                               ammo->name.c_str(), f.name.c_str());
+    long amount = helper::to_int( string_input_popup( popupmsg, 20,
+                                                      helper::to_string_int(max_amount),
+                                                      "", "", -1, true) );
     if (amount <= 0 || amount > max_amount) {
         return;
     }
@@ -1945,6 +1946,34 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     }
     add_msg("You reload the %s.", m->furnname(examx, examy).c_str());
     p->moves -= 100;
+}
+
+void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
+    if (m->is_outside(p->posx, p->posy)) {
+        p->add_msg_if_player( _("You cannot get to the curtains from the outside."));
+        return;
+    }
+
+    // Peek through the curtains, or tear them down.
+    int choice = menu( true, _("Do what with the curtains?"),
+                       _("Peek through the curtains."), _("Tear down the curtains."),
+                       _("Cancel"), NULL );
+    if( choice == 1 ) {
+        // Peek
+        g->peek( examx, examy );
+        p->add_msg_if_player( _("You carefully peek through the curtains.") );
+    } else if( choice == 2 ){
+        // Mr. Gorbachev, tear down those curtains!
+        m->ter_set( examx, examy, "t_window" );
+        m->spawn_item( p->xpos(), p->ypos(), "nail", 1, 4 );
+        m->spawn_item( p->xpos(), p->ypos(), "sheet", 2 );
+        m->spawn_item( p->xpos(), p->ypos(), "stick" );
+        m->spawn_item( p->xpos(), p->ypos(), "string_36" );
+        p->moves -= 200;
+        p->add_msg_if_player( _("You tear the curtains and curtain rod off the windowframe.") );
+    } else {
+        p->add_msg_if_player( _("Never mind."));
+    }
 }
 
 /**
@@ -2102,6 +2131,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("reload_furniture" == function_name) {
     return &iexamine::reload_furniture;
+  }
+  if( "curtains" == function_name ) {
+      return &iexamine::curtains;
   }
 
   //No match found

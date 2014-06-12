@@ -93,7 +93,7 @@
         "type" : "bionic",
         "id" : "bio_watch",
     "name"       :    "Internal Chronometer",
-    "description":    "You have been equipped with an internal atomic clock, ensuring that you will always know the current time."
+    "description":    "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function."
     },{
         "type" : "bionic",
         "id" : "bio_membrane",

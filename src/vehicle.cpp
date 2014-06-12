@@ -53,6 +53,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     face.init(0);
     move.init(0);
     last_turn = 0;
+    last_repair_turn = -1;
     of_turn_carry = 0;
     turret_mode = 0;
     lights_epower = 0;
@@ -505,7 +506,7 @@ void vehicle::use_controls()
     if (has_stereo) {
         options_choice.push_back(toggle_stereo);
         options_message.push_back(uimenu_entry((stereo_on) ? _("Turn off stereo") :
-                                               _("Turn on stereo"), 'h'));
+                                               _("Turn on stereo"), 'm'));
     }
 
    if (has_overhead_lights) {
@@ -560,7 +561,7 @@ void vehicle::use_controls()
     if (has_reactor) {
         options_choice.push_back(toggle_reactor);
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
-                                               _("Turn on reactor"), 'm'));
+                                               _("Turn on reactor"), 'k'));
     }
 
     options_choice.push_back(control_cancel);
@@ -1337,7 +1338,7 @@ item vehicle_part::properties_to_item() const
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
     // Transfer fuel back to tank
-    if( !vpinfo.fuel_type.empty() && amount > 0 ) {
+    if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
         const ammotype &desired_liquid = vpinfo.fuel_type;
         if( desired_liquid == fuel_type_battery ) {
             tmp.charges = amount;
@@ -1522,7 +1523,11 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
 int vehicle::next_part_to_close(int p, bool outside)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
-    for(std::vector<int>::iterator part_it = parts_here.begin(); part_it != parts_here.end(); ++part_it)
+
+    // We want reverse, since we close the outermost thing first (curtains), and then the innermost thing (door)
+    for(std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
+        part_it != parts_here.rend();
+        ++part_it)
     {
 
         if(part_flag(*part_it, VPFLAG_OPENABLE)
@@ -1540,9 +1545,9 @@ int vehicle::next_part_to_open(int p, bool outside)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
 
-    // We want reverse, since we open the outermost thing first (curtains), and then the innermost thing (door)
-    for(std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
-        part_it != parts_here.rend();
+    // We want forwards, since we open the innermost thing first (curtains), and then the innermost thing (door)
+    for(std::vector<int>::iterator part_it = parts_here.begin();
+        part_it != parts_here.end();
         ++part_it)
     {
         if(part_flag(*part_it, VPFLAG_OPENABLE)
@@ -1680,16 +1685,39 @@ int vehicle::index_of_part(vehicle_part *part, bool check_removed)
  */
 int vehicle::part_displayed_at(int local_x, int local_y)
 {
+    // Z-order is implicitly defined in game::load_vehiclepart, but as
+    // numbers directly set on parts rather than constants that can be
+    // used elsewhere. A future refactor might be nice but this way
+    // it's clear where the magic number comes from.
+    const int ON_ROOF_Z = 9;
+
     std::vector<int> parts_in_square = parts_at_relative(local_x, local_y);
 
     if(parts_in_square.empty()) {
         return -1;
     }
 
+    bool in_vehicle = g->u.in_vehicle;
+    if (in_vehicle) {
+        // They're in a vehicle, but are they in /this/ vehicle?
+        std::vector<int> psg_parts = boarded_parts();
+        in_vehicle = false;
+        for (size_t p = 0; p < psg_parts.size(); ++p) {
+            if(get_passenger(psg_parts[p]) == &(g->u)) {
+                in_vehicle = true;
+                break;
+            }
+        }
+    }
+
+    int hide_z_at_or_above = (in_vehicle) ? (ON_ROOF_Z) : INT_MAX;
+
     int top_part = 0;
     for(int index = 1; index < parts_in_square.size(); index++) {
-        if(part_info(parts_in_square[top_part]).z_order <
-                part_info(parts_in_square[index]).z_order) {
+        if((part_info(parts_in_square[top_part]).z_order <
+            part_info(parts_in_square[index]).z_order) &&
+           (part_info(parts_in_square[index]).z_order <
+            hide_z_at_or_above)) {
             top_part = index;
         }
     }
@@ -1719,7 +1747,7 @@ std::string vehicle::part_id_string(int p, char &part_mod)
 {
     part_mod = 0;
     std::string idinfo;
-    if (p < 0 || p >= parts.size()){
+    if( p < 0 || p >= parts.size() || parts[p].removed ) {
         return "";
     }
 
@@ -3138,7 +3166,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
             int absorb = -1;
-            g->m.bash(x, y, obj_dmg, snd, &absorb);
+            g->m.bash(x, y, obj_dmg, false, &absorb);
             smashed = obj_dmg > absorb;
         } else if (collision_type >= veh_coll_thin_obstacle) {
             // some other terrain
@@ -3577,6 +3605,15 @@ void vehicle::refresh()
     has_pedals = false;
     has_hand_rims = false;
 
+    // Used to sort part list so it displays properly when examining
+    struct sort_veh_part_vector {
+        vehicle *veh;
+        inline bool operator() (const int p1, const int p2) {
+            return veh->part_info(p1).list_order < veh->part_info(p2).list_order;
+        }
+    } svpv = { this };
+    std::vector<int>::iterator vii;
+
     // Main loop over all vehicle parts.
     for( size_t p = 0; p < parts.size(); p++ ) {
         const vpart_info& vpi = part_info( p );
@@ -3621,7 +3658,9 @@ void vehicle::refresh()
         }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
-        relative_parts[pt].push_back( p );
+        // This will keep the parts at point pt sorted
+        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), p, svpv );
+        relative_parts[pt].insert( vii, p );
     }
 
     precalc_mounts( 0, face.dir() );
@@ -4064,7 +4103,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     int fire_t, boo_hoo;
     Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
     if (target == NULL) {
-        if (u_see) {
+        if (u_see && boo_hoo) {
             add_msg(m_warning, ngettext("%s points in your direction and emits an IFF warning beep.",
                                         "%s points in your direction and emits %d annoyed sounding beeps.",
                                          boo_hoo),

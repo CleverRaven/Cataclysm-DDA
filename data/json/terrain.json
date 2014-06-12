@@ -1106,6 +1106,7 @@
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
         "open": "t_window_domestic",
+	"examine_action" : "curtains",
         "deconstruct": {
             "ter_set": "t_window_empty",
             "items": [
@@ -1172,7 +1173,7 @@
         "color": "yellow",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE"
+            "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE"
         ]
     },{
         "type" : "terrain",
@@ -1181,6 +1182,15 @@
         "symbol": "0",
         "color": "ltcyan",
         "move_cost": 8,
+        "bash": {
+            "str_min": 1, "str_max": 1,
+            "sound": "glass crunching!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "glass_shard", "amount": 1 }
+            ]
+        },
         "flags": [
             "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "MOUNTABLE"
         ]

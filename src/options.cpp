@@ -504,10 +504,20 @@ void initOptions()
                                        0, 127, 5
                                       );
 
-    OPTIONS["RAIN_ANIMATION"] = cOpt("graphics", _("Rain animation"),
+    OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
+                                 _("If true, will display enabled animations."),
+                                 true
+                                );
+
+    OPTIONS["ANIMATION_RAIN"] = cOpt("graphics", _("Rain animation"),
                                      _("If true, will display weather animations."),
                                      true
                                     );
+
+    OPTIONS["ANIMATION_SCT"] = cOpt("graphics", _("SCT animation"),
+                                    _("If true, will display scrolling combat text animations."),
+                                    true
+                                   );
 
     OPTIONS["CIRCLEDIST"] = cOpt("general", _("Circular distances"),
                                  _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
@@ -550,7 +560,7 @@ void initOptions()
     optionNames["off"] = _("Off");
     OPTIONS["SKILL_RUST"] = cOpt("debug", _("Skill rust"),
                                  _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
-                                 "vanilla,capped,int,intcap,off", "vanilla"
+                                 "vanilla,capped,int,intcap,off", "int"
                                 );
 
     optionNames["no"] = _("No");
@@ -757,10 +767,11 @@ void initOptions()
 
     OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
                                  _("If true automatically sets notes on places that have stairs that go up or down"),
-                                 true
+                                 false
                                 );
 
-    for( auto iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter ) {
+    std::map<std::string, cOpt> OPTIONS_ORDERED(OPTIONS.begin(), OPTIONS.end());
+    for( auto iter = OPTIONS_ORDERED.begin(); iter != OPTIONS_ORDERED.end(); ++iter ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
                 mPageItems[i].push_back(iter->first);

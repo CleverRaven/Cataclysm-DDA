@@ -1094,6 +1094,27 @@
   ]
 },{
         "type" : "recipe",
+  "result": "bullwhip",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "leather", 20 ]
+    ],
+    [
+      [ "rope_6", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "blowgun",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -1652,7 +1673,7 @@
   "components": [
     [
       [ "paper", 5 ],
-      [ "rolling_paper", 5],
+      [ "rolling_paper", 30],
       [ "wrapper", 5]
     ],
     [
@@ -1791,7 +1812,41 @@
       [ "stick", 4 ]
     ],
     [
-      [ "hose", 1 ]
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bullet_crossbow",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "archery", 2 ],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 1 ] , [ "manual_archery", 3] , [ "book_archery", 2]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
+    ],
+    [
+      [ "leather", 1 ]
     ]
   ]
 },{
@@ -5813,8 +5868,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 0 ]],
+  "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
   ], "tools": [
@@ -7382,7 +7436,9 @@
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ]
+      [ "egg_reptile", 1 ],
+      [ "dry_beans", 1 ],
+      [ "dry_rice", 1 ]
     ],
     [
       [ "irradiated_tomato", 2 ],
@@ -7431,7 +7487,9 @@
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ]
+      [ "egg_reptile", 1 ],
+      [ "dry_beans", 1 ],
+      [ "dry_rice", 1 ]
     ],
     [
       [ "meat", 2 ],
@@ -7485,7 +7543,9 @@
       [ "crackers", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ]
+      [ "egg_reptile", 1 ],
+      [ "dry_beans", 1 ],
+      [ "dry_rice", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -7541,7 +7601,9 @@
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "rehydrated_veggy", 1 ],
-      [ "dry_veggy", 1 ]
+      [ "dry_veggy", 1 ],
+      [ "dry_beans", 1 ],
+      [ "dry_rice", 1 ]
     ]
   ]
 },{
@@ -7578,7 +7640,9 @@
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ]
+      [ "egg_reptile", 1 ],
+      [ "dry_beans", 1 ],
+      [ "dry_rice", 1 ]
     ],
     [
       [ "human_flesh", 2 ]
@@ -7823,6 +7887,378 @@
   ]
 },{
         "type" : "recipe",
+  "result": "beans_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_beans", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "deluxe_beans",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+	  {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_beans", 1 ],
+      [ "beans_cooked", 1 ]
+    ],
+    [
+      [ "meat", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
+      [ "fish", 1 ],
+      [ "fish_smoked", 1 ],
+      [ "dry_fish", 1 ],
+      [ "rehydrated_fish", 1 ],
+      [ "sausage", 1 ],
+      [ "bacon", 1 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "syrup", 1 ],
+      [ "molasses", 1 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "deluxe_veggy_beans",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+	  {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_beans", 1 ],
+      [ "beans_cooked", 1 ]
+    ],
+    [
+      ["veggy", 1],
+      ["veggy_wild", 1],
+      ["tomato", 1],
+      ["broccoli", 1],
+      ["zucchini", 1],
+      ["potato_raw", 1],
+      ["corn", 1],
+      ["onion", 1],
+      ["carrot", 1]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "syrup", 1 ],
+      [ "molasses", 1 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rice_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_rice", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "deluxe_rice",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+	  {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rice_cooked", 1 ]
+    ],
+    [
+      [ "meat", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
+      [ "fish", 1 ],
+      [ "fish_smoked", 1 ],
+      [ "dry_fish", 1 ],
+      [ "rehydrated_fish", 1 ],
+      [ "sausage", 1 ],
+      [ "bacon", 1 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
+    ],
+    [
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "deluxe_veggy_rice",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 300,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+	  {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rice_cooked", 1 ]
+    ],
+    [
+      ["veggy", 1],
+      ["veggy_wild", 1],
+      ["tomato", 1],
+      ["broccoli", 1],
+      ["zucchini", 1],
+      ["potato_raw", 1],
+      ["corn", 1],
+      ["onion", 1],
+      ["carrot", 1]
+    ],
+    [
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "beansnrice",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_beans", 1 ]
+    ],
+    [
+      [ "dry_rice", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "deluxe_beansnrice",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+	  {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_beans", 1 ]
+    ],
+    [
+      [ "dry_rice", 1 ]
+    ],
+    [
+      [ "meat", 1 ],
+      [ "meat_smoked", 1 ],
+      [ "dry_meat", 1 ],
+      [ "rehydrated_meat", 1 ],
+      [ "fish", 1 ],
+      [ "fish_smoked", 1 ],
+      [ "dry_fish", 1 ],
+      [ "rehydrated_fish", 1 ],
+      [ "sausage", 1 ],
+      [ "bacon", 1 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ],
+      [ "pepper", 10 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "deluxe_veggy_beansnrice",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+	  {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_beans", 1 ]
+    ],
+    [
+      [ "dry_rice", 1 ]
+    ],
+    [
+      ["veggy", 1],
+      ["veggy_wild", 1],
+      ["tomato", 1],
+      ["broccoli", 1],
+      ["zucchini", 1],
+      ["potato_raw", 1],
+      ["corn", 1],
+      ["onion", 1],
+      ["carrot", 1]
+    ],
+    [
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ],
+      [ "pepper", 10 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "oatmeal_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -7923,7 +8359,8 @@
   ],
   "components": [
     [
-      [ "oatmeal", 4 ]
+      [ "oatmeal", 4 ],
+      [ "dry_rice", 4 ]
     ],
     [
       [ "honeycomb", 1 ],
@@ -8452,7 +8889,8 @@
   "components": [
     [
       [ "flour", 1 ],
-      [ "oatmeal", 1 ]
+      [ "oatmeal", 1 ],
+      [ "dry_rice", 1 ]
     ],
     [
       [ "sugar", 1 ],
@@ -8724,7 +9162,9 @@
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
       [ "rehydrated_veggy", 2 ],
-      [ "dry_veggy", 2 ]
+      [ "dry_veggy", 2 ],
+      [ "dry_beans", 1 ],
+      [ "dry_rice", 1 ]
     ],
     [
       [ "tomato", 1 ]
@@ -8762,7 +9202,9 @@
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
       [ "rehydrated_veggy", 2 ],
-      [ "dry_veggy", 2 ]
+      [ "dry_veggy", 2 ],
+      [ "dry_beans", 1 ],
+      [ "dry_rice", 1 ]
     ],
     [
       [ "tomato", 1 ]
@@ -8807,7 +9249,8 @@
       [ "meat", 1]
     ],
     [
-      [ "can_beans", 1]
+      [ "can_beans", 1],
+      [ "dry_beans", 1 ]
     ],
     [
       [ "sauce_red", 1 ],
@@ -8849,7 +9292,8 @@
       [ "tomato", 1 ]
     ],
     [
-      [ "can_beans", 1]
+      [ "can_beans", 1],
+      [ "dry_beans", 1 ]
     ],
     [
       [ "sauce_red", 1 ],
@@ -9207,7 +9651,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
@@ -9265,6 +9709,44 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "handrolled_cig",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rolling_paper", 1 ]
+    ],
+    [
+      [ "cig_butt", 5 ],
+      [ "tobacco", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "joint",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rolling_paper", 1 ]
+    ],
+    [
+      [ "joint_roach", 5 ],
+      [ "weed", 1 ]
     ]
   ]
 },{
@@ -9362,7 +9844,7 @@
       [ "poppy_bud", 2 ]
     ],
     [
-      [ "poppy_flower", 1 ]
+      [ "poppy_flower", 2 ]
     ]
   ]
 },{
@@ -19080,8 +19562,9 @@
 },{
         "type" : "recipe",
   "result": "battletorch_done",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
   "difficulty": 0,
   "time": 2000,
   "reversible": true,
@@ -20406,6 +20889,45 @@
     ],
     [
       [ "scrap", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_rifleturret",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ], [ "gun", 3 ]],
+  "difficulty": 8,
+  "time": 9000,
+  "reversible": true,
+  "decomp_learn": 8,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 9 ]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "m4a1", 1 ]
+    ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "RAM", 2 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 15 ]
     ]
   ]
 },{
@@ -22687,24 +23209,16 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 3,
-   "time": 9000,
+   "difficulty": 1,
+   "time": 4000,
    "reversible": false,
    "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "fish", 1 ],
+      [ "fish_cooked", 1 ],
       [ "fish_fried", 1 ]
     ],
     [
@@ -23627,7 +24141,7 @@
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 480000,
+  "time": 90000,
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 2 ]],
@@ -24879,20 +25393,12 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 1,
-   "time": 6000,
-   "reversible": false,
+   "difficulty": 0,
+   "time": 3000,
+   "reversible": true,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+     {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -24900,7 +25406,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "meat", 1 ]
+      [ "meat_cooked", 1 ]
     ]
   ]
 },{
@@ -24911,7 +25417,7 @@
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 4000,
-   "reversible": false,
+   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -24984,21 +25490,13 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 1,
-   "time": 6000,
-   "reversible": false,
+   "difficulty": 0,
+   "time": 3000,
+   "reversible": true,
    "autolearn": false,
    "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+     {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -25006,7 +25504,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "human_flesh", 1 ]
+      [ "human_cooked", 1 ]
     ]
   ]
 },{
@@ -25209,11 +25707,60 @@
   ]
 },{
         "type" : "recipe",
-  "result": "survivor_pack",
+  "result": "survivor_runner_pack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 3],
+  "difficulty": 4,
+  "time": 70000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 6 ]
+     ],
+     [
+      [ "leather", 8 ]
+     ],
+     [
+      [ "runner_bag", 2 ],
+      [ "backpack", 1 ],
+      [ "backpack_leather", 1 ],
+      [ "mbag", 2 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 80 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "survivor_pack",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
   "difficulty": 5,
   "time": 80000,
   "reversible": false,
@@ -25236,7 +25783,7 @@
       [ "leather", 10 ]
      ],
      [
-      [ "runner_bag", 1 ],
+      [ "runner_bag", 4 ],
       [ "backpack", 2 ],
       [ "backpack_leather", 2 ],
       [ "mbag", 4 ]
@@ -25285,9 +25832,59 @@
       [ "leather", 16 ]
      ],
      [
-      [ "molle_pack", 1 ],
+      [ "backpack", 4 ],
+      [ "backpack_leather", 4 ],
+      [ "molle_pack", 2 ],
       [ "duffelbag", 1 ],
       [ "rucksack", 2 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 160 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "survivor_duffel_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 18 ]
+     ],
+     [
+      [ "leather", 20 ]
+     ],
+     [
+      [ "molle_pack", 4 ],
+      [ "duffelbag", 2 ],
+      [ "rucksack", 4 ]
      ],
      [
       [ "chestrig", 1 ],
@@ -29288,6 +29885,37 @@
     ]
 },{
   "type" : "recipe",
+  "result": "mirror",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 75], ["char_forge", 15]
+     ]
+    ],
+  "components":
+    [
+     [
+      [ "glass_sheet", 1 ]
+     ],
+     [
+      [ "silver_small", 50 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
   "result": "pipe_glass",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -29757,6 +30385,81 @@
         [ "sinew", 20 ],
         [ "thread", 20 ],
         [ "plant_fibre", 20 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "bootstrap",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 3,
+    "time": 75000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "needle_bone", 10 ],
+        [ "needle_wood", 10 ],
+        [ "sewing_kit", 10 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 3 ]
+      ],
+      [
+        [ "string_6", 3 ],
+        [ "sinew", 10 ],
+        [ "thread", 10 ],
+        [ "plant_fibre", 10 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_300_winmag",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_BULLETS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 5 ],
+    "difficulty": 5,
+    "time" : 15000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [[ "recipe_bullets", 4 ], [ "mag_rifle", 5 ]],
+    "tools": [
+      [
+        [ "press", -1 ]
+      ],
+      [
+        [ "fire", -1 ],
+        [ "toolset", 1],
+        [ "press", 2]
+      ]
+    ],
+    "components": [
+      [
+        [ "300_casing", 10 ]
+      ],
+      [
+        [ "lgrifle_primer", 10 ]
+      ],
+      [
+        [ "gunpowder", 160 ]
+      ],
+      [
+        [ "lead", 80 ],
+        [ "gold_small", 80 ],
+        [ "silver_small", 80 ],
+        [ "tin", 80 ],
+        [ "bismuth", 80 ],
+        [ "solder_wire", 80 ]
+      ],
+      [
+        [ "cu_pipe", 3 ]
       ]
     ]
   },

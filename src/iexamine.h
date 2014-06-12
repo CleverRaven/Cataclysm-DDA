@@ -67,6 +67,7 @@ public:
  void fvat_full (player *p, map *m, const int examx, const int examy);
  void keg (player *p, map *m, const int examx, const int examy);
  void reload_furniture (player *p, map *m, const int examx, const int examy);
+ void curtains (player *p, map *m, const int examx, const int examy);
 };
 
 typedef void (iexamine::*iexamine_function)(player*, map*, int, int);

@@ -946,6 +946,12 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
         {
         (mdf.*type->sp_defense)(this, &proj);
         }
+
+    // whip has a chance to scare wildlife
+    if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
+            add_effect("run", rng(3, 5));
+    }
+
     return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
 }
 

@@ -246,7 +246,7 @@ it_artifact_tool::it_artifact_tool() : it_tool() {
     charge_type = ARTC_NULL;
     turns_per_charge = 0;
     revert_to = "null";
-    use = &iuse::artifact;
+    use_methods.push_back( &iuse::artifact );
 };
 
 it_artifact_armor::it_artifact_armor() : it_armor() {

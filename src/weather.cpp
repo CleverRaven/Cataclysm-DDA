@@ -6,10 +6,25 @@
 #include "weather.h"
 #include "messages.h"
 
+/**
+ * @defgroup Weather
+ * Weather and its implications.
+ * @{
+ */
+
 #define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx, g->u.posy) && g->levz >= 0)
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
+/**
+ * Weather animation settings container.
+ */
+std::map<weather_type, clWeatherAnim> mapWeatherAnim;
+
+/**
+ * Glare.
+ * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
+ */
 void weather_effect::glare()
 {
  if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
@@ -22,11 +37,15 @@ void weather_effect::glare()
 }
 ////// food vs weather
 
+/**
+ * Retroactively determine weather-related rotting effects.
+ * Applies rot based on the temperatures incurred between a turn range.
+ */
 int get_rot_since( const int since, const int endturn ) {
     int ret = 0;
     int tbegin = since;
     int tend = endturn;
-    // todo; hourly quick lookback, select weather_log from climate zone
+    /// @todo hourly quick lookback, select weather_log from climate zone
     std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( endturn );
     if ( wit == g->weather_log.end() ) { // missing wlog, debugmsg?
        return endturn-since;
@@ -56,7 +75,7 @@ int get_rot_since( const int since, const int endturn ) {
 };
 
 ////// Funnels.
-/*
+/**
  * mm/h of rain/acid for weather type (should move to weather_data)
  */
 std::pair<int, int> rain_or_acid_level( const int wt )
@@ -68,14 +87,14 @@ std::pair<int, int> rain_or_acid_level( const int wt )
         // why isnt this in weather data. now we have multiple rain/turn scales =[
     } else if ( wt ==  WEATHER_RAINY || wt == WEATHER_THUNDER || wt == WEATHER_LIGHTNING ) {
         return std::make_pair(8, 0);
-        // todo; bucket of melted snow?
+        /// @todo bucket of melted snow?
     } else {
         return std::make_pair(0, 0);
     }
 }
 
-/*
- * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point
+/**
+ * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
 void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn )
 {
@@ -111,7 +130,7 @@ void retroactively_fill_from_funnel( item *it, const trap_id t, const int endtur
         }
 
     }
-    // todo: refactor add_rain function
+    /// @todo refactor add_rain function
     //dbg(D_INFO) << string_format("retroactive funnel fill %s %.4f, %.4f",it->typeId().c_str() ,fillrain,fillacid);
     if ( firstfill == 1 ) {
         it->add_rain_to_container( false, int(fillrain) );
@@ -126,7 +145,9 @@ void retroactively_fill_from_funnel( item *it, const trap_id t, const int endtur
     }
 }
 
-// Add charge(s) of rain to given container, possibly contaminating it
+/**
+ * Add charge(s) of rain to given container, possibly contaminating it.
+ */
 void item::add_rain_to_container(bool acid, int charges)
 {
     if( charges <= 0) {
@@ -213,6 +234,9 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const {
     return turns_per_charge;// / rain_depth_mm_per_hour;
 }
 
+/**
+ * Main routine for filling funnels from weather effects.
+ */
 void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
 {
     const double turns_per_charge = traplist[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
@@ -244,12 +268,19 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
     }
 }
 
+/**
+ * Fill funnels and makeshift funnels from weather effects.
+ * @see fill_funnels
+ */
 void fill_water_collectors(int mmPerHour, bool acid)
 {
     fill_funnels(mmPerHour, acid, tr_funnel);
     fill_funnels(mmPerHour, acid, tr_makeshift_funnel);
 }
 
+/**
+ * Weather-based degredation of fires and scentmap.
+ */
 void decay_fire_and_scent(int fire_amount)
 {
     for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
@@ -263,6 +294,17 @@ void decay_fire_and_scent(int fire_amount)
     }
 }
 
+/**
+ * Main routine for wet effects caused by weather.
+ * Drenching the player is applied after checks against worn and held items.
+ *
+ * The warmth of armor is considered when determining how much drench happens.
+ *
+ * Note that this is not the only place where drenching can happen. For example, moving or swimming into water tiles will also cause drenching.
+ * @see fill_water_collectors
+ * @see decay_fire_and_scent
+ * @see player::drench
+ */
 void generic_wet(bool acid)
 {
     if ((!g->u.worn_with_flag("RAINPROOF") || one_in(100)) &&
@@ -284,6 +326,13 @@ void generic_wet(bool acid)
     decay_fire_and_scent(15);
 }
 
+/**
+ * Main routine for very wet effects caused by weather.
+ * Similar to generic_wet() but with more aggressive numbers.
+ * @see fill_water_collectors
+ * @see decay_fire_and_scent
+ * @see player::drench
+ */
 void generic_very_wet(bool acid)
 {
     if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
@@ -304,16 +353,28 @@ void generic_very_wet(bool acid)
     decay_fire_and_scent(45);
 }
 
+/**
+ * Wet.
+ * @see generic_wet
+ */
 void weather_effect::wet()
 {
     generic_wet(false);
 }
 
+/**
+ * Very wet.
+ * @see generic_very_wet
+ */
 void weather_effect::very_wet()
 {
     generic_very_wet(false);
 }
 
+/**
+ * Thunder.
+ * Flavor messages. Very wet.
+ */
 void weather_effect::thunder()
 {
     very_wet();
@@ -328,6 +389,14 @@ void weather_effect::thunder()
     }
 }
 
+/**
+ * Lightning.
+ * Chance of lightning illumination for the current turn when aboveground. Thunder.
+ *
+ * This used to manifest actual lightning on the map, causing fires and such, but since such effects
+ * only manifest properly near the player due to the "reality bubble", this was causing undesired metagame tactics
+ * such as players leaving their shelter for a more "expendable" area during lightning storms.
+ */
 void weather_effect::lightning()
 {
     thunder();
@@ -341,6 +410,10 @@ void weather_effect::lightning()
     }
 }
 
+/**
+ * Acid drizzle.
+ * Causes minor pain only.
+ */
 void weather_effect::light_acid()
 {
     generic_wet(true);
@@ -365,6 +438,10 @@ void weather_effect::light_acid()
     }
 }
 
+/**
+ * Acid rain.
+ * Causes major pain. Damages non acid-proof mobs. Very wet (acid).
+ */
 void weather_effect::acid()
 {
     if (int(calendar::turn) % 2 == 0 && PLAYER_OUTSIDE) {
@@ -422,7 +499,9 @@ void weather_effect::acid()
 // 40% or 50% – Scattered/chance
 // 60% or 70% – Numerous/likely
 // 80%, 90% or 100% – No additional modifiers (i.e. "showers and thunderstorms")
-
+/**
+ * Generate textual weather forecast for the specified radio tower.
+ */
 std::string weather_forecast(radio_tower tower)
 {
     std::stringstream weather_report;
@@ -520,6 +599,9 @@ std::string weather_forecast(radio_tower tower)
     return weather_report.str();
 }
 
+/**
+ * Print temperature (and convert to celsius if celsius display is enabled.)
+ */
 std::string print_temperature(float fahrenheit, int decimals)
 {
     std::stringstream ret;
@@ -538,3 +620,5 @@ std::string print_temperature(float fahrenheit, int decimals)
     }
 
 }
+
+///@}

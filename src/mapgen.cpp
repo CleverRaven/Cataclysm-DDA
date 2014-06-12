@@ -4052,8 +4052,8 @@ ff.......|....|WWWWWWWW|\n\
             for (int i = 9; i <= 13; i += 2) {
                 line(this, t_wall_metal_h,  9, i, 10, i);
                 line(this, t_wall_metal_h, 13, i, 14, i);
-                add_spawn("mon_turret", 1, 9, i + 1);
-                add_spawn("mon_turret", 1, 14, i + 1);
+                add_spawn("mon_turret_rifle", 1, 9, i + 1);
+                add_spawn("mon_turret_rifle", 1, 14, i + 1);
             }
             ter_set(13, 16, t_card_military);
 
@@ -4299,14 +4299,14 @@ ff.......|....|WWWWWWWW|\n\
         }
 
         // Place turrets by (possible) entrances
-        add_spawn("mon_turret", 1,  3, 11);
-        add_spawn("mon_turret", 1,  3, 12);
-        add_spawn("mon_turret", 1, 20, 11);
-        add_spawn("mon_turret", 1, 20, 12);
-        add_spawn("mon_turret", 1, 11,  3);
-        add_spawn("mon_turret", 1, 12,  3);
-        add_spawn("mon_turret", 1, 11, 20);
-        add_spawn("mon_turret", 1, 12, 20);
+        add_spawn("mon_turret_rifle", 1,  3, 11);
+        add_spawn("mon_turret_rifle", 1,  3, 12);
+        add_spawn("mon_turret_rifle", 1, 20, 11);
+        add_spawn("mon_turret_rifle", 1, 20, 12);
+        add_spawn("mon_turret_rifle", 1, 11,  3);
+        add_spawn("mon_turret_rifle", 1, 12,  3);
+        add_spawn("mon_turret_rifle", 1, 11, 20);
+        add_spawn("mon_turret_rifle", 1, 12, 20);
 
         // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++) {
@@ -5713,7 +5713,7 @@ ____sss                 \n\
 ____sss                 \n\
 ____sss                 \n",
                                        mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
-                                               t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
+                                               t_chaingate_l, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
@@ -9613,6 +9613,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             place_items("hospital_lab", 60, 2, 14, 2, 22, false, 0);
             square_furn(this, f_counter, 4, 17, 6, 19);
             ter_set(4, 18, t_centrifuge);
+            furn_set(4, 18, f_null);
             line(this, t_floor, 5, 18, 6, rng(17, 19)); // Clear path to console
             tmpcomp = add_computer(5, 18, _("Centrifuge"), 0);
             tmpcomp->add_option(_("Analyze blood"), COMPACT_BLOOD_ANAL, 4);
@@ -10783,12 +10784,11 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
 void map::post_process(unsigned zones)
 {
-    std::string junk;
     if (zones & mfb(OMZONE_CITY)) {
         if (!one_in(10)) { // 90% chance of smashing stuff up
             for (int x = 0; x < 24; x++) {
                 for (int y = 0; y < 24; y++) {
-                    bash(x, y, 20, junk);
+                    bash(x, y, 20, true);
                 }
             }
         }
@@ -11001,7 +11001,7 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
                           const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
     if(g->vtypes.count(type) == 0) {
-        debugmsg("Nonexistant vehicle type: \"%s\"", type.c_str());
+        debugmsg("Nonexistent vehicle type: \"%s\"", type.c_str());
         return NULL;
     }
     if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
@@ -11536,7 +11536,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int y = y1 + 1; y <= y2 - 1; y++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    if (one_in(3)) {
+                        m->place_items("mut_lab", 35, x, y1 + 1, x, y2 - 1, false, 0);
+                    }
+                    else {
+                        m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    }
                 }
             }
         } else {
@@ -11545,7 +11550,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int x = x1 + 1; x <= x2 - 1; x++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    if (one_in(3)) {
+                        m->place_items("mut_lab", 35, x1 + 1, y, x2 - 1, y, false, 0);
+                    }
+                    else {
+                        m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    }
                 }
             }
         }
@@ -12603,9 +12613,8 @@ void map::add_extra(map_extra type)
                     if (!one_in(5)) {
                         ter_set(x, y, t_wreckage);
                     } else if (has_flag("BASHABLE", x, y)) {
-                        std::string junk;
-                        bash(x, y, 500, junk); // Smash the fuck out of it
-                        bash(x, y, 500, junk); // Smash the fuck out of it some more
+                        bash(x, y, 500, true); // Smash the fuck out of it
+                        bash(x, y, 500, true); // Smash the fuck out of it some more
                     }
                 } else if (one_in(10)) { // 1 in 10 chance of being wreckage anyway
                     ter_set(x, y, t_wreckage);

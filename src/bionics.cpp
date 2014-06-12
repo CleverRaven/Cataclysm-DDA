@@ -386,7 +386,6 @@ void player::activate_bionic(int b)
         power_level -= power_cost;
     }
 
-    std::string junk;
     std::vector<point> traj;
     std::vector<std::string> good;
     std::vector<std::string> bad;
@@ -410,9 +409,9 @@ void player::activate_bionic(int b)
         g->sound(posx, posy, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash(i, j, 40, junk);
-                g->m.bash(i, j, 40, junk); // Multibash effect, so that doors &c will fall
-                g->m.bash(i, j, 40, junk);
+                g->m.bash( i, j, 40 );
+                g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
+                g->m.bash( i, j, 40 );
                 if (g->m.is_destructable(i, j) && rng(1, 10) >= 4) {
                     g->m.ter_set(i, j, t_rubble);
                 }
@@ -447,6 +446,9 @@ void player::activate_bionic(int b)
         }
         if (has_disease("dermatik")) {
             bad.push_back(_("Insect Parasite"));
+        }
+        if (has_effect("stung")) {
+            bad.push_back(_("Stung"));
         }
         if (has_effect("poison")) {
             bad.push_back(_("Poison"));
@@ -536,6 +538,7 @@ void player::activate_bionic(int b)
         rem_disease("bloodworms");
         rem_disease("tetanus");
         remove_effect("poison");
+        remove_effect("stung");
         rem_disease("pkill1");
         rem_disease("pkill2");
         rem_disease("pkill3");
@@ -731,8 +734,7 @@ void player::activate_bionic(int b)
                                 g->m.add_item_or_charges(traj[l].x, traj[l].y, tmp_item);
                                 l = traj.size() + 1;
                             } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-                                g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() / 225, junk);
-                                g->sound(traj[l].x, traj[l].y, 12, junk);
+                                g->m.bash( traj[l].x, traj[l].y, tmp_item.weight() / 225 );
                                 if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
                                     g->m.add_item_or_charges(traj[l - 1].x, traj[l - 1].y, tmp_item);
                                     l = traj.size() + 1;
@@ -890,9 +892,9 @@ bool player::uninstall_bionic(bionic_id b_id)
 
     use_charges("1st_aid", 1);
 
-    practice(calendar::turn, "electronics", int((100 - chance_of_success) * 1.5));
-    practice(calendar::turn, "firstaid", int((100 - chance_of_success) * 1.0));
-    practice(calendar::turn, "mechanics", int((100 - chance_of_success) * 0.5));
+    practice( "electronics", int((100 - chance_of_success) * 1.5) );
+    practice( "firstaid", int((100 - chance_of_success) * 1.0) );
+    practice( "mechanics", int((100 - chance_of_success) * 0.5) );
 
     int success = chance_of_success - rng(1, 100);
 
@@ -950,9 +952,9 @@ bool player::install_bionics(it_bionic *type)
         }
     }
 
-    practice(calendar::turn, "electronics", int((100 - chance_of_success) * 1.5));
-    practice(calendar::turn, "firstaid", int((100 - chance_of_success) * 1.0));
-    practice(calendar::turn, "mechanics", int((100 - chance_of_success) * 0.5));
+    practice( "electronics", int((100 - chance_of_success) * 1.5) );
+    practice( "firstaid", int((100 - chance_of_success) * 1.0) );
+    practice( "mechanics", int((100 - chance_of_success) * 0.5) );
     int success = chance_of_success - rng(1, 100);
     if (success > 0) {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),

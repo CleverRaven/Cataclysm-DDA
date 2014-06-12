@@ -204,6 +204,10 @@ void inventory_selector::make_item_list(const indexed_invslice &slice, const ite
 
 void inventory_selector::prepare_paging()
 {
+    if (items.size() == 0) {
+        in_inventory = false;
+    }
+
     prepare_paging(items);
     prepare_paging(worn);
 }
@@ -505,7 +509,9 @@ bool inventory_selector::handle_movement(const std::string &action)
     if (action == "CATEGORY_SELECTION") {
         inCategoryMode = !inCategoryMode;
     } else if (action == "LEFT") {
-        in_inventory = !in_inventory;
+        if (this->items.size() > 0) {
+            in_inventory = !in_inventory;
+        }
     } else if (action == "DOWN") {
         selected++;
         if (inCategoryMode) {
@@ -923,10 +929,10 @@ void game::compare(int iCompareX, int iCompareY)
             sItemCh = inv_s.first_item->tname();
             inv_s.second_item->info(true, &vItemLastCh);
             sItemLastCh = inv_s.second_item->tname();
-            compare_split_screen_popup(0, (TERMX - VIEW_OFFSET_X * 2) / 2, TERMY - VIEW_OFFSET_Y * 2,
-                                       sItemLastCh, vItemLastCh, vItemCh, -1, true); //without getch()
-            compare_split_screen_popup((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
-                                       TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh);
+            draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
+                           sItemLastCh, vItemLastCh, vItemCh, -1, true); //without getch()
+            draw_item_info((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
+                           0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh);
             inv_s.dropping = prev_droppings;
             inv_s.second_item = NULL;
         } else {

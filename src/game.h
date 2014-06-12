@@ -118,7 +118,7 @@ public:
   bool save();
   void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
-  void write_memorial_file();
+  void write_memorial_file(std::string sLastWords);
   void cleanup_at_end();
   bool do_turn();
   void draw();
@@ -252,7 +252,7 @@ public:
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
-  void peek();
+  void peek( int peekx = 0, int peeky = 0);
   point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(const int iLastState); //List all items around the player
@@ -404,10 +404,11 @@ public:
   void draw_explosion(int x, int y, int radius, nc_color col);
   void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
   void draw_hit_mon(int x, int y, monster critter, bool dead = false);
-  void draw_hit_player(player *p, bool dead = false);
+  void draw_hit_player(player *p, const int iDam, bool dead = false);
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
+  void draw_sct();
 
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
@@ -459,6 +460,7 @@ public:
   void init_npctalk();
   void init_fields();
   void init_weather();
+  void init_weather_anim();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
@@ -686,7 +688,6 @@ public:
     void activity_on_turn_pulp();
     void activity_on_finish();
     void activity_on_finish_reload();
-    void activity_on_finish_read();
     void activity_on_finish_train();
     void activity_on_finish_firstaid();
     void activity_on_finish_fish();

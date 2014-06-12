@@ -15,12 +15,14 @@ const extern std::string inv_chars;
 
 typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
+typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
 class inventory
 {
  public:
   invslice slice();
+  const_invslice const_slice() const;
   std::list<item>& stack_by_letter(char ch);
   const std::list<item>& const_stack(int i) const;
   int size() const;

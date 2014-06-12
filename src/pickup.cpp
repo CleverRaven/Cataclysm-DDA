@@ -111,7 +111,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             if( tmp_hotplate.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_hotplate)->type);
                 if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                    tmptool->use.call(&g->u, &tmp_hotplate, false);
+                    tmptool->invoke(&g->u, &tmp_hotplate, false);
                     tmp_hotplate.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_hotplate.charges );
                 }
@@ -148,7 +148,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             if( tmp_welder.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_welder)->type);
                 if ( tmp_welder.charges >= tmptool->charges_per_use ) {
-                    tmptool->use.call( &g->u, &tmp_welder, false );
+                    tmptool->invoke( &g->u, &tmp_welder, false );
                     tmp_welder.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_welder.charges );
                 }
@@ -164,7 +164,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             if( tmp_purifier.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
                 if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
-                    tmptool->use.call( &g->u, &tmp_purifier, false );
+                    tmptool->invoke( &g->u, &tmp_purifier, false );
                     tmp_purifier.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_purifier.charges );
                 }
@@ -497,11 +497,13 @@ void Pickup::pick_up(int posx, int posy, int min)
                 last_selected = selected;
                 werase(w_item_info);
                 if ( selected >= 0 && selected <= here.size() - 1 ) {
-                    fold_and_print(w_item_info, 1, 2, 48 - 3, c_ltgray, "%s",
-                                   here[selected].info().c_str());
+                    std::vector<iteminfo> vThisItem, vDummy;
+                    here[selected].info(true, &vThisItem);
+
+                    draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
                 draw_border(w_item_info);
-                mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].display_name().c_str() );
+                mvwprintz(w_item_info, 0, 2, c_white, "< %s >", here[selected].display_name().c_str());
                 wrefresh(w_item_info);
             }
 

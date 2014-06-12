@@ -281,7 +281,7 @@
         "description": "A large watertight leather bag, can hold 5 liters of water.",
         "price": 8000,
         "weight": 990,
-        "volume": 4,
+        "volume": 3,
         "bashing": 3,
         "cutting": 0,
         "to_hit": -1,

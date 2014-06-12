@@ -134,6 +134,8 @@ public:
     // stays valid.
     const item_category *get_category(const std::string &id);
 
+    const use_function *get_iuse( const std::string &id );
+
     // The below functions are meant to be accessed at startup by lua to
     // do mod-related modifications of groups.
     std::vector<std::string> get_all_group_names();
@@ -170,6 +172,7 @@ private:
     void add_category(const std::string &id, int sort_rank, const std::string &name);
 
     //json data handlers
+    void set_use_methods_from_json( JsonObject& jo, std::string member, itype *new_item_template );
     use_function use_from_string(std::string name);
     use_function use_from_object(JsonObject obj);
     phase_id phase_from_tag(Item_tag name);

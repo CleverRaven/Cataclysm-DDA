@@ -358,9 +358,22 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     // High perception allows you to pick out details better, low perception interferes.
     const bool train_skill = weapon_dispersion < player_dispersion + rng(0, get_per());
     if( train_skill ) {
-        practice(calendar::turn, skill_used, 4 + (num_shots / 2));
+        practice( skill_used, 4 + (num_shots / 2));
     } else if( one_in(30) ) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
+    }
+
+    // chance to disarm an NPC with a whip if skill is high enough
+    if(proj.proj_effects.count("WHIP") && (this->skillLevel("melee") > 5) && one_in(3)) {
+        int npcdex = g->npc_at(tarx, tary);
+        if(npcdex != -1) {
+            npc *p = g->active_npc[npcdex];
+            if(!p->weapon.is_null()) {
+                item weap = p->remove_weapon();
+                add_msg_if_player(m_good, "You disarm %s's %s using your whip!", p->name.c_str(), weap.name.c_str());
+                g->m.add_item_or_charges(tarx + rng(-1, 1), tary + rng(-1, 1), weap);
+            }
+        }
     }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
@@ -501,15 +514,15 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         }
 
         if (!train_skill) {
-            practice(calendar::turn, skill_used, 0); // practice, but do not train
+            practice( skill_used, 0 ); // practice, but do not train
         } else if (missed_by <= .1) {
-            practice(calendar::turn, skill_used, 5);
+            practice( skill_used, 5 );
         } else if (missed_by <= .2) {
-            practice(calendar::turn, skill_used, 3);
+            practice( skill_used, 3 );
         } else if (missed_by <= .4) {
-            practice(calendar::turn, skill_used, 2);
+            practice( skill_used, 2 );
         } else if (missed_by <= .6) {
-            practice(calendar::turn, skill_used, 1);
+            practice( skill_used, 1 );
         }
 
     }
@@ -519,9 +532,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     }
 
     if( train_skill ) {
-        practice(calendar::turn, "gun", 5);
+        practice( "gun", 5 );
     } else {
-        practice(calendar::turn, "gun", 0);
+        practice( "gun", 0 );
     }
 }
 
@@ -648,22 +661,38 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 goodhit = double(double(rand() / RAND_MAX) / 2);
             }
 
+            game_message_type gmtSCTcolor = m_good;
+
             if (goodhit < .1 && !z.has_flag(MF_NOHEAD)) {
                 message = _("Headshot!");
+                gmtSCTcolor = m_headshot;
                 dam = rng(dam, dam * 3);
-                p.practice(calendar::turn, "throw", 5);
+                p.practice( "throw", 5 );
                 p.lifetime_stats()->headshots++;
             } else if (goodhit < .2) {
                 message = _("Critical!");
+                gmtSCTcolor = m_critical;
                 dam = rng(dam, dam * 2);
-                p.practice(calendar::turn, "throw", 2);
+                p.practice( "throw", 2 );
             } else if (goodhit < .4) {
                 dam = rng(int(dam / 2), int(dam * 1.5));
             } else if (goodhit < .5) {
                 message = _("Grazing hit.");
+                gmtSCTcolor = m_grazing;
                 dam = rng(0, dam);
             }
             if (u_see(tx, ty)) {
+                //player hits monster thrown
+                nc_color color;
+                std::string health_bar = "";
+                get_HP_Bar(dam, z.get_hp_max(), color, health_bar, true);
+
+                SCT.add(z.xpos(),
+                        z.ypos(),
+                        direction_from(0, 0, z.xpos() - p.posx, z.ypos() - p.posy),
+                        health_bar.c_str(), m_good,
+                        message, gmtSCTcolor);
+
                 p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
                     _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z.name().c_str(), dam);
@@ -760,6 +789,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (relevent == &u.weapon && relevent->is_gun()) {
      if(relevent->has_flag("RELOAD_AND_SHOOT")) {
         wprintz(w_target, c_red, _("Shooting %s from %s"), u.weapon.curammo->name.c_str(), u.weapon.tname().c_str());
+;    } else if(relevent->has_flag("NO_AMMO")) {
+        wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
      } else {
          wprintz(w_target, c_red, _("Firing %s (%d)"), // - %s (%d)",
                 u.weapon.tname().c_str(),// u.weapon.curammo->name.c_str(),
@@ -1052,8 +1083,12 @@ int time_to_fire(player &p, it_gun* firing)
      time = 30;
    else
      time = (200 - 20 * p.skillLevel("launcher"));
- }
-  else {
+ } else if(firing->skill_used == Skill::skill("melee")) { // right now, just whips
+    if (p.skillLevel("melee") > 8)
+        time = 50;
+    else
+        time = (200 - (20 * p.skillLevel("melee")));
+ } else {
    debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
    time =  0;
  }
@@ -1092,6 +1127,9 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
   } else {
     gunsound = _("Kra-koom!!");
   }
+ } else if (weapontype->ammo_effects.count("WHIP")) {
+     noise = 20;
+     gunsound = _("Crack!");
  } else {
   if (noise < 5) {
    if (burst)
@@ -1118,6 +1156,8 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
 
  if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, _("Thunk!"));
+ else if (weapon->type->id == "hk_g80")
+  g->sound(p.posx, p.posy, 24, _("tz-CRACKck!"));
  else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm" ||
      weapon->curammo->type == "84x246mm" || weapon->curammo->type == "m235")
   g->sound(p.posx, p.posy, 4, _("Fwoosh!"));

@@ -1527,6 +1527,8 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     oter_id cur_ter = ot_null;
     nc_color ter_color;
     long ter_sym;
+    // sight_points is hoisted for speed reasons.
+    int sight_points = g->u.overmap_sight_range(g->light_level());
 
     // If we're debugging monster groups, find the monster group we've selected
     const mongroup *mgroup = NULL;
@@ -1563,7 +1565,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 cur_ter = overmap_buffer.ter(omx, omy, z);
 
                 // Check if location is within player line-of-sight
-                if (g->u.overmap_los(omx, omy)) {
+                if (g->u.overmap_los(omx, omy, sight_points)) {
                     los = true;
                 }
             }
@@ -3564,7 +3566,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
         overmap_special_spawns spawns = special.spawns;
         int pop = rng(spawns.min_population, spawns.max_population);
         int rad = rng(spawns.min_radius, spawns.max_radius);
-        zg.push_back(mongroup(spawns.group, p.x, p.y, p.z, rad, pop));
+        zg.push_back(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
 }
 

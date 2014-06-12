@@ -81,6 +81,13 @@
         "rating": "bad"
     },
     {
+        "type" : "effect_type",
+        "id" : "stung",
+        "name" : "Stung",
+        "desc" : "Causes constant pain.",
+        "rating": "bad"
+    },
+    {
         "type":"effect_type",
         "id":"poison",
         "name": "Poisoned",
@@ -447,6 +454,10 @@
    {
       "type":"effect_type",
       "id":"infection"
+   },
+   {
+      "type":"effect_type",
+      "id":"valium"
    },
    {
       "type":"effect_type",

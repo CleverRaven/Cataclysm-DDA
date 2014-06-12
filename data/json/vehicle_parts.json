@@ -1664,7 +1664,7 @@
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF"],
+        "flags" : ["ROOF", "FOLDABLE"],
         "breaks_into" : [
             {"item": "rag", "min": 3, "max": 6}
         ]

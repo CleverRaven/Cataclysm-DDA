@@ -595,6 +595,7 @@ public:
     int init_veh_fuel;
     int init_veh_status;
     float alternator_load;
+    int last_repair_turn; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // save values
     int posx, posy;

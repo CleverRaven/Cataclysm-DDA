@@ -172,11 +172,11 @@ int Creature::hit(Creature *source, body_part bphurt, int side,
 }
 
 int Creature::deal_melee_attack(Creature *source, int hitroll)
-{    
+{
     int dodgeroll = dodge_roll();
     int hit_spread = hitroll - dodgeroll;
     bool missed = hit_spread <= 0;
-    
+
     if (missed) {
         dodge_hit(source, hit_spread);
         return hit_spread;
@@ -187,7 +187,7 @@ int Creature::deal_melee_attack(Creature *source, int hitroll)
 
 void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
                                 const damage_instance &dam, dealt_damage_instance &dealt_dam)
-{    
+{
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part(source, hit_spread);
@@ -269,20 +269,31 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     double goodhit = missed_by / monster_speed_penalty;
     double damage_mult = 1.0;
 
+    std::string message = "";
+    game_message_type gmtSCTcolor = m_neutral;
+
     if (goodhit <= .1) {
-        source->add_msg_if_player(m_good, _("Headshot!"));
+        message = _("Headshot!");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
     } else if (goodhit <= .2) {
-        source->add_msg_if_player(m_good, _("Critical!"));
+        message = _("Critical!");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
     } else if (goodhit <= .4) {
-        source->add_msg_if_player(m_good, _("Good hit!"));
+        message = _("Good hit!");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_good;
         damage_mult *= rng_float(1, 1.5);
     } else if (goodhit <= .6) {
         damage_mult *= rng_float(0.5, 1);
     } else if (goodhit <= .8) {
-        source->add_msg_if_player(m_good, _("Grazing hit."));
+        message = _("Grazing hit.");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
     } else {
         damage_mult *= 0;
@@ -330,6 +341,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;
     }
+    if(proj.proj_effects.count("WHIP")) {
+        stun_strength = rng(4, 10);
+    }
     if (proj.proj_effects.count("LARGE_BEANBAG")) {
         stun_strength = 16;
     }
@@ -364,9 +378,35 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                        skin_name().c_str());
         } else if (source != NULL) {
             if (source->is_player()) {
+                //player hits monster ranged
+                nc_color color;
+                std::string health_bar = "";
+                get_HP_Bar(dealt_dam.total_damage(), this->get_hp_max(), color, health_bar, true);
+
+                SCT.add(this->xpos(),
+                        this->ypos(),
+                        direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                        health_bar, m_good,
+                        message, gmtSCTcolor);
+
+                if (this->get_hp() > 0) {
+                    get_HP_Bar(this->get_hp(), this->get_hp_max(), color, health_bar, true);
+
+                    SCT.add(this->xpos(),
+                            this->ypos(),
+                            direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                            health_bar, m_good,
+                            "hp", m_neutral,
+                            "hp");
+                } else {
+                    SCT.removeCreatureHP();
+                }
+
                 add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
-            } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
+
+            } else if(this->is_player()) {
+                //monster hits player ranged
                 add_msg_if_player( m_bad, _( "You were hit in the %s for %d damage." ),
                                           body_part_name( bp_hit, side ).c_str( ),
                                           dealt_dam.total_damage( ) );
@@ -799,6 +839,38 @@ void Creature::mod_int_bonus(int nint)
 {
     int_bonus += nint;
 }
+
+void Creature::mod_stat( std::string stat, int modifier )
+{
+    if( stat == "str" ) {
+        mod_str_bonus( modifier );
+    } else if( stat == "dex" ) {
+        mod_dex_bonus( modifier );
+    } else if( stat == "per" ) {
+        mod_per_bonus( modifier );
+    } else if( stat == "int" ) {
+        mod_int_bonus( modifier );
+    } else if( stat == "speed" ) {
+        mod_speed_bonus( modifier );
+    } else if( stat == "dodge" ) {
+        mod_dodge_bonus( modifier );
+    } else if( stat == "block" ) {
+        mod_block_bonus( modifier );
+    } else if( stat == "hit" ) {
+        mod_hit_bonus( modifier );
+    } else if( stat == "bash" ) {
+        mod_bash_bonus( modifier );
+    } else if( stat == "cut" ) {
+        mod_cut_bonus( modifier );
+    } else if( stat == "pain" ) {
+        mod_pain( modifier );
+    } else if( stat == "moves" ) {
+        mod_moves( modifier );
+    } else {
+        add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
+    }
+}
+
 
 void Creature::set_num_blocks_bonus(int nblocks)
 {
