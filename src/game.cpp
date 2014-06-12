@@ -8393,6 +8393,8 @@ bool game::checkZone(const std::string p_sType, const int p_iX, const int p_iY)
 
 void game::zones_manager_shortcuts(WINDOW *w_info)
 {
+    werase(w_info);
+
     int tmpx = 1;
     tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<A>dd")) + 2;
     tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<R>emove")) + 2;
@@ -8430,6 +8432,7 @@ void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, c
     mvwputch(w_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
 
     mvwprintz(w_border, 0, 2, c_white, _("Zones manager"));
+    wrefresh(w_border);
 
     for (int j=0; j < iInfoHeight-1; ++j) {
         mvwputch(w_info_border, j, 0, c_ltgray, LINE_XOXO);
@@ -8492,10 +8495,9 @@ void game::zones_manager()
     do {
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
-
             werase(w_zones_info);
 
-            mvwprintz(w_zones_info, 3, 2, c_white, _("Select frist point."));
+            mvwprintz(w_zones_info, 3, 2, c_white, _("Select first point."));
             wrefresh(w_zones_info);
 
             point pFirst = look_around(w_zones_info, point(-999, -999));
@@ -8509,6 +8511,9 @@ void game::zones_manager()
             }
 
             if (pSecond.x != -1 && pSecond.y != -1) {
+                werase(w_zones_info);
+                wrefresh(w_zones_info);
+
                 m.Zones.add("", "", false, true,
                             m.getabs(std::min(pFirst.x, pSecond.x), std::min(pFirst.y, pSecond.y)),
                             m.getabs(std::max(pFirst.x, pSecond.x), std::max(pFirst.y, pSecond.y))
@@ -8525,6 +8530,7 @@ void game::zones_manager()
             bBlink = false;
             bRedrawInfo = true;
 
+            zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
             zones_manager_shortcuts(w_zones_info);
 
         } else if (m.Zones.size() > 0) {
@@ -8593,12 +8599,15 @@ void game::zones_manager()
                         break;
                 }
 
+                as_m.reset();
+
                 draw_ter();
-                zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
-                zones_manager_shortcuts(w_zones_info);
 
                 bBlink = false;
                 bRedrawInfo = true;
+
+                zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+                zones_manager_shortcuts(w_zones_info);
 
             } else if (action == "MOVE_ZONE_UP" && m.Zones.size() > 1) {
                 if (iActive < m.Zones.size() - 1) {
@@ -8671,10 +8680,9 @@ void game::zones_manager()
                     nc_color colorLine = (m.Zones.vZones[i].getEnabled()) ? c_white : c_ltgray;
 
                     if (iNum == iActive) {
+                        mvwprintz(w_zones, iNum - iStartPos, 0, c_yellow, "%s", ">>");
                         colorLine = (m.Zones.vZones[i].getEnabled()) ? c_ltgreen : c_green;
                     }
-
-                    mvwprintz(w_zones, iNum - iStartPos, 0, c_yellow, "%s", ">>");
 
                     //Draw Zone name
                     mvwprintz(w_zones, iNum - iStartPos, 3, colorLine, "%s",
@@ -8767,6 +8775,11 @@ void game::zones_manager()
         handle_mouseview(ctxt, action);
     } while (action != "QUIT");
     inp_mngr.set_timeout(-1);
+
+    werase(w_zones);
+    werase(w_zones_border);
+    werase(w_zones_info);
+    werase(w_zones_info_border);
 
     delwin(w_zones);
     delwin(w_zones_border);

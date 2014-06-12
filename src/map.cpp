@@ -5118,7 +5118,7 @@ void map::clZones::clZoneData::setZoneType(std::vector<std::pair<std::string, st
     uimenu as_m;
     as_m.text = _("Select zone type:");
 
-    for (int i=0; i < vZoneTypes.size(); ++i) {
+    for (unsigned int i=0; i < vZoneTypes.size(); ++i) {
         as_m.entries.push_back(uimenu_entry(i+1, true, (char)i+1, vZoneTypes[i].first));
     }
     as_m.query();
@@ -5138,7 +5138,7 @@ point map::clZones::clZoneData::getCenterPoint()
 
 std::string map::clZones::getNameFromType(const std::string p_sType)
 {
-    for (int i=0; i < vZoneTypes.size(); ++i) {
+    for (unsigned int i=0; i < vZoneTypes.size(); ++i) {
         if (vZoneTypes[i].second == p_sType) {
             return vZoneTypes[i].first;
         }
@@ -5149,7 +5149,7 @@ std::string map::clZones::getNameFromType(const std::string p_sType)
 
 bool map::clZones::hasType(const std::string p_sType)
 {
-    for (int i=0; i < vZoneTypes.size(); ++i) {
+    for (unsigned int i=0; i < vZoneTypes.size(); ++i) {
         if (vZoneTypes[i].second == p_sType) {
             return true;
         }
@@ -5162,7 +5162,7 @@ void map::clZones::cacheZoneData()
 {
     mZones.clear();
 
-    for (int i=0; i < vZones.size(); ++i) {
+    for (unsigned int i=0; i < vZones.size(); ++i) {
         if (vZones[i].getEnabled()) {
             const std::string sType = vZones[i].getZoneType();
 
@@ -5189,7 +5189,7 @@ bool map::clZones::hasZone(const std::string p_sType, const point p_pointInput)
 void map::clZones::serialize(JsonOut &json) const
 {
     json.start_array();
-    for (int i=0; i < vZones.size(); ++i) {
+    for (unsigned int i=0; i < vZones.size(); ++i) {
         json.start_object();
 
         json.member("name", vZones[i].getName());

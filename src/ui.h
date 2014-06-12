@@ -165,7 +165,10 @@ class uimenu: public ui_container {
     void addentry(int r, bool e, int k, const char *format, ...);
     void settext(std::string str);
     void settext(const char *format, ...);
+
+    void reset();
     ~uimenu ();
+
     operator int() const;
 
     // pending refactor // ui_element_input * filter_input;
