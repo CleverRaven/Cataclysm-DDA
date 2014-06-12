@@ -382,7 +382,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
 
 // returns true if we want to use the special action
 static hp_part use_healing_item(player *p, item *it, int normal_power, int head_power,
-                                int torso_power, std::string item_name, int bleed,
+                                int torso_power, int bleed,
                                 int bite, int infect, bool force)
 {
     hp_part healed = num_hp_parts;
@@ -421,7 +421,7 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
         }
     } else { // Player--present a menu
       if(p->activity.type != ACT_FIRSTAID) {
-        healed = body_window(p, it, item_name, normal_bonus, head_bonus,
+        healed = body_window(p, it, it->tname(), normal_bonus, head_bonus,
                              torso_bonus, bleed, bite, infect, force);
         if (healed == num_hp_parts) {
             return num_hp_parts; // canceled
@@ -429,7 +429,7 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
       }
       // Brick healing if using a first aid kit for the first time.
       // TODO: Base check on something other than the name.
-      if (item_name == "first aid kit" && p->activity.type != ACT_FIRSTAID) {
+      if (it->type->id == "1st_aid" && p->activity.type != ACT_FIRSTAID) {
           // Cancel and wait for activity completion.
           return healed;
       }
@@ -498,7 +498,7 @@ int iuse::bandage(player *p, item *it, bool)
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
     }
-    if( num_hp_parts != use_healing_item(p, it, 3, 1, 4, it->tname(), 90, 0, 0, false) ) {
+    if( num_hp_parts != use_healing_item(p, it, 3, 1, 4, 90, 0, 0, false) ) {
         if (it->type->id != "quikclot") {
           // Make bandages and rags take arbitrarily longer than hemostatic powder.
           p->moves -= 100;
@@ -515,7 +515,7 @@ int iuse::firstaid(player *p, item *it, bool)
         return false;
     }
     // Assign first aid long action.
-    int healed = use_healing_item(p, it, 14, 10, 18, it->tname(), 95, 99, 95, false);
+    int healed = use_healing_item(p, it, 14, 10, 18, 95, 99, 95, false);
     if (healed != num_hp_parts) {
       p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel("firstaid") + 1), 0,
                           p->get_item_position(it), it->tname());
@@ -529,7 +529,7 @@ int iuse::firstaid(player *p, item *it, bool)
 // Used when finishing the first aid long action.
 int iuse::completefirstaid(player *p, item *it, bool)
 {
-    if( num_hp_parts != use_healing_item(p, it, 14, 10, 18, it->tname(), 95, 99, 95, false) ) {
+    if( num_hp_parts != use_healing_item(p, it, 14, 10, 18, 95, 99, 95, false) ) {
         p->add_msg_if_player(_("You finish using the %s."), it->tname().c_str());
         p->add_disease("pkill1", 120);
     }
@@ -542,7 +542,7 @@ int iuse::disinfectant(player *p, item *it, bool)
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
     }
-    if( num_hp_parts != use_healing_item(p, it, 6, 5, 9, it->tname(), 0, 95, 0, false) ) {
+    if( num_hp_parts != use_healing_item(p, it, 6, 5, 9, 0, 95, 0, false) ) {
         return it->type->charges_to_use();
     }
     return 0;
@@ -2875,7 +2875,7 @@ int iuse::pack_item(player *p, item *it, bool t)
 
 static bool cauterize_effect(player *p, item *it, bool force = true)
 {
-    hp_part hpart = use_healing_item(p, it, -2, -2, -2, it->tname(), 100, 50, 0, force);
+    hp_part hpart = use_healing_item(p, it, -2, -2, -2, 100, 50, 0, force);
     if (hpart != num_hp_parts) {
         p->add_msg_if_player( m_neutral, _("You cauterize yourself."));
         if (!(g->u.has_trait("NOPAIN"))) {
@@ -6598,7 +6598,7 @@ int iuse::rag(player *p, item *it, bool)
         return 0;
     }
     if (p->has_disease("bleed")){
-        if (use_healing_item(p, it, 0, 0, 0, it->tname(), 50, 0, 0, false) != num_hp_parts) {
+        if (use_healing_item(p, it, 0, 0, 0, 50, 0, 0, false) != num_hp_parts) {
             p->use_charges("rag", 1);
             it->make("rag_bloody");
         }
