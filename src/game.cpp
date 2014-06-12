@@ -2493,6 +2493,7 @@ input_context get_default_mode_input_context() {
     ctxt.register_action("look");
     ctxt.register_action("peek");
     ctxt.register_action("listitems");
+    ctxt.register_action("zones");
     ctxt.register_action("inventory");
     ctxt.register_action("compare");
     ctxt.register_action("organize");
@@ -2596,8 +2597,6 @@ input_context game::get_player_input(std::string &action)
                     WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-                std::stringstream ssTemp;
-
                 //Erase previous drops from w_terrain
                 for (size_t i = 0; i < wPrint.vdrops.size(); ++i) {
                     m.drawsq(w_terrain, u,
@@ -2640,7 +2639,13 @@ input_context game::get_player_input(std::string &action)
                                 } else {
                                     const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
                                     const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
-                                    mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+
+                                    if (u.has_disease("boomered")) {
+                                        mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
+
+                                    } else {
+                                        mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+                                    }
                                 }
                             }
                         }
@@ -3052,6 +3057,9 @@ bool game::handle_action()
     reenter_fullscreen();
   } break;
 
+  case ACTION_ZONES:
+   zones_manager();
+   break;
 
   case ACTION_INVENTORY: {
    int cMenu = ' ';
@@ -3712,6 +3720,7 @@ void game::load(std::string worldname, std::string name)
  }
 
  load_auto_pickup(true); // Load character auto pickup rules
+ m.load_zones(); // Load character world zones
  load_uistate(worldname);
 // Now load up the master game data; factions (and more?)
  load_master(worldname);
@@ -8283,72 +8292,459 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
     begin_x = getbegx(w_messages);
 }
 
-
-point game::look_around()
+bool game::checkZone(const std::string p_sType, const int p_iX, const int p_iY)
 {
- temp_exit_fullscreen();
- draw_ter();
- int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
- std::string action;
- bool fast_scroll = false;
- int soffset = (int) OPTIONS["MOVE_VIEW_OFFSET"];
+    return m.Zones.hasZone(p_sType, m.getabs(p_iX, p_iY));
+}
 
- int lookWidth, lookY, lookX;
- get_lookaround_dimensions(lookWidth, lookY, lookX);
- WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, lookX);
- draw_border(w_look);
- mvwprintz(w_look, 1, 1, c_white, _("Looking Around"));
- mvwprintz(w_look, 2, 1, c_white, _("Use directional keys to move the cursor"));
- mvwprintz(w_look, 3, 1, c_white, _("to a nearby square."));
- wrefresh(w_look);
- do {
-  werase(w_terrain);
-  draw_ter(lx, ly);
-  for (int i = 1; i < lookHeight - 1; i++) {
-   for (int j = 1; j < lookWidth - 1; j++)
-    mvwputch(w_look, i, j, c_white, ' ');
-  }
+void game::zones_manager_shortcuts(WINDOW *w_info)
+{
+    werase(w_info);
 
-  // Debug helper
-  //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
-  int junk;
-  int off = 1;
-  if (u_see(lx, ly)) {
-      print_all_tile_info(lx, ly, w_look, 1, off, false);
+    int tmpx = 1;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<A>dd")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<R>emove")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<E>nable")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<D>isable")) + 2;
 
-  } else if (u.sight_impaired() &&
-              m.light_at(lx, ly) == LL_BRIGHT &&
-              rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
-              m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk))
-  {
-   if (u.has_disease("boomered"))
-    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
-   else if (u.has_disease("darkness"))
-    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_dkgray, '#');
-   else
-    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_ltgray, '#');
-   mvwprintw(w_look, 1, 1, _("Bright light."));
-  } else {
-   mvwputch(w_terrain, POSY, POSX, c_white, 'x');
-   mvwprintw(w_look, 1, 1, _("Unseen."));
-  }
+    tmpx = 1;
+    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<+-> Move up/down")) + 2;
+    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
 
-  if (fast_scroll) {
-      // print a light green mark below the top right corner of the w_look window
-      mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
-  } else {
-      // redraw the border to clear out the marker.
-      draw_border(w_look);
-  }
+    tmpx = 1;
+    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_ltgreen, _("Show on <M>ap")) + 2;
 
-  if (m.graffiti_at(lx, ly).contents)
-   mvwprintw(w_look, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
-  //mvwprintw(w_look, 5, 1, _("Maploc: <%d,%d>"), lx, ly);
-  wrefresh(w_look);
-  wrefresh(w_terrain);
+    wrefresh(w_info);
+}
 
-  DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
+void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight, const int width)
+{
+    for (int i = 1; i < TERMX; ++i) {
+        if (i < width) {
+            mvwputch(w_border, 0, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(w_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+        }
 
+        if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
+            mvwputch(w_border, i, 0, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_border, i, width - 1, c_ltgray, LINE_XOXO); // |
+        }
+    }
+
+    mvwputch(w_border, 0, 0,         c_ltgray, LINE_OXXO); // |^
+    mvwputch(w_border, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+
+    mvwputch(w_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
+
+    mvwprintz(w_border, 0, 2, c_white, _("Zones manager"));
+    wrefresh(w_border);
+
+    for (int j=0; j < iInfoHeight-1; ++j) {
+        mvwputch(w_info_border, j, 0, c_ltgray, LINE_XOXO);
+        mvwputch(w_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+    }
+
+    for (int j=0; j < width - 1; ++j) {
+        mvwputch(w_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+    }
+
+    mvwputch(w_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+    mvwputch(w_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
+    wrefresh(w_info_border);
+}
+
+void game::zones_manager()
+{
+    const int iStoreViewOffsetX = u.view_offset_x;
+    const int iStoreViewOffsetY = u.view_offset_y;
+
+    u.view_offset_x = 0;
+    u.view_offset_y = 0;
+
+    const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+    const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+
+    draw_ter();
+
+    int iInfoHeight = 12;
+    const int width = use_narrow_sidebar() ? 45 : 55;
+    WINDOW* w_zones = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW* w_zones_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
+    WINDOW* w_zones_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW* w_zones_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
+
+    zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+    zones_manager_shortcuts(w_zones_info);
+
+    std::string action;
+    input_context ctxt("ZONES_MANAGER");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("ADD_ZONE");
+    ctxt.register_action("REMOVE_ZONE");
+    ctxt.register_action("MOVE_ZONE_UP");
+    ctxt.register_action("MOVE_ZONE_DOWN");
+    ctxt.register_action("SHOW_ZONE_ON_MAP");
+    ctxt.register_action("ENABLE_ZONE");
+    ctxt.register_action("DISABLE_ZONE");
+
+    int iZonesNum = m.Zones.size();
+    const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
+    int iStartPos = 0;
+    int iActive = 0;
+    bool bBlink = false;
+    bool bRedrawInfo = true;
+    bool bStuffChanged = false;
+
+    do {
+        if (action == "ADD_ZONE") {
+            zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+            werase(w_zones_info);
+
+            mvwprintz(w_zones_info, 3, 2, c_white, _("Select first point."));
+            wrefresh(w_zones_info);
+
+            point pFirst = look_around(w_zones_info, point(-999, -999));
+            point pSecond = point(-1, -1);
+
+            if (pFirst.x != -1 && pFirst.y != -1) {
+                mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
+                wrefresh(w_zones_info);
+
+                pSecond = look_around(w_zones_info, pFirst);
+            }
+
+            if (pSecond.x != -1 && pSecond.y != -1) {
+                werase(w_zones_info);
+                wrefresh(w_zones_info);
+
+                m.Zones.add("", "", false, true,
+                            m.getabs(std::min(pFirst.x, pSecond.x), std::min(pFirst.y, pSecond.y)),
+                            m.getabs(std::max(pFirst.x, pSecond.x), std::max(pFirst.y, pSecond.y))
+                         );
+
+                iZonesNum = m.Zones.size();
+                iActive = iZonesNum - 1;
+
+                m.Zones.vZones[iActive].setName();
+                m.Zones.vZones[iActive].setZoneType(m.Zones.getZoneTypes());
+            }
+
+            draw_ter();
+            bBlink = false;
+            bRedrawInfo = true;
+
+            zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+            zones_manager_shortcuts(w_zones_info);
+
+        } else if (m.Zones.size() > 0) {
+            if (action == "UP") {
+                iActive--;
+                if (iActive < 0) {
+                    iActive = iZonesNum - 1;
+                }
+                draw_ter();
+                bBlink = false;
+                bRedrawInfo = true;
+
+            } else if (action == "DOWN") {
+                iActive++;
+                if (iActive >= iZonesNum) {
+                    iActive = 0;
+                }
+                draw_ter();
+                bBlink = false;
+                bRedrawInfo = true;
+
+            } else if (action == "REMOVE_ZONE") {
+                if (iActive < m.Zones.size()) {
+                    m.Zones.remove(iActive);
+                    iActive--;
+
+                    if (iActive < 0) {
+                        iActive = 0;
+                    }
+
+                    iZonesNum = m.Zones.size();
+
+                    draw_ter();
+                    wrefresh(w_terrain);
+                }
+                bBlink = false;
+                bRedrawInfo = true;
+                bStuffChanged = true;
+
+            } else if (action == "CONFIRM") {
+                uimenu as_m;
+                as_m.text = _("What do you want to change:");
+                as_m.entries.push_back(uimenu_entry(1, true, '1', _("Edit name") ));
+                as_m.entries.push_back(uimenu_entry(2, true, '2', _("Edit type") ));
+                //as_m.entries.push_back(uimenu_entry(3, true, '3', _("Move position left/top") ));
+                //as_m.entries.push_back(uimenu_entry(4, true, '4', _("Move coordinates right/bottom") ));
+                as_m.entries.push_back(uimenu_entry(5, true, 'q', _("Cancel") ));
+                as_m.query();
+
+                switch (as_m.ret) {
+                    case 1:
+                        m.Zones.vZones[iActive].setName();
+                        bStuffChanged = true;
+                        break;
+                    case 2:
+                        m.Zones.vZones[iActive].setZoneType(m.Zones.getZoneTypes());
+                        bStuffChanged = true;
+                        break;
+                    case 3:
+                        //pos lt
+                        break;
+                    case 4:
+                        //pos rb
+                        break;
+                    default:
+                        break;
+                }
+
+                as_m.reset();
+
+                draw_ter();
+
+                bBlink = false;
+                bRedrawInfo = true;
+
+                zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+                zones_manager_shortcuts(w_zones_info);
+
+            } else if (action == "MOVE_ZONE_UP" && m.Zones.size() > 1) {
+                if (iActive < m.Zones.size() - 1) {
+                    std::swap(m.Zones.vZones[iActive],
+                              m.Zones.vZones[iActive + 1]);
+                    iActive++;
+                }
+                bBlink = false;
+                bRedrawInfo = true;
+                bStuffChanged = true;
+
+            } else if (action == "MOVE_ZONE_DOWN" && m.Zones.size() > 1) {
+                if (iActive > 0) {
+                    std::swap(m.Zones.vZones[iActive],
+                              m.Zones.vZones[iActive - 1]);
+                    iActive--;
+                }
+                bBlink = false;
+                bRedrawInfo = true;
+                bStuffChanged = true;
+
+            } else if (action == "SHOW_ZONE_ON_MAP") {
+                //show zone position on overmap;
+                point pOMPlayer = overmapbuffer::ms_to_omt_copy(m.getabs(u.posx, u.posy));
+                point pOMZone = overmapbuffer::ms_to_omt_copy(m.Zones.vZones[iActive].getCenterPoint());
+                overmap::draw_overmap(tripoint(pOMPlayer.x, pOMPlayer.y),
+                                      false,
+                                      tripoint(pOMZone.x, pOMZone.y),
+                                      iActive
+                                     );
+
+                zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+                zones_manager_shortcuts(w_zones_info);
+
+                draw_ter();
+
+                bRedrawInfo = true;
+
+            } else if (action == "ENABLE_ZONE") {
+                m.Zones.vZones[iActive].setEnabled(true);
+
+                bRedrawInfo = true;
+                bStuffChanged = true;
+
+            } else if (action == "DISABLE_ZONE") {
+                m.Zones.vZones[iActive].setEnabled(false);
+
+                bRedrawInfo = true;
+                bStuffChanged = true;
+            }
+        }
+
+        if (iZonesNum == 0) {
+            werase(w_zones);
+            wrefresh(w_zones_border);
+            mvwprintz(w_zones, 5, 2, c_white, _("No Zones defined."));
+
+        } else if (bRedrawInfo) {
+            bRedrawInfo = false;
+            werase(w_zones);
+
+            calcStartPos(iStartPos, iActive, iMaxRows, iZonesNum);
+
+            //Draw Scrollbar
+            draw_scrollbar(w_zones_border, iActive, iMaxRows, iZonesNum, 1);
+
+            int iNum = 0;
+
+            point pointPlayer = m.getabs(u.posx, u.posy);
+
+            //Display saved zones
+            for (size_t i = 0; i < iZonesNum; ++i) {
+                if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iZonesNum) ? iZonesNum : iMaxRows)) {
+                    nc_color colorLine = (m.Zones.vZones[i].getEnabled()) ? c_white : c_ltgray;
+
+                    if (iNum == iActive) {
+                        mvwprintz(w_zones, iNum - iStartPos, 0, c_yellow, "%s", ">>");
+                        colorLine = (m.Zones.vZones[i].getEnabled()) ? c_ltgreen : c_green;
+                    }
+
+                    //Draw Zone name
+                    mvwprintz(w_zones, iNum - iStartPos, 3, colorLine, "%s",
+                              m.Zones.vZones[iNum].getName().c_str());
+
+                    //Draw Type name
+                    mvwprintz(w_zones, iNum - iStartPos, 20, colorLine, "%s",
+                              m.Zones.getNameFromType(m.Zones.vZones[iNum].getZoneType()).c_str());
+
+                    point pCenter = m.Zones.vZones[i].getCenterPoint();
+
+                    //Draw direction + distance
+                    mvwprintz(w_zones, iNum - iStartPos, 35, colorLine, "%*d %s",
+                              5, trig_dist(pCenter.x,
+                                           pCenter.y,
+                                           pointPlayer.x,
+                                           pointPlayer.y
+                                          ),
+                                  direction_name_short( direction_from(pCenter.x,
+                                                                       pCenter.y,
+                                                                       pointPlayer.x,
+                                                                       pointPlayer.y
+                                                                      )
+                                                      ).c_str()
+                             );
+                 }
+                 iNum++;
+            }
+        }
+
+        if (iZonesNum > 0) {
+            bBlink = !bBlink;
+
+            point pStart = m.getlocal(m.Zones.vZones[iActive].getStartPoint());
+            point pEnd = m.getlocal(m.Zones.vZones[iActive].getEndPoint());
+
+            if (bBlink) {
+                //draw marked area
+                point pOffset = point(offset_x, offset_y); //ASCII
+                #ifdef TILES
+                    if (use_tiles) {
+                        pOffset = point(0, 0); //TILES
+                    } else {
+                        pOffset = point(-offset_x, -offset_y); //SDL
+                    }
+                #endif
+
+                draw_zones(pStart, pEnd, pOffset);
+            } else {
+                //clear marked area
+                #ifdef TILES
+                if (!use_tiles) {
+                #endif
+                    for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
+                        for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
+                            if (u_see(iX, iY)) {
+                                m.drawsq(w_terrain, u,
+                                         iX,
+                                         iY,
+                                         false,
+                                         false,
+                                         u.posx + u.view_offset_x,
+                                         u.posy + u.view_offset_y);
+                            } else {
+                                if (u.has_disease("boomered")) {
+                                    mvwputch(w_terrain, iY-offset_y, iX-offset_x, c_magenta, '#');
+
+                                } else {
+                                    mvwputch(w_terrain, iY-offset_y, iX-offset_x, c_black, ' ');
+                                }
+                            }
+                        }
+                    }
+                #ifdef TILES
+                }
+                #endif
+            }
+
+            wrefresh(w_terrain);
+
+            inp_mngr.set_timeout(500);
+        } else {
+            inp_mngr.set_timeout(-1);
+        }
+
+        wrefresh(w_zones);
+        wrefresh(w_zones_border);
+
+        //Wait for input
+        handle_mouseview(ctxt, action);
+    } while (action != "QUIT");
+    inp_mngr.set_timeout(-1);
+
+    werase(w_zones);
+    werase(w_zones_border);
+    werase(w_zones_info);
+    werase(w_zones_info_border);
+
+    delwin(w_zones);
+    delwin(w_zones_border);
+    delwin(w_zones_info);
+    delwin(w_zones_info_border);
+
+    if (bStuffChanged) {
+        if (query_yn(_("Save changes?"))) {
+            m.save_zones();
+        } else {
+            m.load_zones();
+        }
+    }
+
+    u.view_offset_x = iStoreViewOffsetX;
+    u.view_offset_y = iStoreViewOffsetY;
+
+    refresh_all();
+}
+
+point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
+{
+    temp_exit_fullscreen();
+
+    bool bSelectZone = (pairCoordsFirst.x != -1 && pairCoordsFirst.y != -1);
+    bool bHasFirstPoint = (pairCoordsFirst.x != -999 && pairCoordsFirst.y != -999);
+
+    const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+    const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+
+    int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
+
+    if (bSelectZone && bHasFirstPoint) {
+        lx = pairCoordsFirst.x;
+        ly = pairCoordsFirst.y;
+    }
+
+    draw_ter(lx, ly);
+
+    int soffset = (int) OPTIONS["MOVE_VIEW_OFFSET"];
+    bool fast_scroll = false;
+    bool bBlink = false;
+
+    int lookWidth, lookY, lookX;
+    get_lookaround_dimensions(lookWidth, lookY, lookX);
+
+    bool bNewWindow = false;
+    if (w_info == NULL) {
+        w_info = newwin(lookHeight, lookWidth, lookY, lookX);
+        bNewWindow = true;
+    }
+
+    DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
+
+    std::string action;
     input_context ctxt("LOOK");
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
@@ -8356,38 +8752,175 @@ point game::look_around()
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
-    action = ctxt.handle_input();
 
-    if (!u_see(lx, ly))
-        mvwputch(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_black, ' ');
+    do {
+        if (bNewWindow) {
+            werase(w_info);
+            draw_border(w_info);
+        }
 
-    // Our coordinates will either be determined by coordinate input(mouse),
-    // by a direction key, or by the previous value.
-    if (action == "TOGGLE_FAST_SCROLL") {
-        fast_scroll = !fast_scroll;
-    } else if (!ctxt.get_coordinates(g->w_terrain, lx, ly)) {
-        int dx, dy;
-        ctxt.get_direction(dx, dy, action);
-        if (dx == -2) {
-            dx = 0;
-            dy = 0;
+        int junk;
+        int off = 1;
+
+        if (bSelectZone) {
+            //Select Zone
+            if (bHasFirstPoint) {
+                bBlink = !bBlink;
+
+                const int dx = pairCoordsFirst.x - offset_x + u.posx - lx;
+                const int dy = pairCoordsFirst.y - offset_y + u.posy - ly;
+
+                if (bBlink) {
+                    const point pStart = point(std::min(dx, POSX), std::min(dy, POSY));
+                    const point pEnd = point(std::max(dx, POSX), std::max(dy, POSY));
+
+                    point pOffset = point(0, 0); //ASCII/SDL
+                    #ifdef TILES
+                    if (use_tiles) {
+                        pOffset = point(offset_x + lx - u.posx, offset_y + ly - u.posy); //TILES
+                    }
+                    #endif
+
+                    draw_zones(pStart, pEnd, pOffset);
+
+                } else {
+                    #ifdef TILES
+                    if (!use_tiles) {
+                    #endif
+                        for (int iY=std::min(pairCoordsFirst.y, ly); iY <= std::max(pairCoordsFirst.y, ly); ++iY) {
+                            for (int iX=std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
+                                if (u_see(iX, iY)) {
+                                    m.drawsq(w_terrain, u,
+                                             iX,
+                                             iY,
+                                             false,
+                                             false,
+                                             lx,
+                                             ly);
+                                } else {
+                                    if (u.has_disease("boomered")) {
+                                        mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_magenta, '#');
+
+                                    } else {
+                                        mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_black, ' ');
+                                    }
+                                }
+                            }
+                        }
+                    #ifdef TILES
+                    }
+                    #endif
+                }
+
+                //Draw first point
+                mvwputch_inv(w_terrain, dy, dx, c_ltgreen, 'X');
+            }
+
+            //Draw select cursor
+            mvwputch_inv(w_terrain, POSY, POSX, c_ltgreen, 'X');
+
         } else {
+            //Look around
+            if (u_see(lx, ly)) {
+                print_all_tile_info(lx, ly, w_info, 1, off, false);
+
+            } else if (u.sight_impaired() &&
+                       m.light_at(lx, ly) == LL_BRIGHT &&
+                       rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
+                       m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk))
+            {
+                if (u.has_disease("boomered")) {
+                    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
+
+                } else if (u.has_disease("darkness")) {
+                    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_dkgray, '#');
+
+                } else {
+                    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_ltgray, '#');
+                }
+
+                mvwprintw(w_info, 1, 1, _("Bright light."));
+
+            } else {
+                mvwputch(w_terrain, POSY, POSX, c_white, 'x');
+                mvwprintw(w_info, 1, 1, _("Unseen."));
+            }
+
             if (fast_scroll) {
-                dx *= soffset;
-                dy *= soffset;
+                // print a light green mark below the top right corner of the w_info window
+                mvwprintz(w_info, 1, lookWidth-1, c_ltgreen, _("F"));
+            }
+
+            if (m.graffiti_at(lx, ly).contents) {
+                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
+            }
+
+             wrefresh(w_info);
+        }
+
+        wrefresh(w_terrain);
+
+        if (bSelectZone && bHasFirstPoint) {
+            inp_mngr.set_timeout(500);
+        }
+
+        //Wait for input
+        if(!handle_mouseview(ctxt, action)) {
+            // Our coordinates will either be determined by coordinate input(mouse),
+            // by a direction key, or by the previous value.
+            if (action == "TOGGLE_FAST_SCROLL") {
+                fast_scroll = !fast_scroll;
+
+            } else if (!ctxt.get_coordinates(g->w_terrain, lx, ly)) {
+                int dx, dy;
+                ctxt.get_direction(dx, dy, action);
+
+                if (dx == -2) {
+                    dx = 0;
+                    dy = 0;
+                } else {
+                    if (fast_scroll) {
+                        dx *= soffset;
+                        dy *= soffset;
+                    }
+                }
+
+                lx += dx;
+                ly += dy;
+
+                //Keep cursor inside DAYLIGHT_LEVEL
+                if (lx < 0) {
+                    lx = 0;
+                } else if (lx > DAYLIGHT_LEVEL*2) {
+                    lx = DAYLIGHT_LEVEL*2;
+                }
+
+                if (ly < 0) {
+                    ly = 0;
+                } else if (ly > DAYLIGHT_LEVEL*2) {
+                    ly = DAYLIGHT_LEVEL*2;
+                }
+
+                draw_ter(lx, ly);
             }
         }
-        lx += dx;
-        ly += dy;
-    }
- } while (action != "QUIT" && action != "CONFIRM");
+    } while (action != "QUIT" && action != "CONFIRM");
+    inp_mngr.set_timeout(-1);
 
- werase(w_look);
- delwin(w_look);
- reenter_fullscreen();
- if (action == "CONFIRM")
-  return point(lx, ly);
- return point(-1, -1);
+    if (bNewWindow) {
+        werase(w_info);
+        delwin(w_info);
+    }
+    reenter_fullscreen();
+
+    if (action == "CONFIRM") {
+        if (bSelectZone) {
+            return point(lx, ly);
+        }
+        return point(lx, ly);
+    }
+
+    return point(-1, -1);
 }
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
@@ -11809,7 +12342,8 @@ bool game::plmove(int dx, int dy)
   }
 
   //Autopickup
-  if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {
+  if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
+      ((m.i_at(u.posx, u.posy)).size() || OPTIONS["AUTO_PICKUP_ADJACENT"]) ) {
    Pickup::pick_up(u.posx, u.posy, -1);
   }
 

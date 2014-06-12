@@ -53,6 +53,7 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_line = false;
     do_draw_weather = false;
     do_draw_sct = false;
+    do_draw_zones = false;
 
     boomered = false;
     sight_impaired = false;
@@ -551,7 +552,10 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_entity(x, y);
         }
     }
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line || do_draw_weather || do_draw_sct;
+    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
+                   do_draw_line || do_draw_weather || do_draw_sct ||
+                   do_draw_zones;
+
     draw_footsteps_frame();
     if (in_animation) {
         if (do_draw_explosion) {
@@ -575,6 +579,10 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         if (do_draw_sct) {
             draw_sct_frame();
             void_sct();
+        }
+        if (do_draw_zones) {
+            draw_zones_frame();
+            void_zones();
         }
     }
     // check to see if player is located at ter
@@ -1179,6 +1187,13 @@ void cata_tiles::init_draw_sct()
 {
     do_draw_sct = true;
 }
+void cata_tiles::init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset)
+{
+    do_draw_zones = true;
+    pStartZone = p_pointStart;
+    pEndZone = p_pointEnd;
+    pZoneOffset = p_pointOffset;
+}
 /* -- Void Animators */
 void cata_tiles::void_explosion()
 {
@@ -1219,6 +1234,10 @@ void cata_tiles::void_weather()
 void cata_tiles::void_sct()
 {
     do_draw_sct = false;
+}
+void cata_tiles::void_zones()
+{
+    do_draw_zones = false;
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
@@ -1316,6 +1335,22 @@ void cata_tiles::draw_sct_frame()
             }
         }
     }
+}
+void cata_tiles::draw_zones_frame()
+{
+    bool item_highlight_available = tile_ids.find(ITEM_HIGHLIGHT) != tile_ids.end();
+
+    if (!item_highlight_available) {
+        create_default_item_highlight();
+        item_highlight_available = true;
+    }
+
+    for (int iY=pStartZone.y; iY <= pEndZone.y; ++iY) {
+        for (int iX=pStartZone.x; iX <= pEndZone.x; ++iX) {
+            draw_from_id_string(ITEM_HIGHLIGHT, C_NONE, empty_string, iX + pZoneOffset.x, iY + pZoneOffset.y, 0, 0);
+        }
+    }
+
 }
 void cata_tiles::draw_footsteps_frame()
 {

@@ -254,7 +254,14 @@ public:
 
   void peek( int peekx = 0, int peeky = 0);
   point look_debug();
-  point look_around();// Look at nearby terrain ';'
+
+  bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
+  void zones_manager();
+  void zones_manager_shortcuts(WINDOW *w_info);
+  void zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight, const int width);
+  // Look at nearby terrain ';', or select zone points
+  point look_around(WINDOW *w_info = NULL, const point pairCoordsFirst = point(-1, -1));
+
   int list_items(const int iLastState); //List all items around the player
   int list_monsters(const int iLastState); //List all monsters around the player
   // Shared method to print "look around" info
@@ -389,7 +396,7 @@ public:
  // from source position (sx,sy) using force parameter or passed as an argument;
  // force determines how far target is knocked, if trajectory is calculated
  // force also determines damage along with dam_mult;
- // stun determines base number of turns target is stunned regardless of impact
+ // stun determines base number of turns target is stunned regarwertzuiopüasdfghjklö-.,mnbvcxydless of impact
  // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
  void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
  void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
@@ -409,8 +416,9 @@ public:
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
   void draw_sct();
+  void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
 
-// Vehicle related JSON loaders and variables
+// Vehicle related JSON loaders and variablesŝ
   void load_vehiclepart(JsonObject &jo);
   void load_vehicle(JsonObject &jo);
   void reset_vehicleparts();

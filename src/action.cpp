@@ -162,6 +162,8 @@ std::string action_ident(action_id act)
         return "peek";
     case ACTION_LIST_ITEMS:
         return "listitems";
+    case ACTION_ZONES:
+        return "zones";
     case ACTION_INVENTORY:
         return "inventory";
     case ACTION_COMPARE:
@@ -611,6 +613,7 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_LOOK);
             REGISTER_ACTION(ACTION_PEEK);
             REGISTER_ACTION(ACTION_LIST_ITEMS);
+            REGISTER_ACTION(ACTION_ZONES);
             REGISTER_ACTION(ACTION_MAP);
         } else if(category == "inventory") {
             REGISTER_ACTION(ACTION_INVENTORY);

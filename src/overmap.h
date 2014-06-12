@@ -318,15 +318,19 @@ class overmap
      */
     static tripoint draw_overmap();
     /**
-     * Same as @ref draw_overmap() but starts at center
-     * instead of players location.
+     * Same as @ref draw_overmap() but starts at select if set.
+     * Otherwise on players location.
      */
-    static tripoint draw_overmap(const tripoint& center, bool debug_mongroup = false);
+    static tripoint draw_overmap(const tripoint& center,
+                                 bool debug_mongroup = false,
+                                 const tripoint& select = tripoint(-1, -1, -1),
+                                 const int iZoneIndex = -1);
     /**
      * Same as above but start at z-level z instead of players
      * current z-level, x and y are taken from the players position.
      */
     static tripoint draw_overmap(int z);
+
   void remove_vehicle(int id);
   int add_vehicle(vehicle *veh);
 
@@ -394,7 +398,9 @@ class overmap
    */
   static void draw(WINDOW *w, const tripoint &center,
             const tripoint &orig, bool blink,
-            input_context* inp_ctxt, bool debug_monstergroups = false);
+            input_context* inp_ctxt, bool debug_monstergroups = false,
+            const int iZoneIndex = -1);
+
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
