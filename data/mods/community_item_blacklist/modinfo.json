@@ -5,7 +5,7 @@
     "ident": "community_blacklist",
     "name": "Community Item Blacklist",
     "author": "Kevin Granade",
-    "description": "Removes items users have found to be controversial, it is strongly recommended that you open data/mods/controversial_items.modinfo.json and edit to taste.",
+    "description": "Removes items users have found to be controversial, it is strongly recommended that you open data/mods/community_item_blacklist/modinfo.json and edit to taste.",
     "comment": "See http://smf.cataclysmdda.com/index.php?topic=6736.0 for voting on what items go in the mod.",
     "path": "modinfo.json"
   },{
