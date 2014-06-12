@@ -8633,7 +8633,11 @@ void game::zones_manager()
                 //show zone position on overmap;
                 point pOMPlayer = overmapbuffer::ms_to_omt_copy(m.getabs(u.posx, u.posy));
                 point pOMZone = overmapbuffer::ms_to_omt_copy(m.Zones.vZones[iActive].getCenterPoint());
-                overmap::draw_overmap(tripoint(pOMPlayer.x, pOMPlayer.y), false, tripoint(pOMZone.x, pOMZone.y));
+                overmap::draw_overmap(tripoint(pOMPlayer.x, pOMPlayer.y),
+                                      false,
+                                      tripoint(pOMZone.x, pOMZone.y),
+                                      iActive
+                                     );
 
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
                 zones_manager_shortcuts(w_zones_info);
