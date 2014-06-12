@@ -8793,6 +8793,8 @@ hint_rating player::rate_action_use(const item *it) const
         } else {
             return HINT_IFFY;
         }
+    } else if( it->type->has_use() ) {
+        return HINT_GOOD;
     }
 
     return HINT_CANT;
