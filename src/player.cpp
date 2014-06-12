@@ -8770,31 +8770,32 @@ hint_rating player::rate_action_disassemble(item *it) {
 
 hint_rating player::rate_action_use(const item *it) const
 {
- if (it->is_tool()) {
-  it_tool *tool = dynamic_cast<it_tool*>(it->type);
-  if (tool->charges_per_use != 0 && it->charges < tool->charges_per_use) {
-   return HINT_IFFY;
-  } else {
-   return HINT_GOOD;
-  }
- } else if (it->is_gunmod()) {
-  if (get_skill_level("gun") == 0) {
-   return HINT_IFFY;
-  } else {
-   return HINT_GOOD;
-  }
- } else if (it->is_bionic()) {
-  return HINT_GOOD;
- } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
-  return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
- } else if (it->is_gun()) {
-   if (!it->contents.empty())
-    return HINT_GOOD;
-   else
-    return HINT_IFFY;
- }
+    if (it->is_tool()) {
+        it_tool *tool = dynamic_cast<it_tool*>(it->type);
+        if (tool->charges_per_use != 0 && it->charges < tool->charges_per_use) {
+            return HINT_IFFY;
+        } else {
+            return HINT_GOOD;
+        }
+    } else if (it->is_gunmod()) {
+        if (get_skill_level("gun") == 0) {
+            return HINT_IFFY;
+        } else {
+            return HINT_GOOD;
+        }
+    } else if (it->is_bionic()) {
+        return HINT_GOOD;
+    } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
+        return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
+    } else if (it->is_gun()) {
+        if (!it->contents.empty()) {
+            return HINT_GOOD;
+        } else {
+            return HINT_IFFY;
+        }
+    }
 
- return HINT_CANT;
+    return HINT_CANT;
 }
 
 void player::use(int pos)
