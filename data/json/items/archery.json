@@ -2,7 +2,7 @@
    {
       "type" : "AMMO",
       "id" : "arrowhead",
-      "price" : 3000,
+      "price" : 300,
       "name" : "arrowhead",
       "symbol" : "=",
       "color" : "light_gray",
@@ -26,7 +26,7 @@
    {
       "type" : "AMMO",
       "id" : "fletching",
-      "price" : 3000,
+      "price" : 300,
       "name" : "fletching",
       "symbol" : "=",
       "color" : "white",
@@ -50,7 +50,7 @@
    {
       "type" : "AMMO",
       "id" : "shaft_wood",
-      "price" : 2000,
+      "price" : 500,
       "name" : "wooden arrow shaft",
       "symbol" : "=",
       "color" : "green",
@@ -74,7 +74,7 @@
    {
       "type" : "AMMO",
       "id" : "shaft_wood_heavy",
-      "price" : 2000,
+      "price" : 500,
       "name" : "heavy wooden arrow shaft",
       "symbol" : "=",
       "color" : "green",
@@ -98,7 +98,7 @@
    {
       "type" : "AMMO",
       "id" : "shaft_metal",
-      "price" : 2000,
+      "price" : 1000,
       "name" : "metal arrow shaft",
       "symbol" : "=",
       "color" : "green",
@@ -122,7 +122,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_fire_hardened",
-      "price" : 2500,
+      "price" : 500,
       "name" : "fire-hardened wooden arrow",
       "symbol" : "=",
       "color" : "green",
@@ -146,7 +146,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_field_point",
-      "price" : 3000,
+      "price" : 700,
       "name" : "field point wooden arrow",
       "symbol" : "=",
       "color" : "green",
@@ -170,7 +170,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_small_game",
-      "price" : 3000,
+      "price" : 600,
       "name" : "small game arrow",
       "symbol" : "=",
       "color" : "green",
@@ -195,7 +195,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_fire_hardened_fletched",
-      "price" : 3500,
+      "price" : 900,
       "name" : "fletched fire-hardened wooden arrow",
       "symbol" : "=",
       "color" : "green",
@@ -219,7 +219,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_field_point_fletched",
-      "price" : 4000,
+      "price" : 1000,
       "name" : "fletched field point wooden arrow",
       "symbol" : "=",
       "color" : "green",
@@ -243,7 +243,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_wood",
-      "price" : 7500,
+      "price" : 1000,
       "name" : "wooden arrow",
       "symbol" : "=",
       "color" : "green",
@@ -267,7 +267,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_heavy_fire_hardened_fletched",
-      "price" : 7500,
+      "price" : 1000,
       "name" : "heavy fletched fire-hardened arrow",
       "symbol" : "=",
       "color" : "green",
@@ -291,7 +291,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_heavy_field_point_fletched",
-      "price" : 7000,
+      "price" : 1000,
       "name" : "heavy fletched field point arrow",
       "symbol" : "=",
       "color" : "green",
@@ -315,7 +315,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_wood_heavy",
-      "price" : 7500,
+      "price" : 1300,
       "name" : "heavy wooden arrow",
       "symbol" : "=",
       "color" : "green",
@@ -339,7 +339,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_metal_sharpened",
-      "price" : 5000,
+      "price" : 500,
       "name" : "sharpened metal arrow",
       "symbol" : "=",
       "color" : "green",
@@ -363,7 +363,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_metal",
-      "price" : 10000,
+      "price" : 2000,
       "name" : "metal arrow",
       "symbol" : "=",
       "color" : "green",
@@ -387,7 +387,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_cf",
-      "price" : 15000,
+      "price" : 2500,
       "name" : "carbon fiber arrow",
       "symbol" : "=",
       "color" : "green",
@@ -412,7 +412,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_exploding",
-      "price" : 35000,
+      "price" : 5000,
       "name" : "exploding arrow",
       "symbol" : "=",
       "color" : "green",
@@ -441,7 +441,7 @@
       "color" : "green",
       "name" : "exploding arrowhead",
       "description" : "This simple IED is designed to be attached to an arrow and detonate on impact. Theoretically you could throw it but who would want to do that?",
-      "price" : 40000,
+      "price" : 2000,
       "material" : "steel",
       "weight" : 562,
       "volume" : 1,
@@ -454,7 +454,7 @@
    {
       "type" : "AMMO",
       "id" : "arrow_flamming",
-      "price" : 35000,
+      "price" : 1200,
       "name" : "flaming arrow",
       "symbol" : "=",
       "color" : "green",
@@ -478,7 +478,7 @@
    {
       "type" : "AMMO",
       "id" : "bolt_wood",
-      "price" : 10000,
+      "price" : 500,
       "name" : "wooden crossbow bolt",
       "symbol" : "=",
       "color" : "green",
@@ -503,7 +503,7 @@
       "type" : "AMMO",
       "id" : "bolt_metal",
       "rarity" : 7,
-      "price" : 13000,
+      "price" : 1000,
       "name" : "metal crossbow bolt",
       "symbol" : "=",
       "color" : "green",
@@ -527,7 +527,7 @@
    {
       "type" : "AMMO",
       "id" : "bolt_steel",
-      "price" : 16000,
+      "price" : 2000,
       "name" : "steel crossbow bolt",
       "symbol" : "=",
       "color" : "green",
@@ -552,7 +552,7 @@
       "type" : "AMMO",
       "id" : "bolt_explosive",
       "rarity" : 7,
-      "price" : 20000,
+      "price" : 5000,
       "name" : "explosive crossbow bolt",
       "symbol" : "=",
       "color" : "green",

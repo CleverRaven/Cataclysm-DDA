@@ -3084,7 +3084,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     std::stringstream attachment;
     if (gunmod != NULL)
     {
-        attachment << gunmod->type->name.c_str();
+        attachment << gunmod->type->nname(1).c_str();
         for (int i = 0; i < weapon.contents.size(); i++)
                 if (weapon.contents[i].is_gunmod() &&
                         weapon.contents[i].has_flag("MODE_AUX"))
@@ -5211,7 +5211,7 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
         add_msg(ngettext("Siphoned %d unit of %s from the %s.",
                             "Siphoned %d units of %s from the %s.",
                             siphoned),
-                   siphoned, used_item.name.c_str(), veh->name.c_str());
+                   siphoned, used_item.tname().c_str(), veh->name.c_str());
         //Don't consume turns if we decided not to siphon
         return true;
     } else {
@@ -6533,7 +6533,7 @@ bool player::process_single_active_item(item *it)
                 else if (this->has_trait("LIGHTWEIGHT")) {
                     duration = 20;
                 }
-                add_msg_if_player( _("You take a puff of your %s."), it->name.c_str());
+                add_msg_if_player( _("You take a puff of your %s."), it->tname().c_str());
                 if(it->has_flag("TOBACCO")) {
                     this->add_disease("cig", duration);
                     g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
@@ -6549,14 +6549,14 @@ bool player::process_single_active_item(item *it)
             if((this->has_disease("shakes") && one_in(10)) ||
                 (this->has_trait("JITTERY") && one_in(200))) {
                 add_msg_if_player( m_bad,_("Your shaking hand causes you to drop your %s."),
-                                   it->name.c_str());
+                                   it->tname().c_str());
                 g->m.add_item_or_charges(this->posx + int(rng(-1, 1)),
                                          this->posy + int(rng(-1, 1)), this->i_rem(it), 2);
             }
 
             // done with cig
             if(it->item_counter <= 0) {
-                add_msg_if_player( _("You finish your %s."), it->name.c_str());
+                add_msg_if_player( _("You finish your %s."), it->tname().c_str());
                 if(it->type->id == "cig_lit") {
                     it->make("cig_butt");
                 } else if(it->type->id == "cigar_lit"){
@@ -6597,7 +6597,7 @@ bool player::process_single_active_item(item *it)
                 //~ %s is corpse name
                 add_memorial_log(pgettext("memorial_male", "Had a %s revive while carrying it."),
                                  pgettext("memorial_female", "Had a %s revive while carrying it."),
-                                 it->name.c_str());
+                                 it->tname().c_str());
                 add_msg_if_player( m_warning, _("Oh dear god, a corpse you're carrying has started moving!"));
                 return false;
             }
@@ -6646,7 +6646,7 @@ item player::reduce_charges(int position, long quantity) {
         if (!weapon.count_by_charges())
         {
             debugmsg("Tried to remove %s by charges, but item is not counted by charges",
-                    weapon.type->name.c_str());
+                    weapon.type->nname(1).c_str());
         }
 
         if (quantity > weapon.charges)
@@ -7406,7 +7406,7 @@ bool player::consume(int pos)
                 }
                 if (!has) {
                     add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         itypes[comest->tool]->name.c_str());
+                                         itypes[comest->tool]->nname(1).c_str());
                     return false;
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
@@ -7439,7 +7439,7 @@ bool player::consume(int pos)
         } else if (!to_eat->type->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->type->is_book()) {
                 it_book* book = dynamic_cast<it_book*>(to_eat->type);
-                if (book->type != NULL && !query_yn(_("Really eat %s?"), book->name.c_str())) {
+                if (book->type != NULL && !query_yn(_("Really eat %s?"), to_eat->tname().c_str())) {
                     return false;
                 }
             }
@@ -7516,7 +7516,7 @@ bool player::eat(item *eaten, it_comest *comest)
         }
         if (!has) {
             add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                       itypes[comest->tool]->name.c_str());
+                       itypes[comest->tool]->nname(1).c_str());
             return false;
         }
     }
@@ -8301,24 +8301,24 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
     }
 
+    // Make sure we're not wearing 2 of the item already
+    int count = 0;
+
+    for (int i = 0; i < worn.size(); i++) {
+        if (worn[i].type->id == to_wear->type->id) {
+            count++;
+        }
+    }
+
+    if (count == 2) {
+        if(interactive) {
+            add_msg(m_info, _("You can't wear more than two %s at once."),
+                    to_wear->tname(count).c_str());
+        }
+        return false;
+    }
+
     if (!to_wear->has_flag("OVERSIZE")) {
-        // Make sure we're not wearing 2 of the item already
-        int count = 0;
-
-        for (int i = 0; i < worn.size(); i++) {
-            if (worn[i].type->id == to_wear->type->id) {
-                count++;
-            }
-        }
-
-        if (count == 2) {
-            if(interactive) {
-                add_msg(m_info, _("You can't wear more than two %s at once."),
-                        to_wear->tname(count).c_str());
-            }
-            return false;
-        }
-
         if (has_trait("WOOLALLERGY") && to_wear->made_of("wool")) {
             if(interactive) {
                 add_msg(m_info, _("You can't wear that, it's made of wool!"));
@@ -8339,7 +8339,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             (has_trait("HUGE") || has_trait("HUGE_OK"))) {
             if(interactive) {
                 add_msg(m_info, _("The %s is much too small to fit your huge body!"),
-                        armor->name.c_str());
+                        armor->nname(1).c_str());
             }
             return false;
         }
@@ -8348,7 +8348,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot put %s over your webbed hands."), armor->name.c_str());
+                add_msg(m_info, _("You cannot put %s over your webbed hands."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8359,7 +8359,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot put %s over your tentacles."), armor->name.c_str());
+                add_msg(m_info, _("You cannot put %s over your tentacles."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8368,7 +8368,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot put %s over your talons."), armor->name.c_str());
+                add_msg(m_info, _("You cannot put %s over your talons."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8377,7 +8377,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot get %s to stay on your paws."), armor->name.c_str());
+                add_msg(m_info, _("You cannot get %s to stay on your paws."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8387,7 +8387,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot put a %s over your beak."), armor->name.c_str());
+                add_msg(m_info, _("You cannot put a %s over your beak."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8397,7 +8397,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot fit the %s over your muzzle."), armor->name.c_str());
+                add_msg(m_info, _("You cannot fit the %s over your muzzle."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8406,7 +8406,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("You cannot fit the %s over your snout."), armor->name.c_str());
+                add_msg(m_info, _("You cannot fit the %s over your snout."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8415,7 +8415,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("Your saber teeth are simply too large for %s to fit."), armor->name.c_str());
+                add_msg(m_info, _("Your saber teeth are simply too large for %s to fit."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8424,7 +8424,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(_("Your mandibles are simply too large for %s to fit."), armor->name.c_str());
+                add_msg(_("Your mandibles are simply too large for %s to fit."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8433,7 +8433,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(m_info, _("Your proboscis is simply too large for %s to fit."), armor->name.c_str());
+                add_msg(m_info, _("Your proboscis is simply too large for %s to fit."), armor->nname(1).c_str());
             }
             return false;
         }
@@ -8770,31 +8770,34 @@ hint_rating player::rate_action_disassemble(item *it) {
 
 hint_rating player::rate_action_use(const item *it) const
 {
- if (it->is_tool()) {
-  it_tool *tool = dynamic_cast<it_tool*>(it->type);
-  if (tool->charges_per_use != 0 && it->charges < tool->charges_per_use) {
-   return HINT_IFFY;
-  } else {
-   return HINT_GOOD;
-  }
- } else if (it->is_gunmod()) {
-  if (get_skill_level("gun") == 0) {
-   return HINT_IFFY;
-  } else {
-   return HINT_GOOD;
-  }
- } else if (it->is_bionic()) {
-  return HINT_GOOD;
- } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
-  return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
- } else if (it->is_gun()) {
-   if (!it->contents.empty())
-    return HINT_GOOD;
-   else
-    return HINT_IFFY;
- }
+    if (it->is_tool()) {
+        it_tool *tool = dynamic_cast<it_tool*>(it->type);
+        if (tool->charges_per_use != 0 && it->charges < tool->charges_per_use) {
+            return HINT_IFFY;
+        } else {
+            return HINT_GOOD;
+        }
+    } else if (it->is_gunmod()) {
+        if (get_skill_level("gun") == 0) {
+            return HINT_IFFY;
+        } else {
+            return HINT_GOOD;
+        }
+    } else if (it->is_bionic()) {
+        return HINT_GOOD;
+    } else if (it->is_food() || it->is_food_container() || it->is_book() || it->is_armor()) {
+        return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
+    } else if (it->is_gun()) {
+        if (!it->contents.empty()) {
+            return HINT_GOOD;
+        } else {
+            return HINT_IFFY;
+        }
+    } else if( it->type->has_use() ) {
+        return HINT_GOOD;
+    }
 
- return HINT_CANT;
+    return HINT_CANT;
 }
 
 void player::use(int pos)
@@ -8973,7 +8976,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         std::vector<item> &mods = used->contents;
         // Get weapon mod names.
         if (mods.empty()) {
-            add_msg(m_info, _("Your %s doesn't appear to be modded."), used->name.c_str());
+            add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
             return;
         }
         // Create menu.
@@ -8993,12 +8996,12 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         if (choice < mods.size()) {
             const std::string mod = used->contents[choice].tname();
             remove_gunmod(used, choice);
-            add_msg(_("You remove your %s from your %s."), mod.c_str(), used->name.c_str());
+            add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
         } else if (choice == mods.size()) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
                 remove_gunmod(used, i);
             }
-            add_msg(_("You remove all the modifications from your %s."), used->name.c_str());
+            add_msg(_("You remove all the modifications from your %s."), used->tname().c_str());
         } else {
             add_msg(_("Never mind."));
             return;
@@ -9283,7 +9286,7 @@ void player::do_read( item *book )
         int fun_bonus = 0;
         if( book->charges == 0 ) {
             //Book is out of chapters -> re-reading old book, less fun
-            add_msg(_("The %s isn't as much fun now that you've finished it."), book->name.c_str());
+            add_msg(_("The %s isn't as much fun now that you've finished it."), book->tname().c_str());
             if( one_in(6) ) { //Don't nag incessantly, just once in a while
                 add_msg(m_info, _("Maybe you should find something new to read..."));
             }
@@ -9374,10 +9377,10 @@ void player::do_read( item *book )
 
         if (skillLevel(reading->type) == (int)reading->level) {
             if (no_recipes) {
-                add_msg(m_info, _("You can no longer learn from %s."), reading->name.c_str());
+                add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
             } else {
                 add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for yo"),
-                        reading->name.c_str());
+                        reading->nname(1).c_str());
             }
         }
     }
@@ -9428,10 +9431,10 @@ bool player::try_study_recipe(it_book *book)
                 rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
                 learn_recipe(iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
-                                itypes[iter->first->result]->name.c_str(), book->name.c_str());
+                                itypes[iter->first->result]->nname(1).c_str(), book->nname(1).c_str());
                 return true;
             } else {
-                add_msg(_("Failed to learn a recipe from the %s."), book->name.c_str());
+                add_msg(_("Failed to learn a recipe from the %s."), book->nname(1).c_str());
                 return false;
             }
         }
@@ -9543,7 +9546,7 @@ std::string player::is_snuggling()
         return "nothing";
     }
     else if ( ticker == 1 ) {
-        return floor_armor->name.c_str();
+        return floor_armor->nname(1).c_str();
     }
     else if ( ticker > 1 ) {
         return "many";
@@ -10998,7 +11001,7 @@ bool player::can_pickup(bool print_msg) const
 {
     if (weapon.has_flag("NO_PICKUP")) {
         if (print_msg && const_cast<player*>(this)->is_player()) {
-            add_msg(m_info, _("You cannot pick up items with your %s!"), const_cast<player*>(this)->weapon.tname().c_str());
+            add_msg(m_info, _("You cannot pick up items with your %s!"), weapon.tname().c_str());
         }
         return false;
     }

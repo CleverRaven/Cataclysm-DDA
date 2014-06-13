@@ -1812,7 +1812,41 @@
       [ "stick", 4 ]
     ],
     [
-      [ "hose", 1 ]
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "bullet_crossbow",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "archery", 2 ],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 1 ] , [ "manual_archery", 3] , [ "book_archery", 2]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
+    ],
+    [
+      [ "leather", 1 ]
     ]
   ]
 },{
@@ -5834,8 +5868,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 0 ]],
+  "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
   ], "tools": [
@@ -19529,8 +19562,9 @@
 },{
         "type" : "recipe",
   "result": "battletorch_done",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
   "difficulty": 0,
   "time": 2000,
   "reversible": true,
@@ -23175,24 +23209,16 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 3,
-   "time": 9000,
+   "difficulty": 1,
+   "time": 4000,
    "reversible": false,
    "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "fish", 1 ],
+      [ "fish_cooked", 1 ],
       [ "fish_fried", 1 ]
     ],
     [
@@ -24990,7 +25016,8 @@
    "difficulty": 3,
    "time": 8000,
    "reversible": false,
-   "autolearn": true,
+   "autolearn": false,
+   "book_learn": [[ "cookbook_human", 2 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
      {"id":"COOK","level":2,"amount":1}
@@ -25335,7 +25362,8 @@
    "difficulty": 1,
    "time": 8000,
    "reversible": false,
-   "autolearn": true,
+   "autolearn": false,
+   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
@@ -25367,20 +25395,12 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 1,
-   "time": 6000,
-   "reversible": false,
+   "difficulty": 0,
+   "time": 3000,
+   "reversible": true,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+     {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -25388,7 +25408,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "meat", 1 ]
+      [ "meat_cooked", 1 ]
     ]
   ]
 },{
@@ -25399,7 +25419,7 @@
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 4000,
-   "reversible": false,
+   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -25472,21 +25492,12 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 1,
-   "time": 6000,
-   "reversible": false,
-   "autolearn": false,
-   "book_learn": [[ "cookbook_human", 1 ]],
+   "difficulty": 0,
+   "time": 3000,
+   "reversible": true,
+   "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+     {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -25494,7 +25505,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "human_flesh", 1 ]
+      [ "human_cooked", 1 ]
     ]
   ]
 },{
@@ -30405,6 +30416,51 @@
         [ "sinew", 10 ],
         [ "thread", 10 ],
         [ "plant_fibre", 10 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_300_winmag",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_BULLETS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 5 ],
+    "difficulty": 5,
+    "time" : 15000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [[ "recipe_bullets", 4 ], [ "mag_rifle", 5 ]],
+    "tools": [
+      [
+        [ "press", -1 ]
+      ],
+      [
+        [ "fire", -1 ],
+        [ "toolset", 1],
+        [ "press", 2]
+      ]
+    ],
+    "components": [
+      [
+        [ "300_casing", 10 ]
+      ],
+      [
+        [ "lgrifle_primer", 10 ]
+      ],
+      [
+        [ "gunpowder", 160 ]
+      ],
+      [
+        [ "lead", 80 ],
+        [ "gold_small", 80 ],
+        [ "silver_small", 80 ],
+        [ "tin", 80 ],
+        [ "bismuth", 80 ],
+        [ "solder_wire", 80 ]
+      ],
+      [
+        [ "cu_pipe", 3 ]
       ]
     ]
   },

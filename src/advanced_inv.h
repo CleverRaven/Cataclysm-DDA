@@ -2,6 +2,9 @@
 #define _ADVANCED_INV_H_
 #include "output.h"
 #include <string>
+
+typedef std::vector< std::list<item*> > itemslice;
+
 struct advanced_inv_area {
     int id;
     int hscreenx;

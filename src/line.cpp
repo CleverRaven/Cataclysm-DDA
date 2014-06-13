@@ -319,38 +319,41 @@ direction direction_from(const tripoint loc1, const tripoint loc2)
     }
 }
 
-std::pair<int, int> direction_XY(direction dir)
+point direction_XY(direction dir)
 {
-    switch(dir%8) {
+    switch((dir != CENTER) ? dir%8 : dir) {
         case NORTH:
-            return std::make_pair(0, -1);
+            return point(0, -1);
 
         case NORTHEAST:
-            return std::make_pair(1, -1);
+            return point(1, -1);
 
         case EAST:
-            return std::make_pair(1, 0);
+            return point(1, 0);
 
         case SOUTHEAST:
-            return std::make_pair(1, 1);
+            return point(1, 1);
 
         case SOUTH:
-            return std::make_pair(0, 1);
+            return point(0, 1);
 
         case SOUTHWEST:
-            return std::make_pair(-1, 1);
+            return point(-1, 1);
 
         case WEST:
-            return std::make_pair(-1, 0);
+            return point(-1, 0);
 
         case NORTHWEST:
-            return std::make_pair(-1, -1);
+            return point(-1, -1);
+
+        case CENTER:
+            return point(0, 0);
 
         default:
             break;
     }
 
-    return std::make_pair(999, 999);
+    return point(999, 999);
 }
 
 std::string direction_name(direction dir)
@@ -405,6 +408,8 @@ std::string direction_name(direction dir)
         return _("west and below");
     case BELOWNORTHWEST:
         return _("northwest and below");
+    case CENTER:
+        return _("center");
     }
     return "BUG. (line.cpp:direction_name)";
 }
@@ -461,6 +466,8 @@ std::string direction_name_short(direction dir)
         return _("DN_W ");
     case BELOWNORTHWEST:
         return _("DN_NW");
+    case CENTER:
+        return _("CE");
     }
     return "Bug. (line.cpp:direction_name_short)";
 }

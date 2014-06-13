@@ -207,7 +207,13 @@ enum m_flag {
 };
 
 struct mtype {
-    std::string id, name, name_plural, description;
+private:
+    friend class MonsterGenerator;
+    std::string name;
+    std::string name_plural;
+public:
+    std::string id;
+    std::string description;
     std::set<std::string> species, categories;
     long sym;
     nc_color color;

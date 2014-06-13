@@ -2315,6 +2315,7 @@
       ["8mm_fmj", 1],
       ["8mm_caseless", 2],
       ["8mm_civilian", 4],
+      ["300_winmag", 6],
       ["5x50dart", 4]
     ]
   },{
@@ -3201,7 +3202,7 @@
       ["20x66_beanbag", 10],
       ["20x66_flare", 3],
       ["20x66_shot", 5],
-      ["PR24", 20],
+      ["PR24-retracted", 20],
       ["tonfa", 20],
       ["usp_45", 6],
       ["m1911", 5],
@@ -3322,7 +3323,7 @@
       ["electrohack", 3],
       ["textbook_gaswarfare", 1],
       ["textbook_anarch", 3],
-      ["brewing_cookbook", 3],      
+      ["brewing_cookbook", 3],
       ["recipe_bullets", 1],
       ["knife_combat", 14],
       ["tanto", 3],
