@@ -419,19 +419,26 @@ void initOptions()
     optionNames["mph"] = _("mph");
     optionNames["km/h"] = _("km/h");
     OPTIONS["USE_METRIC_SPEEDS"] = cOpt("interface", _("Speed units"),
-                                        _("Switch between km/h and mph."), "mph,km/h", "mph" );
+                                        _("Switch between km/h and mph."),
+                                        "mph,km/h", "mph"
+                                       );
 
     optionNames["lbs"] = _("lbs");
     optionNames["kg"] = _("kg");
     OPTIONS["USE_METRIC_WEIGHTS"] = cOpt("interface", _("Mass units"),
-                                         _("Switch between kg and lbs."), "lbs,kg", "lbs" );
+                                         _("Switch between kg and lbs."),
+                                         "lbs,kg", "lbs"
+                                        );
 
     OPTIONS["FORCE_CAPITAL_YN"] = cOpt("interface", _("Force Y/N in prompts"),
-                                       _("If true, Y/N prompts are case-sensitive and y and n are not accepted."), true );
+                                       _("If true, Y/N prompts are case-sensitive and y and n are not accepted."),
+                                       true
+                                      );
 
     OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
                                             _("If true, bright backgrounds are not used - some consoles are not compatible."),
-                                            false );
+                                            false
+                                           );
 
     //~ 12h time, e.g. 11:59pm
     optionNames["12h"] = _("12h");
@@ -458,6 +465,7 @@ void initOptions()
                                           _("If true, vehicle parts will change color if they are armor plated"),
                                           true
                                          );
+
     OPTIONS["DRIVING_VIEW_OFFSET"] = cOpt("interface", _("Auto-shift the view while driving"),
                                           _("If true, view will automatically shift towards the driving direction"),
                                           true
@@ -482,7 +490,6 @@ void initOptions()
                                    _("If true, auto-safemode will be on after starting a new game or loading."),
                                    false
                                   );
-
 
     OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to reenable safemode"),
                                         _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance."),
@@ -590,9 +597,9 @@ void initOptions()
                                      _("A scaling factor that determines density of item spawns."),
                                      0.01, 10.0, 1.0, 0.01
                                     );
+
     std::string region_ids("default");
     optionNames["default"] = "default";
-
     OPTIONS["DEFAULT_REGION"] = cOpt("world_default", _("Default region type"),
                                      _("(WIP feature) Determines terrain, shops, plants, and more."),
                                      region_ids, "default"
@@ -626,13 +633,14 @@ void initOptions()
                                  24, 187, 24
                                 );
 
-    optionNames["wider"] = _("Wider");
     //~ sidebar style
+    optionNames["wider"] = _("Wider");
     optionNames["narrow"] = _("Narrow");
     OPTIONS["SIDEBAR_STYLE"] = cOpt("interface", _("Sidebar style"),
                                     _("Switch between a narrower or wider sidebar. Requires restart."),
                                     "wider,narrow", "narrow"
                                    );
+
     //~ style of vehicle interaction menu; vertical is old one.
     optionNames["vertical"] = _("Vertical");
     optionNames["horizontal"] = _("Horizontal");
@@ -651,6 +659,7 @@ void initOptions()
                                    _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                    true
                                   );
+
     OPTIONS["WANDER_SPAWNS"] = cOpt("world_default", _("Wander spawns"),
                                     _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise"),
                                     false
@@ -687,8 +696,8 @@ void initOptions()
                                   );
 
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
-            _("Determines the scope, which is known in the beginning of the game."),
-            3, 20, 15
+                                                  _("Determines the scope, which is known in the beginning of the game."),
+                                                  3, 20, 15
                                                  );
 
     OPTIONS["SAVE_SLEEP"] = cOpt("interface", _("Ask to save before sleeping"),
@@ -716,6 +725,11 @@ void initOptions()
                                   _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
                                   false
                                  );
+
+    OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
+                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your homebase."),
+                                           false
+                                          );
 
     OPTIONS["AUTO_PICKUP_ZERO"] = cOpt("general", _("Auto pickup 0 vol light items"),
                                        _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),

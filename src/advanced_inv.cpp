@@ -128,10 +128,12 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     int columns = getmaxx( window );
     int rightcol = columns - 8;
     int amount_column = columns - 15;
+    int src_column = columns - 19;
     nc_color norm = active ? c_white : c_dkgray;
     std::string spaces(getmaxx(window) - 4, ' ');
     bool compact = (TERMX <= 100);
 
+    //print inventory's current and total weight + volume
     if(isinventory) {
         //right align
         int hrightcol = columns -
@@ -152,7 +154,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         }
         wprintz(window, color, "%d", g->u.volume_carried() );
         wprintz(window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
-    } else {
+    } else { //print square's current and total weight + volume
         std::string head;
         if (isall) {
             head = string_format("%3.1f %3d",
@@ -172,16 +174,21 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str());
     }
 
+    //print header row and determine max item name length
+    int max_name_length;
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
-    if (isinventory) {
-        //~ advanced inventory; "amount", "weight", "volume"; 14 letters
+    if (isall) {
+        if(compact) {
+            mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
+            max_name_length = amount_column - 2;
+        }
+        else {
+            mvwprintz( window, 5, rightcol - 11, c_ltgray, _("src amt weight vol") );
+            max_name_length = src_column - 5;
+        }
+    } else{
         mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
-    } else if (isall) {
-        //~ advanced inventory; "source", "weight", "volume"; 14 letters
-        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("src weight vol") );
-    } else {
-        //~ advanced inventory; "weight", "volume"; 14 letters, right-aligned
-        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("    weight vol") );
+        max_name_length = amount_column - (compact ? 2 : 5);
     }
 
     for(unsigned i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ , x++) {
@@ -203,23 +210,28 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
                 }
 
             }
-            mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname().c_str() );
-
-            // Show count of contents (e.g. amount of liquid in container)
-            // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
-            if (items[i].it->contents.size() == 1 && items[i].it->contents[0].charges > 0) {
-                wprintz(window, thiscolor, " (%d)", items[i].it->contents[0].charges);
-            } else if(items[i].it->charges >= 0) {
-                wprintz(window, thiscolor, " (%d)", items[i].it->charges);
+            //print item name
+            if(items[i].it->display_name().size() > max_name_length) {
+                std::string truncName = items[i].it->display_name().substr(0, max_name_length);
+                mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", truncName.c_str() );
+            }
+            else {
+                mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->display_name().c_str() );
             }
 
-            if( isinventory && items[i].stacks > 1 ) {
-                mvwprintz(window, 6 + x, amount_column, thiscolor, "x %d", items[i].stacks);
-            } else if ( isall ) {
-                mvwprintz(window, 6 + x, amount_column, thiscolor, "%s",
+            //print src column
+            if ( isall && !compact) {
+                mvwprintz(window, 6 + x, src_column, thiscolor, "%s",
                           squares[items[i].area].shortname.c_str());
             }
+
+            //print "amount" column
+            if( items[i].stacks > 1 ) {
+                mvwprintz(window, 6 + x, amount_column, thiscolor, "x %d", items[i].stacks);
+            }
+
             int xrightcol = rightcol;
+            //adjust insertion point based on item's weight
             if (g->u.convert_weight(items[i].weight) > 9.9 ) {
                 xrightcol--;
                 if (g->u.convert_weight(items[i].weight) > 99.9 ) {
@@ -230,16 +242,21 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
                     }
                 }
             }
+
+            //adjust insertion point based on item's volume
             if ( items[i].volume > 999 ) { // does not exist, but can fit in 1024 tile limit
                 xrightcol--;
                 if ( items[i].volume > 9999 ) { // oh hey what about z levels. best give up now
                     xrightcol--;
                 }
             }
+
+            //print weight column
             mvwprintz(window, 6 + x, xrightcol,
                       (g->u.convert_weight(items[i].weight) > 0 ? thiscolor : thiscolordark),
                       "%3.1f", g->u.convert_weight(items[i].weight) );
 
+            //print volume column
             wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
             if(active && items[i].autopickup == true) {
                 mvwprintz(window, 6 + x, 1, magenta_background(items[i].it->color(&g->u)), "%s",
@@ -573,24 +590,30 @@ void advanced_inventory::recalc_pane(int i)
 
             if ( panes[idest].area != s && squares[s].canputitems &&
                  !isDirectionalDragged(s, panes[idest].area)) {
-                std::vector<item> &items = squares[s].vstor >= 0 ?
-                                           squares[s].veh->parts[squares[s].vstor].items :
-                                           m.i_at(squares[s].x , squares[s].y );
-                for (unsigned x = 0; x < items.size(); x++) {
+
+                const itemslice &stacks = squares[s].vstor >= 0 ?
+                                           m.i_stacked(squares[s].veh->parts[squares[s].vstor].items) :
+                                           m.i_stacked(m.i_at(squares[s].x , squares[s].y ));
+
+                //loop through lists of item stacks
+                for (unsigned x = 0; x < stacks.size(); x++) {
+                    item *an_item = stacks[x].front();
                     advanced_inv_listitem it;
+                    int stackSize = stacks[x].size() < 1 ? 1 : stacks[x].size();
+
                     it.idx = x;
-                    it.name = items[x].tname();
-                    it.name_without_prefix = items[x].tname( false );
+                    it.name = an_item->tname();
+                    it.name_without_prefix = an_item->tname( false );
                     if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                         continue;
                     }
 
                     it.autopickup = hasPickupRule(it.name);
-                    it.stacks = 1;
-                    it.weight = items[x].weight();
-                    it.volume = items[x].volume();
-                    it.cat = &(items[x].get_category());
-                    it.it = &items[x];
+                    it.stacks = stackSize;
+                    it.weight = an_item->weight() * stackSize;
+                    it.volume = an_item->volume() * stackSize;
+                    it.cat = &(an_item->get_category());
+                    it.it = an_item;
                     it.area = s;
                     if( has_category.count(it.cat->id) == 0 ) {
                         has_category.insert(it.cat->id);
