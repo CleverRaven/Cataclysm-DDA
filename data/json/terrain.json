@@ -2616,8 +2616,8 @@
         "examine_action": "water_source"
     },{
 	    "type": "terrain",
-        "id": "t_water_stairs_down",
-        "name": "stairs",
+        "id": "t_water_slope_down",
+        "name": "downward water slope",
         "symbol": ">",
         "color": "blue",
         "move_cost": 2,
@@ -2625,8 +2625,8 @@
 		"examine_action": "water_source"
 	},{
 	    "type": "terrain",
-        "id": "t_water_stairs_up",
-        "name": "stairs",
+        "id": "t_water_slope_up",
+        "name": "upward water slope",
         "symbol": "<",
         "color": "blue",
         "move_cost": 2,
