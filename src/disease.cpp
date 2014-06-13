@@ -2744,7 +2744,9 @@ void manage_sleep(player& p, disease& dis)
 
     // Determine the strength of effects or dreams based upon category strength
     int strength = 0; // Category too weak for any effect or dream
-    if (highest >= 20 && highest < 35) {
+    if (g->u.crossed_threshold()) {
+        strength = 4; // Post-human.
+    } else if (highest >= 20 && highest < 35) {
         strength = 1; // Low strength
     } else if (highest >= 35 && highest < 50) {
         strength = 2; // Medium strength
