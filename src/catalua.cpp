@@ -149,7 +149,7 @@ int lua_monster_move(monster* m) {
     update_globals(L);
 
     lua_getglobal(L, "monster_move");
-    lua_getfield(L, -1, m->type->name.c_str());
+    lua_getfield(L, -1, m->type->nname(1).c_str());
 
     // OK our function should now be at the top.
     if(lua_isnil(L, -1)) {
@@ -386,7 +386,7 @@ static int game_item_type(lua_State *L) {
     lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
 
     lua_pushstring(L, "name");
-    lua_pushstring(L, (*item_instance)->type->name.c_str());
+    lua_pushstring(L, (*item_instance)->type->nname(1).c_str());
     lua_rawset(L, -3);
 
     lua_pushstring(L, "id");
