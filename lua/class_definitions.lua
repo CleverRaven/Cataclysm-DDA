@@ -471,10 +471,6 @@ classes = {
     },
     itype = {
         attributes = {
-            name = {
-                type = "string",
-                writable = true
-            },
             description = {
                 type = "string",
                 writable = true
