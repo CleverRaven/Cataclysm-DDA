@@ -603,13 +603,13 @@ void vehicle::use_controls()
                 add_msg("You don't have anything to play!");
                 stereo_on = false;
             } else if (stereo_on == false) {
-                add_msg(_("Ejected the %s"), itypes[music_id]->name.c_str());
+                add_msg(_("Ejected the %s"), itypes[music_id]->nname(1).c_str());
                 g->u.inv.add_item_by_type(music_id);
             } else {
             for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
                 if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
                 music_types.push_back((*it)->typeId());
-                music_names.push_back((*it)->name);
+                music_names.push_back((*it)->tname());
                 }
             }
             if (music_types.size() > 1) {

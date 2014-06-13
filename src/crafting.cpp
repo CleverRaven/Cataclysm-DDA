@@ -274,7 +274,7 @@ std::string print_missing_objs(const std::vector< std::vector <component> > &obj
             } else if (comp.count > 0) {
                 //~ <tool-name> (<numer-of-charges> charges)
                 buffer << string_format(ngettext("%s (%d charge)", "%s (%d charges)", comp.count),
-                                        itt->name.c_str(), comp.count);
+                                        itt->nname(1).c_str(), comp.count);
             } else {
                 buffer << it->nname(abs(comp.count));
             }
@@ -1319,7 +1319,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
             {
                 if(search_name)
                 {
-                    if(item_controller->find_template((*iter)->result)->name.find(filter) == std::string::npos)
+                    if(item_controller->find_template((*iter)->result)->nname(1).find(filter) == std::string::npos)
                     {
                         continue;
                     }
@@ -1331,7 +1331,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                     {
                         for(std::vector<component>::iterator it2 = (*it).begin() ; it2 != (*it).end() ; ++it2)
                         {
-                            if(item_controller->find_template((*it2).type)->name.find(filter) != std::string::npos)
+                            if(item_controller->find_template((*it2).type)->nname(1).find(filter) != std::string::npos)
                             {
                                 found = true;
                                 break;
@@ -1354,7 +1354,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                     {
                         for(std::vector<component>::iterator it2 = (*it).begin() ; it2 != (*it).end() ; ++it2)
                         {
-                            if(item_controller->find_template((*it2).type)->name.find(filter) != std::string::npos)
+                            if(item_controller->find_template((*it2).type)->nname(1).find(filter) != std::string::npos)
                             {
                                 found = true;
                                 break;
@@ -1461,7 +1461,7 @@ void game::complete_craft()
     // Messed up badly; waste some components.
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
-                item_controller->find_template(making->result)->name.c_str());
+                item_controller->find_template(making->result)->nname(1).c_str());
         for (unsigned i = 0; i < making->components.size(); i++) {
             consume_items(&u, making->components[i]);
         }
@@ -1474,7 +1474,7 @@ void game::complete_craft()
         // Messed up slightly; no components wasted.
     } else if (diff_roll > skill_roll) {
         add_msg(m_neutral, _("You fail to make the %s, but don't waste any materials."),
-                item_controller->find_template(making->result)->name.c_str());
+                item_controller->find_template(making->result)->nname(1).c_str());
         //this method would only have been called from a place that nulls u.activity.type,
         //so it appears that it's safe to NOT null that variable here.
         //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
@@ -1502,9 +1502,9 @@ void game::complete_craft()
     }
 
     if( u.knows_recipe( making ) ) {
-        add_msg(_("You craft %s from memory."), newit.type->name.c_str());
+        add_msg(_("You craft %s from memory."), newit.type->nname(1).c_str());
     } else {
-        add_msg(_("You craft %s using a book as a reference."), newit.type->name.c_str());
+        add_msg(_("You craft %s using a book as a reference."), newit.type->nname(1).c_str());
         // If we made it, but we don't know it,
         // we're making it from a book and have a chance to learn it.
         // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
@@ -1517,7 +1517,7 @@ void game::complete_craft()
                     (u.get_skill_level( making->skill_used ) * u.get_int() ) ) ) {
             u.learn_recipe( making );
             add_msg(m_good, _("You memorized the recipe for %s!"),
-                    newit.type->name.c_str());
+                    newit.type->nname(1).c_str());
         }
     }
 
@@ -1642,14 +1642,14 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         std::vector<std::string> options; // List for the menu_vec below
         // Populate options with the names of the items
         for (unsigned i = 0; i < map_has.size(); i++) {
-            std::string tmpStr = item_controller->find_template(map_has[i].type)->name + _(" (nearby)");
+            std::string tmpStr = item_controller->find_template(map_has[i].type)->nname(1) + _(" (nearby)");
             options.push_back(tmpStr);
         }
         for (unsigned i = 0; i < player_has.size(); i++) {
-            options.push_back(item_controller->find_template(player_has[i].type)->name);
+            options.push_back(item_controller->find_template(player_has[i].type)->nname(1));
         }
         for (unsigned i = 0; i < mixed.size(); i++) {
-            std::string tmpStr = item_controller->find_template(mixed[i].type)->name +
+            std::string tmpStr = item_controller->find_template(mixed[i].type)->nname(1) +
                                  _(" (on person & nearby)");
             options.push_back(tmpStr);
         }
@@ -1757,11 +1757,11 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
         // Populate the list
         std::vector<std::string> options;
         for (unsigned i = 0; i < map_has.size(); i++) {
-            std::string tmpStr = item_controller->find_template(map_has[i].type)->name + _(" (nearby)");
+            std::string tmpStr = item_controller->find_template(map_has[i].type)->nname(1) + _(" (nearby)");
             options.push_back(tmpStr);
         }
         for (unsigned i = 0; i < player_has.size(); i++) {
-            options.push_back(item_controller->find_template(player_has[i].type)->name);
+            options.push_back(item_controller->find_template(player_has[i].type)->nname(1));
         }
 
         if (options.empty()) { // This SHOULD only happen if cooking with a fire,
@@ -1848,12 +1848,12 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
                 } else {
                     if (req <= 0) {
                         add_msg(m_info, _("You need a %s to disassemble this."),
-                                item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
+                                item_controller->find_template(cur_recipe->tools[j][0].type)->nname(1).c_str());
                     } else {
                         add_msg(m_info, ngettext("You need a %s with %d charge to disassemble this.",
                                                  "You need a %s with %d charges to disassemble this.",
                                                  req),
-                                item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
+                                item_controller->find_template(cur_recipe->tools[j][0].type)->nname(1).c_str(), req);
                     }
                 }
             }
@@ -1938,7 +1938,7 @@ void game::complete_disassemble()
         veh_part = veh->part_with_feature(veh_part, "CARGO");
     }
 
-    add_msg(_("You disassemble the %s into its components."), dis_item.name.c_str());
+    add_msg(_("You disassemble the %s into its components."), dis_item.tname().c_str());
     // remove any batteries or ammo first
     remove_ammo( &dis_item, u );
 

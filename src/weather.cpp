@@ -419,7 +419,7 @@ void weather_effect::light_acid()
     generic_wet(true);
     if (int(calendar::turn) % 10 == 0 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
-            add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
+            add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.tname().c_str());
         } else {
             if (g->u.worn_with_flag("RAINPROOF") && !one_in(4)) {
                 add_msg(_("Your clothing protects you from the acidic drizzle."));

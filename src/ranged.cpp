@@ -169,7 +169,7 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
         if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
             add_msg_player_or_npc(_("Your %s misfires with a wet click!"),
                                      _("<npcname>'s %s misfires with a wet click!"),
-                                     weapon.name.c_str());
+                                     weapon.tname().c_str());
             return false;
             // Here we check for a chance for the weapon to suffer a mechanical malfunction.
             // Note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this
@@ -179,12 +179,12 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
         } else if ((one_in(2 << firing->durability))&& !weapon.has_flag("NEVER_JAMS")) {
             add_msg_player_or_npc(_("Your %s malfunctions!"),
                                      _("<npcname>'s %s malfunctions!"),
-                                     weapon.name.c_str());
+                                     weapon.tname().c_str());
             if ((weapon.damage < 4) && one_in(4 * firing->durability)){
                 weapon.damage++;
                 add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
                                              _("<npcname>'s %s is damaged by the mechanical malfunction!"),
-                                             weapon.name.c_str());
+                                             weapon.tname().c_str());
             }
             return false;
             // Here we check for a chance for the weapon to suffer a misfire due to
@@ -193,7 +193,7 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
         } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1728)) {
             add_msg_player_or_npc(_("Your %s misfires with a dry click!"),
                                      _("<npcname>'s %s misfires with a dry click!"),
-                                     weapon.name.c_str());
+                                     weapon.tname().c_str());
             return false;
             // Here we check for a chance for the weapon to suffer a misfire due to
             // using player-made 'RECYCLED' bullets. Note that not all forms of
@@ -202,12 +202,12 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
         } else if (curammo_effects->count("RECYCLED") && one_in(256)) {
             add_msg_player_or_npc(_("Your %s misfires with a muffled click!"),
                                      _("<npcname>'s %s misfires with a muffled click!"),
-                                     weapon.name.c_str());
+                                     weapon.tname().c_str());
             if ((weapon.damage < 4) && one_in(firing->durability)){
                 weapon.damage++;
                 add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
                                              _("<npcname>'s %s is damaged by the misfired round!"),
-                                             weapon.name.c_str());
+                                             weapon.tname().c_str());
             }
             return false;
         }
@@ -370,7 +370,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
             npc *p = g->active_npc[npcdex];
             if(!p->weapon.is_null()) {
                 item weap = p->remove_weapon();
-                add_msg_if_player(m_good, "You disarm %s's %s using your whip!", p->name.c_str(), weap.name.c_str());
+                add_msg_if_player(m_good, "You disarm %s's %s using your whip!", p->name.c_str(), weap.tname().c_str());
                 g->m.add_item_or_charges(tarx + rng(-1, 1), tary + rng(-1, 1), weap);
             }
         }
@@ -788,7 +788,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else {
    if (relevent == &u.weapon && relevent->is_gun()) {
      if(relevent->has_flag("RELOAD_AND_SHOOT")) {
-        wprintz(w_target, c_red, _("Shooting %s from %s"), u.weapon.curammo->name.c_str(), u.weapon.tname().c_str());
+        wprintz(w_target, c_red, _("Shooting %s from %s"), u.weapon.curammo->nname(1).c_str(), u.weapon.tname().c_str());
 ;    } else if(relevent->has_flag("NO_AMMO")) {
         wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
      } else {
@@ -919,7 +919,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 } else {
                     item* gunmod = u.weapon.active_gunmod();
                     if (gunmod != NULL) {
-                        mode = gunmod->type->name;
+                        mode = gunmod->type->nname(1);
                     }
                 }
                 if (mode != "") {
@@ -1089,7 +1089,7 @@ int time_to_fire(player &p, it_gun* firing)
     else
         time = (200 - (20 * p.skillLevel("melee")));
  } else {
-   debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
+   debugmsg("Why is shooting %s using %s skill?", firing->nname(1).c_str(), firing->skill_used->name().c_str());
    time =  0;
  }
 

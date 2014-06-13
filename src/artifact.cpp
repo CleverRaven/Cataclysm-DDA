@@ -608,6 +608,25 @@ void init_artifacts()
 
 }
 
+void it_artifact_tool::create_name(const std::string &type)
+{
+    name = artifact_name(type);
+    name_plural = name;
+}
+
+void it_artifact_tool::create_name(const std::string &property_name, const std::string &shape_name)
+{
+    name = rmp_format(_("<artifact_name>%1$s %2$s"), property_name.c_str(),
+                           shape_name.c_str());
+    name_plural = name;
+}
+
+void it_artifact_armor::create_name(const std::string &type)
+{
+    name = artifact_name(type);
+    name_plural = name;
+}
+
 std::string new_artifact()
 {
     if (one_in(2)) { // Generate a "tool" artifact
@@ -616,7 +635,7 @@ std::string new_artifact()
         int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
 
         artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
-        art->name = artifact_name(info->name);
+        art->create_name(info->name);
         art->color = info->color;
         art->sym = info->sym;
         art->m1 = info->m1;
@@ -646,12 +665,12 @@ std::string new_artifact()
                 }
                 std::stringstream newname;
                 newname << weapon->adjective << " " << info->name;
-                art->name = artifact_name(newname.str());
+                art->create_name(newname.str());
             }
         }
         art->description = string_format(
                                _("This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; use 'a' to activate them."),
-                               art->name.c_str());
+                               art->nname(1).c_str());
 
         // Finally, pick some powers
         art_effect_passive passive_tmp = AEP_NULL;
@@ -749,7 +768,7 @@ std::string new_artifact()
         int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
         artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
 
-        art->name = artifact_name(info->name);
+        art->create_name(info->name);
         art->sym = '['; // Armor is always [
         art->color = info->color;
         art->m1 = info->m1;
@@ -770,7 +789,7 @@ std::string new_artifact()
         description << string_format(info->plural ?
                                      _("This is the %s.\nThey are the only ones of their kind.") :
                                      _("This is the %s.\nIt is the only one of its kind."),
-                                     art->name.c_str());
+                                     art->nname(1).c_str());
 
         // Modify the armor further
         if (!one_in(4)) {
@@ -880,8 +899,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->melee_cut = 0;
     art->m_to_hit = 0;
 
-    art->name = rmp_format(_("<artifact_name>%1$s %2$s"), property_data->name.c_str(),
-                           shape_data->name.c_str());
+    art->create_name(property_data->name, shape_data->name);
     art->description = rmp_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(),
                                   property_data->desc.c_str());
 
@@ -973,7 +991,7 @@ std::string architects_cube()
 
       it_artifact_tool *art = new it_artifact_tool();
       artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-      art->name = artifact_name(info->name);
+      art->create_name(info->name);
       art->color = info->color;
       art->sym = info->sym;
       art->m1 = info->m1;
