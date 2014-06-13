@@ -6623,7 +6623,7 @@ int iuse::LAW(player *p, item *it, bool)
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */
-int iuse::mcg_note(player *, item *it, bool)
+int iuse::mcg_note(player *, item *, bool)
 {
  return 0;
 }
