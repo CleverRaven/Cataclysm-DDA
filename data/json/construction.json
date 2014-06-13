@@ -135,6 +135,20 @@
         "post_terrain" : "t_window_empty"
     },{
         "type" : "construction",
+        "description" : "Create Sign",
+        "difficulty" : 0,
+        "time" : 10,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
+        "components" : [
+            [ [ "2x4", 3 ] ],
+            [ [ "nail", 6 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_sign"
+    },{
+        "type" : "construction",
         "description" : "Repair Door",
         "difficulty" : 1,
         "time" : 10,
