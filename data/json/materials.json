@@ -647,5 +647,23 @@
         "elec_resist" : 0,
         "fire_resist" : 0,
         "density" : 3
+    },{
+        "type" : "material",
+        "ident" : "rubber",
+        "name" : "Rubber",
+        "bash_resist" : 1,
+        "cut_resist" : 2,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "scarred",
+            "worn-out",
+            "badly worn-out",
+            "shredded"
+        ],
+        "acid_resist" : 3,
+        "elec_resist" : 20,
+        "fire_resist" : 4,
+        "density" : 3
     }
 ]
