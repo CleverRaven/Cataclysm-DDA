@@ -14136,7 +14136,7 @@
         "type" : "COMESTIBLE",
         "id" : "protein_powder",
         "name" : "protein powder",
-        "name_plural" : "protein powder",
+        "name_plural" : "servings of protein powder",
         "weight" : 38,
         "color" : "white",
         "addiction_type" : "none",
