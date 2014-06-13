@@ -580,6 +580,8 @@ public:
  bool eat(item *eat, it_comest *comest);
  /** Handles the effects of consuming an item */
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
+ /** Handles rooting effects */
+ void rooted();
  /** Wields an item, returns false on failed wield */
  virtual bool wield(item* it, bool autodrop = false);
  /** Creates the UI and handles player input for picking martial arts styles */

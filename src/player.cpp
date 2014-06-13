@@ -8022,6 +8022,24 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     }
 }
 
+void player::rooted()
+// Should average a point every two minutes or so; ground isn't uniformly fertile
+// If being able to "overfill" is a serious balance issue, will revisit
+// Otherwise, nutrient intake via roots can fill past the "Full" point, WAI
+{
+  if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
+            g->m.has_flag("DIGGABLE", posx, posy) &&
+            (!(wearing_something_on(bp_feet))) ) {
+                if (one_in(20)) {
+                  hunger--;
+                  thirst--;
+                if (health <= 5) {
+                  health++;
+                }
+            }
+        }
+}
+
 bool player::wield(item* it, bool autodrop)
 {
  if (weapon.has_flag("NO_UNWIELD")) {
@@ -9442,7 +9460,7 @@ void player::do_read( item *book )
             // continuously read until player gains a new skill level
             activity.type = ACT_NULL;
             read(activity.position);
-            // Rooters root
+            // Rooters root (based on time spent reading)
             int root_factor = (reading->time / 20);
             if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
             g->m.has_flag("DIGGABLE", posx, posy) &&
