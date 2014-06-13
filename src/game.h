@@ -396,7 +396,7 @@ public:
  // from source position (sx,sy) using force parameter or passed as an argument;
  // force determines how far target is knocked, if trajectory is calculated
  // force also determines damage along with dam_mult;
- // stun determines base number of turns target is stunned regarwertzuiopüasdfghjklö-.,mnbvcxydless of impact
+ // stun determines base number of turns target is stunned regardless of impact
  // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
  void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
  void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
@@ -418,7 +418,7 @@ public:
   void draw_sct();
   void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
 
-// Vehicle related JSON loaders and variablesŝ
+// Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
   void load_vehicle(JsonObject &jo);
   void reset_vehicleparts();
