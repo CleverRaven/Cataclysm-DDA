@@ -20,7 +20,7 @@
 #define STATUS_WIDTH 55
 
 #define LONG_RANGE 10
-#define BLINK_MULTIPLIER 30
+#define BLINK_SPEED 300
 #define EXPLOSION_MULTIPLIER 7
 
 #define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)

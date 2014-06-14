@@ -1274,7 +1274,7 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile)
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
 
-    timeout( OPTIONS["ANIMATION_DELAY"] );
+    timeout(70);
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
 }

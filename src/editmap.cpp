@@ -296,7 +296,7 @@ point editmap::edit()
         }
         update_view(true);
         uphelp(pgettext("map editor","[t]rap, [f]ield, [HJKL] move++, [v] showall"), pgettext("map editor","[g] terrain/furn, [o] mapgen, [i]tems, [q]uit"), pgettext("map editor state","Looking around"));
-        timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
+        timeout(BLINK_SPEED);
         action = ctxt.handle_input();
         timeout(-1);
         if (action == "EDIT_TERRAIN") {
@@ -1468,7 +1468,7 @@ int editmap::select_shape(shapetype shape, int mode)
               _("[m]move, [s]hape, [y] swap, [z] to start") ),
             _("[enter] accept, [q] abort, [v] showall"),
             ( moveall == true ? _("Moving selection") : _("Resizing selection") ) );
-        timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
+        timeout(BLINK_SPEED);
         action = ctxt.handle_input();
         timeout(-1);
         if (action == "RESIZE") {
@@ -1631,7 +1631,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         } else {
             update_view(false);//wrefresh(g->w_terrain);
         }
-        timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
+        timeout(BLINK_SPEED * 3);
         int gpmenupos = gpmenu.selected;
         gpmenu.query(false);
 
@@ -1766,7 +1766,7 @@ int editmap::mapgen_retarget()
            pgettext("map generator","[enter] accept, [q] abort"), pgettext("map generator","Mapgen: Moving target"));
 
     do {
-        timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
+        timeout(BLINK_SPEED);
         action = ctxt.handle_input();
         timeout(-1);
         blink = !blink;

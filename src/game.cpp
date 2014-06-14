@@ -8674,7 +8674,8 @@ void game::zones_manager()
             }
 
             wrefresh(w_terrain);
-            inp_mngr.set_timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
+
+            inp_mngr.set_timeout(500);
         } else {
             inp_mngr.set_timeout(-1);
         }
@@ -8862,7 +8863,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         wrefresh(w_terrain);
 
         if (bSelectZone && bHasFirstPoint) {
-            inp_mngr.set_timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
+            inp_mngr.set_timeout(500);
         }
 
         //Wait for input
