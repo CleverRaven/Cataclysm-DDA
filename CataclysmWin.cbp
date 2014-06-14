@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-Os" />
 					<Add option="-O2" />
+					<Add option="-std=c++11" />
 					<Add option="-DRELEASE=1" />
 				</Compiler>
 			</Target>
@@ -380,7 +381,7 @@
 		<Unit filename="src/path_info.cpp" />
 		<Unit filename="src/path_info.h" />
 		<Unit filename="src/pickup.cpp" />
-        	<Unit filename="src/pickup.h" />
+		<Unit filename="src/pickup.h" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/player.h" />
 		<Unit filename="src/player_activity.cpp" />

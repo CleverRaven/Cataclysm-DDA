@@ -113,7 +113,8 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
     int idx = om->in_zone(tripoint(overx, overy, z));
     if(idx != -1){
         overmap_zone omz = om->zones[idx];
-        post_process(omz.z);
+        int distance = omz.distance_from_center(tripoint(overx, overy, z));
+        post_process(omz.z, distance);
     }
 
     // Okay, we know who are neighbors are.  Let's draw!
@@ -847,7 +848,7 @@ void jmapgen_place_special::apply( map * m ) {
             if (charges == 0)
                 m->place_gas_pump(x.get(), y.get(), rng(10000, 50000));
             else
-                m->place_toilet(x.get(), y.get(), charges );
+                m->place_gas_pump(x.get(), y.get(), charges );
         } break;
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
             m->furn_set(x.get(), y.get(), f_null);
@@ -1050,11 +1051,35 @@ void map::loot()
                 Item_list l = item_controller->create_from_group("trash_forest", 0);
                 this->i_at(x, y).push_back(l[0]);
             }
+            vehicle* veh = this->veh_at(x, y);
+            if(veh != NULL){
+                veh->smash();
+            }
         }
     }
 }
 
-void map::entriffidate(){
+void map::burn()
+{
+    while (one_in(4)) {
+        point center( rng(4, 19), rng(4, 19) );
+        int radius = rng(1, 4);
+        for (int x = center.x - radius; x <= center.x + radius; x++) {
+            for (int y = center.y - radius; y <= center.y + radius; y++) {
+                if (rl_dist(x, y, center.x, center.y) <= rng(1, radius)) {
+                    destroy(x, y, false);
+                    for(auto itr = i_at(x, y).begin(); itr != i_at(x, y).end(); ++itr){
+                        (*itr).burn(20);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void map::entriffidate(int distance){
+    int intensity = distance;
+    intensity += 3;
     for(int x = 0; x < 24; x++){
         for(int y = 0; y < 24; y++){
             std::string terid = this->ter_at(x, y).id;
@@ -1095,7 +1120,7 @@ void map::entriffidate(){
 }
 
 // replaces walls/floors/some furniture with fungal variants
-void map::fungalize(){
+void map::fungalize(int distance){
     std::vector<furn_t> fungalfurn;
     for(auto itr = furnlist.cbegin(); itr != furnlist.cend(); ++itr){
         if((*itr).has_flag("FUNGUS")){
@@ -1150,6 +1175,71 @@ void map::fungalize(){
         }
     }
 }
+
+// distance is distance from current point to the center of the zone, used to calculate density
+void map::post_process(omzone_type zones, int distance)
+{
+    switch(zones)
+    {
+    case OMZONE_CITY:{
+        // as distance increases, amount of looting should decrease
+        // 1 in (distance^2)
+            if(one_in(distance)){
+                if(one_in(10)){
+                    this->burn();
+                } else {
+                    this->loot();
+                }
+            }
+            break;
+        }
+    case OMZONE_FUNGAL:{
+        // as distance increases the density of the fungalness should decrease
+            this->fungalize(distance);
+            break;
+        }
+    case OMZONE_OVERGROWN:{
+        // as distance increases the density of the overgrowth should decrease
+            this->entriffidate(distance);
+            break;
+        }
+    }
+/*
+    if (zones & mfb(OMZONE_CITY)) {
+        if (!one_in(10)) { // 90% chance of smashing stuff up
+            for (int x = 0; x < 24; x++) {
+                for (int y = 0; y < 24; y++) {
+                    bash(x, y, 20, true);
+                }
+            }
+        }
+        if (one_in(10)) { // 10% chance of corpses
+            int num_corpses = rng(1, 8);
+            for (int i = 0; i < num_corpses; i++) {
+                int x = rng(0, 23), y = rng(0, 23);
+                if (move_cost(x, y) > 0) {
+                    add_corpse(x, y);
+                }
+            }
+        }
+    } // OMZONE_CITY
+
+    if (zones & mfb(OMZONE_BOMBED)) {
+        while (one_in(4)) {
+            point center( rng(4, 19), rng(4, 19) );
+            int radius = rng(1, 4);
+            for (int x = center.x - radius; x <= center.x + radius; x++) {
+                for (int y = center.y - radius; y <= center.y + radius; y++) {
+                    if (rl_dist(x, y, center.x, center.y) <= rng(1, radius)) {
+                        destroy(x, y, false);
+                    }
+                }
+            }
+        }
+    }
+*/
+}
+
 
 /////////////
 // TODO: clean up variable shadowing in this function
@@ -10933,70 +11023,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
     }
 
-}
-
-void map::post_process(omzone_type zones)
-{
-    /*
-    if(one_in(5) && terrain_type.t().sidewalk){
-        this->loot();
-    } else if(one_in(5)) {
-        this->fungalize();
-    } else if(one_in(5)) {
-        this->entriffidate();
-    }
-    */
-    switch(zones)
-    {
-    case OMZONE_CITY:{
-            if(one_in(5)){
-                this->loot();
-            }
-            break;
-        }
-    case OMZONE_FUNGAL:{
-            this->fungalize();
-            break;
-        }
-    case OMZONE_OVERGROWN:{
-            this->entriffidate();
-            break;
-        }
-    }
-/*
-    if (zones & mfb(OMZONE_CITY)) {
-        if (!one_in(10)) { // 90% chance of smashing stuff up
-            for (int x = 0; x < 24; x++) {
-                for (int y = 0; y < 24; y++) {
-                    bash(x, y, 20, true);
-                }
-            }
-        }
-        if (one_in(10)) { // 10% chance of corpses
-            int num_corpses = rng(1, 8);
-            for (int i = 0; i < num_corpses; i++) {
-                int x = rng(0, 23), y = rng(0, 23);
-                if (move_cost(x, y) > 0) {
-                    add_corpse(x, y);
-                }
-            }
-        }
-    } // OMZONE_CITY
-
-    if (zones & mfb(OMZONE_BOMBED)) {
-        while (one_in(4)) {
-            point center( rng(4, 19), rng(4, 19) );
-            int radius = rng(1, 4);
-            for (int x = center.x - radius; x <= center.x + radius; x++) {
-                for (int y = center.y - radius; y <= center.y + radius; y++) {
-                    if (rl_dist(x, y, center.x, center.y) <= rng(1, radius)) {
-                        destroy(x, y, false);
-                    }
-                }
-            }
-        }
-    }
-*/
 }
 
 void map::place_spawns(std::string group, const int chance,
