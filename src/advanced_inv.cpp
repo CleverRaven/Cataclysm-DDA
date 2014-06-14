@@ -596,7 +596,6 @@ void advanced_inventory::recalc_pane(int i)
                                            m.i_stacked(m.i_at(squares[s].x , squares[s].y ));
 
                 //loop through lists of item stacks
-                //for (unsigned x = 0; x < stacks.size(); x++) {
                 for (unsigned x = 0; x < stacks.size(); ++x) {
                     item *an_item = stacks[x].front();
                     advanced_inv_listitem it;

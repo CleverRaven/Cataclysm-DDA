@@ -383,7 +383,6 @@ void add_corpse(int x, int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  void i_rem(const int x, const int y, item* it);
- void i_rem_stack(const int x, const int y, const int index);
  point find_item(const item *it);
  void spawn_artifact( const int x, const int y );
  void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
