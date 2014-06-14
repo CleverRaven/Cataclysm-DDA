@@ -300,7 +300,7 @@ class wish_monster_callback: public uimenu_callback
             werase(w_info);
             tmp.print_info(w_info);
 
-            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->name.c_str());
+            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->nname().c_str());
             mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
 
@@ -338,7 +338,7 @@ void game::wishmonster(int x, int y)
     int i = 0;
     for (std::map<std::string, mtype *>::const_iterator mon = montypes.begin();
          mon != montypes.end(); ++mon) {
-        wmenu.addentry( i, true, 0, "%s", mon->second->name.c_str() );
+        wmenu.addentry( i, true, 0, "%s", mon->second->nname().c_str() );
         wmenu.entries[i].extratxt.txt = string_format("%c", mon->second->sym);
         wmenu.entries[i].extratxt.color = mon->second->color;
         wmenu.entries[i].extratxt.left = 1;

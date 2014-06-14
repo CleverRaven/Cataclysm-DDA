@@ -970,7 +970,7 @@ void item::deserialize(JsonObject &data)
     make(idtmp);
 
     if ( ! data.read( "name", name ) ) {
-        name = type->name;
+        name = type->nname(1);
     }
 
     data.read( "invlet", lettmp );
@@ -1062,7 +1062,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
         json.member( "item_vars", item_vars );
     }
 
-    if ( name != type->name ) {
+    if ( name != type->nname(1) ) {
         json.member( "name", name );
     }
 

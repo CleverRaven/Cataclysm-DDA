@@ -63,7 +63,8 @@ class item : public JsonSerializer, public JsonDeserializer
 public:
  item();
  item(const std::string new_type, unsigned int turn, bool rand = true );
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn); // Corpse
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
  item(std::string itemdata);
  item(JsonObject &jo);
  virtual ~item();
@@ -76,8 +77,8 @@ public:
 
     nc_color color(player *u) const;
     nc_color color_in_inventory();
-    std::string tname(unsigned int quantity = 1, bool with_prefix = true); // item name (includes damage, freshness, etc)
-    std::string display_name(unsigned int quantity = 1); // name for display (includes charges, etc)
+    std::string tname(unsigned int quantity = 1, bool with_prefix = true) const; // item name (includes damage, freshness, etc)
+    std::string display_name(unsigned int quantity = 1) const; // name for display (includes charges, etc)
     void use();
     bool burn(int amount = 1); // Returns true if destroyed
 
@@ -286,7 +287,9 @@ public:
 
  std::vector<item> contents;
 
+private:
  std::string name;
+public:
  char invlet;           // Inventory letter
  long charges;
  bool active;           // If true, it has active effects to be processed

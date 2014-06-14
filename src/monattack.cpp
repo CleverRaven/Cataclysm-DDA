@@ -1460,7 +1460,7 @@ void mattack::smg(monster *z)
     // Make sure our ammo isn't weird.
     if (z->ammo > 1000) {
         z->ammo = 1000;
-        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->type->name.c_str());
+        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->name().c_str());
     }
     int fire_t = 0;
 
@@ -1606,7 +1606,7 @@ void mattack::rifle_tur(monster *z)
     // Make sure our ammo isn't weird.
     if (z->ammo > 2000) {
         z->ammo = 2000;
-        debugmsg("Generated too much ammo (%d) for %s in mattack::rifle_tur", z->ammo, z->type->name.c_str());
+        debugmsg("Generated too much ammo (%d) for %s in mattack::rifle_tur", z->ammo, z->name().c_str());
     }
     int fire_t = 0;
 

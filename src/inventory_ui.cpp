@@ -301,11 +301,11 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             continue;
         }
         const item &it = *cur_entry.it;
-        std::string item_name = const_cast<item&>(it).display_name();
+        std::string item_name = it.display_name();
         if (cur_entry.slice != NULL) {
             const size_t count = cur_entry.slice->size();
             if (count > 1) {
-                item_name = string_format("%d %s", count, const_cast<item&>(it).display_name(count).c_str());
+                item_name = string_format("%d %s", count, it.display_name(count).c_str());
             }
         }
         nc_color name_color = const_cast<item&>(it).color_in_inventory();
@@ -362,7 +362,7 @@ void inventory_selector::print_right_column() const
         const char invlet = invlet_or_space(it);
         const int count = a->second;
         const nc_color col = const_cast<item&>(it).color_in_inventory();
-        std::string item_name = const_cast<item&>(it).display_name(count);
+        std::string item_name = it.display_name(count);
         if (stack.size() > 1) {
             item_name = string_format("%d %s", stack.size(), item_name.c_str());
         }

@@ -1517,7 +1517,7 @@ void game::activity_on_turn_game()
     }
     if(game_item.charges == 0) {
         u.activity.moves_left = 0;
-        add_msg(m_info, _("The %s runs out of batteries."), game_item.name.c_str());
+        add_msg(m_info, _("The %s runs out of batteries."), game_item.tname().c_str());
     }
 
     u.pause();
@@ -1545,7 +1545,7 @@ void game::activity_on_turn_vibe()
     }
     if (vibrator_item.charges == 0) {
         u.activity.moves_left = 0;
-        add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.name.c_str());
+        add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
     }
     if (u.fatigue >= 383) { // Dead Tired: different kind of relaxation needed
         u.activity.moves_left = 0;
@@ -3553,8 +3553,7 @@ void game::place_corpse()
 {
   std::vector<item *> tmp = u.inv_dump();
   item your_body;
-  your_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
-  your_body.name = u.name;
+  your_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn, u.name);
   for (int i = 0; i < tmp.size(); i++)
     m.add_item_or_charges(u.posx, u.posy, *(tmp[i]));
   for (int i = 0; i < u.num_bionics(); i++) {
@@ -4535,9 +4534,9 @@ void game::disp_kills()
         const mtype *m = MonsterGenerator::generator().get_mtype(kill->first);
         std::ostringstream buffer;
         buffer << "<color_" << string_from_color(m->color) << ">";
-        buffer << std::string(1, m->sym) << " " << m->name;
+        buffer << std::string(1, m->sym) << " " << m->nname();
         buffer << "</color>";
-        const int w = colum_width - utf8_width(m->name.c_str());
+        const int w = colum_width - utf8_width(m->nname().c_str());
         buffer.width(w - 3); // gap between cols, monster sym, space
         buffer.fill(' ');
         buffer << kill->second;
@@ -5873,7 +5872,7 @@ int game::mon_info(WINDOW *w)
             if (listed_mons.find(sbuff) == listed_mons.end()){
                 listed_mons.insert(sbuff);
 
-                std::string name = GetMType(sbuff)->name;
+                std::string name = GetMType(sbuff)->nname();
 
                 // Move to the next row if necessary. (The +2 is for the "Z ").
                 if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
@@ -5911,7 +5910,7 @@ void game::cleanup_dead()
         if( critter.dead || critter.hp <= 0 ) {
             dbg (D_INFO) << string_format( "cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                            i, critter.posx(), critter.posy(), (critter.dead?'1':'0'),
-                                           critter.hp, critter.type->name.c_str() );
+                                           critter.hp, critter.name().c_str() );
             critter.die(); // dies at the very end
             Creature* killer = critter.get_killer();
             if (killer != NULL && killer->is_player() && // killed by player and
@@ -10615,8 +10614,8 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                 item *i = *it;
                 std::ostringstream ss;
                 ss << string_format(_("%s from %s (%d)"),
-                                    i->contents[0].name.c_str(),
-                                    i->name.c_str(),
+                                    i->contents[0].tname().c_str(),
+                                    i->type->nname(1).c_str(),
                                     i->contents[0].charges);
                 choices.push_back(ss.str());
             }
@@ -10626,7 +10625,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         if(choice > -1) {
             u.wield_contents(holsters[choice], true, _("pistol"), 13);
             u.add_msg_if_player(_("You pull your %s from its %s and ready it to fire."),
-                                u.weapon.name.c_str(), holsters[choice]->name.c_str());
+                                u.weapon.tname().c_str(), holsters[choice]->type->nname(1).c_str());
             if(u.weapon.charges <= 0) {
                 u.add_msg_if_player(_("... but it's empty!"));
                 return;
@@ -10699,8 +10698,8 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                 item *i = *it;
                 std::ostringstream ss;
                 ss << string_format(_("%s from %s (%d)"),
-                                    i->contents[0].name.c_str(),
-                                    i->name.c_str(),
+                                    i->contents[0].tname().c_str(),
+                                    i->type->nname(1).c_str(),
                                     i->contents[0].charges);
                 choices.push_back(ss.str());
             }
@@ -10716,11 +10715,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             if(archery <= 2 && one_in(10)) {
                 u.moves -= 30;
                 u.add_msg_if_player(_("You try to pull a %s from your %s, but fail!"),
-                                    arrows.name.c_str(), worn->name.c_str());
+                                    arrows.tname().c_str(), worn->type->nname(1).c_str());
                 return;
             }
             u.add_msg_if_player(_("You pull a %s from your %s and nock it."),
-                                arrows.name.c_str(), worn->name.c_str());
+                                arrows.tname().c_str(), worn->type->nname(1).c_str());
             reload_pos = u.get_item_position(worn);
         }
     }
@@ -10878,7 +10877,7 @@ void game::butcher()
                 }
             }
             if (it.corpse != NULL) {
-                kmenu.addentry(i, true, hotkey, corpse->name);
+                kmenu.addentry(i, true, hotkey, corpse->nname());
             } else {
                 kmenu.addentry(i, true, hotkey, it.tname());
             }
@@ -11000,7 +10999,7 @@ void game::complete_butcher(int index)
 
     if ((corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER) ||
          corpse->has_flag(MF_CHITIN)) && skins > 0) {
-        add_msg(m_good, _("You manage to skin the %s!"), corpse->name.c_str());
+        add_msg(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
         int fur = 0;
         int leather = 0;
         int chitin = 0;
@@ -11046,7 +11045,7 @@ void game::complete_butcher(int index)
     if( corpse->has_flag(MF_CBM_CIV) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
         if( skill_shift >= 0 ) {
-            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->name.c_str());
+            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
             //To see if it spawns a battery
             if( rng(0, 1) == 1 ) { //The battery works
                 m.spawn_item( u.posx, u.posy, "bio_power_storage", 1, 0, age );
@@ -11069,7 +11068,7 @@ void game::complete_butcher(int index)
     if( corpse->has_flag(MF_CBM_SCI) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
         if( skill_shift >= 0 ) {
-            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->name.c_str());
+            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
             //To see if it spawns a battery
             if( rng(0, 1) == 1 ) { //The battery works
                 m.spawn_item( u.posx, u.posy, "bio_power_storage", 1, 0, age );
@@ -11092,7 +11091,7 @@ void game::complete_butcher(int index)
     if( corpse->has_flag(MF_CBM_OP) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
         if( skill_shift >= 0 ) {
-            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->name.c_str());
+            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
             //To see if it spawns a battery
             if( rng(0, 1) == 1 ) { //The battery works
                 m.spawn_item( u.posx, u.posy, "bio_power_storage_mkII", 1, 0, age );
@@ -11117,11 +11116,11 @@ void game::complete_butcher(int index)
         if( skill_shift >= 0 ) {
             //To see if it spawns a battery
             if(one_in(3)){ //The battery works 33% of the time.
-                add_msg(m_good, _("You discover a power storage in the %s!"), corpse->name.c_str());
+                add_msg(m_good, _("You discover a power storage in the %s!"), corpse->nname().c_str());
                 m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
             } else {//There is a burnt out CBM
                 add_msg(m_good, _("You discover a fused lump of bio-circuitry in the %s!"),
-                        corpse->name.c_str());
+                        corpse->nname().c_str());
                 m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
             }
         }
@@ -11131,7 +11130,7 @@ void game::complete_butcher(int index)
  // Recover hidden items
  for (size_t i = 0; i < contents.size(); i++) {
    if ((skill_shift + 10) * 5 > rng(0,100)) {
-     add_msg(m_good, _("You discover a %s in the %s!"), contents[i].tname().c_str(), corpse->name.c_str());
+     add_msg(m_good, _("You discover a %s in the %s!"), contents[i].tname().c_str(), corpse->nname().c_str());
      m.add_item_or_charges(u.posx, u.posy, contents[i]);
    } else if (contents[i].is_bionic()){
      m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);

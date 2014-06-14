@@ -1357,7 +1357,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
     // Finally, print the item list on the right
     for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < items->size(); i++) {
         mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
-                  itypes[ (*items)[i] ]->name.c_str());
+                  itypes[ (*items)[i] ]->nname((*counts)[i]).c_str());
         wprintz(w, c_white, " x %2d", (*counts)[i]);
         if ((*counts)[i] > 0) {
             int price = caravan_price(g->u, itypes[(*items)[i]]->price * (*counts)[i]);
