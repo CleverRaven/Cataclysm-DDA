@@ -200,6 +200,8 @@ void MonsterGenerator::init_attack()
     attack_map["BITE"] = &mattack::bite;
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
+    attack_map["LUNGE"] = &mattack::lunge;
+    attack_map["LONGSWIPE"] = &mattack::longswipe;
     attack_map["PARROT"] = &mattack::parrot;
     attack_map["DARKMAN"] = &mattack::darkman;
     attack_map["SLIMESPRING"] = &mattack::slimespring;
