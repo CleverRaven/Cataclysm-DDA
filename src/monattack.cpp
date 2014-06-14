@@ -2013,7 +2013,7 @@ void mattack::lunge(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You sidestep it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill*2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -2025,7 +2025,7 @@ void mattack::lunge(monster *z)
     (g->u.wearing_something_on(bp_feet))) && (!(g->u.is_throw_immune())) ) {
         g->u.add_effect("downed", 30);
     }
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::longswipe(monster *z)
@@ -2046,7 +2046,7 @@ void mattack::longswipe(monster *z)
             int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
             if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
                 add_msg(_("You evade it!"));
-                g->u.practice(calendar::turn, "dodge", z->type->melee_skill*2);
+                g->u.practice( "dodge", z->type->melee_skill * 2 );
                 g->u.ma_ondodge_effects();
                 return;
             }
@@ -2054,7 +2054,7 @@ void mattack::longswipe(monster *z)
             int dam = rng(3, 7), side = random_side(hit);
             add_msg(m_bad, _("Your %s is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
             g->u.hit(z, hit, side, dam, 0);
-            g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+            g->u.practice( "dodge", z->type->melee_skill );
         }
         return;
     }
@@ -2068,7 +2068,7 @@ void mattack::longswipe(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You duck!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill*2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -2076,8 +2076,9 @@ void mattack::longswipe(monster *z)
     int dam = rng(6, 10), side = random_side(hit);
     add_msg(m_bad, _("Your throat is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
+
 
 void mattack::parrot(monster *z)
 {
