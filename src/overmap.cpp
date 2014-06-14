@@ -1923,7 +1923,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     ictxt.register_action("QUIT");
     std::string action;
     do {
-        timeout(BLINK_SPEED); // Enable blinking!
+        timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
         draw(w_map, curs, orig, blink, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
@@ -2004,7 +2004,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                 mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
                 wrefresh(w_search);
-                timeout(BLINK_SPEED); // Enable blinking!
+                timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
                 action = ctxt.handle_input();
                 timeout(-1);
                 blink = !blink;

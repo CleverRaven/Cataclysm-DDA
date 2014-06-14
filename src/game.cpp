@@ -6341,7 +6341,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     std::vector<point> traj;
     timespec ts;
     ts.tv_sec = 0;
-    ts.tv_nsec = BULLET_SPEED; // Reset for animation of bullets
+    ts.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
     for (int i = 0; i < shrapnel; i++) {
         sx = rng(x - 2 * radius, x + 2 * radius);
         sy = rng(y - 2 * radius, y + 2 * radius);
@@ -8674,8 +8674,7 @@ void game::zones_manager()
             }
 
             wrefresh(w_terrain);
-
-            inp_mngr.set_timeout(500);
+            inp_mngr.set_timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
         } else {
             inp_mngr.set_timeout(-1);
         }
@@ -8863,7 +8862,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         wrefresh(w_terrain);
 
         if (bSelectZone && bHasFirstPoint) {
-            inp_mngr.set_timeout(500);
+            inp_mngr.set_timeout( OPTIONS["ANIMATION_DELAY"] * BLINK_MULTIPLIER );
         }
 
         //Wait for input
