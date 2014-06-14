@@ -5209,7 +5209,7 @@
             ],
 			"place_groups": [
 			    { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 },
-			    { "item": "lmoe_guns", "chance": 70, "x": [ 9,11 ], "y": [ 22,22 ]},
+			    { "item": "lmoe_guns", "chance": 10, "x": [ 9,9 ], "y": [ 22,22 ]},
                 { "item": "office", "chance": 70, "x": [ 9,11 ], "y": [ 22,22 ]},
                 { "item": "church", "chance": 70, "x": [ 1,2 ], "y": [ 19,19 ]},
                 { "item": "homebooks", "chance": 70, "x": [ 7,8 ], "y": [ 19,19 ]},
