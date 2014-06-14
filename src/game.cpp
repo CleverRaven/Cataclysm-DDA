@@ -2624,7 +2624,7 @@ input_context game::get_player_input(std::string &action)
                 #ifdef TILES
                 if (!use_tiles) {
                 #endif
-                    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+                    for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
                         //Erase previous text from w_terrain
                         if (iter->getStep() > 0) {
                             for (size_t i = 0; i < iter->getText().length(); ++i) {
@@ -2637,8 +2637,10 @@ input_context game::get_player_input(std::string &action)
                                              u.posx + u.view_offset_x,
                                              u.posy + u.view_offset_y);
                                 } else {
-                                    const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
-                                    const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+                                    const int iDY = POSY + (iter->getPosY() -
+                                                            (u.posy + u.view_offset_y));
+                                    const int iDX = POSX + (iter->getPosX() -
+                                                            (u.posx + u.view_offset_x));
 
                                     if (u.has_disease("boomered")) {
                                         mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
@@ -2657,7 +2659,7 @@ input_context game::get_player_input(std::string &action)
                 SCT.advanceAllSteps();
 
                 //Check for creatures on all drawing positions and offset if necessary
-                for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
+                for( auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter ) {
                     const direction oCurDir = iter->getDirecton();
 
                     for (int i=0; i < iter->getText().length(); ++i) {
@@ -2667,8 +2669,9 @@ input_context game::get_player_input(std::string &action)
                             i = -1;
 
                             int iPos = iter->getStep() + iter->getStepOffset();
-                            for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
-                                if (iter2->getDirecton() == oCurDir && iter2->getStep() + iter2->getStepOffset() <= iPos) {
+                            for( auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2 ) {
+                                if( iter2->getDirecton() == oCurDir &&
+                                    iter2->getStep() + iter2->getStepOffset() <= iPos ) {
                                     if (iter2->getType() == "hp") {
                                         iter2->advanceStepOffset();
                                     }

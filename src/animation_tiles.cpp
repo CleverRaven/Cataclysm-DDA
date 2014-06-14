@@ -21,16 +21,16 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
         if (use_tiles) {
             tilecontext->init_explosion(x, y, i);
         } else {
-        mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
-        mvwputch(w_terrain, ypos - i, xpos + i, col, '\\');
-        mvwputch(w_terrain, ypos + i, xpos - i, col, '\\');
-        mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
-        for (int j = 1 - i; j < 0 + i; j++) {
-            mvwputch(w_terrain, ypos - i, xpos + j, col, '-');
-            mvwputch(w_terrain, ypos + i, xpos + j, col, '-');
-            mvwputch(w_terrain, ypos + j, xpos - i, col, '|');
-            mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
-        }
+            mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
+            mvwputch(w_terrain, ypos - i, xpos + i, col, '\\');
+            mvwputch(w_terrain, ypos + i, xpos - i, col, '\\');
+            mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
+            for (int j = 1 - i; j < 0 + i; j++) {
+                mvwputch(w_terrain, ypos - i, xpos + j, col, '-');
+                mvwputch(w_terrain, ypos + i, xpos + j, col, '-');
+                mvwputch(w_terrain, ypos + j, xpos - i, col, '|');
+                mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
+            }
         }
 
         wrefresh(w_terrain);
