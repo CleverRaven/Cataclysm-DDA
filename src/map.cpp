@@ -2463,6 +2463,7 @@ void map::i_rem(const int x, const int y, item* it)
         //delete the item if the pointer memory addresses are the same
         if(it == &*iter) {
             map_items.erase(iter);
+            break;
         }
     }
 }
