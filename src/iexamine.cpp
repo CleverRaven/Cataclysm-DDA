@@ -1802,6 +1802,11 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         return;
     }
     const struct trap& t = *traplist[tid];
+    const int possible = t.get_difficulty();
+    if ( (t.can_see(*p, examx, examy)) && (possible == 99) ) {
+        add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
+        return;
+    }
     if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
