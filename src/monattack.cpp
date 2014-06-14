@@ -2023,7 +2023,7 @@ void mattack::lunge(monster *z)
     g->u.hit(z, hit, side, dam, 0);
     if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
     (g->u.wearing_something_on(bp_feet))) && (!(g->u.is_throw_immune())) ) {
-        g->u.add_effect("downed", 30);
+        g->u.add_effect("downed", 3);
     }
     g->u.practice( "dodge", z->type->melee_skill );
 }
@@ -2076,6 +2076,7 @@ void mattack::longswipe(monster *z)
     int dam = rng(6, 10), side = random_side(hit);
     add_msg(m_bad, _("Your throat is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
+    g->u.add_disease("bleed", 100, false, 1, 1, 0, -1, hit, side, true);
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
