@@ -1977,6 +1977,18 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
     }
 }
 
+void iexamine::sign(player *p, map *m, int examx, int examy)
+{
+    (void)g; //unused
+    std::string words = m->get_signage(examx, examy);
+    if (words.size()) {
+        popup(_(words.c_str()));
+    } else {
+        popup(_("Just a test for an empty sign."));
+        p->add_msg_if_player(_("Nothing legible on the sign."));
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2135,6 +2147,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if( "curtains" == function_name ) {
       return &iexamine::curtains;
+  }
+  if( "sign" == function_name ) {
+      return &iexamine::sign;
   }
 
   //No match found
