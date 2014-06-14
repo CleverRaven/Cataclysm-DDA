@@ -2454,6 +2454,40 @@ void map::i_rem(const int x, const int y, const int index)
  i_at(x, y).erase(i_at(x, y).begin() + index);
 }
 
+void map::i_rem(const int x, const int y, item* it)
+{
+    std::vector<item>& map_items = i_at(x, y);
+
+    for(auto iter = map_items.begin(); iter < map_items.end(); iter++)
+    {
+        //delete the item if the pointer memory addresses are the same
+        if(it == &*iter) {
+            map_items.erase(iter);
+        }
+    }
+
+}
+
+void map::i_rem_stack(const int x, const int y, const int index)
+{
+    itemslice stacks = i_stacked(i_at(x, y));
+
+    //remove each item in selected stack from map
+    //stacks[index].erase(stacks[index].begin(), stacks[index].end());
+
+    std::list<item *> stackToDel = stacks[index];
+    //stackToDel.erase(stackToDel.begin(), stackToDel.end());
+
+    //for (unsigned i = 0; i < stackToDel.size(); i++) {
+//    for(auto it = stackToDel.begin(); it != stackToDel.end(); ++it)
+//    {
+//        //remove the item and nullify pointer
+//        delete *it;
+//        *it = nullptr;
+//    }
+
+}
+
 void map::i_clear(const int x, const int y)
 {
  i_at(x, y).clear();
