@@ -1563,7 +1563,7 @@ void advanced_inventory::display(player *pp)
                         it->charges -= trycharges;
                     } else {
                         if (panes[src].vstor >= 0) {
-                            panes[src].veh->remove_item (panes[src].vstor, item_pos);
+                            panes[src].veh->remove_item (panes[src].vstor, it);
                         } else {
                             m.i_rem(u.posx + panes[src].offx, u.posy + panes[src].offy, it);
                         }
