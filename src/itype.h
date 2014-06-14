@@ -79,7 +79,8 @@ struct explosion_data {
 };
 
 struct itype {
-    itype_id id; // ID # that matches its place in master itype list
+    itype_id id; // unique string identifier for this item,
+    // can be used as lookup key in master itype map
     // Used for save files; aligns to itype_id above.
     unsigned int  price; // Its value
 
