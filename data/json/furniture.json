@@ -10,6 +10,31 @@
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"]
     },{
         "type" : "furniture",
+        "id" : "f_barricade_road",
+        "name": "road barricade",
+        "symbol": "#",
+        "bgcolor": "yellow",
+        "move_cost_mod": 3,
+        "required_str": 5,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "amount": 6 },
+                { "item": "nail", "amount": 8, "minamount": 6 }
+            ]
+        },
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 2},
+                { "item": "nail", "amount": 12, "minamount": 4},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_bulletin",
         "name": "bulletin board",
         "symbol": "6",
@@ -1096,6 +1121,45 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_robotic_arm",
+        "name": "road barricade",
+        "symbol": "&",
+        "bgcolor": "yellow",
+        "move_cost_mod": 3,
+        "required_str": 18,
+        "flags": ["TRANSPARENT", "MOUNTABLE"],
+        "deconstruct": {
+            "items": [
+                { "item": "processor", "amount": 1, "chance": 75},
+                { "item": "RAM", "amount": 1, "chance": 80},
+                { "item": "power_supply", "amount": 1, "chance": 70},
+                { "item": "amplifier", "amount": 1, "chance": 90},
+                { "item": "steel_chunk", "amount": 4, "minamount": 1},
+                { "item": "spring", "amount": 1, "chance": 80},
+                { "item": "steel_lump", "amount": 1, "chance": 60},
+                { "item": "sheet_metal", "amount": 1, "chance": 50},
+                { "item": "motor", "amount": 1, "chance": 60}
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "thunk.",
+            "items": [
+                { "item": "processor", "amount": 1, "chance": 15},
+                { "item": "RAM", "amount": 1, "chance": 30},
+                { "item": "power_supply", "amount": 1, "chance": 50},
+                { "item": "amplifier", "amount": 1, "chance": 70},
+                { "item": "steel_chunk", "amount": 3, "minamount": 1},
+                { "item": "spring", "amount": 1, "chance": 80},
+                { "item": "steel_lump", "amount": 1, "chance": 50},
+                { "item": "sheet_metal", "amount": 1, "chance": 30},
+                { "item": "scrap", "amount": 5, "minamount": 2},
+                { "item": "motor", "amount": 1, "chance": 30}
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_wood_keg",
         "name": "wooden keg",
         "symbol": "H",
@@ -1189,11 +1253,6 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "anvil",
-        "deconstruct": {
-            "items": [
-                { "item": "anvil", "amount": 1 }
-            ]
-        },
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
         "type" : "furniture",
@@ -1285,7 +1344,7 @@
                 { "item": "power_supply", "amount": 1, "minamount": 0 },
                 { "item": "RAM", "amount": 2, "minamount": 0}
            ]
-        }		
+        }
    },{
         "type" : "furniture",
         "id" : "f_pinball_machine",
@@ -1427,5 +1486,5 @@
         "move_cost_mod": 2,
         "required_str": 9,
         "flags": ["TRANSPARENT", "PLACE_ITEM"]
-    }	
+    }
 ]

@@ -2,7 +2,6 @@
 #include "color.h"
 #include "init.h"
 #include "item_factory.h"
-#include "game_constants.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;
@@ -367,7 +366,7 @@ ter_id t_null,
     t_bridge,
     t_covered_well,
     // Lighting related
-    t_skylight, t_emergency_light_flicker, t_emergency_light,
+    t_skylight, t_emergency_light_flicker, t_emergency_light, t_utility_light,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
@@ -419,6 +418,7 @@ ter_id t_null,
     t_vat,
     t_cvdbody, t_cvdmachine,
     t_water_pump,
+    t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -470,6 +470,7 @@ void set_ter_ids() {
     t_skylight=terfind("t_skylight");
     t_emergency_light_flicker=terfind("t_emergency_light_flicker");
     t_emergency_light=terfind("t_emergency_light");
+    t_utility_light=terfind("t_utility_light");
     t_wall_log_half=terfind("t_wall_log_half");
     t_wall_log=terfind("t_wall_log");
     t_wall_log_chipped=terfind("t_wall_log_chipped");
@@ -651,6 +652,11 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_conveyor=terfind("t_conveyor");
+    t_machinery_light=terfind("t_machinery_light");
+    t_machinery_heavy=terfind("t_machinery_heavy");
+    t_machinery_old=terfind("t_machinery_old");
+    t_machinery_electronic=terfind("t_machinery_electronic");
     num_terrain_types = terlist.size();
 };
 
@@ -664,6 +670,7 @@ furn_id furnfind(const std::string & id) {
 
 furn_id f_null,
     f_hay,
+    f_barricade_road,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
     f_bed, f_toilet, f_makeshift_bed,
@@ -682,6 +689,7 @@ furn_id f_null,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
+    f_robotic_arm,
     f_wood_keg,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_floor_canvas,
@@ -690,6 +698,7 @@ furn_id f_null,
 void set_furn_ids() {
     f_null=furnfind("f_null");
     f_hay=furnfind("f_hay");
+    f_barricade_road=furnfind("f_barricade_road");
     f_bulletin=furnfind("f_bulletin");
     f_indoor_plant=furnfind("f_indoor_plant");
     f_indoor_plant_y=furnfind("f_indoor_plant_y");
@@ -752,6 +761,7 @@ void set_furn_ids() {
     f_plant_harvest=furnfind("f_plant_harvest");
     f_fvat_empty=furnfind("f_fvat_empty");
     f_fvat_full=furnfind("f_fvat_full");
+    f_robotic_arm=furnfind("f_robotic_arm");
     f_wood_keg=furnfind("f_wood_keg");
     f_statue=furnfind("f_statue");
     f_egg_sackbw=furnfind("f_egg_sackbw");
