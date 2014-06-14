@@ -30,6 +30,25 @@
        	 		{ "monster" : "mon_irradiated_wanderer_2", "freq" : 5, "cost_multiplier" : 1 }
         	]
     },{
+    		"type" : "item_group",
+    		"id" : "vault_survival",
+    		"items" : [
+                ["mask_filter", 20],
+                ["battery", 15],
+                ["radio", 10],
+                ["bandages", 10],
+                ["knife_combat", 20],
+                ["vest", 15],
+                ["9mm", 100],
+                ["cleansuit", 20],
+                ["rad_monitor", 10],
+                ["geiger_off", 10],
+                ["tool_belt", 15],
+                ["m4a1", 45],
+                ["m9", 45],
+                ["556", 100]
+        	]
+   	},{
 		"type" : "mapgen",
 		"om_terrain" : ["necropolis_b_1"],
 		"method": "json",
@@ -2061,6 +2080,8 @@
 				".........   ........gr;;"
 			],
 			"place_groups": [
+				{ "item": "vault_survival", "chance": 85, "x": [ 21,21], "y": [ 20,23 ]},
+				{ "item": "vault_survival", "chance": 85, "x": [ 22,23], "y": [ 20,20 ]},
 			    { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
 			],
 			"terrain": {
@@ -2174,8 +2195,8 @@
 			],
 			"place_groups": [
                 { "vehicle": "humvee", "x": 18, "y": 22, "rotation": 270, "chance": 100},
-				{ "item": "survivorweapons", "chance": 90, "x": [ 18,20], "y": [ 20,23 ]},
-				{ "item": "survivorweapons", "chance": 90, "x": [ 5,6], "y": [ 22,23 ]},
+				{ "item": "survivorweapons", "chance": 30, "x": [ 18,20], "y": [ 20,23 ]},
+				{ "item": "survivorweapons", "chance": 50, "x": [ 5,6], "y": [ 22,23 ]},
 			    { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
 			],
 			"terrain": {
@@ -3070,6 +3091,8 @@
 				".....                  ."
 			],
 			"place_groups": [
+				{ "item": "vault_survival", "chance": 85, "x": [ 21,21], "y": [ 0,3 ]},
+				{ "item": "vault_survival", "chance": 85, "x": [ 22,23], "y": [ 3,3 ]},
 				{ "item": "cannedfood", "chance": 90, "x": [ 15,16], "y": [ 21,22 ]},
 			    { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
 			],
@@ -3298,7 +3321,7 @@
 				"{{.....2............33  "
 			],
 			"place_groups": [
-				{ "item": "consumer_electronics", "chance": 90, "x": [ 3,3], "y": [ 4,5 ]},
+				{ "item": "consumer_electronics", "chance": 70, "x": [ 3,3], "y": [ 4,5 ]},
 			    { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
 			],
 			"terrain": {
