@@ -29,7 +29,11 @@
         "762_54R",
         "32_casing",
         "flintlock_ammo",
-        "762R_casing"
+        "32_acp",
+        "762_25",
+        "762R_casing",
+        "reloaded_32_acp",
+        "reloaded_762_54R"
     ]
 }
 ]
