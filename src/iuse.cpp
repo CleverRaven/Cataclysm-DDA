@@ -732,11 +732,11 @@ int iuse::alcohol_strong(player *p, item *it, bool)
 /**
  * Entry point for intentional bodily intake of smoke via paraphernalia: pipe,
  * crack pipe, etc.
- * 
+ *
  * @param p
  * @param it the apparatus with which to do the smoking.
- * @param 
- * @return 
+ * @param
+ * @return
  */
 int iuse::smoking_pipe(player *p, item *it, bool)
 {
@@ -949,7 +949,7 @@ int iuse::antibiotic(player *p, item *it, bool)
         if (one_in(3)) {
         p->rem_disease("tetanus");
         p->add_msg_if_player(m_good, _("The muscle spasms start to go away."));
-        } 
+        }
         else {
         p->add_msg_if_player(m_warning, _("The medication does nothing to help the spasms."));
         }
@@ -4059,7 +4059,7 @@ int iuse::circsaw_on(player *p, item *it, bool t)
   it->make("circsaw_off");
   it->active = false;
  }
- return it->type->charges_to_use();
+ return 0;
 }
 
 int iuse::shishkebab_off(player *p, item *it, bool)
