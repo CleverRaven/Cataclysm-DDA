@@ -342,7 +342,7 @@ bool monster::can_hear()
  return has_flag(MF_HEARS) && !has_effect("deaf");
 }
 
-bool monster::can_submerge()
+bool monster::can_submerge() const
 {
   return (has_flag(MF_NO_BREATHE) || has_flag(MF_SWIMS) || has_flag(MF_AQUATIC))
           && !has_flag(MF_ELECTRONIC);
@@ -623,7 +623,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers)
 }
 
 bool monster::is_underwater() const {
-    return false; //TODO: actually make this work
+    return can_submerge();
 }
 
 bool monster::is_on_ground() {
