@@ -7931,8 +7931,7 @@ void game::open_gate( const int examx, const int examy, const ter_id handle_type
  }else{
     g->u.moves -= 900;
     }
- bool open = false;
- bool close = false;
+
  bool open = false;
  bool close = false;
 
