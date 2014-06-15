@@ -13018,6 +13018,7 @@ void game::spawn_mon(int shiftx, int shifty)
      MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,
          &group, (int)calendar::turn);
      zom = monster(GetMType(spawn_details.name));
+     if (spawn_details.name == "mon_null") {cur_om->zg[i].population++;}
      for (int kk = 0; kk < spawn_details.pack_size; kk++){
        iter = 0;
        do {
