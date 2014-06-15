@@ -364,6 +364,7 @@ void add_corpse(int x, int y);
  // Signs
  const std::string get_signage(const int x, const int y) const;
  void set_signage(const int x, const int y, std::string& message) const;
+ void delete_signage(const int x, const int y) const;
  
  // Radiation
  int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
