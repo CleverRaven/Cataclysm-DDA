@@ -29,6 +29,26 @@ function generate_metatable(name)
                     if not attribute.writable then
                         error("Attempting to set read-only item attribute: "..key)
                     end
+
+                    -- convert our generic type from the wrapper definition to an
+                    -- actual lua type
+                    local attribute_type = attribute.type
+                    if attribute_type == "int" then
+                        attribute_type = "number"
+                    elseif attribute_type == "bool" then
+                        attribute_type = "boolean"
+                    elseif attribute_type == "string" then
+                        attribute_type = "string"
+                    else
+                        -- otherwise it's probably a wrapped class,
+                        -- so we expect a userdata
+                        attribute_type = "userdata"
+                    end
+
+                    if type(value) ~= attribute_type then
+                        error("Invalid value for "..name.."."..key..": "..tostring(value), 2)
+                    end
+
                     return game[name.."_set_"..key](userdata, value)
                 else
                     current_name = class.parent

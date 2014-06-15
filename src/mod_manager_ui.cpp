@@ -80,14 +80,14 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
         note = newnote.str();
     }
     std::vector<std::string> dependencies = mod->dependencies;
+    std::vector<std::string> authors = mod->authors;
     std::string dependency_string = "";
-    if (dependencies.empty()) {
-        dependency_string = _("[NONE]");
-    } else {
+    if (!dependencies.empty()) {
         DebugLog() << mod->name << " Dependencies --";
         for (int i = 0; i < dependencies.size(); ++i) {
             if (i > 0) {
-                dependency_string += ", ";
+                //~ delimeter for mod dependency enumeration
+                dependency_string += pgettext("mod manager",", ");
             }
             DebugLog() << "\t" << dependencies[i];
             if (active_manager->mod_map.find(dependencies[i]) != active_manager->mod_map.end()) {
@@ -98,9 +98,25 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
         }
         DebugLog() << "\n";
     }
-    info << _("Author(s): ") << mod->author << "\n";
-    info << _("Description: ") << mod->description << "\n";
-    info << _("Dependencies: ") << dependency_string << "\n";
+    std::string author_string = "";
+    if (!authors.empty()) {
+        for (int i = 0; i < authors.size(); ++i) {
+            if (i > 0) {
+                //~ delimeter for mod author enumeration
+                author_string += pgettext("mod manager",", ");
+            }
+            author_string += authors[i];
+        }
+        info << string_format(ngettext("Author: %s\n","Authors: %s\n",authors.size()), author_string.c_str());
+    } else {
+        info << _("Authors: [UNKNOWN]\n");
+    }
+
+    if(!dependencies.empty()) {
+        info << string_format(ngettext("Dependency: %s\n","Dependencies: %s\n",dependencies.size()), dependency_string.c_str());
+    } else {
+        info << _("Dependencies: [NONE]\n");
+    }
     if (mod->_type == MT_SUPPLEMENTAL && !note.empty()) {
         info << note;
     }

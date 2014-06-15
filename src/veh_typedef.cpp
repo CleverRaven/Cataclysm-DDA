@@ -118,38 +118,53 @@ void game::load_vehiclepart(JsonObject &jo)
     }
 
     //Calculate and cache z-ordering based off of location
+    // list_order is used when inspecting the vehicle
     if(next_part.location == "on_roof") {
         next_part.z_order = 9;
+        next_part.list_order = 3;
     } else if(next_part.location == "on_cargo") {
         next_part.z_order = 8;
+        next_part.list_order = 6;
     } else if(next_part.location == "center") {
         next_part.z_order = 7;
+        next_part.list_order = 7;
     } else if(next_part.location == "under") {
         //Have wheels show up over frames
         next_part.z_order = 6;
+        next_part.list_order = 10;
     } else if(next_part.location == "structure") {
         next_part.z_order = 5;
+        next_part.list_order = 1;
     } else if(next_part.location == "engine_block") {
         //Should be hidden by frames
         next_part.z_order = 4;
+        next_part.list_order = 8 ;
     } else if(next_part.location == "fuel_source") {
         //Should be hidden by frames
         next_part.z_order = 3;
+        next_part.list_order = 9;
     } else if(next_part.location == "roof") {
         //Shouldn't be displayed
         next_part.z_order = -1;
+        next_part.list_order = 4;
     } else if(next_part.location == "armor") {
         //Shouldn't be displayed (the color is used, but not the symbol)
         next_part.z_order = -2;
+        next_part.list_order = 2;
     } else {
         //Everything else
         next_part.z_order = 0;
+        next_part.list_order = 5;
     }
 
-    next_part.loadid = vehicle_part_int_types.size();
-
+    if (vehicle_part_types.count(next_part.id) > 0) {
+        next_part.loadid = vehicle_part_types[next_part.id].loadid;
+        vehicle_part_int_types[next_part.loadid] = next_part;
+    } else {
+        next_part.loadid = vehicle_part_int_types.size();
+        vehicle_part_int_types.push_back(next_part);
+    }
     vehicle_part_types[next_part.id] = next_part;
-    vehicle_part_int_types.push_back(next_part);
 }
 
 void game::reset_vehicleparts()
@@ -249,6 +264,10 @@ void game::finalize_vehicles()
             part_y = p.y;
 
             part_id = proto->parts[i].second;
+            if (vehicle_part_types.count(part_id) == 0) {
+                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), proto->id.c_str());
+                continue;
+            }
 
             if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
                 debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
@@ -265,8 +284,20 @@ void game::finalize_vehicles()
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                          proto->name.c_str(), proto->item_spawns[i].x, proto->item_spawns[i].y, proto->item_spawns[i].chance);
             }
-            next_vehicle->item_spawns.push_back(proto->item_spawns[i]);
+            for (int j = 0; j < proto->item_spawns[i].item_ids.size(); j++) {
+                const std::string &itm = proto->item_spawns[i].item_ids[j];
+                if (!item_controller->has_template(itm)) {
+                    debugmsg("unknown item %s in spawn list of %s", itm.c_str(), proto->id.c_str());
+                }
+            }
+            for (int j = 0; j < proto->item_spawns[i].item_groups.size(); j++) {
+                const std::string &itm = proto->item_spawns[i].item_groups[j];
+                if (!item_controller->has_group(itm)) {
+                    debugmsg("unknown item group %s in spawn list of %s", itm.c_str(), proto->id.c_str());
+                }
+            }
         }
+        next_vehicle->item_spawns = proto->item_spawns;
 
         if (vtypes.count(next_vehicle->type) > 0) {
             delete vtypes[next_vehicle->type];

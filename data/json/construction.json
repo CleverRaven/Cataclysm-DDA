@@ -139,7 +139,7 @@
         "difficulty" : 1,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 3 ] ],
@@ -153,7 +153,7 @@
         "difficulty" : 1,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -167,7 +167,7 @@
         "difficulty" : 1,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 8 ] ],
@@ -181,7 +181,7 @@
         "difficulty" : 2,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -195,7 +195,7 @@
         "difficulty" : 2,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "log", 1 ] ],
@@ -211,7 +211,7 @@
         "time" : 8,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
-              "hatchet", "nailgun", "toolset" ]
+              "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -225,7 +225,7 @@
         "difficulty" : 5,
         "time" : 30,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 12 ] ],
@@ -239,7 +239,7 @@
         "difficulty" : 2,
         "time" : 15,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 6 ] ],
@@ -254,7 +254,7 @@
         "time" : 5,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
-              "hatchet", "nailgun", "toolset" ]
+              "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -269,7 +269,7 @@
         "time" : 5,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
-              "hatchet", "nailgun", "toolset" ]
+              "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -284,7 +284,7 @@
         "time" : 10,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
-              "hatchet", "nailgun", "toolset" ]
+              "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 8 ] ],
@@ -296,9 +296,9 @@
         "type" : "construction",
         "description" : "Reinforce Boarded Up Empty Window",
         "difficulty" : 5,
-        "time" : 30,
+        "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 8 ] ],
@@ -312,7 +312,7 @@
         "difficulty" : 7,
         "time" : 30,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "spike", 4 ] ],
@@ -324,10 +324,10 @@
         "type" : "construction",
         "description" : "Armor Reinforced Boarded Up Empty Window",
         "difficulty" : 7,
-        "time" : 10,
+        "time" : 30,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
-              "hatchet", "nailgun", "toolset" ]
+              "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "spike", 4 ] ],
@@ -342,7 +342,7 @@
         "time" : 10,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
-              "hatchet", "nailgun", "toolset" ]
+              "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -357,7 +357,7 @@
         "difficulty" : 2,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 10 ] ],
@@ -371,7 +371,7 @@
         "difficulty" : 2,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 10 ] ],
@@ -385,7 +385,7 @@
         "difficulty" : 2,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 10 ] ],
@@ -441,7 +441,7 @@
         "difficulty" : 6,
         "time" : 90,
         "tools" : [
-            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolset" ]
+            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "rock", 12 ] ]
@@ -454,7 +454,7 @@
         "difficulty" : 6,
         "time" : 90,
         "tools" : [
-            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolset" ]
+            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "rock", 12 ] ]
@@ -493,7 +493,7 @@
         "difficulty" : 2,
         "time" : 10,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 15 ], [ "log", 2 ] ],
@@ -517,7 +517,7 @@
         "difficulty" : 2,
         "time" : 5,
         "tools" : [
-            [ "saw" ]
+            [ "saw", "toolbox" ]
         ],
         "components" : [
             [ [ "nail", 4 ] ],
@@ -533,7 +533,7 @@
         "difficulty" : 2,
         "time" : 15,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 12 ] ],
@@ -547,7 +547,7 @@
         "difficulty" : 2,
         "time" : 15,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -561,8 +561,8 @@
         "difficulty" : 9,
         "time" : 15,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolset"],
-            [ "hacksaw" ]
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset"],
+            [ "hacksaw", "toolbox" ]
         ],
         "components" : [
             [ [ "spike", 8 ] ],
@@ -576,9 +576,9 @@
         "difficulty" : 9,
         "time" : 15,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolset" ],
-            [ "hacksaw" ],
-            [ "wrench", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset" ],
+            [ "hacksaw", "toolbox" ],
+            [ "wrench", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
@@ -593,7 +593,7 @@
         "time" : 5,
         "tools" : [
             [ "hammer", "primitive_hammer", "rock", "hatchet",
-              "shovel", "e_tool", "primitive_shovel", "ax", "primitive_axe", "battleaxe", "toolset" ]
+              "shovel", "e_tool", "primitive_shovel", "ax", "primitive_axe", "battleaxe", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ]
@@ -606,7 +606,7 @@
         "difficulty" : 1,
         "time" : 5,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "rock" ]
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "rock" ]
         ],
         "components" : [
             [ [ "2x4", 5 ] ],
@@ -634,7 +634,7 @@
         "difficulty" : 3,
         "time" : 20,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "rock", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "rock", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "pipe", 6 ] ],
@@ -644,7 +644,7 @@
         "post_terrain" : "t_chainfence_posts"
     },{
         "type" : "construction",
-        "description" : "Build wire Fence",
+        "description" : "Build Wire Fence",
         "difficulty" : 3,
         "time" : 20,
         "components" : [
@@ -684,7 +684,7 @@
         "difficulty" : 3,
         "time" : 40,
         "tools" : [
-            ["hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            ["hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 8 ] ],
@@ -696,9 +696,9 @@
         "type" : "construction",
         "description" : "Build Log & Sod Roof",
         "difficulty" : 3,
-        "time" : 0,
+        "time" : 40,
         "tools" : [
-            ["hammer", "primitive_hammer", "hatchet", "toolset" ],
+            ["hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ],
             ["shovel", "e_tool", "primitive_shovel"]
         ],
         "components" : [
@@ -744,7 +744,7 @@
         "time" : 10,
         "tools" : [
             [ "saw" ],
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -759,7 +759,7 @@
         "time" : 20,
         "tools" : [
             [ "saw" ],
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 6 ] ],
@@ -774,7 +774,7 @@
         "time" : 20,
         "tools" : [
             [ "saw" ],
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 12 ] ],
@@ -789,7 +789,7 @@
         "time" : 20,
         "tools" : [
             [ "wrench", "toolset" ],
-            [ "hammer", "primitive_hammer", "hatchet", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "sheet_metal", 2 ] ],
@@ -804,7 +804,7 @@
         "time" : 20,
         "tools" : [
             [ "wrench", "toolset" ],
-            [ "hammer", "primitive_hammer", "hatchet", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "pipe", 12 ] ]
@@ -817,7 +817,7 @@
         "difficulty" : 0,
         "time" : 20,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 3 ] ],
@@ -831,7 +831,7 @@
         "difficulty" : 0,
         "time" : 20,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 6 ] ],
@@ -845,7 +845,7 @@
         "difficulty" : 0,
         "time" : 20,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 6 ] ],
@@ -859,7 +859,7 @@
         "difficulty" : 0,
         "time" : 20,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -873,12 +873,12 @@
         "difficulty" : 0,
         "time" : 20,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
-            [ [ "blanket", 1 ] ]
+            [ [ "blanket", 1 ], [ "sheet", 1 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
@@ -889,7 +889,7 @@
         "time" : 20,
         "tools" : [
             [ "saw" ],
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 10 ] ],
@@ -905,7 +905,7 @@
         "time" : 20,
         "tools" : [
             [ "saw" ],
-            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "2x4", 10 ] ],
@@ -920,7 +920,7 @@
         "difficulty" : 0,
         "time" : 10,
         "tools" : [
-            [ "hacksaw" ]
+            [ "hacksaw", "toolbox" ]
         ],
         "components" : [
             [ [ "metal_tank", 1 ] ],
@@ -935,7 +935,7 @@
         "time" : 40,
         "tools" : [
             [ "hammer", "primitive_hammer",
-              "shovel", "e_tool", "primitive_shovel", "toolset" ]
+              "shovel", "e_tool", "primitive_shovel", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "rock", 40 ] ]
@@ -949,7 +949,7 @@
         "time" : 20,
         "tools" : [
             [ "hammer", "primitive_hammer",
-              "shovel", "e_tool", "primitive_shovel" ]
+              "shovel", "e_tool", "toolbox", "primitive_shovel" ]
         ],
         "components" : [
             [ [ "2x4", 14 ] ],
@@ -965,7 +965,7 @@
         "time" : 20,
         "tools" : [
             [ "hammer", "primitive_hammer",
-              "shovel", "e_tool", "primitive_shovel" ]
+              "shovel", "e_tool", "toolbox", "primitive_shovel" ]
         ],
         "components" : [
             [ [ "2x4", 18 ] ],
@@ -981,7 +981,7 @@
         "time" : 480,
         "tools" : [
             [ "shovel", "e_tool", "primitive_shovel" ],
-            [ "hammer", "primitive_hammer", "hatchet", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "rock", 40 ] ],
@@ -996,8 +996,8 @@
         "difficulty" : 5,
         "time" : 120,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "toolset" ],
-            [ "wrench", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ],
+            [ "wrench", "toolbox", "toolset" ]
         ],
         "components" : [
             [ [ "well_pump", 1 ] ],
@@ -1011,10 +1011,10 @@
         "difficulty" : 0,
         "time" : 20,
         "tools" : [
-            [ "hammer", "primitive_hammer", "hatchet", "toolset" ],
-            [ "screwdriver", "toolset" ]
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ],
+            [ "screwdriver", "toolbox", "toolset" ]
         ],
-        "pre_flags" : "DECONSTRUCT",
+        "pre_special" : "check_deconstruct",
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
@@ -1034,7 +1034,7 @@
     },
     {
         "type" : "construction",
-        "description" : "Paint horizontal wall red",
+        "description" : "Paint Horizontal Wall Red",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1047,7 +1047,7 @@
         "post_terrain" : "t_wall_h_r"
     },{
         "type" : "construction",
-        "description" : "Paint vertical wall red",
+        "description" : "Paint Vertical Wall Red",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1060,7 +1060,7 @@
         "post_terrain" : "t_wall_v_r"
     },{
         "type" : "construction",
-        "description" : "Paint horizontal wall blue",
+        "description" : "Paint Horizontal Wall Blue",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1073,7 +1073,7 @@
         "post_terrain" : "t_wall_h_b"
     },{
         "type" : "construction",
-        "description" : "Paint vertical wall blue",
+        "description" : "Paint Vertical Wall Blue",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1086,7 +1086,7 @@
         "post_terrain" : "t_wall_v_b"
     },{
         "type" : "construction",
-        "description" : "Paint horizontal wall white",
+        "description" : "Paint Horizontal Wall white",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1099,7 +1099,7 @@
         "post_terrain" : "t_wall_h_w"
     },{
         "type" : "construction",
-        "description" : "Paint vertical wall white",
+        "description" : "Paint Vertical Wall white",
         "difficulty" : 0,
         "time" : 40,
           "tools" : [
@@ -1112,7 +1112,7 @@
         "post_terrain" : "t_wall_v_w"
     },{
         "type" : "construction",
-        "description" : "Paint horizontal wall green",
+        "description" : "Paint Horizontal Wall Green",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1125,7 +1125,7 @@
         "post_terrain" : "t_wall_h_g"
     },{
         "type" : "construction",
-        "description" : "Paint vertical wall green",
+        "description" : "Paint Vertical Wall Green",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1138,7 +1138,7 @@
         "post_terrain" : "t_wall_v_g"
     },{
         "type" : "construction",
-        "description" : "Paint horizontal wall purple",
+        "description" : "Paint Horizontal Wall Purple",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1151,7 +1151,7 @@
         "post_terrain" : "t_wall_h_p"
     },{
         "type" : "construction",
-        "description" : "Paint vertical wall purple",
+        "description" : "Paint Vertical Wall Purple",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1164,7 +1164,7 @@
         "post_terrain" : "t_wall_v_p"
     },{
         "type" : "construction",
-        "description" : "Paint horizontal wall yellow",
+        "description" : "Paint Horizontal Wall Yellow",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1177,7 +1177,7 @@
         "post_terrain" : "t_wall_h_y"
     },{
         "type" : "construction",
-        "description" : "Paint vertical wall yellow",
+        "description" : "Paint Vertical Wall Yellow",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1190,7 +1190,7 @@
         "post_terrain" : "t_wall_v_y"
     },{
         "type" : "construction",
-        "description" : "Take paint off vertical wall",
+        "description" : "Take Paint Off Vertical Wall",
         "difficulty" : 0,
         "time" : 80,
         "tools" : [
@@ -1200,7 +1200,7 @@
         "post_terrain" : "t_wall_v"
     },{
         "type" : "construction",
-        "description" : "Take paint off horizontal wall",
+        "description" : "Take Paint off Horizontal Wall",
         "difficulty" : 0,
         "time" : 80,
         "tools" : [
@@ -1210,21 +1210,21 @@
         "post_terrain" : "t_wall_h"
     },{
         "type" : "construction",
-        "description" : "Rip carpet up",
+        "description" : "Remove Carpet",
         "difficulty" : 0,
         "time" : 30,
         "tools" : [
-            [ "hammer"]
+            [ "hammer", "toolbox"]
           ],
         "pre_flags" : "RUG",
         "post_terrain" : "t_floor"
     },{
         "type" : "construction",
-        "description" : "carpet floor red",
+        "description" : "Carpet Floor Red",
         "difficulty" : 0,
         "time" : 30,
         "tools" : [
-            [ "hammer"]
+            [ "hammer", "toolbox"]
           ],
         "components" : [
             [ [ "nail", 5 ] ],
@@ -1234,11 +1234,11 @@
         "post_terrain" : "t_carpet_red"
     },{
         "type" : "construction",
-        "description" : "carpet floor purple",
+        "description" : "Carpet Floor Purple",
         "difficulty" : 0,
         "time" : 30,
         "tools" : [
-            [ "hammer"]
+            [ "hammer", "toolbox"]
           ],
         "components" : [
             [ [ "nail", 5 ] ],
@@ -1248,11 +1248,11 @@
         "post_terrain" : "t_carpet_purple"
     },{
         "type" : "construction",
-        "description" : "carpet floor yellow",
+        "description" : "Carpet Floor Yellow",
         "difficulty" : 0,
         "time" : 30,
         "tools" : [
-            [ "hammer"]
+            [ "hammer", "toolbox"]
           ],
         "components" : [
             [ [ "nail", 5 ] ],
@@ -1262,11 +1262,11 @@
         "post_terrain" : "t_carpet_yellow"
     },{
         "type" : "construction",
-        "description" : "carpet floor green",
+        "description" : "Carpet Floor Green",
         "difficulty" : 0,
         "time" : 30,
         "tools" : [
-            [ "hammer"]
+            [ "hammer", "toolbox"]
           ],
         "components" : [
             [ [ "nail", 5 ] ],
@@ -1274,5 +1274,75 @@
           ],
         "pre_terrain" : "t_floor",
         "post_terrain" : "t_carpet_green"
+    },{
+        "type" : "construction",
+        "description" : "Dig Downstair",
+        "difficulty" : 5,
+        "time" : 420,
+        "tools" : [
+            [ "pickaxe" ],
+            [ "shovel", "e_tool" ],
+            [ "hatchet", "ax", "primitive_axe" ],
+            [ "hatchet", "hammer", "hammer_sledge", "toolbox" ]
+        ],
+        "components" : [
+            [ [ "2x4", 8 ] , [ "log", 8 ] ],
+            [ [ "rope_30", 1 ] ]
+        ],
+        "pre_flags" : "DIGGABLE",
+        "post_special" : "done_dig_stair"
+    },{
+        "type" : "construction",
+        "description" : "Mine Downstair",
+        "difficulty" : 6,
+        "time" : 480,
+        "tools" : [
+            [ "jackhammer", "jacqueshammer" ],
+            [ "shovel", "e_tool" ],
+            [ "crowbar", "halligan"],
+            [ "hatchet", "ax" ],
+            [ "hammer", "hammer_sledge", "toolbox" ]
+        ],
+        "components" : [
+            [ [ "2x4", 12 ] , [ "log", 12 ] ],
+            [ [ "rope_30", 1 ] ],
+            [ [ "gasoline", 30 ]]
+        ],
+        "pre_special" : "check_down_OK",
+        "pre_terrain" : "t_rock_floor",
+        "post_special" : "done_mine_downstair"
+    },{
+        "type" : "construction",
+        "description" : "Mine Upstair",
+        "difficulty" : 6,
+        "time" : 480,
+        "tools" : [
+            [ "jackhammer", "jacqueshammer" ],
+            [ "shovel", "e_tool" ],
+            [ "crowbar", "halligan"],
+            [ "hatchet", "ax" ],
+            [ "hammer", "hammer_sledge", "toolbox" ],
+            [ "miner_hat", "hat_hard", "firehelmet", "helmet_ball",
+            "helmet_army", "helmet_lobster", "helmet_riot"]
+        ],
+        "note" : "Helmets are essential because you're digging up and things may fall on you.",
+        "components" : [
+            [ [ "2x4", 12 ] , [ "log", 12 ] ],
+            [ [ "rope_30", 1 ] ],
+            [ [ "gasoline", 30 ]]
+        ],
+        "pre_special" : "check_up_OK",
+        "pre_terrain" : "t_rock",
+        "post_special" : "done_mine_upstair"
+    },{
+        "type" : "construction",
+        "description" : "Place anvil",
+        "difficulty" : 0,
+        "time" : 1,
+        "components" : [
+            [ [ "anvil", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_anvil"
     }
 ]

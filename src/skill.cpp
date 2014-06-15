@@ -139,37 +139,37 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
 }
 
 void SkillLevel::train(int amount) {
-  _exercise += amount;
+    _exercise += amount;
 
-  if (_exercise >= 100 * (_level + 1)) {
-    _exercise = 0;
-    ++_level;
-  }
+    if (_exercise >= 100 * (_level + 1)) {
+        _exercise = 0;
+        ++_level;
+    }
 }
 
 static int rustRate(int level)
 {
     int forgetCap = std::min(level, 7);
-    return 32768 / int(pow(2.0, double(forgetCap - 1)));
+    return 32768 / int(std::pow(2.0, double(forgetCap - 1)));
 }
 
-bool SkillLevel::isRusting(const calendar& turn) const
+bool SkillLevel::isRusting() const
 {
-    return OPTIONS["SKILL_RUST"] != "off" && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+    return OPTIONS["SKILL_RUST"] != "off" && (_level > 0) &&
+        (calendar::turn - _lastPracticed) > rustRate(_level);
 }
 
-bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
+bool SkillLevel::rust( bool charged_bio_mem )
 {
-    if (_level > 0 && turn > _lastPracticed &&
-       (turn - _lastPracticed) % rustRate(_level) == 0)
-    {
-        if (charged_bio_mem) return one_in(5);
+    if (_level > 0 && calendar::turn > _lastPracticed &&
+        (calendar::turn - _lastPracticed) % rustRate(_level) == 0) {
+        if (charged_bio_mem) {
+            return one_in(5);
+        }
         _exercise -= _level;
 
-        if (_exercise < 0)
-        {
-            if (OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "int")
-            {
+        if (_exercise < 0) {
+            if (OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "int") {
                 _exercise = (100 * _level) - 1;
                 --_level;
             } else {
@@ -180,21 +180,19 @@ bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
     return false;
 }
 
-void SkillLevel::practice(const calendar& turn)
+void SkillLevel::practice()
 {
-    _lastPracticed = turn;
+    _lastPracticed = calendar::turn;
 }
 
-void SkillLevel::readBook(int minimumGain, int maximumGain, const calendar &turn,
-                          int maximumLevel)
+void SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
 {
     int gain = rng(minimumGain, maximumGain);
 
-    if (_level < maximumLevel)
-    {
+    if (_level < maximumLevel) {
         train(gain);
     }
-    practice(turn);
+    practice();
 }
 
 SkillLevel& SkillLevel::operator= (const SkillLevel &rhs)

@@ -6,6 +6,7 @@
 #include "line.h"
 #include "rng.h"
 #include "pldata.h"
+#include "messages.h"
 #include <stdlib.h>
 #include "cursesdef.h"
 
@@ -193,11 +194,11 @@ void monster::plan(const std::vector<int> &friendlies)
                 --stc;
             }
             set_dest(g->u.posx, g->u.posy, stc);
-        }
-        else if (closest <= -3)
+        } else if (closest <= -3) {
             set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), stc);
-        else if (closest >= 0)
+        } else if (closest >= 0) {
             set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
+        }
     }
 }
 
@@ -217,7 +218,7 @@ void monster::move()
 
     //Hallucinations have a chance of disappearing each turn
     if (is_hallucination() && one_in(25)) {
-        die();
+        dead = true;
         return;
     }
 
@@ -229,7 +230,7 @@ void monster::move()
     if (has_flag(MF_REGENERATES_50)) {
         if (hp < type->hp) {
             if (one_in(2)) {
-                g->add_msg(_("The %s is visibly regenerating!"), name().c_str());
+                add_msg(m_warning, _("The %s is visibly regenerating!"), name().c_str());
             }
             hp += 50;
             if(hp > type->hp) {
@@ -240,7 +241,7 @@ void monster::move()
     if (has_flag(MF_REGENERATES_10)) {
         if (hp < type->hp) {
             if (one_in(2)) {
-                g->add_msg(_("The %s seems a little healthier."), name().c_str());
+                add_msg(m_warning, _("The %s seems a little healthier."), name().c_str());
             }
             hp += 10;
             if(hp > type->hp) {
@@ -253,7 +254,7 @@ void monster::move()
     //If there are. Consume them.
     if (has_flag(MF_ABSORBS)) {
         if(!g->m.i_at(posx(), posy()).empty()) {
-            g->add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
+            add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
             std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
             for( size_t i = 0; i < items_absorbed.size(); ++i ) {
                 hp += items_absorbed.at(i).volume(); //Yeah this means it can get more HP than normal.
@@ -281,7 +282,7 @@ void monster::move()
 
     // If this critter dies in sunlight, check & assess damage.
     if (g->is_in_sunlight(posx(), posy()) && has_flag(MF_SUNDEATH)) {
-        g->add_msg(_("The %s burns horribly in the sunlight!"), name().c_str());
+        add_msg(_("The %s burns horribly in the sunlight!"), name().c_str());
         hp -= 100;
         if(hp < 0) {
             hp = 0  ;
@@ -354,8 +355,8 @@ void monster::move()
     }
 
     if (!plans.empty() &&
-         (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-         (can_move_to(plans[0].x, plans[0].y) ||
+        (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
+        (can_move_to(plans[0].x, plans[0].y) ||
          (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
          (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
         // CONCRETE PLANS - Most likely based on sight
@@ -644,7 +645,7 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
                    blocked[offside] = true;
                 }
                 if ( blocked[offside] == false ) { // mobs behind walls are not helpful
-                   // g->add_msg("bzone += %d,%d",hpos.x,hpos.y);
+                   // add_msg("bzone += %d,%d",hpos.x,hpos.y);
                    ret.push_back( hpos );
                 }
              }
@@ -657,12 +658,11 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
 int monster::bash_at(int x, int y) {
     //Hallucinations can't bash stuff.
     if(is_hallucination()) {
-      return 0;
+        return 0;
     }
     bool try_bash = !can_move_to(x, y) || one_in(3);
     bool can_bash = g->m.has_flag("BASHABLE", x, y) && has_flag(MF_BASHES);
     if(try_bash && can_bash) {
-        std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
         int bashskill = int(type->melee_dice * type->melee_sides);
 
         // pileup = more bashskill, but only help bashing mob directly infront of target
@@ -672,29 +672,30 @@ int monster::bash_at(int x, int y) {
         int diffy = pos().y - y;
         int mo_bash = 0;
         for( size_t i = 0; i < bzone.size(); ++i ) {
-           if ( g->mon_at( bzone[i] ) != -1 ) {
-              monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
-              // trying for the same door and can bash; put on helper hat
-              if ( helpermon.wandx == wandx && helpermon.wandy == wandy && helpermon.has_flag(MF_BASHES) ) {
-                 // helpers lined up behind primary basher add full strength, so do those at either shoulder, others add 50%
-                 //addbash *= ( bzone[i].x == pos().x || bzone[i].y == pos().y ? 2 : 1 );
-                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
-                 // helpers lined up behind primary basher add full strength, others 50%
-                 addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) || ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
-                 mo_bash += addbash;
-                 // g->add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash/2, mo_bash/2 );
-              }
-           }
+            if ( g->mon_at( bzone[i] ) != -1 ) {
+                monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
+                // trying for the same door and can bash; put on helper hat
+                if ( helpermon.wandx == wandx && helpermon.wandy == wandy &&
+                     helpermon.has_flag(MF_BASHES) ) {
+                    // helpers lined up behind primary basher add full strength,
+                    // so do those at either shoulder, others add 50%
+                    int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
+                    // helpers lined up behind primary basher add full strength, others 50%
+                    addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) ||
+                                 ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
+                    mo_bash += addbash;
+                }
+            }
         }
         // by our powers combined...
         bashskill += int (mo_bash / 2);
 
-        g->m.bash(x, y, bashskill, bashsound);
-        g->sound(x, y, 18, bashsound);
+        g->m.bash( x, y, bashskill );
         moves -= 100;
         return 1;
     } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
-        g->m.destroy(x, y, true); //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
+        g->m.destroy(x, y, true);
+        //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
         moves -= 250;
         return 1;
     }
@@ -722,7 +723,7 @@ int monster::attack_at(int x, int y) {
 
         // Special case: Target is hallucination
         if(mon.is_hallucination()) {
-            g->kill_mon(mondex);
+            mon.dead = true;
 
             // We haven't actually attacked anything, i.e. we can still do things.
             // Hallucinations(obviously) shouldn't affect the way real monsters act.
@@ -780,11 +781,11 @@ int monster::move_to(int x, int y, bool force)
 
     if(was_water && !will_be_water && g->u_see(x, y)) {
         //Use more dramatic messages for swimming monsters
-        g->add_msg(_("A %s %s from the %s!"), name().c_str(),
+        add_msg(m_warning, _("A %s %s from the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
                    g->m.tername(posx(), posy()).c_str());
     } else if(!was_water && will_be_water && g->u_see(x, y)) {
-        g->add_msg(_("A %s %s into the %s!"), name().c_str(),
+        add_msg(m_warning, _("A %s %s into the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
                    g->m.tername(x, y).c_str());
     }
@@ -803,10 +804,9 @@ int monster::move_to(int x, int y, bool force)
     }
     if (!digging() && !has_flag(MF_FLIES) &&
           g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
-        trap* tr = g->traps[g->m.tr_at(posx(), posy())];
-        if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
-            trapfuncm f;
-            (f.*(tr->actm))(this, posx(), posy());
+        trap* tr = traplist[g->m.tr_at(posx(), posy())];
+        if (dice(3, type->sk_dodge + 1) < dice(3, tr->get_avoidance())) {
+            tr->trigger(this, posx(), posy());
         }
     }
     // Diggers turn the dirt into dirtmound
@@ -849,6 +849,11 @@ int monster::move_to(int x, int y, bool force)
                     g->m.add_field(posx() + dx, posy() + dy, fd_sludge, fstr);
                 }
             }
+        }
+    }
+    if (has_flag(MF_LEAKSGAS)){
+        if (one_in(6)){
+        g->m.add_field(posx() + rng(-1,1), posy() + rng(-1, 1), fd_toxic_gas, 3);
         }
     }
 
@@ -949,7 +954,7 @@ void monster::knock_back_from(int x, int y)
   }
 
   if (u_see)
-   g->add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
+   add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
 
   return;
  }
@@ -961,7 +966,7 @@ void monster::knock_back_from(int x, int y)
   add_effect("stunned", 1);
   p->hit(this, bp_torso, -1, type->size, 0);
   if (u_see)
-   g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
+   add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
   return;
  }
@@ -971,13 +976,13 @@ void monster::knock_back_from(int x, int y)
   if (g->m.has_flag("LIQUID", to.x, to.y) && can_drown()) {
    hurt(9999);
    if (u_see) {
-    g->add_msg(_("The %s drowns!"), name().c_str());
+    add_msg(_("The %s drowns!"), name().c_str());
    }
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
    hurt(9999);
    if (u_see) {
-    g->add_msg(_("The %s flops around and dies!"), name().c_str());
+    add_msg(_("The %s flops around and dies!"), name().c_str());
    }
   }
  }
@@ -988,7 +993,7 @@ void monster::knock_back_from(int x, int y)
    hurt(type->size);
    add_effect("stunned", 2);
    if (u_see) {
-    g->add_msg(_("The %s bounces off a %s."), name().c_str(),
+    add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());
    }
 

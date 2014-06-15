@@ -5,18 +5,43 @@
 #include "game.h"
 #include "translations.h"
 
+/**
+ * @ingroup Weather
+ * @{
+ */
+
 std::string season_name[4];
 
-/* Name, color in UI, {seasonal temperatures}, ranged penalty, sight penalty,
+/**
+ * Weather types data definition.
+ * Name, color in UI, {seasonal temperatures}, ranged penalty, sight penalty,
  * light_modifier, minimum time (in minutes), max time (in minutes), warn player?
  * Note that max time is NOT when the weather is guaranteed to stop; it is
- *  simply when the weather is guaranteed to be recalculated.  Most weather
- *  patterns have "stay the same" as a highly likely transition; see below
+ * simply when the weather is guaranteed to be recalculated.  Most weather
+ * patterns have "stay the same" as a highly likely transition; see below
  * Note light modifier assumes baseline of DAYLIGHT_LEVEL at 60
  */
 weather_datum weather_data[NUM_WEATHER_TYPES];
 
-/* Chances for each season, for the weather listed on the left to shift to the
+/**
+ * Weather animation settings
+ */
+void game::init_weather_anim() {
+    mapWeatherAnim.clear();
+    mapWeatherAnim[WEATHER_ACID_DRIZZLE] =  clWeatherAnim('.', c_ltgreen, 0.01f);
+    mapWeatherAnim[WEATHER_ACID_RAIN] =     clWeatherAnim(',', c_ltgreen, 0.02f);
+    mapWeatherAnim[WEATHER_DRIZZLE] =       clWeatherAnim('.', c_ltblue, 0.01f);
+    mapWeatherAnim[WEATHER_RAINY] =         clWeatherAnim(',', c_ltblue, 0.02f);
+    mapWeatherAnim[WEATHER_THUNDER] =       clWeatherAnim('.', c_ltblue, 0.02f);
+    mapWeatherAnim[WEATHER_LIGHTNING] =     clWeatherAnim(',', c_ltblue, 0.04f);
+    mapWeatherAnim[WEATHER_FLURRIES] =      clWeatherAnim('*', c_white, 0.01f);
+    mapWeatherAnim[WEATHER_SNOW] =          clWeatherAnim('*', c_white, 0.02f);
+    mapWeatherAnim[WEATHER_SNOWSTORM] =     clWeatherAnim('*', c_white, 0.04f);
+}
+
+/**
+ * Weather change bias table.
+ * Chances for each season, for the weather listed on the left to shift to the
  * weather listed across the top.
  */
 int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
@@ -97,6 +122,10 @@ int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
 }
 };
 
+/**
+ * Initialize the global weather types data definition table.
+ * @see weather_data
+ */
 void game::init_weather()
 {
     std::string tmp_season_name[4] = {
@@ -152,46 +181,61 @@ void game::init_weather()
 ////////////////////////////////////////////////
 //////// food decay, based on weather. static chart
 
-// calculate how much food rots per hour, based on 10 = 1 minute of decay @ 65 F
-// IRL this tends to double every 10c a few degrees above freezing, but past a certian
-// point the rate decreases until even extremophiles find it too hot. Here we just stop
-// further acceleration at 105 F. This should only need to run once when the game starts.
+/**
+ * Food decay calculation.
+ * Calculate how much food rots per hour, based on 10 = 1 minute of decay @ 65 F.
+ * IRL this tends to double every 10c a few degrees above freezing, but past a certian
+ * point the rate decreases until even extremophiles find it too hot. Here we just stop
+ * further acceleration at 105 F. This should only need to run once when the game starts.
+ * @see calc_rot_array
+ * @see rot_chart
+ */
 int calc_hourly_rotpoints_at_temp(const int temp) {
-  // default temp = 65, so generic->rotten() assumes 600 decay points per hour
-  const int dropoff=38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
-  const int cutoff=105;     // stop torturing the player at this temperature, which is
-  const int cutoffrot=3540; // ..almost 6 times the base rate. bacteria hate the heat too
+    // default temp = 65, so generic->rotten() assumes 600 decay points per hour
+    const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
+    const int cutoff = 105;     // stop torturing the player at this temperature, which is
+    const int cutoffrot = 3540; // ..almost 6 times the base rate. bacteria hate the heat too
 
-  const int dsteps=dropoff - 32;
-  const int dstep=(35.91*pow(2.0,(float)dropoff/16) / dsteps);
+    const int dsteps = dropoff - 32;
+    const int dstep = (35.91 * std::pow(2.0, (float)dropoff / 16.0) / dsteps);
 
-  if ( temp < 32 ) {
-    return 0;
-  } else if ( temp > cutoff ) {
-    return cutoffrot;
-  } else if ( temp < dropoff ) {
-    return ( ( temp - 32 ) * dstep );
-  } else {
-    return int((35.91*pow(2.0,(float)temp/16))+0.5);
-  }
+    if ( temp < 32 ) {
+        return 0;
+    } else if ( temp > cutoff ) {
+        return cutoffrot;
+    } else if ( temp < dropoff ) {
+        return ( ( temp - 32 ) * dstep );
+    } else {
+        return int(( 35.91 * std::pow(2.0,(float)temp / 16.0)) + 0.5);
+    }
 }
 
-// generate vector based on above function
+/**
+ * Initialize the rot table.
+ * @see rot_chart
+ */
 std::vector<int> calc_rot_array(const int cap) {
-  std::vector<int> ret;
-  for (int i = 0; i < cap; i++  ) {
-    ret.push_back(calc_hourly_rotpoints_at_temp(i));
-  }
-  return ret;
+    std::vector<int> ret;
+    for (int i = 0; i < cap; i++  ) {
+        ret.push_back(calc_hourly_rotpoints_at_temp(i));
+    }
+    return ret;
 }
 
-const std::vector<int> rot_chart=calc_rot_array(200);
+/**
+ * Precomputed rot lookup table.
+ */
+const std::vector<int> rot_chart = calc_rot_array(200);
 
-// fetch value from rot_chart for temperature
+/**
+ * Get the hourly rot for a given temperature from the precomputed table.
+ * @see rot_chart
+ */
 int get_hourly_rotpoints_at_temp (const int & temp) {
-  if ( temp < 0 || temp < -1 ) return 0;
-  if ( temp > 150 ) return 3540;
-  return rot_chart[temp];
+    if ( temp < 0 || temp < -1 ) return 0;
+    if ( temp > 150 ) return 3540;
+    return rot_chart[temp];
 }
 
+///@}
 #endif // _WEATHER_DATA_H_

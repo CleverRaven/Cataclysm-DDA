@@ -46,7 +46,8 @@ struct veh_collision {
  void* target;  //vehicle
  int target_part; //veh partnum
  std::string target_name;
- veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
+ veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL),
+     target_part(0), target_name("") {};
 };
 
 struct vehicle_item_spawn
@@ -70,11 +71,18 @@ struct vehicle_prototype
  */
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
-    vehicle_part() : id("null"), iid(0), mount_dx(0), mount_dy(0), hp(0),
-      blood(0), bigness(0), inside(false), removed(false), flags(0), passenger_id(0), amount(0)
-    {
+    vehicle_part(const std::string &sid = "", int dx = 0, int dy = 0,
+                 const item *it = NULL) : id("null"), iid(0), mount_dx(dx), mount_dy(dy),
+                 hp(0), blood(0), bigness(0), inside(false), removed(false), flags(0),
+                 passenger_id(0), amount(0) {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
+        if (!sid.empty()) {
+            setid(sid);
+        }
+        if (it != NULL) {
+            properties_from_item(*it);
+        }
     }
     bool has_flag( int flag ) { return flag & flags; }
     int set_flag( int flag ) { return flags |= flag; }
@@ -119,6 +127,18 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     void serialize(JsonOut &jsout) const;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin);
+
+    /**
+     * Generate the corresponding item from this vehicle part. It includes
+     * the hp (item damage), fuel charges (battery or liquids), bigness
+     * aspect, ...
+     */
+    item properties_to_item() const;
+    /**
+     * Set members of this vehicle part from properties of the item.
+     * It includes hp, fuel, bigness, ...
+     */
+    void properties_from_item( const item &used_item );
 };
 
 /**
@@ -255,8 +275,10 @@ public:
 // Honk the vehicle's horn, if there are any
     void honk_horn();
 
+    void play_music();
+
 // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index, bool include_removed = false);
+    vpart_info& part_info (int index, bool include_removed = false) const;
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
@@ -266,20 +288,15 @@ public:
 
 // install a new part to vehicle (force to skip possibility check)
     int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
+// Install a copy of the given part, skips possibility check
+    int install_part (int dx, int dy, const vehicle_part &part);
+// install an item to vehicle as a vehicle part.
+    int install_part (int dx, int dy, const std::string &id, const item &item_used);
 
     bool remove_part (int p);
     void part_removal_cleanup ();
 
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
-
-// Generate the corresponding item from a vehicle part.
-// Still needs to be removed.
-    item item_from_part( int part );
-
-// translate item health to part health
-    void get_part_properties_from_item (int partnum, item& i);
-// translate part health to item health (very lossy.)
-    void give_part_properties_to_item (int partnum, item& i);
 
 // returns the list of indeces of parts at certain position (not accounting frame direction)
     const std::vector<int> parts_at_relative (const int dx, const int dy, bool use_cache = true);
@@ -318,8 +335,8 @@ public:
     std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
-    bool part_flag (int p, const std::string &f);
-    bool part_flag (int p, const vpart_bitflags &f);
+    bool part_flag (int p, const std::string &f) const;
+    bool part_flag (int p, const vpart_bitflags &f) const;
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -449,6 +466,9 @@ public:
 // idle fuel consumption
     void idle ();
 
+// leak from broken tanks
+    void slow_leak ();
+
 // thrust (1) or brake (-1) vehicle
     void thrust (int thd);
 
@@ -534,6 +554,11 @@ public:
     void open(int part_index);
     void close(int part_index);
 
+    // Consists only of parts with the FOLDABLE tag.
+    bool is_foldable() const;
+    // Restore parts of a folded vehicle.
+    bool restore(const std::string &data);
+
     /**
      *  Opens everything that can be opened on the same tile as `p`
      */
@@ -570,6 +595,7 @@ public:
     int init_veh_fuel;
     int init_veh_status;
     float alternator_load;
+    int last_repair_turn; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // save values
     int posx, posy;
@@ -578,11 +604,14 @@ public:
     tileray move;       // direction we are moving
     int velocity;       // vehicle current velocity, mph * 100
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
+    std::string music_id;    // what music storage device is in the stereo
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     bool has_pedals;
+    bool has_hand_rims;
     bool lights_on;     // lights on/off
+    bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off

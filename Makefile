@@ -22,6 +22,8 @@
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
+# Sound (requires SDL, so TILES must be enabled)
+#  make TILES=1 SOUND=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
 # Compile localization files for specified languages
@@ -33,6 +35,8 @@
 #  make LUA=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1
+# Use dynamic linking (requires system libraries).
+#  make DYNAMIC_LINKING=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -78,6 +82,8 @@ BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
 LUASRC_DIR = src/lua
+# if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
+LUA_BINARY = lua
 LOCALIZE = 1
 
 
@@ -96,16 +102,28 @@ RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
-  OTHERS += -O3 $(RELEASE_FLAGS)
+  ifeq ($(NATIVE), osx)
+    OTHERS += -O3
+  else
+    OTHERS += -Os
+    OTHERS += -s
+  endif
+  # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
+  # Strip symbols, generates smaller executable.
+  OTHERS += $(RELEASE_FLAGS)
   DEBUG =
 endif
 
 ifdef CLANG
+  ifeq ($(NATIVE), osx)
+    OTHERS += -stdlib=libc++
+  endif
   CXX = $(CROSS)clang++
   LD  = $(CROSS)clang++
-  OTHERS = --std=c++98
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
 endif
+
+OTHERS += --std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
@@ -152,9 +170,17 @@ ifeq ($(NATIVE), osx)
   endif
 endif
 
-# Win32 (mingw32?)
+# Win32 (MinGW32 or MinGW-w64(32bit)?)
 ifeq ($(NATIVE), win32)
+# Any reason not to use -m32 on MinGW32?
   TARGETSYSTEM=WINDOWS
+else
+  # Win64 (MinGW-w64? 64bit isn't currently working.)
+  ifeq ($(NATIVE), win64)
+    CXXFLAGS += -m64
+    LDFLAGS += -m64
+    TARGETSYSTEM=WINDOWS
+  endif
 endif
 
 # MXE cross-compile to win32
@@ -170,12 +196,30 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static
+  ifdef DYNAMIC_LINKING
+    # Windows isn't sold with programming support, these are static to remove MinGW dependency.
+    LDFLAGS += -static-libgcc -static-libstdc++
+  else
+    LDFLAGS += -static
+  endif
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl -liconv
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
+  ifeq ($(NATIVE), win64)
+    RFLAGS += -F pe-x86-64
+  endif
+endif
+
+ifdef SOUND
+  ifndef TILES
+    $(error "SOUND=1 only works with TILES=1")
+  endif
+  CXXFLAGS += $(shell pkg-config --cflags SDL2_mixer)
+  CXXFLAGS += -DSDL_SOUND
+  LDFLAGS += $(shell pkg-config --libs SDL2_mixer)
+  LDFLAGS += -lvorbisfile -lvorbis -logg
 endif
 
 ifdef LUA
@@ -197,12 +241,13 @@ ifdef LUA
   BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
+ifdef SDL 
+  TILES = 1
+endif
+
 ifdef TILES
   SDL = 1
   BINDIST_EXTRAS += gfx
-endif
-
-ifdef SDL
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       DEFINES += -DOSX_SDL_FW
@@ -221,11 +266,11 @@ ifdef SDL
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
-      CXXFLAGS += $(shell sdl-config --cflags) \
-		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
-      LDFLAGS += $(shell sdl-config --libs) -lSDL2_ttf
+      CXXFLAGS += $(shell sdl2-config --cflags) \
+		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
+      LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       ifdef TILES
-	LDFLAGS += -lSDL2_image
+        LDFLAGS += -lSDL2_image
       endif
     endif
   else # not osx
@@ -239,7 +284,14 @@ ifdef SDL
   endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    ifndef DYNAMIC_LINKING
+      # These differ depending on what SDL2 is configured to use.
+      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    else
+      # Currently none needed by the game itself (only used by SDL2 layer).
+      # Placeholder for future use (savegame compression, etc).
+      LDFLAGS +=
+    endif
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
@@ -256,7 +308,8 @@ else
         ifeq ($(NATIVE), osx)
             LDFLAGS += -lncurses
         else
-            LDFLAGS += -lncursesw
+            LDFLAGS += $(shell ncursesw5-config --libs)
+            CXXFLAGS += $(shell ncursesw5-config --cflags)
         endif
       endif
       # Work around Cygwin not including gettext support in glibc
@@ -291,12 +344,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-ifdef SDL
-  ifeq ($(NATIVE),osx)
-    OBJS += $(ODIR)/SDLMain.o
-  endif
-endif
-
 ifdef LANGUAGES
   L10N = localization
 endif
@@ -318,13 +365,15 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
 
-.PHONY: version
+.PHONY: version json-verify
 version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee $(SRC_DIR)/version.h ; fi \
          )
+json-verify:
+	$(LUA_BINARY) lua/json_verifier.lua
 
 $(ODIR):
 	mkdir -p $(ODIR)
@@ -344,7 +393,7 @@ $(ODIR)/SDLMain.o: $(SRC_DIR)/SDLMain.m
 version.cpp: version
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
-	cd $(LUASRC_DIR) && lua generate_bindings.lua
+	cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua
 
 $(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
 
@@ -352,7 +401,7 @@ localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
 $(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)

@@ -4,6 +4,7 @@
 #include <climits>
 #include <string>
 #include <vector>
+#include <list>
 #include "itype.h"
 #include "mtype.h"
 
@@ -11,10 +12,12 @@ class game;
 class player;
 class npc;
 struct itype;
+class material_type;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
-const std::string rad_threshold_colors[] = { "green", "blue", "yellow", "orange", "red", "black"};
+const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"),
+                                             _("orange"), _("red"), _("black")};
 
 struct light_emission {
   unsigned short luminance;
@@ -24,46 +27,57 @@ struct light_emission {
 extern light_emission nolight;
 
 struct iteminfo{
- public:
-  std::string sType; //Itemtype
-  std::string sName; //Main item text
-  std::string sFmt; //Text between main item and value
-  std::string sValue; //Set to "-999" if no compare value is present
-  double dValue; //Stores double value of sValue for value comparisons
-  bool is_int; //Sets if sValue should be treated as int or single decimal double
-  std::string sPlus; //number +
-  bool bNewLine; //New line at the end
-  bool bLowerIsBetter; //Lower values are better (red <-> green)
-  bool bDrawName; //If false then compares sName, but don't print sName.
+public:
+    std::string sType; //Itemtype
+    std::string sName; //Main item text
+    std::string sFmt; //Text between main item and value
+    std::string sValue; //Set to "-999" if no compare value is present
+    double dValue; //Stores double value of sValue for value comparisons
+    bool is_int; //Sets if sValue should be treated as int or single decimal double
+    std::string sPlus; //number +
+    bool bNewLine; //New line at the end
+    bool bLowerIsBetter; //Lower values are better (red <-> green)
+    bool bDrawName; //If false then compares sName, but don't print sName.
 
-  //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
-  iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999, bool _is_int = true, std::string Plus = "", bool NewLine = true, bool LowerIsBetter = false, bool DrawName = true);
+    // Inputs are: ItemType, main text, text between main text and value, value,
+    // if the value should be an int instead of a double, text after number,
+    // if there should be a newline after this item, if lower values are better
+    iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
+             bool _is_int = true, std::string Plus = "", bool NewLine = true,
+             bool LowerIsBetter = false, bool DrawName = true);
 };
 
 enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL};
 
+enum layer_level {
+    UNDERWEAR = 0,
+    REGULAR_LAYER,
+    OUTER_LAYER,
+    BELTED_LAYER,
+    MAX_CLOTHING_LAYER
+};
+
 class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(itype* it, unsigned int turn, bool rand = true);
- item(itype* it, unsigned int turn, char let, bool rand = true);
- void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
+ item(const std::string new_type, unsigned int turn, bool rand = true );
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata);
  item(JsonObject &jo);
  virtual ~item();
  void init();
- void make(itype* it);
+ void make( const std::string new_type );
  void clear(); // cleanup that's required to re-use an item variable
 
-// returns the default container of this item, with this item in it
- item in_its_container(std::map<std::string, itype*> *itypes);
+ // returns the default container of this item, with this item in it
+ item in_its_container();
 
     nc_color color(player *u) const;
     nc_color color_in_inventory();
-    std::string tname(bool with_prefix = true); // item name (includes damage, freshness, etc)
-    std::string display_name(); // name for display (includes charges, etc)
+    std::string tname(unsigned int quantity = 1, bool with_prefix = true); // item name (includes damage, freshness, etc)
+    std::string display_name(unsigned int quantity = 1); // name for display (includes charges, etc)
     void use();
     bool burn(int amount = 1); // Returns true if destroyed
 
@@ -109,6 +123,12 @@ public:
  int price() const;
 
     /**
+     * Return the butcher factor, always positive, but lower is better.
+     * If the item can not be used for butcherin it return INT_MAX.
+     */
+    int butcher_factor() const;
+
+    /**
      * Returns true if this item is of the specific type, or
      * if this functions returns true for any of its contents.
      */
@@ -133,9 +153,52 @@ public:
  int attack_time();
  int damage_bash();
  int damage_cut() const;
- // See inventory::amount_of, this does the same for this item (and its content)
+
+ /**
+  * Count the amount of items of type 'it' including this item,
+  * and any of its contents (recursively).
+  * @param it The type id, only items with the same id are counted.
+  * @param used_as_tool If false all items with the PSEUDO flag are ignore
+  * (not counted).
+  */
  int amount_of(const itype_id &it, bool used_as_tool) const;
- bool has_flag(std::string f) const;
+ /**
+  * Count all the charges of items of the type 'it' including this item,
+  * and any of its contents (recursively).
+  * @param it The type id, only items with the same id are counted.
+  */
+ long charges_of(const itype_id &it) const;
+ /**
+  * Consume a specific amount of charges from items of a specific type.
+  * This includes this item, and any of its contents (recursively).
+  * @param it The type id, only items of this type are considered.
+  * @param quantity The number of charges that should be consumed.
+  * It will be changed for each used charge. After calling this function it
+  * may be at 0 which means all requested charges have been consumed.
+  * @param used All used charges are put into this list, the caller may need it.
+  * @return Whether this item should be deleted (in which case it returns true).
+  * Some items (those that are counted by charges) must be destroyed when
+  * their charges reach 0.
+  * This is usually does not apply to tools.
+  * Also if this function is called on a container and the function erase charges
+  * from its contents the container should not be deleted - it returns false in
+  * that case.
+  * The caller *must* check the return value and remove the item from wherever
+  * it is stored when the function returns true.
+  * Note that the item itself has no way of knowing where it is stored and can
+  * therefor not delete itself.
+  */
+ bool use_charges(const itype_id &it, long &quantity, std::list<item> &used);
+ /**
+  * Consume a specific amount of items of a specific type.
+  * This includes this item, and any of its contents (recursively).
+  * @see item::use_charges - this is similar for items, not charges.
+  * @param use_container If the contents of an item are used, also use the
+  * container it was in.
+  */
+ bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
+
+ bool has_flag(const std::string &f) const;
  bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
@@ -149,8 +212,11 @@ public:
  bool craft_has_charges();
  long num_charges();
  bool rotten();
+ void calc_rot();
  int brewing_time();
  bool ready_to_revive(); // used for corpses
+ void detonate(point p) const;
+ bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
  bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
@@ -167,7 +233,8 @@ public:
  int acid_resist() const;
  bool is_two_handed(player *u);
  bool made_of(std::string mat_ident) const;
- std::string get_material(int m) const;
+ // Never returns NULL
+ const material_type *get_material(int m) const;
  bool made_of(phase_id phase) const;
  bool conductive() const; // Electricity
  bool flammable() const;
@@ -183,6 +250,7 @@ public:
  bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
+ bool is_corpse() const;
  bool is_ammo_container() const;
  bool is_drink() const;
  bool is_weap() const;
@@ -248,8 +316,10 @@ public:
  t_item_vector components;
 
  item clone(bool rand = true);
+
+ int add_ammo_to_quiver(player *u, bool isAutoPickup);
+ int max_charges_from_flag(std::string flagName);
 private:
- int sort_rank() const;
  static itype * nullitem_m;
 };
 
@@ -325,7 +395,7 @@ bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);
 
-//the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
+//the assigned numbers are a result of legacy stuff in draw_item_info(),
 //it would be better long-term to rewrite stuff so that we don't need that hack
 enum hint_rating {
  HINT_CANT = 0, //meant to display as gray

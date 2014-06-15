@@ -135,6 +135,7 @@
     <ClCompile Include="..\src\item_group.cpp" />
     <ClCompile Include="..\src\itypedef.cpp" />
     <ClCompile Include="..\src\iuse.cpp" />
+    <ClCompile Include="..\src\iuse_actor.cpp" />
     <ClCompile Include="..\src\iuse_software.cpp" />
     <ClCompile Include="..\src\iuse_software_kitten.cpp" />
     <ClCompile Include="..\src\iuse_software_snake.cpp" />
@@ -151,9 +152,11 @@
     <ClCompile Include="..\src\mapgen.cpp" />
     <ClCompile Include="..\src\mapgenformat.cpp" />
     <ClCompile Include="..\src\mapgen_functions.cpp" />
+    <ClCompile Include="..\src\mapsharing.cpp" />
     <ClCompile Include="..\src\martialarts.cpp" />
     <ClCompile Include="..\src\material.cpp" />
     <ClCompile Include="..\src\melee.cpp" />
+    <ClCompile Include="..\src\messages.cpp" />
     <ClCompile Include="..\src\mission.cpp" />
     <ClCompile Include="..\src\missiondef.cpp" />
     <ClCompile Include="..\src\mission_end.cpp" />
@@ -166,7 +169,6 @@
     <ClCompile Include="..\src\mondeath.cpp" />
     <ClCompile Include="..\src\mondefense.cpp" />
     <ClCompile Include="..\src\mongroupdef.cpp" />
-    <ClCompile Include="..\src\monitemsdef.cpp" />
     <ClCompile Include="..\src\monmove.cpp" />
     <ClCompile Include="..\src\monster.cpp" />
     <ClCompile Include="..\src\monstergenerator.cpp" />
@@ -184,6 +186,7 @@
     <ClCompile Include="..\src\overmap.cpp" />
     <ClCompile Include="..\src\overmapbuffer.cpp" />
     <ClCompile Include="..\src\path_info.cpp" />
+    <ClCompile Include="..\src\pickup.cpp" />
     <ClCompile Include="..\src\player.cpp" />
     <ClCompile Include="..\src\player_activity.cpp" />
     <ClCompile Include="..\src\posix_time.cpp" />
@@ -197,6 +200,7 @@
     <ClCompile Include="..\src\setvector.cpp" />
     <ClCompile Include="..\src\skill.cpp" />
     <ClCompile Include="..\src\speech.cpp" />
+    <ClCompile Include="..\src\start_location.cpp" />
     <ClCompile Include="..\src\text_snippets.cpp" />
     <ClCompile Include="..\src\tileray.cpp" />
     <ClCompile Include="..\src\translations.cpp" />
@@ -220,6 +224,7 @@
     <ClInclude Include="..\src\addiction.h" />
     <ClInclude Include="..\src\advanced_inv.h" />
     <ClInclude Include="..\src\ammo.h" />
+    <ClInclude Include="..\src\armor_layers.h" />
     <ClInclude Include="..\src\artifact.h" />
     <ClInclude Include="..\src\auto_pickup.h" />
     <ClInclude Include="..\src\basecamp.h" />
@@ -254,6 +259,7 @@
     <ClInclude Include="..\src\file_finder.h" />
     <ClInclude Include="..\src\file_wrapper.h" />
     <ClInclude Include="..\src\game.h" />
+    <ClInclude Include="..\src\game_constants.h" />
     <ClInclude Include="..\src\gamemode.h" />
     <ClInclude Include="..\src\get_version.h" />
     <ClInclude Include="..\src\graffiti.h" />
@@ -268,6 +274,7 @@
     <ClInclude Include="..\src\item_group.h" />
     <ClInclude Include="..\src\itype.h" />
     <ClInclude Include="..\src\iuse.h" />
+    <ClInclude Include="..\src\iuse_actor.h" />
     <ClInclude Include="..\src\iuse_software.h" />
     <ClInclude Include="..\src\iuse_software_kitten.h" />
     <ClInclude Include="..\src\iuse_software_snake.h" />
@@ -283,8 +290,10 @@
     <ClInclude Include="..\src\mapgenformat.h" />
     <ClInclude Include="..\src\mapgen_functions.h" />
     <ClInclude Include="..\src\mapitems.h" />
+    <ClInclude Include="..\src\mapsharing.h" />
     <ClInclude Include="..\src\martialarts.h" />
     <ClInclude Include="..\src\material.h" />
+    <ClInclude Include="..\src\messages.h" />
     <ClInclude Include="..\src\mission.h" />
     <ClInclude Include="..\src\mod_manager.h" />
     <ClInclude Include="..\src\monattack.h" />
@@ -306,6 +315,7 @@
     <ClInclude Include="..\src\overmap.h" />
     <ClInclude Include="..\src\overmapbuffer.h" />
     <ClInclude Include="..\src\path_info.h" />
+    <ClInclude Include="..\src\pickup.h" />
     <ClInclude Include="..\src\platform.h" />
     <ClInclude Include="..\src\player.h" />
     <ClInclude Include="..\src\player_activity.h" />
@@ -318,6 +328,7 @@
     <ClInclude Include="..\src\setvector.h" />
     <ClInclude Include="..\src\skill.h" />
     <ClInclude Include="..\src\speech.h" />
+    <ClCompile Include="..\src\start_location.h" />
     <ClInclude Include="..\src\text_snippets.h" />
     <ClInclude Include="..\src\tileray.h" />
     <ClInclude Include="..\src\tile_id_data.h" />

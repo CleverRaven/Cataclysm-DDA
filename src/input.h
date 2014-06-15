@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <utility>
 #include "cursesdef.h"
 
 // Compiling with SDL enables gamepad support.
@@ -13,40 +14,8 @@
 
 #define KEY_ESCAPE 27
 
-enum InputEvent {
-    Confirm,
-    Cancel,
-    Close,
-    Tab,
-    Help,
-
-    DirectionN,
-    DirectionS,
-    DirectionE,
-    DirectionW,
-    DirectionNW,
-    DirectionNE,
-    DirectionSE,
-    DirectionSW,
-    DirectionNone,
-
-    DirectionDown, /* Think stairs */
-    DirectionUp,
-    Filter,
-    Reset,
-    Pickup,
-    Nothing,
-    Undefined
-};
-
-InputEvent get_input(int ch = '\0');
 bool is_mouse_enabled();
-void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname = "input.txt");
-
-// Simple text input--translates numpad to vikeys
-long input(long ch = -1);
-long get_keypress();
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
@@ -132,6 +101,16 @@ struct input_event {
     }
 };
 
+/**
+ * A set of attributes for an action
+ */
+struct action_attributes {
+    action_attributes() : is_user_created(false) {}
+    bool is_user_created;
+    std::string name;
+    std::vector<input_event> input_events;
+};
+
 // Definitions for joystick/gamepad.
 
 // On the joystick there's a maximum of 256 key states.
@@ -170,8 +149,6 @@ public:
     /**
      * Get the input events associated with an action ID in a given context.
      *
-     * Note that if context is something other than "default", the default bindings will not be returned.
-     *
      * @param action_descriptor The action ID to get the input events for.
      * @param context The context in which to get the input events. Defaults to "default".
      * @param overwrites_default If this is non-NULL, this will be used as return parameter and will be set to true if the default
@@ -190,6 +167,12 @@ public:
     void save();
 
     /**
+     * Return the prvioulsy pressed key, or 0 if there is no previous input
+     * or the previous input wasn't a key.
+     */
+    long get_previously_pressed_key() const;
+
+    /**
      * Get the keycode associated with the given key name.
      */
     long get_keycode(const std::string &name) const;
@@ -203,11 +186,6 @@ public:
      * <code>get_keyname(get_keycode(a), , true) == a</code>
      */
     std::string get_keyname(long ch, input_event_t input_type, bool portable = false) const;
-
-    /**
-     * Get the human-readable name for an action.
-     */
-    const std::string& get_action_name(const std::string& action) const;
 
     /**
      * curses getch() replacement.
@@ -230,11 +208,10 @@ private:
     friend class input_context;
 
     typedef std::vector<input_event> t_input_event_list;
-    typedef std::map<std::string, t_input_event_list> t_keybinding_map;
-    typedef std::map<std::string, t_keybinding_map> t_action_contexts;
+    typedef std::map<std::string, action_attributes> t_actions;
+    typedef std::map<std::string, t_actions> t_action_contexts;
     t_action_contexts action_contexts;
     typedef std::map<std::string, std::string> t_string_string_map;
-    t_string_string_map actionID_to_name;
 
     typedef std::map<long, std::string> t_key_to_name_map;
     t_key_to_name_map keycode_to_keyname;
@@ -242,22 +219,58 @@ private:
     typedef std::map<std::string, long> t_name_to_key_map;
     t_name_to_key_map keyname_to_keycode;
 
+    // See @ref get_previously_pressed_key
+    long previously_pressed_key;
+
     // Maps the key names we see in keybindings.json and in-game to
     // the keycode integers.
     void init_keycode_mapping();
     void add_keycode_pair(long ch, const std::string& name);
     void add_gamepad_keycode_pair(long ch, const std::string& name);
 
+    /**
+     * Load keybindings from a json file, override existing bindings.
+     * Throws std::string on errors
+     */
+    void load(const std::string &file_name, bool is_user_preferences);
+
     int input_timeout;
 
     t_input_event_list &get_event_list(const std::string &action_descriptor, const std::string &context);
     void remove_input_for_action(const std::string &action_descriptor, const std::string &context);
     void add_input_for_action(const std::string &action_descriptor, const std::string &context, const input_event &event);
+
     /**
-     * Return a user presentable list of actions that conflict with the
-     * proposed keybinding. Returns an empty string if nothing conflicts.
+     * Get the attributes of the action associated with an action ID by
+     * searching the given context and the default context.
+     *
+     * @param action_id The action ID of the action to find.
+     * @param context The context in which to get the action. If not found,
+     *                the "default" context will additionally be checked.
+     *                Defaults to "default".
+     * @param overwrites_default If this is non-NULL, this will be used as a
+     *                           return parameter. It will be set to true if
+     *                           the found action was not in the default
+     *                           context. It will be set to false if the found
+     *                           action was in the default context.
      */
-    std::string get_conflicts(const std::string &context, const input_event &event) const;
+    const action_attributes &get_action_attributes(
+            const std::string &action_id,
+            const std::string context="default",
+            bool *overwrites_default=NULL);
+
+    /**
+     * Get a value to be used as the default name for a newly created action.
+     * This name should be used as a fallback in cases where it is necessary
+     * to create a new action.
+     *
+     * @param action_id The action ID of the action.
+     *
+     * @return If the action ID exists in the default context, the name of
+     *         that action's name is returned. Otherwise, the action_id is
+     *         returned.
+     */
+    std::string get_default_action_name(const std::string &action_id) const;
 };
 
 // Singleton for our input manager.
@@ -299,6 +312,30 @@ public:
      * the screen).
      */
     void register_action(const std::string& action_descriptor);
+    /**
+     * Same as other @ref register_action function but allows a context specific
+     * action name. The given name is displayed instead of the name taken from
+     * the @ref input_manager.
+     *
+     * @param name Name of the action, displayed to the user. If empty use the
+     * name reported by the input_manager.
+     */
+    void register_action(const std::string& action_descriptor, const std::string& name);
+
+    /**
+     * Get the set of available single character keyboard keys that do not
+     * conflict with any registered hotkeys.  The result will only include
+     * characters from the requested_keys parameter that have no conflicts
+     * i.e. the set difference requested_keys - conflicts.
+     *
+     * @param requested_keys The set of single character hotkeys to
+     *                       potentially use. Defaults to all printable ascii.
+     *
+     * @return Returns the set of non-conflicting, single character keyboard
+     *         keys suitable for use as hotkeys.
+     */
+    std::string get_available_single_char_hotkeys(
+            std::string requested_keys="abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~");
 
     /**
      * Get a description text for the key/other input method associated
@@ -323,10 +360,15 @@ public:
     /**
      * Convert a direction action(UP, DOWN etc) to a delta x and y.
      *
+     * @return True if the action is a movement action (UP, DOWN, ...),
+     * the delta values of associated with it have been stored in (dx,dy).
+     * False if the action is not a movement action (CONFIRM, QUIT, ...),
+     * (dx,dy) has been set to (-2,-2).
+     *
      * @param dx Output parameter for x delta.
      * @param dy Output parameter for y delta.
      */
-    void get_direction(int& dx, int& dy, const std::string& action);
+    static bool get_direction(int& dx, int& dy, const std::string& action);
 
     /**
      * Get the coordinates associated with the last mouse click.
@@ -358,22 +400,62 @@ public:
      */
     input_event get_raw_input();
 
+    /**
+     * Get the human-readable name for an action.
+     */
+    const std::string& get_action_name(const std::string& action_id) const;
 
     /* For the future, something like this might be nice:
      * const std::string register_action(const std::string& action_descriptor, x, y, width, height);
      * (x, y, width, height) would describe an area on the visible window that, if clicked, triggers the action.
      */
 
+    // (Press X (or Y)|Try) to Z
+    std::string press_x(const std::string &action_id) const;
+    std::string press_x(const std::string &action_id, const std::string &key_bound, const std::string &key_unbound) const;
+    std::string press_x(const std::string &action_id, const std::string &key_bound_pre, const std::string &key_bound_suf, const std::string &key_unbound) const;
+
+    /**
+     * Keys (and only keys, other input types are not included) that
+     * trigger the given action.
+     */
+    std::vector<char> keys_bound_to(const std::string &action_id) const;
 private:
 
     std::vector<std::string> registered_actions;
+public:
     const std::string& input_to_action(input_event& inp);
+private:
     bool registered_any_input;
     std::string category; // The input category this context uses.
     int coordinate_x, coordinate_y;
     bool coordinate_input_received;
     bool handling_coordinate_input;
     input_event next_action;
+
+    /**
+     * When registering for actions within an input_context, callers can
+     * specify a custom action name that will override the action's normal
+     * name. This map stores those overrides. The key is the action ID and the
+     * value is the user-visible name.
+     */
+    input_manager::t_string_string_map action_name_overrides;
+
+    /**
+     * Return a user presentable list of actions that conflict with the
+     * proposed keybinding. Returns an empty string if nothing conflicts.
+     */
+    std::string get_conflicts(const input_event &event) const;
+    void list_conflicts(const input_event &event, const input_manager::t_actions &actions, std::ostringstream &buffer) const;
+
+    /**
+     * Clear an input_event from all conflicting keybindings that are
+     * registered by this input_context.
+     *
+     * @param event The input event to be cleared from conflicting
+     * keybindings.
+     */
+    void clear_conflicting_keybindings(const input_event &event);
 };
 
 /**

@@ -56,6 +56,7 @@ void mapgen_spider_pit(map *m, oter_id terrain_type, mapgendata dat, int turn, f
 void mapgen_fungal_bloom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_center(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -90,9 +91,6 @@ void mapgen_s_liquor(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_clothes(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_library(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_s_restaurant(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_s_restaurant_fast(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_s_restaurant_coffee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_shelter(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_shelter_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -105,6 +103,8 @@ void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_basement_game(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 // autogen.sh
 void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_apartments_con_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -128,7 +128,6 @@ void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 void mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_bar(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_furniture(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

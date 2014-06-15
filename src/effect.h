@@ -4,12 +4,19 @@
 #include "pldata.h"
 #include "creature.h"
 #include "json.h"
-
+#include "messages.h"
 
 class effect_type;
 class Creature;
 
 extern std::map<std::string, effect_type> effect_types;
+
+enum effect_rating {
+    e_good,	// the effect is good for the one who has it.
+    e_neutral,  // there is no effect or the effect is very nominal. This is the default.
+    e_bad,      // the effect is bad for the one who has it
+    e_mixed     // the effect has good and bad parts to the one who has it 
+};
 
 class effect_type
 {
@@ -22,18 +29,20 @@ class effect_type
 
         efftype_id id;
 
-        /*
-        bool is_permanent();
-
-        int get_max_intensity();
-        */
         std::string get_name();
         std::string get_desc();
+
+        effect_rating get_rating();
+
+        game_message_type gain_game_message_type(); // appropriate game_message_type when effect is optained
+        game_message_type lose_game_message_type(); // appropriate game_message_type when effect is lost
 
         std::string get_apply_message();
         std::string get_apply_memorial_log();
         std::string get_remove_message();
         std::string get_remove_memorial_log();
+
+        int get_max_intensity();
 
     protected:
         int max_intensity;
@@ -41,6 +50,8 @@ class effect_type
 
         std::string name;
         std::string desc;
+
+        effect_rating rating;
 
         std::string apply_message;
         std::string apply_memorial_log;
@@ -52,7 +63,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 {
     public:
         effect();
-        effect(effect_type *eff_type, int dur);
+        effect(effect_type *eff_type, int dur, int nintensity, bool perm);
         effect(const effect &rhs);
         effect &operator=(const effect &rhs);
 
@@ -65,8 +76,14 @@ class effect : public JsonSerializer, public JsonDeserializer
         void set_duration(int dur);
         void mod_duration(int dur);
 
+        bool is_permanent();
+        void pause_effect();
+        void unpause_effect();
+
         int get_intensity();
-        void set_intensity(int dur);
+        int get_max_intensity();
+        void set_intensity(int nintensity);
+        void mod_intensity(int nintensity);
 
         efftype_id get_id() {
             return eff_type->id;
@@ -92,6 +109,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         effect_type *eff_type;
         int duration;
         int intensity;
+        bool permanent;
 
 };
 

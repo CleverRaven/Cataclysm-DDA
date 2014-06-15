@@ -75,8 +75,22 @@ uimenu::uimenu(bool cancelable, const char *mes, std::vector<std::string> option
     }
 }
 
-uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) { // another quick convenience coonstructor
+uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) {
+    // another quick convenience coonstructor
     init();
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = title;
+    entries = ents;
+    query();
+    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
+}
+
+uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) {
+    // another quick convenience coonstructor
+    init();
+    return_invalid = cancelable;
     w_x = startx;
     w_y = starty;
     w_width = width;
@@ -175,13 +189,15 @@ void uimenu::filterlist()
     fentries.clear();
     fselected = -1;
     int f = 0;
-    for ( int i = 0; i < num_entries; i++ ) {
-        if ( notfiltering
-             || ( nocase == false && entries[ i ].txt.find(filter) != -1 )
-             || lcmatch(entries[i].txt, fstr)
-           ) {
+    for( int i = 0; i < num_entries; i++ ) {
+        if( notfiltering || ( nocase == false && entries[ i ].txt.find(filter) != -1 ) ||
+            lcmatch(entries[i].txt, fstr ) ) {
             fentries.push_back( i );
             if ( i == selected ) {
+                fselected = f;
+            } else if ( i > selected && fselected == -1 ) {
+                // Past the previously selected entry, which has been filtered out,
+                // choose another nearby entry instead.
                 fselected = f;
             }
             f++;
@@ -195,6 +211,14 @@ void uimenu::filterlist()
         } else {
             selected = fentries [ 0 ];
         }
+    } else if (fselected < fentries.size()) {
+        selected = fentries[fselected];
+    } else {
+        fselected = selected = -1;
+    }
+    // scroll to top of screen if all remaining entries fit the screen.
+    if (fentries.size() <= vmax) {
+        vshift = 0;
     }
 }
 
@@ -217,7 +241,8 @@ std::string uimenu::inputfilter()
 */
     do {
         // filter=filter_input->query(filter, false);
-        filter=string_input_win(window, filter, 256, 4, w_height - 1, w_width - 4, false, key, spos, identifier, 4, w_height - 1 );
+        filter = string_input_win( window, filter, 256, 4, w_height - 1, w_width - 4,
+                                   false, key, spos, identifier, 4, w_height - 1 );
         // key = filter_input->keypress;
         if ( key != KEY_ESCAPE ) {
             if ( scrollby(0, key) == false ) {
@@ -265,7 +290,6 @@ void uimenu::setup() {
     }
     max_entry_len = 0;
     std::vector<int> autoassign;
-    autoassign.clear();
     int pad = pad_left + pad_right + 2;
     for ( int i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(entries[ i ].txt.c_str());
@@ -294,26 +318,16 @@ void uimenu::setup() {
         }
         fentries.push_back( i );
     }
-    if ( !autoassign.empty() ) {
-        int modifier = 0; //Increase this by one if assignment fails (the key is already used then).
-        for ( int a = 0; a < autoassign.size(); ) {
-            int setkey=-1;
-            if ( (a + modifier) < 9 ) {
-                setkey = (a + modifier) + 49; // 1-9;
-            } else if ( (a + modifier) == 9 ) {
-                setkey = (a + modifier) + 39; // 0;
-            } else if ( (a + modifier) < 36 ) {
-                setkey = (a + modifier) + 87; // a-z
-            } else if ( (a + modifier) < 61 ) {
-                setkey = (a + modifier) + 29; // A-Z
-            }
-            if ( setkey != -1 && keymap.count(setkey) <= 0 ) {
-                int palloc = autoassign[ a ];
-                entries[ palloc ].hotkey = setkey;
-                keymap[ setkey ] = palloc;
-                a++;
-            } else {
-                modifier++; //Keymap.count was not <= 0
+    static const std::string hotkeys("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    size_t next_free_hotkey = 0;
+    for( auto it = autoassign.begin(); it != autoassign.end() && next_free_hotkey < hotkeys.size(); ++it ) {
+        while( next_free_hotkey < hotkeys.size() ) {
+            const int setkey = hotkeys[next_free_hotkey];
+            next_free_hotkey++;
+            if( keymap.count( setkey ) == 0 ) {
+                entries[*it].hotkey = setkey;
+                keymap[setkey] = *it;
+                break;
             }
         }
     }
@@ -372,7 +386,8 @@ void uimenu::setup() {
                 popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",TERMY);
             } else {
                 popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-                    textformatted.size(),TERMY,textformatted[0].c_str(),textformatted[textformatted.size()-1].c_str()
+                    textformatted.size(), TERMY, textformatted[0].c_str(),
+                      textformatted[ textformatted.size() - 1 ].c_str()
                 );
             }
         }
@@ -508,12 +523,14 @@ void uimenu::show() {
             if ( hilight_full ) {
                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
-            if(entries[ ei ].enabled && entries[ ei ].hotkey > 33 && entries[ ei ].hotkey < 126 ) {
-               mvwprintz(window, estart + si, pad_left + 2, ( ei == selected ? hilight_color : hotkey_color ) , "%c", entries[ ei ].hotkey);
+            if(entries[ ei ].enabled && entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
+                mvwprintz( window, estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
+                           hotkey_color , "%c", entries[ ei ].hotkey );
             }
             mvwprintz(window, estart + si, pad_left + 4, co, "%s", entries[ ei ].txt.c_str() );
             if ( !entries[ei].extratxt.txt.empty() ) {
-                mvwprintz(window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left, entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
+                mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
+                           entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
             }
             if ( callback != NULL && ei == selected ) {
                 callback->select(ei,this);
@@ -524,8 +541,8 @@ void uimenu::show() {
     }
 
     if ( !filter.empty() ) {
-        mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
-        mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
+        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window, w_height - 1, 4, text_color, "%s", filter.c_str() );
     }
     apply_scrollbar();
 
@@ -553,8 +570,8 @@ void uimenu::redraw( bool redraw_callback ) {
         wprintz(window, border_color, " >");
     }
     if ( !filter.empty() ) {
-        mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
-        mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
+        mvwprintz(window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz(window, w_height - 1, 4, text_color, "%s", filter.c_str());
     }
     (void)redraw_callback; // TODO
 /*
@@ -650,7 +667,8 @@ void uimenu::query(bool loop) {
             /* nothing */
         } else if ( filtering && ( keypress == '/' || keypress == '.' ) ) {
             inputfilter();
-        } else if ( !fentries.empty() && ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) ) {
+        } else if ( !fentries.empty() && ( keypress == '\n' || keypress == KEY_ENTER ||
+                                           keymap.find(keypress) != keymap.end() ) ) {
             if ( keymap.find(keypress) != keymap.end() ) {
                 selected = keymap[ keypress ];//fixme ?
             }

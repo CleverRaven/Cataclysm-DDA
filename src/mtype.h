@@ -59,7 +59,7 @@ enum mon_id {
     mon_dermatik_larva, mon_dermatik,
     // SPIDERS
     mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
-    mon_spider_widow,
+    mon_spider_widow, mon_spider_widow_giant_s, mon_spider_web_s,
     // Unearthed Horrors
     mon_dark_wyrm, mon_amigara_horror, mon_dog_thing, mon_headless_dog_thing,
     mon_thing,
@@ -93,8 +93,11 @@ enum mon_id {
     mon_mink, mon_muskrat, mon_otter, mon_pig,
     mon_sheep, mon_shrew, mon_squirrel_red,
     mon_weasel,
-    // 0.9 -> 0.10
+    // 0.9 -> 0.A
     mon_dog_skeleton, mon_dog_zombie_cop, mon_dog_zombie_rot,
+    // 0.A -> 0.B
+    mon_broken_cyborg, mon_zoose, mon_zolf, mon_zougar,
+    mon_zombie_bio_op, mon_zombie_gasbag, mon_turret_rifle,
     num_monsters
 };
 
@@ -167,13 +170,14 @@ enum m_flag {
     MF_ACIDTRAIL,           // Leaves a trail of acid
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_LEAKSGAS,            // Occasionally leaks gas when moving
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by emp blasts, and other stuff
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
     MF_FEATHER,             // May produce feather when butchered
-    MF_CBM,                 // May produce a cbm or two when butchered
+    MF_CBM_CIV,             // May produce a common cbm or two when butchered
     MF_BONES,               // May produce bones and sinews when butchered
     MF_FAT,                 // May produce fat when butchered
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
@@ -196,12 +200,14 @@ enum m_flag {
     MF_BILE_BLOOD,          // Makes monster bleed bile.
     MF_ABSORBS,             // Consumes objects it moves over.
     MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
-    MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM.
+    MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
+    MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
+    MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
 struct mtype {
-    std::string id, name, description;
+    std::string id, name, name_plural, description;
     std::set<std::string> species, categories;
     long sym;
     nc_color color;
@@ -226,20 +232,24 @@ struct mtype {
     unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
     unsigned char armor_bash;  // Natural armor vs. bash
     unsigned char armor_cut;   // Natural armor vs. cut
-    signed char item_chance;   // Higher # means higher chance of loot
-                               // Negative # means one item gen'd, tops
+    std::string death_drops;   // Name of item group that is used to create item dropped upon death, or empty
     float luminance;           // 0 is default, >0 gives luminance to lightmap
     int hp;
     unsigned int sp_freq;     // How long sp_attack takes to charge
     std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
     unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
     void (mattack::*sp_attack)(monster *); // This monster's special attack
-    void (mdefense::*sp_defense)(monster *); // This monster's special "defensive" move that may trigger when the monster is attacked.
-                                             // Note that this can be anything, and is not necessarily beneficial to the monster
+    // This monster's special "defensive" move that may trigger when the monster is attacked.
+    // Note that this can be anything, and is not necessarily beneficial to the monster
+    void (mdefense::*sp_defense)(monster *, const projectile*);
     // Default constructor
     mtype ();
 
+    // Used to fetch the properly pluralized monster type name
+    std::string nname(unsigned int quantity = 1) const;
     bool has_flag(m_flag flag) const;
+    bool has_flag(std::string flag) const;
+    void set_flag(std::string flag, bool state);
     bool has_anger_trigger(monster_trigger trigger) const;
     bool has_fear_trigger(monster_trigger trigger) const;
     bool has_placate_trigger(monster_trigger trigger) const;

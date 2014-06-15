@@ -24,7 +24,7 @@ struct MOD_INFORMATION {
     std::string path;
     std::string name;
     std::string ident;
-    std::string author;
+    std::vector<std::string> authors;
     std::string description;
     mod_type _type;
     std::vector<std::string> dependencies;

@@ -6,6 +6,7 @@
 #include "line.h"
 #include "debug.h"
 #include "catacharset.h"
+#include "messages.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -393,10 +394,10 @@ void npc::talk_to_u()
  if (attitude == NPCATT_TALK)
   attitude = NPCATT_NULL;
  else if (attitude == NPCATT_FLEE) {
-  g->add_msg(_("%s is fleeing from you!"), name.c_str());
+  add_msg(_("%s is fleeing from you!"), name.c_str());
   return;
  } else if (attitude == NPCATT_KILL) {
-  g->add_msg(_("%s is hostile!"), name.c_str());
+  add_msg(_("%s is hostile!"), name.c_str());
   return;
  }
  dialogue d;
@@ -440,9 +441,9 @@ void npc::talk_to_u()
  moves -= 100;
 
  if(g->u.has_disease("deaf")) {
-  g->add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
+  add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
   if(d.topic_stack.back() == TALK_MUG) {
-   g->add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
+   add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
    make_angry();
   }
   return;
@@ -517,7 +518,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                      mission_id(type->id), topic);
             return "";
         }
-    
+
         if (topic == TALK_MISSION_SUCCESS && miss->follow_up != MISSION_NULL) {
             return ret + _("  And I have more I'd like you to do.");
         }
@@ -647,7 +648,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             std::stringstream response;
             dist *= 100;
             if (dist >= 1300) {
-            int miles = dist / 52; // *100, e.g. quarter mile is "25"
+            int miles = dist / 25; // *100, e.g. quarter mile is "25"
             miles -= miles % 25; // Round to nearest quarter-mile
             int fullmiles = (miles - miles % 100) / 100; // Left of the decimal point
             if (fullmiles <= 0) {
@@ -655,7 +656,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             }
             response << string_format(_("%d.%d miles."), fullmiles, miles);
             } else {
-                response << string_format(_("%d feet."), dist);
+                response << string_format(ngettext("%d foot.","%d feet.",dist), dist);
             }
             return response.str();
             }
@@ -1360,6 +1361,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     SUCCESS(TALK_DONE);
     SUCCESS_ACTION(&talk_function::assign_base);
   }
+  RESPONSE(_("I'm going to go my own way for a while."));
+   SUCCESS(TALK_LEAVE);
   RESPONSE(_("Let's go."));
    SUCCESS(TALK_DONE);
   break;
@@ -1440,6 +1443,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    RESPONSE(_("Care to trade?"));
     SUCCESS(TALK_NONE);
     SUCCESS_ACTION(&talk_function::start_trade);
+   RESPONSE(_("Bye."));
+    SUCCESS(TALK_DONE);
   } else {
    if (!g->u.unarmed_attack()) {
     if (g->u.volume_carried() + g->u.weapon.volume() <= g->u.volume_capacity()){
@@ -1815,7 +1820,7 @@ void talk_function::assign_base(npc *p)
         return;
     }
 
-    g->add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
+    add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
     p->mission = NPC_MISSION_BASE;
     p->attitude = NPCATT_NULL;
 }
@@ -1876,7 +1881,7 @@ void talk_function::deny_equipment(npc *p)
 
 void talk_function::hostile(npc *p)
 {
- g->add_msg(_("%s turns hostile!"), p->name.c_str());
+ add_msg(_("%s turns hostile!"), p->name.c_str());
     g->u.add_memorial_log(pgettext("memorial_male","%s became hostile."),
         pgettext("memorial_female", "%s became hostile."),
         p->name.c_str());
@@ -1885,20 +1890,20 @@ void talk_function::hostile(npc *p)
 
 void talk_function::flee(npc *p)
 {
- g->add_msg(_("%s turns to flee!"), p->name.c_str());
+ add_msg(_("%s turns to flee!"), p->name.c_str());
  p->attitude = NPCATT_FLEE;
 }
 
 void talk_function::leave(npc *p)
 {
- g->add_msg(_("%s leaves."), p->name.c_str());
+ add_msg(_("%s leaves."), p->name.c_str());
  p->attitude = NPCATT_NULL;
 }
 
 void talk_function::start_mugging(npc *p)
 {
  p->attitude = NPCATT_MUG;
- g->add_msg(_("Pause to stay still.  Any movement may cause %s to attack."),
+ add_msg(_("Pause to stay still.  Any movement may cause %s to attack."),
             p->name.c_str());
 }
 
@@ -2202,7 +2207,7 @@ talk_topic dialogue::opt(talk_topic topic)
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
   if (chosen.trial != TALK_TRIAL_NONE)
-    alpha->practice(g->turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 10);
+    alpha->practice( "speech", (100 - trial_chance(chosen, alpha, beta)) / 10 );
   (effect.*chosen.effect_success)(beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -2211,7 +2216,7 @@ talk_topic dialogue::opt(talk_topic topic)
   }
   return chosen.success;
  } else {
-   alpha->practice(g->turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 7);
+   alpha->practice( "speech", (100 - trial_chance(chosen, alpha, beta)) / 7 );
   (effect.*chosen.effect_failure)(beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {
@@ -2471,7 +2476,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    } else
     newinv.push_back(tmp);
   }
-  g->u.practice(g->turn, "barter", practice / 2);
+  g->u.practice( "barter", practice / 2 );
   p->inv = newinv;
   if(ch == 'T' && cash > 0) { //Trade was forced, give the NPC's cash to the player.
     p->op_of_u.owed += (cash - p->cash);

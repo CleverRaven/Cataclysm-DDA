@@ -1,6 +1,6 @@
 #include "player.h"
 #include "profession.h"
-#include "item_factory.h"
+#include "start_location.h"
 #include "input.h"
 #include "output.h"
 #include "rng.h"
@@ -10,6 +10,8 @@
 #include "debug.h"
 #include "char_validity_check.h"
 #include "path_info.h"
+#include "mapsharing.h"
+#include "item_factory.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -39,6 +41,8 @@
 #define COL_NOTE_MINOR      c_ltgray  // Just regular note
 
 #define HIGH_STAT 14 // The point after which stats cost double
+#define MAX_STAT 20 // The point after which stats can not be increased further
+#define MAX_SKILL 20 // The maximum selectable skill level
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
@@ -52,13 +56,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points);
 
 Skill *random_skill();
 
-int calc_HP(int strength, int tough);
-
 void save_template(player *u);
 
 bool player::create(character_type type, std::string tempname)
 {
-    weapon = item(itypes["null"], 0);
+    weapon = item("null", 0);
 
     g->u.prof = profession::generic();
 
@@ -66,13 +68,31 @@ bool player::create(character_type type, std::string tempname)
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    int tab = 0, points = 38, max_trait_points = 12;
+    int tab = 0;
+    int points = OPTIONS["INITIAL_POINTS"];
+    int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
     if (type != PLTYPE_CUSTOM) {
+        points = points + 32;
         switch (type) {
+            case PLTYPE_CUSTOM:
+                break;
+            case PLTYPE_MAX:
+                break;
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
-                g->u.pick_name();
+
+                if(!MAP_SHARING::isSharing()) {
+                    g->u.pick_name();
+                } else {
+                    g->u.name = MAP_SHARING::getUsername();
+                }
             case PLTYPE_RANDOM: {
+                g->u.male = (rng(1, 100) > 50);
+                if(!MAP_SHARING::isSharing()) {
+                    g->u.pick_name();
+                } else {
+                    g->u.name = MAP_SHARING::getUsername();
+                }
                 g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
                 dex_max = rng(6, 12);
@@ -138,7 +158,10 @@ bool player::create(character_type type, std::string tempname)
                         }
                     }
                 }
-                while (points > 0) {
+
+                /* The loops variable is used to prevent the algorithm running in an infinte loop */
+                unsigned int loops = 0;
+                while (points > 0 && loops <= 30000) {
                     switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
                         case 1:
                         case 2:
@@ -159,24 +182,36 @@ bool player::create(character_type type, std::string tempname)
                                     if (str_max < HIGH_STAT) {
                                         str_max++;
                                         points--;
+                                    } else if (points >= 2 && str_max < MAX_STAT) {
+                                        str_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 2:
                                     if (dex_max < HIGH_STAT) {
                                         dex_max++;
                                         points--;
+                                    } else if (points >= 2 && dex_max < MAX_STAT) {
+                                        dex_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 3:
                                     if (int_max < HIGH_STAT) {
                                         int_max++;
                                         points--;
+                                    } else if (points >= 2 && int_max < MAX_STAT) {
+                                        int_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 4:
                                     if (per_max < HIGH_STAT) {
                                         per_max++;
                                         points--;
+                                    } else if (points >= 2 && per_max < MAX_STAT) {
+                                        per_max++;
+                                        points = points - 2;
                                     }
                                     break;
                             }
@@ -188,12 +223,13 @@ bool player::create(character_type type, std::string tempname)
                             Skill *aSkill = random_skill();
                             int level = skillLevel(aSkill);
 
-                            if (level < points) {
+                            if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
                                 points -= level + 1;
                                 skillLevel(aSkill).level(level + 2);
                             }
                             break;
                     }
+                    loops++;
                 }
             }
             break;
@@ -210,14 +246,15 @@ bool player::create(character_type type, std::string tempname)
                 getline(fin, data);
                 load_info(data);
                 points = 0;
+
+                if(MAP_SHARING::isSharing()) {
+                    name = MAP_SHARING::getUsername(); //just to make sure we have the right name
+                }
             }
             break;
         }
         tab = NEWCHAR_TAB_MAX;
-    } else {
-        points = OPTIONS["INITIAL_POINTS"];
     }
-    max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
     do {
         werase(w);
@@ -246,31 +283,11 @@ bool player::create(character_type type, std::string tempname)
         return false;
     }
 
-    // Character is finalized.  Now just set up HP, &c
-    int tough = 0;
-    // Most extreme applies.
-    if (has_trait("TOUGH")) {
-        tough = 1;
-    } else if (has_trait("TOUGH2")) {
-        tough = 2;
-    } else if (has_trait("TOUGH3")) {
-        tough = 3;
-    } else if (has_trait("FLIMSY")) {
-        tough = -1;
-    } else if (has_trait("FLIMSY2")) {
-        tough = -2;
-    } else if (has_trait("FLIMSY3")) {
-        tough = -3;
-    }
-
+    recalc_hp();
     for (int i = 0; i < num_hp_parts; i++) {
-        hp_max[i] = calc_HP(str_max, tough);
         hp_cur[i] = hp_max[i];
     }
-    if (has_trait("GLASSJAW")) {
-        hp_max[hp_head] = int(hp_max[hp_head] * .80);
-        hp_cur[hp_head] = hp_max[hp_head];
-    }
+
     if (has_trait("SMELLY")) {
         scent = 800;
     }
@@ -396,7 +413,7 @@ bool player::create(character_type type, std::string tempname)
     }
 
 
-    ret_null = item(itypes["null"], 0);
+    ret_null = item("null", 0);
     weapon = ret_null;
 
 
@@ -426,8 +443,8 @@ bool player::create(character_type type, std::string tempname)
 
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
-        tmp = item(item_controller->find_template(*iter), 0, false);
-        tmp = tmp.in_its_container(&(itypes));
+        tmp = item(*iter, 0, false);
+        tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
                 tmp.item_tags.insert("FIT");
@@ -477,13 +494,13 @@ bool player::create(character_type type, std::string tempname)
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item(itypes["inhaler"], 0, false);
+        tmp = item("inhaler", 0, false);
         inv.push_back(tmp);
     }
 
     // And cannibals start with a special cookbook.
     if (has_trait("CANNIBAL")) {
-        tmp = item(itypes["cookbook_human"], 0);
+        tmp = item("cookbook_human", 0);
         inv.push_back(tmp);
     }
 
@@ -491,7 +508,7 @@ bool player::create(character_type type, std::string tempname)
     // Since they have to wield it, I don't think it breaks things
     // too badly to issue one.
     if (has_trait("ALBINO")) {
-        tmp = item(itypes["teleumbrella"], 0);
+        tmp = item("teleumbrella", 0);
         inv.push_back(tmp);
     }
 
@@ -524,9 +541,9 @@ void draw_tabs(WINDOW *w, std::string sTab)
     tab_captions.push_back(_("PROFESSION"));
     tab_captions.push_back(_("SKILLS"));
     tab_captions.push_back(_("DESCRIPTION"));
-    int tab_pos[6];   //this is actually tab_captions.size() + 1
+    std::vector<int> tab_pos(tab_captions.size() + 1, 0);
     tab_pos[0] = 2;
-    for (int pos = 0; pos < tab_captions.size(); pos++) {
+    for (size_t pos = 0; pos < tab_captions.size(); pos++) {
         tab_pos[pos + 1] = tab_pos[pos] + utf8_width(tab_captions[pos].c_str());
     }
     int space = (FULL_SCREEN_WIDTH - tab_pos[tab_captions.size()]) / (tab_captions.size() - 1) - 3;
@@ -548,7 +565,11 @@ int set_stats(WINDOW *w, player *u, int &points)
 {
     unsigned char sel = 1;
     const int iSecondColumn = 27;
-    char ch;
+    input_context ctxt("NEW_CHAR_STATS");
+    ctxt.register_cardinal();
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("NEXT_TAB");
     int read_spd;
     WINDOW *w_description = newwin(8, FULL_SCREEN_WIDTH - iSecondColumn - 1, 6 + getbegy(w),
                                    iSecondColumn + getbegx(w));
@@ -563,17 +584,21 @@ int set_stats(WINDOW *w, player *u, int &points)
     u->posx = -1;
     u->reset();
 
-    draw_tabs(w, _("STATS"));
-    fold_and_print(w, 16, 2, getmaxx(w) - 4, COL_NOTE_MINOR, _("\
-j/k, 8/2, or up/down arrows to select a statistic.\n\
-l, 6, or right arrow to increase the statistic.\n\
-h, 4, or left arrow to decrease the statistic."));
-    mvwprintz(w, FULL_SCREEN_HEIGHT - 3, 2, COL_NOTE_MAJOR, _("> Takes you to the next tab."));
-    mvwprintz(w, FULL_SCREEN_HEIGHT - 2, 2, COL_NOTE_MAJOR, _("< Returns you to the main menu."));
-
     const char clear[] = "                                                ";
 
     do {
+        werase(w);
+        draw_tabs(w, _("STATS"));
+        fold_and_print(w, 16, 2, getmaxx(w) - 4, COL_NOTE_MINOR, _("\
+    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n\
+    <color_light_green>%s</color> to increase the statistic.\n\
+    <color_light_green>%s</color> to decrease the statistic."),
+    ctxt.get_desc("UP").c_str(), ctxt.get_desc("DOWN").c_str(),
+    ctxt.get_desc("RIGHT").c_str(), ctxt.get_desc("LEFT").c_str()
+        );
+        mvwprintz(w, FULL_SCREEN_HEIGHT - 3, 2, COL_NOTE_MAJOR, _("%s Takes you to the next tab."), ctxt.get_desc("NEXT_TAB").c_str());
+        mvwprintz(w, FULL_SCREEN_HEIGHT - 2, 2, COL_NOTE_MAJOR, _("%s Returns you to the main menu."), ctxt.get_desc("PREV_TAB").c_str());
+
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
         mvwprintz(w, 3, iSecondColumn, c_black, clear);
         for (int i = 6; i < 13; i++) {
@@ -588,7 +613,6 @@ h, 4, or left arrow to decrease the statistic."));
         mvwprintz(w, 9,  2, c_ltgray, _("Perception:"));
         mvwprintz(w, 9, 16, c_ltgray, "%2d", u->per_max);
 
-        int tmp = 0;
         werase(w_description);
         switch (sel) {
             case 1:
@@ -597,22 +621,8 @@ h, 4, or left arrow to decrease the statistic."));
                 if (u->str_max >= HIGH_STAT) {
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Str further costs 2 points."));
                 }
-                // Most extreme applies.
-                if (u->has_trait("TOUGH")) {
-                    tmp = 1;
-                } else if (u->has_trait("TOUGH2")) {
-                    tmp = 2;
-                } else if (u->has_trait("TOUGH3")) {
-                    tmp = 3;
-                } else if (u->has_trait("FLIMSY")) {
-                    tmp = -1;
-                } else if (u->has_trait("FLIMSY2")) {
-                    tmp = -2;
-                } else if (u->has_trait("FLIMSY3")) {
-                    tmp = -3;
-                }
-                mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"),
-                          calc_HP(u->str_max, tmp));
+                u->recalc_hp();
+                mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"), u->hp_max[0]);
                 mvwprintz(w_description, 1, 0, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
                           u->convert_weight(u->weight_capacity(false)),
                           OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
@@ -678,14 +688,20 @@ h, 4, or left arrow to decrease the statistic."));
 
         wrefresh(w);
         wrefresh(w_description);
-        ch = input();
-        if ((ch == 'j' || ch == '2') && sel < 4) {
-            sel++;
-        }
-        if ((ch == 'k' || ch == '8') && sel > 1) {
-            sel--;
-        }
-        if (ch == 'h' || ch == '4') {
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
+            if (sel < 4) {
+                sel++;
+            } else {
+                sel = 1;
+            }
+        } else if (action == "UP") {
+            if (sel > 1) {
+                sel--;
+            } else {
+                sel = 4;
+            }
+        } else if (action == "LEFT") {
             if (sel == 1 && u->str_max > 4) {
                 if (u->str_max > HIGH_STAT) {
                     points++;
@@ -711,39 +727,36 @@ h, 4, or left arrow to decrease the statistic."));
                 u->per_max--;
                 points++;
             }
-        }
-        if ((ch == 'l' || ch == '6')) {
-            if (sel == 1 && u->str_max < 20) {
+        } else if (action == "RIGHT") {
+            if (sel == 1 && u->str_max < MAX_STAT) {
                 points--;
                 if (u->str_max >= HIGH_STAT) {
                     points--;
                 }
                 u->str_max++;
-            } else if (sel == 2 && u->dex_max < 20) {
+            } else if (sel == 2 && u->dex_max < MAX_STAT) {
                 points--;
                 if (u->dex_max >= HIGH_STAT) {
                     points--;
                 }
                 u->dex_max++;
-            } else if (sel == 3 && u->int_max < 20) {
+            } else if (sel == 3 && u->int_max < MAX_STAT) {
                 points--;
                 if (u->int_max >= HIGH_STAT) {
                     points--;
                 }
                 u->int_max++;
-            } else if (sel == 4 && u->per_max < 20) {
+            } else if (sel == 4 && u->per_max < MAX_STAT) {
                 points--;
                 if (u->per_max >= HIGH_STAT) {
                     points--;
                 }
                 u->per_max++;
             }
-        }
-        if (ch == '<' && query_yn(_("Return to main menu?"))) {
+        } else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
             delwin(w_description);
             return -1;
-        }
-        if (ch == '>') {
+        } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
         }
@@ -785,7 +798,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off, col_tr;
 
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 9;
+    const size_t iContentHeight = FULL_SCREEN_HEIGHT - 9;
     int iCurWorkingPage = 0;
 
     int iStartPos[2];
@@ -795,6 +808,13 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     int iCurrentLine[2];
     iCurrentLine[0] = 0;
     iCurrentLine[1] = 0;
+
+    input_context ctxt("NEW_CHAR_TRAITS");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
@@ -827,8 +847,8 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                          vStartingTraits[iCurrentPage].size());
 
             //Draw Traits
-            for (int i = iStartPos[iCurrentPage]; i < vStartingTraits[iCurrentPage].size(); i++) {
-                if (i >= iStartPos[iCurrentPage] && i < iStartPos[iCurrentPage] +
+            for (int i = iStartPos[iCurrentPage]; (size_t) i < vStartingTraits[iCurrentPage].size(); i++) {
+                if (i >= iStartPos[iCurrentPage] && (size_t) i < iStartPos[iCurrentPage] +
                     ((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
                      vStartingTraits[iCurrentPage].size() : iContentHeight)) {
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
@@ -839,7 +859,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         if (negativeTrait) {
                                   points *=-1;
                         }
-                        mvwprintz(w,  3, 41, col_tr, _("%s %s %d points"),
+                        mvwprintz(w,  3, 41, col_tr, ngettext("%s %s %d point", "%s %s %d points", points),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   negativeTrait ? _("earns"):_("costs"),
                                   points);
@@ -892,36 +912,28 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
         wrefresh(w);
         wrefresh(w_description);
-        switch (input()) {
-            case 'h':
-            case '4':
-            case 'l':
-            case '6':
-            case '\t':
-                if (iCurWorkingPage == 0) {
-                    iCurWorkingPage = 1;
-                } else {
-                    iCurWorkingPage = 0;
-                }
-                wrefresh(w);
-                break;
-            case 'k':
-            case '8':
+        const std::string action = ctxt.handle_input();
+        if (action == "LEFT") {
+            iCurWorkingPage--;
+            if (iCurWorkingPage < 0) {
+                iCurWorkingPage = 1;
+            }
+        } else if (action == "RIGHT") {
+            iCurWorkingPage++;
+            if (iCurWorkingPage > 1) {
+                iCurWorkingPage = 0;
+            }
+        } else if (action == "UP") {
                 iCurrentLine[iCurWorkingPage]--;
                 if (iCurrentLine[iCurWorkingPage] < 0) {
                     iCurrentLine[iCurWorkingPage] = vStartingTraits[iCurWorkingPage].size() - 1;
                 }
-                break;
-            case 'j':
-            case '2':
+        } else if (action == "DOWN") {
                 iCurrentLine[iCurWorkingPage]++;
-                if (iCurrentLine[iCurWorkingPage] >= vStartingTraits[iCurWorkingPage].size()) {
+                if ((size_t) iCurrentLine[iCurWorkingPage] >= vStartingTraits[iCurWorkingPage].size()) {
                     iCurrentLine[iCurWorkingPage] = 0;
                 }
-                break;
-            case ' ':
-            case '\n':
-            case '5': {
+        } else if (action == "CONFIRM") {
                 int inc_type = 0;
                 std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
                 if (u->has_trait(cur_trait)) {
@@ -943,12 +955,12 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of advantages."),
+                    popup(ngettext("Sorry, but you can only take %d point of advantages.", "Sorry, but you can only take %d points of advantages.", max_trait_points),
                           max_trait_points);
 
                 } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
                            -max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of disadvantages."),
+                    popup(ngettext("Sorry, but you can only take %d point of disadvantages.", "Sorry, but you can only take %d points of disadvantages.", max_trait_points),
                           max_trait_points);
 
                 } else {
@@ -974,12 +986,10 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         num_bad += traits[cur_trait].points * inc_type;
                     }
                 }
-                break;
-            }
-            case '<':
+        } else if (action == "PREV_TAB") {
                 delwin(w_description);
                 return -1;
-            case '>':
+        } else if (action == "NEXT_TAB") {
                 delwin(w_description);
                 return 1;
         }
@@ -1026,12 +1036,20 @@ int set_profession(WINDOW *w, player *u, int &points)
     std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);
 
     // Select the current profession, if possible.
-    for (int i = 0; i < sorted_profs.size(); ++i) {
+    for (size_t i = 0; i < sorted_profs.size(); ++i) {
         if (sorted_profs[i]->ident() == u->prof->ident()) {
             cur_id = i;
             break;
         }
     }
+
+    input_context ctxt("NEW_CHAR_PROFESSIONS");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("CHANGE_GENDER");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
@@ -1047,7 +1065,9 @@ int set_profession(WINDOW *w, player *u, int &points)
         if (negativeProf) {
                   pointsForProf *=-1;
         }
-        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, _("Profession %1$s %2$s %3$d points (net: %4$d)"),
+        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, ngettext("Profession %1$s %2$s %3$d point (net: %4$d)",
+                                                                          "Profession %1$s %2$s %3$d points (net: %4$d)",
+                                                                          pointsForProf),
                       sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
                       negativeProf ? _("earns"):_("costs"),
                       pointsForProf, netPointCost);
@@ -1086,27 +1106,22 @@ int set_profession(WINDOW *w, player *u, int &points)
         } else {
             prof_gender_items = sorted_profs[cur_id]->items_female();
         }
-        int gender_items_offset = prof_items.size();
+        prof_items.insert( prof_items.end(), prof_gender_items.begin(), prof_gender_items.end() );
         int line_offset = 1;
         werase(w_items);
         mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));
-        for (int i = 0; i < prof_items.size() + prof_gender_items.size(); i++) {
-            const itype *it;
-            if (i < gender_items_offset) {
-                it = itypes[prof_items[i]];
-            } else {
-                it = itypes[prof_gender_items[i - gender_items_offset]];
-            }
+        for (size_t i = 0; i < prof_items.size(); i++) {
+            itype *it = item_controller->find_template(prof_items[i]);
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
-                             it->name) - 1;
+                             it->nname(1)) - 1;
         }
 
         werase(w_skills);
         profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
         mvwprintz(w_skills, 0, 0, COL_HEADER, _("Profession skills:\n"));
         if (!prof_skills.empty()) {
-            for (int i = 0; i < prof_skills.size(); i++) {
+            for (size_t i = 0; i < prof_skills.size(); i++) {
                 Skill *skill = Skill::skill(prof_skills[i].first);
                 if (skill == NULL) {
                     continue;  // skip unrecognized skills.
@@ -1131,7 +1146,8 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         werase(w_genderswap);
-        mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s."),
+        mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press %1$s to switch to %2$s."),
+                    ctxt.get_desc("CHANGE_GENDER").c_str(),
                     sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
         //Draw Scrollbar
@@ -1143,38 +1159,27 @@ int set_profession(WINDOW *w, player *u, int &points)
         wrefresh(w_skills);
         wrefresh(w_addictions);
         wrefresh(w_genderswap);
-        switch (input()) {
-            case 'j':
-            case '2':
+
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
                 cur_id++;
                 if (cur_id > profession::count() - 1) {
                     cur_id = 0;
                 }
-                break;
-
-            case 'k':
-            case '8':
+        } else if (action == "UP") {
                 cur_id--;
                 if (cur_id < 0) {
                     cur_id = profession::count() - 1;
                 }
-                break;
-
-            case '\n':
-            case '5':
+        } else if (action == "CONFIRM") {
                 u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                 points -= netPointCost;
-                break;
-            case '\t':
+        } else if (action == "CHANGE_GENDER") {
                 u->male = !u->male;
-                break;
-            case '<':
+        } else if (action == "PREV_TAB") {
                 retval = -1;
-                break;
-
-            case '>':
+        } else if (action == "NEXT_TAB") {
                 retval = 1;
-                break;
         }
     } while (retval == 0);
 
@@ -1205,6 +1210,12 @@ int set_skills(WINDOW *w, player *u, int &points)
     int cur_pos = 0;
     Skill *currentSkill = sorted_skills[cur_pos];
 
+    input_context ctxt("NEW_CHAR_SKILLS");
+    ctxt.register_cardinal();
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
         // Clear the bottom of the screen.
@@ -1212,7 +1223,7 @@ int set_skills(WINDOW *w, player *u, int &points)
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
         int cost = std::max(1, (u->skillLevel(currentSkill) + 1) / 2);
         mvwprintz(w, 3, 31, points >= cost ? COL_SKILL_USED : c_ltred,
-                  _("Upgrading %s costs %d point(s)"),
+                  ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
         fold_and_print(w_description, 0, 0, getmaxx(w_description), COL_SKILL_USED,
                        currentSkill->description());
@@ -1246,7 +1257,7 @@ int set_skills(WINDOW *w, player *u, int &points)
                         " (%d)", int(u->skillLevel(thisSkill)));
             }
             profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
-            for (int k = 0; k < prof_skills.size(); k++) {
+            for (size_t k = 0; k < prof_skills.size(); k++) {
                 Skill *skill = Skill::skill(prof_skills[k].first);
                 if (skill == NULL) {
                     continue;  // skip unrecognized skills.
@@ -1264,25 +1275,20 @@ int set_skills(WINDOW *w, player *u, int &points)
 
         wrefresh(w);
         wrefresh(w_description);
-        switch (input()) {
-        case 'j':
-        case '2':
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
             cur_pos++;
             if (cur_pos >= num_skills) {
                 cur_pos = 0;
             }
             currentSkill = sorted_skills[cur_pos];
-            break;
-        case 'k':
-        case '8':
+        } else if (action == "UP") {
             cur_pos--;
             if (cur_pos < 0) {
                 cur_pos = num_skills - 1;
             }
             currentSkill = sorted_skills[cur_pos];
-            break;
-        case 'h':
-        case '4': {
+        } else if (action == "LEFT") {
             SkillLevel& level = u->skillLevel(currentSkill);
             if (level) {
                 if (level == 2) {  // lower 2->0 for 1 point
@@ -1293,10 +1299,7 @@ int set_skills(WINDOW *w, player *u, int &points)
                     points += (level + 1) / 2;
                 }
             }
-            break;
-        }
-        case 'l':
-        case '6': {
+        } else if (action == "RIGHT") {
             SkillLevel& level = u->skillLevel(currentSkill);
             if (level <= 19) {
                 if (level == 0) {  // raise 0->2 for 1 point
@@ -1307,12 +1310,10 @@ int set_skills(WINDOW *w, player *u, int &points)
                     level.level(level + 1);
                 }
             }
-            break;
-        }
-        case '<':
+        } else if (action == "PREV_TAB") {
             delwin(w_description);
             return -1;
-        case '>':
+        } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
         }
@@ -1334,13 +1335,14 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
     draw_tabs(w, _("DESCRIPTION"));
 
-    WINDOW* w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
-    WINDOW* w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
-    WINDOW* w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
-    WINDOW* w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
-    WINDOW* w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
-    WINDOW* w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
-    WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
+    WINDOW *w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
+    WINDOW *w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
+    WINDOW *w_location = newwin(1, 76, getbegy(w) + 8, getbegx(w) + 2);
+    WINDOW *w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
+    WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
+    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
+    WINDOW *w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
 
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
 
@@ -1349,14 +1351,36 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     unsigned female_pos = 2 + male_pos + utf8_width(_("Male"));
     bool redraw = true;
 
-    long ch;
+    input_context ctxt("NEW_CHAR_DESCRIPTION");
+    ctxt.register_action("SAVE_TEMPLATE");
+    ctxt.register_action("PICK_RANDOM_NAME");
+    ctxt.register_action("CHANGE_GENDER");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("CHOOSE_LOCATION");
+    ctxt.register_action("ANY_INPUT");
 
+    uimenu select_location;
+    select_location.text = _("Select a starting location.");
+    int offset = 0;
+    for( location_map::iterator loc = start_location::begin();
+         loc != start_location::end(); ++loc, ++offset ) {
+        select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
+        if( loc->second.ident() == u->start_location ) {
+            select_location.selected = offset;
+        }
+    }
+    select_location.setup();
+    if(MAP_SHARING::isSharing()) {
+        u->name = MAP_SHARING::getUsername();  // set the current username as default character name
+    }
     do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.
             for (int i = 0; i < getmaxx(w); ++i) {
                 if (i == 0) {
-                    mvwputch(w, 8, i, BORDER_COLOR, LINE_XXXO);
+                    mvwputch(w, 9, i, BORDER_COLOR, LINE_XXXO);
                 } else if (i == getmaxx(w) - 1) {
                     wputch(w, BORDER_COLOR, LINE_XOXX);
                 } else {
@@ -1372,8 +1396,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             vStatNames.push_back(_("Intelligence:"));
             vStatNames.push_back(_("Perception:"));
             int pos = 0;
-            for (int i = 0; i < vStatNames.size(); i++) {
-                pos = (utf8_width(vStatNames[i].c_str()) > pos ? utf8_width(vStatNames[i].c_str()) : pos);
+            for (size_t i = 0; i < vStatNames.size(); i++) {
+                pos = (utf8_width(vStatNames[i].c_str()) > pos ?
+                       utf8_width(vStatNames[i].c_str()) : pos);
                 mvwprintz(w_stats, i + 1, 0, c_ltgray, vStatNames[i].c_str());
             }
             mvwprintz(w_stats, 1, pos + 1, c_ltgray, "%2d", u->str_max);
@@ -1383,11 +1408,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::set<std::string> current_traits = u->get_traits();
+            std::unordered_set<std::string> current_traits = u->get_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::set<std::string>::iterator i = current_traits.begin();
+                for (std::unordered_set<std::string>::iterator i = current_traits.begin();
                      i != current_traits.end(); ++i) {
                     wprintz(w_traits, c_ltgray, "\n");
                     wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
@@ -1441,8 +1466,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
             wrefresh(w_skills);
 
-            mvwprintz(w_guide, 0, 0, c_green, _("Press > to finish character creation or < to go back and make revisions."));
-            mvwprintz(w_guide, 1, 0, c_green, _("Press ! to save a template of this character."));
+            mvwprintz(w_guide, 0, 0, c_green, _("Press %s to finish character creation or %s to go back and make revisions."),
+                      ctxt.get_desc("NEXT_TAB").c_str(),
+                      ctxt.get_desc("PREV_TAB").c_str());
+            mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
+                      ctxt.get_desc("SAVE_TEMPLATE").c_str());
             wrefresh(w_guide);
 
             redraw = false;
@@ -1453,23 +1481,38 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
-        mvwprintz(w_name, 1, 0, c_ltgray, _("Press ? to pick a random name."));
+
+        if(!MAP_SHARING::isSharing()) { // no random names when sharing maps
+            mvwprintz(w_name, 1, 0, c_ltgray, _("Press %s to pick a random name."),
+                      ctxt.get_desc("PICK_RANDOM_NAME").c_str());
+        }
         wrefresh(w_name);
 
         mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
         mvwprintz(w_gender, 0, male_pos, (u->male ? c_ltred : c_ltgray), _("Male"));
         mvwprintz(w_gender, 0, female_pos, (u->male ? c_ltgray : c_ltred), _("Female"));
-        mvwprintz(w_gender, 1, 0, c_ltgray, _("Press TAB to switch gender"));
+        mvwprintz(w_gender, 1, 0, c_ltgray, _("Press %s to switch gender"),
+                      ctxt.get_desc("CHANGE_GENDER").c_str());
         wrefresh(w_gender);
+
+        const std::string location_prompt = string_format(_("Press %s to select location."),
+                                                          ctxt.get_desc("CHOOSE_LOCATION").c_str() );
+        const int prompt_offset = utf8_width( location_prompt.c_str() );
+        werase(w_location);
+        mvwprintz( w_location, 0, 0, c_ltgray, location_prompt.c_str() );
+        mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
+        mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
+                   c_ltgray, _(select_location.entries[select_location.selected].txt.c_str()) );
+        wrefresh(w_location);
 
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
         wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
         wrefresh(w_profession);
 
-        ch = input();
+        const std::string action = ctxt.handle_input();
 
-        if (ch == '>') {
+        if (action == "NEXT_TAB") {
             if (points < 0) {
                 popup(_("Too many points allocated, change some features and try again."));
                 redraw = true;
@@ -1508,7 +1551,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 redraw = true;
                 continue;
             }
-        } else if (ch == '<') {
+        } else if (action == "PREV_TAB") {
             delwin(w_name);
             delwin(w_gender);
             delwin(w_stats);
@@ -1517,48 +1560,68 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             delwin(w_skills);
             delwin(w_guide);
             return -1;
-        } else if (ch == '!') {
-            if (points != 0) {
-                popup(_("You cannot save a template with nonzero unused points!"));
+        } else if (action == "SAVE_TEMPLATE") {
+            if (points > 0) {
+                if(query_yn(_("You are attempting to save a template with unused points. "
+                              "Any unspent points will be lost, are you sure you want to proceed?"))) {
+                    save_template(u);
+                }
+            } else if (points < 0) {
+                popup(_("You cannot save a template with negative unused points"));
             } else {
                 save_template(u);
             }
             redraw = true;
-            wrefresh(w);
-        } else if (ch == '?') {
-            u->pick_name();
-        } else if (ch == KEY_BACKSPACE || ch == 127) {
-            if (!u->name.empty()) {
+        } else if (action == "PICK_RANDOM_NAME") {
+            if(!MAP_SHARING::isSharing()){ // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
+                u->pick_name();
+            }
+        } else if (action == "CHANGE_GENDER") {
+            u->male = !u->male;
+        } else if ( action == "CHOOSE_LOCATION" ){
+            select_location.redraw();
+            select_location.query();
+            for( location_map::iterator loc = start_location::begin();
+                 loc != start_location::end(); ++loc ) {
+                if( 0 == strcmp( _( loc->second.name().c_str() ),
+                                 select_location.entries[ select_location.selected ].txt.c_str() ) ) {
+                    u->start_location = loc->second.ident();
+                }
+            }
+            werase(select_location.window);
+            select_location.refresh();
+            redraw = true;
+        } else if (action == "ANY_INPUT" && !MAP_SHARING::isSharing()) {  // Don't edit names when sharing maps
+            const long ch = ctxt.get_raw_input().get_first_input();
+            if ((ch == KEY_BACKSPACE || ch == 127) && !u->name.empty()) {
                 //erase utf8 character TODO: make a function
                 while(!u->name.empty() && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
-                      ((unsigned char)u->name[(int)u->name.size() - 1]) <= 191) {
+                        ((unsigned char)u->name[(int)u->name.size() - 1]) <= 191) {
                     u->name.erase(u->name.size() - 1);
                 }
                 u->name.erase(u->name.size() - 1);
+            } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
+                u->name.push_back(ch);
+            } else if(ch == KEY_F(2)) {
+                std::string tmp = get_input_string_from_file();
+                int tmplen = utf8_width(tmp.c_str());
+                if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
+                    u->name.append(tmp);
+                }
             }
-        } else if (ch == '\t') {
-            u->male = !u->male;
-        } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
-            u->name.push_back(ch);
-        } else if(ch == KEY_F(2)) {
-            std::string tmp = get_input_string_from_file();
-            int tmplen = utf8_width(tmp.c_str());
-            if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
-                u->name.append(tmp);
-            }
-        }
-        //experimental unicode input
-        else if(ch > 127) {
-            std::string tmp = utf32_to_utf8(ch);
-            int tmplen = utf8_width(tmp.c_str());
-            if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
-                u->name.append(tmp);
+            //experimental unicode input
+            else if(ch > 127 && !MAP_SHARING::isSharing()) { //Don't edit name when sharing
+                std::string tmp = utf32_to_utf8(ch);
+                int tmplen = utf8_width(tmp.c_str());
+                if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
+                    u->name.append(tmp);
+                }
             }
         }
     } while (true);
 }
 
-std::set<std::string> player::get_traits() const
+std::unordered_set<std::string> player::get_traits() const
 {
     return my_traits;
 }
@@ -1592,17 +1655,6 @@ std::string player::random_bad_trait()
 Skill *random_skill()
 {
     return Skill::skill(rng(0, Skill::skill_count() - 1));
-}
-
-int calc_HP(int strength, int tough)
-{
-    if (tough > 0) {
-        return int((60 + 3 * strength) * (1.1 + tough * .1));
-    } else if (tough == 0) {
-        return int((60 + 3 * strength));
-    } else {
-        return int((60 + 3 * strength) * (1 + tough * .25));
-    }
 }
 
 void save_template(player *u)

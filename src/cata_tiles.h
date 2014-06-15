@@ -6,13 +6,8 @@
 #include <wordexp.h>
 #endif
 
-#if (defined OSX_SDL_FW)
-#include "SDL.h"
-#include "SDL_ttf/SDL_ttf.h"
-#else
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
-#endif
 
 #include "game.h"
 #include "options.h"
@@ -103,8 +98,8 @@ enum TILE_CATEGORY
 };
 
 /** Typedefs */
-typedef std::vector<SDL_Texture*> tile_map;
-typedef std::map<std::string, tile_type*> tile_id_map;
+typedef std::vector<SDL_Texture *> tile_map;
+typedef std::map<std::string, tile_type *> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
@@ -116,10 +111,10 @@ struct tile_drawing_cache {
 
     // Sprite indices drawn on this tile.
     // The same indices in a different order need to be drawn differently!
-    std::vector<tile_type*> sprites;
+    std::vector<tile_type *> sprites;
     std::vector<int> rotations;
 
-    bool operator==(const tile_drawing_cache& other) const {
+    bool operator==(const tile_drawing_cache &other) const {
         if(sprites.size() != other.sprites.size()) {
             return false;
         } else {
@@ -133,11 +128,11 @@ struct tile_drawing_cache {
         return true;
     }
 
-    bool operator!=(const tile_drawing_cache& other) const {
+    bool operator!=(const tile_drawing_cache &other) const {
         return !(this->operator==(other));
     }
 
-    void operator=(const tile_drawing_cache& other) {
+    void operator=(const tile_drawing_cache &other) {
         this->sprites = other.sprites;
         this->rotations = other.rotations;
     }
@@ -197,7 +192,8 @@ class cata_tiles
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
         bool draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota);
-        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category,
+                                 const std::string &subcategory, int x, int y, int subtile, int rota);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**
@@ -210,7 +206,8 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
-        void get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int &subtile, int &rotation);
+        void get_wall_values(const int x, const int y, const long vertical_wall_symbol,
+                             const long horizontal_wall_symbol, int &subtile, int &rotation);
         void get_terrain_orientation(int x, int y, int &rota, int &subtype);
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
@@ -241,9 +238,7 @@ class cata_tiles
         void draw_hit_frame();
         void void_hit();
 
-        void init_draw_footsteps(std::queue<point> steps);
         void draw_footsteps_frame();
-        void void_footsteps();
 
         // pseudo-animated layer, not really though.
         void init_draw_line(int x, int y, std::vector<point> trajectory, std::string line_end_name, bool target_line);
@@ -253,6 +248,10 @@ class cata_tiles
         void init_draw_weather(weather_printable weather, std::string name);
         void draw_weather_frame();
         void void_weather();
+
+        void init_draw_sct();
+        void draw_sct_frame();
+        void void_sct();
 
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
@@ -290,7 +289,7 @@ class cata_tiles
         bool do_draw_hit;
         bool do_draw_line;
         bool do_draw_weather;
-        bool do_draw_footsteps;
+        bool do_draw_sct;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -307,8 +306,6 @@ class cata_tiles
 
         weather_printable anim_weather;
         std::string weather_name;
-
-        std::queue<point> footsteps;
 
         // offset values, in tile coordinates, not pixels
         int o_x, o_y;

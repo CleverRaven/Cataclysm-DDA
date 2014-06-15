@@ -30,7 +30,7 @@ typedef std::string dis_type;
 enum add_type {
  ADD_NULL,
  ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
- ADD_COKE, ADD_CRACK, ADD_MUTAGEN,
+ ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM,
 };
 
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
@@ -120,6 +120,7 @@ struct trait {
     int points; // How many points it costs in character creation
     int visibility; // How visible it is
     int ugliness; // How ugly it is
+    bool mixed_effect; // Wheather it has positive as well as negative effects.
     bool startingtrait; // Starting Trait True/False
     bool purifiable; // Whether it's vulnerable to Purifier
     std::string description;
@@ -141,4 +142,33 @@ enum hp_part {
     hp_leg_r,
     num_hp_parts
 };
+
+inline hp_part bodypart_to_hp_part(body_part p_bp, int p_iSide = 0)
+{
+    switch(p_bp) {
+        case bp_torso:
+            return hp_torso;
+
+        case bp_head:
+        case bp_eyes:
+        case bp_mouth:
+            return hp_torso;
+
+        case bp_arms:
+        case bp_hands:
+            return (p_iSide) ? hp_arm_r : hp_arm_l;
+
+        case bp_legs:
+        case bp_feet:
+            return (p_iSide) ? hp_leg_r : hp_leg_l;
+
+        case num_bp:
+            return num_hp_parts;
+
+        default:
+            break;
+    }
+
+    return hp_torso;
+}
 #endif

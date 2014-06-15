@@ -15,6 +15,7 @@
 #include "get_version.h"
 #include "init.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -23,7 +24,6 @@
 #include <dirent.h>
 #endif
 
-// SDL headers end up in different places depending on the OS, sadly
 #if (defined _WIN32 || defined WINDOWS)
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -35,19 +35,17 @@
 #else
 #include <wordexp.h>
 #endif
-#if (defined OSX_SDL_FW)
-#include "SDL.h"
-#include "SDL_ttf/SDL_ttf.h"
-#ifdef SDLTILES
-#include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
-#endif
-#else
+
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #ifdef SDLTILES
-#include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
+#include "SDL2/SDL_image.h"
 #endif
+
+#ifdef SDL_SOUND
+#include "SDL_mixer.h"
 #endif
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -57,6 +55,13 @@ cata_tiles *tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
+#endif
+
+#ifdef SDL_SOUND
+/** The music we're currently playing. */
+Mix_Music *current_music = NULL;
+std::string current_playlist = "";
+int current_playlist_at = 0;
 #endif
 
 /**
@@ -130,6 +135,7 @@ static SDL_Color windowsPalette[256];
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
+static SDL_Texture *display_buffer;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
@@ -152,6 +158,10 @@ std::map< std::string,std::vector<int> > consolecolors;
 static SDL_Joystick *joystick; // Only one joystick for now.
 
 static bool fontblending = false;
+
+// Cache of bitmap fonts family.
+// Used only while fontlist.txt is created.
+static std::set<std::string> *bitmap_fonts;
 
 #ifdef SDLTILES
 //***********************************
@@ -210,12 +220,13 @@ bool WinCreate()
 {
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
-    //Flags used for setting up SDL VideoMode
+    // Common flags used for fulscreen and for windowed
     int window_flags = 0;
+    WindowWidth = TERMINAL_WIDTH * fontwidth;
+    WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    //If FULLSCREEN was selected in options add SDL_WINDOW_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
-    if(OPTIONS["FULLSCREEN"]) {
-        window_flags = window_flags | SDL_WINDOW_FULLSCREEN;
+    if (OPTIONS["FULLSCREEN"]) {
+        window_flags |= SDL_WINDOW_FULLSCREEN;
     }
 
     window = SDL_CreateWindow(version.c_str(),
@@ -226,9 +237,15 @@ bool WinCreate()
             window_flags
         );
 
-	//create renderer and convert that to a SDL_Surface?
-
-    if (window == NULL) return false;
+    if (window == NULL) {
+        return false;
+    }
+    if (window_flags & SDL_WINDOW_FULLSCREEN) {
+        SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
+        // Ignore previous values, use the whole window, but nothing more.
+        TERMINAL_WIDTH = WindowWidth / fontwidth;
+        TERMINAL_HEIGHT = WindowHeight / fontheight;
+    }
 
     format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
 
@@ -251,6 +268,9 @@ bool WinCreate()
         }
     }
 
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
+    SDL_SetRenderTarget(renderer, display_buffer);
     ClearScreen();
 
     if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
@@ -274,11 +294,28 @@ bool WinCreate()
 
     SDL_JoystickEventState(SDL_ENABLE);
 
+    // Set up audio mixer.
+#ifdef SDL_SOUND
+    int audio_rate = 22050;
+    Uint16 audio_format = AUDIO_S16;
+    int audio_channels = 2;
+    int audio_buffers = 4096;
+
+    SDL_Init(SDL_INIT_AUDIO);
+
+    if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
+      DebugLog() << "Failed to open audio mixer.\n";
+    }
+#endif
+
     return true;
 };
 
 void WinDestroy()
 {
+#ifdef SDL_SOUND
+    Mix_CloseAudio();
+#endif
     if(joystick) {
         SDL_JoystickClose(joystick);
         joystick = 0;
@@ -289,6 +326,10 @@ void WinDestroy()
     if(renderer)
         SDL_DestroyRenderer(renderer);
     renderer = NULL;
+    if (display_buffer != NULL) {
+        SDL_DestroyTexture(display_buffer);
+        display_buffer = NULL;
+    }
     if(window)
         SDL_DestroyWindow(window);
     window = NULL;
@@ -440,7 +481,12 @@ void try_update()
 {
     unsigned long now = SDL_GetTicks();
     if (now - lastupdate >= interval) {
+        // Select default target (the window), copy rendered buffer
+        // there, present it, select the buffer as target again.
+        SDL_SetRenderTarget(renderer, NULL);
+        SDL_RenderCopy(renderer, display_buffer, NULL, NULL);
         SDL_RenderPresent(renderer);
+        SDL_SetRenderTarget(renderer, display_buffer);
         needupdate = false;
         lastupdate = now;
     } else {
@@ -514,8 +560,8 @@ void curses_drawwindow(WINDOW *win)
             win->y * fontheight,
             g->ter_view_x,
             g->ter_view_y,
-            win->width * tilecontext->get_tile_width(),
-            win->height * tilecontext->get_tile_height());
+            TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
+            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
         // Special font for the terrain window
@@ -849,6 +895,12 @@ void CheckMessages()
     }
 }
 
+// Check if text ends with suffix
+static bool ends_with(const std::string &text, const std::string &suffix) {
+    return text.length() >= suffix.length() &&
+        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
+}
+
 //***********************************
 //Psuedo-Curses Functions           *
 //***********************************
@@ -864,11 +916,13 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 0 == strcmp( ent->d_name, ".." ) ) {
                 continue;
             }
-            #if (defined _WIN32 || defined WINDOWS)
-                std::string f = path + "\\" + ent->d_name;
-            #else
-                std::string f = path + "/" + ent->d_name;
-            #endif
+            char path_last = *path.rbegin();
+            std::string f;
+            if (is_filesep(path_last)) {
+                f = path + ent->d_name;
+            } else {
+                f = path + FILE_SEP + ent->d_name;
+            }
 
             struct stat stat_buffer;
             if( stat( f.c_str(), &stat_buffer ) == -1 ) {
@@ -878,46 +932,78 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 font_folder_list( fout, f );
                 continue;
             }
+
             TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
-            long nfaces = 0;
-            if(fnt != NULL) {
-                nfaces = TTF_FontFaces(fnt);
-                TTF_CloseFont(fnt);
-                fnt = NULL;
+            if (fnt == NULL) {
+                continue;
             }
+            long nfaces = 0;
+            nfaces = TTF_FontFaces(fnt);
+            TTF_CloseFont(fnt);
+            fnt = NULL;
+
             for(long i = 0; i < nfaces; i++) {
                 fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
-                if(fnt != NULL) {
-                    char *fami = TTF_FontFaceFamilyName(fnt);
-                    char *style = TTF_FontFaceStyleName(fnt);
-                    bool isbitmap = (0 == strcasecmp(".fon", f.substr(f.length() - 4).c_str()) );
-                    if(fami != NULL && (!isbitmap || i == 0) ) {
-                        fout << fami << std::endl;
-                        fout << f << std::endl;
-                        fout << i << std::endl;
-                    }
-                    if(fami != NULL && style != NULL && 0 != strcasecmp(style, "Regular")) {
-                        if(!isbitmap) {
-                            fout << fami << " " << style << std::endl;
-                            fout << f << std::endl;
-                            fout << i << std::endl;
+                if (fnt == NULL) {
+                    continue;
+                }
+
+                // Add font family
+                char *fami = TTF_FontFaceFamilyName(fnt);
+                if (fami != NULL) {
+                    fout << fami;
+                } else {
+                    TTF_CloseFont(fnt);
+                    continue;
+                }
+
+                // Add font style
+                char *style = TTF_FontFaceStyleName(fnt);
+                bool isbitmap = ends_with(f, ".fon");
+                if (style != NULL && !isbitmap && strcasecmp(style, "Regular") != 0) {
+                    fout << " " << style;
+                }
+                if (isbitmap) {
+                    std::set<std::string>::iterator it;
+                    it = bitmap_fonts->find(std::string(fami));
+                    if (it == bitmap_fonts->end()) {
+                        // First appearance of this font family
+                        bitmap_fonts->insert(fami);
+                    } else { // Font in set. Add filename to family string
+                        size_t start = f.find_last_of("/\\");
+                        size_t end = f.find_last_of(".");
+                        if (start != std::string::npos && end != std::string::npos) {
+                            fout << " [" << f.substr(start + 1, end - start - 1) + "]";
+                        } else {
+                            DebugLog() << "sdltiles.cpp::font_folder_list():" <<
+                            "Skipping wrong font file: \"" << f.c_str() << "\"\n";
                         }
                     }
-                    TTF_CloseFont(fnt);
-                    fnt = NULL;
+                }
+                fout << std::endl;
+
+                // Add filename and font index
+                fout << f << std::endl;
+                fout << i << std::endl;
+
+                TTF_CloseFont(fnt);
+                fnt = NULL;
+
+                // We use only 1 style in bitmap fonts.
+                if (isbitmap) {
+                    break;
                 }
             }
         }
         closedir (dir);
     }
-
 }
 
 static void save_font_list()
 {
     std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
+    bitmap_fonts = new std::set<std::string>;
 
-    font_folder_list(fout, FILENAMES["datadir"]);
     font_folder_list(fout, FILENAMES["fontdir"]);
 
 #if (defined _WIN32 || defined WINDOWS)
@@ -946,22 +1032,33 @@ static void save_font_list()
 #endif
     //TODO: other systems
 
-    fout << "end of list" << std::endl;
+    bitmap_fonts->clear();
+    delete bitmap_fonts;
 
+    fout << "end of list" << std::endl;
 }
 
 static std::string find_system_font(std::string name, int& faceIndex)
 {
-    struct stat stat_buf;
-    int rc = stat(FILENAMES["fontlist"].c_str(), &stat_buf);
-    if( rc == 0 ? stat_buf.st_size == 0 : true) {
-      DebugLog() << "Generating fontlist\n";
-      save_font_list();
-    }
-
-
     std::ifstream fin(FILENAMES["fontlist"].c_str());
-    if (fin) {
+    if ( !fin.is_open() ) {
+        // Try opening the fontlist at the old location.
+        fin.open(FILENAMES["legacy_fontlist"].c_str());
+        if( !fin.is_open() ) {
+            DebugLog() << "Generating fontlist\n";
+            assure_dir_exist(FILENAMES["config_dir"]);
+            save_font_list();
+            fin.open(FILENAMES["fontlist"].c_str());
+            if( !fin ) {
+                DebugLog() << "Can't open or create fontlist file.\n";
+                return "";
+            }
+        } else {
+            // Write out fontlist to the new location.
+            save_font_list();
+        }
+    }
+    if ( fin.is_open() ) {
         std::string fname;
         std::string fpath;
         std::string iline;
@@ -976,7 +1073,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
                 faceIndex = index;
                 return fpath;
             }
-        } while (true);
+        } while (!fin.eof());
     }
 
     return "";
@@ -1014,19 +1111,10 @@ static int test_face_size(std::string f, int size, int faceIndex)
     return faceIndex;
 }
 
-// Check if text ends with suffix
-bool ends_with(const std::string &text, const std::string &suffix) {
-    return text.length() >= suffix.length() &&
-        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
-}
-
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    int newWindowWidth = OPTIONS["TERMINAL_X"];
-    newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
-
-    return newWindowWidth * fontwidth;
+    return OPTIONS["TERMINAL_X"] * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
@@ -1035,49 +1123,22 @@ int projected_window_height(int)
     return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
+// forward declaration
+void load_soundset();
+
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
     lastchar = -1;
     inputdelay = -1;
 
-    std::string typeface = "Terminus";
-    std::string blending = "solid";
-    std::ifstream fin;
-    int fontsize = 0; //actuall size
-    fin.open(FILENAMES["fontdata"].c_str());
-    if (!fin.is_open()){
-        fontwidth = 8;
-        fontheight = 16;
-        std::ofstream fout;//create FONDATA file
-        fout.open(FILENAMES["fontdata"].c_str());
-        if(fout.is_open()) {
-            fout << typeface << "\n";
-            fout << fontwidth << "\n";
-            fout << fontheight;
-            fout.close();
-        }
-    } else {
-        getline(fin, typeface);
-        fin >> fontwidth;
-        fin >> fontheight;
-        fin >> fontsize;
-        fin >> blending;
-        if ((fontwidth <= 4) || (fontheight <= 4)) {
-            fontheight = 16;
-            fontwidth = 8;
-        }
-        fin.close();
-    }
-
-    fontblending = (blending=="blended");
-
-    std::string map_typeface = typeface;
-    int map_fontwidth = fontwidth;
-    int map_fontheight = fontheight;
-    int map_fontsize = fontsize;
-
-    std::ifstream jsonstream(FILENAMES["second_fontdata"].c_str(), std::ifstream::binary);
+    std::string typeface, map_typeface;
+    int fontsize = 8;
+    int map_fontwidth = 8;
+    int map_fontheight = 16;
+    int map_fontsize = 8;
+ 
+    std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
@@ -1090,6 +1151,50 @@ WINDOW *curses_init(void)
         map_fontheight = config.get_int("map_fontheight", fontheight);
         map_fontsize = config.get_int("map_fontsize", fontsize);
         map_typeface = config.get_string("map_typeface", typeface);
+        jsonstream.close();
+    } else { // User fontdata is missed. Try to load legacy fontdata.
+        std::ifstream InStream(FILENAMES["legacy_fontdata"].c_str(), std::ifstream::binary);
+        if(InStream.good()) {
+            JsonIn jIn(InStream);
+            JsonObject config = jIn.get_object();
+            fontblending = config.get_bool("fontblending", fontblending);
+            fontwidth = config.get_int("fontwidth", fontwidth);
+            fontheight = config.get_int("fontheight", fontheight);
+            fontsize = config.get_int("fontsize", fontsize);
+            typeface = config.get_string("typeface", typeface);
+            map_fontwidth = config.get_int("map_fontwidth", fontwidth);
+            map_fontheight = config.get_int("map_fontheight", fontheight);
+            map_fontsize = config.get_int("map_fontsize", fontsize);
+            map_typeface = config.get_string("map_typeface", typeface);
+            InStream.close();
+            // Save legacy as user fontdata.
+            assure_dir_exist(FILENAMES["config_dir"]);
+            std::ofstream OutStream(FILENAMES["fontdata"].c_str(), std::ofstream::binary);
+            if(!OutStream.good()) {
+                DebugLog() << "Can't save user fontdata file.\n"
+                << "Check permissions for: " << FILENAMES["fontdata"].c_str();
+                return NULL;
+            }
+            JsonOut jOut(OutStream, true); // pretty-print
+            jOut.start_object();
+            jOut.member("fontblending", fontblending);
+            jOut.member("fontwidth", fontwidth);
+            jOut.member("fontheight", fontheight);
+            jOut.member("fontsize", fontsize);
+            jOut.member("typeface", typeface);
+            jOut.member("map_fontwidth", map_fontwidth);
+            jOut.member("map_fontheight", map_fontheight);
+            jOut.member("map_fontsize", map_fontsize);
+            jOut.member("map_typeface", map_typeface);
+            jOut.end_object();
+            OutStream << "\n";
+            OutStream.close();
+        } else {
+            DebugLog() << "Can't load fontdata files.\n"
+            << "Check permissions for:\n" << FILENAMES["legacy_fontdata"].c_str() << "\n"
+            << FILENAMES["fontdata"].c_str() << "\n";
+            return NULL;
+        }
     }
 
     if(!InitSDL()) {
@@ -1099,23 +1204,6 @@ WINDOW *curses_init(void)
 
     TERMINAL_WIDTH = OPTIONS["TERMINAL_X"];
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
-
-    if(OPTIONS["FULLSCREEN"]) {
-        // Fullscreen mode overrides terminal width/height
-        SDL_DisplayMode display_mode;
-        SDL_GetDesktopDisplayMode(0, &display_mode);
-
-        TERMINAL_WIDTH = display_mode.w / fontwidth;
-        TERMINAL_HEIGHT = display_mode.h / fontheight;
-
-        WindowWidth  = display_mode.w;
-        WindowHeight = display_mode.h;
-    } else {
-        WindowWidth= OPTIONS["TERMINAL_X"];
-        if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
-        WindowWidth *= fontwidth;
-        WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
-    }
 
     if(!WinCreate()) {
         DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
@@ -1137,6 +1225,9 @@ WINDOW *curses_init(void)
     #endif // SDLTILES
 
     init_colors();
+
+    // initialize sound set
+    load_soundset();
 
     // Reset the font pointer
     font = Font::load_font(typeface, fontsize, fontwidth, fontheight);
@@ -1302,6 +1393,7 @@ extern WINDOW *mainwin;
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
 input_event input_manager::get_input_event(WINDOW *win) {
+    previously_pressed_key = 0;
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
@@ -1360,6 +1452,7 @@ input_event input_manager::get_input_event(WINDOW *win) {
         } else {
             rval.type = CATA_INPUT_KEYBOARD;
             rval.add_input(lastchar);
+            previously_pressed_key = lastchar;
         }
     }
 
@@ -1374,6 +1467,7 @@ void rescale_tileset(int size) {
     #ifdef SDLTILES
         tilecontext->set_draw_scale(size);
         g->init_ui();
+        ClearScreen();
     #endif
 }
 
@@ -1635,14 +1729,111 @@ int map_font_height() {
     return (map_font != NULL ? map_font : font)->fontheight;
 }
 
-void translate_terrain_window_size(int &w, int &h) {
+void to_map_font_dimension(int &w, int &h) {
     w = (w * fontwidth) / map_font_width();
     h = (h * fontheight) / map_font_height();
 }
 
-void translate_terrain_window_size_back(int &w, int &h) {
-    w = (w * map_font_width()) / fontwidth;
-    h = (h * map_font_height()) / fontheight;
+void from_map_font_dimension(int &w, int &h) {
+    w = (w * map_font_width() + fontwidth - 1) / fontwidth;
+    h = (h * map_font_height() + fontheight - 1) / fontheight;
+}
+
+bool is_draw_tiles_mode() {
+    return use_tiles;
+}
+
+struct music_playlist {
+    // list of filenames relative to the soundpack location
+    std::vector<std::string> files;
+    std::vector<int> volumes;
+    bool shuffle;
+
+    music_playlist() : shuffle(false) {
+    }
+};
+
+std::map<std::string, music_playlist> playlists;
+
+#ifdef SDL_SOUND
+
+void musicFinished();
+
+void play_music_file(std::string filename, int volume) {
+    current_music = Mix_LoadMUS((FILENAMES["datadir"] + "/sound/" + filename).c_str());
+    Mix_VolumeMusic(volume * OPTIONS["MUSIC_VOLUME"] / 100);
+    Mix_PlayMusic(current_music, 0);
+    Mix_HookMusicFinished(musicFinished);
+}
+
+/** Callback called when we finish playing music. */
+void musicFinished() {
+    Mix_HaltMusic();
+    Mix_FreeMusic(current_music);
+    current_music = NULL;
+
+    // Load the next file to play.
+    current_playlist_at++;
+
+    // Wrap around if we reached the end of the playlist.
+    if(current_playlist_at >= playlists[current_playlist].files.size()) {
+        current_playlist_at = 0;
+    }
+
+    std::string filename = playlists[current_playlist].files[current_playlist_at];
+    play_music_file(filename, playlists[current_playlist].volumes[current_playlist_at]);
+}
+#endif
+
+void play_music(std::string playlist) {
+#ifdef SDL_SOUND
+
+    if(playlists[playlist].files.size() == 0) {
+        return;
+    }
+
+    // Don't interrupt playlist that's already playing.
+    if(playlist == current_playlist) {
+        return;
+    }
+
+    std::string filename = playlists[playlist].files[0];
+    int volume = playlists[playlist].volumes[0];
+
+    current_playlist = playlist;
+    current_playlist_at = 0;
+
+    play_music_file(filename, volume);
+#else
+    (void)playlist;
+#endif
+}
+
+void load_soundset() {
+    std::string location = FILENAMES["datadir"] + "/sound/soundset.json";
+    std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
+    if (jsonstream.good()) {
+        JsonIn json(jsonstream);
+        JsonObject config = json.get_object();
+        JsonArray playlists_ = config.get_array("playlists");
+
+        for(int i=0; i < playlists_.size(); i++) {
+            JsonObject playlist = playlists_.get_object(i);
+
+            std::string playlist_id = playlist.get_string("id");
+            music_playlist playlist_to_load;
+            playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
+
+            JsonArray playlist_files = playlist.get_array("files");
+            for(int j=0; j < playlist_files.size(); j++) {
+                JsonObject entry = playlist_files.get_object(j);
+                playlist_to_load.files.push_back(entry.get_string("file"));
+                playlist_to_load.volumes.push_back(entry.get_int("volume"));
+            }
+
+            playlists[playlist_id] = playlist_to_load;
+        }
+    }
 }
 
 #endif // TILES

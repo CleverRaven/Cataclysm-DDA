@@ -8,7 +8,9 @@
 
 class game;
 
-void dis_msg(dis_type type);
+bool dis_msg(dis_type type);
+
+void weed_msg(player *p);
 
 void dis_end_msg(player &p, disease &dis);
 

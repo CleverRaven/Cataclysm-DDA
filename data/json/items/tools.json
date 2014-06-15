@@ -5,6 +5,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "Flaming Chunk of Steel +2",
+    "name_plural": "Flaming Chunks of Steel +2",
     "description": "HOLY SHIT THIS THING IS ON FIRE",
     "price": 98000,
     "material": "steel",
@@ -19,6 +20,28 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+  },
+
+  {
+    "id": "generic_folded_vehicle",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "seeing this is a bug",
+    "description": "seeing this is a bug",
+    "price": 0,
+    "weight": 0,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "use_action": "UNFOLD_GENERIC",
     "ammo": "NULL",
     "revert_to": "null"
   },
@@ -51,8 +74,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "money",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -62,7 +84,7 @@
     "color": "blue",
     "name": "lighter",
     "description": "This is a disposable plastic lighter. A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails. You can also use a lighter to light nearby items on fire.",
-    "price": 3500,
+    "price": 100,
     "material": ["plastic","aluminum"],
     "weight": 14,
     "volume": 0,
@@ -85,7 +107,7 @@
     "color": "blue",
     "name": "matchbook",
     "description": "This is a small book of matches with a coarse strike surface on the outside flap. Matches must be carried to use various drugs like cigarettes, or to light things like Molotov cocktails.  You can also use matches to light nearby items on fire.",
-    "price": 1000,
+    "price": 10,
     "material": "paper",
     "weight": 10,
     "volume": 0,
@@ -108,7 +130,7 @@
     "color": "brown",
     "name": "fire drill",
     "description": "This fire drill is a simple item for starting fires; it is made from two pieces of wood and some string. Since it is constructed out of simple materials, it's slow and rather difficult to get a fire started using this tool.",
-    "price": 500,
+    "price": 50,
     "material": "wood",
     "weight": 10,
     "volume": 1,
@@ -125,29 +147,6 @@
   },
 
   {
-    "id": "rolling_paper",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "white",
-    "name": "rolling papers",
-    "description": "These are thin paper strips intended for the rolling of cigarettes.",
-    "price": 1500,
-    "material": "paper",
-    "weight": 10,
-    "volume": 0,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": 0,
-    "max_charges": 20,
-    "initial_charges": 20,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
-  },
-
-  {
     "id": "rock_quern",
     "type": "TOOL",
     "symbol": ":",
@@ -158,16 +157,15 @@
     "material": "stone",
     "weight": 3264,
     "volume": 8,
-    "bashing": 0,
+    "bashing": 5,
     "cutting": 0,
-    "to_hit": 0,
+    "to_hit": -4,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -177,7 +175,7 @@
     "color": "red",
     "name": "sewing kit",
     "description": "This is a plastic kit with a variety of needles, some plastic spools for thread, and a few other useful textile tools. Use a sewing kit on an article of clothing to attempt to repair or reinforce that clothing. This uses your tailoring skill.",
-    "price": 12000,
+    "price": 1000,
     "material": ["plastic", "steel"],
     "weight": 85,
     "volume": 1,
@@ -198,9 +196,10 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "light_red",
-    "name": "scissors",
+    "name": "pair of scissors",
+    "name_plural": "pairs of scissors",
     "description": "These are a long pair of heavy duty scissors. Use scissors to cut items made from cotton (like clothing) into rags.",
-    "price": 4500,
+    "price": 400,
     "material": ["aluminum", "plastic"],
     "flags": "SPEAR",
     "weight": 113,
@@ -225,7 +224,7 @@
     "color": "brown",
     "name": "hammer",
     "description": "This is a demagnetized steel hammer with a rubber grip. With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows. It has myriad other uses as well.",
-    "price": 7000,
+    "price": 700,
     "material": ["steel", "wood"],
     "weight": 566,
     "volume": 2,
@@ -239,7 +238,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 3], ["HAMMER_G", 1]]
+    "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1]]
   },
 
   {
@@ -249,7 +248,7 @@
     "color": "red",
     "name": "fire extinguisher",
     "description": "This is a large emergency fire extinguisher. It would be useful for putting out adjacent fires.",
-    "price": 70000,
+    "price": 5000,
     "material": "aluminum",
     "weight": 9100,
     "volume": 8,
@@ -272,7 +271,7 @@
     "color": "light_gray",
     "name": "oxygen tank",
     "description": "This is tank of compressed medical oxygen with a regulator and mask. Commonly used in emergency situations, it provides immediate relief for asthma attacks and smoke inhalation and can provide a brief burst of energy.",
-    "price": 120000,
+    "price": 6000,
     "material": ["aluminum", "plastic"],
     "weight": 3200,
     "volume": 8,
@@ -295,7 +294,7 @@
     "color": "red",
     "name": "emergency oxygen pack",
     "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask. Commonly used in emergency situations, it provides immediate relief for asthma attacks and smoke inhalation and can provide a brief burst of energy.",
-    "price": 180000,
+    "price": 4000,
     "material": ["plastic", "aluminum"],
     "weight": 1740,
     "volume": 4,
@@ -318,7 +317,7 @@
     "color": "dark_gray",
     "name": "extra battery mod",
     "description": "This is a homemade battery compartment made with spare electronics. With enough electronics skill, you could attach this to any electronic tool to double the amount of batteries it can hold.",
-    "price": 50000,
+    "price": 1000,
     "material": ["plastic", "aluminum"],
     "weight": 142,
     "volume": 1,
@@ -342,7 +341,7 @@
     "color": "light_green",
     "name": "rechargeable battery mod",
     "description": "A homemade, rechargeable power cell built from salvaged electronics. With enough electronics skill, you could attach it to an electric-powered device to provide it with energy. The power cell is not compatible with standard batteries; it must be re-energized via a special recharging station.",
-    "price": 50000,
+    "price": 2000,
     "material": ["plastic", "aluminum"],
     "weight": 142,
     "volume": 1,
@@ -365,8 +364,9 @@
     "symbol": ";",
     "color": "yellow",
     "name": "gasoline lantern (off)",
+    "name_plural": "gasoline lanterns (off)",
     "description": "This is a small gasoline powered lantern. It does not provide much light, but it lasts a long time. Use it to turn it on.",
-    "price": 60000,
+    "price": 3000,
     "material": ["glass", "iron"],
     "weight": 1400,
     "volume": 3,
@@ -375,11 +375,20 @@
     "to_hit": 2,
     "max_charges": 500,
     "initial_charges": 500,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
-    "use_action": "GASOLINE_LANTERN_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "gasoline_lantern_on",
+        "active": true,
+        "msg": "You turn the lamp on.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "need_charges": 1,
+        "need_charges_msg": "The lamp is empty."
+    }
   },
 
   {
@@ -388,8 +397,9 @@
     "symbol": ";",
     "color": "yellow",
     "name": "gasoline lantern (on)",
+    "name_plural": "gasoline lanterns (on)",
     "description": "This is a small gasoline powered lantern. It does not provide much light, but it lasts a long time. It is turned on. Use it to turn it off.",
-    "price": 60000,
+    "price": 3000,
     "material": ["glass", "iron"],
     "flags": "LIGHT_15",
     "weight": 1400,
@@ -403,7 +413,12 @@
     "turns_per_charge": 20,
     "ammo": "gasoline",
     "revert_to": "gasoline_lantern",
-    "use_action": "GASOLINE_LANTERN_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "gasoline_lantern",
+        "when_underwater": "The lantern is extinguished.",
+        "msg": "The lantern is extinguished."
+    }
   },
 
   {
@@ -412,8 +427,9 @@
     "symbol": ";",
     "color": "yellow",
     "name": "oil lamp (off)",
+    "name_plural": "oil lamps (off)",
     "description": "This is an oil fueled lamp. It does not provide much light, but it lasts a long time. Use it to turn it on.",
-    "price": 40000,
+    "price": 1000,
     "material": ["glass", "iron"],
     "weight": 1720,
     "volume": 4,
@@ -422,11 +438,20 @@
     "to_hit": 2,
     "max_charges": 800,
     "initial_charges": 800,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "lamp_oil",
     "revert_to": "null",
-    "use_action": "OIL_LAMP_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "oil_lamp_on",
+        "active": true,
+        "msg": "You turn the lamp on.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "need_charges": 1,
+        "need_charges_msg": "The lamp is empty."
+    }
   },
 
   {
@@ -435,8 +460,9 @@
     "symbol": ";",
     "color": "yellow",
     "name": "oil lamp (on)",
+    "name_plural": "oil lamps (on)",
     "description": "This is an oil fueled lamp. It does not provide much light, but it lasts a long time. It is turned on. Use it to turn it off.",
-    "price": 40000,
+    "price": 1000,
     "material": ["glass", "iron"],
     "flags": "LIGHT_6",
     "weight": 1720,
@@ -444,13 +470,18 @@
     "bashing": 1,
     "cutting": 0,
     "to_hit": 2,
-    "max_charges": 400,
-    "initial_charges": 400,
+    "max_charges": 800,
+    "initial_charges": 800,
     "charges_per_use": 0,
     "turns_per_charge": 20,
     "ammo": "lamp_oil",
     "revert_to": "oil_lamp",
-    "use_action": "OIL_LAMP_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "oil_lamp",
+        "when_underwater": "The lantern is extinguished.",
+        "msg": "The lantern is extinguished."
+    }
   },
 
   {
@@ -459,8 +490,9 @@
     "symbol": ";",
     "color": "blue",
     "name": "flashlight (off)",
+    "name_plural": "flashlights (off)",
     "description": "This is a heavy duty LED flashlight. Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
-    "price": 38000,
+    "price": 500,
     "material": ["plastic", "aluminum"],
     "weight": 400,
     "volume": 2,
@@ -469,11 +501,18 @@
     "to_hit": 2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "LIGHT_OFF"
+    "use_action": {
+        "type": "transform",
+        "msg": "You turn the flashlight on.",
+        "target": "flashlight_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The flashlights batteries are dead."
+    }
   },
 
   {
@@ -482,8 +521,9 @@
     "symbol": ";",
     "color": "blue",
     "name": "flashlight (on)",
+    "name_plural": "flashlights (on)",
     "description": "This is a heavy duty LED flashlight. This flashlight is turned on, and continually draining its batteries. Use it to turn it off.",
-    "price": 38000,
+    "price": 500,
     "material": ["plastic", "aluminum"],
     "flags": [ "LIGHT_100", "CHARGEDIM" ],
     "weight": 400,
@@ -497,7 +537,11 @@
     "turns_per_charge": 15,
     "ammo": "battery",
     "revert_to": "flashlight",
-    "use_action": "LIGHT_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "You turn the flashlight off.",
+        "target": "flashlight"
+    }
   },
 
   {
@@ -506,6 +550,7 @@
     "symbol": ";",
     "color": "white",
     "name": "lightstrip (dead)",
+    "name_plural": "lightstrips (dead)",
     "description": "This is a burnt-out lightstrip. You could disassemble this to recover the amplifier circuit.",
     "price": 10000,
     "material": ["plastic", "aluminum"],
@@ -519,8 +564,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -529,6 +573,7 @@
     "symbol": ";",
     "color": "white",
     "name": "lightstrip (inactive)",
+    "name_plural": "lightstrips (inactive)",
     "description": "This is a light-emitting circuit wired directly to some batteries. It will provide some weak light once activated and can't be turned off.. When the batteries die, you'll need to scrap it to recover the components that are reusable.",
     "price": 10000,
     "material": ["plastic", "aluminum"],
@@ -537,13 +582,18 @@
     "bashing": 1,
     "cutting": 0,
     "to_hit": 2,
-    "max_charges": 8000,
-    "initial_charges": 8000,
+    "max_charges": 900,
+    "initial_charges": 900,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTSTRIP"
+    "use_action": {
+        "type": "transform",
+        "target": "lightstrip",
+        "active": true,
+        "msg": "You irreversibly activate the lightstrip."
+    }
   },
 
   {
@@ -552,6 +602,7 @@
     "symbol": ";",
     "color": "green",
     "name": "lightstrip (active)",
+    "name_plural": "lightstrips (active)",
     "description": "This is a light-emitting circuit wired directly to some batteries. It provides some weak light and can't be turned off. When the batteries die, you'll need to scrap it to recover the components that are reusable.",
     "price": 10000,
     "material": ["plastic", "aluminum"],
@@ -561,13 +612,18 @@
     "bashing": 1,
     "cutting": 0,
     "to_hit": 2,
-    "max_charges": 8000,
-    "initial_charges": 8000,
+    "max_charges": 900,
+    "initial_charges": 900,
     "charges_per_use": 0,
     "turns_per_charge": 120,
     "ammo": "NULL",
     "revert_to": "lightstrip_dead",
-    "use_action": "LIGHTSTRIP_ACTIVE"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "lightstrip_dead",
+        "non_interactive_msg": "You can not deactivate the lightstrip.",
+        "msg": "The lightstrip dies."
+    }
   },
 
   {
@@ -590,7 +646,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "GLOWSTICK"
+    "use_action": {
+        "type": "transform",
+        "target": "glowstick_lit",
+        "active": true,
+        "msg": "You activate the glowstick."
+    }
   },
 
   {
@@ -614,7 +675,12 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "glowstick_dead",
-    "use_action": "GLOWSTICK_ACTIVE"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "glowstick_dead",
+        "non_interactive_msg": "You can't turn off a glowstick.",
+        "msg": "The glowstick fades out."
+    }
   },
 
   {
@@ -636,8 +702,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -660,7 +725,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HANDFLARE"
+    "use_action": {
+        "type": "transform",
+        "target": "handflare_lit",
+        "active": true,
+        "msg": "You strike your flare and light it."
+    }
   },
 
   {
@@ -684,7 +754,12 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "handflare_dead",
-    "use_action": "HANDFLARE_LIT"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "handflare_dead",
+        "non_interactive_msg": "You can't turn off a flare.",
+        "msg": "The flare sputters out."
+    }
   },
 
   {
@@ -706,8 +781,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -831,6 +905,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "radio (off)",
+    "name_plural": "radios (off)",
     "description": "This is a portable radio. Using this radio turns it on. It will pick up any nearby signals being broadcast and play them audibly.",
     "price": 42000,
     "material": ["plastic", "aluminum"],
@@ -854,6 +929,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "radio (on)",
+    "name_plural": "radios (on)",
     "description": "This portable radio is turned on, and continually draining its batteries. It is playing the broadcast being sent from any nearby radio towers.",
     "price": 42000,
     "material": ["plastic", "aluminum"],
@@ -900,6 +976,7 @@
     "symbol": ";",
     "color": "yellow",
     "name": "military black box",
+    "name_plural": "military black boxes",
     "description": "This is a black box, seemingly pulled from some sort of military vehicle wreckage. If you can find a system to analyze this you may find something of interest.",
     "price": 80000,
     "material": "steel",
@@ -914,8 +991,30 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "other",
-    "use_action": "NONE"
+    "category" : "other"
+  },
+
+  {
+    "type":"TOOL",
+    "id": "control_laptop",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "Control laptop",
+    "description": "A modified laptop, now capable of transmiting  in the ultra high frequencies utilized by robots. Activate it to command robots from afar",
+    "price": 1000,
+    "material": ["plastic", "aluminum"],
+    "weight": 2721,
+    "volume": 4,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 1000,
+    "initial_charges": 0,
+    "charges_per_use": 5,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "ROBOTCONTROL"
   },
 
   {
@@ -937,8 +1036,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -947,6 +1045,7 @@
     "symbol": ";",
     "color": "yellow",
     "name": "noise emitter (off)",
+    "name_plural": "noise emitters (off)",
     "description": "This device was constructed by 'enhancing' a radio with some amplifier circuits. It's completely lost its ability to pick up a station, but it's nice and loud now. It could be useful to distract zombies.",
     "price": 60000,
     "material": ["plastic", "aluminum"],
@@ -970,6 +1069,7 @@
     "symbol": ";",
     "color": "yellow",
     "name": "noise emitter (on)",
+    "name_plural": "noise emitters (on)",
     "description": "This device has been turned on and is emitting horrible sounds of radio static. Quick, get away from it before it draws zombies to you!",
     "price": 60000,
     "material": ["plastic", "aluminum"],
@@ -1243,8 +1343,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
     {
@@ -1277,8 +1376,9 @@
     "symbol": "/",
     "color": "red",
     "name": "chainsaw (off)",
+    "name_plural": "chainsaws (off)",
     "description": "This is a lumbering tool moonlighting as weapon of opportunity. If loaded with gas, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
-    "price": 35000,
+    "price": 15000,
     "material": ["steel", "plastic"],
     "techniques": "SWEEP",
     "weight": 6577,
@@ -1301,8 +1401,9 @@
     "symbol": "/",
     "color": "red",
     "name": "chainsaw (on)",
+    "name_plural": "chainsaws (on)",
     "description": "This chainsaw is on and making a lot of noise. Use it to turn it off.",
-    "price": 35000,
+    "price": 15000,
     "material": ["steel", "plastic"],
     "techniques": "SWEEP",
     "weight": 6577,
@@ -1325,8 +1426,9 @@
     "symbol": "/",
     "color": "yellow",
     "name": "electric carver (off)",
+    "name_plural": "electric carvers (off)",
     "description": "An electric meat carver powered by batteries. Two serrated blades that vibrate together to slice just about anything from turkey to ham... even zombies!",
-    "price": 25000,
+    "price": 2000,
     "material": ["steel", "plastic"],
     "weight": 1106,
     "volume": 6,
@@ -1339,15 +1441,17 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "CARVER_OFF"
+    "use_action": "CARVER_OFF",
+    "flags": ["SHEATH_SWORD"]
   },{
     "id": "carver_on",
     "type": "TOOL",
     "symbol": "/",
     "color": "yellow",
     "name": "electric carver (on)",
+    "name_plural": "electric carvers (on)",
     "description": "This carver is on and the blades are buzzing. Use it to turn it off.",
-    "price": 25000,
+    "price": 2000,
     "material": ["steel", "plastic"],
     "weight": 1106,
     "volume": 6,
@@ -1369,8 +1473,9 @@
     "symbol": "/",
     "color": "green",
     "name": "hedge trimmer (off)",
+    "name_plural": "hedge trimmers (off)",
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer. A long line of sharp-edged teeth extends from the engine; turning the trimmer on will make them rapidly vibrate. The poor man's chainsaw as far as the zombies are concerned.",
-    "price": 40000,
+    "price": 4000,
     "material": ["steel", "plastic"],
     "weight": 4500,
     "volume": 8,
@@ -1390,8 +1495,9 @@
     "symbol": "/",
     "color": "green",
     "name": "hedge trimmer (on)",
+    "name_plural": "hedge trimmers (on)",
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer. It is currently on, ready to do some zombie topiary; use this item to turn it off.",
-    "price": 40000,
+    "price": 4000,
     "material": ["steel", "plastic"],
     "weight": 4500,
     "volume": 8,
@@ -1413,8 +1519,9 @@
     "symbol": "/",
     "color": "yellow",
     "name": "circular saw (off)",
+    "name_plural": "circular saws (off)",
     "description": "A lightweight handheld cordless circular saw. Spins a circular blade fast enough to cut wood, metal, zombies, or in an emergency, pizza. The blade, while effective in combat, is hard to hit with due to its small size.",
-    "price": 65000,
+    "price": 5000,
     "material": ["steel", "plastic"],
     "weight": 2940,
     "volume": 3,
@@ -1423,19 +1530,25 @@
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 50,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "CIRCSAW_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "circsaw_on",
+        "active": true,
+        "msg": "You turn on the circular saw."
+    }
   },{
     "id": "circsaw_on",
     "type": "TOOL",
     "symbol": "/",
     "color": "yellow",
     "name": "circular saw (on)",
+    "name_plural": "circular saws (on)",
     "description": "A lightweight handheld cordless circular saw. It is currently on and the blade is spinning; use this item to turn it off.",
-    "price": 65000,
+    "price": 5000,
     "material": ["steel", "plastic"],
     "weight": 2940,
     "volume": 3,
@@ -1457,8 +1570,9 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "combat chainsaw (off)",
+    "name_plural": "combat chainsaws (off)",
     "description": "This is a chainsaw that has been lightened, tuned, and extensively modified to be a more effective weapon. Unfortunately these modifications have rendered it much less effective as a woodcutting tool.",
-    "price": 95000,
+    "price": 25000,
     "material": ["steel", "aluminum"],
     "weight": 5122,
     "volume": 9,
@@ -1479,8 +1593,9 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "combat chainsaw (on)",
+    "name_plural": "combat chainsaws (on)",
     "description": "This combat chainsaw is on, and is continuously draining gasoline. Use it to turn it off.",
-    "price": 95000,
+    "price": 25000,
     "material": ["steel", "aluminum"],
     "techniques": "SWEEP",
     "weight": 5122,
@@ -1503,10 +1618,11 @@
     "symbol": "/",
     "color": "red",
     "name": "chainsaw lajatang (off)",
+    "name_plural": "chainsaw lajatangs (off)",
     "description": "A long wooden pole with chainsaws impractically attached to both ends. The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
-    "price": 80000,
+    "price": 40000,
     "material": ["plastic", "steel"],
-    "techniques" : ["WBLOCK_1", "WIDE"],
+    "techniques" : ["WBLOCK_1", "SPIN"],
     "weight": 14254,
     "volume": 30,
     "bashing": 20,
@@ -1525,10 +1641,11 @@
     "symbol": "/",
     "color": "red",
     "name": "chainsaw lajatang (on)",
+    "name_plural": "chainsaw lajatangs (on)",
     "description": "A long wooden pole with chainsaws impractically attached to both ends. They are currently on and draining gasoline; use this item to turn them off.",
-    "price": 80000,
+    "price": 40000,
     "material": ["plastic", "steel"],
-    "techniques" : ["WBLOCK_1", "WIDE", "SWEEP"],
+    "techniques" : ["WBLOCK_1", "SPIN", "SWEEP"],
     "weight": 14254,
     "volume": 30,
     "bashing": 4,
@@ -1549,7 +1666,7 @@
     "color": "light_gray",
     "name": "jackhammer",
     "description": "This is a construction tool for drilling through hard rock or other surfaces. It runs on gasoline. Use it (if loaded) to blast a hole in adjacent solid terrain.",
-    "price": 89000,
+    "price": 40000,
     "material": "steel",
     "weight": 15875,
     "volume": 20,
@@ -1573,7 +1690,7 @@
     "color": "light_gray",
     "name": "jacqueshammer",
     "description": "Ce jacqueshammer marche a l'essence. Utilisez-le (si charge) pour creuser un trou dans un terrain solide adjacent.",
-    "price": 89000,
+    "price": 40000,
     "material": "steel",
     "weight": 15875,
     "volume": 20,
@@ -1665,6 +1782,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "loose caltrops",
+    "name_plural": "loose caltrops",
     "description": "These are small metal objects covered with many sharp points. If an unsuspecting victim steps on one, they'll get a spine through the foot.",
     "price": 9000,
     "material": "iron",
@@ -1872,6 +1990,7 @@
     "symbol": ";",
     "color": "green",
     "name": "geiger ctr (off)",
+    "name_plural": "geiger ctrs (off)",
     "description": "This is a tool for measuring radiation. Using it will prompt you to choose whether to scan yourself or the terrain, or to turn it on, which will provide continuous feedback on ambient radiation. It is currently off.",
     "price": 30000,
     "material": ["plastic", "aluminum"],
@@ -1895,6 +2014,7 @@
     "symbol": ";",
     "color": "green",
     "name": "geiger ctr (on)",
+    "name_plural": "geiger ctrs (on)",
     "description": "This is a tool for measuring radiation. It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation. Using it allows you to turn it off, or scan yourself or the ground. It is currently on.",
     "price": 30000,
     "material": ["plastic", "aluminum"],
@@ -2004,7 +2124,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "PIPEBOMB"
+    "use_action": {
+        "type": "transform",
+        "msg": "You light the fuse on the pipe bomb.",
+        "active": true,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "target": "pipebomb_act",
+        "target_charges": 3
+    }
   },
 
   {
@@ -2052,7 +2180,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GRENADE"
+    "use_action": {
+        "type": "transform",
+        "target": "grenade_act",
+        "target_charges": 5,
+        "active": true,
+        "msg": "You pull the pin on the grenade."
+    }
   },
 
   {
@@ -2076,7 +2210,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GRENADE_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "explosion_power": 12,
+        "explosion_shrapnel": 28
+    }
   },
 
   {
@@ -2148,7 +2289,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "FLASHBANG"
+    "use_action": {
+        "type": "transform",
+        "target": "flashbang_act",
+        "target_charges": 5,
+        "active": true,
+        "msg": "You pull the pin on the flashbang."
+    }
   },
 
   {
@@ -2172,7 +2319,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "FLASHBANG_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "do_flashbang": true
+    }
   },
 
   {
@@ -2196,7 +2349,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "EMPBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "EMPbomb_act",
+        "target_charges": 3,
+        "active": true,
+        "msg": "You pull the pin on the EMP grenade."
+    }
   },
 
   {
@@ -2220,7 +2379,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "EMPBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "draw_explosion_radius": 4,
+        "draw_explosion_color": "ltblue",
+        "emp_blast_radius": 4
+    }
   },
 
   {
@@ -2244,7 +2411,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SCRAMBLER"
+    "use_action": {
+        "type": "transform",
+        "target": "scrambler_act",
+        "target_charges": 3,
+        "active": true,
+        "msg": "You pull the pin on the scrambler grenade."
+    }
   },
 
   {
@@ -2268,7 +2441,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SCRAMBLER_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "draw_explosion_radius": 4,
+        "draw_explosion_color": "cyan",
+        "scrambler_blast_radius": 4
+    }
   },
 
   {
@@ -2292,7 +2473,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GASBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "gasbomb_act",
+        "target_charges": 20,
+        "active": true,
+        "msg": "You pull the pin on the teargas canister."
+    }
   },
 
   {
@@ -2316,7 +2503,16 @@
     "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
-    "use_action": "GASBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "fields_radius": 3,
+        "fields_type": "fd_tear_gas",
+        "fields_min_density": 3,
+        "fields_max_density": 3
+    }
   },
 
   {
@@ -2340,7 +2536,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SMOKEBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "smokebomb_act",
+        "target_charges": 20,
+        "active": true,
+        "msg": "You pull the pin on the smoke bomb."
+    }
   },
 
   {
@@ -2364,7 +2566,16 @@
     "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
-    "use_action": "SMOKEBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "fields_radius": 2,
+        "fields_type": "fd_smoke",
+        "fields_min_density": 1,
+        "fields_max_density": 3
+    }
   },
 
   {   "id" : "flamable_arrow",
@@ -2420,6 +2631,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": "Molotov cocktail (lit)",
+    "name_plural": "Molotov cocktails (lit)",
     "description": "A bottle of flammable liquid with a flaming rag inserted. Throwing it will cause the bottle to break, spreading fire. The flame may go out shortly if you do not throw it. Dropping it while lit is not safe.",
     "price": 0,
     "material": ["glass", "cotton"],
@@ -2460,7 +2672,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "ACIDBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "acidbomb_act",
+        "target_charges": 1,
+        "msg": "You remove the divider, and the chemicals mix.",
+        "active": true,
+        "moves": 150
+    }
   },
 
   {
@@ -2469,6 +2688,7 @@
     "symbol": "*",
     "color": "yellow",
     "name": "acid bomb (active)",
+    "name_plural": "acid bombs (active)",
     "description": "This is a glass vial, with two chemicals mixing inside. The vial feels colder and the contents are frothing. If this mixture is exposed to air (as could happen if you throw the vial), it will spill out as a pool of potent acid.",
     "price": 0,
     "material": "glass",
@@ -2508,7 +2728,19 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "DYNAMITE"
+    "explode_in_fire" : {
+        "power": 60,
+        "shrapnel": 0
+    },
+    "use_action": {
+        "type": "transform",
+        "target": "dynamite_act",
+        "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "active": true,
+        "msg": "You light the dynamite."
+    }
   },
 
   {
@@ -2517,6 +2749,7 @@
     "symbol": "*",
     "color": "red",
     "name": "dynamite (lit)",
+    "name_plural": "dynamites (lit)",
     "description": "The fuse on this dynamite is lit and hissing. It'll explode any moment now.",
     "price": 0,
     "material": "paper",
@@ -2532,7 +2765,18 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "DYNAMITE_ACT"
+    "explode_in_fire" : {
+        "power": 60,
+        "shrapnel": 0
+    },
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "ssss...",
+        "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+        "explosion_power": 60,
+        "explosion_shrapnel": 0
+    }
   },
 
   {
@@ -2541,6 +2785,7 @@
     "symbol": "*",
     "color": "red",
     "name": "pack of firecrackers",
+    "name_plural": "packs of firecrackers",
     "description": "This is a pack of 25 firecrackers with a starter fuse. Use this item to light the fuse. Of course, you will need a lighter or some matches to do so. Shortly after you light the fuse they will begin to explode, so throw them quickly!",
     "price": 10000,
     "material": "paper",
@@ -2564,6 +2809,7 @@
     "symbol": "*",
     "color": "red",
     "name": "pack of firecrackers (lit)",
+    "name_plural": "packs of firecrackers (lit)",
     "description": "A pack of 25 firecrackers that has been lit; the fuse is hissing. Throw them quickly before the start to explode.",
     "price": 0,
     "material": "paper",
@@ -2610,6 +2856,7 @@
     "symbol": ";",
     "color": "red",
     "name": "firecracker (lit)",
+    "name_plural": "firecrackers (lit)",
     "description": "A firecracker that has been lit; the fuse is hissing. Throw it quickly before it explodes.",
     "price": 0,
     "material": "paper",
@@ -2658,6 +2905,7 @@
     "symbol": "*",
     "color": "light_green",
     "name": "mininuke (active)",
+    "name_plural": "mininukes (active)",
     "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode. You should probably get far, far away from it.",
     "price": 0,
     "material": ["steel", "plastic"],
@@ -2674,7 +2922,18 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "MININUKE_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 2,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
+        "explosion_power": 300,
+        "explosion_shrapnel": 0,
+        "fields_type": "fd_nuke_gas",
+        "fields_radius": 6,
+        "fields_min_density": 3,
+        "fields_max_density": 3
+    }
   },
 
   {
@@ -2745,14 +3004,13 @@
     "revert_to": "null",
     "use_action": "MANHACK"
   },
-
   {
     "id": "bot_turret",
     "type": "TOOL",
     "symbol": ";",
     "color": "light_green",
     "name": "inactive turret",
-    "description": "This is an inactive turret. Using this item involves turning it on and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
+    "description": "This is an inactive turret. Using this item involves loading the unit with the factory-loaded 9mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
     "price": 400000,
     "material": ["steel", "plastic"],
     "weight": 1507,
@@ -2791,11 +3049,34 @@
     "use_action": "TURRET_LASER"
   },
   {
+    "id": "bot_rifleturret",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "green",
+    "name": "inactive rifle turret",
+    "description": "This is an inactive turret. Using this item involves loading the unit with the factory-loaded 5.56 NATO rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56 you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "price": 500000,
+    "material": ["steel", "plastic"],
+    "weight": 1507,
+    "volume": 14,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "TURRET_RIFLE"
+  },
+  {
     "id": "UPS_off",
     "type": "TOOL",
     "symbol": ";",
     "color": "light_gray",
     "name": "UPS (off)",
+    "name_plural": "UPS's (off)",
     "description": "This is a unified power supply, or UPS. It is a device developed jointly by military and scientific interests for use in combat and the field. The UPS is designed to power armor and some guns, but drains batteries quickly. It is currently off.",
     "price": 280000,
     "material": ["aluminum", "plastic"],
@@ -2819,6 +3100,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "UPS (on)",
+    "name_plural": "UPS's (on)",
     "description": "This is a unified power supply, or UPS. It is a device developed jointly by military and scientific interests for use in combat and the field. The UPS is designed to power armor and some guns, but drains batteries quickly. It is currently on.",
     "price": 280000,
     "material": ["aluminum", "plastic"],
@@ -2842,6 +3124,7 @@
     "symbol": ";",
     "color": "light_green",
     "name": "advanced UPS (off)",
+    "name_plural": "advanced UPS's (off)",
     "description": "This is an advanced version of the unified power supply, or UPS. This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries. It is currently off.",
     "price": 560000,
     "material": ["aluminum", "plastic"],
@@ -2864,6 +3147,7 @@
      "symbol" : ";",
      "color" : "light_green",
      "name" : "advanced UPS (on)",
+     "name_plural" : "advanced UPS's (on)",
      "description" : "This is an advanced version of the unified power supply, or UPS. This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries. It is currently on.",
      "price" : 560000,
      "material" : ["aluminum", "plastic"],
@@ -2902,7 +3186,8 @@
      "ammo" : "battery",
      "revert_to" : "null",
      "category": "weapons",
-     "use_action" : "TAZER"
+     "use_action" : "TAZER",
+     "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -2911,6 +3196,7 @@
     "symbol" : "/",
     "color" : "dark_gray",
     "name" : "tactical tonfa (off)",
+    "name_plural" : "tactical tonfas (off)",
     "description" : "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the tonfa, and by extension to anyone unfortunate enough to be in contact with them. It also has a nifty flashlight, which is off at the moment.",
     "price" : 170000,
     "material" : ["plastic", "steel"],
@@ -2937,12 +3223,12 @@
     "symbol" : "/",
     "color" : "dark_gray",
     "name" : "tactical tonfa (on)",
+    "name_plural" : "tactical tonfas (on)",
     "description" : "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them. The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
     "price" : 170000,
     "material" : ["plastic", "steel"],
-    "flags": [ "LIGHT_100", "CHARGEDIM" ],
+    "flags": [ "LIGHT_100", "CHARGEDIM", "DURABLE_MELEE" ],
     "techniques" : ["WBLOCK_2", "RAPID"],
-    "flags" : ["DURABLE_MELEE"],
     "weight" : 726,
     "volume" : 9,
     "bashing" : 14,
@@ -2964,6 +3250,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "mp3 player (off)",
+    "name_plural": "mp3 players (off)",
     "description": "This battery-devouring device is loaded up with someone's music collection. Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly. Use it to turn it on.",
     "price": 80000,
     "material": ["aluminum", "plastic"],
@@ -2987,6 +3274,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "mp3 player (on)",
+    "name_plural": "mp3 players (on)",
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person. It runs through batteries quickly; you can turn it off by using it. It also obscures your hearing.",
     "price": 80000,
     "material": ["aluminum", "plastic"],
@@ -2998,7 +3286,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 0,
-    "turns_per_charge": 10,
+    "turns_per_charge": 150,
     "ammo": "battery",
     "revert_to": "mp3",
     "use_action": "MP3_ON"
@@ -3024,7 +3312,32 @@
      "turns_per_charge": 0,
      "ammo": "battery",
      "revert_to": "null",
-     "use_action": "PORTABLE_GAME"
+     "use_action": "PORTABLE_GAME",
+     "flags": ["SHEATH_KNIFE"]
+  },
+  
+  {
+    "id": "vibrator",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "vibrator",
+    "name_plural": "vibrators",
+    "description": "This battery-devouring device is just the thing to knead the tension out and help you relax. Use it to take a break and unwind.",
+    "price": 5500,
+    "material": ["aluminum", "plastic"],
+    "weight": 453,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "VIBE"
   },
 
   {
@@ -3069,8 +3382,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -3079,6 +3391,7 @@
     "symbol": ";",
     "color": "brown",
     "name": "dog food",
+    "name_plural": "dog food",
     "description": "This is food for dogs. It smells strange, but dogs seem to love it.",
     "price": 6000,
     "material": "flesh",
@@ -3102,6 +3415,7 @@
     "symbol": ";",
     "color": "brown",
     "name": "cat food",
+    "name_plural": "cat food",
     "description": "This is food for cats. It smells strange, but cats seem to love it.",
     "price": 6000,
     "material": "flesh",
@@ -3172,6 +3486,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "C-4 explosive (armed)",
+    "name_plural": "C-4 explosives (armed)",
     "description": "This is military grade RDX composition explosive. A label reads: \"Highly explosive, use with extreme caution!\" It comes with a small timer, which is currently ticking down.",
     "price": 600000,
     "material": ["plastic", "null"],
@@ -3187,7 +3502,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "C4ARMED"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
+        "explosion_power": 40,
+        "explosion_shrapnel": 3
+    }
   },
 
   {
@@ -3335,6 +3657,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "X-Acto knife",
+    "name_plural": "X-Acto knives",
     "description": "This is a small, sharp knife, designed for making precise cuts for textiles or crafts. It could cause decent damage, but is difficult to hit things with it. Its small, sharp blade allows for precision strikes in the hands of the skilled. It is too small to butcher corpses with.",
     "price": 4000,
     "material": ["steel", "plastic"],
@@ -3387,7 +3710,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": "machete",
-    "description": "This huge iron knife makes an excellent tool for cutting down large vegetation or other 'obstacles.'",
+    "description": "This huge steel knife makes an excellent tool for cutting down large vegetation or other 'obstacles.'",
     "price": 28000,
     "material": "steel",
     "techniques": "WBLOCK_1",
@@ -3395,7 +3718,7 @@
     "volume": 4,
     "bashing": 6,
     "cutting": 20,
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3414,7 +3737,8 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": "No. 9 (off)",
-    "description": "This huge iron knife has been modified with a fuel tank, insulated handguard, and ignition system. When filled with gasoline, a system of torches heats the blade, burning your target.",
+    "name_plural": "No. 9's (off)",
+    "description": "This huge steel knife has been modified with a fuel tank, insulated handguard, and ignition system. When filled with gasoline, a system of torches heats the blade, burning your target.",
     "price": 28000,
     "material": "steel",
     "techniques": "WBLOCK_1",
@@ -3422,7 +3746,7 @@
     "volume": 6,
     "bashing": 6,
     "cutting": 20,
-    "flags" : ["FIRE", "CHOP", "DURABLE_MELEE"],
+    "flags" : ["FIRE", "CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "to_hit": 1,
     "max_charges": 50,
     "initial_charges": 0,
@@ -3440,7 +3764,8 @@
     "symbol": "/",
     "color": "red",
     "name": "No. 9 (on)",
-    "description": "This huge iron knife has been modified with a fuel tank, insulated handguard, and ignition system. The blade is glowing with heat, making it a great plant scorcher and nightlight.",
+    "name_plural": "No. 9's (on)",
+    "description": "This huge steel knife has been modified with a fuel tank, insulated handguard, and ignition system. The blade is glowing with heat, making it a great plant scorcher and nightlight.",
     "price": 28000,
     "material": "steel",
     "techniques": ["WBLOCK_1"],
@@ -3465,6 +3790,7 @@
     "symbol": "/",
     "color": "cyan",
     "name": "diamond knife",
+    "name_plural": "diamond knives",
     "description": "This edge of this combat knife has been replaced by diamond-like carbon deposited with a cvd machine, adding to its sharpness.",
     "price": 600,
     "material": ["steel", "diamond"],
@@ -3473,7 +3799,7 @@
     "volume": 3,
     "bashing": 0,
     "cutting": 22,
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3499,7 +3825,7 @@
     "volume": 4,
     "bashing": 4,
     "cutting": 28,
-    "flags" : ["CHOP", "NON_STUCK", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "NON_STUCK", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3521,7 +3847,7 @@
     "price": 1500,
     "material": ["steel", "diamond"],
     "techniques": ["RAPID", "PRECISE", "WBLOCK_2"],
-    "flags" : ["DURABLE_MELEE", "SLICE"],
+    "flags" : ["DURABLE_MELEE", "SLICE", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 1100,
     "volume": 8,
     "bashing": 4,
@@ -3551,7 +3877,7 @@
     "volume": 3,
     "bashing": 1,
     "cutting": 16,
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3569,6 +3895,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": "kris",
+    "name_plural": "krises",
     "description": "This wavy bladed dagger comes from Southeast Asia. The design of the blade causes it to make broad, painful wounds.",
     "price": 38000,
     "material": "steel",
@@ -3577,7 +3904,7 @@
     "volume": 3,
     "bashing": 1,
     "cutting": 14,
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3599,7 +3926,7 @@
     "price": 78000,
     "material": "steel",
     "techniques": ["RAPID", "WBLOCK_1"],
-    "flags" : ["SLICE", "DURABLE_MELEE"],
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 835,
     "volume": 6,
     "bashing": 3,
@@ -3625,7 +3952,7 @@
     "price": 98000,
     "material": "steel",
     "techniques": ["RAPID", "WBLOCK_2"],
-    "flags" : ["SLICE", "DURABLE_MELEE"],
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 1133,
     "volume": 8,
     "bashing": 4,
@@ -3648,10 +3975,11 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "Rising Sun (off)",
+    "name_plural": "Rising Suns (off)",
     "description": "This is a katana with a nozzle just behind the the cutting edge of the blade. People love fire, and people love katanas, so why not put them together? The gas burners attached to this blade can really turn up the heat on your foes. Use to ignite.",
     "price": 98000,
     "material": "steel",
-    "flags": ["FIRE", "SLICE", "DURABLE_MELEE"],
+    "flags": ["FIRE", "SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "techniques": ["RAPID", "WBLOCK_2"],
     "weight": 2041,
     "volume": 10,
@@ -3674,6 +4002,7 @@
     "symbol": "/",
     "color": "red",
     "name": "Rising Sun (on)",
+    "name_plural": "Rising Suns (on)",
     "description": "This is a katana that glows with the fury and heat of the SUN! Well, okay it's not THAT hot, but getting hit with it still stings like the dickens. Use to shut off the gas.",
     "price": 98000,
     "material": "steel",
@@ -3731,7 +4060,7 @@
     "price": 98000,
     "material": "steel",
     "techniques": ["RAPID", "WBLOCK_2", "PRECISE"],
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
     "weight": 1000,
     "volume": 6,
     "bashing": 2,
@@ -3757,6 +4086,7 @@
     "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike. Though large and heavy compared to other spears, its accuracy and damage are unparalleled.",
     "price": 200000,
     "material": ["iron", "wood"],
+    "techniques" : ["IMPALE", "WBLOCK_2"],
     "flags" : ["DURABLE_MELEE", "SPEAR"],
     "weight": 8000,
     "volume": 14,
@@ -3782,7 +4112,7 @@
     "description": "This is an early modern sword seeing use in the 16th, 17th, and 18th centuries. Called 'broad' to contrast with the slimmer rapiers.",
     "price": 120000,
     "material": "steel",
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "techniques": "WBLOCK_1",
     "weight": 1133,
     "volume": 7,
@@ -3810,7 +4140,7 @@
     "rarity": 30,
     "price": 120000,
     "material": "steel",
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3176,
     "volume": 13,
@@ -3833,11 +4163,12 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "flammenschwert (aus)",
+    "name_plural": "flammenschwerter (aus)",
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt. Es ist eine sehr mächtige Waffe.",
     "rarity": 0,
     "price": 120000,
     "material": "steel",
-    "flags": ["CHOP", "DURABLE_MELEE"],
+    "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3400,
     "volume": 15,
@@ -3860,6 +4191,7 @@
     "symbol": "/",
     "color": "red",
     "name": "flammenschwert (an)",
+    "name_plural": "flammenschwerter (an)",
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt. Es ist eine sehr mächtige Waffe.",
     "rarity": 0,
     "price": 120000,
@@ -3887,10 +4219,11 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "firebrand (off)",
+    "name_plural": "firebrands (off)",
     "description": "This is a combination of two Dark Age conflict-resolution classics, the broadsword and the torch. Use to light it up and show those heathen zombies who's Lord around here.",
     "price": 120000,
     "material": "steel",
-    "flags": ["CHOP", "DURABLE_MELEE"],
+    "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "techniques": "WBLOCK_1",
     "weight": 1474,
     "volume": 9,
@@ -3913,6 +4246,7 @@
     "symbol": "/",
     "color": "red",
     "name": "firebrand (on)",
+    "name_plural": "firebrands (on)",
     "description": "This is a combination of two Dark Age conflict-resolution classics, the broadsword and the torch. The blade is glowing with heat. Excalibur can eat it's heart out. Use to shut it off.",
     "price": 120000,
     "material": "steel",
@@ -3942,7 +4276,7 @@
     "description": "This is a large blade that has had a portion of the handle wrapped in duct tape, making it easier to wield as a rough machete.",
     "price": 10000,
     "material": "steel",
-    "flags": "CHOP",
+    "flags": ["CHOP", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 538,
     "volume": 8,
     "bashing": 4,
@@ -3965,10 +4299,11 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "shishkebab (off)",
+    "name_plural": "shishkebabs (off)",
     "description": "This is a large blade with a fuel pipe on the side, and a small tank and igniter built into the insulated hilt.  When filled with gasoline, the blade can be made scorching hot to singe enemies and light your way. Use to ignite.",
     "price": 10000,
     "material": ["steel", "plastic"],
-    "flags": ["FIRE", "CHOP"],
+    "flags": ["FIRE", "CHOP", "SHEATH_SWORD"],
     "weight": 1701,
     "volume": 10,
     "bashing": 4,
@@ -3990,6 +4325,7 @@
     "symbol": "/",
     "color": "red",
     "name": "shishkebab (on)",
+    "name_plural": "shishkebabs (on)",
     "description": "This is a large blade with a fuel pipe on the side, and a small tank and igniter built into the insulated hilt.  The blade is glowing brightly. Use to shut off the gas.",
     "price": 10000,
     "material": ["steel", "plastic"],
@@ -4042,10 +4378,10 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "steak knife",
+    "name_plural": "steak knives",
     "description": "This is a sharp knife, designed for cutting meat. It makes a poor melee weapon, but is decent at butchering corpses.",
     "price": 2500,
     "material": "steel",
-    "flags": "STAB",
     "weight": 453,
     "volume": 1,
     "bashing": 2,
@@ -4058,7 +4394,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
   {
@@ -4067,6 +4404,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "butcher knife",
+    "name_plural": "butcher knives",
     "description": "This is a sharp, heavy knife. It makes a good melee weapon, and is an ideal item for butchering corpses.",
     "price": 8000,
     "material": "steel",
@@ -4074,7 +4412,6 @@
     "volume": 2,
     "bashing": 2,
     "cutting": 10,
-    "flags" : ["CHOP"],
     "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4083,7 +4420,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
   {
@@ -4092,10 +4430,11 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "combat knife",
+    "name_plural": "combat knives",
     "description": "This is a military combat knife designed for close quarters conflict. It is light and extremely sharp, and could be deadly in the right hands. It could be used to butcher corpses.",
     "price": 10000,
     "material": ["steel", "plastic"],
-    "flags": ["STAB", "DURABLE_MELEE"],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "weight": 558,
     "volume": 2,
     "bashing": 2,
@@ -4231,7 +4570,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HACKSAW",
-	"qualities":[["SAW_M", 1], ["SAW_M_G", 1]]
+	"qualities":[["SAW_M", 1], ["SAW_M_FINE", 1]]
   },{
     "id": "tent_kit",
     "type": "TOOL",
@@ -4261,6 +4600,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "torch",
+    "name_plural": "torches",
     "description": "This is a large stick, wrapped in gasoline soaked rags. When lit, produces a fair amount of light. You'll need a lighter or matches to light it.",
     "price": 0,
     "material": "wood",
@@ -4271,11 +4611,18 @@
     "to_hit": 1,
     "max_charges": 25,
     "initial_charges": 25,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TORCH"
+    "use_action": {
+        "type": "transform",
+        "target": "torch_lit",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter or fire to light this.",
+        "active": true,
+        "msg": "You light the torch."
+    }
   },
 
   {
@@ -4284,6 +4631,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "torch (lit)",
+    "name_plural": "torches (lit)",
     "description": "This is a large stick, wrapped in gasoline soaked rags. It is burning, producing plenty of light.",
     "price": 0,
     "material": "wood",
@@ -4320,18 +4668,26 @@
     "price" : 16000,
     "max_charges": 25,
     "initial_charges": 25,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "BATTLETORCH"
+    "use_action": {
+        "type": "transform",
+        "target": "battletorch_lit",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter or fire to light this.",
+        "active": true,
+        "msg": "You light the Louisville Slaughterer."
+    }
   },
 
   {
     "id" : "battletorch_lit",
     "type": "TOOL",
     "name" : "Louisville Slaughterer (lit)",
+    "name_plural" : "Louisville Slaughterers (lit)",
     "description" : "This is a sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric. It is burning brightly, and makes it much easier to see the baselines at night games (It also makes the umpire FAR more likely to call a ball instead of a strike).",
     "weight" : 1485,
     "to_hit" : 3,
@@ -4370,11 +4726,18 @@
     "to_hit": -2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "can_food",
-    "use_action": "CANDLE"
+    "use_action": {
+        "type": "transform",
+        "target": "candle_lit",
+        "active": true,
+        "msg": "You light the candle.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter to light this."
+    }
   },
 
   {
@@ -4383,6 +4746,7 @@
     "symbol": ",",
     "color": "white",
     "name": "candle (lit)",
+    "name_plural": "candles (lit)",
     "description": "This is a thick candle. It doesn't provide very much light, but it can burn for quite a long time. This candle is lit.",
     "price": 0,
     "material": "veggy",
@@ -4398,7 +4762,12 @@
     "turns_per_charge": 50,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "CANDLE_LIT"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "candle",
+        "when_underwater": "The candle is extinguished.",
+        "msg": "The candle winks out."
+    }
   },
 
   {
@@ -4512,8 +4881,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -4537,8 +4905,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
-	"qualities": [["SCREW", 1], ["SCREW_G", 1]]
+	"qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
 
   {
@@ -4547,6 +4914,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "wrench",
+    "name_plural": "wrenches",
     "description": "This is an adjustable crescent wrench. It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "price": 8600,
     "material": "steel",
@@ -4561,8 +4929,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
-	"qualities": [["WRENCH", 1], ["WRENCH_G", 1]]
+	"qualities": [["WRENCH", 1], ["WRENCH_FINE", 1]]
   },
 
   {
@@ -4584,8 +4951,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -4593,7 +4959,8 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "red",
-    "name": "bolt cutters",
+    "name": "pair of bolt cutters",
+    "name_plural": "pairs of bolt cutters",
     "description": "This is large pair of bolt cutters. You could use them to cut padlocks or heavy gauge wire.",
     "price": 10000,
     "material": ["steel", "plastic"],
@@ -4643,7 +5010,7 @@
     "name": "picklock kit",
     "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches. It is essential for silently and quickly opening locks, provided you have some mechanical skill.",
     "price": 0,
-    "material": "aluminum",
+    "material": "steel",
     "weight": 544,
     "volume": 0,
     "bashing": 0,
@@ -4687,6 +5054,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "safe deposit box",
+    "name_plural": "safe deposit boxes",
     "description": "This is a secure combination lock box. Sadly, you don't know the combination. Breaking inside it would destroy anything of value.",
     "price": 80000,
     "material": "steel",
@@ -4702,8 +5070,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "other",
-    "use_action": "NONE"
+    "category": "other"
   },
 
   {
@@ -4820,8 +5187,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare_parts",
-    "use_action": "NONE"
+    "category" : "spare_parts"
   },
 
   {
@@ -4844,8 +5210,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare_parts",
-    "use_action": "NONE"
+    "category" : "spare_parts"
   },
 
   {
@@ -4869,7 +5234,14 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "PDA"
+    "use_action": {
+        "type": "transform",
+        "need_charges": 1,
+        "need_charges_msg": "The PDA's batteries are dead.",
+        "msg": "You activate the flashlight app.",
+        "target": "pda_flashlight",
+        "active": true
+    }
   },
 
   {
@@ -4878,6 +5250,7 @@
     "symbol": ",",
     "color": "blue",
     "name": "PDA - Flashlight",
+    "name_plural": "PDAs - Flashlight",
     "description": "This is a small, multipurpose electronic device. This PDA has its flashlight app on, and is providing light.",
     "price": 3500,
     "material": ["plastic", "aluminum"],
@@ -4893,7 +5266,11 @@
     "turns_per_charge": 30,
     "ammo": "battery",
     "revert_to": "pda",
-    "use_action": "PDA_FLASHLIGHT"
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "The PDA screen goes blank.",
+        "target": "pda"
+    }
   },
 
   {
@@ -4902,6 +5279,7 @@
     "symbol": ";",
     "color": "brown",
     "name": "pocket knife",
+    "name_plural": "pocket knives",
     "description": "This is a small pocket knife. It isn't great for combat, but it's better than nothing. It's sharp enough to butcher with.",
     "price": 10000,
     "material": ["steel", "plastic"],
@@ -4927,10 +5305,10 @@
     "symbol":";",
     "color": "dark_gray",
     "name" : "makeshift knife",
+    "name_plural" : "makeshift knives",
     "description" : "A knife consisting of a long somewhat sharpened spike and a tightly wrapped a rag as a handle. It makes a good melee weapon.",
     "price": 1000,
     "material": ["steel", "null"],
-    "flags": "STAB",
     "weight": 550,
     "volume": 2,
     "bashing": 2,
@@ -4943,7 +5321,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["STAB", "SHEATH_KNIFE"]
    },
 
    {
@@ -5015,7 +5394,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 2], ["HAMMER_G", 1]]
+    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
   },
 
   {
@@ -5071,10 +5450,10 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "stone knife",
+    "name_plural": "stone knives",
     "description": "This is a sharpened stone set into a hollowed handle. Not nearly as usable as a proper knife, but it's better than nothing.",
     "price": 200,
     "material": ["wood", "stone"],
-    "flags": "STAB",
     "weight": 453,
     "volume": 1,
     "bashing": 2,
@@ -5087,7 +5466,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
   {
@@ -5180,8 +5560,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -5226,8 +5605,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -5236,6 +5614,7 @@
     "symbol": ")",
     "color": "green",
     "name": "packed M72 LAW",
+    "name_plural": "packed M72 LAW's",
     "description": "This is a M72 LAW, packed in its storage form. Use it to pop it out and make it ready to fire. Once it is activated, it cannot be repacked.",
     "price": 50000,
     "material": "aluminum",
@@ -5260,6 +5639,7 @@
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of canned meat",
+    "name_plural": "sealed jars of canned meat",
     "description": "This is a sealed glass jar containing some meat. Use to open and eat to enjoy.",
     "price": 7500,
     "material": ["glass", "flesh"],
@@ -5275,7 +5655,12 @@
     "ammo": "NULL",
     "category": "food",
     "revert_to": "null",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "meat_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5284,6 +5669,7 @@
     "symbol": "%",
     "color": "light_gray",
     "name": "sealed jar of canned fish",
+    "name_plural": "sealed jars of canned fish",
     "description": "This is a sealed glass jar containing some fish. Use to open and eat to enjoy.",
     "price": 7500,
     "material": ["glass", "flesh"],
@@ -5299,7 +5685,12 @@
     "ammo": "NULL",
     "category": "food",
     "revert_to": "null",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "fish_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5308,6 +5699,7 @@
     "symbol": ")",
     "color": "cyan",
     "name": "sealed 3-liter jar of kompot",
+    "name_plural": "sealed 3-liter jars of kompot",
     "description": "This is a sealed glass jar containing kompot. Use to open and eat to enjoy.",
     "rarity": 0,
     "price": 8000,
@@ -5317,14 +5709,20 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 5,
-    "initial_charges": 6,
+    "max_charges": 1,
+    "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
     "category": "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "kompot",
+        "target_charges": 12,
+        "container": "jar_3l_glass"
+    }
   },
 
   {
@@ -5333,6 +5731,7 @@
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of soylent slices",
+    "name_plural": "sealed jars of soylent slices",
     "description": "This is a sealed glass jar containing human meat. Use to open and eat to enjoy - if you really want to.",
     "price": 7500,
     "material": ["glass", "hflesh"],
@@ -5348,7 +5747,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "human_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5357,6 +5761,7 @@
     "symbol": "%",
     "color": "green",
     "name": "sealed jar of canned veggy",
+    "name_plural": "sealed jars of canned veggy",
     "description": "This is a sealed glass jar containing mixed vegetables. Use to open and eat to enjoy.",
     "price": 6500,
     "material": ["glass", "veggy"],
@@ -5372,7 +5777,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "veggy_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5381,6 +5791,7 @@
     "symbol": "%",
     "color": "red",
     "name": "sealed jar of canned fruit",
+    "name_plural": "sealed jars of canned fruit",
     "description": "This is a sealed glass jar containing sliced fruits. Use to open and eat to enjoy.",
     "price": 5000,
     "material": ["glass", "veggy"],
@@ -5396,7 +5807,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "apple_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5405,6 +5821,7 @@
     "symbol": "%",
     "color": "green",
     "name": "sealed jar of pickled vegetable",
+    "name_plural": "sealed jars of pickled vegetable",
     "description": "This is a sealed glass jar containing pickled vegetables. Use to open and eat to enjoy.",
     "price": 6000,
     "material": ["glass", "veggy"],
@@ -5420,7 +5837,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "veggy_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5429,6 +5851,7 @@
     "symbol": "%",
     "color": "pink",
     "name": "sealed jar of pickled meat",
+    "name_plural": "sealed jars of pickled meat",
     "description": "This is a sealed glass jar containing pickled meat. Use to open and eat to enjoy.",
     "price": 7000,
     "material": ["glass", "flesh"],
@@ -5444,7 +5867,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "meat_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5453,6 +5881,7 @@
     "symbol": "%",
     "color": "light_gray",
     "name": "sealed jar of pickled fish",
+    "name_plural": "sealed jars of pickled fish",
     "description": "This is a sealed glass jar containing pickled fish. Use to open and eat to enjoy.",
     "price": 7000,
     "material": ["glass", "flesh"],
@@ -5468,7 +5897,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "fish_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5477,6 +5911,7 @@
     "symbol": "%",
     "color": "pink",
     "name": "sealed jar of pickled human flesh",
+    "name_plural": "sealed jars of pickled human flesh",
     "description": "This is sealed glass jar containing pickled human flesh. Use to open. You might even enjoy it.",
     "price": 1000,
     "material": ["glass", "hflesh"],
@@ -5492,7 +5927,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "human_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5518,7 +5958,7 @@
     "category" : "food",
     "use_action": "FLASK_YEAST"
   },
-  
+
   {
     "id": "cordless_drill",
     "type": "TOOL",
@@ -5539,8 +5979,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -5562,8 +6001,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -5571,7 +6009,8 @@
     "type": "TOOL",
     "symbol": "%",
     "color": "red",
-    "name": "vacuum-packed meat slices",
+    "name": "vacuum-packed meat slice",
+    "name_plural": "vacuum-packed meat slices",
     "description": "This is a bag of vacuum packed meat slices in plastic packaging.  Use to open and eat to enjoy.",
     "price": 7500,
     "material": ["plastic", "flesh"],
@@ -5587,7 +6026,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "meat_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5595,7 +6039,7 @@
     "type": "TOOL",
     "symbol": "%",
     "color": "light_gray",
-    "name": "vacuum-packed fish slices",
+    "name": "vacuum-packed fish slice",
     "description": "This is a bag of vacuum packed fish slices in plastic packaging.  Use to open and eat to enjoy.",
     "price": 7500,
     "material": ["plastic", "flesh"],
@@ -5611,7 +6055,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "fish_vac",
+        "container": "bag_plastic"
+    }
   },
 
    {
@@ -5619,7 +6068,7 @@
     "type": "TOOL",
     "symbol": "%",
     "color": "red",
-    "name": "vacuum-packed salted simpleton slices",
+    "name": "vacuum-packed salted simpleton slice",
     "description": "This is a bag of vacuum packed human flesh slices in plastic packaging.  Use to open and eat to enjoy.",
     "price": 7500,
     "material": ["plastic", "hflesh"],
@@ -5635,7 +6084,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "hflesh_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5643,7 +6097,7 @@
     "type": "TOOL",
     "symbol": "%",
     "color": "green",
-    "name": "vacuum-packed veggy chunks",
+    "name": "vacuum-packed veggy chunk",
     "description": "This is a bag of vacuum packed vegetable slices in plastic packaging.  Use to open and eat to enjoy.",
     "price": 6500,
     "material": ["plastic", "veggy"],
@@ -5659,7 +6113,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "veggy_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5667,7 +6126,7 @@
     "type": "TOOL",
     "symbol": "%",
     "color": "red",
-    "name": "vacuum-packed fruit slices",
+    "name": "vacuum-packed fruit slice",
     "description": "This is a bag of vacuum packed fruit slices in plastic packaging.  Use to open and eat to enjoy.",
     "price": 5000,
     "material": ["plastic", "veggy"],
@@ -5683,7 +6142,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "apple_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5798,7 +6262,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "towel",
     "use_action": "TOWEL",
     "flags": ["WET"]
   },
@@ -5822,7 +6286,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "UNFOLD_BICYCLE"
+    "use_action": {
+        "type": "unfold_vehicle",
+        "vehicle_name": "bicycle",
+        "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
+        "moves": 500
+    }
   },
 
   {
@@ -5868,7 +6337,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-	"qualities":[["BREW", 2]]
+    "qualities":[["BREW", 2]]
   },
 
   {
@@ -5914,7 +6383,7 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "HOTPLATE",
-	"qualities":[["BREW", 1], ["CHEM", 2]]
+    "qualities":[["BREW", 1], ["CHEM", 2]]
   },
   {
     "id": "crackpipe",
@@ -5936,7 +6405,8 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL"
+    "ammo": "NULL",
+    "use_action": "SMOKING_PIPE"
   },
 
   {
@@ -5959,7 +6429,8 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL"
+    "ammo": "NULL",
+    "use_action": "SMOKING_PIPE"
   },
 
   {
@@ -5982,8 +6453,9 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL"
-  },
+    "ammo": "NULL",
+    "use_action": "SMOKING_PIPE"
+},
 
   {
     "id": "forge",
@@ -6004,8 +6476,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6027,8 +6498,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6045,14 +6515,13 @@
     "volume": 16,
     "bashing": 40,
     "cutting": 0,
-    "to_hit": -20,
+    "to_hit": -5,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6060,7 +6529,8 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "light_gray",
-    "name": "aluminum tongs",
+    "name": "pair of aluminum tongs",
+    "name_plural": "pairs of aluminum tongs",
     "description": "These are long, aluminum tongs. They are is commonly used for cooking or in metalworking fabrication recipes.",
     "price": 16000,
     "material": "aluminum",
@@ -6075,9 +6545,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
     "qualities": [["COOK", 1]]
-    },{
+  },{
     "id": "chisel",
     "type": "TOOL",
     "symbol": ";",
@@ -6097,8 +6566,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6121,8 +6589,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6135,7 +6602,7 @@
     "rarity": 30,
     "price": 150000,
     "material": "steel",
-    "flags": ["SLICE", "DURABLE_MELEE"],
+    "flags": ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WIDE", "BRUTAL"],
     "weight": 2822,
     "volume": 17,
@@ -6173,7 +6640,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "MATCHBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "matchbomb_act",
+        "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "active": true,
+        "msg": "You light the match head bomb."
+    }
   },
 
   {
@@ -6182,6 +6657,7 @@
     "symbol": "*",
     "color": "light_red",
     "name": "match head bomb (lit)",
+    "name_plural": "match head bombs (lit)",
     "description": "This is a bottle filled with match heads and equipped with a fuse. This one has been lit, and its fuse is rapidly burning down. You may not want to hold onto it much longer.",
     "price": 0,
     "material": ["glass", "cotton"],
@@ -6197,7 +6673,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "MATCHBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "ssss...",
+        "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+        "explosion_power": 24,
+        "explosion_shrapnel": 0
+    }
   },
 
   {
@@ -6242,8 +6725,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "charcoal",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6265,8 +6747,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "charcoal",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6336,8 +6817,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "veh_parts",
-    "use_action": "NONE"
+    "category": "veh_parts"
   },
 
   {
@@ -6360,8 +6840,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "veh_parts",
-    "use_action": "NONE"
+    "category": "veh_parts"
   },
 
   {
@@ -6385,7 +6864,11 @@
     "ammo": "NULL",
     "revert_to": "null",
     "phase" : "solid",
-    "use_action" : "RAD_BADGE"
+    "use_action": {
+        "type": "transform",
+        "target": "rad_badge",
+        "msg":"You remove the badge from its wrapper, exposing it to ambient radiation."
+    }
   },
 
   {
@@ -6407,8 +6890,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6417,10 +6899,11 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "trench knife",
+    "name_plural": "trench knives",
     "description": "This stout combat knife features a steel guard to protect the user's knuckles. The guard can also be used for striking or blocking, and the knife can also be used to butcher corpses.",
     "price": 11000,
     "material": ["steel", "wood"],
-    "flags" : ["DURABLE_MELEE", "STAB"],
+    "flags" : ["DURABLE_MELEE", "STAB", "SHEATH_KNIFE"],
     "techniques": ["WBLOCK_1"],
     "weight": 608,
     "volume": 2,
@@ -6505,8 +6988,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6523,15 +7005,14 @@
     "weight": 3013,
     "volume": 13,
     "bashing": 6,
-    "cutting": 24,
-    "to_hit": -13,
+    "cutting": 14,
+    "to_hit": -6,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
     "qualities": [["CUT", 1]]
   },
 
@@ -6557,7 +7038,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
     "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
@@ -6583,7 +7063,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
     "qualities": [["CUT", 1]]
   },
   {
@@ -6663,10 +7142,10 @@
     "symbol": ";",
     "color": "yellow",
     "name": "dive knife",
+    "name_plural": "dive knives",
     "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying. Used primarily by divers, it is very light and takes up virtually no space in one's pockets.",
     "price": 14000,
     "material": ["steel", "plastic"],
-    "flags": "CHOP",
     "weight": 226,
     "volume": 0,
     "bashing": 0,
@@ -6679,7 +7158,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
   {
@@ -6711,7 +7191,8 @@
     "type": "TOOL",
     "symbol": "!",
     "color": "light_blue",
-    "name": "saline eye drops",
+    "name": "saline eye drop",
+    "name_plural": "saline eye drops",
     "description": "Sterile saline eye drops. Can be used to treat dry eyes, or to wash out contaminants.",
     "price": 10000,
     "material": "plastic",
@@ -6772,7 +7253,7 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "GUN_REPAIR",
-	"qualities": [["HAMMER_G", 1], ["SAW_M_G", 1], ["WRENCH_G", 1], ["SCREW_G", 1]]
+    "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
   },
   {
     "id": "large_repairkit",
@@ -6795,7 +7276,7 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "GUN_REPAIR",
-	"qualities": [["HAMMER_G", 1], ["SAW_M_G", 1], ["WRENCH_G", 1], ["SCREW_G", 1]]
+    "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
   },
   {
     "id": "misc_repairkit",
@@ -6818,6 +7299,30 @@
     "ammo": "tape",
     "revert_to": "null",
     "use_action": "MISC_REPAIR"
+  },
+  {
+    "id": "toolbox",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "red",
+    "name": "toolbox",
+    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities. In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, bone, or chitin. It requires 25 units of duct tape per use.",
+    "price": 12999,
+    "material": "steel",
+    "weight": 3364,
+    "volume": 10,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 400,
+    "initial_charges": 200,
+    "charges_per_use": 25,
+    "turns_per_charge": 0,
+    "ammo": "tape",
+    "revert_to": "null",
+    "use_action": "MISC_REPAIR",
+    "qualities": [["CUT", 1], ["HAMMER", 1], ["SAW_M", 1], ["SAW_W", 1], ["WRENCH", 1],
+        ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
   },
   {
     "id": "battery_atomic",
@@ -6843,11 +7348,34 @@
     "use_action": "ATOMIC_BATTERY"
   },
   {
+    "id": "battery_ups",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "UPS conversion mod",
+    "description": "This device converts conventional battery connections to run off of a Unified Power System instead.",
+    "price": 50000,
+    "material": ["plastic", "ceramic"],
+    "weight": 142,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "spare_parts",
+    "use_action": "UPS_BATTERY"
+  },
+  {
     "type": "TOOL",
     "id": "g_shovel",
     "symbol": "/",
     "color": "dark_gray",
-    "name": "gardening shovel",
+    "name": "trowel",
     "description": "A small, sharp gardening shovel, perfect for digging up grubs and worms.",
     "price": 20,
     "material": "steel",
@@ -6924,6 +7452,29 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 3], ["HAMMER_G", 1], ["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SAW_M_G", 1], ["WRENCH", 1], ["WRENCH_G", 1], ["SCREW", 1], ["SCREW_G", 1]]
+    "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1], ["CUT", 1], ["SAW_W", 1], ["SAW_M", 1],
+     ["SAW_M_FINE", 1], ["WRENCH", 1], ["WRENCH_FINE", 1], ["SCREW", 1], ["SCREW_FINE", 1]]
+  },
+  {
+    "type": "TOOL",
+    "id": "advanced_ecig",
+    "symbol": "!",
+    "color": "white",
+    "name": "advanced electronic cigarette",
+    "description": "An advanced version of the electronic cigarette. A less harmful way to get your nicotine fix than regular cigarettes, but still addictive. It needs batteries and nicotine liquid to function.",
+    "price": 20000,
+    "material": "steel",
+    "weight": 200,
+    "volume": 1,
+    "bashing": -1,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 100,
+    "initial_charges": 40,
+    "charges_per_use": 1,
+    "turns_per_charge": 1,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "ECIG"
   }
 ]

@@ -9,7 +9,7 @@
 
 typedef void (mdeath::*MonDeathFunction)(monster*);
 typedef void (mattack::*MonAttackFunction)(monster*);
-typedef void (mdefense::*MonDefenseFunction)(monster*);
+typedef void (mdefense::*MonDefenseFunction)(monster*, const projectile*);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
 
@@ -67,7 +67,9 @@ class MonsterGenerator
         std::map<std::string, mtype*> get_all_mtypes() const;
         std::vector<std::string> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
+        friend struct mtype;
     protected:
+        m_flag m_flag_from_string( std::string flag ) const;
     private:
         /** Default constructor */
         MonsterGenerator();

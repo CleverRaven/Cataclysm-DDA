@@ -63,6 +63,10 @@ public:
     static bool has_initialized();
     // clear profession map, every profession pointer becames invalid!
     static void reset();
+    /** calls @ref check_definition for each profession */
+    static void check_definitions();
+    /** Check that item/CBM/addiction/skill definitions are valid. */
+    void check_definition() const;
 
     std::string ident() const;
     std::string name() const;

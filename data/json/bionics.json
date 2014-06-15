@@ -1,11 +1,6 @@
 [
     {
         "type" : "bionic",
-        "id" : "bio_null",
-    "name"       :    "NULL bionics",
-    "description":    "If you're seeing this, it's a bug. (game::init_bionics)"
-    },{
-        "type" : "bionic",
         "id" : "bio_power_storage",
     "name"       :    "Power Storage",
     "description":    "Compact Bionics Module that upgrades your power capacity by 4 units.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in another CBM."
@@ -13,13 +8,15 @@
         "type" : "bionic",
         "id" : "bio_power_storage_mkII",
     "name"       :    "Power Storage Mk. II",
-    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful CBM: Power Storage.  Increases your power capacity by 10 units."
+    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful Power Storage CBM.  Increases your power capacity by 10 units."
     },{
         "type" : "bionic",
         "id" : "bio_batteries",
     "name"       :    "Battery System",
     "power_source" :  true,
-    "description":    "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries."
+    "active"     :    true,
+    "time"       :    100,
+    "description":    "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries. Can be toggled on and off at will."
     },{
         "type" : "bionic",
         "id" : "bio_metabolics",
@@ -27,7 +24,7 @@
     "power_source" :  true,
     "active"     :    true,
     "time"       :    100,
-    "description":    "Your digestive system and power supply are interconnected.  Any drain on energy instead increases your hunger."
+    "description":    "Your digestive system and power supply are interconnected.  Any drain on energy instead increases your hunger. Can be toggled on and off at will."
     },{
         "type" : "bionic",
         "id" : "bio_solar",
@@ -45,7 +42,9 @@
         "id" : "bio_furnace",
     "name"       :    "Internal Furnace",
     "power_source" :  true,
-    "description":    "You can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others."
+    "active"     :    true,
+    "time"       :    100,
+    "description":    "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others."
     },{
         "type" : "bionic",
         "id" : "bio_ethanol",
@@ -94,7 +93,7 @@
         "type" : "bionic",
         "id" : "bio_watch",
     "name"       :    "Internal Chronometer",
-    "description":    "You have been equipped with an internal atomic clock, ensuring that you will always know the current time."
+    "description":    "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function."
     },{
         "type" : "bionic",
         "id" : "bio_membrane",
@@ -538,6 +537,14 @@
     "cost"       :    1,
     "time"       :    10,
     "description":    "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability, including bullets."
+    },{
+        "type" : "bionic",
+        "id" : "bio_ups",
+    "name"       :    "Internal Unified Power System",
+    "active"     :    true,
+    "cost"       :    1,
+    "time"       :    100,
+    "description":    "You have a unified power system wired into your power banks. Objects that run on a UPS can now draw directly from your internal power supply."
     },{
         "type" : "bionic",
         "id" : "bio_dis_shock",

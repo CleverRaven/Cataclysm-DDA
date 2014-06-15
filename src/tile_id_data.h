@@ -43,7 +43,12 @@ const std::string field_names[num_fields] =
     toString( fd_blood_insect ),
     toString( fd_blood_invertebrate ),
     toString( fd_gibs_insect ),
-    toString( fd_gibs_invertebrate )
+    toString( fd_gibs_invertebrate ),
+    toString(fd_cigsmoke),
+    toString(fd_weedsmoke),
+    toString(fd_cracksmoke),
+    toString(fd_methsmoke),
+    toString(fd_bees)
 };
 const std::string monster_names[num_monsters] =
 {
@@ -142,9 +147,11 @@ const std::string monster_names[num_monsters] =
 
     toString(mon_spider_wolf),
     toString(mon_spider_web),
+    toString(mon_spider_web_s),
     toString(mon_spider_jumping),
     toString(mon_spider_trapdoor),
     toString(mon_spider_widow),
+    toString(mon_spider_widow_giant_s),
 
     toString(mon_dark_wyrm),
     toString(mon_amigara_horror),
@@ -234,7 +241,19 @@ const std::string monster_names[num_monsters] =
     toString(mon_sheep),
     toString(mon_shrew),
     toString(mon_squirrel_red),
-    toString(mon_weasel)
+    toString(mon_weasel),
+// 0.9 -> 0.A
+    toString(mon_dog_skeleton),
+    toString(mon_dog_zombie_cop),
+    toString(mon_dog_zombie_rot),
+// 0.A -> 0.B
+    toString(mon_broken_cyborg),
+    toString(mon_zoose),
+    toString(mon_zolf),
+    toString(mon_zougar),
+    toString(mon_zombie_bio_op),
+    toString(mon_zombie_gasbag),
+    toString(mon_turret_rifle)
 
 };
 const std::string multitile_keys[] =

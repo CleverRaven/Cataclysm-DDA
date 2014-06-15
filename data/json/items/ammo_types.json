@@ -331,6 +331,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "300",
+        "name" : ".300",
+        "default" : "300_winmag"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "fishspear",
         "name" : "speargun spear",
         "default" : "fishspear"

@@ -3971,7 +3971,7 @@
         },
         {
             "id":"fd_fire_vent",
-            "bg":495,
+            "fg":495,
             "bg":-1,
             "rotates":false
         },
@@ -12499,13 +12499,6 @@
          "multitile" : false
         },
 
-        {
-         "id" : "bio_null",
-         "fg" : 1734,
-         "bg" : 1733,
-         "rotates" : false,
-         "multitile" : false
-        },
         {
          "id" : "bio_power_storage",
          "fg" : 1735,

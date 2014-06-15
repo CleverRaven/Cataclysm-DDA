@@ -1,7 +1,6 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-#include "platform.h"
 #include "mtype.h"
 #include "monster.h"
 #include "map.h"
@@ -11,7 +10,6 @@
 #include "omdata.h"
 #include "mapitems.h"
 #include "crafting.h"
-#include "trap.h"
 #include "npc.h"
 #include "faction.h"
 #include "event.h"
@@ -20,41 +18,17 @@
 #include "construction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
 #include "live_view.h"
 #include "worldfactory.h"
 #include "creature_tracker.h"
+#include "game_constants.h"
 #include <vector>
 #include <map>
 #include <queue>
 #include <list>
 #include <stdarg.h>
-
-// Fixed window sizes
-#define HP_HEIGHT 14
-#define HP_WIDTH 7
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-#define MONINFO_HEIGHT 12
-#define MONINFO_WIDTH 48
-#define MESSAGES_HEIGHT 8
-#define MESSAGES_WIDTH 48
-#define LOCATION_HEIGHT 1
-#define LOCATION_WIDTH 48
-#define STATUS_HEIGHT 4
-#define STATUS_WIDTH 55
-
-#define LONG_RANGE 10
-#define BLINK_SPEED 300
-#define BULLET_SPEED 10000000
-#define EXPLOSION_SPEED 70000000
-
-#define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
-#define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
-#define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
-#define MAX_VOLUME_IN_VEHICLE_STORAGE 2000 // todo: variation. semi trailer square could hold more. the real limit would be weight
 
 extern const int savegame_version;
 extern int save_loading_version;
@@ -97,15 +71,6 @@ struct monster_and_count
  monster critter;
  int count;
  monster_and_count(monster M, int C) : critter (M), count (C) {};
-};
-
-struct game_message
-{
- calendar turn;
- int count;
- std::string message;
- game_message() { turn = 0; count = 1; message = ""; };
- game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
 };
 
 struct mtype;
@@ -153,21 +118,12 @@ public:
   bool save();
   void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
-  void write_memorial_file();
+  void write_memorial_file(std::string sLastWords);
   void cleanup_at_end();
   bool do_turn();
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
   void draw_veh_dir_indicator(void);
-  void advance_nextinv(); // Increment the next inventory letter
-  void decrease_nextinv(); // Decrement the next inventory letter
-  void vadd_msg(const char* msg, va_list ap );
-  void add_msg_string(const std::string &s);
-    void add_msg(const char* msg, ...);
-  void add_msg_if_player(Creature *t, const char* msg, ...);
-  void add_msg_if_npc(Creature* p, const char* msg, ...);
-  void add_msg_player_or_npc(Creature* p, const char* player_str, const char* npc_str, ...);
-  std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -177,6 +133,9 @@ public:
   void add_footstep(int x, int y, int volume, int distance, monster* source);
   std::vector<std::vector<point> > footsteps;
   std::vector<monster*> footsteps_source;
+// Calculate where footstep marker should appear and put those points into the result.
+// It also clears @ref footsteps_source and @ref footsteps
+  void calculate_footstep_markers(std::vector<point> &result);
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
@@ -219,8 +178,8 @@ public:
   void kill_mon(int index, bool player_did_it = false);
   void kill_mon(monster& critter, bool player_did_it = false); // new kill_mon that just takes monster reference
   void explode_mon(int index); // Explode a monster; like kill_mon but messier
-  void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
-  void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
+  bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
+  bool revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
   void plfire(bool burst, int default_target_x = -1, int default_target_y = -1); // Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
@@ -231,8 +190,6 @@ public:
   bool cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...);
   void moving_vehicle_dismount(int tox, int toy);
-  // Get input from the player to choose an adjacent tile (for examine() etc)
-  bool choose_adjacent(std::string message, int &x, int&y);
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
@@ -295,7 +252,7 @@ public:
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
-  void peek();
+  void peek( int peekx = 0, int peeky = 0);
   point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(const int iLastState); //List all items around the player
@@ -343,13 +300,24 @@ public:
   inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
   std::list<item> consume_items(player *p, std::vector<component> components);
   void consume_tools(player *p, std::vector<component> tools, bool force_available);
+  /**
+   * Returns the recipe that is used to disassemble the given item type.
+   * Returns NULL if there is no recipe to disassemble the item type.
+   */
+  recipe* get_disassemble_recipe(const itype_id &ype);
+  /**
+   * Check if the player can disassemble the item dis_item with the recipe
+   * cur_recipe and the inventory crafting_inv.
+   * Checks for example tools (and charges), enough input charges
+   * (if disassembled item is counted by charges).
+   * If print_msg is true show a message about missing tools/charges.
+   */
+  bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
 
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
   std::map<std::string, vehicle*> vtypes;
-  std::vector <trap*> traps;
-  void load_trap(JsonObject &jo);
   void toggle_sidebar_style(void);
   void toggle_fullscreen(void);
   void temp_exit_fullscreen(void);
@@ -357,17 +325,14 @@ public:
   void zoom_in();
   void zoom_out();
 
-  std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
 
-  calendar turn;
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
   bool lightning_active;
 
   std::map<int, weather_segment> weather_log;
-  char nextinv; // Determines which letter the next inv item will have
   overmap *cur_om;
   map m;
   int levx, levy, levz; // Placement inside the overmap
@@ -439,10 +404,11 @@ public:
   void draw_explosion(int x, int y, int radius, nc_color col);
   void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
   void draw_hit_mon(int x, int y, monster critter, bool dead = false);
-  void draw_hit_player(player *p, bool dead = false);
+  void draw_hit_player(player *p, const int iDam, bool dead = false);
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
+  void draw_sct();
 
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
@@ -450,9 +416,6 @@ public:
   void reset_vehicleparts();
   void reset_vehicles();
   void finalize_vehicles();
-
-  void load_monitem(JsonObject &jo);     // Load monster inventory selection entry
-  void reset_monitems();
 
   std::queue<vehicle_prototype*> vehprototypes;
 
@@ -465,6 +428,8 @@ public:
   bool narrow_sidebar;
   bool fullscreen;
   bool was_fullscreen;
+  void write_msg();        // Prints the messages in the messages list
+  void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);  // open vehicle interaction screen
 
  private:
 // Game-start procedures
@@ -495,13 +460,13 @@ public:
   void init_npctalk();
   void init_fields();
   void init_weather();
+  void init_weather_anim();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
   void init_professions();
   void init_faction_data();
   void init_mongroups() throw (std::string);    // Initualizes monster groups
-  void release_traps();     // Release trap types memory
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_autosave();     // Initializes autosave parameters
@@ -545,19 +510,6 @@ public:
   void disassemble(int pos = INT_MAX);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
-  /**
-   * Returns the recipe that is used to disassemble the given item type.
-   * Returns NULL if there is no recipe to disassemble the item type.
-   */
-  recipe* get_disassemble_recipe(const itype_id &ype);
-  /**
-   * Check if the player can disassemble the item dis_item with the recipe
-   * cur_recipe and the inventory crafting_inv.
-   * Checks for example tools (and charges), enough input charges
-   * (if disassembled item is counted by charges).
-   * If print_msg is true show a message about missing tools/charges.
-   */
-  bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
 
   // Forcefully close a door at (x, y).
   // The function checks for creatures/items/vehicles at that point and
@@ -583,9 +535,7 @@ public:
   void control_vehicle(); // Use vehicle controls  '^'
   void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
   void advanced_inv();
-  // open vehicle interaction screen
-  void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
-  void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
+
   // Establish a grab on something.
   void grab();
 // Pick where to put liquid; false if it's left where it was
@@ -627,6 +577,7 @@ public:
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
+
   input_context get_player_input(std::string &action);
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
@@ -659,12 +610,12 @@ public:
   int  mon_info(WINDOW *); // Prints a list of nearby monsters
   void handle_key_blocking_activity(); // Abort reading etc.
   bool handle_action();
+
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
   void place_corpse();     // Place player corpse
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"
   void gameover();         // Ends the game
-  void write_msg();        // Prints the messages in the messages list
   void msg_buffer();       // Opens a window with old messages in it
   void draw_minimap();     // Draw the 5x5 minimap
   void draw_HP();          // Draws the player's HP and Power level
@@ -707,15 +658,12 @@ public:
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-  std::vector <game_message> messages;   // Messages to be printed
-  int curmes;   // The last-seen message.
   int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // The scent map
   //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
   int nulscent;    // Returned for OOB scent checks
   std::vector<event> events;         // Game events to be processed
   std::map<std::string, int> kills;         // Player's kill count
   int moves_since_last_save;
-  int item_exchanges_since_save;
   time_t last_save_timestamp;
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
@@ -735,15 +683,16 @@ public:
   bool is_hostile_within(int distance);
     void activity_on_turn();
     void activity_on_turn_game();
+    void activity_on_turn_vibe();
     void activity_on_turn_refill_vehicle();
     void activity_on_turn_pulp();
     void activity_on_finish();
     void activity_on_finish_reload();
-    void activity_on_finish_read();
     void activity_on_finish_train();
     void activity_on_finish_firstaid();
     void activity_on_finish_fish();
     void activity_on_finish_vehicle();
+
 };
 
 #endif

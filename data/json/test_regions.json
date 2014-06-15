@@ -60,7 +60,7 @@
       "name" : "abandoned drive-through",
       "rotate" : true,
       "sym" : [94, 62, 118, 60],
-      "color" : "pink",
+      "color" : "dkgray_magenta",
       "see_cost" : 5,
       "extras" : "build",
       "mondensity" : 2,

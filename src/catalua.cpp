@@ -11,6 +11,8 @@
 #include "map.h"
 #include "path_info.h"
 #include "monstergenerator.h"
+#include "messages.h"
+#include "debug.h"
 
 #ifdef LUA
 extern "C" {
@@ -207,6 +209,9 @@ it_gun *get_gun_type(std::string name) {
 it_gunmod *get_gunmod_type(std::string name) {
     return dynamic_cast<it_gunmod*>(item_controller->find_template(name));
 }
+it_armor *get_armor_type(std::string name) {
+    return dynamic_cast<it_armor*>(item_controller->find_template(name));
+}
 
 
 // Manually implemented lua functions
@@ -276,6 +281,29 @@ static int game_items_at(lua_State *L) {
         item** item_userdata = (item**) lua_newuserdata(L, sizeof(item*));
         *item_userdata = &(items[i]);
         luah_setmetatable(L, "item_metatable");
+        lua_rawset(L, -3);
+    }
+
+    return 1; // 1 return values
+}
+
+// item_groups = game.get_item_groups()
+static int game_get_item_groups(lua_State *L) {
+    std::vector<std::string> items = item_controller->get_all_group_names();
+
+    lua_createtable(L, items.size(), 0); // Preallocate enough space for all our items.
+
+    // Iterate over the monster list and insert each monster into our returned table.
+    for( size_t i = 0; i < items.size(); ++i ) {
+        // The stack will look like this:
+        // 1 - t, table containing item
+        // 2 - k, index at which the next item will be inserted
+        // 3 - v, next item to insert
+        //
+        // lua_rawset then does t[k] = v and pops v and k from the stack
+
+        lua_pushnumber(L, i + 1);
+        lua_pushstring(L, items[i].c_str());
         lua_rawset(L, -3);
     }
 
@@ -384,7 +412,7 @@ static int game_choose_adjacent(lua_State *L) {
     const char* parameter1 = (const char*) lua_tostring(L, 1);
     int parameter2 = (int) lua_tonumber(L, 2);
     int parameter3 = (int) lua_tonumber(L, 3);
-    bool success = (bool) g->choose_adjacent(parameter1, parameter2, parameter3);
+    bool success = (bool) choose_adjacent(parameter1, parameter2, parameter3);
     if(success) {
         // parameter2 and parameter3 were updated by the call
         lua_pushnumber(L, parameter2);
@@ -433,14 +461,35 @@ void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name
     // debugmsg("Loading from %s", full_path.c_str());
 }
 
+// Custom error handler
+static int traceback(lua_State *L) {
+    // Get the error message
+    const char* error = lua_tostring(L, -1);
+
+    // Get the lua stack trace
+    lua_getfield(L, LUA_GLOBALSINDEX, "debug");
+    lua_getfield(L, -1, "traceback");
+    lua_pushvalue(L, 1);
+    lua_pushinteger(L, 2);
+    lua_call(L, 2, 1);
+
+    const char* stacktrace = lua_tostring(L, -1);
+
+    // Print a debug message.
+    debugmsg("Error in lua module: %s", error);
+
+    // Print the stack trace to our debug log.
+    std::ofstream debug_out;
+    debug_out.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
+    debug_out << stacktrace << "\n";
+    debug_out.close();
+    return 1;
+}
+
 // Load an arbitrary lua file
 void lua_dofile(lua_State *L, const char* path) {
-    int err = luaL_dofile(lua_state, path);
-    if(err) {
-        // Error handling.
-        const char* error = lua_tostring(L, -1);
-        debugmsg("Error in lua module: %s", error);
-    }
+    lua_pushcfunction(L, &traceback);
+    luaL_loadfile(L, path) || lua_pcall(L, 0, LUA_MULTRET, -2);
 }
 
 // game.dofile(file)
@@ -468,6 +517,7 @@ static const struct luaL_Reg global_funcs [] = {
     {"dofile", game_dofile},
     {"get_monster_types", game_get_monster_types},
     {"monstergroups", game_monstergroups},
+    {"get_item_groups", game_get_item_groups},
     {NULL, NULL}
 };
 
@@ -487,12 +537,54 @@ void game::init_lua() {
 }
 #endif // #ifdef LUA
 
+use_function::~use_function() {
+    if (function_type == USE_FUNCTION_ACTOR_PTR) {
+        delete actor_ptr;
+    }
+}
+
+use_function::use_function(const use_function &other)
+: function_type(other.function_type)
+{
+    if (function_type == USE_FUNCTION_CPP) {
+        cpp_function = other.cpp_function;
+    } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
+        actor_ptr = other.actor_ptr->clone();
+    } else {
+        lua_function = other.lua_function;
+    }
+}
+
+void use_function::operator=(use_function_pointer f)
+{
+    this->~use_function();
+    new (this) use_function(f);
+}
+
+void use_function::operator=(iuse_actor *f)
+{
+    this->~use_function();
+    new (this) use_function(f);
+}
+
+void use_function::operator=(const use_function &other)
+{
+    this->~use_function();
+    new (this) use_function(other);
+}
+
 // If we're not using lua, need to define Use_function in a way to always call the C++ function
-int use_function::call(player* player_instance, item* item_instance, bool active) {
-    if(function_type == USE_FUNCTION_CPP) {
+int use_function::call(player* player_instance, item* item_instance, bool active) const {
+    if (function_type == USE_FUNCTION_NONE) {
+        if (player_instance != NULL && player_instance->is_player()) {
+            add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());
+        }
+    } else if (function_type == USE_FUNCTION_CPP) {
         // If it's a C++ function, simply call it with the given arguments.
         iuse tmp;
         return (tmp.*cpp_function)(player_instance, item_instance, active);
+    } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
+        return actor_ptr->use(player_instance, item_instance, active);
     } else {
         #ifdef LUA
 
@@ -550,4 +642,5 @@ int use_function::call(player* player_instance, item* item_instance, bool active
         #endif
 
     }
+    return 0;
 }

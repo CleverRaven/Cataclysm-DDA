@@ -1,6 +1,7 @@
 #ifndef _AUTO_PICKUP_H_
 #define _AUTO_PICKUP_H_
 
+#include <map>
 #include <string>
 #include <vector>
 #include <locale>

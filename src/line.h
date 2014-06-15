@@ -52,11 +52,10 @@ std::vector<point> continue_line(const std::vector<point> & line, const int dist
 std::vector<tripoint> continue_line(const std::vector<tripoint> & line, const int distance);
 direction direction_from(const int x1, const int y1, const int x2, const int y2);
 direction direction_from(const tripoint loc1, const tripoint loc2);
+std::pair<int, int> direction_XY(direction dir);
 std::string direction_name(direction dir);
 std::string direction_name_short(direction dir);
-
-
-
+std::vector<point> squares_in_direction( const int x1, const int y1, const int x2, const int y2 );
 
 // weird class for 2d vectors where dist is derived from rl_dist
 struct rl_vec2d {

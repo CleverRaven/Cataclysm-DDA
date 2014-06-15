@@ -1,12 +1,8 @@
 #ifndef _ITEM_FACTORY_H_
 #define _ITEM_FACTORY_H_
 
-#include "game.h"
-#include "itype.h"
-#include "item.h"
 #include "color.h"
 #include "json.h"
-#include "item_group.h"
 #include "iuse.h"
 #include "martialarts.h"
 #include <string>
@@ -14,11 +10,16 @@
 #include <map>
 
 typedef std::string Item_tag;
+typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
 
 //For the iuse arguments
 class game;
 class player;
+class Item_spawn_data;
+class Item_group;
+class item;
+struct itype;
 
 class item_category {
 public:
@@ -45,31 +46,58 @@ class Item_factory
 public:
     //Setup
     Item_factory();
+    ~Item_factory();
     void init();
     void clear_items_and_groups();
     void init_old();
     void register_iuse_lua(const char* name, int lua_function);
 
     void load_item_group(JsonObject &jsobj);
+    // Same as other load_item_group, but takes the ident, subtype
+    // from parameters instead of looking into the json object.
+    void load_item_group(JsonObject &jsobj, const std::string &ident, const std::string &subtype);
+    /**
+     * Check if an item type is known to the Item_factory,
+     * (or if it can create it).
+     * If this function returns true, @ref find_template
+     * will never return the MISSING_ITEM or null-item type.
+     */
+    bool has_template(const Item_tag& id) const;
 
-    bool has_template(Item_tag id) const;
+    bool has_group(const Group_tag& id) const;
+    Item_spawn_data *get_group(const Group_tag& id);
 
     //Intermediary Methods - Will probably be removed at final stage
-    itype* find_template(Item_tag id);
-    itype* random_template();
-    itype* template_from(Item_tag group_tag);
-    const Item_tag random_id();
+    /**
+     * Returns the itype with the given id.
+     * Never return NULL.
+     */
+    itype* find_template( Item_tag id );
+
+    /**
+     * Add a passed in itype to the collection of item types.
+     */
+    void add_item_type( itype *new_type );
+
+    /**
+     * Return a random item type from the given item group.
+     */
     const Item_tag id_from(Item_tag group_tag);
-    const Item_tag id_from(Item_tag group_tag, bool & with_ammo);
     bool group_contains_item(Item_tag group_tag, Item_tag item);
 
-    //Production methods
-    item create(Item_tag id, int created_at, bool rand = true);
-    Item_list create(Item_tag id, int created_at, int quantity, bool rand = true);
-    item create_from(Item_tag group, int created_at, bool rand = true);
-    Item_list create_from(Item_tag group, int created_at, int quantity, bool rand = true);
-    item create_random(int created_at, bool rand = true);
-    Item_list create_random(int created_at, int quantity, bool rand = true);
+    /**
+     * Create items from the given group. It creates as many items as the
+     * group definition requests.
+     * For example if the group is a distribution that only contains
+     * item ids it will create single item.
+     * If the group is a collection with several entries it can contain
+     * more than one item (or none at all!).
+     * This function also creates ammo for guns, if this is requested
+     * in the item group.
+     */
+    Item_list create_from_group(Group_tag group, int created_at);
+
+    void debug_spawn();
 
     void load_ammo      (JsonObject &jo);
     void load_gun       (JsonObject &jo);
@@ -83,6 +111,7 @@ public:
     void load_generic   (JsonObject &jo);
     void load_bionic    (JsonObject &jo);
     void load_veh_part  (JsonObject &jo);
+    void load_stationary(JsonObject &jo);
 
     void load_item_blacklist(JsonObject &jo);
     void load_item_whitelist(JsonObject &jo);
@@ -105,10 +134,21 @@ public:
     // stays valid.
     const item_category *get_category(const std::string &id);
 
+    const use_function *get_iuse( const std::string &id );
+
+    // The below functions are meant to be accessed at startup by lua to
+    // do mod-related modifications of groups.
+    std::vector<std::string> get_all_group_names();
+
+    // Sets the chance of the specified item in the group. weight 0 will allow you to remove
+    // the item from the group. Returns false if the group doesn't exist.
+    bool add_item_to_group(const std::string group_id, const std::string item_id, int weight);
+
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;
-    std::map<Item_tag, Item_group*> m_template_groups;
+    typedef std::map<Group_tag, Item_spawn_data*> GroupMap;
+    GroupMap m_template_groups;
 
     // Checks that ammo is listed in ammo_name(),
     // That there is at least on instance (it_ammo) of
@@ -132,8 +172,12 @@ private:
     void add_category(const std::string &id, int sort_rank, const std::string &name);
 
     //json data handlers
+    void set_use_methods_from_json( JsonObject& jo, std::string member, itype *new_item_template );
     use_function use_from_string(std::string name);
+    use_function use_from_object(JsonObject obj);
     phase_id phase_from_tag(Item_tag name);
+
+    void add_entry(Item_group* sg, JsonObject &obj);
 
     void load_basic_info(JsonObject &jo, itype *new_item);
     void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
@@ -145,12 +189,11 @@ private:
     void set_intvar(std::string tag, unsigned int & var, int min, int max);
 
     //two convenience functions that just call into set_bitmask_by_string
-    void set_flag_by_string(unsigned& cur_flags, const std::string & new_flag, const std::string & flag_type);
+    void set_flag_by_string(unsigned& cur_flags, const std::string & new_flag,
+                            const std::string & flag_type);
 
     //iuse stuff
     std::map<Item_tag, use_function> iuse_function_list;
-    //techniques stuff
-    std::map<Item_tag, matec_id> techniques_list;
 };
 
 extern Item_factory* item_controller;

@@ -47,6 +47,8 @@ public:
  void flower_poppy (player *p, map *m, int examx, int examy);
  void flower_blubell (player *p, map *m, int examx, int examy);
  void flower_dahlia (player *p, map *m, int examx, int examy);
+ void egg_sackbw(player *p, map *m, int examx, int examy);
+ void egg_sackws(player *p, map *m, int examx, int examy);
  void fungus (player *p, map *m, int examx, int examy);
  void dirtmound (player *p, map *m, int examx, int examy);
  void aggie_plant (player *p, map *m, int examx, int examy);
@@ -59,10 +61,13 @@ public:
  void recycler (player *p, map *m, int examx, int examy);
  void trap(player *p, map *m, int examx, int examy);
  void water_source (player *p, map *m, const int examx, const int examy);
+ void swater_source (player *p, map *m, const int examx, const int examy);
  void acid_source (player *p, map *m, const int examx, const int examy);
  void fvat_empty (player *p, map *m, const int examx, const int examy);
  void fvat_full (player *p, map *m, const int examx, const int examy);
  void keg (player *p, map *m, const int examx, const int examy);
+ void reload_furniture (player *p, map *m, const int examx, const int examy);
+ void curtains (player *p, map *m, const int examx, const int examy);
 };
 
 typedef void (iexamine::*iexamine_function)(player*, map*, int, int);

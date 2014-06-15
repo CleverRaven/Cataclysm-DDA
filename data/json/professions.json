@@ -1,4 +1,59 @@
 [
+	{
+            "type": "profession",
+            "ident": "bionic_prepper",
+            "name": "Bionic Prepper",
+            "description": "You knew the end was coming. You augmented yourself with some basic bionics and got additional survival training. Now the end has come, and it is time to see if your efforts have paid off.",
+            "points": 8,
+            "CBMs":[
+                "bio_torsionratchet",
+                "bio_power_storage",
+                "bio_tools",
+                "bio_sunglasses"
+               
+            ],
+            "skills": [
+                {
+                    "level": 1,
+                    "name": "survival"
+                },
+                {
+                    "level": 1,
+                    "name": "fabrication"
+                },
+                {
+                    "level": 1,
+                    "name": "cooking"
+                },
+                {
+                    "level": 1,
+                    "name": "firstaid"
+                }
+            ],
+            "items": {
+                "both": [
+                    "flashlight",
+                    "shorts_cargo",
+                    "boots",
+                    "hat_boonie",
+                    "blazer",
+                    "tshirt",
+                    "socks",
+                    "backpack",
+                    "pockknife",
+                    "rope_30",
+                    "canteen"
+                    
+                ],
+                "male": [
+                    "boxer_shorts"
+                ],
+                "female": [
+                    "bra",
+                    "boxer_shorts"
+                ]
+            }
+        },
     {
         "type": "profession",
         "ident": "unemployed",
@@ -72,7 +127,8 @@
                 "hat_chef",
                 "jacket_chef",
                 "pants_checkered",
-                "dress_shoes"
+                "dress_shoes",
+                "sheath"
             ],
             "male": [
                 "briefs"
@@ -192,6 +248,7 @@
                 "pants_cargo",
                 "sneakers",
                 "weed",
+                "tobacco",
                 "lighter",
                 "rolling_paper",
                 "switchblade",
@@ -269,7 +326,8 @@
                 "m4a1",
                 "223",
                 "knife_combat",
-                "binoculars"
+                "binoculars",
+                "sheath"
             ],
             "male": [
                 "boxer_shorts"
@@ -454,7 +512,8 @@
                 "switchblade",
                 "lighter",
                 "mag_porn",
-                "sunglasses"
+                "sunglasses",
+                "holster"
             ],
             "male": [
                 "boxer_shorts"
@@ -539,7 +598,8 @@
                 "knife_combat",
                 "lighter",
                 "rope_30",
-                "canteen"
+                "canteen",
+                "sheath"
             ],
             "male": [
                 "boxer_shorts"
@@ -623,6 +683,7 @@
                 "gin",
                 "bum_wine",
                 "ragpouch",
+                "bindle",
                 "can_beans",
                 "pockknife",
                 "matches"
@@ -1279,7 +1340,7 @@
         "type" : "profession",
         "ident" : "hitchhiker",
         "name" : "Hitchhiker",
-        "description" : "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
+        "description": "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
         "points" : -1,
         "items" : {
             "both": [
@@ -1316,7 +1377,8 @@
                 "jacket_flannel",
                 "beartrap",
                 "pockknife",
-                "cig",
+                "tobacco",
+                "rolling_paper",
                 "matches"
             ],
             "male": [
@@ -1404,6 +1466,9 @@
         "points": 0,
         "items": {
             "both": [
+                "tobacco",
+                "pipe_tobacco",
+                "ref_lighter",
                 "dress_shoes",
                 "cane"
             ],
@@ -1584,6 +1649,7 @@
                 "gloves_fingerless",
                 "boots_combat",
                 "weed",
+                "tobacco",
                 "rolling_paper",
                 "mp3",
                 "ref_lighter"
@@ -1659,7 +1725,7 @@
                 "socks",
                 "dress_shoes",
                 "rolling_paper",
-                "cig",
+                "tobacco",
                 "mp3",
                 "ref_lighter"
             ],
@@ -1823,7 +1889,8 @@
                 "shorts",
                 "lowtops",
                 "aspirin",
-                "cig",
+                "tobacco",
+                "rolling_paper",
                 "lighter"
             ],
             "male": [
@@ -2058,11 +2125,53 @@
             ]
         }
     },
+
+   {
+        "type": "profession",
+        "ident": "archaeologist",
+        "name": "Archaeologist",
+        "description": "While on your way to a long-lost temple following a clue from your dead grandfather's journal, the ground started to shake uncontrollably. Getting a bad feeling about the situation, you head to the nearest shelter.",
+        "points": 5,
+		"skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "gun"
+            }
+        ],
+        "items": {
+            "both": [
+				"undershirt",
+                "leather_belt",
+				"boots",
+				"pants",
+				"jacket_leather",
+				"holster",
+				"sw_619",
+				"38_special",
+				"bullwhip",
+				"mbag",
+				"fedora",
+				"spiral_stone"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    
     {
         "type": "profession",
         "ident": "farmer",
         "name": "Farmer",
-        "description": "You were making a living by raising crops, when the cataclysm struck.  Now, with your trusty hoe and and some seeds it's time to rebuild the Earth, one plant at a time.",
+        "description": "You were making a living by raising crops, when the cataclysm struck.  Now, with your trusty hoe and some seeds it's time to rebuild the Earth, one plant at a time.",
         "points": 1,
         "items": {
             "both": [

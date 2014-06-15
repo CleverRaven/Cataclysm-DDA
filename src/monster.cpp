@@ -14,6 +14,7 @@
 #include "cursesdef.h"
 #include "monstergenerator.h"
 #include "json.h"
+#include "messages.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -157,15 +158,16 @@ void monster::spawn(int x, int y)
     _posy = y;
 }
 
-std::string monster::name()
+std::string monster::name(unsigned int quantity)
 {
  if (!type) {
   debugmsg ("monster::name empty type!");
   return std::string();
  }
  if (unique_name != "")
-  return type->name + ": " + unique_name;
- return type->name;
+  return string_format("%s: %s",
+                       (type->nname(quantity).c_str()), unique_name.c_str());
+ return ngettext(type->name.c_str(), type->name_plural.c_str(), quantity);
 }
 
 // MATERIALS-TODO: put description in materials.json?
@@ -173,24 +175,28 @@ std::string monster::name_with_armor()
 {
  std::string ret;
  if (type->in_species("INSECT")) {
-     ret = string_format(_("%s's carapace"), type->name.c_str());
+     ret = string_format(_("carapace"));
  }
  else {
      if (type->mat == "veggy") {
-         ret = string_format(_("%s's thick bark"), type->name.c_str());
-     } else if (type->mat == "flesh" || type->mat == "hflesh") {
-         ret = string_format(_("%s's thick hide"), type->name.c_str());
+         ret = string_format(_("thick bark"));
+     } else if (type->mat == "flesh" || type->mat == "hflesh" || type->mat == "iflesh") {
+         ret = string_format(_("thick hide"));
      } else if (type->mat == "iron" || type->mat == "steel") {
-         ret = string_format(_("%s's armor plating"), type->name.c_str());
+         ret = string_format(_("armor plating"));
      } else if (type->mat == "protoplasmic") {
-         ret = string_format(_("%s's hard protoplasmic hide"), type->name.c_str());
+         ret = string_format(_("hard protoplasmic hide"));
      }
  }
  return ret;
 }
 
-std::string monster::disp_name() {
-    return string_format(_("the %s"), name().c_str());
+std::string monster::disp_name(bool possessive) {
+    if (!possessive) {
+        return string_format(_("the %s"), name().c_str());
+    } else {
+        return string_format(_("the %s's"), name().c_str());
+    }
 }
 
 std::string monster::skin_name() {
@@ -208,6 +214,10 @@ void monster::get_Attitude(nc_color &color, std::string &text)
         case MATT_FRIEND:
             color = h_white;
             text = _("Friendly ");
+            break;
+        case MATT_FPASSIVE:
+            color = h_white;
+            text = _("Passive ");
             break;
         case MATT_FLEE:
             color = c_green;
@@ -243,7 +253,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
 
  const int vEnd = vStart + vLines;
 
- mvwprintz(w, vStart++, column, c_white, "%s ", type->name.c_str());
+ mvwprintz(w, vStart++, column, c_white, "%s ", _(type->name.c_str()));
  nc_color color = c_white;
  std::string attitude = "";
 
@@ -466,8 +476,10 @@ bool monster::is_fleeing(player &u)
 
 monster_attitude monster::attitude(player *u)
 {
- if (friendly != 0)
+ if (friendly != 0 && !(has_effect("docile")))
   return MATT_FRIEND;
+ if (friendly != 0 )
+  return MATT_FPASSIVE;
  if (has_effect("run"))
   return MATT_FLEE;
 
@@ -789,43 +801,59 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     }
     bp_hit = dealt_dam.bp_hit;
 
-    //Hallucinations always produce messages but never actually deal damage
-    if (is_hallucination() || dealt_dam.total_damage() > 0) {
-        if (target.is_player()) {
-            if (u_see_me) {
-                g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
-            } else {
-                g->add_msg(_("Something hits your %s."),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
-            }
-        } else {
-            if (u_see_me) {
-                g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
-                            target.disp_name().c_str(),
-                            body_part_name(bp_hit, random_side(bp_hit)).c_str());
-            }
-        }
-    } else if (hitspread < 0) { // a miss
+    if (hitspread < 0) { // a miss
         // TODO: characters practice dodge when a hit misses 'em
         if (target.is_player()) {
             if (u_see_me) {
-                g->add_msg(_("You dodge %1$s."), disp_name().c_str());
+                add_msg(_("You dodge %1$s."), disp_name().c_str());
             } else {
-                g->add_msg(_("You dodge an attack from an unseen source."));
+                add_msg(_("You dodge an attack from an unseen source."));
             }
         } else {
             if (u_see_me) {
-                g->add_msg(_("The %1$s dodges %2$s's attack."), name().c_str(),
-                            target.disp_name().c_str());
+                add_msg(_("The %1$s dodges %2$s attack."), name().c_str(),
+                            target.disp_name(true).c_str());
             }
         }
-
+    //Hallucinations always produce messages but never actually deal damage
+    } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
+        if (target.is_player()) {
+            if (u_see_me) {
+                add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
+            } else {
+                add_msg(m_bad, _("Something hits your %s."),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
+            }
+        } else {
+            if (u_see_me) {
+                add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
+                            target.disp_name(true).c_str(),
+                            body_part_name(bp_hit, random_side(bp_hit)).c_str());
+            }
+        }
+    } else {
+        if (target.is_player()) {
+            if (u_see_me) {
+                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
+            } else {
+                add_msg(_("Something hits your %1$s, but your %2$s protects you."),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
+            }
+        } else {
+            if (u_see_me) {
+                add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
+                            target.disp_name(true).c_str(),
+                            body_part_name(bp_hit, random_side(bp_hit)).c_str(),
+                            target.skin_name().c_str());
+            }
+        }
     }
 
     if (is_hallucination()) {
         if(one_in(7)) {
-            die();
+            dead = true;
         }
         return;
     }
@@ -873,11 +901,11 @@ void monster::hit_monster(int i)
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
   if (g->u_see(this))
-   g->add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
+   add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
   return;
  }
  if (g->u_see(this))
-  g->add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
+  add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
@@ -888,7 +916,7 @@ int monster::deal_melee_attack(Creature *source, int hitroll)
     mdefense mdf;
     if(!is_hallucination() && source != NULL)
         {
-        (mdf.*type->sp_defense)(this);
+        (mdf.*type->sp_defense)(this, NULL);
         }
     return Creature::deal_melee_attack(source, hitroll);
 }
@@ -899,7 +927,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
             !proj.wide) {
         if (u_see_mon)
-            g->add_msg(_("The shot passes through the %s without hitting."),
+            add_msg(_("The shot passes through %s without hitting."),
             disp_name().c_str());
         return 0;
     }
@@ -911,8 +939,14 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     mdefense mdf;
      if(!is_hallucination() && source != NULL)
         {
-        (mdf.*type->sp_defense)(this);
+        (mdf.*type->sp_defense)(this, &proj);
         }
+
+    // whip has a chance to scare wildlife
+    if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
+            add_effect("run", rng(3, 5));
+    }
+
     return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
 }
 
@@ -1131,40 +1165,12 @@ void monster::drop_items_on_death()
     if(is_hallucination()) {
         return;
     }
-    int total_chance = 0, cur_chance, selected_location;
-    bool animal_done = false;
-    std::vector<items_location_and_chance> it = g->monitems[type->id];
-    if (type->item_chance != 0 && it.empty())
-    {
-        debugmsg("monster::drop_items_on_death: Type %s has item_chance %d but no items assigned!",
-                 type->name.c_str(), type->item_chance);
+    if (type->death_drops.empty()) {
         return;
     }
-
-    for (int i = 0; i < it.size(); i++)
-    {
-        total_chance += it[i].chance;
-    }
-
-    while (rng(0, 99) < abs(type->item_chance) && !animal_done)
-    {
-        cur_chance = rng(1, total_chance);
-        selected_location = -1;
-        while (cur_chance > 0)
-        {
-            selected_location++;
-            cur_chance -= it[selected_location].chance;
-        }
-
-        // We have selected a string representing an item group, now
-        // get a random item tag from it and spawn it.
-        Item_tag selected_item = item_controller->id_from(it[selected_location].loc);
-        g->m.spawn_item(_posx, _posy, selected_item);
-
-        if (type->item_chance < 0)
-        {
-            animal_done = true; // Only drop ONE item.
-        }
+    const Item_list items = item_controller->create_from_group(type->death_drops, calendar::turn);
+    for (Item_list::const_iterator a = items.begin(); a != items.end(); ++a) {
+        g->m.add_item_or_charges(_posx, _posy, *a);
     }
 }
 
@@ -1205,7 +1211,7 @@ bool monster::make_fungus()
     }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" ||
               tid == "mon_zombie_brute" || tid == "mon_zombie_hulk"){
         polypick = 2;
-    }else if (tid == "mon_boomer"){
+    }else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag"){
         polypick = 3;
     }else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen"){
         polypick = 4;
@@ -1282,4 +1288,80 @@ void monster::setkeep(bool r)
 
 m_size monster::get_size() {
     return type->size;
+}
+
+void monster::add_msg_if_npc(const char *msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    std::string processed_npc_string = vstring_format(msg, ap);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual monster name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, 9, disp_name());
+        if (offset == 0 && !processed_npc_string.empty()) {
+            capitalize_letter(processed_npc_string, 0);
+        }
+    }
+    add_msg(processed_npc_string.c_str());
+    va_end(ap);
+}
+
+void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...)
+{
+    va_list ap;
+    va_start(ap, npc_str);
+    if (g->u_see(this)) {
+        std::string processed_npc_string = vstring_format(npc_str, ap);
+        // These strings contain the substring <npcname>,
+        // if present replace it with the actual monster name.
+        size_t offset = processed_npc_string.find("<npcname>");
+        if (offset != std::string::npos) {
+            processed_npc_string.replace(offset, 9, disp_name());
+            if (offset == 0 && !processed_npc_string.empty()) {
+                capitalize_letter(processed_npc_string, 0);
+            }
+        }
+        add_msg(processed_npc_string.c_str());
+    }
+    va_end(ap);
+}
+
+void monster::add_msg_if_npc(game_message_type type, const char *msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    std::string processed_npc_string = vstring_format(msg, ap);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual monster name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, 9, disp_name());
+        if (offset == 0 && !processed_npc_string.empty()) {
+            capitalize_letter(processed_npc_string, 0);
+        }
+    }
+    add_msg(type, processed_npc_string.c_str());
+    va_end(ap);
+}
+
+void monster::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...)
+{
+    va_list ap;
+    va_start(ap, npc_str);
+    if (g->u_see(this)) {
+        std::string processed_npc_string = vstring_format(npc_str, ap);
+        // These strings contain the substring <npcname>,
+        // if present replace it with the actual monster name.
+        size_t offset = processed_npc_string.find("<npcname>");
+        if (offset != std::string::npos) {
+            processed_npc_string.replace(offset, 9, disp_name());
+            if (offset == 0 && !processed_npc_string.empty()) {
+                capitalize_letter(processed_npc_string, 0);
+            }
+        }
+        add_msg(type, processed_npc_string.c_str());
+    }
+    va_end(ap);
 }

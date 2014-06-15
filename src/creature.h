@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
+#include "messages.h"
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -25,7 +26,7 @@ class Creature
         Creature();
         Creature(const Creature &rhs);
 
-        virtual std::string disp_name() = 0; // displayname for Creature
+        virtual std::string disp_name(bool possessive = false) = 0; // displayname for Creature
         virtual std::string skin_name() = 0; // name of outer layer, e.g. "armor plates"
 
         virtual bool is_player() {
@@ -133,8 +134,9 @@ class Creature
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with
         // the old add_effect
-        void add_effect(efftype_id eff_id, int dur);
-        bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur); // gives chance to save via env resist, returns if successful
+        void add_effect(efftype_id eff_id, int dur, int intensity = 1, bool permanent = false);
+        bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
+                            int intensity = 1, bool permanent = false); // gives chance to save via env resist, returns if successful
         void remove_effect(efftype_id eff_id);
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id);
@@ -184,21 +186,22 @@ class Creature
         virtual int get_armor_bash_bonus();
         virtual int get_armor_cut_bonus();
 
-        virtual int get_speed();
+        virtual int get_speed() const;
         virtual int get_dodge();
         virtual int get_hit();
         virtual m_size get_size() = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
+        virtual int get_hp_max( hp_part bp = num_hp_parts ) = 0;
         virtual std::string get_material() { return "flesh"; };
         virtual field_id bloodType () { debugmsg("creature:bloodType: not a valid monster/npc/player, returned fd_null"); return fd_null; };
         virtual field_id gibType () { debugmsg("creature:gibType: not a valid monster/npc/player, returned fd_gibs_flesh"); return fd_gibs_flesh; };
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const { return false; };
 
-        virtual int get_speed_base();
+        virtual int get_speed_base() const;
         virtual int get_dodge_base();
         virtual int get_hit_base();
-        virtual int get_speed_bonus();
+        virtual int get_speed_bonus() const;
         virtual int get_dodge_bonus();
         virtual int get_block_bonus();
         virtual int get_hit_bonus();
@@ -223,6 +226,7 @@ class Creature
         virtual void mod_dex_bonus(int ndex);
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
+        virtual void mod_stat( std::string stat, int modifier );
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
@@ -268,6 +272,17 @@ class Creature
         void draw(WINDOW *w, int plx, int ply, bool inv);
 
         static void init_hit_weights();
+
+        // Message related stuff
+        virtual void add_msg_if_player(const char *, ...){};
+        virtual void add_msg_if_player(game_message_type, const char *, ...){};
+        virtual void add_msg_if_npc(const char *, ...){};
+        virtual void add_msg_if_npc(game_message_type, const char *, ...){};
+        virtual void add_msg_player_or_npc(const char *, const char *, ...){};
+        virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...){};
+
+        virtual void add_memorial_log(const char*, const char*, ...) {};
+
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
@@ -325,6 +340,7 @@ class Creature
         };
 
         body_part select_body_part(Creature *source, int hitroll);
+
 };
 
 #endif

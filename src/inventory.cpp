@@ -2,48 +2,26 @@
 #include "inventory.h"
 #include "game.h"
 #include "mapdata.h"
-#include "item_factory.h"
 
 const std::string inv_chars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
 
 invslice inventory::slice()
 {
     invslice stacks;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+    for( auto iter = items.begin(); iter != items.end(); ++iter) {
         stacks.push_back(&*iter);
     }
     return stacks;
 }
 
-inventory inventory::subset(std::map<int, int> chosen) const
+const_invslice inventory::const_slice() const
 {
-    int i = 0;
-    inventory ret;
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        // don't need to worry about auto-creation of entries, as long as default == 0
-        int count = chosen[i];
-        if (count != 0) {
-            if (iter->front().count_by_charges()) {
-                item tmp = iter->front();
-                if (count <= tmp.charges && count >= 0) { // -1 is used to mean "all" sometimes
-                    tmp.charges = count;
-                }
-                ret.add_item(tmp);
-            } else {
-                for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end();
-                     ++stack_iter) {
-                    ret.add_item(*stack_iter);
-                    --count;
-                    if (count <= 0) {
-                        break;
-                    }
-                }
-            }
-        }
-        ++i;
+    const_invslice stacks;
+    for( auto iter = items.cbegin(); iter != items.cend(); ++iter) {
+        stacks.push_back(&*iter);
     }
-    return ret;
+    return stacks;
 }
 
 std::list<item> &inventory::stack_by_letter(char ch)
@@ -126,6 +104,14 @@ inventory &inventory::operator+= (const inventory &rhs)
 inventory &inventory::operator+= (const std::list<item> &rhs)
 {
     for (std::list<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
+        add_item(*iter, false, false);
+    }
+    return *this;
+}
+
+inventory &inventory::operator+= (const std::vector<item> &rhs)
+{
+    for (std::vector<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
         add_item(*iter, true);
     }
     return *this;
@@ -194,6 +180,11 @@ inventory inventory::operator+ (const item &rhs)
             if (it.is_container()) {
                 return true;
             }
+        }
+        break;
+    case IC_GUN:
+        if(it.is_gun()) {
+            return true;
         }
         break;
     }
@@ -450,7 +441,7 @@ void inventory::add_item_by_type(itype_id type, int count, long charges, bool ra
 {
     // TODO add proper birthday
     while (count > 0) {
-        item tmp = item_controller->create(type, 0, rand);
+        item tmp(type, 0, rand);
         if (charges != -1) {
             tmp.charges = charges;
         }
@@ -522,11 +513,25 @@ void inventory::restack(player *p)
     }
 }
 
+extern long count_charges_in_list(const itype *type, const std::vector<item> &items);
 void inventory::form_from_map(point origin, int range, bool assign_invlet)
 {
     items.clear();
     for (int x = origin.x - range; x <= origin.x + range; x++) {
         for (int y = origin.y - range; y <= origin.y + range; y++) {
+            if (g->m.has_furn(x, y) && g->m.accessable_furniture(origin.x, origin.y, x, y, range)) {
+                const furn_t &f = g->m.furn_at(x, y);
+                itype *type = f.crafting_pseudo_item_type();
+                if (type != NULL) {
+                    item furn_item(type->id, 0);
+                    const itype *ammo = f.crafting_ammo_item_type();
+                    if (ammo != NULL) {
+                        furn_item.charges = count_charges_in_list(ammo, g->m.i_at(x, y));
+                    }
+                    furn_item.item_tags.insert("PSEUDO");
+                    add_item(furn_item);
+                }
+            }
             if(g->m.accessable_items(origin.x, origin.y, x, y, range)) {
                 continue;
             }
@@ -538,18 +543,23 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             // Kludges for now!
             ter_id terrain_id = g->m.ter(x, y);
             if (g->m.has_nearby_fire(x, y, 0)) {
-                item fire(itypes["fire"], 0);
+                item fire("fire", 0);
                 fire.charges = 1;
                 add_item(fire);
             }
             if (terrain_id == t_water_sh || terrain_id == t_water_dp) {
-                item water(itypes["water"], 0);
+                item water("water", 0);
                 water.charges = 50;
                 add_item(water);
             }
+            if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
+                item swater("water_salt", 0);
+                swater.charges = 50;
+                add_item(swater);
+            }
             // add cvd forge from terrain
             if (terrain_id == t_cvdmachine) {
-                item cvd_machine(itypes["cvd_machine"], 0);
+                item cvd_machine("cvd_machine", 0);
                 cvd_machine.charges = 1;
                 cvd_machine.item_tags.insert("PSEUDO");
                 add_item(cvd_machine);
@@ -598,68 +608,68 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 }
 
                 if(faupart >= 0 ){
-                    item water(itypes["water_clean"], 0);
+                    item water("water_clean", 0);
                     water.charges = veh->fuel_left("water");
                     add_item(water);
                 }
 
                 if (kpart >= 0) {
-                    item hotplate(itypes["hotplate"], 0);
+                    item hotplate("hotplate", 0);
                     hotplate.charges = veh->fuel_left("battery");
                     hotplate.item_tags.insert("PSEUDO");
                     add_item(hotplate);
 
-                    item water(itypes["water_clean"], 0);
+                    item water("water_clean", 0);
                     water.charges = veh->fuel_left("water");
                     add_item(water);
 
-                    item pot(itypes["pot"], 0);
+                    item pot("pot", 0);
                     pot.item_tags.insert("PSEUDO");
                     add_item(pot);
-                    item pan(itypes["pan"], 0);
+                    item pan("pan", 0);
                     pan.item_tags.insert("PSEUDO");
                     add_item(pan);
                 }
                 if (weldpart >= 0) {
-                    item welder(itypes["welder"], 0);
+                    item welder("welder", 0);
                     welder.charges = veh->fuel_left("battery");
                     welder.item_tags.insert("PSEUDO");
                     add_item(welder);
 
-                    item soldering_iron(itypes["soldering_iron"], 0);
+                    item soldering_iron("soldering_iron", 0);
                     soldering_iron.charges = veh->fuel_left("battery");
                     soldering_iron.item_tags.insert("PSEUDO");
                     add_item(soldering_iron);
                 }
                 if (craftpart >= 0) {
-                    item vac_sealer(itypes["vac_sealer"], 0);
+                    item vac_sealer("vac_sealer", 0);
                     vac_sealer.charges = veh->fuel_left("battery");
                     vac_sealer.item_tags.insert("PSEUDO");
                     add_item(vac_sealer);
 
-                    item dehydrator(itypes["dehydrator"], 0);
+                    item dehydrator("dehydrator", 0);
                     dehydrator.charges = veh->fuel_left("battery");
                     dehydrator.item_tags.insert("PSEUDO");
                     add_item(dehydrator);
 
-                    item press(itypes["press"], 0);
+                    item press("press", 0);
                     press.charges = veh->fuel_left("battery");
                     press.item_tags.insert("PSEUDO");
                     add_item(press);
                 }
                 if (forgepart >= 0) {
-                    item forge(itypes["forge"], 0);
+                    item forge("forge", 0);
                     forge.charges = veh->fuel_left("battery");
                     forge.item_tags.insert("PSEUDO");
                     add_item(forge);
                 }
                 if (chempart >= 0) {
-                    item hotplate(itypes["hotplate"], 0);
+                    item hotplate("hotplate", 0);
                     hotplate.charges = veh->fuel_left("battery");
                     hotplate.item_tags.insert("PSEUDO");
                     add_item(hotplate);
 
-                    item chemistry_set(itypes["chemistry_set"], 0);
+                    item chemistry_set("chemistry_set", 0);
                     chemistry_set.charges = veh->fuel_left("battery");
                     chemistry_set.item_tags.insert("PSEUDO");
                     add_item(chemistry_set);
@@ -1026,25 +1036,7 @@ long inventory::charges_of(itype_id it) const
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end(); ++stack_iter) {
-            if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
-                // If we're specifically looking for a container, only say we have it if it's empty.
-                if( stack_iter->contents.empty() ) {
-                    if (stack_iter->charges < 0) {
-                        count++;
-                    } else {
-                        count += stack_iter->charges;
-                    }
-                }
-            }
-            for (int k = 0; k < stack_iter->contents.size(); k++) {
-                if (stack_iter->contents[k].type->id == it) {
-                    if (stack_iter->contents[k].charges < 0) {
-                        count++;
-                    } else {
-                        count += stack_iter->contents[k].charges;
-                    }
-                }
-            }
+            count += stack_iter->charges_of(it);
         }
     }
     return count;
@@ -1058,29 +1050,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */) {
-            // First, check contents
-            bool used_item_contents = false;
-            for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++) {
-                if (stack_iter->contents[k].type->id == it) {
-                    ret.push_back(stack_iter->contents[k]);
-                    quantity--;
-                    stack_iter->contents.erase(stack_iter->contents.begin() + k);
-                    k--;
-                    used_item_contents = true;
-                }
-            }
-            // Now check the item itself
-            if (use_container && used_item_contents) {
-                stack_iter = iter->erase(stack_iter);
-                if (iter->empty()) {
-                    iter = items.erase(iter);
-                    break;
-                } else {
-                    continue;
-                }
-            } else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.empty()) {
-                ret.push_back(*stack_iter);
-                quantity--;
+            if (stack_iter->use_amount(it, quantity, use_container, ret)) {
                 stack_iter = iter->erase(stack_iter);
             } else {
                 ++stack_iter;
@@ -1102,61 +1072,15 @@ std::list<item> inventory::use_charges(itype_id it, long quantity)
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0; /* noop */) {
-            // First, check contents
-            for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++) {
-                if (stack_iter->contents[k].type->id == it || stack_iter->ammo_type() == it) {
-                    if (stack_iter->contents[k].charges <= quantity) {
-                        ret.push_back(stack_iter->contents[k]);
-                        quantity -= stack_iter->contents[k].charges;
-                        if (stack_iter->contents[k].destroyed_at_zero_charges()) {
-                            stack_iter->contents.erase(stack_iter->contents.begin() + k);
-                            k--;
-                        } else {
-                            stack_iter->contents[k].charges = 0;
-                        }
-                    } else {
-                        item tmp = stack_iter->contents[k];
-                        tmp.charges = quantity;
-                        ret.push_back(tmp);
-                        stack_iter->contents[k].charges -= quantity;
-                        return ret;
-                    }
-                }
-            }
-
-            // Now check the item itself
-            if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
-                if (stack_iter->charges <= quantity) {
-                    ret.push_back(*stack_iter);
-                    if (stack_iter->charges < 0) {
-                        quantity--;
-                    } else {
-                        quantity -= stack_iter->charges;
-                    }
-                    if (stack_iter->destroyed_at_zero_charges()) {
-                        stack_iter = iter->erase(stack_iter);
-                        if (iter->empty()) {
-                            iter = items.erase(iter);
-                            break;
-                        } else {
-                            continue;
-                        }
-                    } else {
-                        stack_iter->charges = 0;
-                    }
-                } else {
-                    item tmp = *stack_iter;
-                    tmp.charges = quantity;
-                    ret.push_back(tmp);
-                    stack_iter->charges -= quantity;
-                    return ret;
-                }
-            }
-            if (stack_iter != iter->end()) {
-              ++stack_iter;
+            if (stack_iter->use_charges(it, quantity, ret)) {
+                stack_iter = iter->erase(stack_iter);
+            } else {
+                ++stack_iter;
             }
         }
-        if (iter != items.end()) {
+        if (iter->empty()) {
+            iter = items.erase(iter);
+        } else if (iter != items.end()) {
             ++iter;
         }
     }
@@ -1303,22 +1227,13 @@ bool inventory::has_mission_item(int mission_id) const
 
 int inventory::butcher_factor() const
 {
-    int lowest_factor = 999;
+    int lowest_factor = INT_MAX;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter) {
             const item &cur_item = *stack_iter;
-            if (cur_item.has_quality("CUT") && !cur_item.has_flag("SPEAR")) {
-                int factor = cur_item.volume() * 5 - cur_item.weight() / 75 -
-                             cur_item.damage_cut();
-                if (cur_item.damage_cut() <= 20) {
-                    factor *= 2;
-                }
-                if (factor < lowest_factor) {
-                    lowest_factor = factor;
-                }
-            }
+            lowest_factor = std::min(lowest_factor, cur_item.butcher_factor());
         }
     }
     return lowest_factor;
@@ -1344,7 +1259,7 @@ bool inventory::has_artifact_with(art_effect_passive effect) const
 bool inventory::has_liquid(itype_id type) const
 {
     // has_capacity_for_liquid needs an item, not an item type
-    const item liquid(itypes[type], g->turn);
+    const item liquid(type, calendar::turn);
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         const item &it = iter->front();
         if (it.is_container() && !it.contents.empty()) {

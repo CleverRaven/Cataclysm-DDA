@@ -1,15 +1,82 @@
 [
     {
         "type" : "technique",
+        "id" : "WBLOCK_1",
+        "name" : "Parry",
+        "messages" : [
+            "You block %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_2",
+        "name" : "Block",
+        "messages" : [
+            "You block %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_3",
+        "name" : "Shield",
+        "messages" : [
+            "You block %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "DEF_DISARM",
+        "name" : "", "comment": "not imeplemented -> empty name",
+        "messages" : [
+            "You disarm %s",
+            "<npcname> disarms %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "GRAB",
+        "name" : "", "comment": "not imeplemented -> empty name",
+        "messages" : [
+            "You grab %s",
+            "<npcname> grabs %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "SPIN",
+        "name" : "Spinning Strike",
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "min_melee" : 4,
+        "crit_tec" : true,
+        "messages" : [
+            "You swing through %s and everyone nearby",
+            "<npcname> swings through %s and everyone nearby"
+        ],
+        "aoe" : "spin"
+    },{
+        "type" : "technique",
         "id" : "WIDE",
         "name" : "Wide Strike",
         "unarmed_allowed" : true,
         "melee_allowed" : true,
+        "min_melee" : 3,
+        "crit_tec" : true,
         "messages" : [
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
         ],
         "aoe" : "wide"
+    },{
+        "type" : "technique",
+        "id" : "IMPALE",
+        "name" : "Impaling Strike",
+        "melee_allowed" : true,
+        "min_melee" : 4,
+        "crit_tec" : true,
+        "messages" : [
+            "You pierce straight through %s",
+            "<npcname> pierces through %s"
+        ],
+        "aoe" : "impale"
     },{
         "type" : "technique",
         "id" : "BRUTAL",
@@ -31,6 +98,8 @@
         "unarmed_allowed" : true,
         "melee_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly strike %s",
             "<npcname> quickly strikes %s"
@@ -120,8 +189,9 @@
             "You quickly jab %s",
             "<npcname> quickly jabs at %s"
         ],
-        "quick" : true,
-        "bash_mult" : 0.75
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
 
     },{
         "type" : "technique",
@@ -164,7 +234,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_karate_precise",
@@ -332,7 +404,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_feint",
@@ -461,7 +535,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_rapid_armed",
@@ -471,7 +547,9 @@
             "You quickly slash %s",
             "<npcname> quickly slashes %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_impale",
@@ -708,6 +786,8 @@
         "min_unarmed" : 3,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly chop %s",
             "<npcname> quickly chops %s"
@@ -790,6 +870,8 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You swiftly hit %s",
             "<npcname> swiftly hits %s"
@@ -801,6 +883,8 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You swiftly jab %s",
             "<npcname> swiftly jabs %s"
@@ -871,6 +955,8 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly swipe at %s",
             "<npcname> quickly swipes at %s"

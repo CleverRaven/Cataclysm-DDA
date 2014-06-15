@@ -103,5 +103,397 @@
         "type" : "snippet",
         "category" : "flier",
         "text" : "This is an advertisement for Rivtech brand ammunition. It shows a picture of an armored steel plate with a gaping hole blasted through the middle. Sitting beside the plate is a block of brightly colored caseless ammunition. The caption reads:  \"Rivtech 8x40mm caseless. Nothing else comes close.\""
+    },{
+	        "type" : "snippet",
+        "category" : "note",
+        "text" : "\"Some of 'em are big. Real big. Don't stick around, I saw my mate get fucking torn in half!\""
+    },{
+	        "type" : "snippet",
+        "category" : "note",
+        "text" : "\"po p y fl ow er s don t ea at them\""
+    },{
+		    "type" : "snippet",
+        "category" : "note",
+        "text" : "\"Some guy is walking through the horde without a scratch. Please tell me they're docile now. Please fucking tell me.\""
+    },{
+		    "type" : "snippet",
+        "category" : "note",
+        "text" : "\"Swamp water tastes good! An\""
+    },{
+		    "type" : "snippet",
+        "category" : "note",
+        "text" : "\"Why are all the lawnmowers broken?!\""
+    },{
+		    "type" : "snippet",
+        "category" : "note",
+        "text" : "\"Some of the bridges, they're right next to each other, right? If you see something up ahead one of those, just careen through to the other side. My van was long enough to bridge right across!\""
+    },{
+		    "type" : "snippet",
+        "category" : "note",
+        "text" : "\"BURN BURN BURN BURN BURN ALL BURN ALL BURN ALL BURN\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I took all the supplies. Don't follow me. I'm sorry, man. I have to look out for myself now.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"My next-door neighbor had a katana in his basement!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Am I the last one alive?\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Boyfriend stole my pistol while I was asleep. I locked him in the bathroom and set the house on fire. At least he attracted their attention.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I get air conditioners, but... this whole laboratory is frozen to ice!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Fuck aerodynamics, I want another engine!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"A wood ax works pretty well against them. So does a machete, but you can't cut down a tree.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Why would you hide in a farm? Sure, it's isolated, but if they know where you are, you don't exactly have cover on all sides.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Imagine if this spread to, like, Australia. Zombie kangaroos. Haha...\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"how DO I use THESE bionic THINGS? I just STUCK the wires IN my WRIST and now I CAN'T STOP twitching. AND now my LEG hurts! Is THAT acid?!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I tried playing memorial music for my dead brother, on a radio. They must have been attracted to it. I can't see his grave through the crowd anymore.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Took a picture of a dead dog leaping right onto a soldier. Sweet fucking shot!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Gas mask is nice and all, but I can hardly run with it on.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Those evac shelters have basements. Remember when they were full of food? Every single one is fucking empty now...\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I made mushroom babies. My arms hurt. I hurt. I had mushroom babies. They are growing now.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"It doesn't matter how you die. You're gonna turn into one of them.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"WHY DO ALL THE DEAD CHILDREN GO TO SCHOOL\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"The copbots... the turrets... they just fucking ignore them.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Don't keep your goddamn casings! They'll just weigh you down.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "There is a splotch of blood on it. \"blood of the zombie king\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Local auto shop is full of the things. And to think I worked with them on repairing cars... now they're just... fucking corpses.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"DON'T EAT THE SLIME DON'T EAT THE SLIME DON'T EAT THE SLIME\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I used to be human. But... my arms... they are like tentacles. I slither along akin to a snail and I shed my feathers every day.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I don't have enough time to double tap. You don't either.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"PINK TALL ONES RUN RUN RUN RUN RUN\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Are they still human inside?\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"the eye it watches me it follows me everywhere help\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"tHE Portal it's so COld\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I can wear three backpacks! Fuck, I'm good.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"They build modern bullets fuckin crazy. Set some on fire and they all goes like a lil grenade. Need kindling first.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"GOD CAN'T SAVE US\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"SHOOT YOURSELF, LET IT END QUICKLY\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"There are five basic rules to survival. One, stay prepared and watchful. Two, keep your iron sights lined up or succumb. Three, stay FAR WAY from all\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"The bricks of this bathroom look like a face. Haha... it's all I can focus on. At least let me shit before you break down the door. Please...\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"What the hell are they mining for in these shafts?\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I am one with the plants.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Broadsword! Yeah!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"If you see a trail of dirt getting displaced in your direction... run. Run for your life.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Don't fall down a nuclear silo, they left 'em all open\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"DINT ATE THE MUSHROM\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Libraries are useless after the apocalypse.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I swear to God I've seen these plant things before! In a book, or something! I swear...\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Is robbing a bank easier or harder now that all the guards are undead?\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Make sure your car is REALLY stopped before you get out.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I found some kind of stone pyramid with spikes. I feel... I feel like I'm being watched.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Why would you ever hide in a damn gun store? The owner... he was a moron alright.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"This apocalypse will be good for the US financial crisis\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"THEY DON'T feel ANYTHING\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"What was XEDRA doing, anyway?\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Is that one pharmaceutical company gonna come out with a, like, cure for this anytime soon?\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"THE MARLEY WAS RIGHT\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I... I just put a muffler onto a... nail gun.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Squeeze some ammonia into zombie flesh and hold it tight. You smell like one of them! I think.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I thought my damn terminal cancer was bad enough... now the dead are rising?!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"THE GOO IS IN THE WATER DON'T DRINK WATER\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"What's with these pits... with, like, sli\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Everyone used their gas to get to another town... but it's the same story everywhere.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"The gas the gas the green gas spreads forever\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Most things can be taken out with a shotgun. More things can be taken out with a grenade. Imagine what a mini-nuke does.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"My friend gave me lit dynamite, but it hasn't exploded yet... I don't think that's supposed to happen. God help us.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Come to the bar if you see this, let's re-enact a zombie movie, friends.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"They are NOT slow! They are NEVER slow!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I had a phobia of bees BEFORE they grew to enormous sizes.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Your backpack's gonna weigh you down in the water. Hell, feel free to get naked. Nobody's going to judge your modesty.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Guns too loud. Crossbow too long. Running is best.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"99% dead? I'd like to see a million zombies on Wall Street.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Crawled in through the vents. Whole office building is infested.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Don't shoot the people who get bit! It's OK! Death is the only thing that makes you turn!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Zombies, walkers, dead ones, undead, reanimated, zed, animata, biters. Did I miss any?\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I left a stash of rechargeable batteries in my safe and apparently the goddamn zombie Tooth Fairy has taken them all.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"All I've got is this keg of beer and an appetite. Come at me, apocalypse!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"My cousin says that murder nowadays is just a war crime. War for what, I don't know, since the undead seem to be rebels without a cause.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"SWAMPS RUN SWAMPS NO SWAMPS RUN\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"dog bit off my legs, magical hospital make all better\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"They said a walking cane was a useless weapon... but then I hit one of them with it.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"River water around these parts is extremely safe. Probably more safe than the damn tap water at this point.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"DON't bomB THe PORtals it MAKES iT WORSE\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"No wonder all the camps got overrun, they kept a goddamn zombie test subject! Each and every one of 'em!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I just realized how damn demented those fliers are.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"I propose a new currency: 9mm.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Something wrong, with cars..., ram, and,. my spedometer    read six hundred.,.thousand can't feel lungs,\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Somehow I managed to fit an entire goddamn lemon into this makeshift battery.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"My skin is crawling and I teleport every few minutes.. what is going o\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"You can't see them through the smoke but they can't either.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"There's gotta be a better use of all this rebar...\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"met schoolhouse of people, all crazy and mad they were, ate killed all of them, yum\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"STAY AWAY FROM THE BIG ONES IN THE FOREST\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"got into a prison with a halligan bar. makes me wonder how they kept prisoners inside\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Shopping carts become a lot more efficient when you plate-weld a trunk to them. Crate on wheels!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"telportfd itont wall, amr gone\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"This thing isn't a car any more. It's just a fucking mountain of metal on wheels, which I live in.\""
     }
 ]

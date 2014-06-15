@@ -15,6 +15,7 @@ public:
     void fungus         (monster *z); // Explodes in spores D:
     void disintegrate   (monster *z); // Falls apart
     void shriek         (monster *z); // Screams loudly
+    void howl           (monster *z); // Wolf's howling
     void rattle         (monster *z); // Rattles like a rattlesnake
     void worm           (monster *z); // Spawns 2 half-worms
     void disappear      (monster *z); // Hallucination disappears
@@ -27,9 +28,9 @@ public:
     void broken         (monster *z);  // Broken robot drop
     void ratking        (monster *z); // Cure verminitis
     void darkman        (monster *z); // sight returns to normal
+    void gas            (monster *z); // Explodes in toxic gas
     void kill_breathers (monster *z); // All breathers die
     void smokeburst     (monster *z); // Explode like a huge smoke bomb.
-    void zombie         (monster *z); // generate proper clothing for zombies
 
     void gameover       (monster *z); // Game over!  Defense mode
 };

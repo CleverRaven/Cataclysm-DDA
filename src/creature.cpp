@@ -2,6 +2,7 @@
 #include "creature.h"
 #include "output.h"
 #include "game.h"
+#include "messages.h"
 #include <algorithm>
 #include <numeric>
 #include <cmath>
@@ -171,11 +172,11 @@ int Creature::hit(Creature *source, body_part bphurt, int side,
 }
 
 int Creature::deal_melee_attack(Creature *source, int hitroll)
-{    
+{
     int dodgeroll = dodge_roll();
     int hit_spread = hitroll - dodgeroll;
     bool missed = hit_spread <= 0;
-    
+
     if (missed) {
         dodge_hit(source, hit_spread);
         return hit_spread;
@@ -186,7 +187,7 @@ int Creature::deal_melee_attack(Creature *source, int hitroll)
 
 void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
                                 const damage_instance &dam, dealt_damage_instance &dealt_dam)
-{    
+{
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part(source, hit_spread);
@@ -212,11 +213,11 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     if (stab_moves >= 150) {
         if ((is_player()) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet))) ) {
             // can the player force their self to the ground? probably not.
-            g->add_msg_if_npc(source, _("<npcname> forces you to the ground!"));
+            source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
-            g->add_msg_player_or_npc(source, _("You force %s to the ground!"),
-                                     _("<npcname> forces %s to the ground!"),
-                                     disp_name().c_str() );
+            source->add_msg_player_or_npc( m_good, _("You force %s to the ground!"),
+                                                   _("<npcname> forces %s to the ground!"),
+                                                   disp_name().c_str() );
         }
         if ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet)) ) {
             add_effect("downed", 1);
@@ -241,11 +242,11 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     // do 10,speed because speed could potentially be > 10000
     if (dodge_roll() >= dice(10, proj.speed)) {
         if (is_player())
-            g->add_msg(_("You dodge %s's projectile!"),
-                       skin_name().c_str());
+            add_msg(_("You dodge %s projectile!"),
+                       source->disp_name(true).c_str());
         else if (u_see_this)
-            g->add_msg(_("%s dodges %s's projectile."),
-                       disp_name().c_str(), source->disp_name().c_str());
+            add_msg(_("%s dodges %s projectile."),
+                       disp_name().c_str(), source->disp_name(true).c_str());
         return 0;
     }
 
@@ -268,20 +269,31 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     double goodhit = missed_by / monster_speed_penalty;
     double damage_mult = 1.0;
 
+    std::string message = "";
+    game_message_type gmtSCTcolor = m_neutral;
+
     if (goodhit <= .1) {
-        g->add_msg_if_player(source, _("Headshot!"));
+        message = _("Headshot!");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
     } else if (goodhit <= .2) {
-        g->add_msg_if_player(source, _("Critical!"));
+        message = _("Critical!");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
     } else if (goodhit <= .4) {
-        g->add_msg_if_player(source, _("Good hit!"));
+        message = _("Good hit!");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_good;
         damage_mult *= rng_float(1, 1.5);
     } else if (goodhit <= .6) {
         damage_mult *= rng_float(0.5, 1);
     } else if (goodhit <= .8) {
-        g->add_msg_if_player(source, _("Grazing hit."));
+        message = _("Grazing hit.");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
     } else {
         damage_mult *= 0;
@@ -289,7 +301,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( item(proj.ammo, 0).has_flag("NOGIB") ) {
+    if( item(proj.ammo->id, 0).has_flag("NOGIB") ) {
         impact.add_effect("NOGIB");
     }
     impact.mult_damage(damage_mult);
@@ -329,6 +341,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;
     }
+    if(proj.proj_effects.count("WHIP")) {
+        stun_strength = rng(4, 10);
+    }
     if (proj.proj_effects.count("LARGE_BEANBAG")) {
         stun_strength = 16;
     }
@@ -356,21 +371,47 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     if(u_see_this) {
         if (damage_mult == 0) {
             if(source != NULL) {
-                g->add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
+                add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
             }
         } else if (dealt_dam.total_damage() == 0) {
-            g->add_msg(_("The shot reflects off the %s!"),
+            add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
                        skin_name().c_str());
         } else if (source != NULL) {
             if (source->is_player()) {
-                g->add_msg(_("You hit the %s for %d damage."),
+                //player hits monster ranged
+                nc_color color;
+                std::string health_bar = "";
+                get_HP_Bar(dealt_dam.total_damage(), this->get_hp_max(), color, health_bar, true);
+
+                SCT.add(this->xpos(),
+                        this->ypos(),
+                        direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                        health_bar, m_good,
+                        message, gmtSCTcolor);
+
+                if (this->get_hp() > 0) {
+                    get_HP_Bar(this->get_hp(), this->get_hp_max(), color, health_bar, true);
+
+                    SCT.add(this->xpos(),
+                            this->ypos(),
+                            direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                            health_bar, m_good,
+                            "hp", m_neutral,
+                            "hp");
+                } else {
+                    SCT.removeCreatureHP();
+                }
+
+                add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
-            } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
-                g->add_msg_if_player( this, _( "You were hit in the %s for %d damage." ),
-                                      body_part_name( bp_hit, side ).c_str( ),
-                                      dealt_dam.total_damage( ) );
+
+            } else if(this->is_player()) {
+                //monster hits player ranged
+                add_msg_if_player( m_bad, _( "You were hit in the %s for %d damage." ),
+                                          body_part_name( bp_hit, side ).c_str( ),
+                                          dealt_dam.total_damage( ) );
             } else if( u_see_this ) {
-                g->add_msg(_("%s shoots %s."),
+                add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());
             }
         }
@@ -484,7 +525,7 @@ class is_id_functor   // functor for remove/has_effect, give c++11 lambdas pls
 bool is_expired_effect(effect &e)   // utility function for process_effects
 {
     if (e.get_duration() <= 0) {
-        g->add_msg_string(e.get_effect_type()->get_remove_message());
+        add_msg(e.get_effect_type()->lose_game_message_type(), e.get_effect_type()->get_remove_message().c_str());
         g->u.add_memorial_log(pgettext("memorial_male", e.get_effect_type()->get_remove_memorial_log().c_str()),
                               pgettext("memorial_female", e.get_effect_type()->get_remove_memorial_log().c_str()));
         return true;
@@ -493,7 +534,7 @@ bool is_expired_effect(effect &e)   // utility function for process_effects
     }
 }
 
-void Creature::add_effect(efftype_id eff_id, int dur)
+void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool permanent)
 {
     // check if we already have it
     std::vector<effect>::iterator first_eff =
@@ -502,15 +543,22 @@ void Creature::add_effect(efftype_id eff_id, int dur)
     if (first_eff != effects.end()) {
         // if we do, mod the duration
         first_eff->mod_duration(dur);
+        // Adding a permanent effect makes it permanent
+        if (first_eff->is_permanent()) {
+            first_eff->pause_effect();
+        }
+        if (first_eff->get_intensity() + intensity <= first_eff->get_max_intensity()) {
+            first_eff->mod_intensity(intensity);
+        }
     } else {
         // if we don't already have it then add a new one
         if (effect_types.find(eff_id) == effect_types.end()) {
             return;
         }
-        effect new_eff(&effect_types[eff_id], dur);
+        effect new_eff(&effect_types[eff_id], dur, intensity, permanent);
         effects.push_back(new_eff);
         if (is_player()) { // only print the message if we didn't already have it
-            g->add_msg_string(effect_types[eff_id].get_apply_message());
+            add_msg(effect_types[eff_id].gain_game_message_type(), effect_types[eff_id].get_apply_message().c_str());
             g->u.add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
@@ -518,10 +566,11 @@ void Creature::add_effect(efftype_id eff_id, int dur)
         }
     }
 }
-bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int, int dur)
+bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
+                                int intensity, bool permanent)
 {
-    if (dice(1, 3) > dice(get_env_resist(vector), 3)) {
-        add_effect(eff_id, dur);
+    if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
+        add_effect(eff_id, dur, intensity, permanent);
         return true;
     } else {
         return false;
@@ -547,7 +596,7 @@ void Creature::process_effects()
 {
     for (std::vector<effect>::iterator it = effects.begin();
          it != effects.end(); ++it) {
-        if (it->get_duration() > 0) {
+        if (!it->is_permanent() && it->get_duration() > 0) {
             it->mod_duration(-1);
             if (g->debugmon) {
                 debugmsg("Duration %d", it->get_duration());
@@ -682,7 +731,7 @@ int Creature::get_armor_cut_bonus()
     return armor_cut_bonus;
 }
 
-int Creature::get_speed()
+int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
@@ -695,7 +744,7 @@ int Creature::get_hit()
     return get_hit_base() + get_hit_bonus();
 }
 
-int Creature::get_speed_base()
+int Creature::get_speed_base() const
 {
     return speed_base;
 }
@@ -707,7 +756,7 @@ int Creature::get_hit_base()
 {
     return (get_dex() / 2) + 1;
 }
-int Creature::get_speed_bonus()
+int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
@@ -790,6 +839,38 @@ void Creature::mod_int_bonus(int nint)
 {
     int_bonus += nint;
 }
+
+void Creature::mod_stat( std::string stat, int modifier )
+{
+    if( stat == "str" ) {
+        mod_str_bonus( modifier );
+    } else if( stat == "dex" ) {
+        mod_dex_bonus( modifier );
+    } else if( stat == "per" ) {
+        mod_per_bonus( modifier );
+    } else if( stat == "int" ) {
+        mod_int_bonus( modifier );
+    } else if( stat == "speed" ) {
+        mod_speed_bonus( modifier );
+    } else if( stat == "dodge" ) {
+        mod_dodge_bonus( modifier );
+    } else if( stat == "block" ) {
+        mod_block_bonus( modifier );
+    } else if( stat == "hit" ) {
+        mod_hit_bonus( modifier );
+    } else if( stat == "bash" ) {
+        mod_bash_bonus( modifier );
+    } else if( stat == "cut" ) {
+        mod_cut_bonus( modifier );
+    } else if( stat == "pain" ) {
+        mod_pain( modifier );
+    } else if( stat == "moves" ) {
+        mod_moves( modifier );
+    } else {
+        add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
+    }
+}
+
 
 void Creature::set_num_blocks_bonus(int nblocks)
 {
@@ -940,9 +1021,9 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     }
 
     if(g->debugmon) {
-        g->add_msg("source size = %d", source->get_size());
-        g->add_msg("target size = %d", get_size());
-        g->add_msg("difference = %d", szdif);
+        add_msg(m_info, "source size = %d", source->get_size());
+        add_msg(m_info, "target size = %d", get_size());
+        add_msg(m_info, "difference = %d", szdif);
     }
 
     std::map<body_part, double> hit_weights = default_hit_weights[szdif];
@@ -957,20 +1038,20 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
     //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
     //This should eventually be replaced with targeted attacks and this being miss chances.
-    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * pow(hit_roll, 1.15) * 10);
-    hit_weights[bp_head] = floor(hit_weights[bp_head] * pow(hit_roll, 1.15) * 10);
-    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * pow(hit_roll, 1) * 10);
-    hit_weights[bp_arms] = floor(hit_weights[bp_arms] * pow(hit_roll, 0.95) * 10);
-    hit_weights[bp_legs] = floor(hit_weights[bp_legs] * pow(hit_roll, 0.975) * 10);
+    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * std::pow(hit_roll, 1.15) * 10);
+    hit_weights[bp_head] = floor(hit_weights[bp_head] * std::pow(hit_roll, 1.15) * 10);
+    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * std::pow(hit_roll, 1) * 10);
+    hit_weights[bp_arms] = floor(hit_weights[bp_arms] * std::pow(hit_roll, 0.95) * 10);
+    hit_weights[bp_legs] = floor(hit_weights[bp_legs] * std::pow(hit_roll, 0.975) * 10);
 
 
     // Debug for seeing weights.
     if(g->debugmon) {
-        g->add_msg("eyes = %f", hit_weights.at(bp_eyes));
-        g->add_msg("head = %f", hit_weights.at(bp_head));
-        g->add_msg("torso = %f", hit_weights.at(bp_torso));
-        g->add_msg("arms = %f", hit_weights.at(bp_arms));
-        g->add_msg("legs = %f", hit_weights.at(bp_legs));
+        add_msg(m_info, "eyes = %f", hit_weights.at(bp_eyes));
+        add_msg(m_info, "head = %f", hit_weights.at(bp_head));
+        add_msg(m_info, "torso = %f", hit_weights.at(bp_torso));
+        add_msg(m_info, "arms = %f", hit_weights.at(bp_arms));
+        add_msg(m_info, "legs = %f", hit_weights.at(bp_legs));
     }
 
     double totalWeight = 0;

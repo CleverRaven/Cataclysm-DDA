@@ -9,12 +9,12 @@
 #include "debug.h"
 #include "map.h"
 #include "output.h"
-#include "item_factory.h"
 #include "artifact.h"
 #include "mission.h"
 #include "faction.h"
 #include "overmapbuffer.h"
 #include "trap.h"
+#include "messages.h"
 #include "mapdata.h"
 #include "translations.h"
 #include <map>
@@ -27,6 +27,7 @@
 #include <vector>
 #include "debug.h"
 #include "weather.h"
+#include "mapsharing.h"
 
 #include "savegame.h"
 #include "tile_id_data.h"
@@ -35,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 17;
+const int savegame_version = 20;
 const int savegame_minver_game = 11;
 
 /*
@@ -78,11 +79,10 @@ void game::serialize(std::ofstream & fout) {
 
         json.start_object();
         // basic game state information.
-        json.member( "turn", (int)turn );
+        json.member("turn", (int)calendar::turn);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)run_mode );
         json.member( "mostseen", mostseen );
-        json.member( "nextinv", (int)nextinv );
         json.member( "next_npc_id", next_npc_id );
         json.member( "next_faction_id", next_faction_id );
         json.member( "next_mission_id", next_mission_id );
@@ -129,6 +129,7 @@ void game::serialize(std::ofstream & fout) {
         json.end_object();
 
         json.member( "player", u );
+        Messages::serialize( json );
 
         json.end_object();
 }
@@ -192,7 +193,7 @@ void game::unserialize(std::ifstream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
+    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -201,8 +202,7 @@ void game::unserialize(std::ifstream & fin)
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
-        data.read("nextinv", tmpinv);
-        nextinv = (char)tmpinv;
+        // In case of changing how this works, need to handle a legacy "nextinv" field.
         data.read("next_npc_id", next_npc_id);
         data.read("next_faction_id", next_faction_id);
         data.read("next_mission_id", next_mission_id);
@@ -213,7 +213,7 @@ void game::unserialize(std::ifstream & fin)
         data.read("om_x",comx);
         data.read("om_y",comy);
 
-        turn = tmpturn;
+        calendar::turn = tmpturn;
         nextspawn = tmpspawn;
 
         cur_om = &overmap_buffer.get(comx, comy);
@@ -270,6 +270,7 @@ void game::unserialize(std::ifstream & fin)
         }
 
         data.read("player", u);
+        Messages::deserialize( data );
 
     } catch (std::string jsonerr) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );
@@ -295,7 +296,7 @@ void game::load_weather(std::ifstream & fin) {
    if (fin.peek() == 'l') {
        std::string line;
        getline(fin, line);
-       lightning_active = ((*line.end()) == '1');
+       lightning_active = (line.compare("lightning: 1") == 0);
    } else {
        lightning_active = false;
    }
@@ -318,7 +319,7 @@ void game::load_weather(std::ifstream & fin) {
            debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
         }
      }
-    std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(turn));
+     std::map<int, weather_segment>::iterator w_it = weather_log.upper_bound(int(calendar::turn));
     if ( w_it != weather_log.end() ) {
         // lower_bound returns the smallest key, that
         // is >= turn. (The key in that map is the deadline
@@ -570,8 +571,8 @@ void overmap::save()
 
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
-    std::string const plrfilename = player_filename(loc.x, loc.y);
-    std::string const terfilename = terrain_filename(loc.x, loc.y);
+    std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
+    std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
 
     // Player specific data
     fout.open(plrfilename.c_str());
@@ -608,7 +609,10 @@ void overmap::save()
     fout.close();
 
     // World terrain data
-    fout.open(terfilename.c_str(), std::ios_base::trunc);
+    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
+    if(!fout.is_open()) {
+        return;
+    }
     fout << "# version " << savegame_version << std::endl;
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
@@ -670,7 +674,7 @@ void overmap::save()
     for (int i = 0; i < npcs.size(); i++)
         fout << "n " << npcs[i]->save_info() << std::endl;
 
-    fout.close();
+    fclose_exclusive(fout, terfilename.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

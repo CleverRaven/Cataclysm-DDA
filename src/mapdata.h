@@ -60,6 +60,16 @@ struct map_bash_info {
     map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), explosive(0), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
+struct map_deconstruct_info {
+    // Only if true, the terrain/furniture can be deconstructed
+    bool can_do;
+    // items you get when deconstructing.
+    std::vector<map_bash_item_drop> items;
+    std::string ter_set;    // terrain to set (REQUIRED for terrain))
+    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
+    map_deconstruct_info() : can_do(false), items(), ter_set(), furn_set() { }
+    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+};
 
 /*
  * List of known flags, used in both terrain.json and furniture.json.
@@ -91,7 +101,6 @@ struct map_bash_info {
  * THIN_OBSTACLE - Passable by players and monsters, vehicles destroy it
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
- * DECONSTRUCT - Can be deconstructed
  * REDUCE_SCENT - Reduces scent even more, only works if also bashable
  * FIRE_CONTAINER - Stops fire from spreading (brazier, wood stove, etc)
  * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
@@ -180,6 +189,9 @@ struct ter_t {
  std::string close;         // close action: transform into terrain with matching id
 
  map_bash_info bash;
+ map_deconstruct_info deconstruct;
+ // Maximal volume of items that can be stored in/on this furniture
+ int max_volume;
 
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
@@ -226,8 +238,17 @@ struct furn_t {
  iexamine_function examine;
  std::string open;
  std::string close;
+ // Maximal volume of items that can be stored in/on this furniture
+ int max_volume;
 
  map_bash_info bash;
+ map_deconstruct_info deconstruct;
+
+ std::string crafting_pseudo_item;
+ // May return NULL
+ itype *crafting_pseudo_item_type() const;
+ // May return NULL
+ itype *crafting_ammo_item_type() const;
 
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
@@ -342,9 +363,47 @@ struct spawn_point {
 };
 
 struct submap {
+    inline trap_id get_trap(int x, int y) const {
+        return trp[x][y];
+    }
+
+    inline void set_trap(int x, int y, trap_id trap) {
+        trp[x][y] = trap;
+    }
+
+    inline furn_id get_furn(int x, int y) const {
+        return frn[x][y];
+    }
+
+    inline void set_furn(int x, int y, furn_id furn) {
+        frn[x][y] = furn;
+    }
+
+    int get_radiation(int x, int y) {
+        return rad[x][y];
+    }
+
+    void set_radiation(int x, int y, int radiation) {
+        rad[x][y] = radiation;
+    }
+
+    inline const graffiti& get_graffiti(int x, int y) {
+        // return value must be const, or else somebody might
+        // be able to modify the graffiti without going through
+        // the setter
+
+        return graf[x][y];
+    }
+
+    inline void set_graffiti(int x, int y, const graffiti& value) {
+        graf[x][y] = value;
+    }
+
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
+
+    // TODO: make trp private once the horrible hack known as editmap is resolved
     trap_id            trp[SEEX][SEEY];  // Trap on each square
     field              fld[SEEX][SEEY];  // Field on each square
     int                rad[SEEX][SEEY];  // Irradiation of each square
@@ -359,9 +418,8 @@ struct submap {
     computer comp;
     basecamp camp;  // only allowing one basecamp per submap
 
-    submap() : active_item_count(0), field_count(0)
-    {
-
+    submap() : ter(), frn(), trp(), rad(),
+        active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
     }
 };
 
@@ -472,7 +530,7 @@ extern ter_id t_null,
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
     t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
     // Water, lava, etc.
-    t_water_sh, t_water_dp, t_water_pool, t_sewage,
+    t_water_sh, t_swater_sh, t_water_dp, t_swater_dp, t_water_pool, t_sewage,
     t_lava,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -529,7 +587,7 @@ extern furn_id f_null,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
-    f_wood_keg,
+    f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     num_furniture_types;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -583,7 +641,7 @@ old_t_railing_v, old_t_railing_h,
 // Nether
 old_t_marloss, old_t_fungus, old_t_tree_fungal,
 // Water, lava, etc.
-old_t_water_sh, old_t_water_dp, old_t_water_pool, old_t_sewage,
+old_t_water_sh, old_t_water_dp, old_t_swater_sh, old_t_swater_dp, old_t_water_pool, old_t_sewage,
 old_t_lava,
 // More embellishments than you can shake a stick at.
 old_t_sandbox, old_t_slide, old_t_monkey_bars, old_t_backboard,
@@ -635,5 +693,7 @@ old_f_plant_seed, old_f_plant_seedling, old_f_plant_mature, old_f_plant_harvest,
 old_num_furniture_types
 };
 
+// consistency checking of terlist & furnlist.
+void check_furniture_and_terrain();
 
 #endif

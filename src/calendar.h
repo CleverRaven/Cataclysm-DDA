@@ -43,6 +43,7 @@ class calendar
 {
     private:
         // The basic data; note that "second" should always be a multiple of 6
+        int turn_number;
         int second;
         int minute;
         int hour;
@@ -58,18 +59,18 @@ class calendar
         calendar(int turn);
         int get_turn() const;
         operator int() const; // Returns get_turn() for backwards compatibility
-        calendar &operator = (calendar &rhs);
+        calendar &operator = (const calendar &rhs);
         calendar &operator = (int rhs);
-        calendar &operator -=(calendar &rhs);
+        calendar &operator -=(const calendar &rhs);
         calendar &operator -=(int rhs);
-        calendar &operator +=(calendar &rhs);
+        calendar &operator +=(const calendar &rhs);
         calendar &operator +=(int rhs);
-        calendar  operator - (calendar &rhs);
-        calendar  operator - (int rhs);
-        calendar  operator + (calendar &rhs);
-        calendar  operator + (int rhs);
+        calendar  operator - (const calendar &rhs) const;
+        calendar  operator - (int rhs) const;
+        calendar  operator + (const calendar &rhs) const;
+        calendar  operator + (int rhs) const;
         bool      operator ==(int rhs) const;
-        bool      operator ==(calendar &rhs) const;
+        bool      operator ==(const calendar &rhs) const;
 
         void increment();   // Add one turn / 6 seconds
 
@@ -114,5 +115,7 @@ class calendar
         std::string print_time(bool just_hour = false) const;
         std::string textify_period(); // "1 second" "2 hours" "two days"
         std::string day_of_week() const;
+
+        static   calendar turn;
 };
 #endif // _CALENDAR_H_
