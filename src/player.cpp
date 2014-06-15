@@ -3622,31 +3622,21 @@ bool player::has_active_bionic(const bionic_id & b) const
  return false;
 }
 
-void player::add_bionic(bionic_id b)
+void player::add_bionic( bionic_id b )
 {
- for (int i = 0; i < my_bionics.size(); i++) {
-  if (my_bionics[i].id == b)
-   return; // No duplicates!
- }
- char newinv;
- if (my_bionics.empty())
-  newinv = 'a';
- else if (my_bionics.size() == 26)
-  newinv = 'A';
- else if (my_bionics.size() == 52)
-  newinv = '0';
- else if (my_bionics.size() == 62)
-  newinv = '"';
- else if (my_bionics.size() == 76)
-  newinv = ':';
- else if (my_bionics.size() == 83)
-  newinv = '[';
- else if (my_bionics.size() == 89)
-  newinv = '{';
- else
-  newinv = my_bionics[my_bionics.size() - 1].invlet + 1;
- my_bionics.push_back(bionic(b, newinv));
- recalc_sight_limits();
+    if( has_bionic( b ) ) {
+        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        return;
+    }
+    char newinv = ' ';
+    for( size_t i = 0; i < inv_chars.size(); i++ ) {
+        if( bionic_by_invlet( inv_chars[i] ) == nullptr ) {
+            newinv = inv_chars[i];
+            break;
+        }
+    }
+    my_bionics.push_back( bionic( b, newinv ) );
+    recalc_sight_limits();
 }
 
 void player::remove_bionic(bionic_id b) {
