@@ -144,7 +144,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         for (unsigned long int i = 0; i < g->num_zombies(); i++) {
             monster &z = g->zombie(i);
             // search for monsters in radius 4 around impact site
-            if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
+            if( rl_dist( z.posx(), z.posy(), tx, ty ) <= 4 && g->m.sees( z.posx(), z.posy(), tx, ty, -1, tart ) ) {
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced") && !z.dead) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
