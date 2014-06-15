@@ -6565,8 +6565,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "candy",
-        "name" : "candy",
-        "name_plural" : "candies",
+        "name" : "peanut butter candy",
+        "name_plural" : "peanut butter candies",
         "weight" : 46,
         "color" : "brown",
         "addiction_type" : "none",
@@ -6594,8 +6594,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "candy2",
-        "name" : "candy",
-        "name_plural" : "candies",
+        "name" : "chocolate candy",
+        "name_plural" : "chocolate candies",
         "weight" : 46,
         "color" : "red",
         "addiction_type" : "none",
@@ -6623,8 +6623,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "candy3",
-        "name" : "candy",
-        "name_plural" : "candies",
+        "name" : "chewy candy",
+        "name_plural" : "chewy candies",
         "weight" : 46,
         "color" : "yellow",
         "addiction_type" : "none",
