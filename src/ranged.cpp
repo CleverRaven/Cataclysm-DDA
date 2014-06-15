@@ -52,7 +52,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     // Set up a timespec for use in the nanosleep function below
     timespec ts;
     ts.tv_sec = 0;
-    ts.tv_nsec = BULLET_SPEED;
+    ts.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
 
     int dam = proj.impact.total_damage() + proj.payload.total_damage();
     it_ammo *curammo = proj.ammo;
