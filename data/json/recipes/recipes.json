@@ -31609,7 +31609,7 @@
 },
   {
     "type": "recipe",
-    "result": "32_acp",
+    "result": "reloaded_32_acp",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_BULLETS",
     "skill_used": "fabrication",
@@ -31873,7 +31873,7 @@
   },
   {
     "type": "recipe",
-    "result": "762_54R",
+    "result": "reloaded_762_54R",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_BULLETS",
     "skill_used": "fabrication",
