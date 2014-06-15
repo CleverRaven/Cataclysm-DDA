@@ -12208,6 +12208,10 @@ bool game::plmove(int dx, int dy)
    else
     add_msg(m_warning, _("Moving past this %s is slow!"), m.name(x, y).c_str());
   }
+  std::string signage = m.get_signage(x, y);
+  if (signage.size()) {
+      add_msg(m_info, _("The sign says: %s"), signage.c_str());
+  }
   if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.get_armor_bash(bp_feet) < rng(2, 5)) {
     add_msg(m_bad, _("You hurt your feet on the %s!"), m.tername(x, y).c_str());
