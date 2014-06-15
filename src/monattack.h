@@ -53,6 +53,8 @@ class mattack
         void bite               (monster *z);
         void brandish           (monster *z);
         void flesh_golem        (monster *z);
+        void lunge              (monster *z);
+        void longswipe          (monster *z);
         void parrot             (monster *z);
         void darkman            (monster *z);
         void slimespring        (monster *z);

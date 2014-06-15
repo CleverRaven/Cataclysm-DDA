@@ -12,7 +12,7 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
 {
     timespec ts;    // Timespec for the animation of the explosion
     ts.tv_sec = 0;
-    ts.tv_nsec = EXPLOSION_SPEED;
+    ts.tv_nsec = OPTIONS["ANIMATION_DELAY"] * EXPLOSION_MULTIPLIER;
     // added offset values to keep from calculating the same value over and over again.
     const int ypos = POSY + (y - (u.posy + u.view_offset_y));
     const int xpos = POSX + (x - (u.posx + u.view_offset_x));
@@ -21,21 +21,23 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
         if (use_tiles) {
             tilecontext->init_explosion(x, y, i);
         } else {
-        mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
-        mvwputch(w_terrain, ypos - i, xpos + i, col, '\\');
-        mvwputch(w_terrain, ypos + i, xpos - i, col, '\\');
-        mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
-        for (int j = 1 - i; j < 0 + i; j++) {
-            mvwputch(w_terrain, ypos - i, xpos + j, col, '-');
-            mvwputch(w_terrain, ypos + i, xpos + j, col, '-');
-            mvwputch(w_terrain, ypos + j, xpos - i, col, '|');
-            mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
-        }
+            mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
+            mvwputch(w_terrain, ypos - i, xpos + i, col, '\\');
+            mvwputch(w_terrain, ypos + i, xpos - i, col, '\\');
+            mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
+            for (int j = 1 - i; j < 0 + i; j++) {
+                mvwputch(w_terrain, ypos - i, xpos + j, col, '-');
+                mvwputch(w_terrain, ypos + i, xpos + j, col, '-');
+                mvwputch(w_terrain, ypos + j, xpos - i, col, '|');
+                mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
+            }
         }
 
         wrefresh(w_terrain);
         try_update();
-        nanosleep(&ts, NULL);
+        if( ts.tv_nsec != 0 ) {
+            nanosleep(&ts, NULL);
+        }
     }
     tilecontext->void_explosion();
 }
@@ -69,7 +71,9 @@ void game::draw_bullet(Creature &p, int tx, int ty, int i,
         wrefresh(w_terrain);
         if (p.is_player()) {
             try_update();
-            nanosleep(&ts, NULL);
+            if( ts.tv_nsec != 0 ) {
+                nanosleep(&ts, NULL);
+            }
         }
         tilecontext->void_bullet();
     }
@@ -85,9 +89,11 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
 
         timespec tspec;
         tspec.tv_sec = 0;
-        tspec.tv_nsec = BULLET_SPEED;
+        tspec.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
 
-        nanosleep(&tspec, NULL);
+        if( tspec.tv_nsec != 0 ) {
+            nanosleep(&tspec, NULL);
+        }
     } else {
         nc_color cMonColor = m.type->color;
         char sMonSym = m.symbol();
@@ -113,9 +119,11 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
 
         timespec tspec;
         tspec.tv_sec = 0;
-        tspec.tv_nsec = BULLET_SPEED;
+        tspec.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
 
-        nanosleep(&tspec, NULL);
+        if( tspec.tv_nsec != 0 ) {
+            nanosleep(&tspec, NULL);
+        }
     } else {
         hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                       POSY + (p->posy - (u.posy + u.view_offset_y)),

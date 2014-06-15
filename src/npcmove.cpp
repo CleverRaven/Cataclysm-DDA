@@ -1899,7 +1899,7 @@ void npc::use_painkiller()
         move_pause();
     } else {
         if (g->u_see(posx, posy)) {
-            add_msg(_("%s takes some %s."), name.c_str(), it->name.c_str());
+            add_msg(_("%s takes some %s."), name.c_str(), it->tname().c_str());
         }
         consume(inv.position_by_item(it));
         moves = 0;

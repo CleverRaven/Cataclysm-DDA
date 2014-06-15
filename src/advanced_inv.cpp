@@ -596,7 +596,7 @@ void advanced_inventory::recalc_pane(int i)
                                            m.i_stacked(m.i_at(squares[s].x , squares[s].y ));
 
                 //loop through lists of item stacks
-                for (unsigned x = 0; x < stacks.size(); x++) {
+                for (unsigned x = 0; x < stacks.size(); ++x) {
                     item *an_item = stacks[x].front();
                     advanced_inv_listitem it;
                     int stackSize = stacks[x].size() < 1 ? 1 : stacks[x].size();
@@ -821,7 +821,7 @@ bool advanced_inventory::move_all_items()
                 const item *it = &stack.front();
 
                 // if we're filtering, check if this item is in the filter. If it isn't, continue
-                if ( filtering && ! cached_lcmatch(it->name, panes[src].filter,
+                if ( filtering && ! cached_lcmatch(it->tname(), panes[src].filter,
                                                    panes[src].filtercache ) ) {
                     --ip;
                     continue;
@@ -976,7 +976,7 @@ bool advanced_inventory::move_all_items()
         for (std::vector<item>::iterator it = items_to_iterate->begin();
              it != items_to_iterate->end(); /* noop */) {
             // if we're filtering, check if this item is in the filter. If it isn't, continue
-            if ( filtering && ! cached_lcmatch(it->name, panes[src].filter, panes[src].filtercache ) ) {
+            if ( filtering && ! cached_lcmatch(it->tname(), panes[src].filter, panes[src].filtercache ) ) {
                 ++it;
                 continue;
             }
@@ -1029,12 +1029,12 @@ bool advanced_inventory::move_all_items()
                                 trycharges = amount;
                             }
                             if ( trycharges == 0 ) {
-                                add_msg(m_info, _("Unable to pick up %s."), it->name.c_str());
+                                add_msg(m_info, _("Unable to pick up %s."), it->tname().c_str());
                                 ++it;
                                 continue;
                             }
                         } else {
-                            add_msg(m_info, _("Unable to pick up %s."), it->name.c_str());
+                            add_msg(m_info, _("Unable to pick up %s."), it->tname().c_str());
                             ++it;
                             continue;
                         }
@@ -1042,11 +1042,11 @@ bool advanced_inventory::move_all_items()
 
                     // We've already checked if we're trying to pick up a stack
                     if(!u.can_pickVolume(tryvolume)) {
-                        add_msg(m_info, _("There's no room in your inventory for %s."), it->name.c_str());
+                        add_msg(m_info, _("There's no room in your inventory for %s."), it->tname().c_str());
                         ++it;
                         continue;
                     } else if (!u.can_pickWeight(tryweight, false)) {
-                        add_msg(m_info, _("%s is too heavy."), it->name.c_str());
+                        add_msg(m_info, _("%s is too heavy."), it->tname().c_str());
                         ++it;
                         continue;
                     }
@@ -1098,7 +1098,7 @@ bool advanced_inventory::move_all_items()
 
     {
         int item_pos = panes[src].size > 0 ? ait->idx : 0;
-        add_msg("Item %s", ait->it->name.c_str());
+        add_msg("Item %s", ait->it->tname().c_str());
 
 
     }
@@ -1563,9 +1563,9 @@ void advanced_inventory::display(player *pp)
                         it->charges -= trycharges;
                     } else {
                         if (panes[src].vstor >= 0) {
-                            panes[src].veh->remove_item (panes[src].vstor, item_pos);
+                            panes[src].veh->remove_item (panes[src].vstor, it);
                         } else {
-                            m.i_rem(u.posx + panes[src].offx, u.posy + panes[src].offy, item_pos);
+                            m.i_rem(u.posx + panes[src].offx, u.posy + panes[src].offy, it);
                         }
                     }
                 }

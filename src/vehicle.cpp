@@ -603,13 +603,13 @@ void vehicle::use_controls()
                 add_msg("You don't have anything to play!");
                 stereo_on = false;
             } else if (stereo_on == false) {
-                add_msg(_("Ejected the %s"), itypes[music_id]->name.c_str());
+                add_msg(_("Ejected the %s"), itypes[music_id]->nname(1).c_str());
                 g->u.inv.add_item_by_type(music_id);
             } else {
             for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
                 if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
                 music_types.push_back((*it)->typeId());
-                music_names.push_back((*it)->name);
+                music_names.push_back((*it)->tname());
                 }
             }
             if (music_types.size() > 1) {
@@ -3498,6 +3498,20 @@ void vehicle::remove_item (int part, int itemdex)
     if (itemdex < 0 || itemdex >= parts[part].items.size())
         return;
     parts[part].items.erase (parts[part].items.begin() + itemdex);
+}
+
+void vehicle::remove_item (int part, item *it)
+{
+    std::vector<item>& veh_items = parts[part].items;
+
+    for(auto iter = veh_items.begin(); iter < veh_items.end(); iter++)
+    {
+        //delete the item if the pointer memory addresses are the same
+        if(it == &*iter) {
+            veh_items.erase(iter);
+            break;
+        }
+    }
 }
 
 void vehicle::place_spawn_items()

@@ -167,7 +167,7 @@ std::string monster::name(unsigned int quantity)
  if (unique_name != "")
   return string_format("%s: %s",
                        (type->nname(quantity).c_str()), unique_name.c_str());
- return ngettext(type->name.c_str(), type->name_plural.c_str(), quantity);
+ return type->nname(quantity);
 }
 
 // MATERIALS-TODO: put description in materials.json?
@@ -253,7 +253,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
 
  const int vEnd = vStart + vLines;
 
- mvwprintz(w, vStart++, column, c_white, "%s ", _(type->name.c_str()));
+ mvwprintz(w, vStart++, column, c_white, "%s ", name().c_str());
  nc_color color = c_white;
  std::string attitude = "";
 
