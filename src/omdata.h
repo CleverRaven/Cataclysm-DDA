@@ -42,6 +42,7 @@ struct overmap_zone {
     omzone_type z;
     tripoint center;
     std::set<tripoint> points;
+    int size;
     int distance_from_center(tripoint p) {return rl_dist(center, p);}
     bool contains_tripoint(tripoint p) {return (points.find(p) != points.end());}
 };

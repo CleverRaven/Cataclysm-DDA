@@ -113,8 +113,9 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
     int idx = om->in_zone(tripoint(overx, overy, z));
     if(idx != -1){
         overmap_zone omz = om->zones[idx];
-        int distance = omz.distance_from_center(tripoint(overx, overy, z));
-        post_process(omz.z, distance);
+        // max size: 16, min size: 1-2.
+        int strength = omz.size - omz.distance_from_center(tripoint(overx, overy, z));
+        post_process(omz.z, strength);
     }
 
     // Okay, we know who are neighbors are.  Let's draw!
@@ -1077,14 +1078,18 @@ void map::burn()
     }
 }
 
-void map::entriffidate(int distance){
-    int intensity = distance;
-    intensity += 3;
+// max str = 16.
+void map::entriffidate(int strength){
+    if(strength <= 0) strength = 1;
+    if(strength > 16) strength = 16;
+    const int calc_max = 20;
+
     for(int x = 0; x < 24; x++){
         for(int y = 0; y < 24; y++){
             std::string terid = this->ter_at(x, y).id;
 
-            if((terid == "t_wall_v" || terid == "t_wall_h") && !one_in(4)){
+            // cover the walls in vines
+            if((terid == "t_wall_v" || terid == "t_wall_h") && x_in_y(strength, calc_max)){
                 if((ter_at(x, y+1).id == "t_dirt") || (ter_at(x, y+1).id == "t_grass") ||
                    (ter_at(x, y-1).id == "t_dirt") || (ter_at(x, y-1).id == "t_grass") ||
                    (ter_at(x+1, y).id == "t_dirt") || (ter_at(x+1, y).id == "t_grass") ||
@@ -1097,22 +1102,26 @@ void map::entriffidate(int distance){
                     }
                 }
             }
+            // bust through some of the pavement
             if((terid == "t_pavement") || (terid == "t_pavement_y") ||
                (terid == "t_sidewalk") || (terid == "t_sand")){
-                if(!one_in(3)){
+                if(x_in_y(strength, calc_max)){
                     ter_set(x, y, grass_or_dirt());
                     terid = this->ter_at(x, y).id;
                 }
             }
+            // place vegetation, at max density, roughly 60% chance to place something
             if((terid == "t_dirt") || (terid == "t_grass")){
-                if(one_in(4)){ // 25% - 75 left
-                    ter_set(x, y, "t_underbrush");
-                } else if(one_in(5)){ // 15% - 60 left
-                    ter_set(x, y, "t_shrub");
-                } else if(one_in(6)){ // 10% - 50 left
-                    ter_set(x, y, "t_tree_young");
-                } else if(one_in(5)){ // 10% - 40 left
-                    ter_set(x, y, "t_tree");
+                if(x_in_y(strength, calc_max)){
+                    if(one_in(3)){
+                        ter_set(x, y, "t_underbrush");
+                    } else if(one_in(4)){
+                        ter_set(x, y, "t_shrub");
+                    } else if(one_in(5)){
+                        ter_set(x, y, "t_tree_young");
+                    } else if(one_in(6)){
+                        ter_set(x, y, "t_tree");
+                    }
                 }
             }
         }
@@ -1120,7 +1129,7 @@ void map::entriffidate(int distance){
 }
 
 // replaces walls/floors/some furniture with fungal variants
-void map::fungalize(int distance){
+void map::fungalize(int strength){
     std::vector<furn_t> fungalfurn;
     for(auto itr = furnlist.cbegin(); itr != furnlist.cend(); ++itr){
         if((*itr).has_flag("FUNGUS")){

@@ -2156,43 +2156,49 @@ std::set<tripoint> generate_zone(tripoint c, int radius)
 void overmap::place_zones()
 {
     // some cities will have a zone, triffids/fungus have zones
+    overmap_zone z;
     for(int x = 0; x < OMAPX; x++){
         for(int y = 0; y < OMAPY; y++){
             if(is_ot_type("triffid_grove", ter(x, y, 0))){
-                overmap_zone z;
                 z.center = tripoint(x, y, 0);
-                z.points = generate_zone(z.center, rng(3,6));
+                z.size = rng(3,6);
+                z.points = generate_zone(z.center, z.size);
                 z.z = OMZONE_OVERGROWN;
                 zones.push_back(z);
+                this->add_note(x, y, 0, "T:Triffid Zone");
             } else if(is_ot_type("fungal_bloom", ter(x, y, 0))){
-                overmap_zone z;
                 z.center = tripoint(x, y, 0);
-                z.points = generate_zone(z.center, rng(2,8));
+                z.size = rng(2,8);
+                z.points = generate_zone(z.center, z.size);
                 z.z = OMZONE_FUNGAL;
                 zones.push_back(z);
+                this->add_note(x, y, 0, "F:Fungal Zone");
             }
         }
     }
     for(auto itr = cities.begin(); itr != cities.end(); ++itr){
         city tmp = *itr;
         if(one_in(5)){ // 20/80
-            overmap_zone z;
             z.center = tripoint(tmp.x, tmp.y, 0);
-            z.points = generate_zone(z.center, tmp.s);
+            z.size = tmp.s;
+            z.points = generate_zone(z.center, z.size);
             z.z = OMZONE_CITY;
             zones.push_back(z);
+            this->add_note(tmp.x, tmp.y, 0, "L:Looted Zone");
         } else if(one_in(8)) { // 10/70
-            overmap_zone z;
             z.center = tripoint(tmp.x, tmp.y, 0);
-            z.points = generate_zone(z.center, tmp.s);
+            z.size = tmp.s;
+            z.points = generate_zone(z.center, z.size);
             z.z = OMZONE_FUNGAL;
             zones.push_back(z);
+            this->add_note(tmp.x, tmp.y, 0, "F:Fungal Zone");
         } else if(one_in(7)) { // 10/60
-            overmap_zone z;
             z.center = tripoint(tmp.x, tmp.y, 0);
-            z.points = generate_zone(z.center, tmp.s);
-            z.z = OMZONE_FUNGAL;
+            z.size = tmp.s;
+            z.points = generate_zone(z.center, z.size);
+            z.z = OMZONE_OVERGROWN;
             zones.push_back(z);
+            this->add_note(tmp.x, tmp.y, 0, "T:Triffid Zone");
         }
     }
 }
