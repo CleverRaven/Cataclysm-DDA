@@ -243,6 +243,7 @@ radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
 struct map_layer {
  oter_id terrain[OMAPX][OMAPY];
  bool visible[OMAPX][OMAPY];
+ int pl_track[OMAPX][OMAPY]; //player be here at this turn #
  std::vector<om_note> notes;
 
  map_layer() : terrain(), visible(), notes() {}
