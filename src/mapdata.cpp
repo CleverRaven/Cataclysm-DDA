@@ -412,13 +412,15 @@ ter_id t_null,
     t_generator_broken,
     t_missile, t_missile_exploded,
     t_radio_tower, t_radio_controls,
-    t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_barndoor, t_palisade_pulley,
+    t_console_broken, t_console,
+    t_gates_mech_control, t_gates_control_concrete,t_gates_control_metal, t_barndoor, t_palisade_pulley,
     t_sewage_pipe, t_sewage_pump,
     t_centrifuge,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
     t_water_pump,
+    t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -613,6 +615,7 @@ void set_ter_ids() {
     t_console=terfind("t_console");
     t_gates_mech_control=terfind("t_gates_mech_control");
     t_gates_control_concrete=terfind("t_gates_control_concrete");
+    t_gates_control_metal=terfind("t_gates_control_metal");
     t_barndoor=terfind("t_barndoor");
     t_palisade_pulley=terfind("t_palisade_pulley");
     t_sewage_pipe=terfind("t_sewage_pipe");
@@ -652,6 +655,11 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_conveyor=terfind("t_conveyor");
+    t_machinery_light=terfind("t_machinery_light");
+    t_machinery_heavy=terfind("t_machinery_heavy");
+    t_machinery_old=terfind("t_machinery_old");
+    t_machinery_electronic=terfind("t_machinery_electronic");
     num_terrain_types = terlist.size();
 };
 
@@ -684,6 +692,7 @@ furn_id f_null,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
+    f_robotic_arm,
     f_wood_keg,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_floor_canvas,
@@ -755,6 +764,7 @@ void set_furn_ids() {
     f_plant_harvest=furnfind("f_plant_harvest");
     f_fvat_empty=furnfind("f_fvat_empty");
     f_fvat_full=furnfind("f_fvat_full");
+    f_robotic_arm=furnfind("f_robotic_arm");
     f_wood_keg=furnfind("f_wood_keg");
     f_statue=furnfind("f_statue");
     f_egg_sackbw=furnfind("f_egg_sackbw");
