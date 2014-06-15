@@ -9698,7 +9698,7 @@ int game::list_monsters(const int iLastState)
                             iLastActiveX=recentered.x;
                             iLastActiveY=recentered.y;
             } else if (action == "fire") {
-                            if ( rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
+                if( iMonDex >= 0 && iMonDex < num_zombies() && rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
                                 last_target = iMonDex;
                                 u.view_offset_x = iStoreViewOffsetX;
                                 u.view_offset_y = iStoreViewOffsetY;
@@ -9711,7 +9711,7 @@ int game::list_monsters(const int iLastState)
                                 delwin(w_monster_info);
                                 delwin(w_monster_info_border);
                                 return 2;
-                            }
+                }
             }
 
             if (vMonsters.empty() && iLastState == 1) {
