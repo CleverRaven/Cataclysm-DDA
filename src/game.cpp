@@ -11624,11 +11624,16 @@ void game::wield(int pos)
   u.inv.assign_empty_invlet(it, true);
  }
 
- bool success = false;
- if (pos == -1)
-  success = u.wield(NULL);
- else
-  success = u.wield(&(u.i_at(pos)));
+    bool success = false;
+    if( pos == -1 ) {
+        success = u.wield(NULL);
+    } else if( pos < -1 ) {
+        add_msg(m_info, _("You have to take off your %s before you can wield it."),
+                u.i_at(pos).tname().c_str());
+        return;
+    } else {
+        success = u.wield(&(u.i_at(pos)));
+    }
 
  if (success)
   u.recoil = 5;
