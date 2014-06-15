@@ -1691,6 +1691,12 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             memcpy( *destsm->rad, srcsm->rad, sizeof(srcsm->rad) ); // radiation
                             memcpy( *destsm->itm, srcsm->itm, sizeof(srcsm->itm) ); // items
                             memcpy( *destsm->graf, srcsm->graf, sizeof(srcsm->graf) ); // graffiti
+                            // at the time of writing, cosmetics holds signage.
+                            for (int x = 0; x < SEEX; ++x) {
+                                for (int y = 0; y < SEEY; ++y) {
+                                    destsm->cosmetics[x][y] = srcsm->cosmetics[x][y];
+                                }
+                            }
 
                             destsm->active_item_count = srcsm->active_item_count; // various misc variables
                             destsm->temperature = srcsm->temperature;

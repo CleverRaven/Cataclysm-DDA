@@ -417,7 +417,7 @@ struct submap {
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void set_signage(int x, int y, const std::string& s) {
+    inline void set_signage(int x, int y, std::string s) {
         cosmetics[x][y]["SIGNAGE"] = s;
     }
     // Can be used anytime (prevents code from needing to place sign first.)    

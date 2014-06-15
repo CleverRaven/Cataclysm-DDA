@@ -540,8 +540,17 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
                 if (!item_controller->has_group(tmp_type)) {
                     jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
                 }
+            } else if (tmpval == "sign") {
+                tmpop = JMAPGEN_PLACESPECIAL_SIGN;
+                // Distinct to signs
+                if (!jsi.has_member("signage")) {
+                    jsi.throw_error("  place_specials: signs must have a signage member (the written text for the sign).");
+                }
+                // Because the "type" member is open for use, make use of it
+                // to act as the label of the sign.
+                tmp_type = jsi.get_string("signage");
             } else {
-            jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
+                jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
             }
         } else {
             parray.throw_error("placing other specials is not supported yet"); return;
@@ -844,6 +853,12 @@ void jmapgen_place_special::apply( map * m ) {
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
             m->furn_set(x.get(), y.get(), f_null);
             m->place_vending(x.get(), y.get(), type);
+        } break;
+        case JMAPGEN_PLACESPECIAL_SIGN: {
+            // type meaning here: the writing on the sign, not the type of sign.
+            m->furn_set(x.get(), y.get(), f_null);
+            m->furn_set(x.get(), y.get(), "f_sign");
+            m->set_signage(x.get(), y.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:

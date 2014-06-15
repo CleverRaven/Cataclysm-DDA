@@ -2296,7 +2296,7 @@ const std::string map::get_signage(const int x, const int y) const
 
     return current_submap->get_signage(lx, ly);
 }
-void map::set_signage(const int x, const int y, std::string& message) const
+void map::set_signage(const int x, const int y, std::string message) const
 {
     if (!INBOUNDS(x, y)) {
         return;
