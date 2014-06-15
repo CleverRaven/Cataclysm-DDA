@@ -752,28 +752,32 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <Creature*> t, int &target,
                                 item *relevent)
 {
- std::vector<point> ret;
- int tarx, tary, junk, tart;
- int range=(hix-u.posx);
-// First, decide on a target among the monsters, if there are any in range
- if (!t.empty()) {
-// Check for previous target
-  if (target == -1) {
-// If no previous target, target the closest there is
-   double closest = -1;
-   double dist;
-   for (int i = 0; i < t.size(); i++) {
-    dist = rl_dist(t[i]->xpos(), t[i]->ypos(), u.posx, u.posy);
-    if (closest < 0 || dist < closest) {
-     closest = dist;
-     target = i;
+    std::vector<point> ret;
+    int tarx, tary, junk, tart;
+    int range=(hix-u.posx);
+    // First, decide on a target among the monsters, if there are any in range
+    if (!t.empty()) {
+        // Check for previous target
+        if( target == -1 || !u.sees( t[target]) ) {
+            target = -1;
+            // If no previous target, target the closest there is
+            double closest = -1;
+            double dist;
+            for (int i = 0; i < t.size(); i++) {
+                dist = rl_dist(t[i]->xpos(), t[i]->ypos(), u.posx, u.posy);
+                if( (closest < 0 || dist < closest) && u.sees( t[i] ) ) {
+                    closest = dist;
+                    target = i;
+                }
+            }
+        }
+        if( target != -1 ) {
+            x = t[target]->xpos();
+            y = t[target]->ypos();
+        }
+    } else {
+        target = -1; // No monsters in range, don't use target, reset to -1
     }
-   }
-  }
-  x = t[target]->xpos();
-  y = t[target]->ypos();
- } else
-  target = -1; // No monsters in range, don't use target, reset to -1
 
  bool sideStyle = use_narrow_sidebar();
  int height = 13;
