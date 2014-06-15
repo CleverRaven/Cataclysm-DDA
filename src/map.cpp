@@ -4579,7 +4579,7 @@ float map::light_transparency(const int x, const int y) const
 void map::light_signal(int x, int y, int lum)
 {
 
-    if (g->turn % 10 == 0 && last_light_signal_turn != g->turn)
+    if (calendar::turn % 10 == 0 && last_light_signal_turn != calendar::turn)
     {
         //check indoor
         int tc=0;
