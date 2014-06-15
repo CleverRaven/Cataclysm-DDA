@@ -9249,13 +9249,7 @@ void player::do_read( item *book )
             size_t index = 1;
             for (std::map<recipe*, int>::iterator iter = reading->recipes.begin();
                  iter != reading->recipes.end(); ++iter, ++index) {
-                if(g->u.knows_recipe(iter->first)) {
-                    recipes += "<color_ltgray>";
-                }
                 recipes += item( iter->first->result, 0 ).type->nname(1);
-                if(g->u.knows_recipe(iter->first)) {
-                    recipes += "</color>";
-                }
                 if(index == reading->recipes.size() - 1) {
                     recipes += _(" and "); // Who gives a fuck about an oxford comma?
                 } else if(index != reading->recipes.size()) {
