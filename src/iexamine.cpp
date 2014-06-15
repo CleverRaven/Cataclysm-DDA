@@ -1980,12 +1980,41 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
 void iexamine::sign(player *p, map *m, int examx, int examy)
 {
     (void)g; //unused
-    std::string words = m->get_signage(examx, examy);
-    if (words.size()) {
-        popup(_(words.c_str()));
+    std::string existing_signage = m->get_signage(examx, examy);
+    bool previous_signage_exists = (bool)existing_signage.size();
+
+    // Display existing message, or lack thereof.
+    if (previous_signage_exists) {
+        popup(_(existing_signage.c_str()));
     } else {
-        popup(_("Just a test for an empty sign."));
-        p->add_msg_if_player(_("Nothing legible on the sign."));
+        p->add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
+    }
+    
+    // Allow chance to modify message.
+    // Chose spray can because it seems appropriate.
+    int required_writing_charges = 1; 
+    if (p->has_charges("spray_can", required_writing_charges)) {
+        // Different messages if the sign already has writing associated with it.
+        std::string query_message = previous_signage_exists ? 
+            _("Overwrite the existing message on the sign with spray paint?") : 
+            _("Add a message to the sign with spray paint?"); 
+        std::string spray_painted_message = previous_signage_exists ?
+            _("You overwrite the previous message on the sign with your graffiti") :
+            _("You graffiti a message onto the sign.");
+        std::string ignore_message = _("You leave the sign alone.");
+        if (query_yn(query_message.c_str())) {
+            std::string signage = string_input_popup(_("Spray what?"), 0, "", "", "signage");
+            if (signage.empty()) {
+                p->add_msg_if_player(m_neutral, ignore_message.c_str());
+            } else {
+                m->set_signage(examx, examy, signage);
+                p->add_msg_if_player(m_info, spray_painted_message.c_str());
+                p->moves -= 2 * signage.length();
+                p->use_charges("spray_can", required_writing_charges);
+            }
+        } else {
+            p->add_msg_if_player(m_neutral, ignore_message.c_str());
+        }
     }
 }
 

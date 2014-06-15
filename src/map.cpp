@@ -2282,13 +2282,24 @@ bool map::close_door(const int x, const int y, const bool inside, const bool che
 const std::string map::get_signage(const int x, const int y) const
 {
     if (!INBOUNDS(x, y)) {
-        return 0;
+        return "";
     }
 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
     return current_submap->get_signage(lx, ly);
+}
+void map::set_signage(const int x, const int y, std::string& message) const
+{
+    if (!INBOUNDS(x, y)) {
+        return;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    current_submap->set_signage(lx, ly, message);
 }
 
 int map::get_radiation(const int x, const int y) const

@@ -404,7 +404,7 @@ struct submap {
     // Its effect is meant to be cosmetic and atmospheric only.
     inline bool has_signage(int x, int y) {
         furn_id f = frn[x][y];
-        if (furnlist[f].name == "f_sign") {
+        if (furnlist[f].id == "f_sign") {
             return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
         }
         return false;
