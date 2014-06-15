@@ -367,7 +367,7 @@ ter_id t_null,
     t_bridge,
     t_covered_well,
     // Lighting related
-    t_skylight, t_emergency_light_flicker, t_emergency_light,
+    t_skylight, t_emergency_light_flicker, t_emergency_light, t_utility_light,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
@@ -470,6 +470,7 @@ void set_ter_ids() {
     t_skylight=terfind("t_skylight");
     t_emergency_light_flicker=terfind("t_emergency_light_flicker");
     t_emergency_light=terfind("t_emergency_light");
+    t_utility_light=terfind("t_utility_light");
     t_wall_log_half=terfind("t_wall_log_half");
     t_wall_log=terfind("t_wall_log");
     t_wall_log_chipped=terfind("t_wall_log_chipped");
@@ -664,6 +665,7 @@ furn_id furnfind(const std::string & id) {
 
 furn_id f_null,
     f_hay,
+    f_barricade_road,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
     f_bed, f_toilet, f_makeshift_bed,
@@ -690,6 +692,7 @@ furn_id f_null,
 void set_furn_ids() {
     f_null=furnfind("f_null");
     f_hay=furnfind("f_hay");
+    f_barricade_road=furnfind("f_barricade_road");
     f_bulletin=furnfind("f_bulletin");
     f_indoor_plant=furnfind("f_indoor_plant");
     f_indoor_plant_y=furnfind("f_indoor_plant_y");

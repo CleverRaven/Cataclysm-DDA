@@ -9708,7 +9708,7 @@ int game::list_monsters(const int iLastState)
                             iLastActiveX=recentered.x;
                             iLastActiveY=recentered.y;
             } else if (action == "fire") {
-                            if ( rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
+                if( iMonDex >= 0 && iMonDex < num_zombies() && rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
                                 last_target = iMonDex;
                                 u.view_offset_x = iStoreViewOffsetX;
                                 u.view_offset_y = iStoreViewOffsetY;
@@ -9721,7 +9721,7 @@ int game::list_monsters(const int iLastState)
                                 delwin(w_monster_info);
                                 delwin(w_monster_info_border);
                                 return 2;
-                            }
+                }
             }
 
             if (vMonsters.empty() && iLastState == 1) {
@@ -11634,11 +11634,16 @@ void game::wield(int pos)
   u.inv.assign_empty_invlet(it, true);
  }
 
- bool success = false;
- if (pos == -1)
-  success = u.wield(NULL);
- else
-  success = u.wield(&(u.i_at(pos)));
+    bool success = false;
+    if( pos == -1 ) {
+        success = u.wield(NULL);
+    } else if( pos < -1 ) {
+        add_msg(m_info, _("You have to take off your %s before you can wield it."),
+                u.i_at(pos).tname().c_str());
+        return;
+    } else {
+        success = u.wield(&(u.i_at(pos)));
+    }
 
  if (success)
   u.recoil = 5;

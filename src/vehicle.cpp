@@ -3500,6 +3500,20 @@ void vehicle::remove_item (int part, int itemdex)
     parts[part].items.erase (parts[part].items.begin() + itemdex);
 }
 
+void vehicle::remove_item (int part, item *it)
+{
+    std::vector<item>& veh_items = parts[part].items;
+
+    for(auto iter = veh_items.begin(); iter < veh_items.end(); iter++)
+    {
+        //delete the item if the pointer memory addresses are the same
+        if(it == &*iter) {
+            veh_items.erase(iter);
+            break;
+        }
+    }
+}
+
 void vehicle::place_spawn_items()
 {
     for(std::vector<vehicle_item_spawn>::iterator next_spawn = item_spawns.begin();

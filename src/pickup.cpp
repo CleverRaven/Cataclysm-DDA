@@ -469,7 +469,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         ) ) {
                 idx = selected;
             } else if ( ch == '`' ) {
-                std::string ext = string_input_popup(_("Enter 2 letters (case sensitive):"), 2);
+                std::string ext = string_input_popup(
+                    _("Enter 2 letters (case sensitive):"), 3, "", "", "", 2);
                 if(ext.size() == 2) {
                     int p1 = pickup_chars.find(ext.at(0));
                     int p2 = pickup_chars.find(ext.at(1));

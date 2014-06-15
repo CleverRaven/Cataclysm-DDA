@@ -2477,6 +2477,20 @@ void map::i_rem(const int x, const int y, const int index)
  i_at(x, y).erase(i_at(x, y).begin() + index);
 }
 
+void map::i_rem(const int x, const int y, item* it)
+{
+    std::vector<item>& map_items = i_at(x, y);
+
+    for(auto iter = map_items.begin(); iter < map_items.end(); iter++)
+    {
+        //delete the item if the pointer memory addresses are the same
+        if(it == &*iter) {
+            map_items.erase(iter);
+            break;
+        }
+    }
+}
+
 void map::i_clear(const int x, const int y)
 {
  i_at(x, y).clear();

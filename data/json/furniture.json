@@ -10,6 +10,31 @@
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"]
     },{
         "type" : "furniture",
+        "id" : "f_barricade_road",
+        "name": "road barricade",
+        "symbol": "#",
+        "bgcolor": "yellow",
+        "move_cost_mod": 3,
+        "required_str": 5,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "amount": 6 },
+                { "item": "nail", "amount": 8, "minamount": 6 }
+            ]
+        },
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 2},
+                { "item": "nail", "amount": 12, "minamount": 4},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_bulletin",
         "name": "bulletin board",
         "symbol": "6",
