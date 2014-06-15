@@ -1529,6 +1529,11 @@ bool player::is_underwater() const
     return underwater;
 }
 
+bool player::is_hallucination() const
+{
+    return false;
+}
+
 void player::set_underwater(bool u)
 {
     if (underwater != u) {

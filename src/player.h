@@ -870,6 +870,7 @@ public:
 
  bool is_underwater() const;
  void set_underwater(bool);
+ bool is_hallucination() const;
 
  void environmental_revert_effect();
 

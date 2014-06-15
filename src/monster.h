@@ -237,7 +237,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     void make_friendly();
     void add_item(item it);     // Add an item to inventory
 
-    bool is_hallucination();    // true if the monster isn't actually real
+    bool is_hallucination() const;    // true if the monster isn't actually real
 
     field_id bloodType();
     field_id gibType();
