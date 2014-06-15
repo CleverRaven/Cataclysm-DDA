@@ -1529,6 +1529,11 @@ bool player::is_underwater() const
     return underwater;
 }
 
+bool player::is_hallucination() const
+{
+    return false;
+}
+
 void player::set_underwater(bool u)
 {
     if (underwater != u) {
@@ -10953,20 +10958,20 @@ bool player::sees(int x, int y, int &t)
     return can_see;
 }
 
-bool player::sees(monster *critter)
+bool player::sees(Creature *critter)
 {
     int dummy = 0;
     return sees(critter, dummy);
 }
 
-bool player::sees(monster *critter, int &t)
+bool player::sees(Creature *critter, int &t)
 {
     if (!is_player() && critter->is_hallucination()) {
         // hallucinations are only visible for the player
         return false;
     }
-    const int cx = critter->posx();
-    const int cy = critter->posy();
+    const int cx = critter->xpos();
+    const int cy = critter->ypos();
     int dist = rl_dist(posx, posy, cx, cy);
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
@@ -10974,7 +10979,7 @@ bool player::sees(monster *critter, int &t)
     if (dist > 1 && critter->digging() && !has_active_bionic("bio_ground_sonar")) {
         return false; // Can't see digging monsters until we're right next to them
     }
-    if (g->m.is_divable(cx, cy) && critter->can_submerge() && !is_underwater()) {
+    if (g->m.is_divable(cx, cy) && critter->is_underwater() && !is_underwater()) {
         //Monster is in the water and submerged, and we're out of/above the water
         return false;
     }
