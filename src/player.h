@@ -304,8 +304,8 @@ public:
   * hallucinations.
   * @param t The t output of map::sees.
   */
- bool sees(monster *critter);
- bool sees(monster *critter, int &t);
+ bool sees(Creature *critter);
+ bool sees(Creature *critter, int &t);
  /**
   * For fake-players (turrets, mounted turrets) this functions
   * chooses a target. This is for creatures that are friendly towards
