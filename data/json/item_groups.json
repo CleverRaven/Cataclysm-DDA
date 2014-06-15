@@ -947,6 +947,8 @@
       ["bullwhip", 2],
       ["u_shotgun", 5],
       ["holster", 10],
+      ["sig_p230", 5],
+      ["walther_ppk", 5],
       ["survnote", 1]
     ]
   },{
@@ -2316,6 +2318,11 @@
       ["8mm_caseless", 2],
       ["8mm_civilian", 4],
       ["300_winmag", 6],
+      ["32_acp", 6],
+      ["762_54R", 4],
+      ["32_casing", 4],
+      ["300_casing", 4],
+      ["762R_casing", 3],
       ["5x50dart", 4]
     ]
   },{
@@ -2364,6 +2371,10 @@
       ["remington_700", 14],
       ["ruger_mini", 12],
       ["savage_111f", 10],
+      ["win70", 6],
+      ["weatherby_5", 6],
+      ["mosin91_30", 3],
+      ["mosin44", 3],
       ["sks", 6]
     ]
   },{
@@ -2472,6 +2483,12 @@
       ["signal_flare", 5],
       ["blowgun", 5],
       ["sks", 12],
+      ["walther_ppk", 4],
+      ["sig_p230", 4],
+      ["win70", 6],
+      ["weatherby_5", 6],
+      ["mosin91_30", 3],
+      ["mosin44", 3],
       ["survnote", 1]
     ]
   },{
@@ -3449,6 +3466,13 @@
       ["small_repairkit", 2],
       ["large_repairkit", 1],
       ["hk_g3", 10],
+      ["ppsh", 5],
+      ["sig_p230", 5],
+      ["walther_ppk", 5],
+      ["win70", 6],
+      ["rifle_flintlock", 4],
+      ["mosin91_30", 5],
+      ["mosin44", 5],
       ["survnote", 1]
     ]
   },{
@@ -3474,6 +3498,20 @@
       ["tuned_mechanism", 1],
       ["match_trigger", 2],
       ["RPG", 1],
+      ["tokarev", 4],
+      ["ppsh", 4],
+      ["walther_ppk", 4],
+      ["sig_p230", 4],
+      ["weatherby_5", 8],
+      ["rifle_flintlock", 5],
+      ["pistol_flintlock", 9],
+      ["flintlock_ammo", 7],
+      ["mosin44", 5],
+      ["mosin91_30", 5],
+      ["colt_navy", 7],
+      ["colt_army", 7],
+      ["36navy", 6],
+      ["44army", 6],
       ["survnote", 1]
     ]
   },{
@@ -4431,6 +4469,8 @@
       ["gloves_plate", 1],
       ["boots_plate", 1],
       ["helmet_barbute", 1],
+      ["rifle_flintlock", 1],
+      ["pistol_flintlock", 1],
       ["survnote", 5]
     ]
   },{
@@ -8046,6 +8086,8 @@
       ["gold_watch", 10],
       ["brooch", 12],
       ["locket", 12],
+      ["pistol_flintlock", 4],
+      ["rifle_flintlock", 4],
       ["boxing_gloves", 12]
     ]
   },{
@@ -8066,6 +8108,8 @@
       ["rapier_fake", 8],
       ["wakizashi_fake", 8],
       ["kris_fake", 8],
+      ["pistol_flintlock", 4],
+      ["rifle_flintlock", 4],
       ["petrified_eye", 2]
     ]
   },{
@@ -8163,8 +8207,14 @@
   },{
 "type" : "item_group",
 "id" : "museum_guns",
-"//" : "empty, because its content is no in the Oldies Pack mod, remove this comment if you add stuff",
 "items" : [
+      ["pistol_flintlock", 60],
+      ["rifle_flintlock", 60],
+      ["flintlock_ammo", 60],
+      ["colt_army", 50],
+      ["colt_navy", 50],
+      ["36navy", 50],
+      ["44army", 50]
     ]
   },{
 "type" : "item_group",
