@@ -837,6 +837,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing lies close to the skin and layers easily.")));
         }
+        if (is_armor() && has_flag("OVERSIZE")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing is large enough to accommodate mutated anatomy.")));
+        }
         if (is_armor() && has_flag("POCKETS")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -851,6 +856,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing is designed to keep you dry in the rain.")));
+        }
+        if (is_armor() && has_flag("SUN_GLASSES")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing keeps the glare out of your eyes.")));
         }
         if (is_armor() && has_flag("WATER_FRIENDLY")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
