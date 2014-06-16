@@ -350,7 +350,7 @@ ter_id terfind(const std::string & id) {
 };
 
 ter_id t_null,
-    t_hole, // Real nothingness; makes you fall a z-level
+    t_hole,  t_sky, // Real nothingness; makes you fall a z-level
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
@@ -435,6 +435,7 @@ ter_id t_null,
 void set_ter_ids() {
     t_null=terfind("t_null");
     t_hole=terfind("t_hole");
+	t_sky=terfind("t_sky");
     t_dirt=terfind("t_dirt");
     t_sand=terfind("t_sand");
     t_dirtmound=terfind("t_dirtmound");
