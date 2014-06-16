@@ -11192,6 +11192,7 @@ void map::rotate(int turns)
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
+    std::string signage_rot[SEEX * 2][SEEY * 2];
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
     computer tmpcomp;
@@ -11219,6 +11220,7 @@ void map::rotate(int turns)
             furnrot[old_x][old_y] = furn(new_x, new_y);
             itrot [old_x][old_y] = i_at(new_x, new_y);
             traprot[old_x][old_y] = tr_at(new_x, new_y);
+            signage_rot[old_x][old_y] = get_signage(new_x, new_y);
             i_clear(new_x, new_y);
         }
     }
@@ -11358,6 +11360,7 @@ void map::rotate(int turns)
             furn_set(i, j, furnrot[i][j]);
             i_at(i, j) = itrot [i][j];
             add_trap(i, j, traprot[i][j]);
+            set_signage(i, j, signage_rot[i][j]);
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
                 if (ter(i, j) == t_wall_v) {
                     ter_set(i, j, t_wall_h);
