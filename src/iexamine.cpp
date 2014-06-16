@@ -1984,7 +1984,7 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
 void iexamine::sign(player *p, map *m, int examx, int examy)
 {
     std::string existing_signage = m->get_signage(examx, examy);
-    bool previous_signage_exists = (bool)existing_signage.size();
+    bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
     if (previous_signage_exists) {
