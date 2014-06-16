@@ -1988,7 +1988,7 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
 
     // Display existing message, or lack thereof.
     if (previous_signage_exists) {
-        popup(_(existing_signage.c_str()));
+        popup(existing_signage.c_str());
     } else {
         p->add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
     }
