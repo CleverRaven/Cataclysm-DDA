@@ -38,6 +38,7 @@ class mattack
         void triffid_growth     (monster *z);
         void stare              (monster *z);
         void fear_paralyze      (monster *z);
+        void proximity_alarm    (monster *z);//Like photograph, except not dependant on whether you are wanted.
         void photograph         (monster *z);
         void tazer              (monster *z);
         void smg                (monster *z); // Automated MP5

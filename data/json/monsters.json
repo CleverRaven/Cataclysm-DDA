@@ -5595,5 +5595,39 @@
     "special_when_hit":"ZAPBACK",
     "description":"This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "CBM_OP", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
+    },{
+        "type" : "MONSTER",
+        "id" : "mon_prox_alam",
+    "name": "Proximity Sensor",
+    "species":"ROBOT",
+    "symbol":"A",
+    "color":"ltgray",
+    "size":"LARGE",
+    "material":"steel",
+    "diff":2,
+    "aggression":0,
+    "morale":100,
+    "speed":80,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":3,
+    "armor_bash":10,
+    "armor_cut":10,
+    "item_chance":70,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "eyebot", 1 ]
+        ]
+    },
+    "luminance":0,
+    "hp":100,
+    "special_freq":50,
+    "death_function":"EXPLODE",
+    "special_attack":"PROXIMITY_ALARM",
+    "description":"A Proximity Sensor designed to automatically protect an area by calling for robotic reinforcements ",
+    "flags":["SEES", "IMMOBILE", "ELECTRONIC", "NO_BREATHE", "NOHEAD"]
     }
 ]
