@@ -1453,33 +1453,35 @@
         "required_str": 9,
         "flags": ["TRANSPARENT", "PLACE_ITEM"]
     },{
-        "type" : "furniture",
-        "id" : "f_conveyor",
-        "name": "conveyor",
-        "symbol": "=",
-        "color": "dkgray",
-        "move_cost_mod": 4,
-        "required_str": 20,
-        "flags": ["BASHABLE", "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
-        "deconstruct": {
-            "items": [
-                { "item": "pulley", "amount": 6, "minamount": 5},
-                { "item": "scrap", "amount": 4, "minamount": 2},
-                { "item": "pipe", "amount": 10, "minamount": 4 },
-				{ "item": "r_belt", "amount": 1, "minamount": 1 }                
-            ]
-        },
-            "bash": {
-            "str_min": 20, "str_max": 30,
-            "sound": "metal screeching!",
-            "sound_fail": "clink!",
-            "items": [
-                { "item": "pulley", "amount": 4, "minamount": 1},
-                { "item": "scrap", "amount": 10, "minamount": 2},                
-				{ "item": "r_belt", "amount": 1, "minamount": 1 }                
-            ]
-        }
-   },{
+ +        "type" : "terrain",
+ +        "id" : "t_conveyor",
+ +        "name": "conveyor belt",
+ +        "symbol": "=",
+ +        "color": "brown",
+ +        "move_cost": 6,
+ +        "flags": ["TRANSPARENT", "BASHABLE", "PLACE_ITEM"],
+ +        "deconstruct": {
+ +            "ter_set": "t_floor",
+ +            "items": [
+ +                { "item": "wire", "amount": 1 },
+ +                { "item": "pipe", "amount": 4, "minamount": 1 },
+ +                { "item": "chain", "amount": 1, "chance": 10},
+ +                { "item": "scrap", "amount": 5, "minamount": 1 },
+ +                { "item": "xlframe", "amount": 1, "chance": 5}
+ +            ]
+ +        },
+ +        "bash": {
+ +            "str_min": 12, "str_max": 80,
+ +            "sound": "clang!",
+ +            "sound_fail": "ting.",
+ +            "ter_set": "t_floor",
+ +            "items": [
+ +                { "item": "pipe", "amount": 3, "minamount": 1 },
+ +                { "item": "chain", "amount": 1, "chance": 10},
+ +                { "item": "scrap", "amount": 5, "minamount": 1 }
+ +            ]
+ +        }
+ +    },{
         "type" : "furniture",
         "id" : "f_plc",
         "name": "PLC(programmable logic controller)",
