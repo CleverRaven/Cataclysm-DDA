@@ -2624,7 +2624,7 @@ input_context game::get_player_input(std::string &action)
                 #ifdef TILES
                 if (!use_tiles) {
                 #endif
-                    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+                    for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
                         //Erase previous text from w_terrain
                         if (iter->getStep() > 0) {
                             for (size_t i = 0; i < iter->getText().length(); ++i) {
@@ -2637,8 +2637,10 @@ input_context game::get_player_input(std::string &action)
                                              u.posx + u.view_offset_x,
                                              u.posy + u.view_offset_y);
                                 } else {
-                                    const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
-                                    const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+                                    const int iDY = POSY + (iter->getPosY() -
+                                                            (u.posy + u.view_offset_y));
+                                    const int iDX = POSX + (iter->getPosX() -
+                                                            (u.posx + u.view_offset_x));
 
                                     if (u.has_disease("boomered")) {
                                         mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
@@ -2657,7 +2659,7 @@ input_context game::get_player_input(std::string &action)
                 SCT.advanceAllSteps();
 
                 //Check for creatures on all drawing positions and offset if necessary
-                for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
+                for( auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter ) {
                     const direction oCurDir = iter->getDirecton();
 
                     for (int i=0; i < iter->getText().length(); ++i) {
@@ -2667,8 +2669,9 @@ input_context game::get_player_input(std::string &action)
                             i = -1;
 
                             int iPos = iter->getStep() + iter->getStepOffset();
-                            for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
-                                if (iter2->getDirecton() == oCurDir && iter2->getStep() + iter2->getStepOffset() <= iPos) {
+                            for( auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2 ) {
+                                if( iter2->getDirecton() == oCurDir &&
+                                    iter2->getStep() + iter2->getStepOffset() <= iPos ) {
                                     if (iter2->getType() == "hp") {
                                         iter2->advanceStepOffset();
                                     }
@@ -6338,7 +6341,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     std::vector<point> traj;
     timespec ts;
     ts.tv_sec = 0;
-    ts.tv_nsec = BULLET_SPEED; // Reset for animation of bullets
+    ts.tv_nsec = 1000000 * OPTIONS["ANIMATION_DELAY"];
     for (int i = 0; i < shrapnel; i++) {
         sx = rng(x - 2 * radius, x + 2 * radius);
         sy = rng(y - 2 * radius, y + 2 * radius);
@@ -8672,7 +8675,7 @@ void game::zones_manager()
 
             wrefresh(w_terrain);
 
-            inp_mngr.set_timeout(500);
+            inp_mngr.set_timeout(BLINK_SPEED);
         } else {
             inp_mngr.set_timeout(-1);
         }
@@ -8860,7 +8863,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         wrefresh(w_terrain);
 
         if (bSelectZone && bHasFirstPoint) {
-            inp_mngr.set_timeout(500);
+            inp_mngr.set_timeout(BLINK_SPEED);
         }
 
         //Wait for input
@@ -9695,7 +9698,7 @@ int game::list_monsters(const int iLastState)
                             iLastActiveX=recentered.x;
                             iLastActiveY=recentered.y;
             } else if (action == "fire") {
-                            if ( rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
+                if( iMonDex >= 0 && iMonDex < num_zombies() && rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
                                 last_target = iMonDex;
                                 u.view_offset_x = iStoreViewOffsetX;
                                 u.view_offset_y = iStoreViewOffsetY;
@@ -9708,7 +9711,7 @@ int game::list_monsters(const int iLastState)
                                 delwin(w_monster_info);
                                 delwin(w_monster_info_border);
                                 return 2;
-                            }
+                }
             }
 
             if (vMonsters.empty() && iLastState == 1) {
@@ -11621,11 +11624,16 @@ void game::wield(int pos)
   u.inv.assign_empty_invlet(it, true);
  }
 
- bool success = false;
- if (pos == -1)
-  success = u.wield(NULL);
- else
-  success = u.wield(&(u.i_at(pos)));
+    bool success = false;
+    if( pos == -1 ) {
+        success = u.wield(NULL);
+    } else if( pos < -1 ) {
+        add_msg(m_info, _("You have to take off your %s before you can wield it."),
+                u.i_at(pos).tname().c_str());
+        return;
+    } else {
+        success = u.wield(&(u.i_at(pos)));
+    }
 
  if (success)
   u.recoil = 5;

@@ -511,6 +511,11 @@ void initOptions()
                                        0, 127, 5
                                       );
 
+    OPTIONS["ANIMATION_DELAY"] = cOpt("graphics", _("Animation delay"),
+                                      _("The amount of time to pause between animation frames in ms."),
+                                      0, 100, 10
+                                      );
+
     OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
                                  _("If true, will display enabled animations."),
                                  true

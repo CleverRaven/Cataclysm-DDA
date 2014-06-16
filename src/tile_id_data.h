@@ -109,6 +109,12 @@ const std::string monster_names[num_monsters] =
 
     toString(mon_jabberwock),
 
+    toString(mon_irradiated_wanderer_1),
+    toString(mon_irradiated_wanderer_2),
+    toString(mon_irradiated_wanderer_3),
+    toString(mon_irradiated_wanderer_4),
+    toString(mon_charred_nightmare),
+
     toString(mon_triffid),
     toString(mon_triffid_young),
     toString(mon_triffid_queen),

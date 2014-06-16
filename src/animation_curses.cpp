@@ -6,7 +6,7 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
 {
     timespec ts;    // Timespec for the animation of the explosion
     ts.tv_sec = 0;
-    ts.tv_nsec = EXPLOSION_SPEED;
+    ts.tv_nsec = OPTIONS["ANIMATION_DELAY"] * EXPLOSION_MULTIPLIER * 1000000;
     const int ypos = POSY + (y - (u.posy + u.view_offset_y));
     const int xpos = POSX + (x - (u.posx + u.view_offset_x));
     for (int i = 1; i <= radius; i++) {
@@ -21,7 +21,10 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
             mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
         }
         wrefresh(w_terrain);
-        nanosleep(&ts, NULL);
+
+        if( ts.tv_nsec != 0 ) {
+            nanosleep(&ts, NULL);
+        }
     }
 }
 /* Bullet Animation */
@@ -40,7 +43,7 @@ void game::draw_bullet(Creature& p, int tx, int ty, int i, std::vector<point> tr
         mvwputch(w_terrain, POSY + (ty - (u.posy + u.view_offset_y)),
                  POSX + (tx - (u.posx + u.view_offset_x)), c_red, bullet);
         wrefresh(w_terrain);
-        if (p.is_player()) {
+        if( p.is_player() && ts.tv_nsec != 0 ) {
             nanosleep(&ts, NULL);
         }
     }
