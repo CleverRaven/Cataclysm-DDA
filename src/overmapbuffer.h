@@ -203,6 +203,7 @@ public:
     }
     // hordes
     void move_hordes();
+    void update_tracks();
     std::vector<mongroup*> monsters_at(int x, int y, int z);
 
     // overmap terrain to overmap

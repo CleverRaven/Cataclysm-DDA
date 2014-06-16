@@ -425,6 +425,13 @@ void overmapbuffer::move_hordes()
         it->move_hordes();
 }
 
+void overmapbuffer::update_tracks()
+{
+    for (std::list<overmap>::iterator it=overmap_list.begin();
+        it != overmap_list.end(); ++it)
+        it->update_tracks();
+}
+
 bool overmapbuffer::is_safe(int x, int y, int z)
 {
     overmap &om = get_om_global(x, y);

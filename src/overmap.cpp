@@ -38,6 +38,8 @@
 #define HIVECHANCE 180 //Chance that any given forest will be a hive
 #define SWAMPINESS 4 //Affects the size of a swamp
 #define SWAMPCHANCE 8500 // Chance that a swamp will spawn instead of forest
+
+#define HORDE_TRACK_RANGE 2;
 enum oter_dir {
     oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
 };
@@ -2068,6 +2070,35 @@ void overmap::move_hordes()
                 if (zg[i].interest<=15 && one_in(5) ) zg[i].wander();
             }
         }
+        //tracking in range 5
+        if ( zg[i].interest <= 40 ) {
+            int sx = zg[i].posx - HORDE_TRACK_RANGE;
+            int ex = zg[i].posx + HORDE_TRACK_RANGE;
+            int sy = zg[i].posy - HORDE_TRACK_RANGE;
+            int ey = zg[i].posy + HORDE_TRACK_RANGE;
+            sx = sx < 0 ? 0 : sx;
+            ex = ex > OMAPX*2 ? OMAPX*2 : ex;
+            sy = sy < 0 ? 0 : sy;
+            ey = ey > OMAPY*2 ? OMAPY*2 : ey;
+            int max_x,max_y,max_t = 0;
+            int track;
+            for (int y = sy; y <= ey; y++)
+              for (int x = sx; x <= ex; x++)
+                {
+                  track = track_at(x, y);
+                  if ( track > max_t ) {
+                      max_t = track;
+                      max_x = x;
+                      max_y = y;
+                      }
+                }
+            if (max_t != 0 ) {
+               zg[i].set_target(max_x, max_y);
+               zg[i].set_interest(40);
+               //debug
+               add_msg("Horde # %i take track %i;%i",i,max_x,max_y);
+               }
+        }
     }
 }
 
@@ -2153,6 +2184,47 @@ point overmap::to_big_overmap_coord(point p)
     int rety = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().y * OMAPY;
 
     return point(retx,rety);
+}
+
+void overmap::place_tracks(const int x, const int y, const int turn) {
+  if ( layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0 ) {
+     if ( g->weather != WEATHER_ACID_DRIZZLE ||
+        g->weather != WEATHER_ACID_RAIN ||
+        g->weather != WEATHER_DRIZZLE ||
+        g->weather != WEATHER_RAINY ||
+        g->weather != WEATHER_LIGHTNING ||
+        g->weather != WEATHER_THUNDER ||
+        g->weather != WEATHER_SNOW ||
+        g->weather != WEATHER_SNOWSTORM ) {
+       layer[OVERMAP_GROUND_LEVEL].pl_track[x][y] = turn;
+       //debug
+       add_msg("Add tracks:%i,%i", x, y);
+       }
+     }
+}
+
+void overmap::update_tracks() {
+  add_msg("update_tracks");
+  if ( layer != NULL )
+    for (int j = 0; j < OMAPY; j++) {
+      for (int i = 0; i < OMAPX; i++) {
+        if ( g->weather != WEATHER_ACID_DRIZZLE ||
+             g->weather != WEATHER_ACID_RAIN ||
+             g->weather != WEATHER_DRIZZLE ||
+             g->weather != WEATHER_RAINY ||
+             g->weather != WEATHER_LIGHTNING ||
+             g->weather != WEATHER_THUNDER ||
+             g->weather != WEATHER_SNOW ||
+             g->weather != WEATHER_SNOWSTORM )
+        layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
+        }
+      }
+}
+
+int overmap::track_at(const int x, const int y) {
+  if (layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0)
+    return  layer[OVERMAP_GROUND_LEVEL].pl_track[x][y];
+  return 0;
 }
 
 void grow_forest_oter_id(oter_id &oid, bool swampy)
@@ -3647,11 +3719,21 @@ void overmap::place_mongroups()
     for( size_t i = 0; i < cities.size(); i++ ) {
         if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
             if( !one_in(16) || cities[i].s > 5 ) {
-                zg.push_back( mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                                       int(cities[i].s * 2.5), cities[i].s * 80) );
-                zg.back().set_target( zg.back().posx, zg.back().posy );
-                zg.back().horde = true;
-                zg.back().wander();
+                int sz = cities[i].s;
+                int pop = cities[i].s * 80;
+                int h_size;
+                while (pop > 0) {
+                    h_size = rng(1, 3) * 80;
+                    zg.push_back( mongroup("GROUP_ZOMBIE",
+                                           (cities[i].x * 2) + (rng(0, sz) - sz),
+                                           (cities[i].y * 2) + (rng(0, sz) - sz),
+                                           0, 5,
+                                           h_size) );
+                    zg.back().set_target( zg.back().posx, zg.back().posy );
+                    zg.back().horde = true;
+                    zg.back().wander();
+                    pop -= h_size;
+                    }
             }
         }
         if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {

@@ -20,6 +20,7 @@ class npc;
 #define OVERMAP_DEPTH 10
 #define OVERMAP_HEIGHT 0
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
+#define OVERMAP_GROUND_LEVEL (OVERMAP_LAYERS - OVERMAP_HEIGHT - 1)
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::map<std::string, oter_t> obasetermap;
@@ -243,7 +244,7 @@ radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
 struct map_layer {
  oter_id terrain[OMAPX][OMAPY];
  bool visible[OMAPX][OMAPY];
- int pl_track[OMAPX][OMAPY]; //player be here at this turn #
+ int pl_track[OMAPX*2][OMAPY*2]; //player be here at this turn #
  std::vector<om_note> notes;
 
  map_layer() : terrain(), visible(), notes() {}
@@ -358,6 +359,10 @@ class overmap
 
      return settings;
   }
+
+  void place_tracks(const int x, const int y, const int turn);
+  void update_tracks();
+  int track_at(const int x, const int y);
   // TODO: make private
   std::vector<mongroup> zg;
   std::vector<radio_tower> radios;

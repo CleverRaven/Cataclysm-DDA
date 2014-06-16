@@ -39,8 +39,6 @@
 const int savegame_version = 20;
 const int savegame_minver_game = 11;
 
-const int top_layer = 10;
-
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
  * This allows loaders for classes that exist in multiple files (such as item) to have
@@ -559,8 +557,10 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 }
             } else if (datatype == 'T') { // Load tracks
                 int j,i,track_turn;
-                sfin >> j >> i >> track_turn;
-                layer[top_layer].pl_track[j][i] = track_turn;
+                sfin >> i >> j >> track_turn;
+                if ( i >= 0 && i < OMAPX*2 && j >= 0 && j < OMAPY*2 ) {
+                    layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = track_turn;
+                    }
             }
         }
         sfin.close();
@@ -612,22 +612,24 @@ void overmap::save()
                 layer[z].notes[i].num << std::endl << layer[z].notes[i].text << std::endl;
         }
 
+
+        }
+        fout << std::endl;
+
         //TODO: Save/load tracks in one line
         //bool first_track = true;
         int track_turn;
-        for (int j = 0; j < OMAPY; j++) {
-            for (int i = 0; i < OMAPX; i++) {
-                track = layer[top_layer].pl_track[i][j];
-                if ( track != 0 ) {
+        for (int j = 0; j < OMAPY * 2; j++) {
+            for (int i = 0; i < OMAPX * 2; i++) {
+                track_turn = layer[OVERMAP_GROUND_LEVEL].pl_track[i][j];
+                if ( track_turn != 0 ) {
                     /*if (first_track) {
                        fout << "T" << std::endl;
                        first_track = false;
                        }*/
-                    fout << "T" << j << i << track_turn;
+                    fout << "T " << i << " " << j << " " << track_turn << std::endl;
                     }
             }
-        }
-        fout << std::endl;
     }
     fout.close();
 

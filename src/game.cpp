@@ -1055,7 +1055,15 @@ bool game::do_turn()
     }
 
     if (calendar::turn % 50 == 0) { //move hordes every 5 min
-        cur_om->move_hordes();
+       overmap_buffer.move_hordes();
+    }
+
+    if (calendar::turn % 200 == 0) { //update tracks every 20 min
+       overmap_buffer.update_tracks();
+    }
+
+    if (calendar::turn % 10 == 0) { //place player's tracks every 1 min
+       cur_om->place_tracks( levx, levy, calendar::turn );
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -13005,12 +13013,12 @@ void game::spawn_mon(int shiftx, int shifty)
       // Reduce group radius proportionally to remaining
       // population to maintain a minimal population density.
       if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
-          !cur_om->zg[i].diffuse) {
+          !cur_om->zg[i].diffuse && !horde ) {
           cur_om->zg[i].radius--;
       }
 
       // If we spawned some zombies, advance the timer (exept hordes)
-      if (group > 0 && !cur_om->zg[i].horde ) {
+      if (group > 0 && !horde ) {
           nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
       }
 
