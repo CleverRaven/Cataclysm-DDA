@@ -858,8 +858,9 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
     wrefresh( w_target );
 }
 
-static void do_aim( player *p, std::vector <Creature*> &t, int &target,
-                    const int x, const int y ) {
+static void do_aim( player *p, std::vector <Creature *> &t, int &target,
+                    const int x, const int y )
+{
     // If we've changed targets, reset aim, unless it's above the minimum.
     if( t[target]->xpos() != x || t[target]->ypos() != y ) {
         for (int i = 0; i < t.size(); i++) {
@@ -1347,7 +1348,8 @@ int ranged_skill_offset( std::string skill )
     return 0;
 }
 
-int player::skill_dispersion( item *weapon, bool random ) {
+int player::skill_dispersion( item *weapon, bool random )
+{
     const std::string skill_used = weapon->skill();
     const int weapon_skill_level = skillLevel(skill_used);
     int dispersion = 0; // Measured in quarter-degrees.
