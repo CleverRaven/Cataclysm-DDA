@@ -606,6 +606,8 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             for ( int reti = shift, scri = 0; scri <= scrmax; reti++, scri++ ) {
                 if( reti < ret.size() ) {
                     mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : string_color ), ret[reti] );
+                } else if( max_length > 0 && reti >= max_length) {
+                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), ' ');
                 } else {
                     mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), '_');
                 }
@@ -614,11 +616,15 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             if ( lastpos >= shift && lastpos <= shift + scrmax ) {
                 if ( lastpos - shift >= 0 && lastpos - shift < ret.size() ) {
                     mvwputch(w, starty, startx + lastpos, string_color, ret[lastpos - shift]);
+                } else if( max_length > 0 && lastpos >= max_length) {
+                    mvwputch(w, starty, startx + lastpos, underscore_color, ' ' );
                 } else {
                     mvwputch(w, starty, startx + lastpos, underscore_color, '_' );
                 }
             }
-            if (pos < ret.size() ) {
+            if( max_length > 0 && pos >= max_length) {
+                mvwputch(w, starty, startx + pos, cursor_color, ' ' );
+            } else if (pos < ret.size() ) {
                 mvwputch(w, starty, startx + pos, cursor_color, ret[pos - shift]);
             } else {
                 mvwputch(w, starty, startx + pos, cursor_color, '_' );

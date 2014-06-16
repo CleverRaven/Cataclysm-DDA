@@ -244,55 +244,57 @@ void monster::get_Attitude(nc_color &color, std::string &text)
 
 int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
 {
-// First line of w is the border; the next two are terrain info, and after that
-// is a blank line. w is 13 characters tall, and we can't use the last one
-// because it's a border as well; so we have lines 4 through 11.
-// w is also 48 characters wide - 2 characters for border = 46 characters for us
-// vStart added because 'help' text in targeting win makes helpful info hard to find
-// at a glance.
+    // First line of w is the border; the next two are terrain info, and after that
+    // is a blank line. w is 13 characters tall, and we can't use the last one
+    // because it's a border as well; so we have lines 4 through 11.
+    // w is also 48 characters wide - 2 characters for border = 46 characters for us
+    // vStart added because 'help' text in targeting win makes helpful info hard to find
+    // at a glance.
 
- const int vEnd = vStart + vLines;
+    const int vEnd = vStart + vLines;
 
- mvwprintz(w, vStart++, column, c_white, "%s ", name().c_str());
- nc_color color = c_white;
- std::string attitude = "";
+    mvwprintz(w, vStart++, column, c_white, "%s ", name().c_str());
+    nc_color color = c_white;
+    std::string attitude = "";
 
- get_Attitude(color, attitude);
- wprintz(w, color, "%s", attitude.c_str());
+    get_Attitude(color, attitude);
+    wprintz(w, color, "%s", attitude.c_str());
 
- if (has_effect("downed"))
-  wprintz(w, h_white, _("On ground"));
- else if (has_effect("stunned"))
-  wprintz(w, h_white, _("Stunned"));
- else if (has_effect("beartrap"))
-  wprintz(w, h_white, _("Trapped"));
- std::string damage_info;
- nc_color col;
- if (hp >= type->hp) {
-  damage_info = _("It is uninjured");
-  col = c_green;
- } else if (hp >= type->hp * .8) {
-  damage_info = _("It is lightly injured");
-  col = c_ltgreen;
- } else if (hp >= type->hp * .6) {
-  damage_info = _("It is moderately injured");
-  col = c_yellow;
- } else if (hp >= type->hp * .3) {
-  damage_info = _("It is heavily injured");
-  col = c_yellow;
- } else if (hp >= type->hp * .1) {
-  damage_info = _("It is severely injured");
-  col = c_ltred;
- } else {
-  damage_info = _("it is nearly dead");
-  col = c_red;
- }
- mvwprintz(w, vStart++, column, col, "%s", damage_info.c_str());
+    if (has_effect("downed")) {
+        wprintz(w, h_white, _("On ground"));
+    } else if (has_effect("stunned")) {
+        wprintz(w, h_white, _("Stunned"));
+    } else if (has_effect("beartrap")) {
+        wprintz(w, h_white, _("Trapped"));
+    }
+    std::string damage_info;
+    nc_color col;
+    if (hp >= type->hp) {
+        damage_info = _("It is uninjured");
+        col = c_green;
+    } else if (hp >= type->hp * .8) {
+        damage_info = _("It is lightly injured");
+        col = c_ltgreen;
+    } else if (hp >= type->hp * .6) {
+        damage_info = _("It is moderately injured");
+        col = c_yellow;
+    } else if (hp >= type->hp * .3) {
+        damage_info = _("It is heavily injured");
+        col = c_yellow;
+    } else if (hp >= type->hp * .1) {
+        damage_info = _("It is severely injured");
+        col = c_ltred;
+    } else {
+        damage_info = _("it is nearly dead");
+        col = c_red;
+    }
+    mvwprintz(w, vStart++, column, col, "%s", damage_info.c_str());
 
     std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
     int numlines = lines.size();
-    for (int i = 0; i < numlines && vStart <= vEnd; i++)
+    for (int i = 0; i < numlines && vStart <= vEnd; i++) {
         mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
+    }
 
     return vStart;
 }
@@ -342,7 +344,7 @@ bool monster::can_hear()
  return has_flag(MF_HEARS) && !has_effect("deaf");
 }
 
-bool monster::can_submerge()
+bool monster::can_submerge() const
 {
   return (has_flag(MF_NO_BREATHE) || has_flag(MF_SWIMS) || has_flag(MF_AQUATIC))
           && !has_flag(MF_ELECTRONIC);
@@ -623,7 +625,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers)
 }
 
 bool monster::is_underwater() const {
-    return false; //TODO: actually make this work
+    return can_submerge();
 }
 
 bool monster::is_on_ground() {
@@ -1245,7 +1247,7 @@ void monster::add_item(item it)
  inv.push_back(it);
 }
 
-bool monster::is_hallucination()
+bool monster::is_hallucination() const
 {
   return hallucination;
 }

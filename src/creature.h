@@ -123,6 +123,7 @@ class Creature
         virtual bool is_underwater() const = 0;
         virtual bool is_warm(); // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() = 0;
+        virtual bool is_hallucination() const = 0;
         // returns true iff health is zero or otherwise should be dead
         virtual bool is_dead_state() = 0;
 

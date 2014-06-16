@@ -1529,6 +1529,11 @@ bool player::is_underwater() const
     return underwater;
 }
 
+bool player::is_hallucination() const
+{
+    return false;
+}
+
 void player::set_underwater(bool u)
 {
     if (underwater != u) {
@@ -3117,29 +3122,25 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     // Print currently used style or weapon mode.
     std::string style = "";
-    if (is_armed())
-    {
-        //Show normal if no martial style is selected, or if the currently selected style does nothing for your weapon
-        if (style_selected == "style_none" || (!can_melee() && !martialarts[style_selected].has_weapon(weapon.type->id)))
+    if (is_armed()) {
+        // Show normal if no martial style is selected,
+        // or if the currently selected style does nothing for your weapon.
+        if (style_selected == "style_none" ||
+            (!can_melee() && !martialarts[style_selected].has_weapon(weapon.type->id))) {
             style = _("Normal");
-        else
+        } else {
             style = martialarts[style_selected].name;
+        }
 
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
         mvwprintz(weapwin, 1, x, c_red, style.c_str());
-    }
-    else
-    {
-        if (style_selected == "style_none")
-        {
+    } else {
+        if (style_selected == "style_none") {
             style = _("No Style");
-        }
-        else
-        {
+        } else {
             style = martialarts[style_selected].name;
         }
-        if (style != "")
-        {
+        if (style != "") {
             int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
             mvwprintz(weapwin, 1, x, c_blue, style.c_str());
         }
@@ -3622,31 +3623,21 @@ bool player::has_active_bionic(const bionic_id & b) const
  return false;
 }
 
-void player::add_bionic(bionic_id b)
+void player::add_bionic( bionic_id b )
 {
- for (int i = 0; i < my_bionics.size(); i++) {
-  if (my_bionics[i].id == b)
-   return; // No duplicates!
- }
- char newinv;
- if (my_bionics.empty())
-  newinv = 'a';
- else if (my_bionics.size() == 26)
-  newinv = 'A';
- else if (my_bionics.size() == 52)
-  newinv = '0';
- else if (my_bionics.size() == 62)
-  newinv = '"';
- else if (my_bionics.size() == 76)
-  newinv = ':';
- else if (my_bionics.size() == 83)
-  newinv = '[';
- else if (my_bionics.size() == 89)
-  newinv = '{';
- else
-  newinv = my_bionics[my_bionics.size() - 1].invlet + 1;
- my_bionics.push_back(bionic(b, newinv));
- recalc_sight_limits();
+    if( has_bionic( b ) ) {
+        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        return;
+    }
+    char newinv = ' ';
+    for( size_t i = 0; i < inv_chars.size(); i++ ) {
+        if( bionic_by_invlet( inv_chars[i] ) == nullptr ) {
+            newinv = inv_chars[i];
+            break;
+        }
+    }
+    my_bionics.push_back( bionic( b, newinv ) );
+    recalc_sight_limits();
 }
 
 void player::remove_bionic(bionic_id b) {
@@ -9259,13 +9250,7 @@ void player::do_read( item *book )
             size_t index = 1;
             for (std::map<recipe*, int>::iterator iter = reading->recipes.begin();
                  iter != reading->recipes.end(); ++iter, ++index) {
-                if(g->u.knows_recipe(iter->first)) {
-                    recipes += "<color_ltgray>";
-                }
                 recipes += item( iter->first->result, 0 ).type->nname(1);
-                if(g->u.knows_recipe(iter->first)) {
-                    recipes += "</color>";
-                }
                 if(index == reading->recipes.size() - 1) {
                     recipes += _(" and "); // Who gives a fuck about an oxford comma?
                 } else if(index != reading->recipes.size()) {
@@ -10969,20 +10954,20 @@ bool player::sees(int x, int y, int &t)
     return can_see;
 }
 
-bool player::sees(monster *critter)
+bool player::sees(Creature *critter)
 {
     int dummy = 0;
     return sees(critter, dummy);
 }
 
-bool player::sees(monster *critter, int &t)
+bool player::sees(Creature *critter, int &t)
 {
     if (!is_player() && critter->is_hallucination()) {
         // hallucinations are only visible for the player
         return false;
     }
-    const int cx = critter->posx();
-    const int cy = critter->posy();
+    const int cx = critter->xpos();
+    const int cy = critter->ypos();
     int dist = rl_dist(posx, posy, cx, cy);
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
@@ -10990,7 +10975,7 @@ bool player::sees(monster *critter, int &t)
     if (dist > 1 && critter->digging() && !has_active_bionic("bio_ground_sonar")) {
         return false; // Can't see digging monsters until we're right next to them
     }
-    if (g->m.is_divable(cx, cy) && critter->can_submerge() && !is_underwater()) {
+    if (g->m.is_divable(cx, cy) && critter->is_underwater() && !is_underwater()) {
         //Monster is in the water and submerged, and we're out of/above the water
         return false;
     }
