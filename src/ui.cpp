@@ -698,12 +698,17 @@ void uimenu::query(bool loop) {
  * cleanup
  */
 uimenu::~uimenu() {
+    reset();
+}
+
+void uimenu::reset() {
     if (window != NULL) {
         werase(window);
         wrefresh(window);
         delwin(window);
         window = NULL;
     }
+
     init();
 }
 

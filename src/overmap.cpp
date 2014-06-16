@@ -1507,7 +1507,8 @@ int overmap::dist_from_city(point p)
 void overmap::draw(WINDOW *w, const tripoint &center,
                    const tripoint &orig, bool blink,
                    input_context *inp_ctxt,
-                   bool debug_monstergroups)
+                   bool debug_monstergroups,
+                   const int iZoneIndex)
 {
     const int z = center.z;
     const int cursx = center.x;
@@ -1531,6 +1532,15 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     long ter_sym;
     // sight_points is hoisted for speed reasons.
     int sight_points = g->u.overmap_sight_range(g->light_level());
+
+    std::string sZoneName = "";
+    tripoint tripointZone = tripoint(-1, -1, -1);
+
+    if (iZoneIndex != -1) {
+        sZoneName = g->m.Zones.vZones[iZoneIndex].getName();
+        point pOMZone = overmapbuffer::ms_to_omt_copy(g->m.Zones.vZones[iZoneIndex].getCenterPoint());
+        tripointZone = tripoint(pOMZone.x, pOMZone.y);
+    }
 
     // If we're debugging monster groups, find the monster group we've selected
     const mongroup *mgroup = NULL;
@@ -1683,14 +1693,19 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 ter_color = c_cyan;
                 ter_sym = 'c';
             } else {
-                // Nothing special, but is visible to the player.
-                if (otermap.find(cur_ter) == otermap.end()) {
-                    debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
-                    ter_color = c_red;
-                    ter_sym = '?';
+                if (sZoneName != "" && tripointZone.x == omx && tripointZone.y == omy) {
+                    ter_color = c_yellow;
+                    ter_sym = 'Z';
                 } else {
-                    ter_color = otermap[cur_ter].color;
-                    ter_sym = otermap[cur_ter].sym;
+                    // Nothing special, but is visible to the player.
+                    if (otermap.find(cur_ter) == otermap.end()) {
+                        debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
+                        ter_color = c_red;
+                        ter_sym = '?';
+                    } else {
+                        ter_color = otermap[cur_ter].color;
+                        ter_sym = otermap[cur_ter].sym;
+                    }
                 }
             }
 
@@ -1796,6 +1811,20 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         om.print_vehicles(w, x, y, z);
     }
 
+    if (sZoneName != "" && tripointZone.x == cursx && tripointZone.y == cursy) {
+        std::string sTemp = _("Zone:");
+        sTemp += " " + sZoneName;
+
+        const int length = utf8_width(sTemp.c_str());
+        for (int i = 0; i <= length; i++) {
+            mvwputch(w, om_map_height-2, i, c_white, LINE_OXOX);
+        }
+
+        mvwprintz(w, om_map_height-1, 0, c_yellow, "%s", sTemp.c_str());
+        mvwputch(w, om_map_height-2, length, c_white, LINE_OOXX);
+        mvwputch(w, om_map_height-1, length, c_white, LINE_XOXO);
+    }
+
     // Draw the vertical line
     for (int j = 0; j < om_map_height; j++) {
         mvwputch(w, j, om_map_width, c_white, LINE_XOXO);
@@ -1866,13 +1895,17 @@ tripoint overmap::draw_overmap(int z)
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
+tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
 {
     WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
     bool blink = true;
 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
+
+    if (select.x != -1 && select.y != -1 && select.z != -1) {
+        curs = tripoint(select);
+    }
 
     // Configure input context for navigating the map.
     input_context ictxt("OVERMAP");
@@ -1892,8 +1925,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
     ictxt.register_action("QUIT");
     std::string action;
     do {
-        timeout(BLINK_SPEED); // Enable blinking!
-        draw(w_map, curs, orig, blink, &ictxt, debug_mongroup);
+        timeout( BLINK_SPEED );
+        draw(w_map, curs, orig, blink, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1973,7 +2006,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
                 mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
                 wrefresh(w_search);
-                timeout(BLINK_SPEED); // Enable blinking!
+                timeout( BLINK_SPEED );
                 action = ctxt.handle_input();
                 timeout(-1);
                 blink = !blink;

@@ -606,6 +606,8 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             for ( int reti = shift, scri = 0; scri <= scrmax; reti++, scri++ ) {
                 if( reti < ret.size() ) {
                     mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : string_color ), ret[reti] );
+                } else if( max_length > 0 && reti >= max_length) {
+                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), ' ');
                 } else {
                     mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), '_');
                 }
@@ -614,11 +616,15 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             if ( lastpos >= shift && lastpos <= shift + scrmax ) {
                 if ( lastpos - shift >= 0 && lastpos - shift < ret.size() ) {
                     mvwputch(w, starty, startx + lastpos, string_color, ret[lastpos - shift]);
+                } else if( max_length > 0 && lastpos >= max_length) {
+                    mvwputch(w, starty, startx + lastpos, underscore_color, ' ' );
                 } else {
                     mvwputch(w, starty, startx + lastpos, underscore_color, '_' );
                 }
             }
-            if (pos < ret.size() ) {
+            if( max_length > 0 && pos >= max_length) {
+                mvwputch(w, starty, startx + pos, cursor_color, ' ' );
+            } else if (pos < ret.size() ) {
                 mvwputch(w, starty, startx + pos, cursor_color, ret[pos - shift]);
             } else {
                 mvwputch(w, starty, startx + pos, cursor_color, '_' );
@@ -1274,7 +1280,7 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile)
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
 
-    timeout(70);
+    timeout(OPTIONS["ANIMATION_DELAY"]);
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
 }
@@ -1536,10 +1542,10 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
     iPosY = p_iPosY;
 
     oDir = p_oDir;
-    const std::pair<int, int> pairDirXY = direction_XY(oDir);
+    point pairDirXY = direction_XY(oDir);
 
-    iDirX = pairDirXY.first;
-    iDirY = pairDirXY.second;
+    iDirX = pairDirXY.x;
+    iDirY = pairDirXY.y;
 
     iStep = 0;
     iStepOffset = 0;

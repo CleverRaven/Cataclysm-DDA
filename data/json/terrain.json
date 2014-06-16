@@ -270,6 +270,16 @@
         ]
     },{
         "type" : "terrain",
+        "id" : "t_utility_light",
+        "name": "Utility Light",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
         "id" : "t_wall_log_half",
         "name": "half-built wall",
         "symbol": "#",

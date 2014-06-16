@@ -79,14 +79,19 @@ struct explosion_data {
 };
 
 struct itype {
-    itype_id id; // ID # that matches its place in master itype list
+    itype_id id; // unique string identifier for this item,
+    // can be used as lookup key in master itype map
     // Used for save files; aligns to itype_id above.
     unsigned int  price; // Its value
 
+protected:
+    friend class Item_factory;
+    // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
     std::string name;        // Proper name, singular form, in American English.
     std::string name_plural; // name, plural form, in American English.
+public:
     std::string description; // Flavor text
 
     char sym;       // Symbol on the map
@@ -130,7 +135,7 @@ struct itype {
 
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-    virtual std::string nname(unsigned int quantity)
+    virtual std::string nname(unsigned int quantity) const
     {
         return ngettext(name.c_str(), name_plural.c_str(), quantity);
     }

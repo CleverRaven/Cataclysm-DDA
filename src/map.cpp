@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "item_factory.h"
 #include "messages.h"
+#include "mapsharing.h"
 
 extern bool is_valid_in_w_terrain(int,int);
 
@@ -2350,6 +2351,57 @@ std::vector<item>& map::i_at(const int x, const int y)
  return current_submap->itm[lx][ly];
 }
 
+itemslice map::i_stacked(std::vector<item>& items)
+{
+    //create a new container for our stacked items
+    itemslice islice;
+
+    //iterate through all items in the vector
+    for (auto it = items.begin(); it != items.end(); it++) {
+        bool list_exists = false;
+
+        //iterate through stacked item lists
+        for(auto curr = islice.begin(); curr != islice.end(); curr++) {
+            //check if the ID exists
+            item *first_item = curr->front();
+            if (first_item->type->id == it->type->id) {
+                //we've found the list of items with the same type ID
+
+                if (it->charges != -1 && (it->is_food() || it->is_ammo())) {
+                    //add charges to existing food/ammo item
+                    first_item->charges += it->charges;
+                    list_exists = true;
+                    break;
+                } else if (first_item->stacks_with(*it)) {
+                    if (first_item->is_food() && first_item->has_flag("HOT")) {
+                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
+                        first_item->item_counter = tmpcounter;
+                        it->item_counter = tmpcounter;
+                    }
+
+                    //add it to the existing list
+                    curr->push_back(&*it);
+                    list_exists = true;
+                    break;
+                }
+            }
+        }
+
+        if(!list_exists) {
+            //add the item to a new list
+            std::list<item*> newList;
+            newList.push_back(&*it);
+
+            //insert the list into islice
+            islice.push_back(newList);
+        }
+
+    } //end items loop
+
+    return islice;
+}
+
+
 bool map::sees_some_items(int x, int y, const player &u)
 {
     if(i_at(x, y).empty()) {
@@ -2400,6 +2452,20 @@ void map::i_rem(const int x, const int y, const int index)
  if (index > i_at(x, y).size() - 1)
   return;
  i_at(x, y).erase(i_at(x, y).begin() + index);
+}
+
+void map::i_rem(const int x, const int y, item* it)
+{
+    std::vector<item>& map_items = i_at(x, y);
+
+    for(auto iter = map_items.begin(); iter < map_items.end(); iter++)
+    {
+        //delete the item if the pointer memory addresses are the same
+        if(it == &*iter) {
+            map_items.erase(iter);
+            break;
+        }
+    }
 }
 
 void map::i_clear(const int x, const int y)
@@ -5128,4 +5194,191 @@ void map::add_road_vehicles(bool city, int facing)
             }
         }
     }
+}
+
+map::clZones::clZones()
+{
+    //Add new zone types here
+    //Use: if (g->checkZone("ZONE_NAME", posx, posy)) {
+    //to check for a zone
+
+    vZoneTypes.push_back(std::make_pair(_("No Auto Pickup"), "NO_AUTO_PICKUP"));
+}
+
+void map::clZones::clZoneData::setName()
+{
+    const std::string sName = string_input_popup(_("Zone name:"), 55, this->sName, "", "", 15);
+
+    this->sName = (sName == "") ? _("<no name>") : sName;
+}
+
+void map::clZones::clZoneData::setZoneType(std::vector<std::pair<std::string, std::string> > vZoneTypes)
+{
+    uimenu as_m;
+    as_m.text = _("Select zone type:");
+
+    for (unsigned int i=0; i < vZoneTypes.size(); ++i) {
+        as_m.entries.push_back(uimenu_entry(i+1, true, (char)i+1, vZoneTypes[i].first));
+    }
+    as_m.query();
+
+    this->sZoneType = vZoneTypes[((as_m.ret >= 1) ? as_m.ret : 1) - 1].second;
+}
+
+void map::clZones::clZoneData::setEnabled(const bool p_bEnabled)
+{
+    this->bEnabled = p_bEnabled;
+}
+
+point map::clZones::clZoneData::getCenterPoint()
+{
+    return point((pointStartXY.x + pointEndXY.x) / 2, (pointStartXY.y + pointEndXY.y) / 2);
+}
+
+std::string map::clZones::getNameFromType(const std::string p_sType)
+{
+    for (unsigned int i=0; i < vZoneTypes.size(); ++i) {
+        if (vZoneTypes[i].second == p_sType) {
+            return vZoneTypes[i].first;
+        }
+    }
+
+    return "Unknown Type";
+}
+
+bool map::clZones::hasType(const std::string p_sType)
+{
+    for (unsigned int i=0; i < vZoneTypes.size(); ++i) {
+        if (vZoneTypes[i].second == p_sType) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void map::clZones::cacheZoneData()
+{
+    mZones.clear();
+
+    for (unsigned int i=0; i < vZones.size(); ++i) {
+        if (vZones[i].getEnabled()) {
+            const std::string sType = vZones[i].getZoneType();
+
+            point pStart = vZones[i].getStartPoint();
+            point pEnd = vZones[i].getEndPoint();
+
+            //draw marked area
+            for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
+                for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
+                    mZones[sType].insert((iX * 100000) + iY);
+                }
+            }
+        }
+    }
+}
+
+bool map::clZones::hasZone(const std::string p_sType, const point p_pointInput)
+{
+    //sure two ints as one unique int
+    unsigned int iTemp = (p_pointInput.x * 100000) + p_pointInput.y;
+    return (mZones[p_sType].find(iTemp) != mZones[p_sType].end());
+}
+
+void map::clZones::serialize(JsonOut &json) const
+{
+    json.start_array();
+    for (unsigned int i=0; i < vZones.size(); ++i) {
+        json.start_object();
+
+        json.member("name", vZones[i].getName());
+        json.member("type", vZones[i].getZoneType());
+        json.member("invert", vZones[i].getInvert());
+        json.member("enabled", vZones[i].getEnabled());
+
+        point pointStart = vZones[i].getStartPoint();
+        point pointEnd = vZones[i].getEndPoint();
+
+        json.member("start_x", pointStart.x);
+        json.member("start_y", pointStart.y);
+        json.member("end_x", pointEnd.x);
+        json.member("end_y", pointEnd.y);
+
+        json.end_object();
+    }
+
+    json.end_array();
+}
+
+void map::clZones::deserialize(JsonIn &jsin)
+{
+    vZones.clear();
+
+    jsin.start_array();
+    while (!jsin.end_array()) {
+        JsonObject joZone = jsin.get_object();
+
+        const std::string sName = joZone.get_string("name");
+        const std::string sType = joZone.get_string("type");
+
+        const bool bInvert = joZone.get_bool("invert");
+        const bool bEnabled = joZone.get_bool("enabled");
+
+        const int iStartX = joZone.get_int("start_x");
+        const int iStartY = joZone.get_int("start_y");
+        const int iEndX = joZone.get_int("end_x");
+        const int iEndY = joZone.get_int("end_y");
+
+        if (hasType(sType)) {
+            add(sName, sType, bInvert, bEnabled, point(iStartX, iStartY), point(iEndX, iEndY));
+        }
+    }
+
+    cacheZoneData();
+}
+
+bool map::save_zones()
+{
+    Zones.cacheZoneData();
+
+    std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".zones.json";
+
+    try {
+        std::ofstream fout;
+        fout.exceptions(std::ios::badbit | std::ios::failbit);
+
+        fopen_exclusive(fout, savefile.c_str());
+        if(!fout.is_open()) {
+            return true; //trick game into thinking it was saved
+        }
+
+        fout << Zones.serialize();
+        fclose_exclusive(fout, savefile.c_str());
+        return true;
+
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save zones to %s"), savefile.c_str());
+        return false;
+    }
+}
+
+void map::load_zones()
+{
+    std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".zones.json";
+
+    std::ifstream fin;
+    fin.open(savefile.c_str(), std::ifstream::in | std::ifstream::binary);
+    if(!fin.good()) {
+        fin.close();
+        return;
+    }
+
+    try {
+        JsonIn jsin(fin);
+        Zones.deserialize(jsin);
+    } catch (std::string e) {
+        dbg(D_ERROR) << "load_zones: " << e;
+    }
+
+    fin.close();
 }

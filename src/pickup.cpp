@@ -202,13 +202,45 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
         }
 
-        if (isEmpty) {
+        if (isEmpty && (min != -1 || !OPTIONS["AUTO_PICKUP_ADJACENT"] )) {
             return;
         }
     }
 
     // which items are we grabbing?
     std::vector<item> here = pickup_obj.from_veh ? veh->parts[cargo_part].items : g->m.i_at(posx, posy);
+    std::vector<direction> vItemDir;
+    std::map<direction, int> vItemIndex;
+
+    vItemIndex[CENTER] = 0;
+    for (int i=0; i < here.size(); ++i) {
+        vItemDir.push_back(CENTER);
+    }
+
+    if (min == -1) {
+        if (g->checkZone("NO_AUTO_PICKUP", posx, posy)) {
+            here.clear();
+        }
+
+        if (OPTIONS["AUTO_PICKUP_ADJACENT"]) {
+            //Autopickup adjacent
+            direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+            for (int i=0; i < 8; i++) {
+                vItemIndex[adjacentDir[i]] = 0;
+
+                point pairDir = direction_XY(adjacentDir[i]);
+
+                if (!g->checkZone("NO_AUTO_PICKUP", posx + pairDir.x, posy + pairDir.y)) {
+                    std::vector<item> hereTemp = g->m.i_at(posx + pairDir.x, posy + pairDir.y);
+
+                    for (int j=0; j < hereTemp.size(); j++) {
+                        vItemDir.push_back(adjacentDir[i]);
+                        here.push_back(hereTemp[j]);
+                    }
+                }
+            }
+        }
+    }
 
     // Not many items, just grab them
     if (here.size() <= min && min != -1) {
@@ -228,8 +260,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                 handle_quiver_insertion(newit, false, moves_taken, picked_up);
                 if (newit.charges > 0) {
                     add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                             "There's no room in your inventory for the %ss.",
-                                             newit.charges), newit.name.c_str());
+                                             "There's no room in your inventory for the %s.",
+                                             newit.charges), newit.tname(newit.charges).c_str());
                 }
             } else if (g->u.is_armed()) {
                 if (!g->u.weapon.has_flag("NO_UNWIELD")) {
@@ -437,7 +469,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         ) ) {
                 idx = selected;
             } else if ( ch == '`' ) {
-                std::string ext = string_input_popup(_("Enter 2 letters (case sensitive):"), 2);
+                std::string ext = string_input_popup(
+                    _("Enter 2 letters (case sensitive):"), 3, "", "", "", 2);
                 if(ext.size() == 2) {
                     int p1 = pickup_chars.find(ext.at(0));
                     int p2 = pickup_chars.find(ext.at(1));
@@ -613,11 +646,13 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     // At this point we've selected our items, now we add them to our inventory
-    int curmit = 0;
     bool got_water = false; // Did we try to pick up water?
     bool offered_swap = false;
     std::map<std::string, int> mapPickup;
+
     for (size_t i = 0; i < here.size(); i++) {
+        const direction dirThisItem = vItemDir[i];
+
         if (getitem[i] && here[i].made_of(LIQUID)) {
             got_water = true;
         } else if (getitem[i]) {
@@ -652,8 +687,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         }
 
                         add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                                 "There's no room in your inventory for the %ss.",
-                                                 here[i].charges), here[i].name.c_str());
+                                                 "There's no room in your inventory for the %s.",
+                                                 here[i].charges), here[i].tname(here[i].charges).c_str());
                     }
                 } else if (g->u.is_armed()) {
                     if (!g->u.weapon.has_flag("NO_UNWIELD")) {
@@ -707,8 +742,9 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
 
             if (picked_up) {
-                pickup_obj.remove_from_map_or_vehicle(posx, posy, veh, cargo_part, moves_taken, curmit);
-                curmit--;
+                point pairDir = direction_XY(dirThisItem);
+                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.x, posy + pairDir.y, veh, cargo_part, moves_taken, vItemIndex[dirThisItem]);
+                vItemIndex[dirThisItem]--;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !pickup_obj.from_veh;
 
@@ -721,7 +757,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
             }
         }
-        curmit++;
+        vItemIndex[dirThisItem]++;
     }
 
     // Auto pickup item message
