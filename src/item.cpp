@@ -2697,19 +2697,70 @@ int item::clip_size()
     return ret;
 }
 
-int item::dispersion()
+int item::dispersion() const
 {
-    if (!is_gun())
+    if (!is_gun()) {
         return 0;
-    it_gun* gun = dynamic_cast<it_gun*>(type);
-    int ret = gun->dispersion;
-    for (size_t i = 0; i < contents.size(); i++) {
-        if (contents[i].is_gunmod())
-            ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
     }
-    ret += damage * 4;
-    if (ret < 0) ret = 0;
-    return ret;
+    it_gun* gun = dynamic_cast<it_gun*>(type);
+    int dispersion_sum = gun->dispersion;
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_gunmod()) {
+            dispersion_sum += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
+        }
+    }
+    dispersion_sum += damage * 4;
+    if (dispersion_sum < 0) dispersion_sum = 0;
+    return dispersion_sum;
+}
+
+// Sight dispersion and aim speed pick the best sight bonus to use.
+// The best one is the fastest one whose dispersion is under the threshold.
+int item::sight_dispersion( int aim_threshold ) const
+{
+    if (!is_gun()) {
+        return 0;
+    }
+    it_gun* gun = dynamic_cast<it_gun*>(type);
+    int best_dispersion = gun->sight_dispersion;
+    int best_aim_speed = INT_MAX;
+    if( gun->sight_dispersion < aim_threshold ) {
+        best_aim_speed = gun->aim_speed;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_gunmod()) {
+            it_gunmod *mod = dynamic_cast<it_gunmod*>(contents[i].type);
+            if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
+                mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) {
+                best_aim_speed = mod->aim_speed;
+                best_dispersion = mod->sight_dispersion;
+            }
+        }
+    }
+    return best_dispersion;
+}
+
+// This method should never be called if the threshold exceeds the accuracy of the available sights.
+int item::aim_speed( int aim_threshold ) const
+{
+    if (!is_gun()) {
+        return 0;
+    }
+    it_gun* gun = dynamic_cast<it_gun*>(type);
+    int best_aim_speed = INT_MAX;
+    if( gun->sight_dispersion < aim_threshold ) {
+        best_aim_speed = gun->aim_speed;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_gunmod()) {
+            it_gunmod *mod = dynamic_cast<it_gunmod*>(contents[i].type);
+            if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
+                mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) {
+                best_aim_speed = mod->aim_speed;
+            }
+        }
+    }
+    return best_aim_speed;
 }
 
 int item::gun_damage(bool with_ammo)
