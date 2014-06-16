@@ -670,6 +670,9 @@ private:
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
  std::map<trap_id, std::set<point> > traplocs;
+ //for hordes
+ void light_signal(int x, int y, int lum);
+ int last_light_signal_turn;
 };
 
 std::vector<point> closest_points_first(int radius, point p);

@@ -418,6 +418,13 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
     return result;
 }
 
+void overmapbuffer::move_hordes()
+{
+    for (std::list<overmap>::iterator it=overmap_list.begin();
+        it != overmap_list.end(); ++it)
+        it->move_hordes();
+}
+
 bool overmapbuffer::is_safe(int x, int y, int z)
 {
     overmap &om = get_om_global(x, y);

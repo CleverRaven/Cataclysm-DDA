@@ -202,6 +202,7 @@ public:
         return get_notes(z, &pattern); // filter with pattern
     }
     // hordes
+    void move_hordes();
     std::vector<mongroup*> monsters_at(int x, int y, int z);
 
     // overmap terrain to overmap

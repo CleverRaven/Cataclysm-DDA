@@ -2098,6 +2098,7 @@ void overmap::move_hordes()
                 zg[i].wander();
             } else {
                 zg[i].dec_interest( 1 );
+                if (zg[i].interest<=15 && one_in(5) ) zg[i].wander();
             }
         }
     }
@@ -2106,31 +2107,85 @@ void overmap::move_hordes()
 /**
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
-void overmap::signal_hordes( const int x, const int y, const int sig_power)
+void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_power)
 {
-    // TODO: Signal adjacent overmaps too. (the 3 nearest ones)
-    for( size_t i = 0; i < zg.size(); i++ ) {
-        if( zg[i].horde ) {
-            const int dist = rl_dist( x, y, zg[i].posx, zg[i].posy );
-            if( sig_power <= dist ) {
-                continue;
+  int d_inter,targ_dist;
+  if (g->levz != 0) return;
+  for (int i = 0; i < zg.size(); i++ )
+  {
+    d_inter=0;
+    if ( zg[i].horde )
+    {
+      switch ( sig_type ) {
+        case HSIG_NOICE: d_inter=signal_hordes_noice(x, y, sig_power,zg[i]); break;
+        case HSIG_LIGHT: d_inter=signal_hordes_light(x, y, sig_power,zg[i]); break;
+      }
+    }
+    if (d_inter != 0) {
+      targ_dist = trig_dist(x, y, zg[i].tx, zg[i].ty);
+      const int roll = rng( 0,zg[i].interest );
+      if (roll < d_inter)
+        {
+          if (targ_dist < 5)
+            {
+              zg[i].set_target( (zg[i].tx + x) / 2, (zg[i].ty + y) / 2 ) ;
+              zg[i].inc_interest(d_inter);
             }
-            // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int d_inter = (sig_power - dist) * 5;
-            const int roll = rng( 0, zg[i].interest );
-            if( roll < d_inter ) {
-                const int targ_dist = rl_dist( x, y, zg[i].tx, zg[i].ty );
-                // TODO: Base this on targ_dist:dist ratio.
-                if (targ_dist < 5) {
-                    zg[i].set_target( (zg[i].tx + x) / 2, (zg[i].ty + y) / 2 );
-                    zg[i].inc_interest( d_inter );
-                } else {
-                    zg[i].set_target( x, y );
-                    zg[i].set_interest( d_inter );
-                }
+            else
+            {
+              zg[i].set_target(x, y);
+              zg[i].set_interest(d_inter);
             }
         }
     }
+  }
+
+
+}
+
+int overmap::signal_hordes_noice(int x, int y, int sig_power, mongroup zg)
+{
+    int dist, d_inter;
+    dist = trig_dist(x, y, zg.posx, zg.posy);
+    if (g->weather == WEATHER_LIGHTNING || g->weather == WEATHER_LIGHTNING) sig_power-= 10;
+    if (sig_power <= dist) return 0; else return (sig_power - dist) * 5;
+}
+
+int overmap::signal_hordes_light(int x, int y, int sig_power, mongroup zg)
+{
+  if ( sig_power < 3 ) return 0;
+  int dist,ret=0;
+  dist = trig_dist(x, y, zg.posx, zg.posy);
+
+  int near_dist = 5;
+  int max_dist = ( 100 - (g->light_level() * 2) );
+
+  if (g->weather == WEATHER_LIGHTNING) max_dist = ( (max_dist > 20) ? 20: max_dist );
+
+  max_dist = max_dist<10 ? 10: max_dist;
+
+  if (dist > max_dist) return 0;
+  std::vector<point> line = line_to(x, y, zg.posx, zg.posy, 0);
+
+  int see_range=0;
+  point test;
+  for (size_t i = 0; i < line.size() && max_dist >= see_range; i++) {
+                test = to_big_overmap_coord( line[i] );
+                const oter_id &ter = overmap_buffer.ter(test.x, test.y, 0);
+                const int cost = otermap[ter].see_cost;
+                see_range += cost;
+            }
+  if (max_dist >= see_range) ret = ( (dist < near_dist) ? 20 : 10 );
+
+  return ret;
+}
+
+point overmap::to_big_overmap_coord(point p)
+{
+    int retx = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().x * OMAPX;
+    int rety = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().y * OMAPY;
+
+    return point(retx,rety);
 }
 
 void grow_forest_oter_id(oter_id &oid, bool swampy)
