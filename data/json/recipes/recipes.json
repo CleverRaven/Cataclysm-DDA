@@ -19406,6 +19406,7 @@
 },{
         "type" : "recipe",
   "result": "rope_6",
+  "id_suffix": "from_string",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "tailor",
@@ -19418,6 +19419,26 @@
       [ "string_36", 6 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "rope_6",
+  "id_suffix": "from_cloth",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      ["rag", 30],
+      ["leather", 30]
+    ]
+  ]  
 },{
         "type" : "recipe",
   "result": "rope_30",
