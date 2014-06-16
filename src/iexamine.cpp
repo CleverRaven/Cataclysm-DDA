@@ -851,7 +851,6 @@ void iexamine::safe(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::bulletin_board(player *p, map *m, int examx, int examy) {
-    (void)g; (void)p; //unused
     basecamp *camp = m->camp_at(examx, examy);
     if (camp && camp->board_x() == examx && camp->board_y() == examy) {
         std::vector<std::string> options;
@@ -879,7 +878,7 @@ void iexamine::bulletin_board(player *p, map *m, int examx, int examy) {
 
 void iexamine::fault(player *p, map *m, int examx, int examy)
 {
-    (void)g; (void)p; (void)m; (void)examx; (void)examy; //unused
+    (void)p; (void)m; (void)examx; (void)examy; //unused
     popup(_("\
 This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
 as far back into the solid rock as you can see.  The holes are humanoid in\n\
@@ -1984,7 +1983,6 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
 
 void iexamine::sign(player *p, map *m, int examx, int examy)
 {
-    (void)g; //unused
     std::string existing_signage = m->get_signage(examx, examy);
     bool previous_signage_exists = (bool)existing_signage.size();
 
