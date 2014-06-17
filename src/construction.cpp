@@ -746,6 +746,12 @@ void construct::done_deconstruct(point p)
         }
         add_msg(_("You disassemble the %s."), f.name.c_str());
         g->m.spawn_item_list(f.deconstruct.items, p.x, p.y);
+        // Hack alert.
+        // Signs have cosmetics associated with them on the submap since 
+        // furniture can't store dynamic data to disk. To prevent writing
+        // mysteriously appearing for a sign later built here, remove the
+        // writing from the submap.
+        g->m.delete_signage(p.x, p.y);
     } else {
         ter_t &t = g->m.ter_at(p.x, p.y);
         if (!t.deconstruct.can_do) {

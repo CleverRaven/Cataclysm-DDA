@@ -540,8 +540,17 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
                 if (!item_controller->has_group(tmp_type)) {
                     jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
                 }
+            } else if (tmpval == "sign") {
+                tmpop = JMAPGEN_PLACESPECIAL_SIGN;
+                // Distinct to signs
+                if (!jsi.has_member("signage")) {
+                    jsi.throw_error("  place_specials: signs must have a signage member (the written text for the sign).");
+                }
+                // Because the "type" member is open for use, make use of it
+                // to act as the label of the sign.
+                tmp_type = jsi.get_string("signage");
             } else {
-            jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
+                jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
             }
         } else {
             parray.throw_error("placing other specials is not supported yet"); return;
@@ -844,6 +853,12 @@ void jmapgen_place_special::apply( map * m ) {
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
             m->furn_set(x.get(), y.get(), f_null);
             m->place_vending(x.get(), y.get(), type);
+        } break;
+        case JMAPGEN_PLACESPECIAL_SIGN: {
+            // type meaning here: the writing on the sign, not the type of sign.
+            m->furn_set(x.get(), y.get(), f_null);
+            m->furn_set(x.get(), y.get(), "f_sign");
+            m->set_signage(x.get(), y.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
@@ -11177,6 +11192,7 @@ void map::rotate(int turns)
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
+    std::string signage_rot[SEEX * 2][SEEY * 2];
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
     computer tmpcomp;
@@ -11204,6 +11220,7 @@ void map::rotate(int turns)
             furnrot[old_x][old_y] = furn(new_x, new_y);
             itrot [old_x][old_y] = i_at(new_x, new_y);
             traprot[old_x][old_y] = tr_at(new_x, new_y);
+            signage_rot[old_x][old_y] = get_signage(new_x, new_y);
             i_clear(new_x, new_y);
         }
     }
@@ -11343,6 +11360,7 @@ void map::rotate(int turns)
             furn_set(i, j, furnrot[i][j]);
             i_at(i, j) = itrot [i][j];
             add_trap(i, j, traprot[i][j]);
+            set_signage(i, j, signage_rot[i][j]);
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
                 if (ter(i, j) == t_wall_v) {
                     ter_set(i, j, t_wall_h);

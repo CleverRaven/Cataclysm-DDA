@@ -488,6 +488,32 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_sign",
+        "name": "sign",
+        "symbol": "P",
+        "color": "brown",
+        "examine_action": "sign",
+        "move_cost_mod": 1,
+        "required_str": 8,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "ASH", "ORGANIC", "MOUNTABLE"],
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "amount": 3 },
+                { "item": "nail", "amount": 5, "minamount": 2 }
+            ]
+        },
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 2, "minamount": 1},
+                { "item": "nail", "amount": 4, "minamount": 2},
+                { "item": "splinter", "amount": 2 }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_pool_table",
         "name": "pool table",
         "symbol": "#",
