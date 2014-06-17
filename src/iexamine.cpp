@@ -851,12 +851,13 @@ void iexamine::safe(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::bulletin_board(player *p, map *m, int examx, int examy) {
+    (void)p;
     basecamp *camp = m->camp_at(examx, examy);
     if (camp && camp->board_x() == examx && camp->board_y() == examy) {
         std::vector<std::string> options;
         options.push_back(_("Cancel"));
         // Causes a warning due to being unused, but don't want to delete
-        // since it's clearly what's intened for future functionality.
+        // since it's clearly what's intended for future functionality.
         //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
     } else {
         bool create_camp = m->allow_camp(examx, examy);
