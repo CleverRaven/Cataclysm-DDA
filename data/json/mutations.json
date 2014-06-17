@@ -1941,11 +1941,11 @@
         "name" : "Resilient",
         "points" : 3,
         "description" : "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points. Stacks with Tough, etc.",
-        "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3"],
-        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA"],
+        "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3", "MASOCHIST_MED"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH2"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH2",
@@ -1954,10 +1954,10 @@
         "description" : "Not much scares you. You get a 30% bonus to all hit points. Stacks with Tough, etc.",
         "valid" : false,
         "prereqs" : ["MUT_TOUGH"],
-        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH3"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH3",
@@ -2004,6 +2004,7 @@
         "prereqs" : ["MASOCHIST", "PAINRESIST", "ADDICT"],
         "prereqs2" : ["PAINREC2", "PAINREC3"],
         "threshreq" : ["THRESH_MEDICAL"],
+        "leads_to" : ["MUT_TOUGH"],
         "changes_to" : ["CENOBITE"],
         "note" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
         "category" : ["MUTCAT_MEDICAL"]
@@ -2277,7 +2278,7 @@
         "description" : "You have grown noticeably taller and broader. Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "changes_to": ["LARGE_OK", "HUGE"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "LARGE_OK",
@@ -2288,9 +2289,10 @@
         "description" : "You carry your rugged body with the dignity you deserve. Strength +2.",
         "prereqs" : ["LARGE"],
         "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
-        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD"],
         "changes_to": ["HUGE"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "leads_to" : ["MUT_TOUGH"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "HUGE",
@@ -2316,6 +2318,7 @@
         "prereqs" : ["HUGE"],
         "prereqs2" : ["STR_UP_3", "STR_UP_4"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "leads_to" : ["MUT_TOUGH"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
@@ -2343,6 +2346,7 @@
         "description" : "Your muscles are much stronger. Strength + 4",
         "prereqs" : ["STR_UP_2"],
         "changes_to" : ["STR_UP_4"],
+        "leads_to" : ["MUT_TOUGH"],
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
