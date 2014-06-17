@@ -273,7 +273,8 @@
     "name_plural": "pipe rifles: .22",
     "description": "A home-made rifle. It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "price": 80000,
-    "material": ["steel", "wood"],
+    "material": ["steel", "wood",
+    "flags": ["RELOAD_ONE", "RELOAD_EJECT"]],
     "skill": "rifle",
     "ammo": "22",
     "weight": 1953,
@@ -301,6 +302,7 @@
     "description": "A home-made rifle. It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "price": 90000,
     "material": ["steel", "wood"],
+    "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
     "skill": "rifle",
     "ammo": "9mm",
     "weight": 2114,
@@ -518,7 +520,7 @@
     "description": "A seven-round .38 revolver sold by Smith & Wesson. It features a fixed rear sight and a reinforced frame.",
     "price": 145000,
     "material": ["steel", "plastic"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS","RELOAD_EJECT"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "38",
     "weight": 1074,
@@ -600,7 +602,7 @@
     "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
     "price": 140000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS","RELOAD_EJECT"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "40",
     "weight": 1133,
@@ -628,7 +630,7 @@
     "description": "The 5-shot Smith and Wesson 500 revolver fires the comparably-named .500 S&W Magnum. It's an impressive weapon.",
     "price": 200000,
     "material": ["steel", "plastic"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS","RELOAD_EJECT"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "500",
     "weight": 2055,
@@ -684,7 +686,7 @@
     "description": "One of the most powerful handguns in the world when it was released in 1979, the Redhawk offers very sturdy construction, with an appearance that is reminiscent of \"Wild West\" revolvers.",
     "price": 156000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS","RELOAD_EJECT"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "44",
     "weight": 1386,
@@ -901,7 +903,7 @@
     "description": "An old shotgun, possibly antique. It is little more than a barrel, a wood stock, and a hammer to strike the cartridge. Its simple design keeps it both light and accurate.",
     "price": 60000,
     "material": ["iron", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS","RELOAD_EJECT"],
     "skill": "shotgun",
     "ammo": "shot",
     "weight": 5216,
@@ -2003,7 +2005,7 @@
     "burst": 30,
     "clip_size": 200,
     "reload": 750,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "v29",
@@ -2261,7 +2263,7 @@
     "description": "The Milkor Multi-Grenade Launcher is designed to compensate for the drawback of single-shot grenade launchers by allowing sustained heavy firepower. However, it is still slow to reload and must be used with careful planning.",
     "price": 1040000,
     "material": "steel",
-    "flags": ["RELOAD_ONE", "MODE_BURST", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "MODE_BURST", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "launcher",
     "ammo": "40mm",
     "weight": 5300,
@@ -2423,7 +2425,7 @@
     "description": "A shotgun modified to use a revolver cylinder mechanism, it can hold 6 cartridges.",
     "price": 60000,
     "material": ["iron", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS","RELOAD_EJECT"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "shotgun",
     "ammo": "shot",
     "weight": 5443,
@@ -2439,7 +2441,7 @@
     "burst": 0,
     "clip_size": 6,
     "reload": 100,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "pipe_shotgun",
@@ -2450,7 +2452,7 @@
     "description": "A home-made shotgun. It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "price": 20000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "shotgun",
     "ammo": "shot",
     "weight": 2267,
@@ -2504,7 +2506,7 @@
     "description": "A home-made sawn off shotgun. It is simply a short pipe attached to a stock, with a hammer to strike the single round it holds.",
     "price": 15000,
     "material": ["iron", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "shotgun",
     "ammo": "shot",
     "weight": 1133,
@@ -2549,7 +2551,7 @@
     "burst": 0,
     "clip_size": 15,
     "reload": 300,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "rm51_assault_rifle",
@@ -2739,7 +2741,7 @@
     "burst": 5,
     "clip_size": 15,
     "reload": 280,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "helsing",
@@ -2803,7 +2805,7 @@
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
     "price": 100000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "shot",
     "weight": 828,
@@ -2819,7 +2821,7 @@
     "burst": 0,
     "clip_size": 1,
     "reload": 80,
-    "valid_mod_locations": [[ "grip", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 1 ],[ "grip", 1 ],[ "stock", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
     "id": "flaregun",
@@ -2830,7 +2832,7 @@
     "description": "A plastic single shot pistol made to fire signal flares.",
     "price": 50000,
     "material": ["plastic", "steel"],
-    "flags": ["RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "signal_flare",
     "weight": 213,
@@ -2901,7 +2903,8 @@
     "burst": 1,
     "durability": 8,
     "clip_size": 50,
-    "reload": 4000
+    "reload": 4000,
+    "valid_mod_locations": [[ "grip", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "m3_carlgustav",
@@ -3205,7 +3208,7 @@
     "burst": 25,
     "clip_size": 200,
     "reload": 800,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
  },
  {
     "id": "mark19",
@@ -3232,7 +3235,7 @@
     "burst": 10,
     "clip_size": 80,
     "reload": 800,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
  },
  {
     "id": "moss_brownie",
@@ -3244,7 +3247,7 @@
     "description": "A four-barreled, .22 Long Rifle pistol, similar to a derringer or pepperbox, produced by O.F. Mossberg & Sons from 1920 to 1932.",
     "price": 110000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "22",
     "weight": 364,
@@ -3272,7 +3275,7 @@
     "description": "The COP 38 is a four-shot derringer-type pistol chambered for the .38 round. It was designed by Robert Hillberg, based on his earlier work on the Hillberg Insurgency Weapon.",
     "price": 120000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "pistol",
     "ammo": "38",
     "weight": 857,
@@ -3793,7 +3796,7 @@
     "description": "A custom made single shot rifle specially designed for the hunting of huge game. You could obviously kill everything with this, EVERYTHING. If you ever find enough ammo of course.",
     "price": 2000000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "rifle",
     "ammo": "700nx",
     "weight": 8082,
