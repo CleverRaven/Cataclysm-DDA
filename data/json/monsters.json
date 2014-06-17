@@ -5670,8 +5670,8 @@
     "morale":100,
     "speed":100,
     "melee_skill":10,
-    "melee_dice":6,
-    "melee_dice_sides":6,
+    "melee_dice":7,
+    "melee_dice_sides":7,
     "melee_cut":0,
     "dodge":5,
     "armor_bash":15,
@@ -5681,7 +5681,7 @@
     "special_freq":80,
     "death_function":"NORMAL",
     "special_attack":"SHOCKSTORM",
-    "description":"A Rivtech soldier who reanimated wearing the RM13 armor, providing extra protection.  Unfortunately, it seems to have reanimated as a shocker and the electrical energy is powering the armor, enhancing reflexes, speed, and strength.",
+    "description":"A Rivtech soldier who reanimated wearing the RM13 armour, providing extra protection.  Unfortunately, it seems to have reanimated as a shocker and the electrical energy is powering the armour, enhancing reflexes, speed, and strength.",
     "flags":["SEES", "HEARS", "BASHES", "ATTACKMON", "NO_BREATHE", "VIS50", "REVIVES", "WARM", "STUMBLES", "CBM_OP"]
     }
 ]
