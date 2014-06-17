@@ -647,6 +647,7 @@ public:
   void display_scent();   // Displays the scent map
   void mondebug();        // Debug monster behavior directly
   void groupdebug();      // Get into on monster groups
+  void tracks_debug();    // Tracks list on current overmap
 
 // ########################## DATA ################################
 

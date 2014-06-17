@@ -4102,9 +4102,10 @@ void game::debug()
                    _("Remove all monsters"),    // 19
                    _("Display hordes list"),    // 20
                    _("Display hordes on map"), // 21
-                   _("Test Item Group"), // 22
+                   _("Display tracks list"), //22
+                   _("Test Item Group"), // 23
                    #ifdef LUA
-                       _("Lua Command"), // 22
+                       _("Lua Command"), // 24
                    #endif
                    _("Cancel"),
                    NULL);
@@ -4500,11 +4501,15 @@ void game::debug()
   }
   break;
   case 22: {
+      tracks_debug();
+  }
+  break;
+  case 23: {
       item_controller->debug_spawn();
   }
   break;
   #ifdef LUA
-      case 23: {
+      case 24: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
           call_lua(luacode);
       }
@@ -4548,6 +4553,24 @@ void game::groupdebug()
    linenum++;
   }
  }
+ getch();
+}
+
+void game::tracks_debug()
+{
+ erase();
+ mvprintw(0, 0, "Tracks: OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx,
+                                           levy);
+ int tt,linenum = 1;
+ for (int j = 0; j < OMAPY * 2; j++)
+   for (int i = 0; i < OMAPX * 2; i++)
+     {
+        tt = cur_om->track_at(i,j);
+        if ( tt != 0 ) {
+           mvprintw(linenum, 0, "%d ; %d - %d", i, j, tt );
+           linenum++;
+           }
+     }
  getch();
 }
 
