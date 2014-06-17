@@ -5486,7 +5486,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "cereal",
-        "name" : "cereal",
+        "name" : "sugary cereal",
         "weight" : 42,
         "color" : "yellow",
         "addiction_type" : "none",
@@ -5514,7 +5514,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "cereal2",
-        "name" : "cereal",
+        "name" : "wheat cereal",
         "weight" : 42,
         "color" : "yellow",
         "addiction_type" : "none",
@@ -5528,7 +5528,7 @@
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 12,
-        "description" : "A box of wheat oats. They're surprisingly good, and allegedly good for your heart.",
+        "description" : "A box of whole-grain wheat cereal. It's surprisingly good, and allegedly good for your heart.",
         "price" : 2000,
         "material" : "wheat",
         "tool" : "null",
@@ -5542,7 +5542,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "cereal3",
-        "name" : "cereal",
+        "name" : "corn cereal",
         "weight" : 85,
         "color" : "yellow",
         "addiction_type" : "none",
