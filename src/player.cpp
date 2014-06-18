@@ -3222,7 +3222,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     int x = sideStyle ? 37 : 32;
     int y = sideStyle ?  0 :  1;
-    if(has_disease("deaf")) {
+    if(is_deaf()) {
         mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
     } else {
         mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
@@ -5659,7 +5659,7 @@ void player::suffer()
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if (has_trait("PER_SLIME")) {
-        if (one_in(600) && !(has_disease("deaf"))) {
+        if (one_in(600) && !has_disease("deaf")) {
             add_msg(m_bad, _("Suddenly, you can't hear anything!"));
             add_disease("deaf", 20 * rng (2, 6)) ;
         }
@@ -5786,7 +5786,7 @@ void player::suffer()
         power_level--;
     }
     if (has_bionic("bio_noise") && one_in(500)) {
-        if(!has_disease("deaf"))
+        if(!is_deaf())
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
         else
             add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
@@ -8513,6 +8513,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         inv.assign_empty_invlet(*to_wear, true);
     }
 
+    const bool was_deaf = is_deaf();
     last_item = itype_id(to_wear->type->id);
     worn.push_back(*to_wear);
 
@@ -8536,6 +8537,9 @@ bool player::wear_item(item *to_wear, bool interactive)
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), -1).c_str(), encumb_text(body_part(i)).c_str());
             }
+        }
+        if( !was_deaf && is_deaf() ) {
+            add_msg( m_info, _( "You're deafened!" ) );
         }
     }
 
@@ -11087,4 +11091,9 @@ void player::add_known_trap(int x, int y, const std::string &t)
     } else {
         known_traps[p] = t;
     }
+}
+
+bool player::is_deaf() const
+{
+    return has_disease("deaf") || worn_with_flag("DEAF");
 }

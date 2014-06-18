@@ -5844,7 +5844,7 @@ int iuse::mp3(player *p, item *it, bool)
 int iuse::mp3_on(player *p, item *it, bool t)
 {
     if (t) { // Normal use
-        if (!p->has_item(it) || p->has_disease("deaf") ) {
+        if (!p->has_item(it) || p->is_deaf() ) {
             return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
         }
         p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
@@ -7785,7 +7785,7 @@ int iuse::bell(player *p, item *it, bool)
 {
     if( it->type->id == "cow_bell" ) {
         g->sound(p->posx, p->posy, 12, _("Clank! Clank!"));
-        if ( ! p->has_disease("deaf") ) {
+        if ( ! p->is_deaf() ) {
             const int cow_factor = 1 + ( p->mutation_category_level.find("MUTCAT_CATTLE") == p->mutation_category_level.end() ?
                 0 :
                 (p->mutation_category_level.find("MUTCAT_CATTLE")->second)/8

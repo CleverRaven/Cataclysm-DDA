@@ -1370,18 +1370,6 @@ bool game::do_turn()
         u.update_morale();
     }
 
-    if ( u.worn_with_flag("DEAF") )
-    {
-        // Make the player deaf for one extra turn, so that he is not spammed with warnings
-        if (u.disease_duration("deaf") == 1)
-        {
-            u.add_disease("deaf", 1);
-        }
-        else
-        {
-            u.add_disease("deaf", 2);
-        }
-    }
     return false;
 }
 
@@ -6152,7 +6140,7 @@ bool game::sound(int x, int y, int vol, std::string description)
         return false;
     }
 
-    if (u.has_disease("deaf")) {
+    if (u.is_deaf()) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
         if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF") || u.is_wearing("rm13_armor_on")) &&
             rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
@@ -11663,7 +11651,7 @@ void game::read()
 
 void game::chat()
 {
-    if(u.has_disease("deaf"))
+    if(u.is_deaf())
     {
         add_msg(m_info, _("You can't chat while deaf!"));
         return;

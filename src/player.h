@@ -875,6 +875,7 @@ public:
  void environmental_revert_effect();
 
  bool is_invisible() const;
+ bool is_deaf() const;
  int visibility( bool check_color = false, int stillness = 0 ) const; // just checks is_invisible for the moment
  // -2 position is 0 worn index, -3 position is 1 worn index, etc
  static int worn_position_to_index(int position) {
