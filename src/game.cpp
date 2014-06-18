@@ -612,6 +612,7 @@ void game::start_game(std::string worldname)
      u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
      u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
  }
+ u.moves = 0; // u.reset below will add the initial move points
  u.reset();
  nextspawn = int(calendar::turn);
  temperature = 65; // Springtime-appropriate?
@@ -3716,7 +3717,11 @@ void game::load(std::string worldname, std::string name)
  load_master(worldname);
  update_map(u.posx, u.posy);
 
+ const int tmp_moves = u.moves;
  u.reset();
+ // u.reset has added move points, but we should keep the original count that was
+ // loaded from the save. Don't give out free move points!
+ u.moves = tmp_moves;
  draw();
 }
 
