@@ -2134,7 +2134,7 @@ void overmap::move_hordes()
                zg[i].set_target(max_x, max_y);
                zg[i].set_interest(40);
                //debug
-               add_msg("Horde # %i take track %i;%i",i,max_x,max_y);
+               //add_msg("Horde # %i take track %i;%i",i,max_x,max_y);
                }
         }
     }
