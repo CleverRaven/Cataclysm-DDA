@@ -2236,13 +2236,13 @@ void overmap::place_tracks(const int x, const int y, const int turn) {
         g->weather != WEATHER_SNOWSTORM ) {
        layer[OVERMAP_GROUND_LEVEL].pl_track[x][y] = turn;
        //debug
-       add_msg("Add tracks:%i,%i", x, y);
+       //add_msg("Add tracks:%i,%i", x, y);
        }
      }
 }
 
 void overmap::update_tracks() {
-  add_msg("update_tracks");
+  //add_msg("update_tracks");
   if ( layer != NULL )
     for (int j = 0; j < OMAPY; j++) {
       for (int i = 0; i < OMAPX; i++) {
