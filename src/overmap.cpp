@@ -2244,8 +2244,8 @@ void overmap::place_tracks(const int x, const int y, const int turn) {
 void overmap::update_tracks() {
   //add_msg("update_tracks");
   if ( layer != NULL )
-    for (int j = 0; j < OMAPY; j++) {
-      for (int i = 0; i < OMAPX; i++) {
+    for (int j = 0; j < OMAPY*2; j++) {
+      for (int i = 0; i < OMAPX*2; i++) {
         if ( g->weather != WEATHER_ACID_DRIZZLE ||
              g->weather != WEATHER_ACID_RAIN ||
              g->weather != WEATHER_DRIZZLE ||
