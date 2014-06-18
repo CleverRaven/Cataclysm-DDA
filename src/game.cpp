@@ -4559,8 +4559,7 @@ void game::groupdebug()
 void game::tracks_debug()
 {
  erase();
- mvprintw(0, 0, "Tracks: OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx,
-                                           levy);
+ mvprintw(0, 0, "Tracks: OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
  int tt,linenum = 1;
  for (int j = 0; j < OMAPY * 2; j++)
    for (int i = 0; i < OMAPX * 2; i++)

@@ -657,6 +657,7 @@ overmap::overmap(overmap const &o)
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
                 layer[z].visible[i][j] = o.layer[z].visible[i][j];
+                layer[z].pl_track[i][j] = o.layer[z].pl_track[i][j];
             }
         }
         layer[z].notes = o.layer[z].notes;
@@ -695,6 +696,7 @@ overmap &overmap::operator=(overmap const &o)
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
                 layer[z].visible[i][j] = o.layer[z].visible[i][j];
+                layer[z].pl_track[i][j] = o.layer[z].pl_track[i][j];
             }
         }
         layer[z].notes = o.layer[z].notes;
@@ -715,6 +717,9 @@ void overmap::init_layers()
             }
         }
     }
+    for(int i = 0; i < OMAPX*2; i++)
+          for(int j = 0; j < OMAPY*2; j++)
+             layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
 }
 
 oter_id &overmap::ter(const int x, const int y, const int z)
