@@ -340,7 +340,7 @@ void generic_wet(bool acid)
             }
     }
 
-    fill_water_collectors(4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
+    fill_water_collectors(); // fixme; consolidate drench, this, and decay_fire_and_scent.
     decay_fire_and_scent(15);
 }
 
@@ -360,7 +360,7 @@ void generic_very_wet(bool acid)
             }
     }
 
-    fill_water_collectors(8, acid);
+    fill_water_collectors();
     decay_fire_and_scent(45);
 }
 
