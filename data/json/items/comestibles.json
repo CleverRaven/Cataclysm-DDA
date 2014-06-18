@@ -6904,6 +6904,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 4,
+        "stack_size" : 100,
         "flags": ["SEED"]
     },
     {
@@ -6957,6 +6958,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 4,
+        "stack_size" : 100,
         "flags": ["SEED"]
     },
     {
@@ -7010,6 +7012,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 4,
+        "stack_size" : 40,
         "flags": ["SEED"]
     },
     {
@@ -7063,6 +7066,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 2,
+        "stack_size" : 8,
         "flags": ["SEED"]
     },
     {
@@ -7115,6 +7119,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 2,
+        "stack_size" : 40,
         "flags": ["SEED"]
     },
     {
@@ -7167,6 +7172,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 4,
+        "stack_size" : 40,
         "flags": ["SEED"]
     },
     {
@@ -7248,6 +7254,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 4,
+        "stack_size" : 100,
         "flags": ["SEED"]
     },
     {   "type" : "AMMO",
@@ -7272,6 +7279,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 8,
+        "stack_size" : 40,
         "flags": ["SEED"]
     },
     {
@@ -13588,6 +13596,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 1,
+        "stack_size" : 8,
         "flags": ["SEED"]
     },
     {
