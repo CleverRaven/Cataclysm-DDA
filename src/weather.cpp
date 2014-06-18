@@ -74,56 +74,176 @@ std::pair<int, int> rain_or_acid_level( const int wt )
     }
 }
 
-/*
- * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point
- */
+
+
+void funnelcontainer_accumulates(int rain_depth_mm_per_hour,bool acid,int funnel_quality,item *fcontainer){
+
+	const int charge_per_turn = rain_depth_mm_per_hour * funnel_quality;
+	int accumulation_status = 0; //for passing the progress towards the next unit back and forth
+	if (fcontainer->item_vars.find("funnel_accumulation") == fcontainer->item_vars.end() ) {
+		//is it our first juice?
+		fcontainer->item_vars["funnel_accumulation"] = string_format("%d", charge_per_turn);
+		//debugmsg("void funnelcontainer_accumulates - first juice - add %d",charge_per_turn);
+		//one turn's worth
+		if(acid){ //firt time, we might not have a good value so test both.
+			fcontainer->item_vars["accumulated_acid"] = "true";
+		} else {
+			fcontainer->item_vars["accumulated_acid"] = "false";
+		}
+	} else { //not first time, add juice, test for acid, is it enough for a charge?
+		accumulation_status	= atoi ( fcontainer->item_vars["funnel_accumulation"].c_str());
+		//pass accumulation to accumulation_status
+		accumulation_status += charge_per_turn;
+		//increment by additional charge_per_turn
+
+		if(acid){
+			fcontainer->item_vars["accumulated_acid"] = "true";
+		} //before we test for a full charge, test for acid
+
+		if(accumulation_status >= 1000000){ //if we have a full charge hanging...
+			if(fcontainer->item_vars["accumulated_acid"]=="true"){ //acid test
+			acid=true; //getting the boolean out of the string is harder
+			} else if (fcontainer->item_vars["accumulated_acid"]=="false"){
+			acid=false; //than getting the string out of the boolean
+			} else {
+			acid=false;
+			//debugmsg("accumulated_acid invalid value in funnelcontainer_accumulates");
+			} //end acid test
+
+			//debugmsg("void funnelcontainer_accumulates - add %d", accumulation_status); //tell me about it
+
+			fcontainer->add_rain_to_container(acid, 1); //the charge is added
+			fcontainer->item_vars["accumulated_acid"]="false";
+			//if we don't clean between charges, it will never be clean
+			accumulation_status = 0;
+			//yes I'm throwing out the partial charge_per_turn, what?
+		}
+
+		fcontainer->item_vars["funnel_accumulation"] = string_format("%d", accumulation_status);
+		//update our juice count
+		//debugmsg("void funnelcontainer_accumulates - add %d for %d",charge_per_turn, accumulation_status);
+	}
+
+}//end void funnelcontainer_accumulates
+
+void fill_funnels(/*int rain_depth_mm_per_hour, bool acid,*/ trap_id t)
+//fill funnels will call it's own weather data from std::pair rain or acid level or an intermediary
+//calling function provides: rain intensity, acidity, funnel type
+{
+	const int funnel_quality = traplist[t]->funnel_value;
+	  //cache this value
+
+    int endturn = (int(calendar::turn));
+	  //we're going to attempt to bring every funnel in the active area up to date this turn
+      //since we're using weather log, we can't do this current turn though.
+
+	std::string accumulated_acid = "error";
+	  //what are we accumulating? Test for "error" before passing out to item vars. This confirms value was set properly.
+
+
+
+	int startturn = endturn;
+	  //initialize startturn to endturn in case something goes wrong
+
+	bool acid = false;
+      //a bool for passing around the acid portion of the std:pair rain_or_acid_level
+
+
+// Give each funnel on the map a chance to collect the rain.
+    std::set<point> funnel_locs = g->m.trap_locations(t);
+	//collect a set of trap locations in the active map, call it funnel_locs
+    std::set<point>::iterator iamafunnel;
+	//set an iterator for counting though the funnel locs, call it iamafunnel
+
+
+
+    for (iamafunnel = funnel_locs.begin(); iamafunnel != funnel_locs.end(); ++iamafunnel) {
+
+		item *container = NULL; //setupp pointer to container items
+        unsigned int maxcontains = 0; //
+        point loc = *iamafunnel;  //pointer for storing location of current trap
+        std::vector<item>& items = g->m.i_at(loc.x, loc.y);  //get the set of items under iamafunnel
+
+            //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
+            // This funnel has collected some rain! Put the rain in the largest
+            // container here which is either empty or contains some mixture of
+            // impure water and acid.
+
+		for (size_t j = 0; j < items.size(); j++) { //find our container
+                item *it = &(items[j]); //increment through items under funnel
+            if ( it->is_funnel_container( maxcontains ) ) {
+                    container = it;
+					//debugmsg("container under funnel");
+            } //end if
+            //else{debugmsg("invalid container");}
+		} //end for loop finding our container
+
+        if (container != NULL) {  //did we find a container?
+            //debugmsg("container found in void fill_funnels");
+			if ( container->item_vars.find("funnelcontainer_last_checked") == container->item_vars.end() ) {
+			//is it our first check? Note the turn we checked it.
+				container->item_vars["funnelcontainer_last_checked"] = string_format("%d", endturn);
+				//debugmsg("funnelcontainer_last_checked not found, set to %d", endturn);
+			}else {
+
+			startturn = atoi ( container->item_vars["funnelcontainer_last_checked"].c_str());
+
+            std::map<int, weather_segment>::iterator weather_iterator = g->weather_log.lower_bound(startturn);
+            if(endturn > int(weather_iterator->first))
+            {
+                //debugmsg("endturn changed from %d to %d",endturn, weather_iterator->first);
+                endturn = (weather_iterator->first)+1;  //end this round of funnel updates when the weather changes.
+
+            }
+            std::pair<int, int> weathercond = rain_or_acid_level( weather_iterator->second.weather );
+            //debugmsg("Weather conditions for %d %d,%d",weather_iterator->first,weathercond.first,weathercond.second);
+            if(weather_iterator->first > startturn)
+            {
+                     weather_iterator --; //select the weather span we want to use
+            }
+            weathercond = rain_or_acid_level( weather_iterator->second.weather );
+            //debugmsg("Weather conditions for %d %d,%d",weather_iterator->first,weathercond.first,weathercond.second);
+
+            if(weathercond.first != 0 || weathercond.second != 0) //if no rain, skip this
+            {
+                //debugmsg("its raining %d - %d",startturn,endturn);
+
+                for(int turn_iterator = startturn; turn_iterator <= endturn;turn_iterator++)
+                {
+                	//debugmsg("turn_iterator %d, startturn %d, endturn %d",turn_iterator,startturn,endturn);
+                        if ( weathercond.first != 0 )
+                    {
+                        //do water stuff
+                        acid = false;
+                        funnelcontainer_accumulates(weathercond.first,acid,funnel_quality,container);
+                    } else if ( weathercond.second != 0 ) {
+                        //do acid stuff
+                        acid = true;
+                        funnelcontainer_accumulates(weathercond.second,acid,funnel_quality,container);
+                    }
+                    else {
+                        //do error stuff
+                        //debugmsg("invalid acid value reported in void fill_funnels");
+                    }
+                } // end for turn_iterator
+            }// end if norain
+			container->item_vars["funnelcontainer_last_checked"] = string_format("%d",endturn);
+			//debugmsg("funnelcontainer_last_checked set to %d", endturn);
+			//We've processed a full span of weather, update the container so it doesn't do this span again next time.
+			} // end if(no funnel_container_last_checked){}else{}
+		} //end if container != null
+	} //end for iamafunnel
+} //end of void fill funnels
+
+void fill_water_collectors()
+{
+    fill_funnels(tr_funnel);
+    fill_funnels(tr_makeshift_funnel);
+}// end  void fill_water_collectors()
+
 void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn )
 {
-    const int startturn = ( it->bday > 0 ? it->bday - 1 : 0 );
-    if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
-        return;
-    }
-
-    it->bday = endturn; // bday == last fill check
-    double fillrain = 0;
-    double fillacid = 0;
-    int firstfill = 0;
-
-    for( std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( startturn );
-         wit != g->weather_log.end() && wit->first < endturn; ++wit
-       ) {
-        int fillstart = ( wit->first < startturn ? startturn : wit->first );
-        int fillend = g->weather_log.upper_bound(wit->first)->first;
-        fillend = ( fillend > endturn ? endturn : fillend );
-
-        std::pair<int, int> wlev = rain_or_acid_level( wit->second.weather );
-
-        if ( wlev.first != 0 ) {
-            fillrain += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.first );
-            if ( firstfill == 0 ) {
-                firstfill = 1;
-            }
-        } else if ( wlev.second != 0 ) {
-            fillacid += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.second );
-            if ( firstfill == 0 ) {
-                firstfill = 2;
-            }
-        }
-
-    }
-    // todo: refactor add_rain function
-    //dbg(D_INFO) << string_format("retroactive funnel fill %s %.4f, %.4f",it->typeId().c_str() ,fillrain,fillacid);
-    if ( firstfill == 1 ) {
-        it->add_rain_to_container( false, int(fillrain) );
-        if ( fillacid != 0 ) {
-            it->add_rain_to_container( true, int(fillacid) );
-        }
-    } else if ( firstfill == 2 ) {
-        it->add_rain_to_container( true, int(fillacid) );
-        if ( fillrain != 0 ) {
-            it->add_rain_to_container( false, int(fillrain) );
-        }
-    }
+    fill_water_collectors();
 }
 
 // Add charge(s) of rain to given container, possibly contaminating it
@@ -189,66 +309,6 @@ void item::add_rain_to_container(bool acid, int charges)
     }
 }
 
-double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const {
-    // 1mm rain on 1m^2 == 1 liter water == 1000ml
-    // 1 liter == 4 volume
-    // 1 volume == 250ml: containers
-    // 1 volume == 200ml: water
-    // How many turns should it take for us to collect 1 charge of rainwater?
-    // "..."
-    if ( rain_depth_mm_per_hour == 0 ) {
-        return 0;
-    }
-    const item water("water", 0);
-    const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
-    const double PI = 3.14159265358979f;
-
-    const double surface_area_mm2 = PI * (funnel_radius_mm * funnel_radius_mm);
-
-    const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
-    const double vol_mm3_per_turn = vol_mm3_per_hour / 600;
-
-    const double ml_to_mm3 = 1000;
-    const double turns_per_charge = (charge_ml * ml_to_mm3) / vol_mm3_per_turn;
-    return turns_per_charge;// / rain_depth_mm_per_hour;
-}
-
-void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
-{
-    const double turns_per_charge = traplist[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
-    // Give each funnel on the map a chance to collect the rain.
-    std::set<point> funnel_locs = g->m.trap_locations(t);
-    std::set<point>::iterator i;
-    for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
-        item *c = NULL;
-        unsigned int maxcontains = 0;
-        point loc = *i;
-        std::vector<item>& items = g->m.i_at(loc.x, loc.y);
-        if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
-            //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
-            // This funnel has collected some rain! Put the rain in the largest
-            // container here which is either empty or contains some mixture of
-            // impure water and acid.
-            for (size_t j = 0; j < items.size(); j++) {
-                item *it = &(items[j]);
-                if ( it->is_funnel_container( maxcontains ) ) {
-                    c = it;
-                }
-            }
-
-            if (c != NULL) {
-                c->add_rain_to_container(acid, 1);
-                c->bday = int(calendar::turn);
-            }
-        }
-    }
-}
-
-void fill_water_collectors(int mmPerHour, bool acid)
-{
-    fill_funnels(mmPerHour, acid, tr_funnel);
-    fill_funnels(mmPerHour, acid, tr_makeshift_funnel);
-}
 
 void decay_fire_and_scent(int fire_amount)
 {
