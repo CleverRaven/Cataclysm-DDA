@@ -2444,10 +2444,12 @@ itemslice map::i_stacked(std::vector<item>& items)
 
 bool map::sees_some_items(int x, int y, const player &u)
 {
-    if(i_at(x, y).empty()) {
-        // can not see non-existing items.
-        return false;
-    }
+    // can only see items if there are any items.
+    return !i_at( x, y ).empty() && could_see_items( x, y, u );
+}
+
+bool map::could_see_items(int x, int y, const player &u)
+{
     const bool container = has_flag_ter_or_furn("CONTAINER", x, y);
     const bool sealed = has_flag_ter_or_furn("SEALED", x, y);
     if (sealed && container) {

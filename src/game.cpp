@@ -8278,7 +8278,7 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
 {
-    if (m.sees_some_items(lx, ly, g->u)) {
+    if( m.sees_some_items( lx, ly, u ) ) {
         if (mouse_hover) {
             // items are displayed from the live view, don't do this here
             return;
@@ -8289,7 +8289,7 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int colu
         {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
         }
-    } else if(m.has_flag("CONTAINER", lx, ly)) {
+    } else if( m.has_flag( "CONTAINER", lx, ly ) && !m.could_see_items( lx, ly, u ) ) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
     }
 }
