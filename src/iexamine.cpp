@@ -1053,59 +1053,62 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "dahlia_bud");
 }
 
-void iexamine::egg_sackbw(player *p, map *m, int examx, int examy) {
-  if(!query_yn(_("Harvest the %s?"),m->furnname(examx, examy).c_str())) {
-    none(p, m, examx, examy);
-    return;
-  }
-  if (one_in(2)){
-    monster spider_widow_giant_s(GetMType("mon_spider_widow_giant_s"));
-    int f = 0;
-    for (int i = examx -1; i <= examx + 1; i++) {
-        for (int j = examy -1; j <= examy + 1; j++) {
-                if (!(g->u.posx == i && g->u.posy == j) && one_in(3)){
-                    spider_widow_giant_s.spawn(i, j);
-                    g->add_zombie(spider_widow_giant_s);
+void iexamine::egg_sackbw( player *p, map *m, int examx, int examy )
+{
+    if( !query_yn( _( "Harvest the %s?" ), m->furnname( examx, examy ).c_str() ) ) {
+        none( p, m, examx, examy );
+        return;
+    }
+    if( one_in( 2 ) ) {
+        monster spider_widow_giant_s( GetMType( "mon_spider_widow_giant_s" ) );
+        int f = 0;
+        for( int i = examx - 1; i <= examx + 1; i++ ) {
+            for( int j = examy - 1; j <= examy + 1; j++ ) {
+                if( !( g->u.posx == i && g->u.posy == j ) && one_in( 3 ) ) {
+                    spider_widow_giant_s.spawn( i, j );
+                    g->add_zombie( spider_widow_giant_s );
                     f++;
                 }
+            }
+        }
+        if( f == 1 ) {
+            add_msg( m_warning, _( "A spiderling brusts from the %s!" ), m->furnname( examx, examy ).c_str() );
+        } else if( f >= 1 ) {
+            add_msg( m_warning, _( "Spiderlings brust from the %s!" ), m->furnname( examx, examy ).c_str() );
         }
     }
-    if (f == 1){
-        add_msg(m_warning, _("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
-    } else if (f >= 1) {
-        add_msg(m_warning, _("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
-    }
-  }
-  m->spawn_item(examx, examy, "spider_egg", rng(1,4));
-  m->furn_set(examx, examy, f_egg_sacke);
+    m->spawn_item( examx, examy, "spider_egg", rng( 1, 4 ) );
+    m->furn_set( examx, examy, f_egg_sacke );
 }
 
-void iexamine::egg_sackws(player *p, map *m, int examx, int examy) {
-  if(!query_yn(_("Harvest the %s?"),m->furnname(examx, examy).c_str())) {
-    none(p, m, examx, examy);
-    return;
-  }
-  if (one_in(2)){
-    monster mon_spider_web_s(GetMType("mon_spider_web_s"));
-    int f = 0;
-    for (int i = examx -1; i <= examx + 1; i++) {
-        for (int j = examy -1; j <= examy + 1; j++) {
-                if (!(g->u.posx == i && g->u.posy == j) && one_in(3)){
-                    mon_spider_web_s.spawn(i, j);
-                    g->add_zombie(mon_spider_web_s);
+void iexamine::egg_sackws( player *p, map *m, int examx, int examy )
+{
+    if( !query_yn( _( "Harvest the %s?" ), m->furnname( examx, examy ).c_str() ) ) {
+        none( p, m, examx, examy );
+        return;
+    }
+    if( one_in( 2 ) ) {
+        monster mon_spider_web_s( GetMType( "mon_spider_web_s" ) );
+        int f = 0;
+        for( int i = examx - 1; i <= examx + 1; i++ ) {
+            for( int j = examy - 1; j <= examy + 1; j++ ) {
+                if( !( g->u.posx == i && g->u.posy == j ) && one_in( 3 ) ) {
+                    mon_spider_web_s.spawn( i, j );
+                    g->add_zombie( mon_spider_web_s );
                     f++;
                 }
+            }
+        }
+        if( f == 1 ) {
+            add_msg( m_warning, _( "A spiderling brusts from the %s!" ), m->furnname( examx, examy ).c_str() );
+        } else if( f >= 1 ) {
+            add_msg( m_warning, _( "Spiderlings brust from the %s!" ), m->furnname( examx, examy ).c_str() );
         }
     }
-    if (f == 1){
-        add_msg(m_warning, _("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
-    } else if (f >= 1) {
-        add_msg(m_warning, _("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
-    }
-  }
-  m->spawn_item(examx, examy, "spider_egg", rng(1,4));
-  m->furn_set(examx, examy, f_egg_sacke);
+    m->spawn_item( examx, examy, "spider_egg", rng( 1, 4 ) );
+    m->furn_set( examx, examy, f_egg_sacke );
 }
+
 void iexamine::fungus(player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
