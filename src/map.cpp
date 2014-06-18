@@ -4247,7 +4247,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
                 const int fy = y + gridy * SEEY;
                 traplocs[t].insert(point(fx, fy));
                 if ( do_funnels &&
-                     traplist[t]->funnel_radius_mm > 0 &&             // funnel
+                     traplist[t]->funnel_value > 0 &&             // funnel
                      has_flag_ter_or_furn(TFLAG_INDOORS, fx, fy) == false // we have no outside_cache
                    ) {
                     rain_backlog[point(x, y)] = t;
