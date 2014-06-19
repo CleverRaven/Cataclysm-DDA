@@ -202,74 +202,74 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         if ( items[i].volume == -8 ) { // I'm a header!
             mvwprintz(window, 6 + x, ( columns - items[i].name.size() - 6 ) / 2, c_cyan, "[%s]",
                       items[i].name.c_str() );
-        } else {
-            nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
-            nc_color thiscolordark = c_dkgray;
-            nc_color print_color;
+            continue;
+        }
+        nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
+        nc_color thiscolordark = c_dkgray;
+        nc_color print_color;
 
-            if(active && selected_index == x) {
-                thiscolor = (inCategoryMode &&
-                             panes[src].sortby == SORTBY_CATEGORY) ? c_white_red : hilite(thiscolor);
-                thiscolordark = hilite(thiscolordark);
-                if ( compact ) {
-                    mvwprintz(window, 6 + x, 1, thiscolor, "  %s", spaces.c_str());
-                } else {
-                    mvwprintz(window, 6 + x, 1, thiscolor, ">>%s", spaces.c_str());
-                }
-
-            }
-            //print item name
-            std::string it_name = utf8_truncate(items[i].it->display_name(), max_name_length);
-            mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", it_name.c_str() );
-
-            //print src column
-            if ( isall && !compact) {
-                mvwprintz(window, 6 + x, src_startpos, thiscolor, "%s",
-                          squares[items[i].area].shortname.c_str());
-            }
-
-            //print "amount" column
-            int it_amt = items[i].stacks;
-            if( it_amt > 1 ) {
-                print_color = thiscolor;
-                if (it_amt > 9999) {
-                    it_amt = 9999;
-                    print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
-                }
-                mvwprintz(window, 6 + x, amt_startpos, print_color, "%4d", it_amt);
-            }
-
-            //print weight column
-            double it_weight = g->u.convert_weight(items[i].weight);
-            size_t w_precision;
-            print_color = (it_weight > 0) ? thiscolor : thiscolordark;
-
-            if (it_weight >= 1000.0) {
-                if (it_weight >= 10000.0) {
-                    print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
-                    it_weight = 9999.0;
-                }
-                w_precision = 0;
-            } else if (it_weight >= 100.0) {
-                w_precision = 1;
+        if(active && selected_index == x) {
+            thiscolor = (inCategoryMode &&
+                         panes[src].sortby == SORTBY_CATEGORY) ? c_white_red : hilite(thiscolor);
+            thiscolordark = hilite(thiscolordark);
+            if ( compact ) {
+                mvwprintz(window, 6 + x, 1, thiscolor, "  %s", spaces.c_str());
             } else {
-                w_precision = 2;
+                mvwprintz(window, 6 + x, 1, thiscolor, ">>%s", spaces.c_str());
             }
-            mvwprintz(window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight);
+        }
 
-            //print volume column
-            int it_vol = items[i].volume;
-            print_color = (it_vol > 0) ? thiscolor : thiscolordark;
-            if (it_vol > 9999) {
-                it_vol = 9999;
+        //print item name
+        std::string it_name = utf8_truncate(items[i].it->display_name(), max_name_length);
+        mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", it_name.c_str() );
+
+        //print src column
+        if ( isall && !compact) {
+            mvwprintz(window, 6 + x, src_startpos, thiscolor, "%s",
+                      _(squares[items[i].area].shortname.c_str()));
+        }
+
+        //print "amount" column
+        int it_amt = items[i].stacks;
+        if( it_amt > 1 ) {
+            print_color = thiscolor;
+            if (it_amt > 9999) {
+                it_amt = 9999;
                 print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
             }
-            mvwprintz(window, 6 + x, vol_startpos, print_color, "%4d", it_vol );
+            mvwprintz(window, 6 + x, amt_startpos, print_color, "%4d", it_amt);
+        }
 
-            if(active && items[i].autopickup == true) {
-                mvwprintz(window, 6 + x, 1, magenta_background(items[i].it->color(&g->u)), "%s",
-                          (compact ? items[i].it->tname().substr(0, 1) : ">").c_str());
+        //print weight column
+        double it_weight = g->u.convert_weight(items[i].weight);
+        size_t w_precision;
+        print_color = (it_weight > 0) ? thiscolor : thiscolordark;
+
+        if (it_weight >= 1000.0) {
+            if (it_weight >= 10000.0) {
+                print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
+                it_weight = 9999.0;
             }
+            w_precision = 0;
+        } else if (it_weight >= 100.0) {
+            w_precision = 1;
+        } else {
+            w_precision = 2;
+        }
+        mvwprintz(window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight);
+
+        //print volume column
+        int it_vol = items[i].volume;
+        print_color = (it_vol > 0) ? thiscolor : thiscolordark;
+        if (it_vol > 9999) {
+            it_vol = 9999;
+            print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
+        }
+        mvwprintz(window, 6 + x, vol_startpos, print_color, "%4d", it_vol );
+
+        if(active && items[i].autopickup == true) {
+            mvwprintz(window, 6 + x, 1, magenta_background(items[i].it->color(&g->u)), "%s",
+                      (compact ? items[i].it->tname().substr(0, 1) : ">").c_str());
         }
     }
 }
