@@ -927,6 +927,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             ret = line_to(u.posx, u.posy, x, y, 0);
         }
 
+        // This chunk of code handles shifting the aim point around
+        // at maximum range when using circular distance.
         if(trigdist && trig_dist(u.posx, u.posy, x, y) > range) {
             bool cont = true;
             int cx = x;
@@ -1348,10 +1350,10 @@ int ranged_skill_offset( std::string skill )
     return 0;
 }
 
-int player::skill_dispersion( item *weapon, bool random )
+int player::skill_dispersion( item *weapon, bool random ) const
 {
     const std::string skill_used = weapon->skill();
-    const int weapon_skill_level = skillLevel(skill_used);
+    const int weapon_skill_level = get_skill_level(skill_used);
     int dispersion = 0; // Measured in quarter-degrees.
     // Up to 0.75 degrees for each skill point < 10.
     if (weapon_skill_level < 10) {
@@ -1363,8 +1365,8 @@ int player::skill_dispersion( item *weapon, bool random )
         }
     }
     // Up to 0.25 deg per each skill point < 10.
-    if (skillLevel("gun") < 10) {
-        int max_dispersion = 10 - skillLevel("gun");
+    if( get_skill_level("gun") < 10) {
+        int max_dispersion = 10 - get_skill_level("gun");
         if( random ) {
             dispersion += rng(0, max_dispersion);
         } else {
@@ -1377,7 +1379,7 @@ int player::skill_dispersion( item *weapon, bool random )
     return dispersion;
 }
 // utility functions for projectile_attack
-double player::get_weapon_dispersion(item *weapon)
+double player::get_weapon_dispersion(item *weapon) const
 {
     double dispersion = 0.; // Measured in quarter-degrees.
     dispersion += skill_dispersion( weapon, true );
@@ -1419,7 +1421,7 @@ int recoil_add(player &p)
     // item::recoil() doesn't suport gunmods, so call it on player gun.
     int ret = p.weapon.recoil();
     ret -= rng(p.str_cur / 2, p.str_cur);
-    ret -= rng(0, p.skillLevel(firing->skill_used) / 2);
+    ret -= rng(0, p.get_skill_level(firing->skill_used) / 2);
     if (ret > 0) {
         return ret;
     }

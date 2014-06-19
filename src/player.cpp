@@ -10387,23 +10387,20 @@ int player::warmth(body_part bp) const
 
     // If the player is not wielding anything, check if hands can be put in pockets
     if((bp == bp_hand_l || bp == bp_hand_r) && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) &&
-        worn_with_flag("POCKETS"))
-    {
+        worn_with_flag("POCKETS")) {
         ret += 10;
     }
 
     // If the players head is not encumbered, check if hood can be put up
-    if(bp == bp_head && encumb(bp_head) < 1 && (temp_conv[bp] <=  BODYTEMP_COLD) && worn_with_flag("HOOD"))
-    {
+    if(bp == bp_head && encumb(bp_head) < 1 &&
+       (temp_conv[bp] <=  BODYTEMP_COLD) && worn_with_flag("HOOD")) {
         ret += 10;
     }
 
-    for (auto &i : worn)
-    {
+    for (auto &i : worn) {
         armor = dynamic_cast<const it_armor*>(i.type);
 
-        if (i.covers.test(bp))
-        {
+        if (i.covers.test(bp)) {
             warmth = armor->warmth;
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
@@ -10417,7 +10414,7 @@ int player::warmth(body_part bp) const
     return ret;
 }
 
-int player::encumb(body_part bp) const
+int player::encumb( body_part bp ) const
 {
     int iArmorEnc = 0;
     double iLayers = 0;
