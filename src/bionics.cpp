@@ -877,6 +877,11 @@ bool player::uninstall_bionic(bionic_id b_id)
         popup(_("Removing bionics requires a cutting tool and a first aid kit."));
         return false;
     }
+    
+    if ( type->id == "bio_blaster" ) {
+        popup(_("Removing your Fusion Blaster Arm would leave you with a useless stump."));
+        return false;
+    }
 
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success = bionic_manip_cos(int_cur,

@@ -361,7 +361,12 @@ void add_corpse(int x, int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
 
-// Radiation
+ // Signs
+ const std::string get_signage(const int x, const int y) const;
+ void set_signage(const int x, const int y, std::string message) const;
+ void delete_signage(const int x, const int y) const;
+ 
+ // Radiation
  int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
  void set_radiation(const int x, const int y, const int value);
 

@@ -8231,6 +8231,16 @@ void game::print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &l
         mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
             m.move_cost(lx, ly) * 50);
     }
+    
+    std::string signage = m.get_signage(lx, ly);
+    if (signage.size() > 0 && signage.size() < 36) {
+        mvwprintw(w_look, ++line, column, _("Sign: %s"), signage.c_str());
+    }
+    else if (signage.size() > 0) {
+        // Truncate to width of window as a guesstimate.        
+        mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
+    }
+    
     mvwprintw(w_look, ++line, column, "%s", m.features(lx, ly).c_str());
     if (line < ending_line) {
         line = ending_line;
@@ -12258,6 +12268,10 @@ bool game::plmove(int dx, int dy)
     add_msg(m_warning, _("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
    else
     add_msg(m_warning, _("Moving past this %s is slow!"), m.name(x, y).c_str());
+  }
+  std::string signage = m.get_signage(x, y);
+  if (signage.size()) {
+      add_msg(m_info, _("The sign says: %s"), signage.c_str());
   }
   if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.get_armor_bash(bp_feet) < rng(2, 5)) {

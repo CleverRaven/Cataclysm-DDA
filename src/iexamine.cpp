@@ -851,13 +851,13 @@ void iexamine::safe(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::bulletin_board(player *p, map *m, int examx, int examy) {
-    (void)g; (void)p; //unused
+    (void)p;
     basecamp *camp = m->camp_at(examx, examy);
     if (camp && camp->board_x() == examx && camp->board_y() == examy) {
         std::vector<std::string> options;
         options.push_back(_("Cancel"));
         // Causes a warning due to being unused, but don't want to delete
-        // since it's clearly what's intened for future functionality.
+        // since it's clearly what's intended for future functionality.
         //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
     } else {
         bool create_camp = m->allow_camp(examx, examy);
@@ -879,7 +879,7 @@ void iexamine::bulletin_board(player *p, map *m, int examx, int examy) {
 
 void iexamine::fault(player *p, map *m, int examx, int examy)
 {
-    (void)g; (void)p; (void)m; (void)examx; (void)examy; //unused
+    (void)p; (void)m; (void)examx; (void)examy; //unused
     popup(_("\
 This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
 as far back into the solid rock as you can see.  The holes are humanoid in\n\
@@ -1982,6 +1982,46 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
     }
 }
 
+void iexamine::sign(player *p, map *m, int examx, int examy)
+{
+    std::string existing_signage = m->get_signage(examx, examy);
+    bool previous_signage_exists = !existing_signage.empty();
+
+    // Display existing message, or lack thereof.
+    if (previous_signage_exists) {
+        popup(existing_signage.c_str());
+    } else {
+        p->add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
+    }
+    
+    // Allow chance to modify message.
+    // Chose spray can because it seems appropriate.
+    int required_writing_charges = 1; 
+    if (p->has_charges("spray_can", required_writing_charges)) {
+        // Different messages if the sign already has writing associated with it.
+        std::string query_message = previous_signage_exists ? 
+            _("Overwrite the existing message on the sign with spray paint?") : 
+            _("Add a message to the sign with spray paint?"); 
+        std::string spray_painted_message = previous_signage_exists ?
+            _("You overwrite the previous message on the sign with your graffiti") :
+            _("You graffiti a message onto the sign.");
+        std::string ignore_message = _("You leave the sign alone.");
+        if (query_yn(query_message.c_str())) {
+            std::string signage = string_input_popup(_("Spray what?"), 0, "", "", "signage");
+            if (signage.empty()) {
+                p->add_msg_if_player(m_neutral, ignore_message.c_str());
+            } else {
+                m->set_signage(examx, examy, signage);
+                p->add_msg_if_player(m_info, spray_painted_message.c_str());
+                p->moves -= 2 * signage.length();
+                p->use_charges("spray_can", required_writing_charges);
+            }
+        } else {
+            p->add_msg_if_player(m_neutral, ignore_message.c_str());
+        }
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2140,6 +2180,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if( "curtains" == function_name ) {
       return &iexamine::curtains;
+  }
+  if( "sign" == function_name ) {
+      return &iexamine::sign;
   }
 
   //No match found
