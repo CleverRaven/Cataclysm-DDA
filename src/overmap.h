@@ -88,6 +88,13 @@ enum city_gen_type {
    CITY_GEN_INVALID, // reserved; big multi-overmap cities will have a more complex zoning pattern
 };
 
+enum horde_signal_type {
+    HSIG_NOICE,
+    HSIG_LIGHT,
+    HSIG_SMOKE,
+    HSIG_SMELL
+};
+
 struct city_settings {
    city_gen_type zoning_type;
    int shop_radius; // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
@@ -236,6 +243,7 @@ radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
 struct map_layer {
  oter_id terrain[OMAPX][OMAPY];
  bool visible[OMAPX][OMAPY];
+ int pl_track[OMAPX][OMAPY]; //player be here at this turn #
  std::vector<om_note> notes;
 
  map_layer() : terrain(), visible(), notes() {}
@@ -270,7 +278,7 @@ class overmap
 
   void process_mongroups(); // Makes them die out, maybe more
   void move_hordes();
-  void signal_hordes( const int x, const int y, const int sig_power);
+  void signal_hordes(int x, int y, horde_signal_type sig_tyoe, int sig_power);
 
   std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);
@@ -441,6 +449,11 @@ class overmap
   static void print_npcs(WINDOW *w, int const x, int const y, int const z);
   bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
   void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
+  //Hordes signals
+  int signal_hordes_noice(int x,int y, int sig_power, mongroup zg);
+  int signal_hordes_light(int x,int y, int sig_power, mongroup zg);
+  //int signal_hordes_smoke(int x,int y, int sig_power, mongroup zg);
+  point to_big_overmap_coord(point p);
 };
 
 // TODO: readd the stream operators

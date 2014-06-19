@@ -4092,8 +4092,9 @@ void game::debug()
                    _("Map editor"), // 17
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
-                   _("Display hordes"), // 20
-                   _("Test Item Group"), // 21
+                   _("Display hordes list"),    // 20
+                   _("Display hordes on map"), // 21
+                   _("Test Item Group"), // 22
                    #ifdef LUA
                        _("Lua Command"), // 22
                    #endif
@@ -4483,16 +4484,19 @@ void game::debug()
   break;
   case 20: {
       // display hordes on the map
-      overmap::draw_overmap(g->om_global_location(), true);
+      groupdebug();
   }
   break;
   case 21: {
+      overmap::draw_overmap(g->om_global_location(), true);
+  }
+  break;
+  case 22: {
       item_controller->debug_spawn();
   }
   break;
-
   #ifdef LUA
-      case 22: {
+      case 23: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
           call_lua(luacode);
       }
@@ -4516,6 +4520,27 @@ void game::mondebug()
             debugmsg("The %s can't see you...", critter.name().c_str());
         }
     }
+}
+
+void game::groupdebug()
+{
+ erase();
+ mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx,
+                                           levy);
+ int dist, linenum = 1;
+ for (int i = 0; i < cur_om->zg.size(); i++) {
+  if (cur_om->zg[i].posz != levz) { continue; }
+  dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+  //if (dist <= cur_om->zg[i].radius)
+  if (cur_om->zg[i].horde)
+  {
+   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d",
+            i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
+            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest);
+   linenum++;
+  }
+ }
+ getch();
 }
 
 void game::draw_overmap()
@@ -6078,10 +6103,11 @@ bool game::sound(int x, int y, int vol, std::string description)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
-    if( vol > 20 && levz == 0 ) {
-        int sig_power = ((vol > 140) ? 140 : vol) - 20;
-        cur_om->signal_hordes( levx + (MAPSIZE / 2), levy + (MAPSIZE / 2), sig_power );
-    }
+    if (vol > 10 && levz == 0)
+        {
+            int sig_power = ( (vol > 140) ? 140 : vol - 10 );
+            cur_om->signal_hordes(levx, levy, HSIG_NOICE, sig_power);
+        }
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = critter_tracker.find(i);
@@ -13547,6 +13573,7 @@ void game::spawn_mon(int shiftx, int shifty)
      MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,
          &group, (int)calendar::turn);
      zom = monster(GetMType(spawn_details.name));
+     if (spawn_details.name == "mon_null") {cur_om->zg[i].population++;}
      for (int kk = 0; kk < spawn_details.pack_size; kk++){
        iter = 0;
        do {

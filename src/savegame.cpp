@@ -39,6 +39,8 @@
 const int savegame_version = 20;
 const int savegame_minver_game = 11;
 
+const int top_layer = 10;
+
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
  * This allows loaders for classes that exist in multiple files (such as item) to have
@@ -555,6 +557,10 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 if (z >= 0 && z < OVERMAP_LAYERS) {
                     layer[z].notes.push_back(tmp);
                 }
+            } else if (datatype == 'T') { // Load tracks
+                int j,i,track_turn;
+                sfin >> j >> i >> track_turn;
+                layer[top_layer].pl_track[j][i] = track_turn;
             }
         }
         sfin.close();
@@ -605,6 +611,23 @@ void overmap::save()
             fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " <<
                 layer[z].notes[i].num << std::endl << layer[z].notes[i].text << std::endl;
         }
+
+        //TODO: Save/load tracks in one line
+        //bool first_track = true;
+        int track_turn;
+        for (int j = 0; j < OMAPY; j++) {
+            for (int i = 0; i < OMAPX; i++) {
+                track = layer[top_layer].pl_track[i][j];
+                if ( track != 0 ) {
+                    /*if (first_track) {
+                       fout << "T" << std::endl;
+                       first_track = false;
+                       }*/
+                    fout << "T" << j << i << track_turn;
+                    }
+            }
+        }
+        fout << std::endl;
     }
     fout.close();
 
