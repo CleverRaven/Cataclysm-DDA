@@ -205,6 +205,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         } else {
             nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
             nc_color thiscolordark = c_dkgray;
+            nc_color print_color;
 
             if(active && selected_index == x) {
                 thiscolor = (inCategoryMode &&
@@ -239,8 +240,21 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 
             //print weight column
             double it_weight = g->u.convert_weight(items[i].weight);
-            mvwprintz(window, 6 + x, weight_startpos, (it_weight > 0) ? thiscolor : thiscolordark,
-                      "%5.*f", 2, it_weight);
+            size_t w_precision;
+            print_color = (it_weight > 0) ? thiscolor : thiscolordark;
+
+            if (it_weight >= 1000.0) {
+                if (it_weight >= 10000.0) {
+                    print_color = c_red;
+                    it_weight = 9999.0;
+                }
+                w_precision = 0;
+            } else if (it_weight >= 100.0) {
+                w_precision = 1;
+            } else {
+                w_precision = 2;
+            }
+            mvwprintz(window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight);
 
             //print volume column
             mvwprintz(window, 6 + x, vol_startpos, (items[i].volume > 0 ? thiscolor : thiscolordark),
