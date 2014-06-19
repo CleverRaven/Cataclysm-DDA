@@ -1516,7 +1516,7 @@ void game::activity_on_turn_game()
         u.activity.moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), game_item.tname().c_str());
     }
-    
+
     u.rooted();
     u.pause();
 }
@@ -1549,7 +1549,7 @@ void game::activity_on_turn_vibe()
         u.activity.moves_left = 0;
         add_msg(m_info, _("You're too tired to continue."));
     }
-    
+
     // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
     // well with roots.  Sorry.  :-(
 
@@ -13698,19 +13698,15 @@ void game::wait()
     }
 
     u.assign_activity(actType, time, 0);
-    if ( (u.has_trait("ROOTS2") || (u.has_trait("ROOTS3"))) &&
-      m.has_flag("DIGGABLE", u.posx, u.posy) &&
-      (!(u.wearing_something_on(bp_feet))) ) {
-                add_msg(m_info, _("You sink your roots into the soil."));   
-            }
+    u.rooted_message();
 }
 
 void game::gameover()
 {
- erase();
- gamemode->game_over();
- mvprintw(0, 35, _("GAME OVER"));
- inv(_("Inventory:"));
+    erase();
+    gamemode->game_over();
+    mvprintw(0, 35, _("GAME OVER"));
+    inv(_("Inventory:"));
 }
 
 bool game::game_quit() { return (uquit == QUIT_MENU); }

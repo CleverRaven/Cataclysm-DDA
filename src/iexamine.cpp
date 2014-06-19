@@ -1075,9 +1075,9 @@ void iexamine::egg_sack_generic( player *p, map *m, int examx, int examy,
             }
         }
         if( monster_count == 1 ) {
-            add_msg( m_warning, _( "A spiderling brusts from the %s!" ), old_furn_name.c_str() );
+            add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name.c_str() );
         } else if( monster_count >= 1 ) {
-            add_msg( m_warning, _( "Spiderlings brust from the %s!" ), old_furn_name.c_str() );
+            add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name.c_str() );
         }
     }
 }

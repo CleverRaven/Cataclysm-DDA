@@ -2577,12 +2577,8 @@ int iuse::fishing_rod_basic (player *p, item *it, bool) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
         return 0;
     }
-    
-    if ( (p->has_trait("ROOTS2") || (p->has_trait("ROOTS3"))) &&
-      g->m.has_flag("DIGGABLE", p->posx, p->posy) &&
-            (!(p->wearing_something_on(bp_feet))) ) {
-                add_msg(m_info, _("You sink your roots into the soil."));   
-            }
+
+    p->rooted_message();
 
     p->add_msg_if_player( _("You cast your line and wait to hook something..."));
 
@@ -5917,27 +5913,15 @@ int iuse::portable_game(player *p, item *it, bool)
         switch (as_m.ret) {
             case 1:
                 loaded_software = "robot_finds_kitten";
-                if ( (p->has_trait("ROOTS2") || (p->has_trait("ROOTS3"))) &&
-                  g->m.has_flag("DIGGABLE", p->posx, p->posy) &&
-                  (!(p->wearing_something_on(bp_feet))) ) {
-                    p->add_msg_if_player(m_info, _("You sink your roots into the soil."));   
-                }
+                p->rooted_message();
                 break;
             case 2:
                 loaded_software = "snake_game";
-                if ( (p->has_trait("ROOTS2") || (p->has_trait("ROOTS3"))) &&
-                  g->m.has_flag("DIGGABLE", p->posx, p->posy) &&
-                  (!(p->wearing_something_on(bp_feet))) ) {
-                    p->add_msg_if_player(m_info, _("You sink your roots into the soil."));   
-                }
+                p->rooted_message();
                 break;
             case 3:
                 loaded_software = "sokoban_game";
-                if ( (p->has_trait("ROOTS2") || (p->has_trait("ROOTS3"))) &&
-                  g->m.has_flag("DIGGABLE", p->posx, p->posy) &&
-                  (!(p->wearing_something_on(bp_feet))) ) {
-                    p->add_msg_if_player(m_info, _("You sink your roots into the soil."));   
-                }
+                p->rooted_message();
                 break;
             case 4: //Cancel
                 return 0;
