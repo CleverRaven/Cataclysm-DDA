@@ -180,7 +180,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     const size_t amt_startpos = lastcol - 14;
     const size_t weight_startpos = lastcol - 9;
     const size_t vol_startpos = lastcol - 3;
-    int max_name_length = amt_startpos - name_startpos - 2; // Default name length
+    int max_name_length = amt_startpos - name_startpos - 1; // Default name length
 
     const int table_hdr_len1 = utf8_width(_("amt weight vol")); // Header length type 1
     const int table_hdr_len2 = utf8_width(_("src amt weight vol")); // Header length type 2
@@ -192,7 +192,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         }
         else {
             mvwprintz( window, 5, lastcol - table_hdr_len2 + 1, c_ltgray, _("src amt weight vol") );
-            max_name_length = src_startpos - name_startpos - 2;
+            max_name_length = src_startpos - name_startpos - 1; // 1 for space
         }
     } else{
         mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_ltgray, _("amt weight vol") );
@@ -219,13 +219,8 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 
             }
             //print item name
-            if(items[i].it->display_name().size() > max_name_length) {
-                std::string truncName = items[i].it->display_name().substr(0, max_name_length);
-                mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", truncName.c_str() );
-            }
-            else {
-                mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->display_name().c_str() );
-            }
+            std::string it_name = utf8_truncate(items[i].it->display_name(), max_name_length);
+            mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", it_name.c_str() );
 
             //print src column
             if ( isall && !compact) {
