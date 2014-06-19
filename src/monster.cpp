@@ -491,9 +491,14 @@ monster_attitude monster::attitude(player *u)
  if (u != NULL) {
 
   if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
-       (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT")))&&
-      effective_anger >= 10)
-   effective_anger -= 20;
+       (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT"))) &&
+      effective_anger >= 10) {
+      effective_anger -= 20;
+  }
+  
+  if ( (type->id == "mon_bee") && (u->has_trait("FLOWERS"))) {
+      effective_anger -= 10;
+  }
 
   if (u->has_trait("TERRIFYING"))
    effective_morale -= 10;

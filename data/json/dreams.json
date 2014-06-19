@@ -479,5 +479,165 @@
             ],
         "category" : "MUTCAT_RAPTOR",
         "strength" : 3
+   },{
+        "type" : "dream",
+        "messages" : [
+            "You are terrified by a dream of becoming an ape hybrid.",
+            "You blissfully recall days spent lounging in the sun."
+            ],
+        "category" : "MUTCAT_LIZARD",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of your legions of undead admirers, their attentions, and the wonderful pain.",
+            "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
+            ],
+        "category" : "MUTCAT_MEDICAL",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You wonder if your nest will be good enough.",
+            "Your dream of soaring over the lanscape becomes a nightmare when you find yourself with arms and a glider!"
+            ],
+        "category" : "MUTCAT_BIRD",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You have a comforting dream of swimming with a school of fish.",
+            "The thought of being out of water, forced to crawl unsupported, terrifies you."
+            ],
+        "category" : "MUTCAT_FISH",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You vividly dream of sharing a kill with your pack.",
+            "A fond memory of throating some prey animal bubbles up."
+            ],
+        "category" : "MUTCAT_BEAST",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You wonder if you could find one of those 'salmon runs', or if they were just a legend...",
+            "Ah, the wolf-slaying dream again. That's a good one..."
+            ],
+        "category" : "MUTCAT_URSINE",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Boing! and you've pounced another yummy critter.",
+            "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!"
+            ],
+        "category" : "MUTCAT_FELINE",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of the hunt, the feed, and your pack.",
+            "Oh, you shoul really patrol your territory again, maybe expand."
+            ],
+        "category" : "MUTCAT_LUPINE",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of jumping the gate and leading your herd to freedom.",
+            "The herd moves along and you with them, finding greener pastures."
+            ],
+        "category" : "MUTCAT_CATTLE",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You feel smug, knowing that the Queen is dependent on you.",
+            "You dream of a weirdly shaped plant, whose nectar surpassed your every wish..."
+            ],
+        "category" : "MUTCAT_INSECT",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of bees fighting over your sweet nectar. Mmm.",
+            "A rather attractive triffid offers you a bouquet of ape heads. How thoughtful!"
+            ],
+        "category" : "MUTCAT_PLANT",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Your vivid dream of your pseudopods calcifying into rigid structures terrifies you.",
+            "Ah, the painting-the-planet dream again. Maybe if you assimilated more..."
+            ],
+        "category" : "MUTCAT_SLIME",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "The years seem to fly past as you dream of carving great underground fastnesses.",
+            "You have a horrible nightmare of being caught out in the sunlight."
+            ],
+        "category" : "MUTCAT_TROGLOBITE",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Mmm. The shellfish dream again.  Yum!",
+            "You dream of recruiting a cult of fishfolk to serve your needs."
+            ],
+        "category" : "MUTCAT_CEPHALOPOD",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You excitedly try to hang onto the web you dreamed of... but it fades.",
+            "Your dreams of having to live without a web frighten you."
+            ],
+        "category" : "MUTCAT_SPIDER",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "The Fury is so big! it's GONNA GET YOAAAAAH! *pant* only a dream.",
+            "You find your paws twitching. There's a cave. You should go."
+            ],
+        "category" : "MUTCAT_RAT",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You dream of the peaceful world you'll give humankind.  Because no one else can.",
+            "There are underground Faults in the world. Faults you should remedy."
+            ],
+        "category" : "MUTCAT_ALPHA",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "You pant, terrified at the thought of that FUNGUS destroying your home!",
+            "You wish others could understand, and join your struggle..."
+            ],
+        "category" : "MUTCAT_ELFA",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Your body flows slightly faster than you expected... oh, just a dream.",
+            "FIGHT. FEED. FORWARD."
+            ],
+        "category" : "MUTCAT_CHIMERA",
+        "strength" : 4
+    },{
+        "type" : "dream",
+        "messages" : [
+            "Oh.  No, that 'rex' thing was only a myth.",
+            "You stir, saddened that your beautiful hatchlings were only a dream."
+            ],
+        "category" : "MUTCAT_RAPTOR",
+        "strength" : 4
    }
 ]
