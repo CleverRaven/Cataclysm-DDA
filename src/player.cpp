@@ -1473,6 +1473,13 @@ int player::run_cost(int base_cost, bool diag)
     if (is_wearing("swim_fins")) {
         movecost *= 1.5f;
     }
+    if (is_wearing("roller_blades")) {
+        if (flatground) {
+            movecost *= .5f;
+        } else {
+            movecost *= 1.5f;
+        }
+    }
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
