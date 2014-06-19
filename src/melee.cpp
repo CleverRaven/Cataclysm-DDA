@@ -441,6 +441,10 @@ int player::get_dodge()
 
 int player::dodge_roll()
 {
+    if (is_wearing("roller_blades") && one_in(get_dex() / 3)) {
+        if(!has_disease("downed")) {add_msg("Fighting on wheels is hard!");}
+        add_disease("downed", 2);
+    }
     int dodge_stat = get_dodge();
 
     if (dodges_left <= 0) { // We already dodged this turn
