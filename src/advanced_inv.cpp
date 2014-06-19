@@ -234,8 +234,14 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
             }
 
             //print "amount" column
-            if( items[i].stacks > 1 ) {
-                mvwprintz(window, 6 + x, amt_startpos, thiscolor, "%4d", items[i].stacks);
+            int it_amt = items[i].stacks;
+            if( it_amt > 1 ) {
+                print_color = thiscolor;
+                if (it_amt > 9999) {
+                    it_amt = 9999;
+                    print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
+                }
+                mvwprintz(window, 6 + x, amt_startpos, print_color, "%4d", it_amt);
             }
 
             //print weight column
@@ -245,7 +251,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 
             if (it_weight >= 1000.0) {
                 if (it_weight >= 10000.0) {
-                    print_color = c_red;
+                    print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
                     it_weight = 9999.0;
                 }
                 w_precision = 0;
@@ -257,8 +263,14 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
             mvwprintz(window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight);
 
             //print volume column
-            mvwprintz(window, 6 + x, vol_startpos, (items[i].volume > 0 ? thiscolor : thiscolordark),
-                      "%4d", items[i].volume );
+            int it_vol = items[i].volume;
+            print_color = (it_vol > 0) ? thiscolor : thiscolordark;
+            if (it_vol > 9999) {
+                it_vol = 9999;
+                print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
+            }
+            mvwprintz(window, 6 + x, vol_startpos, print_color, "%4d", it_vol );
+
             if(active && items[i].autopickup == true) {
                 mvwprintz(window, 6 + x, 1, magenta_background(items[i].it->color(&g->u)), "%s",
                           (compact ? items[i].it->tname().substr(0, 1) : ">").c_str());
