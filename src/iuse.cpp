@@ -2189,6 +2189,10 @@ int iuse::sew(player *p, item *it, bool)
                              fix->tname().c_str());
         return 0;
     }
+    if( std::find( repair_items.begin(), repair_items.end(), fix->typeId() ) != repair_items.end() ) {
+        p->add_msg_if_player( m_info, _( "This can be used to repair other items, not itself." ) );
+        return 0;
+    }
 
     int items_needed = (fix->damage > 2 || fix->damage == 0) ? 1 : 0;
 
@@ -2979,6 +2983,10 @@ int iuse::solder_weld(player *p, item *it, bool)
             if(repair_items.empty()) {
                 p->add_msg_if_player(m_info, _("Your %s is not made of plastic, metal, or kevlar."),
                                      fix->tname().c_str());
+                return 0;
+            }
+            if( std::find( repair_items.begin(), repair_items.end(), fix->typeId() ) != repair_items.end() ) {
+                p->add_msg_if_player( m_info, _( "This can be used to repair other items, not itself." ) );
                 return 0;
             }
 
