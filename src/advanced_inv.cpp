@@ -182,20 +182,17 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     const size_t vol_startpos = lastcol - 3;
     int max_name_length = amt_startpos - name_startpos - 1; // Default name length
 
+    //~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
     const int table_hdr_len1 = utf8_width(_("amt weight vol")); // Header length type 1
+    //~ Items list header. Table fields length without spaces: src - 2, amt - 4, weight - 5, vol - 4.
     const int table_hdr_len2 = utf8_width(_("src amt weight vol")); // Header length type 2
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
-    if (isall) {
-        if(compact) {
+    if (isall && !compact) {
+        mvwprintz( window, 5, lastcol - table_hdr_len2 + 1, c_ltgray, _("src amt weight vol") );
+        max_name_length = src_startpos - name_startpos - 1; // 1 for space
+    } else {
             mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_ltgray, _("amt weight vol") );
-        }
-        else {
-            mvwprintz( window, 5, lastcol - table_hdr_len2 + 1, c_ltgray, _("src amt weight vol") );
-            max_name_length = src_startpos - name_startpos - 1; // 1 for space
-        }
-    } else{
-        mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_ltgray, _("amt weight vol") );
     }
 
     for(unsigned i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ , x++) {
