@@ -859,7 +859,7 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
 }
 
 static void do_aim( player *p, std::vector <Creature *> &t, int &target,
-                    const int x, const int y )
+                    item *relevant, const int x, const int y )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
     if( t[target]->xpos() != x || t[target]->ypos() != y ) {
@@ -874,7 +874,7 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
         }
     }
     // Increase aim at the cost of moves
-    p->moves -= p->time_to_aim();
+    p->moves -= p->time_to_aim( relevant );
     if( p->recoil > 0) {
         p->recoil--;
     }
@@ -1114,7 +1114,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             x = t[target]->xpos();
             y = t[target]->ypos();
         } else if ((action == "AIM") && target != -1) {
-            do_aim( &u, t, target, x, y );
+            do_aim( &u, t, target, relevant, x, y );
             if(u.moves <= 0) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
@@ -1128,7 +1128,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 aim_threshold = 0;
             }
             do {
-                do_aim( &u, t, target, x, y );
+                do_aim( &u, t, target, relevant, x, y );
             } while( u.moves > 0 && u.recoil > aim_threshold );
             if( u.recoil <= aim_threshold ) {
                 // If we made it under the aim threshold, go ahead and fire.

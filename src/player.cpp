@@ -4549,11 +4549,18 @@ int player::throw_dex_mod(bool return_stat_effect) const
  return (return_stat_effect ? rng(0, deviation) : deviation);
 }
 
-int player::time_to_aim() const
+// Calculates moves per point of reduced recoil, based on
+// skills, stats, and quality of the gun sight being used.
+int player::time_to_aim( item *gun ) const
 {
-    // Account for Dexterity, weapon weight, weapon skill, weapon mods and flags,
-    // mutations, and conditions
-    return 10;
+    // Account for Dexterity, weapon skill, weapon mods and flags,
+    int speed_score = 1;
+    speed_score += skill_dispersion( gun, false );
+    speed_score += ranged_dex_mod();
+    speed_score += gun->aim_speed( recoil );
+    // TODO: should any conditions, mutations, etc affect this?
+    // Probably CBMs too.
+    return speed_score;
 }
 
 int player::read_speed(bool return_stat_effect)
