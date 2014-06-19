@@ -2633,5 +2633,13 @@
         "move_cost": 2,
         "trap": "tr_ledge",
         "flags": ["TRANSPARENT", "NOITEM"]
-	}
+	},{
+        "type" : "terrain",
+        "id" : "t_flat_roof",
+        "name": "flat roof",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    }
 ]
