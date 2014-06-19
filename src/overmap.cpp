@@ -2134,7 +2134,7 @@ void overmap::move_hordes()
                zg[i].set_target(max_x, max_y);
                zg[i].set_interest(40);
                //debug
-               add_msg("Horde # %i take track %i;%i",i,max_x,max_y);
+               //add_msg("Horde # %i take track %i;%i",i,max_x,max_y);
                }
         }
     }
@@ -2236,16 +2236,16 @@ void overmap::place_tracks(const int x, const int y, const int turn) {
         g->weather != WEATHER_SNOWSTORM ) {
        layer[OVERMAP_GROUND_LEVEL].pl_track[x][y] = turn;
        //debug
-       add_msg("Add tracks:%i,%i", x, y);
+       //add_msg("Add tracks:%i,%i", x, y);
        }
      }
 }
 
 void overmap::update_tracks() {
-  add_msg("update_tracks");
+  //add_msg("update_tracks");
   if ( layer != NULL )
-    for (int j = 0; j < OMAPY; j++) {
-      for (int i = 0; i < OMAPX; i++) {
+    for (int j = 0; j < OMAPY*2; j++) {
+      for (int i = 0; i < OMAPX*2; i++) {
         if ( g->weather != WEATHER_ACID_DRIZZLE ||
              g->weather != WEATHER_ACID_RAIN ||
              g->weather != WEATHER_DRIZZLE ||
