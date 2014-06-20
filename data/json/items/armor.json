@@ -311,7 +311,7 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "A pair of inline skates. Very fast on flat floors, but make it hard to move on rough terrain.",
-        "price" : 85000,
+        "price" : 8500,
         "material" : ["plastic", "cotton"],
         "volume" : 15,
         "cutting" : 0,

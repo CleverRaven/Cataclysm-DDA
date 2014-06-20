@@ -441,9 +441,9 @@ int player::get_dodge()
 
 int player::dodge_roll()
 {
-    if (is_wearing("roller_blades") && one_in(get_dex() / 3)) {
+    if (is_wearing("roller_blades") && one_in(get_dex() + skillLevel("dodging"))) {
         if(!has_disease("downed")) {add_msg("Fighting on wheels is hard!");}
-        add_disease("downed", 2);
+        add_disease("downed", 3);
     }
     int dodge_stat = get_dodge();
 
