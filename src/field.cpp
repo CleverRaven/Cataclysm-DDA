@@ -218,7 +218,14 @@ void game::init_fields()
             {_("some bees"), _("swarm of bees"), _("angry swarm of bees")}, '8', 8,
             {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true},  1000,
             {0,0,0}
+        },
+
+        {
+            {_("smoke"),_("airborne incendiary"), _("airborne incendiary")}, '8', 8,
+            {c_white, c_ltred, c_ltred_red}, {true, true, false}, {true, true, true},  500,
+            {0,0,0}
         }
+
     };
     for(int i = 0; i < num_fields; i++) {
         fieldlist[i] = tmp_fields[i];
@@ -1100,7 +1107,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_shock_vent ) ||
                             curfield.findField( fd_plasma ) ||
                             curfield.findField( fd_laser ) ||
-                            curfield.findField( fd_electricity ) ) {
+                            curfield.findField( fd_electricity ) ||
+                            curfield.findField( fd_incendiary ) ) {
                             // Kill them at the end of processing.
                             cur->setFieldDensity( 0 );
                         } else {
@@ -1132,6 +1140,27 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                         }
                         break;
+
+                    case fd_incendiary:
+                        int offset_x = x + rng(-1,1);
+                        int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
+                        if (has_flag("EXPLODES", offset_x, offset_y) || has_flag("FLAMMABLE", offset_x, offset_y) ||
+                        has_flag("FLAMMABLE_ASH",offset_x, offset_y) || has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
+                                add_field(offset_x, offset_y , fd_fire, 1);
+                        }
+
+                        //check piles for flammable items and set those on fire
+                        for (int i = 0; i < i_at(x, y).size(); i++) {
+                            item *it = &(i_at(x, y)[i]);
+                                if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
+                                it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline"){
+                                    add_field(x, y, fd_fire, 1);
+                                }
+                        }
+
+                        spread_gas( this, cur, x, y, curtype, 66, 40 );
+                        break;
+
                 } // switch (curtype)
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
@@ -1470,6 +1499,20 @@ void map::step_in_field(int x, int y)
                     break;
                 }
             }
+            break;
+
+        case fd_incendiary:
+        // Mysterious incendiary substance melts you horribly.
+            if (cur->getFieldDensity() == 1) {
+                add_msg(m_bad, _("The incendiary burns you!"));
+                g->u.hurtall(rng(1, 3));
+            } else {
+                add_msg(m_bad, _("The incendiary melts into your skin!"));
+                g->u.add_effect("onfire", 8);
+                g->u.hurtall(rng(2, 6));
+            }
+            break;
+
         }
         ++field_list_it;
     }
@@ -1700,6 +1743,40 @@ void map::mon_in_field(int x, int y, monster *z)
                 }
             }
             break;
+
+        case fd_incendiary:
+            // MATERIALS-TODO: Use fire resistance
+            if ( z->made_of("flesh") || z->made_of("hflesh") || z->made_of("iflesh") ) {
+                dam += 3;
+            }
+            if (z->made_of("veggy")) {
+                dam += 12;
+            }
+            if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
+                z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool")) {
+                dam += 20;
+            }
+            if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel")) {
+                dam += -5;
+            }
+
+            if (cur->getFieldDensity() == 1) {
+                dam += rng(2, 6);
+            } else if (cur->getFieldDensity() == 2) {
+                dam += rng(6, 12);
+                z->moves -= 20;
+                if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
+                !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
+                    z->add_effect("onfire", rng(8, 12));
+                }
+            } else if (cur->getFieldDensity() == 3) {
+                dam += rng(10, 20);
+                z->moves -= 40;
+                if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
+                !z->made_of("steel") && !z->has_flag(MF_FIREY)) {
+                        z->add_effect("onfire", rng(12, 16));
+                }
+            }
 
         }
         ++field_list_it;
