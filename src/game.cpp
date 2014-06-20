@@ -612,6 +612,7 @@ void game::start_game(std::string worldname)
      u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
      u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
  }
+ u.moves = 0; // u.reset below will add the initial move points
  u.reset();
  nextspawn = int(calendar::turn);
  temperature = 65; // Springtime-appropriate?
@@ -1293,7 +1294,7 @@ bool game::do_turn()
         u.get_sick(  );
         // Freakishly Huge folks tire quicker
         if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
-            add_msg(_("<whew> You catch your breath."));
+            add_msg(m_info, _("<whew> You catch your breath."));
             u.fatigue++;
         }
     }
@@ -1378,18 +1379,6 @@ bool game::do_turn()
         u.update_morale();
     }
 
-    if ( u.worn_with_flag("DEAF") )
-    {
-        // Make the player deaf for one extra turn, so that he is not spammed with warnings
-        if (u.disease_duration("deaf") == 1)
-        {
-            u.add_disease("deaf", 1);
-        }
-        else
-        {
-            u.add_disease("deaf", 2);
-        }
-    }
     return false;
 }
 
@@ -1480,6 +1469,7 @@ void game::activity_on_turn() {
         case ACT_WAIT_WEATHER:
             // Based on time, not speed
             u.activity.moves_left -= 100;
+            u.rooted();
             u.pause();
             break;
         case ACT_PICKAXE:
@@ -1503,6 +1493,13 @@ void game::activity_on_turn() {
         case ACT_PULP:
             // does not really use u.activity.moves_left, stops itself when finished
             activity_on_turn_pulp();
+            break;
+        case ACT_FISH:
+            // Based on time, not speed--or it should be
+            // (Being faster doesn't make the fish bite quicker)
+            u.activity.moves_left -= 100;
+            u.rooted();
+            u.pause();
             break;
         default:
             // Based on speed, not time
@@ -1528,6 +1525,7 @@ void game::activity_on_turn_game()
         add_msg(m_info, _("The %s runs out of batteries."), game_item.tname().c_str());
     }
 
+    u.rooted();
     u.pause();
 }
 
@@ -1559,6 +1557,9 @@ void game::activity_on_turn_vibe()
         u.activity.moves_left = 0;
         add_msg(m_info, _("You're too tired to continue."));
     }
+
+    // Vibrator requires that you be able to move around, stretch, etc, so doesn't play
+    // well with roots.  Sorry.  :-(
 
     u.pause();
 }
@@ -3736,7 +3737,11 @@ void game::load(std::string worldname, std::string name)
  load_master(worldname);
  update_map(u.posx, u.posy);
 
+ const int tmp_moves = u.moves;
  u.reset();
+ // u.reset has added move points, but we should keep the original count that was
+ // loaded from the save. Don't give out free move points!
+ u.moves = tmp_moves;
  draw();
 }
 
@@ -6208,7 +6213,7 @@ bool game::sound(int x, int y, int vol, std::string description)
         return false;
     }
 
-    if (u.has_disease("deaf")) {
+    if (u.is_deaf()) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
         if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF") || u.is_wearing("rm13_armor_on")) &&
             rng( (vol - dist) / 2, (vol - dist) ) >= 150) {
@@ -8334,7 +8339,7 @@ void game::print_object_info(int lx, int ly, WINDOW* w_look, const int column, i
 
 void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover)
 {
-    if (m.sees_some_items(lx, ly, g->u)) {
+    if( m.sees_some_items( lx, ly, u ) ) {
         if (mouse_hover) {
             // items are displayed from the live view, don't do this here
             return;
@@ -8345,7 +8350,7 @@ void game::handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int colu
         {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
         }
-    } else if(m.has_flag("CONTAINER", lx, ly)) {
+    } else if( m.has_flag( "CONTAINER", lx, ly ) && !m.could_see_items( lx, ly, u ) ) {
         mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
     }
 }
@@ -11719,7 +11724,7 @@ void game::read()
 
 void game::chat()
 {
-    if(u.has_disease("deaf"))
+    if(u.is_deaf())
     {
         add_msg(m_info, _("You can't chat while deaf!"));
         return;
@@ -13750,14 +13755,15 @@ void game::wait()
     }
 
     u.assign_activity(actType, time, 0);
+    u.rooted_message();
 }
 
 void game::gameover()
 {
- erase();
- gamemode->game_over();
- mvprintw(0, 35, _("GAME OVER"));
- inv(_("Inventory:"));
+    erase();
+    gamemode->game_over();
+    mvprintw(0, 35, _("GAME OVER"));
+    inv(_("Inventory:"));
 }
 
 bool game::game_quit() { return (uquit == QUIT_MENU); }

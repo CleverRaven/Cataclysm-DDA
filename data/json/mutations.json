@@ -1350,11 +1350,24 @@
         "visibility" : 8,
         "ugliness" : 3,
         "description" : "All the hair on your body has turned to long, grass-like leaves. Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight. Slightly reduces wet effects.",
-        "prereqs" : ["BARK"],
+        "prereqs" : ["PLANTSKIN", "BARK"],
         "category" : ["MUTCAT_PLANT", "MUTCAT_ELFA"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 1 }
         ]
+    },{
+        "type" : "mutation",
+        "id" : "FLOWERS",
+        "name" : "Flowering",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : -4,
+        "description" : "You've started blooming where your scalp used to be. Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
+        "prereqs" : ["PLANTSKIN","BARK"],
+        "prereqs2" : ["LEAVES"],
+        "cancels" : ["SMELLY", "SMELLY2"],
+        "threshreq" : ["THRESH_PLANT"],
+        "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "NAILS",
@@ -1638,6 +1651,20 @@
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "SAPROPHAGE",
+        "name" : "Saprophage",
+        "points" : -3,
+        "visibility" : 5,
+        "ugliness" : 9,
+        "description" : "You prefer to sustain yourself using your roots and direct nutrient extraction/synthesis. You can still consume 'food', though, if you have to: you merely prefer it aged a little.",
+        "prereqs" : ["ROOTS2"],
+        "prereqs2" : ["LEAVES"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["HERBIVORE", "CARNIVORE", "GRAZER"],
+        "leads_to" : ["CHLOROMORPH"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
         "id" : "GIZZARD",
         "name" : "Gizzard",
         "points" : -5,
@@ -1910,6 +1937,40 @@
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
+        "id" : "MUT_TOUGH",
+        "name" : "Resilient",
+        "points" : 3,
+        "description" : "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points. Stacks with Tough, etc.",
+        "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3", "MASOCHIST_MED"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "changes_to" : ["MUT_TOUGH2"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
+        "id" : "MUT_TOUGH2",
+        "name" : "Solidly Built",
+        "points" : 5,
+        "description" : "Not much scares you. You get a 30% bonus to all hit points. Stacks with Tough, etc.",
+        "valid" : false,
+        "prereqs" : ["MUT_TOUGH"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL"],
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "changes_to" : ["MUT_TOUGH3"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "MUT_TOUGH3",
+        "name" : "TAAANK",
+        "points" : 7,
+        "description" : "You can simply take the punishment from lesser beings and keep going. You get a 40% bonus to all hit points. Stacks with Tough, etc.",
+        "valid" : false,
+        "prereqs" : ["MUT_TOUGH2"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
         "id" : "PAINREC1",
         "name" : "Pain Recovery",
         "points" : 3,
@@ -1943,6 +2004,7 @@
         "prereqs" : ["MASOCHIST", "PAINRESIST", "ADDICT"],
         "prereqs2" : ["PAINREC2", "PAINREC3"],
         "threshreq" : ["THRESH_MEDICAL"],
+        "leads_to" : ["MUT_TOUGH"],
         "changes_to" : ["CENOBITE"],
         "note" : "MASOCHIST_MED and NOPAIN don't cancel each other.  By design.  Poor painless folks...",
         "category" : ["MUTCAT_MEDICAL"]
@@ -2216,7 +2278,7 @@
         "description" : "You have grown noticeably taller and broader. Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "changes_to": ["LARGE_OK", "HUGE"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "LARGE_OK",
@@ -2227,9 +2289,10 @@
         "description" : "You carry your rugged body with the dignity you deserve. Strength +2.",
         "prereqs" : ["LARGE"],
         "prereqs2" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
-        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD"],
         "changes_to": ["HUGE"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "leads_to" : ["MUT_TOUGH"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"]
     },{
         "type" : "mutation",
         "id" : "HUGE",
@@ -2255,6 +2318,7 @@
         "prereqs" : ["HUGE"],
         "prereqs2" : ["STR_UP_3", "STR_UP_4"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "leads_to" : ["MUT_TOUGH"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
     },{
         "type" : "mutation",
@@ -2282,6 +2346,7 @@
         "description" : "Your muscles are much stronger. Strength + 4",
         "prereqs" : ["STR_UP_2"],
         "changes_to" : ["STR_UP_4"],
+        "leads_to" : ["MUT_TOUGH"],
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
@@ -3022,7 +3087,18 @@
         "points" : -4,
         "mixed_effect" : true,
         "description" : "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
+        "changes_to" : ["CHAOTIC"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "CHAOTIC",
+        "name" : "Genetic Chaos",
+        "points" : -8,
+        "purifiable" : false,
+        "description" : "Your body alters itself rapidly, and without your intervention or conscious control.",
+        "prereqs" : ["UNSTABLE", "MUT_JUNKIE"],
+        "threshreq" : ["THRESH_CHIMERA"],
+        "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE1",
@@ -3205,6 +3281,61 @@
         "prereqs2" : ["VINES2"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "ROOTS1",
+        "name" : "Toe Roots",
+        "points" : -2,
+        "visibility" : 1,
+        "ugliness" : 5,
+        "description" : "Your toes have grown wriggly, and you can't imagine why you wear that stuff on your feet. Take it off. It's in the way.",
+        "prereqs" : ["PLANTSKIN"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES"],
+        "changes_to" : ["ROOTS2"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "ROOTS2",
+        "name" : "Roots",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 5,
+        "//~" : "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task. The handheld game does count.",
+        "description" : "It's about time you started developing a root system. When reading, fishing from, waiting on, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients from the soil.",
+        "prereqs" : ["ROOTS1"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES"],
+        "changes_to" : ["ROOTS3"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "ROOTS3",
+        "name" : "Rooter",
+        "points" : -3,
+        "visibility" : 5,
+        "ugliness" : 5,
+        "description" : "You find it difficult not to sink roots when able. You extract nutrients whenever on diggable terrain, but move more slowly.",
+        "prereqs" : ["ROOTS2"],
+        "prereqs2" : ["SAPROPHAGE"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "CHLOROMORPH",
+        "name" : "Chloromorphosis",
+        "points" : 10,
+        "visibility" : 7,
+        "ugliness" : 1,
+        "description" : "Every inch of your skin is packed with chlorophyll and you have strong roots. Sleeping on diggable soil will satisfy any hunger you might have.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["ROOTS2", "ROOTS3"],
+        "prereqs2" : ["SAPROPHAGE"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES", "SMELLY", "SMELLY2"],
         "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",

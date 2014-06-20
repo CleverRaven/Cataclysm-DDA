@@ -295,6 +295,12 @@ class map
   * the player is at (x,y) or at an adjacent square).
   */
  bool sees_some_items(int x, int y, const player &u);
+ /**
+  * Check if the player could see items at (x,y) if there were
+  * any items. This is similar to @ref sees_some_items, but it
+  * does not check that there are actually any items.
+  */
+ bool could_see_items(int x, int y, const player &u);
 
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)

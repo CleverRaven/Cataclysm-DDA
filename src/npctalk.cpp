@@ -440,7 +440,7 @@ void npc::talk_to_u()
 
  moves -= 100;
 
- if(g->u.has_disease("deaf")) {
+ if(g->u.is_deaf()) {
   add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
   if(d.topic_stack.back() == TALK_MUG) {
    add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
@@ -1586,7 +1586,7 @@ int trial_chance(talk_response response, player *u, npc *p)
    if (u->has_trait("ELFAEYES")) {
       chance += 10;
    }
-   if (u->has_trait("WINGS_BUTTERFLY")) {
+   if ((u->has_trait("WINGS_BUTTERFLY")) || (u->has_trait("FLOWERS"))) {
       chance += 10;
    }
    if (u->has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
