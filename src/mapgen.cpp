@@ -49,6 +49,8 @@ void map::generate(const int x, const int y, const int z, const int turn)
     dbg(D_INFO) << "map::generate( g[" << g << "], x[" << x << "], "
                 << "y[" << y << "], turn[" << turn << "] )";
 
+    set_abs_sub( x, y, z );
+
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
     //  generation which overflows won't cause a crash.  At the bottom of this
@@ -10842,10 +10844,9 @@ void map::place_spawns(std::string group, const int chance,
         return;
     }
 
-    if ( MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
-        real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
-        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+    if (MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return;
     }
@@ -10918,9 +10919,8 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         return 0;
     }
     if (!item_controller->has_group(loc)) {
-        real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
-        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                  loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return 0;
