@@ -42,10 +42,14 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2);
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
 void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat); // pick & build
 
-void map::generate(overmap *om, const int x, const int y, const int z, const int turn)
+// (x,y,z) are absolute coordinates of a submap
+// x%2 and y%2 must be 0!
+void map::generate(const int x, const int y, const int z, const int turn)
 {
-    dbg(D_INFO) << "map::generate( g[" << g << "], om[" << (void *)om << "], x[" << x << "], "
+    dbg(D_INFO) << "map::generate( g[" << g << "], x[" << x << "], "
                 << "y[" << y << "], turn[" << turn << "] )";
+
+    set_abs_sub( x, y, z );
 
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
@@ -71,10 +75,9 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
     }
 
     unsigned zones = 0;
-    // x, and y are submap coordinates, local to om -> make them global,
-    // than convert to overmap terrain coordinates
-    int overx = x + om->pos().x * OMAPX * 2;
-    int overy = y + om->pos().y * OMAPY * 2;
+    // x, and y are submap coordinates, convert to overmap terrain coordinates
+    int overx = x;
+    int overy = y;
     overmapbuffer::sm_to_omt(overx, overy);
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
     oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
@@ -116,7 +119,7 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
             dbg(D_INFO) << grid[i + j];
 
             if (i <= 1 && j <= 1) {
-                saven(om, turn, x, y, z, i, j);
+                saven(turn, x, y, z, i, j);
             } else {
                 delete grid[i + j * my_MAPSIZE];
             }
@@ -10841,10 +10844,9 @@ void map::place_spawns(std::string group, const int chance,
         return;
     }
 
-    if ( MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
-        real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
-        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+    if (MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return;
     }
@@ -10917,9 +10919,8 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         return 0;
     }
     if (!item_controller->has_group(loc)) {
-        real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
-        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                  loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return 0;
