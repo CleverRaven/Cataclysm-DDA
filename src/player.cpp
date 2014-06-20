@@ -4064,21 +4064,27 @@ void player::search_surroundings()
     if (controlling_vehicle) {
         return;
     }
-    for(size_t i = 0; i < 9; i++) {
+    // Search for traps in a larger area than before because this is the only
+    // way we can "find" traps that aren't marked as visible.
+    // Detection formula takes care of likelihood of seeing within this range.
+    for (size_t i = 0; i < 121; i++) {
         const int x = posx + i / 3 - 1;
         const int y = posy + i % 3 - 1;
         const trap_id trid = g->m.tr_at(x, y);
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
-        const trap *tr = traplist[trid];
+        const trap *tr = traplist[trid];        
         if (tr->name.empty() || tr->can_see(*this, x, y)) {
-            // Already seen, or has no name -> can never bee seen
+            // Already seen, or has no name -> can never be seen
             continue;
         }
-        const std::string direction = direction_name(direction_from(posx, posy, x, y));
-        add_msg_if_player(_("You've spotted a %s to the %s!"), tr->name.c_str(), direction.c_str());
-        add_known_trap(x, y, tr->id);
+        if (tr->detect_trap(*this, x, y)) {
+            // Chance to detect traps we haven't yet seen.
+            const std::string direction = direction_name(direction_from(posx, posy, x, y));
+            add_msg_if_player(_("You've spotted a %s to the %s!"), tr->name.c_str(), direction.c_str());
+            add_known_trap(x, y, tr->id);
+        }
     }
 }
 
