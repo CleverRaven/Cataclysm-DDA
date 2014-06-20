@@ -2618,8 +2618,8 @@
       ["boots_hiking", 20],
       ["boots_western", 10],
       ["clogs", 1],
-      ["leathersandals", 10]
-      ["roller_blades", 20],
+      ["leathersandals", 10],
+      ["roller_blades", 20]
     ]
   },{
     "type" : "item_group",
