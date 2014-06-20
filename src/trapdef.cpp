@@ -58,17 +58,22 @@ trap_id trapfind(const std::string id) {
     return traplist[trapmap[id]]->loadid;
 };
 
-// Attempts a trap detection with variable results.
 bool trap::detect_trap(const player &p, int x, int y) const
 {
-           // Effective Perception... 
+    // Some decisions are based around:
+    // * Starting, and thus average perception, is 8.
+    // * Buried landmines, the silent killer, has a visibility of 10.
+    // * There will always be a distance malus of 1 unless you're on top of the trap.
+    // * ...and an average character should at least have a minor chance of
+    //   noticing a buried landmine if standing right next to it.
+            // Effective Perception... 
     return (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) +
             // ...small bonus from stimulants...
             (p.stim > 10 ? rng(1, 2) : 0) +
             // ...bonus from trap skill...
             (const_cast<player&>(p).skillLevel("traps") * 2) +
             // ...luck, might be good, might be bad...
-            rng(-3, 3) -
+            rng(-4, 4) -
             // ...malus if we are tired...
             (p.has_disease("lack_sleep") ? rng(1, 5) : 0) -
             // ...malus farther we are from trap...

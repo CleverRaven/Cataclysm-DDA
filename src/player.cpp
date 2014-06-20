@@ -4068,8 +4068,8 @@ void player::search_surroundings()
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
     for (size_t i = 0; i < 121; i++) {
-        const int x = posx + i / 3 - 1;
-        const int y = posy + i % 3 - 1;
+        const int x = posx + i / 11 - 5;
+        const int y = posy + i % 11 - 5;
         const trap_id trid = g->m.tr_at(x, y);
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
