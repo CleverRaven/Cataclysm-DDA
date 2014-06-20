@@ -139,6 +139,15 @@ void map::generate_lightmap()
                                            trigdist);    // kinda a hack as the square will still get marked
                     }
                     break;
+                case fd_incendiary:
+                    if (3 == cur->getFieldDensity()) {
+                        add_light_source(sx, sy, 30);
+                    } else if (2 == cur->getFieldDensity()) {
+                        add_light_source(sx, sy, 16);
+                    } else {
+                        add_light_source(sx, sy, 8);
+                    }
+                    break;
                 case fd_laser:
                     apply_light_source(sx, sy, 1, trigdist);
                     break;

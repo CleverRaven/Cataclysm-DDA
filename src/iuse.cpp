@@ -5165,6 +5165,37 @@ int iuse::acidbomb_act(player *p, item *it, bool)
  return 0;
 }
 
+int iuse::grenade_inc_act(player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+        if (pos.x == -999 || pos.y == -999) {
+            return 0;
+        }
+
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 0, _("Tick!")); // Vol 0 = only heard if you hold it
+    } else if (it->charges > 0) {
+        add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->name.c_str());
+        return 0;
+    } else {  // blow up
+        int num_flames= rng(3,5);
+        for (int current_flame = 0; current_flame < num_flames; current_flame++){
+            std::vector<point> flames = line_to(pos.x, pos.y, pos.x + rng(-5,5), pos.y + rng(-5,5), 0);
+            for (int i = 0; i <flames.size(); i++) {
+                g->m.add_field(flames[i].x, flames[i].y, fd_fire, rng(0,2));
+            }
+        }
+        g->explosion(pos.x, pos.y, 8, 0, true);
+        for (int i = -2; i <= 2; i++) {
+            for (int j = -2; j <= 2; j++) {
+                g->m.add_field( pos.x + i, pos.y + j, fd_incendiary, 3);
+            }
+        }
+
+    }
+ return 0;
+}
+
 int iuse::arrow_flamable(player *p, item *it, bool)
 {
     if (p->is_underwater()) {
