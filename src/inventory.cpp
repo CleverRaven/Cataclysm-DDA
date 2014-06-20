@@ -553,7 +553,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 add_item(water);
             }
             if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
-                item swater("water_salt", 0);
+                item swater("salt_water", 0);
                 swater.charges = 50;
                 add_item(swater);
             }
