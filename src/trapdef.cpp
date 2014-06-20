@@ -80,7 +80,7 @@ bool trap::detect_trap(const player &p, int x, int y) const
 // Whether or not, in the current state, the player can see the trap.
 bool trap::can_see(const player &p, int x, int y) const
 {
-    return visibility < 0 || p.knows_trap(x, y) || false;
+    return visibility < 0 || p.knows_trap(x, y);
 }
 
 void trap::trigger(Creature *creature, int x, int y) const
