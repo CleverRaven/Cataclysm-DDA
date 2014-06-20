@@ -307,6 +307,23 @@
 
   {
     "type":"GENERIC",
+    "id": "large_lcd_screen",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "large LCD screen",
+    "category": "spare_parts",
+    "description": "A large LCD display panel, used for displaying images.",
+    "price": 192000,
+    "material": "plastic",
+    "weight": 4000,
+    "volume": 8,
+    "bashing": -3,
+    "cutting": -1,
+    "to_hit": -4
+  },
+
+  {
+    "type":"GENERIC",
     "id": "lens",
     "symbol": ".",
     "color": "light_cyan",
@@ -1243,11 +1260,11 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "television",
-    "description": "A large cathode ray tube television, full of delicious electronics.",
+    "description": "A large LCD television, full of delicious electronics.",
     "price": 0,
     "material": ["plastic", "glass"],
-    "weight": 22600,
-    "volume": 12,
+    "weight": 18600,
+    "volume": 10,
     "bashing": 5,
     "cutting": 0,
     "to_hit": -5
