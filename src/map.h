@@ -576,8 +576,8 @@ void add_corpse(int x, int y);
                                 );
             }
 
-            bool remove(const int iIndex) {
-                if (iIndex < vZones.size() && iIndex >= 0) {
+            bool remove(const size_t iIndex) {
+                if (iIndex < vZones.size()) {
                     vZones.erase(vZones.begin()+iIndex);
                     return true;
                 }
