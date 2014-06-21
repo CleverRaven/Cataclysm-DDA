@@ -12619,12 +12619,6 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat)
     build_mansion_room(m, type, x1, y1, x2, y2, dat);
 }
 
-// DEPRECATED 2014-June-20
-// Map extras have been turned off and are considered deprecated.
-// If you wound up here, you might want to check out how the "extra" content
-// should be integrated back into the game and whether or not the map extra
-// code and structures are candidates for deletion.
-//
 void map::add_extra(map_extra type)
 {
     item body;
@@ -12742,80 +12736,83 @@ void map::add_extra(map_extra type)
     break;
 
     case mx_stash: {
-        int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-        if (move_cost(x, y) != 0) {
-            ter_set(x, y, t_dirt);
-        }
-
-        int size = 0;
-        items_location stash;
-        switch (rng(1, 6)) { // What kind of stash?
-        case 1:
-            stash = "stash_food";
-            size = 90;
-            break;
-        case 2:
-            stash = "stash_ammo";
-            size = 80;
-            break;
-        case 3:
-            stash = "rare";
-            size = 70;
-            break;
-        case 4:
-            stash = "stash_wood";
-            size = 90;
-            break;
-        case 5:
-            stash = "stash_drugs";
-            size = 85;
-            break;
-        case 6:
-            stash = "trash";
-            size = 92;
-            break;
-        }
-
-        if (move_cost(x, y) == 0) {
-            ter_set(x, y, t_dirt);
-        }
-        place_items(stash, size, x, y, x, y, true, 0);
-
-        // Now add traps around that stash
-        for (int i = x - 4; i <= x + 4; i++) {
-            for (int j = y - 4; j <= y + 4; j++) {
-                if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
-                    trap_id placed = tr_null;
-                    switch (rng(1, 7)) {
-                    case 1:
-                    case 2:
-                    case 3:
-                        placed = tr_beartrap;
-                        break;
-                    case 4:
-                        placed = tr_caltrops;
-                        break;
-                    case 5:
-                        placed = tr_nailboard;
-                        break;
-                    case 6:
-                        placed = tr_crossbow;
-                        break;
-                    case 7:
-                        placed = tr_shotgun_2;
-                        break;
-                    }
-                    if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
-                        if (one_in(8)) {
-                            placed = tr_landmine_buried;
-                        } else {
-                            placed = tr_beartrap_buried;
-                        }
-                    }
-                    add_trap(i, j,  placed);
-                }
-            }
-        }
+        // 2014 June 21
+        // Disabled stashes here. Allows previous weights to be kept and
+        // stashes, if "created" will be ignored.
+//        int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+//        if (move_cost(x, y) != 0) {
+//            ter_set(x, y, t_dirt);
+//        }
+//
+//        int size = 0;
+//        items_location stash;
+//        switch (rng(1, 6)) { // What kind of stash?
+//        case 1:
+//            stash = "stash_food";
+//            size = 90;
+//            break;
+//        case 2:
+//            stash = "stash_ammo";
+//            size = 80;
+//            break;
+//        case 3:
+//            stash = "rare";
+//            size = 70;
+//            break;
+//        case 4:
+//            stash = "stash_wood";
+//            size = 90;
+//            break;
+//        case 5:
+//            stash = "stash_drugs";
+//            size = 85;
+//            break;
+//        case 6:
+//            stash = "trash";
+//            size = 92;
+//            break;
+//        }
+//
+//        if (move_cost(x, y) == 0) {
+//            ter_set(x, y, t_dirt);
+//        }
+//        place_items(stash, size, x, y, x, y, true, 0);
+//
+//        // Now add traps around that stash
+//        for (int i = x - 4; i <= x + 4; i++) {
+//            for (int j = y - 4; j <= y + 4; j++) {
+//                if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
+//                    trap_id placed = tr_null;
+//                    switch (rng(1, 7)) {
+//                    case 1:
+//                    case 2:
+//                    case 3:
+//                        placed = tr_beartrap;
+//                        break;
+//                    case 4:
+//                        placed = tr_caltrops;
+//                        break;
+//                    case 5:
+//                        placed = tr_nailboard;
+//                        break;
+//                    case 6:
+//                        placed = tr_crossbow;
+//                        break;
+//                    case 7:
+//                        placed = tr_shotgun_2;
+//                        break;
+//                    }
+//                    if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
+//                        if (one_in(8)) {
+//                            placed = tr_landmine_buried;
+//                        } else {
+//                            placed = tr_beartrap_buried;
+//                        }
+//                    }
+//                    add_trap(i, j,  placed);
+//                }
+//            }
+//        }
     }
     break;
 

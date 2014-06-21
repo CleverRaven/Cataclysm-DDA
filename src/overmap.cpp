@@ -42,35 +42,29 @@ enum oter_dir {
     oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
 };
 
-// DEPRECATED 2014-June-20
-// Map extras have been turned off and are considered deprecated.
-// If you wound up here, you might want to check out how the "extra" content
-// should be integrated back into the game and whether or not the map extra
-// code and structures are candidates for deletion.
-//
 // Here are the global controls for map-extra spawning.
 // The %%% line is chance that a given map square will have an extra
 // (higher = less likely) and the individual numbers are the
 // relative frequencies of each (higher = more likely).
 // Adding or deleting map_extras will affect the amount
 // of others, so be careful.
+//
+// 2014 June 21: Stashes are removed. The easiest way to make stashes disappear
+// and leave other extras appearing at the same quantity in the game is to
+// leave these weights the same and ignore stashes when they're created.
 map_extras no_extras(0);
-//map_extras road_extras(
-//    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-//    75, 40, 25, 60, 200, 30, 10,  5, 80, 10,  8,  2,  3);
-map_extras road_extras(0);
-//map_extras field_extras(
-//    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-//    90, 40, 8, 20, 80, 10, 10,  3, 50, 10,  8,  1,  3);
-map_extras field_extras(0);
-//map_extras subway_extras(
-//    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-//    75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 20,  1,  3);
-map_extras subway_extras(0);
-//map_extras build_extras(
-//    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-//    90,  0,  5, 12,  0, 10,  0,  5,  5, 60,  8,  1,  3);
-map_extras build_extras(0);
+map_extras road_extras(
+    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
+    75, 40, 25, 60, 200, 30, 10,  5, 80, 10,  8,  2,  3);
+map_extras field_extras(
+    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
+    90, 40, 8, 20, 80, 10, 10,  3, 50, 10,  8,  1,  3);
+map_extras subway_extras(
+    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
+    75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 20,  1,  3);
+map_extras build_extras(
+    // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
+    90,  0,  5, 12,  0, 10,  0,  5,  5, 60,  8,  1,  3);
 
 std::map<std::string, oter_t> otermap;
 std::vector<oter_t> oterlist;
@@ -209,12 +203,6 @@ oter_id house(int dir, int chance_of_basement)
     return ( one_in( chance_of_basement) ? iid_house : iid_house_base ).t().directional_peers[dir];
 }
 
-// DEPRECATED 2014-June-20
-// Map extras have been turned off and are considered deprecated.
-// If you wound up here, you might want to check out how the "extra" content
-// should be integrated back into the game and whether or not the map extra
-// code and structures are candidates for deletion.
-//
 map_extras &get_extras(const std::string &name)
 {
     if (name == "field") {
