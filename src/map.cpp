@@ -1567,7 +1567,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                         furn_set( x, y, f_null );
                     }
                     // Hack alert.
-                    // Signs have cosmetics associated with them on the submap since 
+                    // Signs have cosmetics associated with them on the submap since
                     // furniture can't store dynamic data to disk. To prevent writing
                     // mysteriously appearing for a sign later built here, remove the
                     // writing from the submap.
@@ -3338,6 +3338,19 @@ void map::disarm_trap(const int x, const int y)
     const int tSkillLevel = g->u.skillLevel("traps");
     const int diff = tr->get_difficulty();
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
+
+    // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
+    if (tr->get_avoidance() ==  0 && tr->get_difficulty() == 0) {
+        add_msg(_("You take down the %s"), tr->name.c_str());
+        std::vector<itype_id> comp = tr->components;
+        for (int i = 0; i < comp.size(); i++) {
+            if (comp[i] != "null") {
+                spawn_item(x, y, comp[i], 1, 1);
+                remove_trap(x, y);
+            }
+        }
+        return;
+    }
 
     while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50) {
         roll++;

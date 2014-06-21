@@ -1796,7 +1796,12 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
         return;
     }
-    if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    // Some traps are not actual traps. Those should get a different query.
+    if (t.can_see(*p, examx, examy) && possible == 0 && t.get_avoidance() == 0) { // Separated so saying no doesn't trigger the other query.
+        if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
+            m->disarm_trap(examx, examy);
+        }
+    } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
 }
@@ -1982,15 +1987,15 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     } else {
         p->add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
     }
-    
+
     // Allow chance to modify message.
     // Chose spray can because it seems appropriate.
-    int required_writing_charges = 1; 
+    int required_writing_charges = 1;
     if (p->has_charges("spray_can", required_writing_charges)) {
         // Different messages if the sign already has writing associated with it.
-        std::string query_message = previous_signage_exists ? 
-            _("Overwrite the existing message on the sign with spray paint?") : 
-            _("Add a message to the sign with spray paint?"); 
+        std::string query_message = previous_signage_exists ?
+            _("Overwrite the existing message on the sign with spray paint?") :
+            _("Add a message to the sign with spray paint?");
         std::string spray_painted_message = previous_signage_exists ?
             _("You overwrite the previous message on the sign with your graffiti") :
             _("You graffiti a message onto the sign.");
