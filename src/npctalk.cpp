@@ -531,6 +531,14 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_DONE:
             return "";
 
+        case TALK_GUARD:
+            if(one_in(2)){
+                return _("I'm not in charge here, you're looking for someone else...");
+            }
+            else {
+                return _("Keep civil or I'll bring the pain.");
+            }
+
         case TALK_MISSION_LIST:
             if (p->chatbin.missions.empty()) {
                 if (p->chatbin.missions_assigned.empty()) {
@@ -561,6 +569,50 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_MISSION_REWARD:
             return _("Sure, here you go!");
+//Acidia
+        case TALK_EVAC_MERCHANT:
+             return _("Welcome...");
+
+        case TALK_EVAC_MERCHANT_NEW:
+            return _("Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees."
+                     "  We do despratly need supplies and are willing to trade what we can for it.  Pay top dollar for jerkey if you have any.");
+
+        case TALK_EVAC_MERCHANT_PLANS:
+            return _("To be honest, we started out with six buses full of office workers and soccer moms... after the refugee outbreak a day or two"
+                    " ago the more courageous ones in our party ended up dead.  The only thing we want now is to run enough trade through"
+                    " here to keep us alive.  Don't care who your goods come from or how you got them, just don't bring trouble.");
+
+        case TALK_EVAC_MERCHANT_PLANS2:
+            return _("I'm sorry, but the only way we're going to make it is if we keep our gates buttoned fast.  The guards in the basement "
+                    "have orders to shoot on site if you so much as peep your head in the lower levels.  I don't know what made the scavangers "
+                    "out there so ruthless but some of us have had to kill our own bloody kids... don't even think about strong arming us.");
+
+        case TALK_EVAC_MERCHANT_WORLD:
+            return _("Can't say we've heard much.  Most these shelters seemed to have been designed to make people feel safer... not actually "
+                    "aid in their survival.  Our radio equipment is utter garbage that someone convinced the government to buy, with no intention "
+                    "of it ever being used.  From the passing scavangers I've heard nothing but prime loot'n spots and rumors of hordes.");
+
+        case TALK_EVAC_MERCHANT_HORDS:
+            return _("Had one guy pop in here a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it "
+                     "downtown before he ran into a wall of the living dead that could stop a tank.  He hightailed it out but claims there were "
+                     "several thousand at least.  Guess when you get a bunch of them together they end up making enough noise to attract everyone "
+                     "in the neighborhood.  Luckily we haven't had a mob like that pass by here.");
+
+        case TALK_EVAC_MERCHANT_PRIME_LOOT:
+            return _("Well, there is a party of about a dozen 'scavengers' that found some sort of government facility.  They bring us a literal "
+                     "truck load of jumpsuits, m4's, and canned food every week or so.  Since some of those guys got family here, we've been "
+                     "doing alright.  As to where it is, I don't have to foggiest of ideas.");
+
+        case TALK_EVAC_MERCHANT_ASK_JOIN:
+            return _("Sorry, last thing we need is another mouth to feed.  Most of us lack any real survival skills so keeping our group "
+                     "small enough to survive on the food random scavengers bring to trade with us is important.");
+
+        case TALK_EVAC_MERCHANT_NO:
+            return _("I'm sorry, not a risk we are willing to take right now.");
+
+        case TALK_EVAC_MERCHANT_HELL_NO:
+            return _("There isn't a chance in hell!  We had one guy come in here with bloody fur all over his body... well I guess that isn't all that "
+                     "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
 
         case TALK_SHELTER:
             switch (rng(1, 2)) {
@@ -849,6 +901,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   miss = g->find_mission( p->chatbin.missions_assigned[selected] );
 
  switch (topic) {
+ case TALK_GUARD:
+  RESPONSE(_("Don't mind me..."));
+   SUCCESS(TALK_DONE);
+  break;
+
  case TALK_MISSION_LIST:
   if (p->chatbin.missions.empty()) {
    RESPONSE(_("Oh, okay."));
@@ -1042,6 +1099,88 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_DONE);
    SUCCESS_ACTION(&talk_function::clear_mission);
   break;
+
+//Acidia
+ case TALK_EVAC_MERCHANT:
+  RESPONSE(_("I'm actually new..."));
+   SUCCESS(TALK_EVAC_MERCHANT_NEW);
+  RESPONSE(_("What are you doing here?"));
+   SUCCESS(TALK_EVAC_MERCHANT_PLANS);
+  RESPONSE(_("Heard anything about the outside world?"));
+   SUCCESS(TALK_EVAC_MERCHANT_WORLD);
+  RESPONSE(_("Is there any way I can join your groups?"));
+   SUCCESS(TALK_EVAC_MERCHANT_ASK_JOIN);
+  RESPONSE(_("Can I do anything for the center?"));
+   SUCCESS(TALK_MISSION_LIST);
+  if (p->chatbin.missions_assigned.size() == 1) {
+   RESPONSE(_("About that job..."));
+    SUCCESS(TALK_MISSION_INQUIRE);
+  } else if (p->chatbin.missions_assigned.size() >= 2) {
+   RESPONSE(_("About one of those jobs..."));
+    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+  }
+  RESPONSE(_("Let's trade then."));
+   SUCCESS_ACTION(&talk_function::start_trade);
+   SUCCESS(TALK_EVAC_MERCHANT);
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_MERCHANT_NEW:
+  RESPONSE(_("No rest for the weary..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_PLANS:
+  RESPONSE(_("It's just as bad out here, if not worse."));
+   SUCCESS(TALK_EVAC_MERCHANT_PLANS2);
+  break;
+ case TALK_EVAC_MERCHANT_PLANS2:
+  RESPONSE(_("Guess shit's a mess everywhere..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_HORDS:
+  RESPONSE(_("Thanks for the tip."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_PRIME_LOOT:
+  RESPONSE(_("Thanks, I'll keep an eye out"));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_NO:
+  RESPONSE(_("Fine..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_HELL_NO:
+  RESPONSE(_("Fine... *coughupyourscough*"));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+
+ case TALK_EVAC_MERCHANT_ASK_JOIN:
+  if (g->u.int_cur > 10){
+    RESPONSE(_("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavangers bring in!"));
+        SUCCESS(TALK_EVAC_MERCHANT_NO);
+  }
+  if (g->u.int_cur <= 6 && g->u.str_cur > 10){
+    RESPONSE(_("[STR 11] I punch things in face real good!"));
+        SUCCESS(TALK_EVAC_MERCHANT_NO);
+  }
+  RESPONSE(_("I'm sure I can do something to change your mind *wink*"));
+   SUCCESS(TALK_EVAC_MERCHANT_HELL_NO);
+  RESPONSE(_("I can pull my own weight!"));
+   SUCCESS(TALK_EVAC_MERCHANT_NO);
+  RESPONSE(_("I guess I'll look somewhere else..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+
+ case TALK_EVAC_MERCHANT_WORLD:
+  RESPONSE(_("Hords?"));
+   SUCCESS(TALK_EVAC_MERCHANT_HORDS);
+  RESPONSE(_("Heard of anything better than the odd gun cache?"));
+   SUCCESS(TALK_EVAC_MERCHANT_PRIME_LOOT);
+  RESPONSE(_("Was hoping for something more..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+
 
  case TALK_SHELTER:
   RESPONSE(_("What should we do now?"));
