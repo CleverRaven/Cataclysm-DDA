@@ -104,12 +104,6 @@ void map::generate(const int x, const int y, const int z, const int turn)
     draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
              t_above, turn, density, z, rsettings);
 
-    // DEPRECATED 2014-June-20
-    // Map extras have been turned off and are considered deprecated.
-    // If you wound up here, you might want to check out how the "extra" content
-    // should be integrated back into the game and whether or not the map extra
-    // code and structures are candidates for deletion.
-    //
     map_extras ex = get_extras(otermap[terrain_type].extras);
     if ( one_in( ex.chance )) {
         add_extra( random_map_extra( ex ));
