@@ -276,6 +276,13 @@ extern std::map<std::string, furn_t> furnmap;
 extern std::map<int,int> reverse_legacy_furn_id;
 furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
+
+// DEPRECATED 2014-June-20
+// Map extras have been turned off and are considered deprecated.
+// If you wound up here, you might want to check out how the "extra" content
+// should be integrated back into the game and whether or not the map extra
+// code and structures are candidates for deletion.
+//
 /*
 enum: map_extra
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
@@ -303,6 +310,12 @@ const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
   mfb(mx_crater);
 
 
+// DEPRECATED 2014-June-20
+// Map extras have been turned off and are considered deprecated.
+// If you wound up here, you might want to check out how the "extra" content
+// should be integrated back into the game and whether or not the map extra
+// code and structures are candidates for deletion.
+//
 struct map_extras {
  unsigned int chance;
  int chances[num_map_extras + 1];
