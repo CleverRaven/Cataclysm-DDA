@@ -2141,6 +2141,49 @@ int iuse::primitive_fire(player *p, item *it, bool)
     return 0;
 }
 
+int iuse::ref_lit(player *p, item *it, bool t)
+{
+    if (p->is_underwater()) {
+        p->add_msg_if_player(_("The lighter is extinguished."));
+        it->make("ref_lighter");
+        it->active = false;
+        return 0;
+    }
+    if (t) {
+        if (it->charges < it->type->charges_to_use()) {
+            p->add_msg_if_player(_("The lighter burns out."));
+            it->make("ref_lighter");
+            it->active = false;
+        }
+    } else if(it->charges <= 0) {
+        p->add_msg_if_player( _("The %s winks out"), it->tname().c_str());
+    } else { // Turning it off
+        int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
+                          _("light something"), _("cancel"), NULL);
+        switch (choice) {
+        case 1:
+        {
+            p->add_msg_if_player(_("You extinguish the lighter"));
+            it->charges -= 1;
+            it->make("ref_lighter");
+            it->active = false;
+        }
+        break;
+        case 2:
+        {
+		int dirx, diry;
+		if (prep_firestarter_use(p, it, dirx, diry)) {
+			p->moves -= 15;
+			resolve_firestarter_use(p, it, dirx, diry);
+			return it->type->charges_to_use();
+		}
+	
+        }
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::sew(player *p, item *it, bool)
 {
     if (it->charges == 0) {
