@@ -463,14 +463,6 @@ void weather_effect::acid()
             }
         }
     }
-
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        if (g->m.is_outside(g->zombie(i).posx(), g->zombie(i).posy())) {
-            if (!g->zombie(i).has_flag(MF_ACIDPROOF)) {
-                g->zombie(i).hurt(1);
-            }
-        }
-    }
     generic_very_wet(true);
 }
 

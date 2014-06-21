@@ -15,6 +15,13 @@ class map;
 
 class iexamine
 {
+    /**
+     * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
+     * Transforms the egg sack furntiture into a ruptured egg sack (f_egg_sacke).
+     * Also spawns eggs.
+     * @param montype The monster type of the created spiders.
+     */
+    void egg_sack_generic(player *p, map *m, int examx, int examy, const std::string &montype);
 public:
  void none (player *p, map *m, int examx, int examy);
 
@@ -68,6 +75,7 @@ public:
  void keg (player *p, map *m, const int examx, const int examy);
  void reload_furniture (player *p, map *m, const int examx, const int examy);
  void curtains (player *p, map *m, const int examx, const int examy);
+ void sign (player *p, map *m, const int examx, const int examy);
 };
 
 typedef void (iexamine::*iexamine_function)(player*, map*, int, int);

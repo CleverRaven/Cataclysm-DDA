@@ -398,7 +398,33 @@ struct submap {
     inline void set_graffiti(int x, int y, const graffiti& value) {
         graf[x][y] = value;
     }
-
+    
+    // Signage is a pretend union between furniture on a square and stored
+    // writing on the square. When both are present, we have signage.
+    // Its effect is meant to be cosmetic and atmospheric only.
+    inline bool has_signage(int x, int y) {
+        furn_id f = frn[x][y];
+        if (furnlist[f].id == "f_sign") {
+            return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
+        }
+        return false;
+    }
+    // Dependent on furniture + cosmetics.
+    inline const std::string get_signage(int x, int y) {
+        if (has_signage(x, y)) {
+            return cosmetics[x][y]["SIGNAGE"];
+        }
+        return "";
+    }
+    // Can be used anytime (prevents code from needing to place sign first.)
+    inline void set_signage(int x, int y, std::string s) {
+        cosmetics[x][y]["SIGNAGE"] = s;
+    }
+    // Can be used anytime (prevents code from needing to place sign first.)    
+    inline void delete_signage(int x, int y) {
+        cosmetics[x][y].erase("SIGNAGE");
+    }
+    
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
@@ -408,6 +434,7 @@ struct submap {
     field              fld[SEEX][SEEY];  // Field on each square
     int                rad[SEEX][SEEY];  // Irradiation of each square
     graffiti           graf[SEEX][SEEY]; // Graffiti on each square
+    std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     int active_item_count;
     int field_count;
