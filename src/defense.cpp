@@ -360,7 +360,7 @@ void defense_game::init_map()
             mx -= mx % 2;
             my -= my % 2;
             tinymap tm;
-            tm.generate(g->cur_om, mx, my, 0, int(calendar::turn));
+            tm.generate(mx, my, 0, calendar::turn);
             tm.clear_spawns();
             tm.clear_traps();
             tm.save(g->cur_om, int(calendar::turn), mx, my, 0);

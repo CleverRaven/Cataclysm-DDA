@@ -1555,19 +1555,6 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 {
     int ret = 0;
 
-    oter_id orig_oters[3][3];
-    overmap *oms[3][3];
-    real_coords tz;
-    for(int omsy = 0; omsy < 3; omsy++) {
-        for (int omsx = 0; omsx < 3; omsx++) {
-            tz.fromabs(tc.abs_pos.x + ((omsx - 1) * 24), tc.abs_pos.y + ((omsy - 1) * 24) );
-            point omp = tz.om_pos;
-            point om = tz.abs_om;
-
-            oms[omsx][omsy] = &overmap_buffer.get(om.x, om.y );
-            orig_oters[omsx][omsy] = oms[omsx][omsy]->ter(omp.x, omp.y, zlevel);
-        }
-    }
     hilights["mapgentgt"].points.clear();
     hilights["mapgentgt"].points[point(target.x-12,target.y-12)]=1;
     hilights["mapgentgt"].points[point(target.x+13,target.y+13)]=1;
@@ -1576,15 +1563,19 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
     update_view(true);
 
-    oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = (int)gmenu.ret;
+    // Coordinates of the overmap terrain that should be generated.
+    const point omt_pos = overmapbuffer::ms_to_omt_copy( tc.abs_pos );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, zlevel );
+    // Copy to store the original value, to restore it upon canceling
+    const oter_id orig_oters = omt_ref;
+    omt_ref = gmenu.ret;
     tinymap tmpmap;
-    tmpmap.load(tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
-    // this should -not- be saved, map::save appends a dupe to mapbuffer.
-    tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
+    // TODO: add a do-not-save-generated-submaps parameter
+    // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
+    tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, zlevel, calendar::turn );
 
     point pofs = pos2screen(target.x - 11, target.y - 11); //
     WINDOW *w_preview = newwin(24, 24, pofs.y, pofs.x );
-
 
     gmenu.border_color = c_ltgray;
     gmenu.hilight_color = c_black_white;
@@ -1613,9 +1604,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     do {
         if ( gmenu.selected != lastsel ) {
             lastsel = gmenu.selected;
-            oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = gmenu.selected;
+            omt_ref = gmenu.selected;
             cleartmpmap( tmpmap );
-            tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
+            tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, zlevel, calendar::turn );
             showpreview = true;
         }
         if ( showpreview ) {
@@ -1641,7 +1632,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                 if ( gpmenu.ret == 0 ) {
 
                     cleartmpmap( tmpmap );
-                    tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
+                    tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, zlevel, calendar::turn );
                     showpreview = true;
                 } else if ( gpmenu.ret == 1 ) {
                     tmpmap.rotate(1);
@@ -1715,8 +1706,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                 } else if ( gpmenu.ret == 3 ) {
                     popup(_("Changed oter_id from '%s' (%s) to '%s' (%s)"),
-                          orig_oters[1][1].t().name.c_str(), orig_oters[1][1].c_str(),
-                          oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel).t().name.c_str(), oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel).c_str());
+                          orig_oters.t().name.c_str(), orig_oters.c_str(),
+                          omt_ref.t().name.c_str(), omt_ref.c_str());
                 }
             } else if ( gpmenu.keypress == 'm' ) {
                 // todo; keep preview as is and move target
@@ -1742,7 +1733,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     update_view(true);
     if ( gpmenu.ret != 2 && // we didn't apply, so restore the original om_ter
          gpmenu.ret != 3) { // chose to change oter_id but not apply mapgen
-        oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = orig_oters[1][1];
+        omt_ref = orig_oters;
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;

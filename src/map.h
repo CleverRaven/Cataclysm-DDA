@@ -455,7 +455,7 @@ void add_corpse(int x, int y);
  bool add_graffiti(int x, int y, std::string contents);
 
 // mapgen.cpp functions
- void generate(overmap *om, const int x, const int y, const int z, const int turn);
+ void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
  void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
@@ -491,13 +491,21 @@ void add_corpse(int x, int y);
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
- point get_abs_sub() {
-   return abs_sub;
- };
- point getabs(const int x=0, const int y=0 );
- point getabs( const point p ) { return getabs(p.x, p.y); }
- point getlocal(const int x, const int y );
- point getlocal( const point p ) { return getlocal(p.x, p.y); }
+    /** return @ref abs_sub */
+    tripoint get_abs_sub() const;
+    /**
+     * Translates local (to this map) coordinates of a square to
+     * global absolute coordinates. (x,y) is in the system that
+     * is used by the ter_at/furn_at/i_at functions.
+     * Output is in the same scale, but in global system.
+     */
+    point getabs(const int x, const int y) const;
+    point getabs(const point p) const { return getabs(p.x, p.y); }
+    /**
+     * Inverse of @ref getabs
+     */
+    point getlocal(const int x, const int y ) const;
+    point getlocal(const point p) const { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
 
@@ -576,8 +584,8 @@ void add_corpse(int x, int y);
                                 );
             }
 
-            bool remove(const int iIndex) {
-                if (iIndex < vZones.size() && iIndex >= 0) {
+            bool remove(const size_t iIndex) {
+                if (iIndex < vZones.size()) {
                     vZones.erase(vZones.begin()+iIndex);
                     return true;
                 }
@@ -602,10 +610,10 @@ void add_corpse(int x, int y);
     void load_zones();
 
 protected:
- void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
+ void saven(unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
  bool loadn(const int x, const int y, const int z, const int gridx, const int gridy,
-            const  bool update_vehicles = true, overmap *om = NULL);
+            const  bool update_vehicles = true);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
@@ -630,11 +638,19 @@ protected:
 
  bool veh_in_active_range;
 
- point abs_sub; // same as x y in maps.txt, for 0,0 / grid[0]
- point abs_min; // same as above in absolute coordinates (submap(x,y) * 12)
- point abs_max; // same as abs_min + ( my_MAPSIZE * 12 )
- int world_z;   // same as
- void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
+    /**
+     * Absolute coordinates of first submap (get_submap_at(0,0))
+     * This is in submap coordinates (see overmapbuffer for explanation).
+     * It is set upon:
+     * - loading submap at grid[0],
+     * - generating submaps (@ref generate)
+     * - shifting the map with @ref shift
+     */
+    tripoint abs_sub;
+    /**
+     * Sets @ref abs_sub, see there. Uses the same coordinate system as @ref abs_sub.
+     */
+    void set_abs_sub(const int x, const int y, const int z);
 
 private:
  bool transparency_cache_dirty;

@@ -124,14 +124,13 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     unsigned selected_index = pane.index;
     bool isinventory = ( pane.area == 0 );
     bool isall = ( pane.area == 10 );
-    size_t itemsPerPage = getmaxy( window ) - ADVINVOFS; // fixme
-    int columns = getmaxx( window );
-    int rightcol = columns - 8;
-    int amount_column = columns - 15;
-    int src_column = columns - 19;
-    nc_color norm = active ? c_white : c_dkgray;
-    std::string spaces(getmaxx(window) - 4, ' ');
     bool compact = (TERMX <= 100);
+    size_t itemsPerPage = getmaxy( window ) - ADVINVOFS; // fixme
+
+    int columns = getmaxx( window );
+    std::string spaces(columns - 4, ' ');
+
+    nc_color norm = active ? c_white : c_dkgray;
 
     //print inventory's current and total weight + volume
     if(isinventory) {
@@ -175,93 +174,99 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     }
 
     //print header row and determine max item name length
-    int max_name_length;
+    const int lastcol = columns - 2; // Last printable column
+    const size_t name_startpos = ( compact ? 1: 4 );
+    const size_t src_startpos = lastcol - 17;
+    const size_t amt_startpos = lastcol - 14;
+    const size_t weight_startpos = lastcol - 9;
+    const size_t vol_startpos = lastcol - 3;
+    int max_name_length = amt_startpos - name_startpos - 1; // Default name length
+
+    //~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
+    const int table_hdr_len1 = utf8_width(_("amt weight vol")); // Header length type 1
+    //~ Items list header. Table fields length without spaces: src - 2, amt - 4, weight - 5, vol - 4.
+    const int table_hdr_len2 = utf8_width(_("src amt weight vol")); // Header length type 2
+
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
-    if (isall) {
-        if(compact) {
-            mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
-            max_name_length = amount_column - 2;
-        }
-        else {
-            mvwprintz( window, 5, rightcol - 11, c_ltgray, _("src amt weight vol") );
-            max_name_length = src_column - 5;
-        }
-    } else{
-        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
-        max_name_length = amount_column - (compact ? 2 : 5);
+    if (isall && !compact) {
+        mvwprintz( window, 5, lastcol - table_hdr_len2 + 1, c_ltgray, _("src amt weight vol") );
+        max_name_length = src_startpos - name_startpos - 1; // 1 for space
+    } else {
+            mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_ltgray, _("amt weight vol") );
     }
 
     for(unsigned i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ , x++) {
         if ( items[i].volume == -8 ) { // I'm a header!
             mvwprintz(window, 6 + x, ( columns - items[i].name.size() - 6 ) / 2, c_cyan, "[%s]",
                       items[i].name.c_str() );
+            continue;
+        }
+        nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
+        nc_color thiscolordark = c_dkgray;
+        nc_color print_color;
+
+        if(active && selected_index == x) {
+            thiscolor = (inCategoryMode &&
+                         panes[src].sortby == SORTBY_CATEGORY) ? c_white_red : hilite(thiscolor);
+            thiscolordark = hilite(thiscolordark);
+            if ( compact ) {
+                mvwprintz(window, 6 + x, 1, thiscolor, "  %s", spaces.c_str());
+            } else {
+                mvwprintz(window, 6 + x, 1, thiscolor, ">>%s", spaces.c_str());
+            }
+        }
+
+        //print item name
+        std::string it_name = utf8_truncate(items[i].it->display_name(), max_name_length);
+        mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", it_name.c_str() );
+
+        //print src column
+        if ( isall && !compact) {
+            mvwprintz(window, 6 + x, src_startpos, thiscolor, "%s",
+                      _(squares[items[i].area].shortname.c_str()));
+        }
+
+        //print "amount" column
+        int it_amt = items[i].stacks;
+        if( it_amt > 1 ) {
+            print_color = thiscolor;
+            if (it_amt > 9999) {
+                it_amt = 9999;
+                print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
+            }
+            mvwprintz(window, 6 + x, amt_startpos, print_color, "%4d", it_amt);
+        }
+
+        //print weight column
+        double it_weight = g->u.convert_weight(items[i].weight);
+        size_t w_precision;
+        print_color = (it_weight > 0) ? thiscolor : thiscolordark;
+
+        if (it_weight >= 1000.0) {
+            if (it_weight >= 10000.0) {
+                print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
+                it_weight = 9999.0;
+            }
+            w_precision = 0;
+        } else if (it_weight >= 100.0) {
+            w_precision = 1;
         } else {
-            nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
-            nc_color thiscolordark = c_dkgray;
+            w_precision = 2;
+        }
+        mvwprintz(window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight);
 
-            if(active && selected_index == x) {
-                thiscolor = (inCategoryMode &&
-                             panes[src].sortby == SORTBY_CATEGORY) ? c_white_red : hilite(thiscolor);
-                thiscolordark = hilite(thiscolordark);
-                if ( compact ) {
-                    mvwprintz(window, 6 + x, 1, thiscolor, "  %s", spaces.c_str());
-                } else {
-                    mvwprintz(window, 6 + x, 1, thiscolor, ">>%s", spaces.c_str());
-                }
+        //print volume column
+        int it_vol = items[i].volume;
+        print_color = (it_vol > 0) ? thiscolor : thiscolordark;
+        if (it_vol > 9999) {
+            it_vol = 9999;
+            print_color = (active && selected_index == x) ? hilite(c_red) : c_red;
+        }
+        mvwprintz(window, 6 + x, vol_startpos, print_color, "%4d", it_vol );
 
-            }
-            //print item name
-            if(items[i].it->display_name().size() > max_name_length) {
-                std::string truncName = items[i].it->display_name().substr(0, max_name_length);
-                mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", truncName.c_str() );
-            }
-            else {
-                mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->display_name().c_str() );
-            }
-
-            //print src column
-            if ( isall && !compact) {
-                mvwprintz(window, 6 + x, src_column, thiscolor, "%s",
-                          squares[items[i].area].shortname.c_str());
-            }
-
-            //print "amount" column
-            if( items[i].stacks > 1 ) {
-                mvwprintz(window, 6 + x, amount_column, thiscolor, "x %d", items[i].stacks);
-            }
-
-            int xrightcol = rightcol;
-            //adjust insertion point based on item's weight
-            if (g->u.convert_weight(items[i].weight) > 9.9 ) {
-                xrightcol--;
-                if (g->u.convert_weight(items[i].weight) > 99.9 ) {
-                    xrightcol--;
-                    if (g->u.convert_weight(items[i].weight) >
-                        999.9 ) { // anything beyond this is excessive. Enjoy your clear plastic bottle of neutronium
-                        xrightcol--;
-                    }
-                }
-            }
-
-            //adjust insertion point based on item's volume
-            if ( items[i].volume > 999 ) { // does not exist, but can fit in 1024 tile limit
-                xrightcol--;
-                if ( items[i].volume > 9999 ) { // oh hey what about z levels. best give up now
-                    xrightcol--;
-                }
-            }
-
-            //print weight column
-            mvwprintz(window, 6 + x, xrightcol,
-                      (g->u.convert_weight(items[i].weight) > 0 ? thiscolor : thiscolordark),
-                      "%3.1f", g->u.convert_weight(items[i].weight) );
-
-            //print volume column
-            wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
-            if(active && items[i].autopickup == true) {
-                mvwprintz(window, 6 + x, 1, magenta_background(items[i].it->color(&g->u)), "%s",
-                          (compact ? items[i].it->tname().substr(0, 1) : ">").c_str());
-            }
+        if(active && items[i].autopickup == true) {
+            mvwprintz(window, 6 + x, 1, magenta_background(items[i].it->color(&g->u)), "%s",
+                      (compact ? items[i].it->tname().substr(0, 1) : ">").c_str());
         }
     }
 }
