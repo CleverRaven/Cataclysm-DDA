@@ -4638,7 +4638,7 @@ int iuse::set_trap(player *p, item *it, bool)
         return 0;
  }
  int dirx, diry;
- if(!choose_adjacent(_("Place trap where?"),dirx,diry)) {
+ if( !choose_adjacent( string_format(_("Place %s where?"), it->tname().c_str()), dirx, diry) ) {
   return 0;
  }
 
@@ -6380,7 +6380,7 @@ int iuse::hacksaw(player *p, item *it, bool)
 int iuse::tent(player *p, item *, bool)
 {
  int dirx, diry;
- if(!choose_adjacent(_("Pitch the tent where?"), dirx, diry)) {
+ if(!choose_adjacent(_("Pitch the tent towards where (3x3 clear area)?"), dirx, diry)) {
   return 0;
  }
 
@@ -6410,6 +6410,7 @@ int iuse::tent(player *p, item *, bool)
  }
  g->m.furn_set(posx, posy, f_groundsheet);
  g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
+ add_msg(m_info, _("You set up the tent on the ground"));
  return 1;
 }
 

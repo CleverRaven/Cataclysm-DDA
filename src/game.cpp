@@ -8102,7 +8102,10 @@ void game::examine(int examx, int examy)
    if (!veh) Pickup::pick_up(examx, examy, 0);
  }
   //check for disarming traps last to avoid disarming query black box issue.
- if(m.tr_at(examx, examy) != tr_null) xmine.trap(&u,&m,examx,examy);
+ if(m.tr_at(examx, examy) != tr_null) {
+        xmine.trap(&u, &m, examx, examy);
+        if(m.tr_at(examx, examy) == tr_null) Pickup::pick_up(examx, examy, 0); // After disarming a trap, pick it up.
+    };
 
 }
 
