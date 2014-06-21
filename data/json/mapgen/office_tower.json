@@ -33,7 +33,7 @@
 				"~~~|________|.R.|EEED..."
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -128,7 +128,7 @@
 				"...DEEE|.R.|___,,___|~~~"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -225,7 +225,7 @@
 				"~~~~~~~~~~~~~~~~~~~~~~~~"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -323,7 +323,7 @@
 				"~~~~~~~~~~~~~~~~~~~~~~~~"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -420,7 +420,7 @@
 				"ss%|rrrr|...|.R.|EEED..."
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -517,7 +517,7 @@
 				"...DEEE|.R.|..|.....V%ss"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -614,7 +614,7 @@
 				"ssssss______ss______ssss"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -711,7 +711,7 @@
 				"ssssssssssssssssssssssss"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -808,7 +808,7 @@
 				"///|----|...|.R.|EEED..."
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -905,7 +905,7 @@
 				"...DEEE|.R.|...|----|///"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -1002,7 +1002,7 @@
 				"////////////////////////"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -1099,7 +1099,7 @@
 				"////////////////////////"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -1196,7 +1196,7 @@
 				"///.........|.R.|......."
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -1293,7 +1293,7 @@
 				".....................///"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -1390,7 +1390,7 @@
 				"////////////////////////"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",
@@ -1487,7 +1487,7 @@
 				"////////////////////////"
 			],
 			"terrain": {
-				"/": "t_sky",
+				"/": "t_open_air",
 				"~": "t_rock",
 				">": "t_stairs_down",
 				"<": "t_stairs_up",

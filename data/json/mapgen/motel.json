@@ -531,7 +531,7 @@
                 "........................"
             ],
             "terrain": {
-                ".": "t_sky",
+                ".": "t_open_air",
                 "-": "t_wall_h",
                 "_": "t_railing_h",
                 "'": "t_railing_v",
@@ -587,7 +587,7 @@
                 "G": "f_oven"
             },
             "set": [
-                { "point": "terrain", "id": "t_sky", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] }
+                { "point": "terrain", "id": "t_open_air", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] }
             ]
         }
     },{
@@ -625,7 +625,7 @@
                 ".|  +      +S'.........."
             ],
             "terrain": {
-                ".": "t_sky",
+                ".": "t_open_air",
                 "-": "t_wall_h",
                 "_": "t_railing_h",
                 "'": "t_railing_v",
@@ -685,9 +685,9 @@
                 { "type": "toilet", "x": 2, "y": 18 }
             ],
             "set": [
-                { "point": "terrain", "id": "t_sky", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_sky", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_sky", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
+                { "point": "terrain", "id": "t_open_air", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_open_air", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ],
 		 "add": [
                 { "item": "phonebook", "x": 10, "y": 16, "chance": 2 },
@@ -736,7 +736,7 @@
                 "........................"
             ],
             "terrain": {
-                ".": "t_sky",
+                ".": "t_open_air",
                 "-": "t_wall_h",
                 "_": "t_railing_h",
                 "'": "t_railing_v",
@@ -802,7 +802,7 @@
                 { "type": "toilet", "x": 20, "y": 21 }
             ],
             "set": [
-                { "point": "terrain", "id": "t_sky", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
+                { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
 		 "add": [
                 { "item": "phonebook", "x": 5, "y": 8, "chance": 2 },
@@ -859,7 +859,7 @@
                 "........................"
             ],
             "terrain": {
-                ".": "t_sky",
+                ".": "t_open_air",
                 "-": "t_wall_h",
                 "_": "t_railing_h",
                 "'": "t_railing_v",
@@ -921,7 +921,7 @@
                 { "type": "toilet", "x": 20, "y": 21 }
             ],
             "set": [
-                { "point": "terrain", "id": "t_sky", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
+                { "point": "terrain", "id": "t_open_air", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
 		 "add": [
                 { "item": "phonebook", "x": 4, "y": 13, "chance": 2 },
@@ -977,7 +977,7 @@
                 ".###########............"
             ],
             "terrain": {
-                ".": "t_sky",
+                ".": "t_open_air",
                 "-": "t_wall_h",
                 "_": "t_railing_h",
                 "'": "t_railing_v",
@@ -1034,9 +1034,9 @@
                 "0": "f_dive_block"
             },
             "set": [
-                { "point": "terrain", "id": "t_sky", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_sky", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
-                { "point": "terrain", "id": "t_sky", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
+                { "point": "terrain", "id": "t_open_air", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_open_air", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ]
         }
     },{
@@ -1074,7 +1074,7 @@
                 "........................"
             ],
             "terrain": {
-                ".": "t_sky",
+                ".": "t_open_air",
                 "-": "t_wall_h",
                 "_": "t_railing_h",
                 "'": "t_railing_v",
@@ -1168,7 +1168,7 @@
                 "........................"
             ],
             "terrain": {
-                ".": "t_sky",
+                ".": "t_open_air",
                 "-": "t_wall_h",
                 "_": "t_railing_h",
                 "'": "t_railing_v",
@@ -1224,7 +1224,7 @@
                 "G": "f_oven"
             },
             "set": [
-                { "point": "terrain", "id": "t_sky", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
+                { "point": "terrain", "id": "t_open_air", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ]
         }
     }

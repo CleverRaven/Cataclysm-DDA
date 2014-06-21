@@ -16,12 +16,12 @@
         "allow_road" : false
     },{
         "type" : "overmap_terrain",
-        "id" : "sky",
-        "name" : "sky",
+        "id" : "open_air",
+        "name" : "open air",
         "rotate" : false,
         "line_drawing" : false,
-        "sym" : 32,
-        "color" : "i_blue",
+        "sym" : 46,
+        "color" : "blue",
         "see_cost" : 0,
         "extras" : "none",
         "known_down" : true,

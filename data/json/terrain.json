@@ -2626,8 +2626,8 @@
         "examine_action": "water_source"
     },{
 	    "type" : "terrain",
-        "id" : "t_sky",
-        "name": "sky",
+        "id" : "t_open_air",
+        "name": "open air",
         "symbol": " ",
         "color": "i_blue",
         "move_cost": 2,

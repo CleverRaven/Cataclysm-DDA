@@ -398,7 +398,7 @@ struct submap {
     inline void set_graffiti(int x, int y, const graffiti& value) {
         graf[x][y] = value;
     }
-    
+
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
@@ -420,11 +420,11 @@ struct submap {
     inline void set_signage(int x, int y, std::string s) {
         cosmetics[x][y]["SIGNAGE"] = s;
     }
-    // Can be used anytime (prevents code from needing to place sign first.)    
+    // Can be used anytime (prevents code from needing to place sign first.)
     inline void delete_signage(int x, int y) {
         cosmetics[x][y].erase("SIGNAGE");
     }
-    
+
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
@@ -508,7 +508,7 @@ t_basalt
 "t_basalt"
 */
 extern ter_id t_null,
-    t_hole, t_sky, // Real nothingness; makes you fall a z-level
+    t_hole, t_open_air, // Real nothingness; makes you fall a z-level
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
