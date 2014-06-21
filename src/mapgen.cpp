@@ -42,10 +42,14 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2);
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
 void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat); // pick & build
 
-void map::generate(overmap *om, const int x, const int y, const int z, const int turn)
+// (x,y,z) are absolute coordinates of a submap
+// x%2 and y%2 must be 0!
+void map::generate(const int x, const int y, const int z, const int turn)
 {
-    dbg(D_INFO) << "map::generate( g[" << g << "], om[" << (void *)om << "], x[" << x << "], "
+    dbg(D_INFO) << "map::generate( g[" << g << "], x[" << x << "], "
                 << "y[" << y << "], turn[" << turn << "] )";
+
+    set_abs_sub( x, y, z );
 
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
@@ -71,10 +75,9 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
     }
 
     unsigned zones = 0;
-    // x, and y are submap coordinates, local to om -> make them global,
-    // than convert to overmap terrain coordinates
-    int overx = x + om->pos().x * OMAPX * 2;
-    int overy = y + om->pos().y * OMAPY * 2;
+    // x, and y are submap coordinates, convert to overmap terrain coordinates
+    int overx = x;
+    int overy = y;
     overmapbuffer::sm_to_omt(overx, overy);
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
     oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
@@ -116,7 +119,7 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
             dbg(D_INFO) << grid[i + j];
 
             if (i <= 1 && j <= 1) {
-                saven(om, turn, x, y, z, i, j);
+                saven(turn, x, y, z, i, j);
             } else {
                 delete grid[i + j * my_MAPSIZE];
             }
@@ -540,8 +543,17 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
                 if (!item_controller->has_group(tmp_type)) {
                     jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
                 }
+            } else if (tmpval == "sign") {
+                tmpop = JMAPGEN_PLACESPECIAL_SIGN;
+                // Distinct to signs
+                if (!jsi.has_member("signage")) {
+                    jsi.throw_error("  place_specials: signs must have a signage member (the written text for the sign).");
+                }
+                // Because the "type" member is open for use, make use of it
+                // to act as the label of the sign.
+                tmp_type = jsi.get_string("signage");
             } else {
-            jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
+                jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
             }
         } else {
             parray.throw_error("placing other specials is not supported yet"); return;
@@ -844,6 +856,12 @@ void jmapgen_place_special::apply( map * m ) {
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
             m->furn_set(x.get(), y.get(), f_null);
             m->place_vending(x.get(), y.get(), type);
+        } break;
+        case JMAPGEN_PLACESPECIAL_SIGN: {
+            // type meaning here: the writing on the sign, not the type of sign.
+            m->furn_set(x.get(), y.get(), f_null);
+            m->furn_set(x.get(), y.get(), "f_sign");
+            m->set_signage(x.get(), y.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
@@ -10826,10 +10844,9 @@ void map::place_spawns(std::string group, const int chance,
         return;
     }
 
-    if ( MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
-        real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
-        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+    if (MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return;
     }
@@ -10902,9 +10919,8 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         return 0;
     }
     if (!item_controller->has_group(loc)) {
-        real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
-        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                  loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return 0;
@@ -11177,6 +11193,7 @@ void map::rotate(int turns)
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
+    std::string signage_rot[SEEX * 2][SEEY * 2];
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
     computer tmpcomp;
@@ -11204,6 +11221,7 @@ void map::rotate(int turns)
             furnrot[old_x][old_y] = furn(new_x, new_y);
             itrot [old_x][old_y] = i_at(new_x, new_y);
             traprot[old_x][old_y] = tr_at(new_x, new_y);
+            signage_rot[old_x][old_y] = get_signage(new_x, new_y);
             i_clear(new_x, new_y);
         }
     }
@@ -11343,6 +11361,7 @@ void map::rotate(int turns)
             furn_set(i, j, furnrot[i][j]);
             i_at(i, j) = itrot [i][j];
             add_trap(i, j, traprot[i][j]);
+            set_signage(i, j, signage_rot[i][j]);
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
                 if (ter(i, j) == t_wall_v) {
                     ter_set(i, j, t_wall_h);

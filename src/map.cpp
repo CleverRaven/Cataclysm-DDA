@@ -1566,6 +1566,12 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                     } else {
                         furn_set( x, y, f_null );
                     }
+                    // Hack alert.
+                    // Signs have cosmetics associated with them on the submap since 
+                    // furniture can't store dynamic data to disk. To prevent writing
+                    // mysteriously appearing for a sign later built here, remove the
+                    // writing from the submap.
+                    g->m.delete_signage(x, y);
                 }
                 if ( !bash->ter_set.empty() ) {
                     ter_set( x, y, bash->ter_set );
@@ -2279,6 +2285,40 @@ bool map::close_door(const int x, const int y, const bool inside, const bool che
  return false;
 }
 
+const std::string map::get_signage(const int x, const int y) const
+{
+    if (!INBOUNDS(x, y)) {
+        return "";
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    return current_submap->get_signage(lx, ly);
+}
+void map::set_signage(const int x, const int y, std::string message) const
+{
+    if (!INBOUNDS(x, y)) {
+        return;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    current_submap->set_signage(lx, ly, message);
+}
+void map::delete_signage(const int x, const int y) const
+{
+    if (!INBOUNDS(x, y)) {
+        return;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    current_submap->delete_signage(lx, ly);
+}
+
 int map::get_radiation(const int x, const int y) const
 {
     if (!INBOUNDS(x, y)) {
@@ -2404,10 +2444,12 @@ itemslice map::i_stacked(std::vector<item>& items)
 
 bool map::sees_some_items(int x, int y, const player &u)
 {
-    if(i_at(x, y).empty()) {
-        // can not see non-existing items.
-        return false;
-    }
+    // can only see items if there are any items.
+    return !i_at( x, y ).empty() && could_see_items( x, y, u );
+}
+
+bool map::could_see_items(int x, int y, const player &u)
+{
     const bool container = has_flag_ter_or_furn("CONTAINER", x, y);
     const bool sealed = has_flag_ter_or_furn("SEALED", x, y);
     if (sealed && container) {
@@ -4116,19 +4158,26 @@ int map::coord_to_angle ( const int x, const int y, const int tgtx, const int tg
 
 void map::save(overmap *om, unsigned const int turn, const int x, const int y, const int z)
 {
+    const int wx = x + om->pos().x * OMAPX * 2;
+    const int wy = y + om->pos().y * OMAPY * 2;
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++)
-   saven(om, turn, x, y, z, gridx, gridy);
+   saven(turn, wx, wy, z, gridx, gridy);
  }
 }
 
 void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
 {
+ if (om == NULL) {
+     om = g->cur_om;
+ }
+ const int awx = om->pos().x * OMAPX * 2 + wx;
+ const int awy = om->pos().y * OMAPY * 2 + wy;
     traplocs.clear();
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-   if (!loadn(wx, wy, wz, gridx, gridy, update_vehicle, om))
-    loadn(wx, wy, wz, gridx, gridy, update_vehicle, om);
+   if (!loadn(awx, awy, wz, gridx, gridy, update_vehicle))
+    loadn(awx, awy, wz, gridx, gridy, update_vehicle);
   }
  }
 }
@@ -4151,13 +4200,16 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(const int wx, const int wy, const int wz, const int sx, const int sy)
 {
- set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
-   g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
- );
 // Special case of 0-shift; refresh the map
     if (sx == 0 && sy == 0) {
         return; // Skip this?
     }
+    // shift is currently only called from game.cpp when the player moves,
+    // it can therefor refer to game::cur_om without problems, but this
+    // should be changed (TODO: remove reference to game::cur_om)
+    const int absx = g->cur_om->pos().x * OMAPX * 2 + wx;
+    const int absy = g->cur_om->pos().y * OMAPY * 2 + wy;
+    set_abs_sub( absx + sx, absy + sy, wz );
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
     if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
@@ -4192,7 +4244,7 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
     vehicle_list.clear();
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
-// wx and wy are our position in the world, for saving/loading purposes.
+// absx and absy are our position in the world, for saving/loading purposes.
     if (sx >= 0) {
         for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
             if (sy >= 0) {
@@ -4201,8 +4253,8 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -4210,8 +4262,8 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
                 }
             }
         }
@@ -4223,8 +4275,8 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                         copy_grid(gridx + gridy * my_MAPSIZE,
                         gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -4232,8 +4284,8 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
                 }
             }
         }
@@ -4247,10 +4299,12 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
 // 0,0 1,0 2,0
 // 0,1 1,1 2,1
 // 0,2 1,2 2,2
-void map::saven(overmap *om, unsigned const int turn, const int worldx, const int worldy, const int worldz,
+// (worldx,worldy,worldz) denotes the absolute coordinate of the submap
+// in grid[0].
+void map::saven(unsigned const int turn, const int worldx, const int worldy, const int worldz,
                 const int gridx, const int gridy)
 {
- dbg(D_INFO) << "map::saven(om[" << (void*)om << "], turn[" << turn <<"], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
+ dbg(D_INFO) << "map::saven(turn[" << turn <<"], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
  submap *submap_to_save = get_submap_at_grid(gridx, gridy);
 
@@ -4261,8 +4315,8 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
   dbg(D_ERROR) << "map::saven grid NULL!";
   return;
  }
- const int abs_x = om->pos().x * OMAPX * 2 + worldx + gridx,
-           abs_y = om->pos().y * OMAPY * 2 + worldy + gridy;
+ const int abs_x = worldx + gridx,
+           abs_y = worldy + gridy;
 
  dbg(D_INFO) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
 
@@ -4274,16 +4328,15 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
+// (worldx,worldy,worldz) denotes the absolute coordinate of the submap
+// in grid[0].
 bool map::loadn(const int worldx, const int worldy, const int worldz,
-                const int gridx, const int gridy, const bool update_vehicles, overmap * om) {
- if (om == NULL) {
-     om = g->cur_om;
- }
+                const int gridx, const int gridy, const bool update_vehicles) {
 
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int absx = om->pos().x * OMAPX * 2 + worldx + gridx,
-           absy = om->pos().y * OMAPY * 2 + worldy + gridy,
+ const int absx = worldx + gridx,
+           absy = worldy + gridy,
            gridn = gridx + gridy * my_MAPSIZE;
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
@@ -4419,38 +4472,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
 //  squares divisible by 2.
   int newmapx = worldx + gridx - abs((worldx + gridx) % 2);
   int newmapy = worldy + gridy - abs((worldy + gridy) % 2);
-  overmap* this_om = om;
-
-  int shiftx = 0;
-  int shifty = 0;
-  if ( newmapx < 0 ) {
-    while ( newmapx < 0 ) {
-      shiftx--;
-      newmapx += OMAPX * 2;
-    }
-  } else if ( newmapx >= OMAPX * 2 ) {
-    while ( newmapx >= OMAPX * 2 ) {
-      shiftx++;
-      newmapx -= OMAPX * 2;
-    }
-  }
-  if ( newmapy < 0 ) {
-    while ( newmapy < 0 ) {
-      shifty--;
-      newmapy += OMAPX * 2;
-    }
-  } else if ( newmapy >= OMAPX * 2 ) {
-    while ( newmapy >= OMAPX * 2 ) {
-      shifty++;
-      newmapy -= OMAPX * 2;
-    }
-  }
-
-  if ( shiftx != 0 || shifty != 0 ) {
-       this_om = &overmap_buffer.get(om->pos().x + shiftx, om->pos().y + shifty);
-  }
-
-  tmp_map.generate(this_om, newmapx, newmapy, worldz, int(calendar::turn));
+  tmp_map.generate(newmapx, newmapy, worldz, calendar::turn);
   return false;
  }
  return true;
@@ -4803,29 +4825,24 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
 }
 //////////
 ///// coordinate helpers
-/*
- * return absolute coordinates of local-to-map's x,y
- */
-point map::getabs(const int x, const int y ) {
-    int ax=( abs_sub.x * SEEX ) + x;
-    int ay=( abs_sub.y * SEEY ) + y;
-    return point(ax,ay);
-}
-/*
- * Convert absolute (submap*12) x,y to map's x,y
- */
-point map::getlocal(const int x, const int y) {
-  return point ( x - ( abs_min.x ), y - ( abs_min.y ) );
+
+point map::getabs(const int x, const int y) const
+{
+    return point( x + abs_sub.x * SEEX, y + abs_sub.y * SEEY );
 }
 
-/*
- * set map coordinates based off grid[0] submap coords
- */
-void map::set_abs_sub( const int x, const int y, const int z ) {
-  abs_sub=point(x, y);
-  world_z = z;
-  abs_min=point(x*SEEX, y*SEEY);
-  abs_max=point(x*SEEX + (SEEX * my_MAPSIZE), y*SEEY + (SEEY * my_MAPSIZE) );
+point map::getlocal(const int x, const int y) const {
+    return point( x - abs_sub.x * SEEX, y - abs_sub.y * SEEY );
+}
+
+void map::set_abs_sub(const int x, const int y, const int z)
+{
+    abs_sub = tripoint( x, y, z );
+}
+
+tripoint map::get_abs_sub() const
+{
+   return abs_sub;
 }
 
 submap * map::getsubmap( const int grididx ) {
