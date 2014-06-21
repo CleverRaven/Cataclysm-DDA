@@ -2624,5 +2624,23 @@
             ]
         },
         "examine_action": "water_source"
-    }
+    },{
+	    "type": "terrain",
+        "id": "t_underwater_passage_down",
+        "name": "downward underwater passage",
+        "symbol": ">",
+        "color": "blue",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "LIQUID" , "GOES_DOWN", "PLACE_ITEM","DEEP_WATER","FISHABLE"],
+		"examine_action": "water_source"
+	},{
+	    "type": "terrain",
+        "id": "t_underwater_passage_up",
+        "name": "upward underwater passage",
+        "symbol": "<",
+        "color": "blue",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "LIQUID", "GOES_UP", "PLACE_ITEM", "DEEP_WATER", "FISHABLE"],
+		"examine_action": "water_source"
+	}
 ]
