@@ -6224,7 +6224,9 @@ bool game::sound(int x, int y, int vol, std::string description)
 // characters hearing and how close they are
 void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 {
-    if (x == u.posx && y == u.posy) {
+    if( u.is_deaf() ) {
+        return;
+    } else if (x == u.posx && y == u.posy) {
         return;
     } else if (u_see(x, y)) {
         return;
@@ -6256,7 +6258,6 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
     }
     footsteps.push_back(point_vector);
     footsteps_source.push_back(source);
-    return;
 }
 
 void game::do_blast( const int x, const int y, const int power, const int radius, const bool fire )

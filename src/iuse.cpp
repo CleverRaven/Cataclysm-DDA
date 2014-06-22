@@ -2141,6 +2141,49 @@ int iuse::primitive_fire(player *p, item *it, bool)
     return 0;
 }
 
+int iuse::ref_lit(player *p, item *it, bool t)
+{
+    if (p->is_underwater()) {
+        p->add_msg_if_player(_("The lighter is extinguished."));
+        it->make("ref_lighter");
+        it->active = false;
+        return 0;
+    }
+    if (t) {
+        if (it->charges < it->type->charges_to_use()) {
+            p->add_msg_if_player(_("The lighter burns out."));
+            it->make("ref_lighter");
+            it->active = false;
+        }
+    } else if(it->charges <= 0) {
+        p->add_msg_if_player( _("The %s winks out."), it->tname().c_str());
+    } else { // Turning it off
+        int choice = menu(true, _("refillable lighter (lit)"), _("extinguish"),
+                          _("light something"), _("cancel"), NULL);
+        switch (choice) {
+        case 1:
+        {
+            p->add_msg_if_player(_("You extinguish the lighter."));
+            it->make("ref_lighter");
+            it->active = false;
+            return 0;
+        }
+        break;
+        case 2:
+        {
+		int dirx, diry;
+		if (prep_firestarter_use(p, it, dirx, diry)) {
+			p->moves -= 15;
+			resolve_firestarter_use(p, it, dirx, diry);
+			return it->type->charges_to_use();
+		}
+	
+        }
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::sew(player *p, item *it, bool)
 {
     if (it->charges == 0) {
@@ -5119,6 +5162,37 @@ int iuse::acidbomb_act(player *p, item *it, bool)
     g->m.add_field(x, y, fd_acid, 3);
   }
  }
+ return 0;
+}
+
+int iuse::grenade_inc_act(player *p, item *it, bool t)
+{
+    point pos = g->find_item(it);
+        if (pos.x == -999 || pos.y == -999) {
+            return 0;
+        }
+
+    if (t) { // Simple timer effects
+        g->sound(pos.x, pos.y, 0, _("Tick!")); // Vol 0 = only heard if you hold it
+    } else if (it->charges > 0) {
+        p->add_msg_if_player(m_info, _("You've already released the handle, try throwing it instead."));
+        return 0;
+    } else {  // blow up
+        int num_flames= rng(3,5);
+        for (int current_flame = 0; current_flame < num_flames; current_flame++){
+            std::vector<point> flames = line_to(pos.x, pos.y, pos.x + rng(-5,5), pos.y + rng(-5,5), 0);
+            for (int i = 0; i <flames.size(); i++) {
+                g->m.add_field(flames[i].x, flames[i].y, fd_fire, rng(0,2));
+            }
+        }
+        g->explosion(pos.x, pos.y, 8, 0, true);
+        for (int i = -2; i <= 2; i++) {
+            for (int j = -2; j <= 2; j++) {
+                g->m.add_field( pos.x + i, pos.y + j, fd_incendiary, 3);
+            }
+        }
+
+    }
  return 0;
 }
 
