@@ -1029,7 +1029,49 @@
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "evac_center",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "evac_center_1"},
+            { "point":[1,0,0], "overmap": "evac_center_2"},
+            { "point":[2,0,0], "overmap": "evac_center_3"},
+            { "point":[3,0,0], "overmap": "evac_center_4"},
+            { "point":[4,0,0], "overmap": "evac_center_5"},
+
+            { "point":[0,1,0], "overmap": "evac_center_6"},
+            { "point":[1,1,0], "overmap": "evac_center_7"},
+            { "point":[2,1,0], "overmap": "evac_center_8"},
+            { "point":[3,1,0], "overmap": "evac_center_9"},
+            { "point":[4,1,0], "overmap": "evac_center_10"},
+
+            { "point":[0,2,0], "overmap": "evac_center_11"},
+            { "point":[1,2,0], "overmap": "evac_center_12"},
+            { "point":[2,2,0], "overmap": "evac_center_13"},
+            { "point":[3,2,0], "overmap": "evac_center_14"},
+            { "point":[4,2,0], "overmap": "evac_center_15"},
+
+            { "point":[0,3,0], "overmap": "evac_center_16"},
+            { "point":[1,3,0], "overmap": "evac_center_17"},
+            { "point":[2,3,0], "overmap": "evac_center_18"},
+            { "point":[3,3,0], "overmap": "evac_center_19"},
+            { "point":[4,3,0], "overmap": "evac_center_20"},
+
+            { "point":[0,4,0], "overmap": "evac_center_21"},
+            { "point":[1,4,0], "overmap": "evac_center_22"},
+            { "point":[2,4,0], "overmap": "evac_center_23", "connect":"road"},
+            { "point":[3,4,0], "overmap": "evac_center_24"},
+            { "point":[4,4,0], "overmap": "evac_center_25"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [3, 5], "//":"how far from a city it should be",
+        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 1], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "UNIQUE", "REQUIRED" ]
     }
 ]
-
 
