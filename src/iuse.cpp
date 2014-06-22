@@ -5175,7 +5175,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t)
     if (t) { // Simple timer effects
         g->sound(pos.x, pos.y, 0, _("Tick!")); // Vol 0 = only heard if you hold it
     } else if (it->charges > 0) {
-        add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->name.c_str());
+        p->add_msg_if_player(m_info, _("You've already released the handle, try throwing it instead."));
         return 0;
     } else {  // blow up
         int num_flames= rng(3,5);
