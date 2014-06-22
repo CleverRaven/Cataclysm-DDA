@@ -552,6 +552,12 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
                 // Because the "type" member is open for use, make use of it
                 // to act as the label of the sign.
                 tmp_type = jsi.get_string("signage");
+            } else if (tmpval == "npc") {
+                tmpop = JMAPGEN_PLACESPECIAL_NPC;
+                if (!jsi.has_member("class")) {
+                    jsi.throw_error("  place_specials: npcs must have a class");
+                }
+                tmp_type = jsi.get_string("class");
             } else {
                 jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
             }
@@ -862,6 +868,9 @@ void jmapgen_place_special::apply( map * m ) {
             m->furn_set(x.get(), y.get(), f_null);
             m->furn_set(x.get(), y.get(), "f_sign");
             m->set_signage(x.get(), y.get(), type);
+        } break;
+        case JMAPGEN_PLACESPECIAL_NPC: {
+            m->place_npc(x.get(), y.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
@@ -9201,7 +9210,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
             int xStart = 4;
             int xEnd = 19;
-            //acidia, connecting fields
             if(t_east == "farm_field") {
                 square(this, t_fence_barbed, 22, 1, 23, 22);
                 square(this, t_dirt, 21, 2, 23, 21);
@@ -10905,6 +10913,56 @@ void map::place_vending(int x, int y, std::string type)
         furn_set(x, y, f_vending_c);
     }
     place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
+}
+
+void map::place_npc(int x, int y, std::string type)
+{
+    if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
+        return; //Do not generate an npc.
+    }
+    const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+    const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+    debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
+                 oid.t().id.c_str(), oid.t().id_mapgen.c_str(),omt.x,omt.y,get_abs_sub().z, x,y );
+    if (type == "evac_merchant"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_EVAC_SHOPKEEP);
+        temp->spawn_at(g->cur_om, omt.x*2, omt.y*2, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_SHOPKEEP;
+        temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
+        return;
+        }
+    if (type == "hostile_guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->spawn_at(g->cur_om, omt.x*2, omt.y*2, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_KILL;
+        temp->mission = NPC_MISSION_NULL;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression += 3;
+        return;
+        }
+    if (type == "guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->spawn_at(g->cur_om, omt.x*2, omt.y*2, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_BASE;
+        temp->chatbin.first_topic = TALK_GUARD;
+        temp->personality.aggression += 1;
+        return;
+        }
+    debugmsg("place_npc: did not recognize npc class");
 }
 
 // A chance of 100 indicates that items should always spawn,
