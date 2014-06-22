@@ -10922,8 +10922,8 @@ void map::place_npc(int x, int y, std::string type)
     }
     const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
     const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
-    debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
-                 oid.t().id.c_str(), oid.t().id_mapgen.c_str(),omt.x,omt.y,get_abs_sub().z, x,y );
+    //debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
+    //             oid.t().id.c_str(), oid.t().id_mapgen.c_str(),omt.x,omt.y,get_abs_sub().z, x,y );
     if (type == "evac_merchant"){
         npc *temp = new npc();
         temp->normalize();
