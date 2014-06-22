@@ -7,6 +7,7 @@
 #include "line.h"
 #include "json.h"
 #include "messages.h"
+#include "item_factory.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -161,8 +162,8 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, 2, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
-                    if (list_start_y + i == (menu_mode == "examining" ?
-                                             DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                    if (list_start_y + static_cast<int>(i) ==
+                        (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (bionics[passive[i]->id]->power_source) {
@@ -179,8 +180,8 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
-                    if (list_start_y + i == (menu_mode == "examining" ?
-                                             DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                    if (list_start_y + static_cast<int>(i) ==
+                        (menu_mode == "examining" ?DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (active[i]->powered && !bionics[active[i]->id]->power_source) {
@@ -861,14 +862,13 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
 
 bool player::uninstall_bionic(bionic_id b_id)
 {
-    it_bionic *type = dynamic_cast<it_bionic *> (itypes[b_id]);
     // malfunctioning bionics don't have associated items and get a difficulty of 12
-    int difficulty = type == NULL ? 12 : type->difficulty;
-
-    if (bionics.count(b_id) == 0) {
-        popup("invalid / unknown bionic id %s", b_id.c_str());
-        return false;
+    int difficulty = 12;
+    if( item_controller->has_template(b_id) > 0) {
+        const it_bionic *type = dynamic_cast<it_bionic *> (item_controller->find_template(b_id));
+        difficulty = type->difficulty;
     }
+
     if (!has_bionic(b_id)) {
         popup(_("You don't have this bionic installed."));
         return false;
@@ -878,7 +878,7 @@ bool player::uninstall_bionic(bionic_id b_id)
         return false;
     }
     
-    if ( type->id == "bio_blaster" ) {
+    if ( b_id == "bio_blaster" ) {
         popup(_("Removing your Fusion Blaster Arm would leave you with a useless stump."));
         return false;
     }
