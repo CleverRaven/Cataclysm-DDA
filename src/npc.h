@@ -74,6 +74,7 @@ enum npc_mission {
 
 enum npc_class {
  NC_NONE,
+ NC_EVAC_SHOPKEEP, // Found in the Evacuation Center, unique, has more goods than he should be able to carry
  NC_SHOPKEEP, // Found in towns.  Stays in his shop mostly.
  NC_HACKER, // Weak in combat but has hacking skills and equipment
  NC_DOCTOR, // Found in towns, or roaming.  Stays in the clinic.
@@ -273,6 +274,7 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
 enum talk_topic {
  TALK_NONE = 0, // Used to go back to last subject
  TALK_DONE, // Used to end the conversation
+ TALK_GUARD, // End conversation, nothing to be said
  TALK_MISSION_LIST, // List available missions. Intentionally placed above START
  TALK_MISSION_LIST_ASSIGNED, // Same, but for assigned missions.
 
@@ -289,6 +291,17 @@ enum talk_topic {
  TALK_MISSION_END, // NOT USED: end of mission topics
 
  TALK_MISSION_REWARD, // Intentionally placed below END
+
+ TALK_EVAC_MERCHANT,
+ TALK_EVAC_MERCHANT_NEW,
+ TALK_EVAC_MERCHANT_PLANS,
+ TALK_EVAC_MERCHANT_PLANS2,
+ TALK_EVAC_MERCHANT_WORLD,
+ TALK_EVAC_MERCHANT_HORDS,
+ TALK_EVAC_MERCHANT_PRIME_LOOT,
+ TALK_EVAC_MERCHANT_ASK_JOIN,
+ TALK_EVAC_MERCHANT_NO,
+ TALK_EVAC_MERCHANT_HELL_NO,
 
  TALK_SHELTER,
  TALK_SHELTER_PLANS,
