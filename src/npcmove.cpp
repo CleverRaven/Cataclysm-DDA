@@ -99,7 +99,7 @@ void npc::move()
             debugmsg("address_player %s", npc_action_name(action).c_str());
         }
         if (action == npc_undecided) {
-            if (mission == NPC_MISSION_SHELTER || has_disease("infection")) {
+            if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP || has_disease("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
