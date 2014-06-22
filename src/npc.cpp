@@ -212,6 +212,25 @@ void npc::randomize(npc_class type)
   }
   break;
 
+ case NC_EVAC_SHOPKEEP:
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
+   }
+   set_skill_level(*aSkill, level);
+  }
+  boost_skill_level("mechanics", rng(0, 1));
+  boost_skill_level("electronics", rng(1, 2));
+  boost_skill_level("speech", rng(1, 3));
+  boost_skill_level("barter", rng(2, 5));
+  int_max += rng(0, 1) * rng(0, 1);
+  per_max += rng(0, 1) * rng(0, 1);
+  personality.collector += rng(1, 5);
+  cash += 2500000 * rng(1, 10);
+  break;
+
  case NC_HACKER:
   for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    int level = 0;
@@ -793,6 +812,16 @@ std::list<item> starting_inv(npc *me, npc_class type)
   }
  }
  if (type == NC_TRADER) { // Traders just have tons of random junk
+  while (total_space > 0 && !one_in(50)) {
+   tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
+   if (total_space >= itypes[tmp]->volume) {
+    ret.push_back(item(tmp, 0));
+    ret.back() = ret.back().in_its_container();
+    total_space -= ret.back().volume();
+   }
+  }
+ }
+ if (type == NC_EVAC_SHOPKEEP) {
   while (total_space > 0 && !one_in(50)) {
    tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
    if (total_space >= itypes[tmp]->volume) {
@@ -2122,6 +2151,8 @@ std::string npc_class_name(npc_class classtype)
     switch(classtype) {
     case NC_NONE:
         return _("No class");
+    case NC_EVAC_SHOPKEEP: // Found in the evacuation center.
+        return _("Merchant");
     case NC_SHOPKEEP: // Found in towns.  Stays in his shop mostly.
         return _("Shopkeep");
     case NC_HACKER: // Weak in combat but has hacking skills and equipment
