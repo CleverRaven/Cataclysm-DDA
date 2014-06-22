@@ -575,7 +575,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_EVAC_MERCHANT_NEW:
             return _("Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees."
-                     "  We do despratly need supplies and are willing to trade what we can for it.  Pay top dollar for jerkey if you have any.");
+                     "  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any.");
 
         case TALK_EVAC_MERCHANT_PLANS:
             return _("To be honest, we started out with six buses full of office workers and soccer moms... after the refugee outbreak a day or two"
@@ -584,15 +584,21 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_EVAC_MERCHANT_PLANS2:
             return _("I'm sorry, but the only way we're going to make it is if we keep our gates buttoned fast.  The guards in the basement "
-                    "have orders to shoot on site if you so much as peep your head in the lower levels.  I don't know what made the scavangers "
+                    "have orders to shoot on sight, if you so much as peep your head in the lower levels.  I don't know what made the scavengers "
                     "out there so ruthless but some of us have had to kill our own bloody kids... don't even think about strong arming us.");
+
+        case TALK_EVAC_MERCHANT_PLANS3:
+            return _("Well the refugees were staying here on the first floor when one their parties tried to sneak a dying guy in through the loading bay, "
+                     "we ended up being awoken to shrieks and screams. Maybe two dozen people died that night.  The remaining refugees were banished the next "
+                     "day and went on to form a couple of scavenging bands.  I'd say we got twenty decent men or women still here but our real strength comes "
+                     "from all of our business partners that are accustomed to doing whatever is needed to survive.");
 
         case TALK_EVAC_MERCHANT_WORLD:
             return _("Can't say we've heard much.  Most these shelters seemed to have been designed to make people feel safer... not actually "
                     "aid in their survival.  Our radio equipment is utter garbage that someone convinced the government to buy, with no intention "
                     "of it ever being used.  From the passing scavangers I've heard nothing but prime loot'n spots and rumors of hordes.");
 
-        case TALK_EVAC_MERCHANT_HORDS:
+        case TALK_EVAC_MERCHANT_HORDES:
             return _("Had one guy pop in here a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it "
                      "downtown before he ran into a wall of the living dead that could stop a tank.  He hightailed it out but claims there were "
                      "several thousand at least.  Guess when you get a bunch of them together they end up making enough noise to attract everyone "
@@ -601,7 +607,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_EVAC_MERCHANT_PRIME_LOOT:
             return _("Well, there is a party of about a dozen 'scavengers' that found some sort of government facility.  They bring us a literal "
                      "truck load of jumpsuits, m4's, and canned food every week or so.  Since some of those guys got family here, we've been "
-                     "doing alright.  As to where it is, I don't have to foggiest of ideas.");
+                     "doing alright.  As to where it is, I don't have the foggiest of ideas.");
 
         case TALK_EVAC_MERCHANT_ASK_JOIN:
             return _("Sorry, last thing we need is another mouth to feed.  Most of us lack any real survival skills so keeping our group "
@@ -1135,10 +1141,18 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_EVAC_MERCHANT_PLANS2);
   break;
  case TALK_EVAC_MERCHANT_PLANS2:
+  if (g->u.int_cur >= 12){
+    RESPONSE(_("[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?"));
+        SUCCESS(TALK_EVAC_MERCHANT_PLANS3);
+  }
   RESPONSE(_("Guess shit's a mess everywhere..."));
    SUCCESS(TALK_EVAC_MERCHANT);
   break;
- case TALK_EVAC_MERCHANT_HORDS:
+ case TALK_EVAC_MERCHANT_PLANS3:
+  RESPONSE(_("Guess it works for you..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_HORDES:
   RESPONSE(_("Thanks for the tip."));
    SUCCESS(TALK_EVAC_MERCHANT);
   break;
@@ -1173,8 +1187,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
 
  case TALK_EVAC_MERCHANT_WORLD:
-  RESPONSE(_("Hords?"));
-   SUCCESS(TALK_EVAC_MERCHANT_HORDS);
+  RESPONSE(_("Hordes?"));
+   SUCCESS(TALK_EVAC_MERCHANT_HORDES);
   RESPONSE(_("Heard of anything better than the odd gun cache?"));
    SUCCESS(TALK_EVAC_MERCHANT_PRIME_LOOT);
   RESPONSE(_("Was hoping for something more..."));
