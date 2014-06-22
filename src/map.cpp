@@ -3741,25 +3741,30 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     const int k = x + getmaxx(w)/2 - cx;
     const int j = y + getmaxy(w)/2 - cy;
     nc_color tercol;
-    const ter_id curr_ter = ter(x,y);
-    const furn_id curr_furn = furn(x,y);
-    const trap_id curr_trap = tr_at(x, y);
-    field &curr_field = field_at(x, y);
-    const std::vector<item> &curr_items = i_at(x, y);
+    map *here_or_there = this;
+    if( portal_seen && portal_map[x][y] ) {
+        here_or_there = portal_destination;
+    }
+    const ter_id curr_ter = here_or_there->ter(x,y);
+    const furn_id curr_furn = here_or_there->furn(x,y);
+    const trap_id curr_trap = here_or_there->tr_at(x, y);
+    field &curr_field = here_or_there->field_at(x, y);
+    const std::vector<item> &curr_items = here_or_there->i_at(x, y);
     long sym;
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
 
 
-    if (has_furn(x, y)) {
+    if (here_or_there->has_furn(x, y)) {
         sym = furnlist[curr_furn].sym;
         tercol = furnlist[curr_furn].color;
     } else {
         sym = terlist[curr_ter].sym;
         tercol = terlist[curr_ter].color;
     }
-    if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+    if (here_or_there->has_flag(TFLAG_SWIMMABLE, x, y) &&
+        here_or_there->has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
@@ -3814,7 +3819,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     // If there are items here, draw those instead
-    if (show_items && sees_some_items(x, y, g->u)) {
+    if (show_items && here_or_there->sees_some_items(x, y, g->u)) {
         // if there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
         if (sym != '.' && sym != '%' && !draw_item_sym) {
@@ -3832,19 +3837,19 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     int veh_part = 0;
-    vehicle *veh = veh_at(x, y, veh_part);
+    vehicle *veh = NULL; //here_or_there->veh_at(x, y, veh_part);
     if (veh) {
         sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
         tercol = veh->part_color(veh_part);
     }
     // If there's graffiti here, change background color
-    if(graffiti_at(x,y).contents) {
+    if(here_or_there->graffiti_at(x,y).contents) {
         graf = true;
     }
 
     //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
     if(sym == LINE_XOXO || sym == LINE_OXOX) { //vertical or horizontal
-        sym = determine_wall_corner(x, y, sym);
+        sym = here_or_there->determine_wall_corner(x, y, sym);
     }
 
     if (u.has_disease("boomered")) {
@@ -4703,91 +4708,158 @@ void map::build_outside_cache()
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache()
 {
- if (!transparency_cache_dirty) {
-     return;
- }
- for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
-  for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
-
-   // Default to fully transparent.
-   transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
-
-   if ( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
-    transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-    continue;
-   }
-
-   //Quoted to see if this works!
-   field &curfield = field_at(x,y);
-   if(curfield.fieldCount() > 0){
-    field_entry *cur = NULL;
-    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-     cur = field_list_it->second;
-     if(cur == NULL) continue;
-
-     if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
-      // Fields are either transparent or not, however we want some to be translucent
-      switch(cur->getFieldType()) {
-      case fd_cigsmoke:
-      case fd_weedsmoke:
-      case fd_cracksmoke:
-      case fd_methsmoke:
-          transparency_cache[x][y] *= 0.7;
-          break;
-      case fd_smoke:
-      case fd_toxic_gas:
-      case fd_tear_gas:
-       if(cur->getFieldDensity() == 3)
-        transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       if(cur->getFieldDensity() == 2)
-        transparency_cache[x][y] *= 0.5;
-       break;
-      case fd_nuke_gas:
-       transparency_cache[x][y] *= 0.5;
-       break;
-      default:
-       transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       break;
-      }
-     }
-
-     // TODO: [lightmap] Have glass reduce light as well
+    if (!transparency_cache_dirty) {
+        return;
     }
-   }
-  }
- }
+    portal_cache.clear();
+    portal_seen = false;
+    memset( portal_map, 0, sizeof(portal_map) );
+    for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
+        for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
 
- transparency_cache_dirty = false;
+            // Default to fully transparent.
+            transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
+
+            if ( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
+                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                continue;
+            }
+
+            //Quoted to see if this works!
+            field &curfield = field_at(x,y);
+            if(curfield.fieldCount() > 0){
+                field_entry *cur = NULL;
+                for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+                     field_list_it != curfield.getFieldEnd(); ++field_list_it ){
+                    cur = field_list_it->second;
+                    if(cur == NULL) continue;
+
+                    if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+                        // Fields are either transparent or not, however we want some to be translucent
+                        switch(cur->getFieldType()) {
+                        case fd_cigsmoke:
+                        case fd_weedsmoke:
+                        case fd_cracksmoke:
+                        case fd_methsmoke:
+                            transparency_cache[x][y] *= 0.7;
+                            break;
+                        case fd_smoke:
+                        case fd_toxic_gas:
+                        case fd_tear_gas:
+                            if( cur->getFieldDensity() == 3 ) {
+                                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                            } else if( cur->getFieldDensity() == 2 ) {
+                                transparency_cache[x][y] *= 0.5;
+                            }
+                            break;
+                        case fd_nuke_gas:
+                            transparency_cache[x][y] *= 0.5;
+                            break;
+                        case fd_portal:
+                            portal_cache.insert(point(x, y));
+                        default:
+                            transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                            break;
+                        }
+                    }
+                    // TODO: [lightmap] Have glass reduce light as well
+                }
+            }
+        }
+    }
+    transparency_cache_dirty = false;
+}
+
+tripoint map::calculate_portal_destination( int portal_value )
+{
+    portal_value = std::abs(portal_value);
+    int z = -portal_value % 10;
+    z = 0;
+    portal_value /= 1 << 5;
+
+    // Temporary measure, pick a random point on the current overmap.
+    int x = 5 + portal_value % 170;
+    portal_value /= 170;
+    int y = 5 + portal_value % 180;
+    /*
+    // TODO: pick a random very wide offset, calculate what overmap it ends up in,
+    // and load the map there.
+    // Extract next 13 bits for x, subtract 2^13 to shift the result into the range -2^12, 2^12.
+    int x = (portal_value % (2 << 13)) - (2 << 13);
+    portal_value /= 2 << 13;
+    // And last 13 bits for y, discard the highest bit.
+    int y = (portal_value % (2 << 13)) - (2 << 13);
+    */
+    return tripoint( x, y, z );
+}
+
+int map::get_portal_value( tripoint destination )
+{
+    int value = 0;
+    value += destination.y - 5;
+    value *= 170;
+    value += destination.x - 5;
+    value *= 170;
+    // z is 0 for now;
+    return value;
+}
+
+
+void map::load_portal_destination()
+{
+    // Todo: manage the lifetime here, don't need to delete and recreate every turn.
+    if( portal_destination ) {
+        // TODO: stash or calculate the coordinates and save any changes.
+        // portal_destination->save();
+        // TODO: don't leak memory like a sieve lol.
+        // delete portal_destination;
+        //portal_destination = NULL;
+    }
+    if( !portal_cache.empty() ) {
+        // grab coordinates from first portal found, should be consistent-ish across turns.
+        point portal_location = *(portal_cache.begin());
+        int portal_value = get_field_age( portal_location, fd_portal );
+        // Extract low order 5 bits for level, but mod 10.
+        tripoint portal_destination_point = calculate_portal_destination( portal_value );
+
+        portal_destination = new map();
+        // Does this need to be update_vehicles = false?
+        portal_destination->load( portal_destination_point.x, portal_destination_point.y,
+                                  portal_destination_point.z, false);
+        portal_destination->build_outside_cache();
+        portal_destination->build_transparency_cache();
+    }
 }
 
 void map::build_map_cache()
 {
- build_outside_cache();
+    build_outside_cache();
 
- build_transparency_cache();
+    build_transparency_cache();
 
- // Cache all the vehicle stuff in one loop
- VehicleList vehs = get_vehicles();
- for( size_t v = 0; v < vehs.size(); ++v ) {
-  for (int part = 0; part < vehs[v].v->parts.size(); part++) {
-   int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
-   int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];
-   if(INBOUNDS(px, py)) {
-    if (vehs[v].v->is_inside(part)) {
-     outside_cache[px][py] = false;
+    load_portal_destination();
+    // Cache all the vehicle stuff in one loop
+    VehicleList vehs = get_vehicles();
+    for( size_t v = 0; v < vehs.size(); ++v ) {
+        for (int part = 0; part < vehs[v].v->parts.size(); part++) {
+            int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
+            int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];
+            if(INBOUNDS(px, py)) {
+                if (vehs[v].v->is_inside(part)) {
+                    outside_cache[px][py] = false;
+                }
+                if (vehs[v].v->part_flag(part, VPFLAG_OPAQUE) && vehs[v].v->parts[part].hp > 0) {
+                    int dpart = vehs[v].v->part_with_feature(part , VPFLAG_OPENABLE);
+                    if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
+                        transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+                    }
+                }
+            }
+        }
     }
-    if (vehs[v].v->part_flag(part, VPFLAG_OPAQUE) && vehs[v].v->parts[part].hp > 0) {
-     int dpart = vehs[v].v->part_with_feature(part , VPFLAG_OPENABLE);
-     if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
-      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
-     }
-    }
-   }
-  }
- }
 
- build_seen_cache();
- generate_lightmap();
+    build_seen_cache();
+    generate_lightmap();
 }
 
 std::vector<point> closest_points_first(int radius, point p)

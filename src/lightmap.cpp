@@ -279,8 +279,6 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
     return seen_cache[tx][ty];
 }
 
-
-
 /**
  * Calculates the Field Of View for the provided map from the given x, y
  * coordinates. Returns a lightmap for a result where the values represent a
@@ -302,16 +300,25 @@ void map::build_seen_cache()
     const int offsetX = g->u.posx;
     const int offsetY = g->u.posy;
 
+
+    in_portal = false;
     castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, offsetX, offsetY, 0 );
+    in_portal = false;
     castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, offsetX, offsetY, 0 );
 
+    in_portal = false;
     castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, offsetX, offsetY, 0 );
+    in_portal = false;
     castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, offsetX, offsetY, 0 );
 
+    in_portal = false;
     castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, offsetX, offsetY, 0 );
+    in_portal = false;
     castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, offsetX, offsetY, 0 );
 
+    in_portal = false;
     castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, offsetX, offsetY, 0 );
+    in_portal = false;
     castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, offsetX, offsetY, 0 );
 
     if (vehicle *veh = veh_at(offsetX, offsetY)) {
@@ -345,74 +352,148 @@ void map::build_seen_cache()
             // The naive solution of making the mirrors act like a second player
             // at an offset appears to give reasonable results though.
 
+            in_portal = false;
             castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirrorX, mirrorY, offsetDistance );
+            in_portal = false;
             castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
 
+            in_portal = false;
             castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirrorX, mirrorY, offsetDistance );
+            in_portal = false;
             castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
 
+            in_portal = false;
             castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirrorX, mirrorY, offsetDistance );
+            in_portal = false;
             castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
 
+            in_portal = false;
             castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirrorX, mirrorY, offsetDistance );
+            in_portal = false;
             castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
         }
     }
 }
 
+// Potential optimization, make a portal-aware and a portal-agnostic version of
+// castLight, and only use the portal-aware version after checking that there's a portal.
 void map::castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
-                     const int offsetX, const int offsetY, const int offsetDistance )
+                     const int offsetX, const int offsetY, const int offsetDistance,
+                     float trans_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] )
 {
+    if( trans_cache == NULL ) {
+        trans_cache = transparency_cache;
+    }
     float newStart = 0.0f;
     float radius = 60.0f - offsetDistance;
     if( start < end ) {
         return;
     }
     bool blocked = false;
-    for( int distance = row; distance <= radius && !blocked; distance++ ) {
+    bool portal_found = false;
+    for( int distance = row; distance <= radius && !blocked && !portal_found; distance++ ) {
         int deltaY = -distance;
         for( int deltaX = -distance; deltaX <= 0; deltaX++ ) {
             int currentX = offsetX + deltaX * xx + deltaY * xy;
             int currentY = offsetY + deltaX * yx + deltaY * yy;
-            float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
-            float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
+            float trailingEdge = (deltaX - 0.5f) / (deltaY + 0.5f);
+            float leadingEdge = (deltaX + 0.5f) / (deltaY - 0.5f);
 
             if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * my_MAPSIZE &&
-                  currentY < SEEY * my_MAPSIZE) || start < rightSlope ) {
+                  currentY < SEEY * my_MAPSIZE) || start < leadingEdge ) {
                 continue;
-            } else if( end > leftSlope ) {
+            } else if( end > trailingEdge ) {
                 break;
             }
 
             //check if it's within the visible area and mark visible if so
             if( rl_dist(0, 0, deltaX, deltaY) <= radius ) {
                 /*
-                float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
-                lightMap[currentX][currentY] = bright;
+                  float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
+                  lightMap[currentX][currentY] = bright;
                 */
                 seen_cache[currentX][currentY] = true;
+                portal_map[currentX][currentY] = in_portal;
             }
 
             if( blocked ) {
-                //previous cell was a blocking one
-                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID ) {
-                    //hit a wall
-                    newStart = rightSlope;
-                    continue;
+                //previous cell was a blocking one, now we're scanning for a "not blocking" cell.
+                if( trans_cache[currentX][currentY] == LIGHT_TRANSPARENCY_SOLID ) {
+                    if( portal_cache.count(point(currentX, currentY)) ) {
+                        // Wall -> Portal, switch to portal scanning mode.
+                        blocked = false;
+                        start = newStart;
+                        portal_found = true;
+                        portal_seen = true;
+                    } else {
+                        // Wall -> Wall, keep scanning for open space.
+                        newStart = leadingEdge;
+                    }
                 } else {
+                    // Wall -> Space, mark the end of the wall and keep going.
                     blocked = false;
                     start = newStart;
                 }
-            } else {
-                if( light_transparency(currentX, currentY) == LIGHT_TRANSPARENCY_SOLID &&
-                    distance < radius ) {
-                    //hit a wall within sight line
-                    blocked = true;
-                    castLight(distance + 1, start, leftSlope, xx, xy, yx, yy,
-                              offsetX, offsetY, offsetDistance);
-                    newStart = rightSlope;
+            } else if( !portal_found ) {
+                // We don't care about the last row, there's nothing for them to block.
+                if( distance < radius ) {
+                    if( trans_cache[currentX][currentY] == LIGHT_TRANSPARENCY_SOLID ) {
+                        // Hit a wall within sight line, we have both ends of a clear span,
+                        // so we can cast recursively into that span. (from start to trailingEdge)
+                        // If this is the first square in the span, start == trailingEdge,
+                        // So it casts nothing
+                        castLight( distance + 1, start, trailingEdge, xx, xy, yx, yy,
+                                   offsetX, offsetY, offsetDistance );
+                        // If it's a portal, note that we've found one and
+                        // continue scanning as if it were open space.
+                        if( portal_cache.count(point(currentX, currentY)) ) {
+                            // Found a portal, switch to portal scanning mode.
+                            newStart = trailingEdge;
+                            blocked = false;
+                            portal_found = true;
+                            portal_seen = true;
+                        } else {
+                            blocked = true;
+                            newStart = leadingEdge;
+                        }
+                    }
+                }
+            } else { // portal_found
+                // Found a portal, now scan for the end of it, then cast.
+                if( distance < radius ) {
+                    if( portal_cache.count(point(currentX, currentY)) ) {
+                        // More portal, keep scanning.
+                    } else {
+                        in_portal = true;
+                        // Went from portal to wall, cast a portal span...
+                        castLight( distance + 1, newStart, leadingEdge, xx, xy, yx, yy,
+                                   offsetX, offsetY, offsetDistance,
+                                   portal_destination->transparency_cache );
+                        in_portal = false;
+                        // ...then toggle off portal scanning...
+                        portal_found = false;
+                        if( trans_cache[currentX][currentY] == LIGHT_TRANSPARENCY_SOLID ) {
+                            // ...and turn on wall scanning.
+                            blocked = true;
+                            newStart = leadingEdge;
+                        } else { // Transparent
+                            // ...or space scanning.
+                            blocked = false;
+                            start = leadingEdge;
+                        }
+                    }
                 }
             }
+        }
+        // If we reach the end of a row and we're looking at a portal,
+        // recursively cast a portal cone and exit, otherwise the next row will overwrite it.
+        if( portal_found ) {
+            in_portal = true;
+            castLight( distance + 1, newStart, end, xx, xy, yx, yy,
+                       offsetX, offsetY, offsetDistance,
+                       portal_destination->transparency_cache );
+            in_portal = false;
+            return;
         }
     }
 }

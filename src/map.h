@@ -626,7 +626,8 @@ protected:
  void generate_lightmap();
  void build_seen_cache();
  void castLight( int row, float start, float end, int xx, int xy, int yx, int yy,
-                 const int offsetX, const int offsetY, const int offsetDistance );
+                 const int offsetX, const int offsetY, const int offsetDistance,
+                 float trans_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = NULL );
 
  int my_MAPSIZE;
 
@@ -697,6 +698,14 @@ private:
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
  std::map<trap_id, std::set<point> > traplocs;
+ std::set<point> portal_cache;
+ tripoint calculate_portal_destination( int portal_value );
+ int get_portal_value( tripoint destination );
+ void load_portal_destination();
+ bool portal_seen;
+ bool in_portal;
+ bool portal_map[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ map *portal_destination;
 };
 
 std::vector<point> closest_points_first(int radius, point p);

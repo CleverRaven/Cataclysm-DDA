@@ -218,6 +218,11 @@ void game::init_fields()
             {_("some bees"), _("swarm of bees"), _("angry swarm of bees")}, '8', 8,
             {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true},  1000,
             {0,0,0}
+        },
+        {
+            {_("tenuous portal"), _("wavering portal"), _("steady portal")}, '0', 8,
+            {c_blue, c_ltblue, c_white}, {false, false, false}, {true, true, true}, 0,
+            {0,0,0}
         }
     };
     for(int i = 0; i < num_fields; i++) {
@@ -1132,6 +1137,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
                         }
                         break;
+                    case fd_portal:
+                        // Update to point the other end at a random location.
+                        if( one_in( 20 ) ) {
+                            cur->setFieldAge( rng( 0, INT_MAX ) );
+                        }
+                        break;
                 } // switch (curtype)
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
@@ -1469,6 +1480,27 @@ void map::step_in_field(int x, int y)
                     add_msg( m_bad, _("The bees sting you all over your body!") );
                     break;
                 }
+            }
+            break;
+
+        case fd_portal:
+            // This serves a dual purpose of being a sanity check and
+            //preventing the player from double-teleporting
+            if( portal_destination ) {
+                // Create a portal at the destination if there isn't one already.
+                portal_destination->add_field( point( g->u.xpos(), g->u.ypos() ), fd_portal, 1,
+                                               get_portal_value(tripoint(g->levx, g->levy, g->levz)) );
+
+                tripoint portal_dest = calculate_portal_destination(
+                    get_field_age( point( g->u.xpos(), g->u.ypos() ), fd_portal) );
+                portal_dest.x += 5;
+                portal_dest.y += 5;
+                // Again, stop leaking maps...
+                portal_destination = NULL;
+                g->long_range_teleport( portal_dest );
+
+                // Just bail out.
+                return;
             }
         }
         ++field_list_it;

@@ -9,6 +9,7 @@
 
 #define LIGHT_TRANSPARENCY_SOLID 0
 #define LIGHT_TRANSPARENCY_CLEAR 1
+#define LIGHT_TRANSPARENCY_PORTAL -1
 
 #define LIGHT_RANGE(b) static_cast<int>(sqrt(b / LIGHT_AMBIENT_LOW) + 1)
 
