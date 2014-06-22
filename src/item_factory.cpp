@@ -286,6 +286,7 @@ void Item_factory::init(){
     iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
     iuse_function_list["C4"] = &iuse::c4;
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
+    iuse_function_list["GRENADE_INC_ACT"] = &iuse::grenade_inc_act;
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
