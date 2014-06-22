@@ -1865,16 +1865,27 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
 
 void game::disassemble(int pos)
 {
+
+
     if (pos == INT_MAX) {
         pos = inv(_("Disassemble item:"));
     }
+	item *dis_item = &u.i_at(pos);
+	    recipe *cur_recipe = get_disassemble_recipe(dis_item->type->id);
     if (!u.has_item(pos)) {
         add_msg(m_info, _("You don't have that item!"), pos);
         return;
+    } else {
+
+    //checks to see if your disassembling rotten food, and will stop you if true
+    	 if(dis_item->is_food() && dis_item->goes_bad() || (dis_item->is_food_container() && dis_item->contents[0].goes_bad())) {
+    	        if(dis_item->rotten() || (dis_item->is_food_container() && dis_item->contents[0].rotten())) {
+    	                add_msg(m_info, _("Eww! It's rotten! I'm not taking that apart."));
+    	                return;
+    	}
+    }
     }
 
-    item *dis_item = &u.i_at(pos);
-    recipe *cur_recipe = get_disassemble_recipe(dis_item->type->id);
     if (cur_recipe != NULL) {
         inventory crafting_inv = crafting_inventory(&u);
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
@@ -1901,10 +1912,12 @@ void game::disassemble(int pos)
         return;
     }
 
+
+{
     // no recipe exists, or the item cannot be disassembled
     add_msg(m_info, _("This item cannot be disassembled!"));
 }
-
+}
 void game::complete_disassemble()
 {
     // which recipe was it?
