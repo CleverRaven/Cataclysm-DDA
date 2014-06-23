@@ -392,4 +392,95 @@ std::string base64_decode(std::string str)
     return ret;
 }
 
+utf8_wrapper::utf8_wrapper(const std::string &d) : _data(d), _length(0), _display_width(0)
+{
+    const char *utf8str = _data.c_str();
+    int len = _data.length();
+    while(len > 0) {
+        const unsigned ch = UTF8_getch(&utf8str, &len);
+        if(ch == UNKNOWN_UNICODE) {
+            continue;
+        }
+        _length++;
+        _display_width += mk_wcwidth(ch);
+    }
+}
 
+size_t utf8_wrapper::byte_start(size_t start) const
+{
+    const char *utf8str = _data.c_str();
+    int len = _data.length();
+    while(len > 0) {
+        if (start == 0) {
+            return utf8str - _data.c_str();
+        }
+        const unsigned ch = UTF8_getch(&utf8str, &len);
+        if(ch == UNKNOWN_UNICODE) {
+            continue;
+        }
+        start--;
+    }
+    return _data.length();
+}
+
+void utf8_wrapper::insert(size_t start, const utf8_wrapper &other)
+{
+    const size_t bstart = byte_start(start);
+    _data.insert(bstart, other._data);
+    _length += other._length;
+    _display_width += other._display_width;
+}
+
+utf8_wrapper utf8_wrapper::substr(size_t start, size_t length) const
+{
+    return substr_byte(byte_start(start), length);
+}
+
+utf8_wrapper utf8_wrapper::substr_byte(size_t bytestart, size_t length) const
+{
+    utf8_wrapper other;
+    const char *utf8str = _data.c_str() + bytestart;
+    const char *initial = utf8str;
+    int len = _data.length() - bytestart;
+    while(len > 0 && length > 0) {
+        const unsigned ch = UTF8_getch(&utf8str, &len);
+        if(ch == UNKNOWN_UNICODE) {
+            continue;
+        }
+        other._length++;
+        other._display_width += mk_wcwidth(ch);
+        length--;
+    }
+    other._data.assign(initial, utf8str - initial);
+    return other;
+}
+
+long utf8_wrapper::at(size_t start) const
+{
+    const size_t bstart = byte_start(start);
+    const char *utf8str = _data.c_str() + bstart;
+    int len = _data.length() - bstart;
+    while(len > 0) {
+        const unsigned ch = UTF8_getch(&utf8str, &len);
+        if(ch != UNKNOWN_UNICODE) {
+            return ch;
+        }
+    }
+    return 0;
+}
+
+void utf8_wrapper::erase(size_t start, size_t length)
+{
+    const size_t bstart = byte_start(start);
+    const utf8_wrapper removed(substr_byte(bstart, length));
+    _data.erase(bstart, removed._data.length());
+    _length -= removed._length;
+    _display_width -= removed._display_width;
+}
+
+void utf8_wrapper::append(const utf8_wrapper &other)
+{
+    _data.append(other._data);
+    _length += other._length;
+    _display_width += other._display_width;
+}

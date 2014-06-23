@@ -20,4 +20,55 @@ std::string utf8_truncate(std::string s, size_t length);
 
 std::string base64_encode(std::string str);
 std::string base64_decode(std::string str);
+
+/**
+ * UTF8-Wrapper over std::string.
+ * It looks and feels like a std::string, but uses character counts
+ * as index, not bytes.
+ * A multi-byte Unicode character might by represented
+ * as 3 bytes in UTF8, this class will see these 3 bytes as 1 character.
+ * It will never separate them.
+ *
+ * Note: all functions use character counts, not byte counts!
+ *
+ * For function documentation see std::string, the functions here
+ * mimic the behavior of the equally named std::string function.
+ */
+class utf8_wrapper {
+public:
+    utf8_wrapper() : _data(), _length(0), _display_width(0) { }
+    utf8_wrapper(const std::string &d);
+    utf8_wrapper(const char *d) : utf8_wrapper(std::string(d)) { }
+
+    void insert(size_t start, const utf8_wrapper &other);
+    utf8_wrapper substr(size_t start, size_t length) const;
+    utf8_wrapper substr(size_t start) const { return substr(start, _length - start); }
+    void erase(size_t start, size_t length);
+    void erase(size_t start) { erase(start, _length - start); }
+    void append(const utf8_wrapper &other);
+
+    utf8_wrapper &operator=(const std::string &d) { return *this = utf8_wrapper(d); }
+    const std::string &str() const { return _data; }
+
+    // Returns unicode character at position start
+    long at(size_t start) const;
+
+    // Returns number of unicode characters
+    size_t size() const { return _length; }
+    size_t length() const { return size(); }
+    bool empty() const { return size() == 0; }
+    // Display size might be different from length, as some characters
+    // are displayed as 2 chars in a terminal
+    size_t display_width() const { return _display_width; }
+    const char *c_str() const { return _data.c_str(); }
+protected:
+    std::string _data;
+    size_t _length;
+    size_t _display_width;
+    // Byte offset into @ref _data for unicode character at index start.
+    size_t byte_start(size_t start) const;
+    // Same as @ref substr, but with a byte index as start
+    utf8_wrapper substr_byte(size_t bytestart, size_t length) const;
+};
+
 #endif
