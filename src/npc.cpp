@@ -821,17 +821,20 @@ std::list<item> starting_inv(npc *me, npc_class type)
    }
   }
  }
+ items_location from;
  if (type == NC_EVAC_SHOPKEEP) {
+  from = "npc_evac_shopkeep";
+  total_space += rng(50,100);
   while (total_space > 0 && !one_in(50)) {
-   tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
-   if (total_space >= itypes[tmp]->volume) {
-    ret.push_back(item(tmp, 0));
-    ret.back() = ret.back().in_its_container();
-    total_space -= ret.back().volume();
+   Item_tag selected_item = item_controller->id_from(from);
+   item tmpit(selected_item, 0);
+   tmpit = tmpit.in_its_container();
+   if (total_space >= tmpit.volume()) {
+    ret.push_back(tmpit);
+    total_space -= tmpit.volume();
    }
   }
  }
- items_location from;
  if (type == NC_HACKER) {
   from = "npc_hacker";
   while(total_space > 0 && !one_in(10)) {
