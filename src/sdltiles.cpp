@@ -640,36 +640,26 @@ bool Font::draw_window(WINDOW *win, int offsetx, int offsety)
     return update;
 }
 
-#define ALT_BUFFER_SIZE 8
-static char alt_buffer[ALT_BUFFER_SIZE];
-static int alt_buffer_len = 0;
+static long alt_buffer = 0;
 static bool alt_down = false;
 
 static void begin_alt_code()
 {
-    alt_buffer[0] = '\0';
+    alt_buffer = 0;
     alt_down = true;
-    alt_buffer_len = 0;
 }
 
-static int add_alt_code(char c)
+static void add_alt_code( char c )
 {
-    // not exactly how it works, but acceptable
-    if(c>='0' && c<='9')
-    {
-        if(alt_buffer_len<ALT_BUFFER_SIZE-1)
-        {
-            alt_buffer[alt_buffer_len] = c;
-            alt_buffer[++alt_buffer_len] = '\0';
-        }
+    if( c >= '0' && c <= '9' ) {
+        alt_buffer = alt_buffer * 10 + ( c - '0' );
     }
-    return 0;
 }
 
-static int end_alt_code()
+static long end_alt_code()
 {
     alt_down = false;
-    return atoi(alt_buffer);
+    return alt_buffer;
 }
 
 int HandleDPad()
