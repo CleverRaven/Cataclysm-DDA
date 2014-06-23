@@ -1219,20 +1219,21 @@ void computer::activate_failure(computer_failure fail)
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_centrifuge) {
-                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++) {
-                        if (g->m.i_at(x, y).empty()) {
-                            print_error(_("ERROR: Please place sample in centrifuge."));
-                        } else if (g->m.i_at(x, y).size() > 1) {
-                            print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                        } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
-                            print_error(_("ERROR: Please use vacutainer-contained samples."));
-                        } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                            print_error(_("ERROR: Vacutainer empty."));
-                        } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
-                            print_error(_("ERROR: Please only use blood samples."));
-                        } else {
-                            print_error(_("ERROR: Blood sample destroyed."));
-                            g->m.i_at(x, y)[i].contents.clear();
+                    if (g->m.i_at(x, y).empty()) {
+                        print_error(_("ERROR: Please place sample in centrifuge."));
+                    } else if (g->m.i_at(x, y).size() > 1) {
+                        print_error(_("ERROR: Please remove all but one sample from centrifuge."));
+                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                        print_error(_("ERROR: Please use vacutainer-contained samples."));
+                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                        print_error(_("ERROR: Vacutainer empty."));
+                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                        print_error(_("ERROR: Please only use blood samples."));
+                    } else {
+                        print_error(_("ERROR: Blood sample destroyed."));
+                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
+                             it != g->m.i_at(x, y).end(); ++it) {
+                            it->contents.clear();
                         }
                     }
                 }
@@ -1246,18 +1247,19 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x <= 23; x++) {
             for (int y = 0; y <= 23; y++) {
                 if (g->m.ter(x, y) == t_floor_blue) {
-                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++) {
-                        if (g->m.i_at(x, y).empty()) {
-                            print_error(_("ERROR: Please place memory bank in scan area."));
-                        } else if (g->m.i_at(x, y).size() > 1) {
-                            print_error(_("ERROR: Please only scan one item at a time."));
-                        } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
-                            print_error(_("ERROR: Memory bank destroyed or not present."));
-                        } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                            print_error(_("ERROR: Memory bank is empty."));
-                        } else {
-                            print_error(_("ERROR: Data bank destroyed."));
-                            g->m.i_at(x, y)[i].contents.clear();
+                    if (g->m.i_at(x, y).empty()) {
+                        print_error(_("ERROR: Please place memory bank in scan area."));
+                    } else if (g->m.i_at(x, y).size() > 1) {
+                        print_error(_("ERROR: Please only scan one item at a time."));
+                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
+                        print_error(_("ERROR: Memory bank destroyed or not present."));
+                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                        print_error(_("ERROR: Memory bank is empty."));
+                    } else {
+                        print_error(_("ERROR: Data bank destroyed."));
+                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
+                             it != g->m.i_at(x, y).end(); ++it) {
+                            it->contents.clear();
                         }
                     }
                 }
