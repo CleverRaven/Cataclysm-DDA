@@ -139,9 +139,14 @@ static SDL_PixelFormat *format;
 static SDL_Texture *display_buffer;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
-int lastchar;          //the last character that was pressed, resets in getch
-bool lastchar_isbutton; // Whether lastchar was a gamepad button press rather than a keypress.
-bool lastchar_is_mouse; // Mouse button pressed
+// input from various input sources. Each input source sets the type and
+// the actual input value (key pressed, mouse button clicked, ...)
+// This value is finally returned by input_manager::get_input_event.
+input_event last_input;
+// Text input from SDL, it's a UTF-8 string, each byte must be passed
+// by getch to the main program separately
+std::string last_input_text;
+
 int inputdelay;         //How long getch will wait for a character to be typed
 int delaydpad = -1;     // Used for entering diagonal directions with d-pad.
 int dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
@@ -705,8 +710,7 @@ int HandleDPad()
                     return 0;
                 }
 
-                lastchar_isbutton = true;
-                lastchar = lc;
+                last_input = input_event(lc, CATA_INPUT_GAMEPAD);
                 lastdpad = lc;
                 queued_dpad = ERR;
 
@@ -726,8 +730,7 @@ int HandleDPad()
         // If we didn't hold it down for a while, just
         // fire the last registered press.
         if(queued_dpad != ERR) {
-            lastchar = queued_dpad;
-            lastchar_isbutton = true;
+            last_input = input_event(queued_dpad, CATA_INPUT_GAMEPAD);
             queued_dpad = ERR;
             return 1;
         }
@@ -803,6 +806,23 @@ long sdl_keycode_to_curses(SDL_Keycode keycode)
     }
 }
 
+/**
+ * If a UTF-8 sequence has been received by SDL, set the last_input to the
+ * first remaining byte of it (and remove that byte from the sequence) and
+ * return true, otherwise return false.
+ */
+bool commit_next_utf8_byte()
+{
+    if (last_input_text.empty()) {
+        return false;
+    }
+    // must cast to unsigned first to prevent wrong sign expansion
+    const long lc = (long) (unsigned char) last_input_text[0];
+    last_input_text.erase(0, 1);
+    last_input = input_event(lc, CATA_INPUT_KEYBOARD);
+    return true;
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
@@ -812,7 +832,7 @@ void CheckMessages()
         return;
     }
 
-    lastchar_is_mouse = false;
+    last_input = input_event();
     while(SDL_PollEvent(&ev)) {
         switch(ev.type) {
             case SDL_WINDOWEVENT:
@@ -829,7 +849,9 @@ void CheckMessages()
             case SDL_KEYDOWN:
             {
                 //hide mouse cursor on keyboard input
-                if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) { SDL_ShowCursor(SDL_DISABLE); }
+                if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
+                    SDL_ShowCursor(SDL_DISABLE);
+                }
                 const Uint8 *keystate = SDL_GetKeyboardState(NULL);
                 // manually handle Alt+F4 for older SDL lib, no big deal
                 if( ev.key.keysym.sym == SDLK_F4
@@ -844,25 +866,34 @@ void CheckMessages()
                 } else if( alt_down ) {
                     add_alt_code( lc );
                 } else {
-                    lastchar = lc;
+                    last_input = input_event(lc, CATA_INPUT_KEYBOARD);
                 }
-                lastchar_isbutton = false;
             }
             break;
             case SDL_KEYUP:
             {
                 if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
                     int code = end_alt_code();
-                    if( code ) { lastchar = code; }
+                    if( code ) {
+                        last_input_text = utf32_to_utf8(code);
+                        commit_next_utf8_byte();
+                    }
                 }
             }
             break;
             case SDL_TEXTINPUT:
-                lastchar = *ev.text.text;
+                if (alt_down) {
+                    add_alt_code(*ev.text.text);
+                    break;
+                }
+                // Store the whole text (several bytes!), return the first byte,
+                // the remaining bytes are returned by further calls
+                // to input_manager::get_input_event
+                last_input_text = ev.text.text;
+                commit_next_utf8_byte();
             break;
             case SDL_JOYBUTTONDOWN:
-                lastchar = ev.jbutton.button;
-                lastchar_isbutton = true;
+                last_input = input_event(ev.jbutton.button, CATA_INPUT_KEYBOARD);
             break;
             case SDL_JOYAXISMOTION: // on gamepads, the axes are the analog sticks
                 // TODO: somehow get the "digipad" values from the axes
@@ -874,29 +905,26 @@ void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    lastchar_is_mouse = true;
-                    lastchar = MOUSE_MOVE;
+                    last_input = input_event(MOUSE_MOVE, CATA_INPUT_MOUSE);
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                lastchar_is_mouse = true;
                 switch (ev.button.button) {
                     case SDL_BUTTON_LEFT:
-                        lastchar = MOUSE_BUTTON_LEFT;
+                        last_input = input_event(MOUSE_BUTTON_LEFT, CATA_INPUT_MOUSE);
                         break;
                     case SDL_BUTTON_RIGHT:
-                        lastchar = MOUSE_BUTTON_RIGHT;
+                        last_input = input_event(MOUSE_BUTTON_RIGHT, CATA_INPUT_MOUSE);
                         break;
                     }
                 break;
 
             case SDL_MOUSEWHEEL:
-                lastchar_is_mouse = true;
                 if(ev.wheel.y > 0) {
-                    lastchar = SCROLLWHEEL_UP;
+                    last_input = input_event(SCROLLWHEEL_UP, CATA_INPUT_MOUSE);
                 } else if(ev.wheel.y < 0) {
-                    lastchar = SCROLLWHEEL_DOWN;
+                    last_input = input_event(SCROLLWHEEL_DOWN, CATA_INPUT_MOUSE);
                 }
                 break;
 
@@ -1150,7 +1178,7 @@ void load_soundset();
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
-    lastchar = -1;
+    last_input = input_event();
     inputdelay = -1;
 
     std::string typeface, map_typeface;
@@ -1422,19 +1450,21 @@ input_event input_manager::get_input_event(WINDOW *win) {
     if(win == NULL) win = mainwin;
 
     wrefresh(win);
-    lastchar=ERR;//ERR=-1
-    input_event rval;
+
+    // Multibyte input sequence, return the next byte of it.
+    if (commit_next_utf8_byte()) {
+        return last_input;
+    }
 
     if (inputdelay < 0)
     {
         do
         {
-            rval.type = CATA_INPUT_ERROR;
             CheckMessages();
-            if (lastchar!=ERR) break;
+            if (last_input.type != CATA_INPUT_ERROR) break;
             SDL_Delay(1);
         }
-        while (lastchar==ERR);
+        while (last_input.type == CATA_INPUT_ERROR);
     }
     else if (inputdelay > 0)
     {
@@ -1443,14 +1473,13 @@ input_event input_manager::get_input_event(WINDOW *win) {
         bool timedout = false;
         do
         {
-            rval.type = CATA_INPUT_ERROR;
             CheckMessages();
             endtime=SDL_GetTicks();
-            if (lastchar!=ERR) break;
+            if (last_input.type != CATA_INPUT_ERROR) break;
             SDL_Delay(1);
             timedout = endtime >= starttime + inputdelay;
             if (timedout) {
-                rval.type = CATA_INPUT_TIMEOUT;
+                last_input.type = CATA_INPUT_TIMEOUT;
             }
         }
         while (!timedout);
@@ -1460,24 +1489,13 @@ input_event input_manager::get_input_event(WINDOW *win) {
         CheckMessages();
     }
 
-    if (rval.type != CATA_INPUT_TIMEOUT) {
-        if (lastchar == ERR) {
-            rval.type = CATA_INPUT_ERROR;
-        } else if (lastchar_isbutton) {
-            rval.type = CATA_INPUT_GAMEPAD;
-            rval.add_input(lastchar);
-        } else if (lastchar_is_mouse) {
-            rval.type = CATA_INPUT_MOUSE;
-            rval.add_input(lastchar);
-            SDL_GetMouseState(&rval.mouse_x, &rval.mouse_y);
-        } else {
-            rval.type = CATA_INPUT_KEYBOARD;
-            rval.add_input(lastchar);
-            previously_pressed_key = lastchar;
-        }
+    if (last_input.type == CATA_INPUT_MOUSE) {
+        SDL_GetMouseState(&last_input.mouse_x, &last_input.mouse_y);
+    } else if (last_input.type == CATA_INPUT_KEYBOARD) {
+        previously_pressed_key = last_input.get_first_input();
     }
 
-    return rval;
+    return last_input;
 }
 
 bool gamepad_available() {
