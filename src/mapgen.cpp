@@ -10920,15 +10920,17 @@ void map::place_npc(int x, int y, std::string type)
     if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return; //Do not generate an npc.
     }
-    const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+    //const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
     //const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
     //debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
-    //             oid.t().id.c_str(), oid.t().id_mapgen.c_str(),omt.x,omt.y,get_abs_sub().z, x,y );
+    //             oid.t().id.c_str(), oid.t().id_mapgen.c_str(),rc.om_sub.x/2,rc.om_sub.y/2,get_abs_sub().z, x,y );
     if (type == "evac_merchant"){
         npc *temp = new npc();
         temp->normalize();
         temp->randomize(NC_EVAC_SHOPKEEP);
-        temp->spawn_at(g->cur_om, omt.x*2, omt.y*2, get_abs_sub().z);
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude = NPCATT_NULL;
@@ -10940,7 +10942,7 @@ void map::place_npc(int x, int y, std::string type)
         npc *temp = new npc();
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
-        temp->spawn_at(g->cur_om, omt.x*2, omt.y*2, get_abs_sub().z);
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude = NPCATT_KILL;
@@ -10953,7 +10955,7 @@ void map::place_npc(int x, int y, std::string type)
         npc *temp = new npc();
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
-        temp->spawn_at(g->cur_om, omt.x*2, omt.y*2, get_abs_sub().z);
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
