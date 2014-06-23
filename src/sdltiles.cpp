@@ -5,6 +5,7 @@
 #include "input.h"
 #include "color.h"
 #include "catacharset.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include <vector>
 #include <fstream>
@@ -745,6 +746,73 @@ int HandleDPad()
     return 0;
 }
 
+/**
+ * Translate SDL key codes to key identifiers used by ncurses, this
+ * allows the input_manager to only consider those.
+ * @return 0 if the input can not be translated (unknown key?),
+ * -1 when a ALT+number sequence has been started,
+ * or somthing that a call to ncurses getch would return.
+ */
+long sdl_keycode_to_curses(SDL_Keycode keycode)
+{
+    switch (keycode) {
+        // This is special: allow entering a unicode character with ALT+number
+        case SDLK_RALT:
+        case SDLK_LALT:
+            begin_alt_code();
+            return -1;
+        // The following are simple translations:
+        case SDLK_KP_ENTER:
+        case SDLK_RETURN:
+        case SDLK_RETURN2:
+            return '\n';
+        case SDLK_BACKSPACE:
+        case SDLK_KP_BACKSPACE:
+            return KEY_BACKSPACE;
+        case SDLK_DELETE:
+            return KEY_DC;
+        case SDLK_ESCAPE:
+            return KEY_ESCAPE;
+        case SDLK_TAB:
+            return '\t';
+        case SDLK_LEFT:
+            return KEY_LEFT;
+        case SDLK_RIGHT:
+            return KEY_RIGHT;
+        case SDLK_UP:
+            return KEY_UP;
+        case SDLK_DOWN:
+            return KEY_DOWN;
+        case SDLK_PAGEUP:
+            return KEY_PPAGE;
+        case SDLK_PAGEDOWN:
+            return KEY_NPAGE;
+        case SDLK_HOME:
+            return KEY_HOME;
+        case SDLK_END:
+            return KEY_END;
+        case SDLK_F1: return KEY_F(1);
+        case SDLK_F2: return KEY_F(2);
+        case SDLK_F3: return KEY_F(3);
+        case SDLK_F4: return KEY_F(4);
+        case SDLK_F5: return KEY_F(5);
+        case SDLK_F6: return KEY_F(6);
+        case SDLK_F7: return KEY_F(7);
+        case SDLK_F8: return KEY_F(8);
+        case SDLK_F9: return KEY_F(9);
+        case SDLK_F10: return KEY_F(10);
+        case SDLK_F11: return KEY_F(11);
+        case SDLK_F12: return KEY_F(12);
+        case SDLK_F13: return KEY_F(13);
+        case SDLK_F14: return KEY_F(14);
+        case SDLK_F15: return KEY_F(15);
+        // Every other key is ignored as there is no curses constant for it.
+        // TODO: add more if you find more.
+        default:
+            return 0;
+    }
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
@@ -770,7 +838,6 @@ void CheckMessages()
             break;
             case SDL_KEYDOWN:
             {
-                int lc = 0;
                 //hide mouse cursor on keyboard input
                 if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) { SDL_ShowCursor(SDL_DISABLE); }
                 const Uint8 *keystate = SDL_GetKeyboardState(NULL);
@@ -780,47 +847,11 @@ void CheckMessages()
                     quit = true;
                     break;
                 }
-                switch (ev.key.keysym.sym) {
-                    case SDLK_KP_ENTER:
-                    case SDLK_RETURN:
-                    case SDLK_RETURN2:
-                        lc = 10;
-                        break;
-                    case SDLK_BACKSPACE:
-                    case SDLK_KP_BACKSPACE:
-                        lc = 127;
-                        break;
-                    case SDLK_ESCAPE:
-                        lc = 27;
-                        break;
-                    case SDLK_TAB:
-                        lc = 9;
-                        break;
-                    case SDLK_RALT:
-                    case SDLK_LALT:
-                        begin_alt_code();
-                        break;
-                    case SDLK_LEFT:
-                        lc = KEY_LEFT;
-                        break;
-                    case SDLK_RIGHT:
-                        lc = KEY_RIGHT;
-                        break;
-                    case SDLK_UP:
-                        lc = KEY_UP;
-                        break;
-                    case SDLK_DOWN:
-                        lc = KEY_DOWN;
-                        break;
-                    case SDLK_PAGEUP:
-                        lc = KEY_PPAGE;
-                        break;
-                    case SDLK_PAGEDOWN:
-                        lc = KEY_NPAGE;
-                        break;
-                }
-                if( !lc ) { break; }
-                if( alt_down ) {
+                const long lc = sdl_keycode_to_curses(ev.key.keysym.sym);
+                if( lc <= 0 ) {
+                    // a key we don't know in curses and won't handle.
+                    break;
+                } else if( alt_down ) {
                     add_alt_code( lc );
                 } else {
                     lastchar = lc;
