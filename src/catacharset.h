@@ -61,6 +61,36 @@ public:
     // are displayed as 2 chars in a terminal
     size_t display_width() const { return _display_width; }
     const char *c_str() const { return _data.c_str(); }
+    /**
+     * Return a substring at most maxlength width (display width).
+     * If the string had to shortened, an ellipsis (...) is added. The
+     * string with the ellipsis will be exactly maxlength displayed
+     * characters.
+     */
+    std::string shorten(size_t maxlength) const;
+
+    /**
+     * Insert a single utf8-character ch at given position into the
+     * string. Uses repeated calls to @ref getch if the input ch indicates
+     * a multibyte character.
+     * This is supposed to be used like this:
+     * <code>
+     * utf8_wrapper name(...);
+     * ... handle the other input of some_input_context ...
+     * if (action == "ANY_INPUT) {
+     *   long ch = some_input_context.get_raw_input().get_first_input();
+     *   name.insert_from_getch(start, ch);
+     * }
+     * </code>
+     * @param ch The initial result from @ref getch.
+     * @return false if the initial input ch is a non-printable control
+     * character (< 32, except tab, newline and carriage return) or if
+     * the input (including the result of further calls to getch) forms
+     * an invalid UTF-8 sequence. Otherwise true.
+     * In any a return value of true means a character has been added to
+     * the string, a value of false means no character has been added.
+     */
+    bool insert_from_getch(size_t start, long ch);
 protected:
     std::string _data;
     size_t _length;

@@ -572,17 +572,15 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                              int endx, bool loop, long &ch, int &pos, std::string identifier,
                              int w_x, int w_y, bool dorefresh, bool only_digits)
 {
-    std::string ret = input;
+    utf8_wrapper ret(input);
     nc_color string_color = c_magenta;
     nc_color cursor_color = h_ltgray;
     nc_color underscore_color = c_ltgray;
-    if ( pos == -1 ) {
-        pos = utf8_width(input.c_str());
+    if (pos == -1) {
+        pos = ret.length();
     }
-    int lastpos = pos;
     int scrmax = endx - startx;
     int shift = 0;
-    int lastshift = shift;
     bool redraw = true;
 
     do {
@@ -593,52 +591,46 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
 
         if ( pos < shift ) {
             shift = pos;
-        } else if ( pos > shift + scrmax ) {
-            shift = pos - scrmax;
+        } else if ( pos >= shift + scrmax ) {
+            shift = pos - scrmax + 1;
         }
 
         if (shift < 0 ) {
             shift = 0;
         }
 
-        if( redraw || lastshift != shift ) {
+        if( redraw ) {
             redraw = false;
-            for ( int reti = shift, scri = 0; scri <= scrmax; reti++, scri++ ) {
-                if( reti < ret.size() ) {
-                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : string_color ), ret[reti] );
-                } else if( max_length > 0 && reti >= max_length) {
-                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), ' ');
+            for(int i = 0; i < scrmax; i++) {
+                const int p = shift + i;
+                const int sx = startx + i;
+                if( p == pos && p < ret.length() ) {
+                    utf8_wrapper sub( ret.substr( p, 1 ) );
+                    wattron( w, cursor_color );
+                    mvwprintw( w, starty, sx, "%s", sub.c_str() );
+                    wattroff( w, cursor_color );
+                } else if( p < ret.length() ) {
+                    utf8_wrapper sub( ret.substr( p, 1 ) );
+                    wattron( w, string_color );
+                    mvwprintw( w, starty, sx, "%s", sub.c_str() );
+                    wattroff( w, string_color );
+                } else if( max_length > 0 && p >= max_length ) {
+                    mvwputch( w, starty, sx, underscore_color, ' ' );
+                } else if( p == pos ) {
+                    mvwputch( w, starty, sx, cursor_color, '_' );
                 } else {
-                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), '_');
+                    mvwputch( w, starty, sx, underscore_color, '_' );
                 }
             }
-        } else if ( lastpos != pos ) {
-            if ( lastpos >= shift && lastpos <= shift + scrmax ) {
-                if ( lastpos - shift >= 0 && lastpos - shift < ret.size() ) {
-                    mvwputch(w, starty, startx + lastpos, string_color, ret[lastpos - shift]);
-                } else if( max_length > 0 && lastpos >= max_length) {
-                    mvwputch(w, starty, startx + lastpos, underscore_color, ' ' );
-                } else {
-                    mvwputch(w, starty, startx + lastpos, underscore_color, '_' );
-                }
-            }
-            if( max_length > 0 && pos >= max_length) {
-                mvwputch(w, starty, startx + pos, cursor_color, ' ' );
-            } else if (pos < ret.size() ) {
-                mvwputch(w, starty, startx + pos, cursor_color, ret[pos - shift]);
-            } else {
-                mvwputch(w, starty, startx + pos, cursor_color, '_' );
-            }
+            wrefresh(w);
         }
 
-        lastpos = pos;
-        lastshift = shift;
         if (dorefresh) {
             wrefresh(w);
         }
         ch = getch();
         bool return_key = false;
-        if (ch == 27) { // Escape
+        if( ch == KEY_ESCAPE ) {
             return "";
         } else if (ch == '\n') {
             return_key = true;
@@ -653,8 +645,8 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                         hmenu.addentry(h, true, -2, (*hist)[h].c_str());
                     }
                     if ( !ret.empty() && ( hmenu.entries.empty() ||
-                                             hmenu.entries[hist->size() - 1].txt != ret ) ) {
-                        hmenu.addentry(hist->size(), true, -2, ret);
+                                             hmenu.entries[hist->size() - 1].txt != ret.str() ) ) {
+                        hmenu.addentry(hist->size(), true, -2, ret.str());
                         hmenu.selected = hist->size();
                     } else {
                         hmenu.selected = hist->size() - 1;
@@ -669,11 +661,11 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     hmenu.w_x = w_x;
 
                     hmenu.query();
-                    if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret ) {
+                    if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
                         ret = hmenu.entries[hmenu.ret].txt;
                         if( hmenu.ret < hist->size() ) {
                             hist->erase(hist->begin() + hmenu.ret);
-                            hist->push_back(ret);
+                            hist->push_back(ret.str());
                         }
                         pos = ret.size();
                         redraw = true;
@@ -705,40 +697,48 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                 ret.erase(pos, 1);
                 redraw = true;
             }
+        } else if( ch == KEY_HOME ) {
+            pos = 0;
+            redraw = true;
+        } else if( ch == KEY_END ) {
+            pos = ret.size();
+            redraw = true;
+        } else if( ch == KEY_DC ) {
+            if(pos < ret.size()) {
+                ret.erase(pos, 1);
+                redraw = true;
+            }
         } else if(ch == KEY_F(2)) {
             std::string tmp = get_input_string_from_file();
             int tmplen = utf8_width(tmp.c_str());
             if(tmplen > 0 && (tmplen + utf8_width(ret.c_str()) <= max_length || max_length == 0)) {
                 ret.append(tmp);
             }
-        } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
-            if ( only_digits && !isdigit(ch) ) {
-                return_key = true;
-            } else {
-                if ( pos == ret.size() ) {
-                    ret += ch;
-                } else {
-                    ret.insert(pos, 1, ch);
-                }
-                redraw = true;
-                pos++;
-            }
+        } else if( ch == ERR || ch == 0 ) {
+            // Ignore the error
+        } else if( only_digits && !isdigit( ch ) ) {
+            return_key = true;
+        } else if( max_length > 0 && ret.length() >= max_length ) {
+            // no further input possible, ignore key
+        } else if( ret.insert_from_getch( pos, ch ) ) {
+            pos++;
+            redraw = true;
         }
         if (return_key) {//"/n" return code
             {
                 if(!identifier.empty() && !ret.empty() ) {
                     std::vector<std::string> *hist = uistate.gethistory(identifier);
                     if( hist != NULL ) {
-                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
-                            hist->push_back(ret);
+                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret.str() ) {
+                            hist->push_back(ret.str());
                         }
                     }
                 }
-                return ret;
+                return ret.str();
             }
         }
     } while ( loop == true );
-    return ret;
+    return ret.str();
 }
 
 long popup_getkey(const char *mes, ...)

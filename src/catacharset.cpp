@@ -1,6 +1,7 @@
 #include "catacharset.h"
 #include <string.h>
 #include "debug.h"
+#include "cursesdef.h"
 #include "wcwidth.c"
 
 //copied from SDL2_ttf code
@@ -483,4 +484,46 @@ void utf8_wrapper::append(const utf8_wrapper &other)
     _data.append(other._data);
     _length += other._length;
     _display_width += other._display_width;
+}
+
+bool utf8_wrapper::insert_from_getch(size_t start, long ch)
+{
+    if (ch < 32 && ch != '\t' && ch != '\n') {
+        // non-printable control character
+        return false;
+    }
+    std::string buffer(1, ch);
+    if (ch <= 127) {
+        // Single ASCII character, already in the buffer
+    } else if (194 <= ch && ch <= 223) {
+        buffer.append(1, getch());
+    } else if (224 <= ch && ch <= 239) {
+        buffer.append(1, getch());
+        buffer.append(1, getch());
+    } else if (240 <= ch && ch <= 244) {
+        buffer.append(1, getch());
+        buffer.append(1, getch());
+        buffer.append(1, getch());
+    } else {
+        return false;
+    }
+    const char *utf8str = buffer.c_str();
+    int len = buffer.length();
+    const unsigned uch = UTF8_getch(&utf8str, &len);
+    if (uch == UNKNOWN_UNICODE) {
+        return false;
+    }
+    const int bstart = byte_start(start);
+    _data.insert(bstart, buffer);
+    _length += 1;
+    _display_width += mk_wcwidth(uch);
+    return true;
+}
+
+std::string utf8_wrapper::shorten(size_t maxlength) const
+{
+    if(length() <= maxlength) {
+        return str();
+    }
+    return substr(0, maxlength - 1).str() + "\u2026"; // 2026 is the utf8 for …
 }

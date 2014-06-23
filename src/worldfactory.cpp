@@ -1111,38 +1111,29 @@ to continue, or <color_yellow><</color> to go back and review your world."));
         } else if (action == "ANY_INPUT") {
             const long ch = ctxt.get_raw_input().get_first_input();
             switch (line) {
-                case 1:
+                case 1: {
+                    utf8_wrapper wrap(worldname);
                     if (ch == KEY_BACKSPACE || ch == 127) {
-                        if (!worldname.empty()) {
-                            //erase utf8 character TODO: make a function
-                            while(!worldname.empty() &&
-                                  ((unsigned char)worldname[worldname.size() - 1]) >= 128 &&
-                                  ((unsigned char)worldname[(int)worldname.size() - 1]) <= 191) {
-                                worldname.erase(worldname.size() - 1);
-                            }
-                            worldname.erase(worldname.size() - 1);
-                            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
-                                      "______________________________ ");
-                            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
-                                      "%s", worldname.c_str());
-                            wprintz(w_confirmation, h_ltgray, "_");
+                        if (!wrap.empty()) {
+                            wrap.erase(wrap.length() - 1, 1);
+                            worldname = wrap.str();
                         }
-                    } else if (is_char_allowed(ch) && utf8_width(worldname.c_str()) < 30) {
-                        worldname.push_back(ch);
                     } else if(ch == KEY_F(2)) {
                         std::string tmp = get_input_string_from_file();
                         int tmplen = utf8_width(tmp.c_str());
                         if(tmplen > 0 && tmplen + utf8_width(worldname.c_str()) < 30) {
                             worldname.append(tmp);
                         }
-                    }
-                    //experimental unicode input
-                    else if(ch > 127) {
-                        std::string tmp = utf32_to_utf8(ch);
-                        int tmplen = utf8_width(tmp.c_str());
-                        if(tmplen > 0 && tmplen + utf8_width(worldname.c_str()) < 30) {
-                            worldname.append(tmp);
+                    } else if (wrap.insert_from_getch(wrap.length(), ch)) {
+                        if (wrap.empty() || is_char_allowed(wrap.at(wrap.length() - 1))) {
+                            worldname = wrap.str();
                         }
+                    }
+                    mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
+                                "______________________________ ");
+                    mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
+                                "%s", worldname.c_str());
+                    wprintz(w_confirmation, h_ltgray, "_");
                     }
                     break;
             }
