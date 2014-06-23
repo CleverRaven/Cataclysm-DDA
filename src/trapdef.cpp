@@ -58,11 +58,34 @@ trap_id trapfind(const std::string id) {
     return traplist[trapmap[id]]->loadid;
 };
 
+bool trap::detect_trap(const player &p, int x, int y) const
+{
+    // Some decisions are based around:
+    // * Starting, and thus average perception, is 8.
+    // * Buried landmines, the silent killer, has a visibility of 10.
+    // * There will always be a distance malus of 1 unless you're on top of the trap.
+    // * ...and an average character should at least have a minor chance of
+    //   noticing a buried landmine if standing right next to it.
+            // Effective Perception... 
+    return (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) +
+            // ...small bonus from stimulants...
+            (p.stim > 10 ? rng(1, 2) : 0) +
+            // ...bonus from trap skill...
+            (const_cast<player&>(p).skillLevel("traps") * 2) +
+            // ...luck, might be good, might be bad...
+            rng(-4, 4) -
+            // ...malus if we are tired...
+            (p.has_disease("lack_sleep") ? rng(1, 5) : 0) -
+            // ...malus farther we are from trap...
+            rl_dist(p.posx, p.posy, x, y) > 
+            // ...must all be greater than the trap visibility.
+            visibility;
+}
+
+// Whether or not, in the current state, the player can see the trap.
 bool trap::can_see(const player &p, int x, int y) const
 {
-    return visibility < 0 ||
-        ((p.per_cur - const_cast<player&>(p).encumb(bp_eyes))/2) + ((const_cast<player&>(p).skillLevel("traps"))*2) >= visibility ||
-        p.knows_trap(x, y);
+    return visibility < 0 || p.knows_trap(x, y);
 }
 
 void trap::trigger(Creature *creature, int x, int y) const
