@@ -367,6 +367,12 @@ void Item_factory::init(){
     // See artifact.h for a list
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
 
+	iuse_function_list["ARTIFACT"] = &iuse::radiocar;
+	iuse_function_list["ARTIFACT"] = &iuse::radiocaron;
+	iuse_function_list["ARTIFACT"] = &iuse::radiocontrol;
+
+
+
     create_inital_categories();
 }
 
