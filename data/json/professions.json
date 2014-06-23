@@ -2197,5 +2197,27 @@
                 "panties"
             ]
         }
+    },
+
+
+
+
+
+
+
+    {
+        "type": "profession",
+        "ident": "testtest",
+        "name": "RADIO CARS TESTER",
+        "description": "Test with radiocar",
+        "points": 0,
+        "items": {
+            "both": [
+                "radio_car", "radiocontrol", "battery", "test_grenade"
+            ]
+        }
     }
+
+
+
 ]
