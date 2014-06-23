@@ -77,11 +77,12 @@ void player::power_bionics()
 {
     std::vector <bionic *> passive;
     std::vector <bionic *> active;
-    for (size_t i = 0; i < my_bionics.size(); i++) {
-        if (!bionics[my_bionics[i].id]->activated) {
-            passive.push_back(&my_bionics[i]);
+    for (std::vector<bionic>::iterator it = my_bionics.begin();
+         it != my_bionics.end(); ++it) {
+        if (!bionics[it->id]->activated) {
+            passive.push_back(&*it);
         } else {
-            active.push_back(&my_bionics[i]);
+            active.push_back(&*it);
         }
     }
 
@@ -681,16 +682,16 @@ void player::activate_bionic(int b)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for (unsigned i = 0; i < g->m.i_at(posx, posy).size(); i++) {
-            item &tmp = g->m.i_at(posx, posy)[i];
-            if (tmp.type->id == "corpse" ) {
+        for (std::vector<item>::iterator it = g->m.i_at(posx,posy).begin();
+             it != g->m.i_at(posx, posy).end(); ++it) {
+            if (it->type->id == "corpse" ) {
                 int avail = 0;
-                if ( tmp.item_vars.find("remaining_water") != tmp.item_vars.end() ) {
-                    avail = atoi ( tmp.item_vars["remaining_water"].c_str() );
+                if ( it->item_vars.find("remaining_water") != it->item_vars.end() ) {
+                    avail = atoi ( it->item_vars["remaining_water"].c_str() );
                 } else {
-                    avail = tmp.volume() / 2;
+                    avail = it->volume() / 2;
                 }
-                if(avail > 0 && query_yn(_("Extract water from the %s"), tmp.tname().c_str())) {
+                if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
                     if (g->handle_liquid(water, true, true)) {
                         moves -= 100;
@@ -701,7 +702,7 @@ void player::activate_bionic(int b)
                     }
                     extracted = true;
                     avail--;
-                    tmp.item_vars["remaining_water"] = string_format("%d", avail);
+                    it->item_vars["remaining_water"] = string_format("%d", avail);
                     break;
                 }
             }
@@ -725,24 +726,24 @@ void player::activate_bionic(int b)
                     if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")) {
                         tmp_item = g->m.i_at(i, j)[k];
                         g->m.i_rem(i, j, k);
-                        size_t l = 0;
-                        for (l = 0; l < traj.size(); l++) {
-                            int index = g->mon_at(traj[l].x, traj[l].y);
+                        std::vector<point>::iterator it;
+                        for (it = traj.begin(); it != traj.end(); ++it) {
+                            int index = g->mon_at(it->x, it->y);
                             if (index != -1) {
                                 if (g->zombie(index).hurt(tmp_item.weight() / 225)) {
                                     g->kill_mon(index, true);
                                 }
-                                g->m.add_item_or_charges(traj[l].x, traj[l].y, tmp_item);
-                                l = traj.size() + 1;
-                            } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-                                g->m.bash( traj[l].x, traj[l].y, tmp_item.weight() / 225 );
-                                if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-                                    g->m.add_item_or_charges(traj[l - 1].x, traj[l - 1].y, tmp_item);
-                                    l = traj.size() + 1;
+                                g->m.add_item_or_charges(it->x, it->y, tmp_item);
+                                break;
+                            } else if (it != traj.begin() && g->m.move_cost(it->x, it->y) == 0) {
+                                g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
+                                if (g->m.move_cost(it->x, it->y) == 0) {
+                                    g->m.add_item_or_charges((it-1)->x, (it-1)->y, tmp_item);
+                                    break;
                                 }
                             }
                         }
-                        if (l == traj.size()) {
+                        if (it == traj.end()) {
                             g->m.add_item_or_charges(posx, posy, tmp_item);
                         }
                     }
@@ -799,8 +800,9 @@ void player::deactivate_bionic(int b)
         // check if player knows current style naturally, otherwise drop them back to style_none
         if (style_selected != "style_none") {
             bool has_style = false;
-            for (size_t i = 0; i < ma_styles.size(); ++i) {
-                if (ma_styles[i] == style_selected) {
+            for (std::vector<matype_id>::iterator it = ma_styles.begin();
+                 it != ma_styles.end(); ++it) {
+                if (*it == style_selected) {
                     has_style = true;
                 }
             }

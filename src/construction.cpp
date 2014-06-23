@@ -67,18 +67,19 @@ static void load_available_constructions( std::vector<std::string> &available,
                                           bool hide_unconstructable )
 {
     available.clear();
-    for( unsigned i = 0; i < constructions.size(); ++i ) {
-        construction *c = constructions[i];
-        if( !hide_unconstructable || can_construct(c) ) {
+    for(std::vector<construction *>::iterator it = constructions.begin();
+        it != constructions.end(); ++it ) {
+        if( !hide_unconstructable || can_construct(*it) ) {
             bool already_have_it = false;
-            for( unsigned j = 0; j < available.size(); ++j ) {
-                if (available[j] == c->description) {
+            for(std::vector<std::string>::iterator avail_it = available.begin();
+                avail_it != available.end(); ++avail_it ) {
+                if (*avail_it == (*it)->description) {
                     already_have_it = true;
                     break;
                 }
             }
             if (!already_have_it) {
-                available.push_back(c->description);
+                available.push_back((*it)->description);
             }
         }
     }
@@ -408,8 +409,9 @@ static bool player_can_build(player &p, const inventory &pinv, const std::string
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
-    for (unsigned i = 0; i < cons.size(); ++i) {
-        if (player_can_build(p, pinv, cons[i])) {
+    for (std::vector<construction *>::iterator it = cons.begin();
+         it != cons.end(); ++it) {
+        if (player_can_build(p, pinv, *it)) {
             return true;
         }
     }

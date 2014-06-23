@@ -410,17 +410,15 @@ bool can_butcher_at(int x, int y)
     std::vector<item> &items = g->m.i_at(x, y);
     bool has_corpse, has_item = false;
     inventory crafting_inv = g->crafting_inventory(&g->u);
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+    for (std::vector<item>::iterator it = items.begin();
+         it != items.end(); ++it) {
+        if (it->type->id == "corpse" && it->corpse != NULL) {
             if (factor != INT_MAX) {
                 has_corpse = true;
             }
-        }
-    }
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
-            recipe *cur_recipe = g->get_disassemble_recipe(items[i].type->id);
-            if (cur_recipe != NULL && g->can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+        } else {
+            recipe *cur_recipe = g->get_disassemble_recipe(it->type->id);
+            if (cur_recipe != NULL && g->can_disassemble(&*it, cur_recipe, crafting_inv, false)) {
                 has_item = true;
             }
         }
