@@ -849,7 +849,7 @@ public:
 
  item weapon;
  item ret_null; // Null item, sometimes returns by weapon() etc
- item radiocar;
+ item radiocar; //Radiocar, that we driving
 
  std::vector <addiction> addictions;
 

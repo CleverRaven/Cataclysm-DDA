@@ -2213,7 +2213,7 @@
         "points": 0,
         "items": {
             "both": [
-                "radio_car", "radiocontrol", "battery", "test_grenade"
+                "radio_car", "radiocontrol", "battery", "pipebomb_radio", "pipebomb_radio", "pipebomb_radio"
             ]
         }
     }
