@@ -269,9 +269,10 @@ void defense_game::init_mtypes()
 
 void defense_game::init_constructions()
 {
-    for (unsigned i = 0; i < constructions.size(); i++) {
-        original_construction_values.push_back(constructions[i]->time);
-        constructions[i]->time = 1; // Everything takes 1 minute
+    for (std::vector<construction *>::iterator it = constructions.begin();
+         it != constructions.end(); ++it) {
+        original_construction_values.push_back((*it)->time);
+        (*it)->time = 1; // Everything takes 1 minute
     }
 }
 
@@ -952,12 +953,13 @@ void defense_game::caravan()
     // Init the items for each category
     for (int i = 0; i < NUM_CARAVAN_CATEGORIES; i++) {
         items[i] = caravan_items( caravan_category(i) );
-        for (int j = 0; j < items[i].size(); j++) {
+        for (std::vector<itype_id>::iterator it = items[i].begin();
+             it != items[i].end();) {
             if (current_wave == 0 || !one_in(4)) {
                 item_count[i].push_back(0);    // Init counts to 0 for each item
+                it++;
             } else { // Remove the item
-                items[i].erase( items[i].begin() + j);
-                j--;
+                it = items[i].erase(it);
             }
         }
     }
@@ -1385,10 +1387,12 @@ void defense_game::spawn_wave()
     valid = pick_monster_wave();
     while (diff > 0) {
         // Clear out any monsters that exceed our remaining difficulty
-        for (int i = 0; i < valid.size(); i++) {
-            if (GetMType(valid[i])->difficulty > diff) {
-                valid.erase(valid.begin() + i);
-                i--;
+        for (std::vector<std::string>::iterator it = valid.begin();
+             it != valid.end();) {
+            if (GetMType(*it)->difficulty > diff) {
+                it = valid.erase(it);
+            } else {
+                it++;
             }
         }
         if (valid.empty()) {
