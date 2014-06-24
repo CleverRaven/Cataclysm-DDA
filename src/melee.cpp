@@ -740,7 +740,7 @@ matec_id player::pick_technique(Creature &t,
         ma_technique tec = ma_techniques[*it];
 
         // ignore "dummy" techniques like WBLOCK_1
-        if (tec.id.length() == 0) {
+        if (tec.dummy) {
             continue;
         }
 
