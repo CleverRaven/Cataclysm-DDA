@@ -3341,7 +3341,7 @@ void map::disarm_trap(const int x, const int y)
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if (tr->get_avoidance() ==  0 && tr->get_difficulty() == 0) {
-        add_msg(_("You take down the %s"), tr->name.c_str());
+        add_msg(_("You take down the %s."), tr->name.c_str());
         std::vector<itype_id> comp = tr->components;
         for (int i = 0; i < comp.size(); i++) {
             if (comp[i] != "null") {

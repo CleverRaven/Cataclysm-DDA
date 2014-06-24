@@ -6433,7 +6433,7 @@ int iuse::tent(player *p, item *, bool)
      for (int j = -1; j <= 1; j++) {
          if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
              g->m.has_furn(posx + i, posy + j)) {
-             add_msg(m_info, _("You need a 3x3 flat space to place a tent"));
+             add_msg(m_info, _("You need a 3x3 flat space to place a tent."));
              return 0;
          }
      }
@@ -6445,7 +6445,7 @@ int iuse::tent(player *p, item *, bool)
  }
  g->m.furn_set(posx, posy, f_groundsheet);
  g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
- add_msg(m_info, _("You set up the tent on the ground"));
+ add_msg(m_info, _("You set up the tent on the ground."));
  return 1;
 }
 
@@ -6470,7 +6470,7 @@ int iuse::shelter(player *p, item *, bool)
      for (int j = -1; j <= 1; j++) {
          if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
              g->m.has_furn(posx + i, posy + j)) {
-             add_msg(m_info, _("You need a 3x3 flat space to place a shelter"));
+             add_msg(m_info, _("You need a 3x3 flat space to place a shelter."));
              return 0;
          }
      }
