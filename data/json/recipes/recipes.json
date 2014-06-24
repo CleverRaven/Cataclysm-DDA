@@ -660,7 +660,33 @@
       [ "scrap", 2 ]
     ],
     [
-      [ "gold_small", 150 ],
+      [ "gold_small", 150 ]
+    ],
+    [
+      [ "clockworks", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sf_watch",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "gold_small", 100 ]
+    ],
+    [
+      [ "silver_small", 100 ]
+    ],
+    [
       [ "clockworks", 1 ]
     ]
   ]
