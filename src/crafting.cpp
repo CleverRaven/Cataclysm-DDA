@@ -1877,10 +1877,10 @@ void game::disassemble(int pos)
         return;
     } else {
 
-    //checks to see if your disassembling rotten food, and will stop you if true
+    //checks to see if you're disassembling rotten food, and will stop you if true
     	 if(dis_item->is_food() && dis_item->goes_bad() || (dis_item->is_food_container() && dis_item->contents[0].goes_bad())) {
     	        if(dis_item->rotten() || (dis_item->is_food_container() && dis_item->contents[0].rotten())) {
-    	                add_msg(m_info, _("Eww! It's rotten! I'm not taking that apart."));
+    	                add_msg(m_info, _("It's rotten, I'm not taking that apart."));
     	                return;
     	}
     }
