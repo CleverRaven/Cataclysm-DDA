@@ -5,7 +5,7 @@
         "name" : "Parry",
         "dummy" : true,
         "messages" : [
-            "You block %s",
+            "You parry %s",
             "<npcname> block %s"
         ]
     },{
@@ -23,7 +23,7 @@
         "name" : "Shield",
         "dummy" : true,
         "messages" : [
-            "You block %s",
+            "You shield against %s",
             "<npcname> block %s"
         ]
     },{
@@ -697,7 +697,7 @@
     },{
         "type" : "technique",
         "id" : "tec_eskrima_puno",
-        "name" : "puÃ±o strike",
+        "name" : "puño strike",
         "min_melee" : 3,
         "min_bashing_damage": 2,
         "bash": 1,
@@ -707,7 +707,7 @@
         "crit_tec" : true,
         "stun_dur" : 1,
         "messages" : [
-            "You deliver a puÃ±o to %s",
+            "You deliver a puño to %s",
             "<npcname> haftstrikes %s"
         ]
     },{
