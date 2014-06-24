@@ -1788,6 +1788,7 @@ void advanced_inventory::display(player *pp)
                             panes[src].index = panes[src].items.size() - 1 - ( panes[src].page * itemsPerPage );
                         } else {
                             panes[src].index = itemsPerPage - 1; // corrected at the start of next iteration
+                            if ( panes[src].items[list_pos - 1].idx == -8 ) panes[src].index--; // If the previous item would be a category header at the end of the previous page, we actually have to go back again.
                         }
                     } else if ( panes[src].index >= panes[src].max_index ) {
                         panes[src].page++;
