@@ -369,6 +369,43 @@
   ]
 },{
   "type" : "recipe",
+  "result": "diamond_dental_grill",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "gold_small", 100 ]
+    ],
+    [
+      [ "diamond", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gold_dental_grill",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "gold_small", 100 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "gold_ear",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -381,7 +418,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "gold_small", 60 ]
+      [ "gold_small", 50 ]
     ]
   ]
 },{
@@ -416,6 +453,23 @@
   ], "components": [
     [
       [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "tieclip",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "silver_small", 100 ]
     ]
   ]
 },{
@@ -585,6 +639,28 @@
       [ "scrap", 2 ]
     ],
     [
+      [ "clockworks", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gold_watch",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "scrap", 2 ]
+    ],
+    [
+      [ "gold_small", 150 ],
       [ "clockworks", 1 ]
     ]
   ]
