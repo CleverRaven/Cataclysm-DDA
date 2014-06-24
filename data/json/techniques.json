@@ -697,7 +697,7 @@
     },{
         "type" : "technique",
         "id" : "tec_eskrima_puno",
-        "name" : "puño strike",
+        "name" : "puÃ±o strike",
         "min_melee" : 3,
         "min_bashing_damage": 2,
         "bash": 1,
@@ -707,7 +707,7 @@
         "crit_tec" : true,
         "stun_dur" : 1,
         "messages" : [
-            "You deliver a puño to %s",
+            "You deliver a puÃ±o to %s",
             "<npcname> haftstrikes %s"
         ]
     },{
