@@ -386,8 +386,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 20);
                         }
-                        for (int i = 0; i < i_at(x, y).size(); i++) {
-                            item *melting = &(i_at(x, y)[i]); //For each item on the tile...
+                        for (std::vector<item>::iterator it =
+                                 i_at(x, y).begin();
+                             it != i_at(x, y).end();) {
+                            item *melting = &*it; //For each item on the tile...
 
                             // see DEVELOPER_FAQ.txt for how acid resistance is calculated
 
@@ -402,11 +404,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (melting->damage >= 5) {
                                 //Destroy the object, age the field.
                                 cur->setFieldAge(cur->getFieldAge() + melting->volume());
-                                for (int m = 0; m < i_at(x, y)[i].contents.size(); m++) {
-                                    i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
+                                for (std::vector<item>::iterator cont =
+                                         it->contents.begin();
+                                     cont != it->contents.end(); ++cont) {
+                                    i_at(x, y).push_back(*cont);
                                 }
-                                i_at(x, y).erase(i_at(x, y).begin() + i);
-                                i--;
+                                it = i_at(x, y).erase(it);
+                            } else {
+                                it++;
                             }
                         }
                         break;
@@ -420,25 +425,29 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
                         std::vector<item> &items_here = i_at(x, y);
-                        for (size_t i = 0; i < items_here.size(); i++) {
-                            if (items_here[i].type->explode_in_fire()) {
+                        for (std::vector<item>::iterator it =
+                                 items_here.begin();
+                             it != items_here.end();) {
+                            if (it->type->explode_in_fire()) {
                                 // make a copy and let the copy explode
-                                item tmp(items_here[i]);
-                                items_here.erase(items_here.begin() + i);
-                                i--;
+                                item tmp(*it);
+                                it = items_here.erase(it);
                                 tmp.detonate(point(x, y));
+                            } else {
+                                it++;
                             }
                         }
                         // Consume items as fuel to help us grow/last longer.
                         bool destroyed = false; //Is the item destroyed?
                         // Volume, Smoke generation probability, consumed items count
                         int vol = 0, smoke = 0, consumed = 0;
-                        for (int i = 0; i < i_at(x, y).size() &&
-                                 consumed < cur->getFieldDensity() * 2; i++) {
+                        for (std::vector<item>::iterator it =
+                                 i_at(x, y).begin();
+                             it != i_at(x, y).end() &&
+                                 consumed < cur->getFieldDensity() * 2;) {
                             // Stop when we hit the end of the item buffer OR we consumed
                             // enough items given our fire size.
                             destroyed = false;
-                            item *it = &(i_at(x, y)[i]); //Pointer to the item we are dealing with.
                             vol = it->volume(); //Used to feed the fire based on volume of item burnt.
                             it_ammo *ammo_type = NULL; //Special case if its ammo.
 
@@ -579,11 +588,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             if (destroyed) {
                                 //If we decided the item was destroyed by fire, remove it.
-                                for (int m = 0; m < i_at(x, y)[i].contents.size(); m++) {
-                                    i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
+                                for (std::vector<item>::iterator cont =
+                                         it->contents.begin();
+                                     cont != it->contents.end(); ++cont) {
+                                    i_at(x, y).push_back(*cont);
                                 }
-                                i_at(x, y).erase(i_at(x, y).begin() + i);
-                                i--;
+                                it = i_at(x, y).erase(it);
+                            } else {
+                                it++;
                             }
                         }
 
@@ -1150,8 +1162,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
 
                         //check piles for flammable items and set those on fire
-                        for (int i = 0; i < i_at(x, y).size(); i++) {
-                            item *it = &(i_at(x, y)[i]);
+                        for (std::vector<item>::iterator it =
+                                 i_at(x, y).begin();
+                             it != i_at(x, y).end(); ++it) {
                                 if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
                                 it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline"){
                                     add_field(x, y, fd_fire, 1);
@@ -1788,11 +1801,13 @@ void map::mon_in_field(int x, int y, monster *z)
 
 bool vector_has(std::vector <item> vec, itype_id type)
 {
- for (int i = 0; i < vec.size(); i++) {
-  if (vec[i].type->id == type)
-   return true;
- }
- return false;
+    for (std::vector<item>::iterator it = vec.begin();
+         it != vec.end(); ++it) {
+        if (it->type->id == type) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // TODO FIXME XXX: oh god the horror
