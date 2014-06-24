@@ -1535,6 +1535,9 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     oter_id cur_ter = ot_null;
     nc_color ter_color;
     long ter_sym;
+
+
+    mongroup *cmgroup = NULL;
     // sight_points is hoisted for speed reasons.
     int sight_points = g->u.overmap_sight_range(g->light_level());
 
@@ -1548,7 +1551,9 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     }
 
     // If we're debugging monster groups, find the monster group we've selected
-    const mongroup *mgroup = NULL;
+
+    //const mongroup *mgroup = NULL;
+    /*
     if(debug_monstergroups) {
         // Get the monster group at the current cursor position
         const overmap *omap = overmap_buffer.get_existing_om_global(point(cursx, cursy));
@@ -1570,9 +1575,15 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 }
         }
     }
+    */
 
     for (int i = 0; i < om_map_width; i++) {
         for (int j = 0; j < om_map_height; j++) {
+
+            bool horde_here = false;
+            int horde_num = 0;
+            mongroup *mgroup = NULL;
+
             const int omx = cursx + i - (om_map_width / 2);
             const int omy = cursy + j - (om_map_height / 2);
             const bool see = overmap_buffer.seen(omx, omy, z);
@@ -1589,12 +1600,13 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             //Check if there is an npc.
             const bool npc_here = overmap_buffer.has_npc(omx, omy, z);
             // Check for hordes within player line-of-sight
-            bool horde_here = false;
-            if (los) {
+
+            if (los || debug_monstergroups) {
                 std::vector<mongroup *> hordes = overmap_buffer.monsters_at(omx, omy, z);
                 for (int ih = 0; ih < hordes.size(); ih++) {
                     if (hordes[ih]->horde) {
                         horde_here = true;
+                        mgroup = hordes[ih];
                     }
                 }
             }
@@ -1714,13 +1726,22 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 }
             }
 
+
             // Are we debugging monster groups?
             if(blink && debug_monstergroups) {
                 // Check if this tile is the target of the currently selected group
                 if(mgroup && mgroup->tx / 2 == omx && mgroup->ty / 2 == omy) {
                     ter_color = c_red;
                     ter_sym = 'x';
-                } else {
+                }
+                else {
+                if (horde_here) {
+                    ter_color = c_green;
+                    ter_sym = 'Z';
+                    }
+                }
+
+                /*else {
                     const overmap *omap = overmap_buffer.get_existing_om_global(point(omx, omy));
                     if(omap) {
                         const std::vector<mongroup> &zg = omap->zg;
@@ -1745,12 +1766,14 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                                 }
                             }
                     }
-                }
+                }*/
             }
+
 
             if (omx == cursx && omy == cursy) {
                 csee = see;
                 ccur_ter = cur_ter;
+                cmgroup = mgroup;
                 mvwputch_hi(w, j, i, ter_color, ter_sym);
             } else {
                 mvwputch(w, j, i, ter_color, ter_sym);
@@ -1842,11 +1865,11 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     }
 
     // Draw text describing the overmap tile at the cursor position.
-    if (csee) {
-        if(mgroup) {
-            mvwprintz(w, 1, om_map_width + 3, c_blue, "# monsters: %d", mgroup->population);
-            mvwprintz(w, 2, om_map_width + 3, c_blue, "  Interest: %d", mgroup->interest);
-            mvwprintz(w, 3, om_map_width + 3, c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
+    if (csee || debug_monstergroups) {
+        if(cmgroup) {
+            mvwprintz(w, 1, om_map_width + 3, c_blue, "# monsters: %d", cmgroup->population);
+            mvwprintz(w, 2, om_map_width + 3, c_blue, "  Interest: %d", cmgroup->interest);
+            mvwprintz(w, 3, om_map_width + 3, c_blue, "  Target: %d, %d", cmgroup->tx, cmgroup->ty);
             mvwprintz(w, 3, om_map_width + 3, c_red, "x");
         } else {
             mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
@@ -2137,8 +2160,40 @@ void overmap::move_hordes()
                //add_msg("Horde # %i take track %i;%i",i,max_x,max_y);
                }
         }
-    }
+        //move between overmap
+            if (zg[i].posx > OMAPX * 2 || zg[i].posx < 0 ||
+                zg[i].posy > OMAPY * 2 || zg[i].posy < 0) {
+                  point om_pos = this->pos();
+                  int shift_x = zg[i].posx < 0 ? -1 : 1;
+                  int shift_y = zg[i].posy < 0 ? -1 : 1;
+                  overmap* targ_om = const_cast<overmap*> (overmap_buffer.get_existing(om_pos.x + shift_x, om_pos.y - shift_y));
+                  if (targ_om != NULL) {
+                     zg[i].posx -= (OMAPX * 2) * shift_x;
+                     zg[i].posy -= (OMAPY * 2) * shift_y;
+                     zg[i].tx -= (OMAPX * 2) * shift_x;
+                     zg[i].ty -= (OMAPY * 2) * shift_y;
+                     add_msg("Removing zg %d",i);
+                     targ_om->zg.push_back(zg[i]);
+
+                     zg.erase(zg.begin() + i);
+                     i--;
+                     } else {
+                     zg[i].posx = zg[i].posx < 0 ? 0 : OMAPX * 2;
+                     zg[i].posy = zg[i].posy < 0 ? 0 : OMAPY * 2;
+                     if (zg[i].tx < 0) zg[i].tx = zg[i].tx * -1;
+                     if (zg[i].tx > OMAPX * 2) zg[i].tx = OMAPX * 2 - ( zg[i].tx - OMAPX * 2 );
+                     if (zg[i].ty < 0) zg[i].ty = zg[i].ty * -1;
+                     if (zg[i].ty > OMAPY * 2) zg[i].ty = OMAPY * 2 - ( zg[i].ty - OMAPY * 2 );
+                     add_msg("Bumping zg %d",i);
+                     }
+                  }
+
+        }
+
+
 }
+
+
 
 /**
 * @param sig_power - power of signal or max distantion for reaction of zombies
