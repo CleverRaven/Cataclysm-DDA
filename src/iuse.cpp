@@ -1759,7 +1759,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
 		else if (it->has_flag("MUTAGEN_CEPHALOPOD")) {
 			//~Zork reference, but it's talking about your blood vessels
 			p->add_msg_if_player(_("You watch the mutagen flow through a maze of little twisty passages.\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								               All the same."));
+								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								               All the same."));
 			mutation_category = "MUTCAT_CEPHALOPOD";
 		}
 		else if (it->has_flag("MUTAGEN_BIRD")) {
@@ -1777,7 +1777,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
 		else if (it->has_flag("MUTAGEN_ELFA")) {
 			// 3-15 pain, morale boost, but no more mutagenic than cat-9s
 			p->add_msg_if_player(_("Everything goes green for a second.\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								           It's painfully beautiful..."));
+								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								           It's painfully beautiful..."));
 			p->fall_asleep(20); //Should be out for two minutes.  Ecstasy Of Green
 			// Extra helping of pain.
 			p->mod_pain(rng(1, 5));
@@ -1787,7 +1787,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
 		else if (it->has_flag("MUTAGEN_RAPTOR")) {
 			//Little more painful than average, but nowhere near as harsh & effective as Chimera.
 			p->add_msg_if_player(_("You distinctly smell the mutagen mixing with your blood\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								           ...and then it passes."));
+								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								           ...and then it passes."));
 			mutation_category = "MUTCAT_RAPTOR";
 		}
 
@@ -6954,7 +6954,7 @@ int iuse::bullet_puller(player *p, item *it, bool)
 	}
 	if (p->skillLevel("gun") < 2) {
 		add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you\
-						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						    can disassemble ammunition."));
+						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						    can disassemble ammunition."));
 		return 0;
 	}
 	const long multiply = std::min<long>(20, pull->charges);
@@ -8602,10 +8602,9 @@ int iuse::radiocontrol(player *p, item *it, bool t) {
 
 							g->sound(pos.x, pos.y, 6, "beep.");
 
+							ii.charges = 0;
 							it_tool* tmp = dynamic_cast<it_tool*>(ii.type);
-							tmp->turns_per_charge = 1;
-
-							//ii.charges = 0;
+							tmp->invoke(p, &ii, true);
 
 						}
 
@@ -8614,6 +8613,7 @@ int iuse::radiocontrol(player *p, item *it, bool t) {
 				}
 			}
 
+			return 1;
 
 		}
 
