@@ -371,6 +371,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
              veh->global_x() + veh->parts[p].precalc_dx[0],
              veh->global_y() + veh->parts[p].precalc_dy[0],
                       g->u.posx, g->u.posy);
+   veh->parts[p].remove_flag(vehicle_part::passenger_flag);
    continue;
   }
   // add recoil

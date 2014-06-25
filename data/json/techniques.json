@@ -3,14 +3,16 @@
         "type" : "technique",
         "id" : "WBLOCK_1",
         "name" : "Parry",
+        "dummy" : true,
         "messages" : [
-            "You block %s",
+            "You parry %s",
             "<npcname> block %s"
         ]
     },{
         "type" : "technique",
         "id" : "WBLOCK_2",
         "name" : "Block",
+        "dummy" : true,
         "messages" : [
             "You block %s",
             "<npcname> block %s"
@@ -19,8 +21,9 @@
         "type" : "technique",
         "id" : "WBLOCK_3",
         "name" : "Shield",
+        "dummy" : true,
         "messages" : [
-            "You block %s",
+            "You shield against %s",
             "<npcname> block %s"
         ]
     },{
