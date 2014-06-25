@@ -3050,7 +3050,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Rags tied around your feet. Not much of an improvement over being barefoot,  still better than nothing.",
+        "description" : "Rags tied around your feet. Not much of an improvement over being barefoot, still better than nothing.",
         "price" : 500,
         "material" : ["cotton", "null"],
         "volume" : 1,
