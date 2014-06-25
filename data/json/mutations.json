@@ -895,7 +895,8 @@
         "name" : "Debug Vision",
         "points" : 99,
         "valid" : false,
-        "description" : "You can clearly see that this is for dev purposes only."
+        "description" : "You can clearly see that this is for dev purposes only.",
+        "threshold" : true
     },{
         "type" : "mutation",
         "id" : "ELFAEYES",
