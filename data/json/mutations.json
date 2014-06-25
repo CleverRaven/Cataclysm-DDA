@@ -891,6 +891,13 @@
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
+        "id" : "NIGHTVISION_DEBUG",
+        "name" : "Debug Vision",
+        "points" : 99,
+        "valid" : false,
+        "description" : "You can clearly see that this is for dev purposes only."
+    },{
+        "type" : "mutation",
         "id" : "ELFAEYES",
         "name" : "Fey Eyes",
         "points" : 1,

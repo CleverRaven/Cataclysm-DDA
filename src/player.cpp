@@ -3833,7 +3833,11 @@ void player::recalc_sight_limits()
     // Set sight_boost and sight_boost_cap, based on night vision.
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
-    if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
+    // Debug-only NV, by vache's request
+    if (has_trait("NIGHTVISION_DEBUG")) {
+        sight_boost = 59;
+        sight_boost_cap = 59;
+    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
