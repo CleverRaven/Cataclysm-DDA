@@ -7393,6 +7393,7 @@
     "symbol": ";",
     "color": "red",
     "name": "toolbox",
+    "name_plural":"toolboxes",
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities. In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, bone, or chitin. It requires 25 units of duct tape per use.",
     "price": 12999,
     "material": "steel",

@@ -9884,7 +9884,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "brownie_weed",
-        "name" : "special brownies",
+        "name" : "special brownie",
         "weight" : 56,
         "color" : "brown",
         "addiction_type" : "none",
