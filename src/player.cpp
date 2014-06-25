@@ -1592,7 +1592,8 @@ nc_color player::color()
  if (underwater)
   return c_blue;
  if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-    (is_wearing("optical_cloak") && (has_active_item("UPS_on") || has_active_item("adv_UPS_on"))))
+    (is_wearing("optical_cloak") && (has_active_item("UPS_on") ||
+    has_active_item("adv_UPS_on"))) || has_trait("DEBUG_CLOAK"))
   return c_dkgray;
  return c_white;
 }
@@ -3833,7 +3834,11 @@ void player::recalc_sight_limits()
     // Set sight_boost and sight_boost_cap, based on night vision.
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
-    if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
+    // Debug-only NV, by vache's request
+    if (has_trait("DEBUG_NIGHTVISION")) {
+        sight_boost = 59;
+        sight_boost_cap = 59;
+    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
@@ -10929,6 +10934,7 @@ bool player::is_invisible() const {
         has_active_bionic(str_bio_cloak) ||
         has_active_bionic(str_bio_night) ||
         has_active_optcloak() ||
+        has_trait("DEBUG_CLOAK") ||
         has_artifact_with(AEP_INVISIBLE)
     );
 }
