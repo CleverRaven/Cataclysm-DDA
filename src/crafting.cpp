@@ -1868,13 +1868,23 @@ void game::disassemble(int pos)
     if (pos == INT_MAX) {
         pos = inv(_("Disassemble item:"));
     }
+    item *dis_item = &u.i_at(pos);
+    recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
     if (!u.has_item(pos)) {
         add_msg(m_info, _("You don't have that item!"), pos);
         return;
     }
 
-    item *dis_item = &u.i_at(pos);
-    recipe *cur_recipe = get_disassemble_recipe(dis_item->type->id);
+    //checks to see if you're disassembling rotten food, and will stop you if true
+    if( (dis_item->is_food() && dis_item->goes_bad()) ||
+        (dis_item->is_food_container() && dis_item->contents[0].goes_bad()) ) {
+        if( dis_item->rotten() ||
+            (dis_item->is_food_container() && dis_item->contents[0].rotten())) {
+            add_msg(m_info, _("It's rotten, I'm not taking that apart."));
+            return;
+        }
+    }
+
     if (cur_recipe != NULL) {
         inventory crafting_inv = crafting_inventory(&u);
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
@@ -1888,7 +1898,7 @@ void game::disassemble(int pos)
         return; // recipe exists, but no tools, so do not start disassembly
     }
     //if we're trying to disassemble a book or magazine
-    if(dis_item->is_book()) {
+    if( dis_item->is_book() ) {
         if (OPTIONS["QUERY_DISASSEMBLE"] &&
             !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str()))) {
             return;
@@ -1904,7 +1914,6 @@ void game::disassemble(int pos)
     // no recipe exists, or the item cannot be disassembled
     add_msg(m_info, _("This item cannot be disassembled!"));
 }
-
 void game::complete_disassemble()
 {
     // which recipe was it?
