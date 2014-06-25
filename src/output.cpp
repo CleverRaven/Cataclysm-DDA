@@ -580,6 +580,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         pos = ret.length();
     }
     int scrmax = endx - startx;
+    // in output (console) cells, not characters of the string!
     int shift = 0;
     bool redraw = true;
 
@@ -589,37 +590,61 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos = 0;
         }
 
-        if ( pos < shift ) {
-            shift = pos;
-        } else if ( pos >= shift + scrmax ) {
-            shift = pos - scrmax + 1;
-        }
-
-        if (shift < 0 ) {
+        const size_t left_shift = ret.substr( 0, pos ).display_width();
+        if( left_shift < shift ) {
             shift = 0;
+        } else if( left_shift >= shift + scrmax ) {
+            shift = left_shift - scrmax + 1;
+        } else if( shift < 0 ) {
+            shift = 0;
+        }
+        const size_t xleft_shift = ret.substr_display( 0, shift ).display_width();
+        if( xleft_shift != shift ) {
+            // This prevents a multi-cell character from been split, which is not possible
+            // instead scroll a cell further to make that character disappear completely
+            shift++;
         }
 
         if( redraw ) {
             redraw = false;
-            for(int i = 0; i < scrmax; i++) {
-                const int p = shift + i;
-                const int sx = startx + i;
-                if( p == pos && p < ret.length() ) {
-                    utf8_wrapper sub( ret.substr( p, 1 ) );
-                    wattron( w, cursor_color );
-                    mvwprintw( w, starty, sx, "%s", sub.c_str() );
-                    wattroff( w, cursor_color );
-                } else if( p < ret.length() ) {
-                    utf8_wrapper sub( ret.substr( p, 1 ) );
-                    wattron( w, string_color );
-                    mvwprintw( w, starty, sx, "%s", sub.c_str() );
-                    wattroff( w, string_color );
-                } else if( max_length > 0 && p >= max_length ) {
-                    mvwputch( w, starty, sx, underscore_color, ' ' );
-                } else if( p == pos ) {
-                    mvwputch( w, starty, sx, cursor_color, '_' );
-                } else {
-                    mvwputch( w, starty, sx, underscore_color, '_' );
+            // remove the scrolled out of view part from the input string
+            const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
+            // Clear the line
+            mvwprintw( w, starty, startx, std::string( scrmax, ' ' ).c_str() );
+            // Print the whole input string in default color
+            mvwprintz( w, starty, startx, string_color, "%s", ds.c_str() );
+            size_t sx = ds.display_width();
+            // Print the cursor in its own color
+            if( pos < ret.length() ) {
+                utf8_wrapper cursor = ret.substr( pos, 1 );
+                size_t a = pos;
+                while( a > 0 && cursor.display_width() == 0 ) {
+                    // A combination code point, move back to the earliest
+                    // non-combination code point
+                    a--;
+                    cursor = ret.substr( a, pos - a + 1 );
+                }
+                size_t left_over = ret.substr( 0, a ).display_width() - shift;
+                mvwprintz( w, starty, startx + left_over, cursor_color, "%s", cursor.c_str() );
+            } else if(pos == max_length && max_length > 0) {
+                mvwprintz( w, starty, startx + sx, cursor_color, " " );
+                sx++; // don't override trailing ' '
+            } else {
+                mvwprintz( w, starty, startx + sx, cursor_color, "_" );
+                sx++; // don't override trailing '_'
+            }
+            if( sx < scrmax ) {
+                // could be scrolled out of view when the cursor is at the start of the input
+                size_t l = scrmax - sx;
+                if( max_length > 0 && ret.length() < max_length ) {
+                    if( pos == ret.length() ) { // one '_' is already printed.
+                        l = std::min<size_t>(l, max_length - ret.length() - 1);
+                    } else {
+                        l = std::min<size_t>(l, max_length - ret.length());
+                    }
+                }
+                if(l > 0) {
+                    mvwprintz( w, starty, startx + sx, underscore_color, std::string( l, '_' ).c_str() );
                 }
             }
             wrefresh(w);
