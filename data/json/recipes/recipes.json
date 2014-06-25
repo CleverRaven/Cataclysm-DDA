@@ -1957,15 +1957,14 @@
 },{
         "type" : "recipe",
   "result": "smg_9mm",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 18000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
@@ -1984,15 +1983,14 @@
 },{
         "type" : "recipe",
   "result": "smg_45",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
   "skill_used": "mechanics",
   "skills_required": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
   "reversible": true,
   "autolearn": false,
-  "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
@@ -20841,7 +20839,6 @@
   ],
   "components": [
     [
-      [ "smg_9mm", 1 ],
       [ "uzi", 1 ],
       [ "tec9", 1 ],
       [ "calico", 1 ],
