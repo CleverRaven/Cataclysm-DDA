@@ -59,14 +59,7 @@
             { "point":[0,0,0], "overmap": "motel_entrance_north", "connect":"road"},
             { "point":[-1,0,0], "overmap": "motel_1_north"},
             { "point":[-1,1,0], "overmap": "motel_2_north"},
-            { "point":[0,1,0], "overmap": "motel_3_north"},
-			{ "point":[0,0,1], "overmap": "motel_entrance_f2_north"},
-            { "point":[-1,0,1], "overmap": "motel_1_f2_north"},
-            { "point":[-1,1,1], "overmap": "motel_2_f2_north"},
-            { "point":[0,1,1], "overmap": "motel_3_f2_north"},
-			{ "point":[-1,0,2], "overmap": "motel_1_r_north"},
-            { "point":[-1,1,2], "overmap": "motel_2_r_north"},
-            { "point":[0,1,2], "overmap": "motel_3_r_north"}
+            { "point":[0,1,0], "overmap": "motel_3_north"}
         ],
 	   "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
         "city_distance" : [10, 120], "//":"how far from a city it should be",
@@ -1069,6 +1062,31 @@
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
 		"flags" : ["CLASSIC", "ROTATE"]
+    },{
+        "type" : "overmap_special",
+        "id" : "2fMotel",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "2fmotel_entrance_north", "connect":"road"},
+            { "point":[-1,0,0], "overmap": "2fmotel_1_north"},
+            { "point":[-1,1,0], "overmap": "2fmotel_2_north"},
+            { "point":[0,1,0], "overmap": "2fmotel_3_north"},
+			{ "point":[0,0,1], "overmap": "2fmotel_entrance_f2_north"},
+            { "point":[-1,0,1], "overmap": "2fmotel_1_f2_north"},
+            { "point":[-1,1,1], "overmap": "2fmotel_2_f2_north"},
+            { "point":[0,1,1], "overmap": "2fmotel_3_f2_north"},
+			{ "point":[-1,0,2], "overmap": "2fmotel_1_r_north"},
+            { "point":[-1,1,2], "overmap": "2fmotel_2_r_north"},
+            { "point":[0,1,2], "overmap": "2fmotel_3_r_north"}
+        ],
+	   "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
+        "city_distance" : [10, 120], "//":"how far from a city it should be",
+        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [2, 5], "//":"how many per overmap",
+        "rotate" : true, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
     }
 ]
 

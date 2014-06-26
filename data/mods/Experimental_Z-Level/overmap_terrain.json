@@ -1183,8 +1183,8 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "motel_entrance_f2",
-        "name" : "motel",
+        "id" : "2fmotel_entrance",
+        "name" : "2-story motel",
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
@@ -1194,8 +1194,8 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "motel_1_f2",
-        "name" : "motel",
+        "id" : "2fmotel_1",
+        "name" : "2-story motel",
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
@@ -1205,8 +1205,8 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "motel_2_f2",
-        "name" : "motel",
+        "id" : "2fmotel_2",
+        "name" : "2-story motel",
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
@@ -1216,8 +1216,8 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "motel_3_f2",
-        "name" : "motel",
+        "id" : "2fmotel_3",
+        "name" : "2-story motel",
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
@@ -1227,8 +1227,8 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "motel_1_r",
-        "name" : "motel",
+        "id" : "2fmotel_entrance_f2",
+        "name" : "2-story motel",
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
@@ -1238,8 +1238,8 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "motel_2_r",
-        "name" : "motel",
+        "id" : "2fmotel_1_f2",
+        "name" : "2-story motel",
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
@@ -1249,8 +1249,52 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "motel_3_r",
-        "name" : "motel",
+        "id" : "2fmotel_2_f2",
+        "name" : "2-story motel",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "rotate" : true,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "2fmotel_3_f2",
+        "name" : "2-story motel",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "rotate" : true,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "2fmotel_1_r",
+        "name" : "2-story motel",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "rotate" : true,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "2fmotel_2_r",
+        "name" : "2-story motel",
+        "sym" : 104,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "rotate" : true,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "2fmotel_3_r",
+        "name" : "2-story motel",
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
