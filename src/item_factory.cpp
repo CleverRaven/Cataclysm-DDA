@@ -225,6 +225,7 @@ void Item_factory::init(){
   // TOOLS
     iuse_function_list["LIGHTER"] = &iuse::lighter;
     iuse_function_list["PRIMITIVE_FIRE"] = &iuse::primitive_fire;
+    iuse_function_list["REF_LIT"] = &iuse::ref_lit;
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
@@ -285,6 +286,7 @@ void Item_factory::init(){
     iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
     iuse_function_list["C4"] = &iuse::c4;
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
+    iuse_function_list["GRENADE_INC_ACT"] = &iuse::grenade_inc_act;
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;

@@ -6224,7 +6224,9 @@ bool game::sound(int x, int y, int vol, std::string description)
 // characters hearing and how close they are
 void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 {
-    if (x == u.posx && y == u.posy) {
+    if( u.is_deaf() ) {
+        return;
+    } else if (x == u.posx && y == u.posy) {
         return;
     } else if (u_see(x, y)) {
         return;
@@ -6256,7 +6258,6 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
     }
     footsteps.push_back(point_vector);
     footsteps_source.push_back(source);
-    return;
 }
 
 void game::do_blast( const int x, const int y, const int power, const int radius, const bool fire )
@@ -8102,7 +8103,10 @@ void game::examine(int examx, int examy)
    if (!veh) Pickup::pick_up(examx, examy, 0);
  }
   //check for disarming traps last to avoid disarming query black box issue.
- if(m.tr_at(examx, examy) != tr_null) xmine.trap(&u,&m,examx,examy);
+ if(m.tr_at(examx, examy) != tr_null) {
+        xmine.trap(&u, &m, examx, examy);
+        if(m.tr_at(examx, examy) == tr_null) Pickup::pick_up(examx, examy, 0); // After disarming a trap, pick it up.
+    };
 
 }
 
@@ -12377,7 +12381,11 @@ bool game::plmove(int dx, int dy)
   if (veh1 && veh1->part_with_feature(vpart1, "BOARDABLE") >= 0)
    m.board_vehicle(u.posx, u.posy, &u);
 
-  if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
+  // Traps!
+  // Try to detect.
+  u.search_surroundings();
+  // We stepped on a trap!
+  if (m.tr_at(x, y) != tr_null) { 
    trap* tr = traplist[m.tr_at(x, y)];
    if (!u.avoid_trap(tr, x, y)) {
        tr->trigger(&g->u, x, y);

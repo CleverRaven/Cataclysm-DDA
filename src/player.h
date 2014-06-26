@@ -900,6 +900,9 @@ public:
     typedef std::map<tripoint, std::string> trap_map;
     bool knows_trap(int x, int y) const;
     void add_known_trap(int x, int y, const std::string &t);
+    /** Search surrounding squares for traps (and maybe other things in the future). */
+    void search_surroundings();
+    
 protected:
     std::unordered_set<std::string> my_traits;
     std::unordered_set<std::string> my_mutations;
@@ -913,7 +916,7 @@ protected:
     int sight_boost_cap;
 
     void setID (int i);
-
+    
 private:
     // Items the player has identified.
     std::unordered_set<std::string> items_identified;
@@ -927,9 +930,6 @@ private:
 
     bool can_study_recipe(it_book *book);
     bool try_study_recipe(it_book *book);
-
-    /** Search surroundings squares for traps while pausing a turn. */
-    void search_surroundings();
 
     std::vector<point> auto_move_route;
     // Used to make sure auto move is canceled if we stumble off course

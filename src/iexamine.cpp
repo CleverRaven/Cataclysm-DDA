@@ -1796,7 +1796,12 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
         return;
     }
-    if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    // Some traps are not actual traps. Those should get a different query.
+    if (t.can_see(*p, examx, examy) && possible == 0 && t.get_avoidance() == 0) { // Separated so saying no doesn't trigger the other query.
+        if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
+            m->disarm_trap(examx, examy);
+        }
+    } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
 }

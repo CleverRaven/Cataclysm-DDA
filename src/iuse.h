@@ -69,6 +69,7 @@ public:
 // TOOLS
     int lighter             (player *, item *, bool);
     int primitive_fire      (player *, item *, bool);
+	int ref_lit             (player *, item *, bool);
     int sew                 (player *, item *, bool);
     int extra_battery       (player *, item *, bool);
     int rechargeable_battery(player *, item *, bool);
@@ -131,6 +132,7 @@ public:
     int c4                  (player *, item *, bool);
     int arrow_flamable      (player *, item *, bool);
     int acidbomb_act        (player *, item *, bool);
+    int grenade_inc_act     (player *, item *, bool);
     int molotov             (player *, item *, bool);
     int molotov_lit         (player *, item *, bool);
     int firecracker_pack    (player *, item *, bool);

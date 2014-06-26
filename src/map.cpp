@@ -371,6 +371,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
              veh->global_x() + veh->parts[p].precalc_dx[0],
              veh->global_y() + veh->parts[p].precalc_dy[0],
                       g->u.posx, g->u.posy);
+   veh->parts[p].remove_flag(vehicle_part::passenger_flag);
    continue;
   }
   // add recoil
@@ -3339,6 +3340,19 @@ void map::disarm_trap(const int x, const int y)
     const int diff = tr->get_difficulty();
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
+    // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
+    if (tr->get_avoidance() ==  0 && tr->get_difficulty() == 0) {
+        add_msg(_("You take down the %s."), tr->name.c_str());
+        std::vector<itype_id> comp = tr->components;
+        for (int i = 0; i < comp.size(); i++) {
+            if (comp[i] != "null") {
+                spawn_item(x, y, comp[i], 1, 1);
+                remove_trap(x, y);
+            }
+        }
+        return;
+    }
+
     while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50) {
         roll++;
     }
@@ -4735,6 +4749,7 @@ void map::build_transparency_cache()
           transparency_cache[x][y] *= 0.7;
           break;
       case fd_smoke:
+      case fd_incendiary:
       case fd_toxic_gas:
       case fd_tear_gas:
        if(cur->getFieldDensity() == 3)

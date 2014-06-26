@@ -276,6 +276,7 @@ extern std::map<std::string, furn_t> furnmap;
 extern std::map<int,int> reverse_legacy_furn_id;
 furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
+
 /*
 enum: map_extra
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
@@ -302,24 +303,6 @@ const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
   mfb(mx_stash) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
   mfb(mx_crater);
 
-// Chances are relative to eachother; e.g. a 200 chance is twice as likely
-// as a 100 chance to appear.
-const int map_extra_chance[num_map_extras + 1] = {
-  0, // Null - 0 chance
- 40, // Helicopter
- 50, // Military
-120, // Science
-200, // Stash
- 20, // Drug deal
- 10, // Supply drop
-  5, // Portal
- 70, // Minefield
- 10, // Crater
-  8, // Fumarole
-  7, // One-way portal into this world
- 10, // Anomaly
-  0  // Just a cap value; leave this as the last one
-};
 
 struct map_extras {
  unsigned int chance;
