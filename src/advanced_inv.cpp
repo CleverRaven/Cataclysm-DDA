@@ -1885,7 +1885,7 @@ void AdvancedInventory::ItemVectorPane::restack () {
   for (auto &item : _inv) {
     bool stacked = false;
 
-    for (auto stack : _stackedItems) {
+    for (auto &stack : _stackedItems) {
       if (item.stacks_with(*(stack.front()))) {
         stack.push_back(&item);
 
@@ -1893,9 +1893,12 @@ void AdvancedInventory::ItemVectorPane::restack () {
         break;
       }
     }
+
     if (!stacked)
       _stackedItems.push_back({&item});
   }
+
+  _dirtyStack = false;
 }
 
 void AdvancedInventory::AggregatePane::restack () {
@@ -1913,7 +1916,7 @@ int AdvancedInventory::AggregatePane::maxVolume () const {
   if (_maxVolume == -1) {
     int mV = 0;
 
-    for (auto pair : _panes) {
+    for (auto &pair : _panes) {
       mV += pair.second->maxVolume();
     }
 
@@ -1934,7 +1937,7 @@ int AdvancedInventory::AggregatePane::maxWeight () const {
   if (_maxWeight == -1) {
     int mW = 0;
 
-    for (auto pair : _panes) {
+    for (auto &pair : _panes) {
       mW += pair.second->maxWeight();
     }
 
@@ -1947,7 +1950,7 @@ int AdvancedInventory::AggregatePane::maxWeight () const {
 int AdvancedInventory::AggregatePane::volume () const {
   int volume = 0;
 
-  for (auto pair : _panes) {
+  for (auto &pair : _panes) {
     volume += pair.second->volume();
   }
 
@@ -1957,7 +1960,7 @@ int AdvancedInventory::AggregatePane::volume () const {
 int AdvancedInventory::AggregatePane::weight () const {
   int weight = 0;
 
-  for (auto pair : _panes) {
+  for (auto &pair : _panes) {
     weight += pair.second->weight();
   }
 
@@ -1975,7 +1978,7 @@ int AdvancedInventory::InventoryPane::weight () const {
 int AdvancedInventory::ItemVectorPane::volume () const {
   int volume = 0;
 
-  for (auto item : _inv) {
+  for (auto &item : _inv) {
     volume += item.volume();
   }
 
@@ -1985,7 +1988,7 @@ int AdvancedInventory::ItemVectorPane::volume () const {
 int AdvancedInventory::ItemVectorPane::weight () const {
   int weight = 0;
 
-  for (auto item : _inv) {
+  for (auto &item : _inv) {
     weight += item.weight();
   }
 
@@ -2052,9 +2055,6 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
   size_t columns(getmaxx(window));
   size_t itemsPerPage(getmaxy(window) - ADVINVOFS);
 
-  bool isinventory = _maxWeight == -1;
-  bool compact = (TERMX <= 100);
-
   std::string spaces(columns - 4, ' ');
 
   nc_color norm = active ? c_white : c_dkgray;
@@ -2071,33 +2071,27 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
   if (mW != -1 && dWeight > dMaxWeight)
     warnColor = c_red;
 
-  mvwprintz(window, 4, 2, warnColor, "%.1f", dWeight);
+  mvwprintz(window, 4, columns - 29, warnColor, "W: %4.1f", dWeight);
 
   if (mW != -1)
-    wprintz(window, norm, "/%.1f ", dMaxWeight);
+    wprintz(window, norm, "/%4.1f ", dMaxWeight);
   else
-    wprintz(window, norm, " ");
+    wprintz(window, norm, "/---- ");
 
   warnColor = norm;
 
   if (v > mV)
     warnColor = c_red;
 
-  wprintz(window, warnColor, "%d", v);
-  wprintz(window, norm, "/%d", mV);
+  wprintz(window, warnColor, "V: %5.d", v);
+  wprintz(window, norm, "/%5.d", mV);
 
   //print header row and determine max item name length
   const int lastcol = columns - 2; // Last printable column
-  const size_t name_startpos = ( compact ? 1: 4 );
-  const size_t src_startpos = lastcol - 17;
-  const size_t amt_startpos = lastcol - 14;
-  const size_t weight_startpos = lastcol - 9;
-  const size_t vol_startpos = lastcol - 3;
-  int max_name_length = amt_startpos - name_startpos - 1; // Default name length
 
   const int table_hdr_len1 = utf8_width(_("amt weight vol")); // Header length type 1
 
-  mvwprintz( window, 5, ( compact ? 1 : 3 ), c_ltgray, _("Name (charges)") );
+  mvwprintz( window, 5, 3, c_ltgray, _("Name (charges)") );
   mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_ltgray, _("amt weight vol") );
 
   size_t x = 0;
@@ -2115,21 +2109,21 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> 
 
   const int lastcol = columns - 2; // Last printable column
   const size_t name_startpos = 4;
-  const size_t src_startpos = lastcol - 17;
   const size_t amt_startpos = lastcol - 14;
-  const size_t weight_startpos = lastcol - 9;
-  const size_t vol_startpos = lastcol - 3;
   int max_name_length = amt_startpos - name_startpos - 1; // Default name length
 
   nc_color norm = active ? c_white : c_dkgray;
 
   nc_color thiscolor = active ? item->color(&g->u) : norm;
   nc_color thiscolordark = c_dkgray;
-  nc_color print_color;
+  nc_color errorColor = (active && highlighted) ? hilite(c_red) : c_red;
+  nc_color print_color = thiscolor;
 
   if (highlighted) {
-    thiscolor = hilite(thiscolor);
-    thiscolordark = hilite(thiscolordark);
+    if (active) {
+      thiscolor = hilite(thiscolor);
+      thiscolordark = hilite(thiscolordark);
+    }
 
     wprintz(window, thiscolor, ">> ");
   } else {
@@ -2138,29 +2132,31 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> 
 
   //print item name
   std::string it_name = utf8_truncate(item->display_name(), max_name_length);
-  wprintz(window, thiscolor, "%-*s ", max_name_length, it_name.c_str() );
+  wprintz(window, thiscolor, "%-*.*s ", max_name_length, max_name_length, it_name.c_str() );
 
   //print "amount" column
   int it_amt = iList.size();
   if( it_amt > 1 ) {
     print_color = thiscolor;
+
     if (it_amt > 9999) {
       it_amt = 9999;
-      print_color = (highlighted) ? hilite(c_red) : c_red;
+      print_color = errorColor;
     }
+
     wprintz(window, print_color, "%4d ", it_amt);
   } else {
     wprintz(window, thiscolor, "     ");
   }
 
   //print weight column
-  double it_weight = helper::convertWeight(item->weight() * it_amt);
+  double it_weight = helper::convertWeight(item->weight()) * it_amt;
   size_t w_precision;
   print_color = (it_weight > 0) ? thiscolor : thiscolordark;
 
   if (it_weight >= 1000.0) {
     if (it_weight >= 10000.0) {
-      print_color = (highlighted) ? hilite(c_red) : c_red;
+      print_color = errorColor;
       it_weight = 9999.0;
     }
     w_precision = 0;
@@ -2176,7 +2172,7 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> 
   print_color = (it_vol > 0) ? thiscolor : thiscolordark;
   if (it_vol > 9999) {
     it_vol = 9999;
-    print_color = (highlighted) ? hilite(c_red) : c_red;
+    print_color = errorColor;
   }
   wprintz(window, print_color, "%4d", it_vol );
 }
