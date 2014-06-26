@@ -66,6 +66,7 @@ enum npc_mission {
  NPC_MISSION_KIDNAPPED, // Special; was kidnapped, to be rescued by player
 
  NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
+ NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
 
  NUM_NPC_MISSIONS
 };
@@ -614,6 +615,7 @@ public:
     tripoint global_omt_location() const;
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity; // The square containing an item we want
+ int guardx, guardy;  // These are the local coordinates that a guard will return to inside of their goal tripoint
     /**
      * Global overmap terrain coordinate, where we want to get to
      * if no goal exist, this is no_goal_point.
