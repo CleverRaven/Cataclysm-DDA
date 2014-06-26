@@ -107,13 +107,7 @@ void load_recipe(JsonObject &jsobj)
     // required
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
-    std::string subcategory = "";
-
-    if ( !jsobj.has_string("subcategory") ) {
-        subcategory = last_craft_subcat( category );
-    } else {
-        subcategory = jsobj.get_string("subcategory");
-    }
+    std::string subcategory = jsobj.get_string("subcategory", "");
 
     int difficulty = jsobj.get_int("difficulty");
     int time = jsobj.get_int("time");
@@ -1307,7 +1301,9 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
 
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
-        if (subtab == "CSC_ALL" || (*iter)->subcat == subtab || filter != "") {
+        if( subtab == "CSC_ALL" || (*iter)->subcat == subtab ||
+            ((*iter)->subcat == "" && last_craft_subcat( tab ) == subtab) ||
+            filter != "") {
             if( !u.knows_recipe( *iter ) && -1 == u.has_recipe(*iter, crafting_inv) ) {
                 continue;
             }
