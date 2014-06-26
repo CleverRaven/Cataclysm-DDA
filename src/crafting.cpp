@@ -1352,7 +1352,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                     bool found = false;
                     for( auto it = (*iter)->components.begin();
                          it != (*iter)->components.end(); ++it ) {
-                        for( suto it2 = (*it).begin() ; it2 != (*it).end() ; ++it2) {
+                        for( auto it2 = (*it).begin() ; it2 != (*it).end() ; ++it2) {
                             if( item_controller->find_template((*it2).type)->nname(1).find(filter) !=
                                 std::string::npos ) {
                                 found = true;
