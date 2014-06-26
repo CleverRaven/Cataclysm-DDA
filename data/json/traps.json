@@ -70,7 +70,7 @@
         "action" : "none",
         "drops" : ["funnel"],
         "benign" : true,
-        "funnel_radius": 380
+        "funnel_value": 3024
     },
     {
         "type" : "trap",
@@ -86,7 +86,7 @@
         "action" : "none",
         "drops" : ["makeshift_funnel"],
         "benign" : true,
-        "funnel_radius": 85
+        "funnel_value": 151
     },
     {
         "type" : "trap",
