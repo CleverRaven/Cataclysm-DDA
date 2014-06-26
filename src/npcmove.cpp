@@ -99,7 +99,8 @@ void npc::move()
             debugmsg("address_player %s", npc_action_name(action).c_str());
         }
         if (action == npc_undecided) {
-            if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP || has_disease("infection")) {
+            if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
+                    || mission == NPC_MISSION_GUARD || has_disease("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
@@ -2102,6 +2103,23 @@ bool npc::has_destination()
 
 void npc::reach_destination()
 {
+    //this entire clause is to preserve the guard's home coordinates and permit him/her to return
+    if (mission == NPC_MISSION_GUARD){
+        if (guardx == posx && guardy == posy){
+            return; //Our guard is already at his/her home tile
+        }
+        else {
+            if (path.size() > 1) {
+                move_to_next();  //No point recalculating the path to get home
+            }
+            else{
+                update_path(guardx, guardy);
+                move_to_next();
+            }
+        }
+        return;//don't delete our post if we are a guard
+    }
+
     goal = no_goal_point;
 }
 
@@ -2118,6 +2136,14 @@ void npc::set_destination()
      * Also, NPCs should be able to assign themselves missions like "break into that
      *  lab" or "map that river bank."
      */
+    if (mission == NPC_MISSION_GUARD){
+        goal.x = global_omt_location().x;
+        goal.y = global_omt_location().y;
+        goal.z = g->levz;
+        guardx = posx;
+        guardy = posy;
+        return;
+    }
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.
