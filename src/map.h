@@ -387,6 +387,7 @@ void add_corpse(int x, int y);
 
 // Items
  std::vector<item>& i_at(int x, int y);
+ std::vector<item>& i_at(const point &p) { return i_at(p.x, p.y); }
  itemslice i_stacked(std::vector<item>& items);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
@@ -401,6 +402,7 @@ void add_corpse(int x, int y);
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0, const bool rand = true);
  int max_volume(const int x, const int y);
+ int max_volume(const point &p) { return max_volume(p.x, p.y); }
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );

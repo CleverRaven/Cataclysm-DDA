@@ -1855,17 +1855,13 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
 
   if (_mode == Mode::Area) {
     // set up the local area
-    // loop unrolled for muy rapido
 
-    _panes["1"] = new ItemVectorPane("1", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["2"] = new ItemVectorPane("2", g->m.i_at(p->posx    , p->posy + 1), 4000, 0);
-    _panes["3"] = new ItemVectorPane("3", g->m.i_at(p->posx + 1, p->posy + 1), 4000, 0);
-    _panes["4"] = new ItemVectorPane("4", g->m.i_at(p->posx - 1, p->posy    ), 4000, 0);
-    _panes["5"] = new ItemVectorPane("5", g->m.i_at(p->posx    , p->posy    ), 4000, 0);
-    _panes["6"] = new ItemVectorPane("6", g->m.i_at(p->posx + 1, p->posy    ), 4000, 0);
-    _panes["7"] = new ItemVectorPane("7", g->m.i_at(p->posx - 1, p->posy - 1), 4000, 0);
-    _panes["8"] = new ItemVectorPane("8", g->m.i_at(p->posx    , p->posy - 1), 4000, 0);
-    _panes["9"] = new ItemVectorPane("9", g->m.i_at(p->posx + 1, p->posy - 1), 4000, 0);
+    for (auto dir : helper::planarDirections) {
+      std::string id(1, helper::directionToNumpad(dir));
+      point mapTile(helper::directionToPoint(dir) + p->pos());
+
+      _panes[id] = new ItemVectorPane(id, g->m.i_at(mapTile), g->m.max_volume(mapTile), 0);
+    }
 
     // set up the ALL tab
     _panes["A"] = new AggregatePane("A", _panes);
