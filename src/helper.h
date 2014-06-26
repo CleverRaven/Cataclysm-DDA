@@ -37,5 +37,7 @@ namespace helper
     point directionToPoint (Direction);
     tripoint directionToTriPoint (Direction);
     char directionToNumpad (Direction);
+
+    double convertWeight(int);
 }
 #endif

@@ -1,5 +1,6 @@
 #include "helper.h"
 #include "enums.h"
+#include "options.h"
 
 namespace helper
 {
@@ -137,5 +138,19 @@ namespace helper
     tripoint tmp(directionToTriPoint(dir));
 
     return tmp.to_point();
+  }
+
+  double convertWeight (int weight) {
+    double ret;
+
+    ret = double(weight);
+
+    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
+        ret /= 1000;
+    } else {
+        ret /= 453.6;
+    }
+
+    return ret;
   }
 }

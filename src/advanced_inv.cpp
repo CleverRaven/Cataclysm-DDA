@@ -1870,8 +1870,8 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
     _panes["I"] = new InventoryPane("I", p);
 
     // Set initial panes; for now they are as default
-    selectPane(SelectedPane::Left, "A");
-    selectPane(SelectedPane::Right, "I");
+    selectPane(SelectedPane::Left, "9");
+    selectPane(SelectedPane::Right, "6");
   }
 }
 
@@ -1880,7 +1880,22 @@ void AdvancedInventory::InventoryPane::restack () {
 }
 
 void AdvancedInventory::ItemVectorPane::restack () {
+  _stackedItems.clear();
 
+  for (auto &item : _inv) {
+    bool stacked = false;
+
+    for (auto stack : _stackedItems) {
+      if (item.stacks_with(*(stack.front()))) {
+        stack.push_back(&item);
+
+        stacked = true;
+        break;
+      }
+    }
+    if (!stacked)
+      _stackedItems.push_back({&item});
+  }
 }
 
 void AdvancedInventory::AggregatePane::restack () {
@@ -1985,8 +2000,11 @@ void AdvancedInventory::display (player *p, player *o) {
   int min_w_width(FULL_SCREEN_WIDTH);
   int max_w_width(120);
 
-  int w_height ((TERMY < min_w_height + head_height) ? min_w_height : TERMY - head_height);
-  int w_width ((TERMX < min_w_width) ? min_w_width : (TERMX > max_w_width) ? max_w_width : (int)TERMX);
+  int w_height((TERMY < min_w_height + head_height) ? min_w_height : TERMY - head_height);
+  int w_width((TERMX < min_w_width) ? min_w_width : (TERMX > max_w_width) ? max_w_width : (int)TERMX);
+
+  advInv.w_height = w_height;
+  advInv.w_width = w_width;
 
   int headstart(0);
   int colstart((TERMX > w_width) ? (TERMX - w_width) / 2 : 0);
@@ -1995,9 +2013,171 @@ void AdvancedInventory::display (player *p, player *o) {
   WINDOW *left_window = newwin(w_height, w_width / 2, headstart + head_height, colstart);
   WINDOW *right_window = newwin(w_height, w_width / 2, headstart + head_height, colstart + w_width / 2);
 
-  while (1) { // input loop
+  advInv.displayHead(head);
+  advInv.displayPanes(left_window, right_window);
 
+  while (1) { // input loop
+    wrefresh(head);
+    wrefresh(left_window);
+    wrefresh(right_window);
+    getch();
   }
 
   delwin(head), delwin(left_window), delwin(right_window);
+}
+
+void AdvancedInventory::displayHead (WINDOW *head) {
+  werase(head);
+  draw_border(head);
+
+  mvwprintz(head, 0, w_width - utf8_width(_("< [?] show log >")) - 2, c_white, _("< [?] show log >"));
+  mvwprintz(head, 1, 2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes ([M]: all)"));
+  mvwprintz(head, 2, 2, c_white, _("1-9 to select square for active tab, 0 for inventory, D for dragged item,"));
+  mvwprintz(head, 3, 2, c_white, _("[e]xamine, [s]ort, toggle auto[p]ickup, [,] to move all items, [q]uit."));
+}
+
+void AdvancedInventory::displayPanes (WINDOW *lWin, WINDOW *rWin) {
+  // TODO: fix this for linear mode
+  _selections[SelectedPane::Left]->draw(lWin, _selectedPane == SelectedPane::Left);
+  _selections[SelectedPane::Right]->draw(rWin, _selectedPane == SelectedPane::Right);
+}
+
+void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
+  if (_dirtyStack)
+    restack();
+
+  werase(window);
+  draw_border(window);
+
+  size_t columns(getmaxx(window));
+  size_t itemsPerPage(getmaxy(window) - ADVINVOFS);
+
+  unsigned selected_index = _cursor;
+  bool isinventory = _maxWeight == -1;
+  bool compact = (TERMX <= 100);
+
+  std::string spaces(columns - 4, ' ');
+
+  nc_color norm = active ? c_white : c_dkgray;
+
+  int v(volume()), w(weight());
+  int mV = maxVolume(), mW = maxWeight();
+
+  double dWeight(helper::convertWeight(w));
+  double dMaxWeight(helper::convertWeight(mW));
+
+  // header
+  nc_color warnColor = norm;
+
+  if (mW != -1 && dWeight > dMaxWeight)
+    warnColor = c_red;
+
+  mvwprintz(window, 4, 2, warnColor, "%.1f", dWeight);
+
+  if (mW != -1)
+    wprintz(window, norm, "/%.1f ", dMaxWeight);
+  else
+    wprintz(window, norm, " ");
+
+  warnColor = norm;
+
+  if (v > mV)
+    warnColor = c_red;
+
+  wprintz(window, warnColor, "%d", v);
+  wprintz(window, norm, "/%d", mV);
+
+  //print header row and determine max item name length
+  const int lastcol = columns - 2; // Last printable column
+  const size_t name_startpos = ( compact ? 1: 4 );
+  const size_t src_startpos = lastcol - 17;
+  const size_t amt_startpos = lastcol - 14;
+  const size_t weight_startpos = lastcol - 9;
+  const size_t vol_startpos = lastcol - 3;
+  int max_name_length = amt_startpos - name_startpos - 1; // Default name length
+
+  const int table_hdr_len1 = utf8_width(_("amt weight vol")); // Header length type 1
+
+  mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
+  mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_ltgray, _("amt weight vol") );
+
+  size_t x = 0;
+
+  for (auto item = _stackedItems.begin(); item != _stackedItems.end() && item != _stackedItems.begin() + itemsPerPage; item++, x++) {
+    wmove(window, 6 + x, 1);
+    printItem(window, *item, active, false);
+  }
+}
+
+void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> &iList, bool active, bool highlighted) {
+  const item *item = iList.front();
+
+  size_t columns(getmaxx(window));
+
+  const int lastcol = columns - 2; // Last printable column
+  const size_t name_startpos = 4;
+  const size_t src_startpos = lastcol - 17;
+  const size_t amt_startpos = lastcol - 14;
+  const size_t weight_startpos = lastcol - 9;
+  const size_t vol_startpos = lastcol - 3;
+  int max_name_length = amt_startpos - name_startpos - 1; // Default name length
+
+  nc_color norm = active ? c_white : c_dkgray;
+
+  nc_color thiscolor = active ? item->color(&g->u) : norm;
+  nc_color thiscolordark = c_dkgray;
+  nc_color print_color;
+
+  if (highlighted) {
+    thiscolor = hilite(thiscolor);
+    thiscolordark = hilite(thiscolordark);
+
+    wprintz(window, thiscolor, ">> ");
+  } else {
+    wprintz(window, thiscolor, "   ");
+  }
+
+  //print item name
+  std::string it_name = utf8_truncate(item->display_name(), max_name_length);
+  wprintz(window, thiscolor, "%-*s ", max_name_length, it_name.c_str() );
+
+  //print "amount" column
+  int it_amt = iList.size();
+  if( it_amt > 1 ) {
+    print_color = thiscolor;
+    if (it_amt > 9999) {
+      it_amt = 9999;
+      print_color = (highlighted) ? hilite(c_red) : c_red;
+    }
+    wprintz(window, print_color, "%4d ", it_amt);
+  } else {
+    wprintz(window, print_color, "     ");
+  }
+
+  //print weight column
+  double it_weight = helper::convertWeight(item->weight() * it_amt);
+  size_t w_precision;
+  print_color = (it_weight > 0) ? thiscolor : thiscolordark;
+
+  if (it_weight >= 1000.0) {
+    if (it_weight >= 10000.0) {
+      print_color = (highlighted) ? hilite(c_red) : c_red;
+      it_weight = 9999.0;
+    }
+    w_precision = 0;
+  } else if (it_weight >= 100.0) {
+    w_precision = 1;
+  } else {
+    w_precision = 2;
+  }
+  wprintz(window, print_color, "%5.*f ", w_precision, it_weight);
+
+  //print volume column
+  int it_vol = item->volume() * it_amt;
+  print_color = (it_vol > 0) ? thiscolor : thiscolordark;
+  if (it_vol > 9999) {
+    it_vol = 9999;
+    print_color = (highlighted) ? hilite(c_red) : c_red;
+  }
+  wprintz(window, print_color, "%4d", it_vol );
 }

@@ -8112,8 +8112,12 @@ void game::examine(int examx, int examy)
 
 void game::advanced_inv()
 {
+  AdvancedInventory::display(&u);
+  /*
+
     advanced_inventory advinv;
     advinv.display(&u);
+  */
 }
 
 //Shift player by one tile, look_around(), then restore previous position.

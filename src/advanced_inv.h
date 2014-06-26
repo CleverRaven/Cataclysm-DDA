@@ -26,7 +26,7 @@ class AdvancedInventory {
   class Pane {
   protected:
     std::string _identifier;
-    int _cursor = 0;
+    size_t _cursor = 0;
     int _maxVolume, _maxWeight;
 
     SortRule _sortRule = SortRule::Unspecified;
@@ -34,6 +34,8 @@ class AdvancedInventory {
 
     std::vector<std::list<item*>> _stackedItems;
     bool _dirtyStack = true;
+
+    void printItem(WINDOW *, const std::list<item *> &, bool active, bool highlighted);
 
   public:
     Pane(std::string id, int mV, int mW) : _identifier(id), _maxVolume(mV), _maxWeight(mW) { }
@@ -56,7 +58,7 @@ class AdvancedInventory {
 
     const std::vector<std::list<item *>> &stackedItems ();
 
-    void draw (WINDOW *, bool active) const;
+    void draw (WINDOW *, bool active);
 
   private:
     virtual void restack () = 0;
@@ -115,6 +117,8 @@ class AdvancedInventory {
   void displayPanes (WINDOW *, WINDOW *);
 
   bool selectPane (SelectedPane area, std::string id);
+
+  int w_width, w_height;
 
  public:
   static void display (player *, player * = nullptr);
