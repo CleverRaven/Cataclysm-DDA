@@ -56,7 +56,8 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-void load_obj_list(JsonArray &jsarr, std::vector< std::vector<component> > &objs) {
+void load_obj_list(JsonArray &jsarr, std::vector< std::vector<component> > &objs)
+{
     while (jsarr.has_more()) {
         std::vector<component> choices;
         JsonArray ja = jsarr.next_array();
@@ -85,7 +86,9 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
              list_iter != map_iter->second.end(); ++list_iter) {
             if ((*list_iter)->ident == rec_name) {
                 if (!override_existing) {
-                    jsobj.throw_error(std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") + rec_name, "result");
+                    jsobj.throw_error(
+                        std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") +
+                        rec_name, "result");
                 }
                 // overriding an existing recipe: delete it and remove the pointer
                 // keep the id,
@@ -162,7 +165,7 @@ void load_recipe(JsonObject &jsobj)
         JsonArray ja = jsarr.next_array();
         std::string book_name = ja.get_string(0);
         int book_level = ja.get_int(1);
-        rec->booksets.push_back(std::pair<std::string,int>(book_name, book_level));
+        rec->booksets.push_back(std::pair<std::string, int>(book_name, book_level));
     }
 
     recipes[category].push_back(rec);
@@ -182,7 +185,7 @@ void finalize_recipes()
 {
     for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it) {
         for (size_t i = 0; i < it->second.size(); ++i) {
-            recipe* r = it->second[i];
+            recipe *r = it->second[i];
             for(size_t j = 0; j < r->booksets.size(); j++) {
                 const std::string &book_id = r->booksets[j].first;
                 const int skill_level = r->booksets[j].second;
@@ -244,7 +247,8 @@ void game::recraft()
     }
 }
 
-std::string print_missing_objs(const std::vector< std::vector <component> > &objs, bool is_tools) {
+std::string print_missing_objs(const std::vector< std::vector <component> > &objs, bool is_tools)
+{
     std::ostringstream buffer;
     for(size_t i = 0; i < objs.size(); i++) {
         const std::vector<component> &list = objs[i];
@@ -277,7 +281,8 @@ std::string print_missing_objs(const std::vector< std::vector <component> > &obj
     return buffer.str();
 }
 
-std::string print_missing_objs(const std::vector< quality_requirement > &objs) {
+std::string print_missing_objs(const std::vector< quality_requirement > &objs)
+{
     std::ostringstream buffer;
     for(size_t i = 0; i < objs.size(); i++) {
         const quality_requirement &req = objs[i];
@@ -689,7 +694,7 @@ recipe *game::select_crafting_recipe()
     bool isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
 
     const int width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
-                          FULL_SCREEN_WIDTH;
+                      FULL_SCREEN_WIDTH;
     const int wStart = ( TERMX - width ) / 2;
     const int tailHeight = isWide ? 3 : 4;
     const int dataLines = TERMY - (headHeight + subHeadHeight) - tailHeight;
@@ -751,7 +756,8 @@ recipe *game::select_crafting_recipe()
         werase(w_data);
 
         if ( isWide ) {
-            mvwprintz(w_data, dataLines + 1, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+            mvwprintz(w_data, dataLines + 1, 5, c_white,
+                      _("Press <ENTER> to attempt to craft object."));
             wprintz(w_data, c_white, "  ");
             if (filterstring != "") {
                 wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode [?] keybindings"));
@@ -760,11 +766,14 @@ recipe *game::select_crafting_recipe()
             }
         } else {
             if (filterstring != "") {
-                mvwprintz(w_data, dataLines + 1, 5, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode [?] keybindings"));
+                mvwprintz(w_data, dataLines + 1, 5, c_white,
+                          _("[E]: Describe, [F]ind, [R]eset, [m]ode [?] keybindings"));
             } else {
-                mvwprintz(w_data, dataLines + 1, 5, c_white, _("[E]: Describe, [F]ind, [m]ode [?] keybindings"));
+                mvwprintz(w_data, dataLines + 1, 5, c_white,
+                          _("[E]: Describe, [F]ind, [m]ode [?] keybindings"));
             }
-            mvwprintz(w_data, dataLines + 2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
+            mvwprintz(w_data, dataLines + 2, 5, c_white,
+                      _("Press <ENTER> to attempt to craft object."));
         }
         // Draw borders
         for (int i = 1; i < width - 1; ++i) { // _
@@ -796,10 +805,12 @@ recipe *game::select_crafting_recipe()
                     std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
                     mvwprintz(w_data, dataLines + i - recmax, 2, c_ltgray, ""); // Clear the line
                     if (i == line) {
-                        mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? h_white : h_dkgray),
+                        mvwprintz(w_data, dataLines + i - recmax, 2,
+                                  (available[i] ? h_white : h_dkgray),
                                   utf8_truncate(tmp_name, 28).c_str());
                     } else {
-                        mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? c_white : c_dkgray),
+                        mvwprintz(w_data, dataLines + i - recmax, 2,
+                                  (available[i] ? c_white : c_dkgray),
                                   utf8_truncate(tmp_name, 28).c_str());
                     }
                 }
@@ -808,10 +819,12 @@ recipe *game::select_crafting_recipe()
                     std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
                     mvwprintz(w_data, dataHalfLines + i - line, 2, c_ltgray, ""); // Clear the line
                     if (i == line) {
-                        mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? h_white : h_dkgray),
+                        mvwprintz(w_data, dataHalfLines + i - line, 2,
+                                  (available[i] ? h_white : h_dkgray),
                                   utf8_truncate(tmp_name, 28).c_str());
                     } else {
-                        mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? c_white : c_dkgray),
+                        mvwprintz(w_data, dataHalfLines + i - line, 2,
+                                  (available[i] ? c_white : c_dkgray),
                                   utf8_truncate(tmp_name, 28).c_str());
                     }
                 }
@@ -847,10 +860,12 @@ recipe *game::select_crafting_recipe()
                               (int)u.skillLevel(current[line]->skill_used));
                 }
                 if (current[line]->time >= 1000) {
-                    mvwprintz(w_data, ypos++, 30, col, ngettext("Time to complete: %d minute","Time to complete: %d minutes",int(current[line]->time / 1000)),
+                    mvwprintz(w_data, ypos++, 30, col, ngettext("Time to complete: %d minute",
+                              "Time to complete: %d minutes", int(current[line]->time / 1000)),
                               int(current[line]->time / 1000));
                 } else {
-                    mvwprintz(w_data, ypos++, 30, col, ngettext("Time to complete: %d turn","Time to complete: %d turns",int(current[line]->time / 100)),
+                    mvwprintz(w_data, ypos++, 30, col, ngettext("Time to complete: %d turn",
+                              "Time to complete: %d turns", int(current[line]->time / 100)),
                               int(current[line]->time / 100));
                 }
             }
@@ -861,8 +876,8 @@ recipe *game::select_crafting_recipe()
                     mvwprintz(w_data, ypos, 32, c_green, _("NONE"));
                 } else {
                     // Loop to print the required tool qualities
-                    for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin();
-                        iter != current[line]->qualities.end(); ++iter) {
+                    for( auto iter = current[line]->qualities.begin();
+                         iter != current[line]->qualities.end(); ++iter ) {
                         xpos = 32;
                         mvwputch(w_data, ypos, 30, col, '>');
                         nc_color toolcol = c_red;
@@ -897,7 +912,8 @@ recipe *game::select_crafting_recipe()
                                 toolcol = c_green;
                             } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
                                 toolcol = c_green;
-                            } else if ((type == "goggles_welding") && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on"))) {
+                            } else if ((type == "goggles_welding") && (u.has_bionic("bio_sunglasses") ||
+                                       u.is_wearing("rm13_armor_on"))) {
                                 toolcol = c_cyan;
                             }
 
@@ -905,7 +921,8 @@ recipe *game::select_crafting_recipe()
                             toolinfo << item_controller->find_template(type)->nname(1) << " ";
 
                             if (charges > 0) {
-                                toolinfo << string_format(ngettext("(%d charge) ","(%d charges) ",charges), charges);
+                                toolinfo << string_format(ngettext("(%d charge) ", "(%d charges) ",
+                                                                   charges), charges);
                             }
 
                             std::string toolname = toolinfo.str();
@@ -949,7 +966,8 @@ recipe *game::select_crafting_recipe()
                         compcol = c_green;
                     }
                     std::stringstream dump;
-                    dump << abs(count) << " " << item_controller->find_template(type)->nname(abs(count)) << " ";
+                    dump << abs(count) << " " <<
+                        item_controller->find_template(type)->nname(abs(count)) << " ";
                     std::string compname = dump.str();
                     if (xpos + utf8_width(compname.c_str()) >= FULL_SCREEN_WIDTH) {
                         ypos++;
@@ -1031,7 +1049,8 @@ recipe *game::select_crafting_recipe()
             redraw = true;
             keepline = true;
         } else if (action == "FILTER") {
-            filterstring = string_input_popup(_("Search:"), 85, filterstring, _("Search tools or component using prefix t and c. \n(i.e. \"t:hammer\" or \"c:two by four\".)"));
+            filterstring = string_input_popup(_("Search:"), 85, filterstring,
+                                              _("Search tools or component using prefix t and c. \n(i.e. \"t:hammer\" or \"c:two by four\".)"));
             redraw = true;
         } else if (action == "QUIT") {
             done = true;
@@ -1263,22 +1282,15 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     bool search_tool = false;
     bool search_component = false;
     size_t pos = filter.find(":");
-    if(pos != std::string::npos)
-    {
+    if(pos != std::string::npos) {
         search_name = false;
         std::string searchType = filter.substr(0, pos);
-        for( size_t i = 0; i < searchType.size(); ++i )
-        {
-            if(searchType[i] == 'n')
-            {
+        for( size_t i = 0; i < searchType.size(); ++i ) {
+            if(searchType[i] == 'n') {
                 search_name = true;
-            }
-            else if(searchType[i] == 't')
-            {
+            } else if(searchType[i] == 't') {
                 search_tool = true;
-            }
-            else if(searchType[i] == 'c')
-            {
+            } else if(searchType[i] == 'c') {
                 search_component = true;
             }
         }
@@ -1311,58 +1323,47 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
             if ((*iter)->difficulty < 0 ) {
                 continue;
             }
-            if(filter != "")
-            {
-                if(search_name)
-                {
-                    if(item_controller->find_template((*iter)->result)->nname(1).find(filter) == std::string::npos)
-                    {
+            if(filter != "") {
+                if(search_name) {
+                    if(item_controller->find_template((*iter)->result)->nname(1).find(filter) ==
+                       std::string::npos) {
                         continue;
                     }
                 }
-                if(search_tool)
-                {
+                if(search_tool) {
                     bool found = false;
-                    for(std::vector<std::vector<component> >::iterator it = (*iter)->tools.begin() ; it != (*iter)->tools.end() ; ++it)
-                    {
-                        for(std::vector<component>::iterator it2 = (*it).begin() ; it2 != (*it).end() ; ++it2)
-                        {
-                            if(item_controller->find_template((*it2).type)->nname(1).find(filter) != std::string::npos)
-                            {
+                    for( auto it = (*iter)->tools.begin(); it != (*iter)->tools.end(); ++it) {
+                        for( auto it2 = (*it).begin(); it2 != (*it).end() ; ++it2 ) {
+                            if(item_controller->find_template((*it2).type)->nname(1).find(filter) !=
+                               std::string::npos) {
                                 found = true;
                                 break;
                             }
                         }
-                        if(found)
-                        {
+                        if(found) {
                             break;
                         }
                     }
-                    if(!found)
-                    {
+                    if(!found) {
                         continue;
                     }
                 }
-                if(search_component)
-                {
+                if(search_component) {
                     bool found = false;
-                    for(std::vector<std::vector<component> >::iterator it = (*iter)->components.begin() ; it != (*iter)->components.end() ; ++it)
-                    {
-                        for(std::vector<component>::iterator it2 = (*it).begin() ; it2 != (*it).end() ; ++it2)
-                        {
-                            if(item_controller->find_template((*it2).type)->nname(1).find(filter) != std::string::npos)
-                            {
+                    for( auto it = (*iter)->components.begin();
+                         it != (*iter)->components.end(); ++it ) {
+                        for( suto it2 = (*it).begin() ; it2 != (*it).end() ; ++it2) {
+                            if( item_controller->find_template((*it2).type)->nname(1).find(filter) !=
+                                std::string::npos ) {
                                 found = true;
                                 break;
                             }
                         }
-                        if(found)
-                        {
+                        if(found) {
                             break;
                         }
                     }
-                    if(!found)
-                    {
+                    if(!found) {
                         continue;
                     }
                 }
@@ -1549,7 +1550,9 @@ void game::complete_craft()
 
     u.inv.assign_empty_invlet(newit);
     if (newit.made_of(LIQUID)) {
-        while(!handle_liquid(newit, false, false)) { ; }
+        while(!handle_liquid(newit, false, false)) {
+            ;
+        }
     } else {
         // We might not have space for the item
         if (!u.can_pickVolume(newit.volume())) { //Accounts for result_mult
@@ -1653,7 +1656,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         // unlike with tools, it's a bad thing if there aren't any components available
         if (options.empty()) {
             if (!(p->has_trait("WEB_ROPE"))) {
-            debugmsg("Attempted a recipe with no available components!");
+                debugmsg("Attempted a recipe with no available components!");
             }
             return ret;
         }
@@ -1686,7 +1689,8 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             std::list<item> tmp = m.use_charges(loc, PICKUP_RANGE, selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
         } else {
-            std::list<item> tmp = m.use_amount(loc, PICKUP_RANGE, selected_comp.type, real_count, in_container);
+            std::list<item> tmp = m.use_amount(loc, PICKUP_RANGE, selected_comp.type,
+                                               real_count, in_container);
             remove_ammo( tmp, *p );
             ret.splice(ret.end(), tmp);
         }
@@ -1753,7 +1757,8 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
         // Populate the list
         std::vector<std::string> options;
         for (unsigned i = 0; i < map_has.size(); i++) {
-            std::string tmpStr = item_controller->find_template(map_has[i].type)->nname(1) + _(" (nearby)");
+            std::string tmpStr = item_controller->find_template(map_has[i].type)->nname(1) +
+                _(" (nearby)");
             options.push_back(tmpStr);
         }
         for (unsigned i = 0; i < player_has.size(); i++) {
@@ -1778,9 +1783,9 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
 
 recipe *game::get_disassemble_recipe(const itype_id &type)
 {
-    for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter) {
-        for (recipe_list::iterator list_iter = cat_iter->second.begin();
-             list_iter != cat_iter->second.end(); ++list_iter) {
+    for( auto cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter ) {
+        for( auto list_iter = cat_iter->second.begin();
+             list_iter != cat_iter->second.end(); ++list_iter ) {
             recipe *cur_recipe = *list_iter;
             if (type == cur_recipe->result && cur_recipe->reversible) {
                 return cur_recipe;
@@ -1791,7 +1796,8 @@ recipe *game::get_disassemble_recipe(const itype_id &type)
     return NULL;
 }
 
-bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg)
+bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv,
+                           bool print_msg)
 {
     if (dis_item->count_by_charges()) {
         // Create a new item to get the default charges
@@ -1821,7 +1827,7 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
                 // No welding, no goggles needed.
                 (req <= 0 && type == "goggles_welding") ||
                 (req <= 0 && type == "crucible" &&
-                    cur_recipe->result != "anvil") ||
+                 cur_recipe->result != "anvil") ||
                 // No mold needed for disassembly.
                 (req <= 0 && type == "mold_plastic") ||
                 (req >  0 && crafting_inv.has_charges(type, req))) {
@@ -1832,7 +1838,7 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
             // disassembly requires a hacksaw or super toolkit.
             if (type == "welder") {
                 have_this_tool = (crafting_inv.has_tools("hacksaw", 1) ||
-                                    crafting_inv.has_tools("toolset", 1));
+                                  crafting_inv.has_tools("toolset", 1));
             }
         }
         if (!have_this_tool) {
@@ -1917,7 +1923,7 @@ void game::complete_disassemble()
     const bool from_ground = u.activity.values.size() > 1 && u.activity.values[1] == 1;
     recipe *dis = recipe_by_index(u.activity.index); // Which recipe is it?
     item *org_item;
-    std::vector<item>& items_on_ground = m.i_at(u.posx, u.posy);
+    std::vector<item> &items_on_ground = m.i_at(u.posx, u.posy);
     if (from_ground) {
         if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
@@ -2025,13 +2031,15 @@ void game::complete_disassemble()
             const bool dmg_success = component_success_chance > rng_float(0, 1);
             if (!dmg_success) {
                 // Show reason for failure (damaged item, tname contains the damage adjective)
-                add_msg(m_bad, _("You fail to recover %s from the %s."), newit.tname().c_str(), dis_item.tname().c_str());
+                add_msg(m_bad, _("You fail to recover %s from the %s."), newit.tname().c_str(),
+                        dis_item.tname().c_str());
                 continue;
             }
             // Use item from components list, or (if not contained)
             // use newit, the default constructed.
             item act_item = newit;
-            for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end(); ++a) {
+            for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end();
+                ++a) {
                 if (a->type == newit.type) {
                     act_item = *a;
                     dis_item.components.erase(a);
@@ -2091,7 +2099,7 @@ recipe *recipe_by_name(std::string name)
 }
 
 void check_component_list(const std::vector<std::vector<component> > &vec,
-                                 const std::string &display_name)
+                          const std::string &display_name)
 {
     for (std::vector<std::vector<component> >::const_iterator b = vec.begin(); b != vec.end(); b++) {
         for (std::vector<component>::const_iterator c = b->begin(); c != b->end(); c++) {
@@ -2103,7 +2111,7 @@ void check_component_list(const std::vector<std::vector<component> > &vec,
 }
 
 static void check_qualities(const std::vector<quality_requirement> &vec,
-                                 const std::string &rName)
+                            const std::string &rName)
 {
     for (std::vector<quality_requirement>::const_iterator b = vec.begin(); b != vec.end(); b++) {
         if (qualities.count(b->id) == 0) {
@@ -2129,7 +2137,8 @@ void check_recipe_definitions()
     }
 }
 
-void remove_ammo(std::list<item> &dis_items, player &p) {
+void remove_ammo(std::list<item> &dis_items, player &p)
+{
     for(auto a = dis_items.begin(); a != dis_items.end(); ++a) {
         remove_ammo( &*a, p );
     }
@@ -2186,18 +2195,19 @@ void remove_ammo(item *dis_item, player &p)
     }
 }
 
-std::string recipe::required_skills_string() {
+std::string recipe::required_skills_string()
+{
     std::ostringstream skills_as_stream;
-    if(!required_skills.empty()){
-        for(std::map<Skill*,int>::iterator iter=required_skills.begin(); iter!=required_skills.end();){
+    if(!required_skills.empty()) {
+        for(std::map<Skill *, int>::iterator iter = required_skills.begin(); iter != required_skills.end();
+           ) {
             skills_as_stream << iter->first->name() << "(" << iter->second << ")";
             ++iter;
-            if(iter != required_skills.end()){
+            if(iter != required_skills.end()) {
                 skills_as_stream << ", ";
             }
         }
-    }
-    else{
+    } else {
         skills_as_stream << "N/A";
     }
     return skills_as_stream.str();
