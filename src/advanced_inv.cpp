@@ -1858,17 +1858,17 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
     // loop unrolled for muy rapido
 
     _panes["1"] = new ItemVectorPane("1", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["2"] = new ItemVectorPane("2", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["3"] = new ItemVectorPane("3", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["4"] = new ItemVectorPane("4", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["5"] = new ItemVectorPane("5", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["6"] = new ItemVectorPane("6", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["7"] = new ItemVectorPane("7", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["8"] = new ItemVectorPane("8", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
-    _panes["9"] = new ItemVectorPane("9", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["2"] = new ItemVectorPane("2", g->m.i_at(p->posx    , p->posy + 1), 4000, 0);
+    _panes["3"] = new ItemVectorPane("3", g->m.i_at(p->posx + 1, p->posy + 1), 4000, 0);
+    _panes["4"] = new ItemVectorPane("4", g->m.i_at(p->posx - 1, p->posy    ), 4000, 0);
+    _panes["5"] = new ItemVectorPane("5", g->m.i_at(p->posx    , p->posy    ), 4000, 0);
+    _panes["6"] = new ItemVectorPane("6", g->m.i_at(p->posx + 1, p->posy    ), 4000, 0);
+    _panes["7"] = new ItemVectorPane("7", g->m.i_at(p->posx - 1, p->posy - 1), 4000, 0);
+    _panes["8"] = new ItemVectorPane("8", g->m.i_at(p->posx    , p->posy - 1), 4000, 0);
+    _panes["9"] = new ItemVectorPane("9", g->m.i_at(p->posx + 1, p->posy - 1), 4000, 0);
 
     // set up the ALL tab
-    _panes["A"] = new AggregatePane("A", _panes, 36000, 0);
+    _panes["A"] = new AggregatePane("A", _panes);
 
     // Set up the inventory
     _panes["I"] = new InventoryPane("I", p);
@@ -1889,6 +1889,96 @@ void AdvancedInventory::ItemVectorPane::restack () {
 
 void AdvancedInventory::AggregatePane::restack () {
 
+}
+
+int AdvancedInventory::AggregatePane::maxVolume () {
+  if (_maxVolume == -1)
+    _maxVolume = const_cast<const AggregatePane *>(this)->maxVolume();
+
+  return _maxVolume;
+}
+
+int AdvancedInventory::AggregatePane::maxVolume () const {
+  if (_maxVolume == -1) {
+    int mV = 0;
+
+    for (auto pair : _panes) {
+      mV += pair.second->maxVolume();
+    }
+
+    return mV;
+  } else {
+    return _maxVolume;
+  }
+}
+
+int AdvancedInventory::AggregatePane::maxWeight () {
+  if (_maxWeight == -1)
+    _maxWeight = const_cast<const AggregatePane *>(this)->maxWeight();
+
+  return _maxWeight;
+}
+
+int AdvancedInventory::AggregatePane::maxWeight () const {
+  if (_maxWeight == -1) {
+    int mW = 0;
+
+    for (auto pair : _panes) {
+      mW += pair.second->maxWeight();
+    }
+
+    return mW;
+  } else {
+    return _maxWeight;
+  }
+}
+
+int AdvancedInventory::AggregatePane::volume () const {
+  int volume = 0;
+
+  for (auto pair : _panes) {
+    volume += pair.second->volume();
+  }
+
+  return volume;
+}
+
+int AdvancedInventory::AggregatePane::weight () const {
+  int weight = 0;
+
+  for (auto pair : _panes) {
+    weight += pair.second->weight();
+  }
+
+  return weight;
+}
+
+int AdvancedInventory::InventoryPane::volume () const {
+  return _inv.volume();
+}
+
+int AdvancedInventory::InventoryPane::weight () const {
+  return _inv.weight();
+}
+
+int AdvancedInventory::ItemVectorPane::volume () const {
+  int volume = 0;
+
+  for (auto item : _inv) {
+    volume += item.volume();
+  }
+
+  return volume;
+}
+
+int AdvancedInventory::ItemVectorPane::weight () const {
+  int weight = 0;
+
+  for (auto item : _inv) {
+    weight += item.weight();
+  }
+
+  return weight;
 }
 
 void AdvancedInventory::display (player *p, player *o) {

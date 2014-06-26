@@ -24,6 +24,7 @@ class AdvancedInventory {
   };
 
   class Pane {
+  protected:
     std::string _identifier;
     int _cursor = 0;
     int _maxVolume, _maxWeight;
@@ -44,8 +45,8 @@ class AdvancedInventory {
     virtual int maxVolume () const { return _maxVolume; }
     virtual int maxWeight () const { return _maxWeight; }
 
-    virtual int freeVolume () const { return _maxVolume - volume(); }
-    virtual int freeWeight () const { return _maxWeight - weight(); }
+    virtual int freeVolume () const { return maxVolume() - volume(); }
+    virtual int freeWeight () const { return maxWeight() - weight(); }
 
     std::string chevrons () const { return _chevrons; }
     void chevrons (const std::string &c) { _chevrons = c; }
@@ -89,10 +90,16 @@ class AdvancedInventory {
 
     void restack () override;
   public:
-    AggregatePane(std::string id, std::map<std::string, Pane *> panes, int mV, int mW) : Pane(id, mV, mW), _panes(panes) { }
+    AggregatePane(std::string id, std::map<std::string, Pane *> panes) : Pane(id, -1, -1), _panes(panes) { }
 
     int volume () const override;
     int weight () const override;
+
+    int maxVolume ();
+    int maxWeight ();
+
+    int maxVolume () const override;
+    int maxWeight () const override;
   };
 
   std::map<std::string, Pane *> _panes;
