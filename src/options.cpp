@@ -547,6 +547,11 @@ void initOptions()
                                             true
                                            );
 
+    OPTIONS["SUPPRESS_NOISES"] = cOpt("interface", _("Suppress noises"),
+                                    _("If true, noises will not give prompt to interrupt tasks."),
+                                    false
+                                   );
+
     OPTIONS["CLOSE_ADV_INV"] = cOpt("interface", _("Close advanced inventory on move all"),
                                     _("If true, will close the advanced inventory when the move all items command is used."),
                                     false
