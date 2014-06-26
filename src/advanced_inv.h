@@ -2,8 +2,116 @@
 #define _ADVANCED_INV_H_
 #include "output.h"
 #include <string>
+#include <map>
 
 typedef std::vector< std::list<item*> > itemslice;
+
+class player;
+class inventory;
+class item;
+
+class AdvancedInventory {
+  enum class Mode {
+    Area, Linear
+  };
+
+  enum class SelectedPane {
+    FarLeft = 0, Left = 1, Right = 2, FarRight = 3
+  };
+
+  enum class SortRule {
+    Unspecified = 0, Unsorted, Name, Weight, Volume, Charges
+  };
+
+  class Pane {
+    std::string _identifier;
+    int _cursor = 0;
+    int _maxVolume, _maxWeight;
+
+    SortRule _sortRule = SortRule::Unspecified;
+    std::string _chevrons = "[ ]";
+
+    std::vector<std::list<item*>> _stackedItems;
+    bool _dirtyStack = true;
+
+  public:
+    Pane(std::string id, int mV, int mW) : _identifier(id), _maxVolume(mV), _maxWeight(mW) { }
+    virtual ~Pane() { }
+
+    virtual int volume () const = 0;
+    virtual int weight () const = 0;
+
+    virtual int maxVolume () const { return _maxVolume; }
+    virtual int maxWeight () const { return _maxWeight; }
+
+    virtual int freeVolume () const { return _maxVolume - volume(); }
+    virtual int freeWeight () const { return _maxWeight - weight(); }
+
+    std::string chevrons () const { return _chevrons; }
+    void chevrons (const std::string &c) { _chevrons = c; }
+
+    SortRule sortRule () const { return _sortRule; }
+    void sortRule (SortRule sortRule);
+
+    const std::vector<std::list<item *>> &stackedItems ();
+
+    void draw (WINDOW *, bool active) const;
+
+  private:
+    virtual void restack () = 0;
+  };
+
+  class InventoryPane : public Pane {
+    inventory &_inv;
+
+    void restack () override;
+  public:
+    InventoryPane(std::string id, inventory &inv, int mV, int mW) : Pane(id, mV, mW), _inv(inv) {};
+    InventoryPane(std::string id, player *);
+
+    int volume () const override;
+    int weight () const override;
+  };
+
+  class ItemVectorPane : public Pane {
+    std::vector<item> &_inv;
+
+    void restack () override;
+  public:
+    ItemVectorPane(std::string id, std::vector<item> &inv, int mV, int mW) : Pane(id, mV, mW), _inv(inv) { }
+
+    int volume () const override;
+    int weight () const override;
+  };
+
+  class AggregatePane : public Pane {
+    std::map<std::string, Pane *> _panes;
+
+    void restack () override;
+  public:
+    AggregatePane(std::string id, std::map<std::string, Pane *> panes, int mV, int mW) : Pane(id, mV, mW), _panes(panes) { }
+
+    int volume () const override;
+    int weight () const override;
+  };
+
+  std::map<std::string, Pane *> _panes;
+
+  std::map<SelectedPane, Pane *> _selections;
+  SelectedPane _selectedPane = SelectedPane::Left;
+
+  Mode _mode;
+
+  AdvancedInventory(player *, player * = nullptr);
+
+  void displayHead (WINDOW *);
+  void displayPanes (WINDOW *, WINDOW *);
+
+  bool selectPane (SelectedPane area, std::string id);
+
+ public:
+  static void display (player *, player * = nullptr);
+};
 
 struct advanced_inv_area {
     int id;

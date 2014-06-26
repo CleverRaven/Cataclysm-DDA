@@ -1832,3 +1832,86 @@ void advanced_inventory::display(player *pp)
     delwin(panes[right].window);
     g->refresh_all();
 }
+
+AdvancedInventory::InventoryPane::InventoryPane(std::string id, player *p) : InventoryPane(id, p->inv, p->volume_capacity(), p->weight_capacity()) { }
+
+bool AdvancedInventory::selectPane(SelectedPane area, std::string id) {
+  Pane *candidate = _panes[id];
+
+  if (candidate == nullptr) {
+    return false;
+  } else {
+    _selections[area] = candidate;
+    return true;
+  }
+}
+
+AdvancedInventory::AdvancedInventory(player *p, player *o) {
+  if (o == nullptr) {
+    _mode = Mode::Area;
+  } else {
+    _mode = Mode::Linear;
+  }
+
+  if (_mode == Mode::Area) {
+    // set up the local area
+    // loop unrolled for muy rapido
+
+    _panes["1"] = new ItemVectorPane("1", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["2"] = new ItemVectorPane("2", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["3"] = new ItemVectorPane("3", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["4"] = new ItemVectorPane("4", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["5"] = new ItemVectorPane("5", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["6"] = new ItemVectorPane("6", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["7"] = new ItemVectorPane("7", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["8"] = new ItemVectorPane("8", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+    _panes["9"] = new ItemVectorPane("9", g->m.i_at(p->posx - 1, p->posy + 1), 4000, 0);
+
+    // set up the ALL tab
+    _panes["A"] = new AggregatePane("A", _panes, 36000, 0);
+
+    // Set up the inventory
+    _panes["I"] = new InventoryPane("I", p);
+
+    // Set initial panes; for now they are as default
+    selectPane(SelectedPane::Left, "A");
+    selectPane(SelectedPane::Right, "I");
+  }
+}
+
+void AdvancedInventory::InventoryPane::restack () {
+
+}
+
+void AdvancedInventory::ItemVectorPane::restack () {
+
+}
+
+void AdvancedInventory::AggregatePane::restack () {
+
+}
+
+void AdvancedInventory::display (player *p, player *o) {
+  AdvancedInventory advInv(p, o);
+
+  int head_height(5);
+  int min_w_height(10);
+  int min_w_width(FULL_SCREEN_WIDTH);
+  int max_w_width(120);
+
+  int w_height ((TERMY < min_w_height + head_height) ? min_w_height : TERMY - head_height);
+  int w_width ((TERMX < min_w_width) ? min_w_width : (TERMX > max_w_width) ? max_w_width : (int)TERMX);
+
+  int headstart(0);
+  int colstart((TERMX > w_width) ? (TERMX - w_width) / 2 : 0);
+
+  WINDOW *head = newwin(head_height, w_width, headstart, colstart);
+  WINDOW *left_window = newwin(w_height, w_width / 2, headstart + head_height, colstart);
+  WINDOW *right_window = newwin(w_height, w_width / 2, headstart + head_height, colstart + w_width / 2);
+
+  while (1) { // input loop
+
+  }
+
+  delwin(head), delwin(left_window), delwin(right_window);
+}
