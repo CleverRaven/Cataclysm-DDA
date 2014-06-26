@@ -36,6 +36,8 @@ npc::npc()
  plt = 999;
  itx = -1;
  ity = -1;
+ guardx = -1;
+ guardy = -1;
  goal = no_goal_point;
  fatigue = 0;
  hunger = 0;
@@ -87,6 +89,8 @@ npc& npc::operator= (const npc & rhs)
  plt = rhs.plt;
  itx = rhs.itx;
  ity = rhs.ity;
+ guardx = rhs.guardx;
+ guardy = rhs.guardy;
  goal = rhs.goal;
 
  path = rhs.path;
