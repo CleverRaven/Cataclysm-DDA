@@ -1860,7 +1860,7 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
       std::string id(1, helper::directionToNumpad(dir));
       point mapTile(helper::directionToPoint(dir) + p->pos());
 
-      _panes[id] = new ItemVectorPane(id, g->m.i_at(mapTile), g->m.max_volume(mapTile), 0);
+      _panes[id] = new ItemVectorPane(id, g->m.i_at(mapTile), g->m.max_volume(mapTile), -1);
     }
 
     // set up the ALL tab
@@ -2052,7 +2052,6 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
   size_t columns(getmaxx(window));
   size_t itemsPerPage(getmaxy(window) - ADVINVOFS);
 
-  unsigned selected_index = _cursor;
   bool isinventory = _maxWeight == -1;
   bool compact = (TERMX <= 100);
 
@@ -2098,14 +2097,14 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
 
   const int table_hdr_len1 = utf8_width(_("amt weight vol")); // Header length type 1
 
-  mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
+  mvwprintz( window, 5, ( compact ? 1 : 3 ), c_ltgray, _("Name (charges)") );
   mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_ltgray, _("amt weight vol") );
 
   size_t x = 0;
 
   for (auto item = _stackedItems.begin(); item != _stackedItems.end() && item != _stackedItems.begin() + itemsPerPage; item++, x++) {
     wmove(window, 6 + x, 1);
-    printItem(window, *item, active, false);
+    printItem(window, *item, active, x == _cursor);
   }
 }
 
@@ -2151,7 +2150,7 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> 
     }
     wprintz(window, print_color, "%4d ", it_amt);
   } else {
-    wprintz(window, print_color, "     ");
+    wprintz(window, thiscolor, "     ");
   }
 
   //print weight column
