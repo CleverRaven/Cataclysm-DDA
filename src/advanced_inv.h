@@ -34,6 +34,7 @@ class AdvancedInventory {
     public:
       ItemCompare(SortRule rule, bool ascending = true) : _rule(rule), _ascending(ascending) { }
       bool operator()(const std::list<item *> &, const std::list<item *> &) const;
+      bool operator()(const std::pair<const std::list<item *> &, Pane *> &, const std::pair<const std::list<item *> &, Pane *> &) const;
     };
 
   protected:
@@ -129,6 +130,8 @@ class AdvancedInventory {
 
   class AggregatePane : public Pane {
     std::map<std::string, Pane *> _panes;
+
+    std::vector<Pane *> _stackedItemsPane;
 
     void restack () override;
   public:

@@ -1962,7 +1962,40 @@ void AdvancedInventory::ItemVectorPane::restack () {
 }
 
 void AdvancedInventory::AggregatePane::restack () {
+  _dirtyStack = false;
 
+  std::vector<std::pair<std::list<item *>, Pane *>> keyedStacks;
+
+  for (auto paneP : _panes) {
+    Pane *pane(paneP.second);
+
+    for (auto &iList : pane->stackedItems()) {
+      std::pair<std::list<item *>, Pane *> iPair(iList, pane);
+
+      keyedStacks.push_back(iPair);
+    }
+  }
+
+  if (_sortRule > SortRule::Unsorted) {
+    ItemCompare cmp(_sortRule, _sortAscending);
+
+    std::sort(keyedStacks.begin(), keyedStacks.end(), cmp);
+  } else if (!_sortAscending) {
+    std::reverse(keyedStacks.begin(), keyedStacks.end());
+  }
+
+  _stackedItems.clear();
+  _stackedItemsPane.clear();
+
+  for (auto &pair : keyedStacks) {
+    _stackedItems.push_back(pair.first);
+    _stackedItemsPane.push_back(pair.second);
+  }
+
+  if (_cursor >= _stackedItems.size())
+    _cursor = _stackedItems.size() - 1;
+
+  clampCursor();
 }
 
 int AdvancedInventory::AggregatePane::maxVolume () {
@@ -2200,6 +2233,13 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
   double dWeight(helper::convertWeight(w));
   double dMaxWeight(helper::convertWeight(mW));
 
+  // pagination
+  int page(_cursor / itemsPerPage);
+  int pages(stackedItems().size() / itemsPerPage + 1);
+
+  if (active && pages > 1)
+    mvwprintz(window, 4, 2, c_ltblue, "[<] page %d of %d [>]", page + 1, pages);
+
   // sorting info
 
   const char *sortName = _("none");
@@ -2252,9 +2292,9 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
 
   size_t x = 0;
 
-  for (auto item = stackedItems().begin(); item != stackedItems().end() && item != stackedItems().begin() + itemsPerPage; item++, x++) {
+  for (auto item = stackedItems().begin() + page * itemsPerPage; item != stackedItems().end() && item != stackedItems().begin() + (page + 1 ) * itemsPerPage; item++, x++) {
     wmove(window, 6 + x, 1);
-    printItem(window, *item, active, x == _cursor);
+    printItem(window, *item, active, x == _cursor % itemsPerPage);
   }
 }
 
@@ -2321,6 +2361,7 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> 
   } else {
     w_precision = 2;
   }
+
   wprintz(window, print_color, "%5.*f ", w_precision, it_weight);
 
   //print volume column
@@ -2330,9 +2371,8 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> 
     it_vol = 9999;
     print_color = errorColor;
   }
-  wprintz(window, print_color, "%4d", it_vol );
 
-  wrefresh(window);
+  wprintz(window, print_color, "%4d", it_vol );
 }
 
 void AdvancedInventory::drawIndicatorAtom (WINDOW *window, std::string id, point location, bool active) const {
@@ -2526,4 +2566,8 @@ bool AdvancedInventory::Pane::ItemCompare::operator() (const std::list<item *> &
   } else {
     return _ascending ? compa < compb : compa > compb;
   }
+}
+
+bool AdvancedInventory::Pane::ItemCompare::operator()(const std::pair<const std::list<item *> &, Pane *> &a, const std::pair<const std::list<item *> &, Pane *> &b) const {
+  return operator()(a.first, b.first);
 }
