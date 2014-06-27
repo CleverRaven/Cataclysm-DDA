@@ -651,6 +651,27 @@ void game::create_factions()
         tmp.likes_u = 100;
         tmp.respects_u = 100;
         tmp.known_by_u = true;
+        //Test faction
+        if (i == 0){
+            tmp.name = "The Old Guard";
+            tmp.likes_u = 15;
+            tmp.respects_u = 15;
+        }
+        if (i == 1){
+            tmp.name = "The Free Merchants";
+            tmp.likes_u = 30;
+            tmp.respects_u = 30;
+        }
+        if (i == 2){
+            tmp.name = "The Wasteland Scavengers";
+            tmp.likes_u = 0;
+            tmp.respects_u = 0;
+        }
+        if (i == 3){
+            tmp.name = "Hell's Raiders";
+            tmp.likes_u = -25;
+            tmp.respects_u = -25;
+        }
         factions.push_back(tmp);
     }
 }
@@ -8180,16 +8201,16 @@ void game::print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &l
         mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
             m.move_cost(lx, ly) * 50);
     }
-    
+
     std::string signage = m.get_signage(lx, ly);
     if (signage.size() > 0 && signage.size() < 36) {
         mvwprintw(w_look, ++line, column, _("Sign: %s"), signage.c_str());
     }
     else if (signage.size() > 0) {
-        // Truncate to width of window as a guesstimate.        
+        // Truncate to width of window as a guesstimate.
         mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
     }
-    
+
     mvwprintw(w_look, ++line, column, "%s", m.features(lx, ly).c_str());
     if (line < ending_line) {
         line = ending_line;
@@ -11841,6 +11862,8 @@ bool game::plmove(int dx, int dy)
 
      u.melee_attack(*active_npc[npcdex], true);
      active_npc[npcdex]->make_angry();
+     active_npc[npcdex]->my_fac->likes_u -= 50;
+     active_npc[npcdex]->my_fac->respects_u -= 50;
      return false;
  }
 
