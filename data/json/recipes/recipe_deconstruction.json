@@ -1512,5 +1512,21 @@
       [ "gum", 4 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "kiln_done",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "charcoal", 15 ]
+    ],
+	  [[ "char_kiln", 1 ]]
+  ]
 }
 ]
