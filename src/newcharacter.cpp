@@ -1157,9 +1157,11 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         werase(w_genderswap);
-        mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press %1$s to switch to %2$s."),
-                    ctxt.get_desc("CHANGE_GENDER").c_str(),
-                    sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
+        std::string g_switch_msg = u->male ? _("Press %1$s to switch to %2$s(female).") :
+                                             _("Press %1$s to switch to %2$s(male).");
+        mvwprintz(w_genderswap, 0, 0, c_magenta, g_switch_msg.c_str(),
+                  ctxt.get_desc("CHANGE_GENDER").c_str(),
+                  sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
         //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
