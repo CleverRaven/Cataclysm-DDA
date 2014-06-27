@@ -22,18 +22,27 @@ class AdvancedInventory {
   };
 
   enum class SortRule {
-    Unspecified = 0, Unsorted, Name, Weight, Volume, Charges
+    Unspecified = -1, Unsorted = 0, Name, Weight, Volume, Charges
   };
 
   class Pane {
     friend class AdvancedInventory;
+
+    class ItemCompare {
+      SortRule _rule;
+      bool _ascending;
+    public:
+      ItemCompare(SortRule rule, bool ascending = true) : _rule(rule), _ascending(ascending) { }
+      bool operator()(const std::list<item *> &, const std::list<item *> &) const;
+    };
 
   protected:
     std::string _identifier;
     size_t _cursor = 0;
     int _maxVolume, _maxWeight;
 
-    SortRule _sortRule = SortRule::Unspecified;
+    SortRule _sortRule = SortRule::Unsorted;
+    bool _sortAscending = true;
     std::string _chevrons = "[ ]";
 
     std::vector<std::list<item*>> _stackedItems;
@@ -60,7 +69,7 @@ class AdvancedInventory {
     void chevrons (const std::string &c) { _chevrons = c; }
 
     SortRule sortRule () const { return _sortRule; }
-    void sortRule (SortRule sortRule);
+    void sortRule (SortRule sortRule) { if (_sortRule == sortRule) _sortAscending = !_sortAscending; _sortRule = sortRule; }
 
     const std::vector<std::list<item *>> &stackedItems () {
       if (_dirtyStack)
@@ -86,7 +95,7 @@ class AdvancedInventory {
     virtual void removeItem (const item *) = 0;
 
   private:
-    virtual void restack () = 0;
+    virtual void restack ();
   };
 
   class InventoryPane : public Pane {
@@ -169,6 +178,8 @@ class AdvancedInventory {
   bool moveItem ();
   bool moveAll ();
   void moveALL ();
+
+  void sort ();
 
  public:
   static void display (player *, player * = nullptr);

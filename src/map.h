@@ -230,6 +230,10 @@ class map
   */
  vehicle* veh_at(const int x, const int y, int &part_num);
 
+ vehicle* veh_at(const point &location, int &part_num) {
+   return veh_at(location.x, location.y, part_num);
+ }
+
  /**
   * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
   */

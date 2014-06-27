@@ -1869,6 +1869,19 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
       std::string id(1, helper::directionToNumpad(dir));
       point mapTile(helper::directionToPoint(dir) + p->pos());
 
+      int part_num;
+      vehicle *veh(g->m.veh_at(mapTile, part_num));
+
+      if (veh != nullptr) {
+        part_num = veh->part_with_feature(part_num, "CARGO");
+
+        if (part_num != -1) {
+          _panes[id] = new ItemVectorPane(id, veh->parts[part_num].items, veh->max_volume(part_num), -1);
+          _panes[id]->chevrons("< >");
+          continue;
+        }
+      }
+
       _panes[id] = new ItemVectorPane(id, g->m.i_at(mapTile), g->m.max_volume(mapTile), -1);
     }
 
@@ -1878,9 +1891,29 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
     // Set up the inventory
     _panes["I"] = new InventoryPane("I", p);
 
+    // set up the dragged inventory
+    _panes["D"] = nullptr;
+
     // Set initial panes; for now they are as default
     selectPane("9", SelectedPane::Left);
     selectPane("6", SelectedPane::Right);
+  }
+}
+
+void AdvancedInventory::Pane::restack() {
+  _dirtyStack = false;
+
+  if (_cursor >= _stackedItems.size())
+    _cursor = _stackedItems.size() - 1;
+
+  clampCursor();
+
+  if (_sortRule > SortRule::Unsorted) {
+    ItemCompare cmp(_sortRule, _sortAscending);
+
+    std::sort(_stackedItems.begin(), _stackedItems.end(), cmp);
+  } else if (!_sortAscending) {
+    std::reverse(_stackedItems.begin(), _stackedItems.end());
   }
 }
 
@@ -1897,12 +1930,7 @@ void AdvancedInventory::InventoryPane::restack () {
     }
   }
 
-  _dirtyStack = false;
-
-  if (_cursor >= _stackedItems.size())
-    _cursor = _stackedItems.size() - 1;
-
-  clampCursor();
+  Pane::restack();
 }
 
 void AdvancedInventory::ItemVectorPane::restack () {
@@ -1924,12 +1952,7 @@ void AdvancedInventory::ItemVectorPane::restack () {
       _stackedItems.push_back({&item});
   }
 
-  _dirtyStack = false;
-
-  if (_cursor >= _stackedItems.size())
-    _cursor = _stackedItems.size() - 1;
-
-  clampCursor();
+  Pane::restack();
 }
 
 void AdvancedInventory::AggregatePane::restack () {
@@ -2092,6 +2115,7 @@ void AdvancedInventory::display (player *p, player *o) {
     case 'i':
     case 'I':
       advInv.selectPane("I");
+      break;
     case 'M':
     case KEY_ENTER:
     case '\n':
@@ -2100,6 +2124,13 @@ void AdvancedInventory::display (player *p, player *o) {
       break;
     case ',':
       advInv.moveALL();
+      break;
+    case 's':
+      advInv.sort();
+      break;
+    case 'a':
+    case 'A':
+      advInv.selectPane("A");
       break;
     }
 
@@ -2158,15 +2189,36 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
   double dWeight(helper::convertWeight(w));
   double dMaxWeight(helper::convertWeight(mW));
 
+  // sorting info
+
+  const char *sortName = _("none");
+
+  switch (_sortRule) {
+  case SortRule::Weight:
+    sortName = _("weight");
+    break;
+  case SortRule::Volume:
+    sortName = _("volume");
+    break;
+  case SortRule::Name:
+    sortName = _("name");
+    break;
+  case SortRule::Charges:
+    sortName = _("charges");
+    break;
+  }
+
+  mvwprintz(window, 0, 4, norm, "< [s]ort: %s (%s)>", sortName, _sortAscending ? "^" : "v" );
+
   // header
   nc_color warnColor = norm;
 
-  if (mW != -1 && dWeight > dMaxWeight)
+  if (mW >= 0 && dWeight > dMaxWeight)
     warnColor = c_red;
 
   mvwprintz(window, 4, columns - 29, warnColor, "W: %4.1f", dWeight);
 
-  if (mW != -1)
+  if (mW >= 0)
     wprintz(window, norm, "/%4.1f ", dMaxWeight);
   else
     wprintz(window, norm, "/---- ");
@@ -2276,8 +2328,12 @@ void AdvancedInventory::drawIndicatorAtom (WINDOW *window, std::string id, point
   Pane *pane(_panes.at(id));
   bool selected(active ? selectedPane() == pane : unselectedPane() == pane);
 
-  mvwprintz(window, location.y, location.x, selected ? c_cyan : active ? c_white : c_ltgray, pane->chevrons().c_str());
-  mvwprintz(window, location.y, location.x + 1, selected ? c_green : active ? c_white : c_ltgray, pane->_identifier.c_str());
+  if (pane != nullptr) {
+    mvwprintz(window, location.y, location.x, selected ? c_cyan : active ? c_white : c_ltgray, pane->chevrons().c_str());
+    mvwprintz(window, location.y, location.x + 1, selected ? c_green : active ? c_white : c_ltgray, pane->_identifier.c_str());
+  } else {
+    mvwprintz(window, location.y, location.x, c_red, "[%1.1s]", id.c_str());
+  }
 }
 
 void AdvancedInventory::drawAreaIndicator (WINDOW *window, bool active) const {
@@ -2288,7 +2344,7 @@ void AdvancedInventory::drawAreaIndicator (WINDOW *window, bool active) const {
     drawIndicatorAtom(window, id, {areaIndicatorRoot.x + loc.x * 3, areaIndicatorRoot.y + loc.y}, active);
   }
 
-  // drawIndicatorAtom(window, "D", {linearIndicatorRoot.x, linearIndicatorRoot.y - 1}, true);
+  drawIndicatorAtom(window, "D", {linearIndicatorRoot.x, linearIndicatorRoot.y - 1}, true);
   drawIndicatorAtom(window, "I", {linearIndicatorRoot.x, linearIndicatorRoot.y}, active);
   drawIndicatorAtom(window, "A", {linearIndicatorRoot.x, linearIndicatorRoot.y + 1}, active);
 
@@ -2328,6 +2384,7 @@ void AdvancedInventory::InventoryPane::addItem (const item *item) {
 void AdvancedInventory::InventoryPane::removeItem (const item *item) {
   _inv.remove_item(item);
 
+  popItemAtCursor();
   _dirtyStack = true;
 }
 
@@ -2352,6 +2409,7 @@ void AdvancedInventory::ItemVectorPane::removeItem (const item *item) {
     if (i->stacks_with(*item)) {
       _inv.erase(i);
 
+      popItemAtCursor();
       _dirtyStack = true;
 
       return;
@@ -2391,8 +2449,6 @@ bool AdvancedInventory::moveAll () {
   if (unselectedPane()->canTakeItem(toMove, count)) {
     while (count-- != 0) {
       moveItem();
-
-      selectedPane()->popItemAtCursor();
     }
 
     return true;
@@ -2407,4 +2463,56 @@ void AdvancedInventory::moveALL () {
   while (moveAll()) {
     selectedPane()->restack();
   };
+}
+
+void AdvancedInventory::sort () {
+  uimenu sm;
+
+  sm.text = _("Sort by... ");
+
+  sm.entries.push_back(uimenu_entry((int)SortRule::Unsorted, true, 'u', _("Unsorted (recently added first)") ));
+  sm.entries.push_back(uimenu_entry((int)SortRule::Name, true, 'n', _("name")));
+  sm.entries.push_back(uimenu_entry((int)SortRule::Weight, true, 'w', _("weight")));
+  sm.entries.push_back(uimenu_entry((int)SortRule::Volume, true, 'v', _("volume")));
+  sm.entries.push_back(uimenu_entry((int)SortRule::Charges, true, 'x', _("charges")));
+
+  sm.query();
+
+  SortRule ret = (SortRule)sm.ret;
+
+  selectedPane()->sortRule(ret);
+  selectedPane()->restack();
+}
+
+bool AdvancedInventory::Pane::ItemCompare::operator() (const std::list<item *> &a, const std::list<item *> &b) const {
+  const item &d1(*(a.front()));
+  const item &d2(*(b.front()));
+
+  int compa = 0, compb = 0;
+
+  switch (_rule) {
+  case SortRule::Weight:
+    compa = d1.weight(), compb = d2.weight();
+    break;
+
+  case SortRule::Volume:
+    compa = d1.volume(), compb = d2.volume();
+    break;
+
+  case SortRule::Charges:
+    compa = d1.charges, compb = d2.charges;
+    break;
+  }
+
+  if (compb == compa) {
+    std::string n1(d1.tname(false)), n2(d2.tname(false));
+    if (n1 == n2) {
+      n1 = d1.tname(), n2 = d2.tname();
+    }
+
+    bool retval = std::lexicographical_compare( n1.begin(), n1.end(), n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
+    return _ascending ? retval : !retval;
+  } else {
+    return _ascending ? compa < compb : compa > compb;
+  }
 }
