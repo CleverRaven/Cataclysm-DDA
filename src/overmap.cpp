@@ -2196,7 +2196,7 @@ void overmap::move_hordes()
                            zg[i].posy -= (OMAPY * 2) * shift_y;
                            zg[i].ty -= (OMAPY * 2) * shift_y;
                            }
-                     add_msg("Removing zg %d from om %d;%d",i , om_pos.x + shift_x, om_pos.y + shift_y);
+                     //add_msg("Removing zg %d from om %d;%d",i , om_pos.x + shift_x, om_pos.y + shift_y);
                      targ_om->zg.push_back(zg[i]);
 
                      zg.erase(zg.begin() + i);
@@ -2208,10 +2208,12 @@ void overmap::move_hordes()
                      if (zg[i].tx > OMAPX * 2) zg[i].tx = OMAPX * 2 - ( zg[i].tx - OMAPX * 2 );
                      if (zg[i].ty < 0) zg[i].ty = zg[i].ty * -1;
                      if (zg[i].ty > OMAPY * 2) zg[i].ty = OMAPY * 2 - ( zg[i].ty - OMAPY * 2 );
-                     add_msg("Bumping zg %d in om %d;%d sx,sy:%d;%d, tx,ty:%d;%d",i, om_pos.x, om_pos.y, shift_x,shift_y,zg[i].tx,zg[i].ty);
+                     //add_msg("Bumping zg %d in om %d;%d sx,sy:%d;%d, tx,ty:%d;%d",i, om_pos.x, om_pos.y, shift_x,shift_y,zg[i].tx,zg[i].ty);
                      }
                   }
 
+        //destroying tracks
+        if (one_in(3)) place_tracks(zg[i].posx, zg[i].posy, 0);
         }
 
 
@@ -2317,9 +2319,9 @@ point overmap::to_big_overmap_coord(point p)
 
 void overmap::place_tracks(const int x, const int y, const int turn) {
   if ( layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0 ) {
-     if ( g->weather != WEATHER_ACID_DRIZZLE ||
-        g->weather != WEATHER_ACID_RAIN ||
-        g->weather != WEATHER_DRIZZLE ||
+     if ( g->weather != WEATHER_ACID_RAIN ||
+        //g->weather != WEATHER_ACID_DRIZZLE ||
+        //g->weather != WEATHER_DRIZZLE ||
         g->weather != WEATHER_RAINY ||
         g->weather != WEATHER_LIGHTNING ||
         g->weather != WEATHER_THUNDER ||
@@ -2334,20 +2336,22 @@ void overmap::place_tracks(const int x, const int y, const int turn) {
 
 void overmap::update_tracks() {
   //add_msg("update_tracks");
-  if ( layer != NULL )
-    for (int j = 0; j < OMAPY*2; j++) {
-      for (int i = 0; i < OMAPX*2; i++) {
-        if ( g->weather != WEATHER_ACID_DRIZZLE ||
-             g->weather != WEATHER_ACID_RAIN ||
-             g->weather != WEATHER_DRIZZLE ||
-             g->weather != WEATHER_RAINY ||
-             g->weather != WEATHER_LIGHTNING ||
-             g->weather != WEATHER_THUNDER ||
-             g->weather != WEATHER_SNOW ||
-             g->weather != WEATHER_SNOWSTORM )
-        layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
+  if ( layer != NULL ) {
+    int roll = 5;
+    switch (g->weather) {
+        case WEATHER_CLEAR: case WEATHER_SUNNY: roll = 20; break;
+        case WEATHER_ACID_RAIN: case WEATHER_RAINY:
+        case WEATHER_LIGHTNING: case WEATHER_THUNDER:
+        case WEATHER_SNOW : case WEATHER_SNOWSTORM: roll = 2; break;
+        case WEATHER_CLOUDY: roll = 100;
+        case WEATHER_ACID_DRIZZLE: case WEATHER_DRIZZLE: roll = 120;
         }
-      }
+    for (int j = 0; j < OMAPY * 2; j++)
+    for (int i = 0; i < OMAPX * 2; i++)
+        if (one_in(roll)) layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
+
+    }
+
 }
 
 int overmap::track_at(const int x, const int y) {
