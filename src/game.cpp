@@ -168,10 +168,11 @@ void game::check_all_mod_data() {
         // and the actual mod and finally finalize all.
         load_core_data();
         deps = dtree.get_dependencies_of_X_as_strings(mod->ident);
-        for(size_t i = 0; i < deps.size(); i++) {
+        for(std::vector<std::string>::iterator it = deps.begin();
+            it != deps.end(); ++it) {
             // assert(mm->has_mod(deps[i]));
             // ^^ dependency tree takes care of that case
-            MOD_INFORMATION *dmod = mm->mod_map[deps[i]];
+            MOD_INFORMATION *dmod = mm->mod_map[*it];
             load_data_from_dir(dmod->path);
         }
         load_data_from_dir(mod->path);
@@ -661,8 +662,9 @@ void game::load_npcs()
     const int radius = int(MAPSIZE / 2) + 1;
     // uses submap coordinates
     std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
-    for (int i = 0; i < npcs.size(); i++) {
-        npc *temp = npcs[i];
+    for (std::vector<npc*>::iterator it = npcs.begin();
+         it != npcs.end(); ++it) {
+        npc *temp = *it;
         if (temp->is_active()) {
             continue;
         }
@@ -907,8 +909,9 @@ void game::cleanup_at_end(){
         } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
             std::stringstream message;
             message << _("World retained. Characters remaining:");
-            for (int i = 0; i < characters.size(); ++i) {
-                message << "\n  " << characters[i];
+            for (std::vector<std::string>::iterator it = characters.begin();
+                 it != characters.end(); ++it) {
+                message << "\n  " << *it;
             }
             popup(message.str(), PF_NONE);
         }
@@ -1428,14 +1431,16 @@ void game::rustCheck()
 
 void game::process_events()
 {
- for (int i = 0; i < events.size(); i++) {
-  events[i].per_turn();
-  if (events[i].turn <= int(calendar::turn)) {
-   events[i].actualize();
-   events.erase(events.begin() + i);
-   i--;
-  }
- }
+    for (std::vector<event>::iterator it = events.begin();
+         it != events.end();) {
+        it->per_turn();
+        if (it->turn <= int(calendar::turn)) {
+            it->actualize();
+            it = events.erase(it);
+        } else {
+            it++;
+        }
+    }
 }
 
 void game::process_activity()
@@ -1567,19 +1572,22 @@ void game::activity_on_turn_refill_vehicle()
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; j <= 1; j++) {
             if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
-                for (int n = 0; n < m.i_at(u.posx + i, u.posy + j).size(); n++) {
-                    if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "gasoline") {
-                        item *gas = &(m.i_at(u.posx + i, u.posy + j)[n]);
+                for (std::vector<item>::iterator it =
+                         m.i_at(u.posx + i, u.posy + j).begin();
+                     it != m.i_at(u.posx + i, u.posy + j).end();) {
+                    if (it->type->id == "gasoline") {
+                        item *gas = &*it;
                         int lack = (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) < 200 ?
                                    (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) : 200;
                         if (gas->charges > lack) {
                             veh->refill ("gasoline", lack);
                             gas->charges -= lack;
                             u.activity.moves_left -= 100;
+                            it++;
                         } else {
                             add_msg(m_bad, _("With a clang and a shudder, the gasoline pump goes silent."));
                             veh->refill ("gasoline", gas->charges);
-                            m.i_at(u.posx + i, u.posy + j).erase(m.i_at(u.posx + i, u.posy + j).begin() + n);
+                            it = m.i_at(u.posx + i, u.posy + j).erase(it);
                             u.activity.moves_left = 0;
                         }
                         i = 2;
@@ -1995,17 +2003,20 @@ int game::reserve_mission(mission_id type, int npc_id)
 
 int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
 {
- std::vector<int> valid;
- mission_place place;
- for (int i = 0; i < mission_types.size(); i++) {
-  for (int j = 0; j < mission_types[i].origins.size(); j++) {
-   if (mission_types[i].origins[j] == origin &&
-       (place.*mission_types[i].place)(p.x, p.y)) {
-    valid.push_back(i);
-    j = mission_types[i].origins.size();
-   }
-  }
- }
+    std::vector<int> valid;
+    mission_place place;
+    for (std::vector<mission_type>::iterator mission = mission_types.begin();
+         mission != mission_types.end(); ++mission) {
+        for (std::vector<mission_origin>::iterator orig =
+                 mission->origins.begin();
+             orig != mission->origins.end(); ++orig) {
+            if (*orig == origin &&
+                (place.*mission->place)(p.x, p.y)) {
+                valid.push_back(mission->id);
+                break;
+            }
+        }
+    }
 
  if (valid.empty())
   return -1;
@@ -2027,24 +2038,28 @@ int game::kill_count(std::string mon){
     return 0;
 }
 
-mission* game::find_mission(int id)
+mission *game::find_mission(int id)
 {
- for (int i = 0; i < active_missions.size(); i++) {
-  if (active_missions[i].uid == id)
-   return &(active_missions[i]);
- }
- dbg(D_ERROR) << "game:find_mission: " << id << " - it's NULL!";
- debugmsg("game::find_mission(%d) - it's NULL!", id);
- return NULL;
+    for (std::vector<mission>::iterator it = active_missions.begin();
+         it != active_missions.end(); ++it) {
+        if (it->uid == id) {
+            return &*it;
+        }
+    }
+    dbg(D_ERROR) << "game:find_mission: " << id << " - it's NULL!";
+    debugmsg("game::find_mission(%d) - it's NULL!", id);
+    return NULL;
 }
 
-mission_type* game::find_mission_type(int id)
+mission_type *game::find_mission_type(int id)
 {
- for (int i = 0; i < active_missions.size(); i++) {
-  if (active_missions[i].uid == id)
-   return active_missions[i].type;
- }
- return NULL;
+    for (std::vector<mission>::iterator it = active_missions.begin();
+         it != active_missions.end(); ++it) {
+        if (it->uid == id) {
+            return it->type;
+        }
+    }
+    return NULL;
 }
 
 bool game::mission_complete(int id, int npc_id)
@@ -2095,9 +2110,10 @@ bool game::mission_complete(int id, int npc_id)
   case MGOAL_RECRUIT_NPC_CLASS:
     {
         std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(100);
-        for (int i = 0; i < npcs.size(); i++) {
-            if (npcs[i]->myclass == miss->recruit_class) {
-                if (npcs[i]->attitude == NPCATT_FOLLOW) {
+        for (std::vector<npc*>::iterator it = npcs.begin();
+             it != npcs.end(); ++it) {
+            if ((*it)->myclass == miss->recruit_class) {
+                if ((*it)->attitude == NPCATT_FOLLOW) {
                     return true;
                 }
             }
@@ -2136,11 +2152,13 @@ void game::wrap_up_mission(int id)
  mission *miss = find_mission(id);
  if (miss == NULL) { return; }
  u.completed_missions.push_back( id );
- for (int i = 0; i < u.active_missions.size(); i++) {
-  if (u.active_missions[i] == id) {
-   u.active_missions.erase( u.active_missions.begin() + i );
-   i--;
-  }
+ for (std::vector<int>::iterator it = u.active_missions.begin();
+      it != u.active_missions.end();) {
+     if (*it == id) {
+         it = u.active_missions.erase(it);
+     } else {
+         it++;
+     }
  }
  switch (miss->type->goal) {
   case MGOAL_FIND_ITEM:
@@ -2156,18 +2174,22 @@ void game::wrap_up_mission(int id)
 
 void game::fail_mission(int id)
 {
- mission *miss = find_mission(id);
- if (miss == NULL) { return; }
- miss->failed = true;
- u.failed_missions.push_back( id );
- for (int i = 0; i < u.active_missions.size(); i++) {
-  if (u.active_missions[i] == id) {
-   u.active_missions.erase( u.active_missions.begin() + i );
-   i--;
-  }
- }
- mission_fail failfunc;
- (failfunc.*miss->type->fail)(miss);
+    mission *miss = find_mission(id);
+    if (miss == NULL) {
+        return;
+    }
+    miss->failed = true;
+    u.failed_missions.push_back( id );
+    for (std::vector<int>::iterator it = u.active_missions.begin();
+         it != u.active_missions.end();) {
+        if (*it == id) {
+            it = u.active_missions.erase(it);
+        } else {
+            it++;
+        }
+    }
+    mission_fail failfunc;
+    (failfunc.*miss->type->fail)(miss);
 }
 
 void game::mission_step_complete(int id, int step)
@@ -2194,12 +2216,13 @@ void game::mission_step_complete(int id, int step)
 
 void game::process_missions()
 {
- for (int i = 0; i < active_missions.size(); i++) {
-  if (active_missions[i].deadline > 0 &&
-      !active_missions[i].failed &&
-      int(calendar::turn) > active_missions[i].deadline)
-   fail_mission(active_missions[i].uid);
- }
+    for (std::vector<mission>::iterator it = active_missions.begin();
+         it != active_missions.end(); ++it) {
+        if (it->deadline > 0 && !it->failed &&
+            int(calendar::turn) > it->deadline) {
+            fail_mission(it->uid);
+        }
+    }
 }
 
 void game::handle_key_blocking_activity() {
@@ -2599,10 +2622,12 @@ input_context game::get_player_input(std::string &action)
                 */
 
                 //Erase previous drops from w_terrain
-                for (size_t i = 0; i < wPrint.vdrops.size(); ++i) {
+                for (std::vector<std::pair<int, int> >::iterator it =
+                         wPrint.vdrops.begin();
+                     it != wPrint.vdrops.end(); ++it) {
                     m.drawsq(w_terrain, u,
-                             wPrint.vdrops[i].first + offset_x,
-                             wPrint.vdrops[i].second + offset_y,
+                             it->first + offset_x,
+                             it->second + offset_y,
                              false,
                              true,
                              u.posx + u.view_offset_x,
@@ -3278,10 +3303,11 @@ bool game::handle_action()
 
   case ACTION_IGNORE_ENEMY:
    if (run_mode == 2) {
-    add_msg(m_info, _("Ignoring enemy!"));
-    for( size_t i = 0; i < new_seen_mon.size(); ++i ) {
-        monster &critter = critter_tracker.find(new_seen_mon[i]);
-        critter.ignoring = rl_dist( point(u.posx, u.posy), critter.pos() );
+       add_msg(m_info, _("Ignoring enemy!"));
+       for(std::vector<int>::iterator it = new_seen_mon.begin();
+           it != new_seen_mon.end(); ++it) {
+           monster &critter = critter_tracker.find(*it);
+           critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
     }
     run_mode = 1;
    }
@@ -3558,8 +3584,10 @@ void game::place_corpse()
   std::vector<item *> tmp = u.inv_dump();
   item your_body;
   your_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn, u.name);
-  for (int i = 0; i < tmp.size(); i++)
-    m.add_item_or_charges(u.posx, u.posy, *(tmp[i]));
+  for (std::vector<item *>::iterator it = tmp.begin();
+       it != tmp.end(); ++it) {
+      m.add_item_or_charges(u.posx, u.posy, **it);
+  }
   for (int i = 0; i < u.num_bionics(); i++) {
     bionic &b = u.bionic_at_index(i);
     if (itypes.find(b.id) != itypes.end()) {
@@ -3749,8 +3777,10 @@ void game::load_world_modfiles(WORLDPTR world)
         // are resolved during the creation of the world.
         // That means world->active_mod_order contains a list
         // of mods in the correct order.
-        for (size_t i = 0; i < world->active_mod_order.size(); i++) {
-            const std::string &mod_ident = world->active_mod_order[i];
+        for (std::vector<std::string>::iterator it =
+                 world->active_mod_order.begin();
+             it != world->active_mod_order.end(); ++it) {
+            const std::string &mod_ident = *it;
             if (mm->has_mod(mod_ident)) {
                 MOD_INFORMATION *mod = mm->mod_map[mod_ident];
                 load_data_from_dir(mod->path);
@@ -3967,8 +3997,9 @@ std::vector<std::string> game::list_active_characters()
 {
     std::vector<std::string> saves;
     std::vector<std::string> worldsaves = world_generator->active_world->world_saves;
-    for (int i = 0; i < worldsaves.size(); ++i){
-        saves.push_back(base64_decode(worldsaves[i]));
+    for (std::vector<std::string>::iterator it = worldsaves.begin();
+         it != worldsaves.end(); ++it){
+        saves.push_back(base64_decode(*it));
     }
     return saves;
 }
@@ -4067,11 +4098,13 @@ struct terrain {
 
 bool game::event_queued(event_type type)
 {
- for (int i = 0; i < events.size(); i++) {
-  if (events[i].type == type)
-   return true;
-  }
-  return false;
+    for (std::vector<event>::iterator it = events.begin();
+         it != events.end(); ++it) {
+        if (it->type == type) {
+            return true;
+        }
+    }
+    return false;
 }
 #include "savegame.h"
 void game::debug()
@@ -4188,11 +4221,12 @@ void game::debug()
                                          _("NPCs are NOT going to spawn.")),
              num_zombies(), active_npc.size(), events.size());
    if( !active_npc.empty() ) {
-       for (int i = 0; i < active_npc.size(); i++) {
-            tripoint t = active_npc[i]->global_sm_location();
+       for (std::vector<npc *>::iterator it = active_npc.begin();
+            it != active_npc.end(); ++it) {
+           tripoint t = (*it)->global_sm_location();
             add_msg(m_info, _("%s: map (%d:%d) pos (%d:%d)"),
-                   active_npc[i]->name.c_str(), t.x, t.y,
-                   active_npc[i]->posx, active_npc[i]->posy);
+                    (*it)->name.c_str(), t.x, t.y,
+                    (*it)->posx, (*it)->posy);
        }
        add_msg(m_info, _("(you: %d:%d)"), u.posx, u.posy);
    }
@@ -4200,10 +4234,11 @@ void game::debug()
    break;
    }
   case 8:
-   for (int i = 0; i < active_npc.size(); i++) {
-    add_msg(_("%s's head implodes!"), active_npc[i]->name.c_str());
-    active_npc[i]->hp_cur[bp_head] = 0;
-   }
+      for (std::vector<npc *>::iterator it = active_npc.begin();
+           it != active_npc.end(); ++it) {
+          add_msg(_("%s's head implodes!"), (*it)->name.c_str());
+          (*it)->hp_cur[bp_head] = 0;
+      }
    break;
 
   case 9:
@@ -4598,9 +4633,10 @@ void game::disp_NPCs()
 faction *game::list_factions(std::string title)
 {
     std::vector<faction*> valfac; // Factions that we know of.
-    for (size_t i = 0; i < factions.size(); i++) {
-        if (factions[i].known_by_u) {
-            valfac.push_back(&(factions[i]));
+    for (std::vector<faction>::iterator it = factions.begin();
+         it != factions.end(); ++it) {
+        if (it->known_by_u) {
+            valfac.push_back(&*it);
         }
     }
     if (valfac.empty()) { // We don't know of any factions!
@@ -4816,9 +4852,10 @@ void game::calculate_footstep_markers(std::vector<point> &result)
     for (size_t i = 0; i < footsteps.size(); i++) {
         if (!u_see(footsteps_source[i]->posx(), footsteps_source[i]->posy())) {
             std::vector<point> unseen_points;
-            for (size_t j = 0; j < footsteps[i].size(); j++) {
-                if (!u_see(footsteps[i][j].x, footsteps[i][j].y)) {
-                    unseen_points.push_back(footsteps[i][j]);
+            for (std::vector<point>::iterator it = footsteps[i].begin();
+                 it != footsteps[i].end(); ++it) {
+                if (!u_see(it->x, it->y)) {
+                    unseen_points.push_back(*it);
                 }
             }
             if (unseen_points.size() > 0) {
@@ -5013,12 +5050,13 @@ void game::draw_ter(int posx, int posy)
     }
 
     // Draw NPCs
-    for (int i = 0; i < active_npc.size(); i++) {
-        my = POSY + (active_npc[i]->posy - posy);
-        mx = POSX + (active_npc[i]->posx - posx);
+    for (std::vector<npc *>::iterator it = active_npc.begin();
+         it != active_npc.end(); ++it) {
+        my = POSY + ((*it)->posy - posy);
+        mx = POSX + ((*it)->posx - posx);
         if (is_valid_in_w_terrain(mx, my)
-                && u_see(active_npc[i]->posx, active_npc[i]->posy)) {
-            active_npc[i]->draw(w_terrain, posx, posy, false);
+                && u_see((*it)->posx, (*it)->posy)) {
+            (*it)->draw(w_terrain, posx, posy, false);
             mapRain[my][mx] = false;
         }
     }
@@ -5402,17 +5440,18 @@ unsigned char game::light_level()
      ret = calendar::turn.sunlight();
   ret -= weather_data[weather].sight_penalty;
  }
- for (int i = 0; i < events.size(); i++) {
+ for (std::vector<event>::iterator it = events.begin();
+      it != events.end(); ++it) {
   // The EVENT_DIM event slowly dims the sky, then relights it
   // EVENT_DIM has an occurance date of turn + 50, so the first 25 dim it
-  if (events[i].type == EVENT_DIM) {
-      int turns_left = events[i].turn - int(calendar::turn);
-   i = events.size();
-   if (turns_left > 25)
-    ret = (ret * (turns_left - 25)) / 25;
-   else
-    ret = (ret * (25 - turns_left)) / 25;
-  }
+     if (it->type == EVENT_DIM) {
+         int turns_left = it->turn - int(calendar::turn);
+         if (turns_left > 25)
+             ret = (ret * (turns_left - 25)) / 25;
+         else
+             ret = (ret * (25 - turns_left)) / 25;
+         break;
+     }
  }
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
@@ -5445,26 +5484,29 @@ int game::assign_faction_id()
  return ret;
 }
 
-faction* game::faction_by_id(int id)
+faction *game::faction_by_id(int id)
 {
- for (int i = 0; i < factions.size(); i++) {
-  if (factions[i].id == id)
-   return &(factions[i]);
- }
- return NULL;
+    for (std::vector<faction>::iterator it = factions.begin();
+         it != factions.end(); ++it) {
+        if (it->id == id) {
+            return &*it;
+        }
+    }
+    return NULL;
 }
 
 faction* game::random_good_faction()
 {
- std::vector<int> valid;
- for (int i = 0; i < factions.size(); i++) {
-  if (factions[i].good >= 5)
-   valid.push_back(i);
- }
- if (!valid.empty()) {
-  int index = valid[rng(0, valid.size() - 1)];
-  return &(factions[index]);
- }
+    std::vector<std::vector<faction>::iterator> valid;
+    for (std::vector<faction>::iterator it = factions.begin();
+         it != factions.end(); ++it) {
+        if (it->good >= 5)
+            valid.push_back(it);
+    }
+    if (!valid.empty()) {
+        std::vector<faction>::iterator it = valid[rng(0, valid.size() - 1)];
+        return &*it;
+    }
 // No good factions exist!  So create one!
  faction newfac(assign_faction_id());
  do
@@ -5477,16 +5519,17 @@ faction* game::random_good_faction()
 
 faction* game::random_evil_faction()
 {
- std::vector<int> valid;
- for (int i = 0; i < factions.size(); i++) {
-  if (factions[i].good <= -5)
-   valid.push_back(i);
- }
- if (!valid.empty()) {
-  int index = valid[rng(0, valid.size() - 1)];
-  return &(factions[index]);
- }
-// No good factions exist!  So create one!
+    std::vector<std::vector<faction>::iterator> valid;
+    for (std::vector<faction>::iterator it = factions.begin();
+         it != factions.end(); ++it) {
+        if (it->good <= -5)
+            valid.push_back(it);
+    }
+    if (!valid.empty()) {
+        std::vector<faction>::iterator it = valid[rng(0, valid.size() - 1)];
+        return &*it;
+    }
+// No evil factions exist!  So create one!
  faction newfac(assign_faction_id());
  do
   newfac.randomize();
@@ -5566,9 +5609,10 @@ point game::find_item(item *it)
         }
     }
     //Does an NPC have it?
-    for (int i = 0; i < active_npc.size(); i++) {
-        if (active_npc[i]->inv.has_item(it)) {
-            return point(active_npc[i]->posx, active_npc[i]->posy);
+    for (std::vector<npc *>::iterator npc = active_npc.begin();
+         npc != active_npc.end(); ++npc) {
+        if ((*npc)->inv.has_item(it)) {
+            return point((*npc)->posx, (*npc)->posy);
         }
     }
     //Is it on the ground? (Check this last - takes the most time)
@@ -5590,11 +5634,14 @@ void game::remove_item(item *it)
  if (!u.inv.remove_item(it).is_null()) {
   return;
  }
- for (int i = 0; i < u.worn.size(); i++) {
-  if (it == &u.worn[i]) {
-   u.worn.erase(u.worn.begin() + i);
-   return;
-  }
+ for (std::vector<item>::iterator worn = u.worn.begin();
+      worn != u.worn.end();) {
+     if (it == &*worn) {
+         worn = u.worn.erase(worn);
+         return;
+     } else {
+         worn++;
+     }
  }
  ret = m.find_item(it);
  if (ret.x != -1 && ret.y != -1) {
@@ -5605,27 +5652,30 @@ void game::remove_item(item *it)
    }
   }
  }
- for (int i = 0; i < active_npc.size(); i++) {
-  if (it == &active_npc[i]->weapon) {
-   active_npc[i]->remove_weapon();
-   return;
-  }
-  if (!active_npc[i]->inv.remove_item(it).is_null()) {
-   return;
-  }
-  for (int j = 0; j < active_npc[i]->worn.size(); j++) {
-   if (it == &active_npc[i]->worn[j]) {
-    active_npc[i]->worn.erase(active_npc[i]->worn.begin() + j);
-    return;
-   }
-  }
+ for (std::vector<npc *>::iterator npc = active_npc.begin();
+      npc != active_npc.end(); ++npc) {
+     if (it == &(*npc)->weapon) {
+         (*npc)->remove_weapon();
+         return;
+     }
+     if (!(*npc)->inv.remove_item(it).is_null()) {
+         return;
+     }
+     for (std::vector<item>::iterator worn = (*npc)->worn.begin();
+          worn != (*npc)->worn.end(); ++worn) {
+         if (it == &*worn) {
+             (*npc)->worn.erase(worn);
+             return;
+         }
+     }
  }
 }
 
 bool vector_has(std::vector<std::string> vec, std::string test)
 {
-    for (int i = 0; i < vec.size(); ++i){
-        if (vec[i] == test){
+    for (std::vector<std::string>::iterator it = vec.begin();
+         it != vec.end(); ++it){
+        if (*it == test){
             return true;
         }
     }
@@ -5634,11 +5684,13 @@ bool vector_has(std::vector<std::string> vec, std::string test)
 
 bool vector_has(std::vector<int> vec, int test)
 {
- for (int i = 0; i < vec.size(); i++) {
-  if (vec[i] == test)
-   return true;
- }
- return false;
+    for (std::vector<int>::iterator it = vec.begin();
+         it != vec.end(); ++it){
+        if (*it == test){
+            return true;
+        }
+    }
+    return false;
 }
 
 bool game::is_hostile_nearby()
@@ -5664,13 +5716,14 @@ bool game::is_hostile_within(int distance){
             return true;
     }
 
-    for (int i = 0; i < active_npc.size(); i++) {
-        point npcp(active_npc[i]->posx, active_npc[i]->posy);
+    for (std::vector<npc *>::iterator it = active_npc.begin();
+         it != active_npc.end(); ++it) {
+        point npcp((*it)->posx, (*it)->posy);
 
         if (!u_see(npcp.x, npcp.y))
             continue;
 
-        if (active_npc[i]->attitude != NPCATT_KILL)
+        if ((*it)->attitude != NPCATT_KILL)
             continue;
 
         if (rl_dist(u.posx, u.posy, npcp.x, npcp.y) <= distance)
@@ -5874,8 +5927,9 @@ int game::mon_info(WINDOW *w)
     for (int j = 8; j >= 0 && pr.y < maxheight; j--) {
         // Separate names by some number of spaces (more for local monsters).
         int namesep = (j == 8 ? 2 : 1);
-        for (int i = 0; i < unique_mons[j].size() && pr.y < maxheight; i++) {
-            sbuff = unique_mons[j][i];
+        for (std::vector<std::string>::iterator it = unique_mons[j].begin();
+             it != unique_mons[j].end() && pr.y < maxheight; ++it) {
+            sbuff = *it;
             // buff < 0 means an NPC!  Don't list those.
             if (listed_mons.find(sbuff) == listed_mons.end()){
                 listed_mons.insert(sbuff);
@@ -5940,14 +5994,16 @@ void game::cleanup_dead()
     //Cleanup any dead npcs.
     //This will remove the npc object, it is assumed that they have been transformed into
     //dead bodies before this.
-    for (int i = 0; i < active_npc.size(); i++)
+    for (std::vector<npc *>::iterator it = active_npc.begin();
+         it != active_npc.end();)
     {
-        if (active_npc[i]->dead)
+        if ((*it)->dead)
         {
-            int npc_id = active_npc[i]->getID();
-            active_npc.erase( active_npc.begin() + i );
+            int npc_id = (*it)->getID();
+            it = active_npc.erase(it);
             overmap_buffer.remove_npc(npc_id);
-            i--;
+        } else {
+            it++;
         }
     }
 }
@@ -6059,20 +6115,21 @@ void game::monmove()
     cleanup_dead();
 
     // Now, do active NPCs.
-    for (int i = 0; i < active_npc.size(); i++) {
+    for (std::vector<npc *>::iterator it = active_npc.begin();
+         it != active_npc.end(); ++it) {
         int turns = 0;
-        if(active_npc[i]->hp_cur[hp_head] <= 0 || active_npc[i]->hp_cur[hp_torso] <= 0) {
-            active_npc[i]->die();
+        if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
+            (*it)->die();
         } else {
-            active_npc[i]->reset();
-            while (!active_npc[i]->dead && active_npc[i]->moves > 0 && turns < 10) {
+            (*it)->reset();
+            while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
                 turns++;
-                active_npc[i]->move();
+                (*it)->move();
                 //build_monmap();
             }
             if (turns == 10) {
-                add_msg(_("%s's brain explodes!"), active_npc[i]->name.c_str());
-                active_npc[i]->die();
+                add_msg(_("%s's brain explodes!"), (*it)->name.c_str());
+                (*it)->die();
             }
         }
     }
@@ -6451,12 +6508,13 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
             knockback(x, y, critter.posx(), critter.posy(), force, stun, dam_mult);
         }
     }
-    for (int i = 0; i < active_npc.size(); i++)
+    for (std::vector<npc *>::iterator it = active_npc.begin();
+         it != active_npc.end(); ++it)
     {
-        if (rl_dist(active_npc[i]->posx, active_npc[i]->posy, x, y) <= radius)
+        if (rl_dist((*it)->posx, (*it)->posy, x, y) <= radius)
         {
-            add_msg(_("%s is caught in the shockwave!"), active_npc[i]->name.c_str());
-            knockback(x, y, active_npc[i]->posx, active_npc[i]->posy, force, stun, dam_mult);
+            add_msg(_("%s is caught in the shockwave!"), (*it)->name.c_str());
+            knockback(x, y, (*it)->posx, (*it)->posy, force, stun, dam_mult);
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player && ( (!(u.has_trait("LEG_TENT_BRACE"))) ||
@@ -6968,10 +7026,11 @@ void game::emp_blast(int x, int y)
 // TODO: More effects?
  }
 // Drain any items of their battery charge
- for (int i = 0; i < m.i_at(x, y).size(); i++) {
-  if (m.i_at(x, y)[i].is_tool() &&
-      (dynamic_cast<it_tool*>(m.i_at(x, y)[i].type))->ammo == "battery")
-   m.i_at(x, y)[i].charges = 0;
+ for (std::vector<item>::iterator it = m.i_at(x, y).begin();
+      it != m.i_at(x, y).end(); ++it) {
+     if (it->is_tool() &&
+         (dynamic_cast<it_tool*>(it->type))->ammo == "battery")
+         it->charges = 0;
  }
 // TODO: Drain NPC energy reserves
 }
@@ -7121,10 +7180,11 @@ void game::kill_mon(monster& critter, bool u_did_it) {
     kills[critter.type->id]++; // Increment our kill counter
    }
   }
-  for (int i = 0; i < critter.inv.size(); i++)
-   m.add_item_or_charges(critter.posx(), critter.posy(), critter.inv[i]);
+  for (std::vector<item>::iterator it = critter.inv.begin();
+       it != critter.inv.end(); ++it) {
+      m.add_item_or_charges(critter.posx(), critter.posy(), *it);
+  }
  }
-
 }
 
 void game::explode_mon(int index)
@@ -7454,8 +7514,9 @@ void game::smash()
         if (u.weapon.made_of("glass") &&
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
-            for (int i = 0; i < u.weapon.contents.size(); i++) {
-                m.add_item_or_charges(u.posx, u.posy, u.weapon.contents[i]);
+            for (std::vector<item>::iterator it = u.weapon.contents.begin();
+                 it != u.weapon.contents.end(); ++it) {
+                m.add_item_or_charges(u.posx, u.posy, *it);
             }
             sound(u.posx, u.posy, 24, "");
             u.hit(NULL, bp_hands, 1, 0, rng(0, u.weapon.volume()));
@@ -7492,9 +7553,9 @@ void game::activity_on_turn_pulp()
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
     int &num_corpses = u.activity.index; // use this to collect how many corpse are pulped
-    for (int i = 0; i < m.i_at(smashx, smashy).size(); ++i)
+    for (std::vector<item>::iterator it = m.i_at(smashx, smashy).begin();
+         it != m.i_at(smashx, smashy).end(); ++it)
     {
-        item *it = &m.i_at(smashx, smashy)[i];
         if (!(it->type->id == "corpse" && it->damage < full_pulp_threshold)) {
             continue; // no corpse or already pulped
         }
@@ -7817,12 +7878,12 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg) {
         return false;
     }
     if(bash_dmg == 0) {
-        std::vector<item> &items = m.i_at(x, y);
-        for(size_t i = 0; i < items.size(); i++) {
-            if(items[i].made_of(LIQUID)) {
+        for(std::vector<item>::iterator it = m.i_at(x, y).begin();
+            it != m.i_at(x, y).end(); ++it) {
+            if(it->made_of(LIQUID)) {
                 // Liquids are OK, will be destroyed later
                 continue;
-            } else if(items[i].volume() <= 0) {
+            } else if(it->volume() <= 0) {
                 // Dito for small items, will be moved away
                 continue;
             }
@@ -9017,8 +9078,9 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
             here.clear();
             here = m.i_at(p_it->x, p_it->y);
-            for (int i = 0; i < here.size(); i++) {
-                const std::string name = here[i].tname();
+            for (std::vector<item>::iterator it = here.begin();
+                 it != here.end(); ++it) {
+                const std::string name = it->tname();
 
                 if (temp_items.find(name) == temp_items.end() || (iLastX != p_it->x || iLastY != p_it->y)) {
                     iLastX = p_it->x;
@@ -9026,7 +9088,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
                     if (std::find(vOrder.begin(), vOrder.end(), name) == vOrder.end()) {
                         vOrder.push_back(name);
-                        temp_items[name] = map_item_stack(here[i], p_it->x - u.posx, p_it->y - u.posy);
+                        temp_items[name] = map_item_stack(*it, p_it->x - u.posx, p_it->y - u.posy);
                     } else {
                         temp_items[name].addNewPos(p_it->x - u.posx, p_it->y - u.posy);
                     }
@@ -9038,8 +9100,9 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
         }
     }
 
-    for (int i=0; i < vOrder.size(); i++) {
-        ret.push_back(temp_items[vOrder[i]]);
+    for (std::vector<std::string>::iterator it = vOrder.begin();
+         it != vOrder.end(); ++it) {
+        ret.push_back(temp_items[*it]);
     }
 
     return ret;
@@ -9210,18 +9273,21 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
-    for( size_t i = 0; i < stack.size(); ++i ) {
-        std::string name = stack[i].example.tname();
-        if(prorities == "" || !list_items_match(stack[i].example,prorities)) {
-            tempstack.push_back(stack[i]);
-            stack.erase(stack.begin()+i);
-            i--;
+    for(std::vector<map_item_stack>::iterator it = stack.begin();
+        it != stack.end();) {
+        std::string name = it->example.tname();
+        if (prorities == "" || !list_items_match(it->example,prorities)) {
+            tempstack.push_back(*it);
+            it = stack.erase(it);
+        } else {
+            it++;
         }
     }
 
     int id = stack.size();
-    for( size_t i = 0; i < tempstack.size(); ++i ) {
-        stack.push_back(tempstack[i]);
+    for(std::vector<map_item_stack>::iterator it = tempstack.begin();
+        it != tempstack.end(); ++it) {
+        stack.push_back(*it);
     }
     return id;
 }
@@ -9229,18 +9295,21 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
-    for(int i = start ; i < stack.size() ; i++) {
-        std::string name = stack[i].example.tname();
-        if(prorities != "" && list_items_match(stack[i].example,prorities)) {
-            tempstack.push_back(stack[i]);
-            stack.erase(stack.begin()+i);
-            i--;
+    for(std::vector<map_item_stack>::iterator it = stack.begin()+start;
+        it != stack.end();) {
+        std::string name = it->example.tname();
+        if(prorities != "" && list_items_match(it->example,prorities)) {
+            tempstack.push_back(*it);
+            it = stack.erase(it);
+        } else {
+            it++;
         }
     }
 
     int id = stack.size();
-    for( size_t i = 0; i < tempstack.size(); ++i ) {
-        stack.push_back(tempstack[i]);
+    for(std::vector<map_item_stack>::iterator it = tempstack.begin();
+        it != tempstack.end(); ++it) {
+        stack.push_back(*it);
     }
     return id;
 }
@@ -9743,42 +9812,43 @@ int game::list_monsters(const int iLastState)
                 iActiveY = 0;
                 iMonDex = -1;
 
-                for (size_t i = 0; i < vMonsters.size(); ++i) {
+                for (std::vector<int>::iterator it = vMonsters.begin();
+                     it != vMonsters.end(); ++it) {
                     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ?
                                                                  iMonsterNum : iMaxRows) ) {
 
                         if (iNum == iActive) {
-                            iMonDex = vMonsters[i];
+                            iMonDex = *it;
 
                             iActiveX = zombie(iMonDex).posx() - u.posx;
                             iActiveY = zombie(iMonDex).posy() - u.posy;
                         }
 
                         int iDummy;
-                        if (sees_u(zombie(vMonsters[i]).posx(), zombie(vMonsters[i]).posy(), iDummy)) {
+                        if (sees_u(zombie(*it).posx(), zombie(*it).posy(), iDummy)) {
                             mvwprintz(w_monsters, iNum - iStartPos, 0, c_yellow, "!");
                         }
 
                         mvwprintz(w_monsters, iNum - iStartPos, 1,
                                   ((iNum == iActive) ? c_ltgreen : c_white),
-                                  "%s", zombie(vMonsters[i]).name().c_str());
+                                  "%s", zombie(*it).name().c_str());
                         nc_color color = c_white;
                         std::string sText = "";
 
-                        zombie(vMonsters[i]).get_HP_Bar(color, sText);
+                        zombie(*it).get_HP_Bar(color, sText);
                         mvwprintz(w_monsters, iNum - iStartPos, 22, color, "%s", sText.c_str());
 
-                        zombie(vMonsters[i]).get_Attitude(color, sText);
+                        zombie(*it).get_Attitude(color, sText);
                         mvwprintz(w_monsters, iNum - iStartPos, 28, color, "%s", sText.c_str());
 
                         int numw = iMonsterNum > 9 ? 2 : 1;
                         mvwprintz(w_monsters, iNum - iStartPos, width - (6 + numw),
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, zombie(vMonsters[i]).posx() - u.posx,
-                                                  zombie(vMonsters[i]).posy() - u.posy),
+                                  numw, trig_dist(0, 0, zombie(*it).posx() - u.posx,
+                                                  zombie(*it).posy() - u.posy),
                                   direction_name_short(
-                                      direction_from( 0, 0, zombie(vMonsters[i]).posx() - u.posx,
-                                                      zombie(vMonsters[i]).posy() - u.posy)).c_str() );
+                                      direction_from( 0, 0, zombie(*it).posx() - u.posx,
+                                                      zombie(*it).posy() - u.posy)).c_str() );
                      }
                      iNum++;
                 }
@@ -10333,9 +10403,11 @@ int game::calculate_drop_cost(std::vector<item> &dropped, const std::vector<item
     std::sort(dropped.begin(), dropped.end(), compare_items_by_lesser_volume);
     int drop_item_cnt = dropped_worn.size();
     int total_volume_dropped = 0;
-    for(size_t i = 0; i < dropped.size(); i++) {
-        total_volume_dropped += dropped[i].volume();
-        if(freed_volume_capacity == 0 || total_volume_dropped > freed_volume_capacity) {
+    for(std::vector<item>::iterator it = dropped.begin();
+        it != dropped.end(); ++it) {
+        total_volume_dropped += it->volume();
+        if(freed_volume_capacity == 0 ||
+           total_volume_dropped > freed_volume_capacity) {
             drop_item_cnt++;
         }
     }
@@ -10368,8 +10440,9 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int
 
     itype_id first = itype_id(dropped[0].type->id);
     bool same = true;
-    for (size_t i = 1; i < dropped.size() && same; i++) {
-        if (dropped[i].type->id != first) {
+    for (std::vector<item>::iterator it = dropped.begin()+1;
+         it != dropped.end() && same; ++it) {
+        if (it->type->id != first) {
             same = false;
         }
     }
@@ -10410,18 +10483,20 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int
 
     if (to_veh) {
         bool vh_overflow = false;
-        for (size_t i = 0; i < dropped.size(); i++) {
-            vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
+        for (std::vector<item>::iterator it = dropped.begin();
+             it != dropped.end(); ++it) {
+            vh_overflow = vh_overflow || !veh->add_item (veh_part, *it);
             if (vh_overflow) {
-                m.add_item_or_charges(dirx, diry, dropped[i], 1);
+                m.add_item_or_charges(dirx, diry, *it, 1);
             }
         }
         if (vh_overflow) {
             add_msg (m_warning, _("The trunk is full, so some items fall on the ground."));
         }
     } else {
-        for (size_t i = 0; i < dropped.size(); i++) {
-            m.add_item_or_charges(dirx, diry, dropped[i], 2);
+        for (std::vector<item>::iterator it = dropped.begin();
+             it != dropped.end(); ++it) {
+            m.add_item_or_charges(dirx, diry, *it, 2);
         }
     }
     u.moves -= drop_move_cost;
@@ -10560,8 +10635,9 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
             mon_targets.push_back(&critter);
         }
     }
-    for (size_t i = 0; i < active_npc.size(); i++) {
-        npc *critter = active_npc[i];
+    for (std::vector<npc *>::iterator it = active_npc.begin();
+         it != active_npc.end(); ++it) {
+        npc *critter = *it;
         if (u_see(critter) && (rl_dist( u.posx, u.posy, critter->xpos(), critter->ypos() ) <= range)) {
             mon_targets.push_back(critter);
         }
@@ -11147,13 +11223,14 @@ void game::complete_butcher(int index)
 
 
  // Recover hidden items
- for (size_t i = 0; i < contents.size(); i++) {
-   if ((skill_shift + 10) * 5 > rng(0,100)) {
-     add_msg(m_good, _("You discover a %s in the %s!"), contents[i].tname().c_str(), corpse->nname().c_str());
-     m.add_item_or_charges(u.posx, u.posy, contents[i]);
-   } else if (contents[i].is_bionic()){
-     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
-   }
+    for (std::vector<item>::iterator it = contents.begin();
+         it != contents.end(); ++it) {
+        if ((skill_shift + 10) * 5 > rng(0,100)) {
+            add_msg(m_good, _("You discover a %s in the %s!"), it->tname().c_str(), corpse->nname().c_str());
+            m.add_item_or_charges(u.posx, u.posy, *it);
+        } else if (it->is_bionic()){
+            m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
+        }
  }
 
  if (pieces <= 0) {
@@ -11351,8 +11428,9 @@ void game::reload(int pos)
          bool magazine_isfull = true;
          item contents;
 
-         for (size_t i = 0; i < it->contents.size(); i++) {
-             contents = it->contents[i];
+         for (std::vector<item>::iterator cont = it->contents.begin();
+              cont != it->contents.end(); ++cont) {
+             contents = *cont;
              if ((contents.is_gunmod() &&
                   (contents.typeId() == "spare_mag" &&
                    contents.charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
@@ -11683,10 +11761,11 @@ void game::chat()
 
     std::vector<npc*> available;
 
-    for (size_t i = 0; i < active_npc.size(); i++) {
-        if (u_see(active_npc[i]->posx, active_npc[i]->posy) && rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
+    for (std::vector<npc *>::iterator it = active_npc.begin();
+         it != active_npc.end(); ++it) {
+        if (u_see((*it)->posx, (*it)->posy) && rl_dist(u.posx, u.posy, (*it)->posx, (*it)->posy) <= 24)
         {
-            available.push_back(active_npc[i]);
+            available.push_back(*it);
         }
     }
 
@@ -11700,8 +11779,9 @@ void game::chat()
     else {
         std::vector<std::string> npcs;
 
-        for (size_t i = 0; i < available.size(); i++) {
-            npcs.push_back(available[i]->name);
+        for (std::vector<npc *>::iterator it = available.begin();
+             it != available.end(); ++it) {
+            npcs.push_back((*it)->name);
         }
         npcs.push_back(_("Cancel"));
 
@@ -12071,8 +12151,9 @@ bool game::plmove(int dx, int dy)
               int gx = grabbed_vehicle->global_x();
               int gy = grabbed_vehicle->global_y();
               std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature("WHEEL", false);
-              for( size_t i = 0; i < wheel_indices.size(); ++i ) {
-                  int p = wheel_indices[i];
+              for(std::vector<int>::iterator it = wheel_indices.begin();
+                  it != wheel_indices.end(); ++it) {
+                  int p = *it;
                   if( one_in(2) ) {
                       grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
                                                     gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
@@ -12439,8 +12520,9 @@ bool game::plmove(int dx, int dy)
                 counts.push_back(1);
             }
             items.push_back(m.i_at(x, y)[0]);
-            for (size_t i = 1; i < m.i_at(x, y).size(); i++) {
-                item& tmpitem = m.i_at(x, y)[i];
+            for (std::vector<item>::iterator it = m.i_at(x, y).begin();
+                 it != m.i_at(x, y).end(); ++it) {
+                item& tmpitem = *it;
                 std::string next_tname = tmpitem.tname();
                 std::string next_dname = tmpitem.display_name();
                 bool by_charges = tmpitem.count_by_charges();
@@ -13097,16 +13179,18 @@ void game::update_map(int &x, int &y)
     }
 
     // Shift NPCs
-    for (size_t i = 0; i < active_npc.size(); i++) {
-        active_npc[i]->shift(shiftx, shifty);
-        if (active_npc[i]->posx < 0 - SEEX * 2 ||
-            active_npc[i]->posy < 0 - SEEX * 2 ||
-            active_npc[i]->posx >     SEEX * (MAPSIZE + 2) ||
-            active_npc[i]->posy >     SEEY * (MAPSIZE + 2))
+    for (std::vector<npc *>::iterator it = active_npc.begin();
+         it != active_npc.end();) {
+        (*it)->shift(shiftx, shifty);
+        if ((*it)->posx < 0 - SEEX * 2 ||
+            (*it)->posy < 0 - SEEX * 2 ||
+            (*it)->posx >     SEEX * (MAPSIZE + 2) ||
+            (*it)->posy >     SEEY * (MAPSIZE + 2))
         {
             //Remove the npc from the active list. It remains in the overmap list.
-            active_npc.erase(active_npc.begin() + i);
-            i--;
+            it = active_npc.erase(it);
+        } else {
+            it++;
         }
     }
     // Check for overmap saved npcs that should now come into view.
@@ -13158,8 +13242,9 @@ void game::update_overmap_seen()
         for (int y = ompos.y - dist; y <= ompos.y + dist; y++) {
             const std::vector<point> line = line_to(ompos.x, ompos.y, x, y, 0);
             int sight_points = dist;
-            for (size_t i = 0; i < line.size() && sight_points >= 0; i++) {
-                const oter_id &ter = overmap_buffer.ter(line[i].x, line[i].y, ompos.z);
+            for (std::vector<point>::const_iterator it = line.begin();
+                 it != line.end() && sight_points >= 0; ++it) {
+                const oter_id &ter = overmap_buffer.ter(it->x, it->y, ompos.z);
                 const int cost = otermap[ter].see_cost;
                 sight_points -= cost;
             }
@@ -13181,10 +13266,11 @@ point game::om_location() const
 
 void game::replace_stair_monsters()
 {
-    for (size_t i = 0; i < coming_to_stairs.size(); i++) {
-        coming_to_stairs[i].onstairs = false;
-        coming_to_stairs[i].staircount = 0;
-        add_zombie(coming_to_stairs[i]);
+    for (std::vector<monster>::iterator it = coming_to_stairs.begin();
+         it != coming_to_stairs.end(); ++it) {
+        it->onstairs = false;
+        it->staircount = 0;
+        add_zombie(*it);
     }
 
     coming_to_stairs.clear();
