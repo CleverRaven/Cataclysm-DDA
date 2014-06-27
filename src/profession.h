@@ -91,9 +91,9 @@ public:
      * Check if the given player can pick this job with the given amount
      * of points.
      *
-     * @return "YES", or otherwise the reason for failure, e.g. "INSUFFICIENT_POINTS"
+     * @return true, if player can pick profession. Otherwise - false.
      */
-    std::string can_pick(player* u, int points) const;
+    bool can_pick(player* u, int points) const;
 
 };
 

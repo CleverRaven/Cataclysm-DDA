@@ -106,7 +106,8 @@ profession* profession::generic()
 // Strategy: a third of the time, return the generic profession.  Otherwise, return a profession,
 // weighting 0 cost professions more likely--the weight of a profession with cost n is 2/(|n|+2),
 // e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
-profession* profession::weighted_random() {
+profession* profession::weighted_random()
+{
     if (one_in(3)) {
         return generic();
     } else {
@@ -283,14 +284,17 @@ const profession::StartingSkillList profession::skills() const
     return _starting_skills;
 }
 
-bool profession::has_flag(std::string flag) const {
+bool profession::has_flag(std::string flag) const
+{
     return flags.count(flag) != 0;
 }
 
-std::string profession::can_pick(player* u, int points) const {
-    std::string rval = "YES";
-    if(point_cost() - u->prof->point_cost() > points) rval = "INSUFFICIENT_POINTS";
+bool profession::can_pick(player* u, int points) const
+{
+    if (point_cost() - u->prof->point_cost() > points) {
+        return false;
+    }
 
-    return rval;
+    return true;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:

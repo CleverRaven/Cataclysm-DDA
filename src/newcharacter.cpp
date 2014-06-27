@@ -939,20 +939,15 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 if (u->has_trait(cur_trait)) {
 
                     inc_type = -1;
-
-
                     // If turning off the trait violates a profession condition,
                     // turn it back on.
-                    if(u->prof->can_pick(u, 0) != "YES") {
+                    if(!(u->prof->can_pick(u, 0))) {
                         inc_type = 0;
                         popup(_("Your profession of %s prevents you from removing this trait."),
                               u->prof->gender_appropriate_name(u->male).c_str());
-
                     }
-
                 } else if(u->has_conflicting_trait(cur_trait)) {
                     popup(_("You already picked a conflicting trait!"));
-
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
                     popup(ngettext("Sorry, but you can only take %d point of advantages.", "Sorry, but you can only take %d points of advantages.", max_trait_points),
@@ -968,7 +963,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
                     // If turning on the trait violates a profession condition,
                     // turn it back off.
-                    if(u->prof->can_pick(u, 0) != "YES") {
+                    if(!(u->prof->can_pick(u, 0))) {
                         inc_type = 0;
                         popup(_("Your profession of %s prevents you from taking this trait."),
                               u->prof->gender_appropriate_name(u->male).c_str());
@@ -1053,7 +1048,7 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     do {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
-        std::string can_pick = sorted_profs[cur_id]->can_pick(u, points);
+        bool can_pick = sorted_profs[cur_id]->can_pick(u, points);
         // Magic number. Strongly related to window width (w_width - borders).
         const std::string empty_line(78, ' ');
 
@@ -1091,7 +1086,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                                      pointsForProf);
         }
         // This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
-        mvwprintz(w, 3, pMsg_length + 7, can_pick == "YES" ? c_green:c_ltred, prof_msg_temp.c_str(),
+        mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green:c_ltred, prof_msg_temp.c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForProf);
 
