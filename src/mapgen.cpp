@@ -10920,10 +10920,10 @@ void map::place_npc(int x, int y, std::string type)
     if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return; //Do not generate an npc.
     }
-    real_coords rc;
-    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
     //const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
     //const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
     //debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
     //             oid.t().id.c_str(), oid.t().id_mapgen.c_str(),rc.om_sub.x/2,rc.om_sub.y/2,get_abs_sub().z, x,y );
     if (type == "evac_merchant"){
@@ -10936,6 +10936,8 @@ void map::place_npc(int x, int y, std::string type)
         temp->attitude = NPCATT_NULL;
         temp->mission = NPC_MISSION_SHOPKEEP;
         temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
         return;
         }
     if (type == "hostile_guard"){
@@ -10949,6 +10951,8 @@ void map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_NULL;
         temp->chatbin.first_topic = TALK_DONE;
         temp->personality.aggression += 3;
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
         return;
         }
     if (type == "guard"){
@@ -10959,9 +10963,11 @@ void map::place_npc(int x, int y, std::string type)
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
-        temp->mission = NPC_MISSION_BASE;
+        temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_GUARD;
         temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
         return;
         }
     debugmsg("place_npc: did not recognize npc class");
