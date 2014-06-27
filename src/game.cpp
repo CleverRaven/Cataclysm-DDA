@@ -13578,6 +13578,8 @@ void game::spawn_mon(int shiftx, int shifty)
               rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
           group++;
       cur_om->zg[i].population -= group;
+      if (horde) add_msg(m_bad,"!!!Spawn group: %d monsters!!!(%d:pop)",group,cur_om->zg[i].population);
+      int add_zom = 0;
       // Reduce group radius proportionally to remaining
       // population to maintain a minimal population density.
       if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
@@ -13624,9 +13626,11 @@ void game::spawn_mon(int shiftx, int shifty)
        if (iter < 50) {
         zom.spawn(monx, mony);
         add_zombie(zom);
+        add_zom++;
        }
      }
    } // Placing monsters of this group is done!
+   if (horde) add_msg(m_bad,"!!!Spawn population: %d monsters!!! (add:%d)",cur_om->zg[i].population,add_zom);
    if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
     cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
     i--; // And don't increment i.
