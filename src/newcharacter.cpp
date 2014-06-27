@@ -1077,10 +1077,12 @@ int set_profession(WINDOW *w, player *u, int &points)
         
         std::string prof_msg_temp;
         if (negativeProf) {
+            //~ 1s - profession name, 2d - current character points.
             prof_msg_temp = ngettext("Profession %1$s earns %2$d point",
                                      "Profession %1$s earns %2$d points",
                                      pointsForProf);
         } else {
+            //~ 1s - profession name, 2d - current character points.
             prof_msg_temp = ngettext("Profession %1$s cost %2$d point",
                                      "Profession %1$s cost %2$d points",
                                      pointsForProf);
@@ -1157,6 +1159,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         werase(w_genderswap);
+        //~ Gender switch message. 1s - change key name, 2s - profession name.
         std::string g_switch_msg = u->male ? _("Press %1$s to switch to %2$s(female).") :
                                              _("Press %1$s to switch to %2$s(male).");
         mvwprintz(w_genderswap, 0, 0, c_magenta, g_switch_msg.c_str(),

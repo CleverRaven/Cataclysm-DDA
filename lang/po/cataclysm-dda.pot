@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-27 23:25+0400\n"
+"POT-Creation-Date: 2014-06-28 00:10+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67903,6 +67903,7 @@ msgstr[1] ""
 msgid "Your profession of %s prevents you from taking this trait."
 msgstr ""
 
+#. ~ 1s - profession name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
 msgid "Profession %1$s earns %2$d point"
@@ -67910,6 +67911,7 @@ msgid_plural "Profession %1$s earns %2$d points"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ 1s - profession name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
 msgid "Profession %1$s cost %2$d point"
@@ -67943,9 +67945,15 @@ msgstr ""
 msgid "%1$s (%2$d)"
 msgstr ""
 
+#. ~ Gender switch message. 1s - change key name, 2s - profession name.
 #: src/newcharacter.cpp
 #, c-format
-msgid "Press %1$s to switch to %2$s."
+msgid "Press %1$s to switch to %2$s(female)."
+msgstr ""
+
+#: src/newcharacter.cpp
+#, c-format
+msgid "Press %1$s to switch to %2$s(male)."
 msgstr ""
 
 #: src/newcharacter.cpp
