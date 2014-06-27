@@ -1885,7 +1885,24 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
 }
 
 void AdvancedInventory::InventoryPane::restack () {
+  _stackedItems.clear();
 
+  invslice slice = _inv.slice();
+
+  for (auto &iList : slice) {
+    _stackedItems.push_back(std::list<item *>());
+
+    for (auto &item : *iList) {
+      _stackedItems.back().push_back(&item);
+    }
+  }
+
+  _dirtyStack = false;
+
+  if (_cursor >= _stackedItems.size())
+    _cursor = _stackedItems.size() - 1;
+
+  clampCursor();
 }
 
 void AdvancedInventory::ItemVectorPane::restack () {
@@ -1908,6 +1925,11 @@ void AdvancedInventory::ItemVectorPane::restack () {
   }
 
   _dirtyStack = false;
+
+  if (_cursor >= _stackedItems.size())
+    _cursor = _stackedItems.size() - 1;
+
+  clampCursor();
 }
 
 void AdvancedInventory::AggregatePane::restack () {
@@ -2064,10 +2086,25 @@ void AdvancedInventory::display (player *p, player *o) {
     case '\t':
       advInv.swapFocus();
       break;
+    case 'm':
+      advInv.moveItem();
+      break;
+    case 'i':
+    case 'I':
+      advInv.selectPane("I");
+    case 'M':
+    case KEY_ENTER:
+    case '\n':
+    case '\r':
+      advInv.moveAll();
+      break;
+    case ',':
+      advInv.moveALL();
+      break;
     }
 
     if (input == KEY_ESCAPE)
-      break;
+      return;
   }
 
   delwin(head), delwin(left_window), delwin(right_window);
@@ -2139,8 +2176,8 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
   if (v > mV)
     warnColor = c_red;
 
-  wprintz(window, warnColor, "V: %5.d", v);
-  wprintz(window, norm, "/%5.d", mV);
+  wprintz(window, warnColor, "V: %5.1d", v);
+  wprintz(window, norm, "/%5.1d", mV);
 
   //print header row and determine max item name length
   const int lastcol = columns - 2; // Last printable column
@@ -2256,4 +2293,118 @@ void AdvancedInventory::drawAreaIndicator (WINDOW *window, bool active) const {
   drawIndicatorAtom(window, "A", {linearIndicatorRoot.x, linearIndicatorRoot.y + 1}, active);
 
   wrefresh(window);
+}
+
+bool AdvancedInventory::Pane::canTakeItem(const item *item, size_t &count) {
+  if (item == nullptr)
+    return false;
+
+  do {
+    if (item->volume() * count <= freeVolume())
+      return true;
+  } while (--count != 0);
+
+  return false;
+}
+
+void AdvancedInventory::Pane::popItemAtCursor () {
+  _stackedItems[_cursor].pop_front();
+}
+
+void AdvancedInventory::AggregatePane::addItem (const item *item) {
+
+}
+
+void AdvancedInventory::AggregatePane::removeItem (const item *item) {
+
+}
+
+void AdvancedInventory::InventoryPane::addItem (const item *item) {
+  _inv.add_item(*item);
+
+  _dirtyStack = true;
+}
+
+void AdvancedInventory::InventoryPane::removeItem (const item *item) {
+  _inv.remove_item(item);
+
+  _dirtyStack = true;
+}
+
+void AdvancedInventory::ItemVectorPane::addItem (const item *item) {
+  _dirtyStack = true;
+
+  if (item->count_by_charges()) {
+    for (auto &i : _inv) {
+      if (i.stacks_with(*item)) {
+        i.charges += item->charges;
+
+        return;
+      }
+    }
+  }
+
+  _inv.push_back(*item);
+}
+
+void AdvancedInventory::ItemVectorPane::removeItem (const item *item) {
+  for (auto i = _inv.begin(); i != _inv.end(); i++) {
+    if (i->stacks_with(*item)) {
+      _inv.erase(i);
+
+      _dirtyStack = true;
+
+      return;
+    }
+  }
+}
+
+const item *AdvancedInventory::Pane::itemAtCursor (size_t &count) const {
+  if (_stackedItems.size() == 0)
+    return nullptr;
+
+  std::list<item *> cursorItems(_stackedItems[_cursor]);
+
+  count = cursorItems.size();
+
+  return cursorItems.front();
+}
+
+bool AdvancedInventory::moveItem () {
+  size_t count;
+  const item *toMove = selectedPane()->itemAtCursor(count);
+
+  if (unselectedPane()->canTakeItem(toMove, count)) {
+    unselectedPane()->addItem(toMove);
+    selectedPane()->removeItem(toMove);
+
+    return true;
+  }
+
+  return false;
+}
+
+bool AdvancedInventory::moveAll () {
+  size_t count;
+  const item *toMove = selectedPane()->itemAtCursor(count);
+
+  if (unselectedPane()->canTakeItem(toMove, count)) {
+    while (count-- != 0) {
+      moveItem();
+
+      selectedPane()->popItemAtCursor();
+    }
+
+    return true;
+  }
+
+  return false;
+}
+
+void AdvancedInventory::moveALL () {
+  selectedPane()->_cursor = 0;
+
+  while (moveAll()) {
+    selectedPane()->restack();
+  };
 }

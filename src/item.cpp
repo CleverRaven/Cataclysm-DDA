@@ -203,7 +203,7 @@ bool item::invlet_is_okay()
     return (inv_chars.find(invlet) != std::string::npos);
 }
 
-bool item::stacks_with(item rhs)
+bool item::stacks_with(const item rhs) const
 {
     bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
     active == rhs.active && charges == rhs.charges &&
@@ -1659,7 +1659,7 @@ bool item::ready_to_revive()
     return false;
 }
 
-bool item::goes_bad()
+bool item::goes_bad() const
 {
     if (!is_food())
         return false;

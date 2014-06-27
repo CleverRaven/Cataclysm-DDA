@@ -77,6 +77,14 @@ class AdvancedInventory {
     void pageUp (size_t rows) { _cursor -= rows; clampCursor(); }
     void pageDown (size_t rows) { _cursor += rows; clampCursor(); }
 
+    bool canTakeItem (const item *, size_t &count);
+    const item *itemAtCursor(size_t &) const;
+
+    void popItemAtCursor ();
+
+    virtual void addItem (const item *) = 0;
+    virtual void removeItem (const item *) = 0;
+
   private:
     virtual void restack () = 0;
   };
@@ -91,6 +99,9 @@ class AdvancedInventory {
 
     int volume () const override;
     int weight () const override;
+
+    void addItem (const item *) override;
+    void removeItem (const item *) override;
   };
 
   class ItemVectorPane : public Pane {
@@ -102,6 +113,9 @@ class AdvancedInventory {
 
     int volume () const override;
     int weight () const override;
+
+    void addItem (const item *) override;
+    void removeItem (const item *) override;
   };
 
   class AggregatePane : public Pane {
@@ -119,6 +133,9 @@ class AdvancedInventory {
 
     int maxVolume () const override;
     int maxWeight () const override;
+
+    void addItem (const item *) override;
+    void removeItem (const item *) override;
   };
 
   std::map<std::string, Pane *> _panes;
@@ -148,6 +165,10 @@ class AdvancedInventory {
 
   void drawIndicatorAtom (WINDOW *, std::string, point, bool) const;
   void drawAreaIndicator (WINDOW *, bool) const;
+
+  bool moveItem ();
+  bool moveAll ();
+  void moveALL ();
 
  public:
   static void display (player *, player * = nullptr);
