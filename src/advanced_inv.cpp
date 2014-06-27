@@ -1851,6 +1851,13 @@ bool AdvancedInventory::selectPane(std::string id, SelectedPane area) {
     return true;
   } else {
     _selections[area] = candidate;
+
+    if (unselectedPane())
+      unselectedPane()->ignorePane(selectedPane());
+
+    if (selectedPane())
+      selectedPane()->ignorePane(unselectedPane());
+
     return true;
   }
 }
@@ -1929,7 +1936,7 @@ void AdvancedInventory::InventoryPane::restack () {
   invslice slice = _inv.slice();
 
   for (auto &iList : slice) {
-    _stackedItems.push_back(std::list<item *>());
+    _stackedItems.push_back(std::list<const item *>());
 
     for (auto &item : *iList) {
       _stackedItems.back().push_back(&item);
@@ -1964,13 +1971,16 @@ void AdvancedInventory::ItemVectorPane::restack () {
 void AdvancedInventory::AggregatePane::restack () {
   _dirtyStack = false;
 
-  std::vector<std::pair<std::list<item *>, Pane *>> keyedStacks;
+  std::vector<std::pair<std::list<const item *>, Pane *>> keyedStacks;
 
   for (auto paneP : _panes) {
     Pane *pane(paneP.second);
 
+    if (pane == _ignoring)
+      continue;
+
     for (auto &iList : pane->stackedItems()) {
-      std::pair<std::list<item *>, Pane *> iPair(iList, pane);
+      std::pair<std::list<const item *>, Pane *> iPair(iList, pane);
 
       keyedStacks.push_back(iPair);
     }
@@ -2298,7 +2308,7 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
   }
 }
 
-void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> &iList, bool active, bool highlighted) {
+void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<const item *> &iList, bool active, bool highlighted) {
   const item *item = iList.front();
 
   size_t columns(getmaxx(window));
@@ -2414,16 +2424,23 @@ bool AdvancedInventory::Pane::canTakeItem(const item *item, size_t &count) {
   return false;
 }
 
-void AdvancedInventory::Pane::popItemAtCursor () {
-  _stackedItems[_cursor].pop_front();
+bool AdvancedInventory::AggregatePane::canTakeItem(const item *, size_t &) {
+  popup(_("You have to choose a destination area."));
+
+  return false;
 }
 
-void AdvancedInventory::AggregatePane::addItem (const item *item) {
-
-}
+void AdvancedInventory::AggregatePane::addItem (const item *) { }
 
 void AdvancedInventory::AggregatePane::removeItem (const item *item) {
+  _dirtyStack = true;
 
+  for (auto pane : _panes) {
+    if (pane.second == _ignoring)
+      continue;
+
+    pane.second->removeItem(item);
+  }
 }
 
 void AdvancedInventory::InventoryPane::addItem (const item *item) {
@@ -2435,7 +2452,6 @@ void AdvancedInventory::InventoryPane::addItem (const item *item) {
 void AdvancedInventory::InventoryPane::removeItem (const item *item) {
   _inv.remove_item(item);
 
-  popItemAtCursor();
   _dirtyStack = true;
 }
 
@@ -2455,24 +2471,29 @@ void AdvancedInventory::ItemVectorPane::addItem (const item *item) {
   _inv.push_back(*item);
 }
 
-void AdvancedInventory::ItemVectorPane::removeItem (const item *item) {
-  for (auto i = _inv.begin(); i != _inv.end(); i++) {
-    if (i->stacks_with(*item)) {
-      _inv.erase(i);
+void AdvancedInventory::ItemVectorPane::removeItem (const item *iT) {
+  size_t index = 0;
 
-      popItemAtCursor();
-      _dirtyStack = true;
+  for (auto &i : _inv) {
+    if (&i == iT)
+      break;
 
-      return;
-    }
+    index++;
+  }
+
+  if (index < _inv.size()) {
+    _inv.erase(_inv.begin() + index);
+
+    _dirtyStack = true;
   }
 }
 
-const item *AdvancedInventory::Pane::itemAtCursor (size_t &count) const {
-  if (_stackedItems.size() == 0)
-    return nullptr;
+std::list<const item *> &AdvancedInventory::Pane::itemsAtCursor() {
+  return _stackedItems[_cursor];
+}
 
-  std::list<item *> cursorItems(_stackedItems[_cursor]);
+const item *AdvancedInventory::Pane::itemAtCursor (size_t &count) {
+  std::list<const item *> &cursorItems(itemsAtCursor());
 
   count = cursorItems.size();
 
@@ -2494,12 +2515,14 @@ bool AdvancedInventory::moveItem () {
 }
 
 bool AdvancedInventory::moveAll () {
-  size_t count;
-  const item *toMove = selectedPane()->itemAtCursor(count);
+  std::list<const item *> &toMove(selectedPane()->itemsAtCursor());
+  size_t count(toMove.size());
 
-  if (unselectedPane()->canTakeItem(toMove, count)) {
-    while (count-- != 0) {
-      moveItem();
+  if (unselectedPane()->canTakeItem(toMove.front(), count)) {
+
+    for (auto iTMove = toMove.rbegin(); iTMove != toMove.rend(); iTMove++) {
+      unselectedPane()->addItem(*iTMove);
+      selectedPane()->removeItem(*iTMove);
     }
 
     return true;
@@ -2535,7 +2558,7 @@ void AdvancedInventory::sort () {
   selectedPane()->restack();
 }
 
-bool AdvancedInventory::Pane::ItemCompare::operator() (const std::list<item *> &a, const std::list<item *> &b) const {
+bool AdvancedInventory::Pane::ItemCompare::operator() (const std::list<const item *> &a, const std::list<const item *> &b) const {
   const item &d1(*(a.front()));
   const item &d2(*(b.front()));
 
@@ -2568,6 +2591,6 @@ bool AdvancedInventory::Pane::ItemCompare::operator() (const std::list<item *> &
   }
 }
 
-bool AdvancedInventory::Pane::ItemCompare::operator()(const std::pair<const std::list<item *> &, Pane *> &a, const std::pair<const std::list<item *> &, Pane *> &b) const {
+bool AdvancedInventory::Pane::ItemCompare::operator()(const std::pair<const std::list<const item *> &, Pane *> &a, const std::pair<const std::list<const item *> &, Pane *> &b) const {
   return operator()(a.first, b.first);
 }

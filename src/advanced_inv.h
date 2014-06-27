@@ -33,8 +33,8 @@ class AdvancedInventory {
       bool _ascending;
     public:
       ItemCompare(SortRule rule, bool ascending = true) : _rule(rule), _ascending(ascending) { }
-      bool operator()(const std::list<item *> &, const std::list<item *> &) const;
-      bool operator()(const std::pair<const std::list<item *> &, Pane *> &, const std::pair<const std::list<item *> &, Pane *> &) const;
+      bool operator()(const std::list<const item *> &, const std::list<const item *> &) const;
+      bool operator()(const std::pair<const std::list<const item *> &, Pane *> &, const std::pair<const std::list<const item *> &, Pane *> &) const;
     };
 
   protected:
@@ -46,10 +46,10 @@ class AdvancedInventory {
     bool _sortAscending = true;
     std::string _chevrons = "[ ]";
 
-    std::vector<std::list<item*>> _stackedItems;
+    std::vector<std::list<const item *>> _stackedItems;
     bool _dirtyStack = true;
 
-    void printItem (WINDOW *, const std::list<item *> &, bool active, bool highlighted);
+    void printItem (WINDOW *, const std::list<const item *> &, bool active, bool highlighted);
 
     void clampCursor () { if (_cursor >= stackedItems().size()) _cursor = 0; }
 
@@ -72,7 +72,7 @@ class AdvancedInventory {
     SortRule sortRule () const { return _sortRule; }
     void sortRule (SortRule sortRule) { if (_sortRule == sortRule) _sortAscending = !_sortAscending; _sortRule = sortRule; }
 
-    const std::vector<std::list<item *>> &stackedItems () {
+    const std::vector<std::list<const item *>> &stackedItems () {
       if (_dirtyStack)
         restack();
 
@@ -87,13 +87,14 @@ class AdvancedInventory {
     void pageUp (size_t rows) { _cursor -= rows; clampCursor(); }
     void pageDown (size_t rows) { _cursor += rows; clampCursor(); }
 
-    bool canTakeItem (const item *, size_t &count);
-    const item *itemAtCursor(size_t &) const;
-
-    void popItemAtCursor ();
+    virtual bool canTakeItem (const item *, size_t &count);
+    const item *itemAtCursor (size_t &);
+    std::list<const item *> &itemsAtCursor ();
 
     virtual void addItem (const item *) = 0;
     virtual void removeItem (const item *) = 0;
+
+    virtual void ignorePane(Pane *) {};
 
   private:
     virtual void restack ();
@@ -132,10 +133,13 @@ class AdvancedInventory {
     std::map<std::string, Pane *> _panes;
 
     std::vector<Pane *> _stackedItemsPane;
+    Pane *_ignoring = nullptr;
 
     void restack () override;
   public:
     AggregatePane(std::string id, std::map<std::string, Pane *> panes) : Pane(id, -1, -1), _panes(panes) { }
+
+    bool canTakeItem (const item *, size_t &) override;
 
     int volume () const override;
     int weight () const override;
@@ -148,6 +152,8 @@ class AdvancedInventory {
 
     void addItem (const item *) override;
     void removeItem (const item *) override;
+
+    void ignorePane (Pane *pane) override { _ignoring = pane; _dirtyStack = true; }
   };
 
   std::map<std::string, Pane *> _panes;
