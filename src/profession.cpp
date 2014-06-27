@@ -42,8 +42,8 @@ void profession::load_profession(JsonObject &jsobj)
         // Same profession names for male and female in English.
         // Still need to different names in other languages.
         const std::string name = jsobj.get_string("name");
-        prof._name_female = pgettext("profession-female", name.c_str());
-        prof._name_male = pgettext("profession-male", name.c_str());
+        prof._name_female = pgettext("profession_female", name.c_str());
+        prof._name_male = pgettext("profession_male", name.c_str());
     }
 
     prof._description = _(jsobj.get_string("description").c_str());
