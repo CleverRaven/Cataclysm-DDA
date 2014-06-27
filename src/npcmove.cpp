@@ -56,7 +56,8 @@ void npc::move()
                  name.c_str(), target, danger, confident_range(-1));
 
     //faction opinion determines if it should consider you hostile
-    if (my_fac != NULL && my_fac->likes_u < -10){
+    int j;
+    if (my_fac != NULL && my_fac->likes_u < -10 && g->sees_u(posx, posy, j)){//acidia
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
             attitude = NPCATT_FLEE; // We don't want to take u on!
         else
@@ -2114,15 +2115,16 @@ void npc::reach_destination()
 {
     //this entire clause is to preserve the guard's home coordinates and permit him/her to return
     if (mission == NPC_MISSION_GUARD){
-        if (guardx == posx && guardy == posy){
+        if (guardx == global_square_location().x && guardy == global_square_location().y){
             return; //Our guard is already at his/her home tile
         }
         else {
-            if (path.size() > 1) {
+            if (path.size() > 1)
                 move_to_next();  //No point recalculating the path to get home
-            }
             else{
-                update_path(guardx, guardy);
+                int pt1 = guardx - ((omx * OMAPX * 2) + mapx) * SEEX;
+                int pt2 = guardy - ((omx * OMAPY * 2) + mapy) * SEEY;
+                update_path(pt1, pt2);
                 move_to_next();
             }
         }
@@ -2149,8 +2151,8 @@ void npc::set_destination()
         goal.x = global_omt_location().x;
         goal.y = global_omt_location().y;
         goal.z = g->levz;
-        guardx = posx;
-        guardy = posy;
+        guardx = global_square_location().x;
+        guardy = global_square_location().y;
         return;
     }
 
