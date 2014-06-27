@@ -10,6 +10,8 @@ class player;
 class inventory;
 class item;
 
+struct point;
+
 class AdvancedInventory {
   enum class Mode {
     Area, Linear
@@ -24,6 +26,8 @@ class AdvancedInventory {
   };
 
   class Pane {
+    friend class AdvancedInventory;
+
   protected:
     std::string _identifier;
     size_t _cursor = 0;
@@ -121,6 +125,7 @@ class AdvancedInventory {
 
   std::map<SelectedPane, Pane *> _selections;
   SelectedPane _selectedPane = SelectedPane::Left;
+  SelectedPane _unselectedPane = SelectedPane::Right;
 
   Mode _mode;
 
@@ -133,9 +138,16 @@ class AdvancedInventory {
 
   int w_width, w_height;
 
-  Pane *selectedPane () const { return _selections.at(_selectedPane); }
+  void right ();
+  void left ();
 
-  void drawAreaIndicator (WINDOW *, Pane *, bool) const;
+  void swapFocus () { std::swap(_selectedPane, _unselectedPane); }
+
+  Pane *selectedPane () const { return _selections.at(_selectedPane); }
+  Pane *unselectedPane () const { return _selections.at(_unselectedPane); }
+
+  void drawIndicatorAtom (WINDOW *, std::string, point, bool) const;
+  void drawAreaIndicator (WINDOW *, bool) const;
 
  public:
   static void display (player *, player * = nullptr);

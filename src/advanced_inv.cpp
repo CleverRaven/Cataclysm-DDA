@@ -2048,9 +2048,39 @@ void AdvancedInventory::display (player *p, player *o) {
       advInv.selectPane(std::string(1, directionToNumpad(inputDir)));
     }
 
+    switch (input) {
+    case KEY_DOWN:
+      advInv.selectedPane()->down();
+      break;
+    case KEY_UP:
+      advInv.selectedPane()->up();
+      break;
+    case KEY_LEFT:
+      advInv.left();
+      break;
+    case KEY_RIGHT:
+      advInv.right();
+      break;
+    case '\t':
+      advInv.swapFocus();
+      break;
+    }
+
+    if (input == KEY_ESCAPE)
+      break;
   }
 
   delwin(head), delwin(left_window), delwin(right_window);
+}
+
+void AdvancedInventory::left () {
+  if (_selectedPane != SelectedPane::Left)
+    swapFocus();
+}
+
+void AdvancedInventory::right () {
+  if (_selectedPane != SelectedPane::Right)
+    swapFocus();
 }
 
 void AdvancedInventory::displayHead (WINDOW *head) {
@@ -2070,8 +2100,8 @@ void AdvancedInventory::displayPanes (WINDOW *lWin, WINDOW *rWin) {
   _selections[SelectedPane::Left]->draw(lWin, _selectedPane == SelectedPane::Left);
   _selections[SelectedPane::Right]->draw(rWin, _selectedPane == SelectedPane::Right);
 
-  drawAreaIndicator(lWin, _selections[SelectedPane::Left], _selectedPane == SelectedPane::Left);
-  drawAreaIndicator(rWin, _selections[SelectedPane::Right], _selectedPane == SelectedPane::Right);
+  drawAreaIndicator(lWin, _selectedPane == SelectedPane::Left);
+  drawAreaIndicator(rWin, _selectedPane == SelectedPane::Right);
 }
 
 void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
@@ -2205,27 +2235,25 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> 
   wrefresh(window);
 }
 
-void AdvancedInventory::drawAreaIndicator (WINDOW *window, Pane *pane, bool active) const {
+void AdvancedInventory::drawIndicatorAtom (WINDOW *window, std::string id, point location, bool active) const {
+  Pane *pane(_panes.at(id));
+  bool selected(active ? selectedPane() == pane : unselectedPane() == pane);
+
+  mvwprintz(window, location.y, location.x, selected ? c_cyan : active ? c_white : c_ltgray, pane->chevrons().c_str());
+  mvwprintz(window, location.y, location.x + 1, selected ? c_green : active ? c_white : c_ltgray, pane->_identifier.c_str());
+}
+
+void AdvancedInventory::drawAreaIndicator (WINDOW *window, bool active) const {
   for (auto dir : helper::planarDirections) {
     point loc(helper::directionToPoint(dir));
     std::string id(1, helper::directionToNumpad(dir));
-    Pane *thisPane = _panes.at(id);
 
-    mvwprintz(window, areaIndicatorRoot.y + loc.y, areaIndicatorRoot.x + loc.x * 3, thisPane == pane ? c_cyan : active ? c_white : c_ltgray, thisPane->chevrons().c_str());
-    mvwprintz(window, areaIndicatorRoot.y + loc.y, areaIndicatorRoot.x + loc.x * 3 + 1, thisPane == pane ? c_green : active ? c_white : c_ltgray, id.c_str());
+    drawIndicatorAtom(window, id, {areaIndicatorRoot.x + loc.x * 3, areaIndicatorRoot.y + loc.y}, active);
   }
 
-  std::string id("A");
-  Pane *thisPane(_panes.at(id));
-
-  mvwprintz(window, linearIndicatorRoot.y, linearIndicatorRoot.x, thisPane == pane ? c_cyan : active ? c_white : c_ltgray, thisPane->chevrons().c_str());
-  mvwprintz(window, linearIndicatorRoot.y, linearIndicatorRoot.x + 1, thisPane == pane ? c_green : active ? c_white : c_ltgray, id.c_str());
-
-  id = "I";
-  thisPane = _panes.at(id);
-
-  mvwprintz(window, linearIndicatorRoot.y + 1, linearIndicatorRoot.x, thisPane == pane ? c_cyan : active ? c_white : c_ltgray, thisPane->chevrons().c_str());
-  mvwprintz(window, linearIndicatorRoot.y + 1, linearIndicatorRoot.x + 1, thisPane == pane ? c_green : active ? c_white : c_ltgray, id.c_str());
+  // drawIndicatorAtom(window, "D", {linearIndicatorRoot.x, linearIndicatorRoot.y - 1}, true);
+  drawIndicatorAtom(window, "I", {linearIndicatorRoot.x, linearIndicatorRoot.y}, active);
+  drawIndicatorAtom(window, "A", {linearIndicatorRoot.x, linearIndicatorRoot.y + 1}, active);
 
   wrefresh(window);
 }
