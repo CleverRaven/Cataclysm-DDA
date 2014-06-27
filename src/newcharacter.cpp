@@ -1054,23 +1054,46 @@ int set_profession(WINDOW *w, player *u, int &points)
     do {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
         std::string can_pick = sorted_profs[cur_id]->can_pick(u, points);
+        // Magic number. Strongly related to window width (w_width - borders).
+        const std::string empty_line(78, ' ');
 
-        mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
-        // Clear the bottom of the screen.
+        // Clear the bottom of the screen and header.
         werase(w_description);
-        mvwprintz(w, 3, 40, c_ltgray, "                                       ");
+        mvwprintz(w, 3, 1, c_ltgray, empty_line.c_str());
 
         int pointsForProf = sorted_profs[cur_id]->point_cost();
         bool negativeProf = pointsForProf < 0;
         if (negativeProf) {
                   pointsForProf *=-1;
         }
-        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, ngettext("Profession %1$s %2$s %3$d point (net: %4$d)",
-                                                                          "Profession %1$s %2$s %3$d points (net: %4$d)",
-                                                                          pointsForProf),
-                      sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
-                      negativeProf ? _("earns"):_("costs"),
-                      pointsForProf, netPointCost);
+
+        // Draw header.
+        std::string points_msg = string_format("Points left: %2d", points);
+        int pMsg_length = utf8_width(_(points_msg.c_str()));
+        if (netPointCost > 0) {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+            mvwprintz(w, 3, pMsg_length + 2, c_red, "(-%d)", abs(netPointCost));
+        } else if (netPointCost == 0) {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+        } else {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+            mvwprintz(w, 3, pMsg_length + 2, c_green, "(+%d)", abs(netPointCost));
+        }
+        
+        std::string prof_msg_temp;
+        if (negativeProf) {
+            prof_msg_temp = ngettext("Profession %1$s earns %2$d point",
+                                     "Profession %1$s earns %2$d points",
+                                     pointsForProf);
+        } else {
+            prof_msg_temp = ngettext("Profession %1$s cost %2$d point",
+                                     "Profession %1$s cost %2$d points",
+                                     pointsForProf);
+        }
+        // This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
+        mvwprintz(w, 3, pMsg_length + 7, can_pick == "YES" ? c_green:c_ltred, prof_msg_temp.c_str(),
+                  sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
+                  pointsForProf);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        sorted_profs[cur_id]->description(u->male));
