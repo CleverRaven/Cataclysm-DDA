@@ -2143,6 +2143,12 @@ void AdvancedInventory::display (player *p, player *o) {
     }
 
     switch (input) {
+    case KEY_PPAGE:
+      advInv.selectedPane()->pageUp(itemsPerPage);
+      break;
+    case KEY_NPAGE:
+      advInv.selectedPane()->pageDown(itemsPerPage);
+      break;
     case KEY_DOWN:
       advInv.selectedPane()->down();
       break;
@@ -2593,4 +2599,14 @@ bool AdvancedInventory::Pane::ItemCompare::operator() (const std::list<const ite
 
 bool AdvancedInventory::Pane::ItemCompare::operator()(const std::pair<const std::list<const item *> &, Pane *> &a, const std::pair<const std::list<const item *> &, Pane *> &b) const {
   return operator()(a.first, b.first);
+}
+
+AdvancedInventory::~AdvancedInventory() {
+  for (auto pane : _panes) {
+    if (pane.second == nullptr)
+      continue;
+
+    delete pane.second;
+    pane.second = nullptr;
+  }
 }

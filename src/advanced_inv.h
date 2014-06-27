@@ -165,6 +165,7 @@ class AdvancedInventory {
   Mode _mode;
 
   AdvancedInventory(player *, player * = nullptr);
+  ~AdvancedInventory();
 
   void displayHead (WINDOW *);
   void displayPanes (WINDOW *, WINDOW *);
