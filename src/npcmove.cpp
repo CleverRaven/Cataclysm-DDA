@@ -55,6 +55,15 @@ void npc::move()
         debugmsg("NPC %s: target = %d, danger = %d, range = %d",
                  name.c_str(), target, danger, confident_range(-1));
 
+    //faction opinion determines if it should consider you hostile
+    if (my_fac != NULL && my_fac->likes_u < -10){
+        if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
+            attitude = NPCATT_FLEE; // We don't want to take u on!
+        else
+            attitude = NPCATT_KILL; // Yeah, we think we could take you!
+    }
+
+
     if (is_enemy()) {
         int pl_danger = player_danger( &(g->u) );
         if (pl_danger > danger || target == -1) {
