@@ -278,7 +278,7 @@
         "overmaps" :
         [
             { "point":[0,0,0], "overmap": "bunker", "connect": "road"},
-            { "point":[0,0,-1], "overmap": "bunker"}
+            { "point":[0,0,-1], "overmap": "bunker_under"}
         ],
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [4, -1], "//":"how far from a city it should be",

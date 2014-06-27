@@ -1321,7 +1321,14 @@
         "sym" : 66,
         "color" : "dark_gray",
         "see_cost" : 2,
-        "known_down" : true,
+        "known_down" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bunker_under",
+        "name" : "military bunker",
+        "sym" : 66,
+        "color" : "dark_gray",
+        "see_cost" : 2,
         "known_up" : true
     },{
         "type" : "overmap_terrain",

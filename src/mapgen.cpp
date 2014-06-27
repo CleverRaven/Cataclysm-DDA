@@ -4016,171 +4016,169 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "bunker") {
 
-        if (t_above == "") { // We're on ground level
-            dat.fill_groundcover();
-            //chainlink fence that surrounds bunker
-            line(this, t_chainfence_v, 1, 1, 1, SEEY * 2 - 1);
-            line(this, t_chainfence_v, SEEX * 2 - 1, 1, SEEX * 2 - 1, SEEY * 2 - 1);
-            line(this, t_chainfence_h, 1, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
-            line(this, t_chainfence_h, 1, 1, SEEX * 2 - 1, 1);
-            line(this, t_chaingate_l, SEEX - 3, SEEY * 2 - 1, SEEX + 2, SEEY * 2 - 1);
-            line(this, t_chaingate_l, 1, SEEY * 2 - 2, 1, SEEY * 2 - 7);
-            line(this, t_chaingate_l, SEEX * 2 - 1, SEEY * 2 - 2, SEEX * 2 - 1, SEEY * 2 - 7);
-            //watch cabin
-            //line(this, t_concrete_h, SEEX-6, SEEY*2-4, SEEX-4, SEEY*2-4);
-            ter_set(2, 13, t_concrete_h);
-            ter_set(4, 13, t_concrete_h);
-            ter_set(3, 13, t_door_c);
-            ter_set(4, 14, t_concrete_v);
-            ter_set(4, 15, t_concrete_v);
-            ter_set(1, 13, t_concrete_h);
-            ter_set(3, 15, t_window);
-            ter_set(2, 15, t_window);
-            ter_set(1, 14, t_reinforced_glass_v);
-            ter_set(1, 15, t_reinforced_glass_v);
-            ter_set(2, 14, t_floor);
-            ter_set(3, 14, t_floor);
-            furn_set(2, 14, f_table);
-            //watch cabin 2
-            ter_set(SEEX * 2 - 2, 13, t_concrete_h);
-            ter_set(SEEX * 2 - 4, 13, t_concrete_h);
-            ter_set(SEEX * 2 - 3, 13, t_door_c);
-            ter_set(SEEX * 2 - 4, 14, t_concrete_v);
-            ter_set(SEEX * 2 - 4, 15, t_concrete_v);
-            ter_set(SEEX * 2 - 1, 13, t_concrete_h);
-            ter_set(SEEX * 2 - 3, 15, t_window);
-            ter_set(SEEX * 2 - 2, 15, t_window);
-            ter_set(SEEX * 2 - 1, 14, t_reinforced_glass_v);
-            ter_set(SEEX * 2 - 1, 15, t_reinforced_glass_v);
-            ter_set(SEEX * 2 - 2, 14, t_floor);
-            ter_set(SEEX * 2 - 3, 14, t_floor);
-            furn_set(SEEX * 2 - 2, 14, f_table);
-            line(this, t_wall_metal_h,  7,  7, 16,  7);
-            line(this, t_wall_metal_h,  8,  8, 15,  8);
-            line(this, t_wall_metal_h,  8, 15, 15, 15);
-            line(this, t_wall_metal_h,  7, 16, 10, 16);
-            line(this, t_wall_metal_h, 14, 16, 16, 16);
-            line(this, t_wall_metal_v,  7,  8,  7, 15);
-            line(this, t_wall_metal_v, 16,  8, 16, 15);
-            line(this, t_wall_metal_v,  8,  9,  8, 14);
-            line(this, t_wall_metal_v, 15,  9, 15, 14);
-            square(this, t_floor, 9, 10, 14, 14);
-            line(this, t_stairs_down,  11,  9, 12,  9);
-            line(this, t_door_metal_locked, 11, 15, 12, 15);
-            for (int i = 9; i <= 13; i += 2) {
-                line(this, t_wall_metal_h,  9, i, 10, i);
-                line(this, t_wall_metal_h, 13, i, 14, i);
-                add_spawn("mon_turret_rifle", 1, 9, i + 1);
-                add_spawn("mon_turret_rifle", 1, 14, i + 1);
-            }
-            ter_set(13, 16, t_card_military);
-
-            if (is_ot_type("road", t_west)) {
-                rotate(1);
-            } else if (is_ot_type("road", t_north)) {
-                rotate(2);
-            } else if (is_ot_type("road", t_east)) {
-                rotate(3);
-            }
-        } else { // Below ground!
-
-            fill_background(this, t_rock);
-            square(this, t_floor, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2);
-            line(this, t_wall_metal_h,  2,  8,  8,  8);
-            line(this, t_wall_metal_h, 15,  8, 21,  8);
-            line(this, t_wall_metal_h,  2, 15,  8, 15);
-            line(this, t_wall_metal_h, 15, 15, 21, 15);
-            for (int j = 2; j <= 16; j += 7) {
-                ter_set( 9, j    , t_card_military);
-                ter_set(14, j    , t_card_military);
-                ter_set( 9, j + 1, t_door_metal_locked);
-                ter_set(14, j + 1, t_door_metal_locked);
-                line(this, t_reinforced_glass_v,  9, j + 2,  9, j + 4);
-                line(this, t_reinforced_glass_v, 14, j + 2, 14, j + 4);
-                line(this, t_wall_metal_v,  9, j + 5,  9, j + 6);
-                line(this, t_wall_metal_v, 14, j + 5, 14, j + 6);
-
-                // Fill rooms with items!
-                for (int i = 2; i <= 15; i += 13) {
-                    items_location goods;
-                    int size = 0;
-                    bool HW = 0;
-                    switch (rng(1, 14)) {
-                    case  1:
-                    case  2:
-                        goods = "bots";
-                        size = 85;
-                        HW = 0;
-                        break;
-                    case  3:
-                    case  4:
-                        goods = "launchers";
-                        size = 83;
-                        HW = 0;
-                        break;
-                    case  5:
-                    case  6:
-                        goods = "mil_rifles";
-                        size = 87;
-                        HW = 0;
-                        break;
-                    case  7:
-                    case  8:
-                        goods = "grenades";
-                        size = 88;
-                        HW = 0;
-                        break;
-                    case  9:
-                    case 10:
-                        goods = "mil_armor";
-                        size = 85;
-                        HW = 0;
-                        break;
-                    case 11:
-                        goods = "mil_hw";
-                        size = 82;
-                        HW = 1;
-                        break;
-                    case 12:
-                    case 13:
-                        goods = "mil_food";
-                        size = 90;
-                        HW = 0;
-                        break;
-                    case 14:
-                        goods = "bionics_mil";
-                        size = 78;
-                        HW = 0;
-                        break;
-                    }
-                    place_items(goods, size, i, j, i + 6, j + 5, false, 0);
-                      if (HW == 1) {
-                        if (one_in(2)) {
-                        spawn_item(i + 2, j + 1, "556", 2);
-                        }
-                        if (one_in(4)) {
-                        spawn_item(i + 2, j + 1, "8mm_fmj", 2);
-                        }
-                        if (one_in(4)) {
-                        spawn_item(i + 2, j + 1, "8mm_inc", 2);
-                        }
-                        if (one_in(5)) {
-                        spawn_item(i + 2, j + 1, "20x66_flechette", 2);
-                        }
-                        if (one_in(5)) {
-                        spawn_item(i + 2, j + 1, "40mm_concussive", 2);
-                        }
-                      }
-                }
-            }
-            line(this, t_wall_metal_h, 1, 1, SEEX * 2 - 2, 1);
-            line(this, t_wall_metal_h, 1, SEEY * 2 - 2, SEEX * 2 - 2, SEEY * 2 - 2);
-            line(this, t_wall_metal_v, 1, 2, 1, SEEY * 2 - 3);
-            line(this, t_wall_metal_v, SEEX * 2 - 2, 2, SEEX * 2 - 2, SEEY * 2 - 3);
-            ter_set(SEEX - 1, 21, t_stairs_up);
-            ter_set(SEEX,     21, t_stairs_up);
+     // We're on ground level
+        dat.fill_groundcover();
+        //chainlink fence that surrounds bunker
+        line(this, t_chainfence_v, 1, 1, 1, SEEY * 2 - 1);
+        line(this, t_chainfence_v, SEEX * 2 - 1, 1, SEEX * 2 - 1, SEEY * 2 - 1);
+        line(this, t_chainfence_h, 1, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+        line(this, t_chainfence_h, 1, 1, SEEX * 2 - 1, 1);
+        line(this, t_chaingate_l, SEEX - 3, SEEY * 2 - 1, SEEX + 2, SEEY * 2 - 1);
+        line(this, t_chaingate_l, 1, SEEY * 2 - 2, 1, SEEY * 2 - 7);
+        line(this, t_chaingate_l, SEEX * 2 - 1, SEEY * 2 - 2, SEEX * 2 - 1, SEEY * 2 - 7);
+        //watch cabin
+        //line(this, t_concrete_h, SEEX-6, SEEY*2-4, SEEX-4, SEEY*2-4);
+        ter_set(2, 13, t_concrete_h);
+        ter_set(4, 13, t_concrete_h);
+        ter_set(3, 13, t_door_c);
+        ter_set(4, 14, t_concrete_v);
+        ter_set(4, 15, t_concrete_v);
+        ter_set(1, 13, t_concrete_h);
+        ter_set(3, 15, t_window);
+        ter_set(2, 15, t_window);
+        ter_set(1, 14, t_reinforced_glass_v);
+        ter_set(1, 15, t_reinforced_glass_v);
+        ter_set(2, 14, t_floor);
+        ter_set(3, 14, t_floor);
+        furn_set(2, 14, f_table);
+        //watch cabin 2
+        ter_set(SEEX * 2 - 2, 13, t_concrete_h);
+        ter_set(SEEX * 2 - 4, 13, t_concrete_h);
+        ter_set(SEEX * 2 - 3, 13, t_door_c);
+        ter_set(SEEX * 2 - 4, 14, t_concrete_v);
+        ter_set(SEEX * 2 - 4, 15, t_concrete_v);
+        ter_set(SEEX * 2 - 1, 13, t_concrete_h);
+        ter_set(SEEX * 2 - 3, 15, t_window);
+        ter_set(SEEX * 2 - 2, 15, t_window);
+        ter_set(SEEX * 2 - 1, 14, t_reinforced_glass_v);
+        ter_set(SEEX * 2 - 1, 15, t_reinforced_glass_v);
+        ter_set(SEEX * 2 - 2, 14, t_floor);
+        ter_set(SEEX * 2 - 3, 14, t_floor);
+        furn_set(SEEX * 2 - 2, 14, f_table);
+        line(this, t_wall_metal_h,  7,  7, 16,  7);
+        line(this, t_wall_metal_h,  8,  8, 15,  8);
+        line(this, t_wall_metal_h,  8, 15, 15, 15);
+        line(this, t_wall_metal_h,  7, 16, 10, 16);
+        line(this, t_wall_metal_h, 14, 16, 16, 16);
+        line(this, t_wall_metal_v,  7,  8,  7, 15);
+        line(this, t_wall_metal_v, 16,  8, 16, 15);
+        line(this, t_wall_metal_v,  8,  9,  8, 14);
+        line(this, t_wall_metal_v, 15,  9, 15, 14);
+        square(this, t_floor, 9, 10, 14, 14);
+        line(this, t_stairs_down,  11,  9, 12,  9);
+        line(this, t_door_metal_locked, 11, 15, 12, 15);
+        for (int i = 9; i <= 13; i += 2) {
+            line(this, t_wall_metal_h,  9, i, 10, i);
+            line(this, t_wall_metal_h, 13, i, 14, i);
+            add_spawn("mon_turret_rifle", 1, 9, i + 1);
+            add_spawn("mon_turret_rifle", 1, 14, i + 1);
         }
+        ter_set(13, 16, t_card_military);
 
+        if (is_ot_type("road", t_west)) {
+            rotate(1);
+        } else if (is_ot_type("road", t_north)) {
+            rotate(2);
+        } else if (is_ot_type("road", t_east)) {
+            rotate(3);
+        }
+    } else if (terrain_type == "bunker_under") {
+
+        fill_background(this, t_rock);
+        square(this, t_floor, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2);
+        line(this, t_wall_metal_h,  2,  8,  8,  8);
+        line(this, t_wall_metal_h, 15,  8, 21,  8);
+        line(this, t_wall_metal_h,  2, 15,  8, 15);
+        line(this, t_wall_metal_h, 15, 15, 21, 15);
+        for (int j = 2; j <= 16; j += 7) {
+            ter_set( 9, j    , t_card_military);
+            ter_set(14, j    , t_card_military);
+            ter_set( 9, j + 1, t_door_metal_locked);
+            ter_set(14, j + 1, t_door_metal_locked);
+            line(this, t_reinforced_glass_v,  9, j + 2,  9, j + 4);
+            line(this, t_reinforced_glass_v, 14, j + 2, 14, j + 4);
+            line(this, t_wall_metal_v,  9, j + 5,  9, j + 6);
+            line(this, t_wall_metal_v, 14, j + 5, 14, j + 6);
+
+            // Fill rooms with items!
+            for (int i = 2; i <= 15; i += 13) {
+                items_location goods;
+                int size = 0;
+                bool HW = 0;
+                switch (rng(1, 14)) {
+                case  1:
+                case  2:
+                    goods = "bots";
+                    size = 85;
+                    HW = 0;
+                    break;
+                case  3:
+                case  4:
+                    goods = "launchers";
+                    size = 83;
+                    HW = 0;
+                    break;
+                case  5:
+                case  6:
+                    goods = "mil_rifles";
+                    size = 87;
+                    HW = 0;
+                    break;
+                case  7:
+                case  8:
+                    goods = "grenades";
+                    size = 88;
+                    HW = 0;
+                    break;
+                case  9:
+                case 10:
+                    goods = "mil_armor";
+                    size = 85;
+                    HW = 0;
+                    break;
+                case 11:
+                    goods = "mil_hw";
+                    size = 82;
+                    HW = 1;
+                    break;
+                case 12:
+                case 13:
+                    goods = "mil_food";
+                    size = 90;
+                    HW = 0;
+                    break;
+                case 14:
+                    goods = "bionics_mil";
+                    size = 78;
+                    HW = 0;
+                    break;
+                }
+                place_items(goods, size, i, j, i + 6, j + 5, false, 0);
+                  if (HW == 1) {
+                    if (one_in(2)) {
+                    spawn_item(i + 2, j + 1, "556", 2);
+                    }
+                    if (one_in(4)) {
+                    spawn_item(i + 2, j + 1, "8mm_fmj", 2);
+                    }
+                    if (one_in(4)) {
+                    spawn_item(i + 2, j + 1, "8mm_inc", 2);
+                    }
+                    if (one_in(5)) {
+                    spawn_item(i + 2, j + 1, "20x66_flechette", 2);
+                    }
+                    if (one_in(5)) {
+                    spawn_item(i + 2, j + 1, "40mm_concussive", 2);
+                    }
+                  }
+            }
+        }
+        line(this, t_wall_metal_h, 1, 1, SEEX * 2 - 2, 1);
+        line(this, t_wall_metal_h, 1, SEEY * 2 - 2, SEEX * 2 - 2, SEEY * 2 - 2);
+        line(this, t_wall_metal_v, 1, 2, 1, SEEY * 2 - 3);
+        line(this, t_wall_metal_v, SEEX * 2 - 2, 2, SEEX * 2 - 2, SEEY * 2 - 3);
+        ter_set(SEEX - 1, 21, t_stairs_up);
+        ter_set(SEEX,     21, t_stairs_up);
 
     } else if (terrain_type == "outpost") {
 
