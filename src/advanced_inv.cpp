@@ -1894,6 +1894,12 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
     // set up the dragged inventory
     _panes["D"] = nullptr;
 
+    helper::Direction gDir(helper::pointToDirection(p->grab_point));
+
+    if (gDir != helper::Direction::Center) {
+      _panes["D"] = _panes[std::string(1, directionToNumpad(gDir))];
+    }
+
     // Set initial panes; for now they are as default
     selectPane("9", SelectedPane::Left);
     selectPane("6", SelectedPane::Right);
@@ -2112,10 +2118,6 @@ void AdvancedInventory::display (player *p, player *o) {
     case 'm':
       advInv.moveItem();
       break;
-    case 'i':
-    case 'I':
-      advInv.selectPane("I");
-      break;
     case 'M':
     case KEY_ENTER:
     case '\n':
@@ -2128,9 +2130,18 @@ void AdvancedInventory::display (player *p, player *o) {
     case 's':
       advInv.sort();
       break;
+    case 'd':
+    case 'D':
+      advInv.selectPane("D");
+      break;
     case 'a':
     case 'A':
       advInv.selectPane("A");
+      break;
+    case '0':
+    case 'i':
+    case 'I':
+      advInv.selectPane("I");
       break;
     }
 
@@ -2330,7 +2341,7 @@ void AdvancedInventory::drawIndicatorAtom (WINDOW *window, std::string id, point
 
   if (pane != nullptr) {
     mvwprintz(window, location.y, location.x, selected ? c_cyan : active ? c_white : c_ltgray, pane->chevrons().c_str());
-    mvwprintz(window, location.y, location.x + 1, selected ? c_green : active ? c_white : c_ltgray, pane->_identifier.c_str());
+    mvwprintz(window, location.y, location.x + 1, selected ? c_green : active ? c_white : c_ltgray, id.c_str());
   } else {
     mvwprintz(window, location.y, location.x, c_red, "[%1.1s]", id.c_str());
   }

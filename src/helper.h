@@ -38,6 +38,8 @@ namespace helper
     tripoint directionToTriPoint (Direction);
     char directionToNumpad (Direction);
 
+    Direction pointToDirection (const point &);
+
     double convertWeight(int);
 }
 #endif

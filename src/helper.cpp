@@ -153,4 +153,27 @@ namespace helper
 
     return ret;
   }
+
+  Direction pointToDirection (const point &p) {
+    if      (p.x == -1 && p.y ==  1)
+      return Direction::SouthWest;
+    else if (p.x ==  0 && p.y ==  1)
+      return Direction::South;
+    else if (p.x ==  1 && p.y ==  1)
+      return Direction::SouthEast;
+    else if (p.x == -1 && p.y ==  0)
+      return Direction::West;
+    else if (p.x ==  0 && p.y ==  0)
+      return Direction::Center;
+    else if (p.x ==  1 && p.y ==  0)
+      return Direction::East;
+    else if (p.x == -1 && p.y == -1)
+      return Direction::NorthWest;
+    else if (p.x ==  0 && p.y == -1)
+      return Direction::North;
+    else if (p.x ==  1 && p.y == -1)
+      return Direction::NorthEast;
+    else
+      return Direction::None;
+  }
 }
