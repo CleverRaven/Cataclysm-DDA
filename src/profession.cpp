@@ -11,14 +11,15 @@
 #include "bionics.h"
 
 profession::profession()
-   : _ident(""), _name("null"), _description("null"), _point_cost(0)
+   : _ident(""), _name_male("null"), _name_female("null"), _description("null"), _point_cost(0)
 {
 }
 
 profession::profession(std::string ident, std::string name, std::string description, signed int points)
 {
     _ident = ident;
-    _name = name;
+    _name_male = name;
+    _name_female = name;
     _description = description;
     _point_cost = points;
 }
@@ -32,35 +33,17 @@ void profession::load_profession(JsonObject &jsobj)
 
     prof._ident = jsobj.get_string("ident");
     //If the "name" is an object then we have to deal with gender-specific titles,
-    //otherwise we assume "name" is a string and use its value for prof._name
     if(jsobj.has_object("name")) {
         JsonObject name_obj=jsobj.get_object("name");
         prof._name_male = _(name_obj.get_string("male").c_str());
         prof._name_female = _(name_obj.get_string("female").c_str());
-        prof._name = "";
     }
     else {
-        // Json only has a gender neutral name, construct additional
-        // gender specific names using a prefix.
-        // extract_json_strings.py contains code that automatically adds
-        // these constructed strings to the translation table.
+        // Same profession names for male and female in English.
+        // Still need to different names in other languages.
         const std::string name = jsobj.get_string("name");
-        const std::string name_female = std::string("female ") + name;
-        const std::string name_male = std::string("male ") + name;
-        // Now attempt to translate them...
-        prof._name = _(name.c_str());
-        prof._name_female = _(name_female.c_str());
-        prof._name_male = _(name_male.c_str());
-        // ... if it fails, translate the gender prefix and use it to
-        // construct generic specific names:
-        if (prof._name_female == name_female) {
-            //~ player info: "female <gender unspecific profession>"
-            prof._name_female = string_format(_("female %s"), prof._name.c_str());
-        }
-        if (prof._name_male == name_male) {
-            //~ player info: "male <gender unspecific profession>"
-            prof._name_male = string_format(_("male %s"), prof._name.c_str());
-        }
+        prof._name_female = pgettext("profession-female", name.c_str());
+        prof._name_male = pgettext("profession-male", name.c_str());
     }
 
     prof._description = _(jsobj.get_string("description").c_str());
@@ -238,11 +221,6 @@ void profession::add_skill(const std::string& skill_name, const int level)
 std::string profession::ident() const
 {
     return _ident;
-}
-
-std::string profession::name() const
-{
-    return _name;
 }
 
 std::string profession::gender_appropriate_name(bool male) const

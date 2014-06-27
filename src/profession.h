@@ -20,7 +20,6 @@ public:
     typedef std::vector<StartingSkill> StartingSkillList;
 private:
     std::string _ident;
-    std::string _name;
     std::string _name_male;
     std::string _name_female;
     std::string _description;
@@ -69,7 +68,6 @@ public:
     void check_definition() const;
 
     std::string ident() const;
-    std::string name() const;
     std::string gender_appropriate_name(bool male) const;
     std::string description() const;
     std::string gender_req() const;

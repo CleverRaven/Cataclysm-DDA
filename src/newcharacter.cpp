@@ -1088,15 +1088,8 @@ int set_profession(WINDOW *w, player *u, int &points)
             } else {
                 col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
-            // Use gender neutral name if it has one, prevents cluttering
-            // the list with "female X", "female Y", "female Z", ...
-            std::string name;
-            if (!sorted_profs[i]->name().empty()) {
-                name = sorted_profs[i]->name();
-            } else {
-                name = sorted_profs[i]->gender_appropriate_name(u->male);
-            }
-            mvwprintz(w, 5 + i - iStartPos, 2, col, "%s", name.c_str());
+            mvwprintz(w, 5 + i - iStartPos, 2, col,
+                      sorted_profs[i]->gender_appropriate_name(u->male).c_str());
         }
 
         std::vector<std::string> prof_items = sorted_profs[cur_id]->items();
