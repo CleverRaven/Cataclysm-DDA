@@ -1073,7 +1073,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                       pointsForProf, netPointCost);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
-                       sorted_profs[cur_id]->description());
+                       sorted_profs[cur_id]->description(u->male));
 
         calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
 

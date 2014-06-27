@@ -22,7 +22,8 @@ private:
     std::string _ident;
     std::string _name_male;
     std::string _name_female;
-    std::string _description;
+    std::string _description_male;
+    std::string _description_female;
     std::string _gender_req;
     signed int _point_cost;
     std::vector<std::string> _starting_items;
@@ -69,7 +70,7 @@ public:
 
     std::string ident() const;
     std::string gender_appropriate_name(bool male) const;
-    std::string description() const;
+    std::string description(bool male) const;
     std::string gender_req() const;
     signed int point_cost() const;
     std::vector<std::string> items() const;

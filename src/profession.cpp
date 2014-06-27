@@ -11,7 +11,8 @@
 #include "bionics.h"
 
 profession::profession()
-   : _ident(""), _name_male("null"), _name_female("null"), _description("null"), _point_cost(0)
+   : _ident(""), _name_male("null"), _name_female("null"),
+     _description_male("null"), _description_female("null"), _point_cost(0)
 {
 }
 
@@ -20,7 +21,8 @@ profession::profession(std::string ident, std::string name, std::string descript
     _ident = ident;
     _name_male = name;
     _name_female = name;
-    _description = description;
+    _description_male = description;
+    _description_female = description;
     _point_cost = points;
 }
 
@@ -46,7 +48,10 @@ void profession::load_profession(JsonObject &jsobj)
         prof._name_male = pgettext("profession_male", name.c_str());
     }
 
-    prof._description = _(jsobj.get_string("description").c_str());
+    const std::string desc = jsobj.get_string("description").c_str();
+    prof._description_male = pgettext("prof_desc_male", desc.c_str());
+    prof._description_female = pgettext("prof_desc_female", desc.c_str());
+
     prof._point_cost = jsobj.get_int("points");
 
     JsonObject items_obj=jsobj.get_object("items");
@@ -233,9 +238,14 @@ std::string profession::gender_appropriate_name(bool male) const
     }
 }
 
-std::string profession::description() const
+std::string profession::description(bool male) const
 {
-    return _description;
+    if(male) {
+        return _description_male;
+    }
+    else {
+        return _description_female;
+    }
 }
 
 signed int profession::point_cost() const
