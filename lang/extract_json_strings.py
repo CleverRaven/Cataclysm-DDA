@@ -144,23 +144,19 @@ def extract_professions(item):
     outfile = get_outfile("professions")
     nm = item["name"]
     if type(nm) == dict:
-        writestr(outfile, nm["male"], context="profession_male",
-                 comment="Male profession name")
+        writestr(outfile, nm["male"], context="profession_male")
         writestr(outfile, item["description"], context="prof_desc_male",
                  comment="Profession ({}) description".format(nm["male"]))
 
-        writestr(outfile, nm["female"], context="profession_female",
-                 comment="Female profession name")
+        writestr(outfile, nm["female"], context="profession_female")
         writestr(outfile, item["description"], context="prof_desc_female",
                  comment="Profession ({0}) description".format(nm["female"]))
     else:
-        writestr(outfile, nm, context="profession_male",
-                 comment="Male profession name")
+        writestr(outfile, nm, context="profession_male")
         writestr(outfile, item["description"], context="prof_desc_male",
                  comment="Profession (male {}) description".format(nm))
 
-        writestr(outfile, nm, context="profession_female",
-                 comment="Female profession name")
+        writestr(outfile, nm, context="profession_female")
         writestr(outfile, item["description"], context="prof_desc_female",
                  comment="Profession (female {}) description".format(nm))
 
