@@ -28,6 +28,9 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, NUM_SORTBY
 };
 
+const point areaIndicatorRoot(5, 2);
+const point linearIndicatorRoot(13, 2);
+
 bool advanced_inventory::isDirectionalDragged(int area1, int area2)
 {
 
@@ -1835,11 +1838,17 @@ void advanced_inventory::display(player *pp)
 
 AdvancedInventory::InventoryPane::InventoryPane(std::string id, player *p) : InventoryPane(id, p->inv, p->volume_capacity(), p->weight_capacity()) { }
 
-bool AdvancedInventory::selectPane(SelectedPane area, std::string id) {
+bool AdvancedInventory::selectPane(std::string id, SelectedPane area) {
+  if (area == SelectedPane::None)
+    area = _selectedPane;
+
   Pane *candidate = _panes[id];
 
   if (candidate == nullptr) {
     return false;
+  } else if (_selections[SelectedPane::Left] == candidate || _selections[SelectedPane::Right] == candidate) {
+    std::swap(_selections[SelectedPane::Left], _selections[SelectedPane::Right]);
+    return true;
   } else {
     _selections[area] = candidate;
     return true;
@@ -1870,8 +1879,8 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
     _panes["I"] = new InventoryPane("I", p);
 
     // Set initial panes; for now they are as default
-    selectPane(SelectedPane::Left, "9");
-    selectPane(SelectedPane::Right, "6");
+    selectPane("9", SelectedPane::Left);
+    selectPane("6", SelectedPane::Right);
   }
 }
 
@@ -2016,14 +2025,29 @@ void AdvancedInventory::display (player *p, player *o) {
   WINDOW *left_window = newwin(w_height, w_width / 2, headstart + head_height, colstart);
   WINDOW *right_window = newwin(w_height, w_width / 2, headstart + head_height, colstart + w_width / 2);
 
-  advInv.displayHead(head);
-  advInv.displayPanes(left_window, right_window);
+  size_t itemsPerPage(w_height - ADVINVOFS);
 
   while (1) { // input loop
-    wrefresh(head);
-    wrefresh(left_window);
-    wrefresh(right_window);
-    getch();
+    advInv.displayHead(head);
+    advInv.displayPanes(left_window, right_window);
+
+    int input(getch());
+    helper::Direction inputDir(helper::movementKeyToDirection(input));
+
+    switch (inputDir) {
+    case helper::Direction::None: // further processing is needed
+      break;
+    case helper::Direction::Up:
+      advInv.selectedPane()->pageUp(itemsPerPage);
+      continue;
+    case helper::Direction::Down:
+      advInv.selectedPane()->pageDown(itemsPerPage);
+      continue;
+
+    default: // Received a viable direction; switch focus
+      advInv.selectPane(std::string(1, directionToNumpad(inputDir)));
+    }
+
   }
 
   delwin(head), delwin(left_window), delwin(right_window);
@@ -2037,18 +2061,20 @@ void AdvancedInventory::displayHead (WINDOW *head) {
   mvwprintz(head, 1, 2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes ([M]: all)"));
   mvwprintz(head, 2, 2, c_white, _("1-9 to select square for active tab, 0 for inventory, D for dragged item,"));
   mvwprintz(head, 3, 2, c_white, _("[e]xamine, [s]ort, toggle auto[p]ickup, [,] to move all items, [q]uit."));
+
+  wrefresh(head);
 }
 
 void AdvancedInventory::displayPanes (WINDOW *lWin, WINDOW *rWin) {
   // TODO: fix this for linear mode
   _selections[SelectedPane::Left]->draw(lWin, _selectedPane == SelectedPane::Left);
   _selections[SelectedPane::Right]->draw(rWin, _selectedPane == SelectedPane::Right);
+
+  drawAreaIndicator(lWin, _selections[SelectedPane::Left], _selectedPane == SelectedPane::Left);
+  drawAreaIndicator(rWin, _selections[SelectedPane::Right], _selectedPane == SelectedPane::Right);
 }
 
 void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
-  if (_dirtyStack)
-    restack();
-
   werase(window);
   draw_border(window);
 
@@ -2096,7 +2122,7 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
 
   size_t x = 0;
 
-  for (auto item = _stackedItems.begin(); item != _stackedItems.end() && item != _stackedItems.begin() + itemsPerPage; item++, x++) {
+  for (auto item = stackedItems().begin(); item != stackedItems().end() && item != stackedItems().begin() + itemsPerPage; item++, x++) {
     wmove(window, 6 + x, 1);
     printItem(window, *item, active, x == _cursor);
   }
@@ -2175,4 +2201,31 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<item *> 
     print_color = errorColor;
   }
   wprintz(window, print_color, "%4d", it_vol );
+
+  wrefresh(window);
+}
+
+void AdvancedInventory::drawAreaIndicator (WINDOW *window, Pane *pane, bool active) const {
+  for (auto dir : helper::planarDirections) {
+    point loc(helper::directionToPoint(dir));
+    std::string id(1, helper::directionToNumpad(dir));
+    Pane *thisPane = _panes.at(id);
+
+    mvwprintz(window, areaIndicatorRoot.y + loc.y, areaIndicatorRoot.x + loc.x * 3, thisPane == pane ? c_cyan : active ? c_white : c_ltgray, thisPane->chevrons().c_str());
+    mvwprintz(window, areaIndicatorRoot.y + loc.y, areaIndicatorRoot.x + loc.x * 3 + 1, thisPane == pane ? c_green : active ? c_white : c_ltgray, id.c_str());
+  }
+
+  std::string id("A");
+  Pane *thisPane(_panes.at(id));
+
+  mvwprintz(window, linearIndicatorRoot.y, linearIndicatorRoot.x, thisPane == pane ? c_cyan : active ? c_white : c_ltgray, thisPane->chevrons().c_str());
+  mvwprintz(window, linearIndicatorRoot.y, linearIndicatorRoot.x + 1, thisPane == pane ? c_green : active ? c_white : c_ltgray, id.c_str());
+
+  id = "I";
+  thisPane = _panes.at(id);
+
+  mvwprintz(window, linearIndicatorRoot.y + 1, linearIndicatorRoot.x, thisPane == pane ? c_cyan : active ? c_white : c_ltgray, thisPane->chevrons().c_str());
+  mvwprintz(window, linearIndicatorRoot.y + 1, linearIndicatorRoot.x + 1, thisPane == pane ? c_green : active ? c_white : c_ltgray, id.c_str());
+
+  wrefresh(window);
 }

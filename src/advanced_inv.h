@@ -16,7 +16,7 @@ class AdvancedInventory {
   };
 
   enum class SelectedPane {
-    FarLeft = 0, Left = 1, Right = 2, FarRight = 3
+    FarLeft = 0, Left = 1, Right = 2, FarRight = 3, None = -1
   };
 
   enum class SortRule {
@@ -35,7 +35,9 @@ class AdvancedInventory {
     std::vector<std::list<item*>> _stackedItems;
     bool _dirtyStack = true;
 
-    void printItem(WINDOW *, const std::list<item *> &, bool active, bool highlighted);
+    void printItem (WINDOW *, const std::list<item *> &, bool active, bool highlighted);
+
+    void clampCursor () { if (_cursor >= stackedItems().size()) _cursor = 0; }
 
   public:
     Pane(std::string id, int mV, int mW) : _identifier(id), _maxVolume(mV), _maxWeight(mW) { }
@@ -56,9 +58,20 @@ class AdvancedInventory {
     SortRule sortRule () const { return _sortRule; }
     void sortRule (SortRule sortRule);
 
-    const std::vector<std::list<item *>> &stackedItems ();
+    const std::vector<std::list<item *>> &stackedItems () {
+      if (_dirtyStack)
+        restack();
+
+      return _stackedItems;
+    }
 
     void draw (WINDOW *, bool active);
+
+    void up () { if (_cursor == 0) _cursor = stackedItems().size(); _cursor--; }
+    void down () { _cursor++; if (_cursor == stackedItems().size()) _cursor = 0; }
+
+    void pageUp (size_t rows) { _cursor -= rows; clampCursor(); }
+    void pageDown (size_t rows) { _cursor += rows; clampCursor(); }
 
   private:
     virtual void restack () = 0;
@@ -116,9 +129,13 @@ class AdvancedInventory {
   void displayHead (WINDOW *);
   void displayPanes (WINDOW *, WINDOW *);
 
-  bool selectPane (SelectedPane area, std::string id);
+  bool selectPane (std::string id, SelectedPane = SelectedPane::None);
 
   int w_width, w_height;
+
+  Pane *selectedPane () const { return _selections.at(_selectedPane); }
+
+  void drawAreaIndicator (WINDOW *, Pane *, bool) const;
 
  public:
   static void display (player *, player * = nullptr);
