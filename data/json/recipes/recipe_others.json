@@ -3972,35 +3972,24 @@
      ]
   ]
 },{
-        "type" : "recipe",
-  "result": "charcoal",
+  "type" : "recipe",
+  "result": "kiln_full",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
   "difficulty": 1,
-  "time": 60000,
+  "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "lighter", 1 ],
-      [ "ref_lighter", 1 ],
-      [ "matches", 1 ],
-      [ "fire_drill", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ],
-    [
-      [ "char_kiln", -1 ] ]
-    ],
   "components": [
     [
+      [ "splinter", 20 ],
       [ "2x4", 3 ],
       [ "stick", 5 ],
-      [ "splinter", 20 ],
       [ "bone", 40 ],
       [ "log", 1 ]
-    ]
+    ],
+	  [[ "char_kiln", 1 ]]
   ]
 },{
         "type" : "recipe",
