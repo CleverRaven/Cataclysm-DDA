@@ -7418,6 +7418,31 @@ hint_rating player::rate_action_eat(item *it)
  return HINT_CANT;
 }
 
+//Returns the amount of charges that were consumed byt he player
+int player::drink_from_hands(item& water) {
+    int charges = 0;
+    if (query_yn(_("Drink from your hands?")))
+        {
+            // Create a dose of water no greater than the amount of water remaining.
+            item water_temp("water", 0);
+            water_temp.poison = water.poison;
+            water_temp.charges = std::min(water_temp.charges, water.charges);
+
+            inv.push_back(water_temp);
+            // If player is slaked water might not get consumed.
+            if (consume(inv.position_by_type(water_temp.typeId())))
+            {
+                moves -= 350;
+
+                charges = water_temp.charges;
+            } else {
+                inv.remove_item(inv.position_by_type(water_temp.typeId()));
+            }
+        }
+    return charges;
+}
+
+
 bool player::consume(int pos)
 {
     item *to_eat = NULL;
