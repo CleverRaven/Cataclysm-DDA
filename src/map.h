@@ -154,7 +154,13 @@ class map
      * has therefor no overmap pointer parameter.
      */
     void load_abs(const int wx, const int wy, const int wz, const bool update_vehicles);
- void shift(const int wx, const int wy, const int wz, const int x, const int y);
+    /**
+     * Shift the map along the vector (sx,sy).
+     * This is like loading the map with coordinates derived from the current
+     * position of the map (@ref abs_sub) plus the shift vector.
+     * Note: the map must have been loaded before this can be called.
+     */
+    void shift(const int sx, const int sy);
  void spawn_monsters();
  void clear_spawns();
  void clear_traps();

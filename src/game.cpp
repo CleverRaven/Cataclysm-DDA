@@ -13155,7 +13155,7 @@ void game::update_map(int &x, int &y)
         shifty++;
     }
 
-    m.shift(levx, levy, levz, shiftx, shifty);
+    m.shift(shiftx, shifty);
     levx += shiftx;
     levy += shifty;
 
