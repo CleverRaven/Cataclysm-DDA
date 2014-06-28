@@ -6,7 +6,6 @@
 #include "veh_interact.h"
 #include "options.h"
 #include "auto_pickup.h"
-#include "mapbuffer.h"
 #include "debug.h"
 #include "helper.h"
 #include "editmap.h"

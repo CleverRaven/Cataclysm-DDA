@@ -37,12 +37,11 @@ void mapbuffer::reset()
     submap_list.clear();
 }
 
-bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
+bool mapbuffer::add_submap(const tripoint &p, submap *sm)
 {
     dbg(D_INFO) << "mapbuffer::add_submap( x[" <<
-                x << "], y[" << y << "], z[" << z << "], submap[" << sm << "])";
+                p.x << "], y[" << p.y << "], z[" << p.z << "], submap[" << sm << "])";
 
-    const tripoint p(x, y, z);
     if (submaps.count(p) != 0) {
         return false;
     }
@@ -52,6 +51,23 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
     submaps[p] = sm;
 
     return true;
+}
+
+bool mapbuffer::add_submap( int x, int y, int z, submap *sm )
+{
+    return add_submap( tripoint( x, y, z ), sm );
+}
+
+bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
+{
+    const bool result = add_submap( p, sm.get() );
+    sm.release();
+    return result;
+}
+
+bool mapbuffer::add_submap( int x, int y, int z, std::unique_ptr<submap> &sm )
+{
+    return add_submap( tripoint( x, y, z ), sm );
 }
 
 void mapbuffer::remove_submap( tripoint addr )
@@ -398,7 +414,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     JsonIn jsin( fin );
     jsin.start_array();
     while( !jsin.end_array() ) {
-        submap *sm = new submap();
+        std::unique_ptr<submap> sm(new submap());
         tripoint submap_coordinates;
         jsin.start_object();
         while( !jsin.end_object() ) {
@@ -537,8 +553,13 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 jsin.skip_value();
             }
         }
-        submap_list.push_back(sm);
-        submaps[ submap_coordinates ] = sm;
+        if( !add_submap( submap_coordinates, sm ) ) {
+            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y, submap_coordinates.z );
+        }
+    }
+    if( submaps.count( p ) == 0 ) {
+        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y, p.z);
+        return NULL;
     }
     return submaps[ p ];
 }

@@ -1,6 +1,7 @@
 #include "line.h"
 #include <map>
 #include <list>
+#include <memory>
 
 struct pointcomp {
     bool operator() (const tripoint &lhs, const tripoint &rhs) const
@@ -50,7 +51,10 @@ class mapbuffer
          *
          * @param x, y, z The absolute world position in submap coordinates.
          */
+        bool add_submap(int x, int y, int z, std::unique_ptr<submap> &sm);
+        bool add_submap(const tripoint &p, std::unique_ptr<submap> &sm);
         bool add_submap(int x, int y, int z, submap *sm);
+        bool add_submap(const tripoint &p, submap *sm);
 
         /** Get a submap stored in this buffer.
          *
