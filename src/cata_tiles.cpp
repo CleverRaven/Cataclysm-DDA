@@ -1286,8 +1286,7 @@ void cata_tiles::draw_line()
     int mx = line_pos_x, my = line_pos_y;
     std::string line_overlay = "animation_line";
     if (!is_target_line || g->u_see(mx, my)) {
-        for (std::vector<point> it = line_trajectory.begin();
-             it != line_trajectory.end() - 1; ++it) {
+        for( auto it = line_trajectory.begin(); it != line_trajectory.end() - 1; ++it ) {
             mx = it->x;
             my = it->y;
 
@@ -1301,9 +1300,8 @@ void cata_tiles::draw_line()
 }
 void cata_tiles::draw_weather_frame()
 {
-    for (std::vector<std::pair<int, int> >::iterator weather_iterator = anim_weather.vdrops.begin();
-            weather_iterator != anim_weather.vdrops.end();
-            ++weather_iterator) {
+    for( auto weather_iterator = anim_weather.vdrops.begin();
+         weather_iterator != anim_weather.vdrops.end(); ++weather_iterator ) {
         // currently in ascii screen coordinates
         int x = weather_iterator->first + o_x;
         int y = weather_iterator->second + o_y;
@@ -1312,7 +1310,7 @@ void cata_tiles::draw_weather_frame()
 }
 void cata_tiles::draw_sct_frame()
 {
-    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+    for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const int iDX = iter->getPosX();
         const int iDY = iter->getPosY();
 
@@ -1320,10 +1318,10 @@ void cata_tiles::draw_sct_frame()
 
         for (int j=0; j < 2; ++j) {
             std::string sText = iter->getText((j == 0) ? "first" : "second");
-            int FG = msgtype_to_tilecolor(iter->getMsgType((j == 0) ? "first" : "second"), (iter->getStep() >= SCT.iMaxSteps/2));
+            int FG = msgtype_to_tilecolor( iter->getMsgType((j == 0) ? "first" : "second"),
+                                           (iter->getStep() >= SCT.iMaxSteps / 2) );
 
-            for (std::string::iterator it = sText.begin();
-                 it != sText.end(); ++it) {
+            for( std::string::iterator it = sText.begin(); it != sText.end(); ++it ) {
                 std::string generic_id("ASCII_XFB");
                 generic_id[6] = static_cast<char>(*it);
                 generic_id[7] = static_cast<char>(FG);

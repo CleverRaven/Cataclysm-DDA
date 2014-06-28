@@ -162,8 +162,7 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
         crx += (vPoint[vPoint.size() - 1].x - (u.posx + u.view_offset_x));
         cry += (vPoint[vPoint.size() - 1].y - (u.posy + u.view_offset_y));
     }
-    for (std::vetor<point>::iterator it = vPoint.begin();
-         it != vPoint.end()-1; it++) {
+    for( std::vector<point>::iterator it = vPoint.begin(); it != vPoint.end() - 1; it++ ) {
         m.drawsq(w_terrain, u, it->x, it->y, true, true);
     }
 
