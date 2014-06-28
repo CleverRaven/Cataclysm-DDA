@@ -57,6 +57,7 @@ npc::npc()
  mission = NPC_MISSION_NULL;
  myclass = NC_NONE;
  patience = 0;
+ restock = -1;
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
    set_skill_level(*aSkill, 0);
@@ -228,11 +229,12 @@ void npc::randomize(npc_class type)
   boost_skill_level("mechanics", rng(0, 1));
   boost_skill_level("electronics", rng(1, 2));
   boost_skill_level("speech", rng(1, 3));
-  boost_skill_level("barter", rng(2, 5));
+  boost_skill_level("barter", rng(3, 7));
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
   cash += 2500000 * rng(1, 10);
+  this->restock = 100;  //Every three days
   break;
 
  case NC_HACKER:
@@ -1558,6 +1560,36 @@ void npc::init_buying(inventory& you, std::vector<item*> &items,
   }
  }
 }
+
+void npc::shop_restock(){
+    items_location from = "NULL";
+    int total_space = volume_capacity() - 2;
+    std::list<item> ret;
+    //list all merchant types here along with the item group they pull from and how much extra space they should have
+    //guards and other fixed npcs may need a small supply of food daily...
+    switch (this->myclass) {
+        case NC_EVAC_SHOPKEEP:
+            from = "npc_evac_shopkeep";
+            total_space += rng(50,100);
+            popup(_("Refugee Merchant Re-Rolling Items"));
+            this-> cash = 250000 * rng(1, 10)+ rng(1, 10000);
+    }
+    if (from == "NULL")
+        return;
+    while (total_space > 0 && !one_in(50)) {
+        Item_tag selected_item = item_controller->id_from(from);
+        item tmpit(selected_item, 0);
+        tmpit = tmpit.in_its_container();
+        if (total_space >= tmpit.volume()) {
+            ret.push_back(tmpit);
+            total_space -= tmpit.volume();
+        }
+    }
+    this->inv.clear();
+    this->inv.add_stack(ret);
+    this->update_worst_item_value();
+}
+
 
 int npc::minimum_item_value()
 {
