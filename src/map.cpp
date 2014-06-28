@@ -4170,14 +4170,13 @@ int map::coord_to_angle ( const int x, const int y, const int tgtx, const int tg
   return int( rad * DBLRAD2DEG );
 }
 
-void map::save(overmap *om, unsigned const int turn, const int x, const int y, const int z)
+void map::save()
 {
-    const int wx = x + om->pos().x * OMAPX * 2;
-    const int wy = y + om->pos().y * OMAPY * 2;
- for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-  for (int gridy = 0; gridy < my_MAPSIZE; gridy++)
-   saven(turn, wx, wy, z, gridx, gridy);
- }
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            saven( abs_sub.x, abs_sub.y, abs_sub.z, gridx, gridy );
+        }
+    }
 }
 
 void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
@@ -4315,26 +4314,20 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
 // 0,2 1,2 2,2
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
-void map::saven(unsigned const int turn, const int worldx, const int worldy, const int worldz,
-                const int gridx, const int gridy)
+void map::saven( const int worldx, const int worldy, const int worldz,
+                 const int gridx, const int gridy )
 {
- dbg(D_INFO) << "map::saven(turn[" << turn <<"], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
-
- submap *submap_to_save = get_submap_at_grid(gridx, gridy);
-
- dbg(D_INFO) << "map::save x=" << gridx << " y=" << gridy;
-
- if ( !submap_to_save || submap_to_save->ter[0][0] == t_null)
- {
-  dbg(D_ERROR) << "map::saven grid NULL!";
-  return;
- }
- const int abs_x = worldx + gridx,
-           abs_y = worldy + gridy;
-
- dbg(D_INFO) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
-
- MAPBUFFER.add_submap(abs_x, abs_y, worldz, submap_to_save);
+    dbg( D_INFO ) << "map::saven(worldx[" << worldx << "], worldy[" << worldy << "], gridx[" << gridx <<
+                  "], gridy[" << gridy << "])";
+    submap *submap_to_save = get_submap_at_grid( gridx, gridy );
+    if( submap_to_save == NULL || submap_to_save->ter[0][0] == t_null ) {
+        dbg( D_ERROR ) << "map::saven grid NULL!";
+        return;
+    }
+    const int abs_x = worldx + gridx;
+    const int abs_y = worldy + gridy;
+    dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
+    MAPBUFFER.add_submap( abs_x, abs_y, worldz, submap_to_save );
 }
 
 // worldx & worldy specify where in the world this is;

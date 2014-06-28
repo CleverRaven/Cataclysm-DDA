@@ -858,8 +858,7 @@ void construct::done_dig_stair(point p)
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
-                  g->levz - 1); // Save z-1.
+      tmpmap.save();
    }
    else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
@@ -1046,8 +1045,7 @@ void construct::done_dig_stair(point p)
       // Again, need to use submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
-                  , g->levz - 1); // Save z-1.
+      tmpmap.save();
    }
 }
 
@@ -1130,8 +1128,7 @@ void construct::done_mine_downstair(point p)
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
-                  g->levz - 1); // Save z-1.
+      tmpmap.save();
    }
    else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
@@ -1318,8 +1315,7 @@ void construct::done_mine_downstair(point p)
       // Again, need to use submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
-                  , g->levz - 1); // Save z-1.
+      tmpmap.save();
    }
 }
 
@@ -1419,8 +1415,7 @@ void construct::done_mine_upstair(point p)
       g->m.ter_set(p.x, p.y, t_stairs_up); // There's the bottom half
       // We need to write to submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
-                  g->levz + 1); // Save z+1.
+      tmpmap.save();
    }
    else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
@@ -1444,8 +1439,7 @@ void construct::done_mine_upstair(point p)
       // Again, need to use submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
       // And save to the center coordinate of the current active map.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
-                  , g->levz + 1); // Save z+1.
+      tmpmap.save();
    }
 }
 

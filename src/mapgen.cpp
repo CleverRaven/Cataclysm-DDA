@@ -119,7 +119,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
             dbg(D_INFO) << grid[i + j];
 
             if (i <= 1 && j <= 1) {
-                saven(turn, x, y, z, i, j);
+                saven(x, y, z, i, j);
             } else {
                 delete grid[i + j * my_MAPSIZE];
             }

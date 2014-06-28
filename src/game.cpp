@@ -588,7 +588,7 @@ void game::start_game(std::string worldname)
  tinymap player_start;
  player_start.load( player_location.x, player_location.y, levz, false );
  player_start.translate( t_window_domestic, t_curtains );
- player_start.save(cur_om, int(calendar::turn), player_location.x, player_location.y, levz);
+ player_start.save();
 
  levx -= int(int(MAPSIZE / 2) / 2);
  levy -= int(int(MAPSIZE / 2) / 2);
@@ -3854,7 +3854,7 @@ bool game::save_artifacts()
 bool game::save_maps()
 {
     try {
-        m.save(cur_om, calendar::turn, levx, levy, levz);
+        m.save();
     overmap_buffer.save(); // can throw std::ios::failure
     MAPBUFFER.save(); // can throw std::ios::failure
         return true;
@@ -13497,7 +13497,7 @@ void game::force_save_monster(monster &critter) {
     tinymap tmp;
     tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
     tmp.add_spawn(&critter);
-    tmp.save(cur_om, calendar::turn, critter.spawnmapx, critter.spawnmapy, levz);
+    tmp.save();
 }
 
 void game::despawn_monsters(const int shiftx, const int shifty)
@@ -13527,7 +13527,7 @@ void game::despawn_monsters(const int shiftx, const int shifty)
                     tinymap tmp;
                     tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
                     tmp.add_spawn(&critter);
-                    tmp.save(cur_om, calendar::turn, critter.spawnmapx, critter.spawnmapy, levz);
+                    tmp.save();
                 }
                 else
                 {
@@ -13902,7 +13902,7 @@ void game::nuke(int x, int y)
             tmpmap.adjust_radiation(i, j, rng(20, 80));
         }
     }
-    tmpmap.save(&om, calendar::turn, smc.x, smc.y, 0);
+    tmpmap.save();
     om.ter(x, y, 0) = "crater";
     // Kill any npcs on that omap location.
     std::vector<npc*> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);

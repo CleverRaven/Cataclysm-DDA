@@ -123,9 +123,32 @@ class map
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
 
-// File I/O
- void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
- void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
+    /**
+     * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
+     * They will than be stored by that class and can be loaded from that class.
+     * This can be called several times, the mapbuffer takes care of adding
+     * the same submap several times. It should only be called after the map has
+     * been loaded.
+     * Submaps that have been loaded from the mapbuffer (and not generated) are
+     * already stored in the mapbuffer.
+     * TODO: determine if this is really needed? Submaps are already in the mapbuffer
+     * if they have been loaded from disc and the are added by map::generate, too.
+     * So when do they not appear in the mapbuffer?
+     */
+    void save();
+    /**
+     * Load submaps into @ref grid. This might create new submaps if
+     * the @ref mapbuffer can not deliver the requested submap (as it does
+     * not exist on disc).
+     * @param om overmap to which the world coordinates are relative to. Defaults
+     * to @ref game::cur_om.
+     * @param wx coordinates (relative to om) of the submap at grid[0]. This
+     * is in submap coordinates.
+     * @param wy see wx
+     * @param wz see wx, this is the z-level
+     * @param update_vehicles If true, add vehicles to the vehicle cache.
+     */
+    void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
  void shift(const int wx, const int wy, const int wz, const int x, const int y);
  void spawn_monsters();
  void clear_spawns();
@@ -610,7 +633,7 @@ void add_corpse(int x, int y);
     void load_zones();
 
 protected:
- void saven(unsigned const int turn, const int x, const int y, const int z,
+ void saven(const int x, const int y, const int z,
             const int gridx, const int gridy);
  bool loadn(const int x, const int y, const int z, const int gridx, const int gridy,
             const  bool update_vehicles = true);

@@ -72,7 +72,7 @@ void mission_start::place_dog(mission *miss)
  overmap &om = overmap_buffer.get_om_global(house.x, house.y);
  doghouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
  doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
- doghouse.save(&om, int(calendar::turn), house.x * 2, house.y * 2, g->levz);
+ doghouse.save();
 }
 
 void mission_start::place_zombie_mom(mission *miss)
@@ -91,7 +91,7 @@ void mission_start::place_zombie_mom(mission *miss)
  overmap &om = overmap_buffer.get_om_global(house.x, house.y);
  zomhouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
- zomhouse.save(&om, int(calendar::turn), house.x * 2, house.y * 2, g->levz);
+ zomhouse.save();
 }
 
 void mission_start::place_jabberwock(mission *miss)
@@ -102,7 +102,7 @@ void mission_start::place_jabberwock(mission *miss)
  overmap &om = overmap_buffer.get_om_global(site.x, site.y);
  grove.load(site.x * 2, site.y * 2, g->levz, false, &om);
  grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
- grove.save(&om, int(calendar::turn), site.x * 2, site.y * 2, g->levz);
+ grove.save();
 }
 
 void mission_start::kill_100_z(mission *miss)
@@ -145,7 +145,7 @@ void mission_start::kill_horde_master(mission *miss)
 }
  tile.add_spawn("mon_zombie_necro",2,SEEX,SEEY);
  tile.add_spawn("mon_zombie_hulk",1,SEEX,SEEY);
- tile.save(&om, int(calendar::turn), site.x * 2, site.y * 2, g->levz);
+ tile.save();
 }
 
 void mission_start::place_npc_software(mission *miss)
@@ -267,7 +267,7 @@ void mission_start::place_npc_software(mission *miss)
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option(_("Download Software"), COMPACT_DOWNLOAD_SOFTWARE, 0);
 
- compmap.save(&om, int(calendar::turn), place.x * 2, place.y * 2, g->levz);
+ compmap.save();
 }
 
 void mission_start::place_priest_diary(mission *miss)
@@ -299,7 +299,7 @@ void mission_start::place_priest_diary(mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
  compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary");
- compmap.save(&om, int(calendar::turn), place.x * 2, place.y * 2, g->levz);
+ compmap.save();
 }
 
 void mission_start::place_deposit_box(mission *miss)
@@ -340,7 +340,7 @@ void mission_start::place_deposit_box(mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
 compmap.spawn_item(comppoint.x, comppoint.y, "safe_box");
-compmap.save(&om, int(calendar::turn), site.x * 2, site.y * 2, g->levz);
+compmap.save();
 }
 
 void mission_start::reveal_lab_black_box(mission *miss)

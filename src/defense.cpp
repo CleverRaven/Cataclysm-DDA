@@ -364,7 +364,7 @@ void defense_game::init_map()
             tm.generate(mx, my, 0, calendar::turn);
             tm.clear_spawns();
             tm.clear_traps();
-            tm.save(g->cur_om, int(calendar::turn), mx, my, 0);
+            tm.save();
         }
     }
 
