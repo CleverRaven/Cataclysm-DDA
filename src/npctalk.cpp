@@ -569,7 +569,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_MISSION_REWARD:
             return _("Sure, here you go!");
-//Acidia
+
         case TALK_EVAC_MERCHANT:
              return _("Welcome...");
 
@@ -619,6 +619,57 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_EVAC_MERCHANT_HELL_NO:
             return _("There isn't a chance in hell!  We had one guy come in here with bloody fur all over his body... well I guess that isn't all that "
                      "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
+
+        case TALK_OLD_GUARD_REP:
+            return _("Citizen...");
+
+        case TALK_OLD_GUARD_REP_NEW:
+             return _("I'm the region's federal liaison.  Most people here call us the 'Old Guard' and I rather like the sound of it.  "
+                      "Despite how things currently appear, the federal government was not entirely destroyed.  After the outbreak I was "
+                      "chosen to coordinate civilian and militia efforts in support of military operations.");
+
+        case TALK_OLD_GUARD_REP_NEW_DOING:
+             return _("I ensure that the citizens here have what they need to survive and protect themselves from raiders.  Keeping "
+                      "some form law is going to be the most important  element in rebuilding the world.  We do what we can to keep the "
+                      "'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.");
+
+        case TALK_OLD_GUARD_REP_NEW_DOWNSIDE:
+             return _("Well... I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the "
+                      " best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain "
+                      "order.  They don't care much about looters since they understand most everyone is dead, but if you have something "
+                      "they need... you WILL give it to them.  Since most survivors have have nothing they want, they are welcomed as champions.");
+
+        case TALK_OLD_GUARD_REP_WORLD:
+             return _("There isn't much pushed out by public relations that I'd actually believe.  From what I gather, communication "
+                      "between the regional force commands is almost non-existent.  What I do know is that the 'Old Guard' is currently "
+                      "based out of the 2nd Fleet and patrols the Atlantic coast trying to provide support to the remaining footholds.");
+
+        case TALK_OLD_GUARD_REP_WORLD_2NDFLEET:
+             return _("I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the "
+                      "coast.  They have everything from supertankers and carriers to fishing trawlers... even a few NATO ships.  Most civilians "
+                      "are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.");
+
+        case TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS:
+             return _("They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.' Around "
+                      "here I was told that there were a few places like this one but I couldn't tell you where.");
+
+        case TALK_OLD_GUARD_REP_ASK_JOIN:
+             return _("You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time "
+                      "if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among "
+                      "the most powerful men left in the world.");
+
+        case TALK_SCAVENGER_MERC:
+             return _("...");
+
+        case TALK_SCAVENGER_MERC_NEW:
+             return _("I'm just a hired hand.  Someone pays me and I do what needs to be done.");
+
+        case TALK_SCAVENGER_MERC_TIPS:
+             return _("If you have to fight your way out of an ambush, the only thing that is going to save you is having a party that can "
+                      "return fire.  People who work alone are easy pickings for monsters and bandits.");
+
+        case TALK_SCAVENGER_MERC_HIRE:
+             return _("I'm currently waiting for a customer to return... if they don't make it, I'll be up for hire in a few days.");
 
         case TALK_SHELTER:
             switch (rng(1, 2)) {
@@ -1106,7 +1157,6 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS_ACTION(&talk_function::clear_mission);
   break;
 
-//Acidia
  case TALK_EVAC_MERCHANT:
   RESPONSE(_("I'm actually new..."));
    SUCCESS(TALK_EVAC_MERCHANT_NEW);
@@ -1114,7 +1164,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_EVAC_MERCHANT_PLANS);
   RESPONSE(_("Heard anything about the outside world?"));
    SUCCESS(TALK_EVAC_MERCHANT_WORLD);
-  RESPONSE(_("Is there any way I can join your groups?"));
+  RESPONSE(_("Is there any way I can join your group?"));
    SUCCESS(TALK_EVAC_MERCHANT_ASK_JOIN);
   RESPONSE(_("Can I do anything for the center?"));
    SUCCESS(TALK_MISSION_LIST);
@@ -1193,6 +1243,92 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_EVAC_MERCHANT_PRIME_LOOT);
   RESPONSE(_("Was hoping for something more..."));
    SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+
+ case TALK_OLD_GUARD_REP:
+  RESPONSE(_("Who are you?"));
+   SUCCESS(TALK_OLD_GUARD_REP_NEW);
+  RESPONSE(_("Heard anything about the outside world?"));
+   SUCCESS(TALK_OLD_GUARD_REP_WORLD);
+  RESPONSE(_("Is there any way I can join the 'Old Guard'?"));
+   SUCCESS( TALK_OLD_GUARD_REP_ASK_JOIN);
+  RESPONSE(_("Does the Old Guard need anything?"));
+   SUCCESS(TALK_MISSION_LIST);
+  if (p->chatbin.missions_assigned.size() == 1) {
+   RESPONSE(_("About that job..."));
+    SUCCESS(TALK_MISSION_INQUIRE);
+  } else if (p->chatbin.missions_assigned.size() >= 2) {
+   RESPONSE(_("About one of those jobs..."));
+    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+  }
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_OLD_GUARD_REP_NEW:
+  RESPONSE(_("So what are you actually doing here?"));
+   SUCCESS(TALK_OLD_GUARD_REP_NEW_DOING);
+  RESPONSE(_("Nevermind..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+
+ case TALK_OLD_GUARD_REP_NEW_DOING:
+  RESPONSE(_("Is there a catch?"));
+   SUCCESS(TALK_OLD_GUARD_REP_NEW_DOWNSIDE);
+  RESPONSE(_("Anything more to it?"));
+   SUCCESS(TALK_OLD_GUARD_REP_NEW_DOWNSIDE);
+  RESPONSE(_("Nevermind..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+ case TALK_OLD_GUARD_REP_NEW_DOWNSIDE:
+  RESPONSE(_("Hmmm..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+
+ case TALK_OLD_GUARD_REP_WORLD:
+  RESPONSE(_("The 2nd Fleet?"));
+   SUCCESS(TALK_OLD_GUARD_REP_WORLD_2NDFLEET);
+  RESPONSE(_("Tell me about the footholds."));
+   SUCCESS(TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS);
+  RESPONSE(_("Nevermind..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+
+ case TALK_OLD_GUARD_REP_WORLD_2NDFLEET:
+  RESPONSE(_("Hmmm..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+ case TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS:
+  RESPONSE(_("Hmmm..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+ case TALK_OLD_GUARD_REP_ASK_JOIN:
+  RESPONSE(_("Hmmm..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+
+ case TALK_SCAVENGER_MERC:
+  RESPONSE(_("Who are you?"));
+   SUCCESS(TALK_SCAVENGER_MERC_NEW);
+  RESPONSE(_("Any tips for surviving?"));
+   SUCCESS(TALK_SCAVENGER_MERC_TIPS);
+  RESPONSE(_("What would it cost to hire you?"));
+   SUCCESS(TALK_SCAVENGER_MERC_HIRE);
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_SCAVENGER_MERC_NEW:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_SCAVENGER_MERC);
+  break;
+ case TALK_SCAVENGER_MERC_TIPS:
+  RESPONSE(_("I suppose I should hire a party then?"));
+   SUCCESS(TALK_SCAVENGER_MERC);
+  break;
+ case TALK_SCAVENGER_MERC_HIRE:
+  RESPONSE(_("I might be back."));
+   SUCCESS(TALK_SCAVENGER_MERC);
   break;
 
 
