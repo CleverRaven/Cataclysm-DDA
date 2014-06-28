@@ -1,0 +1,44 @@
+[
+
+  {
+    "id": "radio_car_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "red",
+    "name": "Radio car box",
+    "name_plural": "Radio car boxes",
+    "category": "other",
+    "description": "A box with radio car and remote control! The dream of every boy.",
+    "price": 30000,
+    "weight": 350,
+    "volume": 8,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": -1,
+    "material": ["plastic", "null"]
+  },
+
+{
+  "type" : "recipe",
+  "result": "radio_car_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "radio_car", 1 ]
+    ],
+    [
+      [ "radiocontrol", 1 ]
+    ],
+    [
+      [ "battery", 200 ]
+    ]
+
+  ]
+}
+]
