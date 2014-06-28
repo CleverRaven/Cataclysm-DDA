@@ -368,7 +368,7 @@ void defense_game::init_map()
         }
     }
 
-    g->m.load(g->levx, g->levy, g->levz, true);
+    g->m.load(g->levx, g->levy, g->levz, true, g->cur_om);
 
     g->update_map(g->u.posx, g->u.posy);
     monster generator(GetMType("mon_generator"), g->u.posx + 1, g->u.posy + 1);

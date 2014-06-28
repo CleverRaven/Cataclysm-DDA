@@ -4179,20 +4179,23 @@ void map::save()
     }
 }
 
+void map::load_abs(const int wx, const int wy, const int wz, const bool update_vehicle)
+{
+    traplocs.clear();
+    for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+        for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+            if (!loadn(wx, wy, wz, gridx, gridy, update_vehicle)) {
+                loadn(wx, wy, wz, gridx, gridy, update_vehicle);
+            }
+        }
+    }
+}
+
 void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
 {
- if (om == NULL) {
-     om = g->cur_om;
- }
- const int awx = om->pos().x * OMAPX * 2 + wx;
- const int awy = om->pos().y * OMAPY * 2 + wy;
-    traplocs.clear();
- for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-  for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-   if (!loadn(awx, awy, wz, gridx, gridy, update_vehicle))
-    loadn(awx, awy, wz, gridx, gridy, update_vehicle);
-  }
- }
+    const int awx = om->pos().x * OMAPX * 2 + wx;
+    const int awy = om->pos().y * OMAPY * 2 + wy;
+    load_abs(awx, awy, wz, update_vehicle);
 }
 
 void map::forget_traps(int gridx, int gridy)

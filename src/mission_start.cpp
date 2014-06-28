@@ -68,9 +68,7 @@ void mission_start::place_dog(mission *miss)
  overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap doghouse;
- // Get overmap, crop house coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(house.x, house.y);
- doghouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
+ doghouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
  doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
  doghouse.save();
 }
@@ -87,9 +85,7 @@ void mission_start::place_zombie_mom(mission *miss)
  overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap zomhouse;
- // Get overmap, crop house coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(house.x, house.y);
- zomhouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
+ zomhouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
  zomhouse.save();
 }
@@ -98,9 +94,7 @@ void mission_start::place_jabberwock(mission *miss)
 {
     point site = target_om_ter("forest_thick", 6, miss, false);
  tinymap grove;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- grove.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ grove.load_abs(site.x * 2, site.y * 2, g->levz, false);
  grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
  grove.save();
 }
@@ -130,9 +124,7 @@ void mission_start::kill_horde_master(mission *miss)
  miss->target = site;
  overmap_buffer.reveal(site, 6, g->levz);
  tinymap tile;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- tile.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ tile.load_abs(site.x * 2, site.y * 2, g->levz, false);
  tile.add_spawn("mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
  tile.add_spawn("mon_zombie_brute",3,SEEX,SEEY);
  tile.add_spawn("mon_zombie_dog",3,SEEX,SEEY);
@@ -191,9 +183,7 @@ void mission_start::place_npc_software(mission *miss)
     overmap_buffer.reveal(place, 6, g->levz);
 
  tinymap compmap;
- // Get overmap, crop place coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(place.x, place.y);
- compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
+ compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
     oter_id oter = g->cur_om->ter(place.x, place.y, 0);
@@ -266,7 +256,6 @@ void mission_start::place_npc_software(mission *miss)
  computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y, string_format(_("%s's Terminal"), dev->name.c_str()), 0);
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option(_("Download Software"), COMPACT_DOWNLOAD_SOFTWARE, 0);
-
  compmap.save();
 }
 
@@ -281,9 +270,7 @@ void mission_start::place_priest_diary(mission *miss)
  miss->target = place;
  overmap_buffer.reveal(place, 2, g->levz);
  tinymap compmap;
- // Get overmap, crop place coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(place.x, place.y);
- compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
+ compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
   std::vector<point> valid;
@@ -315,9 +302,7 @@ void mission_start::place_deposit_box(mission *miss)
     overmap_buffer.reveal(site, 2, g->levz);
 
  tinymap compmap;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- compmap.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ compmap.load_abs(site.x * 2, site.y * 2, g->levz, false);
  point comppoint;
   std::vector<point> valid;
   for (int x = 0; x < SEEX * 2; x++) {

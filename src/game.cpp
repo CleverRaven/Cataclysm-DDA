@@ -586,7 +586,7 @@ void game::start_game(std::string worldname)
  cur_om->first_house(levx, levy, u.start_location);
  point player_location = overmapbuffer::omt_to_sm_copy( levx, levy );
  tinymap player_start;
- player_start.load( player_location.x, player_location.y, levz, false );
+ player_start.load( player_location.x, player_location.y, levz, false, cur_om );
  player_start.translate( t_window_domestic, t_curtains );
  player_start.save();
 
@@ -599,7 +599,7 @@ void game::start_game(std::string worldname)
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
 // Init the starting map at this location.
- m.load(levx, levy, levz);
+ m.load(levx, levy, levz, true, cur_om);
 
 // Start us off somewhere in the shelter.
  u.posx = SEEX * int(MAPSIZE / 2) + 5;
@@ -4165,7 +4165,7 @@ void game::debug()
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
             levz = tmp.z;
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
             load_npcs();
             m.spawn_monsters(); // Static monsters
             update_overmap_seen();
@@ -12934,7 +12934,7 @@ void game::vertical_move(int movez, bool force) {
  }
 
  map tmpmap;
- tmpmap.load(levx, levy, levz + movez, false);
+ tmpmap.load(levx, levy, levz + movez, false, cur_om);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
  bool rope_ladder = false;
@@ -13091,7 +13091,7 @@ void game::vertical_move(int movez, bool force) {
  u.moves -= 100;
  m.clear_vehicle_cache();
  m.vehicle_list.clear();
- m.load(levx, levy, levz);
+ m.load(levx, levy, levz, true, cur_om);
  u.posx = stairx;
  u.posy = stairy;
  if (rope_ladder)
@@ -13495,7 +13495,7 @@ void game::force_save_monster(monster &critter) {
     critter.spawnposy = rc.sub_pos.y;
 
     tinymap tmp;
-    tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
+    tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false, cur_om);
     tmp.add_spawn(&critter);
     tmp.save();
 }
@@ -13525,7 +13525,7 @@ void game::despawn_monsters(const int shiftx, const int shifty)
                     critter.setkeep(false);
 
                     tinymap tmp;
-                    tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
+                    tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false, cur_om);
                     tmp.add_spawn(&critter);
                     tmp.save();
                 }
@@ -13885,12 +13885,8 @@ void game::teleport(player *p, bool add_teleglow)
 void game::nuke(int x, int y)
 {
     // TODO: nukes hit above surface, not critter = 0
-    overmap &om = overmap_buffer.get_om_global(x, y);
-    // ^^ crops x,y to point inside om now., but map::load
-    // and map::save needs submap coordinates.
-    const point smc = overmapbuffer::omt_to_sm_copy(x, y);
-    map tmpmap;
-    tmpmap.load(smc.x, smc.y, 0, false, &om);
+    tinymap tmpmap;
+    tmpmap.load_abs(x * 2, y * 2, 0, false);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
@@ -13903,7 +13899,7 @@ void game::nuke(int x, int y)
         }
     }
     tmpmap.save();
-    om.ter(x, y, 0) = "crater";
+    overmap_buffer.ter(x, y, 0) = "crater";
     // Kill any npcs on that omap location.
     std::vector<npc*> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
     for( size_t a = 0; a < npcs.size(); ++a ) {

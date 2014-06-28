@@ -497,7 +497,7 @@ void computer::activate_function(computer_action action)
         // For each level between here and the surface, remove the missile
         for (int level = g->levz; level <= 0; level++) {
             map tmpmap;
-            tmpmap.load(g->levx, g->levy, level, false);
+            tmpmap.load(g->levx, g->levy, level, false, g->cur_om);
 
             if(level < 0) {
                 tmpmap.translate(t_missile, t_hole);
