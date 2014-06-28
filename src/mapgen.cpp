@@ -159,13 +159,10 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
                 funcnum++;
                 continue; // rejected!
             }
-            if ( (*fit)->function_type() == MAPGENFUNC_JSON ) {
-                mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(*fit);
-                if ( ! mf->setup() ) {
-                    dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                    funcnum++;
-                    continue; // disqualify! doesn't get to play in the pool
-                }
+            if ( ! (*fit)->setup() ) {
+                dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
+                funcnum++;
+                continue; // disqualify! doesn't get to play in the pool
             }
             //
             wtotal += weight;
@@ -184,7 +181,6 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
  */
 mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
 {
-    ftype = MAPGENFUNC_C;
     weight = w;
     std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find(sptr);
     if ( gptr !=  mapgen_cfunction_map.end() ) {
@@ -952,7 +948,7 @@ void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::s
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
+void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
     if ( fill_ter != -1 ) {
         m->draw_fill_background( fill_ter );
     }
@@ -984,6 +980,11 @@ void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, i
     }
 }
 
+#ifdef LUA
+void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
+    mapgen_lua(m, terrain_type, dat, t, d, scr );
+}
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////
 ///// lua mapgen functions
@@ -1078,18 +1079,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         const int fidx = weightit->second.lower_bound( roll )->second;
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
-        if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_C ) {
-           void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( fmapit->second[fidx] )->fptr;
-           gfunction(this, terrain_type, dat, turn, density);
-        } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_JSON ) {
-           mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(fmapit->second[fidx]);
-           mf->apply( this, terrain_type, dat, turn, density );
-        } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_LUA ) {
-           mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
-           mapgen_lua(this, terrain_type, dat, turn, density, mf->scr );
-        } else {
-           debugmsg("mapgen %s (%s): Invalid mapgen function type.",terrain_type.c_str(), function_key.c_str() );
-        }
+        fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
     // todo; make these mappable functions
     } else if (terrain_type == "apartments_con_tower_1_entrance") {
 
