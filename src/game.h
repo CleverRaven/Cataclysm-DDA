@@ -439,6 +439,9 @@ public:
   void write_msg();        // Prints the messages in the messages list
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);  // open vehicle interaction screen
 
+  bool isRemoteControl;  //remote controlled cars etc.
+  bool isActivatedRadioCarPresent();
+
  private:
 // Game-start procedures
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
@@ -618,6 +621,9 @@ public:
   int  mon_info(WINDOW *); // Prints a list of nearby monsters
   void handle_key_blocking_activity(); // Abort reading etc.
   bool handle_action();
+
+  
+  void rcdrive(int dx, int dy); //driving radio car
 
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died

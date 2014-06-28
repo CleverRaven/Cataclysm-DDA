@@ -34,7 +34,7 @@
     "type": "TOOL",
     "symbol": "*",
     "color": "yellow",
-    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "DANGER"],
+    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB"],
     "name": "radio pipe bomb (on)",
     "description": "This is makeshift radio bomb, and it activated. Place it, run away and use radio detonator.",
     "price": 1,
