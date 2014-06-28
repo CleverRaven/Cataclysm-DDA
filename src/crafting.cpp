@@ -2015,7 +2015,7 @@ void game::complete_disassemble()
              dis->components.begin();
          altercomps != dis->components.end(); ++altercomps) {
         // If there are several (alternative) components, search the
-        // one that was used. If not found, use the first one.
+        // one that was used.
         // Don't check the first in altercomps, it's the default anyway.
         std::vector<component>::iterator it;
         for(it = altercomps->begin()+1; it != altercomps->end(); ++it) {
@@ -2026,8 +2026,8 @@ void game::complete_disassemble()
                 }
             }
         }
-
-        const component &comp = *it;
+        // If not found, use the first one.
+        const component &comp = (it == altercomps->end()) ? altercomps->front() : *it;
 
         itype *itt = item_controller->find_template(comp.type);
         if (itt->item_tags.count("UNRECOVERABLE") > 0) {
