@@ -3,6 +3,7 @@ cataclysm-tiles
 chkjson
 !src/chkjson
 data/*.template
+templates/
 save/
 graveyard/
 memorial/
