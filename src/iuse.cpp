@@ -8370,6 +8370,5 @@ int iuse::radiocontrol(player *p, item *it, bool t)
 
     return it->type->charges_to_use();
 
-
 }
 
