@@ -1,5 +1,5 @@
 [
- {
+  {
     "type":"monstergroup",
     "name" : "GROUP_ZOMBIE_POOL",
     "default" : "mon_zombie",
@@ -7,7 +7,7 @@
       { "monster" : "mon_zombie_swimmer", "freq" : 500, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_child", "freq" : 150, "cost_multiplier" : 1 }
     ]
-  },{    
+  },{
         "type": "mapgen",
         "om_terrain": [
             "2fmotel_entrance"
@@ -101,7 +101,7 @@
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] }
             ],
-		  "add": [
+            "add": [
 
                 { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
                 { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
@@ -188,7 +188,7 @@
                 "~": "t_fence_h",
                 "x": "t_fencegate_c",
                 "0": "t_sidewalk",
-				"<": "t_stairs_up"
+                "<": "t_stairs_up"
             },
             "furniture": {
                 "6": "f_table",
@@ -221,7 +221,7 @@
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ],
-		 "add": [
+         "add": [
                 { "item": "phonebook", "x": 10, "y": 16, "chance": 2 },
                 { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 },
                 { "item": "phonebook", "x": 10, "y": 22, "chance": 2 },
@@ -349,7 +349,7 @@
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
-		 "add": [
+         "add": [
                 { "item": "phonebook", "x": 5, "y": 8, "chance": 2 },
                 { "item": "holybook_bible3", "x": 5, "y": 8, "chance": 2 },
                 { "item": "phonebook", "x": 5, "y": 13, "chance": 2 },
@@ -444,7 +444,7 @@
                 "W": "t_water_dp",
                 "~": "t_fence_h",
                 "x": "t_fencegate_c",
-				"<": "t_stairs_up"
+                "<": "t_stairs_up"
             },
             "furniture": {
                 "6": "f_table",
@@ -474,7 +474,7 @@
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
-		 "add": [
+         "add": [
                 { "item": "phonebook", "x": 4, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 4, "y": 13, "chance": 2 },
                 { "item": "phonebook", "x": 10, "y": 13, "chance": 2 },
@@ -496,7 +496,7 @@
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 0, 22 ], "y": [ 13, 21 ] }
             ]
         }
-    },{    
+    },{
         "type": "mapgen",
         "om_terrain": [
             "2fmotel_entrance_f2"
@@ -669,7 +669,7 @@
                 "9": "f_locker",
                 ":": "f_dresser",
                 ";": "f_toilet",
-                "=": "f_fireplace",                
+                "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
                 "A": "f_sink",
@@ -689,7 +689,7 @@
                 { "point": "terrain", "id": "t_open_air", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 0, "repeat": [ 5, 10 ] }
             ],
-		 "add": [
+         "add": [
                 { "item": "phonebook", "x": 10, "y": 16, "chance": 2 },
                 { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 },
                 { "item": "phonebook", "x": 10, "y": 22, "chance": 2 },
@@ -762,7 +762,7 @@
                 "E": "t_floor",
                 "F": "t_floor",
                 "G": "t_floor",
-				"H": "t_floor",
+                "H": "t_floor",
                 "S": "t_bridge",
                 "^": "t_tree",
                 "M": "t_door_glass_c",
@@ -781,7 +781,7 @@
                 "9": "f_rack",
                 ":": "f_dresser",
                 ";": "f_toilet",
-                "=": "f_fireplace",                
+                "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
                 "A": "f_sink",
@@ -804,7 +804,7 @@
             "set": [
                 { "point": "terrain", "id": "t_open_air", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
-		 "add": [
+         "add": [
                 { "item": "phonebook", "x": 5, "y": 8, "chance": 2 },
                 { "item": "holybook_bible3", "x": 5, "y": 8, "chance": 2 },
                 { "item": "phonebook", "x": 5, "y": 13, "chance": 2 },
@@ -903,7 +903,7 @@
                 "9": "f_rack",
                 ":": "f_dresser",
                 ";": "f_toilet",
-                "=": "f_fireplace",                
+                "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
                 "A": "f_sink",
@@ -923,7 +923,7 @@
             "set": [
                 { "point": "terrain", "id": "t_open_air", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
-		 "add": [
+         "add": [
                 { "item": "phonebook", "x": 4, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 4, "y": 13, "chance": 2 },
                 { "item": "phonebook", "x": 10, "y": 13, "chance": 2 },
@@ -942,7 +942,7 @@
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 10, 10 ], "y": [ 16, 16 ] }
             ]
         }
-	},{
+    },{
         "type": "mapgen",
         "om_terrain": [
             "2fmotel_1_r"
@@ -1021,7 +1021,7 @@
                 "9": "f_locker",
                 ":": "f_dresser",
                 ";": "f_toilet",
-                "=": "f_fireplace",                
+                "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
                 "A": "f_sink",
@@ -1100,7 +1100,7 @@
                 "E": "t_floor",
                 "F": "t_floor",
                 "G": "t_floor",
-				"H": "t_floor",
+                "H": "t_floor",
                 "S": "t_bridge",
                 "^": "t_tree",
                 "M": "t_door_glass_c",
@@ -1119,7 +1119,7 @@
                 "9": "f_rack",
                 ":": "f_dresser",
                 ";": "f_toilet",
-                "=": "f_fireplace",                
+                "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
                 "A": "f_sink",
@@ -1212,7 +1212,7 @@
                 "9": "f_rack",
                 ":": "f_dresser",
                 ";": "f_toilet",
-                "=": "f_fireplace",                
+                "=": "f_fireplace",
                 "?": "f_sofa",
                 "@": "f_bed",
                 "A": "f_sink",

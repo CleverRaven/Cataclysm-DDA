@@ -114,7 +114,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
     mapgen_cfunction_map["cavern"] = &mapgen_cavern;
     mapgen_cfunction_map["rock"] = &mapgen_rock;
-	mapgen_cfunction_map["open_air"] = &mapgen_open_air;
+    mapgen_cfunction_map["open_air"] = &mapgen_open_air;
     mapgen_cfunction_map["rift"] = &mapgen_rift;
     mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
     mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
