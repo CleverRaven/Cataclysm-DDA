@@ -350,7 +350,7 @@ ter_id terfind(const std::string & id) {
 };
 
 ter_id t_null,
-    t_hole,  t_open_air, // Real nothingness; makes you fall a z-level
+    t_hole, // Real nothingness; makes you fall a z-level
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
@@ -429,13 +429,12 @@ ter_id t_null,
      t_pedestal_temple,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air,
     num_terrain_types;
 
 void set_ter_ids() {
     t_null=terfind("t_null");
     t_hole=terfind("t_hole");
-	t_open_air=terfind("t_open_air");
     t_dirt=terfind("t_dirt");
     t_sand=terfind("t_sand");
     t_dirtmound=terfind("t_dirtmound");
@@ -653,6 +652,7 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_open_air=terfind("t_open_air");
     num_terrain_types = terlist.size();
 };
 
