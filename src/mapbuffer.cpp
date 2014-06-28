@@ -16,7 +16,6 @@
 
 mapbuffer MAPBUFFER;
 
-// g defaults to NULL
 mapbuffer::mapbuffer()
 {
 }
@@ -28,13 +27,10 @@ mapbuffer::~mapbuffer()
 
 void mapbuffer::reset()
 {
-    std::list<submap *>::iterator it;
-    for (it = submap_list.begin(); it != submap_list.end(); it++) {
-        delete *it;
+    for (auto it = submaps.begin(); it != submaps.end(); ++it) {
+        delete it->second;
     }
-
     submaps.clear();
-    submap_list.clear();
 }
 
 bool mapbuffer::add_submap(const tripoint &p, submap *sm)
@@ -47,7 +43,6 @@ bool mapbuffer::add_submap(const tripoint &p, submap *sm)
     }
 
     sm->turn_last_touched = int(calendar::turn);
-    submap_list.push_back(sm);
     submaps[p] = sm;
 
     return true;
@@ -72,15 +67,12 @@ bool mapbuffer::add_submap( int x, int y, int z, std::unique_ptr<submap> &sm )
 
 void mapbuffer::remove_submap( tripoint addr )
 {
-    if (submaps.count( addr ) == 0) {
+    auto m_target = submaps.find( addr );
+    if( m_target == submaps.end() ) {
+        debugmsg( "Tried to remove non-existing submap %d,%d,%d", addr.x, addr.y, addr.z );
         return;
     }
-    std::map<tripoint, submap *, pointcomp>::iterator m_target = submaps.find( addr );
-    std::list<submap *>::iterator l_target = find( submap_list.begin(), submap_list.end(),
-                                                   m_target->second );
-    // We're probably leaking vehicle objects here.
     delete m_target->second;
-    submap_list.erase( l_target );
     submaps.erase( m_target );
 }
 
@@ -112,7 +104,7 @@ void mapbuffer::save( bool delete_after_save )
     assure_dir_exist( map_directory.str().c_str() );
 
     int num_saved_submaps = 0;
-    int num_total_submaps = submap_list.size();
+    int num_total_submaps = submaps.size();
 
     point map_origin = overmapbuffer::sm_to_omt_copy( g->levx, g->levy );
     map_origin.x += g->cur_om->pos().x * OMAPX;
@@ -121,8 +113,7 @@ void mapbuffer::save( bool delete_after_save )
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
     std::list<tripoint> submaps_to_delete;
-    for( std::map<tripoint, submap *, pointcomp>::iterator it = submaps.begin();
-         it != submaps.end(); ++it ) {
+    for( submap_map_t::iterator it = submaps.begin(); it != submaps.end(); ++it ) {
         if (num_total_submaps > 100 && num_saved_submaps % 100 == 0) {
             popup_nowait(_("Please wait as the map saves [%d/%d]"),
                          num_saved_submaps, num_total_submaps);
