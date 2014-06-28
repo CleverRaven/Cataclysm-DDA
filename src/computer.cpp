@@ -45,14 +45,8 @@ computer &computer::operator=(const computer &rhs)
     security = rhs.security;
     name = rhs.name;
     mission_id = rhs.mission_id;
-    options.clear();
-    for (unsigned i = 0; i < rhs.options.size(); i++) {
-        options.push_back(rhs.options[i]);
-    }
-    failures.clear();
-    for (unsigned i = 0; i < rhs.failures.size(); i++) {
-        failures.push_back(rhs.failures[i]);
-    }
+    options = rhs.options;
+    failures = rhs.failures;
     w_terminal = NULL;
     w_border = NULL;
     return *this;
@@ -220,19 +214,20 @@ std::string computer::save_data()
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
-    for (unsigned i = 0; i < options.size(); i++) {
-        savename = options[i].name;
+    for (std::vector<computer_option>::iterator it = options.begin();
+         it != options.end(); ++it) {
+        savename = it->name;
         found = savename.find(" ");
         while (found != std::string::npos) {
             savename.replace(found, 1, "_");
             found = savename.find(" ");
         }
-        data << savename << " " << int(options[i].action) << " " <<
-             options[i].security << " ";
+        data << savename << " " << int(it->action) <<" "<< it->security << " ";
     }
     data << failures.size() << " ";
-    for (unsigned i = 0; i < failures.size(); i++) {
-        data << int(failures[i]) << " ";
+    for (std::vector<computer_failure>::iterator it = failures.begin();
+         it != failures.end(); ++it) {
+        data << int(*it) << " ";
     }
 
     return data.str();
@@ -319,8 +314,8 @@ void computer::activate_function(computer_action action)
                         for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
                             if (g->m.furn(x1, y1) == f_counter) {
                                 bool found_item = false;
-                                for (unsigned i = 0; i < g->m.i_at(x1, y1).size(); i++) {
-                                    item *it = &(g->m.i_at(x1, y1)[i]);
+                                for (std::vector<item>::iterator it = g->m.i_at(x1, y1).begin();
+                                     it != g->m.i_at(x1, y1).end(); ++it) {
                                     if (it->is_container()) {
                                         item sewage = item("sewage", calendar::turn);
                                         it_container *container = dynamic_cast<it_container *>(it->type);
@@ -554,10 +549,11 @@ void computer::activate_function(computer_action action)
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
-                    if (g->m.i_at(x, y)[i].is_bionic()) {
+                for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
+                     it != g->m.i_at(x, y).end(); ++it) {
+                    if (it->is_bionic()) {
                         if ((int)names.size() < TERMY - 8) {
-                            names.push_back(g->m.i_at(x, y)[i].tname());
+                            names.push_back(it->tname());
                         } else {
                             more++;
                         }
@@ -572,8 +568,9 @@ void computer::activate_function(computer_action action)
         print_line(_("Bionic access - Manifest:"));
         print_newline();
 
-        for (unsigned i = 0; i < names.size(); i++) {
-            print_line("%s", names[i].c_str());
+        for (std::vector<std::string>::iterator it = names.begin();
+             it != names.end(); ++it) {
+            print_line("%s", it->c_str());
         }
         if (more > 0) {
             print_line(ngettext("%d OTHER FOUND...", "%d OTHERS FOUND...", more), more);
@@ -1222,20 +1219,21 @@ void computer::activate_failure(computer_failure fail)
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_centrifuge) {
-                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++) {
-                        if (g->m.i_at(x, y).empty()) {
-                            print_error(_("ERROR: Please place sample in centrifuge."));
-                        } else if (g->m.i_at(x, y).size() > 1) {
-                            print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                        } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
-                            print_error(_("ERROR: Please use vacutainer-contained samples."));
-                        } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                            print_error(_("ERROR: Vacutainer empty."));
-                        } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
-                            print_error(_("ERROR: Please only use blood samples."));
-                        } else {
-                            print_error(_("ERROR: Blood sample destroyed."));
-                            g->m.i_at(x, y)[i].contents.clear();
+                    if (g->m.i_at(x, y).empty()) {
+                        print_error(_("ERROR: Please place sample in centrifuge."));
+                    } else if (g->m.i_at(x, y).size() > 1) {
+                        print_error(_("ERROR: Please remove all but one sample from centrifuge."));
+                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                        print_error(_("ERROR: Please use vacutainer-contained samples."));
+                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                        print_error(_("ERROR: Vacutainer empty."));
+                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                        print_error(_("ERROR: Please only use blood samples."));
+                    } else {
+                        print_error(_("ERROR: Blood sample destroyed."));
+                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
+                             it != g->m.i_at(x, y).end(); ++it) {
+                            it->contents.clear();
                         }
                     }
                 }
@@ -1249,18 +1247,19 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x <= 23; x++) {
             for (int y = 0; y <= 23; y++) {
                 if (g->m.ter(x, y) == t_floor_blue) {
-                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++) {
-                        if (g->m.i_at(x, y).empty()) {
-                            print_error(_("ERROR: Please place memory bank in scan area."));
-                        } else if (g->m.i_at(x, y).size() > 1) {
-                            print_error(_("ERROR: Please only scan one item at a time."));
-                        } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
-                            print_error(_("ERROR: Memory bank destroyed or not present."));
-                        } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                            print_error(_("ERROR: Memory bank is empty."));
-                        } else {
-                            print_error(_("ERROR: Data bank destroyed."));
-                            g->m.i_at(x, y)[i].contents.clear();
+                    if (g->m.i_at(x, y).empty()) {
+                        print_error(_("ERROR: Please place memory bank in scan area."));
+                    } else if (g->m.i_at(x, y).size() > 1) {
+                        print_error(_("ERROR: Please only scan one item at a time."));
+                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
+                        print_error(_("ERROR: Memory bank destroyed or not present."));
+                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                        print_error(_("ERROR: Memory bank is empty."));
+                    } else {
+                        print_error(_("ERROR: Data bank destroyed."));
+                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
+                             it != g->m.i_at(x, y).end(); ++it) {
+                            it->contents.clear();
                         }
                     }
                 }

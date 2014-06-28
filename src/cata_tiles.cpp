@@ -1286,9 +1286,10 @@ void cata_tiles::draw_line()
     int mx = line_pos_x, my = line_pos_y;
     std::string line_overlay = "animation_line";
     if (!is_target_line || g->u_see(mx, my)) {
-        for (int i = 0; i < line_trajectory.size() - 1; i++) {
-            mx = line_trajectory[i].x;
-            my = line_trajectory[i].y;
+        for (std::vector<point> it = line_trajectory.begin();
+             it != line_trajectory.end() - 1; ++it) {
+            mx = it->x;
+            my = it->y;
 
             draw_from_id_string(line_overlay, mx, my, 0, 0);
         }
@@ -1321,9 +1322,10 @@ void cata_tiles::draw_sct_frame()
             std::string sText = iter->getText((j == 0) ? "first" : "second");
             int FG = msgtype_to_tilecolor(iter->getMsgType((j == 0) ? "first" : "second"), (iter->getStep() >= SCT.iMaxSteps/2));
 
-            for (int i=0; i < sText.size(); ++i) {
+            for (std::string::iterator it = sText.begin();
+                 it != sText.end(); ++it) {
                 std::string generic_id("ASCII_XFB");
-                generic_id[6] = static_cast<char>(sText[i]);
+                generic_id[6] = static_cast<char>(*it);
                 generic_id[7] = static_cast<char>(FG);
                 generic_id[8] = static_cast<char>(-1);
 

@@ -235,8 +235,9 @@ std::string faction::save_info()
          good << " " << omx << " " << omy << " " << mapx << " " << mapy <<
          " " << size << " " << power << " ";
     dump << opinion_of.size() << " ";
-    for (int i = 0; i < opinion_of.size(); i++) {
-        dump << opinion_of[i] << " ";
+    for (std::vector<int>::iterator it = opinion_of.begin();
+         it != opinion_of.end(); ++it) {
+        dump << *it << " ";
     }
     dump << name;
     return dump.str();
