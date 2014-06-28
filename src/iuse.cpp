@@ -8536,7 +8536,6 @@ int iuse::radiocaron(player *p, item *it, bool t) {
 
 }
 
-
 void sendRadioSignal(player *p, std::string signal){
 
 	for (int i = 0; i < p->inv.size(); i++){
