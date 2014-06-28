@@ -1403,6 +1403,20 @@ int player::run_cost(int base_cost, bool diag)
     if (diag)
         movecost *= 0.7071f; // because everything here assumes 100 is base
     bool flatground = movecost < 105;
+    const ter_id ter_at_pos = g->m.ter(posx, posy);
+    // If your floor is hard, flat, and otherwise skateable, list it here
+    bool offroading = ( flatground && (!((ter_at_pos == t_rock_floor) ||
+      (ter_at_pos == t_pit_covered) || (ter_at_pos == t_metal_floor) ||
+      (ter_at_pos == t_pit_spiked_covered) || (ter_at_pos == t_pavement) ||
+      (ter_at_pos == t_pavement_y) || (ter_at_pos == t_sidewalk) ||
+      (ter_at_pos == t_concrete) || (ter_at_pos == t_floor) ||
+      (ter_at_pos == t_skylight) || (ter_at_pos == t_door_glass_o) ||
+      (ter_at_pos == t_emergency_light_flicker) ||
+      (ter_at_pos == t_emergency_light) || (ter_at_pos == t_utility_light) ||
+      (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
+      (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
+      (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
+      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) )) );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -1474,8 +1488,10 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 1.5f;
     }
     if (is_wearing("roller_blades")) {
-        if (flatground) {
-            movecost *= .5f;
+        if (offroading) {
+            movecost *= 1.5f;
+        } else if (flatground) {
+            movecost *= 0.5f;
         } else {
             movecost *= 1.5f;
         }
