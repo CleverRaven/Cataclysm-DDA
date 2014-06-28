@@ -57,21 +57,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     //  function, we save the upper-left 4 submaps, and delete the rest.
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
         grid[i] = new submap;
-        grid[i]->active_item_count = 0;
-        grid[i]->field_count = 0;
-        grid[i]->turn_last_touched = turn;
-        grid[i]->temperature = 0;
-        grid[i]->comp = computer();
-        grid[i]->camp = basecamp();
-        for (int x = 0; x < SEEX; x++) {
-            for (int y = 0; y < SEEY; y++) {
-                grid[i]->ter[x][y] = t_null;
-                grid[i]->set_furn(x, y, f_null);
-                grid[i]->set_trap(x, y, tr_null);
-                grid[i]->set_radiation(x, y, 0);
-                grid[i]->set_graffiti(x, y, graffiti());
-            }
-        }
+        // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
 
     unsigned zones = 0;
