@@ -433,7 +433,7 @@
         "identstring" : "LEDGE",
         "legacy_id": 30,
         "name" : "ledge",
-        "color" : "black",
+        "color" : "i_cyan",
         "symbol" : " ",
         "visibility" : 0,
         "avoidance" : 99,

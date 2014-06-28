@@ -3029,7 +3029,7 @@ C..C..C...|hhh|#########\n\
         if (is_ot_type("sewer", t_west) && connects_to(t_west, 1)) {
             lw = SEEX * 2;
         }
-        if (t_above == "") { // We're on ground level
+        if (t_above == "open_air") { // We're on ground level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (i <= 1 || i >= SEEX * 2 - 2 ||
@@ -4016,7 +4016,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "bunker") {
 
-        if (t_above == "") { // We're on ground level
+        if (t_above == "open_air") { // We're on ground level
             dat.fill_groundcover();
             //chainlink fence that surrounds bunker
             line(this, t_chainfence_v, 1, 1, 1, SEEY * 2 - 1);
