@@ -1593,29 +1593,22 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             redraw = true;
         } else if (action == "ANY_INPUT" && !MAP_SHARING::isSharing()) {  // Don't edit names when sharing maps
             const long ch = ctxt.get_raw_input().get_first_input();
-            if ((ch == KEY_BACKSPACE || ch == 127) && !u->name.empty()) {
-                //erase utf8 character TODO: make a function
-                while(!u->name.empty() && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
-                        ((unsigned char)u->name[(int)u->name.size() - 1]) <= 191) {
-                    u->name.erase(u->name.size() - 1);
+            utf8_wrapper wrap(u->name);
+            if( ch == KEY_BACKSPACE ) {
+                if( !wrap.empty() ) {
+                    wrap.erase( wrap.length() - 1, 1 );
+                    u->name = wrap.str();
                 }
-                u->name.erase(u->name.size() - 1);
-            } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
-                u->name.push_back(ch);
             } else if(ch == KEY_F(2)) {
-                std::string tmp = get_input_string_from_file();
-                int tmplen = utf8_width(tmp.c_str());
-                if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
-                    u->name.append(tmp);
+                utf8_wrapper tmp(get_input_string_from_file());
+                if(!tmp.empty() && tmp.length() + wrap.length() < 30) {
+                    u->name.append(tmp.str());
                 }
-            }
-            //experimental unicode input
-            else if(ch > 127 && !MAP_SHARING::isSharing()) { //Don't edit name when sharing
-                std::string tmp = utf32_to_utf8(ch);
-                int tmplen = utf8_width(tmp.c_str());
-                if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
-                    u->name.append(tmp);
-                }
+            } else if( ch == '\n' ) {
+                // nope, we ignore this newline, don't want it in char names
+            } else {
+                wrap.append( ctxt.get_raw_input().text );
+                u->name = wrap.str();
             }
         }
     } while (true);
