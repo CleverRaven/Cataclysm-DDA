@@ -11127,6 +11127,8 @@ bool player::sees(int x, int y, int &t)
         if (is_player()) {
             // uses the seen cache in map
             can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
+        } else if (g->m.light_at(x, y) >= LL_LOW) {
+            can_see = g->m.sees(posx, posy, x, y, wanted_range, t);
         } else {
             can_see = g->m.sees(posx, posy, x, y, s_range, t);
         }
