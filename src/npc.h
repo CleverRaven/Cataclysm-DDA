@@ -305,6 +305,20 @@ enum talk_topic {
  TALK_EVAC_MERCHANT_NO,
  TALK_EVAC_MERCHANT_HELL_NO,
 
+ TALK_OLD_GUARD_REP,
+ TALK_OLD_GUARD_REP_NEW,
+ TALK_OLD_GUARD_REP_NEW_DOING,
+ TALK_OLD_GUARD_REP_NEW_DOWNSIDE,
+ TALK_OLD_GUARD_REP_WORLD,
+ TALK_OLD_GUARD_REP_WORLD_2NDFLEET,
+ TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS,
+ TALK_OLD_GUARD_REP_ASK_JOIN,
+
+ TALK_SCAVENGER_MERC,
+ TALK_SCAVENGER_MERC_NEW,
+ TALK_SCAVENGER_MERC_TIPS,
+ TALK_SCAVENGER_MERC_HIRE,
+
  TALK_SHELTER,
  TALK_SHELTER_PLANS,
  TALK_SHARE_EQUIPMENT,
@@ -474,8 +488,8 @@ public:
                   std::vector<int> &prices);
 // init_selling() fills <indices> with the indices of items in our inventory
  void init_selling(std::vector<item*> &items, std::vector<int> &prices);
-
-
+// Re-roll the inventory of a shopkeeper
+ void shop_restock();
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
@@ -621,7 +635,7 @@ public:
      * if no goal exist, this is no_goal_point.
      */
     tripoint goal;
-
+ int restock;
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
  int  worst_item_value; // The value of our least-wanted item
