@@ -75,6 +75,7 @@ private:
 public:
  std::vector<itype_id> components; // For disassembly?
 
+ int get_visibility() const { return visibility; }
  int get_avoidance() const { return avoidance; }
  int get_difficulty() const { return difficulty; }
 // Type of trap

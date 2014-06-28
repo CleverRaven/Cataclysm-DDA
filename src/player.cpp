@@ -4079,15 +4079,19 @@ void player::search_surroundings()
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
-        const trap *tr = traplist[trid];        
+        const trap *tr = traplist[trid];
         if (tr->name.empty() || tr->can_see(*this, x, y)) {
             // Already seen, or has no name -> can never be seen
             continue;
         }
+        // Chance to detect traps we haven't yet seen.
         if (tr->detect_trap(*this, x, y)) {
-            // Chance to detect traps we haven't yet seen.
-            const std::string direction = direction_name(direction_from(posx, posy, x, y));
-            add_msg_if_player(_("You've spotted a %s to the %s!"), tr->name.c_str(), direction.c_str());
+            if( tr->get_visibility() > 0 ) {
+                // Only bug player about traps that aren't trivial to spot.
+                const std::string direction = direction_name(direction_from(posx, posy, x, y));
+                add_msg_if_player(_("You've spotted a %s to the %s!"),
+                                  tr->name.c_str(), direction.c_str());
+            }
             add_known_trap(x, y, tr->id);
         }
     }
