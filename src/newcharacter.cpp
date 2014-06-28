@@ -1594,7 +1594,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         } else if (action == "ANY_INPUT" && !MAP_SHARING::isSharing()) {  // Don't edit names when sharing maps
             const long ch = ctxt.get_raw_input().get_first_input();
             utf8_wrapper wrap(u->name);
-            if( ch == KEY_BACKSPACE || ch == 127 ) {
+            if( ch == KEY_BACKSPACE ) {
                 if( !wrap.empty() ) {
                     wrap.erase( wrap.length() - 1, 1 );
                     u->name = wrap.str();
@@ -1606,7 +1606,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
             } else if( ch == '\n' ) {
                 // nope, we ignore this newline, don't want it in char names
-            } else if( wrap.insert_from_getch( wrap.length(), ch ) ) {
+            } else {
+                wrap.append( ctxt.get_raw_input().text );
                 u->name = wrap.str();
             }
         }

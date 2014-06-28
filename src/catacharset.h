@@ -23,13 +23,24 @@ std::string base64_decode(std::string str);
 
 /**
  * UTF8-Wrapper over std::string.
- * It looks and feels like a std::string, but uses character counts
+ * It looks and feels like a std::string, but uses code points counts
  * as index, not bytes.
  * A multi-byte Unicode character might by represented
  * as 3 bytes in UTF8, this class will see these 3 bytes as 1 character.
- * It will never separate them.
+ * It will never separate them. It will however split between code points
+ * which might be problematic when containing combination characters.
+ * In this case use the *_display functions. They operate on the display width.
+ * Code points with a zero width are considered to belong to the previous code
+ * point and are not split from that.
+ * Having a string with like [letter0][letter1][combination-mark][letter2]
+ * (assuming each letter has a width of 1) will return a display_width of 3.
+ * substr_display(1, 2) returns [letter1][combination-mark][letter2],
+ * substr_display(1, 1) returns [letter1][combination-mark]
+ * substr_display(2, 1) returns [letter2]
  *
- * Note: all functions use character counts, not byte counts!
+ * Note: functions use code points, not bytes, for counting/indexing!
+ * Functions with the _display suffix use display width for counting/indexing!
+ * Protected functions might behave different
  *
  * For function documentation see std::string, the functions here
  * mimic the behavior of the equally named std::string function.
@@ -84,29 +95,6 @@ public:
      * characters.
      */
     std::string shorten(size_t maxlength) const;
-
-    /**
-     * Insert a single utf8-character ch at given position into the
-     * string. Uses repeated calls to @ref getch if the input ch indicates
-     * a multibyte character.
-     * This is supposed to be used like this:
-     * <code>
-     * utf8_wrapper name(...);
-     * ... handle the other input of some_input_context ...
-     * if (action == "ANY_INPUT) {
-     *   long ch = some_input_context.get_raw_input().get_first_input();
-     *   name.insert_from_getch(start, ch);
-     * }
-     * </code>
-     * @param ch The initial result from @ref getch.
-     * @return false if the initial input ch is a non-printable control
-     * character (< 32, except tab, newline and carriage return) or if
-     * the input (including the result of further calls to getch) forms
-     * an invalid UTF-8 sequence. Otherwise true.
-     * In any a return value of true means a character has been added to
-     * the string, a value of false means no character has been added.
-     */
-    bool insert_from_getch(size_t start, long ch);
 protected:
     std::string _data;
     size_t _length;

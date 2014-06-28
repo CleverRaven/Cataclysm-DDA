@@ -527,7 +527,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
         max_length = width;
     }
     int w_height = 3;
-    int iPopupWidth = (width == 0) ? FULL_SCREEN_WIDTH : width + titlesize + 4;
+    int iPopupWidth = (width == 0) ? FULL_SCREEN_WIDTH : width + titlesize + 5;
     if (iPopupWidth > FULL_SCREEN_WIDTH) {
         iPopupWidth = FULL_SCREEN_WIDTH;
     }
@@ -584,6 +584,9 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
     int shift = 0;
     bool redraw = true;
 
+    input_context ctxt("STRING_INPUT");
+    ctxt.register_action("ANY_INPUT");
+
     do {
 
         if ( pos < 0 ) {
@@ -593,7 +596,14 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         const size_t left_shift = ret.substr( 0, pos ).display_width();
         if( left_shift < shift ) {
             shift = 0;
-        } else if( left_shift >= shift + scrmax ) {
+        } else if( pos < ret.length() && left_shift + 1 >= shift + scrmax ) {
+            // if the cursor is inside the input string, keep one cell right of
+            // the cursor visible, because the cursor might be on a multi-cell
+            // character.
+            shift = left_shift - scrmax + 2;
+        } else if( pos == ret.length() && left_shift >= shift + scrmax ) {
+            // cursor is behind the end of the input string, keep the
+            // trailing '_' visible (always a single cell character)
             shift = left_shift - scrmax + 1;
         } else if( shift < 0 ) {
             shift = 0;
@@ -636,8 +646,11 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             if( sx < scrmax ) {
                 // could be scrolled out of view when the cursor is at the start of the input
                 size_t l = scrmax - sx;
-                if( max_length > 0 && ret.length() < max_length ) {
-                    if( pos == ret.length() ) { // one '_' is already printed.
+                if( max_length > 0 ) {
+                    if( ret.length() >= max_length ) {
+                        l = 0; // no more input possible!
+                    } else if( pos == ret.length() ) {
+                        // one '_' is already printed, formated as cursor
                         l = std::min<size_t>(l, max_length - ret.length() - 1);
                     } else {
                         l = std::min<size_t>(l, max_length - ret.length());
@@ -653,8 +666,10 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         if (dorefresh) {
             wrefresh(w);
         }
-        ch = getch();
         bool return_key = false;
+        const std::string action = ctxt.handle_input();
+        const input_event ev = ctxt.get_raw_input();
+        ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
         if( ch == KEY_ESCAPE ) {
             return "";
         } else if (ch == '\n') {
@@ -715,7 +730,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos = 0;
             ret.erase(0);
             redraw = true;
-        } else if (ch == KEY_BACKSPACE || ch == 127) { // Move the cursor back and re-draw it
+        } else if (ch == KEY_BACKSPACE) { // Move the cursor back and re-draw it
             if( pos > 0 &&
                 pos <= ret.size() ) {         // but silently drop input if we're at 0, instead of adding '^'
                 pos--;                                     //TODO: it is safe now since you only input ascii chars
@@ -739,14 +754,16 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             if(tmplen > 0 && (tmplen + utf8_width(ret.c_str()) <= max_length || max_length == 0)) {
                 ret.append(tmp);
             }
-        } else if( ch == ERR || ch == 0 ) {
+        } else if( ch == ERR ) {
             // Ignore the error
-        } else if( only_digits && !isdigit( ch ) ) {
+        } else if( ch != 0 && only_digits && !isdigit( ch ) ) {
             return_key = true;
         } else if( max_length > 0 && ret.length() >= max_length ) {
             // no further input possible, ignore key
-        } else if( ret.insert_from_getch( pos, ch ) ) {
-            pos++;
+        } else if( !ev.text.empty() ) {
+            const utf8_wrapper t( ev.text );
+            ret.insert( pos, t );
+            pos += t.length();
             redraw = true;
         }
         if (return_key) {//"/n" return code

@@ -143,9 +143,6 @@ int WindowHeight;       //Height of the actual window, not the curses window
 // the actual input value (key pressed, mouse button clicked, ...)
 // This value is finally returned by input_manager::get_input_event.
 input_event last_input;
-// Text input from SDL, it's a UTF-8 string, each byte must be passed
-// by getch to the main program separately
-std::string last_input_text;
 
 int inputdelay;         //How long getch will wait for a character to be typed
 int delaydpad = -1;     // Used for entering diagonal directions with d-pad.
@@ -806,23 +803,6 @@ long sdl_keycode_to_curses(SDL_Keycode keycode)
     }
 }
 
-/**
- * If a UTF-8 sequence has been received by SDL, set the last_input to the
- * first remaining byte of it (and remove that byte from the sequence) and
- * return true, otherwise return false.
- */
-bool commit_next_utf8_byte()
-{
-    if (last_input_text.empty()) {
-        return false;
-    }
-    // must cast to unsigned first to prevent wrong sign expansion
-    const long lc = (long) (unsigned char) last_input_text[0];
-    last_input_text.erase(0, 1);
-    last_input = input_event(lc, CATA_INPUT_KEYBOARD);
-    return true;
-}
-
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
@@ -875,8 +855,8 @@ void CheckMessages()
                 if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
                     int code = end_alt_code();
                     if( code ) {
-                        last_input_text = utf32_to_utf8(code);
-                        commit_next_utf8_byte();
+                        last_input = input_event(code, CATA_INPUT_KEYBOARD);
+                        last_input.text = utf32_to_utf8(code);
                     }
                 }
             }
@@ -885,12 +865,13 @@ void CheckMessages()
                 if (alt_down) {
                     add_alt_code(*ev.text.text);
                     break;
+                } else {
+                    const char *c = ev.text.text;
+                    int len = strlen(ev.text.text);
+                    const unsigned lc = UTF8_getch( &c, &len );
+                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    last_input.text = ev.text.text;
                 }
-                // Store the whole text (several bytes!), return the first byte,
-                // the remaining bytes are returned by further calls
-                // to input_manager::get_input_event
-                last_input_text = ev.text.text;
-                commit_next_utf8_byte();
             break;
             case SDL_JOYBUTTONDOWN:
                 last_input = input_event(ev.jbutton.button, CATA_INPUT_KEYBOARD);
@@ -1450,11 +1431,6 @@ input_event input_manager::get_input_event(WINDOW *win) {
     if(win == NULL) win = mainwin;
 
     wrefresh(win);
-
-    // Multibyte input sequence, return the next byte of it.
-    if (commit_next_utf8_byte()) {
-        return last_input;
-    }
 
     if (inputdelay < 0)
     {
