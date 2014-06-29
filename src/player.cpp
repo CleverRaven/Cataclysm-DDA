@@ -7420,26 +7420,22 @@ hint_rating player::rate_action_eat(item *it)
 
 //Returns the amount of charges that were consumed byt he player
 int player::drink_from_hands(item& water) {
-    int charges = 0;
+    int charges_consumed = 0;
     if (query_yn(_("Drink from your hands?")))
         {
             // Create a dose of water no greater than the amount of water remaining.
-            item water_temp("water", 0);
-            water_temp.poison = water.poison;
-            water_temp.charges = std::min(water_temp.charges, water.charges);
-
+            item water_temp(water);
             inv.push_back(water_temp);
             // If player is slaked water might not get consumed.
             if (consume(inv.position_by_type(water_temp.typeId())))
             {
                 moves -= 350;
 
-                charges = water_temp.charges;
-            } else {
-                inv.remove_item(inv.position_by_type(water_temp.typeId()));
+                charges_consumed = 1;// for some reason water_temp doesn't seem to have charges consumed, jsut set this to 1
             }
+            inv.remove_item(inv.position_by_type(water_temp.typeId()));
         }
-    return charges;
+    return charges_consumed;
 }
 
 
@@ -7842,14 +7838,16 @@ bool player::eat(item *eaten, it_comest *comest)
         moves -= (mealtime);
 
     // If it's poisonous... poison us.  TODO: More several poison effects
-    if ((eaten->poison >= rng(2, 4)) && !has_trait("EATPOISON") &&
-    !has_trait("EATDEAD")) {
-        add_effect("poison", eaten->poison * 100);
+    if (eaten->poison > 0) {
+        debugmsg("Ate some posioned stuff");
+        if (!has_trait("EATPOISON") && !has_trait("EATDEAD")) {
+            if (eaten->poison >= rng(2, 4)) {
+                add_effect("poison", eaten->poison * 100);
+            }
+            add_disease("foodpoison", eaten->poison * 300);
+        }
     }
-    if ((eaten->poison > 0) && !has_trait("EATPOISON") &&
-    !has_trait("EATDEAD")) {
-        add_disease("foodpoison", eaten->poison * 300);
-    }
+
 
     if (has_trait("AMORPHOUS")) {
         add_msg_player_or_npc(_("You assimilate your %s."), _("<npcname> assimilates a %s."),
