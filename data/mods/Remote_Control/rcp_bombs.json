@@ -1,0 +1,126 @@
+[
+
+ {
+    "id": "pipebomb_radio",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "green",
+    "name": "radio pipe bomb",
+    "description": "This is makeshift radio bomb, activate it to turn on, place somewhere and use remote detonator.",
+    "price": 40000,
+    "material": ["steel", "plastic"],
+    "weight": 180,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "ammo": "NULL",
+    "max_charges": 1,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "transform",
+        "target": "pipebomb_radio_act",
+        "target_charges": 1,
+        "active": true,
+        "msg": "You activated pipe radio bomb."
+    }
+  },
+  {
+    "id": "pipebomb_radio_act",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "yellow",
+    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB"],
+    "name": "activated radio pipe bomb",
+    "description": "This is makeshift radio bomb, and it activated. Place it, run away and use radio detonator.",
+    "price": 1,
+    "material": ["steel", "plastic"],
+    "weight": 1570,
+    "volume": 4,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -4,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "explosion",
+	"no_deactivate_msg": "You can not disarm your %s', place it, run away and use remote control to detonate.",
+        "explosion_power": 12,
+        "explosion_shrapnel": 4
+    }
+  },
+
+
+
+ {
+    "id": "dynamite_radio",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "green",
+    "name": "radio dynamite",
+    "description": "This is dynamite with radio detonator, activate it to turn on, place somewhere and use remote detonator.",
+    "price": 40000,
+    "material": ["paper", "plastic"],
+    "weight": 180,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "ammo": "NULL",
+    "max_charges": 1,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "transform",
+        "target": "dynamite_radio_act",
+        "target_charges": 1,
+        "active": true,
+        "msg": "You activated dinamite with radio detonator."
+    }
+  },
+  {
+    "id": "dynamite_radio_act",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "yellow",
+    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_1",  "RADIOCARITEM", "BOMB"],
+    "name": "activated radio dynamite",
+    "description": "This is dynamite with radio detonator. Place it, run away and use radio detonator.",
+    "price": 1,
+    "material": ["paper", "plastic"],
+    "weight": 1570,
+    "volume": 4,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -4,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "explosion",
+	"no_deactivate_msg": "You can not disarm your %s', place it, run away and use remote control to detonate.",
+        "explosion_power": 60,
+        "explosion_shrapnel": 0
+    }
+  }
+
+
+
+
+]

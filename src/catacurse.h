@@ -112,6 +112,7 @@ typedef struct {
 #define    KEY_RIGHT      0x105    /* right arrow*/
 #define    KEY_HOME       0x106    /* home key */                   //<---------not used
 #define    KEY_BACKSPACE  0x107    /* Backspace */                  //<---------not used
+#define    KEY_DC         0x151    /* Delete Character */
 #define    KEY_F(n)      (0x108+n) /* F1, F2, etc*/
 #define    KEY_NPAGE      0x152    /* page down */
 #define    KEY_PPAGE      0x153    /* page up */

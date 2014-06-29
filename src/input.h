@@ -47,6 +47,10 @@ struct input_event {
 
     int mouse_x, mouse_y;       // Mouse click co-ordinates, if applicable
 
+    // Actually entered text (if any), UTF-8 encoded, might be empty if
+    // the input is not UTF-8 or not even text.
+    std::string text;
+
     input_event()
     {
         mouse_x = mouse_y = 0;

@@ -276,6 +276,7 @@ extern std::map<std::string, furn_t> furnmap;
 extern std::map<int,int> reverse_legacy_furn_id;
 furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
+
 /*
 enum: map_extra
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
@@ -302,24 +303,6 @@ const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
   mfb(mx_stash) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
   mfb(mx_crater);
 
-// Chances are relative to eachother; e.g. a 200 chance is twice as likely
-// as a 100 chance to appear.
-const int map_extra_chance[num_map_extras + 1] = {
-  0, // Null - 0 chance
- 40, // Helicopter
- 50, // Military
-120, // Science
-200, // Stash
- 20, // Drug deal
- 10, // Supply drop
-  5, // Portal
- 70, // Minefield
- 10, // Crater
-  8, // Fumarole
-  7, // One-way portal into this world
- 10, // Anomaly
-  0  // Just a cap value; leave this as the last one
-};
 
 struct map_extras {
  unsigned int chance;
@@ -399,6 +382,32 @@ struct submap {
         graf[x][y] = value;
     }
 
+    // Signage is a pretend union between furniture on a square and stored
+    // writing on the square. When both are present, we have signage.
+    // Its effect is meant to be cosmetic and atmospheric only.
+    inline bool has_signage(int x, int y) {
+        furn_id f = frn[x][y];
+        if (furnlist[f].id == "f_sign") {
+            return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
+        }
+        return false;
+    }
+    // Dependent on furniture + cosmetics.
+    inline const std::string get_signage(int x, int y) {
+        if (has_signage(x, y)) {
+            return cosmetics[x][y]["SIGNAGE"];
+        }
+        return "";
+    }
+    // Can be used anytime (prevents code from needing to place sign first.)
+    inline void set_signage(int x, int y, std::string s) {
+        cosmetics[x][y]["SIGNAGE"] = s;
+    }
+    // Can be used anytime (prevents code from needing to place sign first.)
+    inline void delete_signage(int x, int y) {
+        cosmetics[x][y].erase("SIGNAGE");
+    }
+
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
@@ -408,19 +417,26 @@ struct submap {
     field              fld[SEEX][SEEY];  // Field on each square
     int                rad[SEEX][SEEY];  // Irradiation of each square
     graffiti           graf[SEEX][SEEY]; // Graffiti on each square
+    std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     int active_item_count;
     int field_count;
     int turn_last_touched;
     int temperature;
     std::vector<spawn_point> spawns;
+    /**
+     * Vehicles on this submap (their (0,0) point is on this submap).
+     * This vehicle objects are deletes by this submap when it gets
+     * deleted.
+     */
     std::vector<vehicle*> vehicles;
     computer comp;
     basecamp camp;  // only allowing one basecamp per submap
 
-    submap() : ter(), frn(), trp(), rad(),
-        active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
-    }
+    submap();
+    ~submap();
+    // delete vehicles and clear the vehicles vector
+    void delete_vehicles();
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);
@@ -558,7 +574,7 @@ extern ter_id t_null,
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
-    t_window_enhanced, t_window_enhanced_noglass,
+    t_window_enhanced, t_window_enhanced_noglass, t_open_air,
     num_terrain_types;
 
 

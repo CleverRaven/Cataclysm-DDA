@@ -8,7 +8,6 @@
 #include "game.h"
 #include "color.h"
 #include "options.h"
-#include "mapbuffer.h"
 #include "debug.h"
 #include "item_factory.h"
 #include "monstergenerator.h"

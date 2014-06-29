@@ -136,9 +136,10 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
 void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)
 {
     if (u_see( x, y)) {
-        for (size_t i = 0; i < ret.size(); i++) {
-            int mondex = mon_at(ret[i].x, ret[i].y),
-                npcdex = npc_at(ret[i].x, ret[i].y);
+        for (std::vector<point>::iterator it = ret.begin();
+             it != ret.end(); it++) {
+            int mondex = mon_at(it->x, it->y),
+                npcdex = npc_at(it->x, it->y);
 
             // NPCs and monsters get drawn with inverted colors
             if (mondex != -1 && u_see(&(critter_tracker.find(mondex)))) {
@@ -146,7 +147,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
             } else if (npcdex != -1) {
                 active_npc[npcdex]->draw(w_terrain, center_point.x, center_point.y, true);
             } else {
-                m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true, true, center_point.x, center_point.y);
+                m.drawsq(w_terrain, u, it->x, it->y, true, true, center_point.x, center_point.y);
             }
         }
     }
@@ -161,8 +162,8 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
         crx += (vPoint[vPoint.size() - 1].x - (u.posx + u.view_offset_x));
         cry += (vPoint[vPoint.size() - 1].y - (u.posy + u.view_offset_y));
     }
-    for (size_t i = 1; i < vPoint.size(); i++) {
-        m.drawsq(w_terrain, u, vPoint[i - 1].x, vPoint[i - 1].y, true, true);
+    for( std::vector<point>::iterator it = vPoint.begin(); it != vPoint.end() - 1; it++ ) {
+        m.drawsq(w_terrain, u, it->x, it->y, true, true);
     }
 
     mvwputch(w_terrain, cry, crx, c_white, 'X');

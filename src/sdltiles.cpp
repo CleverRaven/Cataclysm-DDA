@@ -5,6 +5,7 @@
 #include "input.h"
 #include "color.h"
 #include "catacharset.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include <vector>
 #include <fstream>
@@ -138,9 +139,11 @@ static SDL_PixelFormat *format;
 static SDL_Texture *display_buffer;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
-int lastchar;          //the last character that was pressed, resets in getch
-bool lastchar_isbutton; // Whether lastchar was a gamepad button press rather than a keypress.
-bool lastchar_is_mouse; // Mouse button pressed
+// input from various input sources. Each input source sets the type and
+// the actual input value (key pressed, mouse button clicked, ...)
+// This value is finally returned by input_manager::get_input_event.
+input_event last_input;
+
 int inputdelay;         //How long getch will wait for a character to be typed
 int delaydpad = -1;     // Used for entering diagonal directions with d-pad.
 int dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
@@ -639,36 +642,26 @@ bool Font::draw_window(WINDOW *win, int offsetx, int offsety)
     return update;
 }
 
-#define ALT_BUFFER_SIZE 8
-static char alt_buffer[ALT_BUFFER_SIZE];
-static int alt_buffer_len = 0;
+static long alt_buffer = 0;
 static bool alt_down = false;
 
 static void begin_alt_code()
 {
-    alt_buffer[0] = '\0';
+    alt_buffer = 0;
     alt_down = true;
-    alt_buffer_len = 0;
 }
 
-static int add_alt_code(char c)
+static void add_alt_code( char c )
 {
-    // not exactly how it works, but acceptable
-    if(c>='0' && c<='9')
-    {
-        if(alt_buffer_len<ALT_BUFFER_SIZE-1)
-        {
-            alt_buffer[alt_buffer_len] = c;
-            alt_buffer[++alt_buffer_len] = '\0';
-        }
+    if( c >= '0' && c <= '9' ) {
+        alt_buffer = alt_buffer * 10 + ( c - '0' );
     }
-    return 0;
 }
 
-static int end_alt_code()
+static long end_alt_code()
 {
     alt_down = false;
-    return atoi(alt_buffer);
+    return alt_buffer;
 }
 
 int HandleDPad()
@@ -714,8 +707,7 @@ int HandleDPad()
                     return 0;
                 }
 
-                lastchar_isbutton = true;
-                lastchar = lc;
+                last_input = input_event(lc, CATA_INPUT_GAMEPAD);
                 lastdpad = lc;
                 queued_dpad = ERR;
 
@@ -735,14 +727,80 @@ int HandleDPad()
         // If we didn't hold it down for a while, just
         // fire the last registered press.
         if(queued_dpad != ERR) {
-            lastchar = queued_dpad;
-            lastchar_isbutton = true;
+            last_input = input_event(queued_dpad, CATA_INPUT_GAMEPAD);
             queued_dpad = ERR;
             return 1;
         }
     }
 
     return 0;
+}
+
+/**
+ * Translate SDL key codes to key identifiers used by ncurses, this
+ * allows the input_manager to only consider those.
+ * @return 0 if the input can not be translated (unknown key?),
+ * -1 when a ALT+number sequence has been started,
+ * or somthing that a call to ncurses getch would return.
+ */
+long sdl_keycode_to_curses(SDL_Keycode keycode)
+{
+    switch (keycode) {
+        // This is special: allow entering a unicode character with ALT+number
+        case SDLK_RALT:
+        case SDLK_LALT:
+            begin_alt_code();
+            return -1;
+        // The following are simple translations:
+        case SDLK_KP_ENTER:
+        case SDLK_RETURN:
+        case SDLK_RETURN2:
+            return '\n';
+        case SDLK_BACKSPACE:
+        case SDLK_KP_BACKSPACE:
+            return KEY_BACKSPACE;
+        case SDLK_DELETE:
+            return KEY_DC;
+        case SDLK_ESCAPE:
+            return KEY_ESCAPE;
+        case SDLK_TAB:
+            return '\t';
+        case SDLK_LEFT:
+            return KEY_LEFT;
+        case SDLK_RIGHT:
+            return KEY_RIGHT;
+        case SDLK_UP:
+            return KEY_UP;
+        case SDLK_DOWN:
+            return KEY_DOWN;
+        case SDLK_PAGEUP:
+            return KEY_PPAGE;
+        case SDLK_PAGEDOWN:
+            return KEY_NPAGE;
+        case SDLK_HOME:
+            return KEY_HOME;
+        case SDLK_END:
+            return KEY_END;
+        case SDLK_F1: return KEY_F(1);
+        case SDLK_F2: return KEY_F(2);
+        case SDLK_F3: return KEY_F(3);
+        case SDLK_F4: return KEY_F(4);
+        case SDLK_F5: return KEY_F(5);
+        case SDLK_F6: return KEY_F(6);
+        case SDLK_F7: return KEY_F(7);
+        case SDLK_F8: return KEY_F(8);
+        case SDLK_F9: return KEY_F(9);
+        case SDLK_F10: return KEY_F(10);
+        case SDLK_F11: return KEY_F(11);
+        case SDLK_F12: return KEY_F(12);
+        case SDLK_F13: return KEY_F(13);
+        case SDLK_F14: return KEY_F(14);
+        case SDLK_F15: return KEY_F(15);
+        // Every other key is ignored as there is no curses constant for it.
+        // TODO: add more if you find more.
+        default:
+            return 0;
+    }
 }
 
 //Check for any window messages (keypress, paint, mousemove, etc)
@@ -754,7 +812,7 @@ void CheckMessages()
         return;
     }
 
-    lastchar_is_mouse = false;
+    last_input = input_event();
     while(SDL_PollEvent(&ev)) {
         switch(ev.type) {
             case SDL_WINDOWEVENT:
@@ -770,9 +828,10 @@ void CheckMessages()
             break;
             case SDL_KEYDOWN:
             {
-                int lc = 0;
                 //hide mouse cursor on keyboard input
-                if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) { SDL_ShowCursor(SDL_DISABLE); }
+                if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
+                    SDL_ShowCursor(SDL_DISABLE);
+                }
                 const Uint8 *keystate = SDL_GetKeyboardState(NULL);
                 // manually handle Alt+F4 for older SDL lib, no big deal
                 if( ev.key.keysym.sym == SDLK_F4
@@ -780,68 +839,42 @@ void CheckMessages()
                     quit = true;
                     break;
                 }
-                switch (ev.key.keysym.sym) {
-                    case SDLK_KP_ENTER:
-                    case SDLK_RETURN:
-                    case SDLK_RETURN2:
-                        lc = 10;
-                        break;
-                    case SDLK_BACKSPACE:
-                    case SDLK_KP_BACKSPACE:
-                        lc = 127;
-                        break;
-                    case SDLK_ESCAPE:
-                        lc = 27;
-                        break;
-                    case SDLK_TAB:
-                        lc = 9;
-                        break;
-                    case SDLK_RALT:
-                    case SDLK_LALT:
-                        begin_alt_code();
-                        break;
-                    case SDLK_LEFT:
-                        lc = KEY_LEFT;
-                        break;
-                    case SDLK_RIGHT:
-                        lc = KEY_RIGHT;
-                        break;
-                    case SDLK_UP:
-                        lc = KEY_UP;
-                        break;
-                    case SDLK_DOWN:
-                        lc = KEY_DOWN;
-                        break;
-                    case SDLK_PAGEUP:
-                        lc = KEY_PPAGE;
-                        break;
-                    case SDLK_PAGEDOWN:
-                        lc = KEY_NPAGE;
-                        break;
-                }
-                if( !lc ) { break; }
-                if( alt_down ) {
+                const long lc = sdl_keycode_to_curses(ev.key.keysym.sym);
+                if( lc <= 0 ) {
+                    // a key we don't know in curses and won't handle.
+                    break;
+                } else if( alt_down ) {
                     add_alt_code( lc );
                 } else {
-                    lastchar = lc;
+                    last_input = input_event(lc, CATA_INPUT_KEYBOARD);
                 }
-                lastchar_isbutton = false;
             }
             break;
             case SDL_KEYUP:
             {
                 if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
                     int code = end_alt_code();
-                    if( code ) { lastchar = code; }
+                    if( code ) {
+                        last_input = input_event(code, CATA_INPUT_KEYBOARD);
+                        last_input.text = utf32_to_utf8(code);
+                    }
                 }
             }
             break;
             case SDL_TEXTINPUT:
-                lastchar = *ev.text.text;
+                if (alt_down) {
+                    add_alt_code(*ev.text.text);
+                    break;
+                } else {
+                    const char *c = ev.text.text;
+                    int len = strlen(ev.text.text);
+                    const unsigned lc = UTF8_getch( &c, &len );
+                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    last_input.text = ev.text.text;
+                }
             break;
             case SDL_JOYBUTTONDOWN:
-                lastchar = ev.jbutton.button;
-                lastchar_isbutton = true;
+                last_input = input_event(ev.jbutton.button, CATA_INPUT_KEYBOARD);
             break;
             case SDL_JOYAXISMOTION: // on gamepads, the axes are the analog sticks
                 // TODO: somehow get the "digipad" values from the axes
@@ -853,29 +886,26 @@ void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    lastchar_is_mouse = true;
-                    lastchar = MOUSE_MOVE;
+                    last_input = input_event(MOUSE_MOVE, CATA_INPUT_MOUSE);
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                lastchar_is_mouse = true;
                 switch (ev.button.button) {
                     case SDL_BUTTON_LEFT:
-                        lastchar = MOUSE_BUTTON_LEFT;
+                        last_input = input_event(MOUSE_BUTTON_LEFT, CATA_INPUT_MOUSE);
                         break;
                     case SDL_BUTTON_RIGHT:
-                        lastchar = MOUSE_BUTTON_RIGHT;
+                        last_input = input_event(MOUSE_BUTTON_RIGHT, CATA_INPUT_MOUSE);
                         break;
                     }
                 break;
 
             case SDL_MOUSEWHEEL:
-                lastchar_is_mouse = true;
                 if(ev.wheel.y > 0) {
-                    lastchar = SCROLLWHEEL_UP;
+                    last_input = input_event(SCROLLWHEEL_UP, CATA_INPUT_MOUSE);
                 } else if(ev.wheel.y < 0) {
-                    lastchar = SCROLLWHEEL_DOWN;
+                    last_input = input_event(SCROLLWHEEL_DOWN, CATA_INPUT_MOUSE);
                 }
                 break;
 
@@ -1129,7 +1159,7 @@ void load_soundset();
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
-    lastchar = -1;
+    last_input = input_event();
     inputdelay = -1;
 
     std::string typeface, map_typeface;
@@ -1401,19 +1431,16 @@ input_event input_manager::get_input_event(WINDOW *win) {
     if(win == NULL) win = mainwin;
 
     wrefresh(win);
-    lastchar=ERR;//ERR=-1
-    input_event rval;
 
     if (inputdelay < 0)
     {
         do
         {
-            rval.type = CATA_INPUT_ERROR;
             CheckMessages();
-            if (lastchar!=ERR) break;
+            if (last_input.type != CATA_INPUT_ERROR) break;
             SDL_Delay(1);
         }
-        while (lastchar==ERR);
+        while (last_input.type == CATA_INPUT_ERROR);
     }
     else if (inputdelay > 0)
     {
@@ -1422,14 +1449,13 @@ input_event input_manager::get_input_event(WINDOW *win) {
         bool timedout = false;
         do
         {
-            rval.type = CATA_INPUT_ERROR;
             CheckMessages();
             endtime=SDL_GetTicks();
-            if (lastchar!=ERR) break;
+            if (last_input.type != CATA_INPUT_ERROR) break;
             SDL_Delay(1);
             timedout = endtime >= starttime + inputdelay;
             if (timedout) {
-                rval.type = CATA_INPUT_TIMEOUT;
+                last_input.type = CATA_INPUT_TIMEOUT;
             }
         }
         while (!timedout);
@@ -1439,24 +1465,13 @@ input_event input_manager::get_input_event(WINDOW *win) {
         CheckMessages();
     }
 
-    if (rval.type != CATA_INPUT_TIMEOUT) {
-        if (lastchar == ERR) {
-            rval.type = CATA_INPUT_ERROR;
-        } else if (lastchar_isbutton) {
-            rval.type = CATA_INPUT_GAMEPAD;
-            rval.add_input(lastchar);
-        } else if (lastchar_is_mouse) {
-            rval.type = CATA_INPUT_MOUSE;
-            rval.add_input(lastchar);
-            SDL_GetMouseState(&rval.mouse_x, &rval.mouse_y);
-        } else {
-            rval.type = CATA_INPUT_KEYBOARD;
-            rval.add_input(lastchar);
-            previously_pressed_key = lastchar;
-        }
+    if (last_input.type == CATA_INPUT_MOUSE) {
+        SDL_GetMouseState(&last_input.mouse_x, &last_input.mouse_y);
+    } else if (last_input.type == CATA_INPUT_KEYBOARD) {
+        previously_pressed_key = last_input.get_first_input();
     }
 
-    return rval;
+    return last_input;
 }
 
 bool gamepad_available() {

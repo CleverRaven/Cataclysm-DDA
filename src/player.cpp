@@ -80,6 +80,7 @@ void game::init_morale()
     _("Lactose Intolerance"),
     _("Ate Junk Food"),
     _("Wheat Allergy"),
+    _("Ate Indigestible Food"),
     _("Wet"),
     _("Dried Off"),
     _("Cold"),
@@ -100,6 +101,8 @@ void game::init_morale()
     _("Stylish"),
     _("Optimist"),
     _("Bad Tempered"),
+    //~ You really don't like wearing the Uncomfy Gear
+    _("Uncomfy Gear"),
     _("Found kitten <3")
     };
     for (int i = 0; i < NUM_MORALE_TYPES; ++i) {
@@ -472,11 +475,7 @@ void player::reset_stats()
     suffer();
 
     // Dodge-related effects
-    mod_dodge_bonus(
-            mabuff_dodge_bonus()
-            - encumb(bp_legs)/2
-            - encumb(bp_torso)
-        );
+    mod_dodge_bonus( mabuff_dodge_bonus() - encumb(bp_legs)/2 - encumb(bp_torso) );
     if (has_trait("TAIL_LONG")) {
         mod_dodge_bonus(2);
     }
@@ -509,20 +508,31 @@ void player::reset_stats()
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     // Hit-related effects
-    mod_hit_bonus(
-            mabuff_tohit_bonus()
-            + weapon.type->m_to_hit
-            - encumb(bp_torso)
-        );
+    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - encumb(bp_torso) );
 
     // Set our scent towards the norm
     int norm_scent = 500;
-    if (has_trait("WEAKSCENT"))
+    if (has_trait("WEAKSCENT")) {
         norm_scent = 300;
-    if (has_trait("SMELLY"))
+    }
+    if (has_trait("SMELLY")) {
         norm_scent = 800;
-    if (has_trait("SMELLY2"))
+    }
+    if (has_trait("SMELLY2")) {
         norm_scent = 1200;
+    }
+    // Not so much that you don't have a scent
+    // but that you smell like a plant, rather than
+    // a human. When was the last time you saw a critter
+    // attack a bluebell or an apple tree?
+    if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
+        norm_scent -= 200;
+    }
+    // You *are* a plant.  Unless someone hunts triffids by scent,
+    // you don't smell like prey.
+    if (has_trait("CHLOROMORPH")) {
+        norm_scent = 0;
+    }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
@@ -666,6 +676,18 @@ void player::apply_persistent_morale()
         if(bonus) {
             add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
         }
+    }
+
+    // Floral folks really don't like having their flowers covered.
+    if( has_trait("FLOWERS") && wearing_something_on(bp_head) ) {
+        add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
+    }
+
+    // The same applies to rooters and their feet; however, they don't take
+    // too many problems from no-footgear.
+    if( (has_trait("ROOTS") || has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
+        wearing_something_on(bp_feet) ) {
+        add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
     }
 
     // Masochists get a morale bonus from pain.
@@ -1381,6 +1403,20 @@ int player::run_cost(int base_cost, bool diag)
     if (diag)
         movecost *= 0.7071f; // because everything here assumes 100 is base
     bool flatground = movecost < 105;
+    const ter_id ter_at_pos = g->m.ter(posx, posy);
+    // If your floor is hard, flat, and otherwise skateable, list it here
+    bool offroading = ( flatground && (!((ter_at_pos == t_rock_floor) ||
+      (ter_at_pos == t_pit_covered) || (ter_at_pos == t_metal_floor) ||
+      (ter_at_pos == t_pit_spiked_covered) || (ter_at_pos == t_pavement) ||
+      (ter_at_pos == t_pavement_y) || (ter_at_pos == t_sidewalk) ||
+      (ter_at_pos == t_concrete) || (ter_at_pos == t_floor) ||
+      (ter_at_pos == t_skylight) || (ter_at_pos == t_door_glass_o) ||
+      (ter_at_pos == t_emergency_light_flicker) ||
+      (ter_at_pos == t_emergency_light) || (ter_at_pos == t_utility_light) ||
+      (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
+      (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
+      (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
+      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) )) );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -1451,16 +1487,34 @@ int player::run_cost(int base_cost, bool diag)
     if (is_wearing("swim_fins")) {
         movecost *= 1.5f;
     }
+    if (is_wearing("roller_blades")) {
+        if (offroading) {
+            movecost *= 1.5f;
+        } else if (flatground) {
+            movecost *= 0.5f;
+        } else {
+            movecost *= 1.5f;
+        }
+    }
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
+    // ROOTS3 does slow you down as your roots are probing around for nutrients,
+    // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
+    // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
     if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES") &&
-        !has_trait("TOUGH_FEET")) {
+        !has_trait("TOUGH_FEET") && !has_trait("ROOTS2") ) {
         movecost += 15;
     }
 
-    if (diag)
+    if( !wearing_something_on(bp_feet) && has_trait("ROOTS3") &&
+        g->m.has_flag("DIGGABLE", posx, posy) ) {
+        movecost += 10;
+    }
+
+    if (diag) {
         movecost *= 1.4142;
+    }
 
     return int(movecost);
 }
@@ -1554,7 +1608,8 @@ nc_color player::color()
  if (underwater)
   return c_blue;
  if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-    (is_wearing("optical_cloak") && (has_active_item("UPS_on") || has_active_item("adv_UPS_on"))))
+    (is_wearing("optical_cloak") && (has_active_item("UPS_on") ||
+    has_active_item("adv_UPS_on"))) || has_trait("DEBUG_CLOAK"))
   return c_dkgray;
  return c_white;
 }
@@ -3222,7 +3277,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     int x = sideStyle ? 37 : 32;
     int y = sideStyle ?  0 :  1;
-    if(has_disease("deaf")) {
+    if(is_deaf()) {
         mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
     } else {
         mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
@@ -3795,7 +3850,11 @@ void player::recalc_sight_limits()
     // Set sight_boost and sight_boost_cap, based on night vision.
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
-    if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
+    // Debug-only NV, by vache's request
+    if (has_trait("DEBUG_NIGHTVISION")) {
+        sight_boost = 59;
+        sight_boost_cap = 59;
+    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
@@ -4026,21 +4085,31 @@ void player::search_surroundings()
     if (controlling_vehicle) {
         return;
     }
-    for(size_t i = 0; i < 9; i++) {
-        const int x = posx + i / 3 - 1;
-        const int y = posy + i % 3 - 1;
+    // Search for traps in a larger area than before because this is the only
+    // way we can "find" traps that aren't marked as visible.
+    // Detection formula takes care of likelihood of seeing within this range.
+    for (size_t i = 0; i < 121; i++) {
+        const int x = posx + i / 11 - 5;
+        const int y = posy + i % 11 - 5;
         const trap_id trid = g->m.tr_at(x, y);
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
         const trap *tr = traplist[trid];
         if (tr->name.empty() || tr->can_see(*this, x, y)) {
-            // Already seen, or has no name -> can never bee seen
+            // Already seen, or has no name -> can never be seen
             continue;
         }
-        const std::string direction = direction_name(direction_from(posx, posy, x, y));
-        add_msg_if_player(_("You've spotted a %s to the %s!"), tr->name.c_str(), direction.c_str());
-        add_known_trap(x, y, tr->id);
+        // Chance to detect traps we haven't yet seen.
+        if (tr->detect_trap(*this, x, y)) {
+            if( tr->get_visibility() > 0 ) {
+                // Only bug player about traps that aren't trivial to spot.
+                const std::string direction = direction_name(direction_from(posx, posy, x, y));
+                add_msg_if_player(_("You've spotted a %s to the %s!"),
+                                  tr->name.c_str(), direction.c_str());
+            }
+            add_known_trap(x, y, tr->id);
+        }
     }
 }
 
@@ -4869,10 +4938,10 @@ void player::recalc_hp()
         }
         // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
         // structure can help with that, a bit.
-        if (has_trait("BENDY02")) {
+        if (has_trait("BENDY2")) {
             new_max_hp[i] += 3;
         }
-        if (has_trait("BENDY03")) {
+        if (has_trait("BENDY3")) {
             new_max_hp[i] += 6;
         }
         // Only the most extreme applies.
@@ -4888,6 +4957,14 @@ void player::recalc_hp()
             new_max_hp[i] *= .5;
         } else if (has_trait("FLIMSY3")) {
             new_max_hp[i] *= .25;
+        }
+        // Mutated toughness stacks with starting, by design.
+        if (has_trait("MUT_TOUGH")) {
+            new_max_hp[i] *= 1.2;
+        } else if (has_trait("MUT_TOUGH2")) {
+            new_max_hp[i] *= 1.3;
+        } else if (has_trait("MUT_TOUGH3")) {
+            new_max_hp[i] *= 1.4;
         }
     }
     if (has_trait("GLASSJAW"))
@@ -5327,6 +5404,26 @@ void player::suffer()
         }
     }
 
+    if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) &&
+        (!(wearing_something_on(bp_feet))) ) {
+        if (one_in(25)) {
+            add_msg(m_good, _("This soil is delicious!"));
+            hunger -= 2;
+            thirst -= 2;
+            if (health <= 10) {
+                health++;
+            }
+            // Mmm, dat soil...
+            focus_pool--;
+        } else if (one_in(20)){
+            hunger--;
+            thirst--;
+            if (health <= 5) {
+                health++;
+            }
+        }
+    }
+
     for (int i = 0; i < illness.size(); i++) {
         dis_effect(*this, illness[i]);
     }
@@ -5659,7 +5756,7 @@ void player::suffer()
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if (has_trait("PER_SLIME")) {
-        if (one_in(600) && !(has_disease("deaf"))) {
+        if (one_in(600) && !has_disease("deaf")) {
             add_msg(m_bad, _("Suddenly, you can't hear anything!"));
             add_disease("deaf", 20 * rng (2, 6)) ;
         }
@@ -5701,6 +5798,9 @@ void player::suffer()
     }
 
     if (has_trait("UNSTABLE") && one_in(28800)) { // Average once per 2 days
+        mutate();
+    }
+    if (has_trait("CHAOTIC") && one_in(7200)) { // Should be once every 12 hours
         mutate();
     }
     if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800)) {
@@ -5786,7 +5886,7 @@ void player::suffer()
         power_level--;
     }
     if (has_bionic("bio_noise") && one_in(500)) {
-        if(!has_disease("deaf"))
+        if(!is_deaf())
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
         else
             add_msg(m_bad, _("A bionic shudders, but you hear nothing."));
@@ -7582,12 +7682,19 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
+    if ((has_trait("SAPROPHAGE") && (!spoiled) && (!has_bionic("bio_digestion")) && !is_npc() &&
+        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str()))) {
+        //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
+        //~ Semantic difference, but greatly facilitates people being proud of their character.
+        add_msg_if_player(m_info,  _("It's too fresh, let it age a little first.  "));
+        return false;
+    }
 
     if (spoiled) {
         if (is_npc()) {
             return false;
         }
-        if (!has_trait("SAPROVORE") &&
+        if ((!(has_trait("SAPROVORE") || has_trait("SAPROPHAGE"))) &&
             !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname().c_str())) {
             return false;
         }
@@ -7652,7 +7759,7 @@ bool player::eat(item *eaten, it_comest *comest)
 
     if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
         ( comest->quench > 0 && temp_thirst < capacity ) ) {
-        if (spoiled){//rotten get random nutrification
+        if ((spoiled) && !(has_trait("SAPROPHAGE")) ){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all. Consume it?"))) {
                 return false;
             }
@@ -7674,12 +7781,15 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if( spoiled ) {
+    if ( (spoiled) && !(has_trait("SAPROPHAGE")) ) {
         add_msg(m_bad, _("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
         if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
        (!has_bionic("bio_digestion") || one_in(3))) {
             add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
+        consume_effects(eaten, comest, spoiled);
+    } else if ((spoiled) && has_trait("SAPROPHAGE")) {
+        add_msg(m_good, _("Mmm, this %s tastes delicious..."), eaten->tname().c_str());
         consume_effects(eaten, comest, spoiled);
     } else {
         consume_effects(eaten, comest);
@@ -7796,6 +7906,10 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
     }
+    if (has_trait("SAPROPHAGE") && !(spoiled)) {
+        add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
+        add_morale(MORALE_NO_DIGEST, -75, -400, 300, 240);
+    }
     if ((!crossed_threshold() || has_trait("THRESH_URSINE")) && mutation_category_level["MUTCAT_URSINE"] > 40
         && eaten->made_of("honey")) {
         //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
@@ -7825,7 +7939,7 @@ bool player::eat(item *eaten, it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
-    if (rotten) {
+    if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
@@ -7837,6 +7951,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         thirst -= ((comest->quench) *= 0.66);
         health += ((comest->healthy) *= 0.66);
     } else {
+    // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
         thirst -= comest->quench;
         health += comest->healthy;
@@ -7925,6 +8040,33 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         }
         if (thirst < -20) {
             thirst = -20;
+        }
+    }
+}
+
+void player::rooted_message() const
+{
+    if( (has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
+        g->m.has_flag("DIGGABLE", posx, posy) &&
+        !wearing_something_on(bp_feet) ) {
+        add_msg(m_info, _("You sink your roots into the soil."));
+    }
+}
+
+void player::rooted()
+// Should average a point every two minutes or so; ground isn't uniformly fertile
+// If being able to "overfill" is a serious balance issue, will revisit
+// Otherwise, nutrient intake via roots can fill past the "Full" point, WAI
+{
+    if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
+        g->m.has_flag("DIGGABLE", posx, posy) &&
+        !wearing_something_on(bp_feet) ) {
+        if( one_in(20) ) {
+            hunger--;
+            thirst--;
+            if (health <= 5) {
+                health++;
+            }
         }
     }
 }
@@ -8513,6 +8655,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         inv.assign_empty_invlet(*to_wear, true);
     }
 
+    const bool was_deaf = is_deaf();
     last_item = itype_id(to_wear->type->id);
     worn.push_back(*to_wear);
 
@@ -8536,6 +8679,9 @@ bool player::wear_item(item *to_wear, bool interactive)
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
                     body_part_name(body_part(i), -1).c_str(), encumb_text(body_part(i)).c_str());
             }
+        }
+        if( !was_deaf && is_deaf() ) {
+            add_msg( m_info, _( "You're deafened!" ) );
         }
     }
 
@@ -9175,6 +9321,11 @@ void player::read(int pos)
         if(!continuous) {
             add_msg(m_info, _("Now studying %s, %s to stop early."),
                     it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
+            if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
+                 g->m.has_flag("DIGGABLE", posx, posy) &&
+                 (!(wearing_something_on(bp_feet))) ) {
+                add_msg(m_info, _("You sink your roots into the soil."));
+            }
         }
         study = true;
     }
@@ -9341,6 +9492,16 @@ void player::do_read( item *book )
             // continuously read until player gains a new skill level
             activity.type = ACT_NULL;
             read(activity.position);
+            // Rooters root (based on time spent reading)
+            int root_factor = (reading->time / 20);
+            if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
+                g->m.has_flag("DIGGABLE", posx, posy) &&
+                !wearing_something_on(bp_feet) ) {
+                hunger -= root_factor;
+                thirst -= root_factor;
+                health += root_factor;
+                health = std::min( 5, health );
+            }
             if (activity.type != ACT_NULL) {
                 return;
             }
@@ -9429,53 +9590,93 @@ bool player::try_study_recipe(it_book *book)
 
 void player::try_to_sleep()
 {
- int vpart = -1;
- vehicle *veh = g->m.veh_at (posx, posy, vpart);
- const trap_id trap_at_pos = g->m.tr_at(posx, posy);
- const ter_id ter_at_pos = g->m.ter(posx, posy);
- const furn_id furn_at_pos = g->m.furn(posx, posy);
- if (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
-     trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
-     trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay ||
-     (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
-      (veh && veh->part_with_feature (vpart, "BED") >= 0))
-  add_msg(m_good, _("This is a comfortable place to sleep."));
- else if (ter_at_pos != t_floor)
-  add_msg(
-             terlist[ter_at_pos].movecost <= 2 ?
-             _("It's a little hard to get to sleep on this %s.") :
-             _("It's hard to get to sleep on this %s."),
-             terlist[ter_at_pos].name.c_str());
- add_disease("lying_down", 300);
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at (posx, posy, vpart);
+    const trap_id trap_at_pos = g->m.tr_at(posx, posy);
+    const ter_id ter_at_pos = g->m.ter(posx, posy);
+    const furn_id furn_at_pos = g->m.furn(posx, posy);
+    bool plantsleep = false;
+    if (has_trait("CHLOROMORPH")) {
+        plantsleep = true;
+        if( (ter_at_pos == t_dirt || ter_at_pos == t_pit ||
+             ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
+             ter_at_pos == t_ash || ter_at_pos == t_grass) && (!(veh)) &&
+            (furn_at_pos == f_null) ) {
+            add_msg(m_good, _("You relax as your roots embrace the soil."));
+        } else if (veh) {
+            add_msg(m_bad, _("It's impossible to sleep in this wheeled pot!"));
+        } else if (furn_at_pos != f_null) {
+            add_msg(m_bad, _("The humans' furniture blocks your roots. You can't get comfortable."));
+        } else { // Floor problems
+            add_msg(m_bad, _("Your roots scrabble ineffectively at the unyielding surface."));
+        }
+    }
+    if( (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
+         trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
+         trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
+         furn_at_pos == f_sofa || furn_at_pos == f_hay ||
+         (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+         (veh && veh->part_with_feature (vpart, "BED") >= 0)) &&
+        (!(plantsleep)) ) {
+        add_msg(m_good, _("This is a comfortable place to sleep."));
+    } else if ((ter_at_pos != t_floor) && (!(plantsleep))) {
+        add_msg( terlist[ter_at_pos].movecost <= 2 ?
+                 _("It's a little hard to get to sleep on this %s.") :
+                 _("It's hard to get to sleep on this %s."),
+                 terlist[ter_at_pos].name.c_str() );
+    }
+    add_disease("lying_down", 300);
 }
 
 bool player::can_sleep()
 {
  int sleepy = 0;
+ bool plantsleep = false;
  if (has_addiction(ADD_SLEEP))
   sleepy -= 3;
  if (has_trait("INSOMNIA"))
   sleepy -= 8;
  if (has_trait("EASYSLEEPER"))
   sleepy += 8;
+ if (has_trait("CHLOROMORPH"))
+  plantsleep = true;
 
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
  const trap_id trap_at_pos = g->m.tr_at(posx, posy);
  const ter_id ter_at_pos = g->m.ter(posx, posy);
  const furn_id furn_at_pos = g->m.furn(posx, posy);
- if ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
+ if ( ((veh && veh->part_with_feature (vpart, "BED") >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
-     furn_at_pos == f_sofa || furn_at_pos == f_hay)
+     furn_at_pos == f_sofa || furn_at_pos == f_hay) &&
+     (!(plantsleep)) ) {
   sleepy += 4;
- else if ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
-      trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair)
-  sleepy += 3;
- else if (furn_at_pos == f_bed)
-  sleepy += 5;
- else if (ter_at_pos == t_floor)
-  sleepy += 1;
+ }
+ else if ( ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
+      trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
+      furn_at_pos == f_armchair) && (!(plantsleep)) ) {
+    sleepy += 3;
+ }
+ else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {
+    sleepy += 5;
+ }
+ else if ( (ter_at_pos == t_floor) && (!(plantsleep)) ) {
+    sleepy += 1;
+ }
+ else if (plantsleep) {
+    if ((ter_at_pos == t_dirt || ter_at_pos == t_pit ||
+        ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow) &&
+        furn_at_pos == f_null) {
+        sleepy += 10; // It's very easy for Chloromorphs to get to sleep on soil!
+    }
+    else if ((ter_at_pos == t_grass || ter_at_pos == t_ash) &&
+        furn_at_pos == f_null) {
+        sleepy += 5; // Not as much if you have to dig through stuff first
+    }
+    else {
+        sleepy -= 999; // Sleep ain't happening
+    }
+ }
  else
   sleepy -= g->m.move_cost(posx, posy);
  if (fatigue < 192)
@@ -10226,19 +10427,20 @@ int player::get_env_resist(body_part bp)
     return ret;
 }
 
-bool player::wearing_something_on(body_part bp)
+bool player::wearing_something_on(body_part bp) const
 {
- for (int i = 0; i < worn.size(); i++) {
-  if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp))
-    return true;
- }
- return false;
+    for (int i = 0; i < worn.size(); i++) {
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp))
+            return true;
+    }
+    return false;
 }
 
-bool player::is_wearing_shoes() {
+bool player::is_wearing_shoes() const
+{
     for (int i = 0; i < worn.size(); i++) {
-        item *worn_item = &worn[i];
-        it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
+        const item *worn_item = &worn[i];
+        const it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
             (!worn_item->has_flag("BELTED")) &&
@@ -10752,6 +10954,7 @@ bool player::is_invisible() const {
         has_active_bionic(str_bio_cloak) ||
         has_active_bionic(str_bio_night) ||
         has_active_optcloak() ||
+        has_trait("DEBUG_CLOAK") ||
         has_artifact_with(AEP_INVISIBLE)
     );
 }
@@ -10944,6 +11147,8 @@ bool player::sees(int x, int y, int &t)
         if (is_player()) {
             // uses the seen cache in map
             can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
+        } else if (g->m.light_at(x, y) >= LL_LOW) {
+            can_see = g->m.sees(posx, posy, x, y, wanted_range, t);
         } else {
             can_see = g->m.sees(posx, posy, x, y, s_range, t);
         }
@@ -11087,4 +11292,9 @@ void player::add_known_trap(int x, int y, const std::string &t)
     } else {
         known_traps[p] = t;
     }
+}
+
+bool player::is_deaf() const
+{
+    return has_disease("deaf") || worn_with_flag("DEAF");
 }

@@ -557,34 +557,37 @@ void iexamine::rubble(player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::chainfence(player *p, map *m, int examx, int examy) {
- if (!query_yn(_("Climb %s?"),m->tername(examx, examy).c_str())) {
-  none(p, m, examx, examy);
-  return;
- }
- if ( (p->has_trait("ARACHNID_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
-    add_msg(_("Climbing the fence is trivial for one such as you."));
-    p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+void iexamine::chainfence( player *p, map *m, int examx, int examy )
+{
+    if( !query_yn( _( "Climb %s?" ), m->tername( examx, examy ).c_str() ) ) {
+        none( p, m, examx, examy );
+        return;
+    }
+    if( p->has_trait( "ARACHNID_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
+        add_msg( _( "Climbing the fence is trivial for one such as you." ) );
+        p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+    } else if( p->has_trait( "INSECT_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
+        add_msg( _( "You quickly scale the fence." ) );
+        p->moves -= 90;
+    } else {
+        p->moves -= 400;
+        if( one_in( p->dex_cur ) ) {
+            add_msg( m_bad, _( "You slip whilst climbing and fall down again." ) );
+            return;
+        }
+        p->moves += p->dex_cur * 10;
+    }
+    if( p->in_vehicle ) {
+        m->unboard_vehicle( p->posx, p->posy );
+    }
+    if( examx < SEEX * int( MAPSIZE / 2 ) || examy < SEEY * int( MAPSIZE / 2 ) ||
+        examx >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examy >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+        if( &g->u == p ) {
+            g->update_map( examx, examy );
+        }
+    }
     p->posx = examx;
     p->posy = examy;
-    return;
- }
- if ( (p->has_trait("INSECT_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
-    add_msg(_("You quickly scale the fence."));
-    p->moves -= 90;
-    p->posx = examx;
-    p->posy = examy;
-    return;
- }
-
- p->moves -= 400;
- if (one_in(p->dex_cur)) {
-  add_msg(m_bad, _("You slip whilst climbing and fall down again."));
- } else {
-  p->moves += p->dex_cur * 10;
-  p->posx = examx;
-  p->posy = examy;
- }
 }
 
 void iexamine::bars(player *p, map *m, int examx, int examy) {
@@ -851,13 +854,13 @@ void iexamine::safe(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::bulletin_board(player *p, map *m, int examx, int examy) {
-    (void)g; (void)p; //unused
+    (void)p;
     basecamp *camp = m->camp_at(examx, examy);
     if (camp && camp->board_x() == examx && camp->board_y() == examy) {
         std::vector<std::string> options;
         options.push_back(_("Cancel"));
         // Causes a warning due to being unused, but don't want to delete
-        // since it's clearly what's intened for future functionality.
+        // since it's clearly what's intended for future functionality.
         //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
     } else {
         bool create_camp = m->allow_camp(examx, examy);
@@ -879,7 +882,7 @@ void iexamine::bulletin_board(player *p, map *m, int examx, int examy) {
 
 void iexamine::fault(player *p, map *m, int examx, int examy)
 {
-    (void)g; (void)p; (void)m; (void)examx; (void)examy; //unused
+    (void)p; (void)m; (void)examx; (void)examy; //unused
     popup(_("\
 This wall is perfectly vertical.  Odd, twisted holes are set in it, leading\n\
 as far back into the solid rock as you can see.  The holes are humanoid in\n\
@@ -1053,59 +1056,45 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "dahlia_bud");
 }
 
-void iexamine::egg_sackbw(player *p, map *m, int examx, int examy) {
-  if(!query_yn(_("Harvest the %s?"),m->furnname(examx, examy).c_str())) {
-    none(p, m, examx, examy);
-    return;
-  }
-  if (one_in(2)){
-    monster spider_widow_giant_s(GetMType("mon_spider_widow_giant_s"));
-    int f = 0;
-    for (int i = examx -1; i <= examx + 1; i++) {
-        for (int j = examy -1; j <= examy + 1; j++) {
-                if (!(g->u.posx == i && g->u.posy == j) && one_in(3)){
-                    spider_widow_giant_s.spawn(i, j);
-                    g->add_zombie(spider_widow_giant_s);
-                    f++;
-                }
+void iexamine::egg_sack_generic( player *p, map *m, int examx, int examy,
+                                const std::string &montype )
+{
+    const std::string old_furn_name = m->furnname( examx, examy );
+    if( !query_yn( _( "Harvest the %s?" ), old_furn_name.c_str() ) ) {
+        none( p, m, examx, examy );
+        return;
+    }
+    m->spawn_item( examx, examy, "spider_egg", rng( 1, 4 ) );
+    m->furn_set( examx, examy, f_egg_sacke );
+    if( one_in( 2 ) ) {
+        monster spiderling( GetMType( montype ) );
+        int monster_count = 0;
+        const std::vector<point> points = closest_points_first( 1, point( examx, examy ) );
+        for( auto it = points.begin(); it != points.end(); ++it ) {
+            if( g->is_empty( it->x, it->y ) && one_in( 3 ) ) {
+                spiderling.spawn( it->x, it->y );
+                g->add_zombie( spiderling );
+                monster_count++;
+            }
+        }
+        if( monster_count == 1 ) {
+            add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name.c_str() );
+        } else if( monster_count >= 1 ) {
+            add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name.c_str() );
         }
     }
-    if (f == 1){
-        add_msg(m_warning, _("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
-    } else if (f >= 1) {
-        add_msg(m_warning, _("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
-    }
-  }
-  m->spawn_item(examx, examy, "spider_egg", rng(1,4));
-  m->furn_set(examx, examy, f_egg_sacke);
 }
 
-void iexamine::egg_sackws(player *p, map *m, int examx, int examy) {
-  if(!query_yn(_("Harvest the %s?"),m->furnname(examx, examy).c_str())) {
-    none(p, m, examx, examy);
-    return;
-  }
-  if (one_in(2)){
-    monster mon_spider_web_s(GetMType("mon_spider_web_s"));
-    int f = 0;
-    for (int i = examx -1; i <= examx + 1; i++) {
-        for (int j = examy -1; j <= examy + 1; j++) {
-                if (!(g->u.posx == i && g->u.posy == j) && one_in(3)){
-                    mon_spider_web_s.spawn(i, j);
-                    g->add_zombie(mon_spider_web_s);
-                    f++;
-                }
-        }
-    }
-    if (f == 1){
-        add_msg(m_warning, _("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
-    } else if (f >= 1) {
-        add_msg(m_warning, _("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
-    }
-  }
-  m->spawn_item(examx, examy, "spider_egg", rng(1,4));
-  m->furn_set(examx, examy, f_egg_sacke);
+void iexamine::egg_sackbw( player *p, map *m, int examx, int examy )
+{
+    egg_sack_generic( p, m, examx, examy, "mon_spider_widow_giant_s" );
 }
+
+void iexamine::egg_sackws( player *p, map *m, int examx, int examy )
+{
+    egg_sack_generic( p, m, examx, examy, "mon_spider_web_s" );
+}
+
 void iexamine::fungus(player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
@@ -1807,7 +1796,12 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
         return;
     }
-    if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    // Some traps are not actual traps. Those should get a different query.
+    if (t.can_see(*p, examx, examy) && possible == 0 && t.get_avoidance() == 0) { // Separated so saying no doesn't trigger the other query.
+        if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
+            m->disarm_trap(examx, examy);
+        }
+    } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
 }
@@ -1982,6 +1976,46 @@ void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
     }
 }
 
+void iexamine::sign(player *p, map *m, int examx, int examy)
+{
+    std::string existing_signage = m->get_signage(examx, examy);
+    bool previous_signage_exists = !existing_signage.empty();
+
+    // Display existing message, or lack thereof.
+    if (previous_signage_exists) {
+        popup(existing_signage.c_str());
+    } else {
+        p->add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
+    }
+    
+    // Allow chance to modify message.
+    // Chose spray can because it seems appropriate.
+    int required_writing_charges = 1; 
+    if (p->has_charges("spray_can", required_writing_charges)) {
+        // Different messages if the sign already has writing associated with it.
+        std::string query_message = previous_signage_exists ? 
+            _("Overwrite the existing message on the sign with spray paint?") : 
+            _("Add a message to the sign with spray paint?"); 
+        std::string spray_painted_message = previous_signage_exists ?
+            _("You overwrite the previous message on the sign with your graffiti") :
+            _("You graffiti a message onto the sign.");
+        std::string ignore_message = _("You leave the sign alone.");
+        if (query_yn(query_message.c_str())) {
+            std::string signage = string_input_popup(_("Spray what?"), 0, "", "", "signage");
+            if (signage.empty()) {
+                p->add_msg_if_player(m_neutral, ignore_message.c_str());
+            } else {
+                m->set_signage(examx, examy, signage);
+                p->add_msg_if_player(m_info, spray_painted_message.c_str());
+                p->moves -= 2 * signage.length();
+                p->use_charges("spray_can", required_writing_charges);
+            }
+        } else {
+            p->add_msg_if_player(m_neutral, ignore_message.c_str());
+        }
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2140,6 +2174,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if( "curtains" == function_name ) {
       return &iexamine::curtains;
+  }
+  if( "sign" == function_name ) {
+      return &iexamine::sign;
   }
 
   //No match found

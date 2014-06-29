@@ -550,7 +550,7 @@ void dis_effect(player &p, disease &dis)
                             break;
                     }
                     break;
-                case bp_eyes:// Eyes are not susceptible by this disease.
+                case bp_eyes:// Eyes are not susceptible to this disease.
                 case num_bp: // Suppress compiler warning [-Wswitch]
                     break;
             }
@@ -2726,6 +2726,17 @@ void manage_sleep(player& p, disease& dis)
         p.hunger--;
         p.thirst--;
     }
+    
+    if (int(calendar::turn) % 100 == 0 && p.has_trait("CHLOROMORPH") &&
+    g->is_in_sunlight(g->u.posx, g->u.posy) ) {
+        // Hunger and thirst fall before your Chloromorphic physiology!
+        if (p.hunger >= -30) {
+            p.hunger -= 5;
+        }
+        if (p.thirst >= -30) {
+            p.thirst -= 5;
+        }
+    }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream
     std::string highcat = p.get_highest_category();
@@ -2733,7 +2744,9 @@ void manage_sleep(player& p, disease& dis)
 
     // Determine the strength of effects or dreams based upon category strength
     int strength = 0; // Category too weak for any effect or dream
-    if (highest >= 20 && highest < 35) {
+    if (g->u.crossed_threshold()) {
+        strength = 4; // Post-human.
+    } else if (highest >= 20 && highest < 35) {
         strength = 1; // Low strength
     } else if (highest >= 35 && highest < 50) {
         strength = 2; // Medium strength
@@ -3115,22 +3128,29 @@ static void handle_evil(player& p, disease& dis)
     bool lesserEvil = false;  // Worn or wielded; diminished effects
     if (p.weapon.is_artifact() && p.weapon.is_tool()) {
         it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-        for (size_t i = 0; i < tool->effects_carried.size(); i++) {
-            if (tool->effects_carried[i] == AEP_EVIL) {
+        for (std::vector<art_effect_passive>::iterator it =
+                 tool->effects_carried.begin();
+             it != tool->effects_carried.end(); ++it) {
+            if (*it == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
-        for (size_t i = 0; i < tool->effects_wielded.size(); i++) {
-            if (tool->effects_wielded[i] == AEP_EVIL) {
+        for (std::vector<art_effect_passive>::iterator it =
+                 tool->effects_wielded.begin();
+             it != tool->effects_wielded.end(); ++it) {
+            if (*it == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
     }
-    for (size_t i = 0; !lesserEvil && i < p.worn.size(); i++) {
-        if (p.worn[i].is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-            for (size_t j = 0; j < armor->effects_worn.size(); j++) {
-                if (armor->effects_worn[j] == AEP_EVIL) {
+    for (std::vector<item>::iterator it = p.worn.begin();
+         !lesserEvil && it != p.worn.end(); ++it) {
+        if (it->is_artifact()) {
+            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(it->type);
+            for (std::vector<art_effect_passive>::iterator effect =
+                     armor->effects_worn.begin();
+                 effect != armor->effects_worn.end(); ++effect) {
+                if (*effect == AEP_EVIL) {
                     lesserEvil = true;
                 }
             }
