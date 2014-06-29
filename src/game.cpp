@@ -641,7 +641,7 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
-    int num = dice(4, 3);
+    int num = 4+dice(3, 3);
     faction tmp(0);
     tmp.make_army();
     factions.push_back(tmp);
@@ -10840,6 +10840,21 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 
  if (u.weapon.mode == "MODE_BURST")
   burst = true;
+
+ int npcdex = npc_at(x, y);
+ if (npcdex != -1) {
+     if(!active_npc[npcdex]->is_enemy()){
+         if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
+             return; // Cancel the attack
+         } else {
+             //The NPC knows we started the fight, used for morale penalty.
+             active_npc[npcdex]->hit_by_player = true;
+         }
+     }
+     active_npc[npcdex]->make_angry();
+     active_npc[npcdex]->my_fac->likes_u -= 50;
+     active_npc[npcdex]->my_fac->respects_u -= 50;
+ }
 
  u.fire_gun(x,y,burst);
  reenter_fullscreen();
