@@ -28,11 +28,10 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
                                    int targetx, int targety, double shot_dispersion)
 {
     int range = rl_dist(sourcex, sourcey, targetx, targety);
-    // .013 * trange is a computationally cheap version of finding the tangent.
-    // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
-    //  of quarter-degrees)
+    // .013 * trange is a computationally cheap version of finding the tangent in degrees.
+    // 0.0002166... is used because the unit of dispersion is MOA (1/60 degree).
     // It's also generous; missed_by will be rather short.
-    double missed_by = shot_dispersion * .00325 * range;
+    double missed_by = shot_dispersion * 0.00021666666666666666 * range;
     // TODO: move to-hit roll back in here
 
     if (missed_by >= 1.) {
@@ -242,9 +241,10 @@ void player::fire_gun(int tarx, int tary, bool burst)
         tmpammo->damage = charges * charges;
         tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
         if (charges <= 4) {
-            tmpammo->dispersion = 14 - charges * 2;
-        } else { // 5, 12, 21, 32
+            tmpammo->dispersion = 210 - charges * 30;
+        } else { // 75, 180, 315, 480
             tmpammo->dispersion = charges * (charges - 4);
+            tmpammo->dispersion = 15 * charges * (charges - 4);
         }
         tmpammo->recoil = tmpammo->dispersion * .8;
         tmpammo->ammo_effects.clear(); // Reset effects.
@@ -1343,9 +1343,9 @@ int ranged_skill_offset( std::string skill )
     } else if( skill == "launcher" ) {
         return 0;
     } else if( skill == "archery" ) {
-        return 9;
+        return 135;
     } else if( skill == "throw" ) {
-        return 13;
+        return 195;
     }
     return 0;
 }
@@ -1354,10 +1354,10 @@ int player::skill_dispersion( item *weapon, bool random ) const
 {
     const std::string skill_used = weapon->skill();
     const int weapon_skill_level = get_skill_level(skill_used);
-    int dispersion = 0; // Measured in quarter-degrees.
+    int dispersion = 0; // Measured in Minutes of Arc.
     // Up to 0.75 degrees for each skill point < 10.
     if (weapon_skill_level < 10) {
-        int max_dispersion = 3 * (10 - weapon_skill_level);
+        int max_dispersion = 45 * (10 - weapon_skill_level);
         if( random ) {
             dispersion += rng(0, max_dispersion);
         } else {
@@ -1366,7 +1366,7 @@ int player::skill_dispersion( item *weapon, bool random ) const
     }
     // Up to 0.25 deg per each skill point < 10.
     if( get_skill_level("gun") < 10) {
-        int max_dispersion = 10 - get_skill_level("gun");
+        int max_dispersion = 15 * (10 - get_skill_level("gun"));
         if( random ) {
             dispersion += rng(0, max_dispersion);
         } else {
@@ -1387,7 +1387,7 @@ double player::get_weapon_dispersion(item *weapon) const
     dispersion += rng(0, ranged_dex_mod());
     dispersion += rng(0, ranged_per_mod());
 
-    dispersion += rng(0, (encumb(bp_arm_l) + encumb(bp_arm_r))) + rng(0, 4 * encumb(bp_eyes));
+    dispersion += rng(0, 30 * (encumb(bp_arm_l) + encumb(bp_arm_r))) + rng(0, 60 * encumb(bp_eyes));
 
     dispersion += rng(0, weapon->curammo->dispersion);
 
@@ -1417,8 +1417,8 @@ int recoil_add(player &p)
     it_gun *firing = dynamic_cast<it_gun *>(p.weapon.type);
     // item::recoil() doesn't suport gunmods, so call it on player gun.
     int ret = p.weapon.recoil();
-    ret -= rng(p.str_cur / 2, p.str_cur);
-    ret -= rng(0, p.get_skill_level(firing->skill_used) / 2);
+    ret -= rng(p.str_cur * 7, p.str_cur * 15);
+    ret -= rng(0, p.get_skill_level(firing->skill_used) * 7);
     if (ret > 0) {
         return ret;
     }

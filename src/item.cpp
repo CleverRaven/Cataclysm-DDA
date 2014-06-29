@@ -655,8 +655,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
 
         if (mod->dispersion != 0) {
-            dump->push_back(iteminfo("GUNMOD", _("Dispersion: "), "",
+            dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
                                      mod->dispersion, true, ((mod->dispersion > 0) ? "+" : "")));
+        }
+        if (mod->mod_dispersion != 0) {
+            dump->push_back(iteminfo("GUNMOD", _("Dispersion: "), "",
+                                     mod->mod_dispersion, true,
+                                     ((mod->mod_dispersion > 0) ? "+" : "")));
         }
         if (mod->damage != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true,
@@ -2041,7 +2046,7 @@ int item::weapon_value(player *p) const
         gun_value += gun->dmg_bonus;
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
-        gun_value -= int(gun->dispersion / 5);
+        gun_value -= int(gun->dispersion / 75);
         gun_value *= (.5 + (.3 * p->skillLevel("gun")));
         gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
         my_value += gun_value;
@@ -2712,7 +2717,7 @@ int item::dispersion() const
             dispersion_sum += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
         }
     }
-    dispersion_sum += damage * 4;
+    dispersion_sum += damage * 60;
     if (dispersion_sum < 0) dispersion_sum = 0;
     return dispersion_sum;
 }
@@ -2838,41 +2843,48 @@ int item::noise() const
 
 int item::burst_size()
 {
-    if (!is_gun())
+    if (!is_gun()) {
         return 0;
+    }
 // No burst fire for gunmods right now.
-    if(mode == "MODE_AUX")
+    if(mode == "MODE_AUX") {
         return 1;
+    }
     it_gun* gun = dynamic_cast<it_gun*>(type);
     int ret = gun->burst;
     for (size_t i = 0; i < contents.size(); i++) {
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->burst;
     }
-    if (ret < 0)
+    if (ret < 0) {
         return 0;
+    }
     return ret;
 }
 
 int item::recoil(bool with_ammo)
 {
-    if (!is_gun())
+    if (!is_gun()) {
         return 0;
+    }
 // Just use the raw ammo recoil for now.
     if(mode == "MODE_AUX") {
         item* gunmod = active_gunmod();
-        if (gunmod && gunmod->curammo)
+        if (gunmod && gunmod->curammo) {
             return gunmod->curammo->recoil;
-        else
+        } else {
             return 0;
+        }
     }
     it_gun* gun = dynamic_cast<it_gun*>(type);
     int ret = gun->recoil;
-    if (with_ammo && curammo)
+    if (with_ammo && curammo) {
         ret += curammo->recoil;
+    }
     for (size_t i = 0; i < contents.size(); i++) {
-        if (contents[i].is_gunmod())
+        if (contents[i].is_gunmod()) {
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->recoil;
+        }
     }
     ret += damage;
     return ret;
@@ -2880,8 +2892,9 @@ int item::recoil(bool with_ammo)
 
 int item::range(player *p)
 {
-    if (!is_gun())
+    if (!is_gun()) {
         return 0;
+    }
     // Just use the raw ammo range for now.
     // we do NOT want to use the parent gun's range.
     if( mode == "MODE_AUX" ) {

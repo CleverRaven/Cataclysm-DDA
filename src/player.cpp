@@ -3394,19 +3394,19 @@ void player::print_aim_adjective( WINDOW *w, item *weapon)
     std::string aim_adjective;
     if( aim_level == 0 ) {
         aim_adjective = _("pinpoint");
-    } else if ( aim_level < 10 ) {
+    } else if ( aim_level < 150 ) {
         aim_adjective = _("solid");
-    } else if ( aim_level < 20 ) {
+    } else if ( aim_level < 300 ) {
         aim_adjective = _("controlled");
-    } else if ( aim_level < 30 ) {
+    } else if ( aim_level < 450 ) {
         aim_adjective = _("steady");
-    } else if ( aim_level < 40 ) {
+    } else if ( aim_level < 600 ) {
         aim_adjective = _("stable");
-    } else if ( aim_level < 50 ) {
+    } else if ( aim_level < 750 ) {
         aim_adjective = _("unsteady");
-    } else if ( aim_level < 60 ) {
+    } else if ( aim_level < 900 ) {
         aim_adjective = _("shakey");
-    } else if ( aim_level < 70 ) {
+    } else if ( aim_level < 1050 ) {
         aim_adjective = _("precarious");
     } else {
         aim_adjective = _("wild");
@@ -4517,7 +4517,7 @@ int player::ranged_dex_mod() const
     const int dex = get_dex();
 
     if (dex >= 12) { return 0; }
-    return 12 - dex;
+    return (12 - dex) * 15;
 }
 
 int player::ranged_per_mod() const
@@ -4525,7 +4525,7 @@ int player::ranged_per_mod() const
     const int per = get_per();
 
     if (per >= 12) { return 0; }
-    return 12 - per;
+    return (12 - per) * 15;
 }
 
 int player::throw_dex_mod(bool return_stat_effect) const
@@ -4839,18 +4839,18 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         break;
     case bp_torso:
         // getting hit throws off our shooting
-        recoil += int(dam / 5);
+        recoil += int(dam * 3);
         break;
     case bp_hand_l: // Fall through to arms
     case bp_arm_l:
         if (weapon.is_two_handed(this)) {
-            recoil += int(dam / 3);
+            recoil += int(dam * 5);
         }
         break;
     case bp_hand_r: // Fall through to arms
     case bp_arm_r:
         // getting hit in the arms throws off our shooting
-        recoil += int(dam / 3);
+        recoil += int(dam * 5);
         break;
     case bp_foot_l: // Fall through to legs
     case bp_leg_l:

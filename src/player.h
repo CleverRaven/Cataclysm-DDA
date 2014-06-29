@@ -43,7 +43,7 @@ struct special_attack {
 
 // The minimum level recoil will reach without aiming.
 // Sets the floor for accuracy of a "snap" or "hip" shot.
-#define MIN_RECOIL 10
+#define MIN_RECOIL 150
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
