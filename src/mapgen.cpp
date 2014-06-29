@@ -11035,6 +11035,9 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     veh->smx = smx;
     veh->smy = smy;
     veh->place_spawn_items();
+    veh->face.init( dir );
+    veh->turn_dir = dir;
+    veh->precalc_mounts( 0, dir );
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
 
