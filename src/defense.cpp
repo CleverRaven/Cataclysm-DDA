@@ -364,11 +364,11 @@ void defense_game::init_map()
             tm.generate(mx, my, 0, calendar::turn);
             tm.clear_spawns();
             tm.clear_traps();
-            tm.save(g->cur_om, int(calendar::turn), mx, my, 0);
+            tm.save();
         }
     }
 
-    g->m.load(g->levx, g->levy, g->levz, true);
+    g->m.load(g->levx, g->levy, g->levz, true, g->cur_om);
 
     g->update_map(g->u.posx, g->u.posy);
     monster generator(GetMType("mon_generator"), g->u.posx + 1, g->u.posy + 1);

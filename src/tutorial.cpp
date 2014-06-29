@@ -51,7 +51,7 @@ bool tutorial_game::init()
   for (int y = 0; y < OMAPY; y++)
    g->cur_om->seen(x, y, 0) = true;
  }
- g->m.load(g->levx, g->levy, 0);
+ g->m.load(g->levx, g->levy, 0, true, g->cur_om);
  g->levz = 0;
  g->u.posx = 2;
  g->u.posy = 4;

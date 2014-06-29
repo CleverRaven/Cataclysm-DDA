@@ -424,13 +424,19 @@ struct submap {
     int turn_last_touched;
     int temperature;
     std::vector<spawn_point> spawns;
+    /**
+     * Vehicles on this submap (their (0,0) point is on this submap).
+     * This vehicle objects are deletes by this submap when it gets
+     * deleted.
+     */
     std::vector<vehicle*> vehicles;
     computer comp;
     basecamp camp;  // only allowing one basecamp per submap
 
-    submap() : ter(), frn(), trp(), rad(),
-        active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
-    }
+    submap();
+    ~submap();
+    // delete vehicles and clear the vehicles vector
+    void delete_vehicles();
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);

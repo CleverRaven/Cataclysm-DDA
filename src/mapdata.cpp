@@ -830,3 +830,28 @@ void check_furniture_and_terrain()
         check_decon_items(t.deconstruct, t.id, true);
     }
 }
+
+submap::submap() : ter(), frn(), trp(), rad(),
+    active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            ter[x][y] = t_null;
+            set_furn(x, y, f_null);
+            set_trap(x, y, tr_null);
+            set_radiation(x, y, 0);
+        }
+    }
+}
+
+submap::~submap()
+{
+    delete_vehicles();
+}
+
+void submap::delete_vehicles()
+{
+    for(vehicle *veh : vehicles) {
+        delete veh;
+    }
+    vehicles.clear();
+}
