@@ -145,8 +145,8 @@ int WindowHeight;       //Height of the actual window, not the curses window
 input_event last_input;
 
 int inputdelay;         //How long getch will wait for a character to be typed
-int delaydpad = -1;     // Used for entering diagonal directions with d-pad.
-int dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
+Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
+Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
 bool dpad_continuous = false;  // Whether we're currently moving continously with the dpad.
 int lastdpad = ERR;      // Keeps track of the last dpad press.
 int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
@@ -693,13 +693,13 @@ int HandleDPad()
             lc = JOY_RIGHTDOWN;
         }
 
-        if(delaydpad == -1) {
+        if( delaydpad == std::numeric_limits<Uint32>::max() ) {
             delaydpad = SDL_GetTicks() + dpad_delay;
             queued_dpad = lc;
         }
 
         // Okay it seems we're ready to process.
-        if(SDL_GetTicks() > delaydpad) {
+        if( SDL_GetTicks() > delaydpad ) {
 
             if(lc != ERR) {
                 if(dpad_continuous && (lc & lastdpad) == 0) {
@@ -724,7 +724,7 @@ int HandleDPad()
         }
     } else {
         dpad_continuous = false;
-        delaydpad = -1;
+        delaydpad = std::numeric_limits<Uint32>::max();
 
         // If we didn't hold it down for a while, just
         // fire the last registered press.
