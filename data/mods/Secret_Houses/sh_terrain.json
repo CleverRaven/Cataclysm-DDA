@@ -1,0 +1,25 @@
+[
+
+{
+        "type" : "terrain",
+        "id" : "t_sh_check_secret",
+        "name": "floor",
+        "symbol": ".",
+        "color": "dkgray",
+        "trap": "tr_secret_house_trigger",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+},
+
+{
+        "type" : "terrain",
+        "id" : "t_hidden_stairs",
+        "name": "floor",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+}
+
+
+]

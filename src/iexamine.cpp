@@ -2016,6 +2016,95 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     }
 }
 
+bool create_secret_stairs(map *m, point  *p)
+{
+
+    std::vector<point> v;
+
+    for (int i = p->x - 30; i < p->x + 30; i++)
+        for (int j = p->y - 30; j < p->y + 30; j++) {
+            if (m->ter_at(i, j).id == "t_hidden_stairs") {
+                v.push_back(point(i, j));
+            }
+        }
+
+    if (v.size() == 0) {
+        return false;
+    }
+
+    int n = rng(0, v.size() - 1);
+    p->x = v[n].x;
+    p->y = v[n].y;
+
+    m->ter_set(p->x, p->y, "t_water_dp");
+
+    return true;
+}
+
+void iexamine::secret_examine(player *p, map *m, int examx, int examy)
+{
+    p->add_msg_if_player(m_neutral, "This is %s", m->furn_at(examx, examy).name.c_str()
+                        );
+
+    std::string furname = m->furn_at(examx, examy).name.c_str();
+
+    std::string qstr = "Try to do something with ";
+    qstr += furname;
+    qstr += "?";
+
+    if (query_yn(qstr.c_str())) {
+
+        std::string furid = m->furn_at(examx, examy).id;
+        std::string newfur = furid.substr(0, furid.size() - 2);
+        g->m.furn_set(examx, examy, newfur);
+
+        std::string mes = "You ";
+        int ract = rng(1, 3);
+        if (1 == ract) {
+            mes += "strongly ";
+        } else if (2 == ract) {
+            mes += "slightly ";
+        } else if (3 == ract) {}
+        ract = rng(1, 4);
+        if (1 == ract) {
+            mes += "pushed ";
+        } else if (2 == ract) {
+            mes += "pulled ";
+        } else if (3 == ract) {
+            mes += "shook ";
+		}
+		else if (4 == ract) {
+			mes += "yanked ";
+		}		
+        mes += furname;
+        mes += ".";
+        p->add_msg_if_player(m_neutral, mes.c_str());
+
+        //todo: may be needed normal balanced formula
+        if (/*rng(5, 25) < rng(g->u.int_cur, g->u.int_cur + g->u.per_cur / 2)*/ true) {
+
+            point pstairs;
+            pstairs.x = examx;
+            pstairs.y = examy;
+
+            if (/*one_in(2) && */create_secret_stairs(m, &pstairs)) {
+                g->sound(pstairs.x, pstairs.y, 15, "ground grumbling");
+
+            } else {
+
+                p->add_msg_if_player(_("Nothing happens."));
+
+            }
+
+        } else {
+
+			p->add_msg_if_player(_("bad."));
+
+        }
+    }
+
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2178,7 +2267,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   if( "sign" == function_name ) {
       return &iexamine::sign;
   }
-
+  if ("secret_examine" == function_name) {
+	  return &iexamine::secret_examine;
+  }
   //No match found
   debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
   return &iexamine::none;

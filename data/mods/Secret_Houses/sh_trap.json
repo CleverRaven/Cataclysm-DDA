@@ -1,0 +1,13 @@
+    {
+        "type" : "trap",
+        "id": "tr_secret_house_trigger",
+        "identstring" : "shTrigger",
+        "legacy_id": 39,
+        "name" : "shtrigger",
+        "color" : "i_cyan",
+        "symbol" : " ",
+        "visibility" : 99,
+        "avoidance" : 99,
+        "difficulty" : 99,
+        "action" : "sh_trigger"
+    }
