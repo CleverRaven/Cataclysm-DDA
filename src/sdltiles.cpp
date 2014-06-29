@@ -651,11 +651,13 @@ static void begin_alt_code()
     alt_down = true;
 }
 
-static void add_alt_code( char c )
+static bool add_alt_code( char c )
 {
-    if( c >= '0' && c <= '9' ) {
+    if( alt_down && c >= '0' && c <= '9' ) {
         alt_buffer = alt_buffer * 10 + ( c - '0' );
+        return true;
     }
+    return false;
 }
 
 static long end_alt_code()
@@ -843,8 +845,8 @@ void CheckMessages()
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.
                     break;
-                } else if( alt_down ) {
-                    add_alt_code( lc );
+                } else if( add_alt_code( lc ) ) {
+                    // key was handled
                 } else {
                     last_input = input_event(lc, CATA_INPUT_KEYBOARD);
                 }
@@ -862,10 +864,7 @@ void CheckMessages()
             }
             break;
             case SDL_TEXTINPUT:
-                if (alt_down) {
-                    add_alt_code(*ev.text.text);
-                    break;
-                } else {
+                if( !add_alt_code( *ev.text.text ) ) {
                     const char *c = ev.text.text;
                     int len = strlen(ev.text.text);
                     const unsigned lc = UTF8_getch( &c, &len );
