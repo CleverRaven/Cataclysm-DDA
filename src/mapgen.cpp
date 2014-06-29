@@ -3005,7 +3005,7 @@ C..C..C...|hhh|#########\n\
         if (is_ot_type("sewer", t_west) && connects_to(t_west, 1)) {
             lw = SEEX * 2;
         }
-        if (t_above == "open_air") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (i <= 1 || i >= SEEX * 2 - 2 ||
@@ -3992,7 +3992,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "bunker") {
 
-        if (t_above == "open_air") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             dat.fill_groundcover();
             //chainlink fence that surrounds bunker
             line(this, t_chainfence_v, 1, 1, 1, SEEY * 2 - 1);
@@ -4338,7 +4338,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "silo") {
 
-        if (t_above == "") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (trig_dist(i, j, SEEX, SEEY) <= 6) {
@@ -4430,7 +4430,7 @@ ff.......|....|WWWWWWWW|\n\
     } else if (terrain_type == "temple" ||
                terrain_type == "temple_stairs") {
 
-        if (t_above == "") { // Ground floor
+        if (zlevel == 0) { // Ground floor
             // TODO: More varieties?
             fill_background(this, t_dirt);
             square(this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX);
@@ -10435,7 +10435,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     ter_set(i, j, (!one_in(10) ? t_slime : t_rock_floor));
                 } else if (rng(0, SEEX) > abs(i - SEEX) && rng(0, SEEY) > abs(j - SEEY)) {
                     ter_set(i, j, t_slime);
-                } else if (t_above == "") {
+                } else if (zlevel == 0) {
                     ter_set(i, j, t_dirt);
                 } else {
                     ter_set(i, j, t_rock_floor);
