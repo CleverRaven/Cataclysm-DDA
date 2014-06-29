@@ -738,9 +738,7 @@
     {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "components": [
     [
-      [ "shotgun_d", 1 ],
-      [ "remington_870", 1 ],
-      [ "mossberg_500", 1 ]
+      [ "shotgun_d", 1 ]
     ]
   ]
 },{
