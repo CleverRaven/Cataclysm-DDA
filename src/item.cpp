@@ -2699,7 +2699,10 @@ int item::clip_size()
 
 int item::dispersion() const
 {
-    if (!is_gun()) {
+    if( is_gunmod() ) {
+        return dynamic_cast<it_gunmod*>(type)->dispersion;
+    }
+    if( !is_gun() ) {
         return 0;
     }
     it_gun* gun = dynamic_cast<it_gun*>(type);

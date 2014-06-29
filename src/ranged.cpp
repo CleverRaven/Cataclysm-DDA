@@ -1390,21 +1390,18 @@ double player::get_weapon_dispersion(item *weapon) const
     dispersion += rng(0, (encumb(bp_arm_l) + encumb(bp_arm_r))) + rng(0, 4 * encumb(bp_eyes));
 
     dispersion += rng(0, weapon->curammo->dispersion);
-    // item::dispersion() doesn't support gunmods.
+
     dispersion += rng(0, weapon->dispersion());
     int adj_recoil = recoil + driving_recoil;
     dispersion += rng(int(adj_recoil / 4), adj_recoil);
 
-    // old targeting bionic suddenly went from 0.8 to 0.65 when LONG_RANGE was
-    // crossed, so increasing range by 1 would actually increase accuracy by a
-    // lot. This is kind of a compromise
     if (has_bionic("bio_targeting")) {
         dispersion *= 0.75;
     }
     if ((is_underwater() && !weapon->has_flag("UNDERWATER_GUN")) ||
         // Range is effectively four times longer when shooting unflagged guns underwater.
-        (!is_underwater() &&
-         weapon->has_flag("UNDERWATER_GUN"))) { // Range is effectively four times longer when shooting flagged guns out of water.
+        (!is_underwater() && weapon->has_flag("UNDERWATER_GUN"))) {
+        // Range is effectively four times longer when shooting flagged guns out of water.
         dispersion *= 4;
     }
 
