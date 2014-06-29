@@ -2403,6 +2403,7 @@ input_context get_default_mode_input_context() {
     ctxt.register_action("drop_adj");
     ctxt.register_action("bionics");
     ctxt.register_action("sort_armor");
+    ctxt.register_action("treatment");
     ctxt.register_action("wait");
     ctxt.register_action("craft");
     ctxt.register_action("recraft");
@@ -3022,6 +3023,11 @@ bool game::handle_action()
 
   case ACTION_SORT_ARMOR:
     u.sort_armor();
+    refresh_all();
+    break;
+
+  case ACTION_TREATMENT:
+    u.treatment();
     refresh_all();
     break;
 

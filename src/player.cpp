@@ -26,6 +26,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "wound.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -5638,8 +5639,11 @@ void player::process_wounds()
 {
     for (int i = 0; i < wounds.size(); /*no-op*/) {
         wounds[i].mod_age(1);
-        //Handle trigs effects, only advance i if wound isn't removed
-        if(wounds[i].roll_trigs(*this);) {
+        // Try to heal, only advance i if wound isn't removed
+        if (x_in_y(wounds[i].get_heal_chance_100K(), 100000)) {
+            wounds.erase(wounds.begin() + i);
+        //Handle trigs effects, returns true if wound is removed
+        } else if (wounds[i].roll_trigs(*this)) {
             wounds.erase(wounds.begin() + i);
         } else {
             //Wound wasn't removed, do other effects
@@ -5661,20 +5665,25 @@ void player::process_wounds()
                 hurt(wounds[i].get_bp(), wounds[i].get_side(), wounds[i].get_hurt());
             }
             
-            for (std::vector<*wound_eff_type>::iterator it = wounds[i]->wound_effects.begin();
-                  it != wounds[i]->wound_effects.end(); ++it) {
-                if (it->effect_placed != "") {
-                    if (it->get_targeted_effect()) {
-                        p.add_effect(it->effect_placed, it->get_trig_effect_dur(),
-                                    it->get_effect_perm(), it->get_trig_effect_int(),
+            for (std::vector<wefftype_id>::iterator it = wounds[i].wound_effects.begin();
+                  it != wounds[i].wound_effects.end(); ++it) {
+                if (wound_eff_types[*it].get_effect_placed() != "") {
+                    if (wound_eff_types[*it].get_targeted_effect()) {
+                        add_effect(wound_eff_types[*it].get_effect_placed(),
+                                    wound_eff_types[*it].get_trig_effect_dur(wounds[i].get_severity()),
+                                    wound_eff_types[*it].get_effect_perm(),
+                                    wound_eff_types[*it].get_trig_effect_int(wounds[i].get_severity()),
                                     wounds[i].get_bp(), wounds[i].get_side());
                     } else {
-                        p.add_effect(it->effect_placed, it->get_trig_effect_dur(),
-                                    it->get_effect_perm(), it->get_trig_effect_int());
+                        add_effect(wound_eff_types[*it].get_effect_placed(),
+                                    wound_eff_types[*it].get_trig_effect_dur(wounds[i].get_severity()),
+                                    wound_eff_types[*it].get_effect_perm(),
+                                    wound_eff_types[*it].get_trig_effect_int(wounds[i].get_severity()));
                     }
                 }
             }
 
+            // Advance i
             i++;
         }
     }

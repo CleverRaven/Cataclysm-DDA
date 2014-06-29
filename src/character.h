@@ -4,6 +4,7 @@
 #include "creature.h"
 #include "action.h"
 #include "bodypart.h"
+#include "wound.h"
 
 #include <map>
 
@@ -24,8 +25,13 @@ class Character : public Creature
         bool hibernating();
         virtual void manage_sleep();
         
-        void add_wound(body_part bp, int side, int duration, int severity = 1, int heal_mod = 0);
-        void remove_wound(body_part bp, int side,
+        void add_wound(body_part target, int nside, int sev = 1,
+                std::vector<wefftype_id> wound_effs = std::vector<wefftype_id>());
+        void remove_wounds(body_part target, int nside, int sev = 0,
+                std::vector<wefftype_id> wound_effs = std::vector<wefftype_id>());
+                
+         /** Draws the UI and handles player input for the healing window */
+         void treatment();
     
     protected:
         std::vector<wound> wounds;

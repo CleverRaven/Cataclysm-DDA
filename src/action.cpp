@@ -203,6 +203,8 @@ std::string action_ident(action_id act)
         return "bionics";
     case ACTION_SORT_ARMOR:
         return "sort_armor";
+    case ACTION_TREATMENT:
+        return "treatment";
     case ACTION_WAIT:
         return "wait";
     case ACTION_CRAFT:
@@ -615,6 +617,7 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_INVENTORY);
             REGISTER_ACTION(ACTION_ADVANCEDINV);
             REGISTER_ACTION(ACTION_SORT_ARMOR);
+            REGISTER_ACTION(ACTION_TREATMENT);
             REGISTER_ACTION(ACTION_DIR_DROP);
 
             // Everything below here can be accessed through

@@ -520,7 +520,7 @@ public:
  int hp_percentage();
  /** Recalculates HP after a change to max strength */
  void recalc_hp();
-
+ 
  /** Handles the chance to be infected by random diseases */
  void get_sick();
  /** Handles health fluctuations over time */

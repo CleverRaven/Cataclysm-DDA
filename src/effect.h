@@ -55,13 +55,12 @@ struct effect_mod_info {
                         str_mod_reduced(0), dex_mod_reduced(0), per_mod_reduced(0),
                         int_mod_reduced(0), speed_mod_reduced(0), pain_min(0), pain_max(0),
                         pain_reduced_min(0), pain_reduced_max(0), pain_chance(0),
-                        pain_chance_reduced(0), pain_sizing(false), hurt_min(0), hurt_max(0),
-                        hurt_reduced_min(0), hurt_reduced_max(0), hurt_chance(0),
-                        hurt_chance_reduced(0), hurt_sizing(false), cough_chance(0),
-                        cough_chance_reduced(0), harmful_cough(false), vomit_chance(0),
+                        pain_chance_reduced(0), hurt_min(0), hurt_max(0), hurt_reduced_min(0),
+                        hurt_reduced_max(0), hurt_chance(0), hurt_chance_reduced(0),
+                        cough_chance(0), cough_chance_reduced(0), vomit_chance(0),
                         vomit_chance_reduced(0), pkill_amount(0), pkill_increment(0),
                         pkill_amount_reduced(0), pkill_increment_reduced(0), pkill_max(0),
-                        pkill_max_reduced(0), pkill_addict_reduces(false) {};
+                        pkill_max_reduced(0) {};
     bool load(JsonObject &jsobj, std::string member);
 };
 

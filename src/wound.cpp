@@ -1,4 +1,5 @@
 #include "wound.h"
+#include "player.h"
 #include "rng.h"
 #include "bodypart.h"
 
@@ -53,7 +54,7 @@ bool wound_trigger_info::load(JsonObject &jsobj, std::string member) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
         trig_delay = j.get_int("trig_delay", 0);
-        trig_chance_10K = j.get_int("trig_chance_100K", 0);
+        trig_chance_100K = j.get_int("trig_chance_100K", 0);
         health_mult = j.get_float("health_mult", 0);
         chance_min = j.get_int("chance_min", 0);
         chance_max = j.get_int("chance_max", 100000);
@@ -62,8 +63,8 @@ bool wound_trigger_info::load(JsonObject &jsobj, std::string member) {
         trig_message = j.get_string("trig_message", "");
         weff_added = j.get_string("weff_added", "");
 
-        flat_mods.load(jo, "flat_mods");
-        sev_mods.load(jo, "sev_mods");
+        flat_mods.load(j, "flat_mods");
+        sev_mods.load(j, "sev_mods");
 
         return true;
     } else {
@@ -71,96 +72,116 @@ bool wound_trigger_info::load(JsonObject &jsobj, std::string member) {
     }
 }
 
+wound_eff_type::wound_eff_type() :
+    id(""),
+    name_mod(""),
+    desc(""),
+    
+    effect_placed(""),
+    targeted_effect(false),
+    effect_perm(false),
+    targeted_harm(false),
+
+    base_mods(),
+    sev_scale_mods(),
+    
+    trigger_info()
+{ }
+
 int wound_eff_type::get_trig_str_mod(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.str_mod;
-    ret += trigger_info->sev_mods.str_mod * sev;
+    ret += trigger_info.flat_mods.str_mod;
+    ret += trigger_info.sev_mods.str_mod * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_dex_mod(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.dex_mod;
-    ret += trigger_info->sev_mods.dex_mod * sev;
+    ret += trigger_info.flat_mods.dex_mod;
+    ret += trigger_info.sev_mods.dex_mod * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_per_mod(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.per_mod;
-    ret += trigger_info->sev_mods.per_mod * sev;
+    ret += trigger_info.flat_mods.per_mod;
+    ret += trigger_info.sev_mods.per_mod * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_int_mod(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.int_mod;
-    ret += trigger_info->sev_mods.int_mod * sev;
+    ret += trigger_info.flat_mods.int_mod;
+    ret += trigger_info.sev_mods.int_mod * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_speed_mod(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.speed_mod;
-    ret += trigger_info->sev_mods.speed_mod * sev;
+    ret += trigger_info.flat_mods.speed_mod;
+    ret += trigger_info.sev_mods.speed_mod * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_bleed(int sev)
 {
     float ret = 0;
-    ret += rng(trigger_info->flat_mods.bleed_min, trigger_info->flat_mods.bleed_max);
-    ret += rng(trigger_info->sev_mods.bleed_min, trigger_info->sev_mods.bleed_max) * sev;
+    ret += rng(trigger_info.flat_mods.bleed_min, trigger_info.flat_mods.bleed_max);
+    ret += rng(trigger_info.sev_mods.bleed_min, trigger_info.sev_mods.bleed_max) * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_pain(int sev)
 {
     float ret = 0;
-    ret += rng(trigger_info->flat_mods.pain_min, trigger_info->flat_mods.pain_max);
-    ret += rng(trigger_info->sev_mods.pain_min, trigger_info->sev_mods.pain_max) * sev;
+    ret += rng(trigger_info.flat_mods.pain_min, trigger_info.flat_mods.pain_max);
+    ret += rng(trigger_info.sev_mods.pain_min, trigger_info.sev_mods.pain_max) * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_hurt(int sev)
 {
     float ret = 0;
-    ret += rng(trigger_info->flat_mods.hurt_min, trigger_info->flat_mods.hurt_max);
-    ret += rng(trigger_info->sev_mods.hurt_min, trigger_info->sev_mods.hurt_max) * sev;
+    ret += rng(trigger_info.flat_mods.hurt_min, trigger_info.flat_mods.hurt_max);
+    ret += rng(trigger_info.sev_mods.hurt_min, trigger_info.sev_mods.hurt_max) * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_heal_mod(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.heal_mod_100K;
-    ret += trigger_info->sev_mods.heal_mod_100K * sev;
+    ret += trigger_info.flat_mods.heal_mod_100K;
+    ret += trigger_info.sev_mods.heal_mod_100K * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_effect_dur(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.effect_duration;
-    ret += trigger_info->sev_mods.effect_duration * sev;
+    ret += trigger_info.flat_mods.effect_duration;
+    ret += trigger_info.sev_mods.effect_duration * sev;
     return int(ret);
 }
 int wound_eff_type::get_trig_effect_int(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.effect_intensity;
-    ret += trigger_info->sev_mods.effect_intensity * sev;
+    ret += trigger_info.flat_mods.effect_intensity;
+    ret += trigger_info.sev_mods.effect_intensity * sev;
     return int(ret);
 }
 int wound_eff_type::get_effect_dur(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.effect_duration;
-    ret += trigger_info->sev_mods.effect_duration * sev;
+    ret += trigger_info.flat_mods.effect_duration;
+    ret += trigger_info.sev_mods.effect_duration * sev;
     return int(ret);
 }
 int wound_eff_type::get_effect_int(int sev)
 {
     float ret = 0;
-    ret += trigger_info->flat_mods.effect_intensity;
-    ret += trigger_info->sev_mods.effect_intensity * sev;
+    ret += trigger_info.flat_mods.effect_intensity;
+    ret += trigger_info.sev_mods.effect_intensity * sev;
     return int(ret);
+}
+wefftype_id wound_eff_type::get_effect_placed()
+{
+    return effect_placed;
 }
 bool wound_eff_type::get_targeted_effect()
 {
@@ -202,10 +223,10 @@ int wound_eff_type::get_trig_chance(int health)
 }
 
 wound::wound() :
-    body_part bp(num_bp),
+    wound_effects(),
+    bp(num_bp),
     side(-1),
     severity(0),
-    wound_effects(),
     base_heal_mod(0),
     base_str_mod(0),
     base_dex_mod(0),
@@ -216,10 +237,10 @@ wound::wound() :
 { }
 
 wound::wound(body_part target, int nside, int sev, std::vector<wefftype_id> wound_effs) :
-    body_part bp(target),
+    wound_effects(wound_effs),
+    bp(target),
     side(nside),
     severity(sev),
-    wound_effects(wound_effs),
     base_heal_mod(0),
     base_str_mod(0),
     base_dex_mod(0),
@@ -230,10 +251,10 @@ wound::wound(body_part target, int nside, int sev, std::vector<wefftype_id> woun
 { }
 
 wound::wound(const wound &rhs) : JsonSerializer(), JsonDeserializer(),
-    body_part bp(rhs.bp),
+    wound_effects(rhs.wound_effects),
+    bp(rhs.bp),
     side(rhs.side),
     severity(rhs.severity),
-    wound_effects(rhs.wound_effects),
     base_heal_mod(rhs.base_heal_mod),
     base_str_mod(rhs.base_str_mod),
     base_dex_mod(rhs.base_dex_mod),
@@ -262,6 +283,37 @@ wound &wound::operator=(const wound &rhs)
     age = rhs.age;
 
     return *this;
+}
+
+bool wound::add_wound_effect(wefftype_id eff)
+{
+    if (!has_wound_effect(eff)) {
+        wound_effects.push_back(eff);
+        return true;
+    }
+    return false;
+}
+bool wound::remove_wound_effect(wefftype_id eff)
+{
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
+          ++it) {
+        if (eff == *it) {
+            wound_effects.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool wound::has_wound_effect(wefftype_id eff)
+{
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
+          ++it) {
+        if (eff == *it) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int wound::get_age()
@@ -355,7 +407,7 @@ int wound::get_severity()
 {
     return severity;
 }
-void wound::mod_severity(int sev);
+void wound::mod_severity(int sev)
 {
     severity += sev;
 }
@@ -374,50 +426,50 @@ int wound::get_side()
 int wound::get_str_mod()
 {
     float ret = get_base_str_mod();
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += it->base_mods.str_mod;
-        ret += it->sev_scale_mods.str_mod * severity;
+        ret += wound_eff_types[*it].base_mods.str_mod;
+        ret += wound_eff_types[*it].sev_scale_mods.str_mod * severity;
     }
     return int(ret);
 }
 int wound::get_dex_mod()
 {
     float ret = get_base_dex_mod();
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += it->base_mods.dex_mod;
-        ret += it->sev_scale_mods.dex_mod * severity;
+        ret += wound_eff_types[*it].base_mods.dex_mod;
+        ret += wound_eff_types[*it].sev_scale_mods.dex_mod * severity;
     }
     return int(ret);
 }
 int wound::get_per_mod()
 {
     float ret = get_base_per_mod();
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += it->base_mods.per_mod;
-        ret += it->sev_scale_mods.per_mod * severity;
+        ret += wound_eff_types[*it].base_mods.per_mod;
+        ret += wound_eff_types[*it].sev_scale_mods.per_mod * severity;
     }
     return int(ret);
 }
 int wound::get_int_mod()
 {
     float ret = 0;
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += it->base_mods.int_mod;
-        ret += it->sev_scale_mods.int_mod * severity;
+        ret += wound_eff_types[*it].base_mods.int_mod;
+        ret += wound_eff_types[*it].sev_scale_mods.int_mod * severity;
     }
     return int(ret);
 }
 int wound::get_speed_mod()
 {
     float ret = get_base_speed_mod();
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += it->base_mods.speed_mod;
-        ret += it->sev_scale_mods.speed_mod * severity;
+        ret += wound_eff_types[*it].base_mods.speed_mod;
+        ret += wound_eff_types[*it].sev_scale_mods.speed_mod * severity;
     }
     return int(ret);
 }
@@ -425,41 +477,41 @@ int wound::get_speed_mod()
 int wound::get_bleed()
 {
     float ret = 0;
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += rng(it->base_mods.bleed_min, it->base_mods.bleed_max);
-        ret += rng(it->sev_scale_mods.bleed_min, it->sev_scale_mods.bleed_max) * severity;
+        ret += rng(wound_eff_types[*it].base_mods.bleed_min, wound_eff_types[*it].base_mods.bleed_max);
+        ret += rng(wound_eff_types[*it].sev_scale_mods.bleed_min, wound_eff_types[*it].sev_scale_mods.bleed_max) * severity;
     }
     return int(ret);
 }
 int wound::get_pain()
 {
     float ret = 0;
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += rng(it->base_mods.pain_min, it->base_mods.pain_max);
-        ret += rng(it->sev_scale_mods.pain_min, it->sev_scale_mods.pain_max) * severity;
+        ret += rng(wound_eff_types[*it].base_mods.pain_min, wound_eff_types[*it].base_mods.pain_max);
+        ret += rng(wound_eff_types[*it].sev_scale_mods.pain_min, wound_eff_types[*it].sev_scale_mods.pain_max) * severity;
     }
     return int(ret);
 }
 int wound::get_hurt()
 {
     float ret = 0;
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += rng(it->base_mods.hurt_min, it->base_mods.hurt_max);
-        ret += rng(it->sev_scale_mods.hurt_min, it->sev_scale_mods.hurt_max) * severity;
+        ret += rng(wound_eff_types[*it].base_mods.hurt_min, wound_eff_types[*it].base_mods.hurt_max);
+        ret += rng(wound_eff_types[*it].sev_scale_mods.hurt_min, wound_eff_types[*it].sev_scale_mods.hurt_max) * severity;
     }
     return int(ret);
 }
 
-int wound::get_heal_mod_100K()
+int wound::get_heal_chance_100K()
 {
     float ret = float(base_heal_mod);
-    for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin(); it != wound_effects.end();
+    for (std::vector<wefftype_id>::iterator it = wound_effects.begin(); it != wound_effects.end();
           ++it) {
-        ret += it->base_mods.heal_mod_100K;
-        ret += it->sev_scale_mods.heal_mod_100K * severity;
+        ret += wound_eff_types[*it].base_mods.heal_mod_100K;
+        ret += wound_eff_types[*it].sev_scale_mods.heal_mod_100K * severity;
     }
     return int(ret);
 }
@@ -468,8 +520,8 @@ bool wound::roll_trigs(player &p)
 {
     bool ret = false;
     int added_count = 0;
-    for (int i = 0; i < wound_effects.size() - added_count; ++i) {
-        wound_eff_type &weff = wound_effects[i];
+    for (size_t i = 0; i < wound_effects.size() - added_count; ++i) {
+        wound_eff_type &weff = wound_eff_types[wound_effects[i]];
         if (age >= weff.get_trig_delay()) {
             if (x_in_y(weff.get_trig_chance(p.get_healthy()), 100000)) {
                 //Instant effects
@@ -481,9 +533,9 @@ bool wound::roll_trigs(player &p)
                 //p.bleed(weff.get_trig_bleed(severity));
                 
                 if (get_bp() == num_bp) {
-                    hurt(bp_torso, -1, weff.get_trig_hurt(severity));
+                    p.hurt(bp_torso, -1, weff.get_trig_hurt(severity));
                 } else {
-                    hurt(get_bp(), get_side(), weff.get_trig_hurt(severity));
+                    p.hurt(get_bp(), get_side(), weff.get_trig_hurt(severity));
                 }
                 
                 // Stacking effects
@@ -497,11 +549,11 @@ bool wound::roll_trigs(player &p)
                 //Add effects
                 if (weff.effect_placed != "") {
                     if (weff.get_targeted_effect()) {
-                        p.add_effect(weff.effect_placed, weff.get_trig_effect_dur(),
-                                    weff.get_effect_perm(), weff.get_trig_effect_int(), bp, side);
+                        p.add_effect(weff.effect_placed, weff.get_trig_effect_dur(severity),
+                                    weff.get_effect_perm(), weff.get_trig_effect_int(severity), bp, side);
                     } else {
-                        p.add_effect(weff.effect_placed, weff.get_trig_effect_dur(),
-                                    weff.get_effect_perm(), weff.get_trig_effect_int());
+                        p.add_effect(weff.effect_placed, weff.get_trig_effect_dur(severity),
+                                    weff.get_effect_perm(), weff.get_trig_effect_int(severity));
                     }
                 }
                 
@@ -530,10 +582,10 @@ void load_wound_eff_type(JsonObject &jo)
     new_wetype.name_mod = jo.get_string("name_mod", "");
     new_wetype.desc = jo.get_string("desc", "");
     
-    new_wetype.effect_placed = j.get_string("effect_placed", "");
-    new_wetype.targeted_effect = j.get_bool("targeted_effect", false);
-    new_wetype.effect_perm = j.get_bool("effect_perm", false);
-    new_wetype.targeted_harm = j.get_bool("targeted_harm", false);
+    new_wetype.effect_placed = jo.get_string("effect_placed", "");
+    new_wetype.targeted_effect = jo.get_bool("targeted_effect", false);
+    new_wetype.effect_perm = jo.get_bool("effect_perm", false);
+    new_wetype.targeted_harm = jo.get_bool("targeted_harm", false);
     
     new_wetype.base_mods.load(jo, "base_mods");
     new_wetype.sev_scale_mods.load(jo, "sev_scale_mods");

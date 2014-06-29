@@ -436,7 +436,7 @@ void effect::decay(int health_val)
         if (eff_type->decay_rate > 0) {
             intensity = std::max(intensity - 1, 1);
         } else {
-            intensity = std::min(intensity + 1, max_intensity);
+            intensity = std::min(intensity + 1, eff_type->max_intensity);
         }
     }
 }
@@ -588,7 +588,7 @@ int effect::get_pain_chance(bool reduced)
 }
 bool effect::get_pain_sizing()
 {
-    return (eff_type.pain_sizing);
+    return (eff_type->pain_sizing);
 }
 int effect::get_hurt(bool reduced)
 {
@@ -617,7 +617,7 @@ int effect::get_hurt_chance(bool reduced)
 }
 bool effect::get_hurt_sizing()
 {
-    return (eff_type.hurt_sizing);
+    return (eff_type->hurt_sizing);
 }
 
 int effect::get_cough_chance(bool reduced)
@@ -634,7 +634,7 @@ int effect::get_cough_chance(bool reduced)
 }
 bool effect::get_harmful_cough()
 {
-    return (eff_type.harmful_cough);
+    return (eff_type->harmful_cough);
 }
 int effect::get_vomit_chance(bool reduced)
 {
@@ -686,7 +686,7 @@ int effect::get_pkill_max(bool reduced)
 }
 bool effect::get_pkill_addict_reduces()
 {
-    return (eff_type.pkill_addict_reduces);
+    return (eff_type->pkill_addict_reduces);
 }
 
 std::string effect::get_resist_trait()
@@ -727,7 +727,7 @@ int effect::get_morph_intensity()
     if (eff_type->get_morph_with_intensity()) {
         return intensity;
     } else {
-        return eff_type->get_morph_intensity()
+        return eff_type->get_morph_intensity();
     }
 }
 std::string effect::get_cancel_trait()
@@ -791,10 +791,10 @@ void load_effect_type(JsonObject &jo)
     new_etype.health_affects = jo.get_bool("health_affects", false);
     new_etype.resist_trait = jo.get_string("resist_trait", "");
     
-    new_etype.pain_sizing = j.get_bool("pain_sizing", false);
-    new_etype.hurt_sizing = j.get_bool("hurt_sizing", false);
-    new_etype.harmful_cough = j.get_bool("harmful_cough", false);
-    new_etype.pkill_addict_reduces = j.get_bool("pkill_addict_reduces", false);
+    new_etype.pain_sizing = jo.get_bool("pain_sizing", false);
+    new_etype.hurt_sizing = jo.get_bool("hurt_sizing", false);
+    new_etype.harmful_cough = jo.get_bool("harmful_cough", false);
+    new_etype.pkill_addict_reduces = jo.get_bool("pkill_addict_reduces", false);
 
     new_etype.base_mods.load(jo, "base_mods");
     new_etype.scaling_mods.load(jo, "scaling_mods");

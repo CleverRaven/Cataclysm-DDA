@@ -11,17 +11,9 @@ Character::Character() {
     Creature::set_speed_base(100);
 };
 
-Character::Character(const Creature &rhs) {
-    Creature::set_speed_base(100);
-    
-    wounds = rhs.wounds;
-};
-
 Character &Character::operator= (const Character &rhs)
 {
     Creature::operator=(rhs);
-    
-    wounds = rhs.wounds;
     return (*this);
 }
 
@@ -227,6 +219,34 @@ void Character::manage_sleep()
                 add_msg_if_player(_("The heat wakes you up."));
                 sleep.set_duration(1);
                 return;
+            }
+        }
+    }
+}
+
+void Character::add_wound(body_part target, int nside, int sev,
+                            std::vector<wefftype_id> wound_effs)
+{
+    wounds.push_back(wound(target, nside, sev, wound_effs));
+}
+
+void Character::remove_wounds(body_part target, int nside, int sev,
+                            std::vector<wefftype_id> wound_effs)
+{
+    for (std::vector<wound>::iterator it = wounds.begin(); it != wounds.end(); ++it) {
+        if (target == it->get_bp() && nside == it->get_side()) {
+            if (sev == it->get_severity() || sev == 0) {
+                bool eff_match = true;
+                for (std::vector<wefftype_id>::iterator it2 = wound_effs.begin();
+                      it2 != wound_effs.end(); ++it2) {
+                    if (!it->has_wound_effect(*it2)) {
+                        eff_match = false;
+                        break;
+                    }
+                }
+                if (eff_match == true) {
+                    it = wounds.erase(it);
+                }
             }
         }
     }

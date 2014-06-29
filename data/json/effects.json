@@ -412,7 +412,7 @@
         "type" : "effect_type",
         "id" : "infection",
         "name" : [
-            "Infected"
+            "Infected",
             "Badly Infected"
         ],
         "desc" : ["An infected bite wound. Leave this alone too long and it could kill you! Take antibiotics as soon as possible!"],

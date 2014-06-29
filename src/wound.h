@@ -16,17 +16,17 @@ struct wound_effect_info {
     float heal_mod_100K;
     float bleed_min;
     float bleed_max;
-    float pain_min;
-    float pain_max;
     float hurt_min;
     float hurt_max;
+    float pain_min;
+    float pain_max;
     float str_mod;
     float dex_mod;
     float per_mod;
     float int_mod;
     int speed_mod;
 
-    effect_morph_info() :  effect_duration(0), effect_intensity(0), heal_mod_100K(0), bleed_min(0),
+    wound_effect_info() :  effect_duration(0), effect_intensity(0), heal_mod_100K(0), bleed_min(0),
                             bleed_max(0), hurt_min(0), hurt_max(0), pain_min(0), pain_max(0),
                             str_mod(0), dex_mod(0), per_mod(0), int_mod(0), speed_mod(0){};
     bool load(JsonObject &jsobj, std::string member);
@@ -59,7 +59,6 @@ class wound_eff_type
         friend class wound;
     public:
         wound_eff_type();
-        wound_eff_type(const wound_eff_type &rhs);
 
         wefftype_id id;
 
@@ -84,6 +83,7 @@ class wound_eff_type
         int get_effect_dur(int sev);
         int get_effect_int(int sev);
         
+        efftype_id get_effect_placed();
         bool get_targeted_effect();
         bool get_effect_perm();
         bool get_targeted_harm();
@@ -107,7 +107,7 @@ class wound_eff_type
         wound_effect_info sev_scale_mods;
         
         wound_trigger_info trigger_info;
-}
+};
 
 class wound : public JsonSerializer, public JsonDeserializer
 {
@@ -117,6 +117,11 @@ class wound : public JsonSerializer, public JsonDeserializer
                 std::vector<wefftype_id> wound_effs = std::vector<wefftype_id>());
         wound(const wound &rhs);
         wound &operator=(const wound &rhs);
+        
+        bool add_wound_effect(wefftype_id eff);
+        bool remove_wound_effect(wefftype_id eff);
+        
+        bool has_wound_effect(wefftype_id eff);
         
         int get_age();
         void mod_age(int dur);
@@ -160,7 +165,9 @@ class wound : public JsonSerializer, public JsonDeserializer
         int get_pain();
         int get_hurt();
         
-        int get_heal_mod_100K();
+        int get_heal_chance_100K();
+        
+        std::vector<wefftype_id> wound_effects;
         
         /** Handles wound trigger effects, returns true if the wound is removed */
         bool roll_trigs(player &p);
@@ -171,17 +178,7 @@ class wound : public JsonSerializer, public JsonDeserializer
             json.member("bp", (int)bp);
             json.member("side", side);
             json.member("severity", severity);
-            
-            std::vector<std::string> tmp;
-            for (std::vector<*wound_eff_type>::iterator it = wound_effects.begin();
-                it != wound_effects.end(); ++it) {
-                if (it != NULL) {
-                    tmp.push_back(it->id);
-                } else {
-                    tmp.push_back("");
-                }
-            }
-            json.member("wound_effects", tmp);
+            json.member("wound_effects", wound_effects);
             json.member("base_heal_mod", base_heal_mod);
             json.member("base_str_mod", base_str_mod);
             json.member("base_dex_mod", base_dex_mod);
@@ -198,10 +195,10 @@ class wound : public JsonSerializer, public JsonDeserializer
             side = jo.get_int("side");
             severity = jo.get_int("severity");
 
-            std::vector<*wound_eff_type> wound_effects;
+            std::vector<wefftype_id> wound_effects;
             JsonArray jarr = jo.get_array("wound_effects");
             while (jarr.has_more()) {
-                wound_effects.push_back(&wound_eff_types[jarr.next_string()]);
+                wound_effects.push_back(jarr.next_string());
             }
             
             base_heal_mod = jo.get_int("base_heal_mod");
@@ -216,15 +213,14 @@ class wound : public JsonSerializer, public JsonDeserializer
         body_part bp;
         int side;
         int severity;
-        std::vector<*wound_eff_type> wound_effects;
         int base_heal_mod;
         int base_str_mod;
         int base_dex_mod;
         int base_per_mod;
         int base_int_mod;
-        int speed_mod;
+        int base_speed_mod;
         int age;
-}
+};
 
 void load_wound_eff_type(JsonObject &jo);
 void reset_wound_eff_types();
