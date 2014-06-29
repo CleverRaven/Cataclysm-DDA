@@ -205,6 +205,7 @@ public:
     void move_hordes();
     void update_tracks();
     std::vector<mongroup*> monsters_at(int x, int y, int z);
+    int track_at(int x, int y, int z);
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);

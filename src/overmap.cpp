@@ -1544,6 +1544,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
 
 
     mongroup *cmgroup = NULL;
+    mongroup *mgroup = NULL;
     // sight_points is hoisted for speed reasons.
     int sight_points = g->u.overmap_sight_range(g->light_level());
 
@@ -1582,13 +1583,12 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         }
     }
     */
-
     for (int i = 0; i < om_map_width; i++) {
         for (int j = 0; j < om_map_height; j++) {
 
             bool horde_here = false;
             int horde_num = 0;
-            mongroup *mgroup = NULL;
+            mgroup = NULL;
 
             const int omx = cursx + i - (om_map_width / 2);
             const int omy = cursy + j - (om_map_height / 2);
@@ -1609,6 +1609,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
 
             if (los || debug_monstergroups) {
                 std::vector<mongroup *> hordes = overmap_buffer.monsters_at(omx, omy, z);
+
                 for (int ih = 0; ih < hordes.size(); ih++) {
                     if (hordes[ih]->horde) {
                         horde_here = true;
@@ -1616,6 +1617,9 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                     }
                 }
             }
+            // checks tracks
+            int tracks_turn_here = overmap_buffer.track_at(omx, omy, z);
+            const bool tracks_here = (tracks_turn_here != 0);
             // and a vehicle
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
@@ -1740,12 +1744,15 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                     ter_color = c_red;
                     ter_sym = 'x';
                 }
-                else {
-                if (horde_here) {
+                else if (horde_here) {
                     ter_color = c_green;
                     ter_sym = 'Z';
                     }
+                else if (tracks_here) {
+                    ter_color = c_red;
+                    ter_sym = ':';
                 }
+
 
                 /*else {
                     const overmap *omap = overmap_buffer.get_existing_om_global(point(omx, omy));
@@ -1871,8 +1878,9 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     }
 
     // Draw text describing the overmap tile at the cursor position.
+
     if (csee || debug_monstergroups) {
-        if(cmgroup && debug_monstergroups) {
+        if (cmgroup && debug_monstergroups) {
             mvwprintz(w, 1, om_map_width + 3, c_blue, "# monsters: %d", cmgroup->population);
             mvwprintz(w, 2, om_map_width + 3, c_blue, "  Interest: %d", cmgroup->interest);
             mvwprintz(w, 3, om_map_width + 3, c_blue, "  Target: %d, %d", cmgroup->tx, cmgroup->ty);

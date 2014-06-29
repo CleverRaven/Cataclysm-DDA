@@ -193,9 +193,17 @@ bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda) const
 
 std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
 {
+    std::vector<mongroup*> ret;
     const overmap* om = overmap_buffer.get_existing_om_global(x, y);
     point p = omt_to_sm_copy(x, y);
-    return const_cast<overmap*>(om)->monsters_at(p.x, p.y, z);
+    return om != NULL ? const_cast<overmap*>(om)->monsters_at(p.x, p.y, z) : ret;
+}
+
+int overmapbuffer::track_at(int x, int y, int z)
+{
+    const overmap* om = overmap_buffer.get_existing_om_global(x, y);
+    point p = omt_to_sm_copy(x, y);
+    return om != NULL ? const_cast<overmap*>(om)->track_at(p.x, p.y) : 0;
 }
 
 bool overmapbuffer::seen(int x, int y, int z) const
