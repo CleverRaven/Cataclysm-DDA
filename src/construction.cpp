@@ -460,12 +460,12 @@ static bool player_can_build(player &p, const inventory &pinv, construction *con
             components_required = true;
             has_component = false;
             for (std::vector<component>::iterator comp = it->end();
-                 comp != it->begin(); ++comp) {
+                 comp != it->end(); ++comp) {
                 if // If you've Rope Webs, you can spin up the webbing to replace any amount of
                       // rope your projects may require.  But you need to be somewhat nourished:
                       // Famished or worse stops it.
-                      ( ((item_controller->find_template(comp->type)->id == "rope_30") ||
-                      (item_controller->find_template(comp->type)->id == "rope_6")) &&
+                      ( ((comp->type == "rope_30") ||
+                      (comp->type == "rope_6")) &&
                       ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
                       has_component = true;
                       comp->available = 1;
