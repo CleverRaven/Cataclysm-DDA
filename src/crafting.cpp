@@ -1859,15 +1859,16 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
                 (req <= 0 && type == "mold_plastic") ||
                 (req >  0 && crafting_inv.has_charges(type, req))) {
                 have_this_tool = true;
-                
-		break;
             }
-            // If crafting recipe required a welder,
+            
+	    // If crafting recipe required a welder,
             // disassembly requires a hacksaw or super toolkit.
             if (type == "welder") {
                 have_this_tool = (crafting_inv.has_tools("hacksaw", 1) ||
                                   crafting_inv.has_tools("toolset", 1));
             }
+
+	    if(have_this_tool) break;
         }
         if (!have_this_tool) {
             have_all_tools = false;
