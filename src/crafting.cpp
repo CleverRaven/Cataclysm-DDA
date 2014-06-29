@@ -1836,17 +1836,11 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
     // check tools are available
     // loop over the tools and see what's required...again
     bool have_all_tools = true;
-    for (std::vector<std::vector<component> >::iterator it =
-             cur_recipe->tools.begin();
-         it != cur_recipe->tools.end(); ++it) {
+    for( std::vector<std::vector<component> >::const_iterator it = cur_recipe->tools.cbegin();
+         it != cur_recipe->tools.cend(); ++it ) {
         bool have_this_tool = false;
-        
-        std::vector<component> tools = *it;
-	std::vector<component>::iterator tool;
-
-        for (tool = tools.begin();
-             tool != tools.end(); ++tool) {
-
+        for( std::vector<component>::const_iterator tool = it->cbegin();
+             tool != it->cend(); ++tool ) {
             itype_id type = tool->type;
             int req = tool->count; // -1 => 1
 
@@ -1860,15 +1854,17 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
                 (req >  0 && crafting_inv.has_charges(type, req))) {
                 have_this_tool = true;
             }
-            
-	    // If crafting recipe required a welder,
+
+            // If crafting recipe required a welder,
             // disassembly requires a hacksaw or super toolkit.
             if (type == "welder") {
                 have_this_tool = (crafting_inv.has_tools("hacksaw", 1) ||
                                   crafting_inv.has_tools("toolset", 1));
             }
 
-	    if(have_this_tool) break;
+            if( have_this_tool ) {
+                break;
+            }
         }
         if (!have_this_tool) {
             have_all_tools = false;
