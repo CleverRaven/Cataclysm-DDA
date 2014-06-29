@@ -10926,10 +10926,28 @@ void map::place_npc(int x, int y, std::string type)
     rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
     //debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
     //             oid.t().id.c_str(), oid.t().id_mapgen.c_str(),rc.om_sub.x/2,rc.om_sub.y/2,get_abs_sub().z, x,y );
+    //Old Guard NPCs, fac_id 1
+    if (type == "old_guard_rep"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_COWBOY);
+        temp->name += ", Representative";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_OLD_GUARD_REP;
+        temp->fac_id = 1;
+        temp->my_fac = g->faction_by_id(1);
+        return;
+        }
+    //Free Merchant NPCs, fac_id 2
     if (type == "evac_merchant"){
         npc *temp = new npc();
         temp->normalize();
         temp->randomize(NC_EVAC_SHOPKEEP);
+        temp->name += ", Merchant";
         temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
         temp->posy = y;
@@ -10940,25 +10958,11 @@ void map::place_npc(int x, int y, std::string type)
         temp->my_fac = g->faction_by_id(2);
         return;
         }
-    if (type == "hostile_guard"){
-        npc *temp = new npc();
-        temp->normalize();
-        temp->randomize(NC_BOUNTY_HUNTER);
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
-        temp->posx = x;
-        temp->posy = y;
-        temp->attitude = NPCATT_KILL;
-        temp->mission = NPC_MISSION_NULL;
-        temp->chatbin.first_topic = TALK_DONE;
-        temp->personality.aggression += 3;
-        temp->fac_id = 4;
-        temp->my_fac = g->faction_by_id(4);
-        return;
-        }
     if (type == "guard"){
         npc *temp = new npc();
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
         temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
         temp->posy = y;
@@ -10968,6 +10972,55 @@ void map::place_npc(int x, int y, std::string type)
         temp->personality.aggression += 1;
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
+        return;
+        }
+    if (type == "hostile_guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_KILL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        return;
+        }
+    //Wasteland Scavengers NPCs, fac_id 3
+    if (type == "scavenger_merc"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_COWBOY);
+        temp->name += ", Merc";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_SCAVENGER_MERC;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        return;
+        }
+    //Hell's Raiders NPCs, fac_id 4
+    if (type == "bandit"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Bandit";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_NULL;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
         return;
         }
     debugmsg("place_npc: did not recognize npc class");
