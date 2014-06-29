@@ -83,7 +83,7 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
     int recipe_count = 0;
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
-             list_iter != map_iter->second.end(); ++list_iter) {
+                list_iter != map_iter->second.end(); ++list_iter) {
             if ((*list_iter)->ident == rec_name) {
                 if (!override_existing) {
                     jsobj.throw_error(
@@ -381,9 +381,9 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
             itype_id type = tool.type;
             int req = tool.count;
             if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
-                 (req <= 0 && (type == ("goggles_welding") &&
-                               (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
-                 (req > 0 && crafting_inv.has_charges(type, req))) {
+                    (req <= 0 && (type == ("goggles_welding") &&
+                                  (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
+                    (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
             } else {
@@ -611,7 +611,7 @@ static craft_cat first_craft_cat()
 static craft_cat next_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end(); ++iter) {
+            iter != craft_cat_list.end(); ++iter) {
         if ((*iter) == cat) {
             if( ++iter == craft_cat_list.end() ) {
                 return craft_cat_list.front();
@@ -625,7 +625,7 @@ static craft_cat next_craft_cat(const craft_cat cat)
 static craft_cat prev_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end(); ++iter) {
+            iter != craft_cat_list.end(); ++iter) {
         if ((*iter) == cat) {
             if( iter == craft_cat_list.begin() ) {
                 return craft_cat_list.back();
@@ -649,7 +649,7 @@ static craft_subcat last_craft_subcat(const craft_cat cat)
 static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
 {
     for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
-         iter != craft_subcat_list[cat].end(); ++iter) {
+            iter != craft_subcat_list[cat].end(); ++iter) {
         if ((*iter) == subcat) {
             if( ++iter == craft_subcat_list[cat].end() ) {
                 return craft_subcat_list[cat].front();
@@ -663,7 +663,7 @@ static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat su
 static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat)
 {
     for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
-         iter != craft_subcat_list[cat].end(); ++iter) {
+            iter != craft_subcat_list[cat].end(); ++iter) {
         if ((*iter) == subcat) {
             if( iter == craft_subcat_list[cat].begin() ) {
                 return craft_subcat_list[cat].back();
@@ -678,7 +678,7 @@ static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat su
 bool any_marked_available(const std::vector<component> &comps)
 {
     for (std::vector<component>::const_iterator it = comps.begin();
-         it != comps.end(); ++it) {
+            it != comps.end(); ++it) {
         if (it->available == 1) {
             return true;
         }
@@ -1420,7 +1420,7 @@ void game::complete_craft()
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
     if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-        && !u.is_wearing("glasses_bifocal") && !u.has_disease("contacts")) {
+            && !u.is_wearing("glasses_bifocal") && !u.has_disease("contacts")) {
         int main_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
             main_rank_penalty = 2;
@@ -1913,7 +1913,7 @@ void game::disassemble(int pos)
         inventory crafting_inv = crafting_inventory(&u);
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
             if (OPTIONS["QUERY_DISASSEMBLE"] &&
-                !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str()))) {
+                    !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str()))) {
                 return;
             }
             u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
@@ -1924,7 +1924,7 @@ void game::disassemble(int pos)
     //if we're trying to disassemble a book or magazine
     if( dis_item->is_book() ) {
         if (OPTIONS["QUERY_DISASSEMBLE"] &&
-            !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str()))) {
+                !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str()))) {
             return;
         } else {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
@@ -2102,7 +2102,7 @@ recipe *game::recipe_by_index(int index)
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
-             list_iter != map_iter->second.end(); ++list_iter) {
+                list_iter != map_iter->second.end(); ++list_iter) {
             if ((*list_iter)->id == index) {
                 return *list_iter;
             }
@@ -2115,7 +2115,7 @@ recipe *recipe_by_name(std::string name)
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
-             list_iter != map_iter->second.end(); ++list_iter) {
+                list_iter != map_iter->second.end(); ++list_iter) {
             if ((*list_iter)->ident == name) {
                 return *list_iter;
             }
@@ -2150,7 +2150,7 @@ void check_recipe_definitions()
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
-             list_iter != map_iter->second.end(); ++list_iter) {
+                list_iter != map_iter->second.end(); ++list_iter) {
             const recipe &r = **list_iter;
             const std::string display_name = std::string("recipe ") + r.ident;
             ::check_component_list(r.tools, display_name);
@@ -2225,8 +2225,7 @@ std::string recipe::required_skills_string()
 {
     std::ostringstream skills_as_stream;
     if(!required_skills.empty()) {
-        for(std::map<Skill *, int>::iterator iter = required_skills.begin(); iter != required_skills.end();
-           ) {
+        for( auto iter = required_skills.begin(); iter != required_skills.end(); ) {
             skills_as_stream << iter->first->name() << "(" << iter->second << ")";
             ++iter;
             if(iter != required_skills.end()) {
