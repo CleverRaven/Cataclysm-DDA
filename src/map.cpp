@@ -1567,7 +1567,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                         furn_set( x, y, f_null );
                     }
                     // Hack alert.
-                    // Signs have cosmetics associated with them on the submap since 
+                    // Signs have cosmetics associated with them on the submap since
                     // furniture can't store dynamic data to disk. To prevent writing
                     // mysteriously appearing for a sign later built here, remove the
                     // writing from the submap.
@@ -4463,6 +4463,25 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
     }
   }
   // fixme; roll off into some function elsewhere ---^
+
+  //Merchants will restock their inventories every three days
+  const int merchantRestock = 100; //14400 is the length of one day
+
+  //Check for Merchants to restock acidia
+  int npc_id = -1;
+  npc *found_npc = NULL;
+  for (int x = 0; x < SEEX; x++) {
+    for (int y = 0; y < SEEY; y++) {
+        npc_id = g->npc_at( x, y );
+        if (npc_id != -1){
+            found_npc = g->active_npc[npc_id];
+            if (npc_id != -1 && g->active_npc[npc_id]->restock != -1 && calendar::turn > (g->active_npc[npc_id]->restock + merchantRestock)){
+                found_npc->shop_restock();
+                found_npc->restock = int(calendar::turn);
+            }
+        }
+    }
+  }
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
