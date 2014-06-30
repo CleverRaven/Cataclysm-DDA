@@ -12,7 +12,7 @@ The source can either be downloaded as [an archive](https://github.com/CleverRav
 
 ## Compile
 
-The latest instructions on how to compile can be found on [our wiki](http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile).
+The latest instructions on how to compile can be found on [our wiki](http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile).  See doc/COMPILER_SUPPORT.md for details on which compilers we support.
 
 
 ## Contribute
