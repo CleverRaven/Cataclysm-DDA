@@ -923,46 +923,27 @@ void disarm_all_near_sh_triggers(int x, int y)
 
 }
 
-point find_near_random_potencial_secret_furn(int x, int y, int ntry)
+point find_near_random_potencial_secret_furn(int x, int y)
 {
+    std::vector<point> v;
 
-    point res;
+#define radius 50
 
-    res.x = x;
-    res.y = y;
-
-    for (int i = 0; i < ntry; i++) {
-
-        int v = rng(1, 5);
-
-        if (1 == v) {
-            res.x++;
-        } else if (2 == v) {
-            res.x--;
-        } else if (3 == v) {
-            res.y++;
-        } else if (4 == v) {
-            res.y--;
-        } else {
+    for (int i = x - radius; i < x + radius; i++)
+        for (int j = y - radius; j < y + radius; j++) {
+            if (g->m.furn_at(i, j).has_flag("POTENTIAL_SECRET_FUR") && g->u.sees(i, j)) {
+                v.push_back(point(i, j));
+            }
         }
 
-        if (g->m.furn_at(res.x, res.y).has_flag("POTENTIAL_SECRET_TRIGGER")) {
-            return res;
-        }
-
-        if (g->m.move_cost(res.x, res.y) == 0) {
-            break;
-        }
-
+    if (v.size() == 0) {
+        return point(-999, -999);
     }
 
-    res.x = -999;
-    res.y = -999;
-    return res;
-
+    return v[rng(0, v.size() - 1)];
 }
 
-void trapfunc::sh_trigger(Creature *c, int x, int y)
+void trapfunc::ch_per_trigger(Creature *c, int x, int y)
 //todo: may be all rng-formulas must be balanced
 {
     if (c == &g->u) {
@@ -972,9 +953,9 @@ void trapfunc::sh_trigger(Creature *c, int x, int y)
             g->m.ter_set(x, y, t_floor);
         }
 
-        if (/*one_in(3)  && dice(5, 6) < g->u.per_cur + g->u.int_cur / 2*/ true) {
+        if (one_in(3)  && dice(5, 6) < g->u.per_cur + g->u.int_cur / 2) {
 
-            point p = find_near_random_potencial_secret_furn(x, y, 30);
+            point p = find_near_random_potencial_secret_furn(x, y);
             if (p.x > -999) {
 
                 disarm_all_near_sh_triggers(x, y);
@@ -986,7 +967,7 @@ void trapfunc::sh_trigger(Creature *c, int x, int y)
                 std::string new_furn = g->m.furn_at(p.x, p.y).id;
                 new_furn += "_a";
 
-                g->m.furn_set(p.x, p.y, new_furn);
+                g->m.furn_set(p.x, p.y, new_furn);				
 
             }
 
@@ -1272,8 +1253,8 @@ trap_function trap_function_from_string(std::string function_name)
     if("snake" == function_name) {
         return &trapfunc::snake;
     }
-	if ("sh_trigger" == function_name) {
-		return &trapfunc::sh_trigger;
+	if ("check_perception_trigger" == function_name) {
+		return &trapfunc::ch_per_trigger;
 	}
 
     //No match found

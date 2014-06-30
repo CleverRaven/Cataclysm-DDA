@@ -54,7 +54,7 @@ struct trapfunc {
     void shadow         (Creature *creature, int x, int y);
     void drain          (Creature *creature, int x, int y);
     void snake          (Creature *creature, int x, int y);
-	void sh_trigger		(Creature *creature, int x, int y);
+	void ch_per_trigger (Creature *creature, int x, int y);
 };
 
 typedef void (trapfunc::*trap_function)(Creature *, int, int);

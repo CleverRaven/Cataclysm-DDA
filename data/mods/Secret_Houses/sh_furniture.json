@@ -8,7 +8,7 @@
         "color": "dkgray",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["BASHABLE","PLACE_ITEM","BLOCKSDOOR", "POTENTIAL_SECRET_TRIGGER"],
+        "flags": ["BASHABLE","PLACE_ITEM","BLOCKSDOOR", "POTENTIAL_SECRET_FUR"],
         "bash": {
             "str_min": 11, "str_max": 30,
             "sound": "smash!",
@@ -52,7 +52,7 @@
         "move_cost_mod": 2,
         "required_str": 5,
         "max_volume": 2000,
-        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "POTENTIAL_SECRET_TRIGGER"],
+        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "POTENTIAL_SECRET_FUR"],
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "smash!",
@@ -96,7 +96,7 @@
         "move_cost_mod": 2,
         "required_str": 5,
         "max_volume": 2000,
-        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "POTENTIAL_SECRET_TRIGGER"],
+        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "POTENTIAL_SECRET_FUR"],
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "smash!",

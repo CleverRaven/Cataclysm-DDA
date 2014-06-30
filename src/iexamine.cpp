@@ -2016,14 +2016,15 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     }
 }
 
-bool create_secret_stairs(map *m, point  *p)
+bool hide_secret_wall(map *m, point  *p)
 {
+#define radius 50
 
     std::vector<point> v;
 
-    for (int i = p->x - 30; i < p->x + 30; i++)
-        for (int j = p->y - 30; j < p->y + 30; j++) {
-            if (m->ter_at(i, j).id == "t_hidden_stairs") {
+    for (int i = p->x - radius; i < p->x + radius; i++)
+        for (int j = p->y - radius; j < p->y + radius; j++) {
+            if (m->ter_at(i, j).has_flag("ON_SECRET_HIDE")) {
                 v.push_back(point(i, j));
             }
         }
@@ -2036,7 +2037,7 @@ bool create_secret_stairs(map *m, point  *p)
     p->x = v[n].x;
     p->y = v[n].y;
 
-    m->ter_set(p->x, p->y, "t_water_dp");
+    m->ter_set(p->x, p->y, t_floor);
 
     return true;
 }
@@ -2072,23 +2073,22 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
             mes += "pulled ";
         } else if (3 == ract) {
             mes += "shook ";
-		}
-		else if (4 == ract) {
-			mes += "yanked ";
-		}		
+        }       else if (4 == ract) {
+            mes += "yanked ";
+        }
         mes += furname;
         mes += ".";
         p->add_msg_if_player(m_neutral, mes.c_str());
 
         //todo: may be needed normal balanced formula
-        if (/*rng(5, 25) < rng(g->u.int_cur, g->u.int_cur + g->u.per_cur / 2)*/ true) {
+        if (rng(5, 25) < rng(g->u.int_cur, g->u.int_cur + g->u.per_cur / 2)) {
 
-            point pstairs;
-            pstairs.x = examx;
-            pstairs.y = examy;
+            point pwall;
+            pwall.x = examx;
+            pwall.y = examy;
 
-            if (/*one_in(2) && */create_secret_stairs(m, &pstairs)) {
-                g->sound(pstairs.x, pstairs.y, 15, "ground grumbling");
+            if (!one_in(3) && hide_secret_wall(m, &pwall)) {
+                g->sound(pwall.x, pwall.y, 15, "ground grumbling");
 
             } else {
 
@@ -2098,7 +2098,15 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
 
         } else {
 
-			p->add_msg_if_player(_("bad."));
+            if (true) {
+
+                for (int i = p->xpos() - 1; i <= p->xpos() + 1; i++)
+                    for (int j = p->ypos() - 1; j <= p->ypos() + 1; j++) {
+                        if (m->move_cost(i, j) != 0) {
+                            m->trap_set(i, j, tr_spike_pit);
+                        }
+                    }
+            }
 
         }
     }
