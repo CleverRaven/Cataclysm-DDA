@@ -773,6 +773,12 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_FRIEND:
             return _("What is it?");
 
+        case TALK_FRIEND_GUARD:
+            return _("I'm on watch.");
+
+        case TALK_DENY_GUARD:
+            return _("Not a bloody chance, I'm going to get left behind!");
+
         case TALK_COMBAT_COMMANDS:
             {
             std::stringstream status;
@@ -1207,7 +1213,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_EVAC_MERCHANT);
   break;
  case TALK_EVAC_MERCHANT_PRIME_LOOT:
-  RESPONSE(_("Thanks, I'll keep an eye out"));
+  RESPONSE(_("Thanks, I'll keep an eye out."));
    SUCCESS(TALK_EVAC_MERCHANT);
   break;
  case TALK_EVAC_MERCHANT_NO:
@@ -1221,7 +1227,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
 
  case TALK_EVAC_MERCHANT_ASK_JOIN:
   if (g->u.int_cur > 10){
-    RESPONSE(_("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavangers bring in!"));
+    RESPONSE(_("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!"));
         SUCCESS(TALK_EVAC_MERCHANT_NO);
   }
   if (g->u.int_cur <= 6 && g->u.str_cur > 10){
@@ -1635,6 +1641,14 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_DONE);
   break;
 
+ case TALK_FRIEND_GUARD:
+  RESPONSE(_("I need you to come with me."));
+    SUCCESS(TALK_FRIEND);
+     SUCCESS_ACTION(&talk_function::follow);
+  RESPONSE(_("See you around."));
+   SUCCESS(TALK_DONE);
+  break;
+
  case TALK_FRIEND:
   RESPONSE(_("Combat commands..."));
    SUCCESS(TALK_COMBAT_COMMANDS);
@@ -1649,6 +1663,16 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    RESPONSE(_("Wait at this base."));
     SUCCESS(TALK_DONE);
     SUCCESS_ACTION(&talk_function::assign_base);
+  }
+  if (p->is_following()) {//acidia
+   RESPONSE(_("Guard this position."));
+    int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
+                 1 * p->op_of_u.anger + p->op_of_u.owed / 50;
+    TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
+    SUCCESS(TALK_FRIEND_GUARD);
+    SUCCESS_ACTION(&talk_function::assign_guard);
+    FAILURE(TALK_DENY_GUARD);
+     FAILURE_OPINION(-1, -2, -1, 1, 0);
   }
   RESPONSE(_("I'm going to go my own way for a while."));
    SUCCESS(TALK_LEAVE);
@@ -2112,6 +2136,14 @@ void talk_function::assign_base(npc *p)
     add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
     p->mission = NPC_MISSION_BASE;
     p->attitude = NPCATT_NULL;
+}
+
+void talk_function::assign_guard(npc *p)
+{
+    add_msg(_("%s is posted as a guard."), p->name.c_str());
+    p->attitude = NPCATT_NULL;
+    p->mission = NPC_MISSION_GUARD;
+    p->chatbin.first_topic = TALK_FRIEND_GUARD;
 }
 
 void talk_function::give_equipment(npc *p)
