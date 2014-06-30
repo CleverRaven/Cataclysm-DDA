@@ -2818,7 +2818,6 @@ input_context game::get_player_input(std::string &action)
 
 bool game::isActivatedRadioCarPresent()
 {
-
     int MYMAPSIZE = m.getmapsize();
 
     point pos;
@@ -2832,7 +2831,6 @@ bool game::isActivatedRadioCarPresent()
             }
 
     return false;
-
 }
 
 

@@ -405,7 +405,7 @@ void add_corpse(int x, int y);
  const std::string get_signage(const int x, const int y) const;
  void set_signage(const int x, const int y, std::string message) const;
  void delete_signage(const int x, const int y) const;
- 
+
  // Radiation
  int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
  void set_radiation(const int x, const int y, const int value);
@@ -431,9 +431,9 @@ void add_corpse(int x, int y);
  point find_item(const item *it);
  void spawn_artifact( const int x, const int y );
  void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
-    void spawn_item(const int x, const int y, const std::string &itype_id,
-                    const unsigned quantity=1, const long charges=0,
-                    const unsigned birthday=0, const int damlevel=0, const bool rand = true);
+ void spawn_item(const int x, const int y, const std::string &itype_id,
+                 const unsigned quantity=1, const long charges=0,
+                 const unsigned birthday=0, const int damlevel=0, const bool rand = true);
  int max_volume(const int x, const int y);
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);

@@ -13,9 +13,9 @@
 #include "messages.h"
 #include <stdlib.h>
 #include <string>
+#include <unordered_map>
 
 class game;
-class effect;
 
 class Creature
 {
@@ -138,7 +138,7 @@ class Creature
                             int intensity = 1, bool permanent = false); // gives chance to save via env resist, returns if successful
         void remove_effect(efftype_id eff_id);
         void clear_effects(); // remove all effects
-        bool has_effect(efftype_id eff_id);
+        bool has_effect(efftype_id eff_id) const;
 
         virtual void process_effects(); // runs all the effects on the Creature
 
@@ -283,7 +283,7 @@ class Creature
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
-        std::vector<effect> effects;
+        std::unordered_map<std::string, effect> effects;
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately

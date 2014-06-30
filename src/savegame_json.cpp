@@ -166,7 +166,8 @@ void player::json_load_common_variables(JsonObject & data)
 
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
-        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+        for( std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+             aSkill != Skill::skills.end(); ++aSkill ) {
             if ( pmap.has_object( (*aSkill)->ident() ) ) {
                 pmap.read( (*aSkill)->ident(), skillLevel(*aSkill) );
             } else {
@@ -179,7 +180,19 @@ void player::json_load_common_variables(JsonObject & data)
 
     data.read("ma_styles",ma_styles);
     data.read("illness",illness);
-    data.read("effects",effects);
+
+    if( data.has_array( "effects" ) ) {
+        // effects started out as a vector, then changed to an unordered map.
+        // This is the easiest way to maintain backwards compatability.
+        parray = data.get_array( "effects" );
+        while( parray.has_more() ) {
+            effect new_effect;
+            parray.read_next( new_effect );
+            effects[ new_effect.get_id() ] = new_effect;
+        }
+    } else if( data.has_object( "effects" ) ) {
+        data.read( "effects", effects );
+    }
     data.read("addictions",addictions);
     data.read("my_bionics",my_bionics);
 
@@ -247,7 +260,8 @@ void player::json_save_common_variables(JsonOut &json) const
     // skills
     json.member( "skills" );
     json.start_object();
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+    for( std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+         aSkill != Skill::skills.end(); ++aSkill ) {
         SkillLevel sk = get_skill_level(*aSkill);
         json.member((*aSkill)->ident(), sk);
     }
@@ -261,6 +275,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // disease
     json.member( "illness", illness );
+    // creature::effects
     json.member( "effects", effects );
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
@@ -798,11 +813,9 @@ void inventory::json_load_invcache(JsonIn &jsin)
 void inventory::json_save_items(JsonOut &json) const
 {
     json.start_array();
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        for (std::list<item>::const_iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
+    for( invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter ) {
+        for( std::list<item>::const_iterator stack_iter = iter->begin();
+             stack_iter != iter->end(); ++stack_iter ) {
             stack_iter->serialize(json, true);
         }
     }
@@ -863,7 +876,18 @@ void monster::deserialize(JsonIn &jsin)
 
     data.read("plans", plans);
 
-    data.read("effects", effects);
+    if( data.has_array( "effects" ) ) {
+        // effects started out as a vector, then changed to an unordered map.
+        // This is the easiest way to maintain backwards compatability.
+        JsonArray parray = data.get_array( "effects" );
+        while( parray.has_more() ) {
+            effect new_effect;
+            parray.read_next( new_effect );
+            effects[ new_effect.get_id() ] = new_effect;
+        }
+    } else if( data.has_object( "effects" ) ) {
+        data.read( "effects", effects );
+    }
 
     data.read("inv", inv);
     if (!data.read("ammo", ammo)) { ammo = 100; }
@@ -899,7 +923,8 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("plans", plans);
     json.member("ammo", ammo);
 
-    json.member("effects", effects);
+    // creature::effects
+    json.member( "effects", effects );
 
     if ( save_contents ) {
         json.member("inv");
