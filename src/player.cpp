@@ -11764,7 +11764,7 @@ void player::add_known_trap(int x, int y, const std::string &t)
     }
 }
 
-bool player::is_deaf() const
+bool player::is_deaf()
 {
     return has_effect("deaf") || worn_with_flag("DEAF");
 }

@@ -1082,7 +1082,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     //Shouldn't block if player is asleep; this only seems to be used by player.
     //g->u.has_disease("sleep") would work as well from looking at other block functions.
 
-    if (blocks_left < 1 || this->has_effect("sleep"))
+    if (blocks_left < 1 || this->has_effect("sleep")) {
         return false;
     }
     blocks_left--;
@@ -1262,7 +1262,7 @@ void player::perform_special_attacks(Creature &t)
         t.add_effect("poison", 6);
     }
     else if ((has_trait("POISONOUS2")) && (!(t.has_effect("bad_poison")))) {
-        t.add_msg_if_player((m_good, _("You inject your venom into %s!"), target.c_str());
+        t.add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
         t.add_effect("bad_poison", 6);
     }
  }

@@ -7745,7 +7745,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool)
 int iuse::jet_injector(player *p, item *it, bool)
 {
   if(it->charges == 0) {
-    p->add_msg_if_player(m_info, _("The jet injector is empty."), it->name.c_str());
+    p->add_msg_if_player(m_info, _("The jet injector is empty."), it->tname().c_str());
     return 0;
 } else {
     p->add_msg_if_player(_("You inject yourself with the jet injector."));
@@ -8317,7 +8317,8 @@ int iuse::radiocontrol(player *p, item *it, bool t)
             }
         }
 
-        signal += std::to_string( choice - 2 );
+        //Temporarily commented until Kevingranade's fix can be fixed and merged
+        //signal += std::to_string( choice - 2 );
 
         p->add_msg_if_player(_("Click."));
         sendRadioSignal( p, signal.c_str() );
