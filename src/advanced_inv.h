@@ -72,6 +72,8 @@ class AdvancedInventory {
     SortRule sortRule () const { return _sortRule; }
     void sortRule (SortRule sortRule) { if (_sortRule == sortRule) _sortAscending = !_sortAscending; _sortRule = sortRule; }
 
+    virtual bool covers (Pane *p) const { return this == p; }
+
     const std::vector<std::list<const item *>> &stackedItems () {
       if (_dirtyStack)
         restack();
@@ -154,6 +156,8 @@ class AdvancedInventory {
     void removeItem (const item *) override;
 
     void ignorePane (Pane *pane) override { _ignoring = pane; _dirtyStack = true; }
+
+    bool covers (Pane *) const override;
   };
 
   std::map<std::string, Pane *> _panes;
