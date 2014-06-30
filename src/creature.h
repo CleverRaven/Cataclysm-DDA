@@ -13,8 +13,6 @@
 #include "messages.h"
 #include <stdlib.h>
 #include <string>
-#include <vector>
-#include <set>
 
 class game;
 class effect;
@@ -272,8 +270,6 @@ class Creature
 
         void draw(WINDOW *w, int plx, int ply, bool inv);
 
-        static void init_hit_weights();
-
         // Message related stuff
         virtual void add_msg_if_player(const char *, ...){};
         virtual void add_msg_if_player(game_message_type, const char *, ...){};
@@ -330,18 +326,7 @@ class Creature
         virtual char symbol();
         virtual bool is_symbol_highlighted();
 
-
-        //Hit weight work.
-        static std::map<int, std::map<body_part, double> > default_hit_weights;
-
-        typedef std::pair<body_part, double> weight_pair;
-
-        struct weight_compare {
-            bool operator() (const weight_pair &left, const weight_pair &right) { return left.second < right.second;}
-        };
-
-        body_part select_body_part(Creature *source, int hitroll);
-
+        body_part select_body_part(Creature *source, int hit_roll);
 };
 
 #endif
