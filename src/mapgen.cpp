@@ -823,7 +823,7 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
         case JMAPGEN_PLACEGROUP_VEHICLE: {
             for (int i = 0; i < trepeat; i++) {
                 if (x_in_y(chance, 100)) {
-                    m->add_vehicle (gid, x.val, y.val, rotation);
+                    m->add_vehicle(gid, x.val, y.val, rotation);
                 }
             }
         } break;
@@ -10940,6 +10940,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->chatbin.first_topic = TALK_OLD_GUARD_REP;
         temp->fac_id = 1;
         temp->my_fac = g->faction_by_id(1);
+        g->load_npcs();
         return;
         }
     //Free Merchant NPCs, fac_id 2
@@ -10956,6 +10957,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
         return;
         }
     if (type == "guard"){
@@ -10972,6 +10974,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->personality.aggression += 1;
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
         return;
         }
     if (type == "hostile_guard"){
@@ -10988,6 +10991,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->personality.aggression = 10;
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
         return;
         }
     //Wasteland Scavengers NPCs, fac_id 3
@@ -11004,6 +11008,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->chatbin.first_topic = TALK_SCAVENGER_MERC;
         temp->fac_id = 3;
         temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
         return;
         }
     //Hell's Raiders NPCs, fac_id 4
@@ -11021,6 +11026,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->personality.aggression = 10;
         temp->fac_id = 4;
         temp->my_fac = g->faction_by_id(4);
+        g->load_npcs();
         return;
         }
     debugmsg("place_npc: did not recognize npc class");
@@ -11154,6 +11160,9 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     veh->smx = smx;
     veh->smy = smy;
     veh->place_spawn_items();
+    veh->face.init( dir );
+    veh->turn_dir = dir;
+    veh->precalc_mounts( 0, dir );
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
 
@@ -11301,13 +11310,47 @@ computer *map::add_computer(int x, int y, std::string name, int security)
  */
 void map::rotate(int turns)
 {
-
     //Handle anything outside the 1-3 range gracefully; rotate(0) is a no-op.
     turns = turns % 4;
     if(turns == 0) {
         return;
     }
 
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+    if (g->active_npc.size() >= 1){
+    for (int i = 0; i < g->active_npc.size(); i++){
+        npc *act_npc = g->active_npc[i];
+        if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
+            act_npc->global_omt_location().y*2 == get_abs_sub().y ){
+                rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
+                int old_x = rc.sub_pos.x;
+                int old_y = rc.sub_pos.y;
+                if ( rc.om_sub.x % 2 != 0 )
+                    old_x += SEEX;
+                if ( rc.om_sub.y % 2 != 0 )
+                    old_y += SEEY;
+                int new_x = old_x;
+                int new_y = old_y;
+                switch(turns) {
+                case 3:
+                    new_x = old_y;
+                    new_y = SEEX * 2 - 1 - old_x;
+                    break;
+                case 2:
+                    new_x = SEEX * 2 - 1 - old_x;
+                    new_y = SEEY * 2 - 1 - old_y;
+                    break;
+                case 1:
+                    new_x = SEEY * 2 - 1 - old_y;
+                    new_y = old_x;
+                    break;
+                }
+            g->active_npc[i]->posx += (new_x-old_x);
+            g->active_npc[i]->posy += (new_y-old_y);
+        }
+    }
+    }
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
