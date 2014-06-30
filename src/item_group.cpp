@@ -2,6 +2,7 @@
 #include "item_group.h"
 #include "monstergenerator.h"
 #include "rng.h"
+#include "output.h"
 #include <map>
 #include <algorithm>
 #include <cassert>
@@ -24,30 +25,30 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const 
     item tmp;
     if (type == S_ITEM) {
         if (id == "corpse") {
-            tmp.make_corpse(item_controller->find_template("corpse"), GetMType("mon_null"), birthday);
+            tmp.make_corpse("corpse", GetMType("mon_null"), birthday);
         } else {
-            tmp = item(item_controller->find_template(id), birthday);
+            tmp = item(id, birthday);
         }
     } else if (type == S_ITEM_GROUP) {
         if (std::find(rec.begin(), rec.end(), id) != rec.end()) {
             debugmsg("recursion in item spawn list %s", id.c_str());
-            return item(item_controller->find_template(null_item_id), birthday);
+            return item(null_item_id, birthday);
         }
         rec.push_back(id);
         Item_spawn_data *isd = item_controller->get_group(id);
         if (isd == NULL) {
             debugmsg("unknown item spawn list %s", id.c_str());
-            return item(item_controller->find_template(null_item_id), birthday);
+            return item(null_item_id, birthday);
         }
         tmp = isd->create_single(birthday, rec);
     } else if (type == S_NONE) {
-        return item(item_controller->find_template(null_item_id), birthday);
+        return item(null_item_id, birthday);
     }
     if (modifier.get() != NULL) {
         modifier->modify(tmp);
     }
     // TODO: change the spawn lists to contain proper references to containers
-    tmp = tmp.in_its_container(&itypes);
+    tmp = tmp.in_its_container();
     return tmp;
 }
 
@@ -236,17 +237,17 @@ Item_group::~Item_group() {
 
 void Item_group::add_item_entry(const Item_tag &itemid, int probability)
 {
-    std::auto_ptr<Item_spawn_data> ptr(new Single_item_creator(itemid, Single_item_creator::S_ITEM, probability));
+    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(itemid, Single_item_creator::S_ITEM, probability));
     add_entry(ptr);
 }
 
 void Item_group::add_group_entry(const Group_tag &groupid, int probability)
 {
-    std::auto_ptr<Item_spawn_data> ptr(new Single_item_creator(groupid, Single_item_creator::S_ITEM_GROUP, probability));
+    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(groupid, Single_item_creator::S_ITEM_GROUP, probability));
     add_entry(ptr);
 }
 
-void Item_group::add_entry(std::auto_ptr<Item_spawn_data> &ptr)
+void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
 {
     assert(ptr.get() != NULL);
     if (ptr->probability <= 0) {
@@ -286,10 +287,13 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     if (with_ammo && !result.empty()) {
         it_gun *maybe_gun = dynamic_cast<it_gun *>(result.front().type);
         if (maybe_gun != NULL) {
-            item ammo = item_controller->create(default_ammo(maybe_gun->ammo), birthday);
-            // TODO: change the spawn lists to contain proper references to containers
-            ammo = ammo.in_its_container(&itypes);
-            result.push_back(ammo);
+            const std::string ammoid = default_ammo( maybe_gun->ammo );
+            if ( !ammoid.empty() ) {
+                item ammo( ammoid, birthday );
+                // TODO: change the spawn lists to contain proper references to containers
+                ammo = ammo.in_its_container();
+                result.push_back( ammo );
+            }
         }
     }
     return result;
@@ -314,7 +318,7 @@ item Item_group::create_single(int birthday, RecursionList &rec) const
             return (*a)->create_single(birthday, rec);
         }
     }
-    return item(item_controller->find_template(null_item_id), birthday);
+    return item(null_item_id, birthday);
 }
 
 void Item_group::check_consistency() const

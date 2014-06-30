@@ -16,7 +16,7 @@
 enum dis_type_enum {
  DI_NULL,
 // Diseases
- DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
+ DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS, DI_TETANUS,
 // Monsters
  DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_BLEED, DI_SHAKES,
@@ -26,7 +26,7 @@ enum dis_type_enum {
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
-  DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
+  DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Martial Arts
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
@@ -65,6 +65,7 @@ void game::init_diseases() {
     disease_type_lookup["tapeworm"] = DI_TAPEWORM;
     disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
     disease_type_lookup["brainworm"] = DI_BRAINWORM;
+    disease_type_lookup["tetanus"] = DI_TETANUS;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
@@ -77,6 +78,7 @@ void game::init_diseases() {
     disease_type_lookup["webbed"] = DI_WEBBED;
     disease_type_lookup["rat"] = DI_RAT;
     disease_type_lookup["drunk"] = DI_DRUNK;
+    disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["hallu"] = DI_HALLU;
@@ -107,66 +109,69 @@ void game::init_diseases() {
     disease_type_lookup["grabbed"] = DI_GRABBED;
 }
 
-void dis_msg(dis_type type_string) {
+bool dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
     case DI_COMMON_COLD:
-        add_msg(_("You feel a cold coming on..."));
+        add_msg(m_bad, _("You feel a cold coming on..."));
         g->u.add_memorial_log(pgettext("memorial_male", "Caught a cold."),
                               pgettext("memorial_female", "Caught a cold."));
         break;
     case DI_FLU:
-        add_msg(_("You feel a flu coming on..."));
+        add_msg(m_bad, _("You feel a flu coming on..."));
         g->u.add_memorial_log(pgettext("memorial_male", "Caught the flu."),
                               pgettext("memorial_female", "Caught the flu."));
         break;
     case DI_SAP:
-        add_msg(_("You're coated in sap!"));
+        add_msg(m_bad, _("You're coated in sap!"));
         break;
     case DI_SLIMED:
-        add_msg(_("You're covered in thick goo!"));
+        add_msg(m_bad, _("You're covered in thick goo!"));
         break;
     case DI_FORMICATION:
-        add_msg(_("Your skin feels extremely itchy!"));
+        add_msg(m_bad, _("Your skin feels extremely itchy!"));
         break;
     case DI_WEBBED:
-        add_msg(_("You're covered in webs!"));
+        add_msg(m_bad, _("You're covered in webs!"));
         break;
     case DI_DRUNK:
     case DI_HIGH:
     case DI_WEED_HIGH:
-        add_msg(_("You feel lightheaded."));
+        add_msg(m_warning, _("You feel lightheaded."));
         break;
     case DI_ADRENALINE:
-        add_msg(_("You feel a surge of adrenaline!"));
+        add_msg(m_good, _("You feel a surge of adrenaline!"));
         break;
     case DI_JETINJECTOR:
         add_msg(_("You feel a rush as the chemicals flow through your body!"));
         break;
     case DI_ASTHMA:
-        add_msg(_("You can't breathe... asthma attack!"));
+        add_msg(m_bad, _("You can't breathe... asthma attack!"));
         break;
     case DI_AMIGARA:
-        add_msg(_("You can't look away from the faultline..."));
+        add_msg(m_bad, _("You can't look away from the faultline..."));
         break;
     case DI_STEMCELL_TREATMENT:
-        add_msg(_("You receive a pureed bone & enamel injection into your eyeball."));
+        add_msg(m_good, _("You receive a pureed bone & enamel injection into your eyeball."));
         if (!(g->u.has_trait("NOPAIN"))) {
-            add_msg(_("It is excruciating."));
+            add_msg(m_bad, _("It is excruciating."));
         }
         break;
     case DI_CONTACTS:
-        add_msg(_("You can see more clearly."));
+        add_msg(m_good, _("You can see more clearly."));
         break;
     case DI_LACKSLEEP:
-        add_msg(_("You are too tired to function well."));
+        add_msg(m_warning, _("You are too tired to function well."));
         break;
     case DI_GRABBED:
-        add_msg(_("You have been grabbed."));
+        add_msg(m_bad, _("You have been grabbed."));
         break;
     default:
+        return false;
         break;
     }
+
+    return true;
 }
 
 void weed_msg(player *p) {
@@ -294,7 +299,7 @@ void dis_end_msg(player &p, disease &dis)
 {
     switch (disease_type_lookup[dis.type]) {
     case DI_CONTACTS:
-        p.add_msg_if_player(_("Your vision starts to blur."));
+        p.add_msg_if_player(m_bad, _("Your vision starts to blur."));
         break;
     default:
         break;
@@ -403,7 +408,7 @@ void dis_effect(player &p, disease &dis)
             if (p.will_vomit(2100)) {
                 p.vomit();
             } else if (one_in(4800)) {
-                p.add_msg_if_player(_("You gag and retch."));
+                p.add_msg_if_player(m_bad, _("You gag and retch."));
             }
             break;
 
@@ -412,10 +417,10 @@ void dis_effect(player &p, disease &dis)
             for (int i = 0; i < num_hp_parts; i++) {
                 if (one_in(6)) {
                     if (p.hp_cur[i] < rng(0, 40)) {
-                        add_msg(_("Your bones feel like rubber as they melt and remend."));
+                        add_msg(m_good, _("Your bones feel like rubber as they melt and remend."));
                         p.hp_cur[i]+= rng(1,8);
                     } else if (p.hp_cur[i] > rng(10, 2000)) {
-                        add_msg(_("Your bones feel like they're crumbling."));
+                        add_msg(m_bad, _("Your bones feel like they're crumbling."));
                         p.hp_cur[i] -= rng(0,8);
                     }
                 }
@@ -436,6 +441,12 @@ void dis_effect(player &p, disease &dis)
 
         case DI_DRUNK:
             handle_alcohol(p, dis);
+            break;
+            
+        case DI_VALIUM:
+            if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
+                p.stim--;
+            }
             break;
 
         case DI_CIG:
@@ -468,8 +479,8 @@ void dis_effect(player &p, disease &dis)
             // on the wound or otherwise suppressing the flow. (Kits contain either
             // quikclot or bandages per the recipe.)
             if ( (one_in(6 / dis.intensity)) && (!(p.activity.type == ACT_FIRSTAID)) ) {
-                p.add_msg_player_or_npc(_("You lose some blood."),
-                                         _("<npcname> loses some blood.") );
+                p.add_msg_player_or_npc(m_bad, _("You lose some blood."),
+                                               _("<npcname> loses some blood.") );
                 p.mod_pain(1);
                 p.hurt(dis.bp, dis.side == -1 ? 0 : dis.side, 1);
                 p.mod_per_bonus(-1);
@@ -477,7 +488,6 @@ void dis_effect(player &p, disease &dis)
                 g->m.add_field(p.posx, p.posy, p.playerBloodType(), 1);
             }
             break;
-
         case DI_TAPEWORM:
             if (p.has_trait("PARAIMMUNE") || p.has_trait("EATHEALTH")) {
                p.rem_disease("tapeworm");
@@ -485,6 +495,23 @@ void dis_effect(player &p, disease &dis)
                 if(one_in(512)) {
                     p.hunger++;
                 }
+            }
+            break;
+
+        case DI_TETANUS:
+            if (p.has_trait("INFIMMUNE")) {
+               p.rem_disease("tetanus");
+            }
+            if (!p.has_disease("valium")) {
+            p.mod_dex_bonus(-4);
+            if (one_in(512)) {
+                add_msg(m_bad, "Your muscles spasm.");
+                p.add_effect("downed",rng(1,4));
+                p.add_effect("stunned",rng(1,4));
+                if (one_in(10)) {
+                    p.mod_pain(rng(1, 10));
+                }
+            }
             }
             break;
 
@@ -503,14 +530,14 @@ void dis_effect(player &p, disease &dis)
                p.rem_disease("brainworm");
             } else {
                 if((one_in(512)) && (!p.has_trait("NOPAIN"))) {
-                    add_msg(_("Your head hurts."));
+                    add_msg(m_bad, _("Your head hurts."));
                     p.mod_pain(rng(2, 8));
                 }
                 if(one_in(1024)) {
                     p.mod_healthy_mod(-10);
                     p.hurt(bp_head, -1, rng(0, 1));
                     if (!p.has_disease("visuals")) {
-                    add_msg(_("Your vision is getting fuzzy."));
+                    add_msg(m_bad, _("Your vision is getting fuzzy."));
                     p.add_disease("visuals", rng(10, 600));
                   }
                 }
@@ -518,7 +545,7 @@ void dis_effect(player &p, disease &dis)
                     p.mod_healthy_mod(-10);
                     p.hurt(bp_head, -1, rng(1, 2));
                     if (!p.has_effect("blind")) {
-                    p.add_msg_if_player(_("You can't see!"));
+                    p.add_msg_if_player(m_bad, _("You can't see!"));
                     p.add_effect("blind", rng(5, 20));
                   }
                 }
@@ -530,7 +557,7 @@ void dis_effect(player &p, disease &dis)
                p.rem_disease("paincysts");
             } else {
                 if((one_in(256)) && (!p.has_trait("NOPAIN"))) {
-                    add_msg(_("Your joints ache."));
+                    add_msg(m_bad, _("Your joints ache."));
                     p.mod_pain(rng(1, 4));
                 }
                 if(one_in(256)) {
@@ -540,6 +567,9 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_SHAKES:
+            if (p.has_disease("valium")) {
+               p.rem_disease("shakes");
+            }
             p.mod_dex_bonus(-4);
             p.mod_str_bonus(-1);
             break;
@@ -574,7 +604,7 @@ void dis_effect(player &p, disease &dis)
                     p.vomit();
                     dis.duration -= 10;
                 } else {
-                    add_msg(_("You feel nauseous!"));
+                    add_msg(m_bad, _("You feel nauseous!"));
                     dis.duration += 3;
                 }
             }
@@ -585,7 +615,7 @@ void dis_effect(player &p, disease &dis)
             p.mod_str_bonus(-(int(dis.intensity / 3)));
             if (x_in_y(dis.intensity, 100 + 50 * p.get_int())) {
                 if (!p.is_npc()) {
-                     add_msg(_("You start scratching your %s!"),
+                     add_msg(m_warning, _("You start scratching your %s!"),
                                               body_part_name(dis.bp, dis.side).c_str());
                      g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
@@ -610,7 +640,7 @@ void dis_effect(player &p, disease &dis)
                 p.mod_per_bonus(1);
             } else if (dis.duration == 150) {
                 // 15 minutes come-down
-                p.add_msg_if_player(_("Your adrenaline rush wears off.  You feel AWFUL!"));
+                p.add_msg_if_player(m_bad, _("Your adrenaline rush wears off.  You feel AWFUL!"));
             } else {
                 p.mod_str_bonus(-2);
                 p.mod_dex_bonus(-1);
@@ -627,7 +657,7 @@ void dis_effect(player &p, disease &dis)
                 p.mod_per_bonus(1);
             } else if (dis.duration == 50) {
                 // 5 minutes come-down
-                p.add_msg_if_player(_("The jet injector's chemicals wear off.  You feel AWFUL!"));
+                p.add_msg_if_player(m_bad, _("The jet injector's chemicals wear off.  You feel AWFUL!"));
             } else {
                 p.mod_str_bonus(-1);
                 p.mod_dex_bonus(-2);
@@ -638,13 +668,13 @@ void dis_effect(player &p, disease &dis)
 
         case DI_ASTHMA:
             if (dis.duration > 1200) {
-                p.add_msg_if_player(_("Your asthma overcomes you.\nYou asphyxiate."));
+                p.add_msg_if_player(m_bad, _("Your asthma overcomes you.\nYou asphyxiate."));
                 g->u.add_memorial_log(pgettext("memorial_male", "Succumbed to an asthma attack."),
                                       pgettext("memorial_female", "Succumbed to an asthma attack."));
                 p.hurtall(500);
             } else if (dis.duration > 700) {
                 if (one_in(20)) {
-                    p.add_msg_if_player(_("You wheeze and gasp for air."));
+                    p.add_msg_if_player(m_bad, _("You wheeze and gasp for air."));
                 }
             }
             p.mod_str_bonus(-2);
@@ -670,20 +700,20 @@ void dis_effect(player &p, disease &dis)
                 p.mod_int_bonus(-1);
                 p.mod_per_bonus(-2);
                 if (one_in(150)) {
-                    p.add_msg_if_player(_("You feel paranoid. They're watching you."));
+                    p.add_msg_if_player(m_bad, _("You feel paranoid. They're watching you."));
                     p.mod_pain(1);
                     p.fatigue += dice(1,6);
                 } else if (one_in(500)) {
-                    p.add_msg_if_player(_("You feel like you need less teeth. You pull one out, and it is rotten to the core."));
+                    p.add_msg_if_player(m_bad, _("You feel like you need less teeth. You pull one out, and it is rotten to the core."));
                     p.mod_pain(1);
                 } else if (one_in(500)) {
-                    p.add_msg_if_player(_("You notice a large abscess. You pick at it."));
+                    p.add_msg_if_player(m_bad, _("You notice a large abscess. You pick at it."));
                     body_part bp = random_body_part(true);
                     int side = random_side(bp);
                     p.add_disease("formication", 600, false, 1, 3, 0, 1, bp, side, true);
                     p.mod_pain(1);
                 } else if (one_in(500)) {
-                    p.add_msg_if_player(_("You feel so sick, like you've been poisoned, but you need more. So much more."));
+                    p.add_msg_if_player(m_bad, _("You feel so sick, like you've been poisoned, but you need more. So much more."));
                     p.vomit();
                     p.fatigue += dice(1,6);
                 }
@@ -728,7 +758,7 @@ void dis_effect(player &p, disease &dis)
                 }
                 if (one_in(1200 - ((dis.duration - 6000) / 5)) && one_in(20)) {
                     if (!p.is_npc()) {
-                        add_msg(_("You pass out."));
+                        add_msg(m_bad, _("You pass out."));
                     }
                     p.fall_asleep(1200);
                     if (one_in(6)) {
@@ -759,7 +789,7 @@ void dis_effect(player &p, disease &dis)
                         g->add_zombie(beast);
                         if (g->u_see(x, y)) {
                             g->cancel_activity_query(_("A monster appears nearby!"));
-                            add_msg(_("A portal opens nearby, and a monster crawls through!"));
+                            add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                         }
                         if (one_in(2)) {
                             p.rem_disease("teleglow");
@@ -767,18 +797,18 @@ void dis_effect(player &p, disease &dis)
                     }
                 }
                 if (one_in(3500 - int(.25 * (dis.duration - 3600)))) {
-                    p.add_msg_if_player(_("You shudder suddenly."));
+                    p.add_msg_if_player(m_bad, _("You shudder suddenly."));
                     p.mutate();
                     if (one_in(4))
                     p.rem_disease("teleglow");
                 }
             } if (dis.duration > 2400) {
                 // 8 teleports
-                if (one_in(10000 - dis.duration)) {
+                if (one_in(10000 - dis.duration) && !p.has_disease("valium")) {
                     p.add_disease("shakes", rng(40, 80));
                 }
                 if (one_in(12000 - dis.duration)) {
-                    p.add_msg_if_player(_("Your vision is filled with bright lights..."));
+                    p.add_msg_if_player(m_bad, _("Your vision is filled with bright lights..."));
                     p.add_effect("blind", rng(10, 20));
                     if (one_in(8)) {
                         p.rem_disease("teleglow");
@@ -792,7 +822,7 @@ void dis_effect(player &p, disease &dis)
                 }
             }
             if (one_in(4000)) {
-                p.add_msg_if_player(_("You're suddenly covered in ectoplasm."));
+                p.add_msg_if_player(m_bad, _("You're suddenly covered in ectoplasm."));
                 p.add_effect("boomered", 100);
                 if (one_in(4)) {
                     p.rem_disease("teleglow");
@@ -823,7 +853,7 @@ void dis_effect(player &p, disease &dis)
                     g->add_zombie(beast);
                     if (g->u_see(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
-                        add_msg(_("A portal opens nearby, and a monster crawls through!"));
+                        add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
                     }
                     dis.duration /= 4;
                 }
@@ -1079,18 +1109,16 @@ std::string dis_name(disease& dis)
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
-          std::stringstream buf;
-          if (ma_buffs[dis.buff_id].max_stacks > 1) {
             std::stringstream buf;
-            buf << ma_buffs[dis.buff_id].name
-              << " (" << dis.intensity << ")";
-            return buf.str().c_str();
-          } else {
-             buf << ma_buffs[dis.buff_id].name.c_str();
-             return buf.str().c_str();
-          }
+            if (ma_buffs[dis.buff_id].max_stacks > 1) {
+                buf << ma_buffs[dis.buff_id].name << " (" << dis.intensity << ")";
+                return buf.str();
+            } else {
+                buf << ma_buffs[dis.buff_id].name.c_str();
+                return buf.str();
+            }
         } else
-          return "Invalid martial arts buff";
+            return "Invalid martial arts buff";
 
     case DI_LACKSLEEP: return _("Lacking Sleep");
     case DI_GRABBED: return _("Grabbed");
@@ -1323,19 +1351,19 @@ void manage_fungal_infection(player& p, disease& dis)
                 p.cough(true);
             }
             if (one_in(100 + bonus)) {
-                p.add_msg_if_player(_("You feel nauseous."));
+                p.add_msg_if_player(m_warning, _("You feel nauseous."));
             }
             if (one_in(100 + bonus)) {
-                p.add_msg_if_player(_("You smell and taste mushrooms."));
+                p.add_msg_if_player(m_warning, _("You smell and taste mushrooms."));
             }
         } else if (dis.duration > 1) { // Five hours of worse symptoms
             if (one_in(600 + bonus * 3)) {
-                p.add_msg_if_player( _("You spasm suddenly!"));
+                p.add_msg_if_player(m_bad,  _("You spasm suddenly!"));
                 p.moves -= 100;
                 p.hurt(bp_torso, -1, 5);
             }
             if (p.will_vomit(800 + bonus * 4) || one_in(2000 + bonus * 10)) {
-                p.add_msg_player_or_npc(_("You vomit a thick, gray goop."),
+                p.add_msg_player_or_npc(m_bad, _("You vomit a thick, gray goop."),
                                         _("<npcname> vomits a thick, grey goop.") );
 
                 int awfulness = rng(0,70);
@@ -1348,8 +1376,8 @@ void manage_fungal_infection(player& p, disease& dis)
             p.add_disease("fungus", 1, true, 1, 1, 0, -1);
         }
     } else if (one_in(1000 + bonus * 8)) {
-        p.add_msg_player_or_npc( _("You vomit thousands of live spores!"),
-                                _("<npcname> vomits thousands of live spores!") );
+        p.add_msg_player_or_npc(m_bad,  _("You vomit thousands of live spores!"),
+                                        _("<npcname> vomits thousands of live spores!") );
 
         p.moves = -500;
         int sporex, sporey;
@@ -1381,16 +1409,16 @@ void manage_fungal_infection(player& p, disease& dis)
         }
     // we're fucked
     } else if (one_in(6000 + bonus * 20)) {
-        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_l] <= 0) {
-            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_l] <= 0) {
-                p.add_msg_player_or_npc(_("The flesh on your broken arms bulges. Fungus stalks burst through!"),
+        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_r] <= 0) {
+            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_r] <= 0) {
+                p.add_msg_player_or_npc(m_bad, _("The flesh on your broken arms bulges. Fungus stalks burst through!"),
                 _("<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!"));
             } else {
-                p.add_msg_player_or_npc(_("The flesh on your broken arm bulges, your unbroken arm also bulges. Fungus stalks burst through!"),
+                p.add_msg_player_or_npc(m_bad, _("The flesh on your broken arm bulges, your unbroken arm also bulges. Fungus stalks burst through!"),
                 _("<npcname>'s arms bulge. Fungus stalks burst out of the bulges!"));
             }
         } else {
-            p.add_msg_player_or_npc(_("Your hands bulge. Fungus stalks burst through the bulge!"),
+            p.add_msg_player_or_npc(m_bad, _("Your hands bulge. Fungus stalks burst through the bulge!"),
                 _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
         }
         p.hurt(bp_arms, 0, 999);
@@ -1416,7 +1444,7 @@ static void handle_alcohol(player& p, disease& dis)
     }
     bool readyForNap = one_in(500 - int(dis.duration / 80));
     if (!p.has_effect("sleep") && dis.duration >= 4500 && readyForNap) {
-        p.add_msg_if_player(_("You pass out."));
+        p.add_msg_if_player(m_bad, _("You pass out."));
         p.fall_asleep(dis.duration / 2);
     }
 }
@@ -1436,7 +1464,7 @@ static void handle_bite_wound(player& p, disease& dis)
         recover_factor = std::max(recover_factor, 0); // but can't hurt
 
         if ((x_in_y(recover_factor, 108000)) || (p.has_trait("INFIMMUNE"))) {
-            p.add_msg_if_player(_("Your %s wound begins to feel better."),
+            p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());
              //No recovery time threshold
             if (((3601 - dis.duration) > 2400) && (!(p.has_trait("INFIMMUNE")))) {
@@ -1450,7 +1478,7 @@ static void handle_bite_wound(player& p, disease& dis)
     if (dis.duration > 2401) {
         // No real symptoms for 2 hours
         if ((one_in(300)) && (!(p.has_trait("NOPAIN")))) {
-            p.add_msg_if_player(_("Your %s wound really hurts."),
+            p.add_msg_if_player(m_bad, _("Your %s wound really hurts."),
                                  body_part_name(dis.bp, dis.side).c_str());
         }
     } else if (dis.duration > 1) {
@@ -1459,7 +1487,7 @@ static void handle_bite_wound(player& p, disease& dis)
             if (p.has_effect("sleep")) {
                 p.wake_up();
             }
-            p.add_msg_if_player(_("Your %s wound feels swollen and painful."),
+            p.add_msg_if_player(m_bad, _("Your %s wound feels swollen and painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if (p.pain < 10) {
                 p.mod_pain(1);
@@ -1479,7 +1507,7 @@ static void handle_infected_wound(player& p, disease& dis)
     // Recovery chance
     if(int(calendar::turn) % 10 == 1) {
         if(x_in_y(100 + p.get_healthy() / 10, 864000)) {
-            p.add_msg_if_player(_("Your %s wound begins to feel better."),
+            p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if (dis.duration > 8401) {
                 p.add_disease("recover", 3 * (14401 - dis.duration + 3600) - 4800);
@@ -1496,7 +1524,7 @@ static void handle_infected_wound(player& p, disease& dis)
             if (p.has_effect("sleep")) {
                 p.wake_up();
             }
-            p.add_msg_if_player(_("Your %s wound is incredibly painful."),
+            p.add_msg_if_player(m_bad, _("Your %s wound is incredibly painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if(p.pain < 30) {
                 p.mod_pain(1);
@@ -1510,7 +1538,7 @@ static void handle_infected_wound(player& p, disease& dis)
             if (p.has_effect("sleep")) {
                 p.wake_up();
             }
-            p.add_msg_if_player(_("You feel feverish and nauseous, your %s wound has begun to turn green."),
+            p.add_msg_if_player(m_bad, _("You feel feverish and nauseous, your %s wound has begun to turn green."),
                   body_part_name(dis.bp, dis.side).c_str());
             p.vomit();
             if(p.pain < 50) {
@@ -1524,9 +1552,9 @@ static void handle_infected_wound(player& p, disease& dis)
         if (one_in(100)) {
             if (p.has_effect("sleep")) {
                 p.wake_up();
-                p.add_msg_if_player(_("You feel terribly weak, standing up is nearly impossible."));
+                p.add_msg_if_player(m_warning, _("You feel terribly weak, standing up is nearly impossible."));
             } else {
-                p.add_msg_if_player(_("You can barely remain standing."));
+                p.add_msg_if_player(m_warning, _("You can barely remain standing."));
             }
             p.vomit();
             if(p.pain < 100) {
@@ -1536,7 +1564,7 @@ static void handle_infected_wound(player& p, disease& dis)
         p.mod_str_bonus(-3);
         p.mod_dex_bonus(-3);
         if (!p.has_effect("sleep") && one_in(100)) {
-            add_msg(_("You pass out."));
+            add_msg(m_bad, _("You pass out."));
             p.fall_asleep(60);
         }
     } else {
@@ -1544,7 +1572,7 @@ static void handle_infected_wound(player& p, disease& dis)
         if (p.has_effect("sleep")) {
             p.remove_effect("sleep");
         }
-        add_msg(_("You succumb to the infection."));
+        add_msg(m_bad, _("You succumb to the infection."));
         g->u.add_memorial_log(pgettext("memorial_male", "Succumbed to the infection."),
                               pgettext("memorial_female", "Succumbed to the infection."));
         p.hurtall(500);
@@ -1557,9 +1585,9 @@ static void handle_recovery(player& p, disease& dis)
         if (one_in(100)) {
             if (p.has_effect("sleep")) {
                 p.wake_up();
-                p.add_msg_if_player(_("You feel terribly weak, standing up is nearly impossible."));
+                p.add_msg_if_player(m_warning, _("You feel terribly weak, standing up is nearly impossible."));
             } else {
-                p.add_msg_if_player(_("You can barely remain standing."));
+                p.add_msg_if_player(m_warning, _("You can barely remain standing."));
             }
             p.vomit();
             if(p.pain < 80) {
@@ -1569,7 +1597,7 @@ static void handle_recovery(player& p, disease& dis)
         p.mod_str_bonus(-3);
         p.mod_dex_bonus(-3);
         if (!p.has_effect("sleep") && one_in(100)) {
-            add_msg(_("You pass out."));
+            add_msg(m_bad, _("You pass out."));
             p.fall_asleep(60);
         }
     } else if (dis.duration > 33600) {
@@ -1577,7 +1605,7 @@ static void handle_recovery(player& p, disease& dis)
             if (p.has_effect("sleep")) {
                 p.wake_up();
             }
-            p.add_msg_if_player(_("You feel feverish and nauseous."));
+            p.add_msg_if_player(m_bad, _("You feel feverish and nauseous."));
             p.vomit();
             if(p.pain < 40) {
                 p.mod_pain(1);
@@ -1590,7 +1618,7 @@ static void handle_recovery(player& p, disease& dis)
             if (p.has_effect("sleep")) {
                 p.wake_up();
             }
-            p.add_msg_if_player(_("Your healing wound is incredibly painful."));
+            p.add_msg_if_player(m_bad, _("Your healing wound is incredibly painful."));
             if(p.pain < 24) {
                 p.mod_pain(1);
             }
@@ -1602,7 +1630,7 @@ static void handle_recovery(player& p, disease& dis)
             if (p.has_effect("sleep")) {
                 p.wake_up();
             }
-            p.add_msg_if_player(_("Your healing wound feels swollen and painful."));
+            p.add_msg_if_player(m_bad, _("Your healing wound feels swollen and painful."));
             if(p.pain < 8) {
                 p.mod_pain(1);
             }
@@ -1623,21 +1651,21 @@ static void handle_deliriant(player& p, disease& dis)
     int comedownTime = int(maxDuration*0.3);
     // Baseline
     if (dis.duration == noticeTime) {
-        p.add_msg_if_player(_("You feel a little strange."));
+        p.add_msg_if_player(m_warning, _("You feel a little strange."));
     } else if (dis.duration == comeupTime) {
         // Coming up
         if (one_in(2)) {
-            p.add_msg_if_player(_("The world takes on a dreamlike quality."));
+            p.add_msg_if_player(m_warning, _("The world takes on a dreamlike quality."));
         } else if (one_in(3)) {
-            p.add_msg_if_player(_("You have a sudden nostalgic feeling."));
+            p.add_msg_if_player(m_warning, _("You have a sudden nostalgic feeling."));
         } else if (one_in(5)) {
-            p.add_msg_if_player(_("Everything around you is starting to breathe."));
+            p.add_msg_if_player(m_warning, _("Everything around you is starting to breathe."));
         } else {
-            p.add_msg_if_player(_("Something feels very, very wrong."));
+            p.add_msg_if_player(m_warning, _("Something feels very, very wrong."));
         }
     } else if (dis.duration > peakTime && dis.duration < comeupTime) {
         if ((one_in(200) || p.will_vomit(50)) && !puked) {
-            p.add_msg_if_player(_("You feel sick to your stomach."));
+            p.add_msg_if_player(m_bad, _("You feel sick to your stomach."));
             p.hunger -= 2;
             if (one_in(6)) {
                 p.vomit();
@@ -1671,7 +1699,7 @@ static void handle_deliriant(player& p, disease& dis)
         }
     } else if (dis.duration == peakTime) {
         // Visuals start
-        p.add_msg_if_player(_("Fractal patterns dance across your vision."));
+        p.add_msg_if_player(m_bad, _("Fractal patterns dance across your vision."));
         p.add_disease("visuals", peakTime - comedownTime);
     } else if (dis.duration > comedownTime && dis.duration < peakTime) {
         // Full symptoms
@@ -1697,22 +1725,29 @@ static void handle_evil(player& p, disease& dis)
     bool lesserEvil = false;  // Worn or wielded; diminished effects
     if (p.weapon.is_artifact() && p.weapon.is_tool()) {
         it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-        for (size_t i = 0; i < tool->effects_carried.size(); i++) {
-            if (tool->effects_carried[i] == AEP_EVIL) {
+        for (std::vector<art_effect_passive>::iterator it =
+                 tool->effects_carried.begin();
+             it != tool->effects_carried.end(); ++it) {
+            if (*it == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
-        for (size_t i = 0; i < tool->effects_wielded.size(); i++) {
-            if (tool->effects_wielded[i] == AEP_EVIL) {
+        for (std::vector<art_effect_passive>::iterator it =
+                 tool->effects_wielded.begin();
+             it != tool->effects_wielded.end(); ++it) {
+            if (*it == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
     }
-    for (size_t i = 0; !lesserEvil && i < p.worn.size(); i++) {
-        if (p.worn[i].is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-            for (size_t j = 0; j < armor->effects_worn.size(); j++) {
-                if (armor->effects_worn[j] == AEP_EVIL) {
+    for (std::vector<item>::iterator it = p.worn.begin();
+         !lesserEvil && it != p.worn.end(); ++it) {
+        if (it->is_artifact()) {
+            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(it->type);
+            for (std::vector<art_effect_passive>::iterator effect =
+                     armor->effects_worn.begin();
+                 effect != armor->effects_worn.end(); ++effect) {
+                if (*effect == AEP_EVIL) {
                     lesserEvil = true;
                 }
             }
@@ -1755,7 +1790,7 @@ static void handle_insect_parasites(player& p, disease& dis)
         int num_insects = rng(1, std::min(3, p.str_max / 3));
         p.hurt(dis.bp, dis.side, rng(2, 4) * num_insects);
         // Figure out where they may be placed
-        p.add_msg_player_or_npc( _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
+        p.add_msg_player_or_npc( m_bad, _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
             _("Insects begin to emerge from <npcname>'s skin!") );
         monster grub(GetMType("mon_dermatik_larva"));
         for (int i = p.posx - 1; i <= p.posx + 1; i++) {

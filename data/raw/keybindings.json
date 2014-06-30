@@ -559,7 +559,7 @@
         "type" : "keybinding",
         "id": "QUIT",
         "category": "WORLDGEN_CONFIRM_DIALOG",
-        "name": "Exit screen",
+        "name": "Exit worldgen screen",
         "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
         "bindings":[
             {
@@ -618,35 +618,7 @@
     {
         "type" : "keybinding",
         "id":"QUIT",
-        "category":"OVERMAP",
-        "name":"Exit Screen",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"ESC"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"q"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"Q"
-            },
-            {
-                "input_method":"keyboard",
-                "key":" "
-            },
-            {
-                "input_method":"gamepad",
-                "key":"JOY_3"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"QUIT",
-        "name":"Exit Screen",
+        "name":"Exit screen",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -749,23 +721,11 @@
     {
         "type" : "keybinding",
         "id":"SEC_SELECT",
-        "name":"Select",
+        "name":"Secondary Select",
         "bindings":[
             {
                 "input_method":"mouse",
                 "key":"MOUSE_RIGHT"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"SELECT",
-        "name":"Select",
-        "category":"LOOK",
-        "bindings":[
-            {
-                "input_method":"mouse",
-                "key":"MOUSE_LEFT"
             }
         ]
     },
@@ -838,12 +798,48 @@
     },
     {
         "type" : "keybinding",
+        "id": "HELP",
+        "category": "CARAVAN",
+        "name": "Display Help",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "CHANGE_GENDER",
         "name": "Change gender",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SAVE_TEMPLATE",
+        "category": "DEFENSE_SETUP",
+        "name": "Save template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"!"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "START",
+        "category": "DEFENSE_SETUP",
+        "name": "Start",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"S"
             }
         ]
     },
@@ -917,6 +913,15 @@
         "name": "Remove part",
         "bindings":[
             { "input_method":"keyboard", "key":"o" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RENAME",
+        "category": "VEH_INTERACT",
+        "name": "Rename vehicle",
+        "bindings":[
+            { "input_method":"keyboard", "key":"e" }
         ]
     },
     {
@@ -1086,6 +1091,13 @@
     },
     {
         "type" : "keybinding",
+        "id": "CATEGORY_SELECTION",
+        "category": "INVENTORY",
+        "name": "Toggle category selection mode",
+        "bindings":[ { "input_method":"keyboard", "key":"TAB" } ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toogle activate/examine",
@@ -1114,6 +1126,7 @@
     { "type":"keybinding", "name": "Look Around", "category":"DEFAULTMODE", "id":"look", "bindings":[ { "input_method":"keyboard", "key":";" }, { "input_method":"keyboard", "key":"x" } ] },
     { "type":"keybinding", "name": "Peek Around Corners", "category":"DEFAULTMODE", "id":"peek", "bindings":[ { "input_method":"keyboard", "key":"X" } ] },
     { "type":"keybinding", "name": "List all items around the player", "category":"DEFAULTMODE", "id":"listitems", "bindings":[ { "input_method":"keyboard", "key":"V" } ] },
+    { "type":"keybinding", "name": "Manage zones", "category":"DEFAULTMODE", "id":"zones", "bindings":[ { "input_method":"keyboard", "key":"Y" } ] },
     { "type":"keybinding", "name": "Open Inventory", "category":"DEFAULTMODE", "id":"inventory", "bindings":[ { "input_method":"keyboard", "key":"i" } ] },
     { "type":"keybinding", "name": "Compare two Items", "category":"DEFAULTMODE", "id":"compare", "bindings":[ { "input_method":"keyboard", "key":"I" } ] },
     { "type":"keybinding", "name": "Swap Inventory Letters", "category":"DEFAULTMODE", "id":"organize", "bindings":[ { "input_method":"keyboard", "key":"=" } ] },
@@ -1296,30 +1309,6 @@
     },
     {
         "type" : "keybinding",
-        "id":"SCROLL_UP",
-        "category":"HELP_KEYBINDINGS",
-        "name":"Scroll up",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"UP"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"SCROLL_DOWN",
-        "category":"HELP_KEYBINDINGS",
-        "name":"Scroll down",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"DOWN"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id":"REMOVE",
         "category":"HELP_KEYBINDINGS",
         "name":"Remove bindings",
@@ -1351,6 +1340,90 @@
             {
                 "input_method":"keyboard",
                 "key":"="
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ADD_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Add zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Remove zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ZONE_UP",
+        "category": "ZONES_MANAGER",
+        "name": "Move zone up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ZONE_DOWN",
+        "category": "ZONES_MANAGER",
+        "name": "Move zone down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SHOW_ZONE_ON_MAP",
+        "category": "ZONES_MANAGER",
+        "name": "Show zone on map",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ENABLE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Enable zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DISABLE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Disable zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
             }
         ]
     }

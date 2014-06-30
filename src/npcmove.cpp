@@ -1056,10 +1056,8 @@ void npc::move_to(int x, int y)
             moves -= 100;
         } else if (g->m.has_flag("BASHABLE", x, y)) {
             moves -= 110;
-            std::string bashsound;
             int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
-            g->m.bash(x, y, smashskill, bashsound);
-            g->sound(x, y, 18, bashsound);
+            g->m.bash( x, y, smashskill );
         } else {
             int frubble = g->m.get_field_strength( point(x, y), fd_rubble );
             if (frubble > 0 ) {
@@ -1729,10 +1727,10 @@ void npc::activate_item(char invlet)
     item *it = &(inv.item_by_letter(invlet));
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
-        tool->use.call(this, it, false);
+        tool->invoke(this, it, false);
     } else if (it->is_food()) {
         it_comest *comest = dynamic_cast<it_comest *>(it->type);
-        comest->use.call(this, it, false);
+        comest->invoke(this, it, false);
     }
 }
 
@@ -1785,9 +1783,9 @@ void npc::heal_player(player &patient)
                 add_msg(_("Someone heals %s."), patient.name.c_str());
             }
         } else if (u_see_me) {
-            add_msg(_("%s heals you."), name.c_str());
+            add_msg(m_good, _("%s heals you."), name.c_str());
         } else {
-            add_msg(_("Someone heals you."));
+            add_msg(m_good, _("Someone heals you."));
         }
 
         int amount_healed = 0;
@@ -1899,7 +1897,7 @@ void npc::use_painkiller()
         move_pause();
     } else {
         if (g->u_see(posx, posy)) {
-            add_msg(_("%s takes some %s."), name.c_str(), it->name.c_str());
+            add_msg(_("%s takes some %s."), name.c_str(), it->tname().c_str());
         }
         consume(inv.position_by_item(it));
         moves = 0;
@@ -1978,9 +1976,9 @@ void npc::mug_player(player &mark)
                 }
             } else {
                 if (u_see_me) {
-                    add_msg(_("%s takes your money!"), name.c_str());
+                    add_msg(m_bad, _("%s takes your money!"), name.c_str());
                 } else {
-                    add_msg(_("Someone takes your money!"));
+                    add_msg(m_bad, _("Someone takes your money!"));
                 }
             }
         } else { // We already have their money; take some goodies!
@@ -2029,10 +2027,10 @@ void npc::mug_player(player &mark)
                                                           mark.name.c_str(), stolen.tname().c_str());
                 } else {
                     if (u_see_me) {
-                        add_msg(_("%s takes your %s."),
+                        add_msg(m_bad, _("%s takes your %s."),
                                                           name.c_str(), stolen.tname().c_str());
                     } else {
-                        add_msg(_("Someone takes your %s."),
+                        add_msg(m_bad, _("Someone takes your %s."),
                                                           stolen.tname().c_str());
                     }
                 }

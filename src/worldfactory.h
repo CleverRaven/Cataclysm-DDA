@@ -9,18 +9,19 @@
 #include "gamemode.h"
 
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <string>
 #include <algorithm>
 
-extern std::map<std::string, cOpt> OPTIONS;
-extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern std::unordered_map<std::string, cOpt> OPTIONS;
+extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 
 struct WORLD
 {
     std::string world_path;
     std::string world_name;
-    std::map<std::string, cOpt> world_options;
+    std::unordered_map<std::string, cOpt> world_options;
     std::vector<std::string> world_saves;
     /**
      * A (possibly empty) list of (idents of) mods that
@@ -74,8 +75,8 @@ class worldfactory
         void draw_modselection_borders(WINDOW *win);
         void draw_worldgen_tabs(WINDOW *win, unsigned int current, std::vector<std::string> tabs);
 
-        std::map<std::string, cOpt> get_default_world_options();
-        std::map<std::string, cOpt> get_world_options(std::string path);
+        std::unordered_map<std::string, cOpt> get_default_world_options();
+        std::unordered_map<std::string, cOpt> get_world_options(std::string path);
         mod_manager *mman;
         mod_ui *mman_ui;
 };

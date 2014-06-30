@@ -26,7 +26,7 @@ void mdefense::zapback(monster *m, const projectile* proj)
         damage_instance shock;
         shock.add_damage(DT_ELECTRIC, rng(1,5));
         g->u.deal_damage(m, bp_arms, 1, shock);
-        add_msg(("Striking the %s shocks you!"), m->name().c_str());
+        add_msg(m_bad, ("Striking the %s shocks you!"), m->name().c_str());
         }
     return;
 }

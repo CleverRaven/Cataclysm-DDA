@@ -370,7 +370,7 @@
             "tec_silat_dirty"
         ],
         "weapons" : [
-            "baton",
+            "baton-extended",
             "bio_blade_weapon",
             "bowling_pin",
             "cudgel",
@@ -393,6 +393,7 @@
             "pipe",
             "pointy_stick",
             "pool_cue",
+            "PR24-extended",
             "primitive_knife",
             "q_staff",
             "rebar",
@@ -482,7 +483,7 @@
         ],
         "weapons" : [
             "2x4",
-            "baton",
+            "baton-extended",
             "bee_sting",
             "bio_blade_weapon",
             "bowling_pin",
@@ -668,7 +669,7 @@
         "type" : "martial_art",
         "id" : "style_centipede",
         "name" : "Centipede Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increase your speed by 4.",
+        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your speed by 4.",
         "arm_block" : 3,
         "onhit_buffs" : [
             {

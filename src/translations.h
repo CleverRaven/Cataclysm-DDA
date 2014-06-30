@@ -11,6 +11,7 @@
  #endif
 #endif
 
+#include <string>
 #include <cstdio>
 #include <libintl.h>
 #include <clocale>

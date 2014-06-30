@@ -238,9 +238,7 @@ class cata_tiles
         void draw_hit_frame();
         void void_hit();
 
-        void init_draw_footsteps(std::queue<point> steps);
         void draw_footsteps_frame();
-        void void_footsteps();
 
         // pseudo-animated layer, not really though.
         void init_draw_line(int x, int y, std::vector<point> trajectory, std::string line_end_name, bool target_line);
@@ -250,6 +248,14 @@ class cata_tiles
         void init_draw_weather(weather_printable weather, std::string name);
         void draw_weather_frame();
         void void_weather();
+
+        void init_draw_sct();
+        void draw_sct_frame();
+        void void_sct();
+
+        void init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void draw_zones_frame();
+        void void_zones();
 
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
@@ -287,7 +293,8 @@ class cata_tiles
         bool do_draw_hit;
         bool do_draw_line;
         bool do_draw_weather;
-        bool do_draw_footsteps;
+        bool do_draw_sct;
+        bool do_draw_zones;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -305,7 +312,9 @@ class cata_tiles
         weather_printable anim_weather;
         std::string weather_name;
 
-        std::queue<point> footsteps;
+        point pStartZone;
+        point pEndZone;
+        point pZoneOffset;
 
         // offset values, in tile coordinates, not pixels
         int o_x, o_y;

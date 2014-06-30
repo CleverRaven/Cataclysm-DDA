@@ -60,8 +60,10 @@ void player::mutate()
             // ...consider the mutations that replace it.
             for (size_t i = 0; i < mutation_data[base_mutation].replacements.size(); i++) {
                 std::string mutation = mutation_data[base_mutation].replacements[i];
+                bool valid_ok = mutation_data[mutation].valid;
 
-                if (mutation_ok(mutation, force_good, force_bad)) {
+                if ( (mutation_ok(mutation, force_good, force_bad)) &&
+                  (valid_ok) ) {
                     upgrades.push_back(mutation);
                 }
             }
@@ -69,8 +71,10 @@ void player::mutate()
             // ...consider the mutations that add to it.
             for (size_t i = 0; i < mutation_data[base_mutation].additions.size(); i++) {
                 std::string mutation = mutation_data[base_mutation].additions[i];
+                bool valid_ok = mutation_data[mutation].valid;
 
-                if (mutation_ok(mutation, force_good, force_bad)) {
+                if ( (mutation_ok(mutation, force_good, force_bad)) &&
+                  (valid_ok) ) {
                     upgrades.push_back(mutation);
                 }
             }
@@ -147,7 +151,8 @@ void player::mutate()
         // Remove anything we already have, that we have a child of, or that
         // goes against our intention of a good/bad mutation
         for (size_t i = 0; i < valid.size(); i++) {
-            if (!mutation_ok(valid[i], force_good, force_bad)) {
+            if ( (!mutation_ok(valid[i], force_good, force_bad)) ||
+              (!(mutation_data[valid[i]].valid)) ) {
                 valid.erase(valid.begin() + i);
                 i--;
             }
@@ -325,8 +330,19 @@ void player::mutate_towards(std::string mut)
 
     bool mutation_replaced = false;
 
+    game_message_type rating;
+
     if (replacing != "") {
-        add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
+        if(traits[mut].mixed_effect || traits[replacing].mixed_effect) {
+            rating = m_mixed;
+        } else if(traits[replacing].points - traits[mut].points < 0) {
+            rating = m_good;
+        } else if(traits[mut].points - traits[replacing].points < 0) {
+            rating = m_bad;
+        } else {
+            rating = m_neutral;
+        }
+        add_msg(rating, _("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","'%s' mutation turned into '%s'"),
             pgettext("memorial_female", "'%s' mutation turned into '%s'"),
             traits[replacing].name.c_str(), traits[mut].name.c_str());
@@ -336,7 +352,16 @@ void player::mutate_towards(std::string mut)
         mutation_replaced = true;
     }
     if (replacing2 != "") {
-        add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing2].name.c_str(), traits[mut].name.c_str());
+        if(traits[mut].mixed_effect || traits[replacing2].mixed_effect) {
+            rating = m_mixed;
+        } else if(traits[replacing2].points - traits[mut].points < 0) {
+            rating = m_good;
+        } else if(traits[mut].points - traits[replacing2].points < 0) {
+            rating = m_bad;
+        } else {
+            rating = m_neutral;
+        }
+        add_msg(rating, _("Your %1$s mutation turns into %2$s!"), traits[replacing2].name.c_str(), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","'%s' mutation turned into '%s'"),
             pgettext("memorial_female", "'%s' mutation turned into '%s'"),
             traits[replacing2].name.c_str(), traits[mut].name.c_str());
@@ -346,8 +371,19 @@ void player::mutate_towards(std::string mut)
         mutation_replaced = true;
     }
     if (canceltrait != "") {
+        if(traits[mut].mixed_effect || traits[canceltrait].mixed_effect) {
+            rating = m_mixed;
+        } else if(traits[mut].points <= 0 && traits[canceltrait].points > 0) {
+            rating = m_good;
+        } else if(traits[mut].points > 0 && traits[canceltrait].points <= 0) {
+            rating = m_bad;
+        } else if(traits[mut].points == 0 && traits[canceltrait].points == 0) {
+            rating = m_neutral;
+        } else {
+            rating = m_mixed;
+        }
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-        add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
+        add_msg(rating, _("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","'%s' mutation turned into '%s'"),
             pgettext("memorial_female", "'%s' mutation turned into '%s'"),
             traits[canceltrait].name.c_str(), traits[mut].name.c_str());
@@ -357,7 +393,16 @@ void player::mutate_towards(std::string mut)
         mutation_replaced = true;
     }
     if (!mutation_replaced) {
-        add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
+        if(traits[mut].mixed_effect) {
+            rating = m_mixed;
+        } else if(traits[mut].points > 0) {
+            rating = m_good;
+        } else if(traits[mut].points < 0) {
+            rating = m_bad;
+        } else {
+            rating = m_neutral;
+        }
+        add_msg(rating, _("You gain a mutation called %s!"), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","Gained the mutation '%s'."),
             pgettext("memorial_female", "Gained the mutation '%s'."),
             traits[mut].name.c_str());
@@ -454,8 +499,19 @@ void player::remove_mutation(std::string mut)
 
     bool mutation_replaced = false;
 
+    game_message_type rating;
+
     if (replacing != "") {
-        add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
+        if(traits[mut].mixed_effect || traits[replacing].mixed_effect) {
+            rating = m_mixed;
+        } else if(traits[replacing].points - traits[mut].points > 0) {
+            rating = m_good;
+        } else if(traits[mut].points - traits[replacing].points > 0) {
+            rating = m_bad;
+        } else {
+            rating = m_neutral;
+        }
+        add_msg(rating, _("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
                    traits[replacing].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(*this, mut);
@@ -463,7 +519,16 @@ void player::remove_mutation(std::string mut)
         mutation_replaced = true;
     }
     if (replacing2 != "") {
-        add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
+        if(traits[mut].mixed_effect || traits[replacing2].mixed_effect) {
+            rating = m_mixed;
+        } else if(traits[replacing2].points - traits[mut].points > 0) {
+            rating = m_good;
+        } else if(traits[mut].points - traits[replacing2].points > 0) {
+            rating = m_bad;
+        } else {
+            rating = m_neutral;
+        }
+        add_msg(rating, _("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
                    traits[replacing2].name.c_str());
         toggle_mutation(replacing2);
         mutation_loss_effect(*this, mut);
@@ -471,7 +536,16 @@ void player::remove_mutation(std::string mut)
         mutation_replaced = true;
     }
     if(!mutation_replaced) {
-        add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
+        if(traits[mut].mixed_effect) {
+            rating = m_mixed;
+        } else if(traits[mut].points > 0) {
+            rating = m_bad;
+        } else if(traits[mut].points < 0) {
+            rating = m_good;
+        } else {
+            rating = m_neutral;
+        }
+        add_msg(rating, _("You lose your %s mutation."), traits[mut].name.c_str());
         mutation_loss_effect(*this, mut);
     }
 
@@ -511,7 +585,8 @@ void mutation_effect(player &p, std::string mut)
     std::vector<body_part> bps;
 
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
-          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
+          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
+          mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
         p.recalc_hp();
 
     } else if (mut == "WEBBED" || mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
@@ -565,7 +640,7 @@ void mutation_effect(player &p, std::string mut)
         // Bad-Huge gets less HP bonus than normal, this is handled in recalc_hp()
         p.recalc_hp();
         // And there goes your clothing; by now you shouldn't need it anymore
-        add_msg(_("You rip out of your clothing!"));
+        add_msg(m_bad, _("You rip out of your clothing!"));
         destroy = true;
         bps.push_back(bp_torso);
         bps.push_back(bp_legs);
@@ -712,7 +787,7 @@ void mutation_effect(player &p, std::string mut)
             (!(p.worn[i].has_flag(mutation_safe))) ) {
                 if (destroy) {
                     if (is_u) {
-                        add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
+                        add_msg(m_bad, _("Your %s is destroyed!"), p.worn[i].tname().c_str());
                     }
 
                     p.worn.erase(p.worn.begin() + i);
@@ -720,7 +795,7 @@ void mutation_effect(player &p, std::string mut)
                 }
                 else {
                     if (is_u) {
-                        add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
+                        add_msg(m_bad, _("Your %s is pushed off."), p.worn[i].tname().c_str());
                     }
 
                     int pos = player::worn_position_to_index(i);
@@ -737,7 +812,8 @@ void mutation_effect(player &p, std::string mut)
 void mutation_loss_effect(player &p, std::string mut)
 {
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
-          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
+          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
+          mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
         p.recalc_hp();
 
     } else if (mut == "LARGE" || mut == "LARGE_OK") {

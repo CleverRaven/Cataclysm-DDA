@@ -209,6 +209,30 @@ std::string effect_type::speed_name()
         return speed_mod_name;
     }
 }
+effect_rating effect_type::get_rating()
+{
+    return rating;
+}
+game_message_type effect_type::gain_game_message_type()
+{
+    switch(rating) {
+        case e_good: return m_good;
+        case e_bad: return m_bad;
+        case e_neutral: return m_neutral;
+        case e_mixed: return m_mixed;
+        default: return m_neutral;  // should never happen
+    }
+}
+game_message_type effect_type::lose_game_message_type()
+{
+    switch(rating) {
+        case e_good: return m_bad;
+        case e_bad: return m_good;
+        case e_neutral: return m_neutral;
+        case e_mixed: return m_mixed;
+        default: return m_neutral;  // should never happen
+    }
+}
 std::string effect_type::get_apply_message()
 {
     return apply_message;
@@ -777,7 +801,16 @@ void load_effect_type(JsonObject &jo)
         new_etype.reduced_desc.push_back("");
     }
     new_etype.part_descs = jo.get_bool("part_descs", false);
-
+    if(jo.has_member("rating")) {
+        std::string r = jo.get_string("rating");
+        if(r == "good") { new_etype.rating = e_good; }
+        else if(r == "neutral" ) { new_etype.rating = e_neutral; }
+        else if(r == "bad" ) { new_etype.rating = e_bad; }
+        else if(r == "mixed" ) { new_etype.rating = e_mixed; }
+        else { new_etype.rating = e_neutral; }
+    } else {
+        new_etype.rating = e_neutral;
+    }
     new_etype.apply_message = jo.get_string("apply_message", "");
     new_etype.remove_message = jo.get_string("remove_message", "");
     new_etype.apply_memorial_log = jo.get_string("apply_memorial_log", "");

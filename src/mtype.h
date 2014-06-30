@@ -97,7 +97,9 @@ enum mon_id {
     mon_dog_skeleton, mon_dog_zombie_cop, mon_dog_zombie_rot,
     // 0.A -> 0.B
     mon_broken_cyborg, mon_zoose, mon_zolf, mon_zougar,
-    mon_zombie_bio_op, mon_zombie_gasbag,
+    mon_zombie_bio_op, mon_zombie_gasbag, mon_turret_rifle,
+    mon_irradiated_wanderer_1, mon_irradiated_wanderer_2, mon_irradiated_wanderer_3, mon_irradiated_wanderer_4,
+    mon_charred_nightmare,
     num_monsters
 };
 
@@ -207,7 +209,13 @@ enum m_flag {
 };
 
 struct mtype {
-    std::string id, name, description;
+private:
+    friend class MonsterGenerator;
+    std::string name;
+    std::string name_plural;
+public:
+    std::string id;
+    std::string description;
     std::set<std::string> species, categories;
     long sym;
     nc_color color;
@@ -239,11 +247,14 @@ struct mtype {
     std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
     unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
     void (mattack::*sp_attack)(monster *); // This monster's special attack
-    void (mdefense::*sp_defense)(monster *, const projectile*); // This monster's special "defensive" move that may trigger when the monster is attacked.
-                                             // Note that this can be anything, and is not necessarily beneficial to the monster
+    // This monster's special "defensive" move that may trigger when the monster is attacked.
+    // Note that this can be anything, and is not necessarily beneficial to the monster
+    void (mdefense::*sp_defense)(monster *, const projectile*);
     // Default constructor
     mtype ();
 
+    // Used to fetch the properly pluralized monster type name
+    std::string nname(unsigned int quantity = 1) const;
     bool has_flag(m_flag flag) const;
     bool has_flag(std::string flag) const;
     void set_flag(std::string flag, bool state);

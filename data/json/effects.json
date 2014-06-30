@@ -55,7 +55,8 @@
 	{
 		"type" : "effect_type",
 		"id" : "lying_down",
-		"apply_message" : "You lie down to go to sleep..."
+		"apply_message" : "You lie down to go to sleep...",
+        "rating": "neutral"
 	},
 	{
 		"type" : "effect_type",
@@ -63,7 +64,8 @@
 		"name" : ["Asleep"],
 		"desc" : ["Nighty-night, don't let the dermatiks bite."],
 		"max_intensity" : 24,
-		"remove_message" : "You wake up."
+		"remove_message" : "You wake up.",
+        "rating" : ""
 	},
     {
         "type" : "effect_type",
@@ -79,14 +81,16 @@
             "is sweating from the heat.",
             "is sweating profusely."
         ],
-        "max_intensity" : 3
+        "max_intensity" : 3,
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
         "id" : "blisters",
         "name" : ["Blisters"],
         "part_descs" : true,
-        "desc" : ["is blistering from the intense heat."]
+        "desc" : ["is blistering from the intense heat."],
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -102,7 +106,8 @@
             "is very exposed to the cold.",
             "is dangerously cold."
         ],
-        "max_intensity" : 3
+        "max_intensity" : 3,
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -116,7 +121,8 @@
             "is frostnipped from prolonged exposure to the cold and have gone numb",
             "is frostbitten from prolonged exposure to the cold. Its tissues are frozen!"
         ],
-        "max_intensity" : 2
+        "max_intensity" : 2,
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -128,21 +134,24 @@
         "type" : "effect_type",
         "id" : "targeted",
         "name" : ["Targeted By Turret"],
-        "desc" : ["A turret is targeting you!"]
+        "desc" : ["A turret is targeting you!"],
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
         "id" : "downed",
         "name" : ["Downed"],
         "desc" : ["You're knocked to the ground.  You have to get up before you can move."],
-        "apply_message" : "You're knocked to the floor!"
+        "apply_message" : "You're knocked to the floor!",
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
         "id" : "stunned",
         "name" : ["Stunned"],
         "apply_message" : "You're stunned!",
-        "desc" : ["Your movement is randomized."]
+        "desc" : ["Your movement is randomized."],
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -151,7 +160,8 @@
         "desc" : ["Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames."],
         "remove_memorial_log" : "Put out the fire.",
         "apply_message" : "You're on fire!",
-        "apply_memorial_log" : "Caught on fire."
+        "apply_memorial_log" : "Caught on fire.",
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -170,7 +180,8 @@
         "scaling_mods" : {
             "dex_mod" : [-2],
             "speed_mod" : [-10]
-        }
+        },
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -179,21 +190,24 @@
         "base_mods" : {
             "hurt" : [10],
             "hurt_chance" : [1]
-        }
+        },
+        "rating": "bad"
     },
     {
         "type" : "effect_type",
         "id" : "blind",
         "name" : ["Blind"],
         "desc" : ["Range of Sight: 0"],
-        "apply_message" : "You're blinded!"
+        "apply_message" : "You're blinded!",
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
         "id" : "deaf",
         "name" : ["Deaf"],
         "desc" : ["Sounds will not be reported.  You cannot talk with NPCs."],
-        "apply_message" : "You're deafened!"
+        "apply_message" : "You're deafened!",
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -216,7 +230,8 @@
             "hurt" : [1, 2],
             "hurt_reduced" : [1, 2],
             "hurt_chance" : [450, 2700]
-        }
+        },
+        "rating": "bad"
     },
     {
         "type" : "effect_type",
@@ -240,7 +255,8 @@
             "hurt" : [1, 2],
             "hurt_reduced" : [1, 2],
             "hurt_chance" : [150, 750]
-        }
+        },
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -261,7 +277,8 @@
             "hurt_reduced" : [1, 1],
             "hurt_chance" : [300, 900],
             "vomit_chance" : [200, 800]
-        }
+        },
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -273,29 +290,34 @@
         "scaling_mods" : {
             "dex_mod" : [-.34],
             "speed_mod" : [-5]
-        }
+        },
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
         "id" : "lightsnare",
-        "apply_message" : "You are snared."
+        "apply_message" : "You are snared.",
+        "rating": "bad"
     },
     {
         "type" : "effect_type",
         "id" : "heavysnare",
-        "apply_message" : "You are snared."
+        "apply_message" : "You are snared.",
+        "rating": "bad"
     },
     {
         "type" : "effect_type",
         "id" : "beartrap",
         "name" : ["Stuck in beartrap"],
-        "desc" : ["You can't move!"]
+        "desc" : ["You can't move!"],
+        "rating": "bad"
     },
     {
         "type" : "effect_type",
         "id" : "in_pit",
         "name" : ["Stuck in Pit"],
-        "desc" : ["You're stuck in a pit.  Sight distance is limited and you have to climb out."]
+        "desc" : ["You're stuck in a pit.  Sight distance is limited and you have to climb out."],
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -305,7 +327,8 @@
         "apply_message" : "The sunlight's glare makes it hard to see.",
         "base_mods" : {
             "per_mod" : [-1]
-        }
+        },
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -321,7 +344,8 @@
         },
         "scaling_mods" : {
             "cough_chance" : [-20]
-        }
+        },
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -334,7 +358,8 @@
             "dex_mod" : [-2],
             "int_mod" : [-2],
             "cough_chance" : [3]
-        }
+        },
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -345,7 +370,8 @@
         "base_mods" : {
             "per_mod" : [-5],
             "vomit_chance" : [1000]
-        }
+        },
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -405,7 +431,8 @@
             "cancel_trait" : "INFIMMUNE",
             "morph_id" : "infection",
             "morph_duration" : 14400
-        }
+        },
+        "rating" : "bad"
     },
     {
         "apply_memorial_log" : "Contracted an infection.",
@@ -419,7 +446,8 @@
         "remove_memorial_log" : "Recovered from an infection... this time.",
         "apply_message" : "Your bite wound feels infected",
         "additive" : -1,
-        "main_parts" : true
+        "main_parts" : true,
+        "rating" : "bad"
     },
     {
         "type" : "effect_type",
@@ -427,9 +455,17 @@
         "health_affects" : true
     },
    {
+       "type" : "effect_type",
+       "id" : "stung",
+       "name" : "Stung",
+       "desc" : "Causes constant pain.",
+       "rating": "bad"
+   },
+   {
       "type" : "effect_type",
       "id" : "webbed",
-      "apply_message" : "You're covered in webs!"
+      "apply_message" : "You're covered in webs!",
+        "rating" : "bad"
    },
    {
       "type" : "effect_type",
@@ -460,7 +496,8 @@
    {
       "type" : "effect_type",
       "id" : "slimed",
-      "apply_message" : "You're covered in thick goo!"
+      "apply_message" : "You're covered in thick goo!",
+      "rating" : "bad"
    },
    {
       "type" : "effect_type",
@@ -473,7 +510,8 @@
       "id" : "common_cold",
       "remove_memorial_log" : "Got over the cold.",
       "apply_message" : "You feel a cold coming on...",
-      "health_affects" : true
+      "health_affects" : true,
+      "rating" : "bad"
    },
    {
       "apply_memorial_log" : "Caught the flu.",
@@ -481,7 +519,8 @@
       "id" : "flu",
       "remove_memorial_log" : "Got over the flu.",
       "apply_message" : "You feel a flu coming on...",
-      "health_affects" : true
+      "health_affects" : true,
+      "rating": "bad"
    },
    {
       "type" : "effect_type",
@@ -490,7 +529,8 @@
    {
       "type" : "effect_type",
       "id" : "sap",
-      "apply_message" : "You're coated in sap!"
+      "apply_message" : "You're coated in sap!",
+      "rating" : "bad"
    },
    {
       "type" : "effect_type",
@@ -507,12 +547,14 @@
    {
       "type" : "effect_type",
       "id" : "jetinjector",
-      "apply_message" : "You feel a rush as the chemicals flow through your body!"
+      "apply_message" : "You feel a rush as the chemicals flow through your body!",
+      "rating" : "good"
    },
    {
       "type" : "effect_type",
       "id" : "adrenaline",
-      "apply_message" : "You feel a surge of adrenaline!"
+      "apply_message" : "You feel a surge of adrenaline!",
+      "rating": "good"
    },
    {
       "type" : "effect_type",
@@ -529,7 +571,8 @@
    {
       "remove_memorial_log" : "Cured the fungal infection.",
       "type" : "effect_type",
-      "id" : "fungus"
+      "id" : "fungus",
+      "rating" : "bad"
    },
    {
       "type" : "effect_type",
@@ -543,12 +586,14 @@
       "remove_message" : "Your vision starts to blur.",
       "type" : "effect_type",
       "id" : "contacts",
-      "apply_message" : "You can see more clearly."
+      "apply_message" : "You can see more clearly.",
+      "rating" : "good"
    },
    {
       "type" : "effect_type",
       "id" : "formication",
-      "apply_message" : "Your skin feels extremely itchy!"
+      "apply_message" : "Your skin feels extremely itchy!",
+      "rating" : "bad"
    },
    {
       "type" : "effect_type",
@@ -561,17 +606,20 @@
    {
       "type" : "effect_type",
       "id" : "amigara",
-      "apply_message" : "You can't look away from the faultline..."
+      "apply_message" : "You can't look away from the faultline...",
+      "rating" : "bad"
    },
    {
       "type" : "effect_type",
       "id" : "asthma",
-      "apply_message" : "You can't breathe... asthma attack!"
+      "apply_message" : "You can't breathe... asthma attack!",
+      "rating" : "bad"
    },
    {
       "type" : "effect_type",
       "id" : "stemcell_treatment",
-      "apply_message" : "It is excruciating."
+      "apply_message" : "It is excruciating.",
+      "rating" : "bad"
    },
    {
       "type" : "effect_type",
@@ -608,6 +656,10 @@
    {
       "type" : "effect_type",
       "id" : "dodge_boost"
+   },
+   {
+      "type":"effect_type",
+      "id":"valium"
    },
    {
       "type" : "effect_type",

@@ -222,26 +222,32 @@
             [
                 {
                     "id": "center",
+                    "bg": 2,
                     "fg": 22
                 },
                 {
                     "id": "corner",
+                    "bg": 2,
                     "fg": 23
                 },
                 {
                     "id": "edge",
+                    "bg": 2,
                     "fg": 24
                 },
                 {
                     "id": "t_connection",
+                    "bg": 2,
                     "fg": 25
                 },
                 {
                     "id": "end_piece",
+                    "bg": 2,
                     "fg": 26
                 },
                 {
                     "id": "unconnected",
+                    "bg": 2,
                     "fg": 27
                 }
             ],

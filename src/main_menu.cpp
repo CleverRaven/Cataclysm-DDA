@@ -685,7 +685,6 @@ bool game::opening_screen()
 
                             savegames.clear();
                             MAPBUFFER.reset();
-                            MAPBUFFER.make_volatile();
                             overmap_buffer.clear();
 
                             layer = 2;

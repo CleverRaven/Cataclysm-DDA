@@ -170,6 +170,7 @@
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter" />
+			<Add option="-std=c++11" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
@@ -255,6 +256,7 @@
 		<Unit filename="src/file_wrapper.h" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
+		<Unit filename="src/game_constants.h" />
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/get_version.h" />
@@ -377,6 +379,8 @@
 		<Unit filename="src/overmapbuffer.h" />
 		<Unit filename="src/path_info.cpp" />
 		<Unit filename="src/path_info.h" />
+		<Unit filename="src/pickup.cpp" />
+        	<Unit filename="src/pickup.h" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/player.h" />
 		<Unit filename="src/player_activity.cpp" />

@@ -270,6 +270,16 @@
         ]
     },{
         "type" : "terrain",
+        "id" : "t_utility_light",
+        "name": "Utility Light",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
         "id" : "t_wall_log_half",
         "name": "half-built wall",
         "symbol": "#",
@@ -892,7 +902,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "DOOR", "BARRICADABLE_DOOR"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "DOOR"],
         "open": "t_door_metal_o"
     },{
         "type" : "terrain",
@@ -901,7 +911,7 @@
         "symbol": "'",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "BARRICADABLE_DOOR"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
         "close": "t_door_metal_c"
     },{
         "type" : "terrain",
@@ -911,7 +921,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"]
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"]
     },{
         "type" : "terrain",
         "id" : "t_door_bar_c",
@@ -920,7 +930,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR"],
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"],
         "open": "t_door_bar_o",
         "close": "t_door_bar_locked"
     },{
@@ -940,7 +950,7 @@
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR"]
+        "flags": ["TRANSPARENT", "NOITEM", "SUPPORTS_ROOF"]
     },{
         "type" : "terrain",
         "id" : "t_door_glass_c",
@@ -948,7 +958,7 @@
         "symbol": "+",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "DOOR", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+        "flags": ["TRANSPARENT", "BASHABLE", "DOOR", "NOITEM", "SUPPORTS_ROOF"
         ],
         "open": "t_door_glass_o",
         "bash": {
@@ -964,7 +974,7 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "BARRICADABLE_DOOR"],
+        "flags": ["TRANSPARENT", "SUPPORTS_ROOF", "FLAT"],
         "close": "t_door_glass_c"
     },{
         "type" : "terrain",
@@ -1106,6 +1116,7 @@
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
         "open": "t_window_domestic",
+        "examine_action" : "curtains",
         "deconstruct": {
             "ter_set": "t_window_empty",
             "items": [
@@ -1172,7 +1183,7 @@
         "color": "yellow",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE"
+            "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE"
         ]
     },{
         "type" : "terrain",
@@ -1181,6 +1192,15 @@
         "symbol": "0",
         "color": "ltcyan",
         "move_cost": 8,
+        "bash": {
+            "str_min": 1, "str_max": 1,
+            "sound": "glass crunching!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "glass_shard", "amount": 1 }
+            ]
+        },
         "flags": [
             "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "MOUNTABLE"
         ]
@@ -2441,7 +2461,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
     },{
-	    "type" : "terrain",
+        "type" : "terrain",
         "id" : "t_linoleum_white",
         "name": "linoleum tile",
         "symbol": ".",
@@ -2604,5 +2624,22 @@
             ]
         },
         "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_open_air",
+        "name": "open air",
+        "symbol": " ",
+        "color": "i_cyan",
+        "move_cost": 2,
+        "trap": "tr_ledge",
+        "flags": ["TRANSPARENT", "NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_flat_roof",
+        "name": "flat roof",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
     }
 ]

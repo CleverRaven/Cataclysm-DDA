@@ -10,7 +10,20 @@ snippet_library::snippet_library() {}
 void snippet_library::load_snippet(JsonObject &jsobj)
 {
     std::string category = jsobj.get_string("category");
-    std::string text = _(jsobj.get_string("text").c_str());
+    if (jsobj.has_array("text")) {
+        JsonArray jarr = jsobj.get_array("text");
+        while(jarr.has_more()) {
+            const std::string text = _(jarr.next_string().c_str());
+            add_snippet(category, text);
+        }
+    } else {
+        const std::string text = _(jsobj.get_string("text").c_str());
+        add_snippet(category, text);
+    }
+}
+
+void snippet_library::add_snippet(const std::string &category, const std::string &text)
+{
     int hash = djb2_hash( (const unsigned char*)text.c_str() );
 
     snippets.insert( std::pair<int, std::string>(hash, text) );

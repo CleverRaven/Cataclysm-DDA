@@ -30,6 +30,7 @@ NUM_MONSTER_EFFECTS
 enum monster_attitude {
 MATT_NULL = 0,
 MATT_FRIEND,
+MATT_FPASSIVE,
 MATT_FLEE,
 MATT_IGNORE,
 MATT_FOLLOW,
@@ -62,10 +63,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
  m_size get_size();
  int get_hp( hp_part ) { return hp; };
+ int get_hp_max( hp_part = num_hp_parts ) { return type->hp; };
  std::string get_material() { return type->mat; };
 
  // Access
- std::string name(); // Returns the monster's formal name
+ std::string name(unsigned int quantity = 1); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
  // the creature-class versions of the above
  std::string disp_name(bool possessive = false);
@@ -86,7 +88,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  bool has_flag(const m_flag f) const; // Returns true if f is set (see mtype.h)
  bool can_see();      // MF_SEES and no ME_BLIND
  bool can_hear();     // MF_HEARS and no ME_DEAF
- bool can_submerge(); // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
+ bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
  bool can_drown();    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
  bool digging();      // MF_DIGS or MF_CAN_DIG and diggable terrain
  int vision_range(const int x, const int y) const; // Returns monster vision range, x and y are the target spot
@@ -234,10 +236,15 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     void make_friendly();
     void add_item(item it);     // Add an item to inventory
 
-    bool is_hallucination();    // true if the monster isn't actually real
+    bool is_hallucination() const;    // true if the monster isn't actually real
 
     field_id bloodType();
     field_id gibType();
+
+    void add_msg_if_npc(const char *msg, ...);
+    void add_msg_if_npc(game_message_type type, const char *msg, ...);
+    void add_msg_player_or_npc(const char *, const char* npc_str, ...);
+    void add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...);
 
 // TEMP VALUES
  int wandx, wandy; // Wander destination - Just try to move in that direction

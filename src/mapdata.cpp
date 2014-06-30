@@ -2,6 +2,7 @@
 #include "color.h"
 #include "init.h"
 #include "item_factory.h"
+#include "game_constants.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;
@@ -366,7 +367,7 @@ ter_id t_null,
     t_bridge,
     t_covered_well,
     // Lighting related
-    t_skylight, t_emergency_light_flicker, t_emergency_light,
+    t_skylight, t_emergency_light_flicker, t_emergency_light, t_utility_light,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
@@ -428,7 +429,7 @@ ter_id t_null,
      t_pedestal_temple,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air,
     num_terrain_types;
 
 void set_ter_ids() {
@@ -469,6 +470,7 @@ void set_ter_ids() {
     t_skylight=terfind("t_skylight");
     t_emergency_light_flicker=terfind("t_emergency_light_flicker");
     t_emergency_light=terfind("t_emergency_light");
+    t_utility_light=terfind("t_utility_light");
     t_wall_log_half=terfind("t_wall_log_half");
     t_wall_log=terfind("t_wall_log");
     t_wall_log_chipped=terfind("t_wall_log_chipped");
@@ -650,6 +652,7 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_open_air=terfind("t_open_air");
     num_terrain_types = terlist.size();
 };
 
@@ -663,6 +666,7 @@ furn_id furnfind(const std::string & id) {
 
 furn_id f_null,
     f_hay,
+    f_barricade_road,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
     f_bed, f_toilet, f_makeshift_bed,
@@ -689,6 +693,7 @@ furn_id f_null,
 void set_furn_ids() {
     f_null=furnfind("f_null");
     f_hay=furnfind("f_hay");
+    f_barricade_road=furnfind("f_barricade_road");
     f_bulletin=furnfind("f_bulletin");
     f_indoor_plant=furnfind("f_indoor_plant");
     f_indoor_plant_y=furnfind("f_indoor_plant_y");
@@ -824,4 +829,29 @@ void check_furniture_and_terrain()
         check_bash_items(t.bash, t.id, true);
         check_decon_items(t.deconstruct, t.id, true);
     }
+}
+
+submap::submap() : ter(), frn(), trp(), rad(),
+    active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            ter[x][y] = t_null;
+            set_furn(x, y, f_null);
+            set_trap(x, y, tr_null);
+            set_radiation(x, y, 0);
+        }
+    }
+}
+
+submap::~submap()
+{
+    delete_vehicles();
+}
+
+void submap::delete_vehicles()
+{
+    for(vehicle *veh : vehicles) {
+        delete veh;
+    }
+    vehicles.clear();
 }

@@ -1,6 +1,7 @@
 #ifndef _NPC_H_
 #define _NPC_H_
 
+#include "messages.h"
 #include "player.h"
 #include "monster.h"
 #include "overmap.h"
@@ -199,8 +200,10 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
   anger = copy.anger;
   owed = copy.owed;
   favors.clear();
-  for (size_t i = 0; i < copy.favors.size(); i++)
-   favors.push_back( copy.favors[i] );
+  for (std::vector<npc_favor>::const_iterator it = copy.favors.begin();
+       it != copy.favors.end(); ++it) {
+      favors.push_back(*it);
+  }
  };
 
  npc_opinion& operator+= (npc_opinion &rhs)
@@ -550,7 +553,11 @@ public:
  //message related stuff
  virtual void add_msg_if_npc(const char* msg, ...);
  virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
-
+ virtual void add_msg_if_npc(game_message_type type, const char* msg, ...);
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...);
+ virtual void add_msg_if_player(const char *, ...){};
+ virtual void add_msg_if_player(game_message_type, const char *, ...){};
+ virtual void add_memorial_log(const char*, const char*, ...) {};
 
 // The preceding are in npcmove.cpp
 

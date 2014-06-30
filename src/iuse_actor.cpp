@@ -15,34 +15,34 @@ iuse_actor *iuse_transform::clone() const
 long iuse_transform::use(player* p, item* it, bool /*t*/) const
 {
     if (need_fire > 0 && p != NULL && p->is_underwater()) {
-        p->add_msg_if_player(_("You can't do that while underwater"));
+        p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;
     }
     if (need_charges > 0 && it->charges < need_charges) {
         if (!need_charges_msg.empty()) {
-            p->add_msg_if_player(need_charges_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, need_charges_msg.c_str(), it->tname().c_str());
         }
         return 0;
     }
     if (p != NULL && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire)) {
         if (!need_fire_msg.empty()) {
-            p->add_msg_if_player(need_fire_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, need_fire_msg.c_str(), it->tname().c_str());
         }
         return 0;
     }
     // load this from the original item, not the transformed one.
     const int charges_to_use = it->type->charges_to_use();
-    p->add_msg_if_player(msg_transform.c_str(), it->tname().c_str());
+    p->add_msg_if_player(m_neutral, msg_transform.c_str(), it->tname().c_str());
     item *target;
     if (container_id.empty()) {
         // No container, assume simple type transformation like foo_off -> foo_on
-        it->make(itypes[target_id]);
+        it->make(target_id);
         target = it;
     } else {
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
-        it->make(itypes[container_id]);
-        it->contents.push_back(item(itypes[target_id], calendar::turn));
+        it->make(container_id);
+        it->contents.push_back(item(target_id, calendar::turn));
         target = &it->contents.back();
     }
     target->active = active;
@@ -70,16 +70,18 @@ long auto_iuse_transform::use(player *p, item *it, bool t) const
     if (t) {
         if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
             // Dirty hack to display the "when unterwater" message instead of the normal message
-            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater, const_cast<auto_iuse_transform*>(this)->msg_transform);
+            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater,
+                      const_cast<auto_iuse_transform*>(this)->msg_transform);
             const long tmp = iuse_transform::use(p, it, t);
-            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater, const_cast<auto_iuse_transform*>(this)->msg_transform);
+            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater,
+                      const_cast<auto_iuse_transform*>(this)->msg_transform);
             return tmp;
         }
         // Normal use, don't need to do anything here.
         return 0;
     }
     if (it->charges > 0 && !non_interactive_msg.empty()) {
-        p->add_msg_if_player(non_interactive_msg.c_str(), it->tname().c_str());
+        p->add_msg_if_player(m_info, non_interactive_msg.c_str(), it->tname().c_str());
         // Activated by the player, but not allowed to do so
         return 0;
     }
@@ -116,9 +118,9 @@ long explosion_iuse::use(player *p, item *it, bool t) const
     }
     if (it->charges > 0) {
         if (no_deactivate_msg.empty()) {
-            p->add_msg_if_player(_("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
+            p->add_msg_if_player(m_warning, _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
         } else {
-            p->add_msg_if_player(no_deactivate_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, no_deactivate_msg.c_str(), it->tname().c_str());
         }
         return 0;
     }
@@ -170,12 +172,12 @@ iuse_actor *unfold_vehicle_iuse::clone() const
 long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
 {
     if (p->is_underwater()) {
-        p->add_msg_if_player(_("You can't do that while underwater."));
+        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
     vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx, p->posy, 0, 0, 0, false);
     if (veh == NULL) {
-        p->add_msg_if_player( _("There's no room to unfold the %s."), it->tname().c_str());
+        p->add_msg_if_player(m_info, _("There's no room to unfold the %s."), it->tname().c_str());
         return 0;
     }
     // Mark the vehicle as foldable.
@@ -221,4 +223,65 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
         }
     }
     return 1;
+}
+
+consume_drug_iuse::~consume_drug_iuse(){};
+
+iuse_actor *consume_drug_iuse::clone() const
+{
+    return new consume_drug_iuse(*this);
+}
+
+long consume_drug_iuse::use(player *p, item *it, bool) const
+{
+    // Check prerequisites first.
+    for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
+        // Amount == -1 means need one, but don't consume it.
+        if( !p->has_amount( tool->first, 1 ) ) {
+            p->add_msg_if_player( _("You need %s to consume %s!"),
+                                  item(tool->first, 0).type->nname(1).c_str(),
+                                  it->type->nname(1).c_str() );
+            return -1;
+        }
+    }
+    for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
+         ++consumable ) {
+        // Amount == -1 means need one, but don't consume it.
+        if( !p->has_charges( consumable->first, (consumable->second == -1) ?
+                             1 : consumable->second ) ) {
+            p->add_msg_if_player( _("You need %s to consume %s!"),
+                                  item(consumable->first, 0).type->nname(1).c_str(),
+                                  it->type->nname(1).c_str() );
+            return -1;
+        }
+    }
+    // Apply the various effects.
+    for( auto disease = diseases.cbegin(); disease != diseases.cend(); ++disease ) {
+        int duration = disease->second;
+        if (p->has_trait("TOLERANCE")) {
+            duration -= 10; // Symmetry would cause negative duration.
+        }
+        else if (p->has_trait("LIGHTWEIGHT")) {
+            duration += 20;
+        }
+        p->add_disease( disease->first, duration );
+    }
+    for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
+        p->mod_stat( stat->first, stat->second );
+    }
+    for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
+        for(int i = 0; i < 3; i++) {
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cracksmoke, 2);
+        }
+    }
+    // Output message.
+    p->add_msg_if_player( _(activation_message.c_str()) );
+    // Consume charges.
+    for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
+         ++consumable ) {
+        if( consumable->second != -1 ) {
+            p->use_charges( consumable->first, consumable->second );
+        }
+    }
+    return it->type->charges_to_use();
 }

@@ -471,9 +471,10 @@ classes = {
     },
     itype = {
         attributes = {
-            name = {
+            id = {
                 type = "string",
-                writable = true
+                writable = false,
+                desc = "The unique string identifier of the item type, as defined in the JSON."
             },
             description = {
                 type = "string",
@@ -522,6 +523,12 @@ classes = {
             }
         },
         functions = {
+            nname = {
+                args = { "int" },
+                argnames = { "quantity" },
+                rval = "string",
+                desc = "Get a translated name for the item with the given quantity."
+            }
         }
     },
     it_comest = {

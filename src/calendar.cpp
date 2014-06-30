@@ -9,6 +9,7 @@ calendar calendar::turn;
 
 calendar::calendar()
 {
+    turn_number = 0;
     second = 0;
     minute = 0;
     hour = 0;
@@ -19,6 +20,7 @@ calendar::calendar()
 
 calendar::calendar(const calendar &copy)
 {
+    turn_number   = copy.turn_number;
     second = copy.second;
     minute = copy.minute;
     hour   = copy.hour;
@@ -29,6 +31,7 @@ calendar::calendar(const calendar &copy)
 
 calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 {
+    turn_number = 0;
     second = 0;
     minute = Minute;
     hour = Hour;
@@ -39,6 +42,7 @@ calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 
 calendar::calendar(int turn)
 {
+    turn_number = turn;
     int minute_param = int(turn / 10);
     int hour_param = minute_param / 60;
     int day_param = hour_param / 24;
@@ -53,32 +57,21 @@ calendar::calendar(int turn)
 
 int calendar::get_turn() const
 {
-    int ret = second / 6;
-    ret += minute * 10;
-    ret += hour * 600;
-    ret += day * 14400;
-    ret += int(season) * 14400 * (int)OPTIONS["SEASON_LENGTH"];
-    ret += year * 14400 * 4 * (int)OPTIONS["SEASON_LENGTH"];
-    return ret;
+    return turn_number;
 }
 
 calendar::operator int() const
 {
-    int ret = second / 6;
-    ret += minute * 10;
-    ret += hour * 600;
-    ret += day * 14400;
-    ret += int(season) * 14400 * (int)OPTIONS["SEASON_LENGTH"];
-    ret += year * 14400 * 4 * (int)OPTIONS["SEASON_LENGTH"];
-    return ret;
+    return turn_number;
 }
 
-calendar &calendar::operator =(calendar &rhs)
+calendar &calendar::operator =(const calendar &rhs)
 {
     if (this == &rhs) {
         return *this;
     }
 
+    turn_number = rhs.turn_number;
     second = rhs.second;
     minute = rhs.minute;
     hour = rhs.hour;
@@ -95,6 +88,7 @@ calendar &calendar::operator =(int rhs)
     int hour_param = minute_param / 60;
     int day_param = hour_param / 24;
     int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
+    turn_number = rhs;
     second = 6 * (rhs % 10);
     minute = minute_param % 60;
     hour = hour_param % 24;
@@ -104,10 +98,11 @@ calendar &calendar::operator =(int rhs)
     return *this;
 }
 
-calendar &calendar::operator -=(calendar &rhs)
+calendar &calendar::operator -=(const calendar &rhs)
 {
     calendar tmp(rhs);
     tmp.standardize();
+    turn_number -= tmp.turn_number;
     second -= tmp.second;
     minute -= tmp.minute;
     hour   -= tmp.hour;
@@ -130,8 +125,9 @@ calendar &calendar::operator -=(int rhs)
     return *this;
 }
 
-calendar &calendar::operator +=(calendar &rhs)
+calendar &calendar::operator +=(const calendar &rhs)
 {
+    turn_number += rhs.turn_number;
     second += rhs.second;
     minute += rhs.minute;
     hour   += rhs.hour;
@@ -149,6 +145,7 @@ calendar &calendar::operator +=(calendar &rhs)
 
 calendar &calendar::operator +=(int rhs)
 {
+    turn_number += rhs;
     second += rhs * 6;
     standardize();
     return *this;
@@ -158,7 +155,7 @@ bool calendar::operator ==(int rhs) const
 {
     return int(*this) == rhs;
 }
-bool calendar::operator ==(calendar &rhs) const
+bool calendar::operator ==(const calendar &rhs) const
 {
     return (second == rhs.second &&
             minute == rhs.minute &&
@@ -176,28 +173,29 @@ calendar& calendar::operator ++()
 }
 */
 
-calendar calendar::operator -(calendar &rhs)
+calendar calendar::operator -(const calendar &rhs) const
 {
     return calendar(*this) -= rhs;
 }
 
-calendar calendar::operator -(int rhs)
+calendar calendar::operator -(int rhs) const
 {
     return calendar(*this) -= rhs;
 }
 
-calendar calendar::operator +(calendar &rhs)
+calendar calendar::operator +(const calendar &rhs) const
 {
     return calendar(*this) += rhs;
 }
 
-calendar calendar::operator +(int rhs)
+calendar calendar::operator +(int rhs) const
 {
     return calendar(*this) += rhs;
 }
 
 void calendar::increment()
 {
+    turn_number++;
     second += 6;
     if (second >= 60) {
         standardize();
@@ -388,14 +386,16 @@ std::string calendar::print_time(bool just_hour) const
         if (hour_param == 0) {
             hour_param = 12;
         }
+        // Padding is removed as necessary to prevent clipping with SAFE notification in wide sidebar mode
+        std::string padding = hour_param < 10 ? " " : "";
         if (just_hour && hour < 12) {
             time_string << string_format(_("%d AM"), hour_param);
         } else if (just_hour) {
             time_string << string_format(_("%d PM"), hour_param);
         } else if (hour < 12) {
-            time_string << string_format(_("%d:%02d:%02d AM"), hour_param, minute, second);
+            time_string << string_format(_("%d:%02d:%02d%sAM"), hour_param, minute, second, padding.c_str());
         } else {
-            time_string << string_format(_("%d:%02d:%02d PM"), hour_param, minute, second);
+            time_string << string_format(_("%d:%02d:%02d%sPM"), hour_param, minute, second, padding.c_str());
         }
     }
 

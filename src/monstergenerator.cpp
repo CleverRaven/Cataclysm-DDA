@@ -176,6 +176,7 @@ void MonsterGenerator::init_attack()
     attack_map["PLANT"] = &mattack::plant;
     attack_map["DISAPPEAR"] = &mattack::disappear;
     attack_map["FORMBLOB"] = &mattack::formblob;
+    attack_map["CALLBLOBS"] = &mattack::callblobs;
     attack_map["DOGTHING"] = &mattack::dogthing;
     attack_map["TENTACLE"] = &mattack::tentacle;
     attack_map["VORTEX"] = &mattack::vortex;
@@ -188,6 +189,7 @@ void MonsterGenerator::init_attack()
     attack_map["TAZER"] = &mattack::tazer;
     attack_map["SMG"] = &mattack::smg;
     attack_map["LASER"] = &mattack::laser;
+    attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
     attack_map["MULTI_ROBOT"] = &mattack::multi_robot;
@@ -198,6 +200,8 @@ void MonsterGenerator::init_attack()
     attack_map["BITE"] = &mattack::bite;
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
+    attack_map["LUNGE"] = &mattack::lunge;
+    attack_map["LONGSWIPE"] = &mattack::longswipe;
     attack_map["PARROT"] = &mattack::parrot;
     attack_map["DARKMAN"] = &mattack::darkman;
     attack_map["SLIMESPRING"] = &mattack::slimespring;
@@ -315,7 +319,13 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         mtype *newmon = new mtype;
 
         newmon->id = mid;
-        newmon->name = _(jo.get_string("name","").c_str());
+        newmon->name = jo.get_string("name").c_str();
+        if(jo.has_member("name_plural")) {
+            newmon->name_plural = jo.get_string("name_plural");
+        } else {
+            // default behaviour: Assume the regular plural form (appending an “s”)
+            newmon->name_plural = newmon->name + "s";
+        }
         newmon->description = _(jo.get_string("description").c_str());
 
         newmon->mat = jo.get_string("material");
@@ -405,7 +415,7 @@ void MonsterGenerator::load_species(JsonObject &jo)
 
 mtype *MonsterGenerator::get_mtype(std::string mon)
 {
-    static mtype *default_montype = mon_templates["mon_null"];
+    mtype *default_montype = mon_templates["mon_null"];
 
     if (mon == "mon_zombie_fast")
     {
@@ -450,28 +460,23 @@ std::map<std::string, mtype*> MonsterGenerator::get_all_mtypes() const
 }
 std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 {
-    static std::vector<std::string> hold;
-    if (hold.empty()){
+    std::vector<std::string> hold;
         for (std::map<std::string, mtype*>::const_iterator mon = mon_templates.begin();
              mon != mon_templates.end(); ++mon){
             hold.push_back(mon->first);
         }
-    }
-    const std::vector<std::string> ret = hold;
-    return ret;
+    return hold;
 }
 
 mtype *MonsterGenerator::get_valid_hallucination()
 {
-    static std::vector<mtype*> potentials;
-    if (potentials.empty()){
+    std::vector<mtype*> potentials;
         for (std::map<std::string, mtype*>::iterator mon = mon_templates.begin();
              mon != mon_templates.end(); ++mon){
             if (mon->first != "mon_null" && mon->first != "mon_generator"){
                 potentials.push_back(mon->second);
             }
         }
-    }
 
     return potentials[rng(0, potentials.size() - 1)];
 }
@@ -500,24 +505,20 @@ std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(Js
 
 MonAttackFunction MonsterGenerator::get_attack_function(JsonObject& jo, std::string member)
 {
-    static MonAttackFunction default_attack = attack_map["NONE"];
-
     if (attack_map.find(jo.get_string(member, "")) != attack_map.end()) {
         return attack_map[jo.get_string(member)];
     }
 
-    return default_attack;
+    return attack_map["NONE"];
 }
 
 MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject& jo, std::string member)
 {
-    static MonDefenseFunction default_defense = defense_map["NONE"];
-
     if (defense_map.find(jo.get_string(member, "")) != defense_map.end()) {
         return defense_map[jo.get_string(member)];
     }
 
-    return default_defense;
+    return defense_map["NONE"];
 }
 template <typename T>
 std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags,

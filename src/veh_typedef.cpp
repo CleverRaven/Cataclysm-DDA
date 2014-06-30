@@ -118,32 +118,43 @@ void game::load_vehiclepart(JsonObject &jo)
     }
 
     //Calculate and cache z-ordering based off of location
+    // list_order is used when inspecting the vehicle
     if(next_part.location == "on_roof") {
         next_part.z_order = 9;
+        next_part.list_order = 3;
     } else if(next_part.location == "on_cargo") {
         next_part.z_order = 8;
+        next_part.list_order = 6;
     } else if(next_part.location == "center") {
         next_part.z_order = 7;
+        next_part.list_order = 7;
     } else if(next_part.location == "under") {
         //Have wheels show up over frames
         next_part.z_order = 6;
+        next_part.list_order = 10;
     } else if(next_part.location == "structure") {
         next_part.z_order = 5;
+        next_part.list_order = 1;
     } else if(next_part.location == "engine_block") {
         //Should be hidden by frames
         next_part.z_order = 4;
+        next_part.list_order = 8 ;
     } else if(next_part.location == "fuel_source") {
         //Should be hidden by frames
         next_part.z_order = 3;
+        next_part.list_order = 9;
     } else if(next_part.location == "roof") {
         //Shouldn't be displayed
         next_part.z_order = -1;
+        next_part.list_order = 4;
     } else if(next_part.location == "armor") {
         //Shouldn't be displayed (the color is used, but not the symbol)
         next_part.z_order = -2;
+        next_part.list_order = 2;
     } else {
         //Everything else
         next_part.z_order = 0;
+        next_part.list_order = 5;
     }
 
     if (vehicle_part_types.count(next_part.id) > 0) {

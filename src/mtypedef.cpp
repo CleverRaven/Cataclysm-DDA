@@ -4,7 +4,8 @@
 
 mtype::mtype () {
     id = "mon_null";
-    name = _("human");
+    name = "human";
+    name_plural = "humans";
     description = "";
     sym = ' ';
     color = c_white;
@@ -30,6 +31,10 @@ mtype::mtype () {
     sp_defense = NULL;
     luminance = 0;
     flags.insert(MF_HUMAN);
+}
+
+std::string mtype::nname(unsigned int quantity) const {
+    return ngettext(name.c_str(), name_plural.c_str(), quantity);
 }
 
 bool mtype::has_flag(m_flag flag) const {

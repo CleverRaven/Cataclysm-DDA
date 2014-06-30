@@ -61,18 +61,16 @@ void mission_start::place_dog(mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(itypes["dog_whistle"], 0) );
+ g->u.i_add( item("dog_whistle", 0) );
  add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
 
  miss->target = house;
  overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap doghouse;
- // Get overmap, crop house coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(house.x, house.y);
- doghouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
+ doghouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
  doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
- doghouse.save(&om, int(calendar::turn), house.x * 2, house.y * 2, g->levz);
+ doghouse.save();
 }
 
 void mission_start::place_zombie_mom(mission *miss)
@@ -87,22 +85,18 @@ void mission_start::place_zombie_mom(mission *miss)
  overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap zomhouse;
- // Get overmap, crop house coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(house.x, house.y);
- zomhouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
+ zomhouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
- zomhouse.save(&om, int(calendar::turn), house.x * 2, house.y * 2, g->levz);
+ zomhouse.save();
 }
 
 void mission_start::place_jabberwock(mission *miss)
 {
     point site = target_om_ter("forest_thick", 6, miss, false);
  tinymap grove;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- grove.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ grove.load_abs(site.x * 2, site.y * 2, g->levz, false);
  grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
- grove.save(&om, int(calendar::turn), site.x * 2, site.y * 2, g->levz);
+ grove.save();
 }
 
 void mission_start::kill_100_z(mission *miss)
@@ -130,9 +124,7 @@ void mission_start::kill_horde_master(mission *miss)
  miss->target = site;
  overmap_buffer.reveal(site, 6, g->levz);
  tinymap tile;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- tile.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ tile.load_abs(site.x * 2, site.y * 2, g->levz, false);
  tile.add_spawn("mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
  tile.add_spawn("mon_zombie_brute",3,SEEX,SEEY);
  tile.add_spawn("mon_zombie_dog",3,SEEX,SEEY);
@@ -145,7 +137,7 @@ void mission_start::kill_horde_master(mission *miss)
 }
  tile.add_spawn("mon_zombie_necro",2,SEEX,SEEY);
  tile.add_spawn("mon_zombie_hulk",1,SEEX,SEEY);
- tile.save(&om, int(calendar::turn), site.x * 2, site.y * 2, g->levz);
+ tile.save();
 }
 
 void mission_start::place_npc_software(mission *miss)
@@ -155,7 +147,7 @@ void mission_start::place_npc_software(mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(itypes["usb_drive"], 0) );
+ g->u.i_add( item("usb_drive", 0) );
  add_msg(_("%s gave you a USB drive."), dev->name.c_str());
 
  std::string type = "house";
@@ -191,9 +183,7 @@ void mission_start::place_npc_software(mission *miss)
     overmap_buffer.reveal(place, 6, g->levz);
 
  tinymap compmap;
- // Get overmap, crop place coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(place.x, place.y);
- compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
+ compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
     oter_id oter = g->cur_om->ter(place.x, place.y, 0);
@@ -266,8 +256,7 @@ void mission_start::place_npc_software(mission *miss)
  computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y, string_format(_("%s's Terminal"), dev->name.c_str()), 0);
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option(_("Download Software"), COMPACT_DOWNLOAD_SOFTWARE, 0);
-
- compmap.save(&om, int(calendar::turn), place.x * 2, place.y * 2, g->levz);
+ compmap.save();
 }
 
 void mission_start::place_priest_diary(mission *miss)
@@ -281,9 +270,7 @@ void mission_start::place_priest_diary(mission *miss)
  miss->target = place;
  overmap_buffer.reveal(place, 2, g->levz);
  tinymap compmap;
- // Get overmap, crop place coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(place.x, place.y);
- compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
+ compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
   std::vector<point> valid;
@@ -299,7 +286,7 @@ void mission_start::place_priest_diary(mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
  compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary");
- compmap.save(&om, int(calendar::turn), place.x * 2, place.y * 2, g->levz);
+ compmap.save();
 }
 
 void mission_start::place_deposit_box(mission *miss)
@@ -315,9 +302,7 @@ void mission_start::place_deposit_box(mission *miss)
     overmap_buffer.reveal(site, 2, g->levz);
 
  tinymap compmap;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- compmap.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ compmap.load_abs(site.x * 2, site.y * 2, g->levz, false);
  point comppoint;
   std::vector<point> valid;
   for (int x = 0; x < SEEX * 2; x++) {
@@ -340,14 +325,14 @@ void mission_start::place_deposit_box(mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
 compmap.spawn_item(comppoint.x, comppoint.y, "safe_box");
-compmap.save(&om, int(calendar::turn), site.x * 2, site.y * 2, g->levz);
+compmap.save();
 }
 
 void mission_start::reveal_lab_black_box(mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
-  g->u.i_add( item(itypes["black_box"], 0) );
+  g->u.i_add( item("black_box", 0) );
   add_msg(_("%s gave you back the black box."), dev->name.c_str());
  }
     target_om_ter("lab", 3, miss, false);
@@ -355,12 +340,12 @@ void mission_start::reveal_lab_black_box(mission *miss)
 
 void mission_start::open_sarcophagus(mission *miss)
 {
- npc *p = g->find_npc(miss->npc_id);
- p->attitude = NPCATT_FOLLOW;
- if (p != NULL) {
-  g->u.i_add( item(itypes["sarcophagus_access_code"], 0) );
-  add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
- }
+    npc *p = g->find_npc(miss->npc_id);
+    p->attitude = NPCATT_FOLLOW;
+    if (p != NULL) {
+        g->u.i_add( item("sarcophagus_access_code", 0) );
+        add_msg(m_good, _("%s gave you sarcophagus access code."), p->name.c_str());
+    }
     target_om_ter("haz_sar", 3, miss, false);
 }
 
@@ -368,7 +353,7 @@ void mission_start::reveal_hospital(mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
-  g->u.i_add( item(itypes["vacutainer"], 0) );
+  g->u.i_add( item("vacutainer", 0) );
   add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
  }
     target_om_ter("hospital", 3, miss, false);

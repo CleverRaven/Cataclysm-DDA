@@ -3,6 +3,10 @@
 
 #include <string>
 #include <map>
+
+extern const int savegame_version;
+extern int save_loading_version;
+
 void init_savedata_translation_tables();
 extern std::map<std::string, int> monster_ints;
 #include "enums.h"

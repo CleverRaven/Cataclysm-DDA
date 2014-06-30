@@ -300,7 +300,7 @@ class wish_monster_callback: public uimenu_callback
             werase(w_info);
             tmp.print_info(w_info);
 
-            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->name.c_str());
+            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->nname().c_str());
             mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
 
@@ -338,7 +338,7 @@ void game::wishmonster(int x, int y)
     int i = 0;
     for (std::map<std::string, mtype *>::const_iterator mon = montypes.begin();
          mon != montypes.end(); ++mon) {
-        wmenu.addentry( i, true, 0, "%s", mon->second->name.c_str() );
+        wmenu.addentry( i, true, 0, "%s", mon->second->nname().c_str() );
         wmenu.entries[i].extratxt.txt = string_format("%c", mon->second->sym);
         wmenu.entries[i].extratxt.color = mon->second->color;
         wmenu.entries[i].extratxt.left = 1;
@@ -394,7 +394,7 @@ class wish_item_callback: public uimenu_callback
             if ( ity == NULL ) {
                 return;
             }
-            item tmp(ity, calendar::turn);
+            item tmp(ity->id, calendar::turn);
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
@@ -435,14 +435,14 @@ void game::wishitem( player *p, int x, int y)
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            item granted = item_controller->create(standard_itype_ids[wmenu.ret], calendar::turn);
+            item granted(standard_itype_ids[wmenu.ret], calendar::turn);
             if (p != NULL) {
                 amount = helper::to_int(
                          string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
                                             granted.tname()));
             }
             if (dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer) {
-                granted = granted.in_its_container(&itypes);
+                granted = granted.in_its_container();
             }
             if ( p != NULL ) {
                 for (int i = 0; i < amount; i++) {
@@ -479,7 +479,7 @@ void game::wishskill(player *p)
          aSkill != Skill::skills.end(); ++aSkill) {
         int skill_id = (*aSkill)->id();
         skmenu.addentry( skill_id + skoffset, true, -2, _("@ %d: %s  "),
-                         (int)p->skillLevel(*aSkill), _((*aSkill)->name().c_str()) );
+                         (int)p->skillLevel(*aSkill), (*aSkill)->name().c_str() );
         origskills[skill_id] = (int)p->skillLevel(*aSkill);
     }
     do {

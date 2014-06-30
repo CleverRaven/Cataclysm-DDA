@@ -30,8 +30,11 @@ int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
 int TERRAIN_WINDOW_TERM_WIDTH;
+int TERRAIN_WINDOW_TERM_HEIGHT;
 int FULL_SCREEN_WIDTH;
 int FULL_SCREEN_HEIGHT;
+
+scrollingcombattext SCT;
 
 // utf8 version
 std::vector<std::string> foldstring ( std::string str, int width )
@@ -407,6 +410,7 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
         // wait for spacebar
     }
     werase(stdscr);
+    refresh();
 }
 
 // yn to make an immediate selection
@@ -437,12 +441,10 @@ bool query_yn(const char *mes, ...)
         ucwarning = " (" + ucwarning +")";
         dispkeys = &ucselectors;
     }
-    // localizes the actual question
-    std::string message = _(text.c_str());
 
     // figures the length of the combined texts
     // width needed for text +2 for the border. + (/) 4 for the symbols and a space
-    int win_width = utf8_width(message.c_str()) + utf8_width(selectors.c_str()) + utf8_width(ucwarning.c_str()) + 2 + 4;
+    int win_width = utf8_width(text.c_str()) + utf8_width(selectors.c_str()) + utf8_width(ucwarning.c_str()) + 2 + 4;
     win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
 
     WINDOW *w = NULL;
@@ -480,12 +482,12 @@ bool query_yn(const char *mes, ...)
         }
 
         if (!w) {
-            textformatted = foldstring(message + query, win_width);
+            textformatted = foldstring(text + query, win_width);
             w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
                 (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
             draw_border(w);
         }
-        fold_and_print(w, 1, 1, win_width, c_ltred, message + query);
+        fold_and_print(w, 1, 1, win_width, c_ltred, text + query);
         wrefresh(w);
 
         ch = getch();
@@ -525,7 +527,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
         max_length = width;
     }
     int w_height = 3;
-    int iPopupWidth = (width == 0) ? FULL_SCREEN_WIDTH : width + titlesize + 4;
+    int iPopupWidth = (width == 0) ? FULL_SCREEN_WIDTH : width + titlesize + 5;
     if (iPopupWidth > FULL_SCREEN_WIDTH) {
         iPopupWidth = FULL_SCREEN_WIDTH;
     }
@@ -568,20 +570,22 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
                              int endx, bool loop, long &ch, int &pos, std::string identifier,
-                             int w_x, int w_y, bool dorefresh, bool only_digits )
+                             int w_x, int w_y, bool dorefresh, bool only_digits)
 {
-    std::string ret = input;
+    utf8_wrapper ret(input);
     nc_color string_color = c_magenta;
     nc_color cursor_color = h_ltgray;
     nc_color underscore_color = c_ltgray;
-    if ( pos == -1 ) {
-        pos = utf8_width(input.c_str());
+    if (pos == -1) {
+        pos = ret.length();
     }
-    int lastpos = pos;
     int scrmax = endx - startx;
+    // in output (console) cells, not characters of the string!
     int shift = 0;
-    int lastshift = shift;
     bool redraw = true;
+
+    input_context ctxt("STRING_INPUT");
+    ctxt.register_action("ANY_INPUT");
 
     do {
 
@@ -589,48 +593,84 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos = 0;
         }
 
-        if ( pos < shift ) {
-            shift = pos;
-        } else if ( pos > shift + scrmax ) {
-            shift = pos - scrmax;
-        }
-
-        if (shift < 0 ) {
+        const size_t left_shift = ret.substr( 0, pos ).display_width();
+        if( left_shift < shift ) {
+            shift = 0;
+        } else if( pos < ret.length() && left_shift + 1 >= shift + scrmax ) {
+            // if the cursor is inside the input string, keep one cell right of
+            // the cursor visible, because the cursor might be on a multi-cell
+            // character.
+            shift = left_shift - scrmax + 2;
+        } else if( pos == ret.length() && left_shift >= shift + scrmax ) {
+            // cursor is behind the end of the input string, keep the
+            // trailing '_' visible (always a single cell character)
+            shift = left_shift - scrmax + 1;
+        } else if( shift < 0 ) {
             shift = 0;
         }
-
-        if( redraw || lastshift != shift ) {
-            redraw = false;
-            for ( int reti = shift, scri = 0; scri <= scrmax; reti++, scri++ ) {
-                if( reti < ret.size() ) {
-                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : string_color ), ret[reti] );
-                } else {
-                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), '_');
-                }
-            }
-        } else if ( lastpos != pos ) {
-            if ( lastpos >= shift && lastpos <= shift + scrmax ) {
-                if ( lastpos - shift >= 0 && lastpos - shift < ret.size() ) {
-                    mvwputch(w, starty, startx + lastpos, string_color, ret[lastpos - shift]);
-                } else {
-                    mvwputch(w, starty, startx + lastpos, underscore_color, '_' );
-                }
-            }
-            if (pos < ret.size() ) {
-                mvwputch(w, starty, startx + pos, cursor_color, ret[pos - shift]);
-            } else {
-                mvwputch(w, starty, startx + pos, cursor_color, '_' );
-            }
+        const size_t xleft_shift = ret.substr_display( 0, shift ).display_width();
+        if( xleft_shift != shift ) {
+            // This prevents a multi-cell character from been split, which is not possible
+            // instead scroll a cell further to make that character disappear completely
+            shift++;
         }
 
-        lastpos = pos;
-        lastshift = shift;
+        if( redraw ) {
+            redraw = false;
+            // remove the scrolled out of view part from the input string
+            const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
+            // Clear the line
+            mvwprintw( w, starty, startx, std::string( scrmax, ' ' ).c_str() );
+            // Print the whole input string in default color
+            mvwprintz( w, starty, startx, string_color, "%s", ds.c_str() );
+            size_t sx = ds.display_width();
+            // Print the cursor in its own color
+            if( pos < ret.length() ) {
+                utf8_wrapper cursor = ret.substr( pos, 1 );
+                size_t a = pos;
+                while( a > 0 && cursor.display_width() == 0 ) {
+                    // A combination code point, move back to the earliest
+                    // non-combination code point
+                    a--;
+                    cursor = ret.substr( a, pos - a + 1 );
+                }
+                size_t left_over = ret.substr( 0, a ).display_width() - shift;
+                mvwprintz( w, starty, startx + left_over, cursor_color, "%s", cursor.c_str() );
+            } else if(pos == max_length && max_length > 0) {
+                mvwprintz( w, starty, startx + sx, cursor_color, " " );
+                sx++; // don't override trailing ' '
+            } else {
+                mvwprintz( w, starty, startx + sx, cursor_color, "_" );
+                sx++; // don't override trailing '_'
+            }
+            if( sx < scrmax ) {
+                // could be scrolled out of view when the cursor is at the start of the input
+                size_t l = scrmax - sx;
+                if( max_length > 0 ) {
+                    if( ret.length() >= max_length ) {
+                        l = 0; // no more input possible!
+                    } else if( pos == ret.length() ) {
+                        // one '_' is already printed, formated as cursor
+                        l = std::min<size_t>(l, max_length - ret.length() - 1);
+                    } else {
+                        l = std::min<size_t>(l, max_length - ret.length());
+                    }
+                }
+                if(l > 0) {
+                    mvwprintz( w, starty, startx + sx, underscore_color, std::string( l, '_' ).c_str() );
+                }
+            }
+            wrefresh(w);
+        }
+
         if (dorefresh) {
             wrefresh(w);
         }
-        ch = getch();
         bool return_key = false;
-        if (ch == 27) { // Escape
+        const std::string action = ctxt.handle_input();
+        const input_event ev = ctxt.get_raw_input();
+        ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+        if( ch == KEY_ESCAPE ) {
             return "";
         } else if (ch == '\n') {
             return_key = true;
@@ -645,8 +685,8 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                         hmenu.addentry(h, true, -2, (*hist)[h].c_str());
                     }
                     if ( !ret.empty() && ( hmenu.entries.empty() ||
-                                             hmenu.entries[hist->size() - 1].txt != ret ) ) {
-                        hmenu.addentry(hist->size(), true, -2, ret);
+                                             hmenu.entries[hist->size() - 1].txt != ret.str() ) ) {
+                        hmenu.addentry(hist->size(), true, -2, ret.str());
                         hmenu.selected = hist->size();
                     } else {
                         hmenu.selected = hist->size() - 1;
@@ -661,11 +701,11 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     hmenu.w_x = w_x;
 
                     hmenu.query();
-                    if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret ) {
+                    if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
                         ret = hmenu.entries[hmenu.ret].txt;
                         if( hmenu.ret < hist->size() ) {
                             hist->erase(hist->begin() + hmenu.ret);
-                            hist->push_back(ret);
+                            hist->push_back(ret.str());
                         }
                         pos = ret.size();
                         redraw = true;
@@ -690,10 +730,21 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos = 0;
             ret.erase(0);
             redraw = true;
-        } else if (ch == KEY_BACKSPACE || ch == 127) { // Move the cursor back and re-draw it
+        } else if (ch == KEY_BACKSPACE) { // Move the cursor back and re-draw it
             if( pos > 0 &&
                 pos <= ret.size() ) {         // but silently drop input if we're at 0, instead of adding '^'
                 pos--;                                     //TODO: it is safe now since you only input ascii chars
+                ret.erase(pos, 1);
+                redraw = true;
+            }
+        } else if( ch == KEY_HOME ) {
+            pos = 0;
+            redraw = true;
+        } else if( ch == KEY_END ) {
+            pos = ret.size();
+            redraw = true;
+        } else if( ch == KEY_DC ) {
+            if(pos < ret.size()) {
                 ret.erase(pos, 1);
                 redraw = true;
             }
@@ -703,34 +754,33 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             if(tmplen > 0 && (tmplen + utf8_width(ret.c_str()) <= max_length || max_length == 0)) {
                 ret.append(tmp);
             }
-        } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
-            if ( only_digits && !isdigit(ch) ) {
-                return_key = true;
-            } else {
-                if ( pos == ret.size() ) {
-                    ret += ch;
-                } else {
-                    ret.insert(pos, 1, ch);
-                }
-                redraw = true;
-                pos++;
-            }
+        } else if( ch == ERR ) {
+            // Ignore the error
+        } else if( ch != 0 && only_digits && !isdigit( ch ) ) {
+            return_key = true;
+        } else if( max_length > 0 && ret.length() >= max_length ) {
+            // no further input possible, ignore key
+        } else if( !ev.text.empty() ) {
+            const utf8_wrapper t( ev.text );
+            ret.insert( pos, t );
+            pos += t.length();
+            redraw = true;
         }
         if (return_key) {//"/n" return code
             {
                 if(!identifier.empty() && !ret.empty() ) {
                     std::vector<std::string> *hist = uistate.gethistory(identifier);
                     if( hist != NULL ) {
-                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
-                            hist->push_back(ret);
+                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret.str() ) {
+                            hist->push_back(ret.str());
                         }
                     }
                 }
-                return ret;
+                return ret.str();
             }
         }
     } while ( loop == true );
-    return ret;
+    return ret.str();
 }
 
 long popup_getkey(const char *mes, ...)
@@ -865,18 +915,30 @@ void full_screen_popup(const char *mes, ...)
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
-int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
-                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare,
-                               int selected, bool without_getch)
+int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight, const std::string sItemName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   const int selected, const bool without_getch, const bool without_border)
 {
-    WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
+    WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    mvwprintz(w, 1, 2, c_white, "%s", sItemName.c_str());
-    int line_num = 3;
+    return draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
+                          selected, without_getch, without_border);
+}
+
+int draw_item_info(WINDOW *win, const std::string sItemName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   const int selected, const bool without_getch, const bool without_border)
+{
+    int line_num = 1;
+    if (sItemName != "") {
+        mvwprintz(win, line_num, (without_border) ? 0 : 2, c_white, "%s", sItemName.c_str());
+        line_num = 3;
+    }
+
     int iStartX = 0;
     bool bStartNewLine = true;
     int selected_ret = '\n';
-    std::string spaces(iWidth - 2, ' ');
+    std::string spaces(getmaxx(win), ' ');
     for (int i = 0; i < vItemDisplay.size(); i++) {
         if (vItemDisplay[i].sType == "MENU") {
             if (vItemDisplay[i].sFmt == "iOffsetY") {
@@ -898,25 +960,25 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
                     bgColor = h_white;
                     selected_ret = (int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
                 }
-                mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
-                shortcut_print(w, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt);
+                mvwprintz(win, line_num, 0, bgColor, "%s", spaces.c_str() );
+                shortcut_print(win, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt);
                 line_num++;
             }
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
             line_num++;
             if (vItemDisplay[i].bDrawName) {
-                line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white,
+                line_num += fold_and_print(win, line_num, (without_border) ? 1 : 2, getmaxx(win) - 4, c_white,
                                            vItemDisplay[i].sName);
             }
         } else {
             if (bStartNewLine) {
                 if (vItemDisplay[i].bDrawName) {
-                    mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                    mvwprintz(win, line_num, (without_border) ? 1 : 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
                 }
                 bStartNewLine = false;
             } else {
                 if (vItemDisplay[i].bDrawName) {
-                    wprintz(w, c_white, "%s", vItemDisplay[i].sName.c_str());
+                    wprintz(win, c_white, "%s", vItemDisplay[i].sName.c_str());
                 }
             }
 
@@ -928,10 +990,10 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
             //A bit tricky, find %d and split the string
             size_t pos = sFmt.find("<num>");
             if(pos != std::string::npos) {
-                wprintz(w, c_white, "%s", sFmt.substr(0, pos).c_str());
+                wprintz(win, c_white, "%s", sFmt.substr(0, pos).c_str());
                 sPost = sFmt.substr(pos + 5);
             } else {
-                wprintz(w, c_white, "%s", sFmt.c_str());
+                wprintz(win, c_white, "%s", sFmt.c_str());
             }
 
             if (vItemDisplay[i].sValue != "-999") {
@@ -960,12 +1022,12 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
                     }
                 }
                 if (vItemDisplay[i].is_int == true) {
-                    wprintz(w, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
+                    wprintz(win, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
                 } else {
-                    wprintz(w, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
+                    wprintz(win, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
                 }
             }
-            wprintz(w, c_white, "%s", sPost.c_str());
+            wprintz(win, c_white, "%s", sPost.c_str());
 
             if (vItemDisplay[i].bNewLine) {
                 line_num++;
@@ -974,11 +1036,12 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         }
     }
 
-    draw_border(w);
+    if (!without_border) {
+        draw_border(win);
+        wrefresh(win);
+    }
 
     int ch = (int)' ';
-
-    wrefresh(w);
     if (!without_getch) {
         ch = (int)getch();
         if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
@@ -986,7 +1049,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         } else if ( selected == KEY_LEFT ) {
             ch = (int)' ';
         }
-        delwin(w);
+        delwin(win);
     }
 
     return ch;
@@ -1243,8 +1306,13 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
 }
 
 WINDOW *w_hit_animation = NULL;
-void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
+void hit_animation(int iX, int iY, nc_color cColor, char cTile)
 {
+    /*
+    chtype chtOld = mvwinch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
+    mvwputch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X, cColor, cTile);
+    */
+
     WINDOW *w_hit = newwin(1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
     if (w_hit == NULL) {
         return; //we passed in negative values (semi-expected), so let's not segfault
@@ -1254,14 +1322,9 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
 
-    if (iTimeout <= 0 || iTimeout > 999) {
-        iTimeout = 70;
-    }
-
-    timeout(iTimeout);
+    timeout(OPTIONS["ANIMATION_DELAY"]);
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
-    w_hit_animation = NULL;
 }
 
 std::string from_sentence_case (const std::string &kingston)
@@ -1448,16 +1511,16 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
     } else if (current_hp > max_hp * .5 && !bMonster) {
         color = c_yellow;
         text = "||\\";
-    } else if (current_hp > max_hp * .4 && !bMonster) {
+    } else if (current_hp > max_hp * .4) {
         color = c_ltred;
         text = "||";
-    } else if (current_hp > max_hp * .3) {
+    } else if (current_hp > max_hp * .3 && !bMonster) {
         color = c_ltred;
         text = "|\\";
-    } else if (current_hp > max_hp * .2 && !bMonster) {
+    } else if (current_hp > max_hp * .2) {
         color = c_red;
         text = "|";
-    } else if (current_hp > max_hp * .1) {
+    } else if (current_hp > max_hp * .1 && !bMonster) {
         color = c_red;
         text = "\\";
     } else if (current_hp > 0) {
@@ -1510,6 +1573,225 @@ void display_table(WINDOW *w, const std::string &title, int columns,
             break;
         }
     }
+}
+
+scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const direction p_oDir,
+                                const std::string p_sText, const game_message_type p_gmt,
+                                const std::string p_sText2, const game_message_type p_gmt2,
+                                const std::string p_sType)
+{
+    iPosX = p_iPosX;
+    iPosY = p_iPosY;
+
+    oDir = p_oDir;
+    point pairDirXY = direction_XY(oDir);
+
+    iDirX = pairDirXY.x;
+    iDirY = pairDirXY.y;
+
+    iStep = 0;
+    iStepOffset = 0;
+
+    sText = p_sText;
+    gmt = p_gmt;
+
+    sText2 = p_sText2;
+    gmt2 = p_gmt2;
+
+    sType = p_sType;
+}
+
+void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_oDir,
+                              const std::string p_sText, const game_message_type p_gmt,
+                              const std::string p_sText2, const game_message_type p_gmt2,
+                              const std::string p_sType)
+{
+    if (OPTIONS["ANIMATION_SCT"]) {
+        int iCurStep = 0;
+
+        if (p_sType == "hp") {
+            //Remove old HP bar
+            removeCreatureHP();
+
+            if (p_oDir == WEST || p_oDir == NORTHWEST || p_oDir == SOUTHWEST) {
+                p_oDir = WEST;
+            } else {
+                p_oDir = EAST;
+            }
+
+        } else {
+            //reserve East/West for creature hp display
+            if (p_oDir == EAST) {
+                p_oDir = (one_in(2)) ? NORTHEAST : SOUTHEAST;
+
+            } else if (p_oDir == WEST) {
+                p_oDir = (one_in(2)) ? NORTHWEST : SOUTHWEST;
+            }
+        }
+
+        //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
+        for (std::vector<cSCT>::reverse_iterator iter = vSCT.rbegin(); iter != vSCT.rend(); ++iter) {
+            if (iter->getDirecton() == p_oDir && (iter->getStep() + iter->getStepOffset()) == iCurStep) {
+                ++iCurStep;
+                iter->advanceStepOffset();
+            }
+        }
+
+        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType));
+    }
+}
+
+std::string scrollingcombattext::cSCT::getText(std::string sType)
+{
+    std::string sReturn = sText;
+
+    if (sText2 != "") {
+        if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
+            if (sType == "first") {
+                return sText2 + " ";
+
+            } else if (sType == "full") {
+                sReturn = sText2 + " " + sReturn;
+            }
+        } else {
+            if (sType == "second") {
+                return " " + sText2;
+
+            } else if (sType == "full") {
+                sReturn += " " + sText2;
+            }
+        }
+    } else if (sType == "second") {
+        return "";
+    }
+
+    return sReturn;
+}
+
+game_message_type scrollingcombattext::cSCT::getMsgType(std::string sType)
+{
+    if (sText2 != "") {
+        if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
+            if (sType == "first") {
+                return gmt2;
+            }
+        } else {
+            if (sType == "second") {
+                return gmt2;
+            }
+        }
+    }
+
+    return gmt;
+}
+
+int scrollingcombattext::cSCT::getPosX()
+{
+    if (getStep() > 0) {
+        int iDirOffset = (oDir == EAST) ? 1 : ((oDir == WEST) ? -1 : 0);
+
+        if (oDir == NORTH || oDir == SOUTH) {
+            //Center text
+            iDirOffset -= getText().length()/2;
+
+        } else if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
+            //Left align text
+            iDirOffset -= getText().length();
+        }
+
+        return iPosX + iDirOffset + (iDirX * ((sType == "hp") ? (getStepOffset() + 1) : (getStepOffset() + getStep())));
+    }
+
+    return 0;
+}
+
+int scrollingcombattext::cSCT::getPosY()
+{
+    if (getStep() > 0) {
+        const int iDirOffset = (oDir == SOUTH) ? 1 : ((oDir == NORTH) ? -1 : 0);
+        return iPosY + iDirOffset + (iDirY * (getStepOffset() + getStep()));
+    }
+
+    return 0;
+}
+
+void scrollingcombattext::advanceAllSteps()
+{
+    std::vector<cSCT>::iterator iter = vSCT.begin();
+
+    while (iter != vSCT.end()) {
+        if (iter->advanceStep() > this->iMaxSteps) {
+            iter = vSCT.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+}
+
+void scrollingcombattext::removeCreatureHP()
+{
+    //check for previous hp display and delete it
+    for (std::vector<cSCT>::iterator iter = vSCT.begin(); iter != vSCT.end(); ++iter) {
+        if (iter->getType() == "hp") {
+            vSCT.erase(iter);
+            break;
+        }
+    }
+}
+
+nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg)
+{
+    if (!bOldMsg) {
+        // color for new messages
+        switch(type) {
+            case m_good:    return c_ltgreen;
+            case m_bad:     return c_ltred;
+            case m_mixed:
+            case m_headshot:return c_pink;
+            case m_neutral: return c_white;
+            case m_warning:
+            case m_critical:return c_yellow;
+            case m_info:
+            case m_grazing: return c_ltblue;
+            default:        return c_white;
+        }
+    } else {
+        // color for slightly old messages
+        switch(type) {
+            case m_good:    return c_green;
+            case m_bad:     return c_red;
+            case m_mixed:
+            case m_headshot:return c_magenta;
+            case m_neutral: return c_ltgray;
+            case m_warning:
+            case m_critical:return c_brown;
+            case m_info:
+            case m_grazing: return c_blue;
+            default:        return c_ltgray;
+        }
+    }
+
+    return c_white;
+}
+
+int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg)
+{
+    int iBold = (bOldMsg) ? 0 : 8;
+
+    switch(type) {
+        case m_good:    return iBold + COLOR_GREEN;
+        case m_bad:     return iBold + COLOR_RED;
+        case m_mixed:
+        case m_headshot:return iBold + COLOR_MAGENTA;
+        case m_neutral: return iBold + COLOR_WHITE;
+        case m_warning:
+        case m_critical:return iBold + COLOR_YELLOW;
+        case m_info:
+        case m_grazing: return iBold + COLOR_BLUE;
+        default:        return -1;
+    }
+
+    return -1;
 }
 
 // In non-SDL mode, width/height is just what's specified in the menu

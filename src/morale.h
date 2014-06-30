@@ -29,6 +29,7 @@ enum morale_type
  MORALE_CRAVING_COCAINE,
  MORALE_CRAVING_CRACK,
  MORALE_CRAVING_MUTAGEN,
+ MORALE_CRAVING_DIAZEPAM,
 
  MORALE_FOOD_BAD,
  MORALE_CANNIBAL,
@@ -38,6 +39,7 @@ enum morale_type
  MORALE_LACTOSE,
  MORALE_ANTIJUNK,
  MORALE_ANTIWHEAT,
+ MORALE_NO_DIGEST,
  MORALE_WET,
  MORALE_DRIED_OFF,
  MORALE_COLD,
@@ -59,6 +61,7 @@ enum morale_type
  MORALE_PERM_FANCY,
  MORALE_PERM_OPTIMIST,
  MORALE_PERM_BADTEMPER,
+ MORALE_PERM_CONSTRAINED,
  MORALE_GAME_FOUND_KITTEN,
 
  NUM_MORALE_TYPES
@@ -115,7 +118,7 @@ public:
         std::string item_name = "";
         if (item_type != NULL)
         {
-            item_name = item_type->name;
+            item_name = item_type->nname(1);
         }
 
         // Replace each instance of %i with the item's name.

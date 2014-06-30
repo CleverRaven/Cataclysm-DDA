@@ -140,7 +140,14 @@
 				" ": "t_grass",
 				"o": "t_window_open",
 				"=": "t_linoleum_gray",
-				"w": "t_linoleum_white"
+				"w": "t_linoleum_white",
+				"e": "t_linoleum_white",
+				"r": "t_linoleum_gray",
+				"c": "t_linoleum_white",
+				"S": "t_linoleum_white",
+				"P": "t_linoleum_white",
+				"O": "t_linoleum_white",
+				"l": "t_linoleum_white"
 			 },
 			"furniture":{
 				"d": "f_dumpster",
@@ -157,6 +164,10 @@
 			 },
 			"set": [
 				{ "point": "terrain", "x": [ 0, 23 ], "y": 23, "id": "t_dirt", "repeat": [ 5, 15 ] },
+
+				{ "line": "terrain", "x": 7, "y": 3, "x2": 9, "y2": 3, "id": "t_sidewalk" },
+				{ "line": "terrain", "x": 14, "y": 3, "x2": 16, "y2": 3, "id": "t_sidewalk" },
+
 				{ "line": "trap", "x": 14, "y": 13, "x2": 16, "y2": 13, "id": "tr_beartrap", "chance": 10 }
 			],
 			"place_specials": [
