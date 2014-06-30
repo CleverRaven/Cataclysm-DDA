@@ -12230,10 +12230,10 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--safe mode is on! \
-							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 (%s to turn it off or %s to ignore monster.)"),
-                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
-                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
+        add_msg(m_warning,_("Monster spotted--safe mode is on! Press %s to ignore"),
+                press_x(ACTION_TOGGLE_SAFEMODE).c_str()//,
+                //from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str()
+                             );
         return false;
     }
     int x = 0;
@@ -13960,7 +13960,7 @@ void game::despawn_monsters(const int shiftx, const int shifty)
                         cur_om->zg[group].population++;
                         if (cur_om->zg[group].population /
                             (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                            !cur_om->zg[group].diffuse) {
+                            !cur_om->zg[group].diffuse && !cur_om->zg[group].horde) {
                             cur_om->zg[group].radius++;
                         }
                     }
@@ -14042,7 +14042,7 @@ void game::spawn_mon(int shiftx, int shifty)
   else
    dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   pop = cur_om->zg[i].population;
-  rad = cur_om->zg[i].radius + horde ? 10 : 0;
+  rad = cur_om->zg[i].radius;
   if (dist <= rad) {
       // (The area of the group's territory) in (population/square at this range)
       // chance of adding one monster; cap at the population OR 16

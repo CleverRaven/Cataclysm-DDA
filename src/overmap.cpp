@@ -1614,7 +1614,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             // Check for hordes within player line-of-sight
 
             if (los || debug_monstergroups) {
-                std::vector<mongroup *> hordes = overmap_buffer.monsters_at(omx, omy, z);
+                std::vector<mongroup *> hordes = overmap_buffer.monsters_at(omx - 2, omy - 2, z); // -4 is crutch
 
                 for (int ih = 0; ih < hordes.size(); ih++) {
                     if (hordes[ih]->horde) {
@@ -1624,8 +1624,9 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 }
             }
             // checks tracks
-            int tracks_turn_here = overmap_buffer.track_at(omx, omy, z);
-            const bool tracks_here = (tracks_turn_here != 0);
+            const bool tracks_here =
+                (overmap_buffer.track_at(omx - 2 , omy - 2, z) != 0 );//-4 is crutch
+            //const bool tracks_here = (tracks_turn_here != 0);
             // and a vehicle
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
