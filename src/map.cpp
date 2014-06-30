@@ -4463,22 +4463,14 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
     }
   }
   // fixme; roll off into some function elsewhere ---^
-
   //Merchants will restock their inventories every three days
-  const int merchantRestock = 100; //14400 is the length of one day
-
-  //Check for Merchants to restock acidia
-  int npc_id = -1;
-  npc *found_npc = NULL;
-  for (int x = 0; x < SEEX; x++) {
-    for (int y = 0; y < SEEY; y++) {
-        npc_id = g->npc_at( x, y );
-        if (npc_id != -1){
-            found_npc = g->active_npc[npc_id];
-            if (npc_id != -1 && g->active_npc[npc_id]->restock != -1 && calendar::turn > (g->active_npc[npc_id]->restock + merchantRestock)){
-                found_npc->shop_restock();
-                found_npc->restock = int(calendar::turn);
-            }
+  const int merchantRestock = 100 * 3; //14400 is the length of one day
+  //Check for Merchants to restock
+  if (g->active_npc.size() >= 1){
+    for (int i = 0; i < g->active_npc.size(); i++){
+        if (g->active_npc[i]->restock != -1 && calendar::turn > (g->active_npc[i]->restock + merchantRestock)){
+            g->active_npc[i]->shop_restock();
+            g->active_npc[i]->restock = int(calendar::turn);
         }
     }
   }
