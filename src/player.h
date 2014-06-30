@@ -579,6 +579,8 @@ public:
 
  /** Returns -1 if the weapon is in the let invlet, -2 if NULL, or just returns let */
  char lookup_item(char let);
+ /** used for drinking from hands, returns how many charges were consumed */
+ int drink_from_hands(item& water);
  /** Used for eating object at pos, returns true if object is successfully eaten */
  bool consume(int pos);
  /** Used for eating entered comestible, returns true if comestible is successfully eaten */

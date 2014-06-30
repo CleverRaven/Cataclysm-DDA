@@ -8317,8 +8317,9 @@ int iuse::radiocontrol(player *p, item *it, bool t)
             }
         }
 
-        //Temporarily commented until Kevingranade's fix can be fixed and merged
-        //signal += std::to_string( choice - 2 );
+        std::stringstream choice_str;
+        choice_str << (choice - 2);
+        signal += choice_str.str();
 
         p->add_msg_if_player(_("Click."));
         sendRadioSignal( p, signal.c_str() );
