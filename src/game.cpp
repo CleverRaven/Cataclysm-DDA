@@ -4543,8 +4543,7 @@ void game::mondebug()
 void game::groupdebug()
 {
  erase();
- mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx,
-                                           levy);
+ mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
  int dist, linenum = 1;
  for (int i = 0; i < cur_om->zg.size(); i++) {
   if (cur_om->zg[i].posz != levz) { continue; }
@@ -4556,6 +4555,12 @@ void game::groupdebug()
             i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
             cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest);
    linenum++;
+   if (linenum >= 22) {
+      getch();
+      erase();
+      mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
+      linenum = 1;
+      }
   }
  }
  getch();
@@ -13583,7 +13588,7 @@ void game::spawn_mon(int shiftx, int shifty)
   else
    dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   pop = cur_om->zg[i].population;
-  rad = cur_om->zg[i].radius;
+  rad = cur_om->zg[i].radius + horde ? 10 : 0;
   if (dist <= rad) {
       // (The area of the group's territory) in (population/square at this range)
       // chance of adding one monster; cap at the population OR 16
@@ -13591,7 +13596,8 @@ void game::spawn_mon(int shiftx, int shifty)
                long((1.0 - double(dist / rad)) * pop) ) > rng(0, (rad * rad)) &&
               rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
           group++;
-      cur_om->zg[i].population -= group;
+      //cur_om->zg[i].population -= group;
+      int add_zom = 0;
       // Reduce group radius proportionally to remaining
       // population to maintain a minimal population density.
       if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
@@ -13638,9 +13644,11 @@ void game::spawn_mon(int shiftx, int shifty)
        if (iter < 50) {
         zom.spawn(monx, mony);
         add_zombie(zom);
-       }
+        add_zom++;
+        }
      }
    } // Placing monsters of this group is done!
+   cur_om->zg[i].population -= add_zom;
    if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
     cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
     i--; // And don't increment i.
