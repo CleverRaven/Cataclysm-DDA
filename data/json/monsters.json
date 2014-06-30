@@ -5522,7 +5522,7 @@
     "melee_skill":5,
     "melee_dice":2,
     "melee_dice_sides":4,
-    "melee_cut":5,
+    "melee_cut":4,
     "dodge":2,
     "armor_bash":0,
     "armor_cut":0,
