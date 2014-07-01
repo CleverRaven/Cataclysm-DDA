@@ -1068,7 +1068,7 @@
         "city_distance" : [3, 5], "//":"how far from a city it should be",
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [75, 100], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "rotate" : false, "//":"allow rotation",
         "unique" : true, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "UNIQUE" ]
