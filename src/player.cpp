@@ -8673,9 +8673,8 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
     }
 
-    // Armor needs invlets to access, give one if not already assigned.
     if (to_wear->invlet == 0) {
-        inv.assign_empty_invlet(*to_wear, true);
+        inv.assign_empty_invlet( *to_wear, false );
     }
 
     const bool was_deaf = is_deaf();
@@ -8727,7 +8726,7 @@ hint_rating player::rate_action_takeoff(item *it) {
  return HINT_IFFY;
 }
 
-bool player::takeoff(int pos, bool autodrop)
+bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
 {
     bool taken_off = false;
     if (pos == -1) {
@@ -8744,8 +8743,12 @@ bool player::takeoff(int pos, bool autodrop)
                 for (int j = worn.size() - 1; j >= 0; j--) {
                     if (worn[j].type->is_power_armor() &&
                             j != worn_index) {
-                        if (autodrop) {
-                            g->m.add_item_or_charges(posx, posy, worn[j]);
+                        if( autodrop || items != nullptr ) {
+                            if( items != nullptr ) {
+                                items->push_back( worn[j] );
+                            } else {
+                                g->m.add_item_or_charges( posx, posy, worn[j] );
+                            }
                             add_msg(_("You take off your your %s."), worn[j].tname().c_str());
                             worn.erase(worn.begin() + j);
                             // If we are before worn_index, erasing this element shifted its position by 1.
@@ -8762,18 +8765,22 @@ bool player::takeoff(int pos, bool autodrop)
                 }
             }
 
-            if (autodrop || volume_capacity() - dynamic_cast<it_armor*>(w.type)->storage > volume_carried() + w.type->volume) {
+            if( items != nullptr ) {
+                items->push_back( w );
+                taken_off = true;
+            } else if (autodrop || volume_capacity() - dynamic_cast<it_armor*>(w.type)->storage > volume_carried() + w.type->volume) {
                 inv.add_item_keep_invlet(w);
-                add_msg(_("You take off your your %s."), w.tname().c_str());
-                worn.erase(worn.begin() + worn_index);
-                inv.unsort();
                 taken_off = true;
             } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
                     w.tname().c_str())) {
                 g->m.add_item_or_charges(posx, posy, w);
+                taken_off = true;
+            } else {
+                taken_off = false;
+            }
+            if( taken_off ) {
                 add_msg(_("You take off your your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
-                taken_off = true;
             }
         } else {
             add_msg(m_info, _("You are not wearing that item."));

@@ -10772,43 +10772,41 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
     u.moves -= drop_move_cost;
 }
 
-void game::reassign_item(int pos)
+void game::reassign_item( int pos )
 {
-    if (pos == INT_MIN) {
-        pos = inv(_("Reassign item:"));
+    if( pos == INT_MIN ) {
+        pos = inv( _( "Reassign item:" ) );
     }
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
 
-    item *change_from = &u.i_at(pos);
-    char newch = popup_getkey(_("%s; enter new letter."),
-                              change_from->tname().c_str());
-    if (newch == ' ') {
-        if (pos >= 0) {
-            change_from->invlet = 0;
-        } else {
-            add_msg(m_info, _("Cannot clear inventory letter of worn or wielded items."));
-            return;
-        }
-    } else if (inv_chars.find(newch) == std::string::npos) {
-        add_msg(m_info, _("%c is not a valid inventory letter."), newch);
+    item &change_from = u.i_at( pos );
+    if( change_from.is_null() ) {
         return;
     }
-    if (u.has_item(newch)) {
-        if (change_from->invlet == 0 && u.has_weapon_or_armor(newch)) {
-            // TODO: Chain assignment dialogues until in a valid state.
-            add_msg(m_info, _("Cannot unassign inventory letter of worn or wielded items."));
-            return;
-        }
-        item *change_to = &(u.i_at(newch));
-        change_to->invlet = change_from->invlet;
-        add_msg(m_info, "%c - %s", change_to->invlet == 0 ? ' ' : change_to->invlet,
-                change_to->tname().c_str());
+    char newch = popup_getkey( _( "%s; enter new letter (press SPACE for none, ESCAPE to cancel)." ),
+                               change_from.tname().c_str() );
+    if( newch == ' ' ) {
+        newch = 0;
     }
-    change_from->invlet = newch;
-    add_msg(m_info, "%c - %s", newch == 0 ? ' ' : newch, change_from->tname().c_str());
+    if( newch == KEY_ESCAPE || change_from.invlet == newch ) {
+        add_msg( m_neutral, _( "Never mind." ) );
+        return;
+    }
+    if( newch != 0 && inv_chars.find( newch ) == std::string::npos ) {
+        add_msg( m_info, _( "%c is not a valid inventory letter." ), newch );
+        return;
+    }
+    if( newch != 0 && u.has_item( newch ) ) {
+        item &change_to = u.i_at( newch );
+        change_to.invlet = change_from.invlet;
+        add_msg( m_info, "%c - %s", change_to.invlet == 0 ? ' ' : change_to.invlet,
+                 change_to.tname().c_str() );
+    }
+    change_from.invlet = newch;
+    add_msg( m_info, "%c - %s", newch == 0 ? ' ' : newch, change_from.tname().c_str() );
 }
 
 void game::plthrow(int pos)
