@@ -9,20 +9,15 @@
 ///// function pointer class; provides absract referencing of
 ///// map generator functions written in multiple ways for per-terrain
 ///// random selection pool
-enum mapgen_function_type {
-    MAPGENFUNC_ERROR,
-    MAPGENFUNC_C,
-    MAPGENFUNC_LUA,
-    MAPGENFUNC_JSON,
-};
-
 class mapgen_function {
     public:
-    mapgen_function_type ftype;
     int weight;
-    virtual void dummy_() = 0;
-    virtual mapgen_function_type function_type() { return ftype;/*MAPGENFUNC_ERROR;*/ };
+    protected:
+    mapgen_function() { }
+    public:
     virtual ~mapgen_function() { }
+    virtual bool setup() { return true; }
+    virtual void generate(map*, oter_id, mapgendata, int, float) = 0;
 };
 
 
@@ -32,11 +27,12 @@ class mapgen_function_builtin : public virtual mapgen_function {
     public:
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : fptr(ptr) {
-        ftype = MAPGENFUNC_C;
         weight = w;
     };
     mapgen_function_builtin(std::string sptr, int w = 1000);
-    virtual void dummy_() {}
+    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) {
+        (*fptr)(m, o, mgd, i, d);
+    }
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -156,16 +152,14 @@ struct jmapgen_spawn_item {
 
 class mapgen_function_json : public virtual mapgen_function {
     public:
-    virtual void dummy_() {}
     bool check_inbounds( jmapgen_int & var );
     void setup_place_group(JsonArray &parray );
     void setup_place_special(JsonArray &parray );
     void setup_setmap(JsonArray &parray);
-    bool setup();
-    void apply( map *m, oter_id terrain_type, mapgendata md, int t, float d );
+    virtual bool setup();
+    virtual void generate(map*, oter_id, mapgendata, int, float);
 
     mapgen_function_json(std::string s, int w = 1000) {
-        ftype = MAPGENFUNC_JSON;
         weight = w;
         jdata = s;
         mapgensize = 24;
@@ -195,13 +189,15 @@ class mapgen_function_json : public virtual mapgen_function {
 ///// lua mapgen
 class mapgen_function_lua : public virtual mapgen_function {
     public:
-    virtual void dummy_() {}
     const std::string scr;
     mapgen_function_lua(std::string s, int w = 1000) : scr(s) {
-        ftype = MAPGENFUNC_LUA;
         weight = w;
         // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
+#if defined(LUA)
+    // Prevents instantiating this class in non-lua builds
+    virtual void generate(map*, oter_id, mapgendata, int, float);
+#endif
 };
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists

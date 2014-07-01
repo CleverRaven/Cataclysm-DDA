@@ -123,10 +123,44 @@ class map
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
 
-// File I/O
- void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
- void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
- void shift(const int wx, const int wy, const int wz, const int x, const int y);
+    /**
+     * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
+     * They will than be stored by that class and can be loaded from that class.
+     * This can be called several times, the mapbuffer takes care of adding
+     * the same submap several times. It should only be called after the map has
+     * been loaded.
+     * Submaps that have been loaded from the mapbuffer (and not generated) are
+     * already stored in the mapbuffer.
+     * TODO: determine if this is really needed? Submaps are already in the mapbuffer
+     * if they have been loaded from disc and the are added by map::generate, too.
+     * So when do they not appear in the mapbuffer?
+     */
+    void save();
+    /**
+     * Load submaps into @ref grid. This might create new submaps if
+     * the @ref mapbuffer can not deliver the requested submap (as it does
+     * not exist on disc).
+     * This must be called before the map can be used at all!
+     * @param om overmap to which the world coordinates are relative to.
+     * @param wx coordinates (relative to om) of the submap at grid[0]. This
+     * is in submap coordinates.
+     * @param wy see wx
+     * @param wz see wx, this is the z-level
+     * @param update_vehicles If true, add vehicles to the vehicle cache.
+     */
+    void load(const int wx, const int wy, const int wz, const bool update_vehicles, overmap *om);
+    /**
+     * Same as @ref load, but uses only global submap coordinates and
+     * has therefor no overmap pointer parameter.
+     */
+    void load_abs(const int wx, const int wy, const int wz, const bool update_vehicles);
+    /**
+     * Shift the map along the vector (sx,sy).
+     * This is like loading the map with coordinates derived from the current
+     * position of the map (@ref abs_sub) plus the shift vector.
+     * Note: the map must have been loaded before this can be called.
+     */
+    void shift(const int sx, const int sy);
  void spawn_monsters();
  void clear_spawns();
  void clear_traps();
@@ -455,7 +489,7 @@ void add_corpse(int x, int y);
  bool add_graffiti(int x, int y, std::string contents);
 
 // mapgen.cpp functions
- void generate(overmap *om, const int x, const int y, const int z, const int turn);
+ void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
  void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
@@ -491,13 +525,21 @@ void add_corpse(int x, int y);
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
- point get_abs_sub() {
-   return abs_sub;
- };
- point getabs(const int x=0, const int y=0 );
- point getabs( const point p ) { return getabs(p.x, p.y); }
- point getlocal(const int x, const int y );
- point getlocal( const point p ) { return getlocal(p.x, p.y); }
+    /** return @ref abs_sub */
+    tripoint get_abs_sub() const;
+    /**
+     * Translates local (to this map) coordinates of a square to
+     * global absolute coordinates. (x,y) is in the system that
+     * is used by the ter_at/furn_at/i_at functions.
+     * Output is in the same scale, but in global system.
+     */
+    point getabs(const int x, const int y) const;
+    point getabs(const point p) const { return getabs(p.x, p.y); }
+    /**
+     * Inverse of @ref getabs
+     */
+    point getlocal(const int x, const int y ) const;
+    point getlocal(const point p) const { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
 
@@ -576,8 +618,8 @@ void add_corpse(int x, int y);
                                 );
             }
 
-            bool remove(const int iIndex) {
-                if (iIndex < vZones.size() && iIndex >= 0) {
+            bool remove(const size_t iIndex) {
+                if (iIndex < vZones.size()) {
                     vZones.erase(vZones.begin()+iIndex);
                     return true;
                 }
@@ -602,10 +644,10 @@ void add_corpse(int x, int y);
     void load_zones();
 
 protected:
- void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
+ void saven(const int x, const int y, const int z,
             const int gridx, const int gridy);
  bool loadn(const int x, const int y, const int z, const int gridx, const int gridy,
-            const  bool update_vehicles = true, overmap *om = NULL);
+            const  bool update_vehicles = true);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
@@ -630,11 +672,19 @@ protected:
 
  bool veh_in_active_range;
 
- point abs_sub; // same as x y in maps.txt, for 0,0 / grid[0]
- point abs_min; // same as above in absolute coordinates (submap(x,y) * 12)
- point abs_max; // same as abs_min + ( my_MAPSIZE * 12 )
- int world_z;   // same as
- void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
+    /**
+     * Absolute coordinates of first submap (get_submap_at(0,0))
+     * This is in submap coordinates (see overmapbuffer for explanation).
+     * It is set upon:
+     * - loading submap at grid[0],
+     * - generating submaps (@ref generate)
+     * - shifting the map with @ref shift
+     */
+    tripoint abs_sub;
+    /**
+     * Sets @ref abs_sub, see there. Uses the same coordinate system as @ref abs_sub.
+     */
+    void set_abs_sub(const int x, const int y, const int z);
 
 private:
  bool transparency_cache_dirty;

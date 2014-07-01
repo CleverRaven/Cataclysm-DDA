@@ -2221,6 +2221,62 @@
   },
 
   {
+    "id": "grenade_inc",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "light_red",
+    "name": "incendiary grenade",
+    "description": "This is a military grade incendiary hand grenade. Use this item to pull the pin and light the fuse. You will then have five turns before it explodes into a raging inferno; throwing it would be a good idea.",
+    "price": 40000,
+    "material": ["steel", "null"],
+    "weight": 180,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "flags": "ACT_IN_FIRE",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "transform",
+        "target": "grenade_inc_act",
+        "target_charges": 5,
+        "active": true,
+        "msg": "You pull the pin on the grenade."
+    }
+  },
+
+  {
+    "id": "grenade_inc_act",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "light_red",
+    "name": "active incendiary grenade",
+    "description": "This is an active incendiary grenade, likely to burst into an inferno any second now. Better throw it!",
+    "price": 0,
+    "material": ["steel", "null"],
+    "weight": 180,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 5,
+    "initial_charges": 5,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "flags": "ACT_IN_FIRE",
+    "revert_to": "canister_empty",
+    "category": "weapons",
+    "use_action": "GRENADE_INC_ACT"
+  },
+
+  {
     "id": "granade",
     "type": "TOOL",
     "symbol": "*",
@@ -6683,7 +6739,7 @@
     }
   },
 
-  {
+ {
     "id": "ref_lighter",
     "type": "TOOL",
     "symbol": ",",
@@ -6703,7 +6759,38 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
-    "use_action": "LIGHTER"
+    "use_action": {
+        "type": "transform",
+        "msg": "You flick the lighter.",
+        "target": "ref_lighter_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "Nothing happens."
+    }
+  },
+  
+{
+	"id": "ref_lighter_on",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "refillable lighter (lit)",
+    "description": "This is a lighter featuring a flip top cover and refuelable tank. It is lit.",
+    "price": 35000,
+    "material": "aluminum",
+	"flags": ["FIRE", "LIGHT_4", "FLAMING"],
+    "weight": 20,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 50,
+    "initial_charges": 25,
+    "charges_per_use": 0,
+    "turns_per_charge": 10,
+    "ammo": "gasoline",
+    "revert_to": "ref_lighter",
+    "use_action": "REF_LIT"
   },
 
   {
@@ -6771,6 +6858,89 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "WATER_PURIFIER"
+  },
+  
+  {
+    "id": "kiln_full",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "filled charcoal kiln",
+    "description": "A kiln filled with wood which will become charcoal after a slow period of burning.",
+    "price": 100,
+    "material": ["steel", "wood"],
+    "weight": 15142,
+    "volume": 40,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tool",
+    "use_action": {
+        "type": "transform",
+        "target": "kiln_lit",
+        "target_charges": 3600,
+        "active": true,
+        "msg": "You light the wood.",
+        "need_fire": 1,
+        "need_fire_msg": "You need something to light it with!"
+  }
+  },
+  {
+    "id": "kiln_lit",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "lit charcoal kiln",
+    "description": "A kiln full of wood that has been lit; better drop it!",
+	"flags": ["LIGHT_15"],
+    "price": 100,
+    "material": ["steel", "wood"],
+    "weight": 15142,
+    "volume": 1001,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 3600,
+    "initial_charges": 3600,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "revert_to": "kiln_done",
+    "category" : "tool",
+    "use_action": {
+        "type": "auto_transform",
+        "target": "kiln_done",
+        "non_interactive_msg": "It's already burning!.",
+        "msg": "The kiln's embers die out."
+  }
+  },
+  {
+    "id": "kiln_done",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "finished charcoal kiln",
+    "description": "A charcoal kiln that has finished burning. Disassemble it to retrieve the charcoal and kiln.",
+    "price": 100,
+    "material": "steel",
+    "weight": 8142,
+    "volume": 40,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tool"
   },
 
   {
@@ -7306,6 +7476,7 @@
     "symbol": ";",
     "color": "red",
     "name": "toolbox",
+    "name_plural":"toolboxes",
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities. In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, bone, or chitin. It requires 25 units of duct tape per use.",
     "price": 12999,
     "material": "steel",

@@ -557,34 +557,37 @@ void iexamine::rubble(player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::chainfence(player *p, map *m, int examx, int examy) {
- if (!query_yn(_("Climb %s?"),m->tername(examx, examy).c_str())) {
-  none(p, m, examx, examy);
-  return;
- }
- if ( (p->has_trait("ARACHNID_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
-    add_msg(_("Climbing the fence is trivial for one such as you."));
-    p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+void iexamine::chainfence( player *p, map *m, int examx, int examy )
+{
+    if( !query_yn( _( "Climb %s?" ), m->tername( examx, examy ).c_str() ) ) {
+        none( p, m, examx, examy );
+        return;
+    }
+    if( p->has_trait( "ARACHNID_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
+        add_msg( _( "Climbing the fence is trivial for one such as you." ) );
+        p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+    } else if( p->has_trait( "INSECT_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
+        add_msg( _( "You quickly scale the fence." ) );
+        p->moves -= 90;
+    } else {
+        p->moves -= 400;
+        if( one_in( p->dex_cur ) ) {
+            add_msg( m_bad, _( "You slip whilst climbing and fall down again." ) );
+            return;
+        }
+        p->moves += p->dex_cur * 10;
+    }
+    if( p->in_vehicle ) {
+        m->unboard_vehicle( p->posx, p->posy );
+    }
+    if( examx < SEEX * int( MAPSIZE / 2 ) || examy < SEEY * int( MAPSIZE / 2 ) ||
+        examx >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examy >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+        if( &g->u == p ) {
+            g->update_map( examx, examy );
+        }
+    }
     p->posx = examx;
     p->posy = examy;
-    return;
- }
- if ( (p->has_trait("INSECT_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
-    add_msg(_("You quickly scale the fence."));
-    p->moves -= 90;
-    p->posx = examx;
-    p->posy = examy;
-    return;
- }
-
- p->moves -= 400;
- if (one_in(p->dex_cur)) {
-  add_msg(m_bad, _("You slip whilst climbing and fall down again."));
- } else {
-  p->moves += p->dex_cur * 10;
-  p->posx = examx;
-  p->posy = examy;
- }
 }
 
 void iexamine::bars(player *p, map *m, int examx, int examy) {
@@ -1793,7 +1796,12 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
         return;
     }
-    if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    // Some traps are not actual traps. Those should get a different query.
+    if (t.can_see(*p, examx, examy) && possible == 0 && t.get_avoidance() == 0) { // Separated so saying no doesn't trigger the other query.
+        if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
+            m->disarm_trap(examx, examy);
+        }
+    } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
 }

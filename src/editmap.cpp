@@ -6,7 +6,6 @@
 #include "veh_interact.h"
 #include "options.h"
 #include "auto_pickup.h"
-#include "mapbuffer.h"
 #include "debug.h"
 #include "helper.h"
 #include "editmap.h"
@@ -85,8 +84,9 @@ void edit_json( SAVEOBJ *it )
     do {
         uimenu tm;
 
-        for( size_t s = 0; s < fs1.size(); ++s ) {
-            tm.addentry(-1, true, -2, "%s", fs1[s].c_str() );
+        for(std::vector<std::string>::iterator it = fs1.begin();
+            it != fs1.end(); ++it) {
+            tm.addentry(-1, true, -2, "%s", it->c_str() );
         }
         if(tmret == 0) {
             std::stringstream dump;
@@ -386,8 +386,10 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                         g->zombie(mon_idx).draw(w, center.x, center.y, false);
                         monster & mon=g->zombie(mon_idx);
                         if ( refresh_mplans == true ) {
-                            for( size_t i = 0; i < mon.plans.size(); ++i ) {
-                                hilights["mplan"].points[mon.plans[i]] = 1;
+                            for(std::vector<point>::iterator it =
+                                    mon.plans.begin();
+                                it != mon.plans.end(); ++it) {
+                                hilights["mplan"].points[*it] = 1;
                             }
                         }
                     } else if ( npc_idx >= 0 ) {
@@ -450,9 +452,10 @@ void editmap::update_view(bool update_info)
 
     // hilight target_list points if blink=true (and if it's more than a point )
     if ( blink && target_list.size() > 1 ) {
-        for ( int i = 0; i < target_list.size(); i++ ) {
-            int x = target_list[i].x;
-            int y = target_list[i].y;
+        for (std::vector<point>::iterator it = target_list.begin();
+             it != target_list.end(); ++it) {
+            int x = it->x;
+            int y = it->y;
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if ( ! g->m.veh_at(x, y, vpart) && ( g->mon_at(x, y) == -1 ) && ( g->npc_at(x, y) == -1 ) ) {
@@ -860,16 +863,17 @@ int editmap::edit_ter()
                     }
                 }
 
-                for( size_t t = 0; t < target_list.size(); ++t ) {
+                for(std::vector<point>::iterator it = target_list.begin();
+                    it != target_list.end(); ++it) {
                     int wter=sel_ter;
                     if ( doalt ) {
-                        if ( isvert && ( target_list[t].y == alta || target_list[t].y == altb ) ) {
+                        if ( isvert && (it->y == alta || it->y == altb ) ) {
                             wter=teralt;
-                        } else if ( ishori && ( target_list[t].x == alta || target_list[t].x == altb ) ) {
+                        } else if (ishori && (it->x == alta || it->x == altb)) {
                             wter=teralt;
                         }
                     }
-                    g->m.ter_set(target_list[t].x, target_list[t].y, (ter_id)wter);
+                    g->m.ter_set(it->x, it->y, (ter_id)wter);
                 }
                 if ( action == "CONFIRM_QUIT" ) {
                     break;
@@ -901,8 +905,9 @@ int editmap::edit_ter()
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
-                for( size_t t = 0; t < target_list.size(); ++t ) {
-                    g->m.furn_set(target_list[t].x, target_list[t].y, (furn_id)sel_frn);
+                for(std::vector<point>::iterator it = target_list.begin();
+                    it != target_list.end(); ++it) {
+                    g->m.furn_set(it->x, it->y, (furn_id)sel_frn);
                 }
                 if ( action == "CONFIRM_QUIT" ) {
                     break;
@@ -1022,8 +1027,9 @@ int editmap::edit_fld()
                 fsel_dens--;
             }
             if ( fdens != fsel_dens || target_list.size() > 1 ) {
-                for( size_t t = 0; t < target_list.size(); ++t ) {
-                    field *t_field = &g->m.field_at(target_list[t].x, target_list[t].y);
+                for(std::vector<point>::iterator it = target_list.begin();
+                    it != target_list.end(); ++it) {
+                    field *t_field = &g->m.field_at(it->x, it->y);
                     field_entry *t_fld = t_field->findField((field_id)idx);
                     int t_dens = 0;
                     if ( t_fld != NULL ) {
@@ -1033,7 +1039,7 @@ int editmap::edit_fld()
                         if ( t_dens != 0 ) {
                             t_fld->setFieldDensity(fsel_dens);
                         } else {
-                            g->m.add_field(target_list[t].x, target_list[t].y, (field_id)idx, fsel_dens );
+                            g->m.add_field(it->x, it->y, (field_id)idx, fsel_dens );
                         }
                     } else {
                         if ( t_dens != 0 ) {
@@ -1047,15 +1053,16 @@ int editmap::edit_fld()
                 sel_fdensity = fsel_dens;
             }
         } else if ( fmenu.selected == 0 && fmenu.keypress == '\n' ) {
-            for( size_t t = 0; t < target_list.size(); ++t ) {
-                field *t_field = &g->m.field_at(target_list[t].x, target_list[t].y);
+            for(std::vector<point>::iterator it = target_list.begin();
+                it != target_list.end(); ++it) {
+                field *t_field = &g->m.field_at(it->x, it->y);
                 if ( t_field->fieldCount() > 0 ) {
                     for ( std::map<field_id, field_entry *>::iterator field_list_it = t_field->getFieldStart();
                           field_list_it != t_field->getFieldEnd(); /* noop */
                         ) {
                         field_id rmid = field_list_it->first;
                         field_list_it = t_field->removeField( rmid );
-                        if ( target_list[t].x == target.x && target_list[t].y == target.y ) {
+                        if ( it->x == target.x && it->y == target.y ) {
                             update_fmenu_entry( &fmenu, t_field, (int)rmid );
                         }
                     }
@@ -1145,8 +1152,9 @@ int editmap::edit_trp()
             if ( trsel < num_trap_types && trsel >= 0 ) {
                 trset = trsel;
             }
-            for( size_t t = 0; t < target_list.size(); ++t ) {
-                g->m.add_trap(target_list[t].x, target_list[t].y, trap_id(trset));
+            for(std::vector<point>::iterator it = target_list.begin();
+                it != target_list.end(); ++it) {
+                g->m.add_trap(it->x, it->y, trap_id(trset));
             }
             if ( action == "CONFIRM_QUIT" ) {
                 break;
@@ -1555,19 +1563,6 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 {
     int ret = 0;
 
-    oter_id orig_oters[3][3];
-    overmap *oms[3][3];
-    real_coords tz;
-    for(int omsy = 0; omsy < 3; omsy++) {
-        for (int omsx = 0; omsx < 3; omsx++) {
-            tz.fromabs(tc.abs_pos.x + ((omsx - 1) * 24), tc.abs_pos.y + ((omsy - 1) * 24) );
-            point omp = tz.om_pos;
-            point om = tz.abs_om;
-
-            oms[omsx][omsy] = &overmap_buffer.get(om.x, om.y );
-            orig_oters[omsx][omsy] = oms[omsx][omsy]->ter(omp.x, omp.y, zlevel);
-        }
-    }
     hilights["mapgentgt"].points.clear();
     hilights["mapgentgt"].points[point(target.x-12,target.y-12)]=1;
     hilights["mapgentgt"].points[point(target.x+13,target.y+13)]=1;
@@ -1576,15 +1571,19 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
     update_view(true);
 
-    oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = (int)gmenu.ret;
+    // Coordinates of the overmap terrain that should be generated.
+    const point omt_pos = overmapbuffer::ms_to_omt_copy( tc.abs_pos );
+    oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, zlevel );
+    // Copy to store the original value, to restore it upon canceling
+    const oter_id orig_oters = omt_ref;
+    omt_ref = gmenu.ret;
     tinymap tmpmap;
-    tmpmap.load(tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
-    // this should -not- be saved, map::save appends a dupe to mapbuffer.
-    tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
+    // TODO: add a do-not-save-generated-submaps parameter
+    // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
+    tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, zlevel, calendar::turn );
 
     point pofs = pos2screen(target.x - 11, target.y - 11); //
     WINDOW *w_preview = newwin(24, 24, pofs.y, pofs.x );
-
 
     gmenu.border_color = c_ltgray;
     gmenu.hilight_color = c_black_white;
@@ -1613,9 +1612,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     do {
         if ( gmenu.selected != lastsel ) {
             lastsel = gmenu.selected;
-            oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = gmenu.selected;
+            omt_ref = gmenu.selected;
             cleartmpmap( tmpmap );
-            tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
+            tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, zlevel, calendar::turn );
             showpreview = true;
         }
         if ( showpreview ) {
@@ -1641,7 +1640,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                 if ( gpmenu.ret == 0 ) {
 
                     cleartmpmap( tmpmap );
-                    tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
+                    tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, zlevel, calendar::turn );
                     showpreview = true;
                 } else if ( gpmenu.ret == 1 ) {
                     tmpmap.rotate(1);
@@ -1715,8 +1714,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                 } else if ( gpmenu.ret == 3 ) {
                     popup(_("Changed oter_id from '%s' (%s) to '%s' (%s)"),
-                          orig_oters[1][1].t().name.c_str(), orig_oters[1][1].c_str(),
-                          oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel).t().name.c_str(), oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel).c_str());
+                          orig_oters.t().name.c_str(), orig_oters.c_str(),
+                          omt_ref.t().name.c_str(), omt_ref.c_str());
                 }
             } else if ( gpmenu.keypress == 'm' ) {
                 // todo; keep preview as is and move target
@@ -1742,7 +1741,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     update_view(true);
     if ( gpmenu.ret != 2 && // we didn't apply, so restore the original om_ter
          gpmenu.ret != 3) { // chose to change oter_id but not apply mapgen
-        oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = orig_oters[1][1];
+        omt_ref = orig_oters;
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;

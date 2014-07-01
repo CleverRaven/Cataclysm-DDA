@@ -21,6 +21,21 @@ The latest instructions on how to compile can be found on [our wiki](http://www.
 
 Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/CONTRIBUTING.md) for details.
 
+## Community
+
+Cataclysm: Dark Days Ahead main site, includes links to forum, wiki, and GitHub repo:
+http://www.cataclysmdda.com/
+
+Forums:
+http://smf.cataclysmdda.com
+Wiki:
+http://wiki.cataclysmdda.com/
+GitHub repo:
+https://github.com/CleverRaven/Cataclysm-DDA
+
+IRC:
+irc.freenode.net ; #CataclysmDDA
+http://webchat.freenode.net/?channels=#CataclysmDDA
 
 ## Frequently Asked Questions
 

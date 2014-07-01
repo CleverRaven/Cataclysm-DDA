@@ -98,27 +98,12 @@ std::pair<int, int> rain_or_acid_level( const int wt )
  */
 void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn )
 {
-    int startturn = endturn; //setting startturn to default to endturn in case something goes wrong in the next few lines
-
-    if ( it->item_vars.find("funnelcontainer_last_checked") != it->item_vars.end() ) {
-                    startturn = atoi ( it->item_vars["funnelcontainer_last_checked"].c_str());
-                    //debugmsg("funnelcontainer_last_checked successfully found: %s", it->item_vars["funnelcontainer_last_checked"].c_str());
-                } else {
-                    //if we haven't given it a "funnelcontainer_last_checked", do it now.
-                    it->item_vars["funnelcontainer_last_checked"] = string_format("%d", int(calendar::turn));
-
-                    //debugmsg("funnelcontainer_last_checked not found, set to: %s", it->item_vars["funnelcontainer_last_checked"].c_str());
-                }
-
-
+    const int startturn = ( it->bday > 0 ? it->bday - 1 : 0 );
     if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
         return;
     }
 
-    it->item_vars["funnelcontainer_last_checked"] = string_format("%d", int(calendar::turn)); // last fill check = now
-
-    //debugmsg("filling funnelcontainer, set funnelcontainer_last_checked to: %s", it->item_vars["funnelcontainer_last_checked"].c_str());
-
+    it->bday = endturn; // bday == last fill check
     double fillrain = 0;
     double fillacid = 0;
     int firstfill = 0;
