@@ -1910,8 +1910,8 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
     }
 
     // Set initial panes; for now they are as default
-    selectPane("9", SelectedPane::Left);
-    selectPane("6", SelectedPane::Right);
+    selectPane("A", SelectedPane::Left);
+    selectPane("I", SelectedPane::Right);
   }
 }
 
