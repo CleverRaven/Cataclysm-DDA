@@ -4756,22 +4756,30 @@ void game::mondebug()
 void game::groupdebug()
 {
  erase();
- mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
+ mvprintw(0 ,0, "Debug hordes(Defalut), all mongroups(m), all in range(r)?");
+ char ch = getch();
+ erase();
+ std::string mode;
+ bool all = ch == 'm';
+ bool in_range = ch == 'r';
+ bool hordes = !all && !in_range;
+ mode = all ? "All groups" : in_range ? "In range" : "Hordes";
+ mvprintw(0, 0, "%s OM %d : %d    M %d : %d", mode.c_str(), cur_om->pos().x, cur_om->pos().y, levx, levy);
  int dist, linenum = 1;
  for (int i = 0; i < cur_om->zg.size(); i++) {
   if (cur_om->zg[i].posz != levz) { continue; }
   dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-  //if (dist <= cur_om->zg[i].radius)
-  if (cur_om->zg[i].horde)
+  if ( (dist <= cur_om->zg[i].radius && in_range) ||
+       (cur_om->zg[i].horde && hordes) || all )
   {
-   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d",
+   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d type: %s",
             i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
-            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest);
+            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest, cur_om->zg[i].type.c_str());
    linenum++;
    if (linenum >= 22) {
       getch();
       erase();
-      mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
+      mvprintw(0, 0, "%s OM %d : %d    M %d : %d", mode.c_str(), cur_om->pos().x, cur_om->pos().y, levx, levy);
       linenum = 1;
       }
   }
@@ -12230,10 +12238,10 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(m_warning,_("Monster spotted--safe mode is on! Press %s to ignore"),
-                press_x(ACTION_TOGGLE_SAFEMODE).c_str()//,
-                //from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str()
-                             );
+        add_msg(m_warning, _("Monster spotted--safe mode is on! \
+(%s to turn it off or %s to ignore monster.)"),
+                press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+                from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
     }
     int x = 0;
@@ -14048,7 +14056,7 @@ void game::spawn_mon(int shiftx, int shifty)
       // chance of adding one monster; cap at the population OR 16
       while ( (cur_om->zg[i].diffuse ? long( pop) :
                long((1.0 - double(dist / rad)) * pop) ) > rng(0, (rad * rad)) &&
-              rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
+              rng( horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
           group++;
       //cur_om->zg[i].population -= group;
       int add_zom = 0;

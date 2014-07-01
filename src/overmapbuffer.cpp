@@ -202,8 +202,19 @@ std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
 int overmapbuffer::track_at(int x, int y, int z)
 {
     const overmap* om = overmap_buffer.get_existing_om_global(x, y);
+    overmap *omt;
+    if (om == NULL) return 0;
+        else omt = const_cast<overmap*>(om);
+    int tr[4],ret_max = 0;
     point p = omt_to_sm_copy(x, y);
-    return om != NULL ? const_cast<overmap*>(om)->track_at(p.x, p.y) : 0;
+    tr[0] = omt->track_at(p.x, p.y);
+    tr[1] = omt->track_at(p.x - 1, p.y);
+    tr[2] = omt->track_at(p.x, p.y - 1);
+    tr[3] = omt->track_at(p.x - 1, p.y - 1);
+    for (int i = 0; i < 4; i++ )
+      if (ret_max < tr[i]) ret_max = tr[i];
+
+    return ret_max;
 }
 
 bool overmapbuffer::seen(int x, int y, int z) const
