@@ -1429,6 +1429,7 @@ use_function Item_factory::use_from_object(JsonObject obj)
         obj.read("charges_needed", actor->charges_needed);
         obj.read("tools_needed", actor->tools_needed);
         obj.read("diseases", actor->diseases);
+        obj.read("effects", actor->effects);
         obj.read("stat_adjustments", actor->stat_adjustments);
         obj.read("fields_produced", actor->fields_produced);
         return use_function(actor.release());

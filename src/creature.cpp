@@ -1073,6 +1073,10 @@ void Creature::mod_stat( std::string stat, int modifier )
         mod_cut_bonus( modifier );
     } else if( stat == "pain" ) {
         mod_pain( modifier );
+    } else if( stat == "healthy" ) {
+        mod_healthy( modifier );
+    } else if( stat == "healthy_mod" ) {
+        mod_healthy_mod( modifier );
     } else if( stat == "moves" ) {
         mod_moves( modifier );
     } else {

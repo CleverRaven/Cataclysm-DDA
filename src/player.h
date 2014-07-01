@@ -808,7 +808,7 @@ public:
  int next_climate_control_check;
  bool last_climate_control_ret;
  int power_level, max_power_level;
- int hunger, thirst, fatigue, health, health_mod;
+ int hunger, thirst, fatigue;
  int oxygen;
  unsigned int recoil;
  unsigned int driving_recoil;

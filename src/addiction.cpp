@@ -178,8 +178,8 @@ void addict_effect(addiction &add)
     case ADD_DIAZEPAM:
         g->u.mod_per_bonus(-1);
         g->u.mod_int_bonus(-1);
-        if (rng(40, 1200) <= in * 10 && g->u.health > -100) {
-            g->u.health--;
+        if (rng(40, 1200) <= in * 10 && g->u.healthy > -100) {
+            g->u.healthy--;
         }
         if (one_in(20) && rng(0, 20) < in) {
             add_msg(m_warning, _("You could use some diazepam."));

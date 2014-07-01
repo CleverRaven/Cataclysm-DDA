@@ -344,51 +344,6 @@ void trapfunc::shotgun(Creature *c, int x, int y)
     }
 }
 
-void trapfuncm::snare_light(monster *z, int x, int y)
-{
- bool seen = g->u_see(z);
- g->sound(x, y, 2, _("Snap!"));
- switch (z->type->size) {
-  case MS_TINY:
-   if(seen){
-    add_msg(_("The %s has been snared!"), z->name().c_str());
-   }
-   if(z->hurt(10)){
-    g->kill_mon(g->mon_at(x, y));
-   } else {
-    z->add_effect("beartrap", 1, true);
-   }
-   break;
-  case MS_SMALL:
-   if(seen){
-    add_msg(_("The %s has been snared!"), z->name().c_str());
-   }
-   z->moves = 0;
-   z->add_effect("beartrap", rng(100, 150));
-   break;
-  case MS_MEDIUM:
-   if(seen){
-    add_msg(_("The %s has been snared!"), z->name().c_str());
-   }
-   z->moves = 0;
-   z->add_effect("beartrap", rng(20, 30));
-   break;
-  case MS_LARGE:
-   if(seen){
-    add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
-   }
-   break;
-  case MS_HUGE:
-   if(seen){
-    add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
-   }
-   break;
- }
- g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "string_36");
- g->m.spawn_item(x, y, "snare_trigger");
-}
-
 void trapfunc::blade(Creature *c, int, int)
 {
     if (c != NULL) {
@@ -410,58 +365,44 @@ void trapfunc::blade(Creature *c, int, int)
 
 void trapfunc::snare_light(Creature *c, int x, int y)
 {
- bool seen = g->u_see(z);
- g->sound(x, y, 4, _("Snap!"));
- switch (z->type->size) {
-  case MS_TINY:
-   if(seen){
-    add_msg(_("The %s has been snared!"), z->name().c_str());
-   }
-   if(z->hurt(20)){
-    g->kill_mon(g->mon_at(x, y));
-   } else {
-    z->moves = 0;
-    z->add_effect("beartrap", 1, true);
-   }
-   break;
-  case MS_SMALL:
-   if(seen){
-    add_msg(_("The %s has been snared!"), z->name().c_str());
-   }
-   if(z->hurt(20)){
-    g->kill_mon(g->mon_at(x, y));
-   } else {
-    z->moves = 0;
-    z->add_effect("beartrap", 1, true);
-   }
-   break;
-  case MS_MEDIUM:
-   if(seen){
-    add_msg(_("The %s has been snared!"), z->name().c_str());
-   }
-   if(z->hurt(10)){
-    g->kill_mon(g->mon_at(x, y));
-   } else {
-    z->moves = 0;
-    z->add_effect("beartrap", rng(100, 150));
-   }
-   break;
-  case MS_LARGE:
-   if(seen){
-    add_msg(_("The %s has been snared!"), z->name().c_str());
-   }
-    z->moves = 0;
-    z->add_effect("beartrap", rng(20, 30));
-   break;
-  case MS_HUGE:
-   if(seen){
-    add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
-   }
-   break;
- }
- g->m.remove_trap(x, y);
- g->m.spawn_item(x, y, "snare_trigger");
- g->m.spawn_item(x, y, "rope_6");
+    g->sound(x, y, 2, _("Snap!"));
+    g->m.remove_trap(x, y);
+    g->m.spawn_item(x, y, "string_36");
+    g->m.spawn_item(x, y, "snare_trigger");
+    // large animals will trigger and destroy the trap, but not get harmed
+    if (c != NULL && c->get_size() >= MS_LARGE) {
+        c->add_msg_if_npc(m_neutral, _("The snare has no effect on <npcname>!"));
+        return;
+    }
+    if (c == NULL) {
+        return;
+    }
+    c->add_msg_player_or_npc(m_bad, _("A snare closes on your leg."),
+                             _("A snare closes on <npcname>s leg."));
+    c->add_memorial_log(pgettext("memorial_male", "Triggered a light snare."),
+                        pgettext("memorial_female", "Triggered a light snare."));
+    monster *z = dynamic_cast<monster *>(c);
+    player *n = dynamic_cast<player *>(c);
+    if (n != NULL) {
+        n->add_effect("lightsnare", 1, true);
+    } else if (z != NULL) {
+        switch (z->type->size) {
+            case MS_TINY:
+                z->add_effect("beartrap", 1, 1, true);
+                z->hurt(10);
+                break;
+            case MS_SMALL:
+                z->moves = 0;
+                z->add_effect("beartrap", rng(100, 150));
+                break;
+            case MS_MEDIUM:
+                z->moves = 0;
+                z->add_effect("beartrap", rng(20, 30));
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 void trapfunc::snare_heavy(Creature *c, int x, int y)
@@ -488,7 +429,7 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
     player *n = dynamic_cast<player *>(c);
     if (n != NULL) {
         n->hit(NULL, bp_legs, side, 15, 20);
-        n->add_disease("heavysnare", rng(20, 30));
+        n->add_effect("beartrap", 1, true);
     } else if (z != NULL) {
         int damage;
         switch (z->type->size) {

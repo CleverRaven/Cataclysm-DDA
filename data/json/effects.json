@@ -457,8 +457,8 @@
    {
        "type" : "effect_type",
        "id" : "stung",
-       "name" : "Stung",
-       "desc" : "Causes constant pain.",
+       "name" : ["Stung"],
+       "desc" : ["Causes constant pain."],
        "rating": "bad"
    },
    {

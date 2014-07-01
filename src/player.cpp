@@ -1996,8 +1996,6 @@ void player::mod_stat( std::string stat, int modifier )
         thirst += modifier;
     } else if( stat == "fatigue" ) {
         fatigue += modifier;
-    } else if( stat == "health" ) {
-        health += modifier;
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else {
@@ -5870,24 +5868,19 @@ void player::suffer()
 
     process_wounds();
     
-    //UPDATETHISFORPR
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) &&
         (!(wearing_something_on(bp_feet))) ) {
         if (one_in(25)) {
             add_msg(m_good, _("This soil is delicious!"));
             hunger -= 2;
             thirst -= 2;
-            if (health <= 10) {
-                health++;
-            }
+            mod_healthy_mod(10);
             // Mmm, dat soil...
             focus_pool--;
         } else if (one_in(20)){
             hunger--;
             thirst--;
-            if (health <= 5) {
-                health++;
-            }
+            mod_healthy_mod(5);
         }
     }
 
@@ -8556,9 +8549,7 @@ void player::rooted()
         if( one_in(20) ) {
             hunger--;
             thirst--;
-            if (health <= 5) {
-                health++;
-            }
+            mod_healthy_mod(5);
         }
     }
 }
@@ -9991,8 +9982,7 @@ void player::do_read( item *book )
                 !wearing_something_on(bp_feet) ) {
                 hunger -= root_factor;
                 thirst -= root_factor;
-                health += root_factor;
-                health = std::min( 5, health );
+                mod_healthy_mod(root_factor);
             }
             if (activity.type != ACT_NULL) {
                 return;
