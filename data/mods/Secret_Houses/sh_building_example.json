@@ -1,82 +1,74 @@
 [
   {
-    "type": "overmap_terrain",
-    "id": "house_secret",
-    "name": "strange house",
-    "sym": 77,
-    "color": "white",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "sidewalk": true,
-    "mapgen": [
-      {
-        "method": "json",
-        "weight": 5000,
-        "object": {
-          "rows": [
-            "------+---------+-------",
-            "|         |$$$    $$$$ |",
-            "|$ ?????  | ???  ???   |",
-            "|$  ???   +  ???       |",
-            "|$        | ?????????  +",
-            "|  ?????  |            |",
-            "|  ?????  | ?????? $$$ |",
-            "|---------|------+-----|",
-            "|PPP PP PP| ????       |",
-            "|    ???  |     ???    |",
-            "+  ?????  +     ????   +",
-            "|???   ???|  ??      ? |",
-            "|PP?   ?PP|$$$$ ???    |",
-            "|-----+----------+-----|",
-            "| ?????|T |PPPPP  ??  ?|",
-            "|   ?  |-#|   ??  ??  P|",
-            "| ?????|t | ?????     P|",
-            "+      |-+|           ?|",
-            "|         |            |",
-            "|   ???   |    ?   ?  $|",
-            "|  ?  ??  | ??? ???   $|",
-            "| ?????   | ???????    |",
-            "|^$$$$$$$^|^PPPPPPPPPP^|",
-            "------------------------"
-          ],
-          "terrain": {
-            "?": "t_sh_check_secret",
-            "$": "t_floor",
-            "P": "t_floor",
-            "^": "t_floor",
-            "!": "t_hidden_stairs",
-            "#": "t_wall_h_rem",
-            "-": "t_wall_h",
-            "|": "t_wall_v",
-            ".": "t_grass",
-            " ": "t_floor",
-            "+": "t_door_o",
-            "t": "t_floor",
-            "T": "t_floor"
-          },
-          "furniture": {
-            "?": "f_null",
-            "$": "f_beauty_statue",
-            "P": "f_beauty_painting",
-            "^": "f_beauty_plant",
-            "t": "f_toilet",
-            "T": "f_safe_l"
-          },
-          "place_groups": [
-            {
-              "item": "secret_safe_items",
-              "chance": 100,
-              "x": 8,
-              "y": 14,
-              "repeat": [
-                1,
-                3
-              ]
-            }
+    "type": "mapgen",
+    "om_terrain": [
+      "house"
+    ],
+    "method": "json",
+    "weight": 100,
+    "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+    "object": {
+      "rows": [
+        "------+---------+-------",
+        "|         |$$$    $$$$ |",
+        "|$ ?????  | ???  ???   |",
+        "|$  ???   +  ???       |",
+        "|$        | ?????????  +",
+        "|  ?????  |            |",
+        "|  ?????  | ?????? $$$ |",
+        "|---------|------+-----|",
+        "|PPP PP PP| ????       |",
+        "|    ???  |     ???    |",
+        "+  ?????  +     ????   +",
+        "|???   ???|  ??      ? |",
+        "|PP?   ?PP|$$$$ ???    |",
+        "|-----+----------+-----|",
+        "| ?????|T |PPPPP  ??  ?|",
+        "|   ?  |-#|   ??  ??  P|",
+        "| ?????|t | ?????     P|",
+        "+      |-+|           ?|",
+        "|         |            |",
+        "|   ???   |    ?   ?  $|",
+        "|  ?  ??  | ??? ???   $|",
+        "| ?????   | ???????    |",
+        "|^$$$$$$$^|^PPPPPPPPPP^|",
+        "------------------------"
+      ],
+      "terrain": {
+        "?": "t_sh_check_secret",
+        "$": "t_floor",
+        "P": "t_floor",
+        "^": "t_floor",
+        "!": "t_hidden_stairs",
+        "#": "t_wall_h_rem",
+        "-": "t_wall_h",
+        "|": "t_wall_v",
+        ".": "t_grass",
+        " ": "t_floor",
+        "+": "t_door_glass_c",
+        "t": "t_floor",
+        "T": "t_floor"
+      },
+      "furniture": {
+        "?": "f_null",
+        "$": "f_beauty_statue",
+        "P": "f_beauty_painting",
+        "^": "f_beauty_plant",
+        "t": "f_toilet",
+        "T": "f_safe_l"
+      },
+      "place_groups": [
+        {
+          "item": "secret_safe_items",
+          "chance": 100,
+          "x": 8,
+          "y": 14,
+          "repeat": [
+            1,
+            3
           ]
         }
-      }
-    ]
+      ]
+    }
   }
 ]

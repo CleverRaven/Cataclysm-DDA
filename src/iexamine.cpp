@@ -2044,8 +2044,7 @@ bool hide_secret_wall(map *m, point  *p)
 
 void iexamine::secret_examine(player *p, map *m, int examx, int examy)
 {
-    p->add_msg_if_player(m_neutral, "This is %s", m->furn_at(examx, examy).name.c_str()
-                        );
+    p->add_msg_if_player(m_neutral, "This is %s", m->furn_at(examx, examy).name.c_str());
 
     std::string furname = m->furn_at(examx, examy).name.c_str();
 
@@ -2083,9 +2082,7 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
         //todo: may be needed normal balanced formula
         if (rng(5, 25) < rng(g->u.int_cur, g->u.int_cur + g->u.per_cur / 2)) {
 
-            point pwall;
-            pwall.x = examx;
-            pwall.y = examy;
+			point pwall = point(examx, examy);
 
             if (!one_in(3) && hide_secret_wall(m, &pwall)) {
                 g->sound(pwall.x, pwall.y, 15, "ground grumbling");
@@ -2098,16 +2095,17 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
 
         } else {
 
-            if (true) {
+            if (one_in(10)) {
+
+				//todo: need more different traps
 
                 for (int i = p->xpos() - 1; i <= p->xpos() + 1; i++)
                     for (int j = p->ypos() - 1; j <= p->ypos() + 1; j++) {
-                        if (m->move_cost(i, j) != 0) {
+                        if (m->move_cost(i, j) != 0 && !m->has_furn(i, j)) {
                             m->trap_set(i, j, tr_spike_pit);
                         }
                     }
             }
-
         }
     }
 
