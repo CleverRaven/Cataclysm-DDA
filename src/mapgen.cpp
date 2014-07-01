@@ -10960,6 +10960,40 @@ void map::place_npc(int x, int y, std::string type)
         g->load_npcs();
         return;
         }
+    if (type == "evac_guard1"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD1;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return;
+        }
+    if (type == "evac_guard2"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD2;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return;
+        }
     if (type == "guard"){
         npc *temp = new npc();
         temp->normalize();
@@ -11006,6 +11040,22 @@ void map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_SCAVENGER_MERC;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return;
+        }
+    if (type == "arsonist"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_ARSONIST);
+        temp->name += ", Arsonist";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_SHOPKEEP;
+        temp->chatbin.first_topic = TALK_ARSONIST;
         temp->fac_id = 3;
         temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
