@@ -1888,8 +1888,10 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
           continue;
         }
       }
-
-      _panes[id] = new ItemVectorPane(id, g->m.i_at(mapTile), g->m.max_volume(mapTile), -1);
+      if (g->m.can_put_items(mapTile))
+        _panes[id] = new ItemVectorPane(id, g->m.i_at(mapTile), g->m.max_volume(mapTile), -1);
+      else
+        _panes[id] = nullptr;
     }
 
     // set up the ALL tab
@@ -1976,7 +1978,7 @@ void AdvancedInventory::AggregatePane::restack () {
   for (auto paneP : _panes) {
     Pane *pane(paneP.second);
 
-    if (pane == _ignoring)
+    if (ignoring(pane))
       continue;
 
     for (auto &iList : pane->stackedItems()) {
@@ -2020,6 +2022,9 @@ int AdvancedInventory::AggregatePane::maxVolume () const {
     int mV = 0;
 
     for (auto &pair : _panes) {
+      if (ignoring(pair.second))
+        continue;
+
       mV += pair.second->maxVolume();
     }
 
@@ -2041,6 +2046,9 @@ int AdvancedInventory::AggregatePane::maxWeight () const {
     int mW = 0;
 
     for (auto &pair : _panes) {
+      if (ignoring(pair.second))
+        continue;
+
       mW += pair.second->maxWeight();
     }
 
@@ -2054,6 +2062,9 @@ int AdvancedInventory::AggregatePane::volume () const {
   int volume = 0;
 
   for (auto &pair : _panes) {
+    if (ignoring(pair.second))
+      continue;
+
     volume += pair.second->volume();
   }
 
@@ -2064,6 +2075,9 @@ int AdvancedInventory::AggregatePane::weight () const {
   int weight = 0;
 
   for (auto &pair : _panes) {
+    if (ignoring(pair.second))
+      continue;
+
     weight += pair.second->weight();
   }
 
@@ -2225,8 +2239,11 @@ void AdvancedInventory::displayHead (WINDOW *head) {
 
 void AdvancedInventory::displayPanes (WINDOW *lWin, WINDOW *rWin) {
   // TODO: fix this for linear mode
-  _selections[SelectedPane::Left]->draw(lWin, _selectedPane == SelectedPane::Left);
-  _selections[SelectedPane::Right]->draw(rWin, _selectedPane == SelectedPane::Right);
+  Pane *lPane(_selections[SelectedPane::Left]);
+  Pane *rPane(_selections[SelectedPane::Right]);
+
+  lPane->draw(lWin, _selectedPane == SelectedPane::Left);
+  rPane->draw(rWin, _selectedPane == SelectedPane::Right);
 
   drawAreaIndicator(lWin, _selectedPane == SelectedPane::Left);
   drawAreaIndicator(rWin, _selectedPane == SelectedPane::Right);
@@ -2242,6 +2259,11 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
   std::string spaces(columns - 4, ' ');
 
   nc_color norm = active ? c_white : c_dkgray;
+
+  if (this == nullptr) {// Why is this valid? C++, you so crazy!
+    mvwprintz(window, itemsPerPage / 2, columns / 2 - 15, norm, "This is not a place for items!");
+    return;
+  }
 
   int v(volume()), w(weight());
   int mV = maxVolume(), mW = maxWeight();
@@ -2393,9 +2415,10 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<const it
 
 void AdvancedInventory::drawIndicatorAtom (WINDOW *window, std::string id, point location, bool active) const {
   Pane *pane(_panes.at(id));
-  bool selected(active ? selectedPane()->covers(pane) : unselectedPane()->covers(pane));
 
   if (pane != nullptr) {
+    bool selected(active ? selectedPane() && selectedPane()->covers(pane) : unselectedPane() && unselectedPane()->covers(pane));
+
     mvwprintz(window, location.y, location.x, selected ? c_cyan : active ? c_white : c_ltgray, pane->chevrons().c_str());
     mvwprintz(window, location.y, location.x + 1, selected ? c_green : active ? c_white : c_ltgray, id.c_str());
   } else {
@@ -2442,7 +2465,7 @@ void AdvancedInventory::AggregatePane::removeItem (const item *item) {
   _dirtyStack = true;
 
   for (auto pane : _panes) {
-    if (pane.second == _ignoring)
+    if (ignoring(pane.second))
       continue;
 
     pane.second->removeItem(item);
@@ -2612,7 +2635,7 @@ AdvancedInventory::~AdvancedInventory() {
 }
 
 bool AdvancedInventory::AggregatePane::covers (Pane *o) const {
-  if (o == _ignoring)
+  if (ignoring(o))
     return false;
 
   if (o == this)

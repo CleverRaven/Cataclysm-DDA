@@ -97,6 +97,7 @@ class AdvancedInventory {
     virtual void removeItem (const item *) = 0;
 
     virtual void ignorePane(Pane *) {};
+    virtual bool ignoring (Pane *pane) const { return pane == nullptr; }
 
   private:
     virtual void restack ();
@@ -156,6 +157,7 @@ class AdvancedInventory {
     void removeItem (const item *) override;
 
     void ignorePane (Pane *pane) override { _ignoring = pane; _dirtyStack = true; }
+    bool ignoring (Pane *pane) const override { return pane == _ignoring || Pane::ignoring(pane); }
 
     bool covers (Pane *) const override;
   };
