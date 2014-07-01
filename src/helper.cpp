@@ -33,39 +33,30 @@ namespace helper
   Direction movementKeyToDirection(char input) {
     switch (input) {
     case '1':
-    case 'b':
     case 'B':
       return Direction::SouthWest;
     case '2':
-    case 'j':
     case 'J':
       return Direction::South;
     case '3':
-    case 'n':
     case 'N':
       return Direction::SouthEast;
     case '4':
-    case 'h':
     case 'H':
       return Direction::West;
     case '5':
-    case 'g':
     case 'G':
       return Direction::Center;
     case '6':
-    case 'l':
     case 'L':
       return Direction::East;
     case '7':
-    case 'y':
     case 'Y':
       return Direction::NorthWest;
     case '8':
-    case 'k':
     case 'K':
       return Direction::North;
     case '9':
-    case 'u':
     case 'U':
       return Direction::NorthEast;
     case '<':
