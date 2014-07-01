@@ -8240,7 +8240,8 @@ void sendRadioSignal(player *p, std::string signal)
                 }
 
                 if (ii.has_flag("RADIO_CONTAINER")) {
-                    if (!ii.contents.empty()) {
+					if (!ii.contents.empty() && ii.contents[0].has_flag(signal)) {
+
                         itype_id bomb_type = ii.contents[0].type->id;
 
                         ii.make(bomb_type);
