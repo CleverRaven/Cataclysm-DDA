@@ -2206,6 +2206,21 @@ void AdvancedInventory::display (player *p, player *o) {
     case 's':
       advInv.sort();
       break;
+    case 'n':
+      advInv.sort(SortRule::Name);
+      break;
+    case 'x':
+      advInv.sort(SortRule::Charges);
+      break;
+    case 'v':
+      advInv.sort(SortRule::Volume);
+      break;
+    case 'w':
+      advInv.sort(SortRule::Weight);
+      break;
+    case 'u':
+      advInv.sort(SortRule::Unsorted);
+      break;
     case 'd':
     case 'D':
       advInv.selectPane("D");
@@ -2602,7 +2617,11 @@ void AdvancedInventory::sort () {
 
   SortRule ret = (SortRule)sm.ret;
 
-  selectedPane()->sortRule(ret);
+  sort(ret);
+}
+
+void AdvancedInventory::sort (SortRule rule) {
+  selectedPane()->sortRule(rule);
   selectedPane()->restack();
 }
 

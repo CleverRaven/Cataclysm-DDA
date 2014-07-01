@@ -208,6 +208,7 @@ class AdvancedInventory {
   void resetFilter ();
 
   void sort ();
+  void sort (SortRule);
 
  public:
   static void display (player *, player * = nullptr);
