@@ -2082,7 +2082,7 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
         //todo: may be needed normal balanced formula
         if (rng(5, 25) < rng(g->u.int_cur, g->u.int_cur + g->u.per_cur / 2)) {
 
-			point pwall = point(examx, examy);
+            point pwall = point(examx, examy);
 
             if (!one_in(3) && hide_secret_wall(m, &pwall)) {
                 g->sound(pwall.x, pwall.y, 15, "ground grumbling");
@@ -2095,9 +2095,11 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
 
         } else {
 
-            if (one_in(10)) {
+            if (!one_in(10)) {
+                p->add_msg_if_player(_("Nothing happens."));
+            } else {
 
-				//todo: need more different traps
+                //todo: need more different traps
 
                 for (int i = p->xpos() - 1; i <= p->xpos() + 1; i++)
                     for (int j = p->ypos() - 1; j <= p->ypos() + 1; j++) {
