@@ -2114,7 +2114,7 @@ bool npc::has_destination()
 void npc::reach_destination()
 {
     //this entire clause is to preserve the guard's home coordinates and permit him/her to return
-    if (mission == NPC_MISSION_GUARD){
+    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP){
         if (guardx == global_square_location().x && guardy == global_square_location().y){
             return; //Our guard is already at his/her home tile
         }
@@ -2147,7 +2147,7 @@ void npc::set_destination()
      * Also, NPCs should be able to assign themselves missions like "break into that
      *  lab" or "map that river bank."
      */
-    if (mission == NPC_MISSION_GUARD){
+    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP){
         goal.x = global_omt_location().x;
         goal.y = global_omt_location().y;
         goal.z = g->levz;
