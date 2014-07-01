@@ -2825,7 +2825,6 @@ bool game::isActivatedRadioCarPresent()
     for (pos.x = 0; pos.x < SEEX * MYMAPSIZE; pos.x++)
         for (pos.y = 0; pos.y < SEEY * MYMAPSIZE; pos.y++)
             for (int i = 0; i < g->m.i_at(pos.x, pos.y).size(); i++) {
-
                 item &ii = g->m.i_at(pos.x, pos.y)[i];
                 if (ii.type->id == "radio_car_on" && ii.active) {
                     return true;
@@ -2850,8 +2849,8 @@ void game::rcdrive(int dx, int dy)
                 item &ii = g->m.i_at(pos.x, pos.y)[i];
                 if( ii.type->id == "radio_car_on" && ii.active ) {
                     if( m.move_cost(pos.x + dx, pos.y + dy) == 0 ||
-						!m.can_put_items(pos.x + dx, pos.y + dy) || m.has_furn(pos.x + dx, pos.y + dy)) {
-                        sound(pos.x + dx, pos.y + dy, 7, "sound of a collision with an obstacle.");
+                      !m.can_put_items(pos.x + dx, pos.y + dy) || m.has_furn(pos.x + dx, pos.y + dy)) {
+                        sound(pos.x + dx, pos.y + dy, 7, "a collision.");
                         return;
                     } else if( m.add_item_or_charges(pos.x + dx, pos.y + dy, ii) ) {
                         sound(pos.x, pos.y, 6, "zzz...");
