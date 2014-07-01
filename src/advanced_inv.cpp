@@ -1918,10 +1918,8 @@ AdvancedInventory::AdvancedInventory(player *p, player *o) {
 void AdvancedInventory::Pane::restack() {
   _dirtyStack = false;
 
-  if (_cursor >= _stackedItems.size())
-    _cursor = _stackedItems.size() - 1;
-
-  clampCursor();
+  if (_filter.size())
+    _stackedItems.erase(std::remove_if(_stackedItems.begin(), _stackedItems.end(), [this](const std::list<const item *> &l) { return _filter.compare(0, _filter.size(), l.front()->tname(), 0, _filter.size()); }), _stackedItems.end());
 
   if (_sortRule > SortRule::Unsorted) {
     ItemCompare cmp(_sortRule, _sortAscending);
@@ -1930,6 +1928,11 @@ void AdvancedInventory::Pane::restack() {
   } else if (!_sortAscending) {
     std::reverse(_stackedItems.begin(), _stackedItems.end());
   }
+
+  if (_cursor >= _stackedItems.size())
+    _cursor = _stackedItems.size() - 1;
+
+  clampCursor();
 }
 
 void AdvancedInventory::InventoryPane::restack () {
@@ -2178,6 +2181,16 @@ void AdvancedInventory::display (player *p, player *o) {
     case '\t':
       advInv.swapFocus();
       break;
+    case 'f':
+    case 'F':
+    case '.':
+    case '/':
+      advInv.setFilter();
+      break;
+    case 'r':
+    case 'R':
+      advInv.resetFilter();
+      break;
     case 'm':
       advInv.moveItem();
       break;
@@ -2260,7 +2273,7 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
 
   nc_color norm = active ? c_white : c_dkgray;
 
-  if (this == nullptr) {// Why is this valid? C++, you so crazy!
+  if (this == nullptr) { // Why is this valid? C++, you so crazy!
     mvwprintz(window, itemsPerPage / 2, columns / 2 - 15, norm, "This is not a place for items!");
     return;
   }
@@ -2270,6 +2283,12 @@ void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
 
   double dWeight(helper::convertWeight(w));
   double dMaxWeight(helper::convertWeight(mW));
+
+  // filter info
+  mvwprintz(window, getmaxy(window) - 1, 2, norm, _filter.size() ? "< [F]ilter: %s >" : "< [F]ilter >", _filter.c_str());
+
+  if (_filter.size())
+    mvwprintz(window, getmaxy(window) - 1, columns - 13, norm, "< [R]eset >");
 
   // pagination
   int page(_cursor / itemsPerPage);
@@ -2647,4 +2666,33 @@ bool AdvancedInventory::AggregatePane::covers (Pane *o) const {
   }
 
   return false;
+}
+
+void AdvancedInventory::Pane::setFilter () {
+  filter(string_input_popup("Filter:", 0, _filter));
+}
+
+void AdvancedInventory::setFilter () {
+  if (selectedPane() != nullptr)
+    return selectedPane()->setFilter();
+}
+
+void AdvancedInventory::resetFilter () {
+  if (selectedPane() != nullptr)
+    selectedPane()->filter("");
+}
+
+void AdvancedInventory::Pane::filter (const std::string &filter) {
+  _filter = filter;
+
+  _dirtyStack = true;
+}
+
+void AdvancedInventory::AggregatePane::filter (const std::string &filter) {
+  for (auto pair : _panes) {
+    if (covers(pair.second))
+      pair.second->filter(filter);
+  }
+
+  Pane::filter(filter);
 }

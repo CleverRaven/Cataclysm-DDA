@@ -46,6 +46,8 @@ class AdvancedInventory {
     bool _sortAscending = true;
     std::string _chevrons = "[ ]";
 
+    std::string _filter = "";
+
     std::vector<std::list<const item *>> _stackedItems;
     bool _dirtyStack = true;
 
@@ -98,6 +100,11 @@ class AdvancedInventory {
 
     virtual void ignorePane(Pane *) {};
     virtual bool ignoring (Pane *pane) const { return pane == nullptr; }
+
+    const std::string &filter () const { return _filter; }
+    virtual void filter (const std::string &);
+
+    void setFilter ();
 
   private:
     virtual void restack ();
@@ -160,6 +167,8 @@ class AdvancedInventory {
     bool ignoring (Pane *pane) const override { return pane == _ignoring || Pane::ignoring(pane); }
 
     bool covers (Pane *) const override;
+
+    void filter (const std::string &) override;
   };
 
   std::map<std::string, Pane *> _panes;
@@ -194,6 +203,9 @@ class AdvancedInventory {
   bool moveItem ();
   bool moveAll ();
   void moveALL ();
+
+  void setFilter ();
+  void resetFilter ();
 
   void sort ();
 
