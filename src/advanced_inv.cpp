@@ -2393,7 +2393,7 @@ void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<const it
 
 void AdvancedInventory::drawIndicatorAtom (WINDOW *window, std::string id, point location, bool active) const {
   Pane *pane(_panes.at(id));
-  bool selected(active ? pane == selectedPane() || selectedPane()->covers(pane) : pane == unselectedPane() || unselectedPane()->covers(pane));
+  bool selected(active ? selectedPane()->covers(pane) : unselectedPane()->covers(pane));
 
   if (pane != nullptr) {
     mvwprintz(window, location.y, location.x, selected ? c_cyan : active ? c_white : c_ltgray, pane->chevrons().c_str());
@@ -2411,7 +2411,7 @@ void AdvancedInventory::drawAreaIndicator (WINDOW *window, bool active) const {
     drawIndicatorAtom(window, id, {areaIndicatorRoot.x + loc.x * 3, areaIndicatorRoot.y + loc.y}, active);
   }
 
-  drawIndicatorAtom(window, "D", {linearIndicatorRoot.x, linearIndicatorRoot.y - 1}, true);
+  drawIndicatorAtom(window, "D", {linearIndicatorRoot.x, linearIndicatorRoot.y - 1}, active);
   drawIndicatorAtom(window, "I", {linearIndicatorRoot.x, linearIndicatorRoot.y}, active);
   drawIndicatorAtom(window, "A", {linearIndicatorRoot.x, linearIndicatorRoot.y + 1}, active);
 
@@ -2614,6 +2614,9 @@ AdvancedInventory::~AdvancedInventory() {
 bool AdvancedInventory::AggregatePane::covers (Pane *o) const {
   if (o == _ignoring)
     return false;
+
+  if (o == this)
+    return true;
 
   for (auto pair : _panes) {
     if (o == pair.second)
