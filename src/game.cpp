@@ -679,7 +679,7 @@ void game::create_factions()
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    const int radius = int(MAPSIZE / 2) + 1;
+    const int radius = int(MAPSIZE / 2) - 1;
     // uses submap coordinates
     std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
     for (int i = 0; i < npcs.size(); i++) {
