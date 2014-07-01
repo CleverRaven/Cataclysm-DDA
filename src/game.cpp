@@ -12944,14 +12944,6 @@ bool game::plmove(int dx, int dy)
                 std::vector<std::string> names;
                 std::vector<size_t> counts;
                 std::vector<item> items;
-                if (m.i_at(x, y)[0].count_by_charges()) {
-                    names.push_back(m.i_at(x, y)[0].tname(m.i_at(x, y)[0].charges));
-                    counts.push_back(m.i_at(x, y)[0].charges);
-                } else {
-                    names.push_back(m.i_at(x, y)[0].display_name(1));
-                    counts.push_back(1);
-                }
-                items.push_back(m.i_at(x, y)[0]);
                 for (std::vector<item>::iterator it = m.i_at(x, y).begin();
                      it != m.i_at(x, y).end(); ++it) {
                     item &tmpitem = *it;
@@ -12971,7 +12963,7 @@ bool game::plmove(int dx, int dy)
                         }
                     }
                     if (!got_it) {
-                        if (tmpitem.count_by_charges()) {
+                        if (by_charges) {
                             names.push_back(tmpitem.tname(tmpitem.charges));
                             counts.push_back(tmpitem.charges);
                         } else {

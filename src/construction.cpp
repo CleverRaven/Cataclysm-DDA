@@ -459,7 +459,7 @@ static bool player_can_build(player &p, const inventory &pinv, construction *con
         if (!it->empty()) {
             components_required = true;
             has_component = false;
-            for (std::vector<component>::iterator comp = it->end();
+            for (std::vector<component>::iterator comp = it->begin();
                  comp != it->end(); ++comp) {
                 if // If you've Rope Webs, you can spin up the webbing to replace any amount of
                       // rope your projects may require.  But you need to be somewhat nourished:
