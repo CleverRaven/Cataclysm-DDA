@@ -2044,40 +2044,53 @@ bool hide_secret_wall(map *m, point  *p)
 
 void iexamine::secret_examine(player *p, map *m, int examx, int examy)
 {
-    p->add_msg_if_player(m_neutral, "This is %s", m->furn_at(examx, examy).name.c_str());
 
-    std::string furname = m->furn_at(examx, examy).name.c_str();
+    std::string furname = m->furnname(examx, examy);
 
-    std::string qstr = "Try to do something with ";
-    qstr += furname;
-    qstr += "?";
-
-    if (query_yn(qstr.c_str())) {
+    if (!query_yn(_("Try to do something with %s?"), furname.c_str())) {
+        p->add_msg_if_player(m_neutral, _("This is %s."), furname.c_str());
+        return;
+    } {
 
         std::string furid = m->furn_at(examx, examy).id;
         std::string newfur = furid.substr(0, furid.size() - 2);
         g->m.furn_set(examx, examy, newfur);
 
-        std::string mes = "You ";
         int ract = rng(1, 3);
         if (1 == ract) {
-            mes += "strongly ";
+            ract = rng(1, 4);
+            if (1 == ract) {
+                p->add_msg_if_player(m_neutral, _("You strongly pushed %s."), furname.c_str());
+            } else if (2 == ract) {
+                p->add_msg_if_player(m_neutral, _("You strongly pulled %s."), furname.c_str());
+            } else if (3 == ract) {
+                p->add_msg_if_player(m_neutral, _("You strongly shook %s."), furname.c_str());
+            } else if (4 == ract) {
+                p->add_msg_if_player(m_neutral, _("You strongly yanked %s."), furname.c_str());
+            }
         } else if (2 == ract) {
-            mes += "slightly ";
-        } else if (3 == ract) {}
-        ract = rng(1, 4);
-        if (1 == ract) {
-            mes += "pushed ";
-        } else if (2 == ract) {
-            mes += "pulled ";
+            ract = rng(1, 4);
+            if (1 == ract) {
+                p->add_msg_if_player(m_neutral, _("You slightly pushed %s."), furname.c_str());
+            } else if (2 == ract) {
+                p->add_msg_if_player(m_neutral, _("You slightly pulled %s."), furname.c_str());
+            } else if (3 == ract) {
+                p->add_msg_if_player(m_neutral, _("You slightly shook %s."), furname.c_str());
+            } else if (4 == ract) {
+                p->add_msg_if_player(m_neutral, _("You slightly yanked %s."), furname.c_str());
+            }
         } else if (3 == ract) {
-            mes += "shook ";
-        }       else if (4 == ract) {
-            mes += "yanked ";
+            ract = rng(1, 4);
+            if (1 == ract) {
+                p->add_msg_if_player(m_neutral, _("You pushed %s."), furname.c_str());
+            } else if (2 == ract) {
+                p->add_msg_if_player(m_neutral, _("You pulled %s."), furname.c_str());
+            } else if (3 == ract) {
+                p->add_msg_if_player(m_neutral, _("You shook %s."), furname.c_str());
+            } else if (4 == ract) {
+                p->add_msg_if_player(m_neutral, _("You yanked %s."), furname.c_str());
+            }
         }
-        mes += furname;
-        mes += ".";
-        p->add_msg_if_player(m_neutral, mes.c_str());
 
         //todo: may be needed normal balanced formula
         if (rng(5, 25) < rng(g->u.int_cur, g->u.int_cur + g->u.per_cur / 2)) {
@@ -2085,7 +2098,7 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
             point pwall = point(examx, examy);
 
             if (!one_in(3) && hide_secret_wall(m, &pwall)) {
-                g->sound(pwall.x, pwall.y, 15, "ground grumbling");
+                g->sound(pwall.x, pwall.y, 15, _("ground grumbling"));
 
             } else {
 
@@ -2110,7 +2123,6 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
             }
         }
     }
-
 }
 
 /**
