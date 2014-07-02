@@ -8,10 +8,9 @@
 const double pi = std::acos(-1);
 const double tau = pi * 2.0;
 
-weather_generator::weather_generator(unsigned seed):
-    year_length(static_cast<double>(OPTIONS["SEASON_LENGTH"]) * 4.0)
+weather_generator::weather_generator(unsigned seed): year_length(static_cast<double>(OPTIONS["SEASON_LENGTH"]) * 4.0)
 {
-    unsigned SEED = seed;
+    SEED = seed;
     PerlinNoise Temperature(SEED);
     PerlinNoise Humidity(SEED + 101);
     PerlinNoise Pressure(SEED + 211);
