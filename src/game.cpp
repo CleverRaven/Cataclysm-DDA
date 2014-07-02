@@ -35,6 +35,7 @@
 #include "mapsharing.h"
 #include "messages.h"
 #include "pickup.h"
+#include "weather_gen.h"
 #include <map>
 #include <set>
 #include <algorithm>

@@ -24,6 +24,7 @@
 #include "worldfactory.h"
 #include "creature_tracker.h"
 #include "game_constants.h"
+#include "weather_gen.h"
 #include <vector>
 #include <map>
 #include <queue>
