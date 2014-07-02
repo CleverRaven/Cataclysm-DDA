@@ -457,8 +457,6 @@ class overmap
   void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
   //Hordes signals
   int signal_hordes_noice(int x,int y, int sig_power, mongroup tzg);
-  int signal_hordes_light(int x,int y, int sig_power, mongroup tzg);
-  //int signal_hordes_smoke(int x,int y, int sig_power, mongroup zg);
   point to_big_overmap_coord(point p);
 };
 

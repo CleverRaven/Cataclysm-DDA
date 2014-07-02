@@ -2231,7 +2231,6 @@ void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_po
         {
           switch ( sig_type ) {
             case HSIG_NOICE: d_inter=signal_hordes_noice(targ_x, targ_y, sig_power, *it); break;
-            case HSIG_LIGHT: d_inter=signal_hordes_light(targ_x, targ_y, sig_power, *it); break;
           }
         }
         if (d_inter != 0) {
@@ -2267,35 +2266,6 @@ int overmap::signal_hordes_noice(int x, int y, int sig_power, mongroup tzg)
     dist = trig_dist(x, y, tzg.posx, tzg.posy);
     if (g->weather == WEATHER_LIGHTNING || g->weather == WEATHER_THUNDER) sig_power-= 10;
     if (sig_power <= dist) return 0; else return (sig_power - dist) * 5;
-}
-
-int overmap::signal_hordes_light(int x, int y, int sig_power, mongroup tzg)
-{
-  if ( sig_power < 3 ) return 0;
-  int dist,ret = 0;
-  dist = trig_dist(x, y, tzg.posx, tzg.posy);
-
-  int near_dist = 5;
-  int max_dist = ( 100 - (g->light_level() * 2) );
-
-  if (g->weather == WEATHER_LIGHTNING) max_dist = ( (max_dist > 20) ? 20: max_dist );
-
-  max_dist = max_dist < 10 ? 10: max_dist;
-
-  if (dist > max_dist) return 0;
-  std::vector<point> line = line_to(x, y, tzg.posx, tzg.posy, 0);
-
-  int see_range=0;
-  point test;
-  for (size_t i = 0; i < line.size() && max_dist >= see_range; i++) {
-                test = to_big_overmap_coord( line[i] );
-                const oter_id &ter = overmap_buffer.ter(test.x, test.y, 0);
-                const int cost = otermap[ter].see_cost;
-                see_range += cost;
-            }
-  if (max_dist >= see_range) ret = ( (dist < near_dist) ? 20 : 10 );
-
-  return ret;
 }
 
 point overmap::to_big_overmap_coord(point p)

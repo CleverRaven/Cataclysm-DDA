@@ -121,13 +121,10 @@ void map::generate_lightmap()
                 case fd_fire:
                     if (3 == cur->getFieldDensity()) {
                         add_light_source(sx, sy, 160);
-                        light_signal(sx, sy, 160);
                     } else if (2 == cur->getFieldDensity()) {
                         add_light_source(sx, sy, 60);
-                        light_signal(sx, sy, 60);
                     } else {
                         add_light_source(sx, sy, 16);
-                        light_signal(sx, sy, 16);
                     }
                     break;
                 case fd_fire_vent:
@@ -198,7 +195,6 @@ void map::generate_lightmap()
                     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
                         apply_light_arc(px, py, dir + vehs[v].v->parts[*part].direction, veh_luminance, 45);
-                        light_signal(px, py, (int)veh_luminance);
                     }
                 }
             }
@@ -215,7 +211,6 @@ void map::generate_lightmap()
                     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
                         add_light_source( px, py, vehs[v].v->part_info(*part).bonus );
-                        light_signal(px, py, (int)vehs[v].v->part_info(*part).bonus);
                     }
                 }
             }
@@ -246,7 +241,6 @@ void map::generate_lightmap()
             }
         }
     }
-    last_light_signal_turn = calendar::turn;
 }
 
 void map::add_light_source(int x, int y, float luminance )

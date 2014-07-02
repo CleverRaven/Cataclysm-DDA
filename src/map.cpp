@@ -4676,37 +4676,6 @@ float map::light_transparency(const int x, const int y) const
   return transparency_cache[x][y];
 }
 
-void map::light_signal(int x, int y, int lum)
-{
-
-    if (calendar::turn % 10 == 0 && last_light_signal_turn != calendar::turn)
-    {
-        //check indoor
-        int tc=0;
-        bool indoor=true;
-
-        int max_x=SEEX * MAPSIZE;
-        int max_y=SEEY * MAPSIZE;
-        int min_x=0;
-        int min_y=0;
-
-        for (int yi = min_y, xi=min_x ; yi<max_y && indoor; yi++)
-              if (sees(x, y, xi, yi, 500, tc)) indoor=false;
-
-        for (int yi = min_y, xi=max_x ; yi<max_y && indoor; yi++)
-          if (sees(x, y, xi, yi, 500, tc)) indoor=false;
-
-        for (int yi = min_y, xi=min_x ; xi<max_x && indoor; xi++)
-          if (sees(x, y, xi, yi, 500, tc)) indoor=false;
-
-        for (int yi = max_y, xi=min_x ; xi<max_x && indoor; xi++)
-          if (sees(x, y, xi, yi, 500, tc)) indoor=false;
-
-
-        if (!indoor) g->cur_om->signal_hordes(g->levx,g->levy,HSIG_LIGHT,lum);
-    }
-}
-
 void map::build_outside_cache()
 {
     if (!outside_cache_dirty) {
