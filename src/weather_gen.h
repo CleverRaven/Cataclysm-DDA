@@ -5,16 +5,15 @@
 #include "calendar.h"
 #include "PerlinNoise.hpp"
 
+struct point;
+
 struct w_point {
     double temperature;
     double humidity;
     double pressure;
+    bool acidic;
 
-  w_point(double t, double h, double p) {
-    temperature = t;
-    humidity = h;
-    pressure = p;
-  }
+    w_point(double t, double h, double p, bool a = false) : temperature(t), humidity(h), pressure(p), acidic(a) { }
 };
 
 class PerlinNoise;
@@ -31,8 +30,8 @@ class weather_generator
     PerlinNoise Pressure;
 public:
     weather_generator(unsigned seed);
-    w_point get_weather(double x, double y, calendar t);
-    weather_type get_weather_conditions(double x, double y, calendar t);
+    w_point get_weather(const point &, const calendar &t);
+    weather_type get_weather_conditions(const point &, const calendar &t);
     void test_weather();
 };
 #endif
