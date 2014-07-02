@@ -1116,7 +1116,7 @@
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
         "open": "t_window_domestic",
-	"examine_action" : "curtains",
+        "examine_action" : "curtains",
         "deconstruct": {
             "ter_set": "t_window_empty",
             "items": [
@@ -2461,7 +2461,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
     },{
-	    "type" : "terrain",
+        "type" : "terrain",
         "id" : "t_linoleum_white",
         "name": "linoleum tile",
         "symbol": ".",
@@ -2624,5 +2624,22 @@
             ]
         },
         "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_open_air",
+        "name": "open air",
+        "symbol": " ",
+        "color": "i_cyan",
+        "move_cost": 2,
+        "trap": "tr_ledge",
+        "flags": ["TRANSPARENT", "NOITEM"]
+    },{
+        "type" : "terrain",
+        "id" : "t_flat_roof",
+        "name": "flat roof",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
     }
 ]

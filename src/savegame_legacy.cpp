@@ -101,7 +101,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -189,7 +189,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -307,7 +307,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -424,7 +424,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          nextspawn = tmpspawn;
 
          cur_om = &overmap_buffer.get(comx, comy);
-         m.load(levx, levy, levz);
+         m.load(levx, levy, levz, true, cur_om);
 
          run_mode = tmprun;
          if (OPTIONS["SAFEMODE"] && run_mode == 0)
@@ -1090,7 +1090,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
            popup_nowait(_("Please wait as the map loads [%d/%d]"),
                         num_loaded, num_submaps);
           int locx, locy, locz, turn, temperature;
-          submap* sm = new submap();
+          std::unique_ptr<submap> sm(new submap());
           fin >> locx >> locy >> locz >> turn >> temperature;
           if(fin.eof()) {
               break;
@@ -1343,10 +1343,9 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
         }
 
         int locx, locy, locz, turn, temperature;
-        submap *sm = new submap();
+        std::unique_ptr<submap> sm(new submap());
         fin >> locx >> locy >> locz >> turn >> temperature;
         if(fin.eof()) {
-            delete sm;
             break;
         }
         sm->turn_last_touched = turn;
@@ -1399,7 +1398,6 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 // file has ended, but the submap-separator string
                 // "----" has not been read, something's wrong, skip
                 // this probably damaged/invalid submap.
-                delete sm;
                 return;
             }
             fin >> string_identifier; // "----" indicates end of this submap

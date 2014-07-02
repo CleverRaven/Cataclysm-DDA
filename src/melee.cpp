@@ -441,7 +441,7 @@ int player::get_dodge()
 
 int player::dodge_roll()
 {
-    if ( (is_wearing("roller_blades")) && one_in((get_dex() + skillLevel("dodging")) / 3 ) ) {
+    if ( (is_wearing("roller_blades")) && one_in((get_dex() + skillLevel("dodge")) / 3 ) ) {
         if (!has_disease("downed")) {
             add_msg("Fighting on wheels is hard!");
         }
@@ -740,7 +740,7 @@ matec_id player::pick_technique(Creature &t,
         ma_technique tec = ma_techniques[*it];
 
         // ignore "dummy" techniques like WBLOCK_1
-        if (tec.id.length() == 0) {
+        if (tec.dummy) {
             continue;
         }
 

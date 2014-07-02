@@ -3771,5 +3771,21 @@
         "valid": false,
         "purifiable": false,
         "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_NIGHTVISION",
+        "name" : "Debug Vision",
+        "points" : 99,
+        "valid" : false,
+        "description" : "You can clearly see that this is for dev purposes only.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_CLOAK",
+        "name" : "Debug Invisibility",
+        "points" : 99,
+        "valid" : false,
+        "description" : "If you see this, you'd best be debugging something.",
+        "threshold" : true
     }
 ]

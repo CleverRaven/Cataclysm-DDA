@@ -842,17 +842,12 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
             continue;
         }
         const it_armor *ita = dynamic_cast<const it_armor *>( u.worn[k].type );
-        const char invlet = u.worn[k].invlet; // TODO: might be 0
-        if( !u.takeoff( wornpos, true ) ) {
+        if( !u.takeoff( wornpos, true, &dropped_worn ) ) {
             continue;
         }
         u.moves -= 250; // same as in game::takeoff
         if( ita != NULL ) {
             freed_volume_capacity += ita->storage;
-        }
-        // Item could have been dropped after taking it off
-        if( !u.inv.item_by_letter( invlet ).is_null() ) {
-            dropped_worn.push_back( u.i_rem( invlet ) );
         }
     }
 

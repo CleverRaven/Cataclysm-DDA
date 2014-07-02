@@ -123,10 +123,44 @@ class map
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
 
-// File I/O
- void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
- void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
- void shift(const int wx, const int wy, const int wz, const int x, const int y);
+    /**
+     * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
+     * They will than be stored by that class and can be loaded from that class.
+     * This can be called several times, the mapbuffer takes care of adding
+     * the same submap several times. It should only be called after the map has
+     * been loaded.
+     * Submaps that have been loaded from the mapbuffer (and not generated) are
+     * already stored in the mapbuffer.
+     * TODO: determine if this is really needed? Submaps are already in the mapbuffer
+     * if they have been loaded from disc and the are added by map::generate, too.
+     * So when do they not appear in the mapbuffer?
+     */
+    void save();
+    /**
+     * Load submaps into @ref grid. This might create new submaps if
+     * the @ref mapbuffer can not deliver the requested submap (as it does
+     * not exist on disc).
+     * This must be called before the map can be used at all!
+     * @param om overmap to which the world coordinates are relative to.
+     * @param wx coordinates (relative to om) of the submap at grid[0]. This
+     * is in submap coordinates.
+     * @param wy see wx
+     * @param wz see wx, this is the z-level
+     * @param update_vehicles If true, add vehicles to the vehicle cache.
+     */
+    void load(const int wx, const int wy, const int wz, const bool update_vehicles, overmap *om);
+    /**
+     * Same as @ref load, but uses only global submap coordinates and
+     * has therefor no overmap pointer parameter.
+     */
+    void load_abs(const int wx, const int wy, const int wz, const bool update_vehicles);
+    /**
+     * Shift the map along the vector (sx,sy).
+     * This is like loading the map with coordinates derived from the current
+     * position of the map (@ref abs_sub) plus the shift vector.
+     * Note: the map must have been loaded before this can be called.
+     */
+    void shift(const int sx, const int sy);
  void spawn_monsters();
  void clear_spawns();
  void clear_traps();
@@ -610,7 +644,7 @@ void add_corpse(int x, int y);
     void load_zones();
 
 protected:
- void saven(unsigned const int turn, const int x, const int y, const int z,
+ void saven(const int x, const int y, const int z,
             const int gridx, const int gridy);
  bool loadn(const int x, const int y, const int z, const int gridx, const int gridy,
             const  bool update_vehicles = true);

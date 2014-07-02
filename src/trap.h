@@ -75,6 +75,7 @@ private:
 public:
  std::vector<itype_id> components; // For disassembly?
 
+ int get_visibility() const { return visibility; }
  int get_avoidance() const { return avoidance; }
  int get_difficulty() const { return difficulty; }
 // Type of trap
@@ -83,7 +84,10 @@ public:
  int funnel_radius_mm;
     /** If an item with this weight or more is thrown onto the trap, it triggers. */
     int trigger_weight;
-    /** Can player/npc p see this kind of trap? */
+    /** Player has not yet seen the trap and returns the variable chance, at this moment,
+     of whether the trap is seen or not. */
+    bool detect_trap(const player &p, int x, int y) const;
+    /** Can player/npc p see this kind of trap given their memory? */
     bool can_see(const player &p, int x, int y) const;
     /** Trigger trap effects by creature that stepped onto it. */
     void trigger(Creature *creature, int x, int y) const;

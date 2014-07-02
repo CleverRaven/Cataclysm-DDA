@@ -499,7 +499,7 @@
         "type" : "dream",
         "messages" : [
             "You wonder if your nest will be good enough.",
-            "Your dream of soaring over the lanscape becomes a nightmare when you find yourself with arms and a glider!"
+            "Your dream of soaring over the landscape becomes a nightmare when you find yourself with arms and a glider!"
             ],
         "category" : "MUTCAT_BIRD",
         "strength" : 4
@@ -539,7 +539,7 @@
         "type" : "dream",
         "messages" : [
             "You dream of the hunt, the feed, and your pack.",
-            "Oh, you shoul really patrol your territory again, maybe expand."
+            "Oh, you should really patrol your territory again, maybe expand."
             ],
         "category" : "MUTCAT_LUPINE",
         "strength" : 4
