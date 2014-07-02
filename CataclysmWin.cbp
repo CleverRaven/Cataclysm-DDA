@@ -439,8 +439,8 @@
 		<Unit filename="src/wish.cpp" />
 		<Unit filename="src/worldfactory.cpp" />
 		<Unit filename="src/worldfactory.h" />
-		<Unit filename="src/PerlinNoise.cpp" />
-		<Unit filename="src/PerlinNoise.hpp" />
+		<Unit filename="src/simplexnoise.cpp" />
+		<Unit filename="src/simplexnoise.h" />
 		<Unit filename="src/weather_gen.cpp" />
 		<Unit filename="src/weather_gen.h" />
 		<Extensions>

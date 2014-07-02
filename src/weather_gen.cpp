@@ -1,6 +1,5 @@
 #include "weather_gen.h"
 #include "options.h"
-
 #include "enums.h"
 
 #include <cmath>
@@ -10,17 +9,17 @@
 
 const double tau = 2 * std::acos(-1);
 
-weather_generator::weather_generator(unsigned seed) : SEED(seed), Temperature(SEED), Humidity(SEED + 101), Pressure(SEED + 211) { }
+weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
 
 w_point weather_generator::get_weather(const point &location, const calendar &t) {
     const double z((double) t.get_turn() / 2000.0); // Integer turn / widening factor of the Perlin function.
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
-    double T(Temperature.noise(location.x, location.y, z) * 8.0);
-    double H(Humidity.noise(location.x, location.y, z / 5));
-    double H2(Humidity.noise(location.x, location.y, z) / 4);
-    double P(Pressure.noise(location.x, location.y, z / 3) * 70);
+    double T(raw_noise_4d(location.x, location.y, z, SEED) * 8.0);
+    double H(raw_noise_4d(location.x, location.y, z / 5, SEED + 101));
+    double H2(raw_noise_4d(location.x, location.y, z, SEED + 151) / 4);
+    double P(raw_noise_4d(location.x, location.y, z / 3, SEED + 211) * 70);
 
     const double now((double)t.turn_of_year() / (double)calendar::year_turns()); // [0,1)
     const double ctn(cos(tau * now));
@@ -55,8 +54,8 @@ weather_type weather_generator::get_weather_conditions(const point &location, co
     if (w.pressure < 1030 && w.humidity > 40) r = WEATHER_CLOUDY;
     if (r == WEATHER_CLOUDY && (w.humidity > 60 || w.pressure < 1010)) r = WEATHER_DRIZZLE;
     if (r == WEATHER_DRIZZLE && (w.humidity > 70 || w.pressure < 1000)) r = WEATHER_RAINY;
-    if (r == WEATHER_RAINY && w.pressure < 950) r = WEATHER_THUNDER;
-    if (r == WEATHER_THUNDER && w.pressure < 900) r = WEATHER_LIGHTNING;
+    if (r == WEATHER_RAINY && w.pressure < 985) r = WEATHER_THUNDER;
+    if (r == WEATHER_THUNDER && w.pressure < 970) r = WEATHER_LIGHTNING;
 
     if (w.temperature <= 0) {
         if (r == WEATHER_DRIZZLE) {r = WEATHER_FLURRIES;}
