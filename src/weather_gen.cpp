@@ -8,13 +8,7 @@
 const double pi = std::acos(-1);
 const double tau = pi * 2.0;
 
-weather_generator::weather_generator(unsigned seed)
-{
-    SEED = seed;
-    PerlinNoise Temperature(SEED);
-    PerlinNoise Humidity(SEED + 101);
-    PerlinNoise Pressure(SEED + 211);
-}
+weather_generator::weather_generator(unsigned seed) : SEED(seed), Temperature(SEED), Humidity(SEED + 101), Pressure(SEED + 211) { }
 
 w_point weather_generator::get_weather(double x, double y, calendar t) {
     const double z = (double) t.get_turn() / 2000.0; // Integer turn / widening factor of the Perlin function.
