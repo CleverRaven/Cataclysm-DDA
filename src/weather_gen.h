@@ -8,6 +8,12 @@ struct w_point {
     double temperature;
     double humidity;
     double pressure;
+
+  w_point(double t, double h, double p) {
+    temperature = t;
+    humidity = h;
+    pressure = p;
+  }
 };
 
 class PerlinNoise;

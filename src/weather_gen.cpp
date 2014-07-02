@@ -52,11 +52,8 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     double mod_p = 0;
     double current_p = this->base_p + mod_p;
     P += seasonal_variation * 20 + current_p; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
-    w_point r;
-    r.temperature = T;
-    r.humidity = H;
-    r.pressure = P;
-    return r;
+
+    return w_point(T, H, P);
 }
 
 void weather_generator::test_weather() {
