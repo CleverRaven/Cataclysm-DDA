@@ -1,6 +1,7 @@
 #ifndef _WEATHER_GEN_H_
 #define _WEATHER_GEN_H_
 
+#include "weather.h"
 #include "calendar.h"
 #include "PerlinNoise.hpp"
 
@@ -14,7 +15,6 @@ class PerlinNoise;
 
 class weather_generator
 {
-//friend class calendar;
     unsigned SEED;
     const int year_length;
     // Data source: Wolfram Alpha
@@ -27,6 +27,7 @@ class weather_generator
 public:
     weather_generator(unsigned seed);
     w_point get_weather(double x, double y, calendar t);
+    weather_type get_weather_conditions(double x, double y, calendar t);
     void test_weather();
 };
 #endif

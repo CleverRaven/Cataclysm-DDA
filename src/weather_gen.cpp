@@ -27,7 +27,7 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     double H2(Humidity.noise(x, y, z) / 4);
     double P(Pressure.noise(x, y, z / 3) * 70);
 
-    // temperature variation
+    // Temperature variation
     double now((day_of_year + (dayFraction)) / this->year_length); // Add the minutes to the day and return the current time as a decimal [0-1].
     double mod_t(0); // TODO: make this depend on latitude and altitude?
     double current_t(this->base_t + mod_t); // Current baseline temperature. Degrees Celsius.
@@ -40,13 +40,13 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     T += seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2)); // Add season curve offset to account for the winter-summer difference in day-night difference.
     T += daily_variation * 10 * exp(-pow(current_t / 30, 2)); //((4000 / (current_t + 115) - 24) + seasonal_variation); // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
 
-    // humidity variation
+    // Humidity variation
 
     double mod_h(0);
     double current_h(this->base_h + mod_h);
     H = std::max(std::min((cos( tau * now ) / 10.0 + (-pow(H, 2)*3 + H2)) * current_h/2.0 + current_h, 100.0), 0.0); // Humidity stays mostly at the mean level, but has low peaks rarely. It's a percentage.
 
-    // pressure variation
+    // Pressure variation
     double mod_p(0);
     double current_p(this->base_p + mod_p);
     P += seasonal_variation * 20 + current_p; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
@@ -54,6 +54,26 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     r.temperature = T;
     r.humidity = H;
     r.pressure = P;
+    return r;
+}
+
+weather_type weather_generator::get_weather_conditions(double x, double y, calendar t) {
+    w_point w(get_weather(x, y , t));
+    weather_type r(WEATHER_CLEAR);
+    if (w.pressure > 1030 && w.humidity < 70) r = WEATHER_SUNNY;
+    if (w.pressure < 1030 && w.humidity > 40) r = WEATHER_CLOUDY;
+    if (r == WEATHER_CLOUDY && (w.humidity > 60 || w.pressure < 1010)) r = WEATHER_DRIZZLE;
+    if (r == WEATHER_DRIZZLE && (w.humidity > 70 || w.pressure < 1000)) r = WEATHER_RAINY;
+    if (r == WEATHER_RAINY && w.pressure < 950) r = WEATHER_THUNDER;
+    if (r == WEATHER_THUNDER && w.pressure < 900) r = WEATHER_LIGHTNING;
+    // TODO: Acid rain needs a different layer or method of determining acidity.
+    if (r == WEATHER_DRIZZLE && w.temperature > 30) r = WEATHER_ACID_DRIZZLE;
+    if (r > WEATHER_DRIZZLE && w.temperature > 30) r = WEATHER_ACID_RAIN;
+    if (w.temperature <= 0) {
+        if (r == WEATHER_DRIZZLE) {r = WEATHER_FLURRIES;}
+        else if (r > WEATHER_DRIZZLE) {r = WEATHER_SNOW;}
+        else if (r > WEATHER_THUNDER) {r = WEATHER_SNOWSTORM;}
+    }
     return r;
 }
 
@@ -67,7 +87,6 @@ void weather_generator::test_weather() {
     testfile.open("weather.output", std::ofstream::trunc);
     testfile << "turn,temperature(C),humidity(%),pressure(mB)\n";
     for (calendar i(0); i.get_turn() < 14400 * (year_length ? year_length : 1); i+=200) {
-//    for (calendar i(0); i.get_turn() < 1000; i.increment()) {
         ss.str("");
         w_point w = get_weather(0.5,0.5,i);
         ss << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure;
