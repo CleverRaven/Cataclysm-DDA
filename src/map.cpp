@@ -4476,6 +4476,18 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
   }
   // fixme; roll off into some function elsewhere ---^
 
+  //Merchants will restock their inventories every three days
+  const int merchantRestock = 14400 * 3; //14400 is the length of one day
+  //Check for Merchants to restock
+  if (g->active_npc.size() >= 1){
+    for (int i = 0; i < g->active_npc.size(); i++){
+        if (g->active_npc[i]->restock != -1 && calendar::turn > (g->active_npc[i]->restock + merchantRestock)){
+            g->active_npc[i]->shop_restock();
+            g->active_npc[i]->restock = int(calendar::turn);
+        }
+    }
+  }
+
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   tinymap tmp_map;
