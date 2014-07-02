@@ -14049,9 +14049,9 @@ void game::spawn_mon(int shiftx, int shifty)
             // (The area of the group's territory) in (population/square at this range)
             // chance of adding one monster; cap at the population OR 16
             while ((cur_om->zg[i].diffuse ? long(pop) :
-                     long((1.0 - double(dist / rad)) * pop)) > rng(0, (rad * rad)) &&
-                    rng( horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
-                    group < pop && group < MAPSIZE * 3) {
+                    long((1.0 - double(dist / rad)) * pop)) > rng(0, (rad * rad)) &&
+                   rng( horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
+                   group < pop && group < MAPSIZE * 3) {
                 group++;
             }
             int add_zom = 0;
@@ -14069,7 +14069,7 @@ void game::spawn_mon(int shiftx, int shifty)
 
             for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(cur_om->zg[i].type,
-                                                       &group, (int)calendar::turn);
+                                                   &group, (int)calendar::turn);
                 zom = monster(GetMType(spawn_details.name));
                 if (spawn_details.name == "mon_null") {
                     cur_om->zg[i].population++;
@@ -14101,7 +14101,7 @@ void game::spawn_mon(int shiftx, int shifty)
                         mony += rng(-5, 5);
                         iter++;
 
-                        } while ((!zom.can_move_to(monx, mony) || !is_empty(monx, mony) ||
+                    } while ((!zom.can_move_to(monx, mony) || !is_empty(monx, mony) ||
                               m.sees(u.posx, u.posy, monx, mony, SEEX, t) || !m.is_outside(monx, mony) ||
                               rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
                     if (iter < 50) {
