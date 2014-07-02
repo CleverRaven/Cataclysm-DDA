@@ -57,21 +57,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     //  function, we save the upper-left 4 submaps, and delete the rest.
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
         grid[i] = new submap;
-        grid[i]->active_item_count = 0;
-        grid[i]->field_count = 0;
-        grid[i]->turn_last_touched = turn;
-        grid[i]->temperature = 0;
-        grid[i]->comp = computer();
-        grid[i]->camp = basecamp();
-        for (int x = 0; x < SEEX; x++) {
-            for (int y = 0; y < SEEY; y++) {
-                grid[i]->ter[x][y] = t_null;
-                grid[i]->set_furn(x, y, f_null);
-                grid[i]->set_trap(x, y, tr_null);
-                grid[i]->set_radiation(x, y, 0);
-                grid[i]->set_graffiti(x, y, graffiti());
-            }
-        }
+        // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
 
     unsigned zones = 0;
@@ -119,7 +105,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
             dbg(D_INFO) << grid[i + j];
 
             if (i <= 1 && j <= 1) {
-                saven(turn, x, y, z, i, j);
+                saven(x, y, z, i, j);
             } else {
                 delete grid[i + j * my_MAPSIZE];
             }
@@ -159,13 +145,10 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
                 funcnum++;
                 continue; // rejected!
             }
-            if ( (*fit)->function_type() == MAPGENFUNC_JSON ) {
-                mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(*fit);
-                if ( ! mf->setup() ) {
-                    dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                    funcnum++;
-                    continue; // disqualify! doesn't get to play in the pool
-                }
+            if ( ! (*fit)->setup() ) {
+                dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
+                funcnum++;
+                continue; // disqualify! doesn't get to play in the pool
             }
             //
             wtotal += weight;
@@ -184,7 +167,6 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
  */
 mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
 {
-    ftype = MAPGENFUNC_C;
     weight = w;
     std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find(sptr);
     if ( gptr !=  mapgen_cfunction_map.end() ) {
@@ -823,7 +805,7 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
         case JMAPGEN_PLACEGROUP_VEHICLE: {
             for (int i = 0; i < trepeat; i++) {
                 if (x_in_y(chance, 100)) {
-                    m->add_vehicle(gid, x.val, y.val, rotation);
+                    m->add_vehicle (gid, x.val, y.val, rotation);
                 }
             }
         } break;
@@ -961,7 +943,7 @@ void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::s
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
+void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
     if ( fill_ter != -1 ) {
         m->draw_fill_background( fill_ter );
     }
@@ -993,7 +975,6 @@ void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, i
     }
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////
 ///// lua mapgen functions
 // wip: need moar bindings. Basic stuff works
@@ -1024,6 +1005,12 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 
 #endif
 }
+
+#ifdef LUA
+void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
+    mapgen_lua(m, terrain_type, dat, t, d, scr );
+}
+#endif
 
 /////////////
 // TODO: clean up variable shadowing in this function
@@ -1087,18 +1074,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         const int fidx = weightit->second.lower_bound( roll )->second;
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
-        if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_C ) {
-           void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( fmapit->second[fidx] )->fptr;
-           gfunction(this, terrain_type, dat, turn, density);
-        } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_JSON ) {
-           mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(fmapit->second[fidx]);
-           mf->apply( this, terrain_type, dat, turn, density );
-        } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_LUA ) {
-           mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
-           mapgen_lua(this, terrain_type, dat, turn, density, mf->scr );
-        } else {
-           debugmsg("mapgen %s (%s): Invalid mapgen function type.",terrain_type.c_str(), function_key.c_str() );
-        }
+        fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
     // todo; make these mappable functions
     } else if (terrain_type == "apartments_con_tower_1_entrance") {
 
@@ -3038,7 +3014,7 @@ C..C..C...|hhh|#########\n\
         if (is_ot_type("sewer", t_west) && connects_to(t_west, 1)) {
             lw = SEEX * 2;
         }
-        if (t_above == "") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (i <= 1 || i >= SEEX * 2 - 2 ||
@@ -4025,7 +4001,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "bunker") {
 
-        if (t_above == "") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             dat.fill_groundcover();
             //chainlink fence that surrounds bunker
             line(this, t_chainfence_v, 1, 1, 1, SEEY * 2 - 1);
@@ -4371,7 +4347,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "silo") {
 
-        if (t_above == "") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (trig_dist(i, j, SEEX, SEEY) <= 6) {
@@ -4463,7 +4439,7 @@ ff.......|....|WWWWWWWW|\n\
     } else if (terrain_type == "temple" ||
                terrain_type == "temple_stairs") {
 
-        if (t_above == "") { // Ground floor
+        if (zlevel == 0) { // Ground floor
             // TODO: More varieties?
             fill_background(this, t_dirt);
             square(this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX);
@@ -9210,6 +9186,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
             int xStart = 4;
             int xEnd = 19;
+            //acidia, connecting fields
             if(t_east == "farm_field") {
                 square(this, t_fence_barbed, 22, 1, 23, 22);
                 square(this, t_dirt, 21, 2, 23, 21);
@@ -10467,7 +10444,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     ter_set(i, j, (!one_in(10) ? t_slime : t_rock_floor));
                 } else if (rng(0, SEEX) > abs(i - SEEX) && rng(0, SEEY) > abs(j - SEEY)) {
                     ter_set(i, j, t_slime);
-                } else if (t_above == "") {
+                } else if (zlevel == 0) {
                     ter_set(i, j, t_dirt);
                 } else {
                     ter_set(i, j, t_rock_floor);
@@ -11360,47 +11337,47 @@ computer *map::add_computer(int x, int y, std::string name, int security)
  */
 void map::rotate(int turns)
 {
+
     //Handle anything outside the 1-3 range gracefully; rotate(0) is a no-op.
     turns = turns % 4;
     if(turns == 0) {
         return;
     }
-
-    real_coords rc;
-    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+    
     if (g->active_npc.size() >= 1){
-    for (int i = 0; i < g->active_npc.size(); i++){
-        npc *act_npc = g->active_npc[i];
-        if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
-            act_npc->global_omt_location().y*2 == get_abs_sub().y ){
-                rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
-                int old_x = rc.sub_pos.x;
-                int old_y = rc.sub_pos.y;
-                if ( rc.om_sub.x % 2 != 0 )
-                    old_x += SEEX;
-                if ( rc.om_sub.y % 2 != 0 )
-                    old_y += SEEY;
-                int new_x = old_x;
-                int new_y = old_y;
-                switch(turns) {
-                case 3:
-                    new_x = old_y;
-                    new_y = SEEX * 2 - 1 - old_x;
-                    break;
-                case 2:
-                    new_x = SEEX * 2 - 1 - old_x;
-                    new_y = SEEY * 2 - 1 - old_y;
-                    break;
-                case 1:
-                    new_x = SEEY * 2 - 1 - old_y;
-                    new_y = old_x;
-                    break;
-                }
-            g->active_npc[i]->posx += (new_x-old_x);
-            g->active_npc[i]->posy += (new_y-old_y);
+        for (int i = 0; i < g->active_npc.size(); i++){
+            npc *act_npc = g->active_npc[i];
+            if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
+                act_npc->global_omt_location().y*2 == get_abs_sub().y ){
+                    rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
+                    int old_x = rc.sub_pos.x;
+                    int old_y = rc.sub_pos.y;
+                    if ( rc.om_sub.x % 2 != 0 )
+                        old_x += SEEX;
+                    if ( rc.om_sub.y % 2 != 0 )
+                        old_y += SEEY;
+                    int new_x = old_x;
+                    int new_y = old_y;
+                    switch(turns) {
+                    case 3:
+                        new_x = old_y;
+                        new_y = SEEX * 2 - 1 - old_x;
+                        break;
+                    case 2:
+                        new_x = SEEX * 2 - 1 - old_x;
+                        new_y = SEEY * 2 - 1 - old_y;
+                        break;
+                    case 1:
+                        new_x = SEEY * 2 - 1 - old_y;
+                        new_y = old_x;
+                        break;
+                    }
+                g->active_npc[i]->posx += (new_x-old_x);
+                g->active_npc[i]->posy += (new_y-old_y);
+            }
         }
     }
-    }
+    
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
@@ -12942,80 +12919,83 @@ void map::add_extra(map_extra type)
     break;
 
     case mx_stash: {
-        int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-        if (move_cost(x, y) != 0) {
-            ter_set(x, y, t_dirt);
-        }
-
-        int size = 0;
-        items_location stash;
-        switch (rng(1, 6)) { // What kind of stash?
-        case 1:
-            stash = "stash_food";
-            size = 90;
-            break;
-        case 2:
-            stash = "stash_ammo";
-            size = 80;
-            break;
-        case 3:
-            stash = "rare";
-            size = 70;
-            break;
-        case 4:
-            stash = "stash_wood";
-            size = 90;
-            break;
-        case 5:
-            stash = "stash_drugs";
-            size = 85;
-            break;
-        case 6:
-            stash = "trash";
-            size = 92;
-            break;
-        }
-
-        if (move_cost(x, y) == 0) {
-            ter_set(x, y, t_dirt);
-        }
-        place_items(stash, size, x, y, x, y, true, 0);
-
-        // Now add traps around that stash
-        for (int i = x - 4; i <= x + 4; i++) {
-            for (int j = y - 4; j <= y + 4; j++) {
-                if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
-                    trap_id placed = tr_null;
-                    switch (rng(1, 7)) {
-                    case 1:
-                    case 2:
-                    case 3:
-                        placed = tr_beartrap;
-                        break;
-                    case 4:
-                        placed = tr_caltrops;
-                        break;
-                    case 5:
-                        placed = tr_nailboard;
-                        break;
-                    case 6:
-                        placed = tr_crossbow;
-                        break;
-                    case 7:
-                        placed = tr_shotgun_2;
-                        break;
-                    }
-                    if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
-                        if (one_in(8)) {
-                            placed = tr_landmine_buried;
-                        } else {
-                            placed = tr_beartrap_buried;
-                        }
-                    }
-                    add_trap(i, j,  placed);
-                }
-            }
-        }
+        // 2014 June 21
+        // Disabled stashes here. Allows previous weights to be kept and
+        // stashes, if "created" will be ignored.
+//        int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+//        if (move_cost(x, y) != 0) {
+//            ter_set(x, y, t_dirt);
+//        }
+//
+//        int size = 0;
+//        items_location stash;
+//        switch (rng(1, 6)) { // What kind of stash?
+//        case 1:
+//            stash = "stash_food";
+//            size = 90;
+//            break;
+//        case 2:
+//            stash = "stash_ammo";
+//            size = 80;
+//            break;
+//        case 3:
+//            stash = "rare";
+//            size = 70;
+//            break;
+//        case 4:
+//            stash = "stash_wood";
+//            size = 90;
+//            break;
+//        case 5:
+//            stash = "stash_drugs";
+//            size = 85;
+//            break;
+//        case 6:
+//            stash = "trash";
+//            size = 92;
+//            break;
+//        }
+//
+//        if (move_cost(x, y) == 0) {
+//            ter_set(x, y, t_dirt);
+//        }
+//        place_items(stash, size, x, y, x, y, true, 0);
+//
+//        // Now add traps around that stash
+//        for (int i = x - 4; i <= x + 4; i++) {
+//            for (int j = y - 4; j <= y + 4; j++) {
+//                if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
+//                    trap_id placed = tr_null;
+//                    switch (rng(1, 7)) {
+//                    case 1:
+//                    case 2:
+//                    case 3:
+//                        placed = tr_beartrap;
+//                        break;
+//                    case 4:
+//                        placed = tr_caltrops;
+//                        break;
+//                    case 5:
+//                        placed = tr_nailboard;
+//                        break;
+//                    case 6:
+//                        placed = tr_crossbow;
+//                        break;
+//                    case 7:
+//                        placed = tr_shotgun_2;
+//                        break;
+//                    }
+//                    if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
+//                        if (one_in(8)) {
+//                            placed = tr_landmine_buried;
+//                        } else {
+//                            placed = tr_beartrap_buried;
+//                        }
+//                    }
+//                    add_trap(i, j,  placed);
+//                }
+//            }
+//        }
     }
     break;
 
