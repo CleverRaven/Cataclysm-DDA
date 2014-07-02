@@ -18,10 +18,10 @@ weather_generator::weather_generator(unsigned seed):
 }
 
 w_point weather_generator::get_weather(double x, double y, calendar t) {
-    double z = (double) t.get_turn() / 2000.0; // Integer turn / widening factor of the Perlin function.
-    double day_of_year = t.days() +  static_cast<double>(OPTIONS["SEASON_LENGTH"]) * t.get_season();
+    const double z = (double) t.get_turn() / 2000.0; // Integer turn / widening factor of the Perlin function.
+    const double day_of_year = t.days() +  static_cast<double>(OPTIONS["SEASON_LENGTH"]) * t.get_season();
 
-    double dayFraction((double)t.minutes_past_midnight() / 1440);
+    const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
     double T(Temperature.noise(x, y, z) * 8.0);
@@ -32,25 +32,25 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     // temperature variation
     const double now((day_of_year + dayFraction) / this->year_length); // Add the minutes to the day and return the current time as a decimal [0-1]
     const double ctn(cos(tau * now));
-    double mod_t = 0; // TODO: make this depend on latitude and altitude?
-    double current_t = this->base_t + mod_t; // Current baseline temperature. Degrees Celsius.
-    double seasonal_variation = ctn * -1; // Start and end at -1 going up to 1 in summer.
-    double season_atenuation = ctn / 2 + 1; // Harsh winter nights, hot summers.
-    double season_dispersion = pow(2, ctn * -1 + 1) - 2.3; // Make summers peak faster and winters not perma-frozen.
-    double daily_variation = cos( tau * dayFraction ) * season_atenuation + season_dispersion; // Day-night temperature variation.
+    const double mod_t = 0; // TODO: make this depend on latitude and altitude?
+    const double current_t = this->base_t + mod_t; // Current baseline temperature. Degrees Celsius.
+    const double seasonal_variation = ctn * -1; // Start and end at -1 going up to 1 in summer.
+    const double season_atenuation = ctn / 2 + 1; // Harsh winter nights, hot summers.
+    const double season_dispersion = pow(2, ctn * -1 + 1) - 2.3; // Make summers peak faster and winters not perma-frozen.
+    const double daily_variation = cos( tau * dayFraction ) * season_atenuation + season_dispersion; // Day-night temperature variation.
     T += current_t; // Add baseline to the noise.
     T += seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2)); // Add season curve offset to account for the winter-summer difference in day-night difference.
-    double D = seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2));
+    const double D = seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2));
     T += daily_variation * 10 * exp(-pow(current_t / 30, 2)); //((4000 / (current_t + 115) - 24) + seasonal_variation); // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
 
     // humidity variation
-    double mod_h = 0;
-    double current_h = this->base_h + mod_h;
+    const double mod_h = 0;
+    const double current_h = this->base_h + mod_h;
     H = std::max(std::min((ctn / 10.0 + (-pow(H, 2)*3 + H2)) * current_h/2.0 + current_h, 100.0), 0.0); // Humidity stays mostly at the mean level, but has low peaks rarely. It's a percentage.
 
     // pressure variation
-    double mod_p = 0;
-    double current_p = this->base_p + mod_p;
+    const double mod_p = 0;
+    const double current_p = this->base_p + mod_p;
     P += seasonal_variation * 20 + current_p; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
 
     return w_point(T, H, P);
