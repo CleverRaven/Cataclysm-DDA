@@ -9,6 +9,12 @@ struct w_point {
     double temperature;
     double humidity;
     double pressure;
+
+  w_point(double t, double h, double p) {
+    temperature = t;
+    humidity = h;
+    pressure = p;
+  }
 };
 
 class PerlinNoise;
@@ -16,7 +22,6 @@ class PerlinNoise;
 class weather_generator
 {
     unsigned SEED;
-    const int year_length;
     // Data source: Wolfram Alpha
     const double base_t = 6.5; // Average temperature of New England
     const double base_h = 66.0; // Average humidity
