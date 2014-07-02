@@ -654,7 +654,7 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
-    int num = dice(4, 3);
+    int num = 4+dice(3, 3);
     faction tmp(0);
     tmp.make_army();
     factions.push_back(tmp);
@@ -664,6 +664,27 @@ void game::create_factions()
         tmp.likes_u = 100;
         tmp.respects_u = 100;
         tmp.known_by_u = true;
+        //Test faction
+        if (i == 0){
+            tmp.name = "The Old Guard";
+            tmp.likes_u = 15;
+            tmp.respects_u = 15;
+        }
+        if (i == 1){
+            tmp.name = "The Free Merchants";
+            tmp.likes_u = 30;
+            tmp.respects_u = 30;
+        }
+        if (i == 2){
+            tmp.name = "The Wasteland Scavengers";
+            tmp.likes_u = 0;
+            tmp.respects_u = 0;
+        }
+        if (i == 3){
+            tmp.name = "Hell's Raiders";
+            tmp.likes_u = -25;
+            tmp.respects_u = -25;
+        }
         factions.push_back(tmp);
     }
 }
@@ -671,7 +692,7 @@ void game::create_factions()
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    const int radius = int(MAPSIZE / 2) + 1;
+    const int radius = int(MAPSIZE / 2) - 1;
     // uses submap coordinates
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
     for (std::vector<npc *>::iterator it = npcs.begin();
@@ -11173,6 +11194,21 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         burst = true;
     }
 
+    int npcdex = npc_at(x, y);
+    if (npcdex != -1) {
+     if(!active_npc[npcdex]->is_enemy()){
+         if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
+             return; // Cancel the attack
+         } else {
+             //The NPC knows we started the fight, used for morale penalty.
+             active_npc[npcdex]->hit_by_player = true;
+         }
+     }
+     active_npc[npcdex]->make_angry();
+     active_npc[npcdex]->my_fac->likes_u -= 50;
+     active_npc[npcdex]->my_fac->respects_u -= 50;
+ }
+
     u.fire_gun(x, y, burst);
     reenter_fullscreen();
     //fire(u, x, y, trajectory, burst);
@@ -12242,6 +12278,8 @@ bool game::plmove(int dx, int dy)
 
         u.melee_attack(*active_npc[npcdex], true);
         active_npc[npcdex]->make_angry();
+        active_npc[npcdex]->my_fac->likes_u -= 50;
+        active_npc[npcdex]->my_fac->respects_u -= 50;
         return false;
     }
 
