@@ -4304,48 +4304,46 @@ bool game::event_queued(event_type type)
 #include "savegame.h"
 void game::debug()
 {
- int action = menu(true, // cancelable
-                   _("Debug Functions - Using these is CHEATING!"),
-                   _("Wish for an item"),       // 1
-                   _("Teleport - Short Range"), // 2
-                   _("Teleport - Long Range"),  // 3
-                   _("Reveal map"),             // 4
-                   _("Spawn NPC"),              // 5
-                   _("Spawn Monster"),          // 6
-                   _("Check game state..."),    // 7
-                   _("Kill NPCs"),              // 8
-                   _("Mutate"),                 // 9
-                   _("Spawn a vehicle"),        // 10
-                   _("Increase all skills"),    // 11
-                   _("Learn all melee styles"), // 12
-                   _("Unlock all recipes"),     // 13
-                   _("Check NPC"),              // 14
-                   _("Spawn Artifact"),         // 15
-                   _("Spawn Clarivoyance Artifact"), //16
-                   _("Map editor"), // 17
-                   _("Change weather"),         // 18
-                   _("Remove all monsters"),    // 19
-                   _("Display hordes list"),    // 20
-                   _("Display hordes on map"), // 21
-                   _("Display tracks list"), //22
-                   _("Test Item Group"), // 23
-                   #ifdef LUA
-                       _("Lua Command"), // 24
-                   #endif
-                   _("Cancel"),
-                   NULL);
- int veh_num;
- std::vector<std::string> opts;
- switch (action) {
-  case 1:
-   wishitem(&u);
-   break;
-
-  case 2:
-   teleport(&u, false);
-   break;
-
-  case 3: {
+    int action = menu(true, // cancelable
+                      _("Debug Functions - Using these is CHEATING!"),
+                      _("Wish for an item"),       // 1
+                      _("Teleport - Short Range"), // 2
+                      _("Teleport - Long Range"),  // 3
+                      _("Reveal map"),             // 4
+                      _("Spawn NPC"),              // 5
+                      _("Spawn Monster"),          // 6
+                      _("Check game state..."),    // 7
+                      _("Kill NPCs"),              // 8
+                      _("Mutate"),                 // 9
+                      _("Spawn a vehicle"),        // 10
+                      _("Increase all skills"),    // 11
+                      _("Learn all melee styles"), // 12
+                      _("Unlock all recipes"),     // 13
+                      _("Check NPC"),              // 14
+                      _("Spawn Artifact"),         // 15
+                      _("Spawn Clarivoyance Artifact"), //16
+                      _("Map editor"), // 17
+                      _("Change weather"),         // 18
+                      _("Remove all monsters"),    // 19
+                      _("Display hordes list"),    // 20
+                      _("Display hordes on map"), // 21
+                      _("Display tracks list"), //22
+                      _("Test Item Group"), // 23
+#ifdef LUA
+                      _("Lua Command"), // 24
+#endif
+                      _("Cancel"),
+                      NULL);
+    int veh_num;
+    std::vector<std::string> opts;
+    switch (action) {
+    case 1:
+        wishitem(&u);
+        break;
+    case 2:
+        teleport(&u, false);
+        break;
+    case 3: {
         tripoint tmp = overmap::draw_overmap();
         if (tmp != overmap::invalid_tripoint) {
             //First offload the active npcs.
