@@ -22,7 +22,6 @@ class weather_generator
 {
 //friend class calendar;
     unsigned SEED;
-    const int year_length;
     // Data source: Wolfram Alpha
     const double base_t = 6.5; // Average temperature of New England
     const double base_h = 66.0; // Average humidity

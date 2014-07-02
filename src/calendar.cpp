@@ -496,3 +496,7 @@ std::string calendar::day_of_week() const
 
     return day_string;
 }
+
+int calendar::season_length() {
+  return OPTIONS["SEASON_LENGTH"];
+}

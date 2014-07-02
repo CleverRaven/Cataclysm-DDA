@@ -110,6 +110,14 @@ class calendar
             season = new_season;
         }
 
+        // Season and year lenght stuff
+
+        static int year_length() { return season_length() * 4; }
+        static int season_length();
+
+        int day_of_year() {
+          return day + season_length() * season;
+        }
 
         // Print-friendly stuff
         std::string print_time(bool just_hour = false) const;

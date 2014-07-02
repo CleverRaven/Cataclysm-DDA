@@ -8,7 +8,7 @@
 const double pi = std::acos(-1);
 const double tau = pi * 2.0;
 
-weather_generator::weather_generator(unsigned seed): year_length(static_cast<double>(OPTIONS["SEASON_LENGTH"]) * 4.0)
+weather_generator::weather_generator(unsigned seed)
 {
     SEED = seed;
     PerlinNoise Temperature(SEED);
@@ -18,8 +18,6 @@ weather_generator::weather_generator(unsigned seed): year_length(static_cast<dou
 
 w_point weather_generator::get_weather(double x, double y, calendar t) {
     const double z = (double) t.get_turn() / 2000.0; // Integer turn / widening factor of the Perlin function.
-    const double day_of_year = t.days() +  static_cast<double>(OPTIONS["SEASON_LENGTH"]) * t.get_season();
-
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
@@ -29,7 +27,7 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     double P(Pressure.noise(x, y, z / 3) * 70);
 
     // temperature variation
-    const double now((day_of_year + dayFraction) / this->year_length); // Add the minutes to the day and return the current time as a decimal [0-1]
+    const double now((t.day_of_year() + dayFraction) / (double)calendar::year_length()); // Add the minutes to the day and return the current time as a decimal [0-1]
     const double ctn(cos(tau * now));
     const double mod_t = 0; // TODO: make this depend on latitude and altitude?
     const double current_t = this->base_t + mod_t; // Current baseline temperature. Degrees Celsius.
@@ -37,9 +35,12 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     const double season_atenuation = ctn / 2 + 1; // Harsh winter nights, hot summers.
     const double season_dispersion = pow(2, ctn * -1 + 1) - 2.3; // Make summers peak faster and winters not perma-frozen.
     const double daily_variation = cos( tau * dayFraction ) * season_atenuation + season_dispersion; // Day-night temperature variation.
+
     T += current_t; // Add baseline to the noise.
-    T += seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2)); // Add season curve offset to account for the winter-summer difference in day-night difference.
-    const double D = seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2));
+
+    const double D(seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2)));
+    T += D; // Add season curve offset to account for the winter-summer difference in day-night difference.
+
     T += daily_variation * 10 * exp(-pow(current_t / 30, 2)); //((4000 / (current_t + 115) - 24) + seasonal_variation); // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
 
     // humidity variation
@@ -64,7 +65,7 @@ void weather_generator::test_weather() {
     std::ostringstream ss;
     testfile.open("weather.output", std::ofstream::trunc);
     testfile << "turn,temperature(C),humidity(%),pressure(mB)\n";
-    for (calendar i(0); i.get_turn() < 14400 * (year_length ? year_length : 1); i+=200) {
+    for (calendar i(0); i.get_turn() < 14400 * calendar::year_length(); i+=200) {
 //    for (calendar i(0); i.get_turn() < 1000; i.increment()) {
         ss.str("");
         w_point w = get_weather(0.5,0.5,i);
