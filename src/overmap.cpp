@@ -667,10 +667,12 @@ overmap::overmap(overmap const &o)
         }
         layer[z].notes = o.layer[z].notes;
     }
-    for(int i = 0; i < OMAPX * 2; ++i)
-      for(int j = 0; j < OMAPY * 2; ++j)
-        layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] =
-          o.layer[OVERMAP_GROUND_LEVEL].pl_track[i][j];
+    for (int i = 0; i < OMAPX * 2; ++i) {
+        for (int j = 0; j < OMAPY * 2; ++j) {
+            layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] =
+            o.layer[OVERMAP_GROUND_LEVEL].pl_track[i][j];
+        }
+    }
 }
 
 overmap::~overmap()
@@ -709,10 +711,12 @@ overmap &overmap::operator=(overmap const &o)
         }
         layer[z].notes = o.layer[z].notes;
     }
-    for(int i = 0; i < OMAPX * 2; ++i)
-      for(int j = 0; j < OMAPY * 2; ++j)
-        layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] =
-          o.layer[OVERMAP_GROUND_LEVEL].pl_track[i][j];
+    for (int i = 0; i < OMAPX * 2; ++i) {
+        for (int j = 0; j < OMAPY * 2; ++j) {
+            layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] =
+            o.layer[OVERMAP_GROUND_LEVEL].pl_track[i][j];
+        }
+    }
     return *this;
 }
 
@@ -729,9 +733,11 @@ void overmap::init_layers()
             }
         }
     }
-    for(int i = 0; i < OMAPX*2; i++)
-          for(int j = 0; j < OMAPY*2; j++)
-             layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
+    for (int i = 0; i < OMAPX*2; i++) {
+        for (int j = 0; j < OMAPY*2; j++) {
+            layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
+        }
+    }
 }
 
 oter_id &overmap::ter(const int x, const int y, const int z)
@@ -1598,9 +1604,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 }
             }
             // checks tracks
-            const bool tracks_here =
-                (overmap_buffer.track_at(omx - 2 , omy - 2, z) != 0 );//-2 is drity hack
-            //const bool tracks_here = (tracks_turn_here != 0);
+            const bool tracks_here = (overmap_buffer.track_at(omx - 2 , omy - 2, z) != 0 );//-2 is drity hack
             // and a vehicle
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
@@ -1839,21 +1843,21 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             int p = cmgroup->population;
             int h_int = cmgroup->interest;
             char *hsize = p < 20 ? p + _(" heads") :
-                                p < 40 ?  _("fifty or so") :
-                                p < 80 ?  _("less than a hundred") :
-                                p < 160 ? _("over a hundred") :
-                                p < 280 ? _("hundreds of 'em") :
-                                _("dunno.  LOTS");
+                          p < 40 ?  _("fifty or so") :
+                          p < 80 ?  _("less than a hundred") :
+                          p < 160 ? _("over a hundred") :
+                          p < 280 ? _("hundreds of 'em") :
+                                    _("dunno.  LOTS");
             nc_color csize = p < 80 ? c_white :
                              p < 160 ? c_yellow :
                              p < 280 ? c_magenta :
-                             c_red;
+                                       c_red;
             char *hspeed = h_int < 35 ? _("wandering") :
-                                 h_int < 50 ? _("tracking")  :
-                                 _("moving");
+                           h_int < 50 ? _("tracking")  :
+                                        _("moving");
             nc_color cspeed = h_int < 35 ? c_white :
                               h_int < 50 ? c_yellow :
-                              c_red;
+                                           c_red;
 
 
             mvwprintz(w, 1, om_map_width + 2, c_white, _("Horde size:"));
@@ -1861,8 +1865,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             mvwprintz(w, 3, om_map_width + 2, c_white, _("Speed:"));
             mvwprintz(w, 3, om_map_width + 9, cspeed, "%s", hspeed);
 
-        }
-          else {
+        } else {
             mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
             std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
             for (int i = 0; i < name.size(); i++) {
@@ -2136,71 +2139,65 @@ void overmap::move_hordes()
             int track;
             overmap* track_om;
             for (int y = sy; y <= ey; y++)
-              for (int x = sx; x <= ex; x++)
-                {
-                  track_om = NULL;
-                  shift_x = x < 0 ? -1 : x > OMAPX * 2 ? 1 : 0;
-                  shift_y = y < 0 ? -1 : y > OMAPY * 2 ? 1 : 0;
-                  if (shift_x != 0 && shift_y != 0) {
-                     track_om = const_cast<overmap*>(overmap_buffer.get_existing(pos().x + shift_x, pos().y + shift_y ));
-                     }
+                for (int x = sx; x <= ex; x++) {
+                     track_om = NULL;
+                     shift_x = x < 0 ? -1 : x > OMAPX * 2 ? 1 : 0;
+                     shift_y = y < 0 ? -1 : y > OMAPY * 2 ? 1 : 0;
+                     if (shift_x != 0 && shift_y != 0) {
+                         track_om = const_cast<overmap*>(overmap_buffer.get_existing(pos().x + shift_x, pos().y + shift_y ));
+                         }
 
-                  if (track_om == NULL)
-                     track = track_at(x, y);
-                     else
-                     track = track_om->track_at(x, y);
+                     if (track_om == NULL) {
+                         track = track_at(x, y);
+                         } else {
+                         track = track_om->track_at(x, y);
+                         }
 
-                  if ( track > max_t ) {
-                      max_t = track;
-                      max_x = x;
-                      max_y = y;
-                      }
-                }
+                     if ( track > max_t ) {
+                         max_t = track;
+                         max_x = x;
+                         max_y = y;
+                         }
+                    }
             if (max_t != 0 ) {
-               zg[i].set_target(max_x, max_y);
-               zg[i].set_interest(40);
-               //debug
-               //add_msg("Horde # %i take track %i;%i",i,max_x,max_y);
-               }
+                zg[i].set_target(max_x, max_y);
+                zg[i].set_interest(40);
+                }
         }
         //move between overmap
-            if (zg[i].posx > OMAPX * 2 || zg[i].posx < 0 ||
-                zg[i].posy > OMAPY * 2 || zg[i].posy < 0) {
-                  point om_pos = this->pos();
-                  int shift_x = zg[i].posx < 0 ? -1 : zg[i].posx > OMAPX *2 ? 1 : 0;
-                  int shift_y = zg[i].posy < 0 ? -1 : zg[i].posy > OMAPY *2 ? 1 : 0;
+        if (zg[i].posx > OMAPX * 2 || zg[i].posx < 0 ||
+            zg[i].posy > OMAPY * 2 || zg[i].posy < 0) {
+            point om_pos = this->pos();
+            int shift_x = zg[i].posx < 0 ? -1 : zg[i].posx > OMAPX *2 ? 1 : 0;
+            int shift_y = zg[i].posy < 0 ? -1 : zg[i].posy > OMAPY *2 ? 1 : 0;
 
-                  overmap* targ_om = const_cast<overmap*> (overmap_buffer.get_existing(om_pos.x + shift_x, om_pos.y + shift_y));
-                  if (targ_om != NULL) {
-                     if (zg[i].posx > OMAPX * 2 || zg[i].posx < 0) {
-                           zg[i].posx -= (OMAPX * 2) * shift_x;
-                           zg[i].tx -= (OMAPX * 2) * shift_x;
-                           }
-                     if (zg[i].posy > OMAPY * 2 || zg[i].posy < 0) {
-                           zg[i].posy -= (OMAPY * 2) * shift_y;
-                           zg[i].ty -= (OMAPY * 2) * shift_y;
-                           }
-                     //add_msg("Removing zg %d from om %d;%d",i , om_pos.x + shift_x, om_pos.y + shift_y);
-                     targ_om->zg.push_back(zg[i]);
-
-                     zg.erase(zg.begin() + i);
-                     i--;
-                     } else {
-                     //zg[i].posx = zg[i].posx < 0 ? 0 : OMAPX * 2;
-                     //zg[i].posy = zg[i].posy < 0 ? 0 : OMAPY * 2;
-                     if (zg[i].tx < 0) zg[i].tx = zg[i].tx * -1;
-                     if (zg[i].tx > OMAPX * 2) zg[i].tx = OMAPX * 2 - ( zg[i].tx - OMAPX * 2 );
-                     if (zg[i].ty < 0) zg[i].ty = zg[i].ty * -1;
-                     if (zg[i].ty > OMAPY * 2) zg[i].ty = OMAPY * 2 - ( zg[i].ty - OMAPY * 2 );
-                     //add_msg("Bumping zg %d in om %d;%d sx,sy:%d;%d, tx,ty:%d;%d",i, om_pos.x, om_pos.y, shift_x,shift_y,zg[i].tx,zg[i].ty);
-                     }
-                  }
-
-        //destroying tracks
-        if (one_in(3)) place_tracks(zg[i].posx, zg[i].posy, 0);
+            overmap* targ_om = const_cast<overmap*> (overmap_buffer.get_existing(om_pos.x + shift_x, om_pos.y + shift_y));
+            if (targ_om != NULL) {
+                if (zg[i].posx > OMAPX * 2 || zg[i].posx < 0) {
+                    zg[i].posx -= (OMAPX * 2) * shift_x;
+                    zg[i].tx -= (OMAPX * 2) * shift_x;
+                    }
+                if (zg[i].posy > OMAPY * 2 || zg[i].posy < 0) {
+                    zg[i].posy -= (OMAPY * 2) * shift_y;
+                    zg[i].ty -= (OMAPY * 2) * shift_y;
+                    }
+                targ_om->zg.push_back(zg[i]);
+                zg.erase(zg.begin() + i);
+                i--;
+            } else {
+                if (zg[i].tx < 0) zg[i].tx = zg[i].tx * -1;
+                if (zg[i].tx > OMAPX * 2) zg[i].tx = OMAPX * 2 - ( zg[i].tx - OMAPX * 2 );
+                if (zg[i].ty < 0) zg[i].ty = zg[i].ty * -1;
+                if (zg[i].ty > OMAPY * 2) zg[i].ty = OMAPY * 2 - ( zg[i].ty - OMAPY * 2 );
+            }
         }
 
+        //destroying tracks
+        if (one_in(3)) {
+            place_tracks(zg[i].posx, zg[i].posy, 0);
+        }
 
+    }
 }
 
 
@@ -2210,52 +2207,48 @@ void overmap::move_hordes()
 */
 void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_power)
 {
-  int d_inter,targ_dist;
-  int targ_x, targ_y;
-  if (g->levz != 0) return;
-  for (int sy = -1; sy <= 1; sy++ )
-   for (int sx = -1; sx <= 1; sx++ ) {
-      const overmap* target_om_const = overmap_buffer.get_existing(pos().x + sx, pos().y + sy);
-      overmap* target_om;
-      if (target_om_const != NULL)
-         target_om = const_cast<overmap*>(target_om_const);
-        else continue;
-      targ_x = x + (OMAPX * 2 * -sx);
-      targ_y = y + (OMAPY * 2 * -sy);
-      //for (int i = 0; i < tzg.size(); i++ )
-      for (std::vector<mongroup>::iterator it = target_om->zg.begin();
-           it != target_om->zg.end(); it++)
-      {
-        d_inter = 0;
-        if ( it->horde )
-        {
-          switch ( sig_type ) {
-            case HSIG_NOICE: d_inter=signal_hordes_noice(targ_x, targ_y, sig_power, *it); break;
-          }
-        }
-        if (d_inter != 0) {
-          targ_dist = trig_dist(targ_x, targ_y, it->tx, it->ty);
-          const int roll = rng(0, it->interest );
-          if (roll < d_inter)
-            {
-              int delta = targ_dist - sig_power;
-              delta = delta < 0 ? 0 : delta;
-              int dx = rng(-delta / 2, delta / 2);
-              int dy = rng(-delta / 2, delta / 2);
-              targ_x += dx; targ_y += dy;
-              if (targ_dist < 5)
-                {
-                  it->set_target( (it->tx + targ_x) / 2, (it->ty + targ_y) / 2 ) ;
-                  it->inc_interest(d_inter);
-                }
-                else
-                {
-                  it->set_target(targ_x, targ_y);
-                  it->set_interest(d_inter);
-                }
+   int d_inter,targ_dist;
+   int targ_x, targ_y;
+   if (g->levz != 0) return;
+   for (int sy = -1; sy <= 1; sy++ )
+       for (int sx = -1; sx <= 1; sx++ ) {
+            const overmap* target_om_const = overmap_buffer.get_existing(pos().x + sx, pos().y + sy);
+            overmap* target_om;
+            if (target_om_const != NULL) {
+                target_om = const_cast<overmap*>(target_om_const);
             }
-        }
-      }
+            else continue;
+       targ_x = x + (OMAPX * 2 * -sx);
+       targ_y = y + (OMAPY * 2 * -sy);
+       for (std::vector<mongroup>::iterator it = target_om->zg.begin();
+           it != target_om->zg.end(); it++) {
+           d_inter = 0;
+           if (it->horde) {
+              switch (sig_type) {
+              case HSIG_NOICE:
+                   d_inter=signal_hordes_noice(targ_x, targ_y, sig_power, *it);
+                   break;
+              }
+           }
+           if (d_inter != 0) {
+               targ_dist = trig_dist(targ_x, targ_y, it->tx, it->ty);
+               const int roll = rng(0, it->interest );
+               if (roll < d_inter) {
+                   int delta = targ_dist - sig_power;
+                   delta = delta < 0 ? 0 : delta;
+                   int dx = rng(-delta / 2, delta / 2);
+                   int dy = rng(-delta / 2, delta / 2);
+                   targ_x += dx; targ_y += dy;
+                   if (targ_dist < 5) {
+                       it->set_target( (it->tx + targ_x) / 2, (it->ty + targ_y) / 2 ) ;
+                       it->inc_interest(d_inter);
+                   } else {
+                       it->set_target(targ_x, targ_y);
+                       it->set_interest(d_inter);
+                   }
+               }
+           }
+       }
    }
 
 }
@@ -2264,8 +2257,14 @@ int overmap::signal_hordes_noice(int x, int y, int sig_power, mongroup tzg)
 {
     int dist, d_inter;
     dist = trig_dist(x, y, tzg.posx, tzg.posy);
-    if (g->weather == WEATHER_LIGHTNING || g->weather == WEATHER_THUNDER) sig_power-= 10;
-    if (sig_power <= dist) return 0; else return (sig_power - dist) * 5;
+    if (g->weather == WEATHER_LIGHTNING || g->weather == WEATHER_THUNDER) {
+        sig_power-= 10;
+    }
+    if (sig_power <= dist) {
+        return 0;
+    } else {
+        return (sig_power - dist) * 5;
+    }
 }
 
 point overmap::to_big_overmap_coord(point p)
@@ -2277,46 +2276,58 @@ point overmap::to_big_overmap_coord(point p)
 }
 
 void overmap::place_tracks(const int x, const int y, const int turn) {
-  if ( layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0 ) {
-     if ( g->weather != WEATHER_ACID_RAIN ||
-        //g->weather != WEATHER_ACID_DRIZZLE ||
-        //g->weather != WEATHER_DRIZZLE ||
-        g->weather != WEATHER_RAINY ||
-        g->weather != WEATHER_LIGHTNING ||
-        g->weather != WEATHER_THUNDER ||
-        g->weather != WEATHER_SNOW ||
-        g->weather != WEATHER_SNOWSTORM ) {
-       layer[OVERMAP_GROUND_LEVEL].pl_track[x][y] = turn;
-       //debug
-       //add_msg("Add tracks:%i,%i", x, y);
-       }
-     }
+    if (layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0 ) {
+        if (g->weather != WEATHER_ACID_RAIN ||
+           g->weather != WEATHER_RAINY ||
+           g->weather != WEATHER_LIGHTNING ||
+           g->weather != WEATHER_THUNDER ||
+           g->weather != WEATHER_SNOW ||
+           g->weather != WEATHER_SNOWSTORM ) {
+           layer[OVERMAP_GROUND_LEVEL].pl_track[x][y] = turn;
+        }
+    }
 }
 
 void overmap::update_tracks() {
-  //add_msg("update_tracks");
-  if ( layer != NULL ) {
+    if ( layer != NULL ) {
     int roll = 5;
     switch (g->weather) {
-        case WEATHER_CLEAR: case WEATHER_SUNNY: roll = 20; break;
-        case WEATHER_ACID_RAIN: case WEATHER_RAINY:
-        case WEATHER_LIGHTNING: case WEATHER_THUNDER:
-        case WEATHER_SNOW : case WEATHER_SNOWSTORM: roll = 2; break;
-        case WEATHER_CLOUDY: roll = 100;
-        case WEATHER_ACID_DRIZZLE: case WEATHER_DRIZZLE: roll = 120;
-        }
+       case WEATHER_CLEAR:
+       case WEATHER_SUNNY:
+           roll = 20;
+           break;
+       case WEATHER_ACID_RAIN:
+       case WEATHER_RAINY:
+       case WEATHER_LIGHTNING:
+       case WEATHER_THUNDER:
+       case WEATHER_SNOW :
+       case WEATHER_SNOWSTORM:
+           roll = 2;
+           break;
+       case WEATHER_CLOUDY:
+           roll = 100;
+           break;
+       case WEATHER_ACID_DRIZZLE:
+       case WEATHER_DRIZZLE:
+           roll = 120;
+           break;
+       }
     for (int j = 0; j < OMAPY * 2; j++)
-    for (int i = 0; i < OMAPX * 2; i++)
-        if (one_in(roll)) layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
+        for (int i = 0; i < OMAPX * 2; i++) {
+            if (one_in(roll)) {
+                layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
+            }
+        }
 
     }
 
 }
 
 int overmap::track_at(const int x, const int y) {
-  if (layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0)
-    return  layer[OVERMAP_GROUND_LEVEL].pl_track[x][y];
-  return 0;
+   if (layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0) {
+       return  layer[OVERMAP_GROUND_LEVEL].pl_track[x][y];
+   }
+   return 0;
 }
 
 void grow_forest_oter_id(oter_id &oid, bool swampy)

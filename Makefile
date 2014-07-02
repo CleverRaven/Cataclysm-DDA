@@ -46,9 +46,9 @@
 # for now as we get rid of them.  In non-release builds we want to show all the warnings,
 # even the ones we're allowing in release builds so they're visible to developers.
 RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
-#WARNINGS = -Wall -Wextra
+WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
-WARNINGS = -w
+#WARNINGS = -w
 DEBUG = -g
 #PROFILE = -pg
 #OTHERS = -O3
