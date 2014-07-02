@@ -574,6 +574,8 @@ public:
 
  /** Returns -1 if the weapon is in the let invlet, -2 if NULL, or just returns let */
  char lookup_item(char let);
+ /** used for drinking from hands, returns how many charges were consumed */
+ int drink_from_hands(item& water);
  /** Used for eating object at pos, returns true if object is successfully eaten */
  bool consume(int pos);
  /** Used for eating entered comestible, returns true if comestible is successfully eaten */
@@ -591,8 +593,9 @@ public:
  bool wear(int pos, bool interactive = true);
  /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
  bool wear_item(item *to_wear, bool interactive = true);
- /** Takes off an item, returning false on fail */
- bool takeoff(int pos, bool autodrop = false);
+ /** Takes off an item, returning false on fail, if an item vector
+  is given, stores the items in that vector and not in the inventory */
+ bool takeoff(int pos, bool autodrop = false, std::vector<item> *items = nullptr);
  /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
  void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
  /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
@@ -900,6 +903,9 @@ public:
     typedef std::map<tripoint, std::string> trap_map;
     bool knows_trap(int x, int y) const;
     void add_known_trap(int x, int y, const std::string &t);
+    /** Search surrounding squares for traps (and maybe other things in the future). */
+    void search_surroundings();
+    
 protected:
     std::unordered_set<std::string> my_traits;
     std::unordered_set<std::string> my_mutations;
@@ -913,7 +919,7 @@ protected:
     int sight_boost_cap;
 
     void setID (int i);
-
+    
 private:
     // Items the player has identified.
     std::unordered_set<std::string> items_identified;
@@ -927,9 +933,6 @@ private:
 
     bool can_study_recipe(it_book *book);
     bool try_study_recipe(it_book *book);
-
-    /** Search surroundings squares for traps while pausing a turn. */
-    void search_surroundings();
 
     std::vector<point> auto_move_route;
     // Used to make sure auto move is canceled if we stumble off course

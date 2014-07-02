@@ -1403,6 +1403,20 @@ int player::run_cost(int base_cost, bool diag)
     if (diag)
         movecost *= 0.7071f; // because everything here assumes 100 is base
     bool flatground = movecost < 105;
+    const ter_id ter_at_pos = g->m.ter(posx, posy);
+    // If your floor is hard, flat, and otherwise skateable, list it here
+    bool offroading = ( flatground && (!((ter_at_pos == t_rock_floor) ||
+      (ter_at_pos == t_pit_covered) || (ter_at_pos == t_metal_floor) ||
+      (ter_at_pos == t_pit_spiked_covered) || (ter_at_pos == t_pavement) ||
+      (ter_at_pos == t_pavement_y) || (ter_at_pos == t_sidewalk) ||
+      (ter_at_pos == t_concrete) || (ter_at_pos == t_floor) ||
+      (ter_at_pos == t_skylight) || (ter_at_pos == t_door_glass_o) ||
+      (ter_at_pos == t_emergency_light_flicker) ||
+      (ter_at_pos == t_emergency_light) || (ter_at_pos == t_utility_light) ||
+      (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
+      (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
+      (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
+      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) )) );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -1474,8 +1488,10 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 1.5f;
     }
     if (is_wearing("roller_blades")) {
-        if (flatground) {
-            movecost *= .5f;
+        if (offroading) {
+            movecost *= 1.5f;
+        } else if (flatground) {
+            movecost *= 0.5f;
         } else {
             movecost *= 1.5f;
         }
@@ -1592,7 +1608,8 @@ nc_color player::color()
  if (underwater)
   return c_blue;
  if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-    (is_wearing("optical_cloak") && (has_active_item("UPS_on") || has_active_item("adv_UPS_on"))))
+    (is_wearing("optical_cloak") && (has_active_item("UPS_on") ||
+    has_active_item("adv_UPS_on"))) || has_trait("DEBUG_CLOAK"))
   return c_dkgray;
  return c_white;
 }
@@ -3833,7 +3850,11 @@ void player::recalc_sight_limits()
     // Set sight_boost and sight_boost_cap, based on night vision.
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
-    if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
+    // Debug-only NV, by vache's request
+    if (has_trait("DEBUG_NIGHTVISION")) {
+        sight_boost = 59;
+        sight_boost_cap = 59;
+    } else if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
         // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
         // BIRD_EYE represents excellent fine-detail vision so I think it works.
         if (has_trait("BIRD_EYE")) {
@@ -4064,21 +4085,31 @@ void player::search_surroundings()
     if (controlling_vehicle) {
         return;
     }
-    for(size_t i = 0; i < 9; i++) {
-        const int x = posx + i / 3 - 1;
-        const int y = posy + i % 3 - 1;
+    // Search for traps in a larger area than before because this is the only
+    // way we can "find" traps that aren't marked as visible.
+    // Detection formula takes care of likelihood of seeing within this range.
+    for (size_t i = 0; i < 121; i++) {
+        const int x = posx + i / 11 - 5;
+        const int y = posy + i % 11 - 5;
         const trap_id trid = g->m.tr_at(x, y);
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
         const trap *tr = traplist[trid];
         if (tr->name.empty() || tr->can_see(*this, x, y)) {
-            // Already seen, or has no name -> can never bee seen
+            // Already seen, or has no name -> can never be seen
             continue;
         }
-        const std::string direction = direction_name(direction_from(posx, posy, x, y));
-        add_msg_if_player(_("You've spotted a %s to the %s!"), tr->name.c_str(), direction.c_str());
-        add_known_trap(x, y, tr->id);
+        // Chance to detect traps we haven't yet seen.
+        if (tr->detect_trap(*this, x, y)) {
+            if( tr->get_visibility() > 0 ) {
+                // Only bug player about traps that aren't trivial to spot.
+                const std::string direction = direction_name(direction_from(posx, posy, x, y));
+                add_msg_if_player(_("You've spotted a %s to the %s!"),
+                                  tr->name.c_str(), direction.c_str());
+            }
+            add_known_trap(x, y, tr->id);
+        }
     }
 }
 
@@ -7387,6 +7418,27 @@ hint_rating player::rate_action_eat(item *it)
  return HINT_CANT;
 }
 
+//Returns the amount of charges that were consumed byt he player
+int player::drink_from_hands(item& water) {
+    int charges_consumed = 0;
+    if (query_yn(_("Drink from your hands?")))
+        {
+            // Create a dose of water no greater than the amount of water remaining.
+            item water_temp(water);
+            inv.push_back(water_temp);
+            // If player is slaked water might not get consumed.
+            if (consume(inv.position_by_type(water_temp.typeId())))
+            {
+                moves -= 350;
+
+                charges_consumed = 1;// for some reason water_temp doesn't seem to have charges consumed, jsut set this to 1
+            }
+            inv.remove_item(inv.position_by_type(water_temp.typeId()));
+        }
+    return charges_consumed;
+}
+
+
 bool player::consume(int pos)
 {
     item *to_eat = NULL;
@@ -7786,14 +7838,16 @@ bool player::eat(item *eaten, it_comest *comest)
         moves -= (mealtime);
 
     // If it's poisonous... poison us.  TODO: More several poison effects
-    if ((eaten->poison >= rng(2, 4)) && !has_trait("EATPOISON") &&
-    !has_trait("EATDEAD")) {
-        add_effect("poison", eaten->poison * 100);
+    if (eaten->poison > 0) {
+        debugmsg("Ate some posioned stuff");
+        if (!has_trait("EATPOISON") && !has_trait("EATDEAD")) {
+            if (eaten->poison >= rng(2, 4)) {
+                add_effect("poison", eaten->poison * 100);
+            }
+            add_disease("foodpoison", eaten->poison * 300);
+        }
     }
-    if ((eaten->poison > 0) && !has_trait("EATPOISON") &&
-    !has_trait("EATDEAD")) {
-        add_disease("foodpoison", eaten->poison * 300);
-    }
+
 
     if (has_trait("AMORPHOUS")) {
         add_msg_player_or_npc(_("You assimilate your %s."), _("<npcname> assimilates a %s."),
@@ -8619,9 +8673,8 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
     }
 
-    // Armor needs invlets to access, give one if not already assigned.
     if (to_wear->invlet == 0) {
-        inv.assign_empty_invlet(*to_wear, true);
+        inv.assign_empty_invlet( *to_wear, false );
     }
 
     const bool was_deaf = is_deaf();
@@ -8673,7 +8726,7 @@ hint_rating player::rate_action_takeoff(item *it) {
  return HINT_IFFY;
 }
 
-bool player::takeoff(int pos, bool autodrop)
+bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
 {
     bool taken_off = false;
     if (pos == -1) {
@@ -8690,8 +8743,12 @@ bool player::takeoff(int pos, bool autodrop)
                 for (int j = worn.size() - 1; j >= 0; j--) {
                     if (worn[j].type->is_power_armor() &&
                             j != worn_index) {
-                        if (autodrop) {
-                            g->m.add_item_or_charges(posx, posy, worn[j]);
+                        if( autodrop || items != nullptr ) {
+                            if( items != nullptr ) {
+                                items->push_back( worn[j] );
+                            } else {
+                                g->m.add_item_or_charges( posx, posy, worn[j] );
+                            }
                             add_msg(_("You take off your your %s."), worn[j].tname().c_str());
                             worn.erase(worn.begin() + j);
                             // If we are before worn_index, erasing this element shifted its position by 1.
@@ -8708,18 +8765,22 @@ bool player::takeoff(int pos, bool autodrop)
                 }
             }
 
-            if (autodrop || volume_capacity() - dynamic_cast<it_armor*>(w.type)->storage > volume_carried() + w.type->volume) {
+            if( items != nullptr ) {
+                items->push_back( w );
+                taken_off = true;
+            } else if (autodrop || volume_capacity() - dynamic_cast<it_armor*>(w.type)->storage > volume_carried() + w.type->volume) {
                 inv.add_item_keep_invlet(w);
-                add_msg(_("You take off your your %s."), w.tname().c_str());
-                worn.erase(worn.begin() + worn_index);
-                inv.unsort();
                 taken_off = true;
             } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
                     w.tname().c_str())) {
                 g->m.add_item_or_charges(posx, posy, w);
+                taken_off = true;
+            } else {
+                taken_off = false;
+            }
+            if( taken_off ) {
                 add_msg(_("You take off your your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
-                taken_off = true;
             }
         } else {
             add_msg(m_info, _("You are not wearing that item."));
@@ -10923,6 +10984,7 @@ bool player::is_invisible() const {
         has_active_bionic(str_bio_cloak) ||
         has_active_bionic(str_bio_night) ||
         has_active_optcloak() ||
+        has_trait("DEBUG_CLOAK") ||
         has_artifact_with(AEP_INVISIBLE)
     );
 }
@@ -11115,6 +11177,8 @@ bool player::sees(int x, int y, int &t)
         if (is_player()) {
             // uses the seen cache in map
             can_see = g->m.pl_sees(posx, posy, x, y, wanted_range);
+        } else if (g->m.light_at(x, y) >= LL_LOW) {
+            can_see = g->m.sees(posx, posy, x, y, wanted_range, t);
         } else {
             can_see = g->m.sees(posx, posy, x, y, s_range, t);
         }

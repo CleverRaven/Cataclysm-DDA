@@ -18,7 +18,7 @@ class overmapbuffer;
 class npc;
 
 #define OVERMAP_DEPTH 10
-#define OVERMAP_HEIGHT 0
+#define OVERMAP_HEIGHT 10
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
@@ -42,14 +42,15 @@ struct oter_weight_list {
     }
 
     void setup() { // populate iid's for faster generation and sanity check.
-        for( size_t i = 0; i < items.size(); ++i ) {
-            if ( items[i].ot_iid == -1 ) {
-                std::map<std::string, oter_t>::const_iterator it = obasetermap.find(items[i].ot_sid);
+        for(std::vector<oter_weight>::iterator item_it = items.begin();
+            item_it != items.end(); ++item_it ) {
+            if ( item_it->ot_iid == -1 ) {
+                std::map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
                 if ( it == obasetermap.end() ) {
-                    debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", items[i].ot_sid.c_str() );
-                    items[i].ot_iid = 0;
+                    debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", item_it->ot_sid.c_str() );
+                    item_it->ot_iid = 0;
                 } else {
-                    items[i].ot_iid = it->second.loadid;
+                    item_it->ot_iid = it->second.loadid;
                 }
             }
         }

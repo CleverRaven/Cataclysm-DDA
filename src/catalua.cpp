@@ -366,9 +366,9 @@ static int game_item_type(lua_State *L) {
 void game_remove_item(int x, int y, item *it) {
     std::vector<item>& items = g->m.i_at(x, y);
 
-    for( size_t i = 0; i < items.size(); ++i ) {
-        if(&(items[i]) == it) {
-            items.erase(items.begin() + i);
+    for( std::vector<item>::iterator iter = items.begin(); iter != items.end(); ++iter ) {
+        if(&*iter == it) {
+            items.erase(iter);
         }
     }
 }

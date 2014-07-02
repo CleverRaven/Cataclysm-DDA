@@ -413,25 +413,12 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
             p->moves -= 100;
             drained = true;
         }
-        else if (query_yn(_("Drink from your hands?")))
+        else 
         {
-            // Create a dose of water no greater than the amount of water remaining.
-            item water_temp("water", 0);
-            water_temp.poison = water.poison;
-            water_temp.charges = std::min(water_temp.charges, water.charges);
-
-            p->inv.push_back(water_temp);
-            // If player is slaked water might not get consumed.
-            if (p->consume(p->inv.position_by_type(water_temp.typeId())))
-            {
-                p->moves -= 350;
-
-                water.charges -= water_temp.charges;
-                if (water.charges <= 0) {
-                    drained = true;
-                }
-            } else {
-                p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
+            int charges_consumed = p->drink_from_hands(water);
+            water.charges -= charges_consumed;
+            if (water.charges <= 0) {
+                drained = true;
             }
         }
 
@@ -1796,7 +1783,12 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
         return;
     }
-    if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    // Some traps are not actual traps. Those should get a different query.
+    if (t.can_see(*p, examx, examy) && possible == 0 && t.get_avoidance() == 0) { // Separated so saying no doesn't trigger the other query.
+        if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
+            m->disarm_trap(examx, examy);
+        }
+    } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
 }
@@ -1810,11 +1802,9 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
     {
         p->moves -= 100;
     }
-    else if (query_yn(_("Drink from your hands?")))
+    else 
     {
-        p->inv.push_back(water);
-        p->consume(p->inv.position_by_type(water.typeId()));
-        p->moves -= 350;
+        p->drink_from_hands(water);
     }
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
@@ -1826,11 +1816,9 @@ void iexamine::swater_source(player *p, map *m, const int examx, const int examy
     {
         p->moves -= 100;
     }
-    else if (query_yn(_("Drink from your hands?")))
+    else
     {
-        p->inv.push_back(swater);
-        p->consume(p->inv.position_by_type(swater.typeId()));
-        p->moves -= 350;
+        p->drink_from_hands(swater);
     }
 }
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)

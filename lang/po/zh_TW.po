@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-09 09:33+0400\n"
+"POT-Creation-Date: 2014-06-17 16:37+0400\n"
 "PO-Revision-Date: 2014-04-30 03:31+0000\n"
 "Last-Translator: xap cdda <Unknown>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-06-11 06:28+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"X-Launchpad-Export-Date: 2014-06-21 09:09+0000\n"
+"X-Generator: Launchpad (build 17058)\n"
 "Language: \n"
 
 #: lang/json/AMMO_from_json.py
@@ -1713,6 +1713,122 @@ msgid ""
 msgstr "一個空的 .700 Nitro Express 子彈殼。它很稀有，最好別丟掉。"
 
 #: lang/json/AMMO_from_json.py
+msgid ".300 Winchester Magnum"
+msgid_plural ".300 Winchester Magnum"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .300 Winchester Magnum is extremely versatile and has been adopted by "
+"many shooting disciplines. The cartridge has found use by hunters, military "
+"units, and law enforcement departments."
+msgstr ".300 溫徹斯特麥格農是一種在許多射擊訓練時廣泛使用的彈藥。此彈種常用於獵人，軍事單位，以及執法部門。"
+
+#: lang/json/AMMO_from_json.py
+msgid ".300 casing"
+msgid_plural ".300 casings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "An empty casing from a .300 Winchester Magnum round."
+msgstr "一個空的 .300 溫徹斯特麥格農子彈殼。"
+
+#: lang/json/AMMO_from_json.py
+msgid ".32 ACP"
+msgid_plural ".32 ACP"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The .32 ACP was a popular handgun cartridge in the 20th century. Not so "
+"powerful as the .38 or the 9mm though."
+msgstr ".32 ACP 是在20世紀流行的手槍彈。不比 .38 或 9mm 強就是。"
+
+#: lang/json/AMMO_from_json.py
+msgid "7.62mm Type P"
+msgid_plural "7.62mm Type P"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"This small caliber pistol round offers good armor penetration at the cost of "
+"slightly less damage. It is rarely used outside of the Chinese army."
+msgstr "這種小型手槍子彈以較低的傷害為代價換取到相當不錯的穿甲能力。這種彈種通常不會在中國軍隊以外的地方看到。"
+
+#: lang/json/AMMO_from_json.py
+msgid "7.62x54mmR"
+msgid_plural "7.62x54mmR"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"The 7.62×54mmR is a rimmed rifle cartridge developed by the Russian Empire "
+"in 1891. It is still in service and has the longest service life of all "
+"military issued cartridges in the world."
+msgstr "7.62×54mmR 是由俄羅斯帝國在1891年開發的一種凸緣式子彈。目前仍在服勤，是軍史上服勤年齡最久的彈種。"
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "paper cartridge"
+msgid_plural "paper cartridges"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A paper cartridge containing black powder and a metallic projectile. "
+"Historically used to reload muzzleloaders in a more reasonable time."
+msgstr "一個內含黑火藥和金屬彈丸的紙卷彈藥。能夠加快老式燧發槍緩慢的裝彈速度。"
+
+#: lang/json/AMMO_from_json.py
+msgid ".36 paper cartridge"
+msgid_plural ".36 paper cartridges"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A paper cartridge containing a premeasured amount of black powder and a .36 "
+"projectile. Used by the Colt M1861 Navy."
+msgstr "一個紙卷加上了一定量黑火藥與.36彈丸的子彈。適用於Colt M1861 Navy。"
+
+#: lang/json/AMMO_from_json.py
+msgid ".44 paper cartridge"
+msgid_plural ".44 paper cartridges"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A paper cartridge containing a premeasured amount of black powder and a .44 "
+"projectile. Used by the Colt M1860 Army."
+msgstr "一個內含定量黑火藥與.44 彈丸的紙卷子彈。適用於Colt M1860 Army。"
+
+#: lang/json/AMMO_from_json.py
+msgid "7.62x54mmR casing"
+msgid_plural "7.62x54mmR casings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "An empty casing from a 7.62x54mmR round."
+msgstr "一個空的 7.62x54mmR 子彈殼。"
+
+#: lang/json/AMMO_from_json.py
+msgid ".32 casing"
+msgid_plural ".32 casings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "An empty casing from a .32 round."
+msgstr "一個空的 .32 子彈殼。"
+
+#: lang/json/AMMO_from_json.py
 msgid "nicotine liquid"
 msgid_plural "nicotine liquids"
 msgstr[0] ""
@@ -2766,6 +2882,44 @@ msgid ""
 msgstr "一個改造過的強力.50 BMG 狙擊子彈，能夠在射中時產生燃燒效果，同時能夠穿甲與點燃可燃物。這顆是手工裝配的重填彈。"
 
 #: lang/json/AMMO_from_json.py
+msgid "reloaded .300 Winchester Magnum"
+msgid_plural "reloaded .300 Winchester Magnum"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded variant of the extremely versatile .300 Winchester Magnum "
+"round. The cartridge has found use by hunters, military units, and law "
+"enforcement departments."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .32 ACP"
+msgid_plural "reloaded .32 ACP"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded .32 ACP handgun cartridge. Not as powerful as the .38 or the "
+"9mm."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 7.62x54mmR"
+msgid_plural "reloaded 7.62x54mmR"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded variant of the 7.62×54mmR is a rimmed rifle cartridge "
+"developed by the Russian Empire in 1891. It is still in service and has the "
+"longest service life of all military issued cartridges in the world."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "reloaded signal flare"
 msgid_plural "reloaded signal flares"
 msgstr[0] ""
@@ -2959,122 +3113,6 @@ msgid ""
 "These metal pellets are propelled with the help of electromagnets, therefore "
 "they do not produce sound, flash or heat signature."
 msgstr "這種金屬鋼珠利用電磁加速原理發射，因此完全不會產生聲音、閃光、或是熱。"
-
-#: lang/json/AMMO_from_json.py
-msgid ".32 ACP"
-msgid_plural ".32 ACP"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .32 ACP was a popular handgun cartridge in the 20th century. Not so "
-"powerful as the .38 or the 9mm though."
-msgstr ".32 ACP 是在20世紀流行的手槍彈。不比 .38 或 9mm 強就是。"
-
-#: lang/json/AMMO_from_json.py
-msgid "7.62mm Type P"
-msgid_plural "7.62mm Type P"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"This small caliber pistol round offers good armor penetration at the cost of "
-"slightly less damage. It is rarely used outside of the Chinese army."
-msgstr "這種小型手槍子彈以較低的傷害為代價換取到相當不錯的穿甲能力。這種彈種通常不會在中國軍隊以外的地方看到。"
-
-#: lang/json/AMMO_from_json.py
-msgid ".300 Winchester Magnum"
-msgid_plural ".300 Winchester Magnum"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .300 Winchester Magnum is extremely versatile and has been adopted by "
-"many shooting disciplines. The cartridge has found use by hunters, military "
-"units, and law enforcement departments."
-msgstr ".300 溫徹斯特麥格農是一種在許多射擊訓練時廣泛使用的彈藥。此彈種常用於獵人，軍事單位，以及執法部門。"
-
-#: lang/json/AMMO_from_json.py
-msgid "7.62x54mmR"
-msgid_plural "7.62x54mmR"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The 7.62×54mmR is a rimmed rifle cartridge developed by the Russian Empire "
-"in 1891. It is still in service and has the longest service life of all "
-"military issued cartridges in the world."
-msgstr "7.62×54mmR 是由俄羅斯帝國在1891年開發的一種凸緣式子彈。目前仍在服勤，是軍史上服勤年齡最久的彈種。"
-
-#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
-msgid "paper cartridge"
-msgid_plural "paper cartridges"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A paper cartridge containing black powder and a metallic projectile. "
-"Historically used to reload muzzleloaders in a more reasonable time."
-msgstr "一個內含黑火藥和金屬彈丸的紙卷彈藥。能夠加快老式燧發槍緩慢的裝彈速度。"
-
-#: lang/json/AMMO_from_json.py
-msgid ".36 paper cartridge"
-msgid_plural ".36 paper cartridges"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A paper cartridge containing a premeasured amount of black powder and a .36 "
-"projectile. Used by the Colt M1861 Navy."
-msgstr "一個紙卷加上了一定量黑火藥與.36彈丸的子彈。適用於Colt M1861 Navy。"
-
-#: lang/json/AMMO_from_json.py
-msgid ".44 paper cartridge"
-msgid_plural ".44 paper cartridges"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A paper cartridge containing a premeasured amount of black powder and a .44 "
-"projectile. Used by the Colt M1860 Army."
-msgstr "一個內含定量黑火藥與.44 彈丸的紙卷子彈。適用於Colt M1860 Army。"
-
-#: lang/json/AMMO_from_json.py
-msgid ".300 casing"
-msgid_plural ".300 casings"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid "An empty casing from a .300 Winchester Magnum round."
-msgstr "一個空的 .300 溫徹斯特麥格農子彈殼。"
-
-#: lang/json/AMMO_from_json.py
-msgid "7.62x54mmR casing"
-msgid_plural "7.62x54mmR casings"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid "An empty casing from a 7.62x54mmR round."
-msgstr "一個空的 7.62x54mmR 子彈殼。"
-
-#: lang/json/AMMO_from_json.py
-msgid ".32 casing"
-msgid_plural ".32 casings"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/AMMO_from_json.py
-msgid "An empty casing from a .32 round."
-msgstr "一個空的 .32 子彈殼。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of boxing gloves"
@@ -4568,9 +4606,9 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A jacket made from flannel style denim favored by woodsman. Provides decent "
-"protection from cuts."
-msgstr "一件受伐木工喜愛的法蘭絨丹寧外套。提供了對砍劈傷害的普通保護。"
+"A jacket made from flannel-style denim; favored by outdoorsy types. Provides "
+"decent protection from cuts."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "blazer"
@@ -4626,9 +4664,9 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A Modular Bullet Resistant Vest. It has pouches for extra armor inserts but "
+"A Modular Bullet Resistant Vest. It has pouches for extra armor inserts, but "
 "without them provides little more protection over a regular vest."
-msgstr "一件模組化防彈背心。有著能裝入附加防護片的口袋，沒有裝的話就只是比一般背心強一點而已。"
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "MBR vest (superalloy)"
@@ -4638,10 +4676,10 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A Modular Bullet Resistant Vest. Its armor pouches have Superalloy Plating "
-"in them giving it extra protection at some flexibility loss and additional "
-"weight."
-msgstr "一件模組化防彈背心。其附加防護片的口袋裡裝了超合金裝甲板，有著額外的保護，但是附加的重量犧牲了一些靈活性。"
+"A Modular Bullet Resistant Vest. Its armor pouches have superalloy plating "
+"in them, giving it extra protection with marginal flexibility loss and "
+"additional weight."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "MBR vest (steel plating)"
@@ -4651,8 +4689,8 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A Modular Bullet Resistant Vest. Its armor pouches have steel plates in them "
-"giving it extra protection but also make the vest much heavier and "
+"A Modular Bullet Resistant Vest. Its armor pouches have steel plates in "
+"them; this improves protection, but makes the vest much heavier and "
 "encumbering."
 msgstr ""
 
@@ -4689,7 +4727,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A Modular Bullet Resistant Vest. Hardened steel plates have been inserted, "
-"greatly increasing it's protection at the cost of a great deal of weight and "
+"greatly increasing its protection at the cost of a great deal of weight and "
 "loss of flexibility."
 msgstr ""
 
@@ -4824,6 +4862,18 @@ msgid "A fur coat with a couple small pockets. Extremely warm."
 msgstr "一件毛外套，擁有許多小口袋。非常保暖。"
 
 #: lang/json/ARMOR_from_json.py
+msgid "sable coat"
+msgid_plural "sable coats"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A very well-made fur coat, featuring thick panels of sable fur. Very warm "
+"and very good-looking."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "peacoat"
 msgid_plural "peacoats"
 msgstr[0] ""
@@ -4935,8 +4985,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "A pair of arm guards hammered out from metal. Very stylish."
-msgstr "用鎚子敲製而成的一對金屬護手。很酷。"
+msgid ""
+"A pair of arm guards hammered out from metal. Perfect for the Post-"
+"Apocalyptic Warrior look."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of glove liners"
@@ -5370,7 +5422,7 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"A traditional mail carrier's hat, with the US postal service logo "
+"A traditional mail carrier's cap, with the US postal service logo "
 "embroidered on the front above the plastic cap. A symbol of a bygone world."
 msgstr ""
 
@@ -5381,8 +5433,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "Also called a \"bucket hat.\" Often used in the military."
-msgstr "這帽子也被稱作漁夫帽。通常是軍隊在用。"
+msgid ""
+"Also called a \"bucket hat.\" Often used in the military. Its wide brim "
+"helps keep the sun out of your eyes."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "cotton hat"
@@ -5785,9 +5839,9 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"Whether hunting varmints, fixing up the ranch, or just wishing you had a "
-"horse, this is the hat for the job."
-msgstr "無論是狩獵，修理牧場，或只是幻想你有匹馬，這頂帽子都能勝任。"
+"Whether hunting varmints, fixing up the ranch, or heading into the sunset, "
+"this is the hat for the job."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "ten-gallon hat"
@@ -5798,8 +5852,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "These may not be the Great Plains, but you can still be the Boss with this "
-"high-crowned hat."
-msgstr "雖然可能沒有大草原，但你仍然可以戴上這頂高帽當老大。"
+"high-crowned, wide-brimmed hat."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "backpack"
@@ -8409,7 +8463,7 @@ msgid_plural "Internal Chronometer CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py
 msgid ""
 "You have been equipped with an internal atomic clock, ensuring that you will "
 "always know the current time."
@@ -11364,11 +11418,11 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"According to the label, this loathsome tasting beverage is called ATOMIC "
+"According to the label, this loathsome-tasting beverage is called ATOMIC "
 "POWER THIRST. Alongside the lengthy health warning, it promises to make the "
 "consumer UNCOMFORTABLY ENERGETIC using ELECTROLYTES and THE POWER OF THE "
 "ATOM."
-msgstr "根據標籤，這個詭異味道的飲料被稱為核子解渴動力。除了冗長的健康警告，還保證使用電解質與核子力讓消費者得到不舒服的活力。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dark cola"
@@ -11422,9 +11476,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"It tastes and looks like windshield wiper fluid but it's loaded to the brim "
+"It tastes and looks like windshield wiper fluid, but it's loaded to the brim "
 "with sugar and caffeine."
-msgstr "它的味道嘗起來像玻璃穩潔，但是加了滿滿的糖與咖啡因。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "root beer"
@@ -11613,8 +11667,8 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A mushy gray semi-liquid soup made from mushrooms. It tastes good on its own "
-"but it's also useful in cooking."
+"A mushy, gray semi-liquid soup made from mushrooms. It tastes good on its "
+"own, but it's also useful in cooking."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -11625,8 +11679,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"It smells of tomatoes. Not very filling but it goes well with grilled cheese."
-msgstr "聞起來是番茄做的。吃起來不夠飽，但搭配烤奶酪很美味。"
+"It smells of tomatoes. Not very filling, but it goes well with grilled "
+"cheese."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chicken and dumplings"
@@ -11828,7 +11883,7 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Wine that's been distilled to a higher proof. Great as an after-dinner "
+"Wine that has been distilled to a higher proof. Great as an after-dinner "
 "drink, but packs a punch."
 msgstr ""
 
@@ -12030,10 +12085,10 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A very flavorful beer which has been aged in bourbon barrels. It is black as "
-"midnight on a moonless night, and has the viscosity of oil. While very "
-"tasty, it also has an alcohol content on level with wine."
-msgstr "一種在陳年波旁桶中釀造的可口啤酒。如無月午夜般的黑，粘性像油一般。非常好喝，但是酒精濃度也比一般啤酒要高。"
+"A very flavorful beer that has been aged in bourbon barrels. It is as black "
+"as midnight on a moonless night and has the viscosity of oil. While very "
+"tasty, it also has an alcohol content on the level with wine."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "soap bar"
@@ -12042,7 +12097,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A cleansing agent made into bars. Don't drop it!"
+msgid "A cleansing agent made into bars."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -12303,10 +12358,10 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A super-concentrated mutagen which looks very much like the goo or whatever-"
+"A super-concentrated mutagen that looks very much like the goo or whatever-"
 "it-is in the zombies' eyes. You need a syringe to inject it... if you really "
 "want to?"
-msgstr "一個看起來像是從黏液或是殭屍眼珠提煉的超濃縮突變劑。你需要一個針筒才能注射......如果你真的想要？"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fish serum"
@@ -12440,9 +12495,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A super-concentrated mutagen which reminds you of the forests. You need a "
+"A super-concentrated mutagen that reminds you of the forests. You need a "
 "syringe to inject it... if you really want to?"
-msgstr "一個超濃縮突變劑，顏色讓你想到森林。你需要一個針筒才能注射......如果你真的想要？"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "raptor serum"
@@ -12534,9 +12589,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A bone from some creature or other, could be eaten or used to make some "
+"A bone from some creature or other. Could be eaten or used to make some "
 "stuff, like needles."
-msgstr "一根來自生物的骨頭，能夠食用或是用來作其他有用的物品，像是骨針。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fluid sac"
@@ -12546,9 +12601,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A fluid bladder from a plant based lifeform, not very nutritious, but fine "
+"A fluid bladder from a plant based lifeform. Not very nutritious, but fine "
 "to eat anyway."
-msgstr "一個生物的液體水囊，不是很營養，反正能吃就對了。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chunk of meat"
@@ -12745,9 +12800,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A type of lunch meat, comes pre-sliced. Its first name isn't Oscar. Can be "
-"eaten cold."
-msgstr "午餐肉的另一種型態，是預先切好的。發源地不是奧斯卡。能夠生食。"
+"A type of lunch meat that comes pre-sliced. Its first name isn't Oscar. Can "
+"be eaten cold."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "brat bologna"
@@ -12757,9 +12812,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A type of lunch meat, made out of human flesh, comes pre-sliced. Its first "
-"name may have been Oscar. Can be eaten cold."
-msgstr "午餐肉的另一種型態，是預先切好的人肉。也許他生前的名字是奧斯卡。能夠生食。"
+"A type of lunch meat made out of human flesh that comes pre-sliced. Its "
+"first name may have been Oscar. Can be eaten cold."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "plant marrow"
@@ -12876,9 +12931,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Surprisingly, not made from dog. Cooked, this hot dog now tastes much better "
-"but will spoil."
-msgstr "令人驚訝的是，這並不是用狗肉做的。加熱過讓這熱狗變好吃，但是會腐壞。"
+"Surprisingly, not made from dog. Cooked, this hot dog now tastes much "
+"better, but will spoil."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chili dogs"
@@ -12921,8 +12976,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A heavily processed sausage, dipped in batter and deep fried. Cooked, this "
-"corn dog now tastes much better but will spoil."
-msgstr "一個重度加工過的肉腸，裹了粉油炸過。加熱過讓這玉米狗變好吃，但是會腐壞。"
+"corn dog now tastes much better, but will spoil."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked creep"
@@ -13077,8 +13132,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Mmm, irradiated. Will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "嗯，被輻射照過。能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated banana"
@@ -13088,9 +13143,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated banana, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的香蕉，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated banana will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated orange"
@@ -13100,9 +13155,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated orange, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的柳橙，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated orange will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated lemon"
@@ -13112,9 +13167,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated lemon, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的檸檬，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated lemon will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fruit leather"
@@ -13137,26 +13192,38 @@ msgid "Betcha can't eat just one."
 msgstr "我賭你絕對停不下來。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "cereal"
-msgid_plural "cereals"
+msgid "sugary cereal"
+msgid_plural "sugary cereals"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A box of sugary breakfast cereal, with marshmallows. It takes you back to "
+"A box of sugary breakfast cereal with marshmallows. It takes you back to "
 "your childhood."
-msgstr "一盒含糖的穀類早餐，加入了棉花糖。帶你回到你的童年。"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "wheat cereal"
+msgid_plural "wheat cereals"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A box of wheat oats, they're surprisingly good, and allegedly good for your "
-"heart."
-msgstr "一盒麥片，出奇的好，而且聽說對心臟有益。"
+"A box of whole-grain wheat cereal. It's surprisingly good, and allegedly "
+"good for your heart."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A box of cornflakes. They're not that good but it beats nothing."
-msgstr "一盒穀類玉米片。不是很好吃，但總比沒得吃好。"
+msgid "corn cereal"
+msgid_plural "corn cereals"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A box of cornflakes. They're not that good, but it beats nothing."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "toast-em"
@@ -13172,14 +13239,15 @@ msgstr "通常裹上了糖霜的乾燥烤點心，真棒！這是草莓口味的
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Dry toaster pastries usually coated with solid frosting, these are blueberry "
-"flavored!"
-msgstr "通常裹上了糖霜的乾燥烤點心，這是藍莓口味的！"
+"Dry toaster pastries, usually coated with solid frosting, these are "
+"blueberry flavored!"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Dry toaster pastries usually coated with solid frosting, sadly these are not."
-msgstr "通常裹上了糖霜的乾燥烤點心，可惜的是這些沒有裹糖霜。"
+"Dry toaster pastries, usually coated with solid frosting. Sadly, these are "
+"not."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "toaster pastry (uncooked)"
@@ -13241,8 +13309,8 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Salted corn chips, now with meat. Could probably use some cheese though."
-msgstr "加鹽調味的玉米片並搭配了肉。要是再加上一些起司，就更棒了。"
+"Salted corn chips, now with meat. Could probably use some cheese, though."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "niño nachos"
@@ -13438,8 +13506,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Salty dried pork. Tastes good but it will make you thirsty."
-msgstr "鹽漬的豬肉。好吃，只是吃的時候口會渴。"
+msgid "Salty dried pork. Tastes good, but it will make you thirsty."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "jerk jerky"
@@ -13509,8 +13577,8 @@ msgid ""
 msgstr "看那些該死的笨蛋用蜂蜜對這個花生醬三明治做了什麼，哦，等等，其實這還不錯吃。"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "candy"
-msgid_plural "candies"
+msgid "peanut butter candy"
+msgid_plural "peanut butter candies"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -13519,8 +13587,20 @@ msgid "A big bag of peanut butter cups... your favorite!"
 msgstr "一大袋奶油花生糖... 你的最愛！"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "chocolate candy"
+msgid_plural "chocolate candies"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "A big bag of colorful chocolate filled candies."
 msgstr "一大包五顏六色的巧克力夾心糖。"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chewy candy"
+msgid_plural "chewy candies"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A big bag of colorful fruit-flavored chewy candy."
@@ -13545,9 +13625,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Chilly P Yo! Not very good on its own but it might help if you use it "
+"Chilly P, Yo! Not very good on its own, but it might help if you use it "
 "properly, or in meth."
-msgstr "辣的唷！直接吃也許不太好，但是正確的使用很有幫助，比如說加在冰毒裡。(絕命毒師梗)"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "curry powder"
@@ -13558,8 +13638,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A blend of spices meant to be used in some South Asian dishes. Could be "
-"eaten raw but why would you do that?"
-msgstr "融合了許多香料的調味品，可以使用在一些南亞菜餚中。雖然可以生吃，但為什麼你要那麼做？"
+"eaten raw, but why would you do that?"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "mushroom"
@@ -13600,8 +13680,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Tasty juicy berry, often found growing wild in fields."
-msgstr "可口多汁的莓子，通常在野地中生長。"
+msgid "Tasty, juicy berry. Often found growing wild in fields."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wheat"
@@ -13630,7 +13710,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Grainy cereal used for malting, a staple of brewing everywhere."
+msgid "Grainy cereal used for malting. A staple of brewing everywhere."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -13641,7 +13721,7 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"This fleshy root is ripe and flowing with sugars, just takes some processing "
+"This fleshy root is ripe and flowing with sugars; just takes some processing "
 "to extract them."
 msgstr ""
 
@@ -13750,9 +13830,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated head of lettuce, will remain edible nearly forever. Sterilized "
-"using radiation, so safe to eat."
-msgstr "被輻射照過的萵苣，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated head of lettuce will remain edible nearly forever. Sterilized "
+"using radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated tomato"
@@ -13762,9 +13842,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated tomato, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的番茄，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated tomato will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated broccoli"
@@ -13774,9 +13854,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated cluster of broccoli, will remain edible nearly forever. "
-"Sterilized using radiation, so safe to eat."
-msgstr "被輻射照過的花椰菜，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated cluster of broccoli will remain edible nearly forever. "
+"Sterilized using radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated zucchini"
@@ -13786,9 +13866,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated zucchini, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的西葫蘆，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated zucchini will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated onion"
@@ -13798,9 +13878,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated onion, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的洋蔥，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated onion will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated carrot"
@@ -13810,9 +13890,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated bundle of carrots, will remain edible nearly forever. "
-"Sterilized using radiation, so safe to eat."
-msgstr "被輻射照過的胡蘿蔔，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated bundle of carrots will remain edible nearly forever. "
+"Sterilized using radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated corn"
@@ -13822,9 +13902,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated ear of corn, will remain edible nearly forever. Sterilized "
-"using radiation, so safe to eat."
-msgstr "被輻射照過的玉米，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated ear of corn will remain edible nearly forever. Sterilized "
+"using radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "uncooked TV dinner"
@@ -13858,9 +13938,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A small, microwaveable steak & cheese burrito. Like those found at gas "
+"A small, microwaveable steak & cheese burrito, like those found at gas "
 "stations. Not as appetizing or nutritious as it would be if heated up."
-msgstr "一份可微波，包著肉排和起士的小捲餅。就像那些在加油站找到的。如果不先加熱過，可能很難讓人有食慾。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cooked burrito"
@@ -13870,9 +13950,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A small, microwaveable steak & cheese burrito. Like those found at gas "
+"A small, microwaveable steak & cheese burrito, like those found at gas "
 "stations. It's tastier and more filling, but will also spoil quickly."
-msgstr "一份可微波，包著肉排和起士的小捲餅。就像那些在加油站找到的。加熱後讓它變的更加美味，但也很快就會腐壞。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "raw spaghetti"
@@ -13934,9 +14014,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Some mac and cheese with ground meat added, adding to the flavor and the "
+"Some mac and cheese with ground meat added, enhancing the flavor and the "
 "nutritional value."
-msgstr "雖然叫漢堡幫手，但只是一些麵條與起司淋上絞肉。有著美味與一定的營養價值。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "hobo helper"
@@ -13946,8 +14026,8 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Some mac and cheese with ground human flesh added, so good it's like murder."
-msgstr "雖然叫人肉幫手，但卻是一些麵條與起司淋上人肉，棒的就像殺了仇人一樣。"
+"Some mac and cheese with ground human flesh added. So good it's like murder."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "ravioli"
@@ -14040,9 +14120,8 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Greasy Prospector improved pork and beans. With hickory smoked pig fat "
-"chunks."
-msgstr "改善豬肉和豆類的油膩膩。使用了胡桃木燻豬肉塊。"
+"Greasy Prospector improved pork and beans with hickory smoked pig fat chunks."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Canned corn in water. Eat up!"
@@ -14098,8 +14177,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Now with 95 percent less dolphins!"
-msgstr "裡面海豚肉的含量少於95%了！"
+msgid "Now with 95 percent fewer dolphins!"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "canned salmon"
@@ -14160,8 +14239,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A large chunk of wax, filled with honey. Very tasty."
-msgstr "一大塊沾滿蜂蜜的蜂蠟。非常美味。"
+msgid "A large chunk of wax filled with honey. Very tasty."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "wax"
@@ -14196,9 +14275,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A chunk of meat with a coat of royal jelly over it. It's a lot like a honey "
+"A chunk of meat with a coat of royal jelly over it. It's a lot like a honey-"
 "baked ham."
-msgstr "一大塊像是裹了一層蜂王漿大衣的牛肉。其實有點像是蜜汁火腿。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "misshapen fetus"
@@ -14467,7 +14546,7 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Yuck! You surely wouldn't want to eat this. It's good for preserving meat "
-"and cooking with though."
+"and cooking, though."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -14593,9 +14672,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated potato, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的馬鈴薯，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated potato will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "baked potato"
@@ -14858,8 +14937,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "The irradiated beef main course from an MRE. Sterilized using radiation, so "
-"safe to eat. Exposed to the atmosphere it has started to go bad."
-msgstr "被輻射照過的牛肉軍用口糧，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。當拆封後內容物將會開始腐爛。"
+"it's safe to eat. Exposed to the atmosphere, it has started to go bad."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated vegetarian course"
@@ -14870,9 +14949,9 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "The irradiated vegetarian main course from an MRE. Sterilized using "
-"radiation, so safe to eat. Exposed to the atmosphere it has started to go "
-"bad."
-msgstr "被輻射照過的蔬菜軍用口糧，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。當拆封後內容物將會開始腐爛。"
+"radiation, so it's safe to eat. Exposed to the atmosphere, it has started to "
+"go bad."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated chicken course"
@@ -14883,8 +14962,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "The irradiated chicken main course from an MRE. Sterilized using radiation, "
-"so safe to eat. Exposed to the atmosphere it has started to go bad."
-msgstr "被輻射照過的雞肉軍用口糧，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。當拆封後內容物將會開始腐爛。"
+"so it's safe to eat. Exposed to the atmosphere, it has started to go bad."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated hot dog course"
@@ -14894,10 +14973,10 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Nicknamed the Four Fingers of Death by troops this is probably the most "
-"disgusting thing you've ever eaten. Sterilized using radiation, so safe to "
-"eat. Exposed to the atmosphere it has started to go bad."
-msgstr "被部隊戲稱為'四根手指的死神'，這東西大概是你吃過最噁心的東西了。經過輻射消毒，所以安心可食。當拆封後內容物將會開始腐爛。"
+"Nicknamed the 'Four Fingers of Death' by troops, this is probably the most "
+"disgusting thing you've ever eaten. Sterilized using radiation, so it's safe "
+"to eat. Exposed to the atmosphere, it has started to go bad."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated ravioli course"
@@ -14908,9 +14987,9 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "The main course from a ravioli MRE, the sauce really helps with the taste. "
-"Sterilized using radiation, so safe to eat. Exposed to the atmosphere it has "
-"started to go bad."
-msgstr "被輻射照過的餛飩軍用口糧，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。當拆封後內容物將會開始腐爛。"
+"Sterilized using radiation, so it's safe to eat. Exposed to the atmosphere, "
+"it has started to go bad."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tea leaf"
@@ -15675,8 +15754,8 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A brown goo that tastes very little of its namesake. It's not bad but it'll "
-"stick to the roof of your mouth."
+"A brown goo that tastes very little like its namesake. It's not bad, but "
+"it'll stick to the roof of your mouth."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -15686,8 +15765,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A pickled cucumber, rather sour but good and basically lasts forever."
-msgstr "一份酸味的酸黃瓜，基本上可以永久保存不腐壞。"
+msgid ""
+"A pickled cucumber. Rather sour, but tastes good and basically lasts forever."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "paper"
@@ -16061,8 +16141,8 @@ msgstr[1] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A powdered antihemorrhagic compound that reacts with blood to immediately "
-"form a gel-like substance which stops bleeding."
-msgstr "粉末狀的抗出血化合物，能與血液發生反應，立即形成一種凝膠狀物質迅速止血。"
+"form a gel-like substance that stops bleeding."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chocolate-covered coffee bean"
@@ -16114,9 +16194,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated pear, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的梨子，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated pear will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated grapefruit"
@@ -16126,9 +16206,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated grapefruit, will remain edible nearly forever. Sterilized "
-"using radiation, so safe to eat."
-msgstr "被輻射照過的葡萄柚，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated grapefruit will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cherry"
@@ -16137,8 +16217,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "A red, sweet fruit which grows in trees."
-msgstr "紅色甜味，長在樹上的水果。"
+msgid "A red, sweet fruit that grows in trees."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "plum"
@@ -16159,9 +16239,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A group of irradiated plums, will remain edible nearly forever. Sterilized "
-"using radiation, so safe to eat."
-msgstr "被輻射照過的一串李子，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"A group of irradiated plums will remain edible nearly forever. Sterilized "
+"using radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "grapes"
@@ -16211,9 +16291,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated pineapple, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的鳳梨，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated pineapple will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated peach"
@@ -16223,9 +16303,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated peach, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的桃子，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated peach will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "cranberry"
@@ -16255,8 +16335,8 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A box of fast-food fried potatoes.  With delicious cheese smothered on top."
-msgstr "一盒速食炸馬鈴薯。有著美味的起士淋在上面。"
+"A box of fast-food fried potatoes with delicious cheese smothered on top."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "onion ring"
@@ -16270,7 +16350,7 @@ msgstr "一盒速食炸洋蔥圈。香脆可口。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "protein powder"
-msgid_plural "protein powder"
+msgid_plural "servings of protein powder"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -16332,9 +16412,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated watermelon, will remain edible nearly forever. Sterilized "
-"using radiation, so safe to eat."
-msgstr "被輻射照過的西瓜，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated watermelon will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated melon"
@@ -16344,9 +16424,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated melon, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的甜瓜，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated melon will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "raspberry"
@@ -16457,9 +16537,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated mango, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的芒果，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated mango will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated pomegranate"
@@ -16469,9 +16549,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated pomegranate, will remain edible nearly forever. Sterilized "
-"using radiation, so safe to eat."
-msgstr "被輻射照過的石榴，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated pomegranate will remain edible nearly forever. Sterilized "
+"using radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated rhubarb"
@@ -16481,9 +16561,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated rhubarb, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的大黃，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated rhubarb will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peppermint patty"
@@ -16642,9 +16722,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated papaya, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的木瓜，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated papaya will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated kiwi"
@@ -16654,9 +16734,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated kiwi, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的奇異果，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated kiwi will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated apricot"
@@ -16666,9 +16746,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"An irradiated apricot, will remain edible nearly forever. Sterilized using "
-"radiation, so safe to eat."
-msgstr "被輻射照過的杏子，能夠保存到近乎永遠。經過輻射消毒，所以安心可食。"
+"An irradiated apricot will remain edible nearly forever. Sterilized using "
+"radiation, so it's safe to eat."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "single malt whiskey"
@@ -16724,9 +16804,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"Candy sticks, slightly more healthy than tobacco cigarettes, but with no "
+"Candy sticks. Slightly more healthy than tobacco cigarettes, but with no "
 "possibility of addiction."
-msgstr "做成香菸狀的糖果，至少比煙草來的健康，當然沒有成癮性。"
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "bird egg"
@@ -16756,9 +16836,9 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"This battery operated device vaporizes a liquid which contains flavorings "
-"and nicotine. A less harmful alternative to traditional cigarette, but still "
-"addictive. It can't be reused once it's empty."
+"This battery-operated device vaporizes a liquid that contains flavorings and "
+"nicotine. A less harmful alternative to traditional cigarettes, but it's "
+"still addictive. It can't be reused once it's empty."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py src/addiction.cpp
@@ -18633,10 +18713,24 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "You snap open your baton."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid ""
 "A telescoping baton that collapses for easy storage. Makes an excellent "
 "melee weapon."
 msgstr "一根可伸縮的甩棍，便於攜帶。可以做為相當優秀的近戰武器。"
+
+#: lang/json/GENERIC_from_json.py
+msgid "expandable baton (extended)"
+msgid_plural "expandable baton (extended)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "You collapse your baton."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "bee sting"
@@ -19066,16 +19160,30 @@ msgid ""
 msgstr "一根通常被警察所使用的木製結實短棍。源自沖繩的武器，由一個握柄垂直連結於棍子的三分之一處所組成。"
 
 #: lang/json/GENERIC_from_json.py
-msgid "PR-24 baton"
-msgid_plural "PR-24 batons"
+msgid "PR-24 baton (retracted)"
+msgid_plural "PR-24 baton (retracted)s"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "You snap open your PR-24 baton."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "The Monadnock PR-24 baton is a collapsable, lightweight, side-handle baton "
 "used by law enforcement all over the world. The PR designation is rumoured "
 "to mean Public Relations."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "PR-24 baton (extended)"
+msgid_plural "PR-24 baton (extended)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "You collapse your PR-24 baton."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -20895,6 +21003,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "stone bow"
+msgid_plural "stone bows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A modified version of the classic crossbow which utilizes stones as "
+"projectiles instead of the traditional quarrel. Primarily intended for "
+"hunting small game, stronger people can reload it much faster."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "blowgun"
 msgid_plural "blowguns"
 msgstr[0] ""
@@ -22396,126 +22517,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "Elephant gun"
-msgid_plural "Elephant guns"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"A custom made single shot rifle specially designed for the hunting of huge "
-"game. You could obviously kill everything with this, EVERYTHING. If you ever "
-"find enough ammo of course."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "SVS-24"
-msgid_plural "SVS-24"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"The Sarafanov Assault Rifle replaced the famous AK family of guns as the "
-"service rifle of the Russian Army. It uses the 6.54x42mm cartrige."
-msgstr "這把Sarafanov突擊步槍取代了AK家族成為了俄羅斯軍隊的制式步槍。使用 6.54x42mm 子彈。"
-
-#: lang/json/GUN_from_json.py
-msgid "SVS-24C"
-msgid_plural "SVS-24C"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"The compact version of the standard SVS-24. It is commonly issued to tank "
-"crews or special forces due to it's smaller size. The shorter barrel reduces "
-"accuracy."
-msgstr "小型的標準SVS-24。通常是發給坦克兵和特種兵，也由於它的尺寸較小，其較短的槍管會降低精準度。"
-
-#: lang/json/GUN_from_json.py
-msgid "CW-24"
-msgid_plural "CW-24"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"Civilian version of the SVS-24. It was made by Clearwater Arms, Georgia for "
-"the US market. It's pure semi-automatic, but fires the same powerful "
-"cartridge as the SVS-24."
-msgstr ""
-"SVS-24的民用版本。由美國喬治亞州的 Clearwater 槍械工廠生產。這把槍雖然是半自動，但是同樣可以發射與 SVS-24 相同的強力子彈。"
-
-#: lang/json/GUN_from_json.py
-msgid "CW-24M"
-msgid_plural "CW-24M"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"Civilian version of the SVS-24. This one fires the cheaper, but still "
-"powerful, 5.45x39mm cartridge."
-msgstr "SVS-24的民用版本。這把槍能發射更便宜但同樣強的 5.45x39mm 子彈。"
-
-#: lang/json/GUN_from_json.py
-msgid "CW-24K"
-msgid_plural "CW-24K"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"Civilian version of the SVS-24. This one fires the cheaper, but still "
-"powerful, 7.62x39mm cartridge."
-msgstr "SVS-24的民用版本。這把槍能發射更便宜但同樣強的 7.62x39mm 子彈。"
-
-#: lang/json/GUN_from_json.py
-msgid "Modified CW-24"
-msgid_plural "Modified CW-24"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"Civilian version of the SVS-24. It has a modified reciever and a new crudely "
-"crafted full-auto bolt carrier. Don't expect the original reliability."
-msgstr "SVS-24的民用版本。改裝了供彈機制與重度改造的全自動槍機。只是就不要期待跟原廠一樣的可靠度了。"
-
-#: lang/json/GUN_from_json.py
-msgid "Modified CW-24M"
-msgid_plural "Modified CW-24M"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid "CWD-63"
-msgid_plural "CWD-63"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"The Clearwater Arms version of the famous SVD-63 Dragunov. This one was "
-"rechambered for the .308 round."
-msgstr "知名 SVD-63 Dragunov 的 Clearwater槍械廠版。這把步槍改成使用 .308 子彈。"
-
-#: lang/json/GUN_from_json.py
-msgid "Wrist DREAD"
-msgid_plural "Wrist DREAD"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GUN_from_json.py
-msgid ""
-"The miniaturized version of the DREAD MkIX attached to the wrist of the "
-"operator. It fires .20 metal pellets at an incredible rate without any flash "
-"or noise. It is mainly a defensive weapon."
-msgstr ""
-"附掛於操作者手腕上的電磁鋼珠槍 MkIX 小型化版本。能夠以不可思議的連發速度發射 .20 鋼珠，而且不會有任何閃光與噪音。主要作為防衛武器。"
-
-#: lang/json/GUN_from_json.py
 msgid "Tokarev TT-30"
 msgid_plural "Tokarev TT-30"
 msgstr[0] ""
@@ -22664,6 +22665,126 @@ msgid ""
 "shorter barrel, therefore it is weaker than the 1891/30, but easier to carry."
 msgstr "M44是標準型莫辛-納甘1891/30的改短版。相較於原版主要是將槍管改短，也因為這樣造成火力降低，但更便於攜帶。"
 
+#: lang/json/GUN_from_json.py
+msgid "Elephant gun"
+msgid_plural "Elephant guns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A custom made single shot rifle specially designed for the hunting of huge "
+"game. You could obviously kill everything with this, EVERYTHING. If you ever "
+"find enough ammo of course."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "SVS-24"
+msgid_plural "SVS-24"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Sarafanov Assault Rifle replaced the famous AK family of guns as the "
+"service rifle of the Russian Army. It uses the 6.54x42mm cartrige."
+msgstr "這把Sarafanov突擊步槍取代了AK家族成為了俄羅斯軍隊的制式步槍。使用 6.54x42mm 子彈。"
+
+#: lang/json/GUN_from_json.py
+msgid "SVS-24C"
+msgid_plural "SVS-24C"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The compact version of the standard SVS-24. It is commonly issued to tank "
+"crews or special forces due to it's smaller size. The shorter barrel reduces "
+"accuracy."
+msgstr "小型的標準SVS-24。通常是發給坦克兵和特種兵，也由於它的尺寸較小，其較短的槍管會降低精準度。"
+
+#: lang/json/GUN_from_json.py
+msgid "CW-24"
+msgid_plural "CW-24"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Civilian version of the SVS-24. It was made by Clearwater Arms, Georgia for "
+"the US market. It's pure semi-automatic, but fires the same powerful "
+"cartridge as the SVS-24."
+msgstr ""
+"SVS-24的民用版本。由美國喬治亞州的 Clearwater 槍械工廠生產。這把槍雖然是半自動，但是同樣可以發射與 SVS-24 相同的強力子彈。"
+
+#: lang/json/GUN_from_json.py
+msgid "CW-24M"
+msgid_plural "CW-24M"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Civilian version of the SVS-24. This one fires the cheaper, but still "
+"powerful, 5.45x39mm cartridge."
+msgstr "SVS-24的民用版本。這把槍能發射更便宜但同樣強的 5.45x39mm 子彈。"
+
+#: lang/json/GUN_from_json.py
+msgid "CW-24K"
+msgid_plural "CW-24K"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Civilian version of the SVS-24. This one fires the cheaper, but still "
+"powerful, 7.62x39mm cartridge."
+msgstr "SVS-24的民用版本。這把槍能發射更便宜但同樣強的 7.62x39mm 子彈。"
+
+#: lang/json/GUN_from_json.py
+msgid "Modified CW-24"
+msgid_plural "Modified CW-24"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Civilian version of the SVS-24. It has a modified reciever and a new crudely "
+"crafted full-auto bolt carrier. Don't expect the original reliability."
+msgstr "SVS-24的民用版本。改裝了供彈機制與重度改造的全自動槍機。只是就不要期待跟原廠一樣的可靠度了。"
+
+#: lang/json/GUN_from_json.py
+msgid "Modified CW-24M"
+msgid_plural "Modified CW-24M"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid "CWD-63"
+msgid_plural "CWD-63"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The Clearwater Arms version of the famous SVD-63 Dragunov. This one was "
+"rechambered for the .308 round."
+msgstr "知名 SVD-63 Dragunov 的 Clearwater槍械廠版。這把步槍改成使用 .308 子彈。"
+
+#: lang/json/GUN_from_json.py
+msgid "Wrist DREAD"
+msgid_plural "Wrist DREAD"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The miniaturized version of the DREAD MkIX attached to the wrist of the "
+"operator. It fires .20 metal pellets at an incredible rate without any flash "
+"or noise. It is mainly a defensive weapon."
+msgstr ""
+"附掛於操作者手腕上的電磁鋼珠槍 MkIX 小型化版本。能夠以不可思議的連發速度發射 .20 鋼珠，而且不會有任何閃光與噪音。主要作為防衛武器。"
+
 #: lang/json/ITEM_CATEGORY_from_json.py
 msgid "chemical stuff"
 msgstr "化學物品"
@@ -22713,12 +22834,15 @@ msgid "Doubles zombie speed."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Medieval content pack"
-msgstr "中世紀內容包"
+msgid "Medieval weapons (obsolete)"
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "A compilation of medieval gear by several different authors"
-msgstr "由不同作者彙編的中世紀裝備"
+msgid ""
+"The contents of this mod have been integrated into the game. This mod pack "
+"is deprecated and will eventually be removed. It is included to prevent "
+"warnings when moving from an older version of the game to a newer version."
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "No Energy Weapons"
@@ -22737,11 +22861,27 @@ msgid "Removes flaming melee weapons."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "No Medieval Items"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes medieval weapons, armors, and specific books."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Disable mutagens"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes mutagen items from the game."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "No Antique Firearms"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes antique firearms and those that are no longer in production"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -22777,19 +22917,15 @@ msgid "Removes survivor armor."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Old Guns Pack"
-msgstr "舊式槍械包"
-
-#: lang/json/MOD_INFO_from_json.py
-msgid "Weapons that are old or are no longer in production."
-msgstr "包含一些老舊並且不再生產的槍械。"
-
-#: lang/json/MOD_INFO_from_json.py
 msgid "Slow Zombies"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Halves zombie speed."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Old guns (obsolete)"
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -23941,6 +24077,30 @@ msgid ""
 "fused together in this aberration of flesh. The eyes of all the heads dart "
 "about rapidly and the mouths form a chorus of groaning screams."
 msgstr "許多腐爛的人類和動物融合成噁心的形體，上面的所有頭顱會快速的眨眼而嘴巴會發出尖叫與呻吟。"
+
+#: lang/json/MONSTER_from_json.py
+msgid "irradiated wanderer"
+msgid_plural "irradiated wanderers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"This rotting corpse seaps a glowing ooze from its lesions.  A strange "
+"tattered jumpsuit marks it as an oddity across the wasteland."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "charred nightmare"
+msgid_plural "charred nightmares"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Intense radiation has spured a unique form of necrosis and regeneration, it "
+"is impossible to tell if this creature was ever human."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "triffid"
@@ -30033,6 +30193,30 @@ msgid "rebreather filter"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
+msgid ".300"
+msgstr ".300"
+
+#: lang/json/ammunition_type_from_json.py
+msgid ".32"
+msgstr ".32"
+
+#: lang/json/ammunition_type_from_json.py
+msgid "7.62x25mm"
+msgstr "7.62x25mm"
+
+#: lang/json/ammunition_type_from_json.py
+msgid ".36 cap & ball"
+msgstr ".36 實心彈"
+
+#: lang/json/ammunition_type_from_json.py
+msgid ".44 cap & ball"
+msgstr ".44 實心彈"
+
+#: lang/json/ammunition_type_from_json.py
+msgid "7.62x54mm"
+msgstr "7.62x54mm"
+
+#: lang/json/ammunition_type_from_json.py
 msgid "speargun spear"
 msgstr "叉槍矛"
 
@@ -30047,30 +30231,6 @@ msgstr "5.45x39mm 子彈"
 #: lang/json/ammunition_type_from_json.py
 msgid ".20 DREAD Pellets"
 msgstr ".20 電磁鋼珠"
-
-#: lang/json/ammunition_type_from_json.py
-msgid ".32"
-msgstr ".32"
-
-#: lang/json/ammunition_type_from_json.py
-msgid "7.62x25mm"
-msgstr "7.62x25mm"
-
-#: lang/json/ammunition_type_from_json.py
-msgid ".300"
-msgstr ".300"
-
-#: lang/json/ammunition_type_from_json.py
-msgid ".36 cap & ball"
-msgstr ".36 實心彈"
-
-#: lang/json/ammunition_type_from_json.py
-msgid ".44 cap & ball"
-msgstr ".44 實心彈"
-
-#: lang/json/ammunition_type_from_json.py
-msgid "7.62x54mm"
-msgstr "7.62x54mm"
 
 #: lang/json/bionic_from_json.py
 msgid "Power Storage"
@@ -30142,6 +30302,13 @@ msgstr "突觸加速器"
 #: lang/json/bionic_from_json.py
 msgid "Internal Chronometer"
 msgstr "內部計時器"
+
+#: lang/json/bionic_from_json.py
+msgid ""
+"You have been equipped with an internal atomic clock, ensuring that you will "
+"always know the current time.  Additionally, it includes a silent alarm "
+"clock function."
+msgstr ""
 
 #: lang/json/bionic_from_json.py
 msgid "Nictating Membrane"
@@ -30676,6 +30843,10 @@ msgstr "將樹幹劈成木板"
 #: lang/json/construction_from_json.py
 msgid "Clean Broken Window"
 msgstr "清理破窗戶"
+
+#: lang/json/construction_from_json.py
+msgid "Create Sign"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Repair Door"
@@ -31931,8 +32102,8 @@ msgid "hay"
 msgstr "乾草"
 
 #: lang/json/furniture_from_json.py
-msgid "bulletin board"
-msgstr "告示牌"
+msgid "road barricade"
+msgstr ""
 
 #: lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py
@@ -31945,6 +32116,10 @@ msgstr "碰！"
 #: lang/json/terrain_from_json.py
 msgid "whump."
 msgstr "呼。"
+
+#: lang/json/furniture_from_json.py
+msgid "bulletin board"
+msgstr "告示牌"
 
 #: lang/json/furniture_from_json.py
 msgid "indoor plant"
@@ -32042,6 +32217,10 @@ msgstr "長椅"
 
 #: lang/json/furniture_from_json.py
 msgid "lane guard"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "sign"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -33281,6 +33460,10 @@ msgid "List all items around the player"
 msgstr "列出角色附近所有物品"
 
 #: lang/json/keybinding_from_json.py
+msgid "Manage zones"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Open Inventory"
 msgstr "打開物品欄"
 
@@ -33536,6 +33719,34 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Add global keybinding"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Add zone"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Remove zone"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Move zone up"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Move zone down"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Show zone on map"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Enable zone"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Disable zone"
 msgstr ""
 
 #: lang/json/lab_note_from_json.py
@@ -38719,6 +38930,34 @@ msgid "Mall - Food Court"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "abandoned store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pump station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "gardening store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "salon"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "lot"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fast food"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "sewer?"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "abandoned drive-through"
 msgstr "廢棄的得來速"
 
@@ -43540,6 +43779,10 @@ msgid "walkway"
 msgstr "走道"
 
 #: lang/json/terrain_from_json.py
+msgid "Utility Light"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "half-built wall"
 msgstr "矮牆"
 
@@ -45087,10 +45330,11 @@ msgid "Back"
 msgstr ""
 
 #: src/action.cpp src/editmap.cpp src/game.cpp
-#: src/game.cpp src/iexamine.cpp
+#: src/game.cpp
 #: src/iexamine.cpp
-#: src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
+#: src/iexamine.cpp src/inventory_ui.cpp
 #: src/iuse.cpp
+#: src/iuse.cpp src/player.cpp
 #: src/player.cpp
 msgid "Cancel"
 msgstr "取消"
@@ -45340,20 +45584,13 @@ msgstr ""
 msgid "Name (charges)"
 msgstr "名稱 (含量)"
 
-#. ~ advanced inventory; "amount", "weight", "volume"; 14 letters
 #: src/advanced_inv.cpp
 msgid "amt weight vol"
 msgstr "數量 重量 體積"
 
-#. ~ advanced inventory; "source", "weight", "volume"; 14 letters
 #: src/advanced_inv.cpp
-msgid "src weight vol"
-msgstr "來源 重量 體積"
-
-#. ~ advanced inventory; "weight", "volume"; 14 letters, right-aligned
-#: src/advanced_inv.cpp
-msgid "    weight vol"
-msgstr "    重量 體積"
+msgid "src amt weight vol"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "No dragged vehicle"
@@ -46336,6 +46573,11 @@ msgstr "%s 痛苦"
 
 #: src/artifact.cpp
 #, c-format
+msgid "<artifact_name>%1$s %2$s"
+msgstr "<artifact_name>%1$s %2$s"
+
+#: src/artifact.cpp
+#, c-format
 msgid ""
 "This is the %s.\n"
 "It is the only one of its kind.\n"
@@ -46383,11 +46625,6 @@ msgstr ""
 
 #: src/artifact.cpp
 #, c-format
-msgid "<artifact_name>%1$s %2$s"
-msgstr "<artifact_name>%1$s %2$s"
-
-#: src/artifact.cpp
-#, c-format
 msgid "<artifact_desc>This %1$s %2$s."
 msgstr "<artifact_desc>這個 %1$s %2$s."
 
@@ -46404,11 +46641,11 @@ msgstr "<artifact_name>%2$s 的 %1$s"
 msgid " AUTO PICKUP MANAGER "
 msgstr " 自動撿取管理器 "
 
-#: src/auto_pickup.cpp
+#: src/auto_pickup.cpp src/game.cpp
 msgid "<A>dd"
 msgstr "<A>增加"
 
-#: src/auto_pickup.cpp
+#: src/auto_pickup.cpp src/game.cpp
 msgid "<R>emove"
 msgstr "<R>移除"
 
@@ -46420,11 +46657,11 @@ msgstr "<C>複製"
 msgid "<M>ove"
 msgstr "<M>移動"
 
-#: src/auto_pickup.cpp
+#: src/auto_pickup.cpp src/game.cpp
 msgid "<E>nable"
 msgstr "<E>啟用"
 
-#: src/auto_pickup.cpp
+#: src/auto_pickup.cpp src/game.cpp
 msgid "<D>isable"
 msgstr "<D>停用"
 
@@ -46432,11 +46669,11 @@ msgstr "<D>停用"
 msgid "<T>est"
 msgstr "<T>測試"
 
-#: src/auto_pickup.cpp
+#: src/auto_pickup.cpp src/game.cpp
 msgid "<+-> Move up/down"
 msgstr "<+-> 往 上/下 移動"
 
-#: src/auto_pickup.cpp
+#: src/auto_pickup.cpp src/game.cpp
 msgid "<Enter>-Edit"
 msgstr "<Enter>-編輯"
 
@@ -46518,7 +46755,8 @@ msgstr ""
 msgid "Pickup Rule:"
 msgstr "撿取規則:"
 
-#: src/auto_pickup.cpp src/input.cpp src/options.cpp
+#: src/auto_pickup.cpp src/game.cpp src/input.cpp
+#: src/options.cpp
 msgid "Save changes?"
 msgstr "是否儲存變更？"
 
@@ -49609,6 +49847,10 @@ msgstr "開始冬眠。"
 #: src/disease.cpp
 msgid "You try to sleep, but can't..."
 msgstr "你試著睡覺, 但睡不著..."
+
+#: src/disease.cpp
+msgid "Your internal chronometer wakes you up."
+msgstr ""
 
 #: src/disease.cpp src/monattack.cpp
 msgid "beep-beep-beep!"
@@ -53314,6 +53556,10 @@ msgid "<whew> You catch your breath."
 msgstr "<呼> 你正常呼吸了。"
 
 #: src/game.cpp
+msgid "Your heart races as you recall your most recent hunt."
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "Your skill in %s has reduced to %d!"
 msgstr "你的 %s 技能下降到 %d !"
@@ -54593,6 +54839,16 @@ msgstr "%s; 移動消耗 %d"
 
 #: src/game.cpp
 #, c-format
+msgid "Sign: %s"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Sign: %s..."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
 msgid "You (%s)"
 msgstr "你 (%s)"
 
@@ -54605,16 +54861,36 @@ msgid "You cannot see what is inside of it."
 msgstr "你看不出裡面有什麼。"
 
 #: src/game.cpp
-msgid "Looking Around"
-msgstr "看四周"
+msgid "Show on <M>ap"
+msgstr ""
 
 #: src/game.cpp
-msgid "Use directional keys to move the cursor"
-msgstr "使用方向鍵移動游標"
+msgid "Zones manager"
+msgstr ""
 
 #: src/game.cpp
-msgid "to a nearby square."
-msgstr "到附近的區域."
+msgid "Select first point."
+msgstr ""
+
+#: src/game.cpp
+msgid "Select second point."
+msgstr ""
+
+#: src/game.cpp
+msgid "What do you want to change:"
+msgstr ""
+
+#: src/game.cpp
+msgid "Edit name"
+msgstr ""
+
+#: src/game.cpp
+msgid "Edit type"
+msgstr ""
+
+#: src/game.cpp
+msgid "No Zones defined."
+msgstr ""
 
 #: src/game.cpp
 msgid "Bright light."
@@ -55274,6 +55550,11 @@ msgid "Wield item:"
 msgstr "手持物品:"
 
 #: src/game.cpp
+#, c-format
+msgid "You have to take off your %s before you can wield it."
+msgstr ""
+
+#: src/game.cpp
 msgid "Read:"
 msgstr "閱讀:"
 
@@ -55456,6 +55737,11 @@ msgstr "沒有東西在抓取點 %d,%d."
 #, c-format
 msgid "Moving past this %s is slow!"
 msgstr "慢慢通過 %s !"
+
+#: src/game.cpp
+#, c-format
+msgid "The sign says: %s"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -58047,6 +58333,10 @@ msgid "It spits out an assortment of smaller pieces instead."
 msgstr "它吐出了各式各樣的殘渣。"
 
 #: src/iexamine.cpp
+msgid "That looks too dangerous to mess with. Best leave it alone."
+msgstr ""
+
+#: src/iexamine.cpp
 #, c-format
 msgid "There is a %s there.  Disarm?"
 msgstr "有 %s 在那。解除嗎？"
@@ -58080,6 +58370,34 @@ msgstr ""
 #: src/iexamine.cpp
 msgid "You tear the curtains and curtain rod off the windowframe."
 msgstr ""
+
+#: src/iexamine.cpp
+msgid "Nothing legible on the sign."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Overwrite the existing message on the sign with spray paint?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Add a message to the sign with spray paint?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You overwrite the previous message on the sign with your graffiti"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You graffiti a message onto the sign."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You leave the sign alone."
+msgstr ""
+
+#: src/iexamine.cpp src/iuse.cpp
+msgid "Spray what?"
+msgstr "噴啥？"
 
 #: src/input.cpp
 #, c-format
@@ -58634,6 +58952,11 @@ msgid "This piece of clothing lies close to the skin and layers easily."
 msgstr "這件服裝屬於貼身衣物。"
 
 #: src/item.cpp
+msgid ""
+"This piece of clothing is large enough to accommodate mutated anatomy."
+msgstr ""
+
+#: src/item.cpp
 msgid "This piece of clothing has pockets to warm your hands."
 msgstr "這一件衣物有口袋能夠讓你的手掌保暖。"
 
@@ -58644,6 +58967,10 @@ msgstr "這一件衣物有帽子能讓你的頭部保暖。"
 #: src/item.cpp
 msgid "This piece of clothing is designed to keep you dry in the rain."
 msgstr "這件衣物能夠讓你在雨中保持乾燥。"
+
+#: src/item.cpp
+msgid "This piece of clothing keeps the glare out of your eyes."
+msgstr ""
 
 #: src/item.cpp
 msgid ""
@@ -62225,10 +62552,6 @@ msgid "Written"
 msgstr "已寫入"
 
 #: src/iuse.cpp
-msgid "Spray what?"
-msgstr "噴啥？"
-
-#: src/iuse.cpp
 msgid "Write what?"
 msgstr "寫啥？"
 
@@ -63736,6 +64059,10 @@ msgid "northwest and below"
 msgstr ""
 
 #: src/line.cpp
+msgid "center"
+msgstr ""
+
+#: src/line.cpp
 msgid "N    "
 msgstr ""
 
@@ -63825,6 +64152,10 @@ msgstr ""
 
 #: src/line.cpp
 msgid "DN_W "
+msgstr ""
+
+#: src/line.cpp
+msgid "CE"
 msgstr ""
 
 #: src/live_view.cpp
@@ -64093,6 +64424,27 @@ msgstr "警車殘骸堆"
 #: src/map.cpp
 msgid "pile-up"
 msgstr "殘骸堆"
+
+#: src/map.cpp
+msgid "No Auto Pickup"
+msgstr ""
+
+#: src/map.cpp
+msgid "Zone name:"
+msgstr ""
+
+#: src/map.cpp
+msgid "<no name>"
+msgstr ""
+
+#: src/map.cpp
+msgid "Select zone type:"
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "Failed to save zones to %s"
+msgstr ""
 
 #: src/mapbuffer.cpp
 #, c-format
@@ -66745,6 +67097,48 @@ msgstr "%s 朝著你揮動巨大的爪子！"
 #, c-format
 msgid "Your %s is battered for %d damage!"
 msgstr "你的 %s 被敲中造成 %d 傷害!"
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s lunges for you!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s lunges straight into you!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "You sidestep it!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s thrusts a claw at you!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "You evade it!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "Your %s is slashed for %d damage!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s slashes at your neck!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "You duck!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "Your throat is slashed for %d damage!"
+msgstr ""
 
 #: src/monattack.cpp
 #, c-format
@@ -70660,6 +71054,14 @@ msgid "Number of real time minutes between autosaves"
 msgstr "當真實世界經過幾分鐘之後就會自動存檔。"
 
 #: src/options.cpp
+msgid "Animation delay"
+msgstr ""
+
+#: src/options.cpp
+msgid "The amount of time to pause between animation frames in ms."
+msgstr ""
+
+#: src/options.cpp
 msgid "Animations"
 msgstr ""
 
@@ -70897,11 +71299,11 @@ msgid ""
 "POSIX systems will use terminal size at startup."
 msgstr "僅SDL:設定視窗Y軸的可視高度。需要重啟遊戲。POSIX系統啟動時使用終端機尺寸。"
 
+#. ~ sidebar style
 #: src/options.cpp
 msgid "Wider"
 msgstr ""
 
-#. ~ sidebar style
 #: src/options.cpp
 msgid "Narrow"
 msgstr "狹長"
@@ -71078,6 +71480,17 @@ msgid ""
 "Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in "
 "the Help Menu ?3"
 msgstr "啟用物品自動撿取。利用說明選單中的自動撿取規則管理器來更改撿取規則 (按鍵順序 ? 3)"
+
+#: src/options.cpp
+msgid "Auto pickup adjacent"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true will enable to pickup items one tile around to the player. You can "
+"assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your "
+"homebase."
+msgstr ""
 
 #: src/options.cpp
 msgid "Auto pickup 0 vol light items"
@@ -71263,6 +71676,10 @@ msgid "Spacebar - Return to map  "
 msgstr "空白鍵 - 返回到地圖  "
 
 #: src/overmap.cpp
+msgid "Zone:"
+msgstr ""
+
+#: src/overmap.cpp
 msgid "# Unexplored"
 msgstr "# 尚未探索"
 
@@ -71410,7 +71827,7 @@ msgstr "%s 太重了！"
 #: src/pickup.cpp
 #, c-format
 msgid "There's no room in your inventory for the %s."
-msgid_plural "There's no room in your inventory for the %ss."
+msgid_plural "There's no room in your inventory for the %s."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -73997,6 +74414,10 @@ msgid "Thunk!"
 msgstr "咚!"
 
 #: src/ranged.cpp
+msgid "tz-CRACKck!"
+msgstr ""
+
+#: src/ranged.cpp
 msgid "Fwoosh!"
 msgstr "嗚咻！"
 
@@ -75751,6 +76172,12 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 #~ msgid "You have a craving for crack."
 #~ msgstr "你對快克上癮了。"
 
+#~ msgid "src weight vol"
+#~ msgstr "來源 重量 體積"
+
+#~ msgid "    weight vol"
+#~ msgstr "    重量 體積"
+
 #~ msgid "1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"
 #~ msgstr "1-9 (或 GHJKLYUBNI) 選擇要使用的地區, 0 使用物品欄,"
 
@@ -76336,6 +76763,15 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 
 #~ msgid "Peek"
 #~ msgstr "窺"
+
+#~ msgid "Looking Around"
+#~ msgstr "看四周"
+
+#~ msgid "Use directional keys to move the cursor"
+#~ msgstr "使用方向鍵移動游標"
+
+#~ msgid "to a nearby square."
+#~ msgstr "到附近的區域."
 
 #~ msgid "There are several items there."
 #~ msgstr "那裏有數個物品."
@@ -80668,6 +81104,11 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 #~ msgid "You set the bubblewrap on the ground, ready to be popped."
 #~ msgstr "你在地上設置了泡泡紙，踩到就會有剝剝聲。"
 
+#~ msgid ""
+#~ "A jacket made from flannel style denim favored by woodsman. Provides decent "
+#~ "protection from cuts."
+#~ msgstr "一件受伐木工喜愛的法蘭絨丹寧外套。提供了對砍劈傷害的普通保護。"
+
 #~ msgid "A heavy bulletproof vest. The best protection from cuts and bullets."
 #~ msgstr "一件沉重的防彈背心。對於砍劈傷害與子彈提供最佳的保護性。"
 
@@ -81642,6 +82083,9 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 #~ msgid "metal arm guards"
 #~ msgstr "金屬護手"
 
+#~ msgid "A pair of arm guards hammered out from metal. Very stylish."
+#~ msgstr "用鎚子敲製而成的一對金屬護手。很酷。"
+
 #~ msgid "glove liners"
 #~ msgstr "手套內裡"
 
@@ -81696,6 +82140,9 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 
 #~ msgid "ballistic glasses"
 #~ msgstr "防彈護目鏡"
+
+#~ msgid "Also called a \"bucket hat.\" Often used in the military."
+#~ msgstr "這帽子也被稱作漁夫帽。通常是軍隊在用。"
 
 #~ msgid ""
 #~ "A hard plastic hat worn in constructions sites. Excellent protection from "
@@ -82124,11 +82571,27 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 #~ msgid "Don't drink it. Mixing it with bleach produces toxic gas."
 #~ msgstr "別喝。這東西加了漂白水後會產生毒氣。"
 
+#~ msgid ""
+#~ "A bone from some creature or other, could be eaten or used to make some "
+#~ "stuff, like needles."
+#~ msgstr "一根來自生物的骨頭，能夠食用或是用來作其他有用的物品，像是骨針。"
+
+#~ msgid ""
+#~ "A fluid bladder from a plant based lifeform, not very nutritious, but fine "
+#~ "to eat anyway."
+#~ msgstr "一個生物的液體水囊，不是很營養，反正能吃就對了。"
+
+#~ msgid "candy"
+#~ msgstr "糖果"
+
 #~ msgid "blueberries"
 #~ msgstr "藍莓"
 
 #~ msgid "blueberry seeds"
 #~ msgstr "藍莓種子"
+
+#~ msgid "Tasty juicy berry, often found growing wild in fields."
+#~ msgstr "可口多汁的莓子，通常在野地中生長。"
 
 #~ msgid "wheat seeds"
 #~ msgstr "小麥種子"
@@ -82151,8 +82614,14 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 #~ msgid "tuna fish"
 #~ msgstr "金槍魚罐頭"
 
+#~ msgid "Now with 95 percent less dolphins!"
+#~ msgstr "裡面海豚肉的含量少於95%了！"
+
 #~ msgid "Blech, so gross. Save it for when you're about to die of starvation."
 #~ msgstr "超噁。還是留著等快餓死再考慮吃吧。"
+
+#~ msgid "A large chunk of wax, filled with honey. Very tasty."
+#~ msgstr "一大塊沾滿蜂蜜的蜂蠟。非常美味。"
 
 #~ msgid ""
 #~ "A large chunk of beeswax. Not very tasty or nourishing, but ok in an "
@@ -82245,6 +82714,9 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 
 #~ msgid "Good old ketchup, tastes great on hotdogs."
 #~ msgstr "老牌子的番茄醬，搭配熱狗更美味。"
+
+#~ msgid "A pickled cucumber, rather sour but good and basically lasts forever."
+#~ msgstr "一份酸味的酸黃瓜，基本上可以永久保存不腐壞。"
 
 #~ msgid ""
 #~ "Use a hammer, with nails and two by fours in your inventory, to board up "
@@ -88183,6 +88655,9 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 #~ "to maufacture and is easy to handle. Often used by terrorists, it's not as "
 #~ "precise as other weapons."
 #~ msgstr "有名的 RPG-7 火箭發射器。這種無處不在的火箭發射器有著便宜的製造成本而且易於操作。通常是恐怖分子所使用，準確度不如其他武器。"
+
+#~ msgid "A red, sweet fruit which grows in trees."
+#~ msgstr "紅色甜味，長在樹上的水果。"
 
 #~ msgid "cherries"
 #~ msgstr "櫻桃"
@@ -95891,6 +96366,16 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 #~ "這東西居然還有能手工壓填子彈的工具。"
 
 #~ msgid ""
+#~ "Whether hunting varmints, fixing up the ranch, or just wishing you had a "
+#~ "horse, this is the hat for the job."
+#~ msgstr "無論是狩獵，修理牧場，或只是幻想你有匹馬，這頂帽子都能勝任。"
+
+#~ msgid ""
+#~ "These may not be the Great Plains, but you can still be the Boss with this "
+#~ "high-crowned hat."
+#~ msgstr "雖然可能沒有大草原，但你仍然可以戴上這頂高帽當老大。"
+
+#~ msgid ""
 #~ "A pair of improvised arm guards made from broken pieces of a 2by4 that are "
 #~ "tied to your arms with rags and string, they offer good proection but are "
 #~ "really uncomfortable to wear."
@@ -95930,6 +96415,11 @@ msgstr "%s 無法作為世界名稱，已經存在！"
 
 #~ msgid "chocolate-covered coffee beans"
 #~ msgstr "巧克力咖啡豆"
+
+#~ msgid ""
+#~ "A powdered antihemorrhagic compound that reacts with blood to immediately "
+#~ "form a gel-like substance which stops bleeding."
+#~ msgstr "粉末狀的抗出血化合物，能與血液發生反應，立即形成一種凝膠狀物質迅速止血。"
 
 #~ msgid ""
 #~ "An amusing historical novel filled with detailed descriptions of surviving "

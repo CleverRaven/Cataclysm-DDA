@@ -1,0 +1,16 @@
+[
+
+    {
+        "type": "profession",
+        "ident": "radio_cars_tester",
+        "name": "RADIO CARS TESTER",
+        "description": "Test with radiocars and bombs",
+        "points": 0,
+        "items": {
+            "both": [
+                "radio_car_box", "battery", "pipebomb_radio", "pipebomb_radio", "pipebomb_radio", "smart_lamp", "dynamite_radio", "advanced_electronics"
+            ]
+        }
+    }
+
+]
