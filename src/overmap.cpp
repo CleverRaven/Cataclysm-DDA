@@ -1838,28 +1838,28 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         } else if (cmgroup) {
             int p = cmgroup->population;
             int h_int = cmgroup->interest;
-            std::string hsize = p < 20 ? p + " heads" :
-                                p < 40 ? "fifty or so" :
-                                p < 80 ? "less than a hundred" :
-                                p < 160 ? "over a hundred" :
-                                p < 280 ? "hundreds of 'em" :
-                                "dunno.  LOTS";
+            char *hsize = p < 20 ? p + _(" heads") :
+                                p < 40 ?  _("fifty or so") :
+                                p < 80 ?  _("less than a hundred") :
+                                p < 160 ? _("over a hundred") :
+                                p < 280 ? _("hundreds of 'em") :
+                                _("dunno.  LOTS");
             nc_color csize = p < 80 ? c_white :
                              p < 160 ? c_yellow :
                              p < 280 ? c_magenta :
                              c_red;
-            std::string hspeed = h_int < 35 ? "wandering" :
-                                 h_int < 50 ? "tracking"  :
-                                 "moving";
+            char *hspeed = h_int < 35 ? _("wandering") :
+                                 h_int < 50 ? _("tracking")  :
+                                 _("moving");
             nc_color cspeed = h_int < 35 ? c_white :
                               h_int < 50 ? c_yellow :
                               c_red;
 
 
-            mvwprintz(w, 1, om_map_width + 3, c_white, "Horde size:");
-            mvwprintz(w, 1, om_map_width + 15, csize, "%s", hsize.c_str());
-            mvwprintz(w, 2, om_map_width + 3, c_white, "Speed:");
-            mvwprintz(w, 2, om_map_width + 10, cspeed, "%s", hspeed.c_str());
+            mvwprintz(w, 1, om_map_width + 2, c_white, _("Horde size:"));
+            mvwprintz(w, 2, om_map_width + 2, csize, "%s", hsize);
+            mvwprintz(w, 3, om_map_width + 2, c_white, _("Speed:"));
+            mvwprintz(w, 3, om_map_width + 9, cspeed, "%s", hspeed);
 
         }
           else {
