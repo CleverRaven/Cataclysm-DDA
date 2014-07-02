@@ -4711,11 +4711,11 @@ void game::debug()
 
     break;
     case 20: {
-        // display hordes on the map
         groupdebug();
     }
     break;
     case 21: {
+        // display hordes on the map
         overmap::draw_overmap(g->om_global_location(), true);
     }
     break;
@@ -4755,8 +4755,7 @@ void game::mondebug()
     }
 }
 
-void game::groupdebug()
-{
+void game::groupdebug() {
    erase();
    mvprintw(0 ,0, "Debug hordes(Defalut), all mongroups(m), all in range(r)?");
    char ch = getch();
@@ -4789,8 +4788,7 @@ void game::groupdebug()
    getch();
 }
 
-void game::tracks_debug()
-{
+void game::tracks_debug() {
    erase();
    mvprintw(0, 0, "Tracks: OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
    int tt,linenum = 1;
@@ -12240,7 +12238,7 @@ bool game::plmove(int dx, int dy)
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
         add_msg(m_warning, _("Monster spotted--safe mode is on! \
-(%s to turn it off or %s to ignore monster.)"),
+                (%s to turn it off or %s to ignore monster.)"),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
@@ -14037,88 +14035,88 @@ void game::spawn_mon(int shiftx, int shifty)
     for (size_t i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
         if (cur_om->zg[i].posz != levz) {
             continue;    // skip other levels - hack
+        }
+        group = 0;
+        bool horde = cur_om->zg[i].horde;
+        if (cur_om->zg[i].diffuse) {
+            dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+        } else {
+            dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+        }
+        pop = cur_om->zg[i].population;
+        rad = cur_om->zg[i].radius;
+        if (dist <= rad) {
+            // (The area of the group's territory) in (population/square at this range)
+            // chance of adding one monster; cap at the population OR 16
+            while ((cur_om->zg[i].diffuse ? long(pop) :
+                     long((1.0 - double(dist / rad)) * pop)) > rng(0, (rad * rad)) &&
+                    rng( horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
+                    group < pop && group < MAPSIZE * 3) {
+                group++;
             }
-            group = 0;
-            bool horde = cur_om->zg[i].horde;
-            if (cur_om->zg[i].diffuse) {
-                dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-            } else {
-                dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+            int add_zom = 0;
+            // Reduce group radius proportionally to remaining
+            // population to maintain a minimal population density.
+            if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
+                !cur_om->zg[i].diffuse && !horde ) {
+                cur_om->zg[i].radius--;
             }
-            pop = cur_om->zg[i].population;
-            rad = cur_om->zg[i].radius;
-            if (dist <= rad) {
-                // (The area of the group's territory) in (population/square at this range)
-                // chance of adding one monster; cap at the population OR 16
-                while ((cur_om->zg[i].diffuse ? long(pop) :
-                        long((1.0 - double(dist / rad)) * pop)) > rng(0, (rad * rad)) &&
-                        rng( horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
-                        group < pop && group < MAPSIZE * 3) {
-                      group++;
-                }
-                int add_zom = 0;
-                // Reduce group radius proportionally to remaining
-                // population to maintain a minimal population density.
-                if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
-                    !cur_om->zg[i].diffuse && !horde ) {
-                    cur_om->zg[i].radius--;
-                }
 
-                // If we spawned some zombies, advance the timer (exept hordes)
-                if (group > 0 && !horde ) {
-                    nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
-                }
+            // If we spawned some zombies, advance the timer (exept hordes)
+            if (group > 0 && !horde ) {
+                nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
+            }
 
-                for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(cur_om->zg[i].type,
+            for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(cur_om->zg[i].type,
                                                        &group, (int)calendar::turn);
-                    zom = monster(GetMType(spawn_details.name));
-                    if (spawn_details.name == "mon_null") {
-                        cur_om->zg[i].population++;
-                    }
-                    for (int kk = 0; kk < spawn_details.pack_size; kk++) {
-                        iter = 0;
-                        do {
-                            monx = rng(0, SEEX * MAPSIZE - 1);
-                            mony = rng(0, SEEY * MAPSIZE - 1);
-                            if (shiftx == 0 && shifty == 0) {
-                                if (one_in(2)) {
-                                    shiftx = 1 - 2 * rng(0, 1);
-                                } else {
-                                    shifty = 1 - 2 * rng(0, 1);
-                                }
+                zom = monster(GetMType(spawn_details.name));
+                if (spawn_details.name == "mon_null") {
+                    cur_om->zg[i].population++;
+                }
+                for (int kk = 0; kk < spawn_details.pack_size; kk++) {
+                    iter = 0;
+                    do {
+                        monx = rng(0, SEEX * MAPSIZE - 1);
+                        mony = rng(0, SEEY * MAPSIZE - 1);
+                        if (shiftx == 0 && shifty == 0) {
+                            if (one_in(2)) {
+                                shiftx = 1 - 2 * rng(0, 1);
+                            } else {
+                                shifty = 1 - 2 * rng(0, 1);
                             }
-                            if (shiftx == -1) {
-                                monx = (SEEX * MAPSIZE) / 6;
-                            } else if (shiftx == 1) {
-                                monx = (SEEX * MAPSIZE * 5) / 6;
-                            }
-                            if (shifty == -1) {
-                                mony = (SEEY * MAPSIZE) / 6;
-                            }
-                            if (shifty == 1) {
-                                mony = (SEEY * MAPSIZE * 5) / 6;
-                            }
-                            monx += rng(-5, 5);
-                            mony += rng(-5, 5);
-                            iter++;
+                        }
+                        if (shiftx == -1) {
+                            monx = (SEEX * MAPSIZE) / 6;
+                        } else if (shiftx == 1) {
+                            monx = (SEEX * MAPSIZE * 5) / 6;
+                        }
+                        if (shifty == -1) {
+                            mony = (SEEY * MAPSIZE) / 6;
+                        }
+                        if (shifty == 1) {
+                            mony = (SEEY * MAPSIZE * 5) / 6;
+                        }
+                        monx += rng(-5, 5);
+                        mony += rng(-5, 5);
+                        iter++;
 
                         } while ((!zom.can_move_to(monx, mony) || !is_empty(monx, mony) ||
                               m.sees(u.posx, u.posy, monx, mony, SEEX, t) || !m.is_outside(monx, mony) ||
                               rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
-                        if (iter < 50) {
-                            zom.spawn(monx, mony);
-                            add_zombie(zom);
-                            add_zom++;
-                        }
-                   }
-               } // Placing monsters of this group is done!
-               cur_om->zg[i].population -= add_zom;
-               if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
-                   cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
-                   i--; // And don't increment i.
-               }
-          }
+                    if (iter < 50) {
+                        zom.spawn(monx, mony);
+                        add_zombie(zom);
+                        add_zom++;
+                    }
+                }
+            } // Placing monsters of this group is done!
+            cur_om->zg[i].population -= add_zom;
+            if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
+                cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
+                i--; // And don't increment i.
+            }
+        }
     }
 }
 

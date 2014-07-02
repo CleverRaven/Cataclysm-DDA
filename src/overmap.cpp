@@ -1554,7 +1554,6 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     nc_color ter_color;
     long ter_sym;
 
-
     mongroup *cmgroup = NULL;
     mongroup *mgroup = NULL;
     // sight_points is hoisted for speed reasons.
@@ -1720,7 +1719,6 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                     }
                 }
             }
-
 
             // Are we debugging monster groups?
             if(blink && debug_monstergroups) {
