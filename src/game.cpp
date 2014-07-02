@@ -4340,9 +4340,11 @@ void game::debug()
     case 1:
         wishitem(&u);
         break;
+
     case 2:
         teleport(&u, false);
         break;
+
     case 3: {
         tripoint tmp = overmap::draw_overmap();
         if (tmp != overmap::invalid_tripoint) {
@@ -4705,35 +4707,37 @@ void game::debug()
             zombie(i).dead = true;
         }
         cleanup_dead();
-  }
-  break;
-  case 20: {
-      // display hordes on the map
-      groupdebug();
-  }
-  break;
-  case 21: {
-      overmap::draw_overmap(g->om_global_location(), true);
-  }
-  break;
-  case 22: {
-      tracks_debug();
-  }
-  break;
-  case 23: {
-      item_controller->debug_spawn();
-  }
-  break;
-  #ifdef LUA
-      case 24: {
-          std::string luacode = string_input_popup(_("Lua:"), 60, "");
-          call_lua(luacode);
-      }
-      break;
-  #endif
- }
- erase();
- refresh_all();
+    }
+
+    break;
+    case 20: {
+        // display hordes on the map
+        groupdebug();
+    }
+    break;
+    case 21: {
+        overmap::draw_overmap(g->om_global_location(), true);
+    }
+    break;
+    case 22: {
+        tracks_debug();
+    }
+    break;
+    case 23: {
+        item_controller->debug_spawn();
+    }
+    break;
+
+#ifdef LUA
+    case 24: {
+        std::string luacode = string_input_popup(_("Lua:"), 60, "");
+        call_lua(luacode);
+    }
+    break;
+#endif
+    }
+    erase();
+    refresh_all();
 }
 
 void game::mondebug()
@@ -4753,53 +4757,52 @@ void game::mondebug()
 
 void game::groupdebug()
 {
- erase();
- mvprintw(0 ,0, "Debug hordes(Defalut), all mongroups(m), all in range(r)?");
- char ch = getch();
- erase();
- std::string mode;
- bool all = ch == 'm';
- bool in_range = ch == 'r';
- bool hordes = !all && !in_range;
- mode = all ? "All groups" : in_range ? "In range" : "Hordes";
- mvprintw(0, 0, "%s OM %d : %d    M %d : %d", mode.c_str(), cur_om->pos().x, cur_om->pos().y, levx, levy);
- int dist, linenum = 1;
- for (int i = 0; i < cur_om->zg.size(); i++) {
-  if (cur_om->zg[i].posz != levz) { continue; }
-  dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-  if ( (dist <= cur_om->zg[i].radius && in_range) ||
-       (cur_om->zg[i].horde && hordes) || all )
-  {
-   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d type: %s",
-            i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
-            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest, cur_om->zg[i].type.c_str());
-   linenum++;
-   if (linenum >= 22) {
-      getch();
-      erase();
-      mvprintw(0, 0, "%s OM %d : %d    M %d : %d", mode.c_str(), cur_om->pos().x, cur_om->pos().y, levx, levy);
-      linenum = 1;
-      }
-  }
- }
- getch();
+   erase();
+   mvprintw(0 ,0, "Debug hordes(Defalut), all mongroups(m), all in range(r)?");
+   char ch = getch();
+   erase();
+   std::string mode;
+   bool all = ch == 'm';
+   bool in_range = ch == 'r';
+   bool hordes = !all && !in_range;
+   mode = all ? "All groups" : in_range ? "In range" : "Hordes";
+   mvprintw(0, 0, "%s OM %d : %d    M %d : %d", mode.c_str(), cur_om->pos().x, cur_om->pos().y, levx, levy);
+   int dist, linenum = 1;
+   for (int i = 0; i < cur_om->zg.size(); i++) {
+       if (cur_om->zg[i].posz != levz) continue;
+       dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+       if ((dist <= cur_om->zg[i].radius && in_range) ||
+           (cur_om->zg[i].horde && hordes) || all ) {
+           mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d type: %s",
+                    i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
+                    cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty,
+                    cur_om->zg[i].interest, cur_om->zg[i].type.c_str());
+           linenum++;
+           if (linenum >= 22) {
+              getch();
+              erase();
+              mvprintw(0, 0, "%s OM %d : %d    M %d : %d", mode.c_str(), cur_om->pos().x, cur_om->pos().y, levx, levy);
+              linenum = 1;
+           }
+       }
+   }
+   getch();
 }
 
 void game::tracks_debug()
 {
- erase();
- mvprintw(0, 0, "Tracks: OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
- int tt,linenum = 1;
- for (int j = 0; j < OMAPY * 2; j++)
-   for (int i = 0; i < OMAPX * 2; i++)
-     {
-        tt = cur_om->track_at(i,j);
-        if ( tt != 0 ) {
+   erase();
+   mvprintw(0, 0, "Tracks: OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
+   int tt,linenum = 1;
+   for (int j = 0; j < OMAPY * 2; j++)
+       for (int i = 0; i < OMAPX * 2; i++) {
+       tt = cur_om->track_at(i, j);
+       if (tt != 0) {
            mvprintw(linenum, 0, "%d ; %d - %d", i, j, tt );
            linenum++;
            }
-     }
- getch();
+       }
+   getch();
 }
 
 void game::draw_overmap()
