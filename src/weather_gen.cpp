@@ -1,5 +1,8 @@
 #include "weather_gen.h"
 #include "options.h"
+
+#include "enums.h"
+
 #include <cmath>
 #include <iostream>
 #include <sstream>
@@ -9,15 +12,15 @@ const double tau = 2 * std::acos(-1);
 
 weather_generator::weather_generator(unsigned seed) : SEED(seed), Temperature(SEED), Humidity(SEED + 101), Pressure(SEED + 211) { }
 
-w_point weather_generator::get_weather(double x, double y, calendar t) {
+w_point weather_generator::get_weather(const point &location, calendar t) {
     const double z((double) t.get_turn() / 2000.0); // Integer turn / widening factor of the Perlin function.
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
-    double T(Temperature.noise(x, y, z) * 8.0);
-    double H(Humidity.noise(x, y, z / 5));
-    double H2(Humidity.noise(x, y, z) / 4);
-    double P(Pressure.noise(x, y, z / 3) * 70);
+    double T(Temperature.noise(location.x, location.y, z) * 8.0);
+    double H(Humidity.noise(location.x, location.y, z / 5));
+    double H2(Humidity.noise(location.x, location.y, z) / 4);
+    double P(Pressure.noise(location.x, location.y, z / 3) * 70);
 
     const double now((double)t.turn_of_year() / (double)calendar::year_turns()); // [0,1)
     const double ctn(cos(tau * now));
@@ -45,8 +48,8 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     return w_point(T, H, P);
 }
 
-weather_type weather_generator::get_weather_conditions(double x, double y, calendar t) {
-    w_point w(get_weather(x, y , t));
+weather_type weather_generator::get_weather_conditions(const point &location, calendar t) {
+    w_point w(get_weather(location, t));
     weather_type r(WEATHER_CLEAR);
     if (w.pressure > 1030 && w.humidity < 70) r = WEATHER_SUNNY;
     if (w.pressure < 1030 && w.humidity > 40) r = WEATHER_CLOUDY;
@@ -54,14 +57,15 @@ weather_type weather_generator::get_weather_conditions(double x, double y, calen
     if (r == WEATHER_DRIZZLE && (w.humidity > 70 || w.pressure < 1000)) r = WEATHER_RAINY;
     if (r == WEATHER_RAINY && w.pressure < 950) r = WEATHER_THUNDER;
     if (r == WEATHER_THUNDER && w.pressure < 900) r = WEATHER_LIGHTNING;
-    // TODO: Acid rain needs a different layer or method of determining acidity.
-    if (r == WEATHER_DRIZZLE && w.temperature > 30) r = WEATHER_ACID_DRIZZLE;
-    if (r > WEATHER_DRIZZLE && w.temperature > 30) r = WEATHER_ACID_RAIN;
+
     if (w.temperature <= 0) {
         if (r == WEATHER_DRIZZLE) {r = WEATHER_FLURRIES;}
         else if (r > WEATHER_DRIZZLE) {r = WEATHER_SNOW;}
         else if (r > WEATHER_THUNDER) {r = WEATHER_SNOWSTORM;}
     }
+
+    if (r == WEATHER_DRIZZLE && w.acidic) r = WEATHER_ACID_DRIZZLE;
+    if (r > WEATHER_DRIZZLE && w.acidic) r = WEATHER_ACID_RAIN;
     return r;
 }
 
@@ -77,7 +81,7 @@ void weather_generator::test_weather() {
 
     for (calendar i(0); i.get_turn() < 14400 * calendar::year_length(); i+=200) {
         ss.str("");
-        w_point w = get_weather(0.5,0.5,i);
+        w_point w = get_weather(point(0,0),i);
         ss << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure;
         testfile << std::string( ss.str() ) << "\n";
     }
