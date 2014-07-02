@@ -27,7 +27,7 @@ w_point weather_generator::get_weather(double x, double y, calendar t) {
     double P(Pressure.noise(x, y, z / 3) * 70);
 
     // temperature variation
-    const double now((t.day_of_year() + dayFraction) / (double)calendar::year_length()); // Add the minutes to the day and return the current time as a decimal [0-1]
+    const double now((double)t.turn_of_year() / (double)calendar::year_turns()); // [0,1)
     const double ctn(cos(tau * now));
     const double mod_t = 0; // TODO: make this depend on latitude and altitude?
     const double current_t = this->base_t + mod_t; // Current baseline temperature. Degrees Celsius.
