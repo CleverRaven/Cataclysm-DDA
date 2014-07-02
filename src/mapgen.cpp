@@ -11343,7 +11343,9 @@ void map::rotate(int turns)
     if(turns == 0) {
         return;
     }
-    
+
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);    
     if (g->active_npc.size() >= 1){
         for (int i = 0; i < g->active_npc.size(); i++){
             npc *act_npc = g->active_npc[i];
