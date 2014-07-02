@@ -3845,7 +3845,7 @@ void overmap::place_mongroups()
                 int pop = cities[i].s * 80;
                 int h_size;
                 while (pop > 0) {
-                    h_size = rng(1, 3) * 80;
+                    h_size = rng(1, 4) * 80;
                     zg.push_back( mongroup("GROUP_ZOMBIE",
                                            (cities[i].x * 2) + (rng(0, sz) - sz),
                                            (cities[i].y * 2) + (rng(0, sz) - sz),
