@@ -1838,12 +1838,12 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         } else if (cmgroup) {
             int p = cmgroup->population;
             int h_int = cmgroup->interest;
-            std::string hsize = p < 20 ? "very small" :
-                                p < 40 ? "small" :
-                                p < 80 ? "medium" :
-                                p < 160 ? "large" :
-                                p < 280 ? "very large" :
-                                "huge";
+            std::string hsize = p < 20 ? p + " heads" :
+                                p < 40 ? "fifty or so" :
+                                p < 80 ? "less than a hundred" :
+                                p < 160 ? "over a hundred" :
+                                p < 280 ? "hundreds of 'em" :
+                                "dunno.  LOTS";
             nc_color csize = p < 80 ? c_white :
                              p < 160 ? c_yellow :
                              p < 280 ? c_magenta :
@@ -2129,10 +2129,10 @@ void overmap::move_hordes()
             int sy = zg[i].posy - HORDE_TRACK_RANGE;
             int ey = zg[i].posy + HORDE_TRACK_RANGE;
             sx = sx < 0 ? 0 : sx;
-            ex = ex > OMAPX*2 ? OMAPX*2 : ex;
+            ex = ex > OMAPX * 2 ? OMAPX * 2 : ex;
             sy = sy < 0 ? 0 : sy;
-            ey = ey > OMAPY*2 ? OMAPY*2 : ey;
-            int max_x,max_y,max_t = 0, shift_x, shift_y;
+            ey = ey > OMAPY * 2 ? OMAPY * 2 : ey;
+            int max_x, max_y, max_t = 0, shift_x, shift_y;
             int track;
             overmap* track_om;
             for (int y = sy; y <= ey; y++)
