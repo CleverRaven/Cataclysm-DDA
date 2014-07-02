@@ -12,7 +12,7 @@ const double tau = 2 * std::acos(-1);
 weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
 
 w_point weather_generator::get_weather(const point &location, const calendar &t) {
-    const double z((double) t.get_turn() / 2000.0); // Integer turn / widening factor of the Perlin function.
+    const int z(t.get_turn());
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
