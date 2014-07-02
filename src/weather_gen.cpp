@@ -64,7 +64,7 @@ void weather_generator::test_weather() {
     std::ofstream testfile;
     std::ostringstream ss;
     testfile.open("weather.output", std::ofstream::trunc);
-    testfile << "turn,temperature(ºC),humidity(%),pressure(mB)\n";
+    testfile << "turn,temperature(C),humidity(%),pressure(mB)\n";
     for (calendar i(0); i.get_turn() < 14400 * (year_length ? year_length : 1); i+=200) {
 //    for (calendar i(0); i.get_turn() < 1000; i.increment()) {
         ss.str("");
