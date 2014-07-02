@@ -2203,56 +2203,53 @@ void overmap::move_hordes()
 /**
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
-void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_power)
-{
-   int d_inter,targ_dist;
-   int targ_x, targ_y;
-   if (g->levz != 0) return;
-   for (int sy = -1; sy <= 1; sy++ )
-       for (int sx = -1; sx <= 1; sx++ ) {
-            const overmap* target_om_const = overmap_buffer.get_existing(pos().x + sx, pos().y + sy);
-            overmap* target_om;
-            if (target_om_const != NULL) {
-                target_om = const_cast<overmap*>(target_om_const);
-            }
-            else continue;
-       targ_x = x + (OMAPX * 2 * -sx);
-       targ_y = y + (OMAPY * 2 * -sy);
-       for (std::vector<mongroup>::iterator it = target_om->zg.begin();
-           it != target_om->zg.end(); it++) {
-           d_inter = 0;
-           if (it->horde) {
-              switch (sig_type) {
-              case HSIG_NOICE:
-                   d_inter=signal_hordes_noice(targ_x, targ_y, sig_power, *it);
-                   break;
-              }
-           }
-           if (d_inter != 0) {
-               targ_dist = trig_dist(targ_x, targ_y, it->tx, it->ty);
-               const int roll = rng(0, it->interest );
-               if (roll < d_inter) {
-                   int delta = targ_dist - sig_power;
-                   delta = delta < 0 ? 0 : delta;
-                   int dx = rng(-delta / 2, delta / 2);
-                   int dy = rng(-delta / 2, delta / 2);
-                   targ_x += dx; targ_y += dy;
-                   if (targ_dist < 5) {
-                       it->set_target( (it->tx + targ_x) / 2, (it->ty + targ_y) / 2 ) ;
-                       it->inc_interest(d_inter);
-                   } else {
-                       it->set_target(targ_x, targ_y);
-                       it->set_interest(d_inter);
-                   }
+void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_power) {
+    int d_inter,targ_dist;
+    int targ_x, targ_y;
+    if (g->levz != 0) return;
+    for (int sy = -1; sy <= 1; sy++ )
+        for (int sx = -1; sx <= 1; sx++ ) {
+             const overmap* target_om_const = overmap_buffer.get_existing(pos().x + sx, pos().y + sy);
+             overmap* target_om;
+             if (target_om_const != NULL) {
+                 target_om = const_cast<overmap*>(target_om_const);
+             }
+             else continue;
+        targ_x = x + (OMAPX * 2 * -sx);
+        targ_y = y + (OMAPY * 2 * -sy);
+        for (std::vector<mongroup>::iterator it = target_om->zg.begin();
+            it != target_om->zg.end(); it++) {
+            d_inter = 0;
+            if (it->horde) {
+               switch (sig_type) {
+               case HSIG_NOICE:
+                    d_inter=signal_hordes_noice(targ_x, targ_y, sig_power, *it);
+                    break;
                }
-           }
-       }
-   }
-
+            }
+            if (d_inter != 0) {
+                targ_dist = trig_dist(targ_x, targ_y, it->tx, it->ty);
+                const int roll = rng(0, it->interest );
+                if (roll < d_inter) {
+                    int delta = targ_dist - sig_power;
+                    delta = delta < 0 ? 0 : delta;
+                    int dx = rng(-delta / 2, delta / 2);
+                    int dy = rng(-delta / 2, delta / 2);
+                    targ_x += dx; targ_y += dy;
+                    if (targ_dist < 5) {
+                        it->set_target( (it->tx + targ_x) / 2, (it->ty + targ_y) / 2 ) ;
+                        it->inc_interest(d_inter);
+                    } else {
+                        it->set_target(targ_x, targ_y);
+                        it->set_interest(d_inter);
+                    }
+                }
+            }
+        }
+    }
 }
 
-int overmap::signal_hordes_noice(int x, int y, int sig_power, mongroup tzg)
-{
+int overmap::signal_hordes_noice(int x, int y, int sig_power, mongroup tzg) {
     int dist, d_inter;
     dist = trig_dist(x, y, tzg.posx, tzg.posy);
     if (g->weather == WEATHER_LIGHTNING || g->weather == WEATHER_THUNDER) {
@@ -2265,8 +2262,7 @@ int overmap::signal_hordes_noice(int x, int y, int sig_power, mongroup tzg)
     }
 }
 
-point overmap::to_big_overmap_coord(point p)
-{
+point overmap::to_big_overmap_coord(point p) {
     int retx = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().x * OMAPX;
     int rety = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().y * OMAPY;
 

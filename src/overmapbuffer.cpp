@@ -437,15 +437,13 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
     return result;
 }
 
-void overmapbuffer::move_hordes()
-{
+void overmapbuffer::move_hordes() {
     for (std::list<overmap>::iterator it=overmap_list.begin();
         it != overmap_list.end(); ++it)
         it->move_hordes();
 }
 
-void overmapbuffer::update_tracks()
-{
+void overmapbuffer::update_tracks() {
     for (std::list<overmap>::iterator it=overmap_list.begin();
         it != overmap_list.end(); ++it)
         it->update_tracks();

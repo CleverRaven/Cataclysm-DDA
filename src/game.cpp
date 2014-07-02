@@ -14050,7 +14050,7 @@ void game::spawn_mon(int shiftx, int shifty)
             // chance of adding one monster; cap at the population OR 16
             while ((cur_om->zg[i].diffuse ? long(pop) :
                     long((1.0 - double(dist / rad)) * pop)) > rng(0, (rad * rad)) &&
-                   rng( horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
+                   rng(horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
                    group < pop && group < MAPSIZE * 3) {
                 group++;
             }
