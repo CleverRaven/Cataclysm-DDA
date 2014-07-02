@@ -116,8 +116,8 @@ class calendar
         static int year_length() { return season_length() * 4; }
         static int season_length();
 
-        int turn_of_year() { return turn_number % year_turns(); }
-        int day_of_year() { return day + season_length() * season; }
+        int turn_of_year() const { return turn_number % year_turns(); }
+        int day_of_year() const { return day + season_length() * season; }
 
         // Print-friendly stuff
         std::string print_time(bool just_hour = false) const;

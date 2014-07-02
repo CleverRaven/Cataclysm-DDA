@@ -30,8 +30,8 @@ class weather_generator
     PerlinNoise Pressure;
 public:
     weather_generator(unsigned seed);
-    w_point get_weather(const point &, calendar t);
-    weather_type get_weather_conditions(const point &, calendar t);
+    w_point get_weather(const point &, const calendar &t);
+    weather_type get_weather_conditions(const point &, const calendar &t);
     void test_weather();
 };
 #endif

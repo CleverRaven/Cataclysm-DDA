@@ -12,7 +12,7 @@ const double tau = 2 * std::acos(-1);
 
 weather_generator::weather_generator(unsigned seed) : SEED(seed), Temperature(SEED), Humidity(SEED + 101), Pressure(SEED + 211) { }
 
-w_point weather_generator::get_weather(const point &location, calendar t) {
+w_point weather_generator::get_weather(const point &location, const calendar &t) {
     const double z((double) t.get_turn() / 2000.0); // Integer turn / widening factor of the Perlin function.
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
@@ -48,7 +48,7 @@ w_point weather_generator::get_weather(const point &location, calendar t) {
     return w_point(T, H, P);
 }
 
-weather_type weather_generator::get_weather_conditions(const point &location, calendar t) {
+weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t) {
     w_point w(get_weather(location, t));
     weather_type r(WEATHER_CLEAR);
     if (w.pressure > 1030 && w.humidity < 70) r = WEATHER_SUNNY;
