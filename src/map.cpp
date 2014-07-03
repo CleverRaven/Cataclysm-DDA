@@ -4459,6 +4459,11 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
     for (int y = 0; y < SEEY; y++) {
       furn_id furn = tmpsub->get_furn(x, y);
       if (furn && furnlist[furn].has_flag("PLANT")) {
+          if( tmpsub->itm[x][y].empty() ) {
+              // No seed there anymore, we don't know what kind of plant it was.
+              tmpsub->set_furn( x, y, f_null );
+              continue;
+          }
         item seed = tmpsub->itm[x][y][0];
 
         while (calendar::turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
