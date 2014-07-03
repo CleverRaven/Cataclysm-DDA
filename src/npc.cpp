@@ -1292,7 +1292,7 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_TALK;
  else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -30)
   attitude = NPCATT_KILL;
- else if (my_fac->likes_u < -10)
+ else if (my_fac != NULL && my_fac->likes_u < -10)
     attitude = NPCATT_KILL;
  else
   attitude = NPCATT_FLEE;
