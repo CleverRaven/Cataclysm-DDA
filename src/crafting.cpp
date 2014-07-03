@@ -1418,6 +1418,9 @@ void game::complete_craft()
         u.activity.type = ACT_NULL;
         return;
     }
+    if( u.lastrecipe == nullptr ) {
+        u.lastrecipe = making; // has been lost due to save & load
+    }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice = u.skillLevel(making->skill_used) * 4;
