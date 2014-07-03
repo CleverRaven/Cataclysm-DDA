@@ -76,7 +76,8 @@ public:
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
+    virtual void OutputChar(long t, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
     bool draw_window(WINDOW *win, int offsetx, int offsety);
@@ -99,15 +100,16 @@ public:
 
     void clear();
     void load_font(std::string typeface, int fontsize);
-    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    virtual void OutputChar(long t, int x, int y, unsigned char color);
 protected:
     void cache_glyphs();
-    SDL_Texture *create_glyph(int t, int color);
+    SDL_Texture *create_glyph(const std::string &ch, int color);
 
     TTF_Font* font;
     SDL_Texture *glyph_cache[128][16];
     // Maps (character code, color) to SDL_Texture*
-    typedef std::map<std::pair<Uint16, unsigned char>, SDL_Texture *> t_glyph_map;
+    typedef std::map<std::pair<std::string, unsigned char>, SDL_Texture *> t_glyph_map;
     t_glyph_map glyph_cache_map;
 };
 
@@ -122,7 +124,8 @@ public:
 
     void clear();
     void load_font(const std::string &path);
-    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    virtual void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
     SDL_Texture *ascii[16];
@@ -373,11 +376,11 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 };
 
 
-SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
+SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
 {
-    SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
+    SDL_Surface * sglyph = (fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid)(font, ch.c_str(), windowsPalette[color]);
     if (sglyph == NULL) {
-        DebugLog() << "Failed to create glyph for " << std::string(1, ch) << ": " << TTF_GetError() << "\n";
+        DebugLog() << "Failed to create glyph for " << ch << ": " << TTF_GetError() << "\n";
         return NULL;
     }
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
@@ -436,19 +439,20 @@ void CachedTTFFont::cache_glyphs()
 {
     for(int ch = 0; ch < 128; ch++) {
         for(int color = 0; color < 16; color++) {
-            glyph_cache[ch][color] = create_glyph(ch, color);
+            glyph_cache[ch][color] = create_glyph(std::string(1, (char) ch), color);
         }
     }
 }
 
-void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
+void CachedTTFFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
 {
     color &= 0xf;
     SDL_Texture * glyph;
-    if (t >= 0x80) {
-        SDL_Texture *&glyphr = glyph_cache_map[t_glyph_map::key_type(t, color)];
+    const long t = static_cast<unsigned char>(ch[0]);
+    if( t >= 0x80 ) {
+        SDL_Texture *&glyphr = glyph_cache_map[t_glyph_map::key_type(ch, color)];
         if (glyphr == NULL) {
-            glyphr = create_glyph(t, color);
+            glyphr = create_glyph(ch, color);
         }
         glyph = glyphr;
     } else {
@@ -466,8 +470,24 @@ void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
     SDL_RenderCopy(renderer, glyph, NULL, &rect);
 }
 
-void BitmapFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
+void CachedTTFFont::OutputChar(long t, int x, int y, unsigned char color)
 {
+    CachedTTFFont::OutputChar(utf32_to_utf8(t), x, y, color);
+}
+
+void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
+{
+    int len = ch.length();
+    const char *s = ch.c_str();
+    const long t = UTF8_getch(&s, &len);
+    BitmapFont::OutputChar(t, x, y, color);
+}
+
+void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
+{
+    if( t > 256 ) {
+        return;
+    }
     SDL_Rect src;
     src.x = (t % tilewidth) * fontwidth;
     src.y = (t / tilewidth) * fontheight;
