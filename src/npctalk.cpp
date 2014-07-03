@@ -792,7 +792,11 @@ std::string dynamic_line(talk_topic topic, npc *p)
                       "return fire.  People who work alone are easy pickings for monsters and bandits.");
 
         case TALK_SCAVENGER_MERC_HIRE:
-             return _("I'm currently waiting for a customer to return... if they don't make it, I'll be up for hire in a few days.");
+             return _("I'm currently waiting for a customer to return... I'll make you a deal though, "
+                      " $8,000 will cover my expenses if I get a small cut of the loot.");
+
+        case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
+             return _("I guess you're the boss.");
 
         case TALK_SHELTER:
             switch (rng(1, 2)) {
@@ -1649,10 +1653,21 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_SCAVENGER_MERC);
   break;
  case TALK_SCAVENGER_MERC_HIRE:
+  if (g->u.cash >= 800000){
+  RESPONSE(_("[$8000] You have a deal."));
+   g->u.cash -= 800000;
+   SUCCESS(TALK_SCAVENGER_MERC_HIRE_SUCCESS);
+  }
   RESPONSE(_("I might be back."));
    SUCCESS(TALK_SCAVENGER_MERC);
   break;
 
+ case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
+  RESPONSE(_("Glad to have you aboard."));
+   SUCCESS_ACTION(&talk_function::follow);
+   SUCCESS_OPINION(1, 0, 1, 0, 0);
+   SUCCESS(TALK_DONE);
+  break;
 
  case TALK_SHELTER:
   RESPONSE(_("What should we do now?"));
