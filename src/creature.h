@@ -140,6 +140,11 @@ class Creature
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id) const;
 
+        // Methods for setting/getting misc key/value pairs.
+        void set_value( const std::string key, const std::string value );
+        void remove_value( const std::string key );
+        std::string get_value( const std::string key ) const;
+
         virtual void process_effects(); // runs all the effects on the Creature
 
         // not-quite-stats, maybe group these with stats later
@@ -284,6 +289,8 @@ class Creature
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
         std::unordered_map<std::string, effect> effects;
+        // Miscelaneous key/value pairs.
+        std::unordered_map<std::string, std::string> values;
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately

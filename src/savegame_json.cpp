@@ -193,8 +193,9 @@ void player::json_load_common_variables(JsonObject & data)
     } else if( data.has_object( "effects" ) ) {
         data.read( "effects", effects );
     }
-    data.read("addictions",addictions);
-    data.read("my_bionics",my_bionics);
+    data.read( "values", values );
+    data.read( "addictions", addictions );
+    data.read( "my_bionics", my_bionics );
 
     JsonArray traps = data.get_array("known_traps");
     known_traps.clear();
@@ -277,6 +278,7 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "illness", illness );
     // creature::effects
     json.member( "effects", effects );
+    json.member( "values", values );
 
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
@@ -889,6 +891,7 @@ void monster::deserialize(JsonIn &jsin)
         data.read( "effects", effects );
     }
 
+    data.read( "values", values );
     data.read("inv", inv);
     if (!data.read("ammo", ammo)) { ammo = 100; }
 }
@@ -925,6 +928,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
 
     // creature::effects
     json.member( "effects", effects );
+    json.member( "values", values );
 
     if ( save_contents ) {
         json.member("inv");
