@@ -3651,6 +3651,34 @@ bool player::in_climate_control()
     return regulated_area;
 }
 
+std::list<item *> player::get_radio_items()
+{
+    std::list<item *> rc_items;
+    const invslice & stacks = inv.slice();
+    for( size_t x  = 0; x  < stacks.size(); ++x  ) {
+        item &itemit = stacks[x]->front();
+        item *stack_iter = &itemit;
+        if (stack_iter->active && stack_iter->has_flag("RADIO_ACTIVATION")) {
+            rc_items.push_back( stack_iter );
+        }
+    }
+
+    for (size_t i = 0; i < worn.size(); i++) {
+        if ( worn[i].active  && worn[i].has_flag("RADIO_ACTIVATION")) {
+            rc_items.push_back( &worn[i] );
+        }
+    }
+
+    if (!weapon.is_null()) {
+        if ( weapon.active  && weapon.has_flag("RADIO_ACTIVATION")) {
+            rc_items.push_back( &weapon );
+        }
+    }
+    return rc_items;
+}
+
+
+
 bool player::has_bionic(const bionic_id & b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {

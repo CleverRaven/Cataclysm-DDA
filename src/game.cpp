@@ -2815,55 +2815,44 @@ input_context game::get_player_input(std::string &action)
     return ctxt;
 }
 
-
-bool game::isActivatedRadioCarPresent()
-{
-    int MYMAPSIZE = m.getmapsize();
-
-    point pos;
-    for (pos.x = 0; pos.x < SEEX * MYMAPSIZE; pos.x++)
-        for (pos.y = 0; pos.y < SEEY * MYMAPSIZE; pos.y++)
-            for (int i = 0; i < g->m.i_at(pos.x, pos.y).size(); i++) {
-                item &ii = g->m.i_at(pos.x, pos.y)[i];
-                if (ii.type->id == "radio_car_on" && ii.active) {
-                    return true;
-                }
-            }
-
-    return false;
-}
-
-
 void game::rcdrive(int dx, int dy)
 {
+    std::stringstream car_location_string( u.get_value( "remote_controlling" ) );
+    if( car_location_string.str() == "" ) {
+        //no turned radio car found
+        u.add_msg_if_player(m_warning, _("No radio car connected."));
+        return;
+    }
+    int cx, cy, cz;
+    car_location_string >> cx >> cy >> cz;
 
-    int MYMAPSIZE = g->m.getmapsize();
-
-    point pos;
-    for( pos.x = 0; pos.x < SEEX * MYMAPSIZE; pos.x++ ) {
-        for( pos.y = 0; pos.y < SEEY * MYMAPSIZE; pos.y++ ) {
-            for( int i = 0; i < g->m.i_at(pos.x, pos.y).size(); i++ ) {
-
-                item &ii = g->m.i_at(pos.x, pos.y)[i];
-                if( ii.type->id == "radio_car_on" && ii.active ) {
-                    if( m.move_cost(pos.x + dx, pos.y + dy) == 0 ||
-                      !m.can_put_items(pos.x + dx, pos.y + dy) || m.has_furn(pos.x + dx, pos.y + dy)) {
-                        sound(pos.x + dx, pos.y + dy, 7, "a collision.");
-                        return;
-                    } else if( m.add_item_or_charges(pos.x + dx, pos.y + dy, ii) ) {
-                        sound(pos.x, pos.y, 6, "zzz...");
-                        u.moves -= 50;
-                        m.i_rem(pos.x, pos.y, &ii);
-                        return;
-                    }
-                }
-            }
+    auto rc_pairs = m.get_rc_items( cx, cy, cz );
+    auto rc_pair = rc_pairs.begin();
+    for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
+        if( rc_pair->second->type->id == "radio_car_on" && rc_pair->second->active ) {
+            break;
         }
     }
+    if( rc_pair == rc_pairs.end() ) {
+        u.add_msg_if_player(m_warning, _("No radio car connected."));
+        u.remove_value( "remote_controlling" );
+        return;
+    }
+    item *rc_car = rc_pair->second;
 
-    //no turned radio car found
-    u.add_msg_if_player(m_warning, _("No radio car connected."));
-    isRemoteControl = false;
+    if( m.move_cost(cx + dx, cy + dy) == 0 || !m.can_put_items(cx + dx, cy + dy) ||
+        m.has_furn(pos.x + dx, pos.y + dy) ) {
+        sound(cx + dx, cy + dy, 7, "sound of a collision with an obstacle.");
+        return;
+    } else if( m.add_item_or_charges(cx + dx, cy + dy, *rc_car ) ) {
+        sound(cx, cy, 6, "zzz...");
+        u.moves -= 50;
+        m.i_rem( cx, cy, rc_car );
+        car_location_string.clear();
+        car_location_string << cx + dx << ' ' << cy + dy << ' ' << cz;
+        u.set_value( "remote_controlling", car_location_string.str() );
+        return;
+    }
 }
 
 bool game::handle_action()
@@ -3027,7 +3016,7 @@ bool game::handle_action()
     case ACTION_MOVE_N:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(0, -1);
         } else if (veh_ctrl) {
             pldrive(0, -1);
@@ -3039,7 +3028,7 @@ bool game::handle_action()
     case ACTION_MOVE_NE:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(1, -1);
         } else if (veh_ctrl) {
             pldrive(1, -1);
@@ -3051,7 +3040,7 @@ bool game::handle_action()
     case ACTION_MOVE_E:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(1, 0);
         } else if (veh_ctrl) {
             pldrive(1, 0);
@@ -3063,7 +3052,7 @@ bool game::handle_action()
     case ACTION_MOVE_SE:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(1, 1);
         } else if (veh_ctrl) {
             pldrive(1, 1);
@@ -3075,7 +3064,7 @@ bool game::handle_action()
     case ACTION_MOVE_S:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(0, 1);
         } else if (veh_ctrl) {
             pldrive(0, 1);
@@ -3087,7 +3076,7 @@ bool game::handle_action()
     case ACTION_MOVE_SW:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(-1, 1);
         } else if (veh_ctrl) {
             pldrive(-1, 1);
@@ -3099,7 +3088,7 @@ bool game::handle_action()
     case ACTION_MOVE_W:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(-1, 0);
         } else if (veh_ctrl) {
             pldrive(-1, 0);
@@ -3111,7 +3100,7 @@ bool game::handle_action()
     case ACTION_MOVE_NW:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(-1, -1);
         } else if (veh_ctrl) {
             pldrive(-1, -1);

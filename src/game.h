@@ -453,9 +453,6 @@ class game
         void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0,
                           int cy = 0); // open vehicle interaction screen
 
-        bool isRemoteControl;  //remote controlled cars etc.
-        bool isActivatedRadioCarPresent();
-
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
