@@ -540,7 +540,7 @@
         "name_plural" : "reloaded 5.7x28mm",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "The 5.7x28mm round is a proprietary round developed by FN Hestal for use in their P90 SMG. While it is a very small round, comparable in power to .22, it features incredible armor-piercing capabilities and very low recoil. This one has been hand-reloaded.",
+        "description" : "The 5.7x28mm round is a proprietary round developed by FN Herstal for use in their P90 SMG. While it is a very small round, comparable in power to .22, it features incredible armor-piercing capabilities and very low recoil. This one has been hand-reloaded.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 2,

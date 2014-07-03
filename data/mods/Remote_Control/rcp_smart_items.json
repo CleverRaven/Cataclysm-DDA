@@ -1,0 +1,65 @@
+[
+
+  {
+    "id": "smart_lamp",
+    "type": "TOOL",
+    "symbol": "&",
+    "color": "blue",
+    "name": "smart lamp (off)",
+    "name_plural": "smart lamps (off)",
+    "description": "This is a smart lamp, it can be activated remotely.",
+    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_2"],
+    "price": 500,
+    "material": ["plastic", "aluminum"],
+    "weight": 400,
+    "volume": 2,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "msg": "You turn the smart lamp on.",
+        "target": "smart_lamp_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The smart lamp batteries are dead."
+    }
+  },
+
+  {
+    "id": "smart_lamp_on",
+    "type": "TOOL",
+    "symbol": "&",
+    "color": "green",
+    "name": "smart lamp (on)",
+    "name_plural": "smart lamps (on)",
+    "description": "This is a smart lamp, this smart lamp is turned on. It can be deactivated remotely.",
+    "flags": ["RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_50", "CHARGEDIM"],
+    "price": 500,
+    "material": ["plastic", "aluminum"],
+    "weight": 400,
+    "volume": 2,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": 2,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 0,
+    "turns_per_charge": 25,
+    "ammo": "battery",
+    "revert_to": "smart_lamp",
+    "use_action": {
+        "type": "transform",
+        "msg": "Your smart lamp turned off",
+        "target": "smart_lamp"
+    }
+  }
+
+
+]

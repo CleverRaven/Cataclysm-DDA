@@ -371,6 +371,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
              veh->global_x() + veh->parts[p].precalc_dx[0],
              veh->global_y() + veh->parts[p].precalc_dy[0],
                       g->u.posx, g->u.posy);
+   veh->parts[p].remove_flag(vehicle_part::passenger_flag);
    continue;
   }
   // add recoil
@@ -2444,10 +2445,12 @@ itemslice map::i_stacked(std::vector<item>& items)
 
 bool map::sees_some_items(int x, int y, const player &u)
 {
-    if(i_at(x, y).empty()) {
-        // can not see non-existing items.
-        return false;
-    }
+    // can only see items if there are any items.
+    return !i_at( x, y ).empty() && could_see_items( x, y, u );
+}
+
+bool map::could_see_items(int x, int y, const player &u)
+{
     const bool container = has_flag_ter_or_furn("CONTAINER", x, y);
     const bool sealed = has_flag_ter_or_furn("SEALED", x, y);
     if (sealed && container) {
@@ -3337,6 +3340,19 @@ void map::disarm_trap(const int x, const int y)
     const int diff = tr->get_difficulty();
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
+    // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
+    if (tr->get_avoidance() ==  0 && tr->get_difficulty() == 0) {
+        add_msg(_("You take down the %s."), tr->name.c_str());
+        std::vector<itype_id> comp = tr->components;
+        for (int i = 0; i < comp.size(); i++) {
+            if (comp[i] != "null") {
+                spawn_item(x, y, comp[i], 1, 1);
+                remove_trap(x, y);
+            }
+        }
+        return;
+    }
+
     while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50) {
         roll++;
     }
@@ -4154,23 +4170,32 @@ int map::coord_to_angle ( const int x, const int y, const int tgtx, const int tg
   return int( rad * DBLRAD2DEG );
 }
 
-void map::save(overmap *om, unsigned const int turn, const int x, const int y, const int z)
+void map::save()
 {
- for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-  for (int gridy = 0; gridy < my_MAPSIZE; gridy++)
-   saven(om, turn, x, y, z, gridx, gridy);
- }
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            saven( abs_sub.x, abs_sub.y, abs_sub.z, gridx, gridy );
+        }
+    }
+}
+
+void map::load_abs(const int wx, const int wy, const int wz, const bool update_vehicle)
+{
+    traplocs.clear();
+    for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
+        for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
+            if (!loadn(wx, wy, wz, gridx, gridy, update_vehicle)) {
+                loadn(wx, wy, wz, gridx, gridy, update_vehicle);
+            }
+        }
+    }
 }
 
 void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
 {
-    traplocs.clear();
- for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
-  for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-   if (!loadn(wx, wy, wz, gridx, gridy, update_vehicle, om))
-    loadn(wx, wy, wz, gridx, gridy, update_vehicle, om);
-  }
- }
+    const int awx = om->pos().x * OMAPX * 2 + wx;
+    const int awy = om->pos().y * OMAPY * 2 + wy;
+    load_abs(awx, awy, wz, update_vehicle);
 }
 
 void map::forget_traps(int gridx, int gridy)
@@ -4189,18 +4214,19 @@ void map::forget_traps(int gridx, int gridy)
     }
 }
 
-void map::shift(const int wx, const int wy, const int wz, const int sx, const int sy)
+void map::shift(const int sx, const int sy)
 {
- set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
-   g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
- );
 // Special case of 0-shift; refresh the map
     if (sx == 0 && sy == 0) {
         return; // Skip this?
     }
+    const int absx = get_abs_sub().x;
+    const int absy = get_abs_sub().y;
+    const int wz = get_abs_sub().z;
+    set_abs_sub( absx + sx, absy + sy, wz );
 
 // if player is in vehicle, (s)he must be shifted with vehicle too
-    if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
+    if( g->u.in_vehicle ) {
         g->u.posx -= sx * SEEX;
         g->u.posy -= sy * SEEY;
     }
@@ -4220,6 +4246,10 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
     }
 
     // update vehicles own overmap location
+    int wx = absx;
+    int wy = absy;
+    // TODO: make this absolute, even in vehicle.cpp
+    overmapbuffer::sm_to_omt_remain(wx, wy); // crop wx,wy to be valid in the overmap
     std::set<vehicle *>::iterator veh;
     for (veh = vehicle_list.begin(); veh != vehicle_list.end(); ++veh)
     {
@@ -4232,7 +4262,7 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
     vehicle_list.clear();
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
-// wx and wy are our position in the world, for saving/loading purposes.
+// absx and absy are our position in the world, for saving/loading purposes.
     if (sx >= 0) {
         for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
             if (sy >= 0) {
@@ -4241,8 +4271,8 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -4250,8 +4280,8 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
                 }
             }
         }
@@ -4263,8 +4293,8 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                         copy_grid(gridx + gridy * my_MAPSIZE,
                         gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -4272,8 +4302,8 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
-                        loadn(wx + sx, wy + sy, wz, gridx, gridy);
+                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                        loadn(absx + sx, absy + sy, wz, gridx, gridy);
                 }
             }
         }
@@ -4287,26 +4317,22 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
 // 0,0 1,0 2,0
 // 0,1 1,1 2,1
 // 0,2 1,2 2,2
-void map::saven(overmap *om, unsigned const int turn, const int worldx, const int worldy, const int worldz,
-                const int gridx, const int gridy)
+// (worldx,worldy,worldz) denotes the absolute coordinate of the submap
+// in grid[0].
+void map::saven( const int worldx, const int worldy, const int worldz,
+                 const int gridx, const int gridy )
 {
- dbg(D_INFO) << "map::saven(om[" << (void*)om << "], turn[" << turn <<"], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
-
- submap *submap_to_save = get_submap_at_grid(gridx, gridy);
-
- dbg(D_INFO) << "map::save x=" << gridx << " y=" << gridy;
-
- if ( !submap_to_save || submap_to_save->ter[0][0] == t_null)
- {
-  dbg(D_ERROR) << "map::saven grid NULL!";
-  return;
- }
- const int abs_x = om->pos().x * OMAPX * 2 + worldx + gridx,
-           abs_y = om->pos().y * OMAPY * 2 + worldy + gridy;
-
- dbg(D_INFO) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
-
- MAPBUFFER.add_submap(abs_x, abs_y, worldz, submap_to_save);
+    dbg( D_INFO ) << "map::saven(worldx[" << worldx << "], worldy[" << worldy << "], gridx[" << gridx <<
+                  "], gridy[" << gridy << "])";
+    submap *submap_to_save = get_submap_at_grid( gridx, gridy );
+    if( submap_to_save == NULL || submap_to_save->ter[0][0] == t_null ) {
+        dbg( D_ERROR ) << "map::saven grid NULL!";
+        return;
+    }
+    const int abs_x = worldx + gridx;
+    const int abs_y = worldy + gridy;
+    dbg( D_INFO ) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
+    MAPBUFFER.add_submap( abs_x, abs_y, worldz, submap_to_save );
 }
 
 // worldx & worldy specify where in the world this is;
@@ -4314,16 +4340,15 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 // 0,0  1,0  2,0
 // 0,1  1,1  2,1
 // 0,2  1,2  2,2 etc
+// (worldx,worldy,worldz) denotes the absolute coordinate of the submap
+// in grid[0].
 bool map::loadn(const int worldx, const int worldy, const int worldz,
-                const int gridx, const int gridy, const bool update_vehicles, overmap * om) {
- if (om == NULL) {
-     om = g->cur_om;
- }
+                const int gridx, const int gridy, const bool update_vehicles) {
 
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int absx = om->pos().x * OMAPX * 2 + worldx + gridx,
-           absy = om->pos().y * OMAPY * 2 + worldy + gridy,
+ const int absx = worldx + gridx,
+           absy = worldy + gridy,
            gridn = gridx + gridy * my_MAPSIZE;
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
@@ -4459,38 +4484,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
 //  squares divisible by 2.
   int newmapx = worldx + gridx - abs((worldx + gridx) % 2);
   int newmapy = worldy + gridy - abs((worldy + gridy) % 2);
-  overmap* this_om = om;
-
-  int shiftx = 0;
-  int shifty = 0;
-  if ( newmapx < 0 ) {
-    while ( newmapx < 0 ) {
-      shiftx--;
-      newmapx += OMAPX * 2;
-    }
-  } else if ( newmapx >= OMAPX * 2 ) {
-    while ( newmapx >= OMAPX * 2 ) {
-      shiftx++;
-      newmapx -= OMAPX * 2;
-    }
-  }
-  if ( newmapy < 0 ) {
-    while ( newmapy < 0 ) {
-      shifty--;
-      newmapy += OMAPX * 2;
-    }
-  } else if ( newmapy >= OMAPX * 2 ) {
-    while ( newmapy >= OMAPX * 2 ) {
-      shifty++;
-      newmapy -= OMAPX * 2;
-    }
-  }
-
-  if ( shiftx != 0 || shifty != 0 ) {
-       this_om = &overmap_buffer.get(om->pos().x + shiftx, om->pos().y + shifty);
-  }
-
-  tmp_map.generate(this_om, newmapx, newmapy, worldz, int(calendar::turn));
+  tmp_map.generate(newmapx, newmapy, worldz, calendar::turn);
   return false;
  }
  return true;
@@ -4753,6 +4747,7 @@ void map::build_transparency_cache()
           transparency_cache[x][y] *= 0.7;
           break;
       case fd_smoke:
+      case fd_incendiary:
       case fd_toxic_gas:
       case fd_tear_gas:
        if(cur->getFieldDensity() == 3)
@@ -4843,29 +4838,24 @@ std::vector<point> closest_points_first(int radius, int center_x, int center_y)
 }
 //////////
 ///// coordinate helpers
-/*
- * return absolute coordinates of local-to-map's x,y
- */
-point map::getabs(const int x, const int y ) {
-    int ax=( abs_sub.x * SEEX ) + x;
-    int ay=( abs_sub.y * SEEY ) + y;
-    return point(ax,ay);
-}
-/*
- * Convert absolute (submap*12) x,y to map's x,y
- */
-point map::getlocal(const int x, const int y) {
-  return point ( x - ( abs_min.x ), y - ( abs_min.y ) );
+
+point map::getabs(const int x, const int y) const
+{
+    return point( x + abs_sub.x * SEEX, y + abs_sub.y * SEEY );
 }
 
-/*
- * set map coordinates based off grid[0] submap coords
- */
-void map::set_abs_sub( const int x, const int y, const int z ) {
-  abs_sub=point(x, y);
-  world_z = z;
-  abs_min=point(x*SEEX, y*SEEY);
-  abs_max=point(x*SEEX + (SEEX * my_MAPSIZE), y*SEEY + (SEEY * my_MAPSIZE) );
+point map::getlocal(const int x, const int y) const {
+    return point( x - abs_sub.x * SEEX, y - abs_sub.y * SEEY );
+}
+
+void map::set_abs_sub(const int x, const int y, const int z)
+{
+    abs_sub = tripoint( x, y, z );
+}
+
+tripoint map::get_abs_sub() const
+{
+   return abs_sub;
 }
 
 submap * map::getsubmap( const int grididx ) {

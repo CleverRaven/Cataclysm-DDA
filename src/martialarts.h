@@ -62,6 +62,7 @@ class ma_technique {
     std::vector<std::string> messages;
 
     bool defensive;
+    bool dummy;
     bool crit_tec;
 
     ma_requirements reqs;

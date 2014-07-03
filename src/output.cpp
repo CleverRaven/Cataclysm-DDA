@@ -527,7 +527,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
         max_length = width;
     }
     int w_height = 3;
-    int iPopupWidth = (width == 0) ? FULL_SCREEN_WIDTH : width + titlesize + 4;
+    int iPopupWidth = (width == 0) ? FULL_SCREEN_WIDTH : width + titlesize + 5;
     if (iPopupWidth > FULL_SCREEN_WIDTH) {
         iPopupWidth = FULL_SCREEN_WIDTH;
     }
@@ -572,18 +572,20 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                              int endx, bool loop, long &ch, int &pos, std::string identifier,
                              int w_x, int w_y, bool dorefresh, bool only_digits)
 {
-    std::string ret = input;
+    utf8_wrapper ret(input);
     nc_color string_color = c_magenta;
     nc_color cursor_color = h_ltgray;
     nc_color underscore_color = c_ltgray;
-    if ( pos == -1 ) {
-        pos = utf8_width(input.c_str());
+    if (pos == -1) {
+        pos = ret.length();
     }
-    int lastpos = pos;
     int scrmax = endx - startx;
+    // in output (console) cells, not characters of the string!
     int shift = 0;
-    int lastshift = shift;
     bool redraw = true;
+
+    input_context ctxt("STRING_INPUT");
+    ctxt.register_action("ANY_INPUT");
 
     do {
 
@@ -591,54 +593,84 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos = 0;
         }
 
-        if ( pos < shift ) {
-            shift = pos;
-        } else if ( pos > shift + scrmax ) {
-            shift = pos - scrmax;
-        }
-
-        if (shift < 0 ) {
+        const size_t left_shift = ret.substr( 0, pos ).display_width();
+        if( left_shift < shift ) {
+            shift = 0;
+        } else if( pos < ret.length() && left_shift + 1 >= shift + scrmax ) {
+            // if the cursor is inside the input string, keep one cell right of
+            // the cursor visible, because the cursor might be on a multi-cell
+            // character.
+            shift = left_shift - scrmax + 2;
+        } else if( pos == ret.length() && left_shift >= shift + scrmax ) {
+            // cursor is behind the end of the input string, keep the
+            // trailing '_' visible (always a single cell character)
+            shift = left_shift - scrmax + 1;
+        } else if( shift < 0 ) {
             shift = 0;
         }
-
-        if( redraw || lastshift != shift ) {
-            redraw = false;
-            for ( int reti = shift, scri = 0; scri <= scrmax; reti++, scri++ ) {
-                if( reti < ret.size() ) {
-                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : string_color ), ret[reti] );
-                } else if( max_length > 0 && reti >= max_length) {
-                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), ' ');
-                } else {
-                    mvwputch(w, starty, startx + scri, (reti == pos ? cursor_color : underscore_color ), '_');
-                }
-            }
-        } else if ( lastpos != pos ) {
-            if ( lastpos >= shift && lastpos <= shift + scrmax ) {
-                if ( lastpos - shift >= 0 && lastpos - shift < ret.size() ) {
-                    mvwputch(w, starty, startx + lastpos, string_color, ret[lastpos - shift]);
-                } else if( max_length > 0 && lastpos >= max_length) {
-                    mvwputch(w, starty, startx + lastpos, underscore_color, ' ' );
-                } else {
-                    mvwputch(w, starty, startx + lastpos, underscore_color, '_' );
-                }
-            }
-            if( max_length > 0 && pos >= max_length) {
-                mvwputch(w, starty, startx + pos, cursor_color, ' ' );
-            } else if (pos < ret.size() ) {
-                mvwputch(w, starty, startx + pos, cursor_color, ret[pos - shift]);
-            } else {
-                mvwputch(w, starty, startx + pos, cursor_color, '_' );
-            }
+        const size_t xleft_shift = ret.substr_display( 0, shift ).display_width();
+        if( xleft_shift != shift ) {
+            // This prevents a multi-cell character from been split, which is not possible
+            // instead scroll a cell further to make that character disappear completely
+            shift++;
         }
 
-        lastpos = pos;
-        lastshift = shift;
+        if( redraw ) {
+            redraw = false;
+            // remove the scrolled out of view part from the input string
+            const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
+            // Clear the line
+            mvwprintw( w, starty, startx, std::string( scrmax, ' ' ).c_str() );
+            // Print the whole input string in default color
+            mvwprintz( w, starty, startx, string_color, "%s", ds.c_str() );
+            size_t sx = ds.display_width();
+            // Print the cursor in its own color
+            if( pos < ret.length() ) {
+                utf8_wrapper cursor = ret.substr( pos, 1 );
+                size_t a = pos;
+                while( a > 0 && cursor.display_width() == 0 ) {
+                    // A combination code point, move back to the earliest
+                    // non-combination code point
+                    a--;
+                    cursor = ret.substr( a, pos - a + 1 );
+                }
+                size_t left_over = ret.substr( 0, a ).display_width() - shift;
+                mvwprintz( w, starty, startx + left_over, cursor_color, "%s", cursor.c_str() );
+            } else if(pos == max_length && max_length > 0) {
+                mvwprintz( w, starty, startx + sx, cursor_color, " " );
+                sx++; // don't override trailing ' '
+            } else {
+                mvwprintz( w, starty, startx + sx, cursor_color, "_" );
+                sx++; // don't override trailing '_'
+            }
+            if( sx < scrmax ) {
+                // could be scrolled out of view when the cursor is at the start of the input
+                size_t l = scrmax - sx;
+                if( max_length > 0 ) {
+                    if( ret.length() >= max_length ) {
+                        l = 0; // no more input possible!
+                    } else if( pos == ret.length() ) {
+                        // one '_' is already printed, formated as cursor
+                        l = std::min<size_t>(l, max_length - ret.length() - 1);
+                    } else {
+                        l = std::min<size_t>(l, max_length - ret.length());
+                    }
+                }
+                if(l > 0) {
+                    mvwprintz( w, starty, startx + sx, underscore_color, std::string( l, '_' ).c_str() );
+                }
+            }
+            wrefresh(w);
+        }
+
         if (dorefresh) {
             wrefresh(w);
         }
-        ch = getch();
         bool return_key = false;
-        if (ch == 27) { // Escape
+        const std::string action = ctxt.handle_input();
+        const input_event ev = ctxt.get_raw_input();
+        ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+        if( ch == KEY_ESCAPE ) {
             return "";
         } else if (ch == '\n') {
             return_key = true;
@@ -653,8 +685,8 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                         hmenu.addentry(h, true, -2, (*hist)[h].c_str());
                     }
                     if ( !ret.empty() && ( hmenu.entries.empty() ||
-                                             hmenu.entries[hist->size() - 1].txt != ret ) ) {
-                        hmenu.addentry(hist->size(), true, -2, ret);
+                                             hmenu.entries[hist->size() - 1].txt != ret.str() ) ) {
+                        hmenu.addentry(hist->size(), true, -2, ret.str());
                         hmenu.selected = hist->size();
                     } else {
                         hmenu.selected = hist->size() - 1;
@@ -669,11 +701,11 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     hmenu.w_x = w_x;
 
                     hmenu.query();
-                    if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret ) {
+                    if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
                         ret = hmenu.entries[hmenu.ret].txt;
                         if( hmenu.ret < hist->size() ) {
                             hist->erase(hist->begin() + hmenu.ret);
-                            hist->push_back(ret);
+                            hist->push_back(ret.str());
                         }
                         pos = ret.size();
                         redraw = true;
@@ -698,10 +730,21 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos = 0;
             ret.erase(0);
             redraw = true;
-        } else if (ch == KEY_BACKSPACE || ch == 127) { // Move the cursor back and re-draw it
+        } else if (ch == KEY_BACKSPACE) { // Move the cursor back and re-draw it
             if( pos > 0 &&
                 pos <= ret.size() ) {         // but silently drop input if we're at 0, instead of adding '^'
                 pos--;                                     //TODO: it is safe now since you only input ascii chars
+                ret.erase(pos, 1);
+                redraw = true;
+            }
+        } else if( ch == KEY_HOME ) {
+            pos = 0;
+            redraw = true;
+        } else if( ch == KEY_END ) {
+            pos = ret.size();
+            redraw = true;
+        } else if( ch == KEY_DC ) {
+            if(pos < ret.size()) {
                 ret.erase(pos, 1);
                 redraw = true;
             }
@@ -711,34 +754,33 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             if(tmplen > 0 && (tmplen + utf8_width(ret.c_str()) <= max_length || max_length == 0)) {
                 ret.append(tmp);
             }
-        } else if( ch != 0 && ch != ERR && (ret.size() < max_length || max_length == 0) ) {
-            if ( only_digits && !isdigit(ch) ) {
-                return_key = true;
-            } else {
-                if ( pos == ret.size() ) {
-                    ret += ch;
-                } else {
-                    ret.insert(pos, 1, ch);
-                }
-                redraw = true;
-                pos++;
-            }
+        } else if( ch == ERR ) {
+            // Ignore the error
+        } else if( ch != 0 && only_digits && !isdigit( ch ) ) {
+            return_key = true;
+        } else if( max_length > 0 && ret.length() >= max_length ) {
+            // no further input possible, ignore key
+        } else if( !ev.text.empty() ) {
+            const utf8_wrapper t( ev.text );
+            ret.insert( pos, t );
+            pos += t.length();
+            redraw = true;
         }
         if (return_key) {//"/n" return code
             {
                 if(!identifier.empty() && !ret.empty() ) {
                     std::vector<std::string> *hist = uistate.gethistory(identifier);
                     if( hist != NULL ) {
-                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
-                            hist->push_back(ret);
+                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret.str() ) {
+                            hist->push_back(ret.str());
                         }
                     }
                 }
-                return ret;
+                return ret.str();
             }
         }
     } while ( loop == true );
-    return ret;
+    return ret.str();
 }
 
 long popup_getkey(const char *mes, ...)

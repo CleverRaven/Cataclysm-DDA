@@ -574,12 +574,17 @@ public:
 
  /** Returns -1 if the weapon is in the let invlet, -2 if NULL, or just returns let */
  char lookup_item(char let);
+ /** used for drinking from hands, returns how many charges were consumed */
+ int drink_from_hands(item& water);
  /** Used for eating object at pos, returns true if object is successfully eaten */
  bool consume(int pos);
  /** Used for eating entered comestible, returns true if comestible is successfully eaten */
  bool eat(item *eat, it_comest *comest);
  /** Handles the effects of consuming an item */
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
+ /** Handles rooting effects */
+ void rooted_message() const;
+ void rooted();
  /** Wields an item, returns false on failed wield */
  virtual bool wield(item* it, bool autodrop = false);
  /** Creates the UI and handles player input for picking martial arts styles */
@@ -588,8 +593,9 @@ public:
  bool wear(int pos, bool interactive = true);
  /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
  bool wear_item(item *to_wear, bool interactive = true);
- /** Takes off an item, returning false on fail */
- bool takeoff(int pos, bool autodrop = false);
+ /** Takes off an item, returning false on fail, if an item vector
+  is given, stores the items in that vector and not in the inventory */
+ bool takeoff(int pos, bool autodrop = false, std::vector<item> *items = nullptr);
  /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
  void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
  /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
@@ -650,9 +656,9 @@ public:
  /** Returns overall env_resist on a body_part */
  int get_env_resist(body_part bp);
  /** Returns true if the player is wearing something on the entered body_part */
- bool wearing_something_on(body_part bp);
+ bool wearing_something_on(body_part bp) const;
  /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
- bool is_wearing_shoes();
+ bool is_wearing_shoes() const;
  /** Returns true if the player is wearing power armor */
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
@@ -875,6 +881,7 @@ public:
  void environmental_revert_effect();
 
  bool is_invisible() const;
+ bool is_deaf() const;
  int visibility( bool check_color = false, int stillness = 0 ) const; // just checks is_invisible for the moment
  // -2 position is 0 worn index, -3 position is 1 worn index, etc
  static int worn_position_to_index(int position) {
@@ -896,6 +903,9 @@ public:
     typedef std::map<tripoint, std::string> trap_map;
     bool knows_trap(int x, int y) const;
     void add_known_trap(int x, int y, const std::string &t);
+    /** Search surrounding squares for traps (and maybe other things in the future). */
+    void search_surroundings();
+    
 protected:
     std::unordered_set<std::string> my_traits;
     std::unordered_set<std::string> my_mutations;
@@ -909,7 +919,7 @@ protected:
     int sight_boost_cap;
 
     void setID (int i);
-
+    
 private:
     // Items the player has identified.
     std::unordered_set<std::string> items_identified;
@@ -923,9 +933,6 @@ private:
 
     bool can_study_recipe(it_book *book);
     bool try_study_recipe(it_book *book);
-
-    /** Search surroundings squares for traps while pausing a turn. */
-    void search_surroundings();
 
     std::vector<point> auto_move_route;
     // Used to make sure auto move is canceled if we stumble off course

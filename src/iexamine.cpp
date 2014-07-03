@@ -413,25 +413,12 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
             p->moves -= 100;
             drained = true;
         }
-        else if (query_yn(_("Drink from your hands?")))
+        else 
         {
-            // Create a dose of water no greater than the amount of water remaining.
-            item water_temp("water", 0);
-            water_temp.poison = water.poison;
-            water_temp.charges = std::min(water_temp.charges, water.charges);
-
-            p->inv.push_back(water_temp);
-            // If player is slaked water might not get consumed.
-            if (p->consume(p->inv.position_by_type(water_temp.typeId())))
-            {
-                p->moves -= 350;
-
-                water.charges -= water_temp.charges;
-                if (water.charges <= 0) {
-                    drained = true;
-                }
-            } else {
-                p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
+            int charges_consumed = p->drink_from_hands(water);
+            water.charges -= charges_consumed;
+            if (water.charges <= 0) {
+                drained = true;
             }
         }
 
@@ -557,34 +544,37 @@ void iexamine::rubble(player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::chainfence(player *p, map *m, int examx, int examy) {
- if (!query_yn(_("Climb %s?"),m->tername(examx, examy).c_str())) {
-  none(p, m, examx, examy);
-  return;
- }
- if ( (p->has_trait("ARACHNID_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
-    add_msg(_("Climbing the fence is trivial for one such as you."));
-    p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+void iexamine::chainfence( player *p, map *m, int examx, int examy )
+{
+    if( !query_yn( _( "Climb %s?" ), m->tername( examx, examy ).c_str() ) ) {
+        none( p, m, examx, examy );
+        return;
+    }
+    if( p->has_trait( "ARACHNID_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
+        add_msg( _( "Climbing the fence is trivial for one such as you." ) );
+        p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+    } else if( p->has_trait( "INSECT_ARMS_OK" ) && !p->wearing_something_on( bp_torso ) ) {
+        add_msg( _( "You quickly scale the fence." ) );
+        p->moves -= 90;
+    } else {
+        p->moves -= 400;
+        if( one_in( p->dex_cur ) ) {
+            add_msg( m_bad, _( "You slip whilst climbing and fall down again." ) );
+            return;
+        }
+        p->moves += p->dex_cur * 10;
+    }
+    if( p->in_vehicle ) {
+        m->unboard_vehicle( p->posx, p->posy );
+    }
+    if( examx < SEEX * int( MAPSIZE / 2 ) || examy < SEEY * int( MAPSIZE / 2 ) ||
+        examx >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) || examy >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
+        if( &g->u == p ) {
+            g->update_map( examx, examy );
+        }
+    }
     p->posx = examx;
     p->posy = examy;
-    return;
- }
- if ( (p->has_trait("INSECT_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
-    add_msg(_("You quickly scale the fence."));
-    p->moves -= 90;
-    p->posx = examx;
-    p->posy = examy;
-    return;
- }
-
- p->moves -= 400;
- if (one_in(p->dex_cur)) {
-  add_msg(m_bad, _("You slip whilst climbing and fall down again."));
- } else {
-  p->moves += p->dex_cur * 10;
-  p->posx = examx;
-  p->posy = examy;
- }
 }
 
 void iexamine::bars(player *p, map *m, int examx, int examy) {
@@ -1053,59 +1043,45 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "dahlia_bud");
 }
 
-void iexamine::egg_sackbw(player *p, map *m, int examx, int examy) {
-  if(!query_yn(_("Harvest the %s?"),m->furnname(examx, examy).c_str())) {
-    none(p, m, examx, examy);
-    return;
-  }
-  if (one_in(2)){
-    monster spider_widow_giant_s(GetMType("mon_spider_widow_giant_s"));
-    int f = 0;
-    for (int i = examx -1; i <= examx + 1; i++) {
-        for (int j = examy -1; j <= examy + 1; j++) {
-                if (!(g->u.posx == i && g->u.posy == j) && one_in(3)){
-                    spider_widow_giant_s.spawn(i, j);
-                    g->add_zombie(spider_widow_giant_s);
-                    f++;
-                }
+void iexamine::egg_sack_generic( player *p, map *m, int examx, int examy,
+                                const std::string &montype )
+{
+    const std::string old_furn_name = m->furnname( examx, examy );
+    if( !query_yn( _( "Harvest the %s?" ), old_furn_name.c_str() ) ) {
+        none( p, m, examx, examy );
+        return;
+    }
+    m->spawn_item( examx, examy, "spider_egg", rng( 1, 4 ) );
+    m->furn_set( examx, examy, f_egg_sacke );
+    if( one_in( 2 ) ) {
+        monster spiderling( GetMType( montype ) );
+        int monster_count = 0;
+        const std::vector<point> points = closest_points_first( 1, point( examx, examy ) );
+        for( auto it = points.begin(); it != points.end(); ++it ) {
+            if( g->is_empty( it->x, it->y ) && one_in( 3 ) ) {
+                spiderling.spawn( it->x, it->y );
+                g->add_zombie( spiderling );
+                monster_count++;
+            }
+        }
+        if( monster_count == 1 ) {
+            add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name.c_str() );
+        } else if( monster_count >= 1 ) {
+            add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name.c_str() );
         }
     }
-    if (f == 1){
-        add_msg(m_warning, _("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
-    } else if (f >= 1) {
-        add_msg(m_warning, _("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
-    }
-  }
-  m->spawn_item(examx, examy, "spider_egg", rng(1,4));
-  m->furn_set(examx, examy, f_egg_sacke);
 }
 
-void iexamine::egg_sackws(player *p, map *m, int examx, int examy) {
-  if(!query_yn(_("Harvest the %s?"),m->furnname(examx, examy).c_str())) {
-    none(p, m, examx, examy);
-    return;
-  }
-  if (one_in(2)){
-    monster mon_spider_web_s(GetMType("mon_spider_web_s"));
-    int f = 0;
-    for (int i = examx -1; i <= examx + 1; i++) {
-        for (int j = examy -1; j <= examy + 1; j++) {
-                if (!(g->u.posx == i && g->u.posy == j) && one_in(3)){
-                    mon_spider_web_s.spawn(i, j);
-                    g->add_zombie(mon_spider_web_s);
-                    f++;
-                }
-        }
-    }
-    if (f == 1){
-        add_msg(m_warning, _("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
-    } else if (f >= 1) {
-        add_msg(m_warning, _("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
-    }
-  }
-  m->spawn_item(examx, examy, "spider_egg", rng(1,4));
-  m->furn_set(examx, examy, f_egg_sacke);
+void iexamine::egg_sackbw( player *p, map *m, int examx, int examy )
+{
+    egg_sack_generic( p, m, examx, examy, "mon_spider_widow_giant_s" );
 }
+
+void iexamine::egg_sackws( player *p, map *m, int examx, int examy )
+{
+    egg_sack_generic( p, m, examx, examy, "mon_spider_web_s" );
+}
+
 void iexamine::fungus(player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
@@ -1807,7 +1783,12 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
         return;
     }
-    if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    // Some traps are not actual traps. Those should get a different query.
+    if (t.can_see(*p, examx, examy) && possible == 0 && t.get_avoidance() == 0) { // Separated so saying no doesn't trigger the other query.
+        if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
+            m->disarm_trap(examx, examy);
+        }
+    } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
 }
@@ -1821,11 +1802,9 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
     {
         p->moves -= 100;
     }
-    else if (query_yn(_("Drink from your hands?")))
+    else 
     {
-        p->inv.push_back(water);
-        p->consume(p->inv.position_by_type(water.typeId()));
-        p->moves -= 350;
+        p->drink_from_hands(water);
     }
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
@@ -1837,11 +1816,9 @@ void iexamine::swater_source(player *p, map *m, const int examx, const int examy
     {
         p->moves -= 100;
     }
-    else if (query_yn(_("Drink from your hands?")))
+    else
     {
-        p->inv.push_back(swater);
-        p->consume(p->inv.position_by_type(swater.typeId()));
-        p->moves -= 350;
+        p->drink_from_hands(swater);
     }
 }
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)

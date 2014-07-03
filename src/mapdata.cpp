@@ -429,7 +429,7 @@ ter_id t_null,
      t_pedestal_temple,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air,
     num_terrain_types;
 
 void set_ter_ids() {
@@ -652,6 +652,7 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_open_air=terfind("t_open_air");
     num_terrain_types = terlist.size();
 };
 
@@ -828,4 +829,29 @@ void check_furniture_and_terrain()
         check_bash_items(t.bash, t.id, true);
         check_decon_items(t.deconstruct, t.id, true);
     }
+}
+
+submap::submap() : ter(), frn(), trp(), rad(),
+    active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            ter[x][y] = t_null;
+            set_furn(x, y, f_null);
+            set_trap(x, y, tr_null);
+            set_radiation(x, y, 0);
+        }
+    }
+}
+
+submap::~submap()
+{
+    delete_vehicles();
+}
+
+void submap::delete_vehicles()
+{
+    for(vehicle *veh : vehicles) {
+        delete veh;
+    }
+    vehicles.clear();
 }

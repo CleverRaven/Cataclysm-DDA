@@ -200,8 +200,10 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
   anger = copy.anger;
   owed = copy.owed;
   favors.clear();
-  for (size_t i = 0; i < copy.favors.size(); i++)
-   favors.push_back( copy.favors[i] );
+  for (std::vector<npc_favor>::const_iterator it = copy.favors.begin();
+       it != copy.favors.end(); ++it) {
+      favors.push_back(*it);
+  }
  };
 
  npc_opinion& operator+= (npc_opinion &rhs)

@@ -21,8 +21,9 @@ void player::sort_armor()
 
     int req_right_h = 3 + 1 + 2 + 8 + 1;
     for (int cover = 0; cover < num_bp; cover++) {
-        for (size_t i = 0; i < worn.size(); ++i) {
-            each_armor = dynamic_cast<it_armor *>(worn[i].type);
+        for (std::vector<item>::iterator it = worn.begin();
+             it != worn.end(); ++it) {
+            each_armor = dynamic_cast<it_armor *>(it->type);
             if (each_armor->covers & mfb(cover)) {
                 req_right_h++;
             }
@@ -117,14 +118,16 @@ void player::sort_armor()
         // Create ptr list of items to display
         tmp_worn.clear();
         if (tabindex == 8) { // All
-            for (size_t i = 0; i < worn.size(); ++i) {
-                tmp_worn.push_back(&worn[i]);
+            for (std::vector<item>::iterator it = worn.begin();
+                 it != worn.end(); ++it) {
+                tmp_worn.push_back(&*it);
             }
         } else { // bp_*
-            for (size_t i = 0; i < worn.size(); ++i) {
-                each_armor = dynamic_cast<it_armor *>(worn[i].type);
+            for (std::vector<item>::iterator it = worn.begin();
+                 it != worn.end(); ++it) {
+                each_armor = dynamic_cast<it_armor *>(it->type);
                 if (each_armor->covers & mfb(tabindex)) {
-                    tmp_worn.push_back(&worn[i]);
+                    tmp_worn.push_back(&*it);
                 }
             }
         }
@@ -208,14 +211,15 @@ void player::sort_armor()
                 pos++;
             }
             rightListSize++;
-            for (size_t i = 0; i < worn.size(); ++i) {
-                each_armor = dynamic_cast<it_armor *>(worn[i].type);
+            for (std::vector<item>::iterator it = worn.begin();
+                 it != worn.end(); ++it) {
+                each_armor = dynamic_cast<it_armor *>(it->type);
                 if (each_armor->covers & mfb(cover)) {
                     if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
-                        mvwprintz(w_sort_right, pos, 2, dam_color[int(worn[i].damage + 1)],
+                        mvwprintz(w_sort_right, pos, 2, dam_color[int(it->damage + 1)],
                                   each_armor->nname(1).c_str());
                         mvwprintz(w_sort_right, pos, right_w - 2, c_ltgray, "%d",
-                                  (worn[i].has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1)
+                                  (it->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1)
                                   : int(each_armor->encumber));
                         pos++;
                     }
@@ -252,15 +256,19 @@ void player::sort_armor()
             // move selected item
             if (selected >= 0) {
                 tmp_item = *tmp_worn[leftListIndex];
-                for (size_t i = 0; i < worn.size(); ++i)
-                    if (&worn[i] == tmp_worn[leftListIndex]) {
-                        worn[i] = *tmp_worn[selected];
+                for (std::vector<item>::iterator it = worn.begin();
+                     it != worn.end(); ++it) {
+                    if (&*it == tmp_worn[leftListIndex]) {
+                        *it = *tmp_worn[selected];
                     }
+                }
 
-                for (size_t i = 0; i < worn.size(); ++i)
-                    if (&worn[i] == tmp_worn[selected]) {
-                        worn[i] = tmp_item;
+                for (std::vector<item>::iterator it = worn.begin();
+                     it != worn.end(); ++it) {
+                    if (&*it == tmp_worn[selected]) {
+                        *it = tmp_item;
                     }
+                }
 
                 selected = leftListIndex;
             }
@@ -276,15 +284,19 @@ void player::sort_armor()
             // move selected item
             if (selected >= 0) {
                 tmp_item = *tmp_worn[leftListIndex];
-                for (size_t i = 0; i < worn.size(); ++i)
-                    if (&worn[i] == tmp_worn[leftListIndex]) {
-                        worn[i] = *tmp_worn[selected];
+                for (std::vector<item>::iterator it = worn.begin();
+                     it != worn.end(); ++it) {
+                    if (&*it == tmp_worn[leftListIndex]) {
+                        *it = *tmp_worn[selected];
                     }
+                }
 
-                for (size_t i = 0; i < worn.size(); ++i)
-                    if (&worn[i] == tmp_worn[selected]) {
-                        worn[i] = tmp_item;
+                for (std::vector<item>::iterator it = worn.begin();
+                     it != worn.end(); ++it) {
+                    if (&*it == tmp_worn[selected]) {
+                        *it = tmp_item;
                     }
+                }
 
                 selected = leftListIndex;
             }
