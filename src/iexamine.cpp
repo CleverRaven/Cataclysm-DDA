@@ -2113,6 +2113,57 @@ void iexamine::secret_examine(player *p, map *m, int examx, int examy)
 
 }
 
+void iexamine::pay_gas(player *p, map *m, int examx, int examy) {
+
+	int choice = -1;
+	const int buy_gas = 1;
+	const int choose_pump = 2;
+	const int cancel = 4;
+	long amount = 0;
+	long max = 0;
+	std::string popupmsg;
+	int pos;
+	int pos2;
+	item *dep;
+	item *with;
+
+	uimenu amenu;
+	amenu.selected = 0;
+	amenu.text = _("Welcome to automated gas station console!");
+	amenu.addentry(0, false, -1, _("What would you like to do?"));
+
+	amenu.addentry(buy_gas, true, 'b', _("Buy gas."));
+
+	std::string gaspumpselected = _("Current gas pump: ") + std::to_string(uistate.ags_pay_gas_selected_pump + 1);
+	amenu.addentry(0, false, -1, gaspumpselected);
+	amenu.addentry(choose_pump, true, 'p', _("Choose a pump."));
+
+	amenu.addentry(0, false, -1, _("Your discount:"));
+	amenu.addentry(0, false, -1, _("Your unit price of gasoline:"));
+
+	amenu.addentry(cancel, true, 'q', _("Cancel"));
+	amenu.query();
+	choice = amenu.ret;
+	//todo: запомнить выбор помпы если было
+
+	if (buy_gas == choice){
+		//выбрать карточку
+
+		//проверить, есть ли на ней деньги
+
+		//выбрать количество бенза
+
+		//найти бочку
+		//посмотреть, есть ли в бочке бенз
+
+		//найти колонку
+
+		//перелить в выбранную колонку бензин
+
+	}
+
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
