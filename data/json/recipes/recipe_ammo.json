@@ -2552,6 +2552,9 @@
       ["press", -1]
      ],
      [
+        [ "matches", 10 ]
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
      ]
     ],
@@ -2560,8 +2563,7 @@
         [ "scrap", 4 ]
       ],
       [
-        [ "oxy_powder", 100 ],
-        [ "matches", 10 ]
+        [ "oxy_powder", 100 ]
       ]
     ]
   },
@@ -2593,6 +2595,9 @@
       ["press", -1]
      ],
      [
+        [ "matches", 10 ]
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
      ]
     ],
@@ -2601,8 +2606,7 @@
         [ "scrap", 4 ]
       ],
       [
-        [ "oxy_powder", 100 ],
-        [ "matches", 10 ]
+        [ "oxy_powder", 100 ]
       ]
     ]
   },
@@ -2634,6 +2638,9 @@
       ["press", -1]
      ],
      [
+        [ "matches", 10 ]
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
      ]
     ],
@@ -2642,8 +2649,7 @@
         [ "scrap", 4 ]
       ],
       [
-        [ "oxy_powder", 100 ],
-        [ "matches", 10 ]
+        [ "oxy_powder", 100 ]
       ]
     ]
   },
@@ -2675,6 +2681,9 @@
       ["press", -1]
      ],
      [
+        [ "matches", 10 ]
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
      ]
     ],
@@ -2683,8 +2692,7 @@
         [ "scrap", 4 ]
       ],
       [
-        [ "oxy_powder", 100 ],
-        [ "matches", 10 ]
+        [ "oxy_powder", 100 ]
       ]
     ]
   },
@@ -2716,6 +2724,9 @@
       ["press", -1]
      ],
      [
+        [ "matches", 10 ]
+     ],
+     [
       ["forge", 50], ["char_forge", 10]
      ]
     ],
@@ -2724,8 +2735,7 @@
         [ "scrap", 4 ]
       ],
       [
-        [ "oxy_powder", 100 ],
-        [ "matches", 10 ]
+        [ "oxy_powder", 100 ]
       ]
     ]
   },
