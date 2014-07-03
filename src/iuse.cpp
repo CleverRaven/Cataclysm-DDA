@@ -5472,10 +5472,13 @@ int iuse::pheromone(player *p, item *it, bool)
     for (int x = pos.x - 4; x <= pos.x + 4; x++) {
         for (int y = pos.y - 4; y <= pos.y + 4; y++) {
             int mondex = g->mon_at(x, y);
-            if (mondex != -1 && g->zombie(mondex).symbol() == "Z" &&
-                g->zombie(mondex).friendly == 0 && rng(0, 500) > g->zombie(mondex).hp) {
+            if( mondex == -1 ) {
+                continue;
+            }
+            monster &critter = g->zombie( mondex );
+            if( critter.type->in_species( "ZOMBIE" ) && critter.friendly == 0 && rng( 0, 500 ) > critter.hp ) {
                 converts++;
-                g->zombie(mondex).make_friendly();
+                critter.make_friendly();
             }
         }
     }
