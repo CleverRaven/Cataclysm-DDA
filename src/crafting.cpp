@@ -1413,6 +1413,11 @@ item recipe::create_result() const
 void game::complete_craft()
 {
     recipe *making = recipe_by_index(u.activity.index); // Which recipe is it?
+    if( making == nullptr ) {
+        debugmsg( "no recipe with id %d found", u.activity.index );
+        u.activity.type = ACT_NULL;
+        return;
+    }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice = u.skillLevel(making->skill_used) * 4;
@@ -1474,7 +1479,7 @@ void game::complete_craft()
         for (std::vector<std::vector<component> >::iterator it =
                  making->tools.begin();
              it != making->tools.end(); ++it) {
-            consume_tools(&u, *it, false);
+            consume_tools(&u, *it);
         }
         u.activity.type = ACT_NULL;
         return;
@@ -1500,7 +1505,7 @@ void game::complete_craft()
     for (std::vector<std::vector<component> >::iterator it =
              making->tools.begin();
          it != making->tools.end(); ++it) {
-        consume_tools(&u, *it, false);
+        consume_tools(&u, *it);
     }
 
     // Set up the new item, and assign an inventory letter if available
@@ -1607,10 +1612,6 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         itype_id type = it->type;
         int count = abs(it->count);
         bool pl = false, mp = false;
-
-        if (it->available != 1) {
-            continue;
-        }
 
         if (item_controller->find_template(type)->count_by_charges() && count > 0) {
             if (p->has_charges(type, count)) {
@@ -1736,7 +1737,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     return ret;
 }
 
-void game::consume_tools(player *p, std::vector<component> tools, bool force_available)
+void game::consume_tools(player *p, std::vector<component> tools)
 {
     bool found_nocharge = false;
     inventory map_inv;
@@ -1746,9 +1747,6 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
     // Use charges of any tools that require charges used
     for (std::vector<component>::iterator it = tools.begin();
          it != tools.end() && !found_nocharge; ++it) {
-        if (!force_available && it->available != 1) {
-            continue;
-        }
         itype_id type = it->type;
         if (it->count > 0) {
             long count = it->count;
@@ -1947,6 +1945,11 @@ void game::complete_disassemble()
     const int item_pos = u.activity.values[0];
     const bool from_ground = u.activity.values.size() > 1 && u.activity.values[1] == 1;
     recipe *dis = recipe_by_index(u.activity.index); // Which recipe is it?
+    if( dis == nullptr ) {
+        debugmsg( "no recipe with id %d found", u.activity.index );
+        u.activity.type = ACT_NULL;
+        return;
+    }
     item *org_item;
     std::vector<item> &items_on_ground = m.i_at(u.posx, u.posy);
     if (from_ground) {
@@ -1994,7 +1997,7 @@ void game::complete_disassemble()
     // consume tool charges
     for (std::vector<std::vector<component> >::iterator it = dis->tools.begin();
          it != dis->tools.end(); ++it) {
-        consume_tools(&u, *it, false);
+        consume_tools(&u, *it);
     }
 
     // add the components to the map
