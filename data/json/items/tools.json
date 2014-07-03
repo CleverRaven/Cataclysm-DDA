@@ -6681,7 +6681,7 @@
     "symbol": "*",
     "color": "light_red",
     "name": "match head bomb",
-    "description": "This is a bottle filled with match heads and equipped with a fuse. Use this item to light the fuse; you will, of course, need a lighter in your inventory to do this. After lighting it, throw it to cause fires.",
+    "description": "This is a homemade bomb consisting of a bottle filled with match heads and equipped with a fuse. Use this item to light the fuse; you will, of course, need a lighter in your inventory to do this.",
     "price": 20000,
     "material": ["glass", "cotton"],
     "weight": 412,
