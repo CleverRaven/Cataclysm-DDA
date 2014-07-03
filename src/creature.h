@@ -327,7 +327,7 @@ class Creature
 
         virtual nc_color symbol_color();
         virtual nc_color basic_symbol_color();
-        virtual char symbol();
+        virtual const std::string &symbol() const;
         virtual bool is_symbol_highlighted();
 
 

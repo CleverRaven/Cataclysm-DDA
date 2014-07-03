@@ -87,13 +87,19 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption = "
 std::string name_and_value(std::string name, int value, int field_width);
 std::string name_and_value(std::string name, std::string value, int field_width);
 
-void mvputch(int y, int x, nc_color FG, long ch);
+void mvputch(int y, int x, nc_color FG, const std::string &ch);
 void wputch(WINDOW *w, nc_color FG, long ch);
+// Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch(WINDOW *w, int y, int x, nc_color FG, long ch);
-void mvputch_inv(int y, int x, nc_color FG, long ch);
+void mvwputch(WINDOW *w, int y, int x, nc_color FG, const std::string &ch);
+void mvputch_inv(int y, int x, nc_color FG, const std::string &ch);
+// Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, long ch);
-void mvputch_hi(int y, int x, nc_color FG, long ch);
+void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, const std::string &ch);
+void mvputch_hi(int y, int x, nc_color FG, const std::string &ch);
+// Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, long ch);
+void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, const std::string &ch);
 void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
@@ -169,7 +175,8 @@ size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, 
 size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
-void hit_animation(int iX, int iY, nc_color cColor, char cTile);
+// cTile is a UTF-8 strings, and must be a single cell wide!
+void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
 void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
                 std::string &health_bar, const bool bMonster = false);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
