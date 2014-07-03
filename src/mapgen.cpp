@@ -11345,22 +11345,25 @@ void map::rotate(int turns)
     }
 
     real_coords rc;
-    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);    
-    if (g->active_npc.size() >= 1){
-        for (int i = 0; i < g->active_npc.size(); i++){
-            npc *act_npc = g->active_npc[i];
-            if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
-                act_npc->global_omt_location().y*2 == get_abs_sub().y ){
-                    rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
-                    int old_x = rc.sub_pos.x;
-                    int old_y = rc.sub_pos.y;
-                    if ( rc.om_sub.x % 2 != 0 )
-                        old_x += SEEX;
-                    if ( rc.om_sub.y % 2 != 0 )
-                        old_y += SEEY;
-                    int new_x = old_x;
-                    int new_y = old_y;
-                    switch(turns) {
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+
+    const int radius = int(MAPSIZE / 2) + 3;
+    // uses submap coordinates
+    std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
+    for (int i = 0; i < npcs.size(); i++) {
+        npc *act_npc = npcs[i];
+        if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
+            act_npc->global_omt_location().y*2 == get_abs_sub().y ){
+                rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
+                int old_x = rc.sub_pos.x;
+                int old_y = rc.sub_pos.y;
+                if ( rc.om_sub.x % 2 != 0 )
+                    old_x += SEEX;
+                if ( rc.om_sub.y % 2 != 0 )
+                    old_y += SEEY;
+                int new_x = old_x;
+                int new_y = old_y;
+                switch(turns) {
                     case 3:
                         new_x = old_y;
                         new_y = SEEX * 2 - 1 - old_x;
@@ -11374,12 +11377,10 @@ void map::rotate(int turns)
                         new_y = old_x;
                         break;
                     }
-                g->active_npc[i]->posx += (new_x-old_x);
-                g->active_npc[i]->posy += (new_y-old_y);
+                npcs[i]->posx += (new_x-old_x);
+                npcs[i]->posy += (new_y-old_y);
             }
-        }
     }
-    
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
