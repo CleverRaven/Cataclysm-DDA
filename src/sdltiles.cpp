@@ -325,12 +325,13 @@ void WinDestroy()
     if(format)
         SDL_FreeFormat(format);
     format = NULL;
-    if(renderer)
-        SDL_DestroyRenderer(renderer);
-    renderer = NULL;
     if (display_buffer != NULL) {
         SDL_DestroyTexture(display_buffer);
         display_buffer = NULL;
+    }
+    if( renderer != NULL ) {
+        SDL_DestroyRenderer( renderer );
+        renderer = NULL;
     }
     if(window)
         SDL_DestroyWindow(window);
