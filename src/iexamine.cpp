@@ -2278,6 +2278,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   if ("secret_examine" == function_name) {
 	  return &iexamine::secret_examine;
   }
+  if ("pay_gas" == function_name) {
+      return &iexamine::pay_gas;
+  }
   //No match found
   debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
   return &iexamine::none;

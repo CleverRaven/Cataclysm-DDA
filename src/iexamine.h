@@ -77,6 +77,7 @@ public:
  void curtains (player *p, map *m, const int examx, const int examy);
  void sign (player *p, map *m, const int examx, const int examy);
  void secret_examine(player *p, map *m, const int examx, const int examy);
+ void pay_gas(player *p, map *m, const int examx, const int examy);
  
 };
 

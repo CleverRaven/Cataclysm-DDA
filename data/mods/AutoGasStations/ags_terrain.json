@@ -1,0 +1,13 @@
+[
+
+{
+        "type" : "terrain",
+        "id" : "t_gas_tank",
+        "name": "tank with gasoline",
+        "symbol": "Q",
+        "color": "brown_red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "REDUCE_SCENT"]
+}
+
+]
