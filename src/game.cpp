@@ -10961,7 +10961,20 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
         if (id >= 0) {
             last_target = id;
             last_target_was_npc = true;
-            // TODO: effect for npc, too?
+            if(!active_npc[id]->is_enemy()){
+                if (!query_yn(_("Really attack %s?"), active_npc[id]->name.c_str())) {
+                    std::vector <point> trajectory_blank;
+                    return trajectory_blank; // Cancel the attack
+                } else {
+                    //The NPC knows we started the fight, used for morale penalty.
+                    active_npc[id]->hit_by_player = true;
+                }
+            }
+            active_npc[id]->make_angry();
+            if (active_npc[id]->my_fac != NULL){
+                active_npc[id]->my_fac->likes_u -= 50;
+                active_npc[id]->my_fac->respects_u -= 50;
+            }
         } else {
             id = mon_at(x, y);
             if (id >= 0) {
@@ -11193,21 +11206,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     if (u.weapon.mode == "MODE_BURST") {
         burst = true;
     }
-
-    int npcdex = npc_at(x, y);
-    if (npcdex != -1) {
-     if(!active_npc[npcdex]->is_enemy()){
-         if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
-             return; // Cancel the attack
-         } else {
-             //The NPC knows we started the fight, used for morale penalty.
-             active_npc[npcdex]->hit_by_player = true;
-         }
-     }
-     active_npc[npcdex]->make_angry();
-     active_npc[npcdex]->my_fac->likes_u -= 50;
-     active_npc[npcdex]->my_fac->respects_u -= 50;
- }
 
     u.fire_gun(x, y, burst);
     reenter_fullscreen();
