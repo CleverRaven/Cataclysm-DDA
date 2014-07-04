@@ -1584,22 +1584,17 @@ int item::has_gunmod(itype_id mod_type)
     return -1;
 }
 
-bool item::rotten(const point &location)
+bool item::rotten()
 {
-    if (!is_food() || g == NULL)
-        return false;
-    it_comest* food = dynamic_cast<it_comest*>(type);
-    if (food->spoils != 0) {
-      calc_rot(location);
-
-      return (rot > (signed int)food->spoils * 600);
-    } else {
-      return false;
-    }
+    return is_rotten;
 }
 
 void item::calc_rot(const point &location)
 {
+    if (!is_food() || g == NULL){
+        is_rotten = false;
+        return;
+    }
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
         const int since = ( last_rot_check == 0 ? bday : last_rot_check );
@@ -1619,6 +1614,14 @@ void item::calc_rot(const point &location)
             rot += (now - fridge) * 0.2;
             fridge = 0;
         }
+    }
+    it_comest* food = dynamic_cast<it_comest*>(type);
+    if (food->spoils != 0) {
+      calc_rot(location);
+
+      is_rotten = (rot > (signed int)food->spoils * 600);
+    } else {
+      is_rotten = false;
     }
 }
 

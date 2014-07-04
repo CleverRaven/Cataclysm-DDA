@@ -212,7 +212,8 @@ public:
  long max_charges() const;
  bool craft_has_charges();
  long num_charges();
- bool rotten(const point &);
+ bool rotten();
+ bool is_rotten;
  void calc_rot(const point &);
  int brewing_time();
  bool ready_to_revive(); // used for corpses
