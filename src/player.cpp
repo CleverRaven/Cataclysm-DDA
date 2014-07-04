@@ -9737,7 +9737,20 @@ void player::wake_up(const char * message)
 
 std::string player::is_snuggling()
 {
-    std::vector<item>& floor_item = g->m.i_at(posx, posy);
+    std::vector<item> *items_to_snuggle = &g->m.i_at( posx, posy );
+    if( in_vehicle ) {
+        int vpart;
+        vehicle *veh = g->m.veh_at( posx, posy, vpart );
+        if( veh != nullptr ) {
+            int cargo = veh->part_with_feature( vpart, VPFLAG_CARGO, false );
+            if( cargo >= 0 ) {
+                if( !veh->parts[cargo].items.empty() ) {
+                    items_to_snuggle = &veh->parts[cargo].items;
+                }
+            }
+        }
+    }
+    std::vector<item>& floor_item = *items_to_snuggle;
     it_armor* floor_armor = NULL;
     int ticker = 0;
 
