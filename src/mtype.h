@@ -97,7 +97,9 @@ enum mon_id {
     mon_dog_skeleton, mon_dog_zombie_cop, mon_dog_zombie_rot,
     // 0.A -> 0.B
     mon_broken_cyborg, mon_zoose, mon_zolf, mon_zougar,
-    mon_zombie_bio_op, mon_zombie_gasbag,
+    mon_zombie_bio_op, mon_zombie_gasbag, mon_turret_rifle,
+    mon_irradiated_wanderer_1, mon_irradiated_wanderer_2, mon_irradiated_wanderer_3, mon_irradiated_wanderer_4,
+    mon_charred_nightmare,
     num_monsters
 };
 
@@ -207,7 +209,13 @@ enum m_flag {
 };
 
 struct mtype {
-    std::string id, name, name_plural, description;
+private:
+    friend class MonsterGenerator;
+    std::string name;
+    std::string name_plural;
+public:
+    std::string id;
+    std::string description;
     std::set<std::string> species, categories;
     long sym;
     nc_color color;

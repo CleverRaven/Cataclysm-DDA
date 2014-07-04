@@ -5,7 +5,6 @@
 #include "file_wrapper.h"
 #include "path_info.h"
 #include "debug.h"
-#include "platform.h"
 #include "mapsharing.h"
 
 #include "name.h"
@@ -53,7 +52,7 @@ WORLD::WORLD()
     path << FILENAMES["savedir"] << world_name;
     world_path = path.str();
     world_options.clear();
-    for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+    for (auto it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
         if (it->second.getPage() == "world_default") {
             world_options[it->first] = it->second;
         }
@@ -274,7 +273,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         }
         fout << world_options_header() << std::endl;
 
-        for (std::map<std::string, cOpt>::iterator it = world->world_options.begin();
+        for (auto it = world->world_options.begin();
              it != world->world_options.end(); ++it) {
             fout << "#" << it->second.getTooltip() << std::endl;
             fout << "#Default: " << it->second.getDefaultText() << std::endl;
@@ -348,7 +347,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
 
             // load options into the world
             if ( no_options ) {
-                for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+                for (auto it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
                     if (it->second.getPage() == "world_default") {
                         retworlds[worldname]->world_options[it->first] = it->second;
                     }
@@ -608,7 +607,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     mapLines[60] = true;
     // only populate once
     if (world->world_options.empty()) {
-        for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+        for (auto it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
             if (it->second.getPage() == "world_default") {
                 world->world_options[it->first] = it->second;
             }
@@ -616,7 +615,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     }
 
     std::vector<std::string> keys;
-    for (std::map<std::string, cOpt>::iterator it = world->world_options.begin();
+    for (auto it = world->world_options.begin();
          it != world->world_options.end(); ++it) {
         keys.push_back(it->first);
     }
@@ -649,7 +648,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
             }
         }
         curoption = 0;
-        for (std::map<std::string, cOpt>::iterator it = world->world_options.begin();
+        for (auto it = world->world_options.begin();
              it != world->world_options.end(); ++it) {
             nc_color cLineColor = c_ltgreen;
 
@@ -829,8 +828,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             } else {
                 std::stringstream list_output;
 
-                for (size_t i = startsel[0], c = 0; i < useable_mod_count && c < getmaxy(w_list); ++i, ++c) {
-                    if ((ssize_t)i != cursel[0]) {
+                for( size_t i = startsel[0], c = 0;
+                     i < useable_mod_count && c < getmaxy(w_list); ++i, ++c ) {
+                    if ((int)i != cursel[0]) {
                         list_output << std::string(3, ' ');
                     } else {
                         if (active_header == 0) {
@@ -972,7 +972,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 tab_output = -999;
         }
         // RESOLVE INPUTS
-        if (last_active_header != (ssize_t)active_header) {
+        if (last_active_header != (int)active_header) {
             redraw_headers = true;
             redraw_shift = true;
             redraw_description = true;
@@ -999,7 +999,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             } else {
                 if (cursel[1] < 0) {
                     cursel[1] = 0;
-                } else if (cursel[1] >= (ssize_t)active_mod_order.size()) {
+                } else if (cursel[1] >= (int)active_mod_order.size()) {
                     cursel[1] = active_mod_order.size() - 1;
                 }
             }
@@ -1246,10 +1246,10 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     return false;
 }
 
-std::map<std::string, cOpt> worldfactory::get_default_world_options()
+std::unordered_map<std::string, cOpt> worldfactory::get_default_world_options()
 {
-    std::map<std::string, cOpt> retoptions;
-    for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+    std::unordered_map<std::string, cOpt> retoptions;
+    for( auto it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
         if (it->second.getPage() == "world_default") {
             retoptions[it->first] = it->second;
         }
@@ -1257,9 +1257,9 @@ std::map<std::string, cOpt> worldfactory::get_default_world_options()
     return retoptions;
 }
 
-std::map<std::string, cOpt> worldfactory::get_world_options(std::string path)
+std::unordered_map<std::string, cOpt> worldfactory::get_world_options(std::string path)
 {
-    std::map<std::string, cOpt> retoptions = get_default_world_options();
+    auto retoptions = get_default_world_options();
     std::ifstream fin;
 
     fin.open(path.c_str());

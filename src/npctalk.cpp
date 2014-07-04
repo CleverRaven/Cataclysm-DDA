@@ -440,7 +440,7 @@ void npc::talk_to_u()
 
  moves -= 100;
 
- if(g->u.has_disease("deaf")) {
+ if(g->u.is_deaf()) {
   add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
   if(d.topic_stack.back() == TALK_MUG) {
    add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
@@ -1586,7 +1586,7 @@ int trial_chance(talk_response response, player *u, npc *p)
    if (u->has_trait("ELFAEYES")) {
       chance += 10;
    }
-   if (u->has_trait("WINGS_BUTTERFLY")) {
+   if ((u->has_trait("WINGS_BUTTERFLY")) || (u->has_trait("FLOWERS"))) {
       chance += 10;
    }
    if (u->has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
@@ -2207,7 +2207,7 @@ talk_topic dialogue::opt(talk_topic topic)
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
   if (chosen.trial != TALK_TRIAL_NONE)
-    alpha->practice(calendar::turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 10);
+    alpha->practice( "speech", (100 - trial_chance(chosen, alpha, beta)) / 10 );
   (effect.*chosen.effect_success)(beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -2216,7 +2216,7 @@ talk_topic dialogue::opt(talk_topic topic)
   }
   return chosen.success;
  } else {
-   alpha->practice(calendar::turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 7);
+   alpha->practice( "speech", (100 - trial_chance(chosen, alpha, beta)) / 7 );
   (effect.*chosen.effect_failure)(beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {
@@ -2476,7 +2476,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    } else
     newinv.push_back(tmp);
   }
-  g->u.practice(calendar::turn, "barter", practice / 2);
+  g->u.practice( "barter", practice / 2 );
   p->inv = newinv;
   if(ch == 'T' && cash > 0) { //Trade was forced, give the NPC's cash to the player.
     p->op_of_u.owed += (cash - p->cash);

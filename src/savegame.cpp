@@ -14,6 +14,7 @@
 #include "faction.h"
 #include "overmapbuffer.h"
 #include "trap.h"
+#include "messages.h"
 #include "mapdata.h"
 #include "translations.h"
 #include <map>
@@ -128,6 +129,7 @@ void game::serialize(std::ofstream & fout) {
         json.end_object();
 
         json.member( "player", u );
+        Messages::serialize( json );
 
         json.end_object();
 }
@@ -268,6 +270,7 @@ void game::unserialize(std::ifstream & fin)
         }
 
         data.read("player", u);
+        Messages::deserialize( data );
 
     } catch (std::string jsonerr) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );

@@ -1126,6 +1126,7 @@
     { "type":"keybinding", "name": "Look Around", "category":"DEFAULTMODE", "id":"look", "bindings":[ { "input_method":"keyboard", "key":";" }, { "input_method":"keyboard", "key":"x" } ] },
     { "type":"keybinding", "name": "Peek Around Corners", "category":"DEFAULTMODE", "id":"peek", "bindings":[ { "input_method":"keyboard", "key":"X" } ] },
     { "type":"keybinding", "name": "List all items around the player", "category":"DEFAULTMODE", "id":"listitems", "bindings":[ { "input_method":"keyboard", "key":"V" } ] },
+    { "type":"keybinding", "name": "Manage zones", "category":"DEFAULTMODE", "id":"zones", "bindings":[ { "input_method":"keyboard", "key":"Y" } ] },
     { "type":"keybinding", "name": "Open Inventory", "category":"DEFAULTMODE", "id":"inventory", "bindings":[ { "input_method":"keyboard", "key":"i" } ] },
     { "type":"keybinding", "name": "Compare two Items", "category":"DEFAULTMODE", "id":"compare", "bindings":[ { "input_method":"keyboard", "key":"I" } ] },
     { "type":"keybinding", "name": "Swap Inventory Letters", "category":"DEFAULTMODE", "id":"organize", "bindings":[ { "input_method":"keyboard", "key":"=" } ] },
@@ -1338,6 +1339,90 @@
             {
                 "input_method":"keyboard",
                 "key":"="
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ADD_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Add zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Remove zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ZONE_UP",
+        "category": "ZONES_MANAGER",
+        "name": "Move zone up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ZONE_DOWN",
+        "category": "ZONES_MANAGER",
+        "name": "Move zone down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SHOW_ZONE_ON_MAP",
+        "category": "ZONES_MANAGER",
+        "name": "Show zone on map",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ENABLE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Enable zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DISABLE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Disable zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
             }
         ]
     }

@@ -189,6 +189,7 @@ void MonsterGenerator::init_attack()
     attack_map["TAZER"] = &mattack::tazer;
     attack_map["SMG"] = &mattack::smg;
     attack_map["LASER"] = &mattack::laser;
+    attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
     attack_map["MULTI_ROBOT"] = &mattack::multi_robot;
@@ -199,6 +200,8 @@ void MonsterGenerator::init_attack()
     attack_map["BITE"] = &mattack::bite;
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
+    attack_map["LUNGE"] = &mattack::lunge;
+    attack_map["LONGSWIPE"] = &mattack::longswipe;
     attack_map["PARROT"] = &mattack::parrot;
     attack_map["DARKMAN"] = &mattack::darkman;
     attack_map["SLIMESPRING"] = &mattack::slimespring;
@@ -316,12 +319,12 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         mtype *newmon = new mtype;
 
         newmon->id = mid;
-        newmon->name = jo.get_string("name","").c_str();
+        newmon->name = jo.get_string("name").c_str();
         if(jo.has_member("name_plural")) {
             newmon->name_plural = jo.get_string("name_plural");
         } else {
             // default behaviour: Assume the regular plural form (appending an “s”)
-            newmon->name_plural = jo.get_string("name") + "s";
+            newmon->name_plural = newmon->name + "s";
         }
         newmon->description = _(jo.get_string("description").c_str());
 

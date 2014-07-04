@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <algorithm> //atoi
 
@@ -101,8 +102,8 @@ class cOpt
         float fStep;
 };
 
-extern std::map<std::string, cOpt> OPTIONS;
-extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern std::unordered_map<std::string, cOpt> OPTIONS;
+extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 
 extern options_data optionsdata;
 void initOptions();

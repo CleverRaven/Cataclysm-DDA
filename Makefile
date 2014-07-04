@@ -115,11 +115,15 @@ ifdef RELEASE
 endif
 
 ifdef CLANG
+  ifeq ($(NATIVE), osx)
+    OTHERS += -stdlib=libc++
+  endif
   CXX = $(CROSS)clang++
   LD  = $(CROSS)clang++
-  OTHERS = --std=c++98
-  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
+  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
+
+OTHERS += --std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
@@ -156,7 +160,7 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
   endif
@@ -237,12 +241,13 @@ ifdef LUA
   BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
+ifdef SDL 
+  TILES = 1
+endif
+
 ifdef TILES
   SDL = 1
   BINDIST_EXTRAS += gfx
-endif
-
-ifdef SDL
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       DEFINES += -DOSX_SDL_FW
@@ -303,7 +308,8 @@ else
         ifeq ($(NATIVE), osx)
             LDFLAGS += -lncurses
         else
-            LDFLAGS += -lncursesw
+            LDFLAGS += $(shell ncursesw5-config --libs)
+            CXXFLAGS += $(shell ncursesw5-config --cflags)
         endif
       endif
       # Work around Cygwin not including gettext support in glibc
@@ -395,7 +401,7 @@ localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
 $(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)

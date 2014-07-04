@@ -9,7 +9,16 @@ const std::string inv_chars =
 invslice inventory::slice()
 {
     invslice stacks;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+    for( auto iter = items.begin(); iter != items.end(); ++iter) {
+        stacks.push_back(&*iter);
+    }
+    return stacks;
+}
+
+const_invslice inventory::const_slice() const
+{
+    const_invslice stacks;
+    for( auto iter = items.cbegin(); iter != items.cend(); ++iter) {
         stacks.push_back(&*iter);
     }
     return stacks;
@@ -544,7 +553,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 add_item(water);
             }
             if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
-                item swater("water_salt", 0);
+                item swater("salt_water", 0);
                 swater.charges = 50;
                 add_item(swater);
             }
@@ -722,7 +731,7 @@ item inventory::remove_item(item *it)
         }
     }
 
-    debugmsg("Tried to remove a item not in inventory (name: %s)", it->type->name.c_str());
+    debugmsg("Tried to remove a item not in inventory (name: %s)", it->tname().c_str());
     return nullitem;
 }
 
@@ -774,7 +783,7 @@ item inventory::reduce_charges_internal(const Locator &locator, long quantity)
         if (item_matches_locator(iter->front(), locator, pos)) {
             if (!iter->front().count_by_charges()) {
                 debugmsg("Tried to remove %s by charges, but item is not counted by charges",
-                         iter->front().type->name.c_str());
+                         iter->front().tname().c_str());
             }
             item ret = iter->front();
             if (quantity > iter->front().charges) {

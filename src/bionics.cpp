@@ -7,6 +7,7 @@
 #include "line.h"
 #include "json.h"
 #include "messages.h"
+#include "item_factory.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -161,8 +162,8 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, 2, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
-                    if (list_start_y + i == (menu_mode == "examining" ?
-                                             DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                    if (list_start_y + static_cast<int>(i) ==
+                        (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (bionics[passive[i]->id]->power_source) {
@@ -179,8 +180,8 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
-                    if (list_start_y + i == (menu_mode == "examining" ?
-                                             DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                    if (list_start_y + static_cast<int>(i) ==
+                        (menu_mode == "examining" ?DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (active[i]->powered && !bionics[active[i]->id]->power_source) {
@@ -386,7 +387,6 @@ void player::activate_bionic(int b)
         power_level -= power_cost;
     }
 
-    std::string junk;
     std::vector<point> traj;
     std::vector<std::string> good;
     std::vector<std::string> bad;
@@ -410,9 +410,9 @@ void player::activate_bionic(int b)
         g->sound(posx, posy, 30, _("VRRRRMP!"));
         for (int i = posx - 1; i <= posx + 1; i++) {
             for (int j = posy - 1; j <= posy + 1; j++) {
-                g->m.bash(i, j, 40, junk);
-                g->m.bash(i, j, 40, junk); // Multibash effect, so that doors &c will fall
-                g->m.bash(i, j, 40, junk);
+                g->m.bash( i, j, 40 );
+                g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
+                g->m.bash( i, j, 40 );
                 if (g->m.is_destructable(i, j) && rng(1, 10) >= 4) {
                     g->m.ter_set(i, j, t_rubble);
                 }
@@ -447,6 +447,9 @@ void player::activate_bionic(int b)
         }
         if (has_disease("dermatik")) {
             bad.push_back(_("Insect Parasite"));
+        }
+        if (has_effect("stung")) {
+            bad.push_back(_("Stung"));
         }
         if (has_effect("poison")) {
             bad.push_back(_("Poison"));
@@ -511,6 +514,9 @@ void player::activate_bionic(int b)
         if (has_disease("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
             good.push_back(_("Intramuscular Parasites"));
         }
+        if (has_disease("tetanus")) {  // Tetanus infection.
+            good.push_back(_("Clostridium Tetani Infection"));
+        }
         if (good.empty() && bad.empty()) {
             mvwprintz(w, 1, 1, c_white, _("No effects."));
         } else {
@@ -531,7 +537,9 @@ void player::activate_bionic(int b)
         rem_disease("fungus");
         rem_disease("dermatik");
         rem_disease("bloodworms");
+        rem_disease("tetanus");
         remove_effect("poison");
+        remove_effect("stung");
         rem_disease("pkill1");
         rem_disease("pkill2");
         rem_disease("pkill3");
@@ -727,8 +735,7 @@ void player::activate_bionic(int b)
                                 g->m.add_item_or_charges(traj[l].x, traj[l].y, tmp_item);
                                 l = traj.size() + 1;
                             } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-                                g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() / 225, junk);
-                                g->sound(traj[l].x, traj[l].y, 12, junk);
+                                g->m.bash( traj[l].x, traj[l].y, tmp_item.weight() / 225 );
                                 if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
                                     g->m.add_item_or_charges(traj[l - 1].x, traj[l - 1].y, tmp_item);
                                     l = traj.size() + 1;
@@ -855,20 +862,24 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
 
 bool player::uninstall_bionic(bionic_id b_id)
 {
-    it_bionic *type = dynamic_cast<it_bionic *> (itypes[b_id]);
     // malfunctioning bionics don't have associated items and get a difficulty of 12
-    int difficulty = type == NULL ? 12 : type->difficulty;
-
-    if (bionics.count(b_id) == 0) {
-        popup("invalid / unknown bionic id %s", b_id.c_str());
-        return false;
+    int difficulty = 12;
+    if( item_controller->has_template(b_id) > 0) {
+        const it_bionic *type = dynamic_cast<it_bionic *> (item_controller->find_template(b_id));
+        difficulty = type->difficulty;
     }
+
     if (!has_bionic(b_id)) {
         popup(_("You don't have this bionic installed."));
         return false;
     }
     if (!(inv.has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
         popup(_("Removing bionics requires a cutting tool and a first aid kit."));
+        return false;
+    }
+    
+    if ( b_id == "bio_blaster" ) {
+        popup(_("Removing your Fusion Blaster Arm would leave you with a useless stump."));
         return false;
     }
 
@@ -886,9 +897,9 @@ bool player::uninstall_bionic(bionic_id b_id)
 
     use_charges("1st_aid", 1);
 
-    practice(calendar::turn, "electronics", int((100 - chance_of_success) * 1.5));
-    practice(calendar::turn, "firstaid", int((100 - chance_of_success) * 1.0));
-    practice(calendar::turn, "mechanics", int((100 - chance_of_success) * 0.5));
+    practice( "electronics", int((100 - chance_of_success) * 1.5) );
+    practice( "firstaid", int((100 - chance_of_success) * 1.0) );
+    practice( "mechanics", int((100 - chance_of_success) * 0.5) );
 
     int success = chance_of_success - rng(1, 100);
 
@@ -946,9 +957,9 @@ bool player::install_bionics(it_bionic *type)
         }
     }
 
-    practice(calendar::turn, "electronics", int((100 - chance_of_success) * 1.5));
-    practice(calendar::turn, "firstaid", int((100 - chance_of_success) * 1.0));
-    practice(calendar::turn, "mechanics", int((100 - chance_of_success) * 0.5));
+    practice( "electronics", int((100 - chance_of_success) * 1.5) );
+    practice( "firstaid", int((100 - chance_of_success) * 1.0) );
+    practice( "mechanics", int((100 - chance_of_success) * 0.5) );
     int success = chance_of_success - rng(1, 100);
     if (success > 0) {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),

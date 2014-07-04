@@ -249,7 +249,7 @@ void mattack::boomer(monster *z)
         } else if (u_see) {
             add_msg(_("You dodge it!"));
         }
-        g->u.practice(calendar::turn, "dodge", 10);
+        g->u.practice( "dodge", 10 );
         g->u.ma_ondodge_effects();
     }
 }
@@ -901,7 +901,7 @@ void mattack::dermatik(monster *z)
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         z->stumble(false);
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -1131,7 +1131,7 @@ void mattack::tentacle(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You dodge it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -1140,7 +1140,7 @@ void mattack::tentacle(monster *z)
     int dam = rng(10, 20), side = random_side(hit);
     add_msg(m_bad, _("Your %s is hit for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::vortex(monster *z)
@@ -1159,9 +1159,7 @@ void mattack::vortex(monster *z)
             if (x == z->posx() && y == z->posy()) { // Don't throw us!
                 y++;
             }
-            std::string sound;
-            g->m.bash(x, y, 14, sound);
-            g->sound(x, y, 8, sound);
+            g->m.bash( x, y, 14 );
         }
     }
     std::set<std::string> no_effects;
@@ -1462,7 +1460,7 @@ void mattack::smg(monster *z)
     // Make sure our ammo isn't weird.
     if (z->ammo > 1000) {
         z->ammo = 1000;
-        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->type->name.c_str());
+        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo, z->name().c_str());
     }
     int fire_t = 0;
 
@@ -1522,7 +1520,7 @@ void mattack::smg(monster *z)
     if (g->u_see(z->posx(), z->posy())) {
         add_msg(m_warning, _("The %s fires its smg!"), z->name().c_str());
     }
-    tmp.weapon = item("smg_9mm", 0);
+    tmp.weapon = item("hk_mp5", 0);
     tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["9mm"]);
     tmp.weapon.charges = std::max(z->ammo, 10);
     z->ammo -= tmp.weapon.charges;
@@ -1598,6 +1596,83 @@ void mattack::laser(monster *z)
     tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
     tmp.weapon.charges = 100;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
+    if (target == &g->u) {
+        z->add_effect("targeted", 3);
+    }
+}
+
+void mattack::rifle_tur(monster *z)
+{
+    // Make sure our ammo isn't weird.
+    if (z->ammo > 2000) {
+        z->ammo = 2000;
+        debugmsg("Generated too much ammo (%d) for %s in mattack::rifle_tur", z->ammo, z->name().c_str());
+    }
+    int fire_t = 0;
+
+    npc tmp;
+    tmp.name = _("The ") + z->name();
+    tmp.set_fake(true);
+    tmp.skillLevel("rifle").level(8);
+    tmp.skillLevel("gun").level(6);
+    tmp.recoil = 0;
+    tmp.posx = z->posx();
+    tmp.posy = z->posy();
+    tmp.str_cur = 16;
+    tmp.dex_cur = 10;
+    tmp.per_cur = 12;
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    Creature *target = NULL;
+
+    if (z->friendly != 0) {
+        // Attacking monsters, not the player!
+        int boo_hoo;
+        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        if (target == NULL) {// Couldn't find any targets!
+            if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
+                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
+                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                            boo_hoo),
+                        z->name().c_str(), boo_hoo);
+            }
+            return;
+        }
+    } else {
+        // Not friendly; hence, firing at the player
+        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 36 ||
+            !g->sees_u(z->posx(), z->posy(), fire_t)) {
+            // Can't see and can't reach the player
+            // (This is a bit generous: 5.56 has 38 range.)
+            return;
+        }
+        if (!z->has_effect("targeted")) {
+            g->sound(z->posx(), z->posy(), 8, _("beep-beep."));
+            z->add_effect("targeted", 8);
+            z->moves -= 100;
+            return;
+        }
+        target = &g->u;
+    }
+    z->moves -= 150;   // It takes a while
+
+    if (z->ammo <= 0) {
+        if (one_in(3)) {
+            g->sound(z->posx(), z->posy(), 2, _("a chk!"));
+        } else if (one_in(4)) {
+            g->sound(z->posx(), z->posy(), 6, _("boop!"));
+        }
+        return;
+    }
+    if (g->u_see(z->posx(), z->posy())) {
+        add_msg(m_warning, _("The %s opens up with its rifle!"), z->name().c_str());
+    }
+    tmp.weapon = item("m4a1", 0);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["556"]);
+    tmp.weapon.charges = std::max(z->ammo, 30);
+    z->ammo -= tmp.weapon.charges;
+    tmp.fire_gun(target->xpos(), target->ypos(), true);
+    z->ammo += tmp.weapon.charges;
     if (target == &g->u) {
         z->add_effect("targeted", 3);
     }
@@ -1831,7 +1906,7 @@ void mattack::bite(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You dodge it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -1857,7 +1932,7 @@ void mattack::bite(monster *z)
                 body_part_name(hit, side).c_str());
     }
 
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::brandish(monster *z)
@@ -1898,7 +1973,7 @@ void mattack::flesh_golem(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You dodge it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -1910,8 +1985,101 @@ void mattack::flesh_golem(monster *z)
                          (g->u.wearing_something_on(bp_feet))) && (!(g->u.is_throw_immune())) ) {
         g->u.add_effect("downed", 30);
     }
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
+
+void mattack::lunge(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        if (one_in(5)) {
+            int j;
+            if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
+                    !g->sees_u(z->posx(), z->posy(), j)) {
+                return; // Out of range
+            }
+            z->moves += 200;
+            z->sp_timeout = z->type->sp_freq; // Reset timer
+            add_msg(_("The %s lunges for you!"), z->name().c_str());
+        }
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    add_msg(_("The %s lunges straight into you!"), z->name().c_str());
+    z->moves -= 100;
+
+    if (g->u.uncanny_dodge()) { return; }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        add_msg(_("You sidestep it!"));
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
+        g->u.ma_ondodge_effects();
+        return;
+    }
+    body_part hit = random_body_part();
+    int dam = rng(3, 7), side = random_side(hit);
+    add_msg(m_bad, _("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
+    g->u.hit(z, hit, side, dam, 0);
+    if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
+    (g->u.wearing_something_on(bp_feet))) && (!(g->u.is_throw_immune())) ) {
+        g->u.add_effect("downed", 3);
+    }
+    g->u.practice( "dodge", z->type->melee_skill );
+}
+
+void mattack::longswipe(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        if (one_in(5)) {
+            int j;
+            if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3 ||
+                    !g->sees_u(z->posx(), z->posy(), j)) {
+                return; // Out of range
+            }
+            z->moves -= 150;
+            z->sp_timeout = z->type->sp_freq; // Reset timer
+            add_msg(_("The %s thrusts a claw at you!"), z->name().c_str());
+
+            if (g->u.uncanny_dodge()) { return; }
+            // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+            int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+            if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+                add_msg(_("You evade it!"));
+                g->u.practice( "dodge", z->type->melee_skill * 2 );
+                g->u.ma_ondodge_effects();
+                return;
+            }
+            body_part hit = random_body_part();
+            int dam = rng(3, 7), side = random_side(hit);
+            add_msg(m_bad, _("Your %s is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
+            g->u.hit(z, hit, side, dam, 0);
+            g->u.practice( "dodge", z->type->melee_skill );
+        }
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    add_msg(_("The %s slashes at your neck!"), z->name().c_str());
+    z->moves -= 100;
+
+    if (g->u.uncanny_dodge()) { return; }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        add_msg(_("You duck!"));
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
+        g->u.ma_ondodge_effects();
+        return;
+    }
+    body_part hit = bp_head;
+    int dam = rng(6, 10), side = random_side(hit);
+    add_msg(m_bad, _("Your throat is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
+    g->u.hit(z, hit, side, dam, 0);
+    g->u.add_disease("bleed", 100, false, 1, 1, 0, -1, hit, side, true);
+    g->u.practice( "dodge", z->type->melee_skill );
+}
+
 
 void mattack::parrot(monster *z)
 {
@@ -2080,7 +2248,7 @@ void mattack::bio_op_takedown(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You dodge it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -2114,7 +2282,7 @@ void mattack::bio_op_takedown(monster *z)
         add_msg(m_bad, _("and slams you for %d damage!"), dam);
         g->u.hit(z, hit, side, dam, 0);
     }
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::suicide(monster *z)

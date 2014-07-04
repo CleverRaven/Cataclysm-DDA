@@ -633,6 +633,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 }
             }
         }
+        m->ter_set( 12, 12, t_dirt );
         m->furn_set(12, 12, f_egg_sackws);
         m->remove_field(12, 12, fd_web);
         m->add_spawn("mon_spider_web", rng(1, 2), SEEX, SEEY);
@@ -1562,15 +1563,24 @@ void mapgen_river_center(map *m, oter_id, mapgendata dat, int, float)
 void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
-    for (int i = SEEX * 2 - 1; i >= 0; i--) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (j < 4 && i >= SEEX * 2 - 4) {
-                m->ter_set(i, j, t_water_sh);
-            } else {
-                m->ter_set(i, j, t_water_dp);
+    fill_background(m, t_water_dp);
+    // this is not_ne, so deep on all sides except ne corner, which is shallow
+    // shallow is 20,0, 23,4
+    int north_edge = rng(16, 18);
+    int east_edge = rng(4, 8);
+
+    for(int x = north_edge; x < 24; x++){
+        for(int y = 0; y < east_edge; y++){
+            int circle_edge = ((24 - x) * (24 - x)) + (y * y);
+            if(circle_edge <= 8){
+                m->ter_set(x, y, grass_or_dirt());
+            }
+            else if(circle_edge <= 36){
+                m->ter_set(x, y, t_water_sh);
             }
         }
     }
+
     if (terrain_type == "river_c_not_se") {
         m->rotate(1);
     }
@@ -1585,15 +1595,15 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, 
 void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (j < 4) {
-                m->ter_set(i, j, t_water_sh);
-            } else {
-                m->ter_set(i, j, t_water_dp);
-            }
-        }
+    fill_background(m, t_water_dp);
+
+    for(int x = 0; x <= 24; x++){
+        int ground_edge = rng(1,3);
+        int shallow_edge = rng(4,6);
+        line(m, grass_or_dirt(), x, 0, x, ground_edge);
+        line(m, t_water_sh, x, ground_edge, x, shallow_edge);
     }
+
     if (terrain_type == "river_east") {
         m->rotate(1);
     }
@@ -1608,15 +1618,21 @@ void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, fl
 void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
-    for (int i = SEEX * 2 - 1; i >= 0; i--) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (i >= SEEX * 2 - 4 || j < 4) {
-                m->ter_set(i, j, t_water_sh);
-            } else {
-                m->ter_set(i, j, t_water_dp);
-            }
-        }
+    fill_background(m, t_water_dp);
+    // NE corner deep, other corners are shallow.  do 2 passes: one x, one y
+    for(int x = 0; x < 24; x++){
+        int ground_edge = rng(1,3);
+        int shallow_edge = rng(4,6);
+        line(m, grass_or_dirt(), x, 0, x, ground_edge);
+        line(m, t_water_sh, x, ground_edge, x, shallow_edge);
     }
+    for(int y = 0; y < 24; y++){
+        int ground_edge = rng(19,21);
+        int shallow_edge = rng(16,18);
+        line(m, grass_or_dirt(), ground_edge, y, 23, y);
+        line(m, t_water_sh, shallow_edge, y, ground_edge, y);
+    }
+
     if (terrain_type == "river_se") {
         m->rotate(1);
     }
@@ -3972,7 +3988,7 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
                 if (!(one_in(3))){
                 m->add_field(i, j, fd_web, rng(1, 3));
                 }
-                if (one_in(30)){
+                if( one_in( 30 ) && m->move_cost( i, j ) > 0 ) {
                     m->furn_set(i, j, f_egg_sackbw);
                     m->add_spawn("mon_spider_widow_giant", rng(3, 6), i, j); //hope you like'em spiders
                     m->remove_field(i, j, fd_web);

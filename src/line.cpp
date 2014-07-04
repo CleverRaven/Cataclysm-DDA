@@ -319,6 +319,43 @@ direction direction_from(const tripoint loc1, const tripoint loc2)
     }
 }
 
+point direction_XY(direction dir)
+{
+    switch((dir != CENTER) ? dir%8 : dir) {
+        case NORTH:
+            return point(0, -1);
+
+        case NORTHEAST:
+            return point(1, -1);
+
+        case EAST:
+            return point(1, 0);
+
+        case SOUTHEAST:
+            return point(1, 1);
+
+        case SOUTH:
+            return point(0, 1);
+
+        case SOUTHWEST:
+            return point(-1, 1);
+
+        case WEST:
+            return point(-1, 0);
+
+        case NORTHWEST:
+            return point(-1, -1);
+
+        case CENTER:
+            return point(0, 0);
+
+        default:
+            break;
+    }
+
+    return point(999, 999);
+}
+
 std::string direction_name(direction dir)
 {
     switch (dir) {
@@ -371,6 +408,8 @@ std::string direction_name(direction dir)
         return _("west and below");
     case BELOWNORTHWEST:
         return _("northwest and below");
+    case CENTER:
+        return _("center");
     }
     return "BUG. (line.cpp:direction_name)";
 }
@@ -427,10 +466,35 @@ std::string direction_name_short(direction dir)
         return _("DN_W ");
     case BELOWNORTHWEST:
         return _("DN_NW");
+    case CENTER:
+        return _("CE");
     }
     return "Bug. (line.cpp:direction_name_short)";
 }
 
+// Returns a vector of the adjacent square in the direction of the target,
+// and the two squares flanking it.
+std::vector<point> squares_in_direction( const int x1, const int y1, const int x2, const int y2 )
+{
+    int junk = 0;
+    point center_square = line_to( x1, y1, x2, y2, junk )[0];
+    std::vector<point> adjacent_squares;
+    adjacent_squares.push_back( center_square );
+    if( x1 == center_square.x ) {
+        // Horizontally adjacent.
+        adjacent_squares.push_back( point( x1 + 1, center_square.y ) );
+        adjacent_squares.push_back( point( x1 - 1, center_square.y ) );
+    } else if( y1 == center_square.y ) {
+        // Vertically adjacent.
+        adjacent_squares.push_back( point( center_square.x, y1 + 1 ) );
+        adjacent_squares.push_back( point( center_square.x, y1 - 1 ) );
+    } else {
+        // Diagonally adjacent.
+        adjacent_squares.push_back( point( x1, center_square.y ) );
+        adjacent_squares.push_back( point( center_square.x, y1 ) );
+    }
+    return adjacent_squares;
+}
 
 float rl_vec2d::norm()
 {

@@ -386,14 +386,16 @@ std::string calendar::print_time(bool just_hour) const
         if (hour_param == 0) {
             hour_param = 12;
         }
+        // Padding is removed as necessary to prevent clipping with SAFE notification in wide sidebar mode
+        std::string padding = hour_param < 10 ? " " : "";
         if (just_hour && hour < 12) {
             time_string << string_format(_("%d AM"), hour_param);
         } else if (just_hour) {
             time_string << string_format(_("%d PM"), hour_param);
         } else if (hour < 12) {
-            time_string << string_format(_("%d:%02d:%02d AM"), hour_param, minute, second);
+            time_string << string_format(_("%d:%02d:%02d%sAM"), hour_param, minute, second, padding.c_str());
         } else {
-            time_string << string_format(_("%d:%02d:%02d PM"), hour_param, minute, second);
+            time_string << string_format(_("%d:%02d:%02d%sPM"), hour_param, minute, second, padding.c_str());
         }
     }
 

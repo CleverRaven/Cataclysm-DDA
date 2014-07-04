@@ -249,6 +249,14 @@ class cata_tiles
         void draw_weather_frame();
         void void_weather();
 
+        void init_draw_sct();
+        void draw_sct_frame();
+        void void_sct();
+
+        void init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void draw_zones_frame();
+        void void_zones();
+
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
@@ -285,6 +293,8 @@ class cata_tiles
         bool do_draw_hit;
         bool do_draw_line;
         bool do_draw_weather;
+        bool do_draw_sct;
+        bool do_draw_zones;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -301,6 +311,10 @@ class cata_tiles
 
         weather_printable anim_weather;
         std::string weather_name;
+
+        point pStartZone;
+        point pEndZone;
+        point pZoneOffset;
 
         // offset values, in tile coordinates, not pixels
         int o_x, o_y;

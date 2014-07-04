@@ -123,6 +123,7 @@ class Creature
         virtual bool is_underwater() const = 0;
         virtual bool is_warm(); // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() = 0;
+        virtual bool is_hallucination() const = 0;
         // returns true iff health is zero or otherwise should be dead
         virtual bool is_dead_state() = 0;
 
@@ -191,6 +192,7 @@ class Creature
         virtual int get_hit();
         virtual m_size get_size() = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
+        virtual int get_hp_max( hp_part bp = num_hp_parts ) = 0;
         virtual std::string get_material() { return "flesh"; };
         virtual field_id bloodType () { debugmsg("creature:bloodType: not a valid monster/npc/player, returned fd_null"); return fd_null; };
         virtual field_id gibType () { debugmsg("creature:gibType: not a valid monster/npc/player, returned fd_gibs_flesh"); return fd_gibs_flesh; };
@@ -225,6 +227,7 @@ class Creature
         virtual void mod_dex_bonus(int ndex);
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
+        virtual void mod_stat( std::string stat, int modifier );
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);

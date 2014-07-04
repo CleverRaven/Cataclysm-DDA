@@ -142,40 +142,6 @@ int lua_mapgen(map * m, std::string terrain_type, mapgendata, int t, float, cons
     return err;
 }
 
-// Lua monster movement override
-int lua_monster_move(monster* m) {
-    lua_State *L = lua_state;
-
-    update_globals(L);
-
-    lua_getglobal(L, "monster_move");
-    lua_getfield(L, -1, m->type->name.c_str());
-
-    // OK our function should now be at the top.
-    if(lua_isnil(L, -1)) {
-        lua_settop(L, 0);
-        return 0;
-    }
-
-    // Push the monster on top of the stack.
-    monster** monster_userdata = (monster**) lua_newuserdata(L, sizeof(monster*));
-    *monster_userdata = m;
-
-    // Set the metatable for the monster.
-    luah_setmetatable(L, "monster_metatable");
-
-    // Call the function
-    int err = lua_pcall(lua_state, 1, 0, 0);
-    if(err) {
-        // Error handling.
-        const char* error = lua_tostring(L, -1);
-        debugmsg("Error in lua monster move function: %s", error);
-    }
-    lua_settop(L, 0);
-
-    return 1;
-}
-
 // Custom functions that are to be wrapped from lua.
 // -------------------------------------------------
 static uimenu uimenu_instance;
@@ -386,7 +352,7 @@ static int game_item_type(lua_State *L) {
     lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
 
     lua_pushstring(L, "name");
-    lua_pushstring(L, (*item_instance)->type->name.c_str());
+    lua_pushstring(L, (*item_instance)->type->nname(1).c_str());
     lua_rawset(L, -3);
 
     lua_pushstring(L, "id");
@@ -574,7 +540,7 @@ void use_function::operator=(const use_function &other)
 }
 
 // If we're not using lua, need to define Use_function in a way to always call the C++ function
-int use_function::call(player* player_instance, item* item_instance, bool active) {
+int use_function::call(player* player_instance, item* item_instance, bool active) const {
     if (function_type == USE_FUNCTION_NONE) {
         if (player_instance != NULL && player_instance->is_player()) {
             add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());

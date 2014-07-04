@@ -6,7 +6,7 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
 {
     timespec ts;    // Timespec for the animation of the explosion
     ts.tv_sec = 0;
-    ts.tv_nsec = EXPLOSION_SPEED;
+    ts.tv_nsec = OPTIONS["ANIMATION_DELAY"] * EXPLOSION_MULTIPLIER * 1000000;
     const int ypos = POSY + (y - (u.posy + u.view_offset_y));
     const int xpos = POSX + (x - (u.posx + u.view_offset_x));
     for (int i = 1; i <= radius; i++) {
@@ -21,7 +21,10 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
             mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
         }
         wrefresh(w_terrain);
-        nanosleep(&ts, NULL);
+
+        if( ts.tv_nsec != 0 ) {
+            nanosleep(&ts, NULL);
+        }
     }
 }
 /* Bullet Animation */
@@ -40,7 +43,7 @@ void game::draw_bullet(Creature& p, int tx, int ty, int i, std::vector<point> tr
         mvwputch(w_terrain, POSY + (ty - (u.posy + u.view_offset_y)),
                  POSX + (tx - (u.posx + u.view_offset_x)), c_red, bullet);
         wrefresh(w_terrain);
-        if (p.is_player()) {
+        if( p.is_player() && ts.tv_nsec != 0 ) {
             nanosleep(&ts, NULL);
         }
     }
@@ -56,12 +59,12 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
                   red_background(cMonColor), dead ? '%' : sMonSym);
 }
 /* Player hit animation */
-void game::draw_hit_player(player *p, bool dead)
+void game::draw_hit_player(player *p, const int iDam, bool dead)
 {
     (void)dead; //unused
     hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                   POSY + (p->posy - (u.posy + u.view_offset_y)),
-                  red_background(p->color()), '@');
+                  (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), '@');
 }
 /* Line drawing code, not really an animation but should be separated anyway */
 
@@ -99,7 +102,7 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 
     mvwputch(w_terrain, cry, crx, c_white, 'X');
 }
-//*/
+
 void game::draw_weather(weather_printable wPrint)
 {
     for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
@@ -107,6 +110,26 @@ void game::draw_weather(weather_printable wPrint)
          ++weather_iterator)
     {
         mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+    }
+}
+
+void game::draw_sct()
+{
+    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+        const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+        const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+
+        mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType("first"), (iter->getStep() >= SCT.iMaxSteps/2)), "%s", iter->getText("first").c_str());
+        wprintz(w_terrain, msgtype_to_color(iter->getMsgType("second"), (iter->getStep() >= SCT.iMaxSteps/2)), iter->getText("second").c_str());
+    }
+}
+
+void game::draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset)
+{
+    for (int iY=p_pointStart.y; iY <= p_pointEnd.y; ++iY) {
+        for (int iX=p_pointStart.x; iX <= p_pointEnd.x; ++iX) {
+            mvwputch_inv(w_terrain, iY-p_pointOffset.y, iX-p_pointOffset.x, c_ltgreen, '~');
+        }
     }
 }
 

@@ -12,10 +12,12 @@ class game;
 class player;
 class npc;
 struct itype;
+class material_type;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
-const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"), _("orange"), _("red"), _("black")};
+const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"),
+                                             _("orange"), _("red"), _("black")};
 
 struct light_emission {
   unsigned short luminance;
@@ -60,8 +62,9 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true, int prop = 0);
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn); // Corpse
+ item(const std::string new_type, unsigned int turn, bool rand = true );
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
  item(std::string itemdata);
  item(JsonObject &jo);
  virtual ~item();
@@ -74,8 +77,8 @@ public:
 
     nc_color color(player *u) const;
     nc_color color_in_inventory();
-    std::string tname(unsigned int quantity = 1, bool with_prefix = true); // item name (includes damage, freshness, etc)
-    std::string display_name(unsigned int quantity = 1); // name for display (includes charges, etc)
+    std::string tname(unsigned int quantity = 1, bool with_prefix = true) const; // item name (includes damage, freshness, etc)
+    std::string display_name(unsigned int quantity = 1) const; // name for display (includes charges, etc)
     void use();
     bool burn(int amount = 1); // Returns true if destroyed
 
@@ -231,7 +234,8 @@ public:
  int acid_resist() const;
  bool is_two_handed(player *u);
  bool made_of(std::string mat_ident) const;
- std::string get_material(int m) const;
+ // Never returns NULL
+ const material_type *get_material(int m) const;
  bool made_of(phase_id phase) const;
  bool conductive() const; // Electricity
  bool flammable() const;
@@ -283,7 +287,9 @@ public:
 
  std::vector<item> contents;
 
+private:
  std::string name;
+public:
  char invlet;           // Inventory letter
  long charges;
  bool active;           // If true, it has active effects to be processed
@@ -392,7 +398,7 @@ bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);
 
-//the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
+//the assigned numbers are a result of legacy stuff in draw_item_info(),
 //it would be better long-term to rewrite stuff so that we don't need that hack
 enum hint_rating {
  HINT_CANT = 0, //meant to display as gray

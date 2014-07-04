@@ -2466,6 +2466,171 @@
                  "ATTACKMON", "LEATHER", "BONES", "VIS50", "POISON"]
     },{
         "type" : "MONSTER",
+        "id" : "mon_irradiated_wanderer_1",
+    "name": "irradiated wanderer",
+    "species":"ABERRATION",
+    "symbol":"W",
+    "color":"ltgreen",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":8,
+    "aggression":100,
+    "morale":100,
+    "speed":80,
+    "melee_skill":6,
+    "melee_dice":2,
+    "melee_dice_sides":6,
+    "melee_cut":1,
+    "dodge":1,
+    "armor_bash":4,
+    "armor_cut":4,
+    "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "vault_wanderer", 3 ]
+        ]
+    },
+    "luminance":0,
+    "hp":90,
+    "special_freq":20,
+    "death_function":"MELT",
+    "special_attack":"LUNGE",
+    "description":"This rotting corpse seaps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    },{
+        "type" : "MONSTER",
+        "id" : "mon_irradiated_wanderer_2",
+    "name": "irradiated wanderer",
+    "species":"ABERRATION",
+    "symbol":"W",
+    "color":"ltgreen",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":12,
+    "aggression":100,
+    "morale":100,
+    "speed":88,
+    "melee_skill":6,
+    "melee_dice":2,
+    "melee_dice_sides":6,
+    "melee_cut":1,
+    "dodge":1,
+    "armor_bash":5,
+    "armor_cut":5,
+    "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "vault_wanderer", 3 ]
+        ]
+    },
+    "luminance":1,
+    "hp":100,
+    "special_freq":15,
+    "death_function":"MELT",
+    "special_attack":"LUNGE",
+    "description":"This rotting corpse seaps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    },{
+        "type" : "MONSTER",
+        "id" : "mon_irradiated_wanderer_3",
+    "name": "irradiated wanderer",
+    "species":"ABERRATION",
+    "symbol":"W",
+    "color":"ltgreen",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":15,
+    "aggression":100,
+    "morale":100,
+    "speed":95,
+    "melee_skill":6,
+    "melee_dice":3,
+    "melee_dice_sides":6,
+    "melee_cut":1,
+    "dodge":1,
+    "armor_bash":6,
+    "armor_cut":6,
+    "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "vault_wanderer", 3 ]
+        ]
+    },
+    "luminance":3,
+    "hp":110,
+    "special_freq":10,
+    "death_function":"MELT",
+    "special_attack":"LUNGE",
+    "description":"This rotting corpse seaps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    },{
+        "type" : "MONSTER",
+        "id" : "mon_irradiated_wanderer_4",
+    "name": "irradiated wanderer",
+    "species":"ABERRATION",
+    "symbol":"W",
+    "color":"ltgreen",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":20,
+    "aggression":100,
+    "morale":100,
+    "speed":100,
+    "melee_skill":7,
+    "melee_dice":3,
+    "melee_dice_sides":8,
+    "melee_cut":1,
+    "dodge":2,
+    "armor_bash":8,
+    "armor_cut":8,
+    "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "vault_wanderer", 3 ]
+        ]
+    },
+    "luminance":5,
+    "hp":150,
+    "special_freq":5,
+    "death_function":"MELT",
+    "special_attack":"LUNGE",
+    "description":"This rotting corpse seaps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    },{
+        "type" : "MONSTER",
+        "id" : "mon_charred_nightmare",
+    "name": "charred nightmare",
+    "species":"ABERRATION",
+    "symbol":"N",
+    "color":"dkgray_red",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":20,
+    "aggression":100,
+    "morale":100,
+    "speed":95,
+    "melee_skill":5,
+    "melee_dice":2,
+    "melee_dice_sides":10,
+    "melee_cut":2,
+    "dodge":2,
+    "armor_bash":6,
+    "armor_cut":6,
+    "item_chance":50,
+    "death_drops": {
+        "groups": [
+            [ "vault_wanderer", 1 ]
+        ]
+    },
+    "luminance":0,
+    "hp":120,
+    "special_freq":8,
+    "death_function":"MELT",
+    "special_attack":"LONGSWIPE",
+    "description":"Intense radiation has spured a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
+    },{
+        "type" : "MONSTER",
         "id" : "mon_triffid",
     "name": "triffid",
     "species":"PLANT",
@@ -2882,7 +3047,7 @@
         "death_function":"BLOBSPLIT",
         "special_attack":"CALLBLOBS",
         "description":"A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil. Other blobs seem to swarm around it.",
-        "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF"],
+        "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "QUEEN"],
         "phase":"LIQUID"
     },{
         "type" : "MONSTER",
@@ -4957,6 +5122,40 @@
     "death_function":"EXPLODE",
     "special_attack":"LASER",
     "description":"The TX-5LR Cerberus is an upgrade to its predecessors. It features a state of the art revolving laser cannon system with three barrels that charge from solar cells embedded in its hull.",
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_turret_rifle",
+    "name": "milspec turret",
+    "species":"ROBOT",
+    "symbol":"2",
+    "color":"green",
+    "size":"SMALL",
+    "material":"steel",
+    "diff":20,
+    "aggression":100,
+    "morale":100,
+    "speed":100,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":14,
+    "armor_cut":16,
+    "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 9 ],
+            [ "turret_rifle", 2 ]
+        ]
+    },
+    "luminance":40,
+    "hp":40,
+    "special_freq":1,
+    "death_function":"EXPLODE",
+    "special_attack":"RIFLE_TUR",
+    "description":"Leadworks LLC's T-4A1 Sentry. It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",

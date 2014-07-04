@@ -14,6 +14,8 @@
 #include "player_activity.h"
 #include "messages.h"
 
+#include <unordered_set>
+
 class monster;
 class game;
 struct trap;
@@ -84,7 +86,7 @@ public:
 // newcharacter.cpp
  bool create(character_type type, std::string tempname = "");
  /** Returns the set "my_traits" */
- std::set<std::string> get_traits() const;
+ std::unordered_set<std::string> get_traits() const;
  /** Returns the id of a random starting trait that costs >= 0 points */
  std::string random_good_trait();
  /** Returns the id of a random starting trait that costs < 0 points */
@@ -132,7 +134,7 @@ public:
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
 
  /** Prints out the player's memorial file */
- void memorial( std::ofstream &memorial_file );
+ void memorial( std::ofstream &memorial_file, std::string epitaph );
  /** Handles and displays detailed character info for the '@' screen */
  void disp_info();
  /** Provides the window and detailed morale data */
@@ -263,7 +265,7 @@ public:
  /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
  int  unimpaired_range();
  /** Returns true if overmap tile is within player line-of-sight */
- bool overmap_los(int x, int y);
+ bool overmap_los(int x, int y, int sight_points);
  /** Returns the distance the player can see on the overmap */
  int  overmap_sight_range(int light_level);
  /** Returns the distance the player can see through walls */
@@ -302,8 +304,8 @@ public:
   * hallucinations.
   * @param t The t output of map::sees.
   */
- bool sees(monster *critter);
- bool sees(monster *critter, int &t);
+ bool sees(Creature *critter);
+ bool sees(Creature *critter, int &t);
  /**
   * For fake-players (turrets, mounted turrets) this functions
   * chooses a target. This is for creatures that are friendly towards
@@ -578,6 +580,9 @@ public:
  bool eat(item *eat, it_comest *comest);
  /** Handles the effects of consuming an item */
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
+ /** Handles rooting effects */
+ void rooted_message() const;
+ void rooted();
  /** Wields an item, returns false on failed wield */
  virtual bool wield(item* it, bool autodrop = false);
  /** Creates the UI and handles player input for picking martial arts styles */
@@ -604,6 +609,10 @@ public:
  bool install_bionics(it_bionic* type);
  /** Handles reading effects */
  void read(int pos);
+ /** Completes book reading action. **/
+ void do_read( item *book );
+ /** Note that we've read a book at least once. **/
+ bool has_identified( std::string item_id ) const;
  /** Handles sleep attempts by the player, adds DIS_LYING_DOWN */
  void try_to_sleep();
  /** Checked each turn during DIS_LYING_DOWN, returns true if the player falls asleep */
@@ -644,15 +653,15 @@ public:
  /** Returns overall env_resist on a body_part */
  int get_env_resist(body_part bp);
  /** Returns true if the player is wearing something on the entered body_part */
- bool wearing_something_on(body_part bp);
+ bool wearing_something_on(body_part bp) const;
  /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
- bool is_wearing_shoes();
+ bool is_wearing_shoes() const;
  /** Returns true if the player is wearing power armor */
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
  int adjust_for_focus(int amount);
- void practice(const calendar& turn, Skill *s, int amount, int cap = 99);
- void practice(const calendar& turn, std::string s, int amount);
+ void practice( Skill *s, int amount, int cap = 99 );
+ void practice( std::string s, int amount, int cap = 99 );
 
  void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
  bool has_activity(const activity_type type);
@@ -742,12 +751,13 @@ public:
  // Print a message if print_msg is true and this isn't a NPC
  bool can_pickup(bool print_msg) const;
 
- bool knows_recipe(recipe *rec);
- void learn_recipe(recipe *rec);
+ // Checks crafting inventory for books providing the requested recipe.
+ // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
+ int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
+ bool knows_recipe( const recipe *rec ) const;
+ void learn_recipe( recipe *rec );
 
- bool can_study_recipe(it_book *book);
  bool studied_all_recipes(it_book *book);
- bool try_study_recipe(it_book *book);
 
  // Auto move methods
  void set_destination(const std::vector<point> &route);
@@ -857,15 +867,18 @@ public:
     //Record of player stats, for posterity only
     stats* lifetime_stats();
     stats get_stats() const; // for serialization
+    void mod_stat( std::string stat, int modifier );
 
  int getID () const;
 
  bool is_underwater() const;
  void set_underwater(bool);
+ bool is_hallucination() const;
 
  void environmental_revert_effect();
 
  bool is_invisible() const;
+ bool is_deaf() const;
  int visibility( bool check_color = false, int stillness = 0 ) const; // just checks is_invisible for the moment
  // -2 position is 0 worn index, -3 position is 1 worn index, etc
  static int worn_position_to_index(int position) {
@@ -874,6 +887,7 @@ public:
 
  m_size get_size();
  int get_hp( hp_part bp );
+ int get_hp_max( hp_part bp );
 
  field_id playerBloodType();
 
@@ -886,9 +900,12 @@ public:
     typedef std::map<tripoint, std::string> trap_map;
     bool knows_trap(int x, int y) const;
     void add_known_trap(int x, int y, const std::string &t);
+    /** Search surrounding squares for traps (and maybe other things in the future). */
+    void search_surroundings();
+    
 protected:
-    std::set<std::string> my_traits;
-    std::set<std::string> my_mutations;
+    std::unordered_set<std::string> my_traits;
+    std::unordered_set<std::string> my_mutations;
     std::vector<bionic> my_bionics;
     std::vector<disease> illness;
     bool underwater;
@@ -899,8 +916,10 @@ protected:
     int sight_boost_cap;
 
     void setID (int i);
-
+    
 private:
+    // Items the player has identified.
+    std::unordered_set<std::string> items_identified;
      /** Check if an area-of-effect technique has valid targets */
     bool valid_aoe_technique( Creature &t, ma_technique &technique );
     bool valid_aoe_technique( Creature &t, ma_technique &technique,
@@ -909,8 +928,8 @@ private:
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
 
-    /** Search surroundings squares for traps while pausing a turn. */
-    void search_surroundings();
+    bool can_study_recipe(it_book *book);
+    bool try_study_recipe(it_book *book);
 
     std::vector<point> auto_move_route;
     // Used to make sure auto move is canceled if we stumble off course

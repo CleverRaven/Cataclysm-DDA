@@ -70,10 +70,15 @@ public:
     //Intermediary Methods - Will probably be removed at final stage
     /**
      * Returns the itype with the given id.
-     * In the special case of "artifact", generates a new artifact type.
      * Never return NULL.
      */
-    itype* find_template(Item_tag id, int prop = 0);
+    itype* find_template( Item_tag id );
+
+    /**
+     * Add a passed in itype to the collection of item types.
+     */
+    void add_item_type( itype *new_type );
+
     /**
      * Return a random item type from the given item group.
      */
@@ -129,6 +134,8 @@ public:
     // stays valid.
     const item_category *get_category(const std::string &id);
 
+    const use_function *get_iuse( const std::string &id );
+
     // The below functions are meant to be accessed at startup by lua to
     // do mod-related modifications of groups.
     std::vector<std::string> get_all_group_names();
@@ -165,6 +172,7 @@ private:
     void add_category(const std::string &id, int sort_rank, const std::string &name);
 
     //json data handlers
+    void set_use_methods_from_json( JsonObject& jo, std::string member, itype *new_item_template );
     use_function use_from_string(std::string name);
     use_function use_from_object(JsonObject obj);
     phase_id phase_from_tag(Item_tag name);

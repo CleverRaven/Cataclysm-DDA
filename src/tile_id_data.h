@@ -47,7 +47,9 @@ const std::string field_names[num_fields] =
     toString(fd_cigsmoke),
     toString(fd_weedsmoke),
     toString(fd_cracksmoke),
-    toString(fd_methsmoke)
+    toString(fd_methsmoke),
+    toString(fd_bees),
+    toString(fd_incendiary)
 };
 const std::string monster_names[num_monsters] =
 {
@@ -107,6 +109,12 @@ const std::string monster_names[num_monsters] =
     toString(mon_zombie_survivor),
 
     toString(mon_jabberwock),
+
+    toString(mon_irradiated_wanderer_1),
+    toString(mon_irradiated_wanderer_2),
+    toString(mon_irradiated_wanderer_3),
+    toString(mon_irradiated_wanderer_4),
+    toString(mon_charred_nightmare),
 
     toString(mon_triffid),
     toString(mon_triffid_young),
@@ -251,7 +259,8 @@ const std::string monster_names[num_monsters] =
     toString(mon_zolf),
     toString(mon_zougar),
     toString(mon_zombie_bio_op),
-    toString(mon_zombie_gasbag)
+    toString(mon_zombie_gasbag),
+    toString(mon_turret_rifle)
 
 };
 const std::string multitile_keys[] =

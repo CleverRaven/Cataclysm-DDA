@@ -314,6 +314,21 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
             }
         }
         jsout.end_array();
+        
+        jsout.member("cosmetics");
+        jsout.start_array();
+        for (int j = 0; j < SEEY; j++) {
+            for (int i = 0; i < SEEX; i++) {
+                if (sm->cosmetics[i][j].size() > 0) {
+                    jsout.start_array();
+                    jsout.write(i);
+                    jsout.write(j);
+                    jsout.write(sm->cosmetics[i][j]);
+                    jsout.end_array();
+                }
+            }
+        }
+        jsout.end_array();
 
         // Output the spawn points
         jsout.member( "spawns" );
@@ -478,6 +493,15 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     int i = jsin.get_int();
                     int j = jsin.get_int();
                     sm->set_graffiti(i, j, graffiti( jsin.get_string() ));
+                    jsin.end_array();
+                }
+            } else if(submap_member_name == "cosmetics") {
+                jsin.start_array();
+                while (!jsin.end_array()) {
+                    jsin.start_array();
+                    int i = jsin.get_int();
+                    int j = jsin.get_int();
+                    jsin.read(sm->cosmetics[i][j]);
                     jsin.end_array();
                 }
             } else if( submap_member_name == "spawns" ) {

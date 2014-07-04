@@ -27,8 +27,8 @@ bool used_tiles_changed;
 extern cata_tiles *tilecontext;
 #endif // SDLTILES
 
-std::map<std::string, cOpt> OPTIONS;
-std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+std::unordered_map<std::string, cOpt> OPTIONS;
+std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
@@ -419,19 +419,26 @@ void initOptions()
     optionNames["mph"] = _("mph");
     optionNames["km/h"] = _("km/h");
     OPTIONS["USE_METRIC_SPEEDS"] = cOpt("interface", _("Speed units"),
-                                        _("Switch between km/h and mph."), "mph,km/h", "mph" );
+                                        _("Switch between km/h and mph."),
+                                        "mph,km/h", "mph"
+                                       );
 
     optionNames["lbs"] = _("lbs");
     optionNames["kg"] = _("kg");
     OPTIONS["USE_METRIC_WEIGHTS"] = cOpt("interface", _("Mass units"),
-                                         _("Switch between kg and lbs."), "lbs,kg", "lbs" );
+                                         _("Switch between kg and lbs."),
+                                         "lbs,kg", "lbs"
+                                        );
 
     OPTIONS["FORCE_CAPITAL_YN"] = cOpt("interface", _("Force Y/N in prompts"),
-                                       _("If true, Y/N prompts are case-sensitive and y and n are not accepted."), true );
+                                       _("If true, Y/N prompts are case-sensitive and y and n are not accepted."),
+                                       true
+                                      );
 
     OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
                                             _("If true, bright backgrounds are not used - some consoles are not compatible."),
-                                            false );
+                                            false
+                                           );
 
     //~ 12h time, e.g. 11:59pm
     optionNames["12h"] = _("12h");
@@ -458,6 +465,7 @@ void initOptions()
                                           _("If true, vehicle parts will change color if they are armor plated"),
                                           true
                                          );
+
     OPTIONS["DRIVING_VIEW_OFFSET"] = cOpt("interface", _("Auto-shift the view while driving"),
                                           _("If true, view will automatically shift towards the driving direction"),
                                           true
@@ -483,7 +491,6 @@ void initOptions()
                                    false
                                   );
 
-
     OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to reenable safemode"),
                                         _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance."),
                                         1, 100, 50
@@ -504,10 +511,25 @@ void initOptions()
                                        0, 127, 5
                                       );
 
-    OPTIONS["RAIN_ANIMATION"] = cOpt("graphics", _("Rain animation"),
+    OPTIONS["ANIMATION_DELAY"] = cOpt("graphics", _("Animation delay"),
+                                      _("The amount of time to pause between animation frames in ms."),
+                                      0, 100, 10
+                                      );
+
+    OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
+                                 _("If true, will display enabled animations."),
+                                 true
+                                );
+
+    OPTIONS["ANIMATION_RAIN"] = cOpt("graphics", _("Rain animation"),
                                      _("If true, will display weather animations."),
                                      true
                                     );
+
+    OPTIONS["ANIMATION_SCT"] = cOpt("graphics", _("SCT animation"),
+                                    _("If true, will display scrolling combat text animations."),
+                                    true
+                                   );
 
     OPTIONS["CIRCLEDIST"] = cOpt("general", _("Circular distances"),
                                  _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
@@ -550,7 +572,7 @@ void initOptions()
     optionNames["off"] = _("Off");
     OPTIONS["SKILL_RUST"] = cOpt("debug", _("Skill rust"),
                                  _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
-                                 "vanilla,capped,int,intcap,off", "vanilla"
+                                 "vanilla,capped,int,intcap,off", "int"
                                 );
 
     optionNames["no"] = _("No");
@@ -580,9 +602,9 @@ void initOptions()
                                      _("A scaling factor that determines density of item spawns."),
                                      0.01, 10.0, 1.0, 0.01
                                     );
+
     std::string region_ids("default");
     optionNames["default"] = "default";
-
     OPTIONS["DEFAULT_REGION"] = cOpt("world_default", _("Default region type"),
                                      _("(WIP feature) Determines terrain, shops, plants, and more."),
                                      region_ids, "default"
@@ -616,13 +638,14 @@ void initOptions()
                                  24, 187, 24
                                 );
 
-    optionNames["wider"] = _("Wider");
     //~ sidebar style
+    optionNames["wider"] = _("Wider");
     optionNames["narrow"] = _("Narrow");
     OPTIONS["SIDEBAR_STYLE"] = cOpt("interface", _("Sidebar style"),
                                     _("Switch between a narrower or wider sidebar. Requires restart."),
                                     "wider,narrow", "narrow"
                                    );
+
     //~ style of vehicle interaction menu; vertical is old one.
     optionNames["vertical"] = _("Vertical");
     optionNames["horizontal"] = _("Horizontal");
@@ -641,6 +664,7 @@ void initOptions()
                                    _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                    true
                                   );
+
     OPTIONS["WANDER_SPAWNS"] = cOpt("world_default", _("Wander spawns"),
                                     _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise"),
                                     false
@@ -677,8 +701,8 @@ void initOptions()
                                   );
 
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
-            _("Determines the scope, which is known in the beginning of the game."),
-            3, 20, 15
+                                                  _("Determines the scope, which is known in the beginning of the game."),
+                                                  3, 20, 15
                                                  );
 
     OPTIONS["SAVE_SLEEP"] = cOpt("interface", _("Ask to save before sleeping"),
@@ -706,6 +730,11 @@ void initOptions()
                                   _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
                                   false
                                  );
+
+    OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
+                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your homebase."),
+                                           false
+                                          );
 
     OPTIONS["AUTO_PICKUP_ZERO"] = cOpt("general", _("Auto pickup 0 vol light items"),
                                        _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
@@ -757,10 +786,11 @@ void initOptions()
 
     OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
                                  _("If true automatically sets notes on places that have stairs that go up or down"),
-                                 true
+                                 false
                                 );
 
-    for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
+    std::map<std::string, cOpt> OPTIONS_ORDERED(OPTIONS.begin(), OPTIONS.end());
+    for( auto iter = OPTIONS_ORDERED.begin(); iter != OPTIONS_ORDERED.end(); ++iter ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
                 mPageItems[i].push_back(iter->first);
@@ -772,8 +802,8 @@ void initOptions()
 
 void show_options(bool ingame)
 {
-    std::map<std::string, cOpt> OPTIONS_OLD = OPTIONS;
-    std::map<std::string, cOpt> WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
+    auto OPTIONS_OLD = OPTIONS;
+    auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
     if ( world_generator->active_world == NULL ) {
         ingame = false;
     }
@@ -837,8 +867,8 @@ void show_options(bool ingame)
     used_tiles_changed = false;
 
     while(true) {
-        std::map<std::string, cOpt> &cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
-                                                ACTIVE_WORLD_OPTIONS : OPTIONS );
+        auto &cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
+                           ACTIVE_WORLD_OPTIONS : OPTIONS );
 
         //Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
@@ -1262,7 +1292,7 @@ void options_data::add_value( const std::string &lvar, const std::string &lval,
 
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() ) {
-        std::map<std::string, cOpt>::iterator ot = OPTIONS.find(lvar);
+        auto ot = OPTIONS.find(lvar);
         if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
             for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
                 eit != ot->second.vItems.end(); ++eit) {

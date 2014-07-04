@@ -87,7 +87,7 @@ void SkillLevel::serialize(JsonOut &json) const
 void SkillLevel::deserialize(JsonIn & jsin)
 {
     JsonObject data = jsin.get_object();
-    int lastpractice=0;
+    int lastpractice = 0;
     data.read( "level", _level );
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
@@ -331,10 +331,13 @@ void player::serialize(JsonOut &json, bool save_contents) const
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes" );
     json.start_array();
-    for (std::map<std::string, recipe*>::const_iterator iter = learned_recipes.begin(); iter != learned_recipes.end(); ++iter) {
+    for( auto iter = learned_recipes.cbegin(); iter != learned_recipes.cend(); ++iter ) {
         json.write( iter->first );
     }
     json.end_array();
+
+    // Player only, books they have read at least once.
+    json.member( "items_identified", items_identified );
 
     // :(
     json.member( "morale", morale );
@@ -446,14 +449,17 @@ void player::deserialize(JsonIn &jsin)
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
-        learned_recipes.clear();
         std::string pstr="";
+        learned_recipes.clear();
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
                 learned_recipes[ pstr ] = recipe_by_name( pstr );
             }
         }
     }
+
+    items_identified.clear();
+    data.read( "items_identified", items_identified );
 
     data.read("morale", morale);
 
@@ -964,7 +970,7 @@ void item::deserialize(JsonObject &data)
     make(idtmp);
 
     if ( ! data.read( "name", name ) ) {
-        name = type->name;
+        name = type->nname(1);
     }
 
     data.read( "invlet", lettmp );
@@ -1056,7 +1062,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
         json.member( "item_vars", item_vars );
     }
 
-    if ( name != type->name ) {
+    if ( name != type->nname(1) ) {
         json.member( "name", name );
     }
 
@@ -1191,6 +1197,21 @@ void vehicle::deserialize(JsonIn &jsin)
     refresh();
 
     data.read("tags",tags);
+
+    // Note that it's possible for a vehicle to be loaded midway
+    // through a turn if the player is driving REALLY fast and their
+    // own vehicle motion takes them in range. An undefined value for
+    // on_turn caused occasional weirdness if the undefined value
+    // happened to be positive.
+    //
+    // Setting it to zero means it won't get to move until the start
+    // of the next turn, which is what happens anyway if it gets
+    // loaded anywhere but midway through a driving cycle.
+    //
+    // Something similar to vehicle::gain_moves() would be ideal, but
+    // that can't be used as it currently stands because it would also
+    // make it instantly fire all its turrets upon load.
+    of_turn = 0;
 }
 
 void vehicle::serialize(JsonOut &json) const

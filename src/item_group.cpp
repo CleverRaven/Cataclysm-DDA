@@ -237,17 +237,17 @@ Item_group::~Item_group() {
 
 void Item_group::add_item_entry(const Item_tag &itemid, int probability)
 {
-    std::auto_ptr<Item_spawn_data> ptr(new Single_item_creator(itemid, Single_item_creator::S_ITEM, probability));
+    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(itemid, Single_item_creator::S_ITEM, probability));
     add_entry(ptr);
 }
 
 void Item_group::add_group_entry(const Group_tag &groupid, int probability)
 {
-    std::auto_ptr<Item_spawn_data> ptr(new Single_item_creator(groupid, Single_item_creator::S_ITEM_GROUP, probability));
+    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(groupid, Single_item_creator::S_ITEM_GROUP, probability));
     add_entry(ptr);
 }
 
-void Item_group::add_entry(std::auto_ptr<Item_spawn_data> &ptr)
+void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
 {
     assert(ptr.get() != NULL);
     if (ptr->probability <= 0) {
@@ -287,10 +287,13 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     if (with_ammo && !result.empty()) {
         it_gun *maybe_gun = dynamic_cast<it_gun *>(result.front().type);
         if (maybe_gun != NULL) {
-            item ammo(default_ammo(maybe_gun->ammo), birthday);
-            // TODO: change the spawn lists to contain proper references to containers
-            ammo = ammo.in_its_container();
-            result.push_back(ammo);
+            const std::string ammoid = default_ammo( maybe_gun->ammo );
+            if ( !ammoid.empty() ) {
+                item ammo( ammoid, birthday );
+                // TODO: change the spawn lists to contain proper references to containers
+                ammo = ammo.in_its_container();
+                result.push_back( ammo );
+            }
         }
     }
     return result;

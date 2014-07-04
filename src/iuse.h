@@ -31,9 +31,9 @@ public:
     int alcohol             (player*, item*, bool);
     int alcohol_weak        (player*, item*, bool);
     int alcohol_strong      (player*, item*, bool);
-    int pkill               (player*, item*, bool);
     int xanax               (player*, item*, bool);
-    int cig                 (player*, item*, bool);
+    int smoking             (player*, item*, bool);
+    int smoking_pipe        (player*, item*, bool);
     int ecig                (player*, item*, bool);
     int antibiotic          (player*, item*, bool);
     int eyedrops            (player*, item*, bool);
@@ -41,16 +41,13 @@ public:
     int antifungal          (player*, item*, bool);
     int antiparasitic       (player*, item*, bool);
     int anticonvulsant      (player*, item*, bool);
-    int weed                (player*, item*, bool);
     int weed_brownie        (player*, item*, bool);
     int coke                (player*, item*, bool);
-    int crack               (player*, item*, bool);
     int grack               (player*, item*, bool);
     int meth                (player*, item*, bool);
     int vitamins            (player*, item*, bool);
     int vaccine             (player*, item*, bool);
     int poison              (player*, item*, bool);
-    int hallu               (player*, item*, bool);
     int fun_hallu           (player*, item*, bool);
     int thorazine           (player*, item*, bool);
     int prozac              (player*, item*, bool);
@@ -72,6 +69,7 @@ public:
 // TOOLS
     int lighter             (player *, item *, bool);
     int primitive_fire      (player *, item *, bool);
+	int ref_lit             (player *, item *, bool);
     int sew                 (player *, item *, bool);
     int extra_battery       (player *, item *, bool);
     int rechargeable_battery(player *, item *, bool);
@@ -134,6 +132,7 @@ public:
     int c4                  (player *, item *, bool);
     int arrow_flamable      (player *, item *, bool);
     int acidbomb_act        (player *, item *, bool);
+    int grenade_inc_act     (player *, item *, bool);
     int molotov             (player *, item *, bool);
     int molotov_lit         (player *, item *, bool);
     int firecracker_pack    (player *, item *, bool);
@@ -146,6 +145,7 @@ public:
     int manhack             (player *, item *, bool);
     int turret              (player *, item *, bool);
     int turret_laser        (player *, item *, bool);
+    int turret_rifle        (player *, item *, bool);
     int UPS_off             (player *, item *, bool);
     int UPS_on              (player *, item *, bool);
     int adv_UPS_off         (player *, item *, bool);
@@ -157,6 +157,7 @@ public:
     int mp3                 (player *, item *, bool);
     int mp3_on              (player *, item *, bool);
     int portable_game       (player *, item *, bool);
+    int vibe                (player *, item *, bool);
     int vortex              (player *, item *, bool);
     int dog_whistle         (player *, item *, bool);
     int vacutainer          (player *, item *, bool);
@@ -272,14 +273,15 @@ public:
 
     ~use_function();
 
-    int call(player*,item*,bool);
+    int call(player*,item*,bool) const;
 
     void operator=(use_function_pointer f);
     void operator=(iuse_actor *f);
     void operator=(const use_function &other);
 
-    bool is_none() const {
-        return function_type == USE_FUNCTION_NONE;
+    bool operator==(use_function f) const {
+        return function_type == USE_FUNCTION_CPP && f.function_type == USE_FUNCTION_CPP &&
+        f.cpp_function == cpp_function;
     }
 
     bool operator==(use_function_pointer f) const {

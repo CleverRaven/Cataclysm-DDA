@@ -58,3 +58,7 @@ cscope.*
 
 # Compiled binary translations
 lang/mo/
+
+# Netbeans IDE folders
+nbproject/
+

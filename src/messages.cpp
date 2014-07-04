@@ -23,6 +23,43 @@ std::vector< std::pair<std::string, std::string> > Messages::recent_messages(con
     return recent_messages;
 }
 
+void Messages::serialize( JsonOut &json )
+{
+    json.member( "player_messages" );
+    json.start_object();
+    json.member( "messages", player_messages.messages );
+    json.member( "curmes", player_messages.curmes );
+    json.end_object();
+}
+
+void Messages::deserialize( JsonObject &json )
+{
+    if( json.has_member( "player_messages" ) ) {
+        JsonObject obj = json.get_object( "player_messages" );
+        obj.read( "messages", player_messages.messages );
+        obj.read( "curmes", player_messages.curmes );
+    }
+}
+
+void Messages::game_message::deserialize( JsonIn &jsin )
+{
+    JsonObject obj = jsin.get_object();
+    turn = obj.get_int( "turn" );
+    message = obj.get_string( "message" );
+    count = obj.get_int( "count" );
+    type = static_cast<game_message_type>( obj.get_int( "type" ) );
+}
+
+void Messages::game_message::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "turn", static_cast<int>( turn ) );
+    jsout.member( "message", message );
+    jsout.member( "count", count );
+    jsout.member( "type", static_cast<int>( type ) );
+    jsout.end_object();
+}
+
 void Messages::add_msg_string(const std::string &s)
 {
     add_msg_string(s, m_neutral);
@@ -103,27 +140,13 @@ nc_color Messages::game_message::get_color() const
 {
     if (int(turn) >= player_messages.curmes) {
         // color for new messages
-        switch(type) {
-        case m_good:    return c_ltgreen;
-        case m_bad:     return c_ltred;
-        case m_mixed:   return c_pink;
-        case m_neutral: return c_white;
-        case m_warning: return c_yellow;
-        case m_info:    return c_ltblue;
-        default:        return c_white;
-        }
+        return msgtype_to_color(type, false);
+
     } else if (int(turn) + 5 >= player_messages.curmes) {
         // color for slightly old messages
-        switch(type) {
-        case m_good:    return c_green;
-        case m_bad:     return c_red;
-        case m_mixed:   return c_magenta;
-        case m_neutral: return c_ltgray;
-        case m_warning: return c_brown;
-        case m_info:    return c_blue;
-        default:        return c_ltgray;
-        }
+        return msgtype_to_color(type, true);
     }
+
     // color for old messages
     return c_dkgray;
 }

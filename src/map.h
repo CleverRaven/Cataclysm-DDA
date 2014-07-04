@@ -8,11 +8,14 @@
 #include <string>
 #include <set>
 #include <map>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "mapdata.h"
 #include "mapitems.h"
 #include "overmap.h"
 #include "item.h"
+#include "json.h"
 #include "monster.h"
 #include "npc.h"
 #include "vehicle.h"
@@ -38,6 +41,7 @@ struct wrapped_vehicle{
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
+typedef std::vector< std::list<item*> > itemslice;
 
 /**
  * Manage and cache data about a part of the map.
@@ -291,6 +295,12 @@ class map
   * the player is at (x,y) or at an adjacent square).
   */
  bool sees_some_items(int x, int y, const player &u);
+ /**
+  * Check if the player could see items at (x,y) if there were
+  * any items. This is similar to @ref sees_some_items, but it
+  * does not check that there are actually any items.
+  */
+ bool could_see_items(int x, int y, const player &u);
 
 
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
@@ -345,7 +355,7 @@ void add_corpse(int x, int y);
  bool close_door(const int x, const int y, const bool inside, const bool check_only);
  bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
- bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
+ bool bash(const int x, const int y, const int str, bool silent = false, int *res = 0);
  // spawn items from the list, see map_bash_item_drop
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
  void destroy(const int x, const int y, const bool makesound);
@@ -357,7 +367,12 @@ void add_corpse(int x, int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
 
-// Radiation
+ // Signs
+ const std::string get_signage(const int x, const int y) const;
+ void set_signage(const int x, const int y, std::string message) const;
+ void delete_signage(const int x, const int y) const;
+ 
+ // Radiation
  int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
  void set_radiation(const int x, const int y, const int value);
 
@@ -372,13 +387,16 @@ void add_corpse(int x, int y);
 
 // Items
  std::vector<item>& i_at(int x, int y);
+ itemslice i_stacked(std::vector<item>& items);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
+ void i_rem(const int x, const int y, item* it);
  point find_item(const item *it);
- void spawn_artifact(const int x, const int y, artifact_natural_property prop = ARTPROP_NULL);
+ void spawn_artifact( const int x, const int y );
+ void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
     void spawn_item(const int x, const int y, const std::string &itype_id,
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0, const bool rand = true);
@@ -415,8 +433,8 @@ void add_corpse(int x, int y);
  int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
  int set_field_strength(const point p, const field_id t, const int str, bool isoffset = false);
  field_entry * get_field( const point p, const field_id t );
- bool add_field(const point p, const field_id t, unsigned int density, const int age);
- bool add_field(const int x, const int y, const field_id t, const unsigned char density);
+ bool add_field(const point p, const field_id t, const int density, const int age);
+ bool add_field(const int x, const int y, const field_id t, const int density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
@@ -437,7 +455,7 @@ void add_corpse(int x, int y);
  bool add_graffiti(int x, int y, std::string contents);
 
 // mapgen.cpp functions
- void generate(overmap *om, const int x, const int y, const int z, const int turn);
+ void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
  void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
@@ -473,12 +491,21 @@ void add_corpse(int x, int y);
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
- point get_abs_sub() {
-   return abs_sub;
- };
- point getabs(const int x=0, const int y=0 );
- point getlocal(const int x, const int y );
- point getlocal( const point p ) { return getlocal(p.x, p.y); }
+    /** return @ref abs_sub */
+    tripoint get_abs_sub() const;
+    /**
+     * Translates local (to this map) coordinates of a square to
+     * global absolute coordinates. (x,y) is in the system that
+     * is used by the ter_at/furn_at/i_at functions.
+     * Output is in the same scale, but in global system.
+     */
+    point getabs(const int x, const int y) const;
+    point getabs(const point p) const { return getabs(p.x, p.y); }
+    /**
+     * Inverse of @ref getabs
+     */
+    point getlocal(const int x, const int y ) const;
+    point getlocal(const point p) const { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
 
@@ -489,11 +516,104 @@ void add_corpse(int x, int y);
                               // Useful for houses, shops, etc
  void add_road_vehicles(bool city, int facing);
 
+    class clZones : public JsonSerializer, public JsonDeserializer
+    {
+        private:
+            std::unordered_map<std::string, std::unordered_set<int> > mZones;
+            std::vector<std::pair<std::string, std::string> > vZoneTypes;
+
+        public:
+            clZones();
+            ~clZones() {};
+
+            class clZoneData
+            {
+                private:
+                    std::string sName;
+                    std::string sZoneType;
+                    bool bInvert;
+                    bool bEnabled;
+                    point pointStartXY;
+                    point pointEndXY;
+
+                public:
+                    clZoneData() {
+                        this->sName = "";
+                        this->sZoneType = "";
+                        this->bInvert = false;
+                        this->bEnabled = false;
+                        this->pointStartXY = point(-1, -1);
+                        this->pointEndXY = point(-1, -1);
+                    }
+
+                    clZoneData(const std::string p_sName, const std::string p_sZoneType,
+                               const bool p_bInvert, const bool p_bEnabled,
+                               const point &p_pointStartXY, const point &p_pointEndXY) {
+                        this->sName = p_sName;
+                        this->sZoneType = p_sZoneType;
+                        this->bInvert = p_bInvert;
+                        this->bEnabled = p_bEnabled;
+                        this->pointStartXY = p_pointStartXY;
+                        this->pointEndXY = p_pointEndXY;
+                    }
+
+                    ~clZoneData() {};
+
+                    void setName();
+                    void setZoneType(std::vector<std::pair<std::string, std::string> > vZoneTypes);
+                    void setEnabled(const bool p_bEnabled);
+
+                    std::string getName() const { return sName; }
+                    std::string getZoneType() const { return sZoneType; }
+                    bool getInvert() const { return bInvert; }
+                    bool getEnabled() const { return bEnabled; }
+                    point getStartPoint() const { return pointStartXY; }
+                    point getEndPoint() const { return pointEndXY; }
+                    point getCenterPoint();
+            };
+
+            std::vector<clZoneData> vZones;
+
+            void add(const std::string p_sName, const std::string p_sZoneType,
+                     const bool p_bInvert, const bool p_bEnabled,
+                     const point &p_pointStartXY, const point &p_pointEndXY) {
+                vZones.push_back(clZoneData(p_sName, p_sZoneType,
+                                            p_bInvert, p_bEnabled,
+                                            p_pointStartXY, p_pointEndXY
+                                           )
+                                );
+            }
+
+            bool remove(const size_t iIndex) {
+                if (iIndex < vZones.size()) {
+                    vZones.erase(vZones.begin()+iIndex);
+                    return true;
+                }
+
+                return false;
+            }
+
+            unsigned int size() { return vZones.size(); }
+            std::vector<std::pair<std::string, std::string> > getZoneTypes() { return vZoneTypes; }
+            std::string getNameFromType(const std::string p_sType);
+            bool hasType(const std::string p_sType);
+            void cacheZoneData();
+            bool hasZone(const std::string p_sType, const point p_pointInput);
+            using JsonSerializer::serialize;
+            void serialize(JsonOut &json) const;
+            void deserialize(JsonIn &jsin);
+    };
+
+    clZones Zones;
+
+    bool save_zones();
+    void load_zones();
+
 protected:
- void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
+ void saven(unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
  bool loadn(const int x, const int y, const int z, const int gridx, const int gridy,
-            const  bool update_vehicles = true, overmap *om = NULL);
+            const  bool update_vehicles = true);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
@@ -518,11 +638,19 @@ protected:
 
  bool veh_in_active_range;
 
- point abs_sub; // same as x y in maps.txt, for 0,0 / grid[0]
- point abs_min; // same as above in absolute coordinates (submap(x,y) * 12)
- point abs_max; // same as abs_min + ( my_MAPSIZE * 12 )
- int world_z;   // same as
- void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
+    /**
+     * Absolute coordinates of first submap (get_submap_at(0,0))
+     * This is in submap coordinates (see overmapbuffer for explanation).
+     * It is set upon:
+     * - loading submap at grid[0],
+     * - generating submaps (@ref generate)
+     * - shifting the map with @ref shift
+     */
+    tripoint abs_sub;
+    /**
+     * Sets @ref abs_sub, see there. Uses the same coordinate system as @ref abs_sub.
+     */
+    void set_abs_sub(const int x, const int y, const int z);
 
 private:
  bool transparency_cache_dirty;

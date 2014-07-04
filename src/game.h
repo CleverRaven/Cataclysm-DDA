@@ -1,7 +1,6 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-#include "platform.h"
 #include "mtype.h"
 #include "monster.h"
 #include "map.h"
@@ -119,7 +118,7 @@ public:
   bool save();
   void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
-  void write_memorial_file();
+  void write_memorial_file(std::string sLastWords);
   void cleanup_at_end();
   bool do_turn();
   void draw();
@@ -253,9 +252,16 @@ public:
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
-  void peek();
+  void peek( int peekx = 0, int peeky = 0);
   point look_debug();
-  point look_around();// Look at nearby terrain ';'
+
+  bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
+  void zones_manager();
+  void zones_manager_shortcuts(WINDOW *w_info);
+  void zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight, const int width);
+  // Look at nearby terrain ';', or select zone points
+  point look_around(WINDOW *w_info = NULL, const point pairCoordsFirst = point(-1, -1));
+
   int list_items(const int iLastState); //List all items around the player
   int list_monsters(const int iLastState); //List all monsters around the player
   // Shared method to print "look around" info
@@ -405,10 +411,12 @@ public:
   void draw_explosion(int x, int y, int radius, nc_color col);
   void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
   void draw_hit_mon(int x, int y, monster critter, bool dead = false);
-  void draw_hit_player(player *p, bool dead = false);
+  void draw_hit_player(player *p, const int iDam, bool dead = false);
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
+  void draw_sct();
+  void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
 
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
@@ -460,6 +468,7 @@ public:
   void init_npctalk();
   void init_fields();
   void init_weather();
+  void init_weather_anim();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
@@ -682,11 +691,11 @@ public:
   bool is_hostile_within(int distance);
     void activity_on_turn();
     void activity_on_turn_game();
+    void activity_on_turn_vibe();
     void activity_on_turn_refill_vehicle();
     void activity_on_turn_pulp();
     void activity_on_finish();
     void activity_on_finish_reload();
-    void activity_on_finish_read();
     void activity_on_finish_train();
     void activity_on_finish_firstaid();
     void activity_on_finish_fish();

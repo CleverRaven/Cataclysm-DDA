@@ -40,8 +40,9 @@ class mattack
         void fear_paralyze      (monster *z);
         void photograph         (monster *z);
         void tazer              (monster *z);
-        void smg                (monster *z);
+        void smg                (monster *z); // Automated MP5
         void laser              (monster *z);
+        void rifle_tur          (monster *z); // Automated M4
         void flamethrower       (monster *z);
         void copbot             (monster *z);
         void multi_robot        (monster *z); // Pick from tazer, smg, flame
@@ -52,6 +53,8 @@ class mattack
         void bite               (monster *z);
         void brandish           (monster *z);
         void flesh_golem        (monster *z);
+        void lunge              (monster *z);
+        void longswipe          (monster *z);
         void parrot             (monster *z);
         void darkman            (monster *z);
         void slimespring        (monster *z);

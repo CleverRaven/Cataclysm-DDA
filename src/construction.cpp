@@ -176,8 +176,10 @@ void construction_menu()
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
             // If we run out of hotkeys, just stop assigning them.
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s", (current < hotkeys.size()) ? hotkeys[current] : ' ',
-                      utf8_substr(available[current].c_str(), 0, 27).c_str());
+            std::string cur_name = available[current].c_str();
+            mvwprintz(w_con, 1 + i, 1, col, "%c %s",
+                      (current < hotkeys.size()) ? hotkeys[current] : ' ',
+                      utf8_truncate(cur_name, 27).c_str());
         }
 
         if (update_info) {
@@ -191,13 +193,13 @@ void construction_menu()
             }
 
             // Print instructions for toggling recipe hiding.
-            mvwprintz(w_con, 1, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
+            mvwprintz(w_con, iMaxY - 2, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
 
             // Print consruction name
-            mvwprintz(w_con, 2, 31, c_white, "%s", current_desc.c_str());
+            mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
             // Print stages and their requirement
-            int posx = 33, posy = 2;
+            int posx = 33, posy = 1;
             std::vector<construction *> options = constructions_by_desc(current_desc);
             for( unsigned i = 0; i < options.size(); ++i) {
                 construction *current_con = options[i];
@@ -254,13 +256,13 @@ void construction_menu()
                             has_tool[i] = true;
                             col = c_green;
                         }
-                        int length = utf8_width(item_controller->find_template(tool)->name.c_str());
+                        int length = utf8_width(item_controller->find_template(tool)->nname(1).c_str());
                         if( posx + length > FULL_SCREEN_WIDTH - 1 ) {
                             posy++;
                             posx = 33;
                         }
                         mvwprintz(w_con, posy, posx, col,
-                                  item_controller->find_template(tool)->name.c_str());
+                                  item_controller->find_template(tool)->nname(1).c_str());
                         posx += length + 1; // + 1 for an empty space
                         if (j < current_con->tools[i].size() - 1) { // "OR" if there's more
                             if (posx > FULL_SCREEN_WIDTH - 3) {
@@ -296,7 +298,7 @@ void construction_menu()
                             has_component[i] = true;
                             col = c_ltgreen; // Show that WEB_ROPE is on the job!
                         }
-                        int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
+                        int length = utf8_width(item_controller->find_template(comp.type)->nname(comp.count).c_str());
                         if (posx + length > FULL_SCREEN_WIDTH - 1) {
                             posy++;
                             posx = 33;
@@ -589,7 +591,8 @@ void complete_construction()
 {
     construction *built = constructions[g->u.activity.index];
 
-    g->u.practice(calendar::turn, built->skill, std::max(built->difficulty, 1) * 10);
+    g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
+                   (int)(built->difficulty * 1.25) );
     for (int i = 0; i < built->components.size(); i++) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
@@ -743,6 +746,12 @@ void construct::done_deconstruct(point p)
         }
         add_msg(_("You disassemble the %s."), f.name.c_str());
         g->m.spawn_item_list(f.deconstruct.items, p.x, p.y);
+        // Hack alert.
+        // Signs have cosmetics associated with them on the submap since 
+        // furniture can't store dynamic data to disk. To prevent writing
+        // mysteriously appearing for a sign later built here, remove the
+        // writing from the submap.
+        g->m.delete_signage(p.x, p.y);
     } else {
         ter_t &t = g->m.ter_at(p.x, p.y);
         if (!t.deconstruct.can_do) {

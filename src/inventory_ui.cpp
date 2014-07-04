@@ -204,6 +204,10 @@ void inventory_selector::make_item_list(const indexed_invslice &slice, const ite
 
 void inventory_selector::prepare_paging()
 {
+    if (items.size() == 0) {
+        in_inventory = false;
+    }
+
     prepare_paging(items);
     prepare_paging(worn);
 }
@@ -297,11 +301,11 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             continue;
         }
         const item &it = *cur_entry.it;
-        std::string item_name = const_cast<item&>(it).display_name();
+        std::string item_name = it.display_name();
         if (cur_entry.slice != NULL) {
             const size_t count = cur_entry.slice->size();
             if (count > 1) {
-                item_name = string_format("%d %s", count, const_cast<item&>(it).display_name(count).c_str());
+                item_name = string_format("%d %s", count, it.display_name(count).c_str());
             }
         }
         nc_color name_color = const_cast<item&>(it).color_in_inventory();
@@ -358,7 +362,7 @@ void inventory_selector::print_right_column() const
         const char invlet = invlet_or_space(it);
         const int count = a->second;
         const nc_color col = const_cast<item&>(it).color_in_inventory();
-        std::string item_name = const_cast<item&>(it).display_name(count);
+        std::string item_name = it.display_name(count);
         if (stack.size() > 1) {
             item_name = string_format("%d %s", stack.size(), item_name.c_str());
         }
@@ -505,7 +509,9 @@ bool inventory_selector::handle_movement(const std::string &action)
     if (action == "CATEGORY_SELECTION") {
         inCategoryMode = !inCategoryMode;
     } else if (action == "LEFT") {
-        in_inventory = !in_inventory;
+        if (this->items.size() > 0) {
+            in_inventory = !in_inventory;
+        }
     } else if (action == "DOWN") {
         selected++;
         if (inCategoryMode) {
@@ -923,10 +929,10 @@ void game::compare(int iCompareX, int iCompareY)
             sItemCh = inv_s.first_item->tname();
             inv_s.second_item->info(true, &vItemLastCh);
             sItemLastCh = inv_s.second_item->tname();
-            compare_split_screen_popup(0, (TERMX - VIEW_OFFSET_X * 2) / 2, TERMY - VIEW_OFFSET_Y * 2,
-                                       sItemLastCh, vItemLastCh, vItemCh, -1, true); //without getch()
-            compare_split_screen_popup((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
-                                       TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh);
+            draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
+                           sItemLastCh, vItemLastCh, vItemCh, -1, true); //without getch()
+            draw_item_info((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
+                           0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh);
             inv_s.dropping = prev_droppings;
             inv_s.second_item = NULL;
         } else {
