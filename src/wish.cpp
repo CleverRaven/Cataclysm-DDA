@@ -339,7 +339,7 @@ void game::wishmonster(int x, int y)
     for (std::map<std::string, mtype *>::const_iterator mon = montypes.begin();
          mon != montypes.end(); ++mon) {
         wmenu.addentry( i, true, 0, "%s", mon->second->nname().c_str() );
-        wmenu.entries[i].extratxt.txt = string_format("%c", mon->second->sym);
+        wmenu.entries[i].extratxt.txt = mon->second->sym;
         wmenu.entries[i].extratxt.color = mon->second->color;
         wmenu.entries[i].extratxt.left = 1;
         ++i;

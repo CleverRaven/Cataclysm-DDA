@@ -2198,5 +2198,52 @@
                 "panties"
             ]
         }
-    }
+    },
+    
+    {
+      "type": "profession",
+      "ident": "patriot",
+      "name": "Patriot",
+      "description": "It's Independence Day, and you're fully prepared to celebrate the end of the world in style.",
+      "points": 0,
+      "items": {
+           "both": [
+           "jeans",
+           "flag_shirt",
+           "backpack",
+           "sneakers",
+           "wine_noir",
+           "wine_riesling",
+           "beer",
+           "beer",
+           "beer",
+           "beer",
+           "beer",
+           "beer",
+           "firecracker_pack",
+           "firecracker_pack",
+           "firecracker_pack",
+           "firecracker_pack",
+           "firecracker_pack",
+           "firecracker",
+           "firecracker",
+           "firecracker",
+           "firecracker",
+           "firecracker",
+           "mininuke",
+           "c4",
+           "dynamite",
+           "LAW_Packed",
+           "american_flag",
+           "ref_lighter"
+           ],
+           "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+      }
+ }
 ]

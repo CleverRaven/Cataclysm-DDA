@@ -80,7 +80,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  // Information on how our symbol should appear
  nc_color basic_symbol_color();
  nc_color symbol_color();
- char symbol();
+ const std::string &symbol() const;
  bool is_symbol_inverted();
  bool is_symbol_highlighted();
 

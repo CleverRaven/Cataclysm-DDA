@@ -735,8 +735,12 @@ of pureed bone & LSD."));
                         item *blood = &(g->m.i_at(x, y)[0].contents[0]);
                         if (blood->corpse == NULL || blood->corpse->id == "mon_null") {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if (blood->corpse->sym == 'Z') {
-                            print_line(_("Result:  Human blood.  Unknown pathogen found."));
+                        } else if( blood->corpse->in_species( "ZOMBIE" ) ) {
+                            if( blood->corpse->sym == "Z" ) {
+                                print_line(_("Result:  Human blood.  Unknown pathogen found."));
+                            } else {
+                                print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));
+                            }
                             print_line(_("Pathogen bonded to erythrocytes and leukocytes."));
                             if (query_bool(_("Download data?"))) {
                                 if (!g->u.has_amount("usb_drive", 1)) {

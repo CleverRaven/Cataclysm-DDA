@@ -405,7 +405,7 @@ void add_corpse(int x, int y);
  const std::string get_signage(const int x, const int y) const;
  void set_signage(const int x, const int y, std::string message) const;
  void delete_signage(const int x, const int y) const;
- 
+
  // Radiation
  int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
  void set_radiation(const int x, const int y, const int value);
@@ -496,6 +496,7 @@ void add_corpse(int x, int y);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  void place_vending(int x, int y, std::string type);
+ void place_npc(int x, int y, std::string type);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
 // put_items_from puts exactly num items, based on chances

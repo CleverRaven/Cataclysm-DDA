@@ -106,9 +106,15 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
-    point map_origin = overmapbuffer::sm_to_omt_copy( g->levx, g->levy );
-    map_origin.x += g->cur_om->pos().x * OMAPX;
-    map_origin.y += g->cur_om->pos().y * OMAPY;
+    point map_origin;
+    if( g->cur_om != NULL ) {
+        map_origin = overmapbuffer::sm_to_omt_copy( g->levx, g->levy );
+        map_origin.x += g->cur_om->pos().x * OMAPX;
+        map_origin.y += g->cur_om->pos().y * OMAPY;
+    } else {
+        map_origin.x = INT_MIN;
+        map_origin.y = INT_MIN;
+    }
 
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;

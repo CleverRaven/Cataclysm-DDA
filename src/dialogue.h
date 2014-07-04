@@ -39,6 +39,10 @@ struct talk_function
     void give_equipment       (npc*);
     void start_trade          (npc*);
     void assign_base          (npc*);
+    void assign_guard         (npc*);
+    void stop_guard           (npc*);
+    void end_conversation     (npc*);
+    void insult_combat        (npc*);
     void follow               (npc*); // p follows u
     void deny_follow          (npc*); // p gets DI_ASKED_TO_FOLLOW
     void deny_lead            (npc*); // p gets DI_ASKED_TO_LEAD

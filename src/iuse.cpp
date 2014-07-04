@@ -985,6 +985,10 @@ int iuse::eyedrops(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
+    if (it->charges < 1) {
+        p->add_msg_if_player(_("You're out of %s."), it->tname().c_str());
+        return false;
+    } 
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
     if (p->has_disease("boomered")) {
@@ -5472,10 +5476,13 @@ int iuse::pheromone(player *p, item *it, bool)
     for (int x = pos.x - 4; x <= pos.x + 4; x++) {
         for (int y = pos.y - 4; y <= pos.y + 4; y++) {
             int mondex = g->mon_at(x, y);
-            if (mondex != -1 && g->zombie(mondex).symbol() == 'Z' &&
-                g->zombie(mondex).friendly == 0 && rng(0, 500) > g->zombie(mondex).hp) {
+            if( mondex == -1 ) {
+                continue;
+            }
+            monster &critter = g->zombie( mondex );
+            if( critter.type->in_species( "ZOMBIE" ) && critter.friendly == 0 && rng( 0, 500 ) > critter.hp ) {
                 converts++;
-                g->zombie(mondex).make_friendly();
+                critter.make_friendly();
             }
         }
     }

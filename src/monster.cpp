@@ -299,7 +299,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
     return vStart;
 }
 
-char monster::symbol()
+const std::string &monster::symbol() const
 {
     return type->sym;
 }

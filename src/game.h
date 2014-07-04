@@ -203,6 +203,7 @@ class game
         int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                                    int npc_id = -1);
         npc *find_npc(int id);
+        void load_npcs(); //Make any nearby NPCs from the overmap active.
         int kill_count(std::string mon);       // Return the number of kills of a given mon_id
         mission *find_mission(int id); // Mission with UID=id; NULL if non-existant
         mission_type *find_mission_type(int id); // Same, but returns its type
@@ -311,7 +312,7 @@ class game
 
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
         std::list<item> consume_items(player *p, std::vector<component> components);
-        void consume_tools(player *p, std::vector<component> tools, bool force_available);
+        void consume_tools(player *p, std::vector<component> tools);
         /**
          * Returns the recipe that is used to disassemble the given item type.
          * Returns NULL if there is no recipe to disassemble the item type.
@@ -500,7 +501,6 @@ class game
         void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
-        void load_npcs(); //Make any nearby NPCs from the overmap active.
         void create_starting_npcs(); // Creates NPCs that start near you
 
         // Player actions

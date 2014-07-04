@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "output.h"
 #include "item_factory.h"
+#include "catacharset.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -333,7 +334,10 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");
 
-        newmon->sym = jo.get_string("symbol")[0]; // will fail here if there is no symbol
+        newmon->sym = jo.get_string("symbol");
+        if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
+            jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
+        }
         newmon->color = color_from_string(jo.get_string("color"));
         newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), size_map, MS_MEDIUM);
         newmon->phase = get_from_string(jo.get_string("phase", "SOLID"), phase_map, SOLID);

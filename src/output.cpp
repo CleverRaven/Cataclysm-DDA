@@ -220,10 +220,10 @@ void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
     mvwprintz(w, y, x, FG, "%s", text.c_str());
 }
 
-void mvputch(int y, int x, nc_color FG, long ch)
+void mvputch(int y, int x, nc_color FG, const std::string &ch)
 {
     attron(FG);
-    mvaddch(y, x, ch);
+    mvprintw(y, x, "%s", ch.c_str());
     attroff(FG);
 }
 
@@ -241,11 +241,18 @@ void mvwputch(WINDOW *w, int y, int x, nc_color FG, long ch)
     wattroff(w, FG);
 }
 
-void mvputch_inv(int y, int x, nc_color FG, long ch)
+void mvwputch(WINDOW *w, int y, int x, nc_color FG, const std::string &ch)
+{
+    wattron(w, FG);
+    mvwprintw(w, y, x, "%s", ch.c_str());
+    wattroff(w, FG);
+}
+
+void mvputch_inv(int y, int x, nc_color FG, const std::string &ch)
 {
     nc_color HC = invert_color(FG);
     attron(HC);
-    mvaddch(y, x, ch);
+    mvprintw(y, x, "%s", ch.c_str());
     attroff(HC);
 }
 
@@ -257,11 +264,19 @@ void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, long ch)
     wattroff(w, HC);
 }
 
-void mvputch_hi(int y, int x, nc_color FG, long ch)
+void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, const std::string &ch)
+{
+    nc_color HC = invert_color(FG);
+    wattron(w, HC);
+    mvwprintw(w, y, x, "%s", ch.c_str());
+    wattroff(w, HC);
+}
+
+void mvputch_hi(int y, int x, nc_color FG, const std::string &ch)
 {
     nc_color HC = hilite(FG);
     attron(HC);
-    mvaddch(y, x, ch);
+    mvprintw(y, x, "%s", ch.c_str());
     attroff(HC);
 }
 
@@ -270,6 +285,14 @@ void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, long ch)
     nc_color HC = hilite(FG);
     wattron(w, HC);
     mvwaddch(w, y, x, ch);
+    wattroff(w, HC);
+}
+
+void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, const std::string &ch)
+{
+    nc_color HC = hilite(FG);
+    wattron(w, HC);
+    mvwprintw(w, y, x, "%s", ch.c_str());
     wattroff(w, HC);
 }
 
@@ -1306,7 +1329,7 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
 }
 
 WINDOW *w_hit_animation = NULL;
-void hit_animation(int iX, int iY, nc_color cColor, char cTile)
+void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile)
 {
     /*
     chtype chtOld = mvwinch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
@@ -1319,7 +1342,7 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile)
     }
     w_hit_animation = w_hit;
 
-    mvwputch(w_hit, 0, 0, cColor, cTile);
+    mvwprintz(w_hit, 0, 0, cColor, "%s", cTile.c_str());
     wrefresh(w_hit);
 
     timeout(OPTIONS["ANIMATION_DELAY"]);

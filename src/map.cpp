@@ -1568,7 +1568,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                         furn_set( x, y, f_null );
                     }
                     // Hack alert.
-                    // Signs have cosmetics associated with them on the submap since 
+                    // Signs have cosmetics associated with them on the submap since
                     // furniture can't store dynamic data to disk. To prevent writing
                     // mysteriously appearing for a sign later built here, remove the
                     // writing from the submap.
@@ -4459,6 +4459,11 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
     for (int y = 0; y < SEEY; y++) {
       furn_id furn = tmpsub->get_furn(x, y);
       if (furn && furnlist[furn].has_flag("PLANT")) {
+          if( tmpsub->itm[x][y].empty() ) {
+              // No seed there anymore, we don't know what kind of plant it was.
+              tmpsub->set_furn( x, y, f_null );
+              continue;
+          }
         item seed = tmpsub->itm[x][y][0];
 
         while (calendar::turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
@@ -4475,6 +4480,18 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
     }
   }
   // fixme; roll off into some function elsewhere ---^
+
+  //Merchants will restock their inventories every three days
+  const int merchantRestock = 14400 * 3; //14400 is the length of one day
+  //Check for Merchants to restock
+  if (g->active_npc.size() >= 1){
+    for (int i = 0; i < g->active_npc.size(); i++){
+        if (g->active_npc[i]->restock != -1 && calendar::turn > (g->active_npc[i]->restock + merchantRestock)){
+            g->active_npc[i]->shop_restock();
+            g->active_npc[i]->restock = int(calendar::turn);
+        }
+    }
+  }
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
