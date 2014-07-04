@@ -6355,10 +6355,15 @@ void game::monmove()
         } else {
             (*it)->reset();
             while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
-                turns++;
+                int moves = (*it)->moves;
                 (*it)->move();
-                //build_monmap();
+                if( moves == (*it)->moves ) {
+                    // Count every time we exit npc::move() without spending any moves.
+                    turns++;
+                }
             }
+            // If we spun too long trying to decide what to do (without spending moves),
+            // Invoke cranial detonation to prevent an infinite loop.
             if (turns == 10) {
                 add_msg(_("%s's brain explodes!"), (*it)->name.c_str());
                 (*it)->die();
