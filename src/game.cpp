@@ -1954,10 +1954,13 @@ bool game::cancel_activity_query(const char* message, ...)
 void game::update_weather()
 {
     if (calendar::turn >= nextweather) {
-        if (weatherGen != NULL) weather_generator weatherGen(weatherSeed);
-        w_point w = weatherGen.get_weather(u->pos(), calendar);
+        if(has_generator) {
+            weather_generator weatherGen(weatherSeed);
+            has_generator = true;
+        }
+        w_point w = weatherGen.get_weather(&point(u.posx, u.posy), calendar);
         weather_type old_weather = weather;
-        weather = weatherGen.get_weather_conditions(w);
+        weather = weatherGen.get_weather_conditions(w, calendar);
         temperature = w.temperature;
         g->lightning_active = false;
         nextweather += 150; // Check weather each quarter hour.
@@ -4472,8 +4475,8 @@ void game::debug()
               spstr="";
               diffturn = int(calendar::turn) - (i * 600);
               pit = weather_log.lower_bound(int(diffturn));
-              int prt = get_rot_since(int(diffturn), int(calendar::turn));
-              int perc = ( get_rot_since( int(diffturn), int(diffturn)+600 ) * 100 ) / 600;
+              int prt = get_rot_since(int(diffturn), int(calendar::turn), u->pos());
+              int perc = ( get_rot_since( int(diffturn), int(diffturn)+600 ) * 100, u->pos() ) / 600;
               int frt = int(calendar::turn) - int(diffturn);
               for (int e=0; e < ne; e++) {
                   spstr = string_format("%s | %c %c%s", spstr.c_str(),

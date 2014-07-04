@@ -335,7 +335,8 @@ public:
 
   std::vector <mission_type> mission_types; // The list of mission templates
 
-  weather_generator weatherGen = NULL; //A weather engine.
+  weather_generator weatherGen; //A weather engine.
+  bool has_generator = false;
   unsigned int weatherSeed = 0;
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
