@@ -3556,6 +3556,7 @@ C..C..C...|hhh|#########\n\
                         tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
                         tmpcomp->add_failure(COMPFAIL_DAMAGE);
                         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+                        lw = lw > 0 ? 1 : 0; // only a single row (not two) of walls on the left
                     } else if (one_in(3)) { //operations or utility
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3620,6 +3621,7 @@ A......D.........|dh...|\n\
                                 }
                             }
                         }
+                        lw = 0; // no wall on the left
                     } else if (one_in(2)) { //tribute
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3676,8 +3678,8 @@ ff.......|....|WWWWWWWW|\n\
                         add_item(8, 3, body);
                         add_item(10, 3, body);
                         spawn_item(18, 15, "ax");
+                        lw = 0; // no wall on the left
                     }
-
                     else { //analyzer
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
