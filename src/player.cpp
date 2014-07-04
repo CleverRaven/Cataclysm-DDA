@@ -10151,11 +10151,12 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
             add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
                                       damage_verb.c_str());
             //item is damaged
-            SCT.add(this->xpos(),
-                    this->ypos(),
+            if( is_player() ) {
+                SCT.add(xpos(), ypos(),
                     NORTH,
                     pre_damage_name, m_neutral,
                     damage_verb, m_info);
+            }
         }
     }
     return armor_damaged;
