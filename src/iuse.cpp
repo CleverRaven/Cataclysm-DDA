@@ -985,6 +985,10 @@ int iuse::eyedrops(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
+    if (it->charges < 1) {
+        p->add_msg_if_player(_("You're out of %s."), it->tname().c_str());
+        return false;
+    } 
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
     if (p->has_disease("boomered")) {
