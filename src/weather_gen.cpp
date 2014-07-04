@@ -36,8 +36,9 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
 
     T += current_t; // Add baseline to the noise.
     T += seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2)); // Add season curve offset to account for the winter-summer difference in day-night difference.
-    T += daily_variation * 10 * exp(-pow(current_t / 30, 2)); //((4000 / (current_t + 115) - 24) + seasonal_variation); // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
-
+    T += daily_variation * 10 * exp(-pow(current_t / 30, 2)); // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
+    T = T * 9/5 + 32; // Convert to imperial. =|
+    
     // Humidity variation
     const double mod_h(0);
     const double current_h(base_h + mod_h);
@@ -49,8 +50,11 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     return w_point(T, H, P);
 }
 
-weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t) {
+weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t) const {
     w_point w(get_weather(location, t));
+    return get_weather_conditions(w);
+}
+weather_type weather_generator::get_weather_conditions(const w_point &w) const {
     weather_type r(WEATHER_CLEAR);
     if (w.pressure > 1030 && w.humidity < 70) r = WEATHER_SUNNY;
     if (w.pressure < 1030 && w.humidity > 40) r = WEATHER_CLOUDY;
@@ -78,13 +82,13 @@ void weather_generator::test_weather() {
     std::ofstream testfile;
     std::ostringstream ss;
     testfile.open("weather.output", std::ofstream::trunc);
-    testfile << "turn,temperature(C),humidity(%),pressure(mB)\n";
+    testfile << "turn,temperature(C),humidity(%),pressure(mB)" << std::endl;
 
     for (calendar i(0); i.get_turn() < 14400 * calendar::year_length(); i+=200) {
         ss.str("");
         w_point w = get_weather(point(0,0),i);
         ss << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure;
-        testfile << std::string( ss.str() ) << "\n";
+        testfile << std::string( ss.str() ) << std:endl;
     }
     testfile.close();
 }
