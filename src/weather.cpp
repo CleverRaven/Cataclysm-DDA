@@ -209,9 +209,7 @@ void fill_funnels( int, bool, trap_id t )
                     //end this round of funnel updates when the weather changes.
                 }
                 
-                
                 std::pair<int, int> weathercond = rain_or_acid_level( weather_iterator->second.weather );
-
 
                 if(weathercond.first != 0 || weathercond.second != 0) { //if no rain, skip this
 
