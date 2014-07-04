@@ -977,7 +977,7 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
       p->moves -= 150; // You take your time...
       add_msg(_("You slowly suck up the nectar."));
       p->hunger -= 25;
-      p->add_disease("pkill2", 70);
+      p->add_effect("pkill2", 70);
       p->fatigue += 20;
       // Please drink poppy nectar responsibly.
       if (one_in(20)) {

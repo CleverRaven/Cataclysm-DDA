@@ -181,6 +181,8 @@ public:
     std::map<std::string, int> tools_needed;
     /** A disease or diseases (conditions) to give the player for the stated duration. **/
     std::map<std::string, int> diseases;
+    /** An effect or effects (conditions) to give the player for the stated duration. **/
+    std::map<std::string, int> effects;
     /** A list of stats and adjustments to them. **/
     std::map<std::string, int> stat_adjustments;
 

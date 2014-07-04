@@ -344,7 +344,6 @@ void trapfunc::shotgun(Creature *c, int x, int y)
     }
 }
 
-
 void trapfunc::blade(Creature *c, int, int)
 {
     if (c != NULL) {
@@ -385,7 +384,7 @@ void trapfunc::snare_light(Creature *c, int x, int y)
     monster *z = dynamic_cast<monster *>(c);
     player *n = dynamic_cast<player *>(c);
     if (n != NULL) {
-        n->add_disease("lightsnare", rng(10, 20));
+        n->add_effect("lightsnare", 1, true);
     } else if (z != NULL) {
         switch (z->type->size) {
             case MS_TINY:
@@ -430,7 +429,7 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
     player *n = dynamic_cast<player *>(c);
     if (n != NULL) {
         n->hit(NULL, bp_legs, side, 15, 20);
-        n->add_disease("heavysnare", rng(20, 30));
+        n->add_effect("beartrap", 1, true);
     } else if (z != NULL) {
         int damage;
         switch (z->type->size) {
@@ -587,6 +586,7 @@ void trapfunc::dissector(Creature *c, int x, int y)
             }
         }
     }
+    g->u.add_effect("in_pit", 1, true);
 }
 
 void trapfunc::pit(Creature *c, int x, int y)
@@ -623,6 +623,7 @@ void trapfunc::pit(Creature *c, int x, int y)
             z->hurt(eff * rng(10, 20));
         }
     }
+    g->u.add_effect("in_pit", 1, true);
 }
 
 void trapfunc::pit_spikes(Creature *c, int x, int y)

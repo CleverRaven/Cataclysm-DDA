@@ -1377,7 +1377,7 @@ void cata_tiles::init_light()
     sightrange_max = g->u.unimpaired_range();
     u_clairvoyance = g->u.clairvoyance();
 
-    boomered = g->u.has_disease("boomered");
+    boomered = g->u.has_effect("boomered");
     sight_impaired = g->u.sight_impaired();
     bionight_bionic_active = g->u.has_active_bionic("bio_night");
 }

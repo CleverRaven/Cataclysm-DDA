@@ -3646,7 +3646,7 @@ void map::draw(WINDOW* w, const point center)
  const int light_sight_range = g->u.sight_range(g_light_level);
  const int lowlight_sight_range = std::max(g_light_level / 2, natural_sight_range);
  const int max_sight_range = g->u.unimpaired_range();
- const bool u_is_boomered = g->u.has_disease("boomered");
+ const bool u_is_boomered = g->u.has_effect("boomered");
  const int u_clairvoyance = g->u.clairvoyance();
  const bool u_sight_impaired = g->u.sight_impaired();
  const bool bio_night_active = g->u.has_active_bionic("bio_night");
@@ -3861,7 +3861,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         sym = determine_wall_corner(x, y, sym);
     }
 
-    if (u.has_disease("boomered")) {
+    if (u.has_effect("boomered")) {
         tercol = c_magenta;
     } else if ( u.has_nv() ) {
         tercol = (bright_light) ? c_white : c_ltgreen;

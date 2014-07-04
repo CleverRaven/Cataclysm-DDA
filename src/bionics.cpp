@@ -458,16 +458,16 @@ void player::activate_bionic(int b)
         if (radiation > 0) {
             bad.push_back(_("Irradiated"));
         }
-        if (has_disease("pkill1")) {
+        if (has_effect("pkill1")) {
             good.push_back(_("Minor Painkiller"));
         }
-        if (has_disease("pkill2")) {
+        if (has_effect("pkill2")) {
             good.push_back(_("Moderate Painkiller"));
         }
-        if (has_disease("pkill3")) {
+        if (has_effect("pkill3")) {
             good.push_back(_("Heavy Painkiller"));
         }
-        if (has_disease("pkill_l")) {
+        if (has_effect("pkill_l")) {
             good.push_back(_("Slow-Release Painkiller"));
         }
         if (has_disease("drunk")) {
@@ -497,7 +497,7 @@ void player::activate_bionic(int b)
         if (has_disease("took_prozac")) {
             good.push_back(_("Prozac"));
         }
-        if (has_disease("took_flumed")) {
+        if (has_effect("took_flumed")) {
             good.push_back(_("Antihistamines"));
         }
         if (has_disease("adrenaline")) {
@@ -541,10 +541,10 @@ void player::activate_bionic(int b)
         rem_disease("tetanus");
         remove_effect("poison");
         remove_effect("stung");
-        rem_disease("pkill1");
-        rem_disease("pkill2");
-        rem_disease("pkill3");
-        rem_disease("pkill_l");
+        remove_effect("pkill1");
+        remove_effect("pkill2");
+        remove_effect("pkill3");
+        remove_effect("pkill_l");
         rem_disease("drunk");
         rem_disease("cig");
         rem_disease("high");
@@ -553,7 +553,7 @@ void player::activate_bionic(int b)
         rem_disease("iodine");
         rem_disease("took_xanax");
         rem_disease("took_prozac");
-        rem_disease("took_flumed");
+        remove_effect("took_flumed");
         rem_disease("adrenaline");
         rem_disease("meth");
         pkill = 0;
@@ -579,11 +579,8 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_leukocyte") {
         add_msg(m_neutral, _("You activate your leukocyte breeder system."));
-        if (health < 0) {
-            health = 0;
-        } else {
-            health += 5;
-        }
+        g->u.set_healthy(std::min(100, g->u.get_healthy() + 2));
+        g->u.mod_healthy_mod(20);
     }
     if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);

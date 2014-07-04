@@ -12,7 +12,6 @@ class item;
 
 enum monster_effect_type {
 ME_NULL = 0,
-ME_BEARTRAP,        // Stuck in beartrap
 ME_POISONED,        // Slowed, takes damage
 ME_ONFIRE,          // Lit aflame
 ME_STUNNED,         // Stumbling briefly

@@ -156,29 +156,22 @@ int iuse::royal_jelly(player *p, item *it, bool)
         message = _("You feel cleansed inside!");
         p->rem_disease("fungus");
     }
-    if (p->has_disease("dermatik") || p->has_disease("bloodworms") ||
-        p->has_disease("paincysts") || p->has_disease("brainworm") ||
-        p->has_disease("tapeworm")) {
+    if (p->has_disease("dermatik")) {
         message = _("You feel cleansed inside!");
         p->rem_disease("dermatik");
-        p->rem_disease("bloodworms");
-        p->rem_disease("paincysts");
-        p->rem_disease("brainworm");
-        p->rem_disease("tapeworm");
     }
     if (p->has_effect("blind")) {
         message = _("Your sight returns!");
         p->remove_effect("blind");
     }
-    if (p->has_effect("poison") || p->has_disease("foodpoison") ||
-        p->has_disease("badpoison") || p->has_disease("paralyzepoison") ||
-        p->has_disease("tetanus") || p->has_effect("stung")) {
-        message = _("You feel much better!");
-        p->remove_effect("poison");
+    if (p->has_effect("poison") || p->has_effect("foodpoison") ||
+          p->has_effect("bad_poison") || p->has_effect("paralyzepoison") ||
+          p->has_disease("tetanus") || p->has_effect("stung")) {
         p->remove_effect("stung");
-        p->rem_disease("badpoison");
-        p->rem_disease("foodpoison");
-        p->rem_disease("paralyzepoison");
+        p->remove_effect("poison");
+        p->remove_effect("bad_poison");
+        p->remove_effect("foodpoison");
+        p->remove_effect("paralyzepoison");
         p->rem_disease("tetanus");
     }
     if (p->has_disease("asthma")) {
@@ -205,10 +198,10 @@ static hp_part body_window(player *p, item *, std::string item_name,
     nc_color color = c_ltgray;
     bool allowed_result[num_hp_parts] = { false };
     if (p->hp_cur[hp_head] < p->hp_max[hp_head] ||
-        (p->has_disease("infected", bp_head)) ||
-        (p->has_disease("bite", bp_head)) ||
+        (p->has_effect("infection", bp_head)) ||
+        (p->has_effect("bite", bp_head)) ||
         // By rights "bleed" ought to enable itself via HP loss, but...
-        (p->has_disease("bleed", bp_head)) || force) {
+        (p->has_disease("bleed", bp_head)) || force ) {
         color = g->limb_color(p, bp_head, -1, bleed, bite, infect);
         if (color != c_ltgray || head_bonus != 0) {
             mvwprintz(hp_window, 2, 1, color, _("1: Head"));
@@ -216,8 +209,8 @@ static hp_part body_window(player *p, item *, std::string item_name,
         }
     }
     if (p->hp_cur[hp_torso] < p->hp_max[hp_torso] ||
-        (p->has_disease("infected", bp_torso)) ||
-        (p->has_disease("bite", bp_torso)) ||
+        (p->has_effect("infection", bp_torso)) ||
+        (p->has_effect("bite", bp_torso)) ||
         (p->has_disease("bleed", bp_torso)) || force) {
         color = g->limb_color(p, bp_torso, -1, bleed, bite, infect);
         if (color != c_ltgray || torso_bonus != 0) {
@@ -225,10 +218,11 @@ static hp_part body_window(player *p, item *, std::string item_name,
             allowed_result[hp_torso] = true;
         }
     }
+    int side = 0;
     if (p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l] ||
-        (p->has_disease("infected", bp_arms, 0)) ||
-        (p->has_disease("bite", bp_arms, 0)) ||
-        (p->has_disease("bleed", bp_arms, 0)) || force) {
+        (p->has_effect("infection", bp_arms, side)) ||
+        (p->has_effect("bite", bp_arms, side)) ||
+        (p->has_disease("bleed", bp_arms, side)) || force) {
         color = g->limb_color(p, bp_arms, 0, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 4, 1, color, _("3: Left Arm"));
@@ -236,9 +230,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
         }
     }
     if (p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r] ||
-        (p->has_disease("infected", bp_arms, 1)) ||
-        (p->has_disease("bite", bp_arms, 1)) ||
-        (p->has_disease("bleed", bp_arms, 1)) || force) {
+        (p->has_effect("infection", bp_arms, side)) ||
+        (p->has_effect("bite", bp_arms, side)) ||
+        (p->has_disease("bleed", bp_arms, side)) || force) {
         color = g->limb_color(p, bp_arms, 1, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 5, 1, color, _("4: Right Arm"));
@@ -246,9 +240,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
         }
     }
     if (p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l] ||
-        (p->has_disease("infected", bp_legs, 0)) ||
-        (p->has_disease("bite", bp_legs, 0)) ||
-        (p->has_disease("bleed", bp_legs, 0)) || force) {
+        (p->has_effect("infection", bp_legs, side)) ||
+        (p->has_effect("bite", bp_legs, side)) ||
+        (p->has_disease("bleed", bp_legs, side)) || force) {
         color = g->limb_color(p, bp_legs, 0, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 6, 1, color, _("5: Left Leg"));
@@ -256,9 +250,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
         }
     }
     if (p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r] ||
-        (p->has_disease("infected", bp_legs, 1)) ||
-        (p->has_disease("bite", bp_legs, 1)) ||
-        (p->has_disease("bleed", bp_legs, 1)) || force) {
+        (p->has_effect("infection", bp_legs, side)) ||
+        (p->has_effect("bite", bp_legs, side)) ||
+        (p->has_disease("bleed", bp_legs, side)) || force) {
         color = g->limb_color(p, bp_legs, 1, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 7, 1, color, _("6: Right Leg"));
@@ -323,9 +317,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
             healed_part = hp_torso;
         } else if (ch == '3') {
             if ((p->hp_cur[hp_arm_l] == 0) &&
-                (!((p->has_disease("infected", bp_arms, 0)) ||
-                   (p->has_disease("bite", bp_arms, 0)) ||
-                   (p->has_disease("bleed", bp_arms, 0))))) {
+                (!((p->has_effect("infection", bp_arms, 0)) ||
+                    (p->has_effect("bite", bp_arms, 0)) ||
+                    (p->has_disease("bleed", bp_arms, 0)))) ) {
                 p->add_msg_if_player(m_info, _("That arm is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {
@@ -333,29 +327,29 @@ static hp_part body_window(player *p, item *, std::string item_name,
             }
         } else if (ch == '4') {
             if ((p->hp_cur[hp_arm_r] == 0) &&
-                (!((p->has_disease("infected", bp_arms, 1)) ||
-                   (p->has_disease("bite", bp_arms, 1)) ||
-                   (p->has_disease("bleed", bp_arms, 1))))) {
+                (!((p->has_effect("infection", bp_arms, 1)) ||
+                    (p->has_effect("bite", bp_arms, 1)) ||
+                    (p->has_disease("bleed", bp_arms, 1)))) ) {
                 p->add_msg_if_player(m_info, _("That arm is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {
                 healed_part = hp_arm_r;
             }
         } else if (ch == '5') {
-            if ((p->hp_cur[hp_leg_l] == 0) &&
-                (!((p->has_disease("infected", bp_legs, 0)) ||
-                   (p->has_disease("bite", bp_legs, 0)) ||
-                   (p->has_disease("bleed", bp_legs, 0))))) {
-                p->add_msg_if_player(m_info, _("That leg is broken.  It needs surgical attention."));
+            if ( (p->hp_cur[hp_leg_l] == 0) &&
+                (!((p->has_effect("infection", bp_legs, 0)) ||
+                    (p->has_effect("bite", bp_legs, 0)) ||
+                    (p->has_disease("bleed", bp_legs, 0)))) ) {
+                p->add_msg_if_player(m_info,_("That leg is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {
                 healed_part = hp_leg_l;
             }
         } else if (ch == '6') {
-            if ((p->hp_cur[hp_leg_r] == 0) &&
-                (!((p->has_disease("infected", bp_legs, 1)) ||
-                   (p->has_disease("bite", bp_legs, 1)) ||
-                   (p->has_disease("bleed", bp_legs, 1))))) {
+            if ( (p->hp_cur[hp_leg_r] == 0) &&
+                (!((p->has_effect("infection", bp_legs, 1)) ||
+                    (p->has_effect("bite", bp_legs, 1)) ||
+                    (p->has_disease("bleed", bp_legs, 1)))) ) {
                 p->add_msg_if_player(m_info, _("That leg is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {
@@ -466,20 +460,20 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
             p->add_msg_if_player(_("You fail to stop the bleeding."));
         }
     }
-    if (p->has_disease("bite", bp_healed, side)) {
+    if (p->has_effect("bite", bp_healed, side)) {
         if (x_in_y(bite, 100)) {
-            int bite_dur = p->disease_duration("bite", false, bp_healed, side);
-            p->rem_disease("bite", bp_healed, side);
+            int bite_dur = p->effect_duration("bite", false, bp_healed, side);
+            p->remove_effect("bite", bp_healed, side);
             p->add_disease("recover", 2 * (3601 - bite_dur) - 4800);
             p->add_msg_if_player(m_good, _("You clean the wound."));
         } else {
             p->add_msg_if_player(m_warning, _("Your wound still aches."));
         }
     }
-    if (p->has_disease("infected", bp_healed, side)) {
+    if (p->has_effect("infection", bp_healed, side)) {
         if (x_in_y(infect, 100)) {
-            int infected_dur = p->disease_duration("infected", false, bp_healed, side);
-            p->rem_disease("infected", bp_healed, side);
+            int infected_dur = p->effect_duration("infection", false, bp_healed, side);
+            p->remove_effect("infection", bp_healed, side);
             if (infected_dur > 8401) {
                 p->add_disease("recover", 3 * (14401 - infected_dur + 3600) - 4800);
             } else {
@@ -532,7 +526,7 @@ int iuse::completefirstaid(player *p, item *it, bool)
 {
     if (num_hp_parts != use_healing_item(p, it, 14, 10, 18, 95, 99, 95, false)) {
         p->add_msg_if_player(_("You finish using the %s."), it->tname().c_str());
-        p->add_disease("pkill1", 120);
+        p->add_effect("pkill1", 120);
     }
     return 0;
 }
@@ -960,12 +954,12 @@ int iuse::ecig(player *p, item *it, bool)
 int iuse::antibiotic(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You take some antibiotics."));
-    if (p->has_disease("infected")) {
+    if (p->has_effect("infection")) {
         // cheap model of antibiotic resistance, but it's something.
         if (x_in_y(95, 100)) {
-            int infected_dur = p->disease_duration("infected", true);
-            p->rem_disease("infected");
-            p->add_disease("recover", std::max((14401 - infected_dur + 3600) - 4800, 0));
+            int infected_dur = p->effect_duration("infection", true);
+            p->remove_effect("infection");
+            p->add_disease("recover", std::max((14401 - infected_dur + 3600) - 4800, 0) );
         }
     }
     if (p->has_disease("tetanus")) {
@@ -991,8 +985,8 @@ int iuse::eyedrops(player *p, item *it, bool)
     } 
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
-    if (p->has_disease("boomered")) {
-        p->rem_disease("boomered");
+    if (p->has_effect("boomered")) {
+        p->remove_effect("boomered");
         p->add_msg_if_player(m_good, _("You wash the slime from your eyes."));
     }
     return it->type->charges_to_use();
@@ -1229,12 +1223,12 @@ int iuse::meth(player *p, item *it, bool)
 int iuse::vitamins(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You take some vitamins."));
-    if (p->health >= 10) {
+    if (p->get_healthy() >= 10) {
         return it->type->charges_to_use();
-    } else if (p->health >= 0) {
-        p->health = 10;
+    } else if (p->get_healthy() >= 0) {
+        p->set_healthy(10);
     } else {
-        p->health += 10;
+        p->mod_healthy(10);
     }
     return it->type->charges_to_use();
 }
@@ -1242,13 +1236,13 @@ int iuse::vitamins(player *p, item *it, bool)
 int iuse::vaccine(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You inject the vaccine."));
-    p->add_msg_if_player(m_good, _("You feel tough."));
-    if (p->health >= 100) {
+    p->add_msg_if_player(_("You feel tough."));
+    if (p->get_healthy() >= 100) {
         return it->type->charges_to_use();
-    } else if (p->health >= 0) {
-        p->health = 100;
+    } else if (p->get_healthy() >= 0) {
+        p->set_healthy(100);
     } else {
-        p->health += 100;
+        p->mod_healthy(100);
     }
     p->mod_pain(3);
     return it->type->charges_to_use();
@@ -1262,7 +1256,7 @@ int iuse::poison(player *p, item *it, bool)
         return it->type->charges_to_use();
     }
     p->add_effect("poison", 600);
-    p->add_disease("foodpoison", 1800);
+    p->add_effect("foodpoison", 1800);
     return it->type->charges_to_use();
 }
 
@@ -1330,14 +1324,14 @@ int iuse::iodine(player *p, item *it, bool)
 
 int iuse::flumed(player *p, item *it, bool)
 {
-    p->add_disease("took_flumed", 6000);
+    p->add_effect("took_flumed", 6000);
     p->add_msg_if_player(_("You take some %s"), it->tname().c_str());
     return it->type->charges_to_use();
 }
 
 int iuse::flusleep(player *p, item *it, bool)
 {
-    p->add_disease("took_flumed", 7200);
+    p->add_effect("took_flumed", 7200);
     p->fatigue += 30;
     p->add_msg_if_player(_("You take some %s"), it->tname().c_str());
     p->add_msg_if_player(m_warning, _("You feel very sleepy..."));
@@ -1424,7 +1418,7 @@ int iuse::mutagen(player *p, item *it, bool)
             p->thirst += 10;
             if (one_in(4)) {
                 p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_disease("downed", 1);
+                p->add_effect("downed", 1);
             }
         }
         if (one_in(2)) {
@@ -1449,7 +1443,7 @@ int iuse::mutagen(player *p, item *it, bool)
             p->thirst += 10;
             if (one_in(4)) {
                 p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_disease("downed", 1);
+                p->add_effect("downed", 1);
             }
         }
     } else {
@@ -1524,7 +1518,7 @@ int iuse::mutagen(player *p, item *it, bool)
         p->thirst += 10;
         if (one_in(4)) {
             p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-            p->add_disease("downed", 1);
+            p->add_effect("downed", 1);
         }
     }
     return it->type->charges_to_use();
@@ -1583,7 +1577,7 @@ int iuse::mut_iv(player *p, item *it, bool)
             p->fatigue += 5;
             p->thirst += 10;
             p->add_msg_if_player(m_bad, _("You writhe and collapse to the ground."));
-            p->add_disease("downed", rng(1, 4));
+            p->add_effect("downed", rng(1, 4));
         }
         if (!one_in(3)) {
             //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
@@ -1908,7 +1902,7 @@ int iuse::mut_iv(player *p, item *it, bool)
                 } else {
                     p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
                     p->pain += 8;
-                    p->add_disease("stunned", rng(3, 5));
+                    p->add_effect("stunned", rng(3, 5));
                 }
             } else if (p->mutation_category_level[primary] > 80) {
                 if (g->u.has_trait("NOPAIN")) {
@@ -1916,14 +1910,14 @@ int iuse::mut_iv(player *p, item *it, bool)
                 } else {
                     p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
                     p->pain += 6;
-                    p->add_disease("stunned", rng(2, 4));
+                    p->add_effect("stunned", rng(2, 4));
                 }
             } else if (p->mutation_category_level[primary] > 60) {
                 if (g->u.has_trait("NOPAIN")) {
                     p->add_msg_if_player(m_bad, _("You feel Bugged."));
                 } else {
                     p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
-                    p->add_disease("stunned", rng(2, 3));
+                    p->add_effect("stunned", rng(2, 3));
                 }
             }
         }
@@ -2999,8 +2993,8 @@ static bool cauterize_effect(player *p, item *it, bool force = true)
         body_part bp = num_bp;
         int side = -1;
         p->hp_convert(hpart, bp, side);
-        if (p->has_disease("bite", bp, side)) {
-            g->u.add_disease("bite", 2600, false, 1, 1, 0, -1, bp, side, true);
+        if (p->has_effect("bite", bp, side)) {
+            g->u.add_effect("bite", 2600, false, 1, bp, side);
         }
         return true;
     }
@@ -3012,7 +3006,7 @@ static int cauterize_elec(player *p, item *it)
     if (it->charges == 0) {
         p->add_msg_if_player(m_info, _("You need batteries to cauterize wounds."));
         return 0;
-    } else if (!p->has_disease("bite") && !p->has_disease("bleed") && !p->is_underwater()) {
+    } else if (!p->has_effect("bite") && !p->has_disease("bleed") && !p->is_underwater()) {
         if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) &&
             query_yn(_("Cauterize yourself for fun?"))) {
             return cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
@@ -3038,7 +3032,7 @@ int iuse::solder_weld(player *p, item *it, bool)
 
     // Option for cauterization only if player has the incentive to do so
     // One does not check for open wounds with a soldering iron.
-    if ((p->has_disease("bite") || p->has_disease("bleed")) && !p->is_underwater()) {
+    if ((p->has_effect("bite") || p->has_disease("bleed")) && !p->is_underwater()) {
         choice = menu(true, ("Using soldering item:"), _("Cauterize wound"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     } else if (p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") ||
@@ -6183,7 +6177,7 @@ int iuse::dog_whistle(player *p, item *it, bool)
                 if (u_see) {
                     p->add_msg_if_player(_("Your %s goes docile."), g->zombie(i).name().c_str());
                 }
-                g->zombie(i).add_effect("docile", 1, 1, true);
+                g->zombie(i).add_effect("docile", 1, true);
             }
         }
     }
@@ -6236,17 +6230,17 @@ int iuse::knife(player *p, item *it, bool t)
     uimenu kmenu;
     kmenu.selected = uistate.iuse_knife_selected;
     kmenu.text = _("Using knife:");
-    kmenu.addentry(cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood"));
-    kmenu.addentry(carve_writing, true, -1, _("Carve writing on item"));
-    if ((p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ||
-         p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) && !p->is_underwater()) {
-        if (!p->has_charges("fire", 4)) {
-            kmenu.addentry(cauterize, false, -1,
-                           _("You need a lighter with 4 charges before you can cauterize yourself."));
+    kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
+    kmenu.addentry( carve_writing, true, -1, _("Carve writing on item") );
+    if( (p->has_effect("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ||
+         p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) && !p->is_underwater() ) {
+        if ( !p->has_charges("fire", 4) ) {
+            kmenu.addentry( cauterize, false, -1,
+                            _("You need a lighter with 4 charges before you can cauterize yourself.") );
         } else {
-            kmenu.addentry(cauterize, true, -1,
-                           ((p->has_disease("bite") || p->has_disease("bleed")) &&
-                            !p->is_underwater()) ? _("Cauterize") : _("Cauterize...for FUN!"));
+            kmenu.addentry( cauterize, true, -1,
+                            ((p->has_effect("bite") || p->has_disease("bleed")) &&
+                             !p->is_underwater()) ? _("Cauterize") : _("Cauterize...for FUN!") );
         }
     }
     kmenu.addentry(cancel, true, 'q', _("Cancel"));
@@ -6256,9 +6250,9 @@ int iuse::knife(player *p, item *it, bool t)
         uistate.iuse_knife_selected = choice;
     }
 
-    if (choice == cauterize) {
-        bool has_disease = p->has_disease("bite") || p->has_disease("bleed");
-        if (cauterize_effect(p, it, !has_disease)) {
+    if ( choice == cauterize) {
+        bool has_disease = p->has_effect("bite") || p->has_disease("bleed");
+        if( cauterize_effect(p, it, !has_disease) ) {
             p->use_charges("fire", 4);
         }
         return it->type->charges_to_use();
@@ -7757,28 +7751,28 @@ int iuse::adrenaline_injector(player *p, item *it, bool)
 
 int iuse::jet_injector(player *p, item *it, bool)
 {
-    if (it->charges < it->type->charges_to_use()) {
-        p->add_msg_if_player(m_info, _("The jet injector is empty."), it->tname().c_str());
-        return 0;
-    } else {
-        p->add_msg_if_player(_("You inject yourself with the jet injector."));
-        p->add_disease("jetinjector", 200);
-        p->pkill += 20;
-        p->stim += 10;
-        p->rem_disease("infected");
-        p->rem_disease("bite");
-        p->rem_disease("bleed");
-        p->rem_disease("fungus");
-        p->rem_disease("dermatik");
-        p->radiation += 4;
-        p->healall(20);
-    }
+  if(it->charges == 0) {
+    p->add_msg_if_player(m_info, _("The jet injector is empty."), it->tname().c_str());
+    return 0;
+} else {
+    p->add_msg_if_player(_("You inject yourself with the jet injector."));
+    p->add_disease("jetinjector", 200);
+    p->pkill += 20;
+    p->stim += 10;
+    p->remove_effect("infection");
+    p->remove_effect("bite");
+    p->rem_disease("bleed");
+    p->rem_disease("fungus");
+    p->rem_disease("dermatik");
+    p->radiation += 4;
+    p->healall(20);
+  }
 
-    if (p->has_disease("jetinjector") &&
-        p->disease_duration("jetinjector") > 200) {
-        p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
-    }
-    return it->type->charges_to_use();
+  if(p->has_disease("jetinjector") &&
+            p->disease_duration("jetinjector") > 200) {
+    p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
+  }
+  return it->type->charges_to_use();
 }
 
 int iuse::radglove(player *p, item *it, bool)

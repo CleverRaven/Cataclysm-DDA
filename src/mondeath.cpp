@@ -78,7 +78,7 @@ void mdeath::boomer(monster *z) {
         }
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1) {
-        g->u.infect("boomered", bp_eyes, 2, 24, false, 1, 1);
+        g->u.add_env_effect("boomered", bp_eyes, 2, 24);
     }
 }
 

@@ -259,12 +259,22 @@ long consume_drug_iuse::use(player *p, item *it, bool) const
     for( auto disease = diseases.cbegin(); disease != diseases.cend(); ++disease ) {
         int duration = disease->second;
         if (p->has_trait("TOLERANCE")) {
-            duration -= 10; // Symmetry would cause negative duration.
+            duration *= .75;
         }
         else if (p->has_trait("LIGHTWEIGHT")) {
-            duration += 20;
+            duration *= 1.25;
         }
         p->add_disease( disease->first, duration );
+    }
+    for( auto effect = effects.cbegin(); effect != effects.cend(); ++effect ) {
+        int duration = effect->second;
+        if (p->has_trait("TOLERANCE")) {
+            duration *= .75;
+        }
+        else if (p->has_trait("LIGHTWEIGHT")) {
+            duration *= 1.25;
+        }
+        p->add_effect( disease->first, duration );
     }
     for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
         p->mod_stat( stat->first, stat->second );

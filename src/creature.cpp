@@ -19,6 +19,8 @@ Creature::Creature()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    healthy = 0;
+    healthy_mod = 0;
     moves = 0;
     pain = 0;
     killer = NULL;
@@ -48,6 +50,9 @@ Creature::Creature(const Creature &rhs)
     dex_bonus = rhs.dex_bonus;
     per_bonus = rhs.per_bonus;
     int_bonus = rhs.int_bonus;
+
+    healthy = rhs.healthy;
+    healthy_mod = rhs.healthy_mod;
 
     num_blocks = rhs.num_blocks;
     num_dodges = rhs.num_dodges;
@@ -533,30 +538,116 @@ bool is_expired_effect(effect &e)   // utility function for process_effects
         return false;
     }
 }
-
-void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool permanent)
+bool Creature::move_effects()
 {
-    // check if we already have it
-    std::vector<effect>::iterator first_eff =
-        std::find_if(effects.begin(), effects.end(), is_id_functor(eff_id));
+    //Check things that prevent the player from moving at all first
+    if (has_effect("downed")) {
+        if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
+            add_msg_if_player(_("You struggle to stand."));
+            mod_moves(-100);
+        } else {
+            add_msg_if_player(_("You stand up."));
+            remove_effect("downed");
+            mod_moves(-100);
+        }
+        return true;
+    }
+    //Then things/traps that would stop them from moving
+    if (has_effect("lightsnare")) {
+        mod_moves(-100);
+        if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
+            remove_effect("lightsnare");
+            add_msg_if_player(_("You free yourself from the light snare!"));
+        } else {
+            add_msg_if_player(_("You try to free yourself from the light snare, but can't get loose!"));
+        }
+        return true;
+    }
+    if (has_effect("heavysnare")) {
+        mod_moves(-100);
+        if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
+            remove_effect("heavysnare");
+            add_msg_if_player(_("You free yourself from the heavy snare!"));
+        } else {
+            add_msg_if_player(_("You try to free yourself from the heavy snare, but can't get loose!"));
+        }
+        return true;
+    }
+    /* Real bear traps can't be removed without the proper tools; eventually this should
+       allow the player two options, removal of the limb or removal of the trap from the ground
+       (at which point the player could later remove it from the leg with the right tools).
+    */
+    if (has_effect("beartrap")) {
+        mod_moves(-100);
+        if(x_in_y(get_str(), 100)) {
+            remove_effect("beartrap");
+            add_msg_if_player(_("You free yourself from the bear trap!"));
+        } else {
+            add_msg_if_player(_("You try to free yourself from the bear trap, but can't get loose!"));
+        }
+        return true;
+    }
+    if (has_effect("in_pit")) {
+        if (rng(0, 40) > get_str() + int(get_dex() / 2)) {
+            add_msg_if_player(_("You try to escape the pit, but slip back in."));
+            mod_moves(-100);
+            return true;
+        } else {
+            add_msg_if_player(_("You escape the pit!"));
+            remove_effect("in_pit");
+        }
+    }
+    return false;
+}
+void Creature::add_effect(efftype_id eff_id, int dur, bool perm, int intensity, body_part bp,
+                            int side)
+{
+    if (dur <= 0 || intensity <= 0) {
+        return;
+    }
+    if (effect_types[eff_id].main_parts()) {
+        if (bp == bp_eyes || bp == bp_mouth) {
+            bp = bp_head;
+        } else if (bp == bp_hands) {
+            bp = bp_arms;
+        } else if (bp == bp_feet) {
+            bp = bp_legs;
+        }
+    }
 
-    if (first_eff != effects.end()) {
-        // if we do, mod the duration
-        first_eff->mod_duration(dur);
-        // Adding a permanent effect makes it permanent
-        if (first_eff->is_permanent()) {
-            first_eff->pause_effect();
+    bool found = false;
+    std::vector<effect>::iterator it = effects.begin();
+    while ((it != effects.end()) && !found) {
+        if (it->get_id() == eff_id) {
+            if ((bp == num_bp) ^ (it->get_bp() == num_bp)) {
+                debugmsg("Bodypart missmatch when applying effect %s", eff_id.c_str());
+                return;
+            } else if (it->get_bp() == bp && ((it->get_side() == -1) ^ (side == -1))) {
+                debugmsg("Side of body missmatch when applying effect %s", eff_id.c_str());
+                return;
+            }
+            if (it->get_bp() == bp && it->get_side() == side) {
+                if (it->get_effect_type()->get_additive() > 0) {
+                    it->mod_duration(dur);
+                } else if (it->get_effect_type()->get_additive() < 0) {
+                    it->mod_duration(-dur);
+                    if (it->get_duration() <= 0) {
+                        it->set_duration(1);
+                    }
+                }
+                it->mod_intensity(intensity);
+                if (it->get_max_intensity() != -1 && it->get_intensity() > it->get_max_intensity()) {
+                    it->set_intensity(it->get_max_intensity());
+                }
+                if (perm) {
+                    it->pause_effect();
+                }
+                found = true;
+            }
         }
-        if (first_eff->get_intensity() + intensity <= first_eff->get_max_intensity()) {
-            first_eff->mod_intensity(intensity);
-        }
-    } else {
-        // if we don't already have it then add a new one
-        if (effect_types.find(eff_id) == effect_types.end()) {
-            return;
-        }
-        effect new_eff(&effect_types[eff_id], dur, intensity, permanent);
-        effects.push_back(new_eff);
+        ++it;
+    }
+    if (!found) {
         if (is_player()) { // only print the message if we didn't already have it
             add_msg(effect_types[eff_id].gain_game_message_type(), effect_types[eff_id].get_apply_message().c_str());
             g->u.add_memorial_log(pgettext("memorial_male",
@@ -564,13 +655,18 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
                                   pgettext("memorial_female",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
+        effect new_eff(&effect_types[eff_id], dur, perm, intensity, bp, side);
+        effects.push_back(new_eff);
+    }
+    if(is_player()) {
+        g->u.recalc_sight_limits();
     }
 }
 bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                                int intensity, bool permanent)
+                            bool perm, int intensity, body_part bp, int side)
 {
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
-        add_effect(eff_id, dur, intensity, permanent);
+        add_effect(eff_id, dur, perm, intensity, bp, side);
         return true;
     } else {
         return false;
@@ -580,41 +676,128 @@ void Creature::clear_effects()
 {
     effects.clear();
 }
-void Creature::remove_effect(efftype_id rem_id)
+void Creature::remove_effect(efftype_id eff_id, body_part bp, int side)
 {
-    // remove all effects with this id
-    effects.erase(std::remove_if(effects.begin(), effects.end(),
-                                 is_id_functor(rem_id)), effects.end());
+    for (size_t i = 0; i < effects.size();) {
+        if (effects[i].get_id() == eff_id && ( bp == num_bp || effects[i].get_bp() == bp ) &&
+            ( side == -1 || effects[i].get_side() == side ) ) {
+            effects.erase(effects.begin() + i);
+            if(is_player()) {
+                add_msg(effects[i].get_effect_type()->get_remove_message().c_str());
+                g->u.add_memorial_log(pgettext("memorial_male", effects[i].get_effect_type()->get_remove_memorial_log().c_str()),
+                                      pgettext("memorial_female", effects[i].get_effect_type()->get_remove_memorial_log().c_str()));
+            }
+        } else {
+            i++;
+        }
+    }
+    if(is_player()) {
+        g->u.recalc_sight_limits();
+    }
 }
-bool Creature::has_effect(efftype_id eff_id)
+bool Creature::has_effect(efftype_id eff_id, body_part bp, int side)
 {
-    // return if any effect in effects has this id
-    return (std::find_if(effects.begin(), effects.end(), is_id_functor(eff_id)) !=
-            effects.end());
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->get_id() == eff_id && ( bp == num_bp || it->get_bp() == bp ) &&
+            ( side == -1 || it->get_side() == side ) ) {
+            return true;
+        }
+    }
+    return false;
 }
-void Creature::process_effects()
+effect Creature::get_effect(efftype_id eff_id, body_part bp, int side)
 {
-    for (std::vector<effect>::iterator it = effects.begin();
-         it != effects.end(); ++it) {
-        if (!it->is_permanent() && it->get_duration() > 0) {
-            it->mod_duration(-1);
-            if (g->debugmon) {
-                debugmsg("Duration %d", it->get_duration());
+    for (size_t i = 0; i < effects.size(); i++) {
+        if (effects[i].get_id() == eff_id && ( bp == num_bp || effects[i].get_bp() == bp ) &&
+            ( side == -1 || effects[i].get_side() == side ) ) {
+            return effects[i];
+        }
+    }
+    effect ret;
+    return ret;
+}
+int Creature::effect_duration(efftype_id eff_id, bool all, body_part bp, int side)
+{
+    int tmp = 0;
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->get_id() == eff_id && (bp == num_bp || it->get_bp() == bp) &&
+            (side == -1 || it->get_side() == side)) {
+            if (all == false) {
+                return it->get_duration();
+            } else {
+                tmp += it->get_duration();
             }
         }
     }
-    effects.erase(std::remove_if(effects.begin(), effects.end(),
-                                 is_expired_effect), effects.end());
+    return tmp;
+}
+int Creature::effect_intensity(efftype_id eff_id, bool all, body_part bp, int side)
+{
+    int tmp = 0;
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->get_id() == eff_id && (bp == num_bp || it->get_bp() == bp) &&
+            (side == -1 || it->get_side() == side)) {
+            if (all == false) {
+                return it->get_intensity();
+            } else {
+                tmp += it->get_intensity();
+            }
+        }
+    }
+    return tmp;
 }
 
+void Creature::process_effects()
+{
+    int health_val = get_healthy();
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        it->decay(health_val);
+    }
+    
+    int added_count = 0;
+    for (size_t i = 0; i < effects.size() - added_count;) {
+        if (effects[i].get_duration() <= 0) {
+            add_msg(effects[i].get_effect_type()->get_remove_message().c_str());
+            g->u.add_memorial_log(pgettext("memorial_male", effects[i].get_effect_type()->get_remove_memorial_log().c_str()),
+                                    pgettext("memorial_female", effects[i].get_effect_type()->get_remove_memorial_log().c_str()));
+            if (effects[i].get_morph_id() != "" &&
+                !(is_player() && g->u.has_trait(effects[i].get_cancel_trait())) ) {
+                add_effect(effects[i].get_morph_id(), effects[i].get_morph_duration(),
+                            effects[i].get_morph_perm(), effects[i].get_morph_intensity(),
+                            effects[i].get_morph_bp(), effects[i].get_morph_side() );
+                //New effects shouldn't be processed
+                added_count += 1;
+            }
+            effects.erase(effects.begin() + i);
+        } else {
+            i++;
+        }
+    }
+}
+
+void Creature::manage_sleep()
+{
+    set_moves(0);
+}
 
 void Creature::mod_pain(int npain)
 {
     pain += npain;
+    if (pain < 0) {
+        pain = 0;
+    }
+}
+void Creature::set_pain(int npain)
+{
+    pain = npain;
 }
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;
+}
+void Creature::set_moves(int nmoves)
+{
+    moves = nmoves;
 }
 
 /*
@@ -682,6 +865,15 @@ int Creature::get_per_bonus() const
 int Creature::get_int_bonus() const
 {
     return int_bonus;
+}
+
+int Creature::get_healthy() const
+{
+    return healthy;
+}
+int Creature::get_healthy_mod() const
+{
+    return healthy_mod;
 }
 
 int Creature::get_num_blocks() const
@@ -840,6 +1032,23 @@ void Creature::mod_int_bonus(int nint)
     int_bonus += nint;
 }
 
+void Creature::set_healthy(int nhealthy)
+{
+    healthy = nhealthy;
+}
+void Creature::set_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod = nhealthy_mod;
+}
+void Creature::mod_healthy(int nhealthy)
+{
+    healthy += nhealthy;
+}
+void Creature::mod_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod += nhealthy_mod;
+}
+
 void Creature::mod_stat( std::string stat, int modifier )
 {
     if( stat == "str" ) {
@@ -864,13 +1073,16 @@ void Creature::mod_stat( std::string stat, int modifier )
         mod_cut_bonus( modifier );
     } else if( stat == "pain" ) {
         mod_pain( modifier );
+    } else if( stat == "healthy" ) {
+        mod_healthy( modifier );
+    } else if( stat == "healthy_mod" ) {
+        mod_healthy_mod( modifier );
     } else if( stat == "moves" ) {
         mod_moves( modifier );
     } else {
         add_msg( "Tried to modify a nonexistent stat %s.", stat.c_str() );
     }
 }
-
 
 void Creature::set_num_blocks_bonus(int nblocks)
 {

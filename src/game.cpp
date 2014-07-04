@@ -1146,8 +1146,8 @@ bool game::do_turn()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if (u.fatigue >= 600 && !u.has_disease("sleep")) {
-        if (u.fatigue >= 1000) {
+    if (u.fatigue >= 600 && !u.has_effect("sleep")){
+        if (u.fatigue >= 1000){
             add_msg(m_bad, _("Survivor sleep now."));
             u.add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
@@ -1162,7 +1162,7 @@ bool game::do_turn()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if (u.fatigue >= 383 && !u.has_disease("sleep")) {
+    if (u.fatigue >= 383 && !u.has_effect("sleep")){
         if (u.fatigue >= 700) {
             if (calendar::turn % 50 == 0) {
                 add_msg(m_warning, _("You're too tired to stop yawning."));
@@ -1170,7 +1170,7 @@ bool game::do_turn()
             }
             if (one_in(50 + u.int_cur)) {
                 // Rivet's idea: look out for microsleeps!
-                u.add_disease("sleep", 5);
+                u.add_effect("sleep", 5);
             }
         } else if (u.fatigue >= 575) {
             if (calendar::turn % 50 == 0) {
@@ -1178,7 +1178,7 @@ bool game::do_turn()
                 u.add_disease("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
-                u.add_disease("sleep", 5);
+                u.add_effect("sleep", 5);
             }
         } else if (u.fatigue >= 383 && calendar::turn % 50 == 0) {
             add_msg(m_warning, _("*yawn* You should really get some sleep."));
@@ -1224,7 +1224,7 @@ bool game::do_turn()
             }
         }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-        if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+        if (u.fatigue < 1050 && !(u.has_effect("sleep") || u.has_effect("lying_down"))) {
             u.fatigue++;
             // Wakeful folks don't always gain fatigue!
             if (u.has_trait("WAKEFUL")) {
@@ -1253,7 +1253,7 @@ bool game::do_turn()
                 u.fatigue++;
             }
         }
-        if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
+        if (u.fatigue == 192 && !u.has_effect("lying_down") && !u.has_effect("sleep")) {
             if (u.activity.type == ACT_NULL) {
                 add_msg(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                         press_x(ACTION_SLEEP).c_str());
@@ -1309,10 +1309,15 @@ bool game::do_turn()
         }
         u.get_sick();
         // Freakishly Huge folks tire quicker
-        if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+        if (u.has_trait("HUGE") && !(u.has_effect("sleep") || u.has_effect("lying_down"))) {
             add_msg(m_info, _("<whew> You catch your breath."));
             u.fatigue++;
         }
+    }
+
+    if (calendar::turn % 3600 == 0)
+    {
+        u.update_health();
     }
 
     // Auto-save if autosave is enabled
@@ -1331,7 +1336,7 @@ bool game::do_turn()
     }
 
     process_activity();
-    if (!u.has_disease("sleep") && !u.has_disease("lying_down")) {
+    if (!u.has_effect("sleep") && !u.has_effect("lying_down")) {
         if (u.moves > 0) {
             while (u.moves > 0) {
                 cleanup_dead();
@@ -1381,7 +1386,7 @@ bool game::do_turn()
         (weffect.*(weather_data[weather].effect))();
     }
 
-    if (u.has_disease("sleep") && int(calendar::turn) % 300 == 0) {
+    if (u.has_effect("sleep") && int(calendar::turn) % 300 == 0) {
         draw();
         refresh();
     }
@@ -1392,7 +1397,6 @@ bool game::do_turn()
     if (calendar::turn % 10 == 0) {
         u.update_morale();
     }
-
     return false;
 }
 
@@ -2625,6 +2629,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("drop_adj");
     ctxt.register_action("bionics");
     ctxt.register_action("sort_armor");
+    ctxt.register_action("treatment");
     ctxt.register_action("wait");
     ctxt.register_action("craft");
     ctxt.register_action("recraft");
@@ -3040,7 +3045,6 @@ bool game::handle_action()
 
     case ACTION_MOVE_NE:
         moveCount++;
-
         if (isRemoteControl) {
             rcdrive(1, -1);
         } else if (veh_ctrl) {
@@ -3052,7 +3056,6 @@ bool game::handle_action()
 
     case ACTION_MOVE_E:
         moveCount++;
-
         if (isRemoteControl) {
             rcdrive(1, 0);
         } else if (veh_ctrl) {
@@ -3354,6 +3357,11 @@ bool game::handle_action()
         refresh_all();
         break;
 
+    case ACTION_TREATMENT:
+        u.treatment();
+        refresh_all();
+        break;
+    
     case ACTION_WAIT:
         wait();
         break;
@@ -3439,7 +3447,7 @@ bool game::handle_action()
                 quicksave();
                 bSleep = true;
             } else if (as_m.ret >= 3 && as_m.ret <= 9) {
-                u.add_disease("alarm_clock", 600 * as_m.ret);
+                u.add_effect("alarm_clock", 600*as_m.ret);
                 bSleep = true;
             }
 
@@ -5395,10 +5403,10 @@ nc_color game::limb_color(player *p, body_part bp, int side, bool bleed, bool bi
     if (bleed && p->has_disease("bleed", bp, side)) {
         color_bit += 1;
     }
-    if (bite && p->has_disease("bite", bp, side)) {
+    if (bite && p->has_effect("bite", bp, side)) {
         color_bit += 10;
     }
-    if (infect && p->has_disease("infected", bp, side)) {
+    if (infect && p->has_effect("infection", bp, side)) {
         color_bit += 100;
     }
     switch (color_bit) {
@@ -6295,9 +6303,9 @@ void game::monmove()
                 u.power_level--;
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
-                if (u.has_disease("sleep") || u.has_disease("lying_down")) {
-                    u.rem_disease("sleep");
-                    u.rem_disease("lying_down");
+                if (u.has_effect("sleep") || u.has_effect("lying_down")) {
+                    u.remove_effect("sleep");
+                    u.remove_effect("lying_down");
                 }
             }
             // We might have stumbled out of range of the player; if so, kill us
@@ -6424,13 +6432,12 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (dist > vol) {
         return false;
     }
-
     if (u.is_deaf()) {
         // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
         if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF") || u.is_wearing("rm13_armor_on")) &&
             rng((vol - dist) / 2, (vol - dist)) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
-            u.add_disease("deaf", duration);
+            u.add_effect("deaf", duration);
         }
         // We're deaf, can't hear it
         return false;
@@ -6440,17 +6447,17 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on") &&
         rng((vol - dist) / 2, (vol - dist)) >= 150) {
         int duration = (vol - dist - 130) / 4;
-        u.add_disease("deaf", duration);
+        u.add_effect("deaf", duration);
     }
 
     // See if we need to wake someone up
-    if (u.has_disease("sleep")) {
+    if (u.has_effect("sleep")){
         if ((!(u.has_trait("HEAVYSLEEPER") ||
                u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
             (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist) ||
             (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) {
             //Not kidding about sleep-thru-firefight
-            u.rem_disease("sleep");
+            u.remove_effect("sleep");
             add_msg(m_warning, _("You're woken up by a noise."));
         } else {
             return false;
@@ -6668,7 +6675,7 @@ void game::flashbang(int x, int y, bool player_immune)
     int dist = rl_dist(u.posx, u.posy, x, y), t;
     if (dist <= 8 && !player_immune) {
         if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on")) {
-            u.add_disease("deaf", 40 - dist * 4);
+            u.add_effect("deaf", 40 - dist * 4);
         }
         if (m.sees(u.posx, u.posy, x, y, 8, t)) {
             int flash_mod = 0;
@@ -12166,12 +12173,15 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--safe mode is on! \
-							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 (%s to turn it off or %s to ignore monster.)"),
+        add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
     }
+    if (u.move_effects()) {
+        return false;
+    }
+
     int x = 0;
     int y = 0;
     if (u.has_effect("stunned")) {
@@ -12180,7 +12190,6 @@ bool game::plmove(int dx, int dy)
     } else {
         x = u.posx + dx;
         y = u.posy + dy;
-
         if (moveCount % 60 == 0) {
             if (u.has_bionic("bio_torsionratchet")) {
                 u.charge_power(1);
@@ -12188,8 +12197,7 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-    dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx << "," << u.posy << ") to (" << x << "," <<
-                         y << ")";
+    dbg(D_PEDANTIC_INFO) << "game:plmove: From ("<<u.posx<<","<<u.posy<<") to ("<<x<<","<<y<<")";
 
     // Check if our movement is actually an attack on a monster
     int mondex = mon_at(x, y);
@@ -12208,7 +12216,7 @@ bool game::plmove(int dx, int dy)
             if (critter.is_hallucination()) {
                 kill_mon(mondex, true);
             }
-            draw_hit_mon(x, y, critter, critter.dead);
+            draw_hit_mon(x,y,critter,critter.dead);
             return false;
         } else {
             displace = true;
@@ -12218,7 +12226,7 @@ bool game::plmove(int dx, int dy)
     int npcdex = npc_at(x, y);
     if (npcdex != -1) {
         bool force_attack = false;
-        if (!active_npc[npcdex]->is_enemy()) {
+        if(!active_npc[npcdex]->is_enemy()){
             if (!query_yn(_("Really attack %s?"), active_npc[npcdex]->name.c_str())) {
                 if (active_npc[npcdex]->is_friend()) {
                     add_msg(_("%s moves out of the way."), active_npc[npcdex]->name.c_str());
@@ -12268,29 +12276,6 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-    if (u.has_disease("in_pit")) {
-        if (rng(0, 40) > u.str_cur + int(u.dex_cur / 2)) {
-            add_msg(m_bad, _("You try to escape the pit, but slip back in."));
-            u.moves -= 100;
-            return false;
-        } else {
-            add_msg(m_good, _("You escape the pit!"));
-            u.rem_disease("in_pit");
-        }
-    }
-    if (u.has_effect("downed")) {
-        if (rng(0, 40) > u.dex_cur + int(u.str_cur / 2)) {
-            add_msg(_("You struggle to stand."));
-            u.moves -= 100;
-            return false;
-        } else {
-            add_msg(_("You stand up."));
-            u.remove_effect("downed");
-            u.moves -= 100;
-            return false;
-        }
-    }
-
     // GRAB: pre-action checking.
     int vpart0 = -1, vpart1 = -1, dpart = -1;
     vehicle *veh0 = m.veh_at(u.posx, u.posy, vpart0);
@@ -12298,29 +12283,27 @@ bool game::plmove(int dx, int dy)
     bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
-    int movecost_modifier =
-        0;       // pulling moves furniture into our origin square, so this changes to subtract it.
+    int movecost_modifier = 0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
-    if (u.grab_point.x != 0 || u.grab_point.y) {
-        if (u.grab_type == OBJECT_VEHICLE) { // default; assume OBJECT_VEHICLE
-            vehicle *grabbed_vehicle = m.veh_at(u.posx + u.grab_point.x, u.posy + u.grab_point.y);
+    if( u.grab_point.x != 0 || u.grab_point.y ) {
+        if ( u.grab_type == OBJECT_VEHICLE ) { // default; assume OBJECT_VEHICLE
+            vehicle *grabbed_vehicle = m.veh_at( u.posx + u.grab_point.x, u.posy + u.grab_point.y );
             // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
             // actually the current tile.
             // If there's a vehicle there, it will actually result in failed movement.
-            if (grabbed_vehicle == veh1) {
+            if( grabbed_vehicle == veh1 ) {
                 veh1 = veh0;
                 vpart1 = vpart0;
             }
-        } else if (u.grab_type ==
-                   OBJECT_FURNITURE) { // Determine if furniture grab is valid, and what we're wanting to do with it based on
-            point fpos(u.posx + u.grab_point.x, u.posy + u.grab_point.y); // where it is
-            if (m.has_furn(fpos.x, fpos.y)) {
-                pushing_furniture = (dx == u.grab_point.x && dy == u.grab_point.y); // and where we're going
-                if (!pushing_furniture) {
-                    point fdest(fpos.x + dx, fpos.y + dy);
-                    pulling_furniture = (fdest.x == u.posx && fdest.y == u.posy);
+        } else if ( u.grab_type == OBJECT_FURNITURE ) { // Determine if furniture grab is valid, and what we're wanting to do with it based on
+            point fpos( u.posx + u.grab_point.x, u.posy + u.grab_point.y ); // where it is
+            if ( m.has_furn(fpos.x, fpos.y) ) {
+                pushing_furniture = ( dx == u.grab_point.x && dy == u.grab_point.y); // and where we're going
+                if ( ! pushing_furniture ) {
+                    point fdest( fpos.x + dx, fpos.y + dy );
+                    pulling_furniture = ( fdest.x == u.posx && fdest.y == u.posy );
                 }
-                shifting_furniture = (pushing_furniture == false && pulling_furniture == false);
+                shifting_furniture = ( pushing_furniture == false && pulling_furniture == false );
             }
         }
     }
@@ -12338,10 +12321,10 @@ bool game::plmove(int dx, int dy)
             }
             return false;
         } else if (veh1 != veh0) {
-            add_msg(m_info, _("There is another vehicle in the way."));
+            add_msg(_("There is another vehicle in the way."));
             return false;
         } else if (veh1->part_with_feature(vpart1, "BOARDABLE") < 0) {
-            add_msg(m_info, _("That part of the vehicle is currently unsafe."));
+            add_msg(_("That part of the vehicle is currently unsafe."));
             return false;
         }
     }
@@ -12349,11 +12332,10 @@ bool game::plmove(int dx, int dy)
     if (m.has_flag("SWIMMABLE", x, y) && m.has_flag(TFLAG_DEEP_WATER, x, y)) { // Dive into water!
         // Requires confirmation if we were on dry land previously
         if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
-             m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)) || query_yn(_("Dive into the water?"))) {
+              m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)) || query_yn(_("Dive into the water?"))) {
             if (!m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy) && u.swim_speed() < 500) {
-                add_msg(_("You start swimming."));
-                add_msg(m_info, "%s to dive underwater.",
-                        press_x(ACTION_MOVE_DOWN).c_str());
+                add_msg(_("You start swimming.  %s to dive underwater."),
+                    press_x(ACTION_MOVE_DOWN).c_str());
             }
             plswim(x, y);
         }
@@ -12399,7 +12381,6 @@ bool game::plmove(int dx, int dy)
                 return false;
             }
         }
-
         float drag_multiplier = 1.0;
         vehicle *grabbed_vehicle = NULL;
         if (u.grab_point.x != 0 || u.grab_point.y != 0) {
@@ -12752,7 +12733,7 @@ bool game::plmove(int dx, int dy)
                                         critter.name().c_str());
                             }
                         } else {
-                            critter.add_effect("docile", 1, 1, true);
+                            critter.add_effect("docile", 1, true);
                             add_msg(_("The %s ."), critter.name().c_str());
                             if (one_in(3)) {
                                 add_msg(_("The %s lets out a whirring noise and starts to follow you."),
@@ -14896,6 +14877,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
         case AEP_BAD_WEATHER:
             add_msg(m_warning, _("You feel storms coming."));
+            break;
+
+        case AEP_SICK:
+            add_msg(_("You feel unwell."));
             break;
         }
     }

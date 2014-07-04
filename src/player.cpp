@@ -25,6 +25,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "wound.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -38,7 +39,6 @@
 #include <fstream>
 
 static void manage_fire_exposure(player& p, int fireStrength = 1);
-static void handle_cough(player& p, int intensity = 1, int volume = 4);
 
 std::map<std::string, trait> traits;
 std::map<std::string, martialart> ma_styles;
@@ -141,7 +141,7 @@ player::player() : Character(), name("")
  recoil = 0;
  driving_recoil = 0;
  scent = 500;
- health = 0;
+
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  start_location = "shelter";
@@ -251,7 +251,6 @@ player& player::operator= (const player & rhs)
  hunger = rhs.hunger;
  thirst = rhs.thirst;
  fatigue = rhs.fatigue;
- health = rhs.health;
 
  underwater = rhs.underwater;
  oxygen = rhs.oxygen;
@@ -840,7 +839,7 @@ void player::update_bodytemp()
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
-    int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
+    int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
     // This adjusts the temperature scale to match the bodytemp scale
     int adjusted_temp = (Ctemperature - ambient_norm);
     // This gets incremented in the for loop and used in the morale calculation
@@ -854,7 +853,7 @@ void player::update_bodytemp()
     int floor_bedding_warmth = 0;
     // If the PC has fur, etc, that'll apply too
     int floor_mut_warmth = 0;
-    if ( has_disease("sleep") ) {
+    if ( has_effect("sleep") ) {
         // Search the floor for items
         std::vector<item>& floor_item = g->m.i_at(posx, posy);
         it_armor* floor_armor = NULL;
@@ -951,7 +950,7 @@ void player::update_bodytemp()
         // HUNGER
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
-        if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
+        if (!has_effect("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
         for (int j = -6 ; j <= 6 ; j++) {
@@ -1035,7 +1034,7 @@ void player::update_bodytemp()
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if (blister_count - 10*get_env_resist(body_part(i)) > 20)
         {
-            add_disease("blisters", 1, false, 1, 1, 0, 1, (body_part)i, -1);
+            add_effect("blisters", 1, false, 1, (body_part)i, -1);
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
@@ -1124,7 +1123,7 @@ void player::update_bodytemp()
         // Chemical Imbalance
         // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
-        if ( has_disease("sleep") ) {
+        if ( has_effect("sleep") ) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
             // Too warm, don't need items on the floor
             if ( temp_conv[i] > BODYTEMP_NORM ) {
@@ -1173,40 +1172,39 @@ void player::update_bodytemp()
         // PENALTIES
         if      (temp_cur[i] < BODYTEMP_FREEZING)
         {
-            add_disease("cold", 1, false, 3, 3, 0, 1, (body_part)i, -1);
+            add_effect("cold", 1, false, 3, (body_part)i, -1);
             frostbite_timer[i] += 3;
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
-            add_disease("cold", 1, false, 2, 3, 0, 1, (body_part)i, -1);
+            add_effect("cold", 1, false, 2, (body_part)i, -1);
             frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
-            add_disease("cold", 1, false, 1, 3, 0, 1, (body_part)i, -1);
+            add_effect("cold", 1, false, 1, (body_part)i, -1);
             frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
-            add_disease("hot",  1, false, 3, 3, 0, 1, (body_part)i, -1);
+            add_effect("hot", 1, false, 3, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
         {
-            add_disease("hot",  1, false, 2, 3, 0, 1, (body_part)i, -1);
+            add_effect("hot", 1, false, 2, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_HOT)
         {
-            add_disease("hot",  1, false, 1, 3, 0, 1, (body_part)i, -1);
+            add_effect("hot", 1, false, 1, (body_part)i, -1);
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
-        int intensity_mult =
-            - disease_intensity("cold", false, (body_part)i) +
-            disease_intensity("hot", false, (body_part)i);
-        if (has_disease("cold", (body_part)i) ||
-            has_disease("hot", (body_part)i))
+        int intensity_mult = effect_intensity("hot", false, (body_part)i)
+            - effect_intensity("cold", false, (body_part)i);
+        if (has_effect("cold", (body_part)i) ||
+            has_effect("hot", (body_part)i))
         {
             switch (i)
             {
@@ -1226,18 +1224,18 @@ void player::update_bodytemp()
         }
         if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
-            add_disease("frostbite", 1, false, 2, 2, 0, 1, (body_part)i, -1);
+            add_effect("frostbite", 1, false, 2, (body_part)i, -1);
             // Warning message for the player
-            if (disease_intensity("frostbite", false, (body_part)i) < 2
+            if (effect_intensity("frostbite", false, (body_part)i) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
                 add_msg(m_bad, (i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
-                add_disease("frostbite", 1, false, 1, 2, 0, 1, (body_part)i, -1);
+                add_effect("frostbite", 1, false, 1, (body_part)i, -1);
                 // Warning message for the player
-                if (!has_disease("frostbite", (body_part)i))
+                if (!has_effect("frostbite", (body_part)i))
                 {
                     add_msg(m_bad, _("You lose sensation in your %s."),
                         body_part_name(body_part(i), -1).c_str());
@@ -1352,6 +1350,9 @@ void player::recalc_speed_bonus()
 
     for (int i = 0; i < illness.size(); i++) {
         mod_speed_bonus(disease_speed_boost(illness[i]));
+    }
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        mod_speed_bonus(it->get_speed_mod());
     }
 
     // add martial arts speed bonus
@@ -1603,7 +1604,7 @@ nc_color player::color()
   return c_red;
  if (has_effect("stunned"))
   return c_ltblue;
- if (has_disease("boomered"))
+ if (has_effect("boomered"))
   return c_pink;
  if (underwater)
   return c_blue;
@@ -1995,8 +1996,6 @@ void player::mod_stat( std::string stat, int modifier )
         thirst += modifier;
     } else if( stat == "fatigue" ) {
         fatigue += modifier;
-    } else if( stat == "health" ) {
-        health += modifier;
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else {
@@ -2023,10 +2022,11 @@ void player::disp_info()
    effect_text.push_back(dis_description(illness[i]));
   }
  }
-    for (std::vector<effect>::iterator it = effects.begin();
-        it != effects.end(); ++it) {
-        effect_name.push_back(it->disp_name());
-        effect_text.push_back(it->get_effect_type()->get_desc());
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->disp_name() != "") {
+            effect_name.push_back(it->disp_name());
+            effect_text.push_back(it->disp_desc(has_trait(it->get_resist_trait())));
+        }
     }
  if (abs(morale_level()) >= 100) {
   bool pos = (morale_level() > 0);
@@ -2565,14 +2565,23 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for (int i = 0; i < illness.size(); i++) {
-        int move_adjust = disease_speed_boost(illness[i]);
+    int move_adjust = 0;
+    for (size_t i = 0; i < illness.size(); i++) {
+        move_adjust = disease_speed_boost(illness[i]);
         if (move_adjust != 0) {
             if (dis_combined_name(illness[i]) == "") {
                 dis_text = dis_name(illness[i]);
             } else {
                 dis_text = dis_combined_name(illness[i]);
             }
+            speed_effects[dis_text] += move_adjust;
+        }
+    }
+
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        move_adjust = it->get_speed_mod();
+        if (move_adjust != 0) {
+            dis_text = it->get_effect_type()->speed_name();
             speed_effects[dis_text] += move_adjust;
         }
     }
@@ -3833,8 +3842,8 @@ void player::recalc_sight_limits()
     // Set sight_max.
     if (has_effect("blind")) {
         sight_max = 0;
-    } else if (has_disease("in_pit") ||
-            (has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+    } else if (has_effect("in_pit") ||
+            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 (!(has_trait("PER_SLIME_OK"))))) {
@@ -3888,7 +3897,7 @@ int player::unimpaired_range()
  if (has_trait("PER_SLIME")) {
     ret = 6;
  }
- if (has_disease("in_pit")) {
+ if (has_effect("in_pit")) {
     ret = 1;
   }
  if (has_effect("blind")) {
@@ -3962,7 +3971,7 @@ int player::clairvoyance()
 
 bool player::sight_impaired()
 {
- return ((has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+ return ((has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
               && !worn_with_flag("SWIM_GOGGLES") && !(has_trait("PER_SLIME_OK"))) ||
   ((has_trait("MYOPIC") || has_trait("URSINE_EYE") ) &&
@@ -4338,10 +4347,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, side, d); //damage applied here
     int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
 
-    if (has_disease("sleep")) {
+    if (has_effect("sleep")) {
         wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    } else if (has_effect("lying_down")) {
+        remove_effect("lying_down");
     }
 
     if (is_player()) {
@@ -4471,18 +4480,13 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != NULL ) {
         if (dealt_dams.total_damage() > 0 && source->has_flag(MF_VENOM)) {
-            add_msg_if_player(m_bad, _("You're poisoned!"));
-            add_disease("poison", 30, false, 1, 20, 100);
             add_effect("poison", 30);
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
-            add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
-            add_disease("badpoison", 40, false, 1, 20, 100);
-            add_effect("badpoison", 40);
+            add_effect("bad_poison", 40);
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
-            add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-            add_disease("paralyzepoison", 100, false, 1, 20, 100);
+            add_msg_if_player(_("You feel poison enter your body!"));
             add_effect("paralyzepoison", 100);
         }
 
@@ -4631,10 +4635,10 @@ void player::hurt(body_part hurt, int side, int dam)
             debugmsg("Wacky body part hurt!");
             hurtpart = hp_torso;
     }
-    if (has_disease("sleep") && rng(0, dam) > 2) {
+    if (has_effect("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    } else if (has_effect("lying_down")) {
+        remove_effect("lying_down");
     }
 
     if (dam <= 0) {
@@ -4661,10 +4665,10 @@ void player::hurt(body_part hurt, int side, int dam)
 
 void player::hurt(hp_part hurt, int dam)
 {
-    if (has_disease("sleep") && rng(0, dam) > 2) {
+    if (has_effect("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    } else if (has_effect("lying_down")) {
+        remove_effect("lying_down");
     }
 
     if (dam <= 0) {
@@ -4768,10 +4772,10 @@ void player::hurtall(int dam)
 
 void player::hitall(int dam, int vary)
 {
-    if (has_disease("sleep")) {
+    if (has_effect("sleep")) {
         wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    } else if (has_effect("lying_down")) {
+        remove_effect("lying_down");
     }
 
     for (int i = 0; i < num_hp_parts; i++) {
@@ -4980,26 +4984,40 @@ void player::recalc_hp()
 
 void player::get_sick()
 {
- if (health > 0 && rng(0, health + 10) < health)
-  health--;
- if (health < 0 && rng(0, 10 - health) < (0 - health))
-  health++;
- if (one_in(12))
-  health -= 1;
-
- if (g->debugmon)
-  debugmsg("Health: %d", health);
-
  if (has_trait("DISIMMUNE"))
   return;
 
  if (!has_disease("flu") && !has_disease("common_cold") &&
-     one_in(900 + 10 * health + (has_trait("DISRESISTANT") ? 300 : 0))) {
+     one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
   if (one_in(6))
    infect("flu", bp_mouth, 3, rng(40000, 80000));
   else
    infect("common_cold", bp_mouth, 3, rng(20000, 60000));
  }
+}
+
+void player::update_health()
+{
+    if (get_healthy_mod() > 200) {
+        set_healthy_mod(200);
+    } else if (get_healthy_mod() < -200) {
+        set_healthy_mod(-200);
+    }
+    int roll = rng(-100, 100);
+    int health_threshold = get_healthy() - get_healthy_mod();
+    if (has_artifact_with(AEP_SICK)) {
+        health_threshold += 50;
+    }
+    if (roll > health_threshold) {
+        mod_healthy(1);
+    } else if (roll < health_threshold) {
+        mod_healthy(-1);
+    }
+    set_healthy_mod(get_healthy_mod() * 3 / 4);
+
+    if (g->debugmon) {
+        debugmsg("Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
+    }
 }
 
 bool player::infect(dis_type type, body_part vector, int strength,
@@ -5301,55 +5319,84 @@ static void manage_fire_exposure(player &p, int fireStrength) {
         }
     }
 }
-static void handle_cough(player &p, int intensity, int loudness) {
-    if (p.is_player()) {
-        add_msg(m_bad, _("You cough heavily."));
-        g->sound(p.posx, p.posy, loudness, "");
-    } else {
-        g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
-    }
-    p.mod_moves(-80);
-    if (rng(1,6) < intensity) {
-        p.apply_damage(NULL, bp_torso, -1, 1);
-    }
-    if (p.has_disease("sleep") && intensity >= 2) {
-        p.wake_up(_("You wake up coughing."));
-    }
-}
 void player::process_effects() {
-    int psnChance;
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        bool reduced = has_trait(it->get_resist_trait());
+        mod_str_bonus(it->get_str_mod(reduced));
+        mod_dex_bonus(it->get_dex_mod(reduced));
+        mod_per_bonus(it->get_per_mod(reduced));
+        mod_int_bonus(it->get_int_mod(reduced));
+
+        if (!has_trait("NOPAIN") && it->get_pain() > 0 && it->get_pain_chance() > 0) {
+            int pain_chance = it->get_pain_chance(reduced);
+            if (it->get_pain_sizing()) {
+                if (has_trait("FAT")) {
+                    pain_chance *= 1.5;
+                }
+                if (has_trait("LARGE") || has_trait("LARGE_OK")) {
+                    pain_chance *= 2;
+                }
+                if (has_trait("HUGE") || has_trait("HUGE_OK")) {
+                    pain_chance *= 3;
+                }
+            }
+            if (one_in(pain_chance)) {
+                add_msg_if_player(_("You're suddenly wracked with pain!"));
+                mod_pain(it->get_pain());
+            }
+        }
+
+        if (it->get_hurt() > 0 && it->get_hurt_chance() > 0) {
+            int hurt_chance = it->get_hurt_chance(reduced);
+            if (it->get_hurt_sizing()) {
+                if (has_trait("FAT")) {
+                    hurt_chance *= 1.5;
+                }
+                if (has_trait("LARGE") || has_trait("LARGE_OK")) {
+                    hurt_chance *= 2;
+                }
+                if (has_trait("HUGE") || has_trait("HUGE_OK")) {
+                    hurt_chance *= 3;
+                }
+            }
+            if (one_in(hurt_chance)) {
+                body_part bp = it->get_bp();
+                if (bp == num_bp) {
+                    hurt(bp_torso, -1, it->get_hurt());
+                } else {
+                    hurt(bp, it->get_side(), it->get_hurt());
+                }
+            }
+        }
+        
+        if (it->get_pkill_amount() > 0 && it->get_pkill_increment() > 0) {
+            if (!it->get_pkill_addict_reduces() || (one_in(addiction_level(ADD_PKILLER)*2))) {
+                if (it->get_duration() % it->get_pkill_increment() == 0) {
+                    if (pkill < it->get_pkill_max() || it->get_pkill_max() == 0) {
+                        pkill += it->get_pkill_amount();
+                        if (pkill < 0) {
+                            pkill = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (it->get_cough_chance() > 0 && one_in(it->get_cough_chance())) {
+            cough(it->get_harmful_cough());
+        }
+
+        if (it->get_vomit_chance() > 0 && will_vomit(it->get_vomit_chance())) {
+            vomit();
+        }
+
+        // (Still) Hardcoded effects
         std::string id = it->get_id();
+        bool sleeping = has_effect("sleep");
+        bool tempMsgTrigger = one_in(400);
         if (id == "onfire") {
             manage_fire_exposure(*this, 1);
-        } else if (id == "poison") {
-            psnChance = 150;
-            if (has_trait("POISRESIST")) {
-                psnChance *= 6;
-            } else {
-                mod_str_bonus(-2);
-                mod_per_bonus(-1);
-            }
-            // Increased body mass means poison's less effective
-            if (has_trait("FAT")) {
-                psnChance *= 1.5;
-            }
-            if (has_trait("LARGE") || has_trait("LARGE_OK")) {
-                psnChance *= 2;
-            }
-            if (has_trait("HUGE") || has_trait("HUGE_OK")) {
-                psnChance *= 3;
-            }
-            if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
-                add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
-                mod_pain(1);
-                hurt(bp_torso, -1, rng(0, 2) * rng(0, 1));
-            }
-            mod_per_bonus(-1);
-            mod_dex_bonus(-1);
         } else if (id == "glare") {
-            mod_per_bonus(-1);
             if (one_in(200)) {
                 add_msg_if_player(m_bad, _("The sunlight's glare makes it hard to see."));
             }
@@ -5358,18 +5405,379 @@ void player::process_effects() {
             if( it->get_duration() >= 600) {
                 it->set_duration(600);
             }
-            mod_str_bonus(-1);
-            mod_dex_bonus(-1);
-            it->set_intensity((it->get_duration()+190)/200);
-            if (it->get_intensity() >= 10 && one_in(6)) {
-                handle_cough(*this, it->get_intensity());
+            it->set_intensity(std::max(1, it->get_duration()/30));
+        } else if (id == "alarm_clock") {
+            if (sleeping) {
+                if (it->get_duration() == 1) {
+                    if(!g->sound(posx, posy, 12, _("beep-beep-beep!"))) {
+                        // 10 minute automatic snooze
+                        it->mod_duration(100);
+                    } else {
+                        add_msg_if_player(_("You turn off your alarm-clock."));
+                    }
+                }
+            } else if (!has_effect("lying_down")) {
+                // Turn the alarm-clock off if you woke up before the alarm
+                add_msg_if_player(_("You turn off your alarm-clock."));
+                it->set_duration(1);
             }
-        } else if (id == "teargas") {
-            mod_str_bonus(-2);
-            mod_dex_bonus(-2);
-            mod_per_bonus(-5);
-            if (one_in(3)) {
-                handle_cough(*this, 4);
+        } else if (id == "lying_down") {
+            set_moves(0);
+            if (can_sleep()) {
+                it->set_duration(1);
+                add_msg_if_player(_("You fall asleep."));
+                // Communicate to the player that he is using items on the floor
+                std::string item_name = is_snuggling();
+                if (item_name == "many") {
+                    if (one_in(15) ) {
+                        add_msg_if_player(_("You nestle your pile of clothes for warmth."));
+                    } else {
+                        add_msg_if_player(_("You use your pile of clothes for warmth."));
+                    }
+                } else if (item_name != "nothing") {
+                    if (one_in(15)) {
+                        add_msg_if_player(_("You snuggle your %s to keep warm."), item_name.c_str());
+                    } else {
+                        add_msg_if_player(_("You use your %s to keep warm."), item_name.c_str());
+                    }
+                }
+                if (is_player() && has_trait("HIBERNATE") && (hunger < -60)) {
+                    add_memorial_log(pgettext("memorial_male", "Entered hibernation."),
+                                       pgettext("memorial_female", "Entered hibernation."));
+                    // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                    fall_asleep(144000);
+                }
+                // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+                // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+                // will last about 8 days.
+                if (hunger >= -60) {
+                fall_asleep(6000); //10 hours, default max sleep time.
+                }
+            }
+            if (it->get_duration() == 1 && !sleeping) {
+                add_msg_if_player(_("You try to sleep, but can't..."));
+            }
+
+        } else if (id == "sleep") {
+            manage_sleep();
+        } else if (id == "hot") {
+            switch(it->get_bp()) {
+                case bp_head:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            if (int(calendar::turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            if (pain < 40) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your head is pounding from the heat."));
+                            }
+                        case 2:
+                            if (int(calendar::turn) % 300 == 0) {
+                                thirst++;
+                            }
+                            // Hallucinations handled in game.cpp
+                            if (one_in(std::min(14500, 15000 - temp_cur[bp_head]))) {
+                                vomit();
+                            }
+                            if (pain < 20) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("The heat is making you see things."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_mouth:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            if (int(calendar::turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            if (pain < 30) {
+                                mod_pain(1);
+                            }
+                        case 2:
+                            if (int(calendar::turn) % 300 == 0) {
+                                thirst++;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_torso:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            if (int(calendar::turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            mod_str_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("You are sweating profusely."));
+                            }
+                        case 2:
+                            if (int(calendar::turn) % 300 == 0) {
+                                thirst++;
+                            }
+                            mod_str_bonus(-1);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_arms:
+                    switch(it->get_intensity()) {
+                        case 3 :
+                            if (int(calendar::turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            if (pain < 30) {
+                                mod_pain(1);
+                            }
+                        case 2:
+                            if (int(calendar::turn) % 300 == 0) {
+                                thirst++;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_hands:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-1);
+                        case 2:
+                            mod_dex_bonus(-1);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_legs:
+                    switch (it->get_intensity()) {
+                        case 3 :
+                            if (int(calendar::turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            if (pain < 30) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your legs are cramping up."));
+                            }
+                        case 2:
+                            if (int(calendar::turn) % 300 == 0) {
+                                thirst++;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_feet:
+                    switch (it->get_intensity()) {
+                        case 3 :
+                            if (pain < 30) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your feet are swelling in the heat."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_eyes:// Eyes are not susceptible by this disease.
+                case num_bp: // Suppress compiler warning [-Wswitch]
+                    break;
+            }
+        } else if (id == "cold") {
+            switch(it->get_bp()) {
+                case bp_head:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_int_bonus(-2);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your thoughts are unclear."));
+                            }
+                        case 2:
+                            mod_int_bonus(-1);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_mouth:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_per_bonus(-2);
+                        case 2:
+                            mod_per_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your face is stiff from the cold."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_torso:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            // Speed -20
+                            mod_dex_bonus(-2);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your torso is freezing cold. \
+                                     You should put on a few more layers."));
+                            }
+                        case 2:
+                            mod_dex_bonus(-2);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_arms:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-2);
+                        case 2:
+                            mod_dex_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your arms are shivering."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_hands:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-2);
+                        case 2:
+                            mod_dex_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your hands feel like ice."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_legs:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-1);
+                            mod_str_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your legs tremble against the relentless cold."));
+                            }
+                        case 2:
+                            mod_dex_bonus(-1);
+                            mod_str_bonus(-1);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_feet:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-1);
+                            mod_str_bonus(-1);
+                            break;
+                        case 2:
+                            mod_dex_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your feet feel frigid."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_eyes:// Eyes are not susceptible by this disease.
+                case num_bp: // Suppress compiler warning [-Wswitch]
+                    break;
+            }
+        } else if (id == "blisters") {
+            switch(it->get_bp()) {
+                case bp_hands:
+                    mod_dex_bonus(-1);
+                    if ( pain < 35 ) {
+                        mod_pain(1);
+                    }
+                    if (one_in(2)) {
+                        hp_cur[hp_arm_r]--;
+                    } else {
+                        hp_cur[hp_arm_l]--;
+                    }
+                    break;
+                case bp_feet:
+                    mod_str_bonus(-1);
+                    if (pain < 35) {
+                        mod_pain(1);
+                    }
+                    if (one_in(2)) {
+                        hp_cur[hp_leg_r]--;
+                    } else {
+                        hp_cur[hp_leg_l]--;
+                    }
+                    break;
+                case bp_mouth:
+                    mod_per_bonus(-1);
+                    hp_cur[hp_head]--;
+                    if (pain < 35) {
+                        mod_pain(1);
+                    }
+                    break;
+                default: // Suppress compiler warnings [-Wswitch]
+                    break;
+            }
+        } else if (id == "frostbite") {
+            switch(it->get_bp()) {
+                case bp_hands:
+                    switch(it->get_intensity()) {
+                        case 2:
+                            mod_dex_bonus(-3);
+                        case 1:
+                            if ((temp_cur[bp_hands] > BODYTEMP_COLD && pain < 40)) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your fingers itch."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_feet:
+                    switch(it->get_intensity()) {
+                        case 2:
+                            if ((temp_cur[bp_feet] > BODYTEMP_COLD && pain < 40)) {
+                                mod_pain(1);
+                            }
+                        case 1:
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your toes itch."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_mouth:
+                    switch(it->get_intensity()) {
+                        case 2:
+                            mod_per_bonus(-2);
+                            if ((temp_cur[bp_mouth] > BODYTEMP_COLD && pain < 40)) {
+                                mod_pain(1);
+                            }
+                        case 1:
+                            mod_per_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                add_msg(_("Your face feels numb."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                default: // Suppress compiler warnings [-Wswitch]
+                    break;
             }
         } else if ( id == "stung" ) {
             mod_pain(1);
@@ -5377,6 +5785,60 @@ void player::process_effects() {
     }
 
     Creature::process_effects();
+}
+
+void player::process_wounds()
+{
+    for (int i = 0; i < wounds.size(); /*no-op*/) {
+        wounds[i].mod_age(1);
+        // Try to heal, only advance i if wound isn't removed
+        if (x_in_y(wounds[i].get_heal_chance_100K(), 100000)) {
+            wounds.erase(wounds.begin() + i);
+        //Handle trigs effects, returns true if wound is removed
+        } else if (wounds[i].roll_trigs(*this)) {
+            wounds.erase(wounds.begin() + i);
+        } else {
+            //Wound wasn't removed, do other effects
+            mod_str_bonus(wounds[i].get_str_mod());
+            mod_dex_bonus(wounds[i].get_dex_mod());
+            mod_per_bonus(wounds[i].get_per_mod());
+            mod_int_bonus(wounds[i].get_int_mod());
+            
+            if (!has_trait("NOPAIN")) {
+                mod_pain(wounds[i].get_pain());
+            }
+            
+            //Not implemented yet
+            //bleed(wounds[i].get_bleed());
+            
+            if (wounds[i].get_bp() == num_bp) {
+                hurt(bp_torso, -1, wounds[i].get_hurt());
+            } else {
+                hurt(wounds[i].get_bp(), wounds[i].get_side(), wounds[i].get_hurt());
+            }
+            
+            for (std::vector<wefftype_id>::iterator it = wounds[i].wound_effects.begin();
+                  it != wounds[i].wound_effects.end(); ++it) {
+                if (wound_eff_types[*it].get_effect_placed() != "") {
+                    if (wound_eff_types[*it].get_targeted_effect()) {
+                        add_effect(wound_eff_types[*it].get_effect_placed(),
+                                    wound_eff_types[*it].get_trig_effect_dur(wounds[i].get_severity()),
+                                    wound_eff_types[*it].get_effect_perm(),
+                                    wound_eff_types[*it].get_trig_effect_int(wounds[i].get_severity()),
+                                    wounds[i].get_bp(), wounds[i].get_side());
+                    } else {
+                        add_effect(wound_eff_types[*it].get_effect_placed(),
+                                    wound_eff_types[*it].get_trig_effect_dur(wounds[i].get_severity()),
+                                    wound_eff_types[*it].get_effect_perm(),
+                                    wound_eff_types[*it].get_trig_effect_int(wounds[i].get_severity()));
+                    }
+                }
+            }
+
+            // Advance i
+            i++;
+        }
+    }
 }
 
 void player::suffer()
@@ -5404,23 +5866,21 @@ void player::suffer()
         }
     }
 
+    process_wounds();
+    
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) &&
         (!(wearing_something_on(bp_feet))) ) {
         if (one_in(25)) {
             add_msg(m_good, _("This soil is delicious!"));
             hunger -= 2;
             thirst -= 2;
-            if (health <= 10) {
-                health++;
-            }
+            mod_healthy_mod(10);
             // Mmm, dat soil...
             focus_pool--;
         } else if (one_in(20)){
             hunger--;
             thirst--;
-            if (health <= 5) {
-                health++;
-            }
+            mod_healthy_mod(5);
         }
     }
 
@@ -5444,7 +5904,7 @@ void player::suffer()
         }
     }
 
-    if (!has_disease("sleep")) {
+    if (!has_effect("sleep")) {
         if (weight_carried() > weight_capacity()) {
             // Starts at 1 in 25, goes down by 5 for every 50% more carried
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
@@ -5599,7 +6059,7 @@ void player::suffer()
                     break;
                 case 8:
                     add_msg(m_bad, _("It's a good time to lie down and sleep."));
-                    add_disease("lying_down", 200);
+                    add_effect("lying_down", 200);
                     break;
                 case 9:
                     add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
@@ -5654,7 +6114,7 @@ void player::suffer()
             auto_use = false;
         }
 
-        if (has_disease("sleep")) {
+        if (has_effect("sleep")) {
             wake_up(_("Your asthma wakes you up!"));
             auto_use = false;
         }
@@ -5690,7 +6150,7 @@ void player::suffer()
         // (No, really, I know someone who uses an umbrella when it's sunny out.)
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
             add_msg(m_bad, _("The sunlight is really irritating."));
-            if (has_disease("sleep")) {
+            if (has_effect("sleep")) {
                 wake_up(_("You wake up!"));
             }
             if (one_in(10)) {
@@ -5702,12 +6162,12 @@ void player::suffer()
 
     if (has_trait("SUNBURN") && g->is_in_sunlight(posx, posy) && one_in(10)) {
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
-        add_msg(m_bad, _("The sunlight burns your skin!"));
-        if (has_disease("sleep")) {
-            wake_up(_("You wake up!"));
-        }
-        mod_pain(1);
-        hurtall(1);
+            add_msg(m_bad, _("The sunlight burns your skin!"));
+            if (has_effect("sleep")) {
+                wake_up(_("You wake up!"));
+            }
+            mod_pain(1);
+            hurtall(1);
         }
     }
 
@@ -5756,7 +6216,7 @@ void player::suffer()
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if (has_trait("PER_SLIME")) {
-        if (one_in(600) && !has_disease("deaf")) {
+        if (one_in(600) && !has_effect("deaf")) {
             add_msg(m_bad, _("Suddenly, you can't hear anything!"));
             add_disease("deaf", 20 * rng (2, 6)) ;
         }
@@ -5900,8 +6360,8 @@ void player::suffer()
         add_msg(m_bad, _("Your vision pixelates!"));
         add_disease("visuals", 100);
     }
-    if (has_bionic("bio_spasm") && one_in(3000) && !has_disease("downed")) {
-        add_msg(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
+    if (has_bionic("bio_spasm") && one_in(3000) && !has_effect("downed")) {
+        add_msg(m_bad,_("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect("stunned", 1);
         add_effect("downed", 1);
@@ -5912,7 +6372,7 @@ void player::suffer()
         add_disease("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
-        health--;
+        mod_healthy(-1);
     }
     if (has_bionic("bio_sleepy") && one_in(500)) {
         fatigue++;
@@ -5937,88 +6397,87 @@ void player::suffer()
 
 void player::mend()
 {
- // Wearing splints can slowly mend a broken limb back to 1 hp.
- // 2 weeks is faster than a fracture would heal IRL,
- // but 3 weeks average (a generous estimate) was tedious and no fun.
- for(int i = 0; i < num_hp_parts; i++) {
-  int broken = (hp_cur[i] <= 0);
-  if(broken) {
-   double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
-   double healing_factor = 1.0;
-   // Studies have shown that alcohol and tobacco use delay fracture healing time
-   if(has_disease("cig") | addiction_level(ADD_CIG)) {
-    healing_factor *= 0.5;
-   }
-   if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
-    healing_factor *= 0.5;
-   }
+    // Wearing splints can slowly mend a broken limb back to 1 hp.
+    // 2 weeks is faster than a fracture would heal IRL,
+    // but 3 weeks average (a generous estimate) was tedious and no fun.
+    for(int i = 0; i < num_hp_parts; i++) {
+        int broken = (hp_cur[i] <= 0);
+        if(broken) {
+            double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
+            double healing_factor = 1.0;
+            // Studies have shown that alcohol and tobacco use delay fracture healing time
+            if(has_disease("cig") | addiction_level(ADD_CIG)) {
+                healing_factor *= 0.5;
+            }
+            if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
+                healing_factor *= 0.5;
+            }
 
-   // Bed rest speeds up mending
-   if(has_disease("sleep")) {
-    healing_factor *= 4.0;
-   } else if(fatigue > 383) {
-    // but being dead tired does not...
-    healing_factor *= 0.75;
-   }
+            // Bed rest speeds up mending
+            if(has_effect("sleep")) {
+                healing_factor *= 4.0;
+            } else if(fatigue > 383) {
+            // but being dead tired does not...
+                healing_factor *= 0.75;
+            }
 
-   // Being healthy helps.
-   if(health > 0) {
-    healing_factor *= 2.0;
-   }
+            // Being healthy helps.
+            if(get_healthy() > 0) {
+                healing_factor *= 2.0;
+            }
 
-   // And being well fed...
-   if(hunger < 0) {
-    healing_factor *= 2.0;
-   }
+            // And being well fed...
+            if(hunger < 0) {
+                healing_factor *= 2.0;
+            }
 
-   if(thirst < 0) {
-    healing_factor *= 2.0;
-   }
+            if(thirst < 0) {
+                healing_factor *= 2.0;
+            }
 
-   // Mutagenic healing factor!
-   if(has_trait("REGEN")) {
-    healing_factor *= 16.0;
-   } else if (has_trait("FASTHEALER2")) {
-    healing_factor *= 4.0;
-   } else if (has_trait("FASTHEALER")) {
-    healing_factor *= 2.0;
-   } else if (has_trait("SLOWHEALER")) {
-    healing_factor *= 0.5;
-   }
+            // Mutagenic healing factor!
+            if(has_trait("REGEN")) {
+                healing_factor *= 16.0;
+            } else if (has_trait("FASTHEALER2")) {
+                healing_factor *= 4.0;
+            } else if (has_trait("FASTHEALER")) {
+                healing_factor *= 2.0;
+            } else if (has_trait("SLOWHEALER")) {
+                healing_factor *= 0.5;
+            }
 
-   bool mended = false;
-   int side = 0;
-   body_part part;
-   switch(i) {
-    case hp_arm_r:
-     side = 1;
-     // fall-through
-    case hp_arm_l:
-     part = bp_arms;
-     mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
-     break;
-    case hp_leg_r:
-     side = 1;
-     // fall-through
-    case hp_leg_l:
-     part = bp_legs;
-     mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
-     break;
-    default:
-     // No mending for you!
-     break;
-   }
-   if(mended) {
-    hp_cur[i] = 1;
-    //~ %s is bodypart
-    add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
-                     pgettext("memorial_female", "Broken %s began to mend."),
-                     body_part_name(part, side).c_str());
-    add_msg(m_good, _("Your %s has started to mend!"),
-      body_part_name(part, side).c_str());
-   }
-  }
- }
+            bool mended = false;
+            int side = 0;
+            body_part part;
+            switch(i) {
+            case hp_arm_r:
+                side = 1;
+                // fall-through
+            case hp_arm_l:
+                part = bp_arms;
+                mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
+                break;
+            case hp_leg_r:
+                side = 1;
+                // fall-through
+            case hp_leg_l:
+                part = bp_legs;
+                mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
+                break;
+            default:
+                // No mending for you!
+                break;
+            }
+            if(mended) {
+                hp_cur[i] = 1;
+                //~ %s is bodypart
+                add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
+                                pgettext("memorial_female", "Broken %s began to mend."),
+                                body_part_name(part, side).c_str());
+                add_msg(m_good, _("Your %s has started to mend!"), body_part_name(part, side).c_str());
+            }
+        }
+    }
 }
 
 void player::vomit()
@@ -6032,22 +6491,25 @@ void player::vomit()
     thirst += rng(quench_loss / 2, quench_loss);
     moves -= 100;
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == "foodpoison") {
-            illness[i].duration -= 300;
-            if (illness[i].duration < 0) {
-                rem_disease(illness[i].type);
-            }
-        } else if (illness[i].type == "drunk") {
+        if (illness[i].type == "drunk") {
             illness[i].duration -= rng(1, 5) * 100;
             if (illness[i].duration < 0) {
                 rem_disease(illness[i].type);
             }
         }
     }
-    rem_disease("pkill1");
-    rem_disease("pkill2");
-    rem_disease("pkill3");
-    rem_disease("sleep");
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->get_id() == "foodpoison") {
+            it->mod_duration(-300);
+            if (it->get_duration() < 0) {
+                remove_effect("foodpoison");
+            }
+        }
+    }
+    remove_effect("pkill1");
+    remove_effect("pkill2");
+    remove_effect("pkill3");
+    remove_effect("sleep");
 }
 
 void player::drench(int saturation, int flags)
@@ -7806,7 +8268,7 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg(m_bad, _("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
         if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
        (!has_bionic("bio_digestion") || one_in(3))) {
-            add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
+            add_effect("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
         consume_effects(eaten, comest, spoiled);
     } else if ((spoiled) && has_trait("SAPROPHAGE")) {
@@ -7966,18 +8428,18 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            health -= 3;
+            mod_healthy_mod(-30);
         }
     } if (has_trait("GIZZARD")) {
         // Shorter GI tract, so less nutrients captured.
         hunger -= ((comest->nutr) *= 0.66);
         thirst -= ((comest->quench) *= 0.66);
-        health += ((comest->healthy) *= 0.66);
+        mod_healthy_mod((comest->healthy) *= 0.66);
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
         thirst -= comest->quench;
-        health += comest->healthy;
+        mod_healthy_mod(comest->healthy);
     }
 
     if (has_bionic("bio_digestion")) {
@@ -8087,9 +8549,7 @@ void player::rooted()
         if( one_in(20) ) {
             hunger--;
             thirst--;
-            if (health <= 5) {
-                health++;
-            }
+            mod_healthy_mod(5);
         }
     }
 }
@@ -9529,8 +9989,7 @@ void player::do_read( item *book )
                 !wearing_something_on(bp_feet) ) {
                 hunger -= root_factor;
                 thirst -= root_factor;
-                health += root_factor;
-                health = std::min( 5, health );
+                mod_healthy_mod(root_factor);
             }
             if (activity.type != ACT_NULL) {
                 return;
@@ -9655,7 +10114,7 @@ void player::try_to_sleep()
                  _("It's hard to get to sleep on this %s."),
                  terlist[ter_at_pos].name.c_str() );
     }
-    add_disease("lying_down", 300);
+    add_effect("lying_down", 300);
 }
 
 bool player::can_sleep()
@@ -9722,12 +10181,12 @@ bool player::can_sleep()
 
 void player::fall_asleep(int duration)
 {
-    add_disease("sleep", duration);
+    add_effect("sleep", duration);
 }
 
 void player::wake_up(const char * message)
 {
-    rem_disease("sleep");
+    remove_effect("sleep");
     if (message) {
         add_msg_if_player(message);
     } else {
@@ -9778,7 +10237,7 @@ float player::fine_detail_vision_mod()
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if (has_effect("blind") || ((has_disease("boomered")) &&
+    if (has_effect("blind") || ((has_effect("boomered")) &&
     !(has_trait("PER_SLIME_OK"))))
     {
         return 5;
@@ -10969,7 +11428,8 @@ void player::environmental_revert_effect()
     hunger = 0;
     thirst = 0;
     fatigue = 0;
-    health = 0;
+    set_healthy(0);
+    set_healthy_mod(0);
     stim = 0;
     pain = 0;
     pkill = 0;
@@ -11325,7 +11785,7 @@ void player::add_known_trap(int x, int y, const std::string &t)
     }
 }
 
-bool player::is_deaf() const
+bool player::is_deaf()
 {
-    return has_disease("deaf") || worn_with_flag("DEAF");
+    return has_effect("deaf") || worn_with_flag("DEAF");
 }

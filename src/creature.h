@@ -132,32 +132,45 @@ class Creature
         virtual int xpos() = 0;
         virtual int ypos() = 0;
 
-        // should replace both player.add_disease and monster.add_effect
-        // these are nonvirtual since otherwise they can't be accessed with
-        // the old add_effect
-        void add_effect(efftype_id eff_id, int dur, int intensity = 1, bool permanent = false);
+        /** Processes movement stopping effects, returns true if movement stopped */
+        bool move_effects();
+
+        /** Should replace both player.add_disease and monster.add_effect
+         *  these are nonvirtual since otherwise they can't be accessed with
+         *  the old add_effect */
+        void add_effect(efftype_id eff_id, int dur, bool perm = false, int intensity = 1,
+                        body_part bp = num_bp, int side = -1);
+        /**Gives chance to save via env resist, returns if successful*/
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            int intensity = 1, bool permanent = false); // gives chance to save via env resist, returns if successful
-        void remove_effect(efftype_id eff_id);
-        void clear_effects(); // remove all effects
-        bool has_effect(efftype_id eff_id);
+                            bool perm = false, int intensity = 1, body_part bp = num_bp,
+                            int side = -1);
+        void remove_effect(efftype_id eff_id, body_part bp = num_bp, int side = -1);
+        /** Remove all effects */
+        void clear_effects();
+        bool has_effect(efftype_id eff_id, body_part bp = num_bp, int side = -1);
+        /** Returns the first effect that matches the given conditions */
+        effect get_effect(efftype_id eff_id, body_part bp = num_bp, int side = -1);
+        int effect_duration(efftype_id eff_id, bool all = false, body_part bp = num_bp, int side = -1);
+        int effect_intensity(efftype_id eff_id, bool all = false, body_part bp = num_bp, int side = -1);
 
-        virtual void process_effects(); // runs all the effects on the Creature
+        /** Runs all the effects on the Creature */
+        virtual void process_effects();
 
-        // not-quite-stats, maybe group these with stats later
+        /** Handles sleep effects */
+        virtual void manage_sleep();
+
+        /** not-quite-stats, maybe group these with stats later */
         virtual void mod_pain(int npain);
+        virtual void set_pain(int npain);
         virtual void mod_moves(int nmoves);
+        virtual void set_moves(int nmoves);
 
-        /*
-         * Get/set our killer, this is currently used exclusively to allow
-         * mondeath effects to happen after death cleanup
-         */
+        /** Get/set our killer, this is currently used exclusively to allow
+         *  mondeath effects to happen after death cleanup */
         virtual Creature *get_killer();
 
-        /*
-         * getters for stats - combat-related stats will all be held within
-         * the Creature and re-calculated during every normalize() call
-         */
+        /** Getters for stats - combat-related stats will all be held within
+         *  the Creature and re-calculated during every normalize() call */
         virtual int get_str() const;
         virtual int get_dex() const;
         virtual int get_per() const;
@@ -172,6 +185,9 @@ class Creature
         virtual int get_dex_bonus() const;
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
+
+        virtual int get_healthy() const;
+        virtual int get_healthy_mod() const;
 
         virtual int get_num_blocks() const;
         virtual int get_num_dodges() const;
@@ -216,8 +232,8 @@ class Creature
         virtual int get_grab_resist();
         virtual int get_throw_resist();
 
-        /*
-         * setters for stats and boni
+        /**
+         * setters for stats and bonuses
          */
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
@@ -228,6 +244,11 @@ class Creature
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
         virtual void mod_stat( std::string stat, int modifier );
+
+        virtual void set_healthy(int nhealthy);
+        virtual void set_healthy_mod(int nhealthy_mod);
+        virtual void mod_healthy(int nhealthy);
+        virtual void mod_healthy_mod(int nhealthy_mod);
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
@@ -256,7 +277,7 @@ class Creature
         virtual void set_grab_resist(int ngrabres);
         virtual void set_throw_resist(int nthrowres);
 
-        /*
+        /**
          * Event handlers
          */
 
@@ -296,6 +317,9 @@ class Creature
         int dex_bonus;
         int per_bonus;
         int int_bonus;
+
+        int healthy; //How healthy the creature is, currently only used by players
+        int healthy_mod;
 
         int num_blocks; // base number of blocks/dodges per turn
         int num_dodges;

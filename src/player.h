@@ -109,7 +109,10 @@ public:
     virtual bool is_player() { return true; }
 
     /** Processes long-term effects */
-    void process_effects(); // Process long-term effects
+    void process_effects();
+    
+    /** Processes wounds */
+    void process_wounds();
 
  virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
  /** Returns what color the player should be drawn as */
@@ -519,9 +522,11 @@ public:
  int hp_percentage();
  /** Recalculates HP after a change to max strength */
  void recalc_hp();
-
- /** Handles helath fluctuations over time and the chance to be infected by random diseases */
+ 
+ /** Handles the chance to be infected by random diseases */
  void get_sick();
+ /** Handles health fluctuations over time */
+ void update_health();
  /** Checks against env_resist of the players armor, if they fail then they become infected with the disease */
  bool infect(dis_type type, body_part vector, int strength,
               int duration, bool permanent = false, int intensity = 1,
@@ -616,10 +621,10 @@ public:
  void do_read( item *book );
  /** Note that we've read a book at least once. **/
  bool has_identified( std::string item_id ) const;
- /** Handles sleep attempts by the player, adds DIS_LYING_DOWN */
+ /** Handles sleep attempts by the player, adds "lying_down" */
  void try_to_sleep();
- /** Checked each turn during DIS_LYING_DOWN, returns true if the player falls asleep */
- bool can_sleep(); // Checked each turn during DIS_LYING_DOWN
+ /** Checked each turn during "lying_down", returns true if the player falls asleep */
+ bool can_sleep();
  /** Adds the sleeping disease to the player */
  void fall_asleep(int duration);
  /** Removes the sleeping disease from the player, displaying message */
@@ -804,7 +809,7 @@ public:
  int next_climate_control_check;
  bool last_climate_control_ret;
  int power_level, max_power_level;
- int hunger, thirst, fatigue, health;
+ int hunger, thirst, fatigue;
  int oxygen;
  unsigned int recoil;
  unsigned int driving_recoil;
@@ -881,7 +886,7 @@ public:
  void environmental_revert_effect();
 
  bool is_invisible() const;
- bool is_deaf() const;
+ bool is_deaf();
  int visibility( bool check_color = false, int stillness = 0 ) const; // just checks is_invisible for the moment
  // -2 position is 0 worn index, -3 position is 1 worn index, etc
  static int worn_position_to_index(int position) {

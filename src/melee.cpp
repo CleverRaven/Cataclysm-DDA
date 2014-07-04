@@ -433,7 +433,7 @@ int player::get_dodge()
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {
     //If we're asleep or busy we can't dodge
-    if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
+    if (has_effect("sleep") || has_effect("lying_down")) {return 0;}
     if (activity.type != ACT_NULL) {return 0;}
 
     return Creature::get_dodge();
@@ -981,9 +981,9 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     if (technique.disarms) {
         g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
         if (you) {
-            g->add_msg_if_npc(this, _("<npcname> disarms you!"));
+            add_msg_if_npc(this, _("<npcname> disarms you!"));
         } else {
-            g->add_msg_player_or_npc(this, _("You disarm %s!"),
+            add_msg_player_or_npc(_("You disarm %s!"),
                                      _("<npcname> disarms %s!"),
                                      target.c_str() );
         }
@@ -1079,11 +1079,10 @@ void player::dodge_hit(Creature *source, int) {
 
 bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
                        damage_instance &dam) {
-
     //Shouldn't block if player is asleep; this only seems to be used by player.
     //g->u.has_disease("sleep") would work as well from looking at other block functions.
 
-    if (blocks_left < 1 || this->has_disease("sleep")) {
+    if (blocks_left < 1 || this->has_effect("sleep")) {
         return false;
     }
     blocks_left--;
@@ -1258,13 +1257,13 @@ void player::perform_special_attacks(Creature &t)
  }
 
  if (can_poison && ((has_trait("POISONOUS")) || (has_trait("POISONOUS2")))) {
-    if ((has_trait("POISONOUS")) && !t.has_effect("poisoned")) {
+    if ((has_trait("POISONOUS")) && !t.has_effect("poison")) {
         t.add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
-        t.add_effect("poisoned", 6);
+        t.add_effect("poison", 6);
     }
-    else if ((has_trait("POISONOUS2")) && (!(t.has_effect("nasty_poisoned")))) {
+    else if ((has_trait("POISONOUS2")) && (!(t.has_effect("bad_poison")))) {
         t.add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-        t.add_effect("nasty_poisoned", 6);
+        t.add_effect("bad_poison", 6);
     }
  }
 }

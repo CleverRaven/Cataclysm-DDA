@@ -1,0 +1,15 @@
+[
+	{
+		"type" : "wound_effect",
+		"id" : "null"
+	},
+    {
+		"type" : "wound_effect",
+		"id" : "bleed",
+        "name_mod" : "Bleeding",
+        "desc" : "is bleeding",
+        "sev_scale_mods" : {
+            "bleed" : [1]
+        }
+	}
+]
