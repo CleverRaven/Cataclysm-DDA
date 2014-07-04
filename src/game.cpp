@@ -12276,8 +12276,10 @@ bool game::plmove(int dx, int dy)
 
         u.melee_attack(*active_npc[npcdex], true);
         active_npc[npcdex]->make_angry();
-        active_npc[npcdex]->my_fac->likes_u -= 50;
-        active_npc[npcdex]->my_fac->respects_u -= 50;
+        if (active_npc[npcdex]->my_fac != NULL){
+             active_npc[npcdex]->my_fac->likes_u -= 50;
+             active_npc[npcdex]->my_fac->respects_u -= 50;
+        }
         return false;
     }
 
