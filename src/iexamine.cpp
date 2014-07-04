@@ -413,25 +413,12 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
             p->moves -= 100;
             drained = true;
         }
-        else if (query_yn(_("Drink from your hands?")))
+        else 
         {
-            // Create a dose of water no greater than the amount of water remaining.
-            item water_temp("water", 0);
-            water_temp.poison = water.poison;
-            water_temp.charges = std::min(water_temp.charges, water.charges);
-
-            p->inv.push_back(water_temp);
-            // If player is slaked water might not get consumed.
-            if (p->consume(p->inv.position_by_type(water_temp.typeId())))
-            {
-                p->moves -= 350;
-
-                water.charges -= water_temp.charges;
-                if (water.charges <= 0) {
-                    drained = true;
-                }
-            } else {
-                p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
+            int charges_consumed = p->drink_from_hands(water);
+            water.charges -= charges_consumed;
+            if (water.charges <= 0) {
+                drained = true;
             }
         }
 
@@ -1815,11 +1802,9 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
     {
         p->moves -= 100;
     }
-    else if (query_yn(_("Drink from your hands?")))
+    else 
     {
-        p->inv.push_back(water);
-        p->consume(p->inv.position_by_type(water.typeId()));
-        p->moves -= 350;
+        p->drink_from_hands(water);
     }
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
@@ -1831,11 +1816,9 @@ void iexamine::swater_source(player *p, map *m, const int examx, const int examy
     {
         p->moves -= 100;
     }
-    else if (query_yn(_("Drink from your hands?")))
+    else
     {
-        p->inv.push_back(swater);
-        p->consume(p->inv.position_by_type(swater.typeId()));
-        p->moves -= 350;
+        p->drink_from_hands(swater);
     }
 }
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
@@ -2016,154 +1999,6 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     }
 }
 
-bool hide_secret_wall(map *m, point  *p)
-{
-#define radius 50
-
-    std::vector<point> v;
-
-    for (int i = p->x - radius; i < p->x + radius; i++)
-        for (int j = p->y - radius; j < p->y + radius; j++) {
-            if (m->ter_at(i, j).has_flag("ON_SECRET_HIDE")) {
-                v.push_back(point(i, j));
-            }
-        }
-
-    if (v.size() == 0) {
-        return false;
-    }
-
-    int n = rng(0, v.size() - 1);
-    p->x = v[n].x;
-    p->y = v[n].y;
-
-    m->ter_set(p->x, p->y, t_floor);
-
-    return true;
-}
-
-void iexamine::secret_examine(player *p, map *m, int examx, int examy)
-{
-    p->add_msg_if_player(m_neutral, "This is %s", m->furn_at(examx, examy).name.c_str());
-
-    std::string furname = m->furn_at(examx, examy).name.c_str();
-
-    std::string qstr = "Try to do something with ";
-    qstr += furname;
-    qstr += "?";
-
-    if (query_yn(qstr.c_str())) {
-
-        std::string furid = m->furn_at(examx, examy).id;
-        std::string newfur = furid.substr(0, furid.size() - 2);
-        g->m.furn_set(examx, examy, newfur);
-
-        std::string mes = "You ";
-        int ract = rng(1, 3);
-        if (1 == ract) {
-            mes += "strongly ";
-        } else if (2 == ract) {
-            mes += "slightly ";
-        } else if (3 == ract) {}
-        ract = rng(1, 4);
-        if (1 == ract) {
-            mes += "pushed ";
-        } else if (2 == ract) {
-            mes += "pulled ";
-        } else if (3 == ract) {
-            mes += "shook ";
-        }       else if (4 == ract) {
-            mes += "yanked ";
-        }
-        mes += furname;
-        mes += ".";
-        p->add_msg_if_player(m_neutral, mes.c_str());
-
-        //todo: may be needed normal balanced formula
-        if (rng(5, 25) < rng(g->u.int_cur, g->u.int_cur + g->u.per_cur / 2)) {
-
-            point pwall = point(examx, examy);
-
-            if (!one_in(3) && hide_secret_wall(m, &pwall)) {
-                g->sound(pwall.x, pwall.y, 15, "ground grumbling");
-
-            } else {
-
-                p->add_msg_if_player(_("Nothing happens."));
-
-            }
-
-        } else {
-
-            if (!one_in(10)) {
-                p->add_msg_if_player(_("Nothing happens."));
-            } else {
-
-                //todo: need more different traps
-
-                for (int i = p->xpos() - 1; i <= p->xpos() + 1; i++)
-                    for (int j = p->ypos() - 1; j <= p->ypos() + 1; j++) {
-                        if (m->move_cost(i, j) != 0 && !m->has_furn(i, j)) {
-                            m->trap_set(i, j, tr_spike_pit);
-                        }
-                    }
-            }
-        }
-    }
-
-}
-
-void iexamine::pay_gas(player *p, map *m, int examx, int examy) {
-
-	int choice = -1;
-	const int buy_gas = 1;
-	const int choose_pump = 2;
-	const int cancel = 4;
-	long amount = 0;
-	long max = 0;
-	std::string popupmsg;
-	int pos;
-	int pos2;
-	item *dep;
-	item *with;
-
-	uimenu amenu;
-	amenu.selected = 0;
-	amenu.text = _("Welcome to automated gas station console!");
-	amenu.addentry(0, false, -1, _("What would you like to do?"));
-
-	amenu.addentry(buy_gas, true, 'b', _("Buy gas."));
-
-	std::string gaspumpselected = _("Current gas pump: ") + std::to_string(uistate.ags_pay_gas_selected_pump + 1);
-	amenu.addentry(0, false, -1, gaspumpselected);
-	amenu.addentry(choose_pump, true, 'p', _("Choose a pump."));
-
-	amenu.addentry(0, false, -1, _("Your discount:"));
-	amenu.addentry(0, false, -1, _("Your unit price of gasoline:"));
-
-	amenu.addentry(cancel, true, 'q', _("Cancel"));
-	amenu.query();
-	choice = amenu.ret;
-	//todo: запомнить выбор помпы если было
-
-	if (buy_gas == choice){
-		//выбрать карточку
-
-		//проверить, есть ли на ней деньги
-
-		//выбрать количество бенза
-
-		//найти бочку
-		//посмотреть, есть ли в бочке бенз
-
-		//найти колонку
-
-		//перелить в выбранную колонку бензин
-
-	}
-
-}
-
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2326,12 +2161,7 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   if( "sign" == function_name ) {
       return &iexamine::sign;
   }
-  if ("secret_examine" == function_name) {
-	  return &iexamine::secret_examine;
-  }
-  if ("pay_gas" == function_name) {
-      return &iexamine::pay_gas;
-  }
+
   //No match found
   debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
   return &iexamine::none;
