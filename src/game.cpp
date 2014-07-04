@@ -568,7 +568,8 @@ void game::start_game(std::string worldname)
      calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
  else
      calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
- nextweather = calendar::turn + MINUTES(30);
+ nextweather = calendar::turn + MINUTES(15);
+ weatherSeed = rand();
  run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
  mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
