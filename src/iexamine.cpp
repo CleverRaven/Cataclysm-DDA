@@ -389,43 +389,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::toilet(player *p, map *m, int examx, int examy) {
-    std::vector<item>& items = m->i_at(examx, examy);
-    int waterIndex = -1;
-    for (int i = 0; i < items.size(); i++) {
-        if (items[i].typeId() == "water") {
-            waterIndex = i;
-            break;
-        }
-    }
 
-    if (waterIndex < 0) {
-        add_msg(m_info, _("This toilet is empty."));
-    } else {
-        bool drained = false;
-
-        item& water = items[waterIndex];
-        // Use a different poison value each time water is drawn from the toilet.
-        water.poison = one_in(3) ? 0 : rng(1, 3);
-
-        // First try handling/bottling, then try drinking.
-        if (g->handle_liquid(water, true, false))
-        {
-            p->moves -= 100;
-            drained = true;
-        }
-        else 
-        {
-            int charges_consumed = p->drink_from_hands(water);
-            water.charges -= charges_consumed;
-            if (water.charges <= 0) {
-                drained = true;
-            }
-        }
-
-        if (drained) {
-            items.erase(items.begin() + waterIndex);
-        }
-    }
 }
 
 void iexamine::elevator(player *p, map *m, int examx, int examy)
@@ -1795,31 +1759,11 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
 
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
-    item water = m->water_from(examx, examy);
-    // Try to handle first (bottling) drink after.
-    // changed boolean, large sources should be infinite
-    if (g->handle_liquid(water, true, true))
-    {
-        p->moves -= 100;
-    }
-    else 
-    {
-        p->drink_from_hands(water);
-    }
+
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
 {
-    item swater = m->swater_from(examx, examy);
-    // Try to handle first (bottling) drink after.
-    // changed boolean, large sources should be infinite
-    if (g->handle_liquid(swater, true, true))
-    {
-        p->moves -= 100;
-    }
-    else
-    {
-        p->drink_from_hands(swater);
-    }
+
 }
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
 {
@@ -1999,6 +1943,306 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     }
 }
 
+int getNearPumpCount(map *m, int x, int y)
+{
+#define radius 12
+
+    int result = 0;
+
+    for (int i = x - radius; i <= x + radius; i++)
+        for (int j = y - radius; j <= y + radius; j++)
+            if ( m->ter_at(i, j).id == "t_gas_pump") {
+                result++;
+            }
+
+
+    return result;
+}
+
+point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
+{
+#define radius 12
+
+    for (int i = x - radius; i <= x + radius; i++)
+        for (int j = y - radius; j <= y + radius; j++)
+            if (m->ter_at(i, j).id == "t_gas_tank") {
+
+
+                for (int k = 0; k < m->i_at(i, j).size(); k++)
+                    if (m->i_at(i, j)[k].made_of(LIQUID)) {
+                        item *liq = &(m->i_at(i, j)[i]);
+
+                        long count = dynamic_cast<it_ammo *>(liq->type)->count;
+                        long units = liq->charges / count;
+
+                        if (units >= 1) {
+                            gas_units = units;
+                            return point(i, j);
+                        }
+                    }
+            }
+
+    return point(-999, -999);
+}
+
+int getGasDiscountCardQuality(itype_id id)
+{
+    if (id == "gasdiscount_platinum") {
+        return 3;
+    } else if (id == "gasdiscount_gold") {
+        return 2;
+    } else if (id == "gasdiscount_silver") {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+int findBestGasDiscount(player *p)
+{
+
+    int discount = 0;
+
+    for (int i = 0; i < p->inv.size(); i++) {
+        item &it = p->inv.find_item(i);
+
+        if (it.has_flag("GAS_DISCOUNT")) {
+
+            int q = getGasDiscountCardQuality(it.type->id);
+            if (q > discount) {
+                discount = q;
+            }
+        }
+    }
+
+    return discount;
+}
+
+std::string getGasDiscountName(int discount)
+{
+    if (discount == 3) {
+        return _("Platinum member");
+    } else if (discount == 2) {
+        return _("Gold member");
+    } else if (discount == 1) {
+        return _("Silver member");
+    } else {
+        return _("Beloved customer");
+    }
+}
+
+int getPricePerGasUnit(int discount)
+{
+    if (discount == 3) {
+        return 250;
+    } else if (discount == 2) {
+        return 300;
+    } else if (discount == 1) {
+        return 330;
+    } else {
+        return 350;
+    }
+}
+
+std::string getPricePerGasUnitStr(int discount)
+{
+    if (discount == 3) {
+        return _("$2.50");
+    } else if (discount == 2) {
+        return _("$3.00");
+    } else if (discount == 1) {
+        return _("$3.30");
+    } else {
+        return _("$3.50");
+    }
+}
+
+point getGasPumpByNumber(map *m, int x, int y, int number)
+{
+
+#define radius 12
+
+    int k = 0;
+
+    for (int i = x - radius; i <= x + radius; i++)
+        for (int j = y - radius; j <= y + radius; j++)
+            if (m->ter_at(i, j).id == "t_gas_pump" && number == k++) {
+                return point(i, j);
+            }
+
+    return point(-999, -999);
+
+}
+
+bool toPumpFuel(map *m, point src, point dst, long units)
+{
+
+    if (src.x == -999) {
+        return false;
+    }
+    if (dst.x == -999) {
+        return false;
+    }
+
+    item *liq;
+
+    int liqp = 0;
+
+    for (int i = 0; i < m->i_at(src.x, src.y).size(); i++) {
+        if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
+            liqp = i;
+            liq = &(m->i_at(src.x, src.y)[i]);
+        }
+
+        long count = dynamic_cast<it_ammo *>(liq->type)->count;
+
+        if (liq->charges < count * units) {
+            return false;
+        }
+
+        liq->charges -= count * units;
+        if (liq->charges < 1) {
+            m->i_at(src.x, src.y).erase(m->i_at(src.x, src.y).begin() + liqp);
+        }
+
+        item liq_d(liq->type->id, calendar::turn);
+        liq_d.charges = count * units;
+
+        m->add_item_or_charges(dst.x, dst.y, liq_d, 1);
+
+        return true;
+    }
+}
+
+void iexamine::pay_gas(player *p, map *m, int examx, int examy)
+{
+
+    int choice = -1;
+    const int buy_gas = 1;
+    const int choose_pump = 2;
+    const int cancel = 3;
+
+    int pumpCount = getNearPumpCount(m, examx, examy);
+    if (pumpCount == 0) {
+        popup(_("Failure! No gas pumps found!"));
+        return;
+    }
+
+    long tankGasUnits;
+	point pTank = getNearFilledGasTank(m, examx, examy, tankGasUnits);
+    if (pTank.x == -999) {
+        popup(_("Failure! No gas tank with fuel found!"));
+        return;
+    }
+
+    if (uistate.ags_pay_gas_selected_pump + 1 > pumpCount) {
+        uistate.ags_pay_gas_selected_pump = 0;
+    }
+
+    int discount = findBestGasDiscount(p);
+    std::string discountName = getGasDiscountName(discount);
+
+    int pricePerUnit = getPricePerGasUnit(discount);
+    std::string unitPriceStr = getPricePerGasUnitStr(discount);
+
+    uimenu amenu;
+    amenu.selected = 0;
+    amenu.text = _("Welcome to automated gas station console!");
+    amenu.addentry(0, false, -1, _("What would you like to do?"));
+
+    amenu.addentry(buy_gas, true, 'b', _("Buy gas."));
+
+    std::string gaspumpselected = _("Current gas pump: ") + std::to_string(
+                                      uistate.ags_pay_gas_selected_pump + 1);
+    amenu.addentry(0, false, -1, gaspumpselected);
+    amenu.addentry(choose_pump, true, 'p', _("Choose a gas pump."));
+
+    amenu.addentry(0, false, -1, _("Your discount: ") + discountName);
+    amenu.addentry(0, false, -1, _("Your price per gasoline unit: ") + unitPriceStr);
+
+    amenu.addentry(cancel, true, 'q', _("Cancel"));
+    amenu.query();
+    choice = amenu.ret;
+
+    if (choose_pump == choice) {
+        uimenu amenu;
+        amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
+        amenu.text = _("Please choose gas pump:");
+
+        amenu.addentry(0, true, 'q', _("Cancel"));
+
+        for (int i = 0; i < pumpCount; i++) {
+            amenu.addentry(i + 1, true, -1, _("Pump ¹") + std::to_string(i + 1));
+        }
+        amenu.query();
+        choice = amenu.ret;
+
+        if (choice == 0) {
+            return;
+        }
+
+        uistate.ags_pay_gas_selected_pump = choice - 1;
+        return;
+
+    }
+
+    if (buy_gas == choice) {
+
+        int pos;
+        item *cashcard;
+
+        pos = g->inv(_("Insert card."));
+        cashcard = &(p->i_at(pos));
+
+        if (cashcard->is_null()) {
+            popup(_("You do not have that item!"));
+            return;
+        }
+        if (cashcard->type->id != "cash_card") {
+            popup(_("Please insert cash cards only!"));
+            return;
+        }
+        if (cashcard->charges < pricePerUnit) {
+            popup(_("Not enough money, please refill your cash card.")); //or ride on a solar car, ha ha ha
+            return;
+        }
+
+        long c_max = cashcard->charges / pricePerUnit;
+        long max = (c_max > tankGasUnits) ? c_max : tankGasUnits;
+
+        std::string popupmsg = string_format(
+                                   ngettext("How many gas units to buy? Max:%d unit. (0 to cancel) ",
+                                            "How many gas units to buy? Max:%d units. (0 to cancel) ",
+                                            max),
+                                   max);
+        long amount = helper::to_int(string_input_popup(popupmsg, 20,
+                                     helper::to_string_int(max), "", "", -1, true)
+                                    );
+        if (amount <= 0) {
+            return;
+        }
+        if (amount > max) {
+            amount = max;
+        }
+
+        point pGasPump = getGasPumpByNumber(m, examx, examy,  uistate.ags_pay_gas_selected_pump);
+        if (!toPumpFuel(m, pTank, pGasPump, amount)) {
+            return;
+        }
+
+        g->sound(p->posx, p->posy, 6, _("Glug Glug Glug"));
+
+        cashcard->charges -= amount * pricePerUnit;
+
+        add_msg(m_info, ngettext("Your cash card now holds %d cent.", "Your cash card now holds %d cents.",
+                                 cashcard->charges),
+                p->cash);
+        p->moves -= 100;
+        return;
+    }
+
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2160,6 +2404,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if( "sign" == function_name ) {
       return &iexamine::sign;
+  }
+  if ("pay_gas" == function_name) {
+	  return &iexamine::pay_gas;
   }
 
   //No match found
