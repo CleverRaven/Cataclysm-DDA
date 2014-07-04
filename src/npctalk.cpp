@@ -531,6 +531,30 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_DONE:
             return "";
 
+        case TALK_GUARD:
+            switch (rng(1,5)){
+            //if(one_in(2)){
+            case 1:
+                return _("I'm not in charge here, you're looking for someone else...");
+            case 2:
+                return _("Keep civil or I'll bring the pain.");
+            case 3://acidia
+                return _("Just on watch, move along.");
+            case 4:
+                if (g->u.male)
+                    return _("Sir.");
+                else
+                    return _("Ma'am");
+            case 5:
+                if (g->u.male)
+                    return _("Rough out there isn't it.");
+                else
+                    return _("Ma'am, you really shouldn't be traveling out there.");
+            //}
+            //else {
+            //    return _("Keep civil or I'll bring the pain.");
+            }
+
         case TALK_MISSION_LIST:
             if (p->chatbin.missions.empty()) {
                 if (p->chatbin.missions_assigned.empty()) {
@@ -561,6 +585,218 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_MISSION_REWARD:
             return _("Sure, here you go!");
+
+        case TALK_EVAC_MERCHANT:
+             return _("Welcome...");
+
+        case TALK_EVAC_MERCHANT_NEW:
+            return _("Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees."
+                     "  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any.");
+
+        case TALK_EVAC_MERCHANT_PLANS:
+            return _("To be honest, we started out with six buses full of office workers and soccer moms... after the refugee outbreak a day or two"
+                    " ago the more courageous ones in our party ended up dead.  The only thing we want now is to run enough trade through"
+                    " here to keep us alive.  Don't care who your goods come from or how you got them, just don't bring trouble.");
+
+        case TALK_EVAC_MERCHANT_PLANS2:
+            return _("I'm sorry, but the only way we're going to make it is if we keep our gates buttoned fast.  The guards in the basement "
+                    "have orders to shoot on sight, if you so much as peep your head in the lower levels.  I don't know what made the scavengers "
+                    "out there so ruthless but some of us have had to kill our own bloody kids... don't even think about strong arming us.");
+
+        case TALK_EVAC_MERCHANT_PLANS3:
+            return _("Well the refugees were staying here on the first floor when one their parties tried to sneak a dying guy in through the loading bay, "
+                     "we ended up being awoken to shrieks and screams. Maybe two dozen people died that night.  The remaining refugees were banished the next "
+                     "day and went on to form a couple of scavenging bands.  I'd say we got twenty decent men or women still here but our real strength comes "
+                     "from all of our business partners that are accustomed to doing whatever is needed to survive.");
+
+        case TALK_EVAC_MERCHANT_WORLD:
+            return _("Can't say we've heard much.  Most these shelters seemed to have been designed to make people feel safer... not actually "
+                    "aid in their survival.  Our radio equipment is utter garbage that someone convinced the government to buy, with no intention "
+                    "of it ever being used.  From the passing scavangers I've heard nothing but prime loot'n spots and rumors of hordes.");
+
+        case TALK_EVAC_MERCHANT_HORDES:
+            return _("Had one guy pop in here a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it "
+                     "downtown before he ran into a wall of the living dead that could stop a tank.  He hightailed it out but claims there were "
+                     "several thousand at least.  Guess when you get a bunch of them together they end up making enough noise to attract everyone "
+                     "in the neighborhood.  Luckily we haven't had a mob like that pass by here.");
+
+        case TALK_EVAC_MERCHANT_PRIME_LOOT:
+            return _("Well, there is a party of about a dozen 'scavengers' that found some sort of government facility.  They bring us a literal "
+                     "truck load of jumpsuits, m4's, and canned food every week or so.  Since some of those guys got family here, we've been "
+                     "doing alright.  As to where it is, I don't have the foggiest of ideas.");
+
+        case TALK_EVAC_MERCHANT_ASK_JOIN:
+            return _("Sorry, last thing we need is another mouth to feed.  Most of us lack any real survival skills so keeping our group "
+                     "small enough to survive on the food random scavengers bring to trade with us is important.");
+
+        case TALK_EVAC_MERCHANT_NO:
+            return _("I'm sorry, not a risk we are willing to take right now.");
+
+        case TALK_EVAC_MERCHANT_HELL_NO:
+            return _("There isn't a chance in hell!  We had one guy come in here with bloody fur all over his body... well I guess that isn't all that "
+                     "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
+
+        case TALK_EVAC_GUARD1:
+            return _("Hello there.");
+
+        case TALK_EVAC_GUARD1_PLACE:
+            return _("This is a refugee center that we've made into a sort of trading hub.");
+
+        case TALK_EVAC_GUARD1_GOVERNMENT:
+            return _("Ha ha ha, no. Though there is Old Guard somewhere around here if you have any questions "
+                     "relating to what the government is up to.");
+
+        case TALK_EVAC_GUARD1_TRADE:
+            return _("Anything valuable really. If you really want to know, go ask one of the actual traders. I'm just protection.");
+
+        case TALK_EVAC_GUARD1_JOIN:
+            return _("Nope.");
+
+        case TALK_EVAC_GUARD1_JOIN2:
+            return _("Death is pretty blunt.");
+
+        case TALK_EVAC_GUARD1_JOIN3:
+            return _("Nope.");
+
+        case TALK_EVAC_GUARD1_ATTITUDE:
+            return _("Then leave, you have two feet.");
+
+        case TALK_EVAC_GUARD1_JOB:
+            return _("Uh, not really. Go talk to a merchant if you have anything to sell. Otherwise the Old Guard liaison "
+                     "might have something, if you can find him.");
+
+        case TALK_EVAC_GUARD1_OLDGUARD:
+            return _("That's just our nickname for them. They're whats left of the federal government.  "
+                     "Don't know how legitimate they are but they are named after some military unit "
+                     "that once protected the president.  Their liaison is usually hanging around "
+                     "here somewhere.");
+
+        case TALK_EVAC_GUARD1_BYE:
+            return _("Stay safe out there. Hate to have to kill you after you've already died.");
+
+        case TALK_EVAC_GUARD2:
+            return _("Hello.");
+
+        case TALK_EVAC_GUARD2_NEW:
+            return _("Yes of course. Just don't bring any trouble and it's all fine by me.");
+
+        case TALK_EVAC_GUARD2_RULES:
+            return _("Well mostly no. Just don't go around robbing others and starting fights "
+                     "and you will be all set. Also, don't go into the basement. Outsiders "
+                     "are not allowed in there.");
+
+        case TALK_EVAC_GUARD2_RULES_BASEMENT:
+            return _("In short, we had a problem when a sick refugee died and turned "
+                     "into a zombie.  We had to expel the refugees and most of our "
+                     "surviving group now stays to the basement to prevent it from "
+                     "happening again. Unless you really prove your worth I don't "
+                     "foresee any exceptions to that rule.");
+
+         case TALK_EVAC_GUARD2_WHO:
+            return _("Most are scavengers like you.  They now make a living by "
+                     "looting the cities in search for anything useful: food, "
+                     "weapons, tools, gasoline. In exchange for their findings "
+                     "we offer them a temporary place to rest and the services "
+                     "of our shop. I bet some of them would be willing to organize "
+                     "resource runs with you if you ask.");
+
+        case  TALK_EVAC_GUARD2_TRADE:
+            return _("You are asking the wrong person, should look for our "
+                     "merchant by the main entrance. Perhaps one of the scavengers "
+                     "is also interested.");
+
+        case TALK_OLD_GUARD_REP:
+            return _("Citizen...");
+
+        case TALK_OLD_GUARD_REP_NEW:
+             return _("I'm the region's federal liaison.  Most people here call us the 'Old Guard' and I rather like the sound of it.  "
+                      "Despite how things currently appear, the federal government was not entirely destroyed.  After the outbreak I was "
+                      "chosen to coordinate civilian and militia efforts in support of military operations.");
+
+        case TALK_OLD_GUARD_REP_NEW_DOING:
+             return _("I ensure that the citizens here have what they need to survive and protect themselves from raiders.  Keeping "
+                      "some form law is going to be the most important  element in rebuilding the world.  We do what we can to keep the "
+                      "'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.");
+
+        case TALK_OLD_GUARD_REP_NEW_DOWNSIDE:
+             return _("Well... I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the "
+                      " best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain "
+                      "order.  They don't care much about looters since they understand most everyone is dead, but if you have something "
+                      "they need... you WILL give it to them.  Since most survivors have have nothing they want, they are welcomed as champions.");
+
+        case TALK_OLD_GUARD_REP_WORLD:
+             return _("There isn't much pushed out by public relations that I'd actually believe.  From what I gather, communication "
+                      "between the regional force commands is almost non-existent.  What I do know is that the 'Old Guard' is currently "
+                      "based out of the 2nd Fleet and patrols the Atlantic coast trying to provide support to the remaining footholds.");
+
+        case TALK_OLD_GUARD_REP_WORLD_2NDFLEET:
+             return _("I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the "
+                      "coast.  They have everything from supertankers and carriers to fishing trawlers... even a few NATO ships.  Most civilians "
+                      "are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.");
+
+        case TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS:
+             return _("They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.' Around "
+                      "here I was told that there were a few places like this one but I couldn't tell you where.");
+
+        case TALK_OLD_GUARD_REP_ASK_JOIN:
+             return _("You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time "
+                      "if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among "
+                      "the most powerful men left in the world.");
+
+        case TALK_ARSONIST:
+            return _("Heh, you look important.");
+
+        case TALK_ARSONIST_NEW:
+            return _("Guess that makes two of us. Well, kind of. I don't think we're open, though. Full up as hell; it's almost a crowd "
+                     "downstairs. See the trader over there? There's the one to ask.");
+
+        case TALK_ARSONIST_DOING:
+            return _("I burn down buildings and sell the Free Merchants the materials. No, seriously. If you've seen burned "
+                     "wreckage in place of suburbs or even see the pile of rebar for sale, that's probably me. They've kept "
+                     "me well off in exchange, I guess. I'll sell you a Molotov Cocktail or two, if you want.");
+
+        case TALK_ARSONIST_DOING_REBAR:
+            return _("Well, there's a guy downstairs who got a working pneumatic cannon. It shoots metal like... like a "
+                     "cannon without the bang. Cost-efficient as hell. And there's no shortage of improvised weapons you "
+                     "can make.  The big thing though, seems to be continuing construction of fortifications.  Very few of "
+                     "those monsters seem to be able to break through a fence or wall constructed with the stuff.");
+
+        case TALK_ARSONIST_WORLD:
+            return _("Nothing optimistic, at least. Had a pal on the road with a ham radio, but she's gone and so is that "
+                     "thing. Kaput.");
+
+        case TALK_ARSONIST_WORLD_OPTIMISTIC:
+            return _("Most of the emergency camps have dissolved by now. The cities are mobbed, the forests crawling with "
+                     "glowing eyes and zombies. Some insane shit out there, and everyone with a radio seems to feel like "
+                     "documenting their last awful moments.");
+
+        case TALK_ARSONIST_JOIN:
+            return _("I don't know. I mean, if you can make yourself useful. But that's become a real hazy thing nowadays."
+                     " It depends who you ask. The merchant definitely doesn't want me here when I'm not selling, but... "
+                     "some people get away with it.");
+
+        case TALK_ARSONIST_MUTATION:
+            return _("Ssh. Some people in here hate... mutations. This was an accident.");
+
+        case TALK_ARSONIST_MUTATION_INSULT:
+            return _("Screw You!");
+
+        case TALK_SCAVENGER_MERC:
+             return _("...");
+
+        case TALK_SCAVENGER_MERC_NEW:
+             return _("I'm just a hired hand.  Someone pays me and I do what needs to be done.");
+
+        case TALK_SCAVENGER_MERC_TIPS:
+             return _("If you have to fight your way out of an ambush, the only thing that is going to save you is having a party that can "
+                      "return fire.  People who work alone are easy pickings for monsters and bandits.");
+
+        case TALK_SCAVENGER_MERC_HIRE:
+             return _("I'm currently waiting for a customer to return... I'll make you a deal though, "
+                      " $8,000 will cover my expenses if I get a small cut of the loot.");
+
+        case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
+             return _("I guess you're the boss.");
 
         case TALK_SHELTER:
             switch (rng(1, 2)) {
@@ -663,6 +899,12 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_FRIEND:
             return _("What is it?");
+
+        case TALK_FRIEND_GUARD:
+            return _("I'm on watch.");
+
+        case TALK_DENY_GUARD:
+            return _("Not a bloody chance, I'm going to get left behind!");
 
         case TALK_COMBAT_COMMANDS:
             {
@@ -849,6 +1091,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   miss = g->find_mission( p->chatbin.missions_assigned[selected] );
 
  switch (topic) {
+ case TALK_GUARD:
+  RESPONSE(_("Don't mind me..."));
+   SUCCESS(TALK_DONE);
+  break;
+
  case TALK_MISSION_LIST:
   if (p->chatbin.missions.empty()) {
    RESPONSE(_("Oh, okay."));
@@ -1041,6 +1288,385 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   RESPONSE(_("Thanks, bye."));
    SUCCESS(TALK_DONE);
    SUCCESS_ACTION(&talk_function::clear_mission);
+  break;
+
+ case TALK_EVAC_MERCHANT:
+  RESPONSE(_("I'm actually new..."));
+   SUCCESS(TALK_EVAC_MERCHANT_NEW);
+  RESPONSE(_("What are you doing here?"));
+   SUCCESS(TALK_EVAC_MERCHANT_PLANS);
+  RESPONSE(_("Heard anything about the outside world?"));
+   SUCCESS(TALK_EVAC_MERCHANT_WORLD);
+  RESPONSE(_("Is there any way I can join your group?"));
+   SUCCESS(TALK_EVAC_MERCHANT_ASK_JOIN);
+  RESPONSE(_("Can I do anything for the center?"));
+   SUCCESS(TALK_MISSION_LIST);
+  if (p->chatbin.missions_assigned.size() == 1) {
+   RESPONSE(_("About that job..."));
+    SUCCESS(TALK_MISSION_INQUIRE);
+  } else if (p->chatbin.missions_assigned.size() >= 2) {
+   RESPONSE(_("About one of those jobs..."));
+    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+  }
+  RESPONSE(_("Let's trade then."));
+   SUCCESS_ACTION(&talk_function::start_trade);
+   SUCCESS(TALK_EVAC_MERCHANT);
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_MERCHANT_NEW:
+  RESPONSE(_("No rest for the weary..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_PLANS:
+  RESPONSE(_("It's just as bad out here, if not worse."));
+   SUCCESS(TALK_EVAC_MERCHANT_PLANS2);
+  break;
+ case TALK_EVAC_MERCHANT_PLANS2:
+  if (g->u.int_cur >= 12){
+    RESPONSE(_("[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?"));
+        SUCCESS(TALK_EVAC_MERCHANT_PLANS3);
+  }
+  RESPONSE(_("Guess shit's a mess everywhere..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_PLANS3:
+  RESPONSE(_("Guess it works for you..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_HORDES:
+  RESPONSE(_("Thanks for the tip."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_PRIME_LOOT:
+  RESPONSE(_("Thanks, I'll keep an eye out."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_NO:
+  RESPONSE(_("Fine..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+ case TALK_EVAC_MERCHANT_HELL_NO:
+  RESPONSE(_("Fine... *coughupyourscough*"));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+
+ case TALK_EVAC_MERCHANT_ASK_JOIN:
+  if (g->u.int_cur > 10){
+    RESPONSE(_("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!"));
+        SUCCESS(TALK_EVAC_MERCHANT_NO);
+  }
+  if (g->u.int_cur <= 6 && g->u.str_cur > 10){
+    RESPONSE(_("[STR 11] I punch things in face real good!"));
+        SUCCESS(TALK_EVAC_MERCHANT_NO);
+  }
+  RESPONSE(_("I'm sure I can do something to change your mind *wink*"));
+   SUCCESS(TALK_EVAC_MERCHANT_HELL_NO);
+  RESPONSE(_("I can pull my own weight!"));
+   SUCCESS(TALK_EVAC_MERCHANT_NO);
+  RESPONSE(_("I guess I'll look somewhere else..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+
+ case TALK_EVAC_MERCHANT_WORLD:
+  RESPONSE(_("Hordes?"));
+   SUCCESS(TALK_EVAC_MERCHANT_HORDES);
+  RESPONSE(_("Heard of anything better than the odd gun cache?"));
+   SUCCESS(TALK_EVAC_MERCHANT_PRIME_LOOT);
+  RESPONSE(_("Was hoping for something more..."));
+   SUCCESS(TALK_EVAC_MERCHANT);
+  break;
+
+ case TALK_EVAC_GUARD1:
+  RESPONSE(_("What is this place?"));
+   SUCCESS(TALK_EVAC_GUARD1_PLACE);
+  RESPONSE(_("Can I join you guys?"));
+   SUCCESS(TALK_EVAC_GUARD1_JOIN);
+  RESPONSE(_("Anything I can do for you?"));
+   SUCCESS(TALK_EVAC_GUARD1_JOB);
+  RESPONSE(_("See you later."));
+   SUCCESS(TALK_EVAC_GUARD1_BYE);
+  break;
+
+ case TALK_EVAC_GUARD1_PLACE:
+  RESPONSE(_("So are you with the government or something?"));
+   SUCCESS(TALK_EVAC_GUARD1_GOVERNMENT);
+  RESPONSE(_("What do you trade?"));
+   SUCCESS(TALK_EVAC_GUARD1_TRADE);
+  break;
+
+ case TALK_EVAC_GUARD1_GOVERNMENT:
+  RESPONSE(_("Oh, okay."));
+   SUCCESS(TALK_EVAC_GUARD1);
+  RESPONSE(_("Oh, okay. I'll go look for him"));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_GUARD1_TRADE:
+  RESPONSE(_("I'll go talk to them later."));
+   SUCCESS(TALK_EVAC_GUARD1);
+  RESPONSE(_("Will do, thanks!"));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_GUARD1_JOIN:
+  RESPONSE(_("That's pretty blunt!"));
+   SUCCESS(TALK_EVAC_GUARD1_JOIN2);
+  break;
+
+ case TALK_EVAC_GUARD1_JOIN2:
+  RESPONSE(_("So no negotiating? No, 'If you do this quest then we'll let you in?'"));
+   SUCCESS(TALK_EVAC_GUARD1_JOIN3);
+  break;
+
+ case TALK_EVAC_GUARD1_JOIN3:
+  RESPONSE(_("I don't like you're attitude."));
+   SUCCESS(TALK_EVAC_GUARD1_ATTITUDE);
+  RESPONSE(_("Well alright then."));
+   SUCCESS(TALK_EVAC_GUARD1);
+  break;
+
+ case TALK_EVAC_GUARD1_ATTITUDE:
+  RESPONSE(_("I think I'd rather rearrange your face instead!"));
+   SUCCESS_ACTION(&talk_function::insult_combat);
+   SUCCESS(TALK_DONE);
+  RESPONSE(_("I will."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_GUARD1_JOB:
+  RESPONSE(_("Alright then."));
+   SUCCESS(TALK_EVAC_GUARD1);
+  RESPONSE(_("Old Guard huh, I'll go talk to him!"));
+   SUCCESS(TALK_DONE);
+  RESPONSE(_("Who are the Old Guard?"));
+   SUCCESS(TALK_EVAC_GUARD1_OLDGUARD);
+  break;
+
+ case TALK_EVAC_GUARD2:
+  RESPONSE(_("I am actually new."));
+   SUCCESS(TALK_EVAC_GUARD2_NEW);
+  RESPONSE(_("Are there any rules I should follow while inside?"));
+   SUCCESS(TALK_EVAC_GUARD2_RULES);
+  RESPONSE(_("So who is everyone around here?"));
+   SUCCESS(TALK_EVAC_GUARD2_WHO);
+  RESPONSE(_("Lets trade!"));
+   SUCCESS(TALK_EVAC_GUARD2_TRADE);
+  RESPONSE(_("Is there anything I can do to help?"));
+   SUCCESS(TALK_MISSION_LIST);
+  if (p->chatbin.missions_assigned.size() == 1) {
+   RESPONSE(_("About that job..."));
+    SUCCESS(TALK_MISSION_INQUIRE);
+  } else if (p->chatbin.missions_assigned.size() >= 2) {
+   RESPONSE(_("About one of those jobs..."));
+    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+  }
+  RESPONSE(_("Thanks! I will be on my way."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case  TALK_EVAC_GUARD2_NEW:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_EVAC_GUARD2);
+  break;
+
+ case TALK_EVAC_GUARD2_RULES:
+  RESPONSE(_("Ok, thanks."));
+   SUCCESS(TALK_EVAC_GUARD2);
+  RESPONSE(_("So uhhh, why not?"));
+   SUCCESS(TALK_EVAC_GUARD2_RULES_BASEMENT);
+  break;
+
+ case  TALK_EVAC_GUARD2_RULES_BASEMENT:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_EVAC_GUARD2);
+  break;
+
+ case TALK_EVAC_GUARD2_WHO:
+  RESPONSE(_("Thanks for the heads-up."));
+   SUCCESS(TALK_EVAC_GUARD2);
+  break;
+
+ case TALK_EVAC_GUARD2_TRADE:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_EVAC_GUARD2);
+  break;
+
+ case TALK_EVAC_GUARD1_OLDGUARD:
+  RESPONSE(_("Whatever, I had another question."));
+   SUCCESS(TALK_EVAC_GUARD1);
+  RESPONSE(_("Okay, I'll go look for him then."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_GUARD1_BYE:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_OLD_GUARD_REP:
+  RESPONSE(_("Who are you?"));
+   SUCCESS(TALK_OLD_GUARD_REP_NEW);
+  RESPONSE(_("Heard anything about the outside world?"));
+   SUCCESS(TALK_OLD_GUARD_REP_WORLD);
+  RESPONSE(_("Is there any way I can join the 'Old Guard'?"));
+   SUCCESS( TALK_OLD_GUARD_REP_ASK_JOIN);
+  RESPONSE(_("Does the Old Guard need anything?"));
+   SUCCESS(TALK_MISSION_LIST);
+  if (p->chatbin.missions_assigned.size() == 1) {
+   RESPONSE(_("About that job..."));
+    SUCCESS(TALK_MISSION_INQUIRE);
+  } else if (p->chatbin.missions_assigned.size() >= 2) {
+   RESPONSE(_("About one of those jobs..."));
+    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+  }
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_OLD_GUARD_REP_NEW:
+  RESPONSE(_("So what are you actually doing here?"));
+   SUCCESS(TALK_OLD_GUARD_REP_NEW_DOING);
+  RESPONSE(_("Nevermind..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+
+ case TALK_OLD_GUARD_REP_NEW_DOING:
+  RESPONSE(_("Is there a catch?"));
+   SUCCESS(TALK_OLD_GUARD_REP_NEW_DOWNSIDE);
+  RESPONSE(_("Anything more to it?"));
+   SUCCESS(TALK_OLD_GUARD_REP_NEW_DOWNSIDE);
+  RESPONSE(_("Nevermind..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+ case TALK_OLD_GUARD_REP_NEW_DOWNSIDE:
+  RESPONSE(_("Hmmm..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+
+ case TALK_OLD_GUARD_REP_WORLD:
+  RESPONSE(_("The 2nd Fleet?"));
+   SUCCESS(TALK_OLD_GUARD_REP_WORLD_2NDFLEET);
+  RESPONSE(_("Tell me about the footholds."));
+   SUCCESS(TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS);
+  RESPONSE(_("Nevermind..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+
+ case TALK_OLD_GUARD_REP_WORLD_2NDFLEET:
+  RESPONSE(_("Hmmm..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+ case TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS:
+  RESPONSE(_("Hmmm..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+ case TALK_OLD_GUARD_REP_ASK_JOIN:
+  RESPONSE(_("Hmmm..."));
+   SUCCESS(TALK_OLD_GUARD_REP);
+  break;
+
+ case TALK_ARSONIST:
+  RESPONSE(_("I'm actually new."));
+   SUCCESS(TALK_ARSONIST_NEW);
+  RESPONSE(_("What are you doing here?"));
+   SUCCESS(TALK_ARSONIST_DOING);
+  RESPONSE(_("Heard anything about the outside world?"));
+   SUCCESS(TALK_ARSONIST_WORLD);
+  RESPONSE(_("Is there any way I can join your group?"));
+   SUCCESS(TALK_ARSONIST_JOIN);
+  RESPONSE(_("What's with your ears?"));
+   SUCCESS(TALK_ARSONIST_MUTATION);
+  RESPONSE(_("Anything I can help with?"));
+   SUCCESS(TALK_MISSION_LIST);
+  if (p->chatbin.missions_assigned.size() == 1) {
+   RESPONSE(_("About that job..."));
+    SUCCESS(TALK_MISSION_INQUIRE);
+  } else if (p->chatbin.missions_assigned.size() >= 2) {
+   RESPONSE(_("About one of those jobs..."));
+    SUCCESS(TALK_MISSION_LIST_ASSIGNED);
+  }
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_ARSONIST_NEW:
+  RESPONSE(_("Sucks..."));
+   SUCCESS(TALK_ARSONIST);
+  break;
+ case TALK_ARSONIST_DOING:
+  RESPONSE(_("I'll buy."));
+   SUCCESS_ACTION(&talk_function::start_trade);
+   SUCCESS(TALK_ARSONIST);
+  RESPONSE(_("Who needs rebar?"));
+   SUCCESS(TALK_ARSONIST_DOING_REBAR);
+  break;
+ case TALK_ARSONIST_DOING_REBAR:
+  RESPONSE(_("Well, then..."));
+   SUCCESS(TALK_ARSONIST);
+  break;
+ case TALK_ARSONIST_WORLD:
+  RESPONSE(_("Nothing optimistic?"));
+   SUCCESS(TALK_ARSONIST_WORLD_OPTIMISTIC);
+  RESPONSE(_("..."));
+   SUCCESS(TALK_ARSONIST);
+  break;
+ case TALK_ARSONIST_WORLD_OPTIMISTIC:
+  RESPONSE(_("I feel bad for asking."));
+   SUCCESS(TALK_ARSONIST);
+  break;
+ case TALK_ARSONIST_JOIN:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_ARSONIST);
+  break;
+ case TALK_ARSONIST_MUTATION:
+  RESPONSE(_("Sorry to ask"));
+   SUCCESS(TALK_ARSONIST);
+  RESPONSE(_("You're disgusting."));
+   SUCCESS(TALK_ARSONIST_MUTATION_INSULT);
+  break;
+ case TALK_ARSONIST_MUTATION_INSULT:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_DONE);
+    SUCCESS_OPINION(-1, -2, -1, 1, 0);
+    SUCCESS_ACTION(&talk_function::end_conversation);
+  break;
+
+ case TALK_SCAVENGER_MERC:
+  RESPONSE(_("Who are you?"));
+   SUCCESS(TALK_SCAVENGER_MERC_NEW);
+  RESPONSE(_("Any tips for surviving?"));
+   SUCCESS(TALK_SCAVENGER_MERC_TIPS);
+  RESPONSE(_("What would it cost to hire you?"));
+   SUCCESS(TALK_SCAVENGER_MERC_HIRE);
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_SCAVENGER_MERC_NEW:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_SCAVENGER_MERC);
+  break;
+ case TALK_SCAVENGER_MERC_TIPS:
+  RESPONSE(_("I suppose I should hire a party then?"));
+   SUCCESS(TALK_SCAVENGER_MERC);
+  break;
+ case TALK_SCAVENGER_MERC_HIRE:
+  if (g->u.cash >= 800000){
+  RESPONSE(_("[$8000] You have a deal."));
+   g->u.cash -= 800000;
+   SUCCESS(TALK_SCAVENGER_MERC_HIRE_SUCCESS);
+  }
+  RESPONSE(_("I might be back."));
+   SUCCESS(TALK_SCAVENGER_MERC);
+  break;
+
+ case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
+  RESPONSE(_("Glad to have you aboard."));
+   SUCCESS_ACTION(&talk_function::follow);
+   SUCCESS_OPINION(1, 0, 1, 0, 0);
+   SUCCESS(TALK_DONE);
   break;
 
  case TALK_SHELTER:
@@ -1276,7 +1902,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
 
  case TALK_AGREE_FOLLOW:
   RESPONSE(_("Awesome!"));
-   SUCCESS(TALK_NONE);
+   SUCCESS(TALK_FRIEND);
   RESPONSE(_("Okay, let's go!"));
    SUCCESS(TALK_DONE);
   break;
@@ -1346,6 +1972,14 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_DONE);
   break;
 
+ case TALK_FRIEND_GUARD:
+  RESPONSE(_("I need you to come with me."));
+    SUCCESS(TALK_FRIEND);
+    SUCCESS_ACTION(&talk_function::stop_guard);
+  RESPONSE(_("See you around."));
+   SUCCESS(TALK_DONE);
+  break;
+
  case TALK_FRIEND:
   RESPONSE(_("Combat commands..."));
    SUCCESS(TALK_COMBAT_COMMANDS);
@@ -1360,6 +1994,16 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    RESPONSE(_("Wait at this base."));
     SUCCESS(TALK_DONE);
     SUCCESS_ACTION(&talk_function::assign_base);
+  }
+  if (p->is_following()) {//acidia
+   RESPONSE(_("Guard this position."));
+    int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
+                 1 * p->op_of_u.anger + p->op_of_u.owed / 50;
+    TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
+    SUCCESS(TALK_FRIEND_GUARD);
+    SUCCESS_ACTION(&talk_function::assign_guard);
+    FAILURE(TALK_DENY_GUARD);
+     FAILURE_OPINION(-1, -2, -1, 1, 0);
   }
   RESPONSE(_("I'm going to go my own way for a while."));
    SUCCESS(TALK_LEAVE);
@@ -1823,6 +2467,39 @@ void talk_function::assign_base(npc *p)
     add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
     p->mission = NPC_MISSION_BASE;
     p->attitude = NPCATT_NULL;
+}
+
+void talk_function::assign_guard(npc *p)
+{
+    add_msg(_("%s is posted as a guard."), p->name.c_str());
+    p->attitude = NPCATT_NULL;
+    p->mission = NPC_MISSION_GUARD;
+    p->chatbin.first_topic = TALK_FRIEND_GUARD;
+    p->set_destination();
+}
+
+void talk_function::stop_guard(npc *p)
+{
+    p->attitude = NPCATT_FOLLOW;
+    add_msg(_("%s begins to follow you."), p->name.c_str());
+    p->mission = NPC_MISSION_NULL;
+    p->chatbin.first_topic = TALK_FRIEND;
+    p->goal = p->no_goal_point;
+    p->guardx = -1;
+    p->guardy = -1;
+}
+
+void talk_function::end_conversation(npc *p)
+{
+    add_msg(_("%s starts ignoring you."), p->name.c_str());
+    p->chatbin.first_topic = TALK_DONE;
+}
+
+void talk_function::insult_combat(npc *p)
+{
+    add_msg(_("You start a fight with %s!"), p->name.c_str());
+    p->chatbin.first_topic = TALK_DONE;
+    p->attitude =  NPCATT_KILL;
 }
 
 void talk_function::give_equipment(npc *p)

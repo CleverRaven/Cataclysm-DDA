@@ -3821,6 +3821,256 @@
         "color" : "dark_gray",
         "see_cost" : 999,
         "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_1",
+        "name" : "road",
+        "sym" : [4194412, 4194411, 4194410, 4194413],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_2",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_3",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_4",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_5",
+        "name" : "road",
+        "sym" : [ 4194411, 4194410, 4194413, 4194412],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_6",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_7",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_8",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_9",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_10",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_11",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_12",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_13",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_14",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_15",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_16",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_17",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_18",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_19",
+        "name" : "Refguee Center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_20",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_21",
+        "name" : "road",
+        "sym" : [ 4194413, 4194412, 4194411, 4194410],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_22",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_23",
+        "name" : "road",
+        "sym" : [4194423, 4194421, 4194422, 4194420],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_24",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_25",
+        "name" : "road",
+        "rotate" : true,
+        "sym" : [ 4194410, 4194413, 4194412, 4194411],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "see_cost" : 5,
+        "mondensity" : 2
     }
 ]
 
