@@ -598,24 +598,31 @@ std::string weather_forecast(radio_tower tower)
 //        period_start = period_deadline;
 //    }
 //    
-    weather_type forecast = 0;
-    for(calendar i(calendar::turn); i < calendar::turn + 7200; i += 600) {
-        w_point w = weatherGen.get_weather(point(tower.x, tower.y), i);
-        forecast = std::max(forecast, weatherGen.get_weather_conditions(w));
-        high = std::max(high, w.temperature);
-        low = std:min(low, w.temperature);
+    for(int d = 0; d < 6; d++) {
+        weather_type forecast = 0;
+        for(calendar i(calendar::turn + 7200 * d); i < calendar::turn + 7200 * (d + 1); i += 600) {
+            w_point w = weatherGen.get_weather(point(tower.x, tower.y), i);
+            forecast = std::max(forecast, weatherGen.get_weather_conditions(w));
+            high = std::max(high, w.temperature);
+            low = std:min(low, w.temperature);
+        }
+        std::string day;
+        if(d == 0 && (calendar::turn + 7200).is_night()) {
+            day = _("Tonight");
+        } else {
+            day = _("Today");
+        }
+        if(d > 0 && (calendar::turn + 7200 * d).is_night()) {
+            day = rmp_format(_("<Mon Night>%s Night"), (calendar::turn + 7200 * d).day_of_week().c_str());
+        } else {
+            day = (calendar::turn + 7200 * d).day_of_week();
+        }
+        weather_report << string_format(
+            _("%s...%s. Highs of %s. Lows of %s. "),
+            day.c_str(), weather_data[forecast].name.c_str(),
+            print_temperature(high).c_str(),print_temperature(low).c_str()
+        );
     }
-    std::string day;
-    if((calendar::turn + 7200).is_night()) {
-        day = _("Tonight");
-    } else {
-        day = _("Today");
-    }
-    weather_report << string_format(
-        _("%s...%s. Highs of %s. Lows of %s. "),
-        day.c_str(), weather_data[forecast].name.c_str(),
-        print_temperature(high).c_str(),print_temperature(low).c_str()
-    );
     return weather_report.str();
 }
 
