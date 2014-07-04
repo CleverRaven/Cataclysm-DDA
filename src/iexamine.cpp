@@ -2084,34 +2084,32 @@ bool toPumpFuel(map *m, point src, point dst, long units)
         return false;
     }
 
-    item *liq;
-
-    int liqp = 0;
-
-    for (int i = 0; i < m->i_at(src.x, src.y).size(); i++) {
+    for (int i = 0; i < m->i_at(src.x, src.y).size(); i++)
         if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
-            liqp = i;
-            liq = &(m->i_at(src.x, src.y)[i]);
+
+            item *liq = &(m->i_at(src.x, src.y)[i]);
+
+            long count = dynamic_cast<it_ammo *>(liq->type)->count;
+
+            if (liq->charges < count * units) {
+                return false;
+            }
+
+            liq->charges -= count * units;
+
+            item liq_d(liq->type->id, calendar::turn);
+            liq_d.charges = count * units;
+
+            m->add_item_or_charges(dst.x, dst.y, liq_d, 1);
+
+            if (liq->charges < 1) {
+                m->i_at(src.x, src.y).erase(m->i_at(src.x, src.y).begin() + i);
+            }
+
+            return true;
         }
 
-        long count = dynamic_cast<it_ammo *>(liq->type)->count;
-
-        if (liq->charges < count * units) {
-            return false;
-        }
-
-        liq->charges -= count * units;
-        if (liq->charges < 1) {
-            m->i_at(src.x, src.y).erase(m->i_at(src.x, src.y).begin() + liqp);
-        }
-
-        item liq_d(liq->type->id, calendar::turn);
-        liq_d.charges = count * units;
-
-        m->add_item_or_charges(dst.x, dst.y, liq_d, 1);
-
-        return true;
-    }
+    return false;
 }
 
 void iexamine::pay_gas(player *p, map *m, int examx, int examy)

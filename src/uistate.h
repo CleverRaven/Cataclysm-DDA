@@ -50,7 +50,7 @@ public:
       wishmonster_selected = 0;
       iuse_knife_selected = 0;
       iexamine_atm_selected = 0;
-	  int ags_pay_gas_selected_pump = 0;
+      ags_pay_gas_selected_pump = 0;
       adv_inv_leftsort = 1;
       adv_inv_rightsort = 1;
       adv_inv_leftarea = 5;
