@@ -7747,6 +7747,13 @@ void game::smash()
         return;
     }
 
+    if( m.field_at( smashx, smashy ).findField( fd_web ) ) {
+        m.remove_field( smashx, smashy, fd_web );
+        sound( smashx, smashy, 2, "" );
+        add_msg( m_info, _( "You brush aside some webs." ) );
+        u.moves -= 100;
+        return;
+    }
     static const int full_pulp_threshold = 4;
     for (auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it) {
         if (it->type->id == "corpse" && it->damage < full_pulp_threshold) {
