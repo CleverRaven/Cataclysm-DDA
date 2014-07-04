@@ -675,6 +675,7 @@ class game
         void debug();           // All-encompassing debug screen.  TODO: This.
         void display_scent();   // Displays the scent map
         void mondebug();        // Debug monster behavior directly
+        void tracks_debug();    // Debug tracks
         void groupdebug();      // Get into on monster groups
 
         // ########################## DATA ################################

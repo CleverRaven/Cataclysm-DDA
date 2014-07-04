@@ -38,6 +38,8 @@
 #define HIVECHANCE 180 //Chance that any given forest will be a hive
 #define SWAMPINESS 4 //Affects the size of a swamp
 #define SWAMPCHANCE 8500 // Chance that a swamp will spawn instead of forest
+
+#define HORDE_TRACK_RANGE 2;
 enum oter_dir {
     oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
 };
@@ -665,6 +667,12 @@ overmap::overmap(overmap const &o)
         }
         layer[z].notes = o.layer[z].notes;
     }
+    for (int i = 0; i < OMAPX * 2; ++i) {
+        for (int j = 0; j < OMAPY * 2; ++j) {
+            layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] =
+            o.layer[OVERMAP_GROUND_LEVEL].pl_track[i][j];
+        }
+    }
 }
 
 overmap::~overmap()
@@ -703,6 +711,12 @@ overmap &overmap::operator=(overmap const &o)
         }
         layer[z].notes = o.layer[z].notes;
     }
+    for (int i = 0; i < OMAPX * 2; ++i) {
+        for (int j = 0; j < OMAPY * 2; ++j) {
+            layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] =
+            o.layer[OVERMAP_GROUND_LEVEL].pl_track[i][j];
+        }
+    }
     return *this;
 }
 
@@ -717,6 +731,11 @@ void overmap::init_layers()
                 layer[z].terrain[i][j] = default_type;
                 layer[z].visible[i][j] = false;
             }
+        }
+    }
+    for (int i = 0; i < OMAPX*2; i++) {
+        for (int j = 0; j < OMAPY*2; j++) {
+            layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
         }
     }
 }
@@ -1534,6 +1553,9 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     oter_id cur_ter = ot_null;
     nc_color ter_color;
     long ter_sym;
+
+    mongroup *cmgroup = NULL;
+    mongroup *mgroup = NULL;
     // sight_points is hoisted for speed reasons.
     int sight_points = g->u.overmap_sight_range(g->light_level());
 
@@ -1546,32 +1568,13 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         tripointZone = tripoint(pOMZone.x, pOMZone.y);
     }
 
-    // If we're debugging monster groups, find the monster group we've selected
-    const mongroup *mgroup = NULL;
-    if(debug_monstergroups) {
-        // Get the monster group at the current cursor position
-        const overmap *omap = overmap_buffer.get_existing_om_global(point(cursx, cursy));
-        if(omap) {
-            const std::vector<mongroup> &zg = omap->zg;
-            for(int i = 0; i < zg.size(); i++) if(zg[i].horde && zg[i].posz == z) {
-                    // we need to multiply coordinates by 2, because we're using overmap coordinates
-                    // whereas mongroups are using submap coordinates(levx/levy)
-                    int x = cursx;
-                    int y = cursy;
-                    overmap_buffer.omt_to_sm(x, y);
-
-                    int distance = zg[i].diffuse ? square_dist(x, y, zg[i].posx, zg[i].posy) :
-                        trig_dist(x, y, zg[i].posx, zg[i].posy);
-                    if(distance <= zg[i].radius) {
-                        mgroup = &zg[i];
-                        break;
-                    }
-                }
-        }
-    }
-
     for (int i = 0; i < om_map_width; i++) {
         for (int j = 0; j < om_map_height; j++) {
+
+            bool horde_here = false;
+            int horde_num = 0;
+            mgroup = NULL;
+
             const int omx = cursx + i - (om_map_width / 2);
             const int omy = cursy + j - (om_map_height / 2);
             const bool see = overmap_buffer.seen(omx, omy, z);
@@ -1588,15 +1591,19 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             //Check if there is an npc.
             const bool npc_here = overmap_buffer.has_npc(omx, omy, z);
             // Check for hordes within player line-of-sight
-            bool horde_here = false;
-            if (los) {
-                std::vector<mongroup *> hordes = overmap_buffer.monsters_at(omx, omy, z);
+
+            if (los || debug_monstergroups) {
+                std::vector<mongroup *> hordes = overmap_buffer.monsters_at(omx - 2, omy - 2, z); // -2 is drity hack
+
                 for (int ih = 0; ih < hordes.size(); ih++) {
                     if (hordes[ih]->horde) {
                         horde_here = true;
+                        mgroup = hordes[ih];
                     }
                 }
             }
+            // checks tracks
+            const bool tracks_here = (overmap_buffer.track_at(omx - 2 , omy - 2, z) != 0 );//-2 is drity hack
             // and a vehicle
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
@@ -1716,40 +1723,21 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             // Are we debugging monster groups?
             if(blink && debug_monstergroups) {
                 // Check if this tile is the target of the currently selected group
-                if(mgroup && mgroup->tx / 2 == omx && mgroup->ty / 2 == omy) {
-                    ter_color = c_red;
-                    ter_sym = 'x';
-                } else {
-                    const overmap *omap = overmap_buffer.get_existing_om_global(point(omx, omy));
-                    if(omap) {
-                        const std::vector<mongroup> &zg = omap->zg;
-                        for(int i = 0; i < zg.size(); i++) if(zg[i].horde && zg[i].posz == z) {
-                                // we need to multiply coordinates by 2,
-                                // because we're using overmap coordinates
-                                // whereas mongroups are using submap coordinates(levx/levy)
-                                int x = omx;
-                                int y = omy;
-                                overmap_buffer.omt_to_om_remain(x, y);
-                                overmap_buffer.omt_to_sm(x, y);
-
-                                int distance = zg[i].diffuse ?
-                                    square_dist(x, y, zg[i].posx, zg[i].posy) :
-                                    trig_dist(x, y, zg[i].posx, zg[i].posy);
-                                if(distance == 0) {
-                                    ter_color = c_red;
-                                    ter_sym = '+';
-                                } else if(distance <= zg[i].radius) {
-                                    ter_color = c_blue;
-                                    ter_sym = '-';
-                                }
-                            }
+                if (horde_here) {
+                    ter_color = c_green;
+                    ter_sym = 'Z';
                     }
+                else if (tracks_here) {
+                    ter_color = c_red;
+                    ter_sym = ':';
                 }
             }
+
 
             if (omx == cursx && omy == cursy) {
                 csee = see;
                 ccur_ter = cur_ter;
+                cmgroup = mgroup;
                 mvwputch_hi(w, j, i, ter_color, ter_sym);
             } else {
                 mvwputch(w, j, i, ter_color, ter_sym);
@@ -1841,12 +1829,40 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     }
 
     // Draw text describing the overmap tile at the cursor position.
-    if (csee) {
-        if(mgroup) {
-            mvwprintz(w, 1, om_map_width + 3, c_blue, "# monsters: %d", mgroup->population);
-            mvwprintz(w, 2, om_map_width + 3, c_blue, "  Interest: %d", mgroup->interest);
-            mvwprintz(w, 3, om_map_width + 3, c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
+
+    if (csee || debug_monstergroups) {
+        if (cmgroup && debug_monstergroups) {
+            mvwprintz(w, 1, om_map_width + 3, c_blue, "# monsters: %d", cmgroup->population);
+            mvwprintz(w, 2, om_map_width + 3, c_blue, "  Interest: %d", cmgroup->interest);
+            mvwprintz(w, 3, om_map_width + 3, c_blue, "  Target: %d, %d", cmgroup->tx, cmgroup->ty);
             mvwprintz(w, 3, om_map_width + 3, c_red, "x");
+            mvwprintz(w, 4, om_map_width + 3, c_blue, "  Position: %d, %d", cmgroup->posx, cmgroup->posy);
+        } else if (cmgroup) {
+            int p = cmgroup->population;
+            int h_int = cmgroup->interest;
+            char *hsize = p < 20 ? p + _(" heads") :
+                          p < 40 ?  _("fifty or so") :
+                          p < 80 ?  _("less than a hundred") :
+                          p < 160 ? _("over a hundred") :
+                          p < 280 ? _("hundreds of 'em") :
+                                    _("dunno.  LOTS");
+            nc_color csize = p < 80 ? c_white :
+                             p < 160 ? c_yellow :
+                             p < 280 ? c_magenta :
+                                       c_red;
+            char *hspeed = h_int < 35 ? _("wandering") :
+                           h_int < 50 ? _("tracking")  :
+                                        _("moving");
+            nc_color cspeed = h_int < 35 ? c_white :
+                              h_int < 50 ? c_yellow :
+                                           c_red;
+
+
+            mvwprintz(w, 1, om_map_width + 2, c_white, _("Horde size:"));
+            mvwprintz(w, 2, om_map_width + 2, csize, "%s", hsize);
+            mvwprintz(w, 3, om_map_width + 2, c_white, _("Speed:"));
+            mvwprintz(w, 3, om_map_width + 9, cspeed, "%s", hspeed);
+
         } else {
             mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
             std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
@@ -2104,39 +2120,208 @@ void overmap::move_hordes()
                 zg[i].wander();
             } else {
                 zg[i].dec_interest( 1 );
+                if (zg[i].interest<=15 && one_in(5) ) zg[i].wander();
+            }
+        }
+        //tracking in range 5
+        if ( zg[i].interest <= 40 ) {
+            int sx = zg[i].posx - HORDE_TRACK_RANGE;
+            int ex = zg[i].posx + HORDE_TRACK_RANGE;
+            int sy = zg[i].posy - HORDE_TRACK_RANGE;
+            int ey = zg[i].posy + HORDE_TRACK_RANGE;
+            sx = sx < 0 ? 0 : sx;
+            ex = ex > OMAPX * 2 ? OMAPX * 2 : ex;
+            sy = sy < 0 ? 0 : sy;
+            ey = ey > OMAPY * 2 ? OMAPY * 2 : ey;
+            int max_x, max_y, max_t = 0, shift_x, shift_y;
+            int track;
+            overmap* track_om;
+            for (int y = sy; y <= ey; y++)
+                for (int x = sx; x <= ex; x++) {
+                     track_om = NULL;
+                     shift_x = x < 0 ? -1 : x > OMAPX * 2 ? 1 : 0;
+                     shift_y = y < 0 ? -1 : y > OMAPY * 2 ? 1 : 0;
+                     if (shift_x != 0 && shift_y != 0) {
+                         track_om = const_cast<overmap*>(overmap_buffer.get_existing(pos().x + shift_x, pos().y + shift_y ));
+                         }
+
+                     if (track_om == NULL) {
+                         track = track_at(x, y);
+                         } else {
+                         track = track_om->track_at(x, y);
+                         }
+
+                     if ( track > max_t ) {
+                         max_t = track;
+                         max_x = x;
+                         max_y = y;
+                         }
+                    }
+            if (max_t != 0 ) {
+                zg[i].set_target(max_x, max_y);
+                zg[i].set_interest(40);
+                }
+        }
+        //move between overmap
+        if (zg[i].posx > OMAPX * 2 || zg[i].posx < 0 ||
+            zg[i].posy > OMAPY * 2 || zg[i].posy < 0) {
+            point om_pos = this->pos();
+            int shift_x = zg[i].posx < 0 ? -1 : zg[i].posx > OMAPX *2 ? 1 : 0;
+            int shift_y = zg[i].posy < 0 ? -1 : zg[i].posy > OMAPY *2 ? 1 : 0;
+
+            overmap* targ_om = const_cast<overmap*> (overmap_buffer.get_existing(om_pos.x + shift_x, om_pos.y + shift_y));
+            if (targ_om != NULL) {
+                if (zg[i].posx > OMAPX * 2 || zg[i].posx < 0) {
+                    zg[i].posx -= (OMAPX * 2) * shift_x;
+                    zg[i].tx -= (OMAPX * 2) * shift_x;
+                    }
+                if (zg[i].posy > OMAPY * 2 || zg[i].posy < 0) {
+                    zg[i].posy -= (OMAPY * 2) * shift_y;
+                    zg[i].ty -= (OMAPY * 2) * shift_y;
+                    }
+                targ_om->zg.push_back(zg[i]);
+                zg.erase(zg.begin() + i);
+                i--;
+            } else {
+                if (zg[i].tx < 0) zg[i].tx = zg[i].tx * -1;
+                if (zg[i].tx > OMAPX * 2) zg[i].tx = OMAPX * 2 - ( zg[i].tx - OMAPX * 2 );
+                if (zg[i].ty < 0) zg[i].ty = zg[i].ty * -1;
+                if (zg[i].ty > OMAPY * 2) zg[i].ty = OMAPY * 2 - ( zg[i].ty - OMAPY * 2 );
+            }
+        }
+
+        //destroying tracks
+        if (one_in(3)) {
+            place_tracks(zg[i].posx, zg[i].posy, 0);
+        }
+
+    }
+}
+
+
+
+/**
+* @param sig_power - power of signal or max distantion for reaction of zombies
+*/
+void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_power) {
+    int d_inter,targ_dist;
+    int targ_x, targ_y;
+    if (g->levz != 0) return;
+    for (int sy = -1; sy <= 1; sy++ )
+        for (int sx = -1; sx <= 1; sx++ ) {
+             const overmap* target_om_const = overmap_buffer.get_existing(pos().x + sx, pos().y + sy);
+             overmap* target_om;
+             if (target_om_const != NULL) {
+                 target_om = const_cast<overmap*>(target_om_const);
+             }
+             else continue;
+        targ_x = x + (OMAPX * 2 * -sx);
+        targ_y = y + (OMAPY * 2 * -sy);
+        for (std::vector<mongroup>::iterator it = target_om->zg.begin();
+            it != target_om->zg.end(); it++) {
+            d_inter = 0;
+            if (it->horde) {
+               switch (sig_type) {
+               case HSIG_NOICE:
+                    d_inter=signal_hordes_noice(targ_x, targ_y, sig_power, *it);
+                    break;
+               }
+            }
+            if (d_inter != 0) {
+                targ_dist = trig_dist(targ_x, targ_y, it->tx, it->ty);
+                const int roll = rng(0, it->interest );
+                if (roll < d_inter) {
+                    int delta = targ_dist - sig_power;
+                    delta = delta < 0 ? 0 : delta;
+                    int dx = rng(-delta / 2, delta / 2);
+                    int dy = rng(-delta / 2, delta / 2);
+                    targ_x += dx; targ_y += dy;
+                    if (targ_dist < 5) {
+                        it->set_target( (it->tx + targ_x) / 2, (it->ty + targ_y) / 2 ) ;
+                        it->inc_interest(d_inter);
+                    } else {
+                        it->set_target(targ_x, targ_y);
+                        it->set_interest(d_inter);
+                    }
+                }
             }
         }
     }
 }
 
-/**
-* @param sig_power - power of signal or max distantion for reaction of zombies
-*/
-void overmap::signal_hordes( const int x, const int y, const int sig_power)
-{
-    // TODO: Signal adjacent overmaps too. (the 3 nearest ones)
-    for( size_t i = 0; i < zg.size(); i++ ) {
-        if( zg[i].horde ) {
-            const int dist = rl_dist( x, y, zg[i].posx, zg[i].posy );
-            if( sig_power <= dist ) {
-                continue;
-            }
-            // TODO: base this in monster attributes, foremost GOODHEARING.
-            const int d_inter = (sig_power - dist) * 5;
-            const int roll = rng( 0, zg[i].interest );
-            if( roll < d_inter ) {
-                const int targ_dist = rl_dist( x, y, zg[i].tx, zg[i].ty );
-                // TODO: Base this on targ_dist:dist ratio.
-                if (targ_dist < 5) {
-                    zg[i].set_target( (zg[i].tx + x) / 2, (zg[i].ty + y) / 2 );
-                    zg[i].inc_interest( d_inter );
-                } else {
-                    zg[i].set_target( x, y );
-                    zg[i].set_interest( d_inter );
-                }
-            }
+int overmap::signal_hordes_noice(int x, int y, int sig_power, mongroup tzg) {
+    int dist, d_inter;
+    dist = trig_dist(x, y, tzg.posx, tzg.posy);
+    if (g->weather == WEATHER_LIGHTNING || g->weather == WEATHER_THUNDER) {
+        sig_power-= 10;
+    }
+    if (sig_power <= dist) {
+        return 0;
+    } else {
+        return (sig_power - dist) * 5;
+    }
+}
+
+point overmap::to_big_overmap_coord(point p) {
+    int retx = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().x * OMAPX;
+    int rety = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().y * OMAPY;
+
+    return point(retx,rety);
+}
+
+void overmap::place_tracks(const int x, const int y, const int turn) {
+    if (layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0 ) {
+        if (g->weather != WEATHER_ACID_RAIN ||
+           g->weather != WEATHER_RAINY ||
+           g->weather != WEATHER_LIGHTNING ||
+           g->weather != WEATHER_THUNDER ||
+           g->weather != WEATHER_SNOW ||
+           g->weather != WEATHER_SNOWSTORM ) {
+           layer[OVERMAP_GROUND_LEVEL].pl_track[x][y] = turn;
         }
     }
+}
+
+void overmap::update_tracks() {
+    if ( layer != NULL ) {
+    int roll = 5;
+    switch (g->weather) {
+       case WEATHER_CLEAR:
+       case WEATHER_SUNNY:
+           roll = 20;
+           break;
+       case WEATHER_ACID_RAIN:
+       case WEATHER_RAINY:
+       case WEATHER_LIGHTNING:
+       case WEATHER_THUNDER:
+       case WEATHER_SNOW :
+       case WEATHER_SNOWSTORM:
+           roll = 2;
+           break;
+       case WEATHER_CLOUDY:
+           roll = 100;
+           break;
+       case WEATHER_ACID_DRIZZLE:
+       case WEATHER_DRIZZLE:
+           roll = 120;
+           break;
+       }
+    for (int j = 0; j < OMAPY * 2; j++)
+        for (int i = 0; i < OMAPX * 2; i++) {
+            if (one_in(roll)) {
+                layer[OVERMAP_GROUND_LEVEL].pl_track[i][j] = 0;
+            }
+        }
+
+    }
+
+}
+
+int overmap::track_at(const int x, const int y) {
+   if (layer != NULL && x <= OMAPX*2 && y <= OMAPY*2 && x >= 0 && y >= 0) {
+       return  layer[OVERMAP_GROUND_LEVEL].pl_track[x][y];
+   }
+   return 0;
 }
 
 void grow_forest_oter_id(oter_id &oid, bool swampy)
@@ -3631,11 +3816,21 @@ void overmap::place_mongroups()
     for( size_t i = 0; i < cities.size(); i++ ) {
         if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
             if( !one_in(16) || cities[i].s > 5 ) {
-                zg.push_back( mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                                       int(cities[i].s * 2.5), cities[i].s * 80) );
-                zg.back().set_target( zg.back().posx, zg.back().posy );
-                zg.back().horde = true;
-                zg.back().wander();
+                int sz = cities[i].s;
+                int pop = cities[i].s * 80;
+                int h_size;
+                while (pop > 0) {
+                    h_size = rng(1, 4) * 80;
+                    zg.push_back( mongroup("GROUP_ZOMBIE",
+                                           (cities[i].x * 2) + (rng(0, sz) - sz),
+                                           (cities[i].y * 2) + (rng(0, sz) - sz),
+                                           0, 5,
+                                           h_size) );
+                    zg.back().set_target( zg.back().posx, zg.back().posy );
+                    zg.back().horde = true;
+                    zg.back().wander();
+                    pop -= h_size;
+                    }
             }
         }
         if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {

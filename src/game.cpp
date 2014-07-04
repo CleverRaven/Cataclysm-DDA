@@ -1088,7 +1088,15 @@ bool game::do_turn()
     }
 
     if (calendar::turn % 50 == 0) { //move hordes every 5 min
-        cur_om->move_hordes();
+       overmap_buffer.move_hordes();
+    }
+
+    if (calendar::turn % 200 == 0) { //update tracks every 20 min
+       overmap_buffer.update_tracks();
+    }
+
+    if (calendar::turn % 10 == 0) { //place player's tracks every 1 min
+       cur_om->place_tracks( levx, levy, calendar::turn );
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -4316,10 +4324,12 @@ void game::debug()
                       _("Map editor"), // 17
                       _("Change weather"),         // 18
                       _("Remove all monsters"),    // 19
-                      _("Display hordes"), // 20
-                      _("Test Item Group"), // 21
+                      _("Display hordes list"),    // 20
+                      _("Display hordes on map"), // 21
+                      _("Display tracks list"), //22
+                      _("Test Item Group"), // 23
 #ifdef LUA
-                      _("Lua Command"), // 22
+                      _("Lua Command"), // 24
 #endif
                       _("Cancel"),
                       NULL);
@@ -4697,19 +4707,28 @@ void game::debug()
         }
         cleanup_dead();
     }
+
     break;
     case 20: {
+        groupdebug();
+    }
+    break;
+    case 21: {
         // display hordes on the map
         overmap::draw_overmap(g->om_global_location(), true);
     }
     break;
-    case 21: {
+    case 22: {
+        tracks_debug();
+    }
+    break;
+    case 23: {
         item_controller->debug_spawn();
     }
     break;
 
 #ifdef LUA
-    case 22: {
+    case 24: {
         std::string luacode = string_input_popup(_("Lua:"), 60, "");
         call_lua(luacode);
     }
@@ -4733,6 +4752,54 @@ void game::mondebug()
             debugmsg("The %s can't see you...", critter.name().c_str());
         }
     }
+}
+
+void game::groupdebug() {
+    erase();
+    mvprintw(0 ,0, "Debug hordes(Defalut), all mongroups(m), all in range(r)?");
+    char ch = getch();
+    erase();
+    std::string mode;
+    bool all = ch == 'm';
+    bool in_range = ch == 'r';
+    bool hordes = !all && !in_range;
+    mode = all ? "All groups" : in_range ? "In range" : "Hordes";
+    mvprintw(0, 0, "%s OM %d : %d    M %d : %d", mode.c_str(), cur_om->pos().x, cur_om->pos().y, levx, levy);
+    int dist, linenum = 1;
+    for (int i = 0; i < cur_om->zg.size(); i++) {
+        if (cur_om->zg[i].posz != levz) continue;
+        dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+        if ((dist <= cur_om->zg[i].radius && in_range) ||
+            (cur_om->zg[i].horde && hordes) || all ) {
+            mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d type: %s",
+                     i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
+                     cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty,
+                     cur_om->zg[i].interest, cur_om->zg[i].type.c_str());
+            linenum++;
+            if (linenum >= 22) {
+               getch();
+               erase();
+               mvprintw(0, 0, "%s OM %d : %d    M %d : %d", mode.c_str(), cur_om->pos().x, cur_om->pos().y, levx, levy);
+               linenum = 1;
+            }
+        }
+    }
+    getch();
+}
+
+void game::tracks_debug() {
+    erase();
+    mvprintw(0, 0, "Tracks: OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx, levy);
+    int tt,linenum = 1;
+    for (int j = 0; j < OMAPY * 2; j++)
+        for (int i = 0; i < OMAPX * 2; i++) {
+        tt = cur_om->track_at(i, j);
+        if (tt != 0) {
+            mvprintw(linenum, 0, "%d ; %d - %d", i, j, tt );
+            linenum++;
+            }
+        }
+    getch();
 }
 
 void game::draw_overmap()
@@ -6351,10 +6418,11 @@ bool game::sound(int x, int y, int vol, std::string description)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
-    if (vol > 20 && levz == 0) {
-        int sig_power = ((vol > 140) ? 140 : vol) - 20;
-        cur_om->signal_hordes(levx + (MAPSIZE / 2), levy + (MAPSIZE / 2), sig_power);
-    }
+    if (vol > 20 && levz == 0)
+        {
+            int sig_power = ( (vol > 140) ? 140 : vol - 20 );
+            cur_om->signal_hordes(levx, levy, HSIG_NOICE, sig_power);
+        }
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = critter_tracker.find(i);
@@ -12167,7 +12235,7 @@ bool game::plmove(int dx, int dy)
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
         add_msg(m_warning, _("Monster spotted--safe mode is on! \
-							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 (%s to turn it off or %s to ignore monster.)"),
+                (%s to turn it off or %s to ignore monster.)"),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
@@ -13888,7 +13956,7 @@ void game::despawn_monsters(const int shiftx, const int shifty)
                         cur_om->zg[group].population++;
                         if (cur_om->zg[group].population /
                             (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                            !cur_om->zg[group].diffuse) {
+                            !cur_om->zg[group].diffuse && !cur_om->zg[group].horde) {
                             cur_om->zg[group].radius++;
                         }
                     }
@@ -13983,16 +14051,16 @@ void game::spawn_mon(int shiftx, int shifty)
                    group < pop && group < MAPSIZE * 3) {
                 group++;
             }
-            cur_om->zg[i].population -= group;
+            int add_zom = 0;
             // Reduce group radius proportionally to remaining
             // population to maintain a minimal population density.
             if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
-                !cur_om->zg[i].diffuse) {
+                !cur_om->zg[i].diffuse && !horde ) {
                 cur_om->zg[i].radius--;
             }
 
             // If we spawned some zombies, advance the timer (exept hordes)
-            if (group > 0 && !cur_om->zg[i].horde) {
+            if (group > 0 && !horde ) {
                 nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
             }
 
@@ -14033,9 +14101,11 @@ void game::spawn_mon(int shiftx, int shifty)
                     if (iter < 50) {
                         zom.spawn(monx, mony);
                         add_zombie(zom);
+                        add_zom++;
                     }
                 }
             } // Placing monsters of this group is done!
+            cur_om->zg[i].population -= add_zom;
             if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
                 cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
                 i--; // And don't increment i.

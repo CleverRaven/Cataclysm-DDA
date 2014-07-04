@@ -193,9 +193,28 @@ bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda) const
 
 std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
 {
+    std::vector<mongroup*> ret;
     const overmap* om = overmap_buffer.get_existing_om_global(x, y);
     point p = omt_to_sm_copy(x, y);
-    return const_cast<overmap*>(om)->monsters_at(p.x, p.y, z);
+    return om != NULL ? const_cast<overmap*>(om)->monsters_at(p.x, p.y, z) : ret;
+}
+
+int overmapbuffer::track_at(int x, int y, int z)
+{
+    const overmap* om = overmap_buffer.get_existing_om_global(x, y);
+    overmap *omt;
+    if (om == NULL) return 0;
+        else omt = const_cast<overmap*>(om);
+    int tr[4],ret_max = 0;
+    point p = omt_to_sm_copy(x, y);
+    tr[0] = omt->track_at(p.x, p.y);
+    tr[1] = omt->track_at(p.x - 1, p.y);
+    tr[2] = omt->track_at(p.x, p.y - 1);
+    tr[3] = omt->track_at(p.x - 1, p.y - 1);
+    for (int i = 0; i < 4; i++ )
+      if (ret_max < tr[i]) ret_max = tr[i];
+
+    return ret_max;
 }
 
 bool overmapbuffer::seen(int x, int y, int z) const
@@ -416,6 +435,18 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
         }
     }
     return result;
+}
+
+void overmapbuffer::move_hordes() {
+    for (std::list<overmap>::iterator it=overmap_list.begin();
+        it != overmap_list.end(); ++it)
+        it->move_hordes();
+}
+
+void overmapbuffer::update_tracks() {
+    for (std::list<overmap>::iterator it=overmap_list.begin();
+        it != overmap_list.end(); ++it)
+        it->update_tracks();
 }
 
 bool overmapbuffer::is_safe(int x, int y, int z)
