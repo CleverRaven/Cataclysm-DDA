@@ -74,7 +74,7 @@ void weather_effect::glare()
 //    return ret / 600;
 //};
 
-int get_rot_since( const point &location, const int since, const int endturn ) {
+int get_rot_since( const int since, const int endturn, const point &location ) {
     int ret = 0;
     for (calendar i(since); i < endturn; i += 600) {
         w = g->weatherGen.get_weather(location, i);
