@@ -6355,10 +6355,15 @@ void game::monmove()
         } else {
             (*it)->reset();
             while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
-                turns++;
+                int moves = (*it)->moves;
                 (*it)->move();
-                //build_monmap();
+                if( moves == (*it)->moves ) {
+                    // Count every time we exit npc::move() without spending any moves.
+                    turns++;
+                }
             }
+            // If we spun too long trying to decide what to do (without spending moves),
+            // Invoke cranial detonation to prevent an infinite loop.
             if (turns == 10) {
                 add_msg(_("%s's brain explodes!"), (*it)->name.c_str());
                 (*it)->die();
@@ -10971,10 +10976,6 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                 }
             }
             active_npc[id]->make_angry();
-            if (active_npc[id]->my_fac != NULL){
-                active_npc[id]->my_fac->likes_u -= 50;
-                active_npc[id]->my_fac->respects_u -= 50;
-            }
         } else {
             id = mon_at(x, y);
             if (id >= 0) {
@@ -12276,10 +12277,6 @@ bool game::plmove(int dx, int dy)
 
         u.melee_attack(*active_npc[npcdex], true);
         active_npc[npcdex]->make_angry();
-        if (active_npc[npcdex]->my_fac != NULL){
-             active_npc[npcdex]->my_fac->likes_u -= 50;
-             active_npc[npcdex]->my_fac->respects_u -= 50;
-        }
         return false;
     }
 
