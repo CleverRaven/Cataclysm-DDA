@@ -1958,7 +1958,7 @@ void game::update_weather()
             weather_generator weatherGen(weatherSeed);
             has_generator = true;
         }
-        w_point w = weatherGen.get_weather(&point(u.posx, u.posy), calendar);
+        w_point w = weatherGen.get_weather(u.pos(), calendar);
         weather_type old_weather = weather;
         weather = weatherGen.get_weather_conditions(w, calendar);
         temperature = w.temperature;
