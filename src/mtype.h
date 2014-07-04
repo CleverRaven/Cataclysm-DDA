@@ -217,7 +217,8 @@ public:
     std::string id;
     std::string description;
     std::set<std::string> species, categories;
-    long sym;
+    /** UTF-8 encoded symbol, should be exactyle one cell wide. */
+    std::string sym;
     nc_color color;
     m_size size;
     std::string mat;

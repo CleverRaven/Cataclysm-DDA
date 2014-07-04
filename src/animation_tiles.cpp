@@ -96,11 +96,11 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
         }
     } else {
         nc_color cMonColor = m.type->color;
-        char sMonSym = m.symbol();
+        const std::string &sMonSym = m.symbol();
 
         hit_animation(POSX + (x - (u.posx + u.view_offset_x)),
                       POSY + (y - (u.posy + u.view_offset_y)),
-                      red_background(cMonColor), dead ? '%' : sMonSym);
+                      red_background(cMonColor), dead ? "%" : sMonSym);
     }
 }
 /* Player hit animation */
@@ -127,7 +127,7 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
     } else {
         hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                       POSY + (p->posy - (u.posy + u.view_offset_y)),
-                      (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), '@');
+                      (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), "@");
     }
 }
 

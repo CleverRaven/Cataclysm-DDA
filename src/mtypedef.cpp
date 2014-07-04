@@ -7,7 +7,7 @@ mtype::mtype () {
     name = "human";
     name_plural = "humans";
     description = "";
-    sym = ' ';
+    sym = " ";
     color = c_white;
     size = MS_MEDIUM;
     mat = "hflesh";

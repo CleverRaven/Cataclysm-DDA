@@ -1005,9 +1005,10 @@ bool Creature::is_symbol_highlighted()
     return false;
 }
 
-char Creature::symbol()
+const std::string &Creature::symbol() const
 {
-    return '?';
+    static const std::string default_symbol("?");
+    return default_symbol;
 }
 
 body_part Creature::select_body_part(Creature *source, int hit_roll)

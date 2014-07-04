@@ -4754,7 +4754,7 @@ void game::disp_kills()
         const mtype *m = MonsterGenerator::generator().get_mtype(kill->first);
         std::ostringstream buffer;
         buffer << "<color_" << string_from_color(m->color) << ">";
-        buffer << std::string(1, m->sym) << " " << m->nname();
+        buffer << m->sym << " " << m->nname();
         buffer << "</color>";
         const int w = colum_width - utf8_width(m->nname().c_str());
         buffer.width(w - 3); // gap between cols, monster sym, space
@@ -6093,11 +6093,11 @@ int game::mon_info(WINDOW *w)
         const int typeshere = typeshere_mon + typeshere_npc;
         for (int j = 0; j < typeshere && j < symroom; j++) {
             nc_color c;
-            char sym;
+            std::string sym;
             if (symroom < typeshere && j == symroom - 1) {
                 // We've run out of room!
                 c = c_white;
-                sym = '+';
+                sym = "+";
             } else if (j < typeshere_npc) {
                 buff = unique_types[i][j];
                 switch (active_npc[(buff + 1) * -1]->attitude) {
@@ -6114,13 +6114,13 @@ int game::mon_info(WINDOW *w)
                     c = c_pink;
                     break;
                 }
-                sym = '@';
+                sym = "@";
             } else {
                 sbuff = unique_mons[i][j - typeshere_npc];
                 c = GetMType(sbuff)->color;
                 sym = GetMType(sbuff)->sym;
             }
-            mvwputch(w, pr.y, pr.x, c, sym);
+            mvwprintz(w, pr.y, pr.x, c, "%s", sym.c_str());
 
             pr.x++;
         }
@@ -6157,7 +6157,7 @@ int game::mon_info(WINDOW *w)
 
                 if (pr.y < maxheight) { // Don't print if we've overflowed
                     lastrowprinted = pr.y;
-                    mvwputch(w, pr.y, pr.x, GetMType(sbuff)->color, GetMType(sbuff)->sym);
+                    mvwprintz(w, pr.y, pr.x, GetMType(sbuff)->color, "%s", GetMType(sbuff)->sym.c_str());
                     pr.x += 2; // symbol and space
                     nc_color danger = c_dkgray;
                     if (GetMType(sbuff)->difficulty >= 30) {

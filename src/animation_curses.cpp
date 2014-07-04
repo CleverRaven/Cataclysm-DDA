@@ -52,11 +52,11 @@ void game::draw_bullet(Creature& p, int tx, int ty, int i, std::vector<point> tr
 void game::draw_hit_mon(int x, int y, monster m, bool dead)
 {
     nc_color cMonColor = m.type->color;
-    char sMonSym = m.symbol();
+    const std::string &sMonSym = m.symbol();
 
     hit_animation(POSX + (x - (u.posx + u.view_offset_x)),
                   POSY + (y - (u.posy + u.view_offset_y)),
-                  red_background(cMonColor), dead ? '%' : sMonSym);
+                  red_background(cMonColor), dead ? "%" : sMonSym);
 }
 /* Player hit animation */
 void game::draw_hit_player(player *p, const int iDam, bool dead)
@@ -64,7 +64,7 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
     (void)dead; //unused
     hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                   POSY + (p->posy - (u.posy + u.view_offset_y)),
-                  (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), '@');
+                  (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), "@");
 }
 /* Line drawing code, not really an animation but should be separated anyway */
 
