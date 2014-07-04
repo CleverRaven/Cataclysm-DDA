@@ -41,38 +41,47 @@ void weather_effect::glare()
  * Retroactively determine weather-related rotting effects.
  * Applies rot based on the temperatures incurred between a turn range.
  */
-int get_rot_since( const int since, const int endturn ) {
-    int ret = 0;
-    int tbegin = since;
-    int tend = endturn;
-    /// @todo hourly quick lookback, select weather_log from climate zone
-    std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( endturn );
-    if ( wit == g->weather_log.end() ) { // missing wlog, debugmsg?
-       return endturn-since;
-    } else if ( wit->first > endturn ) { // incomplete wlog
-       return ( (endturn-since) * get_hourly_rotpoints_at_temp(wit->second.temperature) ) / 600;
-    }
+//int get_rot_since( const int since, const int endturn ) {
+//    int ret = 0;
+//    int tbegin = since;
+//    int tend = endturn;
+//    /// @todo hourly quick lookback, select weather_log from climate zone
+//    std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( endturn );
+//    if ( wit == g->weather_log.end() ) { // missing wlog, debugmsg?
+//       return endturn-since;
+//    } else if ( wit->first > endturn ) { // incomplete wlog
+//       return ( (endturn-since) * get_hourly_rotpoints_at_temp(wit->second.temperature) ) / 600;
+//    }
+//
+//    for( ;
+//         wit != g->weather_log.begin(); --wit
+//       ) {
+//       if ( wit->first <= endturn ) {
+//           tbegin = wit->first;
+//           if ( tbegin < since ) {
+//               tbegin = since;
+//               ret += ( (tend-tbegin) * get_hourly_rotpoints_at_temp(wit->second.temperature) );// / 600 ;
+//               tend = wit->first;
+//               break;
+//           }
+//           ret += ( (tend-tbegin) * get_hourly_rotpoints_at_temp(wit->second.temperature) );// / 600 ;
+//           tend = wit->first;
+//       }
+//    }
+//    if ( since < tbegin ) { // incomplete wlog
+//       ret += ( (tbegin-since) * get_hourly_rotpoints_at_temp(65) );
+//    }
+//    return ret / 600;
+//};
 
-    for( ;
-         wit != g->weather_log.begin(); --wit
-       ) {
-       if ( wit->first <= endturn ) {
-           tbegin = wit->first;
-           if ( tbegin < since ) {
-               tbegin = since;
-               ret += ( (tend-tbegin) * get_hourly_rotpoints_at_temp(wit->second.temperature) );// / 600 ;
-               tend = wit->first;
-               break;
-           }
-           ret += ( (tend-tbegin) * get_hourly_rotpoints_at_temp(wit->second.temperature) );// / 600 ;
-           tend = wit->first;
-       }
+int get_rot_since( const point &location, const int since, const int endturn ) {
+    int ret = 0;
+    for (calendar i(since); i < endturn; i += 600) {
+        w = g->weatherGen.get_weather(location, i);
+        ret += get_hourly_rotpoints_at_temp(w.temperature);
     }
-    if ( since < tbegin ) { // incomplete wlog
-       ret += ( (tbegin-since) * get_hourly_rotpoints_at_temp(65) );
-    }
-    return ret / 600;
-};
+    return ret;
+}
 
 ////// Funnels.
 /**
