@@ -529,74 +529,93 @@ std::string weather_forecast(radio_tower tower)
     // Accumulate percentages for each period of various weather statistics, and report that
     // (with fuzz) as the weather chances.
     int weather_proportions[NUM_WEATHER_TYPES] = {0};
-    signed char high = 0;
-    signed char low = 0;
-    calendar start_time = calendar::turn;
-    int period_start = calendar::turn.hours();
+    signed char high = -100;
+    signed char low = 100;
+//    calendar start_time = calendar::turn;
+//    int period_start = calendar::turn.hours();
     // TODO wind direction and speed
-    for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(calendar::turn) ); it != g->weather_log.end(); ++it ) {
-        weather_segment * period = &(it->second);
-        int period_deadline = period->deadline.hours();
-        signed char period_temperature = period->temperature;
-        weather_type period_weather = period->weather;
-        bool start_day = period_start >= 6 && period_start <= 18;
-        bool end_day = period_deadline >= 6 && period_deadline <= 18;
-
-        high = std::max(high, period_temperature);
-        low = std::min(low, period_temperature);
-
-        if(start_day != end_day) // Assume a period doesn't last over 12 hrs?
-        {
-            weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
-            int weather_duration = 0;
-            int predominant_weather = 0;
-            std::string day;
-            if( calendar::turn.days() == period->deadline.days() )
-            {
-                if( start_day )
-                {
-                    day = _("Today");
-                }
-                else
-                {
-                    day = _("Tonight");
-                }
-            }
-            else
-            {
-                std::string dayofweak = start_time.day_of_week();
-                if( !start_day )
-                {
-                    day = rmp_format(_("<Mon Night>%s Night"), dayofweak.c_str());
-                }
-                else
-                {
-                    day = dayofweak;
-                }
-            }
-            for( int i = WEATHER_CLEAR; i < NUM_WEATHER_TYPES; i++)
-            {
-                if( weather_proportions[i] > weather_duration)
-                {
-                    weather_duration = weather_proportions[i];
-                    predominant_weather = i;
-                }
-            }
-            // Print forecast
-            weather_report << string_format(
-                _("%s...%s. Highs of %s. Lows of %s. "),
-                day.c_str(), weather_data[predominant_weather].name.c_str(),
-                print_temperature(high).c_str(), print_temperature(low).c_str()
-            );
-            low = period_temperature;
-            high = period_temperature;
-            weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
-        } else {
-            weather_proportions[period_weather] += period_deadline - period_start;
-        }
-        start_time = period->deadline;
-        period_start = period_deadline;
+//    for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(calendar::turn) ); it != g->weather_log.end(); ++it ) {
+//        weather_segment * period = &(it->second);
+//        int period_deadline = period->deadline.hours();
+//        signed char period_temperature = period->temperature;
+//        weather_type period_weather = period->weather;
+//        bool start_day = period_start >= 6 && period_start <= 18;
+//        bool end_day = period_deadline >= 6 && period_deadline <= 18;
+//
+//        high = std::max(high, period_temperature);
+//        low = std::min(low, period_temperature);
+//
+//        if(start_day != end_day) // Assume a period doesn't last over 12 hrs?
+//        {
+//            weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
+//            int weather_duration = 0;
+//            int predominant_weather = 0;
+//            std::string day;
+//            if( calendar::turn.days() == period->deadline.days() )
+//            {
+//                if( start_day )
+//                {
+//                    day = _("Today");
+//                }
+//                else
+//                {
+//                    day = _("Tonight");
+//                }
+//            }
+//            else
+//            {
+//                std::string dayofweak = start_time.day_of_week();
+//                if( !start_day )
+//                {
+//                    day = rmp_format(_("<Mon Night>%s Night"), dayofweak.c_str());
+//                }
+//                else
+//                {
+//                    day = dayofweak;
+//                }
+//            }
+//            for( int i = WEATHER_CLEAR; i < NUM_WEATHER_TYPES; i++)
+//            {
+//                if( weather_proportions[i] > weather_duration)
+//                {
+//                    weather_duration = weather_proportions[i];
+//                    predominant_weather = i;
+//                }
+//            }
+//            // Print forecast
+//            weather_report << string_format(
+//                _("%s...%s. Highs of %s. Lows of %s. "),
+//                day.c_str(), weather_data[predominant_weather].name.c_str(),
+//                print_temperature(high).c_str(), print_temperature(low).c_str()
+//            );
+//            low = period_temperature;
+//            high = period_temperature;
+//            weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
+//        } else {
+//            weather_proportions[period_weather] += period_deadline - period_start;
+//        }
+//        start_time = period->deadline;
+//        period_start = period_deadline;
+//    }
+//    
+    weather_type forecast = 0;
+    for(calendar i(calendar::turn); i < calendar::turn + 7200; i += 600) {
+        w_point w = weatherGen.get_weather(point(tower.x, tower.y), i);
+        forecast = std::max(forecast, weatherGen.get_weather_conditions(w));
+        high = std::max(high, w.temperature);
+        low = std:min(low, w.temperature);
     }
+    std::string day;
+    if((calendar::turn + 7200).is_night()) {
+        day = _("Tonight");
+    } else {
+        day = _("Today");
+    }
+    weather_report << string_format(
+        _("%s...%s. Highs of %s. Lows of %s. "),
+        day.c_str(), weather_data[forecast].name.c_str(),
+        print_temperature(high).c_str(),print_temperature(low).c_str()
+    );
     return weather_report.str();
 }
 
