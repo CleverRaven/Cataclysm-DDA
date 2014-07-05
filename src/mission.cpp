@@ -11,6 +11,7 @@ mission mission_type::create(int npc_id)
     ret.type = this;
     ret.npc_id = npc_id;
     ret.item_id = item_id;
+    ret.item_count = item_count;
     ret.value = value;
     ret.follow_up = follow_up;
 
@@ -51,7 +52,7 @@ std::string mission::save_info()
 
 void mission::load_info(std::ifstream &data)
 {
-    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_count, target_npc_id;
+    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
     std::string rew_item, itemid;
     data >> type_id;
     type = &(g->mission_types[type_id]);
@@ -64,13 +65,14 @@ void mission::load_info(std::ifstream &data)
     } while (tmpdesc != "<>");
     description = description.substr( 0, description.size() - 1 ); // Ending ' '
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
-         uid >> target.x >> target.y >> itemid >> item_count >> deadline >> npc_id >>
+         uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
     follow_up = mission_id(tmpfollow);
     reward.type = npc_favor_type(reward_id);
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::skill( rew_skill );
     item_id = itype_id(itemid);
+    item_count = int(item_num);
 }
 
 std::string mission_dialogue (mission_id id, talk_topic state)
@@ -936,7 +938,7 @@ Our community survives on trade, we appreciate it.");
         case TALK_MISSION_ADVICE:
             return _("If you can, get a friend or two to help you.");
         case TALK_MISSION_INQUIRE:
-            return _("Have you delt with them?");
+            return _("Have you dealt with them?");
         case TALK_MISSION_SUCCESS:
             return _("Thank you, the world is a better place without them.");
         case TALK_MISSION_SUCCESS_LIE:
@@ -957,7 +959,7 @@ Our community survives on trade, we appreciate it.");
                      "new electrical systems online... unfortunately our existing system relies on "
                      "an array of something called RTGs.  From what I understand they work like "
                      "giant batteries of sorts.  We can expand our power system but to do so we "
-                     "would need enough plutonium.  With three atomic battery mods we would be "
+                     "would need enough plutonium.  With 25 plutonium cells we would be "
                      "able to get an electrical expansion working for a year or two.  I know they "
                      "are rare but running generators isn't a viable option in the basement.");
         case TALK_MISSION_ACCEPTED:
