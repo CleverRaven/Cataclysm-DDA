@@ -51,7 +51,7 @@ std::string mission::save_info()
 
 void mission::load_info(std::ifstream &data)
 {
-    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
+    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_count, target_npc_id;
     std::string rew_item, itemid;
     data >> type_id;
     type = &(g->mission_types[type_id]);
