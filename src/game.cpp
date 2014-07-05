@@ -2124,7 +2124,7 @@ bool game::mission_complete(int id, int npc_id)
     break;
 
     case MGOAL_FIND_ITEM:
-        if (!u.has_amount(type->item_id, 1)) {
+        if (!u.has_amount(type->item_id, miss->item_count)) {
             return false;
         }
         if (miss->npc_id != -1 && miss->npc_id != npc_id) {
@@ -2148,7 +2148,7 @@ bool game::mission_complete(int id, int npc_id)
         return false;
 
     case MGOAL_RECRUIT_NPC: {
-        npc *p = find_npc(miss->recruit_npc_id);
+        npc *p = find_npc(miss->target_npc_id);
         return (p != NULL && p->attitude == NPCATT_FOLLOW);
     }
 
@@ -2167,6 +2167,9 @@ bool game::mission_complete(int id, int npc_id)
 
     case MGOAL_FIND_NPC:
         return (miss->npc_id == npc_id);
+
+    case MGOAL_ASSASSINATE:
+        return (miss->step >= 1);
 
     case MGOAL_KILL_MONSTER:
         return (miss->step >= 1);
@@ -2210,7 +2213,7 @@ void game::wrap_up_mission(int id)
     }
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
-        u.use_amount(miss->type->item_id, 1);
+        u.use_amount(miss->type->item_id, miss->item_count);
         break;
     case MGOAL_FIND_ANY_ITEM:
         u.remove_mission_items(miss->uid);
@@ -2250,6 +2253,7 @@ void game::mission_step_complete(int id, int step)
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
     case MGOAL_FIND_MONSTER:
+    case MGOAL_ASSASSINATE:
     case MGOAL_KILL_MONSTER: {
         npc *p = find_npc(miss->npc_id);
         if (p != NULL) {
