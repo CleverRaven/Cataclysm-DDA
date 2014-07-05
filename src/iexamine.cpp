@@ -2150,7 +2150,7 @@ point getGasPumpByNumber(map *m, int x, int y, int number)
 
     for (int i = x - radius; i <= x + radius; i++)
         for (int j = y - radius; j <= y + radius; j++)
-		if ((m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") && number == k++) {
+            if ((m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") && number == k++) {
                 return point(i, j);
             }
 
@@ -2171,9 +2171,9 @@ bool toPumpFuel(player *p, map *m, point src, point dst, long units)
     for (int i = 0; i < m->i_at(src.x, src.y).size(); i++)
         if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
 
-            item *liq = &(m->i_at(src.x, src.y)[i]);				
+            item *liq = &(m->i_at(src.x, src.y)[i]);
 
-			long count = dynamic_cast<it_ammo *>(liq->type)->count;
+            long count = dynamic_cast<it_ammo *>(liq->type)->count;
 
             if (liq->charges < count * units) {
                 return false;
@@ -2182,12 +2182,12 @@ bool toPumpFuel(player *p, map *m, point src, point dst, long units)
             liq->charges -= count * units;
 
             item liq_d(liq->type->id, calendar::turn);
-			liq_d.charges = count * units;
+            liq_d.charges = count * units;
 
-			ter_t backup_pump = m->ter_at(dst.x, dst.y);
-			m->ter_set(dst.x, dst.y, "t_null");
+            ter_t backup_pump = m->ter_at(dst.x, dst.y);
+            m->ter_set(dst.x, dst.y, "t_null");
             m->add_item_or_charges(dst.x, dst.y, liq_d);
-			m->ter_set(dst.x, dst.y, backup_pump.id);
+            m->ter_set(dst.x, dst.y, backup_pump.id);
 
             if (liq->charges < 1) {
                 m->i_at(src.x, src.y).erase(m->i_at(src.x, src.y).begin() + i);
@@ -2233,22 +2233,22 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     }
 
     long tankGasUnits;
-	point pTank = getNearFilledGasTank(m, examx, examy, tankGasUnits);
+    point pTank = getNearFilledGasTank(m, examx, examy, tankGasUnits);
     if (pTank.x == -999) {
         popup(_("Failure! No gas tank found!"));
         return;
     }
 
-	if (tankGasUnits == 0){
-		popup(_("Sorry, gas tank empty, come back later."));
-		return;
-	}
+    if (tankGasUnits == 0) {
+        popup(_("Sorry, gas tank empty, come back later."));
+        return;
+    }
 
     if (uistate.ags_pay_gas_selected_pump + 1 > pumpCount) {
         uistate.ags_pay_gas_selected_pump = 0;
     }
 
-	turnOnSelectedPump(m, examx, examy, uistate.ags_pay_gas_selected_pump);
+    turnOnSelectedPump(m, examx, examy, uistate.ags_pay_gas_selected_pump);
 
     int discount = findBestGasDiscount(p);
     std::string discountName = getGasDiscountName(discount);
@@ -2347,11 +2347,11 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
         cashcard->charges -= amount * pricePerUnit;
 
-		add_msg(m_info, ngettext("Your cash card now holds %d cent.", "Your cash card now holds %d cents.", cashcard->charges), cashcard->charges);
+        add_msg(m_info, ngettext("Your cash card now holds %d cent.", "Your cash card now holds %d cents.",
+                                 cashcard->charges), cashcard->charges);
         p->moves -= 100;
         return;
     }
-
 }
 
 /**
