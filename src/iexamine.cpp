@@ -2477,7 +2477,7 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
       return &iexamine::sign;
   }
   if ("pay_gas" == function_name) {
-	  return &iexamine::pay_gas;
+      return &iexamine::pay_gas;
   }
 
   //No match found

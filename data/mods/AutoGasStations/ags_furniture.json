@@ -21,7 +21,7 @@
 {
         "type" : "furniture",
         "id" : "f_aut_gas_console_o",
-        "name": "broken vending machine",
+        "name": "broken automated gas console",
         "symbol": "9",
         "color": "dkgray",
         "move_cost_mod": -1,
