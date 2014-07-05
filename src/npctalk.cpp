@@ -1272,9 +1272,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_TRAIN);
    SUCCESS_ACTION(&talk_function::clear_mission);
   }
-  RESPONSE(_("Alright, well, you owe me one."));
-   SUCCESS(TALK_NONE);
-   SUCCESS_ACTION(&talk_function::clear_mission);
+  RESPONSE(_("I'll take cash if you got it!"));
+   SUCCESS(TALK_MISSION_REWARD);
+   SUCCESS_ACTION(&talk_function::mission_reward_cash);
   RESPONSE(_("Glad to help.  I need no payment.  Bye!"));
    SUCCESS(TALK_DONE);
    SUCCESS_ACTION(&talk_function::clear_mission);
@@ -2461,6 +2461,13 @@ void talk_function::mission_reward(npc *p)
  int trade_amount = p->op_of_u.owed;
  p->op_of_u.owed = 0;
  trade(p, trade_amount, _("Reward"));
+}
+
+void talk_function::mission_reward_cash(npc *p)
+{
+ int trade_amount = p->op_of_u.owed * .6;
+ p->op_of_u.owed = 0;
+ g->u.cash += trade_amount;
 }
 
 void talk_function::start_trade(npc *p)
