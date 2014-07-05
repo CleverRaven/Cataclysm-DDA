@@ -1074,7 +1074,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
             mvwprintz(w, 3, pMsg_length + 2, c_green, "(+%d)", abs(netPointCost));
         }
-        
+
         std::string prof_msg_temp;
         if (negativeProf) {
             //~ 1s - profession name, 2d - current character points.
@@ -1123,7 +1123,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         int line_offset = 1;
         werase(w_items);
         mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));
-        for (size_t i = 0; i < prof_items.size(); i++) {
+        for (size_t i = 0; i < prof_items.size() && line_offset + i < getmaxy(w_items); i++) {
             itype *it = item_controller->find_template(prof_items[i]);
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,

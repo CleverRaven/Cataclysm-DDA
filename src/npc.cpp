@@ -1408,14 +1408,19 @@ int npc::hostile_anger_level()
 
 void npc::make_angry()
 {
- if (is_enemy())
-  return; // We're already angry!
- if (op_of_u.fear > 10 + personality.aggression + personality.bravery){
-  attitude = NPCATT_FLEE; // We don't want to take u on!
-  }
- else{
-  attitude = NPCATT_KILL; // Yeah, we think we could take you!
- }
+    // Make associated faction, if any, angry at the player too.
+    if( my_fac != NULL ) {
+        my_fac->likes_u -= 50;
+        my_fac->respects_u -= 50;
+    }
+    if( is_enemy() ) {
+        return; // We're already angry!
+    }
+    if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
+        attitude = NPCATT_FLEE; // We don't want to take u on!
+    } else {
+        attitude = NPCATT_KILL; // Yeah, we think we could take you!
+    }
 }
 
 // STUB
