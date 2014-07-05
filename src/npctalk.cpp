@@ -520,7 +520,14 @@ std::string dynamic_line(talk_topic topic, npc *p)
         }
 
         if (topic == TALK_MISSION_SUCCESS && miss->follow_up != MISSION_NULL) {
-            return ret + _("  And I have more I'd like you to do.");
+            switch (rng(1,3)){
+                case 1:
+                    return ret + _("  And I have more I'd like you to do.");
+                case 2:
+                    return ret + _("  I could use a hand with something else if you are interested.");
+                case 3:
+                    return ret + _("  If you are interested, I have another job for you.");
+            }
         }
 
     return ret;
@@ -533,12 +540,11 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_GUARD:
             switch (rng(1,5)){
-            //if(one_in(2)){
             case 1:
                 return _("I'm not in charge here, you're looking for someone else...");
             case 2:
                 return _("Keep civil or I'll bring the pain.");
-            case 3://acidia
+            case 3:
                 return _("Just on watch, move along.");
             case 4:
                 if (g->u.male)
@@ -1227,6 +1233,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
      SUCCESS(TALK_MISSION_SUCCESS);
      SUCCESS_ACTION(&talk_function::mission_success);
     break;
+   case MGOAL_ASSASSINATE:
+    RESPONSE(_("Justice has been served."));
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
    case MGOAL_KILL_MONSTER:
     RESPONSE(_("I killed it."));
      SUCCESS(TALK_MISSION_SUCCESS);
@@ -1256,7 +1266,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   RESPONSE(_("How about some items as payment?"));
    SUCCESS(TALK_MISSION_REWARD);
    SUCCESS_ACTION(&talk_function::mission_reward);
-  if(!p->skills_offered_to(&(g->u)).empty() || !p->styles_offered_to(&(g->u)).empty()) {
+  if((!p->skills_offered_to(&(g->u)).empty() || !p->styles_offered_to(&(g->u)).empty())
+     && p->myclass != NC_EVAC_SHOPKEEP) {
   SELECT_TEMP(_("Maybe you can teach me something as payment."), 0);
    SUCCESS(TALK_TRAIN);
    SUCCESS_ACTION(&talk_function::clear_mission);
@@ -1995,7 +2006,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     SUCCESS(TALK_DONE);
     SUCCESS_ACTION(&talk_function::assign_base);
   }
-  if (p->is_following()) {//acidia
+  if (p->is_following()) {
    RESPONSE(_("Guard this position."));
     int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
                  1 * p->op_of_u.anger + p->op_of_u.owed / 50;
@@ -2409,6 +2420,10 @@ void talk_function::mission_success(npc *p)
  mission *miss = g->find_mission(index);
  npc_opinion tmp( 0, 0, 1 + (miss->value / 1000), -1, miss->value);
  p->op_of_u += tmp;
+ if (p->my_fac != NULL){
+    p->my_fac->likes_u += 10;
+    p->my_fac->respects_u += 10;
+ }
  g->wrap_up_mission(index);
 }
 
