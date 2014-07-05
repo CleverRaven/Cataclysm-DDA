@@ -384,9 +384,11 @@ inline int printstring(WINDOW *win, char *fmt)
     // avoid having an invalid cursorx, so that cur_cell will only return nullptr
     // when the bottom of the window has been reached.
     if( win->cursorx >= win->width ) {
-        newline( win );
+        if( newline( win ) == 0 ) {
+            return 0;
+        }
     }
-    if( win->cursory >= win->height ) {
+    if( win->cursory >= win->height || win->cursorx >= win->width ) {
         return 0;
     }
     if( win->cursorx > 0 && win->line[win->cursory].chars[win->cursorx].ch.empty() ) {
