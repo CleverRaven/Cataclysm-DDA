@@ -143,7 +143,7 @@ void funnelcontainer_accumulates(int rain_depth_mm_per_hour, bool acid, int funn
 
 //fill funnels will call it's own weather data from std::pair rain or acid level or an intermediary
 //calling function provides: rain intensity, acidity, funnel type
-void fill_funnels( int, bool, trap_id t )
+void fill_funnels( trap_id t )
 {
     const int funnel_quality = traplist[t]->funnel_value;
     //cache this value
