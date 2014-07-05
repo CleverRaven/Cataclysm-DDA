@@ -1266,7 +1266,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   RESPONSE(_("How about some items as payment?"));
    SUCCESS(TALK_MISSION_REWARD);
    SUCCESS_ACTION(&talk_function::mission_reward);
-  if(!p->skills_offered_to(&(g->u)).empty() || !p->styles_offered_to(&(g->u)).empty()) {
+  if((!p->skills_offered_to(&(g->u)).empty() || !p->styles_offered_to(&(g->u)).empty())
+     && p->myclass != NC_EVAC_SHOPKEEP) {
   SELECT_TEMP(_("Maybe you can teach me something as payment."), 0);
    SUCCESS(TALK_TRAIN);
    SUCCESS_ACTION(&talk_function::clear_mission);
