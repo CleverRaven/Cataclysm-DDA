@@ -216,19 +216,18 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 1000, false,
   ORIGINS(ORIGIN_SECONDARY);//So it won't spawn on random npcs
   FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_2);
 
- MISSION(_("Missing Caravan"), MGOAL_ASSASSINATE, 5, 50000, false,
+ MISSION(_("Missing Caravan"), MGOAL_ASSASSINATE, 5, 5000, false,
          &mission_place::always, &mission_start::place_caravan_ambush,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  ITEM("battery_atomic");
   FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_3);
 
- MISSION(_("Find Atomic Batteries"), MGOAL_FIND_ITEM, 5, 300000, false,
+ MISSION(_("Find 25 Plutonium Cells"), MGOAL_FIND_ITEM, 5, 300000, false,
          &mission_place::always, &mission_start::standard,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  ITEM("battery_atomic");
-  COUNT(3);
+  ITEM("plut_cell");
+  COUNT(25);
 
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,
