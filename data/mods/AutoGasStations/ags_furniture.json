@@ -7,7 +7,7 @@
         "symbol": "9",
         "color": "blue",
         "move_cost_mod": -1,
-        "required_str": 20,
+        "required_str": 25,
         "flags": ["BASHABLE", "SEALED", "ALARMED", "BLOCKSDOOR"],
         "examine_action": "pay_gas",
         "bash": {

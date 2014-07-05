@@ -2147,7 +2147,7 @@ point getGasPumpByNumber(map *m, int x, int y, int number)
 
 }
 
-bool toPumpFuel(map *m, point src, point dst, long units)
+bool toPumpFuel(player *p, map *m, point src, point dst, long units)
 {
 
     if (src.x == -999) {
@@ -2160,9 +2160,9 @@ bool toPumpFuel(map *m, point src, point dst, long units)
     for (int i = 0; i < m->i_at(src.x, src.y).size(); i++)
         if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
 
-            item *liq = &(m->i_at(src.x, src.y)[i]);
+            item *liq = &(m->i_at(src.x, src.y)[i]);				
 
-            long count = dynamic_cast<it_ammo *>(liq->type)->count;
+			long count = dynamic_cast<it_ammo *>(liq->type)->count;
 
             if (liq->charges < count * units) {
                 return false;
@@ -2171,9 +2171,12 @@ bool toPumpFuel(map *m, point src, point dst, long units)
             liq->charges -= count * units;
 
             item liq_d(liq->type->id, calendar::turn);
-            liq_d.charges = count * units;
+			liq_d.charges = count * units;
 
-            m->add_item_or_charges(dst.x, dst.y, liq_d, 1);
+			ter_t backup_pump = m->ter_at(dst.x, dst.y);
+			m->ter_set(dst.x, dst.y, "t_null");
+            m->add_item_or_charges(dst.x, dst.y, liq_d);
+			m->ter_set(dst.x, dst.y, backup_pump.id);
 
             if (liq->charges < 1) {
                 m->i_at(src.x, src.y).erase(m->i_at(src.x, src.y).begin() + i);
@@ -2185,7 +2188,7 @@ bool toPumpFuel(map *m, point src, point dst, long units)
     return false;
 }
 
-void iexamine::pay_gas(player *p, map *m, int examx, int examy)
+void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 {
 
     int choice = -1;
@@ -2217,7 +2220,7 @@ void iexamine::pay_gas(player *p, map *m, int examx, int examy)
     std::string unitPriceStr = getPricePerGasUnitStr(discount);
 
     uimenu amenu;
-    amenu.selected = 0;
+    amenu.selected = 1;
     amenu.text = _("Welcome to automated gas station console!");
     amenu.addentry(0, false, -1, _("What would you like to do?"));
 
@@ -2296,7 +2299,7 @@ void iexamine::pay_gas(player *p, map *m, int examx, int examy)
         }
 
         point pGasPump = getGasPumpByNumber(m, examx, examy,  uistate.ags_pay_gas_selected_pump);
-        if (!toPumpFuel(m, pTank, pGasPump, amount)) {
+        if (!toPumpFuel(p, m, pTank, pGasPump, amount)) {
             return;
         }
 
