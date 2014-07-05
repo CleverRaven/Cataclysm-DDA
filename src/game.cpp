@@ -1954,13 +1954,13 @@ bool game::cancel_activity_query(const char* message, ...)
 void game::update_weather()
 {
     if (calendar::turn >= nextweather) {
-        if(has_generator) {
+        if(!has_generator) {
             weather_generator weatherGen(weatherSeed);
             has_generator = true;
         }
-        w_point w = weatherGen.get_weather(u.pos(), calendar);
+        w_point w = weatherGen.get_weather(u.pos(), calendar(calendar::turn));
         weather_type old_weather = weather;
-        weather = weatherGen.get_weather_conditions(w, calendar);
+        weather = weatherGen.get_weather_conditions(w);
         temperature = w.temperature;
         g->lightning_active = false;
         nextweather += 150; // Check weather each quarter hour.

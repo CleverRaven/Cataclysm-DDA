@@ -9,6 +9,7 @@
 
 const double tau = 2 * std::acos(-1);
 
+weather_generator::weather_generator() { }
 weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
 
 w_point weather_generator::get_weather(const point &location, const calendar &t) {
@@ -18,10 +19,10 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
-    double T(raw_noise_4d(location.x, location.y, z, SEED) * 8.0);
-    double H(raw_noise_4d(location.x, location.y, z / 5, SEED + 101));
-    double H2(raw_noise_4d(location.x, location.y, z, SEED + 151) / 4);
-    double P(raw_noise_4d(location.x, location.y, z / 3, SEED + 211) * 70);
+    double T(raw_noise_4d(x, y, z, SEED) * 8.0);
+    double H(raw_noise_4d(x, y, z / 5, SEED + 101));
+    double H2(raw_noise_4d(x, y, z, SEED + 151) / 4);
+    double P(raw_noise_4d(x, y, z / 3, SEED + 211) * 70);
 
     const double now((double)t.turn_of_year() / (double)calendar::year_turns()); // [0,1)
     const double ctn(cos(tau * now));
@@ -50,7 +51,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     return w_point(T, H, P);
 }
 
-weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t) const {
+weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t) {
     w_point w(get_weather(location, t));
     return get_weather_conditions(w);
 }
@@ -88,7 +89,7 @@ void weather_generator::test_weather() {
         ss.str("");
         w_point w = get_weather(point(0,0),i);
         ss << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure;
-        testfile << std::string( ss.str() ) << std:endl;
+        testfile << std::string( ss.str() ) << std::endl;
     }
     testfile.close();
 }

@@ -26,9 +26,11 @@ class weather_generator
     const double base_h = 66.0; // Average humidity
     const double base_p = 1015.0; // Average atmospheric pressure
 public:
+    weather_generator();
     weather_generator(unsigned seed);
-    w_point get_weather(const point &, const calendar &t);
-    weather_type get_weather_conditions(const point &, const calendar &t);
+    w_point get_weather(const point &, const calendar &);
+    weather_type get_weather_conditions(const point &, const calendar &);
+    weather_type get_weather_conditions(const w_point &) const;
     void test_weather();
 };
 #endif

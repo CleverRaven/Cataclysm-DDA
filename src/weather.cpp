@@ -77,7 +77,7 @@ void weather_effect::glare()
 int get_rot_since( const int since, const int endturn, const point &location ) {
     int ret = 0;
     for (calendar i(since); i < endturn; i += 600) {
-        w = g->weatherGen.get_weather(location, i);
+        w_point w = g->weatherGen.get_weather(location, i);
         ret += get_hourly_rotpoints_at_temp(w.temperature);
     }
     return ret;
@@ -529,8 +529,8 @@ std::string weather_forecast(radio_tower tower)
     // Accumulate percentages for each period of various weather statistics, and report that
     // (with fuzz) as the weather chances.
     int weather_proportions[NUM_WEATHER_TYPES] = {0};
-    signed char high = -100;
-    signed char low = 100;
+    double high = -100.0;
+    double low = 100.0;
 //    calendar start_time = calendar::turn;
 //    int period_start = calendar::turn.hours();
     // TODO wind direction and speed
@@ -599,12 +599,12 @@ std::string weather_forecast(radio_tower tower)
 //    }
 //    
     for(int d = 0; d < 6; d++) {
-        weather_type forecast = 0;
+        weather_type forecast = WEATHER_NULL;
         for(calendar i(calendar::turn + 7200 * d); i < calendar::turn + 7200 * (d + 1); i += 600) {
-            w_point w = weatherGen.get_weather(point(tower.x, tower.y), i);
-            forecast = std::max(forecast, weatherGen.get_weather_conditions(w));
+            w_point w = g->weatherGen.get_weather(point(tower.x, tower.y), i);
+            forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
             high = std::max(high, w.temperature);
-            low = std:min(low, w.temperature);
+            low = std::min(low, w.temperature);
         }
         std::string day;
         if(d == 0 && (calendar::turn + 7200).is_night()) {
