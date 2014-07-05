@@ -280,6 +280,8 @@ public:
  bool handle_melee_wear();
  /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
  bool unarmed_attack();
+ /** Check if the item is suitable for auto-wielding, based on skill/style/item type */
+ bool is_suitable_weapon(const item &it) const;
  /** Called when a player triggers a trap, returns true if they don't set it off */
  bool avoid_trap(trap *tr, int x, int y);
 
@@ -711,7 +713,7 @@ public:
  char position_to_invlet(int position);
  int invlet_to_position(char invlet);
  int get_item_position(item* it);  // looks up an item (via pointer comparison)
- martialart get_combat_style(); // Returns the combat style object
+ const martialart &get_combat_style() const; // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int butcher_factor() const; // Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
