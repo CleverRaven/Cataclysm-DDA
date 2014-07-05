@@ -2125,7 +2125,10 @@ bool game::mission_complete(int id, int npc_id)
 
     case MGOAL_FIND_ITEM:
         if (!u.has_amount(type->item_id, miss->item_count)) {
-            return false;
+            if (u.has_amount(type->item_id, 1) && u.has_charges(type->item_id, miss->item_count))
+                return true;
+            else
+                return false;
         }
         if (miss->npc_id != -1 && miss->npc_id != npc_id) {
             return false;
@@ -2213,8 +2216,14 @@ void game::wrap_up_mission(int id)
     }
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
-        u.use_amount(miss->type->item_id, miss->item_count);
-        break;
+        if (u.has_charges(miss->type->item_id, miss->item_count)){
+            u.use_charges(miss->type->item_id, miss->item_count);
+            break;
+        }
+        else{
+            u.use_amount(miss->type->item_id, miss->item_count);
+            break;
+        }
     case MGOAL_FIND_ANY_ITEM:
         u.remove_mission_items(miss->uid);
         break;
