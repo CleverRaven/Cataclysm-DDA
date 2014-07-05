@@ -2026,7 +2026,7 @@ int getNearPumpCount(map *m, int x, int y)
 
     for (int i = x - radius; i <= x + radius; i++)
         for (int j = y - radius; j <= y + radius; j++)
-            if ( m->ter_at(i, j).id == "t_gas_pump") {
+            if (m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") {
                 result++;
             }
 
@@ -2036,26 +2036,37 @@ int getNearPumpCount(map *m, int x, int y)
 
 point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
 {
-#define radius 12
+#define radius 24
+
+    point p = point(-999, -999);
+    gas_units = 0;
 
     for (int i = x - radius; i <= x + radius; i++)
         for (int j = y - radius; j <= y + radius; j++)
             if (m->ter_at(i, j).id == "t_gas_tank") {
-                for (int k = 0; k < m->i_at(i, j).size(); k++)
-                    if (m->i_at(i, j)[k].made_of(LIQUID)) {
-                        item *liq = &(m->i_at(i, j)[k]);
 
-                        long count = dynamic_cast<it_ammo *>(liq->type)->count;
-                        long units = liq->charges / count;
+                double dfound = sqrt(pow((x - i), 2) + pow((y - j), 2));
+                double dsaved = sqrt(pow((x - p.x), 2) + pow((y - p.y), 2));
 
-                        if (units >= 1) {
+                if (dfound < dsaved) {
+
+                    p = point(i, j);
+                    gas_units = 0;
+
+                    for (int k = 0; k < m->i_at(i, j).size(); k++)
+                        if (m->i_at(i, j)[k].made_of(LIQUID)) {
+                            item *liq = &(m->i_at(i, j)[k]);
+
+                            long count = dynamic_cast<it_ammo *>(liq->type)->count;
+                            long units = liq->charges / count;
+
                             gas_units = units;
-                            return point(i, j);
+
                         }
-                    }
+                }
             }
 
-    return point(-999, -999);
+    return p;
 }
 
 int getGasDiscountCardQuality(itype_id id)
@@ -2139,7 +2150,7 @@ point getGasPumpByNumber(map *m, int x, int y, int number)
 
     for (int i = x - radius; i <= x + radius; i++)
         for (int j = y - radius; j <= y + radius; j++)
-            if (m->ter_at(i, j).id == "t_gas_pump" && number == k++) {
+		if ((m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") && number == k++) {
                 return point(i, j);
             }
 
@@ -2188,6 +2199,25 @@ bool toPumpFuel(player *p, map *m, point src, point dst, long units)
     return false;
 }
 
+void turnOnSelectedPump(map *m, int x, int y, int number)
+{
+
+#define radius 12
+
+    int k = 0;
+
+    for (int i = x - radius; i <= x + radius; i++)
+        for (int j = y - radius; j <= y + radius; j++)
+            if ((m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") ) {
+
+                if (number == k++) {
+                    m->ter_set(i, j, "t_gas_pump_a");
+                } else {
+                    m->ter_set(i, j, "t_gas_pump");
+                }
+            }
+}
+
 void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 {
 
@@ -2205,13 +2235,20 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     long tankGasUnits;
 	point pTank = getNearFilledGasTank(m, examx, examy, tankGasUnits);
     if (pTank.x == -999) {
-        popup(_("Failure! No gas tank with fuel found!"));
+        popup(_("Failure! No gas tank found!"));
         return;
     }
+
+	if (tankGasUnits == 0){
+		popup(_("Sorry, gas tank empty, come back later."));
+		return;
+	}
 
     if (uistate.ags_pay_gas_selected_pump + 1 > pumpCount) {
         uistate.ags_pay_gas_selected_pump = 0;
     }
+
+	turnOnSelectedPump(m, examx, examy, uistate.ags_pay_gas_selected_pump);
 
     int discount = findBestGasDiscount(p);
     std::string discountName = getGasDiscountName(discount);
@@ -2256,6 +2293,9 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
         }
 
         uistate.ags_pay_gas_selected_pump = choice - 1;
+
+        turnOnSelectedPump(m, examx, examy, uistate.ags_pay_gas_selected_pump);
+
         return;
 
     }
