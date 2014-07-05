@@ -654,7 +654,7 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
-    int num = dice(4, 3);
+    int num = 4+dice(3, 3);
     faction tmp(0);
     tmp.make_army();
     factions.push_back(tmp);
@@ -664,6 +664,27 @@ void game::create_factions()
         tmp.likes_u = 100;
         tmp.respects_u = 100;
         tmp.known_by_u = true;
+        //Test faction
+        if (i == 0){
+            tmp.name = "The Old Guard";
+            tmp.likes_u = 15;
+            tmp.respects_u = 15;
+        }
+        if (i == 1){
+            tmp.name = "The Free Merchants";
+            tmp.likes_u = 30;
+            tmp.respects_u = 30;
+        }
+        if (i == 2){
+            tmp.name = "The Wasteland Scavengers";
+            tmp.likes_u = 0;
+            tmp.respects_u = 0;
+        }
+        if (i == 3){
+            tmp.name = "Hell's Raiders";
+            tmp.likes_u = -25;
+            tmp.respects_u = -25;
+        }
         factions.push_back(tmp);
     }
 }
@@ -671,7 +692,7 @@ void game::create_factions()
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    const int radius = int(MAPSIZE / 2) + 1;
+    const int radius = int(MAPSIZE / 2) - 1;
     // uses submap coordinates
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
     for (std::vector<npc *>::iterator it = npcs.begin();
@@ -4754,7 +4775,7 @@ void game::disp_kills()
         const mtype *m = MonsterGenerator::generator().get_mtype(kill->first);
         std::ostringstream buffer;
         buffer << "<color_" << string_from_color(m->color) << ">";
-        buffer << std::string(1, m->sym) << " " << m->nname();
+        buffer << m->sym << " " << m->nname();
         buffer << "</color>";
         const int w = colum_width - utf8_width(m->nname().c_str());
         buffer.width(w - 3); // gap between cols, monster sym, space
@@ -6093,11 +6114,11 @@ int game::mon_info(WINDOW *w)
         const int typeshere = typeshere_mon + typeshere_npc;
         for (int j = 0; j < typeshere && j < symroom; j++) {
             nc_color c;
-            char sym;
+            std::string sym;
             if (symroom < typeshere && j == symroom - 1) {
                 // We've run out of room!
                 c = c_white;
-                sym = '+';
+                sym = "+";
             } else if (j < typeshere_npc) {
                 buff = unique_types[i][j];
                 switch (active_npc[(buff + 1) * -1]->attitude) {
@@ -6114,13 +6135,13 @@ int game::mon_info(WINDOW *w)
                     c = c_pink;
                     break;
                 }
-                sym = '@';
+                sym = "@";
             } else {
                 sbuff = unique_mons[i][j - typeshere_npc];
                 c = GetMType(sbuff)->color;
                 sym = GetMType(sbuff)->sym;
             }
-            mvwputch(w, pr.y, pr.x, c, sym);
+            mvwprintz(w, pr.y, pr.x, c, "%s", sym.c_str());
 
             pr.x++;
         }
@@ -6157,7 +6178,7 @@ int game::mon_info(WINDOW *w)
 
                 if (pr.y < maxheight) { // Don't print if we've overflowed
                     lastrowprinted = pr.y;
-                    mvwputch(w, pr.y, pr.x, GetMType(sbuff)->color, GetMType(sbuff)->sym);
+                    mvwprintz(w, pr.y, pr.x, GetMType(sbuff)->color, "%s", GetMType(sbuff)->sym.c_str());
                     pr.x += 2; // symbol and space
                     nc_color danger = c_dkgray;
                     if (GetMType(sbuff)->difficulty >= 30) {
@@ -6334,10 +6355,15 @@ void game::monmove()
         } else {
             (*it)->reset();
             while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
-                turns++;
+                int moves = (*it)->moves;
                 (*it)->move();
-                //build_monmap();
+                if( moves == (*it)->moves ) {
+                    // Count every time we exit npc::move() without spending any moves.
+                    turns++;
+                }
             }
+            // If we spun too long trying to decide what to do (without spending moves),
+            // Invoke cranial detonation to prevent an infinite loop.
             if (turns == 10) {
                 add_msg(_("%s's brain explodes!"), (*it)->name.c_str());
                 (*it)->die();
@@ -7721,6 +7747,13 @@ void game::smash()
         return;
     }
 
+    if( m.field_at( smashx, smashy ).findField( fd_web ) ) {
+        m.remove_field( smashx, smashy, fd_web );
+        sound( smashx, smashy, 2, "" );
+        add_msg( m_info, _( "You brush aside some webs." ) );
+        u.moves -= 100;
+        return;
+    }
     static const int full_pulp_threshold = 4;
     for (auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it) {
         if (it->type->id == "corpse" && it->damage < full_pulp_threshold) {
@@ -10940,7 +10973,16 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
         if (id >= 0) {
             last_target = id;
             last_target_was_npc = true;
-            // TODO: effect for npc, too?
+            if(!active_npc[id]->is_enemy()){
+                if (!query_yn(_("Really attack %s?"), active_npc[id]->name.c_str())) {
+                    std::vector <point> trajectory_blank;
+                    return trajectory_blank; // Cancel the attack
+                } else {
+                    //The NPC knows we started the fight, used for morale penalty.
+                    active_npc[id]->hit_by_player = true;
+                }
+            }
+            active_npc[id]->make_angry();
         } else {
             id = mon_at(x, y);
             if (id >= 0) {
@@ -12166,8 +12208,7 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--safe mode is on! \
-							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 (%s to turn it off or %s to ignore monster.)"),
+        add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;

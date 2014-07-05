@@ -534,6 +534,12 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
                 // Because the "type" member is open for use, make use of it
                 // to act as the label of the sign.
                 tmp_type = jsi.get_string("signage");
+            } else if (tmpval == "npc") {
+                tmpop = JMAPGEN_PLACESPECIAL_NPC;
+                if (!jsi.has_member("class")) {
+                    jsi.throw_error("  place_specials: npcs must have a class");
+                }
+                tmp_type = jsi.get_string("class");
             } else {
                 jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
             }
@@ -844,6 +850,9 @@ void jmapgen_place_special::apply( map * m ) {
             m->furn_set(x.get(), y.get(), f_null);
             m->furn_set(x.get(), y.get(), "f_sign");
             m->set_signage(x.get(), y.get(), type);
+        } break;
+        case JMAPGEN_PLACESPECIAL_NPC: {
+            m->place_npc(x.get(), y.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
@@ -3547,6 +3556,7 @@ C..C..C...|hhh|#########\n\
                         tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
                         tmpcomp->add_failure(COMPFAIL_DAMAGE);
                         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+                        lw = lw > 0 ? 1 : 0; // only a single row (not two) of walls on the left
                     } else if (one_in(3)) { //operations or utility
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3611,6 +3621,7 @@ A......D.........|dh...|\n\
                                 }
                             }
                         }
+                        lw = 0; // no wall on the left
                     } else if (one_in(2)) { //tribute
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3667,8 +3678,8 @@ ff.......|....|WWWWWWWW|\n\
                         add_item(8, 3, body);
                         add_item(10, 3, body);
                         spawn_item(18, 15, "ax");
+                        lw = 0; // no wall on the left
                     }
-
                     else { //analyzer
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -10883,6 +10894,173 @@ void map::place_vending(int x, int y, std::string type)
     place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
+void map::place_npc(int x, int y, std::string type)
+{
+    if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
+        return; //Do not generate an npc.
+    }
+    //const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+    //const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+    //debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
+    //             oid.t().id.c_str(), oid.t().id_mapgen.c_str(),rc.om_sub.x/2,rc.om_sub.y/2,get_abs_sub().z, x,y );
+    //Old Guard NPCs, fac_id 1
+    if (type == "old_guard_rep"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_COWBOY);
+        temp->name += ", Representative";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_OLD_GUARD_REP;
+        temp->fac_id = 1;
+        temp->my_fac = g->faction_by_id(1);
+        g->load_npcs();
+        return;
+        }
+    //Free Merchant NPCs, fac_id 2
+    if (type == "evac_merchant"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_EVAC_SHOPKEEP);
+        temp->name += ", Merchant";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_SHOPKEEP;
+        temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return;
+        }
+    if (type == "evac_guard1"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD1;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return;
+        }
+    if (type == "evac_guard2"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD2;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return;
+        }
+    if (type == "guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_GUARD;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return;
+        }
+    if (type == "hostile_guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_KILL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return;
+        }
+    //Wasteland Scavengers NPCs, fac_id 3
+    if (type == "scavenger_merc"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_COWBOY);
+        temp->name += ", Merc";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_SCAVENGER_MERC;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return;
+        }
+    if (type == "arsonist"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_ARSONIST);
+        temp->name += ", Arsonist";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_SHOPKEEP;
+        temp->chatbin.first_topic = TALK_ARSONIST;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return;
+        }
+    //Hell's Raiders NPCs, fac_id 4
+    if (type == "bandit"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Bandit";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_NULL;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
+        g->load_npcs();
+        return;
+        }
+    debugmsg("place_npc: did not recognize npc class");
+}
+
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
 int map::place_items(items_location loc, int chance, int x1, int y1,
@@ -11168,6 +11346,43 @@ void map::rotate(int turns)
         return;
     }
 
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+
+    const int radius = int(MAPSIZE / 2) + 3;
+    // uses submap coordinates
+    std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
+    for (int i = 0; i < npcs.size(); i++) {
+        npc *act_npc = npcs[i];
+        if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
+            act_npc->global_omt_location().y*2 == get_abs_sub().y ){
+                rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
+                int old_x = rc.sub_pos.x;
+                int old_y = rc.sub_pos.y;
+                if ( rc.om_sub.x % 2 != 0 )
+                    old_x += SEEX;
+                if ( rc.om_sub.y % 2 != 0 )
+                    old_y += SEEY;
+                int new_x = old_x;
+                int new_y = old_y;
+                switch(turns) {
+                    case 3:
+                        new_x = old_y;
+                        new_y = SEEX * 2 - 1 - old_x;
+                        break;
+                    case 2:
+                        new_x = SEEX * 2 - 1 - old_x;
+                        new_y = SEEY * 2 - 1 - old_y;
+                        break;
+                    case 1:
+                        new_x = SEEY * 2 - 1 - old_y;
+                        new_y = old_x;
+                        break;
+                    }
+                npcs[i]->posx += (new_x-old_x);
+                npcs[i]->posy += (new_y-old_y);
+            }
+    }
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];

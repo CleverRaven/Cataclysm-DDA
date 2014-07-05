@@ -144,19 +144,21 @@ def extract_professions(item):
     outfile = get_outfile("professions")
     nm = item["name"]
     if type(nm) == dict:
-        writestr(outfile, nm["male"], comment="Male profession name")
-        writestr(outfile, nm["female"], comment="Female profession name")
-        writestr(outfile, item["description"],
-         comment="Profession ({0}/{1}) description".format(nm["male"], nm["female"]))
+        writestr(outfile, nm["male"], context="profession_male")
+        writestr(outfile, item["description"], context="prof_desc_male",
+                 comment="Profession ({}) description".format(nm["male"]))
+
+        writestr(outfile, nm["female"], context="profession_female")
+        writestr(outfile, item["description"], context="prof_desc_female",
+                 comment="Profession ({0}) description".format(nm["female"]))
     else:
-        # Add default constructed gender specific names, see profession.cpp
-        # They are optional. If missing, the (trnalsted) gender prefix is used
-        # to construct the name.
-        writestr(outfile, "male {0}".format(nm), comment="Male profession name (optional)")
-        writestr(outfile, "female {0}".format(nm), comment="Female profession name (optional)")
-        writestr(outfile, nm, comment="Profession name")
-        writestr(outfile, item["description"],
-         comment="Profession ({0}) description".format(nm))
+        writestr(outfile, nm, context="profession_male")
+        writestr(outfile, item["description"], context="prof_desc_male",
+                 comment="Profession (male {}) description".format(nm))
+
+        writestr(outfile, nm, context="profession_female")
+        writestr(outfile, item["description"], context="prof_desc_female",
+                 comment="Profession (female {}) description".format(nm))
 
 # these objects need to have their strings specially extracted
 extract_specials = {

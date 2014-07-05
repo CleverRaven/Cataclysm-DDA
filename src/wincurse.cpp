@@ -1,4 +1,7 @@
 #if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
+#define UNICODE 1
+#define _UNICODE 1
+
 #include "catacurse.h"
 #include "options.h"
 #include "output.h"
@@ -17,7 +20,7 @@
 //Globals                           *
 //***********************************
 
-const char *szWindowClass = ("CataCurseWindow");    //Class name :D
+const wchar_t *szWindowClass = L"CataCurseWindow";    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
 HDC WindowDC;           //Device Context of the window, used for backbuffer
@@ -46,6 +49,18 @@ std::map< std::string, std::vector<int> > consolecolors;
 // declare this locally, because it's not generally cross-compatible in catacurse.h
 LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,u_int32_t Msg,WPARAM wParam, LPARAM lParam);
 
+std::wstring widen( const std::string &s )
+{
+    if( s.empty() ) {
+        return std::wstring(); // MultiByteToWideChar can not handle this case
+    }
+    std::vector<wchar_t> buffer( s.length() );
+    const int newlen = MultiByteToWideChar( CP_UTF8, 0, s.c_str(), s.length(),
+                                            buffer.data(), buffer.size() );
+    // on failure, newlen is 0, returns an empty strings.
+    return std::wstring( buffer.data(), newlen );
+}
+
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
@@ -53,15 +68,15 @@ bool WinCreate()
     std::string title = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
     // Register window class
-    WNDCLASSEXA WindowClassType   = WNDCLASSEXA();
-    WindowClassType.cbSize        = sizeof(WNDCLASSEXA);
+    WNDCLASSEXW WindowClassType   = WNDCLASSEXW();
+    WindowClassType.cbSize        = sizeof(WNDCLASSEXW);
     WindowClassType.lpfnWndProc   = ProcessMessages;//the procedure that gets msgs
     WindowClassType.hInstance     = WindowINST;// hInstance
     WindowClassType.hIcon         = LoadIcon(WindowINST, MAKEINTRESOURCE(0)); // Get first resource
     WindowClassType.hIconSm       = LoadIcon(WindowINST, MAKEINTRESOURCE(0));
     WindowClassType.hCursor       = LoadCursor(NULL, IDC_ARROW);
     WindowClassType.lpszClassName = szWindowClass;
-    if (!RegisterClassExA(&WindowClassType))
+    if (!RegisterClassExW(&WindowClassType))
         return false;
 
     // Adjust window size
@@ -79,7 +94,7 @@ bool WinCreate()
     int WindowY = WorkArea.bottom/2 - (WndRect.bottom - WndRect.top)/2;
 
     // Magic
-    WindowHandle = CreateWindowExA(0, szWindowClass , title.c_str(), WndStyle,
+    WindowHandle = CreateWindowExW(0, szWindowClass , widen(title).c_str(), WndStyle,
                                    WindowX, WindowY,
                                    WndRect.right - WndRect.left,
                                    WndRect.bottom - WndRect.top,
@@ -99,7 +114,7 @@ void WinDestroy()
     if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle)))){
         WindowHandle = 0;
     }
-    if (!(UnregisterClassA(szWindowClass, WindowINST))){
+    if (!(UnregisterClassW(szWindowClass, WindowINST))){
         WindowINST = 0;
     }
 };
@@ -268,7 +283,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
         exit(0); // A messy exit, but easy way to escape game loop
     };
 
-    return DefWindowProcA(hWnd, Msg, wParam, lParam);
+    return DefWindowProcW(hWnd, Msg, wParam, lParam);
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -294,7 +309,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 void curses_drawwindow(WINDOW *win)
 {
-    int i,j,w,drawx,drawy;
+    int i,j,drawx,drawy;
     unsigned tmp;
     RECT update = {win->x * fontwidth, -1,
                    (win->x + win->width) * fontwidth, -1};
@@ -310,15 +325,22 @@ void curses_drawwindow(WINDOW *win)
 
             win->line[j].touched=false;
 
-            for (i=0,w=0; w<win->width; i++,w++){
-                drawx=((win->x+w)*fontwidth);
+            for (i=0; i<win->width; i++){
+                const cursecell &cell = win->line[j].chars[i];
+                if( cell.ch.empty() ) {
+                    continue; // second cell of a multi-cell character
+                }
+                drawx=((win->x+i)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
-                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
-                const char* utf8str = win->line[j].chars+i;
-                int len = ANY_LENGTH;
+                if( drawx + fontwidth > WindowWidth || drawy + fontheight > WindowHeight ) {
+                    // Outside of the display area, would not render anyway
+                    continue;
+                }
+                const char* utf8str = cell.ch.c_str();
+                int len = cell.ch.length();
                 tmp = UTF8_getch(&utf8str, &len);
-                int FG = win->line[j].FG[w];
-                int BG = win->line[j].BG[w];
+                int FG = cell.FG;
+                int BG = cell.BG;
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if (tmp != UNKNOWN_UNICODE) {
@@ -327,17 +349,16 @@ void curses_drawwindow(WINDOW *win)
                     SetTextColor(backbuffer,color);
 
                     int cw = mk_wcwidth(tmp);
-                    len = ANY_LENGTH-len;
                     if (cw > 1) {
                         FillRectDIB(drawx+fontwidth*(cw-1), drawy, fontwidth, fontheight, BG);
-                        w += cw - 1;
+                        i += cw - 1;
                     }
-                    if (len > 1) {
-                        i += len - 1;
+                    if (tmp) {
+                        const std::wstring utf16 = widen(cell.ch);
+                        ExtTextOutW( backbuffer, drawx, drawy, 0, NULL, utf16.c_str(), utf16.length(), NULL );
                     }
-                    if (tmp) ExtTextOutW (backbuffer, drawx, drawy, 0, NULL, (WCHAR*)&tmp, 1, NULL);
                 } else {
-                    switch ((unsigned char)win->line[j].chars[i]) {
+                    switch ((unsigned char)win->line[j].chars[i].ch[0]) {
                     case LINE_OXOX_C://box bottom/top side (horizontal line)
                         HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
                         break;
@@ -382,7 +403,6 @@ void curses_drawwindow(WINDOW *win)
                         break;
                     default:
                         break;
-                    }
                     };//switch (tmp)
                 }//(tmp < 0)
             };//for (i=0;i<_windows[w].width;i++)
@@ -430,7 +450,6 @@ WINDOW *curses_init(void)
 
     int fontsize = 16;
     std::string typeface;
-    char * typeface_c;
     int map_fontwidth = 8;
     int map_fontheight = 16;
     int map_fontsize = 16;
@@ -490,9 +509,6 @@ WINDOW *curses_init(void)
             return NULL;
         }
     }
-    typeface_c = new char [typeface.size()+1];
-    strncpy (typeface_c, typeface.c_str(), typeface.size());
-    typeface_c[typeface.size()] = '\0';
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
@@ -520,25 +536,25 @@ WINDOW *curses_init(void)
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
     // Load private fonts
-    if (SetCurrentDirectory("data\\font")){
+    if (SetCurrentDirectoryW(L"data\\font")){
         WIN32_FIND_DATA findData;
-        for (HANDLE findFont = FindFirstFile(".\\*", &findData); findFont != INVALID_HANDLE_VALUE; )
+        for (HANDLE findFont = FindFirstFileW(L".\\*", &findData); findFont != INVALID_HANDLE_VALUE; )
         {
             if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)){ // Skip folders
-                AddFontResourceExA(findData.cFileName, FR_PRIVATE,NULL);
+                AddFontResourceExW(findData.cFileName, FR_PRIVATE,NULL);
             }
             if (!FindNextFile(findFont, &findData)){
                 FindClose(findFont);
                 break;
             }
         }
-        SetCurrentDirectory("..\\..");
+        SetCurrentDirectoryW(L"..\\..");
     }
 
     // Use desired font, if possible
-    font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, typeface_c);
+    font = CreateFontW(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+                      DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
+                      PROOF_QUALITY, FF_MODERN, widen(typeface).c_str());
 
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
@@ -546,7 +562,6 @@ WINDOW *curses_init(void)
 
     init_colors();
 
-    delete[] typeface_c;
     mainwin = newwin(OPTIONS["TERMINAL_Y"],OPTIONS["TERMINAL_X"],0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }

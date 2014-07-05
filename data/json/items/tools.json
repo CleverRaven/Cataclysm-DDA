@@ -5649,7 +5649,7 @@
     "color": "light_gray",
     "name": "used heat pack",
     "description": "This is a chemical heat pack. It's used to treat sports injuries and heat food. This one has been used and is chemically inert, rendering it useless.",
-    "price": 1000,
+    "price": 0,
     "material": "plastic",
     "weight": 226,
     "volume": 0,
@@ -5661,6 +5661,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "category": "other",
     "revert_to": "null"
   },
 
@@ -6681,7 +6682,7 @@
     "symbol": "*",
     "color": "light_red",
     "name": "match head bomb",
-    "description": "This is a bottle filled with match heads and equipped with a fuse. Use this item to light the fuse; you will, of course, need a lighter in your inventory to do this. After lighting it, throw it to cause fires.",
+    "description": "This is a homemade bomb consisting of a bottle filled with match heads and equipped with a fuse. Use this item to light the fuse; you will, of course, need a lighter in your inventory to do this.",
     "price": 20000,
     "material": ["glass", "cotton"],
     "weight": 412,

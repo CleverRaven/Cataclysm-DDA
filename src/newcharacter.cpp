@@ -939,20 +939,15 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 if (u->has_trait(cur_trait)) {
 
                     inc_type = -1;
-
-
                     // If turning off the trait violates a profession condition,
                     // turn it back on.
-                    if(u->prof->can_pick(u, 0) != "YES") {
+                    if(!(u->prof->can_pick(u, 0))) {
                         inc_type = 0;
                         popup(_("Your profession of %s prevents you from removing this trait."),
                               u->prof->gender_appropriate_name(u->male).c_str());
-
                     }
-
                 } else if(u->has_conflicting_trait(cur_trait)) {
                     popup(_("You already picked a conflicting trait!"));
-
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
                     popup(ngettext("Sorry, but you can only take %d point of advantages.", "Sorry, but you can only take %d points of advantages.", max_trait_points),
@@ -968,7 +963,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
                     // If turning on the trait violates a profession condition,
                     // turn it back off.
-                    if(u->prof->can_pick(u, 0) != "YES") {
+                    if(!(u->prof->can_pick(u, 0))) {
                         inc_type = 0;
                         popup(_("Your profession of %s prevents you from taking this trait."),
                               u->prof->gender_appropriate_name(u->male).c_str());
@@ -1053,27 +1048,52 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     do {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
-        std::string can_pick = sorted_profs[cur_id]->can_pick(u, points);
+        bool can_pick = sorted_profs[cur_id]->can_pick(u, points);
+        // Magic number. Strongly related to window width (w_width - borders).
+        const std::string empty_line(78, ' ');
 
-        mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
-        // Clear the bottom of the screen.
+        // Clear the bottom of the screen and header.
         werase(w_description);
-        mvwprintz(w, 3, 40, c_ltgray, "                                       ");
+        mvwprintz(w, 3, 1, c_ltgray, empty_line.c_str());
 
         int pointsForProf = sorted_profs[cur_id]->point_cost();
         bool negativeProf = pointsForProf < 0;
         if (negativeProf) {
                   pointsForProf *=-1;
         }
-        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, ngettext("Profession %1$s %2$s %3$d point (net: %4$d)",
-                                                                          "Profession %1$s %2$s %3$d points (net: %4$d)",
-                                                                          pointsForProf),
-                      sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
-                      negativeProf ? _("earns"):_("costs"),
-                      pointsForProf, netPointCost);
+
+        // Draw header.
+        std::string points_msg = string_format("Points left: %2d", points);
+        int pMsg_length = utf8_width(_(points_msg.c_str()));
+        if (netPointCost > 0) {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+            mvwprintz(w, 3, pMsg_length + 2, c_red, "(-%d)", abs(netPointCost));
+        } else if (netPointCost == 0) {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+        } else {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+            mvwprintz(w, 3, pMsg_length + 2, c_green, "(+%d)", abs(netPointCost));
+        }
+
+        std::string prof_msg_temp;
+        if (negativeProf) {
+            //~ 1s - profession name, 2d - current character points.
+            prof_msg_temp = ngettext("Profession %1$s earns %2$d point",
+                                     "Profession %1$s earns %2$d points",
+                                     pointsForProf);
+        } else {
+            //~ 1s - profession name, 2d - current character points.
+            prof_msg_temp = ngettext("Profession %1$s cost %2$d point",
+                                     "Profession %1$s cost %2$d points",
+                                     pointsForProf);
+        }
+        // This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
+        mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green:c_ltred, prof_msg_temp.c_str(),
+                  sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
+                  pointsForProf);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
-                       sorted_profs[cur_id]->description());
+                       sorted_profs[cur_id]->description(u->male));
 
         calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
 
@@ -1088,15 +1108,8 @@ int set_profession(WINDOW *w, player *u, int &points)
             } else {
                 col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
-            // Use gender neutral name if it has one, prevents cluttering
-            // the list with "female X", "female Y", "female Z", ...
-            std::string name;
-            if (!sorted_profs[i]->name().empty()) {
-                name = sorted_profs[i]->name();
-            } else {
-                name = sorted_profs[i]->gender_appropriate_name(u->male);
-            }
-            mvwprintz(w, 5 + i - iStartPos, 2, col, "%s", name.c_str());
+            mvwprintz(w, 5 + i - iStartPos, 2, col,
+                      sorted_profs[i]->gender_appropriate_name(u->male).c_str());
         }
 
         std::vector<std::string> prof_items = sorted_profs[cur_id]->items();
@@ -1110,7 +1123,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         int line_offset = 1;
         werase(w_items);
         mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));
-        for (size_t i = 0; i < prof_items.size(); i++) {
+        for (size_t i = 0; i < prof_items.size() && line_offset + i < getmaxy(w_items); i++) {
             itype *it = item_controller->find_template(prof_items[i]);
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
@@ -1146,9 +1159,12 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         werase(w_genderswap);
-        mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press %1$s to switch to %2$s."),
-                    ctxt.get_desc("CHANGE_GENDER").c_str(),
-                    sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
+        //~ Gender switch message. 1s - change key name, 2s - profession name.
+        std::string g_switch_msg = u->male ? _("Press %1$s to switch to %2$s(female).") :
+                                             _("Press %1$s to switch to %2$s(male).");
+        mvwprintz(w_genderswap, 0, 0, c_magenta, g_switch_msg.c_str(),
+                  ctxt.get_desc("CHANGE_GENDER").c_str(),
+                  sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
         //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);

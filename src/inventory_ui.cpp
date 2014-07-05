@@ -592,7 +592,8 @@ void inventory_selector::set_selected_to_drop(int count)
     if (cur_entry.it != NULL && cur_entry.slice != NULL) {
         set_drop_count(cur_entry.item_pos, count, *cur_entry.slice);
     } else if (cur_entry.it != NULL) {
-        set_drop_count(cur_entry.item_pos, count, *cur_entry.it);
+        const std::list<item> stack(1, *cur_entry.it);
+        set_drop_count(cur_entry.item_pos, count, stack);
     }
 }
 
@@ -606,7 +607,8 @@ void inventory_selector::set_to_drop(int it_pos, int count)
         if (count > 0 && (!u.weapon.count_by_charges() || count >= u.weapon.charges)) {
             count = -1; // drop whole item, because it can not be separated, or the requested count means all
         }
-        set_drop_count(it_pos, count, u.weapon);
+        const std::list<item> stack(1, u.weapon);
+        set_drop_count(it_pos, count, stack);
     } else if (it_pos < -1) { // worn
         const size_t wpos = player::worn_position_to_index(it_pos);
         if (wpos >= u.worn.size()) {

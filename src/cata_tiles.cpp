@@ -641,7 +641,9 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         } else if (category == C_MONSTER) {
             if (MonsterGenerator::generator().has_mtype(id)) {
                 const mtype *m = MonsterGenerator::generator().get_mtype(id);
-                sym = m->sym;
+                int len = m->sym.length();
+                const char *s = m->sym.c_str();
+                sym = UTF8_getch(&s, &len);
                 col = m->color;
             }
         } else if (category == C_VEHICLE_PART) {
@@ -1365,7 +1367,6 @@ void cata_tiles::draw_footsteps_frame()
 
 void cata_tiles::init_light()
 {
-    g->m.build_map_cache();
     g->reset_light_level();
 
     sightrange_natural = g->u.sight_range(1);

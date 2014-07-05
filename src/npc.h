@@ -66,6 +66,7 @@ enum npc_mission {
  NPC_MISSION_KIDNAPPED, // Special; was kidnapped, to be rescued by player
 
  NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
+ NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
 
  NUM_NPC_MISSIONS
 };
@@ -74,6 +75,7 @@ enum npc_mission {
 
 enum npc_class {
  NC_NONE,
+ NC_EVAC_SHOPKEEP, // Found in the Evacuation Center, unique, has more goods than he should be able to carry
  NC_SHOPKEEP, // Found in towns.  Stays in his shop mostly.
  NC_HACKER, // Weak in combat but has hacking skills and equipment
  NC_DOCTOR, // Found in towns, or roaming.  Stays in the clinic.
@@ -82,6 +84,7 @@ enum npc_class {
  NC_COWBOY, // Gunslinger and survivalist
  NC_SCIENTIST, // Uses intelligence-based skills and high-tech items
  NC_BOUNTY_HUNTER, // Resourceful and well-armored
+ NC_ARSONIST, // Evacuation Center, restocks moltovs and anarcist type stuff
  NC_MAX
 };
 
@@ -202,8 +205,8 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
   favors.clear();
   for (std::vector<npc_favor>::const_iterator it = copy.favors.begin();
        it != copy.favors.end(); ++it) {
-      favors.push_back(*it);
-  }
+        favors.push_back(*it);
+    }
  };
 
  npc_opinion& operator+= (npc_opinion &rhs)
@@ -275,6 +278,7 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
 enum talk_topic {
  TALK_NONE = 0, // Used to go back to last subject
  TALK_DONE, // Used to end the conversation
+ TALK_GUARD, // End conversation, nothing to be said
  TALK_MISSION_LIST, // List available missions. Intentionally placed above START
  TALK_MISSION_LIST_ASSIGNED, // Same, but for assigned missions.
 
@@ -291,6 +295,62 @@ enum talk_topic {
  TALK_MISSION_END, // NOT USED: end of mission topics
 
  TALK_MISSION_REWARD, // Intentionally placed below END
+
+ TALK_EVAC_MERCHANT,
+ TALK_EVAC_MERCHANT_NEW,
+ TALK_EVAC_MERCHANT_PLANS,
+ TALK_EVAC_MERCHANT_PLANS2,
+ TALK_EVAC_MERCHANT_PLANS3,
+ TALK_EVAC_MERCHANT_WORLD,
+ TALK_EVAC_MERCHANT_HORDES,
+ TALK_EVAC_MERCHANT_PRIME_LOOT,
+ TALK_EVAC_MERCHANT_ASK_JOIN,
+ TALK_EVAC_MERCHANT_NO,
+ TALK_EVAC_MERCHANT_HELL_NO,
+
+ TALK_EVAC_GUARD1,
+ TALK_EVAC_GUARD1_PLACE,
+ TALK_EVAC_GUARD1_GOVERNMENT,
+ TALK_EVAC_GUARD1_TRADE,
+ TALK_EVAC_GUARD1_JOIN,
+ TALK_EVAC_GUARD1_JOIN2,
+ TALK_EVAC_GUARD1_JOIN3,
+ TALK_EVAC_GUARD1_ATTITUDE,
+ TALK_EVAC_GUARD1_JOB,
+ TALK_EVAC_GUARD1_OLDGUARD,
+ TALK_EVAC_GUARD1_BYE,
+
+ TALK_EVAC_GUARD2,
+ TALK_EVAC_GUARD2_NEW,
+ TALK_EVAC_GUARD2_RULES,
+ TALK_EVAC_GUARD2_RULES_BASEMENT,
+ TALK_EVAC_GUARD2_WHO,
+ TALK_EVAC_GUARD2_TRADE,
+
+ TALK_OLD_GUARD_REP,
+ TALK_OLD_GUARD_REP_NEW,
+ TALK_OLD_GUARD_REP_NEW_DOING,
+ TALK_OLD_GUARD_REP_NEW_DOWNSIDE,
+ TALK_OLD_GUARD_REP_WORLD,
+ TALK_OLD_GUARD_REP_WORLD_2NDFLEET,
+ TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS,
+ TALK_OLD_GUARD_REP_ASK_JOIN,
+
+ TALK_ARSONIST,
+ TALK_ARSONIST_NEW,
+ TALK_ARSONIST_DOING,
+ TALK_ARSONIST_DOING_REBAR,
+ TALK_ARSONIST_WORLD,
+ TALK_ARSONIST_WORLD_OPTIMISTIC,
+ TALK_ARSONIST_JOIN,
+ TALK_ARSONIST_MUTATION,
+ TALK_ARSONIST_MUTATION_INSULT,
+
+ TALK_SCAVENGER_MERC,
+ TALK_SCAVENGER_MERC_NEW,
+ TALK_SCAVENGER_MERC_TIPS,
+ TALK_SCAVENGER_MERC_HIRE,
+ TALK_SCAVENGER_MERC_HIRE_SUCCESS,
 
  TALK_SHELTER,
  TALK_SHELTER_PLANS,
@@ -315,6 +375,8 @@ enum talk_topic {
  TALK_HOW_MUCH_FURTHER,
 
  TALK_FRIEND,
+ TALK_FRIEND_GUARD,
+ TALK_DENY_GUARD,
  TALK_COMBAT_COMMANDS,
  TALK_COMBAT_ENGAGEMENT,
 
@@ -461,8 +523,8 @@ public:
                   std::vector<int> &prices);
 // init_selling() fills <indices> with the indices of items in our inventory
  void init_selling(std::vector<item*> &items, std::vector<int> &prices);
-
-
+// Re-roll the inventory of a shopkeeper
+ void shop_restock();
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
@@ -602,12 +664,13 @@ public:
     tripoint global_omt_location() const;
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity; // The square containing an item we want
+ int guardx, guardy;  // These are the local coordinates that a guard will return to inside of their goal tripoint
     /**
      * Global overmap terrain coordinate, where we want to get to
      * if no goal exist, this is no_goal_point.
      */
     tripoint goal;
-
+ int restock;
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
  int  worst_item_value; // The value of our least-wanted item

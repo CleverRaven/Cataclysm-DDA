@@ -1510,7 +1510,7 @@ void complete_vehicle ()
         }
         tools.push_back(component("duct_tape", DUCT_TAPE_USED));
         tools.push_back(component("toolbox", DUCT_TAPE_USED));
-        g->consume_tools(&g->u, tools, true);
+        g->consume_tools(&g->u, tools);
 
         used_item = consume_vpart_item (part_id);
         partnum = veh->install_part (dx, dy, part_id, used_item);
@@ -1562,7 +1562,7 @@ void complete_vehicle ()
             veh->parts[vehicle_part].bigness = used_item.bigness;
             tools.push_back(component("wrench", -1));
             tools.push_back(component("toolbox", -1));
-            g->consume_tools(&g->u, tools, true);
+            g->consume_tools(&g->u, tools);
             tools.clear();
             dd = 0;
             veh->insides_dirty = true;
@@ -1574,7 +1574,7 @@ void complete_vehicle ()
         tools.push_back(component("duct_tape", int(DUCT_TAPE_USED*dmg)));
         tools.push_back(component("toolbox", int(DUCT_TAPE_USED*dmg)));
         tools.push_back(component("toolset", int(welder_charges*dmg / 20)));
-        g->consume_tools(&g->u, tools, true);
+        g->consume_tools(&g->u, tools);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
                     veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
@@ -1590,7 +1590,7 @@ void complete_vehicle ()
         tools.push_back(component("hacksaw", -1));
         tools.push_back(component("toolbox", -1));
         tools.push_back(component("circsaw_off", 20));
-        g->consume_tools(&g->u, tools, true);
+        g->consume_tools(&g->u, tools);
         // Dump contents of part at player's feet, if any.
         for (size_t i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
             g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);

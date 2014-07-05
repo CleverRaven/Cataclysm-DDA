@@ -4943,6 +4943,7 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     for (int j = office_top; j <= bw - 1; j++) {
                         m->i_clear(i, j);
                         m->ter_set(i, j, t_floor);
+                        m->furn_set( i, j, t_null );
                     }
                 }
                 line(m, t_wall_h, lw + 1, office_top, office_right, office_top);
@@ -4964,6 +4965,7 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     for (int j = office_top; j <= bw - 1; j++) {
                         m->i_clear(i, j);
                         m->ter_set(i, j, t_floor);
+                        m->furn_set( i, j, t_null );
                     }
                 }
                 line(m, t_wall_h, office_left, office_top, rw - 1, office_top);

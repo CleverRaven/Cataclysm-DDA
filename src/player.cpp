@@ -1745,7 +1745,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
     for (std::map<std::string, mtype*>::const_iterator mon = monids.begin(); mon != monids.end(); ++mon){
         if (g->kill_count(mon->first) > 0){
-            memorial_file << "  " << (char)mon->second->sym << " - " << string_format("%4d",g->kill_count(mon->first)) << " " << mon->second->nname(g->kill_count(mon->first)) << "\n";
+            memorial_file << "  " << mon->second->sym << " - " << string_format("%4d",g->kill_count(mon->first)) << " " << mon->second->nname(g->kill_count(mon->first)) << "\n";
             total_kills += g->kill_count(mon->first);
         }
     }
@@ -9737,7 +9737,20 @@ void player::wake_up(const char * message)
 
 std::string player::is_snuggling()
 {
-    std::vector<item>& floor_item = g->m.i_at(posx, posy);
+    std::vector<item> *items_to_snuggle = &g->m.i_at( posx, posy );
+    if( in_vehicle ) {
+        int vpart;
+        vehicle *veh = g->m.veh_at( posx, posy, vpart );
+        if( veh != nullptr ) {
+            int cargo = veh->part_with_feature( vpart, VPFLAG_CARGO, false );
+            if( cargo >= 0 ) {
+                if( !veh->parts[cargo].items.empty() ) {
+                    items_to_snuggle = &veh->parts[cargo].items;
+                }
+            }
+        }
+    }
+    std::vector<item>& floor_item = *items_to_snuggle;
     it_armor* floor_armor = NULL;
     int ticker = 0;
 
@@ -10151,11 +10164,12 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
             add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
                                       damage_verb.c_str());
             //item is damaged
-            SCT.add(this->xpos(),
-                    this->ypos(),
+            if( is_player() ) {
+                SCT.add(xpos(), ypos(),
                     NORTH,
                     pre_damage_name, m_neutral,
                     damage_verb, m_info);
+            }
         }
     }
     return armor_damaged;

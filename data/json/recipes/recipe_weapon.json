@@ -535,7 +535,7 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
@@ -580,7 +580,7 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
@@ -3043,6 +3043,11 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
+  "tools": [
+     [
+      [ "matches", 20 ]
+     ]
+    ],
   "components": [
     [
       [ "string_6", 1 ]
@@ -3051,9 +3056,6 @@
       [ "bottle_glass", 1 ],
       [ "flask_glass", 1 ],
       [ "jar_glass", 1 ]
-    ],
-    [
-      [ "matches", 20 ]
     ]
   ]
 },{

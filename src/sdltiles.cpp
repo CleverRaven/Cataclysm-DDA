@@ -76,7 +76,7 @@ public:
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
     bool draw_window(WINDOW *win, int offsetx, int offsety);
@@ -99,15 +99,13 @@ public:
 
     void clear();
     void load_font(std::string typeface, int fontsize);
-    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
 protected:
-    void cache_glyphs();
-    SDL_Texture *create_glyph(int t, int color);
+    SDL_Texture *create_glyph(const std::string &ch, int color);
 
     TTF_Font* font;
-    SDL_Texture *glyph_cache[128][16];
     // Maps (character code, color) to SDL_Texture*
-    typedef std::map<std::pair<Uint16, unsigned char>, SDL_Texture *> t_glyph_map;
+    typedef std::map<std::pair<std::string, unsigned char>, SDL_Texture *> t_glyph_map;
     t_glyph_map glyph_cache_map;
 };
 
@@ -122,7 +120,8 @@ public:
 
     void clear();
     void load_font(const std::string &path);
-    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
     SDL_Texture *ascii[16];
@@ -326,12 +325,13 @@ void WinDestroy()
     if(format)
         SDL_FreeFormat(format);
     format = NULL;
-    if(renderer)
-        SDL_DestroyRenderer(renderer);
-    renderer = NULL;
     if (display_buffer != NULL) {
         SDL_DestroyTexture(display_buffer);
         display_buffer = NULL;
+    }
+    if( renderer != NULL ) {
+        SDL_DestroyRenderer( renderer );
+        renderer = NULL;
     }
     if(window)
         SDL_DestroyWindow(window);
@@ -373,11 +373,11 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 };
 
 
-SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
+SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
 {
-    SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
+    SDL_Surface * sglyph = (fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid)(font, ch.c_str(), windowsPalette[color]);
     if (sglyph == NULL) {
-        DebugLog() << "Failed to create glyph for " << std::string(1, ch) << ": " << TTF_GetError() << "\n";
+        DebugLog() << "Failed to create glyph for " << ch << ": " << TTF_GetError() << "\n";
         return NULL;
     }
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
@@ -393,9 +393,10 @@ SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
     static const Uint32 bmask = 0x00ff0000;
     static const Uint32 amask = 0xff000000;
 #endif
+    const int wf = utf8_wrapper( ch ).display_width();
     // Note: bits per pixel must be 8 to be synchron with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth, fontheight, 32, rmask, gmask, bmask, amask);
+    SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth * wf, fontheight, 32, rmask, gmask, bmask, amask);
     if (surface == NULL) {
         DebugLog() << "CreateRGBSurface failed: " << SDL_GetError() << "\n";
         SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
@@ -403,7 +404,7 @@ SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
         return glyph;
     }
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
-    SDL_Rect dst_rect = { 0, 0, fontwidth, fontheight };
+    SDL_Rect dst_rect = { 0, 0, fontwidth * wf, fontheight };
     if (src_rect.w < dst_rect.w) {
         dst_rect.x = (dst_rect.w - src_rect.w) / 2;
         dst_rect.w = src_rect.w;
@@ -432,27 +433,16 @@ SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
     return glyph;
 }
 
-void CachedTTFFont::cache_glyphs()
-{
-    for(int ch = 0; ch < 128; ch++) {
-        for(int color = 0; color < 16; color++) {
-            glyph_cache[ch][color] = create_glyph(ch, color);
-        }
-    }
-}
-
-void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
+void CachedTTFFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
 {
     color &= 0xf;
-    SDL_Texture * glyph;
-    if (t >= 0x80) {
-        SDL_Texture *&glyphr = glyph_cache_map[t_glyph_map::key_type(t, color)];
-        if (glyphr == NULL) {
-            glyphr = create_glyph(t, color);
-        }
-        glyph = glyphr;
+    const t_glyph_map::key_type key( ch, color );
+    auto it = glyph_cache_map.find( key );
+    SDL_Texture *glyph;
+    if( it == glyph_cache_map.end() ) {
+        glyph = glyph_cache_map[key] = create_glyph( ch, color );
     } else {
-        glyph = glyph_cache[t][color];
+        glyph = it->second;
     }
     if (glyph == NULL) {
         // Nothing we can do here )-:
@@ -461,13 +451,24 @@ void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
     SDL_Rect rect;
     rect.x = x;
     rect.y = y;
-    rect.w = fontwidth;
+    rect.w = fontwidth * utf8_wrapper( ch ).display_width();
     rect.h = fontheight;
     SDL_RenderCopy(renderer, glyph, NULL, &rect);
 }
 
-void BitmapFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
 {
+    int len = ch.length();
+    const char *s = ch.c_str();
+    const long t = UTF8_getch(&s, &len);
+    BitmapFont::OutputChar(t, x, y, color);
+}
+
+void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
+{
+    if( t > 256 ) {
+        return;
+    }
     SDL_Rect src;
     src.x = (t % tilewidth) * fontwidth;
     src.y = (t / tilewidth) * fontheight;
@@ -596,48 +597,42 @@ bool Font::draw_window(WINDOW *win)
     return draw_window(win, win->x * ::fontwidth, win->y * ::fontheight);
 }
 
-bool Font::draw_window(WINDOW *win, int offsetx, int offsety)
+bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 {
-    int i,j,w,tmp;
-    int drawx,drawy;
     bool update = false;
-    for (j=0; j<win->height; j++){
-        if (win->line[j].touched) {
-            update = true;
-
-            win->line[j].touched=false;
-
-            for (i=0,w=0; w<win->width; i++,w++) {
-                drawx = offsetx + w * fontwidth;
-                drawy = offsety + j * fontheight;
-                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
-                const char* utf8str = win->line[j].chars+i;
-                int len = ANY_LENGTH;
-                tmp = UTF8_getch(&utf8str, &len);
-                int FG = win->line[j].FG[w];
-                int BG = win->line[j].BG[w];
-                FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
-
-                if ( tmp != UNKNOWN_UNICODE){
-                    int cw = mk_wcwidth((wchar_t)tmp);
-                    len = ANY_LENGTH-len;
-                    if(cw>1)
-                    {
-                        FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
-                        w+=cw-1;
-                    }
-                    if(len>1)
-                    {
-                        i+=len-1;
-                    }
-                    if(tmp) OutputChar(tmp, drawx,drawy,FG);
-                } else {
-                    draw_ascii_lines((unsigned char)win->line[j].chars[i], drawx, drawy, FG);
-                }//(tmp < 0)
-                }
-            };//for (i=0;i<_windows[w].width;i++)
+    for( int j = 0; j < win->height; j++ ) {
+        if( !win->line[j].touched ) {
+            continue;
         }
-    };// for (j=0;j<_windows[w].height;j++)
+        update = true;
+        win->line[j].touched = false;
+        for( int i = 0; i < win->width; i++ ) {
+            const cursecell &cell = win->line[j].chars[i];
+            if( cell.ch.empty() ) {
+                continue; // second cell of a multi-cell character
+            }
+            const int drawx = offsetx + i * fontwidth;
+            const int drawy = offsety + j * fontheight;
+            if( drawx + fontwidth > WindowWidth || drawy + fontheight > WindowHeight ) {
+                // Outside of the display area, would not render anyway
+                continue;
+            }
+            const char *utf8str = cell.ch.c_str();
+            int len = cell.ch.length();
+            const int codepoint = UTF8_getch( &utf8str, &len );
+            const int FG = cell.FG;
+            const int BG = cell.BG;
+            if( codepoint != UNKNOWN_UNICODE ) {
+                const int cw = utf8_width( cell.ch.c_str() );
+                FillRectDIB( drawx, drawy, fontwidth * cw, fontheight, BG );
+                i += cw - 1;
+                OutputChar( cell.ch, drawx, drawy, FG );
+            } else {
+                FillRectDIB( drawx, drawy, fontwidth, fontheight, BG );
+                draw_ascii_lines( static_cast<unsigned char>( cell.ch[0] ), drawx, drawy, FG );
+            }
+        }
+    }
     win->draw = false; //We drew the window, mark it as so
     return update;
 }
@@ -1654,7 +1649,6 @@ CachedTTFFont::CachedTTFFont(int w, int h)
 : Font(w, h)
 , font(NULL)
 {
-    memset(glyph_cache, 0x00, sizeof(glyph_cache));
 }
 
 CachedTTFFont::~CachedTTFFont()
@@ -1667,14 +1661,6 @@ void CachedTTFFont::clear()
     if (font != NULL) {
         TTF_CloseFont(font);
         font = NULL;
-    }
-    for (size_t i = 0; i < 128; i++) {
-        for (size_t j = 0; j < 16; j++) {
-            if (glyph_cache[i][j] != NULL) {
-                SDL_DestroyTexture(glyph_cache[i][j]);
-                glyph_cache[i][j] = NULL;
-            }
-        }
     }
     for (t_glyph_map::iterator a = glyph_cache_map.begin(); a != glyph_cache_map.end(); ++a) {
         if (a->second != NULL) {
@@ -1718,11 +1704,6 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
         throw std::runtime_error(TTF_GetError());
     }
     TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
-    // glyph height hack by utunnels
-    // SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
-    // this causes baseline problems for certain fonts
-    // I can only guess by check a certain tall character...
-    cache_glyphs();
 }
 
 int map_font_width() {
