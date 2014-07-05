@@ -284,17 +284,15 @@ bool WinCreate()
     // Initialize joysticks.
     int numjoy = SDL_NumJoysticks();
 
-    if(numjoy > 1) {
-        DebugLog() << "You have more than one gamepads/joysticks plugged in, only the first will be used.\n";
-    }
-
-    if(numjoy >= 1) {
+    if( OPTIONS["ENABLE_JOYSTICK"] && numjoy >= 1 ) {
+        if( numjoy > 1 ) {
+            DebugLog() << "You have more than one gamepads/joysticks plugged in, only the first will be used.\n";
+        }
         joystick = SDL_JoystickOpen(0);
+        SDL_JoystickEventState(SDL_ENABLE);
     } else {
         joystick = NULL;
     }
-
-    SDL_JoystickEventState(SDL_ENABLE);
 
     // Set up audio mixer.
 #ifdef SDL_SOUND

@@ -710,6 +710,11 @@ void initOptions()
                                  false
                                 );
 
+    OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
+                                      _("SDL ONLY: Enable input from joystick."),
+                                      true
+                                     );
+
     //~ show mouse cursor
     optionNames["show"] = _("Show");
     //~ hide mouse cursor
