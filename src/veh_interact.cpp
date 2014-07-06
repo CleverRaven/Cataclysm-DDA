@@ -699,8 +699,8 @@ void veh_interact::do_remove()
     display_mode('o');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
-    bool can_hacksaw = has_wrench && has_hacksaw &&
-                       g->u.skillLevel("mechanics") >= 2;
+    bool has_skill = g->u.skillLevel("mechanics") >= 2;
+    bool can_hacksaw = has_wrench && has_hacksaw && has_skill;
     switch (reason) {
     case LOW_MORALE:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -757,9 +757,10 @@ void veh_interact::do_remove()
                     return;
                 } else {
                     fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> to remove parts."),
+                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
                                    has_wrench ? "ltgreen" : "red",
-                                   has_hacksaw ? "ltgreen" : "red");
+                                   has_hacksaw ? "ltgreen" : "red",
+                                   has_skill ? "ltgreen" : "red");
                     wrefresh (w_msg);
                     return;
                 }
