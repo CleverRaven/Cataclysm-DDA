@@ -131,10 +131,10 @@
       { "monster" : "mon_zombie_dog", "freq" :  4, "cost_multiplier" : 2, "starts" : 1680 },
       { "monster" : "mon_zombie_dog", "freq" :  4, "cost_multiplier" : 2, "starts" : 2160 },
 	  
-      { "monster" : "mon_zolf", "freq" :  3, "cost_multiplier" : 2, "starts" :   72, "pack_size" : [2,5] },
-      { "monster" : "mon_zolf", "freq" :  3, "cost_multiplier" : 2, "starts" :  168, "pack_size" : [2,5] },
-      { "monster" : "mon_zolf", "freq" :  3, "cost_multiplier" : 2, "starts" :  672, "pack_size" : [2,5] },
-      { "monster" : "mon_zolf", "freq" :  3, "cost_multiplier" : 2, "starts" : 2160, "pack_size" : [2,5] },
+      { "monster" : "mon_zolf", "freq" :  2, "cost_multiplier" : 2, "starts" :   72, "pack_size" : [1,4] },
+      { "monster" : "mon_zolf", "freq" :  2, "cost_multiplier" : 2, "starts" :  168, "pack_size" : [1,4] },
+      { "monster" : "mon_zolf", "freq" :  2, "cost_multiplier" : 2, "starts" :  672, "pack_size" : [1,4] },
+      { "monster" : "mon_zolf", "freq" :  2, "cost_multiplier" : 2, "starts" : 2160, "pack_size" : [1,4] },
 
       { "monster" : "mon_groundhog", "freq" : 30, "cost_multiplier" : 5, "pack_size" : [1,6], "conditions" : ["DAWN", "DAY", "DUSK", "SPRING", "SUMMER", "AUTUMN"] },
 

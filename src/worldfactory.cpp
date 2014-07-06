@@ -140,6 +140,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     //debugmsg("worldpath: %s", path.str().c_str());
 
     if (!save_world(retworld)) {
+        popup( _( "Failed to save world!" ) );
         std::string worldname = retworld->world_name;
         std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
                                                 worldname);
@@ -1109,40 +1110,33 @@ to continue, or <color_yellow><</color> to go back and review your world."));
                 worldname; // cache the current worldname just in case they say No to the exit query
             return -999;
         } else if (action == "ANY_INPUT") {
-            const long ch = ctxt.get_raw_input().get_first_input();
+            const input_event ev = ctxt.get_raw_input();
+            const long ch = ev.get_first_input();
             switch (line) {
-                case 1:
-                    if (ch == KEY_BACKSPACE || ch == 127) {
-                        if (!worldname.empty()) {
-                            //erase utf8 character TODO: make a function
-                            while(!worldname.empty() &&
-                                  ((unsigned char)worldname[worldname.size() - 1]) >= 128 &&
-                                  ((unsigned char)worldname[(int)worldname.size() - 1]) <= 191) {
-                                worldname.erase(worldname.size() - 1);
-                            }
-                            worldname.erase(worldname.size() - 1);
-                            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
-                                      "______________________________ ");
-                            mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
-                                      "%s", worldname.c_str());
-                            wprintz(w_confirmation, h_ltgray, "_");
+                case 1: {
+                    utf8_wrapper wrap(worldname);
+                    utf8_wrapper newtext( ev.text );
+                    if( ch == KEY_BACKSPACE ) {
+                        if (!wrap.empty()) {
+                            wrap.erase(wrap.length() - 1, 1);
+                            worldname = wrap.str();
                         }
-                    } else if (is_char_allowed(ch) && utf8_width(worldname.c_str()) < 30) {
-                        worldname.push_back(ch);
                     } else if(ch == KEY_F(2)) {
                         std::string tmp = get_input_string_from_file();
                         int tmplen = utf8_width(tmp.c_str());
                         if(tmplen > 0 && tmplen + utf8_width(worldname.c_str()) < 30) {
                             worldname.append(tmp);
                         }
+                    } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
+                        // no emty string, no slash, no backslash, no control sequence
+                        wrap.append( newtext );
+                        worldname = wrap.str();
                     }
-                    //experimental unicode input
-                    else if(ch > 127) {
-                        std::string tmp = utf32_to_utf8(ch);
-                        int tmplen = utf8_width(tmp.c_str());
-                        if(tmplen > 0 && tmplen + utf8_width(worldname.c_str()) < 30) {
-                            worldname.append(tmp);
-                        }
+                    mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
+                                "______________________________ ");
+                    mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray,
+                                "%s", worldname.c_str());
+                    wprintz(w_confirmation, h_ltgray, "_");
                     }
                     break;
             }

@@ -711,7 +711,7 @@ void overmap::init_layers()
     layer = new map_layer[OVERMAP_LAYERS];
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
         oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? settings.default_oter :
-                               "";
+                               "open_air";
         for(int i = 0; i < OMAPX; ++i) {
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = default_type;
@@ -3422,7 +3422,17 @@ void overmap::place_specials()
 
     for(std::vector<overmap_special>::iterator it = overmap_specials.begin();
         it != overmap_specials.end(); ++it) {
-        num_placed.insert(std::pair<overmap_special, int>(*it, 0));
+            overmap_special special = *it;
+            if (special.max_occurrences != 100){
+                num_placed.insert(std::pair<overmap_special, int>(*it, 0));//normal circumstances
+            }
+            else{
+                if (rand() % 100 <= special.min_occurrences){ //occurance is actually a % chance, so less than 1
+                    num_placed.insert(std::pair<overmap_special, int>(*it, -1));//Priority add one in this map
+                }
+                else
+                    num_placed.insert(std::pair<overmap_special, int>(*it, 999));//Don't add one in this map
+            }
     }
 
     std::vector<point> sectors;
@@ -3486,7 +3496,8 @@ void overmap::place_specials()
                 std::advance(it, selection);
                 place = *it;
                 overmap_special special = place.first;
-
+                if (num_placed[special] == -1)
+                    num_placed[special] = 999;//if you build one, never build another.  For [x:100] spawn % chance
                 num_placed[special]++;
                 place_special(special, p, place.second);
             } else {
@@ -3496,7 +3507,8 @@ void overmap::place_specials()
                 std::advance(it, selection);
                 place = *it;
                 overmap_special special = place.first;
-
+                if (num_placed[special] == -1)
+                    num_placed[special] = 999;//if you build one, never build another.  For [x:100] spawn % chance
                 num_placed[special]++;
                 place_special(special, p, place.second);
             }

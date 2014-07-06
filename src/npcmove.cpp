@@ -55,6 +55,16 @@ void npc::move()
         debugmsg("NPC %s: target = %d, danger = %d, range = %d",
                  name.c_str(), target, danger, confident_range(-1));
 
+    //faction opinion determines if it should consider you hostile
+    int j;
+    if (my_fac != NULL && my_fac->likes_u < -10 && g->sees_u(posx, posy, j)){//acidia
+        if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
+            attitude = NPCATT_FLEE; // We don't want to take u on!
+        else
+            attitude = NPCATT_KILL; // Yeah, we think we could take you!
+    }
+
+
     if (is_enemy()) {
         int pl_danger = player_danger( &(g->u) );
         if (pl_danger > danger || target == -1) {
@@ -99,7 +109,8 @@ void npc::move()
             debugmsg("address_player %s", npc_action_name(action).c_str());
         }
         if (action == npc_undecided) {
-            if (mission == NPC_MISSION_SHELTER || has_disease("infection")) {
+            if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
+                    || mission == NPC_MISSION_GUARD || has_disease("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
@@ -2102,6 +2113,24 @@ bool npc::has_destination()
 
 void npc::reach_destination()
 {
+    //this entire clause is to preserve the guard's home coordinates and permit him/her to return
+    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP){
+        if (guardx == global_square_location().x && guardy == global_square_location().y){
+            return; //Our guard is already at his/her home tile
+        }
+        else {
+            if (path.size() > 1)
+                move_to_next();  //No point recalculating the path to get home
+            else{
+                int pt1 = guardx - ((omx * OMAPX * 2) + mapx) * SEEX;
+                int pt2 = guardy - ((omx * OMAPY * 2) + mapy) * SEEY;
+                update_path(pt1, pt2);
+                move_to_next();
+            }
+        }
+        return;//don't delete our post if we are a guard
+    }
+
     goal = no_goal_point;
 }
 
@@ -2118,6 +2147,14 @@ void npc::set_destination()
      * Also, NPCs should be able to assign themselves missions like "break into that
      *  lab" or "map that river bank."
      */
+    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP){
+        goal.x = global_omt_location().x;
+        goal.y = global_omt_location().y;
+        goal.z = g->levz;
+        guardx = global_square_location().x;
+        guardy = global_square_location().y;
+        return;
+    }
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.

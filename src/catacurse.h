@@ -53,14 +53,16 @@ typedef struct
 //} cursechar;
 
 //Individual lines, so that we can track changed lines
-typedef struct{
-bool touched;
-char *chars;
-int width_in_bytes;
-char *FG;
-char *BG;
-//cursechar chars [80];
-} curseline;
+struct cursecell {
+    std::string ch;
+    char FG;
+    char BG;
+    cursecell() : ch(" "), FG(0), BG(0) { }
+};
+struct curseline {
+    bool touched;
+    std::vector<cursecell> chars;
+};
 //The curses window struct
 typedef struct {
   int x;//left side of window
@@ -73,7 +75,7 @@ typedef struct {
   bool draw;//Tracks if the window text has been changed
   int cursorx;//x location of the cursor
   int cursory;//y location of the cursor
-  curseline *line;
+  std::vector<curseline> line;
 
 } WINDOW;
 
@@ -112,6 +114,7 @@ typedef struct {
 #define    KEY_RIGHT      0x105    /* right arrow*/
 #define    KEY_HOME       0x106    /* home key */                   //<---------not used
 #define    KEY_BACKSPACE  0x107    /* Backspace */                  //<---------not used
+#define    KEY_DC         0x151    /* Delete Character */
 #define    KEY_F(n)      (0x108+n) /* F1, F2, etc*/
 #define    KEY_NPAGE      0x152    /* page down */
 #define    KEY_PPAGE      0x153    /* page up */

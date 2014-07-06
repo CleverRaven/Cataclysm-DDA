@@ -8,7 +8,6 @@
 #include "game.h"
 #include "color.h"
 #include "options.h"
-#include "mapbuffer.h"
 #include "debug.h"
 #include "item_factory.h"
 #include "monstergenerator.h"
@@ -48,7 +47,7 @@ int main(int argc, char *argv[])
 #ifdef PREFIX
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
-    init_base_path(std::string(QUOTE(PREFIX)));
+    PATH_INFO::init_base_path(std::string(QUOTE(PREFIX)));
 #else
     PATH_INFO::init_base_path("");
 #endif

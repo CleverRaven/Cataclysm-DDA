@@ -1,4 +1,5 @@
 #include "char_validity_check.h"
+#include <cctype>
 
 /**
  * Returns whether or not the given (ASCII) character is usable.
@@ -8,17 +9,15 @@
  * @param ch The char to check.
  * @return true if the char is allowed in a name, false if not.
  */
-bool is_char_allowed(char ch)
+bool is_char_allowed(long ch)
 {
-
-    //Allow everything EXCEPT the following reserved characters:
-    return (ch > 31 //0-31 are control characters
-            && ch < 127 //DEL character
-            && ch != '/' && ch != '\\' //Path separators
-            && ch != '?' && ch != '*' && ch != '%' //Wildcards
-            && ch != ':' //Mount point/drive marker
-            && ch != '|' //Output pipe
-            && ch != '"' //Filename (with spaces) marker
-            && ch != '>' && ch != '<'); //Input/output redirection
-
+    if( !std::isprint(ch) && ch <= 127 && ch != ' ' ) {
+        // above 127 are non-ascii, therefor unicode, therefor OK
+        return false;
+    }
+    if( ch == '\\' || ch == '/' ) {
+        // not valid in file names
+        return false;
+    }
+    return true;
 }

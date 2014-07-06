@@ -118,8 +118,9 @@ void Creature_tracker::remove(const int idx)
 
 void Creature_tracker::clear()
 {
-    for (size_t i = 0; i < _old_monsters_list.size(); i++) {
-        delete _old_monsters_list[i];
+    for (std::vector<monster *>::iterator it = _old_monsters_list.begin();
+         it != _old_monsters_list.end(); ++it) {
+        delete *it;
     }
     _old_monsters_list.clear();
     _old_monsters_by_location.clear();
@@ -138,8 +139,9 @@ const std::vector<monster>& Creature_tracker::list() const
 {
     static std::vector<monster> for_now;
     for_now.clear();
-    for (size_t i = 0; i < _old_monsters_list.size(); i++) {
-        for_now.push_back(*_old_monsters_list[i]);
+    for (std::vector<monster *>::const_iterator it = _old_monsters_list.begin();
+         it != _old_monsters_list.end(); ++it) {
+        for_now.push_back(**it);
     }
     return for_now;
 }

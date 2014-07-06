@@ -114,6 +114,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
     mapgen_cfunction_map["cavern"] = &mapgen_cavern;
     mapgen_cfunction_map["rock"] = &mapgen_rock;
+    mapgen_cfunction_map["open_air"] = &mapgen_open_air;
     mapgen_cfunction_map["rift"] = &mapgen_rift;
     mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
     mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
@@ -4942,6 +4943,7 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     for (int j = office_top; j <= bw - 1; j++) {
                         m->i_clear(i, j);
                         m->ter_set(i, j, t_floor);
+                        m->furn_set( i, j, t_null );
                     }
                 }
                 line(m, t_wall_h, lw + 1, office_top, office_right, office_top);
@@ -4963,6 +4965,7 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     for (int j = office_top; j <= bw - 1; j++) {
                         m->i_clear(i, j);
                         m->ter_set(i, j, t_floor);
+                        m->furn_set( i, j, t_null );
                     }
                 }
                 line(m, t_wall_h, office_left, office_top, rw - 1, office_top);
@@ -6161,6 +6164,11 @@ void mapgen_rock(map *m, oter_id, mapgendata dat, int, float)
 
 
 
+}
+
+
+void mapgen_open_air(map *m, oter_id, mapgendata, int, float){
+    fill_background(m, t_open_air);
 }
 
 

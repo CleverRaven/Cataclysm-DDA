@@ -1,5 +1,8 @@
 #if (!defined SDLTILES)
 
+// see game.cpp
+bool is_valid_in_w_terrain(int x, int y);
+
 #include "game.h"
 /* Explosion Animation */
 void game::draw_explosion(int x, int y, int radius, nc_color col)
@@ -52,11 +55,11 @@ void game::draw_bullet(Creature& p, int tx, int ty, int i, std::vector<point> tr
 void game::draw_hit_mon(int x, int y, monster m, bool dead)
 {
     nc_color cMonColor = m.type->color;
-    char sMonSym = m.symbol();
+    const std::string &sMonSym = m.symbol();
 
     hit_animation(POSX + (x - (u.posx + u.view_offset_x)),
                   POSY + (y - (u.posy + u.view_offset_y)),
-                  red_background(cMonColor), dead ? '%' : sMonSym);
+                  red_background(cMonColor), dead ? "%" : sMonSym);
 }
 /* Player hit animation */
 void game::draw_hit_player(player *p, const int iDam, bool dead)
@@ -64,16 +67,17 @@ void game::draw_hit_player(player *p, const int iDam, bool dead)
     (void)dead; //unused
     hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                   POSY + (p->posy - (u.posy + u.view_offset_y)),
-                  (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), '@');
+                  (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), "@");
 }
 /* Line drawing code, not really an animation but should be separated anyway */
 
 void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)
 {
     if (u_see( x, y)) {
-        for (unsigned i = 0; i < ret.size(); i++) {
-            int mondex = mon_at(ret[i].x, ret[i].y),
-                npcdex = npc_at(ret[i].x, ret[i].y);
+        for (std::vector<point>::iterator it = ret.begin();
+             it != ret.end(); ++it) {
+            int mondex = mon_at(it->x, it->y),
+                npcdex = npc_at(it->x, it->y);
 
             // NPCs and monsters get drawn with inverted colors
             if (mondex != -1 && u_see(&(critter_tracker.find(mondex)))) {
@@ -81,7 +85,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
             } else if (npcdex != -1) {
                 active_npc[npcdex]->draw(w_terrain, center_point.x, center_point.y, true);
             } else {
-                m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true, true, center_point.x, center_point.y);
+                m.drawsq(w_terrain, u, it->x, it->y, true, true, center_point.x, center_point.y);
             }
         }
     }
@@ -96,8 +100,9 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
         crx += (vPoint[vPoint.size() - 1].x - (u.posx + u.view_offset_x));
         cry += (vPoint[vPoint.size() - 1].y - (u.posy + u.view_offset_y));
     }
-    for (unsigned i = 1; i < vPoint.size(); i++) {
-        m.drawsq(w_terrain, u, vPoint[i - 1].x, vPoint[i - 1].y, true, true);
+    for (std::vector<point>::iterator it = vPoint.begin();
+         it != vPoint.end()-1; it++) {
+        m.drawsq(w_terrain, u, it->x, it->y, true, true);
     }
 
     mvwputch(w_terrain, cry, crx, c_white, 'X');
@@ -118,6 +123,9 @@ void game::draw_sct()
     for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
         const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
         const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+        if( !is_valid_in_w_terrain( iDX, iDY ) ) {
+            continue;
+        }
 
         mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType("first"), (iter->getStep() >= SCT.iMaxSteps/2)), "%s", iter->getText("first").c_str());
         wprintz(w_terrain, msgtype_to_color(iter->getMsgType("second"), (iter->getStep() >= SCT.iMaxSteps/2)), iter->getText("second").c_str());

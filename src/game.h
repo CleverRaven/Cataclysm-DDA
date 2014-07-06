@@ -108,11 +108,11 @@ class game
         bool game_quit(); // True if we actually quit the game - used in main.cpp
         bool game_error();
         quit_status uquit;    // used in main.cpp to determine what type of quit
-        void serialize(std::ofstream & fout); // for save
-        void unserialize(std::ifstream & fin); // for load
-        bool unserialize_legacy(std::ifstream & fin); // for old load
-        void unserialize_master(std::ifstream & fin); // for load
-        bool unserialize_master_legacy(std::ifstream & fin); // for old load
+        void serialize(std::ofstream &fout);  // for save
+        void unserialize(std::ifstream &fin);  // for load
+        bool unserialize_legacy(std::ifstream &fin);  // for old load
+        void unserialize_master(std::ifstream &fin);  // for load
+        bool unserialize_master_legacy(std::ifstream &fin);  // for old load
 
         // returns false if saving faild for whatever reason
         bool save();
@@ -130,9 +130,9 @@ class game
         // Sound at (x, y) of intensity (vol), described to the player is (description)
         bool sound(int x, int y, int vol, std::string description); //returns true if you heard the sound
         // creates a list of coordinates to draw footsteps
-        void add_footstep(int x, int y, int volume, int distance, monster* source);
+        void add_footstep(int x, int y, int volume, int distance, monster *source);
         std::vector<std::vector<point> > footsteps;
-        std::vector<monster*> footsteps_source;
+        std::vector<monster *> footsteps_source;
         // Calculate where footstep marker should appear and put those points into the result.
         // It also clears @ref footsteps_source and @ref footsteps
         void calculate_footstep_markers(std::vector<point> &result);
@@ -159,15 +159,15 @@ class game
         Creature *critter_at(int x, int y);
         // void build_monmap();  // Caches data for mon_at()
 
-        bool add_zombie(monster& critter);
+        bool add_zombie(monster &critter);
         size_t num_zombies() const;
-        monster& zombie(const int idx);
+        monster &zombie(const int idx);
         bool update_zombie_pos(const monster &critter, const int newx, const int newy);
         void remove_zombie(const int idx);
         void clear_zombies();
         bool spawn_hallucination(); //Spawns a hallucination close to the player
 
-        Creature* creature_at(const int x, const int y);
+        Creature *creature_at(const int x, const int y);
         int  mon_at(const int x, const int y) const; // Index of the monster at (x, y); -1 for none
         int  mon_at(point p) const;
         bool is_empty(const int x, const int y); // True if no PC, no monster, move cost > 0
@@ -176,7 +176,7 @@ class game
         bool is_in_ice_lab(point location);
         // Kill that monster; fixes any pointers etc
         void kill_mon(int index, bool player_did_it = false);
-        void kill_mon(monster& critter,
+        void kill_mon(monster &critter,
                       bool player_did_it = false); // new kill_mon that just takes monster reference
         void explode_mon(int index); // Explode a monster; like kill_mon but messier
         bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
@@ -190,8 +190,8 @@ class game
         void throw_item(player &p, int tarx, int tary, item &thrown,
                         std::vector<point> &trajectory);
         void cancel_activity();
-        bool cancel_activity_query(const char* message, ...);
-        bool cancel_activity_or_ignore_query(const char* reason, ...);
+        bool cancel_activity_query(const char *message, ...);
+        bool cancel_activity_or_ignore_query(const char *reason, ...);
         void moving_vehicle_dismount(int tox, int toy);
 
         int assign_mission_id(); // Just returns the next available one
@@ -203,10 +203,11 @@ class game
         int reserve_mission(mission_id type, int npc_id = -1);
         int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                                    int npc_id = -1);
-        npc* find_npc(int id);
+        npc *find_npc(int id);
+        void load_npcs(); //Make any nearby NPCs from the overmap active.
         int kill_count(std::string mon);       // Return the number of kills of a given mon_id
-        mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
-        mission_type* find_mission_type(int id); // Same, but returns its type
+        mission *find_mission(int id); // Mission with UID=id; NULL if non-existant
+        mission_type *find_mission_type(int id); // Same, but returns its type
         bool mission_complete(int id, int npc_id); // True if we made it
         bool mission_failed(int id); // True if we failed it
         void wrap_up_mission(int id); // Perform required actions
@@ -217,7 +218,7 @@ class game
         void teleport(player *p = NULL, bool add_teleglow = true);
         void plswim(int x, int y); // Called by plmove.  Handles swimming
         // when player is thrown (by impact or something)
-        void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel,
+        void fling_player_or_monster(player *p, monster *zz, const int &dir, float flvel,
                                      bool controlled = false);
 
         /**
@@ -226,13 +227,13 @@ class game
         void nuke(int x, int y);
         bool spread_fungus(int x, int y);
         std::vector<faction *> factions_at(int x, int y);
-        int& scent(int x, int y);
+        int &scent(int x, int y);
         float natural_light_level() const;
         unsigned char light_level();
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
-        faction* faction_by_id(int it);
+        faction *faction_by_id(int it);
         bool sees_u(int x, int y, int &t);
         bool u_see (int x, int y);
         bool u_see (monster *critter);
@@ -250,8 +251,8 @@ class game
         // in global overmap terrain coordinates.
         tripoint om_global_location() const;
 
-        faction* random_good_faction();
-        faction* random_evil_faction();
+        faction *random_good_faction();
+        faction *random_evil_faction();
 
         void process_artifact(item *it, player *p, bool wielded = false);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
@@ -270,7 +271,7 @@ class game
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
-        void print_all_tile_info(int lx, int ly, WINDOW* w_look, int column, int &line, bool mouse_hover);
+        void print_all_tile_info(int lx, int ly, WINDOW *w_look, int column, int &line, bool mouse_hover);
 
         bool list_items_match(item &item, std::string sPattern);
         int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
@@ -279,20 +280,20 @@ class game
                 std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
         std::vector<int> find_nearby_monsters(int iRadius);
-        std::string ask_item_filter(WINDOW* window, int rows);
-        std::string ask_item_priority_high(WINDOW* window, int rows);
-        std::string ask_item_priority_low(WINDOW* window, int rows);
+        std::string ask_item_filter(WINDOW *window, int rows);
+        std::string ask_item_priority_high(WINDOW *window, int rows);
+        std::string ask_item_priority_low(WINDOW *window, int rows);
         void draw_trail_to_square(int x, int y, bool bDrawX);
-        void reset_item_list_state(WINDOW* window, int height);
+        void reset_item_list_state(WINDOW *window, int height);
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
         std::string list_item_downvote;
-        int inv(const std::string& title);
+        int inv(const std::string &title);
         int inv_activatable(std::string title);
         int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
         int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
-        int display_slice(indexed_invslice&, const std::string&);
+        int display_slice(indexed_invslice &, const std::string &);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
         // Same as other multidrop, only the dropped_worn vector
         // is merged into the result.
@@ -306,18 +307,18 @@ class game
         // of armor. This includes the storage space of the items in dropped_worn
         // and the items that have been autodropped while taking them off.
         std::vector<item> multidrop(std::vector<item> &dropped_worn, int &removed_storage_space);
-        faction* list_factions(std::string title = "FACTIONS:");
+        faction *list_factions(std::string title = "FACTIONS:");
         point find_item(item *it);
         void remove_item(item *it);
 
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
         std::list<item> consume_items(player *p, std::vector<component> components);
-        void consume_tools(player *p, std::vector<component> tools, bool force_available);
+        void consume_tools(player *p, std::vector<component> tools);
         /**
          * Returns the recipe that is used to disassemble the given item type.
          * Returns NULL if there is no recipe to disassemble the item type.
          */
-        recipe* get_disassemble_recipe(const itype_id &ype);
+        recipe *get_disassemble_recipe(const itype_id &ype);
         /**
          * Check if the player can disassemble the item dis_item with the recipe
          * cur_recipe and the inventory crafting_inv.
@@ -336,7 +337,7 @@ class game
             return (gamemode) ? gamemode->id() : SGAME_NULL;
         }
 
-        std::map<std::string, vehicle*> vtypes;
+        std::map<std::string, vehicle *> vtypes;
         void toggle_sidebar_style(void);
         void toggle_fullscreen(void);
         void temp_exit_fullscreen(void);
@@ -415,7 +416,7 @@ class game
         // stun determines base number of turns target is stunned regardless of impact
         // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
         void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
-        void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
+        void knockback(std::vector<point> &traj, int force, int stun, int dam_mult);
 
         // shockwave applies knockback to all targets within radius of (x,y)
         // parameters force, stun, and dam_mult are passed to knockback()
@@ -442,7 +443,7 @@ class game
         void reset_vehicles();
         void finalize_vehicles();
 
-        std::queue<vehicle_prototype*> vehprototypes;
+        std::queue<vehicle_prototype *> vehprototypes;
 
         nc_color limb_color(player *p, body_part bp, int side, bool bleed = true,
                             bool bite = true, bool infect = true);
@@ -457,11 +458,14 @@ class game
         void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0,
                           int cy = 0); // open vehicle interaction screen
 
+        bool isRemoteControl;  //remote controlled cars etc.
+        bool isActivatedRadioCarPresent();
+
     private:
         // Game-start procedures
-        void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
+        void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                         bool bShowDDA = true);
-        void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel,
+        void print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int iSel,
                               int iOffsetY, int iOffsetX, int spacing = 1);
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::ifstream &fin);
@@ -501,14 +505,13 @@ class game
         void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
-        void load_npcs(); //Make any nearby NPCs from the overmap active.
         void create_starting_npcs(); // Creates NPCs that start near you
 
         // Player actions
-        void wishitem( player * p = NULL, int x = -1, int y = -1 );
+        void wishitem( player *p = NULL, int x = -1, int y = -1 );
         void wishmonster( int x = -1, int y = -1 );
-        void wishmutate( player * p );
-        void wishskill( player * p );
+        void wishmutate( player *p );
+        void wishskill( player *p );
         void mutation_wish(); // Mutate
 
         void pldrive(int x, int y); // drive vehicle
@@ -524,21 +527,21 @@ class game
         void long_craft();                   // See crafting.cpp
         bool crafting_allowed();             // See crafting.cpp
         bool crafting_can_see();             // See crafting.cpp
-        recipe* select_crafting_recipe();    // See crafting.cpp
+        recipe *select_crafting_recipe();    // See crafting.cpp
         bool making_would_work(recipe *r);   // See crafting.cpp
         bool can_make(recipe *r);            // See crafting.cpp
         bool can_make_with_inventory(recipe *r,
-                                     const inventory& crafting_inv);            // See crafting.cpp
-        bool check_enough_materials(recipe *r, const inventory& crafting_inv);
+                                     const inventory &crafting_inv);            // See crafting.cpp
+        bool check_enough_materials(recipe *r, const inventory &crafting_inv);
         void make_craft(recipe *making);     // See crafting.cpp
         void make_all_craft(recipe *making); // See crafting.cpp
         void complete_craft();               // See crafting.cpp
-        void pick_recipes(const inventory& crafting_inv, std::vector<recipe*> &current,
+        void pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
                           std::vector<bool> &available, craft_cat tab, craft_subcat subtab,
                           std::string filter);// crafting.cpp
         void disassemble(int pos = INT_MAX);       // See crafting.cpp
         void complete_disassemble();         // See crafting.cpp
-        recipe* recipe_by_index(int index);  // See crafting.cpp
+        recipe *recipe_by_index(int index);  // See crafting.cpp
 
         // Forcefully close a door at (x, y).
         // The function checks for creatures/items/vehicles at that point and
@@ -593,7 +596,7 @@ class game
         void takeoff(int pos = INT_MIN); // Remove armor  'T'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload(int pos);
-        void unload(item& it); // Unload a gun/tool  'U'
+        void unload(item &it); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
@@ -601,12 +604,12 @@ class game
         void plthrow(int pos = INT_MIN); // Throw an item  't'
 
         // Internal methods to show "look around" info
-        void print_fields_info(int lx, int ly, WINDOW* w_look, int column, int &line);
-        void print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &line);
-        void print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int &line);
-        void print_object_info(int lx, int ly, WINDOW* w_look, const int column, int &line,
+        void print_fields_info(int lx, int ly, WINDOW *w_look, int column, int &line);
+        void print_terrain_info(int lx, int ly, WINDOW *w_look, int column, int &line);
+        void print_trap_info(int lx, int ly, WINDOW *w_look, const int column, int &line);
+        void print_object_info(int lx, int ly, WINDOW *w_look, const int column, int &line,
                                bool mouse_hover);
-        void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line,
+        void handle_multi_item_info(int lx, int ly, WINDOW *w_look, const int column, int &line,
                                     bool mouse_hover);
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
@@ -617,7 +620,7 @@ class game
         // returns a Bresenham line to that square.  It is called by plfire() and
         // throw().
         std::vector<point> target(int &x, int &y, int lowx, int lowy, int hix,
-                                  int hiy, std::vector <Creature*> t, int &target,
+                                  int hiy, std::vector <Creature *> t, int &target,
                                   item *relevent);
         // interface to target(), collects a list of targets & selects default target
         // finally calls target() and returns its result.
@@ -644,6 +647,9 @@ class game
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
+
+
+        void rcdrive(int dx, int dy); //driving radio car
 
         void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died
@@ -693,7 +699,7 @@ class game
         calendar nextspawn; // The turn on which monsters will spawn next.
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-        int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // The scent map
+        int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
         //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
         int nulscent;    // Returned for OOB scent checks
         std::vector<event> events;         // Game events to be processed

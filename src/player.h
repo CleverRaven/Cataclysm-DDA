@@ -574,6 +574,8 @@ public:
 
  /** Returns -1 if the weapon is in the let invlet, -2 if NULL, or just returns let */
  char lookup_item(char let);
+ /** used for drinking from hands, returns how many charges were consumed */
+ int drink_from_hands(item& water);
  /** Used for eating object at pos, returns true if object is successfully eaten */
  bool consume(int pos);
  /** Used for eating entered comestible, returns true if comestible is successfully eaten */
@@ -591,8 +593,9 @@ public:
  bool wear(int pos, bool interactive = true);
  /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
  bool wear_item(item *to_wear, bool interactive = true);
- /** Takes off an item, returning false on fail */
- bool takeoff(int pos, bool autodrop = false);
+ /** Takes off an item, returning false on fail, if an item vector
+  is given, stores the items in that vector and not in the inventory */
+ bool takeoff(int pos, bool autodrop = false, std::vector<item> *items = nullptr);
  /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
  void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
  /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-17 16:37+0400\n"
+"POT-Creation-Date: 2014-06-28 00:10+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3235,6 +3235,18 @@ msgid "Tough leather boots. Very durable."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "pair of rollerblades"
+msgid_plural "pairs of rollerblades"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A pair of inline skates. Very fast on flat floors, but they make it hard to "
+"move on rough terrain, or to dodge effectively."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "pair of knee-high boots"
 msgid_plural "pairs of knee-high boots"
 msgstr[0] ""
@@ -3348,8 +3360,8 @@ msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
-"Lightweight sandals made from wound cord. Offers little in the way of "
-"protection, but keeps you cool during warmer months."
+"Lightweight sandals made from wound cord. They offer little in the way of "
+"protection, but keep you cool during warmer months."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -3443,7 +3455,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "A pair of dark blue shorts, the like used by postal service workers."
+msgid "A pair of dark blue shorts, the kind used by postal service workers."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -3753,7 +3765,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "A frilly white headpiece"
+msgid "A frilly white headpiece."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -4451,7 +4463,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "Rags tied around your feet. Not much of an improvement over being barefoot, "
-"they are still better than nothing."
+"still better than nothing."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -14625,8 +14637,8 @@ msgid "Healthy and filling cornbread."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "special brownies"
-msgid_plural "special browniess"
+msgid "special brownie"
+msgid_plural "special brownies"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -18626,7 +18638,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "expandable baton (extended)"
-msgid_plural "expandable baton (extended)s"
+msgid_plural "expandable batons (extended)"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19080,7 +19092,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "PR-24 baton (extended)"
-msgid_plural "PR-24 baton (extended)s"
+msgid_plural "PR-24 batons (extended)"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -22753,6 +22765,14 @@ msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes powered armor."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Disable religious texts"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes religious text items from the game."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -27121,6 +27141,31 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "incendiary grenade"
+msgid_plural "incendiary grenades"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a military grade incendiary hand grenade. Use this item to pull the "
+"pin and light the fuse. You will then have five turns before it explodes "
+"into a raging inferno; throwing it would be a good idea."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "active incendiary grenade"
+msgid_plural "active incendiary grenades"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is an active incendiary grenade, likely to burst into an inferno any "
+"second now. Better throw it!"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "Granade"
 msgid_plural "Granades"
 msgstr[0] ""
@@ -29284,11 +29329,31 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
+msgid "You flick the lighter."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py src/game.cpp
+#: src/iexamine.cpp
+msgid "Nothing happens."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid ""
 "This is a lighter featuring a flip top cover and refuelable tank. A lighter "
 "must be carried to use various drugs, like cigarettes, or to light things "
 "like Molotov cocktails.  You can also use a lighter to light nearby items on "
 "fire."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py src/iuse.cpp
+msgid "refillable lighter (lit)"
+msgid_plural "refillable lighter (lit)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a lighter featuring a flip top cover and refuelable tank. It is lit."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -29327,6 +29392,56 @@ msgid ""
 "layered charcoal. Once the charcoal has purified enough water, it will "
 "become unusable and can be disassembled and recycled. Water taken from "
 "uncertain sources like a river may be dirty."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "filled charcoal kiln"
+msgid_plural "filled charcoal kilns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "You need something to light it with!"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "You light the wood."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A kiln filled with wood which will become charcoal after a slow period of "
+"burning."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "lit charcoal kiln"
+msgid_plural "lit charcoal kilns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "It's already burning!."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "The kiln's embers die out."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "A kiln full of wood that has been lit; better drop it!"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "finished charcoal kiln"
+msgid_plural "finished charcoal kilns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A charcoal kiln that has finished burning. Disassemble it to retrieve the "
+"charcoal and kiln."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
@@ -29603,7 +29718,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "toolbox"
-msgid_plural "toolboxs"
+msgid_plural "toolboxes"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -31458,6 +31573,183 @@ msgid ""
 "After an exciting and tasty hunt, you retire to your nest.  Mmm, yes, nest."
 msgstr ""
 
+#: lang/json/dream_from_json.py
+msgid "You are terrified by a dream of becoming an ape hybrid."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You blissfully recall days spent lounging in the sun."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"You dream of your legions of undead admirers, their attentions, and the "
+"wonderful pain."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You wonder if your nest will be good enough."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"Your dream of soaring over the landscape becomes a nightmare when you find "
+"yourself with arms and a glider!"
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You have a comforting dream of swimming with a school of fish."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"The thought of being out of water, forced to crawl unsupported, terrifies "
+"you."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You vividly dream of sharing a kill with your pack."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "A fond memory of throating some prey animal bubbles up."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"You wonder if you could find one of those 'salmon runs', or if they were "
+"just a legend..."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Ah, the wolf-slaying dream again. That's a good one..."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Boing! and you've pounced another yummy critter."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"Your nightmare of sentient rats turns successful, as you grab their King and "
+"shake it apart!"
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You dream of the hunt, the feed, and your pack."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Oh, you should really patrol your territory again, maybe expand."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You dream of jumping the gate and leading your herd to freedom."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "The herd moves along and you with them, finding greener pastures."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You feel smug, knowing that the Queen is dependent on you."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"You dream of a weirdly shaped plant, whose nectar surpassed your every "
+"wish..."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You dream of bees fighting over your sweet nectar. Mmm."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"A rather attractive triffid offers you a bouquet of ape heads. How "
+"thoughtful!"
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"Your vivid dream of your pseudopods calcifying into rigid structures "
+"terrifies you."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"Ah, the painting-the-planet dream again. Maybe if you assimilated more..."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"The years seem to fly past as you dream of carving great underground "
+"fastnesses."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You have a horrible nightmare of being caught out in the sunlight."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Mmm. The shellfish dream again.  Yum!"
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You dream of recruiting a cult of fishfolk to serve your needs."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You excitedly try to hang onto the web you dreamed of... but it fades."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Your dreams of having to live without a web frighten you."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "The Fury is so big! it's GONNA GET YOAAAAAH! *pant* only a dream."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You find your paws twitching. There's a cave. You should go."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid ""
+"You dream of the peaceful world you'll give humankind.  Because no one else "
+"can."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "There are underground Faults in the world. Faults you should remedy."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You pant, terrified at the thought of that FUNGUS destroying your home!"
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You wish others could understand, and join your struggle..."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Your body flows slightly faster than you expected... oh, just a dream."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "FIGHT. FEED. FORWARD."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "Oh.  No, that 'rex' thing was only a myth."
+msgstr ""
+
+#: lang/json/dream_from_json.py
+msgid "You stir, saddened that your beautiful hatchlings were only a dream."
+msgstr ""
+
 #: lang/json/effects_from_json.py
 msgid "Hit By Player"
 msgstr ""
@@ -31590,7 +31882,7 @@ msgstr ""
 msgid "Sounds will not be reported.  You cannot talk with NPCs."
 msgstr ""
 
-#: lang/json/effects_from_json.py src/disease.cpp
+#: lang/json/effects_from_json.py src/disease.cpp src/player.cpp
 msgid "You're deafened!"
 msgstr ""
 
@@ -36131,6 +36423,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Flowering"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"You've started blooming where your scalp used to be. Your blossoms have a "
+"pleasant aroma, are visually striking, and are quite sensitive."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Long Fingernails"
 msgstr ""
 
@@ -36403,6 +36705,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Saprophage"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"You prefer to sustain yourself using your roots and direct nutrient "
+"extraction/synthesis. You can still consume 'food', though, if you have to: "
+"you merely prefer it aged a little."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Gizzard"
 msgstr ""
 
@@ -36647,6 +36960,39 @@ msgstr ""
 msgid ""
 "You've developed the ability to stockpile calories and then sleep for "
 "extended periods of time."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Resilient"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid ""
+"You can survive injuries that would incapacitate humans: you get a 20% bonus "
+"to all hit points. Stacks with Tough, etc."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Solidly Built"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid ""
+"Not much scares you. You get a 30% bonus to all hit points. Stacks with "
+"Tough, etc."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "TAAANK"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid ""
+"You can simply take the punishment from lesser beings and keep going. You "
+"get a 40% bonus to all hit points. Stacks with Tough, etc."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -37633,6 +37979,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Genetic Chaos"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Your body alters itself rapidly, and without your intervention or conscious "
+"control."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Minor Radioactivity"
 msgstr ""
 
@@ -37792,6 +38148,47 @@ msgstr ""
 msgid ""
 "You have full control of your vines, and can grow new ones and detach old "
 "ones more or less at will."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Toe Roots"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Your toes have grown wriggly, and you can't imagine why you wear that stuff "
+"on your feet. Take it off. It's in the way."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Roots"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"It's about time you started developing a root system. When reading, fishing "
+"from, waiting on, or otherwise being stationary for a while on diggable "
+"terrain, you'll extract nutrients from the soil."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Rooter"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"You find it difficult not to sink roots when able. You extract nutrients "
+"whenever on diggable terrain, but move more slowly."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Chloromorphosis"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Every inch of your skin is packed with chlorophyll and you have strong "
+"roots. Sleeping on diggable soil will satisfy any hunger you might have."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -38145,8 +38542,7 @@ msgstr ""
 msgid "Well, maybe you'll just have to make your own world wide web."
 msgstr ""
 
-#. ~ Profession name
-#: lang/json/mutation_from_json.py lang/json/professions_from_json.py
+#: lang/json/mutation_from_json.py
 msgid "Survivor"
 msgstr ""
 
@@ -38199,6 +38595,22 @@ msgstr ""
 msgid ""
 "The chance to undo not one but TWO extinction events. You're confident "
 "you'll do fine."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Debug Vision"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "You can clearly see that this is for dev purposes only."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Debug Invisibility"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "If you see this, you'd best be debugging something."
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -38708,154 +39120,178 @@ msgstr ""
 msgid "wildlife field office"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Bionic Prepper"
-msgstr ""
-
-#. ~ Female profession name (optional)
-#: lang/json/professions_from_json.py
-msgid "female Bionic Prepper"
-msgstr ""
-
-#. ~ Profession name
-#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Bionic Prepper"
 msgstr ""
 
-#. ~ Profession (Bionic Prepper) description
+#. ~ Profession (male Bionic Prepper) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You knew the end was coming. You augmented yourself with some basic bionics "
 "and got additional survival training. Now the end has come, and it is time "
 "to see if your efforts have paid off."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Survivor"
+msgctxt "profession_female"
+msgid "Bionic Prepper"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Bionic Prepper) description
 #: lang/json/professions_from_json.py
-msgid "female Survivor"
+msgctxt "prof_desc_female"
+msgid ""
+"You knew the end was coming. You augmented yourself with some basic bionics "
+"and got additional survival training. Now the end has come, and it is time "
+"to see if your efforts have paid off."
 msgstr ""
 
-#. ~ Profession (Survivor) description
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Survivor"
+msgstr ""
+
+#. ~ Profession (male Survivor) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Some would say that there's nothing particularly notable about you. But "
 "you've survived, and that's more than most could say right now."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Tailor"
+msgctxt "profession_female"
+msgid "Survivor"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Survivor) description
 #: lang/json/professions_from_json.py
-msgid "female Tailor"
+msgctxt "prof_desc_female"
+msgid ""
+"Some would say that there's nothing particularly notable about you. But "
+"you've survived, and that's more than most could say right now."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Tailor"
 msgstr ""
 
-#. ~ Profession (Tailor) description
+#. ~ Profession (male Tailor) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Tailoring may not seem like the most useful skill when the world has ended. "
 "Most people wouldn't expect a simple tailor to live long. This is your "
 "opportunity to prove them wrong."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Chef"
+msgctxt "profession_female"
+msgid "Tailor"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Tailor) description
 #: lang/json/professions_from_json.py
-msgid "female Chef"
+msgctxt "prof_desc_female"
+msgid ""
+"Tailoring may not seem like the most useful skill when the world has ended. "
+"Most people wouldn't expect a simple tailor to live long. This is your "
+"opportunity to prove them wrong."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Chef"
 msgstr ""
 
-#. ~ Profession (Chef) description
+#. ~ Profession (male Chef) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Bork bork! Years in the kitchen have left you carrying a prodigious bulk, "
 "but you managed to escape the carnage with a butchers knife and only a small "
 "collection of stains on your uniform."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Lab Technician"
+msgctxt "profession_female"
+msgid "Chef"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Chef) description
 #: lang/json/professions_from_json.py
-msgid "female Lab Technician"
+msgctxt "prof_desc_female"
+msgid ""
+"Bork bork! Years in the kitchen have left you carrying a prodigious bulk, "
+"but you managed to escape the carnage with a butchers knife and only a small "
+"collection of stains on your uniform."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Lab Technician"
 msgstr ""
 
-#. ~ Profession (Lab Technician) description
+#. ~ Profession (male Lab Technician) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Thanks to your time in the lab, you're familiar with the basics of "
 "conducting science. You escaped along with the lucky civilians, but at least "
 "you kept your lab gear."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Home Mechanic"
+msgctxt "profession_female"
+msgid "Lab Technician"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Lab Technician) description
 #: lang/json/professions_from_json.py
-msgid "female Home Mechanic"
+msgctxt "prof_desc_female"
+msgid ""
+"Thanks to your time in the lab, you're familiar with the basics of "
+"conducting science. You escaped along with the lucky civilians, but at least "
+"you kept your lab gear."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Home Mechanic"
 msgstr ""
 
-#. ~ Profession (Home Mechanic) description
+#. ~ Profession (male Home Mechanic) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Although you never got your driver's license, you've always loved cars. At "
 "least now you'll never be wanting for materials."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Scoundrel"
+msgctxt "profession_female"
+msgid "Home Mechanic"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Home Mechanic) description
 #: lang/json/professions_from_json.py
-msgid "female Scoundrel"
+msgctxt "prof_desc_female"
+msgid ""
+"Although you never got your driver's license, you've always loved cars. At "
+"least now you'll never be wanting for materials."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Scoundrel"
 msgstr ""
 
-#. ~ Profession (Scoundrel) description
+#. ~ Profession (male Scoundrel) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Your flexible outlook on the law, the scuffles you've been in (and avoided) "
 "at the bar, and your impressive ability to weasel your way out of the "
@@ -38863,23 +39299,29 @@ msgid ""
 "survival. But how much longer will they hold out?"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Professional Cyclist"
+msgctxt "profession_female"
+msgid "Scoundrel"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Scoundrel) description
 #: lang/json/professions_from_json.py
-msgid "female Professional Cyclist"
+msgctxt "prof_desc_female"
+msgid ""
+"Your flexible outlook on the law, the scuffles you've been in (and avoided) "
+"at the bar, and your impressive ability to weasel your way out of the "
+"consequences of your actions - all these skills have helped ensure your "
+"survival. But how much longer will they hold out?"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Professional Cyclist"
 msgstr ""
 
-#. ~ Profession (Professional Cyclist) description
+#. ~ Profession (male Professional Cyclist) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were a promising young cyclist with a bright career in front of you "
 "before this all happened. Perhaps you'll never get to participate in the "
@@ -38887,23 +39329,29 @@ msgid ""
 "got to keep moving."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Military Recruit"
+msgctxt "profession_female"
+msgid "Professional Cyclist"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Professional Cyclist) description
 #: lang/json/professions_from_json.py
-msgid "female Military Recruit"
+msgctxt "prof_desc_female"
+msgid ""
+"You were a promising young cyclist with a bright career in front of you "
+"before this all happened. Perhaps you'll never get to participate in the "
+"grand tours now, but as the saying goes: Life is like riding a bicycle, you "
+"got to keep moving."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Military Recruit"
 msgstr ""
 
-#. ~ Profession (Military Recruit) description
+#. ~ Profession (male Military Recruit) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were a high school drop-out with one goal in mind: to join the military. "
 "You finally got in, just in time for your training to get interrupted by a "
@@ -38911,23 +39359,29 @@ msgid ""
 "in this hellhole when you missed the emergency evac."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Special Operator"
+msgctxt "profession_female"
+msgid "Military Recruit"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Military Recruit) description
 #: lang/json/professions_from_json.py
-msgid "female Special Operator"
+msgctxt "prof_desc_female"
+msgid ""
+"You were a high school drop-out with one goal in mind: to join the military. "
+"You finally got in, just in time for your training to get interrupted by a "
+"national emergency. As far as you can tell, military command abandoned you "
+"in this hellhole when you missed the emergency evac."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Special Operator"
 msgstr ""
 
-#. ~ Profession (Special Operator) description
+#. ~ Profession (male Special Operator) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were the best of the best, the military's finest. That's why you're "
 "still alive, even after all your comrades fell to the undead. As far as you "
@@ -38935,86 +39389,111 @@ msgid ""
 "the emergency evac."
 msgstr ""
 
-#. ~ Male profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Special Operator"
+msgstr ""
+
+#. ~ Profession (female Special Operator) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were the best of the best, the military's finest. That's why you're "
+"still alive, even after all your comrades fell to the undead. As far as you "
+"can tell, military command abandoned you in this hellhole when you missed "
+"the emergency evac."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Butler"
 msgstr ""
 
-#. ~ Female profession name
+#. ~ Profession (Butler) description
 #: lang/json/professions_from_json.py
-msgid "Maid"
-msgstr ""
-
-#. ~ Profession (Butler/Maid) description
-#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You worked in a wealthy household, but after the cataclysm they took a "
 "family vacation to an unknown place, leaving you to fend for yourself."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Medical Resident"
+msgctxt "profession_female"
+msgid "Maid"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (Maid) description
 #: lang/json/professions_from_json.py
-msgid "female Medical Resident"
+msgctxt "prof_desc_female"
+msgid ""
+"You worked in a wealthy household, but after the cataclysm they took a "
+"family vacation to an unknown place, leaving you to fend for yourself."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Medical Resident"
 msgstr ""
 
-#. ~ Profession (Medical Resident) description
+#. ~ Profession (male Medical Resident) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Fresh out of med school, you've got little in the way of practical "
 "experience. You just hope it will be enough if the old adage of 'Doctor, "
 "heal thyself' ends up being required."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Gangster"
+msgctxt "profession_female"
+msgid "Medical Resident"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Medical Resident) description
 #: lang/json/professions_from_json.py
-msgid "female Gangster"
+msgctxt "prof_desc_female"
+msgid ""
+"Fresh out of med school, you've got little in the way of practical "
+"experience. You just hope it will be enough if the old adage of 'Doctor, "
+"heal thyself' ends up being required."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Gangster"
 msgstr ""
 
-#. ~ Profession (Gangster) description
+#. ~ Profession (male Gangster) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "The boss always said he could rely on you to pull through on the tough jobs. "
 "A shame he didn't manage it, himself. No stranger to a spot of violence, you "
 "almost feel at home in this new world already."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Security Guard"
+msgctxt "profession_female"
+msgid "Gangster"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Gangster) description
 #: lang/json/professions_from_json.py
-msgid "female Security Guard"
+msgctxt "prof_desc_female"
+msgid ""
+"The boss always said he could rely on you to pull through on the tough jobs. "
+"A shame he didn't manage it, himself. No stranger to a spot of violence, you "
+"almost feel at home in this new world already."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Security Guard"
 msgstr ""
 
-#. ~ Profession (Security Guard) description
+#. ~ Profession (male Security Guard) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "A low paid security guard, things have suddenly gotten a lot more dangerous "
 "than patrolling the grounds warding off potential thieves. You don't have "
@@ -39022,23 +39501,29 @@ msgid ""
 "you were on the job when things started going south."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Survivalist"
+msgctxt "profession_female"
+msgid "Security Guard"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Security Guard) description
 #: lang/json/professions_from_json.py
-msgid "female Survivalist"
+msgctxt "prof_desc_female"
+msgid ""
+"A low paid security guard, things have suddenly gotten a lot more dangerous "
+"than patrolling the grounds warding off potential thieves. You don't have "
+"any particularly useful skills, but you do have some useful equipment since "
+"you were on the job when things started going south."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Survivalist"
 msgstr ""
 
-#. ~ Profession (Survivalist) description
+#. ~ Profession (male Survivalist) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Skilled at surviving off the land far from civilization, your skills are "
 "quite likely to come in useful considering civilization is now full of "
@@ -39046,69 +39531,85 @@ msgid ""
 "with your skills, more than you need... except your canteen's run out!"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Chain Smoker"
+msgctxt "profession_female"
+msgid "Survivalist"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Survivalist) description
 #: lang/json/professions_from_json.py
-msgid "female Chain Smoker"
+msgctxt "prof_desc_female"
+msgid ""
+"Skilled at surviving off the land far from civilization, your skills are "
+"quite likely to come in useful considering civilization is now full of "
+"monsters that want you dead. Your equipment is basic, but versatile - and "
+"with your skills, more than you need... except your canteen's run out!"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Chain Smoker"
 msgstr ""
 
-#. ~ Profession (Chain Smoker) description
+#. ~ Profession (male Chain Smoker) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Everyone at work knew you as the person who always had a cigarette or two in "
 "hand. Now, you're down to a single pack, and you hope you find more soon. "
 "You start out with a strong nicotine addiction."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Crackhead"
+msgctxt "profession_female"
+msgid "Chain Smoker"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Chain Smoker) description
 #: lang/json/professions_from_json.py
-msgid "female Crackhead"
+msgctxt "prof_desc_female"
+msgid ""
+"Everyone at work knew you as the person who always had a cigarette or two in "
+"hand. Now, you're down to a single pack, and you hope you find more soon. "
+"You start out with a strong nicotine addiction."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Crackhead"
 msgstr ""
 
-#. ~ Profession (Crackhead) description
+#. ~ Profession (male Crackhead) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Cocaine. It is, indeed, a helluva drug. You blew your money on some dust, "
 "and before you knew it you were turning tricks behind the local CVS just to "
 "score one more line."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Hobo"
+msgctxt "profession_female"
+msgid "Crackhead"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Crackhead) description
 #: lang/json/professions_from_json.py
-msgid "female Hobo"
+msgctxt "prof_desc_female"
+msgid ""
+"Cocaine. It is, indeed, a helluva drug. You blew your money on some dust, "
+"and before you knew it you were turning tricks behind the local CVS just to "
+"score one more line."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Hobo"
 msgstr ""
 
-#. ~ Profession (Hobo) description
+#. ~ Profession (male Hobo) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Society drove you to the fringes and set you wandering, with no home, no "
 "family, no friends, until you could only find solace in the bottom of a "
@@ -39116,46 +39617,57 @@ msgid ""
 "thrown your way, you're still standing. God damn, you need a drink."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Tweaker"
+msgctxt "profession_female"
+msgid "Hobo"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Hobo) description
 #: lang/json/professions_from_json.py
-msgid "female Tweaker"
+msgctxt "prof_desc_female"
+msgid ""
+"Society drove you to the fringes and set you wandering, with no home, no "
+"family, no friends, until you could only find solace in the bottom of a "
+"bottle. But society doesn't mean a thing anymore, and for all the crap "
+"thrown your way, you're still standing. God damn, you need a drink."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Tweaker"
 msgstr ""
 
-#. ~ Profession (Tweaker) description
+#. ~ Profession (male Tweaker) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You're not entirely sure what happened, but everything has gone to shit, and "
 "the only thing running through your head is where you're gonna find your "
 "next hit."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Cop"
+msgctxt "profession_female"
+msgid "Tweaker"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Tweaker) description
 #: lang/json/professions_from_json.py
-msgid "female Cop"
+msgctxt "prof_desc_female"
+msgid ""
+"You're not entirely sure what happened, but everything has gone to shit, and "
+"the only thing running through your head is where you're gonna find your "
+"next hit."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Cop"
 msgstr ""
 
-#. ~ Profession (Cop) description
+#. ~ Profession (male Cop) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Just a small-town deputy when you got the call, you were still ready to come "
 "to the rescue. Except that soon it was you who needed rescuing - you were "
@@ -39163,23 +39675,29 @@ msgid ""
 "the government this badge represents might not even exist anymore?"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Used Car Salesman"
+msgctxt "profession_female"
+msgid "Cop"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Cop) description
 #: lang/json/professions_from_json.py
-msgid "female Used Car Salesman"
+msgctxt "prof_desc_female"
+msgid ""
+"Just a small-town deputy when you got the call, you were still ready to come "
+"to the rescue. Except that soon it was you who needed rescuing - you were "
+"lucky to escape with your life. Who's going to respect your authority when "
+"the government this badge represents might not even exist anymore?"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Used Car Salesman"
 msgstr ""
 
-#. ~ Profession (Used Car Salesman) description
+#. ~ Profession (male Used Car Salesman) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You've been accused of being the sort of person who'd be willing to sell "
 "your own mother for a dollar. It always left you insulted - you've been "
@@ -39187,23 +39705,29 @@ msgid ""
 "and get it, too!"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Bow Hunter"
+msgctxt "profession_female"
+msgid "Used Car Salesman"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Used Car Salesman) description
 #: lang/json/professions_from_json.py
-msgid "female Bow Hunter"
+msgctxt "prof_desc_female"
+msgid ""
+"You've been accused of being the sort of person who'd be willing to sell "
+"your own mother for a dollar. It always left you insulted - you've been "
+"around the block a time or two, and you'd charge way more than a dollar - "
+"and get it, too!"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Bow Hunter"
 msgstr ""
 
-#. ~ Profession (Bow Hunter) description
+#. ~ Profession (male Bow Hunter) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Ever since you were a child you loved hunting, and you soon took a liking to "
 "the challenge of hunting with a bow. Why, if the world ended there's nothing "
@@ -39211,23 +39735,29 @@ msgid ""
 "made sure to bring it along."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Handy Man"
+msgctxt "profession_female"
+msgid "Bow Hunter"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Bow Hunter) description
 #: lang/json/professions_from_json.py
-msgid "female Handy Man"
+msgctxt "prof_desc_female"
+msgid ""
+"Ever since you were a child you loved hunting, and you soon took a liking to "
+"the challenge of hunting with a bow. Why, if the world ended there's nothing "
+"you'd want at your side more than your trusty bow. So when it did, you made "
+"made sure to bring it along."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Handy Man"
 msgstr ""
 
-#. ~ Profession (Handy Man) description
+#. ~ Profession (male Handy Man) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You used to work at a local hardware store, and you did a lot of home "
 "renovations yourself. Now you look out at the horizon of a ruined world, and "
@@ -39235,90 +39765,109 @@ msgid ""
 "out, sufficient to help it rebuild?"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Lumberjack"
+msgctxt "profession_female"
+msgid "Handy Man"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Handy Man) description
 #: lang/json/professions_from_json.py
-msgid "female Lumberjack"
+msgctxt "prof_desc_female"
+msgid ""
+"You used to work at a local hardware store, and you did a lot of home "
+"renovations yourself. Now you look out at the horizon of a ruined world, and "
+"wonder - are your meager skills, and the few supplies you grabbed on the way "
+"out, sufficient to help it rebuild?"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Lumberjack"
 msgstr ""
 
-#. ~ Profession (Lumberjack) description
+#. ~ Profession (male Lumberjack) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You're a lumberjack, and you're okay. You felled trees before before the "
 "world ended, but suspect the undead aren't nearly as tough."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Backpacker"
+msgctxt "profession_female"
+msgid "Lumberjack"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Lumberjack) description
 #: lang/json/professions_from_json.py
-msgid "female Backpacker"
+msgctxt "prof_desc_female"
+msgid ""
+"You're a lumberjack, and you're okay. You felled trees before before the "
+"world ended, but suspect the undead aren't nearly as tough."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Backpacker"
 msgstr ""
 
-#. ~ Profession (Backpacker) description
+#. ~ Profession (male Backpacker) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You've travelled for a living, sightseeing here and there, and living off "
 "your parents' trust fund. But now they're gone, and the only thing between "
 "you and death is the open road and your backpack."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Fast Food Cook"
+msgctxt "profession_female"
+msgid "Backpacker"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Backpacker) description
 #: lang/json/professions_from_json.py
-msgid "female Fast Food Cook"
+msgctxt "prof_desc_female"
+msgid ""
+"You've travelled for a living, sightseeing here and there, and living off "
+"your parents' trust fund. But now they're gone, and the only thing between "
+"you and death is the open road and your backpack."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Fast Food Cook"
 msgstr ""
 
-#. ~ Profession (Fast Food Cook) description
+#. ~ Profession (male Fast Food Cook) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You used to work at a fancy fast food joint a week ago, but now you show the "
 "meaning of \"fast\" food by running for your life."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Electrician"
+msgctxt "profession_female"
+msgid "Fast Food Cook"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Fast Food Cook) description
 #: lang/json/professions_from_json.py
-msgid "female Electrician"
+msgctxt "prof_desc_female"
+msgid ""
+"You used to work at a fancy fast food joint a week ago, but now you show the "
+"meaning of \"fast\" food by running for your life."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Electrician"
 msgstr ""
 
-#. ~ Profession (Electrician) description
+#. ~ Profession (male Electrician) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You used to work for some small-time business owners doing minor electrical "
 "work, and you just so happened to be working on one of these jokes of an "
@@ -39326,23 +39875,29 @@ msgid ""
 "wiring anything up except the computer - fat lot of good it's doing you now."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Computer Hacker"
+msgctxt "profession_female"
+msgid "Electrician"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Electrician) description
 #: lang/json/professions_from_json.py
-msgid "female Computer Hacker"
+msgctxt "prof_desc_female"
+msgid ""
+"You used to work for some small-time business owners doing minor electrical "
+"work, and you just so happened to be working on one of these jokes of an "
+"evac shelter when the cataclysm struck. Unfortunately, you didn't finish "
+"wiring anything up except the computer - fat lot of good it's doing you now."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Computer Hacker"
 msgstr ""
 
-#. ~ Profession (Computer Hacker) description
+#. ~ Profession (male Computer Hacker) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Caffeine pills and all-nighters in front of a computer screen have given you "
 "skills in an area that seem, on the face of it, distinctly less-than-useful "
@@ -39351,182 +39906,222 @@ msgid ""
 "plus."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Student"
+msgctxt "profession_female"
+msgid "Computer Hacker"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Computer Hacker) description
 #: lang/json/professions_from_json.py
-msgid "female Student"
+msgctxt "prof_desc_female"
+msgid ""
+"Caffeine pills and all-nighters in front of a computer screen have given you "
+"skills in an area that seem, on the face of it, distinctly less-than-useful "
+"when the world has ended. You suppose you can't really get in trouble for "
+"fulfilling your dream of hacking into a military mainframe, now. That's a "
+"plus."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Student"
 msgstr ""
 
-#. ~ Profession (Student) description
+#. ~ Profession (male Student) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were a high school student, but the tests you'll face now will have much "
 "higher stakes. There might even be something useful in one of these books "
 "you've been lugging around all year."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Shower Victim"
+msgctxt "profession_female"
+msgid "Student"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Student) description
 #: lang/json/professions_from_json.py
-msgid "female Shower Victim"
+msgctxt "prof_desc_female"
+msgid ""
+"You were a high school student, but the tests you'll face now will have much "
+"higher stakes. There might even be something useful in one of these books "
+"you've been lugging around all year."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Shower Victim"
 msgstr ""
 
-#. ~ Profession (Shower Victim) description
+#. ~ Profession (male Shower Victim) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were in the middle of a nice, hot shower when the cataclysm struck! You "
 "barely managed to escape with some soap and the most massively useful thing "
 "ever... a towel."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Biker"
+msgctxt "profession_female"
+msgid "Shower Victim"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Shower Victim) description
 #: lang/json/professions_from_json.py
-msgid "female Biker"
+msgctxt "prof_desc_female"
+msgid ""
+"You were in the middle of a nice, hot shower when the cataclysm struck! You "
+"barely managed to escape with some soap and the most massively useful thing "
+"ever... a towel."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Biker"
 msgstr ""
 
-#. ~ Profession (Biker) description
+#. ~ Profession (male Biker) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You spent most of your life on a Harley, and it's only natural you spend the "
 "rest of it riding one."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Ballroom Dancer"
+msgctxt "profession_female"
+msgid "Biker"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Biker) description
 #: lang/json/professions_from_json.py
-msgid "female Ballroom Dancer"
+msgctxt "prof_desc_female"
+msgid ""
+"You spent most of your life on a Harley, and it's only natural you spend the "
+"rest of it riding one."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Ballroom Dancer"
 msgstr ""
 
-#. ~ Profession (Ballroom Dancer) description
+#. ~ Profession (male Ballroom Dancer) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You used to be a ballroom dancer before the cataclysm, and now you use your "
 "skills to save your life."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Bionic Thief"
+msgctxt "profession_female"
+msgid "Ballroom Dancer"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Ballroom Dancer) description
 #: lang/json/professions_from_json.py
-msgid "female Bionic Thief"
+msgctxt "prof_desc_female"
+msgid ""
+"You used to be a ballroom dancer before the cataclysm, and now you use your "
+"skills to save your life."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Bionic Thief"
 msgstr ""
 
-#. ~ Profession (Bionic Thief) description
+#. ~ Profession (male Bionic Thief) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You have done many high profile heists, but your gains mean nothing in this "
 "world. All you have left are the tools of your trade and your impeccable "
 "style."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Bionic Patient"
+msgctxt "profession_female"
+msgid "Bionic Thief"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Bionic Thief) description
 #: lang/json/professions_from_json.py
-msgid "female Bionic Patient"
+msgctxt "prof_desc_female"
+msgid ""
+"You have done many high profile heists, but your gains mean nothing in this "
+"world. All you have left are the tools of your trade and your impeccable "
+"style."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Bionic Patient"
 msgstr ""
 
-#. ~ Profession (Bionic Patient) description
+#. ~ Profession (male Bionic Patient) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Medical advances have saved your body from certain death. You are augmented "
 "with bionic muscles and sensors monitoring your blood powered by your own "
 "metabolism. Make the most of your second chance at life."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Bionic Soldier"
+msgctxt "profession_female"
+msgid "Bionic Patient"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Bionic Patient) description
 #: lang/json/professions_from_json.py
-msgid "female Bionic Soldier"
+msgctxt "prof_desc_female"
+msgid ""
+"Medical advances have saved your body from certain death. You are augmented "
+"with bionic muscles and sensors monitoring your blood powered by your own "
+"metabolism. Make the most of your second chance at life."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Bionic Soldier"
 msgstr ""
 
-#. ~ Profession (Bionic Soldier) description
+#. ~ Profession (male Bionic Soldier) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You are the result of one of the military's latest and final research "
 "programs, a prototype cyborg soldier. You're still alive thanks to your "
 "augmentations, even after all your comrades fell to the undead."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Bionic Agent"
+msgctxt "profession_female"
+msgid "Bionic Soldier"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Bionic Soldier) description
 #: lang/json/professions_from_json.py
-msgid "female Bionic Agent"
+msgctxt "prof_desc_female"
+msgid ""
+"You are the result of one of the military's latest and final research "
+"programs, a prototype cyborg soldier. You're still alive thanks to your "
+"augmentations, even after all your comrades fell to the undead."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Bionic Agent"
 msgstr ""
 
-#. ~ Profession (Bionic Agent) description
+#. ~ Profession (male Bionic Agent) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Your body has several bionics worth millions of dollars, paid for by public "
 "taxes. The government has turned you into an infiltration and recon "
@@ -39534,69 +40129,85 @@ msgid ""
 "runs off piles and piles of everyday household batteries."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Bionic Assassin"
+msgctxt "profession_female"
+msgid "Bionic Agent"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Bionic Agent) description
 #: lang/json/professions_from_json.py
-msgid "female Bionic Assassin"
+msgctxt "prof_desc_female"
+msgid ""
+"Your body has several bionics worth millions of dollars, paid for by public "
+"taxes. The government has turned you into an infiltration and recon "
+"specialist: you have night vision, an alarm and a hacking module. And it all "
+"runs off piles and piles of everyday household batteries."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Bionic Assassin"
 msgstr ""
 
-#. ~ Profession (Bionic Assassin) description
+#. ~ Profession (male Bionic Assassin) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "The product of millions of dollars of clandestine research, you are a bionic "
 "sleeper agent capable of silently eliminating your target while maintaining "
 "an innocuous appearance."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Failed Cyborg"
+msgctxt "profession_female"
+msgid "Bionic Assassin"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Bionic Assassin) description
 #: lang/json/professions_from_json.py
-msgid "female Failed Cyborg"
+msgctxt "prof_desc_female"
+msgid ""
+"The product of millions of dollars of clandestine research, you are a bionic "
+"sleeper agent capable of silently eliminating your target while maintaining "
+"an innocuous appearance."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Failed Cyborg"
 msgstr ""
 
-#. ~ Profession (Failed Cyborg) description
+#. ~ Profession (male Failed Cyborg) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Your body is a wreck of bionic parts. You have a large capacity for power, "
 "but are filled with broken bionics. At least your ethanol power supply still "
 "works."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Commercial Cyborg"
+msgctxt "profession_female"
+msgid "Failed Cyborg"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Failed Cyborg) description
 #: lang/json/professions_from_json.py
-msgid "female Commercial Cyborg"
+msgctxt "prof_desc_female"
+msgid ""
+"Your body is a wreck of bionic parts. You have a large capacity for power, "
+"but are filled with broken bionics. At least your ethanol power supply still "
+"works."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Commercial Cyborg"
 msgstr ""
 
-#. ~ Profession (Commercial Cyborg) description
+#. ~ Profession (male Commercial Cyborg) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You always had to have the latest and best gadgets and gizmos, so is it any "
 "wonder that you upgraded your flesh along with your smart phone? Only time "
@@ -39604,308 +40215,385 @@ msgid ""
 "ensure your survival after the apocalypse."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Hitchhiker"
+msgctxt "profession_female"
+msgid "Commercial Cyborg"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Commercial Cyborg) description
 #: lang/json/professions_from_json.py
-msgid "female Hitchhiker"
+msgctxt "prof_desc_female"
+msgid ""
+"You always had to have the latest and best gadgets and gizmos, so is it any "
+"wonder that you upgraded your flesh along with your smart phone? Only time "
+"will tell if your status as a marvel of bionic technology will be enough to "
+"ensure your survival after the apocalypse."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Hitchhiker"
 msgstr ""
 
-#. ~ Profession (Hitchhiker) description
+#. ~ Profession (male Hitchhiker) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Your house has been demolished and your planet destroyed, but at least you "
 "still have your towel."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Trapper"
+msgctxt "profession_female"
+msgid "Hitchhiker"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Hitchhiker) description
 #: lang/json/professions_from_json.py
-msgid "female Trapper"
+msgctxt "prof_desc_female"
+msgid ""
+"Your house has been demolished and your planet destroyed, but at least you "
+"still have your towel."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Trapper"
 msgstr ""
 
-#. ~ Profession (Trapper) description
+#. ~ Profession (male Trapper) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You spent most of your life trapping with your father. Both of you made a "
 "decent living off of your catches, and trapping tutorials. Hopefully, your "
 "skills will come in useful against less conventional game."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Blacksmith"
+msgctxt "profession_female"
+msgid "Trapper"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Trapper) description
 #: lang/json/professions_from_json.py
-msgid "female Blacksmith"
+msgctxt "prof_desc_female"
+msgid ""
+"You spent most of your life trapping with your father. Both of you made a "
+"decent living off of your catches, and trapping tutorials. Hopefully, your "
+"skills will come in useful against less conventional game."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Blacksmith"
 msgstr ""
 
-#. ~ Profession (Blacksmith) description
+#. ~ Profession (male Blacksmith) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were going through your community college's metalsmithing program when "
 "the world ended. You ran into trouble coming out of class - but managed to "
 "keep ahold of the equipment you were carrying at the time."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Clown"
+msgctxt "profession_female"
+msgid "Blacksmith"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Blacksmith) description
 #: lang/json/professions_from_json.py
-msgid "female Clown"
+msgctxt "prof_desc_female"
+msgid ""
+"You were going through your community college's metalsmithing program when "
+"the world ended. You ran into trouble coming out of class - but managed to "
+"keep ahold of the equipment you were carrying at the time."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Clown"
 msgstr ""
 
-#. ~ Profession (Clown) description
+#. ~ Profession (male Clown) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "All you ever wanted was to make people laugh. Dropping out of school and "
 "performing at kids' parties was a dream come true until the world ended. "
 "There's precious few balloon animals in your future now."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Lost Submissive"
+msgctxt "profession_female"
+msgid "Clown"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Clown) description
 #: lang/json/professions_from_json.py
-msgid "female Lost Submissive"
+msgctxt "prof_desc_female"
+msgid ""
+"All you ever wanted was to make people laugh. Dropping out of school and "
+"performing at kids' parties was a dream come true until the world ended. "
+"There's precious few balloon animals in your future now."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Lost Submissive"
 msgstr ""
 
-#. ~ Profession (Lost Submissive) description
+#. ~ Profession (male Lost Submissive) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Early in the rush to safety, you were separated from your master by cruel "
 "fate. Now you are on your own with nothing to your name but a suit of really "
 "kinky black leather. Unfortunately, there's no safewords in the apocalypse."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Senior Citizen"
+msgctxt "profession_female"
+msgid "Lost Submissive"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Lost Submissive) description
 #: lang/json/professions_from_json.py
-msgid "female Senior Citizen"
+msgctxt "prof_desc_female"
+msgid ""
+"Early in the rush to safety, you were separated from your master by cruel "
+"fate. Now you are on your own with nothing to your name but a suit of really "
+"kinky black leather. Unfortunately, there's no safewords in the apocalypse."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Senior Citizen"
 msgstr ""
 
-#. ~ Profession (Senior Citizen) description
+#. ~ Profession (male Senior Citizen) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You haven't seen this much blood since the war. The whole world's gone "
 "crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for "
 "what they've done."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Otaku"
+msgctxt "profession_female"
+msgid "Senior Citizen"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Senior Citizen) description
 #: lang/json/professions_from_json.py
-msgid "female Otaku"
+msgctxt "prof_desc_female"
+msgid ""
+"You haven't seen this much blood since the war. The whole world's gone "
+"crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for "
+"what they've done."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Otaku"
 msgstr ""
 
-#. ~ Profession (Otaku) description
+#. ~ Profession (male Otaku) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Late nights with friends watching anime and eating snacks has prepared you "
 "for the premier anime convention in the Northeast.  It just had to be the "
 "day of the apocalypse.  At least you were ready in case your costume tore."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Hockey Player"
+msgctxt "profession_female"
+msgid "Otaku"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Otaku) description
 #: lang/json/professions_from_json.py
-msgid "female Hockey Player"
+msgctxt "prof_desc_female"
+msgid ""
+"Late nights with friends watching anime and eating snacks has prepared you "
+"for the premier anime convention in the Northeast.  It just had to be the "
+"day of the apocalypse.  At least you were ready in case your costume tore."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Hockey Player"
 msgstr ""
 
-#. ~ Profession (Hockey Player) description
+#. ~ Profession (male Hockey Player) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were a minor-league hockey goalie before the rest of your team became "
 "zombies. It's just you and your hockey equipment versus the undead, but at "
 "least you can cross-check them now."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Baseball Player"
+msgctxt "profession_female"
+msgid "Hockey Player"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Hockey Player) description
 #: lang/json/professions_from_json.py
-msgid "female Baseball Player"
+msgctxt "prof_desc_female"
+msgid ""
+"You were a minor-league hockey goalie before the rest of your team became "
+"zombies. It's just you and your hockey equipment versus the undead, but at "
+"least you can cross-check them now."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Baseball Player"
 msgstr ""
 
-#. ~ Profession (Baseball Player) description
+#. ~ Profession (male Baseball Player) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were a batter on a local minor league team before the cataclysm. You "
 "escaped with your equipment, but how long can you survive until your innings "
 "are up?"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Football Player"
+msgctxt "profession_female"
+msgid "Baseball Player"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Baseball Player) description
 #: lang/json/professions_from_json.py
-msgid "female Football Player"
+msgctxt "prof_desc_female"
+msgid ""
+"You were a batter on a local minor league team before the cataclysm. You "
+"escaped with your equipment, but how long can you survive until your innings "
+"are up?"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Football Player"
 msgstr ""
 
-#. ~ Profession (Football Player) description
+#. ~ Profession (male Football Player) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were the star player for the local football team, adored by teammates "
 "and fans alike. Now they just adore your brain. You've still got your bulky "
 "football gear on."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Golfer"
+msgctxt "profession_female"
+msgid "Football Player"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Football Player) description
 #: lang/json/professions_from_json.py
-msgid "female Golfer"
+msgctxt "prof_desc_female"
+msgid ""
+"You were the star player for the local football team, adored by teammates "
+"and fans alike. Now they just adore your brain. You've still got your bulky "
+"football gear on."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Golfer"
 msgstr ""
 
-#. ~ Profession (Golfer) description
+#. ~ Profession (male Golfer) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "A birdie is one under par, but how much is a zombie? Your clubhouse was "
 "overrun by the undead, and you fled with your trusty driving wedge."
 msgstr ""
 
-#. ~ Male profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Golfer"
+msgstr ""
+
+#. ~ Profession (female Golfer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"A birdie is one under par, but how much is a zombie? Your clubhouse was "
+"overrun by the undead, and you fled with your trusty driving wedge."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Groom"
 msgstr ""
 
-#. ~ Female profession name
+#. ~ Profession (Groom) description
 #: lang/json/professions_from_json.py
-msgid "Bride"
-msgstr ""
-
-#. ~ Profession (Groom/Bride) description
-#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "The cataclysm struck on the big day and you escaped with nothing but your "
 "wedding attire. Cold feet? You'd just like to keep your feet attached!"
 msgstr ""
 
-#. ~ Male profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bride"
+msgstr ""
+
+#. ~ Profession (Bride) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"The cataclysm struck on the big day and you escaped with nothing but your "
+"wedding attire. Cold feet? You'd just like to keep your feet attached!"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Punk Rock Dude"
 msgstr ""
 
-#. ~ Female profession name
+#. ~ Profession (Punk Rock Dude) description
 #: lang/json/professions_from_json.py
-msgid "Punk Rock Girl"
-msgstr ""
-
-#. ~ Profession (Punk Rock Dude/Punk Rock Girl) description
-#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "The apocalypse has been your psychotic dream come true. Now that the system "
 "is dead, it's time to party among the bones of the world!"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Firefighter"
+msgctxt "profession_female"
+msgid "Punk Rock Girl"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (Punk Rock Girl) description
 #: lang/json/professions_from_json.py
-msgid "female Firefighter"
+msgctxt "prof_desc_female"
+msgid ""
+"The apocalypse has been your psychotic dream come true. Now that the system "
+"is dead, it's time to party among the bones of the world!"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Firefighter"
 msgstr ""
 
-#. ~ Profession (Firefighter) description
+#. ~ Profession (male Firefighter) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "As a first responder you were direct witness to the gutwrenching horrors of "
 "the apocalypse. Separated from most of your equipment and your unit while on "
@@ -39913,79 +40601,107 @@ msgid ""
 "trusty iron and bunker gear to protect you."
 msgstr ""
 
-#. ~ Male profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Firefighter"
+msgstr ""
+
+#. ~ Profession (female Firefighter) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"As a first responder you were direct witness to the gutwrenching horrors of "
+"the apocalypse. Separated from most of your equipment and your unit while on "
+"call, you were forced to fight your way to safety with little more than your "
+"trusty iron and bunker gear to protect you."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Rude Boy"
 msgstr ""
 
-#. ~ Female profession name
+#. ~ Profession (Rude Boy) description
 #: lang/json/professions_from_json.py
-msgid "Rude Girl"
-msgstr ""
-
-#. ~ Profession (Rude Boy/Rude Girl) description
-#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Your ska band broke up after the drummer became a zombie, now you're alone "
 "in the cataclysm with some cigarettes and your mp3 player."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Mail Carrier"
+msgctxt "profession_female"
+msgid "Rude Girl"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (Rude Girl) description
 #: lang/json/professions_from_json.py
-msgid "female Mail Carrier"
+msgctxt "prof_desc_female"
+msgid ""
+"Your ska band broke up after the drummer became a zombie, now you're alone "
+"in the cataclysm with some cigarettes and your mp3 player."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Mail Carrier"
 msgstr ""
 
-#. ~ Profession (Mail Carrier) description
+#. ~ Profession (male Mail Carrier) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Your skill at avoiding dogs and discarded children's toys while delivering "
 "the mail gives you an edge in your new role as a survivor."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Convict"
+msgctxt "profession_female"
+msgid "Mail Carrier"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Mail Carrier) description
 #: lang/json/professions_from_json.py
-msgid "female Convict"
+msgctxt "prof_desc_female"
+msgid ""
+"Your skill at avoiding dogs and discarded children's toys while delivering "
+"the mail gives you an edge in your new role as a survivor."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Convict"
 msgstr ""
 
-#. ~ Profession (Convict) description
+#. ~ Profession (male Convict) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "The cataclysm gave you a chance to escape, but freedom comes with a steep "
 "price."
 msgstr ""
 
-#. ~ Male profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Convict"
+msgstr ""
+
+#. ~ Profession (female Convict) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"The cataclysm gave you a chance to escape, but freedom comes with a steep "
+"price."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Razor Boy"
 msgstr ""
 
-#. ~ Female profession name
+#. ~ Profession (Razor Boy) description
 #: lang/json/professions_from_json.py
-msgid "Razor Girl"
-msgstr ""
-
-#. ~ Profession (Razor Boy/Razor Girl) description
-#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Through a series of painful and expensive surgeries you became a walking "
 "bionic weapon, your services as a mercenary available to the highest bidder. "
@@ -39993,23 +40709,29 @@ msgid ""
 "difference between life and death."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Cyberjunkie"
+msgctxt "profession_female"
+msgid "Razor Girl"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (Razor Girl) description
 #: lang/json/professions_from_json.py
-msgid "female Cyberjunkie"
+msgctxt "prof_desc_female"
+msgid ""
+"Through a series of painful and expensive surgeries you became a walking "
+"bionic weapon, your services as a mercenary available to the highest bidder. "
+"Now that the world has ended, those bionic enhancements may spell the "
+"difference between life and death."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Cyberjunkie"
 msgstr ""
 
-#. ~ Profession (Cyberjunkie) description
+#. ~ Profession (male Cyberjunkie) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Long ago your lifelong infatuation with bionic enhancement lead you into a "
 "shady world of back-alley bionic clinics and self-installed secondhand CBMs. "
@@ -40017,23 +40739,29 @@ msgid ""
 "where will you get your bionic fix now?"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Bionic Monster"
+msgctxt "profession_female"
+msgid "Cyberjunkie"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Cyberjunkie) description
 #: lang/json/professions_from_json.py
-msgid "female Bionic Monster"
+msgctxt "prof_desc_female"
+msgid ""
+"Long ago your lifelong infatuation with bionic enhancement lead you into a "
+"shady world of back-alley bionic clinics and self-installed secondhand CBMs. "
+"The world has moved on but your posthuman hunger still cries out to be fed; "
+"where will you get your bionic fix now?"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Bionic Monster"
 msgstr ""
 
-#. ~ Profession (Bionic Monster) description
+#. ~ Profession (male Bionic Monster) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Completely overtaken by bionic-induced psychosis, you are a deformed "
 "posthuman monster who had no place in society. But now, where once you were "
@@ -40041,106 +40769,133 @@ msgid ""
 "even a creature such as yourself might find its niche."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Lawyer"
+msgctxt "profession_female"
+msgid "Bionic Monster"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Bionic Monster) description
 #: lang/json/professions_from_json.py
-msgid "female Lawyer"
+msgctxt "prof_desc_female"
+msgid ""
+"Completely overtaken by bionic-induced psychosis, you are a deformed "
+"posthuman monster who had no place in society. But now, where once you were "
+"forced to hide in the shadows, you find in this new desolation a world where "
+"even a creature such as yourself might find its niche."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Lawyer"
 msgstr ""
 
-#. ~ Profession (Lawyer) description
+#. ~ Profession (male Lawyer) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "Now instead of complaining about your fees, your clients try to eat your "
 "brain. You can't tell which one is worse though."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Novice Martial Artist"
+msgctxt "profession_female"
+msgid "Lawyer"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Lawyer) description
 #: lang/json/professions_from_json.py
-msgid "female Novice Martial Artist"
+msgctxt "prof_desc_female"
+msgid ""
+"Now instead of complaining about your fees, your clients try to eat your "
+"brain. You can't tell which one is worse though."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Novice Martial Artist"
 msgstr ""
 
-#. ~ Profession (Novice Martial Artist) description
+#. ~ Profession (male Novice Martial Artist) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were on your way to the dojo for your first lesson when the world ended. "
 "And you really wanted to learn how to swim, too."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Martial Artist"
+msgctxt "profession_female"
+msgid "Novice Martial Artist"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Novice Martial Artist) description
 #: lang/json/professions_from_json.py
-msgid "female Martial Artist"
+msgctxt "prof_desc_female"
+msgid ""
+"You were on your way to the dojo for your first lesson when the world ended. "
+"And you really wanted to learn how to swim, too."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Martial Artist"
 msgstr ""
 
-#. ~ Profession (Martial Artist) description
+#. ~ Profession (male Martial Artist) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "'Drop the martial arts!', they said. 'Learn a skill for the REAL world!', "
 "they said. Well, you're about to show them! SHOW THEM ALL!"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Blackbelt"
+msgctxt "profession_female"
+msgid "Martial Artist"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Martial Artist) description
 #: lang/json/professions_from_json.py
-msgid "female Blackbelt"
+msgctxt "prof_desc_female"
+msgid ""
+"'Drop the martial arts!', they said. 'Learn a skill for the REAL world!', "
+"they said. Well, you're about to show them! SHOW THEM ALL!"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Blackbelt"
 msgstr ""
 
-#. ~ Profession (Blackbelt) description
+#. ~ Profession (male Blackbelt) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "As the world ends, you alone stand against the coming darkness with your "
 "fists of steel."
 msgstr ""
 
-#. ~ Male profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Blackbelt"
+msgstr ""
+
+#. ~ Profession (female Blackbelt) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"As the world ends, you alone stand against the coming darkness with your "
+"fists of steel."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Pizza Delivery Boy"
 msgstr ""
 
-#. ~ Female profession name
+#. ~ Profession (Pizza Delivery Boy) description
 #: lang/json/professions_from_json.py
-msgid "Pizza Delivery Girl"
-msgstr ""
-
-#. ~ Profession (Pizza Delivery Boy/Pizza Delivery Girl) description
-#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "You were delivering the last pizza of the night to the local cryogenics lab "
 "when the cataclysm hit. Fleeing to the nearest shelter, you find yourself "
@@ -40148,46 +40903,71 @@ msgid ""
 "tip!"
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Archaeologist"
+msgctxt "profession_female"
+msgid "Pizza Delivery Girl"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (Pizza Delivery Girl) description
 #: lang/json/professions_from_json.py
-msgid "female Archaeologist"
+msgctxt "prof_desc_female"
+msgid ""
+"You were delivering the last pizza of the night to the local cryogenics lab "
+"when the cataclysm hit. Fleeing to the nearest shelter, you find yourself "
+"with only your wits and some leftover pizza. And they didn't even leave a "
+"tip!"
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Archaeologist"
 msgstr ""
 
-#. ~ Profession (Archaeologist) description
+#. ~ Profession (male Archaeologist) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
 msgid ""
 "While on your way to a long-lost temple following a clue from your dead "
 "grandfather's journal, the ground started to shake uncontrollably. Getting a "
 "bad feeling about the situation, you head to the nearest shelter."
 msgstr ""
 
-#. ~ Male profession name (optional)
 #: lang/json/professions_from_json.py
-msgid "male Farmer"
+msgctxt "profession_female"
+msgid "Archaeologist"
 msgstr ""
 
-#. ~ Female profession name (optional)
+#. ~ Profession (female Archaeologist) description
 #: lang/json/professions_from_json.py
-msgid "female Farmer"
+msgctxt "prof_desc_female"
+msgid ""
+"While on your way to a long-lost temple following a clue from your dead "
+"grandfather's journal, the ground started to shake uncontrollably. Getting a "
+"bad feeling about the situation, you head to the nearest shelter."
 msgstr ""
 
-#. ~ Profession name
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Farmer"
 msgstr ""
 
-#. ~ Profession (Farmer) description
+#. ~ Profession (male Farmer) description
 #: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were making a living by raising crops, when the cataclysm struck.  Now, "
+"with your trusty hoe and some seeds it's time to rebuild the Earth, one "
+"plant at a time."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Farmer"
+msgstr ""
+
+#. ~ Profession (female Farmer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
 msgid ""
 "You were making a living by raising crops, when the cataclysm struck.  Now, "
 "with your trusty hoe and some seeds it's time to rebuild the Earth, one "
@@ -42329,7 +43109,7 @@ msgstr ""
 
 #: lang/json/technique_from_json.py
 #, python-format
-msgid "You block %s"
+msgid "You parry %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -42342,7 +43122,17 @@ msgid "Block"
 msgstr ""
 
 #: lang/json/technique_from_json.py
+#, python-format
+msgid "You block %s"
+msgstr ""
+
+#: lang/json/technique_from_json.py
 msgid "Shield"
+msgstr ""
+
+#: lang/json/technique_from_json.py
+#, python-format
+msgid "You shield against %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -45165,16 +45955,18 @@ msgid ""
 "Anxiety, nausea, hallucinations, and general malaise."
 msgstr ""
 
-#: src/advanced_inv.cpp
-msgid "Name (charges)"
-msgstr ""
-
+#. ~ Items list header. Table fields length without spaces: amt - 4, weight - 5, vol - 4.
 #: src/advanced_inv.cpp
 msgid "amt weight vol"
 msgstr ""
 
+#. ~ Items list header. Table fields length without spaces: src - 2, amt - 4, weight - 5, vol - 4.
 #: src/advanced_inv.cpp
 msgid "src amt weight vol"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Name (charges)"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -46705,6 +47497,10 @@ msgid "Removing bionics requires a cutting tool and a first aid kit."
 msgstr ""
 
 #: src/bionics.cpp
+msgid "Removing your Fusion Blaster Arm would leave you with a useless stump."
+msgstr ""
+
+#: src/bionics.cpp
 #, c-format
 msgid "WARNING: %i percent chance of SEVERE bodily damage! Remove anyway?"
 msgstr ""
@@ -48152,13 +48948,13 @@ msgid "You can't do that!"
 msgstr ""
 
 #: src/crafting.cpp
-msgid ""
-"Search tools or component using prefix t and c. \n"
-"(i.e. \"t:hammer\" or \"c:two by four\".)"
+msgid "Search:"
 msgstr ""
 
 #: src/crafting.cpp
-msgid "Search:"
+msgid ""
+"Search tools or component using prefix t and c. \n"
+"(i.e. \"t:hammer\" or \"c:two by four\".)"
 msgstr ""
 
 #: src/crafting.cpp
@@ -48437,6 +49233,10 @@ msgstr ""
 
 #: src/crafting.cpp
 msgid "You don't have that item!"
+msgstr ""
+
+#: src/crafting.cpp
+msgid "It's rotten, I'm not taking that apart."
 msgstr ""
 
 #: src/crafting.cpp
@@ -52590,6 +53390,10 @@ msgid "swarm of bees"
 msgstr ""
 
 #: src/field.cpp
+msgid "airborne incendiary"
+msgstr ""
+
+#: src/field.cpp
 msgid "Man, that smells like some good shit!"
 msgstr ""
 
@@ -52691,6 +53495,14 @@ msgstr ""
 
 #: src/field.cpp
 msgid "The bees sting you all over your body!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The incendiary burns you!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The incendiary melts into your skin!"
 msgstr ""
 
 #: src/field.cpp src/trapfunc.cpp
@@ -53916,10 +54728,6 @@ msgstr ""
 
 #: src/game.cpp
 msgid "The nearby doors slide open!"
-msgstr ""
-
-#: src/game.cpp src/iexamine.cpp
-msgid "Nothing happens."
 msgstr ""
 
 #: src/game.cpp
@@ -57320,12 +58128,12 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "A spiderling brusts from the %s!"
+msgid "A spiderling bursts from the %s!"
 msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Spiderlings brust from the %s!"
+msgid "Spiderlings burst from the %s!"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -57565,6 +58373,11 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "That looks too dangerous to mess with. Best leave it alone."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "There is a %s there. Take down?"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -59566,6 +60379,35 @@ msgid "You try to light a fire, but fail."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "The lighter is extinguished."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "The lighter burns out."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "The %s winks out."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "extinguish"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "cancel"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "light something"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You extinguish the lighter."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You can't see to sew!"
 msgstr ""
 
@@ -59592,6 +60434,10 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "Your %s is not made of fabric, leather or fur."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This can be used to repair other items, not itself."
 msgstr ""
 
 #: src/iuse.cpp
@@ -60755,7 +61601,8 @@ msgid "CHNK! CHNK! CHNK!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Place trap where?"
+#, c-format
+msgid "Place %s where?"
 msgstr ""
 
 #: src/iuse.cpp
@@ -60905,6 +61752,10 @@ msgid "The geiger counter clicks steadily."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "The geiger counter clicks slowly."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "The geiger counter clicks intermittently."
 msgstr ""
 
@@ -61017,6 +61868,14 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You set the timer to %d."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Tick!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You've already released the handle, try throwing it instead."
 msgstr ""
 
 #: src/iuse.cpp
@@ -61282,10 +62141,6 @@ msgid "Turn off light"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "cancel"
-msgstr ""
-
-#: src/iuse.cpp
 msgid "You turn off the light"
 msgstr ""
 
@@ -61513,7 +62368,7 @@ msgid "You can't cut that."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Pitch the tent where?"
+msgid "Pitch the tent towards where (3x3 clear area)?"
 msgstr ""
 
 #: src/iuse.cpp
@@ -61521,7 +62376,11 @@ msgid "Invalid Direction"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You need a 3x3 flat space to place a tent"
+msgid "You need a 3x3 flat space to place a tent."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You set up the tent on the ground."
 msgstr ""
 
 #: src/iuse.cpp
@@ -61529,7 +62388,7 @@ msgid "Put up the shelter where?"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You need a 3x3 flat space to place a shelter"
+msgid "You need a 3x3 flat space to place a shelter."
 msgstr ""
 
 #: src/iuse.cpp
@@ -61543,14 +62402,6 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "The %s winks out"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "extinguish"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "light something"
 msgstr ""
 
 #: src/iuse.cpp
@@ -63614,6 +64465,11 @@ msgstr ""
 
 #: src/map.cpp
 msgid "A nearby corpse rises and moves towards you!"
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "You take down the %s."
 msgstr ""
 
 #: src/map.cpp
@@ -67047,10 +67903,19 @@ msgstr[1] ""
 msgid "Your profession of %s prevents you from taking this trait."
 msgstr ""
 
+#. ~ 1s - profession name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
-msgid "Profession %1$s %2$s %3$d point (net: %4$d)"
-msgid_plural "Profession %1$s %2$s %3$d points (net: %4$d)"
+msgid "Profession %1$s earns %2$d point"
+msgid_plural "Profession %1$s earns %2$d points"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ 1s - profession name, 2d - current character points.
+#: src/newcharacter.cpp
+#, c-format
+msgid "Profession %1$s cost %2$d point"
+msgid_plural "Profession %1$s cost %2$d points"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -67080,9 +67945,15 @@ msgstr ""
 msgid "%1$s (%2$d)"
 msgstr ""
 
+#. ~ Gender switch message. 1s - change key name, 2s - profession name.
 #: src/newcharacter.cpp
 #, c-format
-msgid "Press %1$s to switch to %2$s."
+msgid "Press %1$s to switch to %2$s(female)."
+msgstr ""
+
+#: src/newcharacter.cpp
+#, c-format
+msgid "Press %1$s to switch to %2$s(male)."
 msgstr ""
 
 #: src/newcharacter.cpp
@@ -71165,6 +72036,10 @@ msgid "Ate Junk Food"
 msgstr ""
 
 #: src/player.cpp
+msgid "Ate Indigestible Food"
+msgstr ""
+
+#: src/player.cpp
 msgid "Wet"
 msgstr ""
 
@@ -71215,6 +72090,11 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Bad Tempered"
+msgstr ""
+
+#. ~ You really don't like wearing the Uncomfy Gear
+#: src/player.cpp
+msgid "Uncomfy Gear"
 msgstr ""
 
 #: src/player.cpp
@@ -72188,6 +73068,10 @@ msgid "You're drowning!"
 msgstr ""
 
 #: src/player.cpp
+msgid "This soil is delicious!"
+msgstr ""
+
+#: src/player.cpp
 msgid "Your body strains under the weight!"
 msgstr ""
 
@@ -72544,6 +73428,12 @@ msgstr ""
 msgid "Really eat that %s? Your stomach won't be happy."
 msgstr ""
 
+#. ~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
+#. ~ Semantic difference, but greatly facilitates people being proud of their character.
+#: src/player.cpp
+msgid "It's too fresh, let it age a little first.  "
+msgstr ""
+
 #: src/player.cpp
 #, c-format
 msgid "This %s smells awful!  Eat it?"
@@ -72580,6 +73470,11 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "Ick, this %s doesn't taste so good..."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Mmm, this %s tastes delicious..."
 msgstr ""
 
 #: src/player.cpp
@@ -72668,6 +73563,10 @@ msgstr ""
 
 #: src/player.cpp
 msgid "That filled a hole!  Time for bed..."
+msgstr ""
+
+#: src/player.cpp
+msgid "You sink your roots into the soil."
 msgstr ""
 
 #: src/player.cpp
@@ -73159,6 +74058,22 @@ msgid "Failed to learn a recipe from the %s."
 msgstr ""
 
 #: src/player.cpp
+msgid "You relax as your roots embrace the soil."
+msgstr ""
+
+#: src/player.cpp
+msgid "It's impossible to sleep in this wheeled pot!"
+msgstr ""
+
+#: src/player.cpp
+msgid "The humans' furniture blocks your roots. You can't get comfortable."
+msgstr ""
+
+#: src/player.cpp
+msgid "Your roots scrabble ineffectively at the unyielding surface."
+msgstr ""
+
+#: src/player.cpp
 msgid "This is a comfortable place to sleep."
 msgstr ""
 
@@ -73308,18 +74223,6 @@ msgstr ""
 
 #: src/player_activity.cpp
 msgid " Stop smashing?"
-msgstr ""
-
-#. ~ player info: "female <gender unspecific profession>"
-#: src/profession.cpp
-#, c-format
-msgid "female %s"
-msgstr ""
-
-#. ~ player info: "male <gender unspecific profession>"
-#: src/profession.cpp
-#, c-format
-msgid "male %s"
 msgstr ""
 
 #: src/ranged.cpp

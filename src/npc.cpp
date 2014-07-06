@@ -36,6 +36,8 @@ npc::npc()
  plt = 999;
  itx = -1;
  ity = -1;
+ guardx = -1;
+ guardy = -1;
  goal = no_goal_point;
  fatigue = 0;
  hunger = 0;
@@ -55,6 +57,7 @@ npc::npc()
  mission = NPC_MISSION_NULL;
  myclass = NC_NONE;
  patience = 0;
+ restock = -1;
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
    set_skill_level(*aSkill, 0);
@@ -87,6 +90,8 @@ npc& npc::operator= (const npc & rhs)
  plt = rhs.plt;
  itx = rhs.itx;
  ity = rhs.ity;
+ guardx = rhs.guardx;
+ guardy = rhs.guardy;
  goal = rhs.goal;
 
  path = rhs.path;
@@ -210,6 +215,47 @@ void npc::randomize(npc_class type)
    }
    set_skill_level(*aSkill, level);
   }
+  break;
+
+ case NC_EVAC_SHOPKEEP:
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
+   }
+   set_skill_level(*aSkill, level);
+  }
+  boost_skill_level("mechanics", rng(0, 1));
+  boost_skill_level("electronics", rng(1, 2));
+  boost_skill_level("speech", rng(1, 3));
+  boost_skill_level("barter", rng(3, 7));
+  int_max += rng(0, 1) * rng(0, 1);
+  per_max += rng(0, 1) * rng(0, 1);
+  personality.collector += rng(1, 5);
+  cash += 2500000 * rng(1, 10);
+  this->restock = 14400;  //Every three days
+  break;
+
+ case NC_ARSONIST:
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = dice(3, 2) - rng(0, 4);
+   if (level < 0)
+   {
+    level = 0;
+   }
+   set_skill_level(*aSkill, level);
+  }
+  boost_skill_level("gun", rng(1, 3));
+  boost_skill_level("pistol", rng(1, 3));
+  boost_skill_level("throw", rng(0, 2));
+  int_max -= rng(0, 2);
+  dex_max -= rng(0, 2);
+  per_max += rng(0, 2);
+  personality.aggression += rng(0, 1);
+  personality.collector += rng(0, 2);
+  cash += 2500 * rng(1, 20);
+  this->restock = 14400*3;  //Every three days
   break;
 
  case NC_HACKER:
@@ -752,6 +798,9 @@ std::vector<item> starting_clothes(npc_class type, bool male)
 // Second pass--for extra stuff like backpacks, etc
  switch (type) {
  case NC_NONE:
+ case NC_ARSONIST:
+  ret.push_back(item("rucksack", 0));
+  break;
  case NC_DOCTOR:
  case NC_SCIENTIST:
   if (one_in(10))
@@ -803,6 +852,32 @@ std::list<item> starting_inv(npc *me, npc_class type)
   }
  }
  items_location from;
+ if (type == NC_EVAC_SHOPKEEP) {
+  from = "npc_evac_shopkeep";
+  total_space += rng(50,100);
+  while (total_space > 0 && !one_in(50)) {
+   Item_tag selected_item = item_controller->id_from(from);
+   item tmpit(selected_item, 0);
+   tmpit = tmpit.in_its_container();
+   if (total_space >= tmpit.volume()) {
+    ret.push_back(tmpit);
+    total_space -= tmpit.volume();
+   }
+  }
+ }
+ if (type == NC_ARSONIST) {
+  ret.push_back(item("molotov", 0));
+  from = "npc_arsonist";
+  while (total_space > 0 && !one_in(50)) {
+   Item_tag selected_item = item_controller->id_from(from);
+   item tmpit(selected_item, 0);
+   tmpit = tmpit.in_its_container();
+   if (total_space >= tmpit.volume()) {
+    ret.push_back(tmpit);
+    total_space -= tmpit.volume();
+   }
+  }
+ }
  if (type == NC_HACKER) {
   from = "npc_hacker";
   while(total_space > 0 && !one_in(10)) {
@@ -1217,6 +1292,8 @@ void npc::form_opinion(player *u)
   attitude = NPCATT_TALK;
  else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -30)
   attitude = NPCATT_KILL;
+ else if (my_fac != NULL && my_fac->likes_u < -10)
+    attitude = NPCATT_KILL;
  else
   attitude = NPCATT_FLEE;
 }
@@ -1331,12 +1408,19 @@ int npc::hostile_anger_level()
 
 void npc::make_angry()
 {
- if (is_enemy())
-  return; // We're already angry!
- if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
-  attitude = NPCATT_FLEE; // We don't want to take u on!
- else
-  attitude = NPCATT_KILL; // Yeah, we think we could take you!
+    // Make associated faction, if any, angry at the player too.
+    if( my_fac != NULL ) {
+        my_fac->likes_u -= 50;
+        my_fac->respects_u -= 50;
+    }
+    if( is_enemy() ) {
+        return; // We're already angry!
+    }
+    if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
+        attitude = NPCATT_FLEE; // We don't want to take u on!
+    } else {
+        attitude = NPCATT_KILL; // Yeah, we think we could take you!
+    }
 }
 
 // STUB
@@ -1521,6 +1605,39 @@ void npc::init_buying(inventory& you, std::vector<item*> &items,
  }
 }
 
+void npc::shop_restock(){
+    items_location from = "NULL";
+    int total_space = volume_capacity() - 2;
+    std::list<item> ret;
+    //list all merchant types here along with the item group they pull from and how much extra space they should have
+    //guards and other fixed npcs may need a small supply of food daily...
+    switch (this->myclass) {
+        case NC_EVAC_SHOPKEEP:
+            from = "npc_evac_shopkeep";
+            total_space += rng(50,100);
+            this-> cash = 250000 * rng(1, 10)+ rng(1, 10000);
+        case NC_ARSONIST:
+            from = "npc_arsonist";
+            this-> cash = 2500 * rng(1, 10)+ rng(1, 1000);
+            ret.push_back(item("molotov", 0));
+    }
+    if (from == "NULL")
+        return;
+    while (total_space > 0 && !one_in(50)) {
+        Item_tag selected_item = item_controller->id_from(from);
+        item tmpit(selected_item, 0);
+        tmpit = tmpit.in_its_container();
+        if (total_space >= tmpit.volume()) {
+            ret.push_back(tmpit);
+            total_space -= tmpit.volume();
+        }
+    }
+    this->inv.clear();
+    this->inv.add_stack(ret);
+    this->update_worst_item_value();
+}
+
+
 int npc::minimum_item_value()
 {
  int ret = 20;
@@ -1670,7 +1787,6 @@ int npc::danger_assessment()
  ret /= 10;
  if (ret <= 2)
   ret = -10 + 5 * ret; // Low danger if no monsters around
-
 // Mod for the player
  if (is_enemy()) {
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) < 10) {
@@ -1687,7 +1803,6 @@ int npc::danger_assessment()
     ret -= 8 - rl_dist(posx, posy, g->u.posx, g->u.posy);
   }
  }
-
  for (int i = 0; i < num_hp_parts; i++) {
   if (i == hp_head || i == hp_torso) {
         if (hp_cur[i] < hp_max[i] / 4)
@@ -2122,6 +2237,10 @@ std::string npc_class_name(npc_class classtype)
     switch(classtype) {
     case NC_NONE:
         return _("No class");
+    case NC_EVAC_SHOPKEEP: // Found in the evacuation center.
+        return _("Merchant");
+    case NC_ARSONIST: // Found in the evacuation center.
+        return _("Arsonist");
     case NC_SHOPKEEP: // Found in towns.  Stays in his shop mostly.
         return _("Shopkeep");
     case NC_HACKER: // Weak in combat but has hacking skills and equipment

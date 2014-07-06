@@ -3128,22 +3128,29 @@ static void handle_evil(player& p, disease& dis)
     bool lesserEvil = false;  // Worn or wielded; diminished effects
     if (p.weapon.is_artifact() && p.weapon.is_tool()) {
         it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-        for (size_t i = 0; i < tool->effects_carried.size(); i++) {
-            if (tool->effects_carried[i] == AEP_EVIL) {
+        for (std::vector<art_effect_passive>::iterator it =
+                 tool->effects_carried.begin();
+             it != tool->effects_carried.end(); ++it) {
+            if (*it == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
-        for (size_t i = 0; i < tool->effects_wielded.size(); i++) {
-            if (tool->effects_wielded[i] == AEP_EVIL) {
+        for (std::vector<art_effect_passive>::iterator it =
+                 tool->effects_wielded.begin();
+             it != tool->effects_wielded.end(); ++it) {
+            if (*it == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
     }
-    for (size_t i = 0; !lesserEvil && i < p.worn.size(); i++) {
-        if (p.worn[i].is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-            for (size_t j = 0; j < armor->effects_worn.size(); j++) {
-                if (armor->effects_worn[j] == AEP_EVIL) {
+    for (std::vector<item>::iterator it = p.worn.begin();
+         !lesserEvil && it != p.worn.end(); ++it) {
+        if (it->is_artifact()) {
+            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(it->type);
+            for (std::vector<art_effect_passive>::iterator effect =
+                     armor->effects_worn.begin();
+                 effect != armor->effects_worn.end(); ++effect) {
+                if (*effect == AEP_EVIL) {
                     lesserEvil = true;
                 }
             }

@@ -381,7 +381,7 @@ struct submap {
     inline void set_graffiti(int x, int y, const graffiti& value) {
         graf[x][y] = value;
     }
-    
+
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
@@ -403,11 +403,11 @@ struct submap {
     inline void set_signage(int x, int y, std::string s) {
         cosmetics[x][y]["SIGNAGE"] = s;
     }
-    // Can be used anytime (prevents code from needing to place sign first.)    
+    // Can be used anytime (prevents code from needing to place sign first.)
     inline void delete_signage(int x, int y) {
         cosmetics[x][y].erase("SIGNAGE");
     }
-    
+
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
@@ -424,13 +424,19 @@ struct submap {
     int turn_last_touched;
     int temperature;
     std::vector<spawn_point> spawns;
+    /**
+     * Vehicles on this submap (their (0,0) point is on this submap).
+     * This vehicle objects are deletes by this submap when it gets
+     * deleted.
+     */
     std::vector<vehicle*> vehicles;
     computer comp;
     basecamp camp;  // only allowing one basecamp per submap
 
-    submap() : ter(), frn(), trp(), rad(),
-        active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
-    }
+    submap();
+    ~submap();
+    // delete vehicles and clear the vehicles vector
+    void delete_vehicles();
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);
@@ -568,7 +574,7 @@ extern ter_id t_null,
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
-    t_window_enhanced, t_window_enhanced_noglass,
+    t_window_enhanced, t_window_enhanced_noglass, t_open_air,
     num_terrain_types;
 
 
