@@ -229,12 +229,12 @@ void npc::randomize(npc_class type)
   boost_skill_level("mechanics", rng(0, 1));
   boost_skill_level("electronics", rng(1, 2));
   boost_skill_level("speech", rng(1, 3));
-  boost_skill_level("barter", rng(3, 7));
+  boost_skill_level("barter", rng(8, 11));
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
-  cash += 2500000 * rng(1, 10);
-  this->restock = 14400;  //Every three days
+  cash = 100000 * rng(1, 10)+ rng(1, 100000);
+  this->restock = 14400*3;  //Every three days
   break;
 
  case NC_ARSONIST:
@@ -249,12 +249,13 @@ void npc::randomize(npc_class type)
   boost_skill_level("gun", rng(1, 3));
   boost_skill_level("pistol", rng(1, 3));
   boost_skill_level("throw", rng(0, 2));
+  boost_skill_level("barter", rng(5, 7));
   int_max -= rng(0, 2);
   dex_max -= rng(0, 2);
   per_max += rng(0, 2);
   personality.aggression += rng(0, 1);
   personality.collector += rng(0, 2);
-  cash += 2500 * rng(1, 20);
+  cash = 25000 * rng(1, 10)+ rng(1, 1000);
   this->restock = 14400*3;  //Every three days
   break;
 
@@ -1615,10 +1616,10 @@ void npc::shop_restock(){
         case NC_EVAC_SHOPKEEP:
             from = "npc_evac_shopkeep";
             total_space += rng(50,100);
-            this-> cash = 250000 * rng(1, 10)+ rng(1, 10000);
+            this-> cash = 100000 * rng(1, 10)+ rng(1, 100000);
         case NC_ARSONIST:
             from = "npc_arsonist";
-            this-> cash = 2500 * rng(1, 10)+ rng(1, 1000);
+            this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
             ret.push_back(item("molotov", 0));
     }
     if (from == "NULL")
