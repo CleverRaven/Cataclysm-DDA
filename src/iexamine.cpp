@@ -1807,7 +1807,7 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         m->disarm_trap(examx, examy);
     }
 }
-
+ 
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
 	item water = m->water_from(examx, examy);
