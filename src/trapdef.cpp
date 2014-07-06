@@ -66,7 +66,7 @@ bool trap::detect_trap(const player &p, int x, int y) const
     // * There will always be a distance malus of 1 unless you're on top of the trap.
     // * ...and an average character should at least have a minor chance of
     //   noticing a buried landmine if standing right next to it.
-            // Effective Perception... 
+            // Effective Perception...
     return (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) +
             // ...small bonus from stimulants...
             (p.stim > 10 ? rng(1, 2) : 0) +
@@ -77,7 +77,7 @@ bool trap::detect_trap(const player &p, int x, int y) const
             // ...malus if we are tired...
             (p.has_disease("lack_sleep") ? rng(1, 5) : 0) -
             // ...malus farther we are from trap...
-            rl_dist(p.posx, p.posy, x, y) > 
+            rl_dist(p.posx, p.posy, x, y) >
             // ...must all be greater than the trap visibility.
             visibility;
 }
@@ -137,7 +137,8 @@ trap_id
  tr_hum,
  tr_shadow,
  tr_drain,
- tr_snake;
+ tr_snake,
+ tr_notice;
 
 void set_trap_ids() {
  tr_null = trapfind("tr_null");
@@ -179,6 +180,7 @@ void set_trap_ids() {
  tr_shadow = trapfind("tr_shadow");
  tr_drain = trapfind("tr_drain");
  tr_snake = trapfind("tr_snake");
+ tr_notice = trapfind("tr_notice");
 
     // Set ter_t.trap using ter_t.trap_id_str.
     for( std::vector<ter_t>::iterator terrain = terlist.begin();

@@ -735,6 +735,24 @@
         "cancels" : ["LIGHTSTEP"]
     },{
         "type" : "mutation",
+        "id" : "ANTICLOWN",
+        "name" : "Coulrophobia",
+        "points" : -1,
+        "description" : "You, Like quite a few members of this generation, have a uncanny fear of Clowns. You tend to get extremely nervous when dealing with them. They're just creepy, Man.",
+        "starting_trait" : true,
+        "valid" : false,
+		"cancels" : ["LOVECLOWN"]
+    },{
+        "type" : "mutation",
+        "id" : "LOVECLOWN",
+        "name" : "Coulrophila",
+        "points" : 1,
+        "description" : "You... uhhh.... have a sexual fascination with Clowns. You gain a morale bonus whilst wearing Clown attire.",
+        "starting_trait" : true,
+        "valid" : false,
+		"cancels" : ["ANTICLOWN"]
+    },{
+        "type" : "mutation",
         "id" : "JITTERY",
         "name" : "Jittery",
         "points" : -3,

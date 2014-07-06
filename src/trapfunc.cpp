@@ -1091,6 +1091,34 @@ void trapfunc::snake(Creature *c, int x, int y)
     }
 }
 
+void trapfunc::notice(Creature *c, int x, int y)
+{
+    if (c == &g->u)//Makes sure it's the player noticing it.
+    {
+        const trap *tr = traplist[g->m.tr_at(x, y)];
+        int di = tr->get_difficulty();
+        int av = tr->get_avoidance();
+        player *n = dynamic_cast<player *>(c);
+        if(n->has_trait("PSYCHOPATH"))
+        {
+            n->add_morale(MORALE_FEELING_GOOD,5,15);
+            add_msg(m_good, _("Haha, You've got one sick, twisted, sense of humor."));
+        }
+        else
+        {
+            n->add_morale(MORALE_SCARED,di,30);
+            n->add_disease("shakes", rng(10,75));
+            add_msg(m_bad, _("The very sight of this scene turns your stomach."));
+            if(one_in(10))
+            {
+                add_msg(m_bad, _("You feel like you're gonna hurl!"));
+                n->vomit();
+            }
+        }
+        g->m.remove_trap(x, y);
+    }
+}
+
 /**
  * Takes the name of a trap function and returns a function pointer to it.
  * @param function_name The name of the trapfunc function to find.
@@ -1188,6 +1216,9 @@ trap_function trap_function_from_string(std::string function_name)
     }
     if("snake" == function_name) {
         return &trapfunc::snake;
+    }
+    if("notice" == function_name) {
+        return &trapfunc::notice;
     }
 
     //No match found
