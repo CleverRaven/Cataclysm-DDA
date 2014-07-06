@@ -545,5 +545,18 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "action" : "snake"
+    },
+    {
+        "type" : "trap",
+        "id": "tr_check_perception_trigger",
+        "identstring" : "shTrigger",
+        "legacy_id": 39,
+        "name" : "shtrigger",
+        "color" : "i_cyan",
+        "symbol" : " ",
+        "visibility" : 99,
+        "avoidance" : 99,
+        "difficulty" : 99,
+        "action" : "check_perception_trigger"
     }
 ]

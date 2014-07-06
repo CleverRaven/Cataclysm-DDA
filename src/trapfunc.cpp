@@ -911,6 +911,70 @@ void trapfunc::ledge(Creature *c, int /*x*/, int /*y*/)
     }
 }
 
+void disarm_all_near_sh_triggers(int x, int y)
+{
+
+    for (int i = x - 30; i < x + 30; i++)
+        for (int j = y - 30; j < y + 30; j++)
+            if (g->m.ter_at(i, j).id == "t_sh_check_secret") {
+                g->m.remove_trap(i, j);
+                g->m.ter_set(i, j, t_floor);
+            }
+
+}
+
+point find_near_random_potencial_secret_furn(int x, int y)
+{
+    std::vector<point> v;
+
+#define radius 50
+
+    for (int i = x - radius; i < x + radius; i++)
+        for (int j = y - radius; j < y + radius; j++) {
+            if (g->m.furn_at(i, j).has_flag("POTENTIAL_SECRET_FUR") && g->u.sees(i, j)) {
+                v.push_back(point(i, j));
+            }
+        }
+
+    if (v.size() == 0) {
+        return point(-999, -999);
+    }
+
+    return v[rng(0, v.size() - 1)];
+}
+
+void trapfunc::ch_per_trigger(Creature *c, int x, int y)
+//todo: may be all rng-formulas must be balanced
+{
+    if (c == &g->u) {
+
+        if (rng(12, 25) > g->u.per_cur + g->u.int_cur / 2) {
+            g->m.remove_trap(x, y);
+            g->m.ter_set(x, y, t_floor);
+        }
+
+        if (one_in(3)  && dice(5, 6) < g->u.per_cur + g->u.int_cur / 2) {
+
+            point p = find_near_random_potencial_secret_furn(x, y);
+            if (p.x > -999) {
+
+                disarm_all_near_sh_triggers(x, y);
+
+                g->u.add_msg_if_player(m_good, _("You noticed something strange in this %s"), g->m.furn_at(p.x,
+                                       p.y).name.c_str()
+                                      );
+
+                std::string new_furn = g->m.furn_at(p.x, p.y).id;
+                new_furn += "_a";
+
+                g->m.furn_set(p.x, p.y, new_furn);				
+
+            }
+
+        }
+    }
+}
+
 void trapfunc::temple_flood(Creature *c, int /*x*/, int /*y*/)
 {
     // Monsters and npcs are completely ignored here, should they?
@@ -1189,6 +1253,9 @@ trap_function trap_function_from_string(std::string function_name)
     if("snake" == function_name) {
         return &trapfunc::snake;
     }
+	if ("check_perception_trigger" == function_name) {
+		return &trapfunc::ch_per_trigger;
+	}
 
     //No match found
     debugmsg("Could not find a trapfunc function matching '%s'!", function_name.c_str());
