@@ -9,19 +9,19 @@ std::map<std::string, effect_type> effect_types;
 effect_type::effect_type() {}
 effect_type::effect_type(const effect_type &) {}
 
-std::string effect_type::get_name()
+std::string effect_type::get_name() const
 {
     return name;
 }
-std::string effect_type::get_desc()
+std::string effect_type::get_desc() const
 {
     return desc;
 }
-effect_rating effect_type::get_rating()
+effect_rating effect_type::get_rating() const
 {
     return rating;
 }
-game_message_type effect_type::gain_game_message_type()
+game_message_type effect_type::gain_game_message_type() const
 {
     switch(rating) {
         case e_good: return m_good;
@@ -31,7 +31,7 @@ game_message_type effect_type::gain_game_message_type()
         default: return m_neutral;  // should never happen
     }
 }
-game_message_type effect_type::lose_game_message_type()
+game_message_type effect_type::lose_game_message_type() const
 {
     switch(rating) {
         case e_good: return m_bad;
@@ -41,23 +41,23 @@ game_message_type effect_type::lose_game_message_type()
         default: return m_neutral;  // should never happen
     }
 }
-std::string effect_type::get_apply_message()
+std::string effect_type::get_apply_message() const
 {
     return apply_message;
 }
-std::string effect_type::get_apply_memorial_log()
+std::string effect_type::get_apply_memorial_log() const
 {
     return apply_memorial_log;
 }
-std::string effect_type::get_remove_message()
+std::string effect_type::get_remove_message() const
 {
     return remove_message;
 }
-std::string effect_type::get_remove_memorial_log()
+std::string effect_type::get_remove_memorial_log() const
 {
     return remove_memorial_log;
 }
-int effect_type::get_max_intensity()
+int effect_type::get_max_intensity() const
 {
     return max_intensity;
 }

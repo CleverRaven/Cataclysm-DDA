@@ -8108,10 +8108,10 @@ int iuse::radiocar(player *p, item *it, bool)
 {
     int choice = -1;
     if (it->contents.empty()) {
-        choice = menu(true, _("Using radio car:"), _("Turn on"),
+        choice = menu(true, _("Using RC car:"), _("Turn on"),
                       _("Put a bomb to car"), _("Cancel"), NULL);
     } else if (it->contents.size() == 1) {
-        choice = menu(true, _("Using radio car:"), _("Turn on"),
+        choice = menu(true, _("Using RC car:"), _("Turn on"),
                       it->contents[0].tname().c_str(), _("Cancel"), NULL);
     }
     if (choice == 3) {
@@ -8119,6 +8119,10 @@ int iuse::radiocar(player *p, item *it, bool)
     }
 
     if (choice == 1) { //Turn car ON
+        if( it->charges <= 0 ) {
+            p->add_msg_if_player(_("The RC car's batteries seem to be dead."));
+            return 0;
+        }
 
         item bomb;
 
@@ -8135,7 +8139,7 @@ int iuse::radiocar(player *p, item *it, bool)
         }
 
         p->add_msg_if_player(
-            _("You turned on your radio car, now place it on ground, and use radiocontrol to play."));
+            _("You turned on your RC car, now place it on ground, and use radiocontrol to play."));
 
         return 0;
     }
@@ -8152,11 +8156,11 @@ int iuse::radiocar(player *p, item *it, bool)
 
             if (put->has_flag("RADIOCARITEM")) {
                 p->moves -= 300;
-                p->add_msg_if_player(_("You armed your radio car with %s."),
+                p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
                 it->put_in(p->i_rem(pos));
             } else {
-                p->add_msg_if_player(_("Radio car with %s ? How?"),
+                p->add_msg_if_player(_("RC car with %s ? How?"),
                                      put->tname().c_str());
             }
         } else { // Disarm the car
@@ -8167,7 +8171,7 @@ int iuse::radiocar(player *p, item *it, bool)
             p->i_add(bomb);
             it->contents.erase(it->contents.begin());
 
-            p->add_msg_if_player(_("You disarmed your radio car"));
+            p->add_msg_if_player(_("You disarmed your RC car"));
         }
     }
 
@@ -8181,11 +8185,15 @@ int iuse::radiocaron(player *p, item *it, bool t)
         g->sound(pos.x, pos.y, 6, "buzzz...");
 
         return it->type->charges_to_use();
+    } else if ( it->charges <= 0 ) {
+        // Deactivate since other mode has an iuse too.
+        it->active = false;
+        return 0;
     }
 
     int choice = -1;
 
-    choice = menu(true, _("What do with activated radio car:"), _("Turn off"),
+    choice = menu(true, _("What do with activated RC car:"), _("Turn off"),
                   _("Cancel"), NULL);
 
     if (choice == 2) {
@@ -8206,7 +8214,7 @@ int iuse::radiocaron(player *p, item *it, bool t)
             it->put_in(bomb);
         }
 
-        p->add_msg_if_player(_("You turned off your radio car"));
+        p->add_msg_if_player(_("You turned off your RC car"));
         return it->type->charges_to_use();
     }
 
@@ -8226,51 +8234,32 @@ void sendRadioSignal(player *p, std::string signal)
         }
     }
 
-    int MYMAPSIZE = g->m.getmapsize();
+    std::list<std::pair<tripoint, item *> > rc_pairs = g->m.get_rc_items();
+    for( auto rc_pair = rc_pairs.begin(); rc_pair != rc_pairs.end(); ++rc_pair ) {
+        tripoint item_position = rc_pair->first;
+        item *rc_item = rc_pair->second;
+        if (rc_item->has_flag("RADIO_ACTIVATION") && rc_item->has_flag(signal)) {
 
-    point pos;
-    for (pos.x = 0; pos.x < SEEX * MYMAPSIZE; pos.x++) {
-        for (pos.y = 0; pos.y < SEEY * MYMAPSIZE; pos.y++) {
-            for (int i = 0; i < g->m.i_at(pos.x, pos.y).size(); i++) {
+            g->sound(item_position.x, item_position.y, 6, "beep.");
+            if (rc_item->has_flag("BOMB")) {
+                rc_item->charges = 0;
+            }
+            it_tool *tmp = dynamic_cast<it_tool *>(rc_item->type);
+            tmp->invoke( p, rc_item, rc_item->active );
+        }
 
-                item &ii = g->m.i_at(pos.x, pos.y)[i];
-                if (ii.has_flag("RADIO_ACTIVATION") && ii.has_flag(signal)) {
+        if( rc_item->has_flag("RADIO_CONTAINER") ) {
+            if( !rc_item->contents.empty() && rc_item->contents.has_flag( signal ) ) {
+                itype_id bomb_type = rc_item->contents[0].type->id;
 
-                    g->sound(pos.x, pos.y, 6, "beep.");
-
-                    if (ii.has_flag("BOMB")) {
-                        ii.charges = 0;
-                    }
-
-                    it_tool *tmp = dynamic_cast<it_tool *>(ii.type);
-                    tmp->invoke(p, &ii, ii.active);
-                }
-
-                if (ii.has_flag("RADIO_CONTAINER")) {
-                    if (!ii.contents.empty() && ii.contents[0].has_flag(signal)) {
-                        itype_id bomb_type = ii.contents[0].type->id;
-                        ii.make(bomb_type);
-                        ii.charges = 0;
-                        ii.active = true;
-                        it_tool *tmp = dynamic_cast<it_tool *>(ii.type);
-                        tmp->invoke(p, &ii, true);
-                    }
-                }
+                rc_item->make(bomb_type);
+                rc_item->charges = 0;
+                rc_item->active = true;
+                it_tool *tmp = dynamic_cast<it_tool *>(rc_item->type);
+                tmp->invoke( p, rc_item, true );
             }
         }
     }
-}
-
-bool isActiveBombInInventory(player *p)
-{
-    for (int i = 0; i < p->inv.size(); i++) {
-        item &it = p->inv.find_item(i);
-
-        if (it.active && it.has_flag("RADIO_ACTIVATION") && it.has_flag("BOMB")) {
-            return true;
-        }
-    }
-    return false;
 }
 
 int iuse::radiocontrol(player *p, item *it, bool t)
@@ -8278,10 +8267,8 @@ int iuse::radiocontrol(player *p, item *it, bool t)
     if (t) {
         if (it->charges == 0) {
             it->active = false;
-            g->isRemoteControl = false;
-        }
-
-        if (!g->isRemoteControl) {
+            p->remove_value( "remote_controlling" );
+        } else if( p->get_value( "remote_controlling" ) == "" ) {
             it->active = false;
         }
 
@@ -8292,9 +8279,9 @@ int iuse::radiocontrol(player *p, item *it, bool t)
     const char *car_action = NULL;
 
     if (!it->active) {
-        car_action = "Start playing with car";
+        car_action = _("Take control of RC car.");
     } else {
-        car_action = "Stop playing with car";
+        car_action = _("Stop controlling RC car.");
     }
 
     choice = menu(true, _("What do with radiocontrol:"), _("Nothing"), car_action,
@@ -8303,18 +8290,29 @@ int iuse::radiocontrol(player *p, item *it, bool t)
     if (choice == 1) {
         return 0;
     } else if (choice == 2) {
-        if (it->active) {
+        if( it->active ) {
             it->active = false;
-
-            g->isRemoteControl = false;
+            p->remove_value( "remote_controlling" );
         } else {
-            if (!g->isActivatedRadioCarPresent()) {
-                p->add_msg_if_player(_("None active radio cars on ground"));
+            std::list<std::pair<tripoint, item *>> rc_pairs = g->m.get_rc_items();
+            tripoint rc_item_location = {999, 999, 999};
+            // TODO: grab the closest car or similar?
+            for( auto rc_pair = rc_pairs.begin(); rc_pair != rc_pairs.end(); ++rc_pair ) {
+                if( rc_pair->second->type->id == "radio_car_on" && rc_pair->second->active ) {
+                    rc_item_location = rc_pair->first;
+                }
+            }
+            if( rc_item_location.x == 999 ) {
+                p->add_msg_if_player(_("No active RC cars on ground and in range."));
                 return it->type->charges_to_use();
             } else {
-                p->add_msg_if_player(m_good, _("Now you control radio car"));
+                std::stringstream car_location_string;
+                // Populate with the point and stash it.
+                car_location_string << rc_item_location.x << ' ' <<
+                    rc_item_location.y << ' ' << rc_item_location.z;
+                p->add_msg_if_player(m_good, _("You take control of the RC car."));
 
-                g->isRemoteControl = true;
+                p->set_value( "remote_controlling", car_location_string.str() );
                 it->active = true;
             }
         }
@@ -8322,10 +8320,14 @@ int iuse::radiocontrol(player *p, item *it, bool t)
         std::string signal = "RADIOSIGNAL_";
         //red button
         if (choice == 3) {
-            if (isActiveBombInInventory(p)) {
-                p->add_msg_if_player(m_warning,
-                                     _("You have activated radio bomb in inventory. Suicide is bad, okay?"));
-                return it->type->charges_to_use();
+            auto item_list = p->get_radio_items();
+            for( auto candidate_item = item_list.begin();
+                 candidate_item != item_list.end(); ++candidate_item ) {
+                if( (*candidate_item)->has_flag("BOMB") ) {
+                    p->add_msg_if_player( m_warning,
+                        _("You might want to place that radio bomb somewhere before detonating it.") );
+                    return 0;
+                }
             }
         }
 
