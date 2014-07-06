@@ -1187,13 +1187,13 @@ void npc::form_opinion(player *u)
 // FEAR
  if (u->weapon.is_gun()) {
   if (weapon.is_gun())
-   op_of_u.fear += 2;
-  else
    op_of_u.fear += 6;
+  else
+   op_of_u.fear += 2;
  } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
-  op_of_u.fear += 2;
+  op_of_u.fear += 3;
  else if (u->unarmed_attack()) // Unarmed
-  op_of_u.fear -= 3;
+  op_of_u.fear -= 2;
 
  if (u->str_max >= 16)
   op_of_u.fear += 2;
@@ -1240,7 +1240,7 @@ void npc::form_opinion(player *u)
   op_of_u.fear -= 2;
 
 // TRUST
- if (op_of_u.fear > 0)
+ if (op_of_u.fear > 3)
   op_of_u.trust -= 3;
  else
   op_of_u.trust += 1;
@@ -1288,8 +1288,8 @@ void npc::form_opinion(player *u)
    op_of_u.value += 2;
  }
 
- if (op_of_u.fear < personality.bravery + 10 &&
-     op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8)
+ if (op_of_u.fear < personality.bravery + 15 &&
+     op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -9)
   attitude = NPCATT_TALK;
  else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -30)
   attitude = NPCATT_KILL;
