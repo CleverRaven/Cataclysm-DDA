@@ -1765,7 +1765,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   RESPONSE(_("Delivering fruit wine."));
    SUCCESS(TALK_FREE_MERCHANT_STOCKS_WINE);
   }
-  if (g->u.charges_of("brew_hb_beer") > 0){
+  if (g->u.charges_of("hb_beer") > 0){
   RESPONSE(_("Delivering homebrew beer."));
    SUCCESS(TALK_FREE_MERCHANT_STOCKS_BEER);
   }
