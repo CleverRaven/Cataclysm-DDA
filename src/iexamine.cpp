@@ -1779,8 +1779,11 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
     }
     const struct trap& t = *traplist[tid];
     const int possible = t.get_difficulty();
-    if ( (t.can_see(*p, examx, examy)) && (possible == 99) ) {
-        add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
+    if ( t.can_see(*p, examx, examy) && possible == 99 ) {
+        // If it's harmless, we simply can't interact with it.
+        if( !t.is_benign() ) {
+            add_msg(m_info, _("That looks too dangerous to mess with. Best leave it alone."));
+        }
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
@@ -1788,7 +1791,8 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         if (query_yn(_("There is a %s there. Take down?"), t.name.c_str())) {
             m->disarm_trap(examx, examy);
         }
-    } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    } else if( t.can_see(*p, examx, examy) &&
+               query_yn(_("There is a %s there.  Disarm?"), t.name.c_str()) ) {
         m->disarm_trap(examx, examy);
     }
 }
@@ -1798,29 +1802,25 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
     item water = m->water_from(examx, examy);
     // Try to handle first (bottling) drink after.
     // changed boolean, large sources should be infinite
-    if (g->handle_liquid(water, true, true))
-    {
+    if (g->handle_liquid(water, true, true)) {
         p->moves -= 100;
-    }
-    else 
-    {
+    } else {
         p->drink_from_hands(water);
     }
 }
+
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
 {
     item swater = m->swater_from(examx, examy);
     // Try to handle first (bottling) drink after.
     // changed boolean, large sources should be infinite
-    if (g->handle_liquid(swater, true, true))
-    {
+    if (g->handle_liquid(swater, true, true)) {
         p->moves -= 100;
-    }
-    else
-    {
+    } else {
         p->drink_from_hands(swater);
     }
 }
+
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
 {
     item acid = m->acid_from(examx, examy);
