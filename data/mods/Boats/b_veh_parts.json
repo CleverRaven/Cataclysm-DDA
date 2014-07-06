@@ -15,8 +15,7 @@
         "location" : "structure",
         "flags" : ["MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO"],
         "breaks_into" : [
-            {"item": "steel_chunk", "min": 0, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "plastic_chunk", "min": 10, "max": 20}
         ]
     },
 {
@@ -36,7 +35,7 @@
             "SEAT", "BOARDABLE", "FOLDABLE"
         ],
         "breaks_into" : [
-            {"item": "rag", "min": 1, "max": 6}
+            {"item": "plastic_chunk", "min": 5, "max": 20}
         ]
     },
 
@@ -56,9 +55,7 @@
         "location" : "under",
         "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 0, "max": 1},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "plastic_chunk", "min": 10, "max": 20}
         ]
     },
 
@@ -80,7 +77,7 @@
         "flags" : ["PADDLES", "ENGINE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "plastic_chunk", "min": 10, "max": 20}
         ]
     }
 
