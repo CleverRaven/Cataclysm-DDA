@@ -3275,7 +3275,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
 {
     std::list<std::pair<tripoint, item *> > rc_pairs;
     tripoint pos;
-    (int)z;
+    (void)z;
     pos.z = abs_sub.z;
     for( pos.x = 0; pos.x < SEEX * MAPSIZE; pos.x++ ) {
         if( x != -1 && x != pos.x ) {
