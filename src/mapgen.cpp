@@ -3556,6 +3556,7 @@ C..C..C...|hhh|#########\n\
                         tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
                         tmpcomp->add_failure(COMPFAIL_DAMAGE);
                         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+                        lw = lw > 0 ? 1 : 0; // only a single row (not two) of walls on the left
                     } else if (one_in(3)) { //operations or utility
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3620,6 +3621,7 @@ A......D.........|dh...|\n\
                                 }
                             }
                         }
+                        lw = 0; // no wall on the left
                     } else if (one_in(2)) { //tribute
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3676,8 +3678,8 @@ ff.......|....|WWWWWWWW|\n\
                         add_item(8, 3, body);
                         add_item(10, 3, body);
                         spawn_item(18, 15, "ax");
+                        lw = 0; // no wall on the left
                     }
-
                     else { //analyzer
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -10892,17 +10894,13 @@ void map::place_vending(int x, int y, std::string type)
     place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
-void map::place_npc(int x, int y, std::string type)
+int map::place_npc(int x, int y, std::string type)
 {
     if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
-        return; //Do not generate an npc.
+        return -1; //Do not generate an npc.
     }
-    //const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
-    //const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
     real_coords rc;
     rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
-    //debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
-    //             oid.t().id.c_str(), oid.t().id_mapgen.c_str(),rc.om_sub.x/2,rc.om_sub.y/2,get_abs_sub().z, x,y );
     //Old Guard NPCs, fac_id 1
     if (type == "old_guard_rep"){
         npc *temp = new npc();
@@ -10918,7 +10916,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 1;
         temp->my_fac = g->faction_by_id(1);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     //Free Merchant NPCs, fac_id 2
     if (type == "evac_merchant"){
@@ -10934,8 +10932,11 @@ void map::place_npc(int x, int y, std::string type)
         temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
+        int mission_index = g->reserve_mission(MISSION_FREE_MERCHANTS_EVAC_1, temp->getID());
+        if (mission_index != -1)
+            temp->chatbin.missions.push_back(mission_index);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "evac_guard1"){
         npc *temp = new npc();
@@ -10952,7 +10953,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "evac_guard2"){
         npc *temp = new npc();
@@ -10969,7 +10970,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "guard"){
         npc *temp = new npc();
@@ -10986,7 +10987,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "hostile_guard"){
         npc *temp = new npc();
@@ -11003,7 +11004,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     //Wasteland Scavengers NPCs, fac_id 3
     if (type == "scavenger_merc"){
@@ -11020,7 +11021,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 3;
         temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "arsonist"){
         npc *temp = new npc();
@@ -11036,7 +11037,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 3;
         temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     //Hell's Raiders NPCs, fac_id 4
     if (type == "bandit"){
@@ -11054,9 +11055,10 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 4;
         temp->my_fac = g->faction_by_id(4);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     debugmsg("place_npc: did not recognize npc class");
+    return -1;
 }
 
 // A chance of 100 indicates that items should always spawn,

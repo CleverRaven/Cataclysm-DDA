@@ -27,6 +27,24 @@ point target_om_ter(const std::string &omter, int reveal_rad, mission *miss, boo
     return place;
 }
 
+point target_om_ter_random(const std::string &omter, int reveal_rad, mission *miss, bool must_see)
+{
+    int dist = 0;
+    std::vector<point> places = overmap_buffer.find_all(
+        g->om_global_location(), omter, dist, must_see);
+    std::vector<point> places_om;
+    for (int i = 0; i < places.size(); i++) {
+            if (g->cur_om == overmap_buffer.get_existing_om_global(places[i]))
+                places_om.push_back(places[i]);
+    }
+    const point place = places_om[rng(0,places_om.size()-1)];
+    if(place != overmap::invalid_point && reveal_rad >= 0) {
+        overmap_buffer.reveal(place, reveal_rad, g->levz);
+    }
+    miss->target = place;
+    return place;
+}
+
 void mission_start::standard( mission *)
 {
 }
@@ -88,6 +106,67 @@ void mission_start::place_zombie_mom(mission *miss)
  zomhouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
  zomhouse.save();
+}
+
+void mission_start::place_zombie_bay(mission *miss)
+{
+ point site = target_om_ter_random("evac_center_9", 1, miss, false);
+ tinymap bay;
+ bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay.add_spawn("mon_zombie_electric", 1, SEEX, SEEY, false, -1, miss->uid, "Sean McLaughlin");
+ bay.save();
+}
+
+void mission_start::place_caravan_ambush(mission *miss)
+{
+ point site = target_om_ter_random("field", 1, miss, false);
+ tinymap bay;
+ bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ //bay.add_vehicle("cube_van", SEEX, SEEY, 0, 500)
+ bay.add_vehicle("cube_van", SEEX, SEEY, 0);
+ bay.add_vehicle("quad_bike", SEEX+6, SEEY-5, 270, 500, -1, true);
+ bay.add_vehicle("motorcycle", SEEX-2, SEEY-9, 315, 500, -1, true);
+ bay.add_vehicle("motorcycle", SEEX-5, SEEY-5, 90, 500, -1, true);
+ bay.draw_square_ter(t_grass, SEEX-6, SEEY-9, SEEX+6, SEEY+3);
+ bay.draw_square_ter(t_dirt, SEEX-4, SEEY-7, SEEX+3, SEEY+1);
+ bay.ter_set(SEEX, SEEY-4, t_ash);
+ bay.spawn_item(SEEX-1, SEEY-3, "rock");
+ bay.spawn_item(SEEX, SEEY-3, "rock");
+ bay.spawn_item(SEEX+1, SEEY-3, "rock");
+ bay.spawn_item(SEEX-1, SEEY-4, "rock");
+ bay.spawn_item(SEEX+1, SEEY-4, "rock");
+ bay.spawn_item(SEEX-1, SEEY-5, "rock");
+ bay.spawn_item(SEEX, SEEY-5, "rock");
+ bay.spawn_item(SEEX+1, SEEY-5, "rock");
+ bay.trap_set(SEEX+3, SEEY-5, tr_rollmat);
+ bay.trap_set(SEEX, SEEY-7, tr_rollmat);
+ bay.trap_set(SEEX-3, SEEY-4, tr_fur_rollmat);
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "can_beans");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "beer");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "beer");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "bottle_glass");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "bottle_glass");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "heroin");
+ bay.place_items("dresser", 75, SEEX-3, SEEY, SEEX-2, SEEY+2, true, 0 );
+ bay.place_items("softdrugs", 50, SEEX-3, SEEY, SEEX-2, SEEY+2, true, 0 );
+ bay.place_items("camping", 75, SEEX-3, SEEY, SEEX-2, SEEY+2, true, 0 );
+ bay.spawn_item(SEEX+1, SEEY+4, "9mm_casing",1,1,0,0,true);
+ bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
+ bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
+ bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
+ bay.add_corpse(SEEX+1, SEEY+7);
+ bay.add_corpse(SEEX, SEEY+8);
+ bay.add_field(SEEX, SEEY+7,fd_blood,1);
+ bay.add_field(SEEX+2, SEEY+7,fd_blood,1);
+ bay.add_field(SEEX-1, SEEY+8,fd_blood,1);
+ bay.add_field(SEEX+1, SEEY+8,fd_blood,1);
+ bay.add_field(SEEX+2, SEEY+8,fd_blood,1);
+ bay.add_field(SEEX+1, SEEY+9,fd_blood,1);
+ bay.add_field(SEEX, SEEY+9,fd_blood,1);
+ bay.place_npc(SEEX+3,SEEY-5, "bandit");
+ bay.place_npc(SEEX, SEEY-7, "bandit");
+ miss->target_npc_id = bay.place_npc(SEEX-3, SEEY-4, "bandit");
+ bay.save();
 }
 
 void mission_start::place_jabberwock(mission *miss)

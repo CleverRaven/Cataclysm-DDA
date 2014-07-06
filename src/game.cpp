@@ -2124,8 +2124,11 @@ bool game::mission_complete(int id, int npc_id)
     break;
 
     case MGOAL_FIND_ITEM:
-        if (!u.has_amount(type->item_id, 1)) {
-            return false;
+        if (!u.has_amount(type->item_id, miss->item_count)) {
+            if (u.has_amount(type->item_id, 1) && u.has_charges(type->item_id, miss->item_count))
+                return true;
+            else
+                return false;
         }
         if (miss->npc_id != -1 && miss->npc_id != npc_id) {
             return false;
@@ -2148,7 +2151,7 @@ bool game::mission_complete(int id, int npc_id)
         return false;
 
     case MGOAL_RECRUIT_NPC: {
-        npc *p = find_npc(miss->recruit_npc_id);
+        npc *p = find_npc(miss->target_npc_id);
         return (p != NULL && p->attitude == NPCATT_FOLLOW);
     }
 
@@ -2167,6 +2170,9 @@ bool game::mission_complete(int id, int npc_id)
 
     case MGOAL_FIND_NPC:
         return (miss->npc_id == npc_id);
+
+    case MGOAL_ASSASSINATE:
+        return (miss->step >= 1);
 
     case MGOAL_KILL_MONSTER:
         return (miss->step >= 1);
@@ -2210,8 +2216,14 @@ void game::wrap_up_mission(int id)
     }
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
-        u.use_amount(miss->type->item_id, 1);
-        break;
+        if (u.has_charges(miss->type->item_id, miss->item_count)){
+            u.use_charges(miss->type->item_id, miss->item_count);
+            break;
+        }
+        else{
+            u.use_amount(miss->type->item_id, miss->item_count);
+            break;
+        }
     case MGOAL_FIND_ANY_ITEM:
         u.remove_mission_items(miss->uid);
         break;
@@ -2250,6 +2262,7 @@ void game::mission_step_complete(int id, int step)
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
     case MGOAL_FIND_MONSTER:
+    case MGOAL_ASSASSINATE:
     case MGOAL_KILL_MONSTER: {
         npc *p = find_npc(miss->npc_id);
         if (p != NULL) {
@@ -6355,10 +6368,15 @@ void game::monmove()
         } else {
             (*it)->reset();
             while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
-                turns++;
+                int moves = (*it)->moves;
                 (*it)->move();
-                //build_monmap();
+                if( moves == (*it)->moves ) {
+                    // Count every time we exit npc::move() without spending any moves.
+                    turns++;
+                }
             }
+            // If we spun too long trying to decide what to do (without spending moves),
+            // Invoke cranial detonation to prevent an infinite loop.
             if (turns == 10) {
                 add_msg(_("%s's brain explodes!"), (*it)->name.c_str());
                 (*it)->die();
@@ -7742,6 +7760,13 @@ void game::smash()
         return;
     }
 
+    if( m.field_at( smashx, smashy ).findField( fd_web ) ) {
+        m.remove_field( smashx, smashy, fd_web );
+        sound( smashx, smashy, 2, "" );
+        add_msg( m_info, _( "You brush aside some webs." ) );
+        u.moves -= 100;
+        return;
+    }
     static const int full_pulp_threshold = 4;
     for (auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it) {
         if (it->type->id == "corpse" && it->damage < full_pulp_threshold) {
@@ -10971,10 +10996,6 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                 }
             }
             active_npc[id]->make_angry();
-            if (active_npc[id]->my_fac != NULL){
-                active_npc[id]->my_fac->likes_u -= 50;
-                active_npc[id]->my_fac->respects_u -= 50;
-            }
         } else {
             id = mon_at(x, y);
             if (id >= 0) {
@@ -12200,8 +12221,7 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--safe mode is on! \
-							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 (%s to turn it off or %s to ignore monster.)"),
+        add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
@@ -12276,8 +12296,6 @@ bool game::plmove(int dx, int dy)
 
         u.melee_attack(*active_npc[npcdex], true);
         active_npc[npcdex]->make_angry();
-        active_npc[npcdex]->my_fac->likes_u -= 50;
-        active_npc[npcdex]->my_fac->respects_u -= 50;
         return false;
     }
 

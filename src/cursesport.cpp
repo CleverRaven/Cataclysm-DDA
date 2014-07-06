@@ -340,6 +340,19 @@ inline int fill(char *&fmt, int &len, std::string &target)
         if( cw > 0 && dlen > 0 ) {
             // Stop at the *second* non-zero-width character
             break;
+        } else if( cw == -1 && start == fmt ) {
+            // First char is a control character: they only disturb the screen,
+            // so replace it with a single space (e.g. instead of a '\t').
+            // Newlines at the begin of a sequence are handled in printstring
+            target.assign( " ", 1 );
+            len = tmplen;
+            fmt = const_cast<char*>(tmpptr);
+            return 1; // the space
+        } else if( cw == -1 ) {
+            // Control character but behind some other characters, finish the sequence.
+            // The character will either by handled by printstring (if it's a newline),
+            // or by the next call to this function (replaced with a space).
+            break;
         }
         fmt = const_cast<char*>(tmpptr);
         dlen += cw;
@@ -349,6 +362,9 @@ inline int fill(char *&fmt, int &len, std::string &target)
     return dlen;
 }
 
+// The current cell of the window, pointed to by the cursor. The next character
+// written to that window should go in this cell.
+// Returns nullptr if the cursor is invalid (outside the window).
 inline cursecell *cur_cell(WINDOW *win)
 {
     if( win->cursory >= win->height || win->cursorx >= win->width ) {
@@ -365,14 +381,19 @@ inline int printstring(WINDOW *win, char *fmt)
     if( len == 0 ) {
         return 1;
     }
-    if( win->cursorx > 0 && win->line[win->cursory].chars[win->cursorx].ch.empty() ) {
-        // start inside a wide character, erase it for good
-        win->line[win->cursory].chars[win->cursorx - 1].ch.assign(" ");
-    }
     // avoid having an invalid cursorx, so that cur_cell will only return nullptr
     // when the bottom of the window has been reached.
     if( win->cursorx >= win->width ) {
-        newline( win );
+        if( newline( win ) == 0 ) {
+            return 0;
+        }
+    }
+    if( win->cursory >= win->height || win->cursorx >= win->width ) {
+        return 0;
+    }
+    if( win->cursorx > 0 && win->line[win->cursory].chars[win->cursorx].ch.empty() ) {
+        // start inside a wide character, erase it for good
+        win->line[win->cursory].chars[win->cursorx - 1].ch.assign(" ");
     }
     while( len > 0 ) {
         if( *fmt == '\n' ) {

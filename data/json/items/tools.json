@@ -5649,7 +5649,7 @@
     "color": "light_gray",
     "name": "used heat pack",
     "description": "This is a chemical heat pack. It's used to treat sports injuries and heat food. This one has been used and is chemically inert, rendering it useless.",
-    "price": 1000,
+    "price": 0,
     "material": "plastic",
     "weight": 226,
     "volume": 0,
@@ -5661,6 +5661,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
+    "category": "other",
     "revert_to": "null"
   },
 

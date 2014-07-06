@@ -1367,7 +1367,6 @@ void cata_tiles::draw_footsteps_frame()
 
 void cata_tiles::init_light()
 {
-    g->m.build_map_cache();
     g->reset_light_level();
 
     sightrange_natural = g->u.sight_range(1);

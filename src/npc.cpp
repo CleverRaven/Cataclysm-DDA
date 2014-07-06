@@ -1408,14 +1408,19 @@ int npc::hostile_anger_level()
 
 void npc::make_angry()
 {
- if (is_enemy())
-  return; // We're already angry!
- if (op_of_u.fear > 10 + personality.aggression + personality.bravery){
-  attitude = NPCATT_FLEE; // We don't want to take u on!
-  }
- else{
-  attitude = NPCATT_KILL; // Yeah, we think we could take you!
- }
+    // Make associated faction, if any, angry at the player too.
+    if( my_fac != NULL ) {
+        my_fac->likes_u -= 50;
+        my_fac->respects_u -= 50;
+    }
+    if( is_enemy() ) {
+        return; // We're already angry!
+    }
+    if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
+        attitude = NPCATT_FLEE; // We don't want to take u on!
+    } else {
+        attitude = NPCATT_KILL; // Yeah, we think we could take you!
+    }
 }
 
 // STUB
@@ -2179,9 +2184,18 @@ void npc::die(bool your_fault)
     if (weapon.type->id != "null")
         g->m.add_item_or_charges(posx, posy, weapon);
 
+    mission_type *type;
     for (int i = 0; i < g->active_missions.size(); i++) {
-        if (g->active_missions[i].npc_id == getID())
-            g->fail_mission( g->active_missions[i].uid );
+        type = g->active_missions[i].type;
+        //complete the mission if he/she needed killing
+        if (type->goal == MGOAL_ASSASSINATE &&
+             g->active_missions[i].target_npc_id == getID())
+                g->mission_step_complete( g->active_missions[i].uid, 1);
+        //fail the mission if the mission giver dies or the recruit target
+        if (g->active_missions[i].npc_id == getID() ||
+            (g->active_missions[i].target_npc_id == getID()
+             && type->goal == MGOAL_RECRUIT_NPC))
+                g->fail_mission( g->active_missions[i].uid );
     }
 }
 

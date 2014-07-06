@@ -1271,7 +1271,7 @@ void mission::deserialize(JsonIn &jsin)
     item_id = itype_id(jo.get_string("item_id", item_id));
     jo.read("deadline", deadline );
     jo.read("step", step );
-    jo.read("count", count );
+    jo.read("item_count", item_count );
     jo.read("npc_id", npc_id );
     jo.read("good_fac_id", good_fac_id );
     jo.read("bad_fac_id", bad_fac_id );
@@ -1294,7 +1294,7 @@ void mission::serialize(JsonOut &json) const
     json.write(target.y);
     json.end_array();
 
-    json.member("count", count);
+    json.member("item_count", item_count);
     json.member("deadline", deadline);
     json.member("npc_id", npc_id);
     json.member("good_fac_id", good_fac_id);

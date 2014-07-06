@@ -11,6 +11,7 @@ mission mission_type::create(int npc_id)
     ret.type = this;
     ret.npc_id = npc_id;
     ret.item_id = item_id;
+    ret.item_count = item_count;
     ret.value = value;
     ret.follow_up = follow_up;
 
@@ -42,16 +43,16 @@ std::string mission::save_info()
     ret << description << " <> " << (failed ? 1 : 0) << " " << value <<
         " " << reward.type << " " << reward.value << " " << reward.item_id <<
         " " << (reward.skill ? reward.skill->id() : 0) << " " << uid << " " << target.x << " " <<
-        target.y << " " << item_id << " " << count << " " << deadline << " " <<
+        target.y << " " << item_id << " " << item_count << " " << deadline << " " <<
         npc_id << " " << good_fac_id << " " << bad_fac_id << " " << step <<
-        " " << follow_up;
+        " " << follow_up << " " << target_npc_id;
 
     return ret.str();
 }
 
 void mission::load_info(std::ifstream &data)
 {
-    int type_id, rewtype, reward_id, rew_skill, tmpfollow;
+    int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
     std::string rew_item, itemid;
     data >> type_id;
     type = &(g->mission_types[type_id]);
@@ -64,13 +65,14 @@ void mission::load_info(std::ifstream &data)
     } while (tmpdesc != "<>");
     description = description.substr( 0, description.size() - 1 ); // Ending ' '
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
-         uid >> target.x >> target.y >> itemid >> count >> deadline >> npc_id >>
-         good_fac_id >> bad_fac_id >> step >> tmpfollow;
+         uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
+         good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
     follow_up = mission_id(tmpfollow);
     reward.type = npc_favor_type(reward_id);
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::skill( rew_skill );
     item_id = itype_id(itemid);
+    item_count = int(item_num);
 }
 
 std::string mission_dialogue (mission_id id, talk_topic state)
@@ -879,6 +881,102 @@ Before we get into a major fight just make sure we have the gear we need, boss."
             return _("I don't think so...");
         case TALK_MISSION_FAILURE:
             return _("Quitting already?");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+//Free Merchants
+    case MISSION_FREE_MERCHANTS_EVAC_1:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("If you really want to lend a hand we could use your help clearing out the dead "
+                     "in the back bay.  Fearful of going outside during the first days of the cataclysm "
+                     "we ended up throwing our dead and the zombies we managed to kill in the sealed "
+                     "back bay.  Our promising leader at the time even fell... he turned into something "
+                     "different.  Kill all of them and make sure they won't bother us again.  We can't "
+                     "pay much but it would help us to reclaim the bay.");
+        case TALK_MISSION_ACCEPTED:
+            return _("\
+Please be careful, we don't need any more deaths.");
+        case TALK_MISSION_REJECTED:
+            return _("Come back when you get a chance, we really need to start reclaiming the region.");
+        case TALK_MISSION_ADVICE:
+            return _("If you can, get a friend or two to help you.");
+        case TALK_MISSION_INQUIRE:
+            return _("Will they be bothering us any longer?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thank you, having that big of a threat close to home was nerve wrecking.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_FREE_MERCHANTS_EVAC_2:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("This is a bit more involved than the last request, we recently lost a "
+                     "scavenger party coming to trade with us and would like you to "
+                     "investigate.  We strongly suspect a raider band or horde caught them "
+                     "off-guard. I can give you the coordinates of their last radio message "
+                     "but little else.  In either case, deal with the threat so that the "
+                     "scavengers can continue to pass through in relative safety.  The best "
+                     "reward I can offer is a claim to the supplies they were carrying.");
+        case TALK_MISSION_ACCEPTED:
+            return _("\
+Our community survives on trade, we appreciate it.");
+        case TALK_MISSION_REJECTED:
+            return _("Come back when you get a chance, we really need to start reclaiming the region.");
+        case TALK_MISSION_ADVICE:
+            return _("If you can, get a friend or two to help you.");
+        case TALK_MISSION_INQUIRE:
+            return _("Have you dealt with them?");
+        case TALK_MISSION_SUCCESS:
+            return _("Thank you, the world is a better place without them.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
+        }
+        break;
+
+    case MISSION_FREE_MERCHANTS_EVAC_3:
+        switch (state) {
+        case TALK_MISSION_DESCRIBE:
+            return _("We need help...");
+        case TALK_MISSION_OFFER:
+            return _("We are starting to build new infrastructure here and would like to get a few "
+                     "new electrical systems online... unfortunately our existing system relies on "
+                     "an array of something called RTGs.  From what I understand they work like "
+                     "giant batteries of sorts.  We can expand our power system but to do so we "
+                     "would need enough plutonium.  With 25 plutonium cells we would be "
+                     "able to get an electrical expansion working for a year or two.  I know they "
+                     "are rare but running generators isn't a viable option in the basement.");
+        case TALK_MISSION_ACCEPTED:
+            return _("\
+If you can do this for us our survival options would vastly increase.");
+        case TALK_MISSION_REJECTED:
+            return _("Come back when you get a chance, we really need to start reclaiming the region.");
+        case TALK_MISSION_ADVICE:
+            return _("Can't help you much, I've never even seen a plutonium battery.");
+        case TALK_MISSION_INQUIRE:
+            return _("How is the search going?");
+        case TALK_MISSION_SUCCESS:
+            return _("Great, I know it isn't much but we hope to continue to expand thanks to your help.");
+        case TALK_MISSION_SUCCESS_LIE:
+            return _("What good does this do us?");
+        case TALK_MISSION_FAILURE:
+            return _("It was a lost cause anyways...");
         default: // It's a bug.
             return "";
         }
