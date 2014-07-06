@@ -202,7 +202,7 @@ void fill_funnels( trap_id t )
 
                 if(weather_iterator->first > startturn) {
                     if( endturn > int(weather_iterator->first) ) {
-                    endturn = (weather_iterator->first) + 1;
+                    endturn = (weather_iterator->first);
                     //end this round of funnel updates when the weather changes.
                     }
                     weather_iterator--; //select the weather span we want to use
