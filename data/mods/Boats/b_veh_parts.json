@@ -6,13 +6,14 @@
         "name" : "inflatable section",
         "symbol" : "O",
         "color" : "green",
+        "size" : 60,
         "broken_symbol" : "#",
         "broken_color" : "light_gray",
         "durability" : 50,
         "item" : "pipe", 
         "difficulty" : 3,
         "location" : "structure",
-        "flags" : ["MOUNTABLE", "FOLDABLE", "BOARDABLE"],
+        "flags" : ["MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
