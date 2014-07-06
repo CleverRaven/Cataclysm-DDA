@@ -11044,7 +11044,7 @@ int map::place_npc(int x, int y, std::string type)
         npc *temp = new npc();
         temp->normalize();
         temp->randomize(NC_ARSONIST);
-        temp->name = "Makayla, Arsonist";
+        temp->name = "Makayla Sanchez, Arsonist";
         temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
         temp->posy = y;
