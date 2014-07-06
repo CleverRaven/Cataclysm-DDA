@@ -389,18 +389,18 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::toilet(player *p, map *m, int examx, int examy) {
-	std::vector<item>& items = m->i_at(examx, examy);
-	int waterIndex = -1;
-	for (int i = 0; i < items.size(); i++) {
-		if (items[i].typeId() == "water") {
-			waterIndex = i;
-			break;
-		}
-	}
+    std::vector<item>& items = m->i_at(examx, examy);
+    int waterIndex = -1;
+    for (int i = 0; i < items.size(); i++) {
+        if (items[i].typeId() == "water") {
+            waterIndex = i;
+            break;
+        }
+    }
 
-	if (waterIndex < 0) {
-		add_msg(m_info, _("This toilet is empty."));
-	}
+    if (waterIndex < 0) {
+        add_msg(m_info, _("This toilet is empty."));
+    }
 	else {
 		bool drained = false;
 

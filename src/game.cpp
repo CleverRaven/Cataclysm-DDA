@@ -12359,7 +12359,7 @@ bool game::plmove(int dx, int dy)
 	if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
         // Requires confirmation if we were on dry land previously
         if ((fromSwimmable && fromDeepWater && !fromBoat) || query_yn(_("Dive into the water?"))) {
-            if (!(fromDeepWater || fromBoat) && u.swim_speed() < 500) {
+            if ((!fromDeepWater || fromBoat) && u.swim_speed() < 500) {
                 add_msg(_("You start swimming."));
                 add_msg(m_info, "%s to dive underwater.",
                         press_x(ACTION_MOVE_DOWN).c_str());
