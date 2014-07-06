@@ -1,0 +1,31 @@
+[
+
+  {
+    "id": "inflatable_boat",
+    "type": "TOOL",
+    "symbol": "0",
+    "color": "light_gray",
+    "name": "inflatable boat",
+    "description": "This is inflatable boat.",
+    "price": 350000,
+    "material": "aluminum",
+    "weight": 9071,
+    "volume": 86,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -5,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": {
+        "type": "unfold_vehicle",
+        "vehicle_name": "inflatable_boat",
+        "unfold_msg": "You painstakingly unfold the inflatable boat and, grab it to water to swim.",
+        "moves": 500
+    }
+  }
+
+]
