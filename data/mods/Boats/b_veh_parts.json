@@ -1,0 +1,89 @@
+[
+
+{
+        "type" : "vehicle_part",
+        "id" : "inflatable_section",
+        "name" : "inflatable section",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 50,
+        "item" : "pipe", 
+        "difficulty" : 3,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE", "FOLDABLE", "BOARDABLE"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },
+{
+        "type" : "vehicle_part",
+        "id" : "inflatable_seat",
+        "name" : "inflatable seat",
+        "symbol" : "#",
+        "color" : "red",
+        "broken_symbol" : "*",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "item" : "sheet",
+        "difficulty" : 3,
+        "location" : "anywhere",
+        "flags" : [
+            "SEAT", "BOARDABLE", "FOLDABLE"
+        ],
+        "breaks_into" : [
+            {"item": "rag", "min": 1, "max": 6}
+        ]
+    },
+
+{
+        "type" : "vehicle_part",
+        "id" : "inflatable_airbag",
+        "name" : "inflatable airbag",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 50,
+        "durability" : 40,
+        "wheel_width" : 4,
+        "item" : "inflatable_boat",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 0, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },
+
+{
+        "type" : "vehicle_part",
+        "id" : "hand_paddles",
+        "name" : "hand paddles",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 50,
+        "durability" : 50,
+        "power" : 50,
+        "fuel_type" : "muscle",
+        "item" : "hand_paddles",
+        "difficulty" : 1,
+        "location" : "engine_block",
+        "flags" : ["PADDLES", "ENGINE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
+    }
+
+
+
+
+]

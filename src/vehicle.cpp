@@ -2446,8 +2446,8 @@ float vehicle::strain ()
 
 bool vehicle::valid_wheel_config ()
 {
-	if (!all_parts_with_feature(VPFLAG_FLOATS).empty()) 
-		return true;
+    if (!all_parts_with_feature(VPFLAG_FLOATS).empty()) 
+      return true;
 
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
