@@ -11343,12 +11343,15 @@ bool player::is_deaf() const
 
 bool player::is_suitable_weapon( const item &it ) const
 {
+    // if style is selected, always prefer compatible weapons
+    if( get_combat_style().has_weapon( it.typeId() ) ) {
+        return true;
+    }
+    // Assume all martial art styles can use any UNARMED_WEAPON item.
     if( style_selected != "style_none" ) {
-        // if a style is selected, ignore the skill, style can be selected
-        // by the player, skill can't. If the player wants to use this style,
-        // support them.
-        return get_combat_style().has_weapon( it.typeId() );
-    } else if( get_skill_level( "unarmed" ).level() >= 2 ) {
+        return it.has_flag( "UNARMED_WEAPON" );
+    }
+    if( get_skill_level( "unarmed" ).level() >= 2 ) {
         // For player with good unarmed skill, wielding items is normally
         // bad as it prevents using the unarmed skill. Except items with the
         // UNARMED_WEAPON flag, they are special, see player::unarmed_attack.
