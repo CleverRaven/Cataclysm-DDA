@@ -8249,7 +8249,7 @@ void sendRadioSignal(player *p, std::string signal)
         }
 
         if( rc_item->has_flag("RADIO_CONTAINER") ) {
-            if( !rc_item->contents.empty() && rc_item->contents.has_flag( signal ) ) {
+            if( !rc_item->contents.empty() && rc_item->contents[0].has_flag( signal ) ) {
                 itype_id bomb_type = rc_item->contents[0].type->id;
 
                 rc_item->make(bomb_type);

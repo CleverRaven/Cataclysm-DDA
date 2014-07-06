@@ -2875,7 +2875,7 @@ void game::rcdrive(int dx, int dy)
     item *rc_car = rc_pair->second;
 
     if( m.move_cost(cx + dx, cy + dy) == 0 || !m.can_put_items(cx + dx, cy + dy) ||
-        m.has_furn(pos.x + dx, pos.y + dy) ) {
+        m.has_furn(cx + dx, cy + dy) ) {
         sound(cx + dx, cy + dy, 7, "sound of a collision with an obstacle.");
         return;
     } else if( m.add_item_or_charges(cx + dx, cy + dy, *rc_car ) ) {
