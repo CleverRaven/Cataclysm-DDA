@@ -266,5 +266,17 @@
             ] },
             { "item": "cash_card" }
         ]
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "It's frikken clown clothes!",
+        "id": "mon_zombie_clown_death_drops",
+        "entries":
+        [
+			{ "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "item": "airhorn", "damage-min": 1, "damage-max": 4 },
+            { "item": "clown_suit", "damage-min": 1, "damage-max": 4 },
+            { "item": "clownshoes", "damage-min": 1, "damage-max": 4 }
+        ]
     }
 ]

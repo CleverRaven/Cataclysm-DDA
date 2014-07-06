@@ -60,6 +60,7 @@ class mattack
         void slimespring        (monster *z);
         void bio_op_takedown    (monster *z);
         void suicide            (monster *z);
+        void honk               (monster *z);
         bool thrown_by_judo     (monster *z); //handles zombie getting thrown when u.is_throw_immune()
 };
 

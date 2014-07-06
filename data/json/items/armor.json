@@ -1670,7 +1670,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 3,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "FANCY", "POCKETS"],
+        "flags" : ["VARSIZE", "CLOWN", "POCKETS"],
         "coverage" : 90,
         "material_thickness" : 2
     },
@@ -1695,7 +1695,7 @@
         "environmental_protection" : 2,
         "encumbrance" : 6,
         "bashing" : 14,
-        "flags" : ["FANCY"],
+        "flags" : ["CLOWN"],
         "coverage" : 85,
         "material_thickness" : 4
     },

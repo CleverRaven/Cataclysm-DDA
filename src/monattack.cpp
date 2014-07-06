@@ -2292,3 +2292,47 @@ void mattack::suicide(monster *z)
     }
     z->hp = 0;
 }
+
+void mattack::honk(monster *z)
+{
+    int j;
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
+        !g->sees_u(z->posx(), z->posy(), j)) {
+        return;    // Out of range
+    }
+    z->moves -= 240;   // It takes a while
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    switch (rng(1,4)){
+        case 1:
+            g->sound(z->posx(), z->posy(), 24, _("HONK HONK!"));
+            break;
+        case 2:
+            g->sound(z->posx(), z->posy(), 18, _("HONK!"));
+            break;
+        case 3:
+            g->sound(z->posx(), z->posy(), 30, _("HONK HOOOOONK!"));
+            break;
+        case 4:
+            g->sound(z->posx(), z->posy(), 10, _("Beep Beep!"));
+            break;
+    }
+    if (g->u.has_trait("ANTICLOWN")){
+        g->u.add_morale(MORALE_SCARED,-10,-25);
+        g->u.add_disease("shakes", rng(10,50));
+        std::string soundtext;
+        switch (rng(1,4)){
+            case 1:
+                add_msg(m_bad, _("The Clown's honking is terrifying"));
+                break;
+            case 2:
+                add_msg(m_bad, _("God, Why do you freaks have to be so CREEPY"));
+                break;
+            case 3:
+                add_msg(m_bad, _("I.. hate.. clowns.."));
+                break;
+            case 4:
+                add_msg(m_bad, _("Just make him stop.."));
+                break;
+        }
+    }
+}
