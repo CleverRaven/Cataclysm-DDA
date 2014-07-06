@@ -2935,6 +2935,7 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
         (it->is_container() && !it->contents.empty() &&
          it->contents[0].active))
     {
+        it->calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
         if (it->is_food()) { // food items
             if (it->has_flag("HOT")) {
                 it->item_counter--;
@@ -4437,7 +4438,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
-                  it->rotten();
+                  it->calc_rot(point(x,y));
                   if(it->rot >= (food->spoils * 600)*2) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
