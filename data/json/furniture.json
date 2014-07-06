@@ -1478,17 +1478,16 @@
         "move_cost_mod": 2,
         "required_str": 9,
         "flags": ["TRANSPARENT", "PLACE_ITEM"]
-    },	
-
-{
+   },{
         "type" : "furniture",
-        "id" : "f_beauty_statue",
+        "id" : "f_hidden_statue",
         "name": "beautiful statue",
         "symbol": "S",
         "color": "dkgray",
         "move_cost_mod": 2,
         "required_str": 10,
         "flags": ["BASHABLE","PLACE_ITEM","BLOCKSDOOR", "POTENTIAL_SECRET_FUR"],
+        "examine_action": "secret_switch",
         "bash": {
             "str_min": 11, "str_max": 30,
             "sound": "smash!",
@@ -1497,37 +1496,18 @@
                 { "item": "rock", "amount": 6, "minamount": 1 }
             ]
         }
-    },
-{
+    },{
         "type" : "furniture",
-        "id" : "f_beauty_statue_a",
-        "name": "beautiful statue",
-        "symbol": "S",
-        "color": "red",
-        "move_cost_mod": 2,
-        "required_str": 10,
-        "flags": ["BASHABLE","PLACE_ITEM","BLOCKSDOOR"],
-        "examine_action": "secret_examine",
-        "bash": {
-            "str_min": 11, "str_max": 30,
-            "sound": "smash!",
-            "sound_fail": "thump.",
-            "items": [
-                { "item": "rock", "amount": 6, "minamount": 1 }
-            ]
-        }
-    },
-
-{
-        "type" : "furniture",
-        "id" : "f_beauty_plant",
-        "name": "beautyful indoor plant",
+        "id" : "f_hidden_plant",
+        "name": "beautiful indoor plant",
         "symbol": "^",
         "color": "green",
         "move_cost_mod": 2,
         "required_str": 5,
         "max_volume": 2000,
-        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "POTENTIAL_SECRET_FUR"],
+        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM",
+                  "ORGANIC", "POTENTIAL_SECRET_FUR"],
+        "examine_action": "secret_switch",
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "smash!",
@@ -1536,57 +1516,18 @@
                 { "item": "withered", "amount": 1, "minamount": 0 }
             ]
         }
-    },
-{
+    },{
         "type" : "furniture",
-        "id" : "f_beauty_plant_a",
-        "name": "beautyful indoor plant",
-        "symbol": "^",
-        "color": "red",
-        "move_cost_mod": 2,
-        "required_str": 5,
-        "max_volume": 2000,
-        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
-        "examine_action": "secret_examine",
-        "bash": {
-            "str_min": 2, "str_max": 30,
-            "sound": "smash!",
-            "sound_fail": "whump.",
-            "items": [
-                { "item": "withered", "amount": 1, "minamount": 0 }
-            ]
-        }
-    },
-{
-        "type" : "furniture",
-        "id" : "f_beauty_painting",
-        "name": "beautyful painting",
+        "id" : "f_hidden_painting",
+        "name": "beautiful painting",
         "symbol": "&",
         "color": "green",
         "move_cost_mod": 2,
         "required_str": 5,
         "max_volume": 2000,
-        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "POTENTIAL_SECRET_FUR"],
-        "bash": {
-            "str_min": 2, "str_max": 30,
-            "sound": "smash!",
-            "sound_fail": "whump.",
-            "items": [
-                { "item": "withered", "amount": 1, "minamount": 0 }
-            ]
-        }
-    },
-{
-        "type" : "furniture",
-        "id" : "f_beauty_painting_a",
-        "name": "beautyful painting",
-        "symbol": "&",
-        "color": "red",
-        "move_cost_mod": 2,
-        "required_str": 5,
-        "max_volume": 2000,
-        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
-        "examine_action": "secret_examine",
+        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM",
+                  "ORGANIC", "POTENTIAL_SECRET_FUR"],
+        "examine_action": "secret_switch",
         "bash": {
             "str_min": 2, "str_max": 30,
             "sound": "smash!",

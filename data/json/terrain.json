@@ -2641,18 +2641,7 @@
         "color": "dkgray",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"]
-    },
-{
-        "type" : "terrain",
-        "id" : "t_sh_check_secret",
-        "name": "floor",
-        "symbol": ".",
-        "color": "dkgray",
-        "trap": "tr_check_perception_trigger",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
-},
-{
+    },{
         "type" : "terrain",
         "id" : "t_wall_v_rem",
         "name": "wall",
@@ -2668,5 +2657,16 @@
         "color": "ltgray",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "ON_SECRET_HIDE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_floor_secret_switch",
+        "name": "floor",
+        "symbol": ".",
+        "color": "cyan",
+        "move_cost": 2,
+        "trap" : "tr_secret_switch",
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
     }
 ]
