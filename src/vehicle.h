@@ -610,6 +610,7 @@ public:
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     bool has_pedals;
+	bool has_paddles;
     bool has_hand_rims;
     bool lights_on;     // lights on/off
     bool stereo_on;

@@ -389,43 +389,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::toilet(player *p, map *m, int examx, int examy) {
-    std::vector<item>& items = m->i_at(examx, examy);
-    int waterIndex = -1;
-    for (int i = 0; i < items.size(); i++) {
-        if (items[i].typeId() == "water") {
-            waterIndex = i;
-            break;
-        }
-    }
 
-    if (waterIndex < 0) {
-        add_msg(m_info, _("This toilet is empty."));
-    } else {
-        bool drained = false;
-
-        item& water = items[waterIndex];
-        // Use a different poison value each time water is drawn from the toilet.
-        water.poison = one_in(3) ? 0 : rng(1, 3);
-
-        // First try handling/bottling, then try drinking.
-        if (g->handle_liquid(water, true, false))
-        {
-            p->moves -= 100;
-            drained = true;
-        }
-        else 
-        {
-            int charges_consumed = p->drink_from_hands(water);
-            water.charges -= charges_consumed;
-            if (water.charges <= 0) {
-                drained = true;
-            }
-        }
-
-        if (drained) {
-            items.erase(items.begin() + waterIndex);
-        }
-    }
 }
 
 void iexamine::elevator(player *p, map *m, int examx, int examy)
@@ -1795,31 +1759,11 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
 
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
-    item water = m->water_from(examx, examy);
-    // Try to handle first (bottling) drink after.
-    // changed boolean, large sources should be infinite
-    if (g->handle_liquid(water, true, true))
-    {
-        p->moves -= 100;
-    }
-    else 
-    {
-        p->drink_from_hands(water);
-    }
+
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
 {
-    item swater = m->swater_from(examx, examy);
-    // Try to handle first (bottling) drink after.
-    // changed boolean, large sources should be infinite
-    if (g->handle_liquid(swater, true, true))
-    {
-        p->moves -= 100;
-    }
-    else
-    {
-        p->drink_from_hands(swater);
-    }
+
 }
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
 {
