@@ -201,12 +201,18 @@ void fill_funnels( trap_id t )
                 auto weather_iterator = g->weather_log.lower_bound(startturn);
 
                 if(weather_iterator->first > startturn) {
-                    weather_iterator--; //select the weather span we want to use
-                }
-
-                if( endturn > int(weather_iterator->first) ) {
+                    if( endturn > int(weather_iterator->first) ) {
                     endturn = (weather_iterator->first) + 1;
                     //end this round of funnel updates when the weather changes.
+                    }
+                    weather_iterator--; //select the weather span we want to use
+                } else {
+                    weather_iterator++;
+                    if( endturn > int(weather_iterator->first) ) {
+                    endturn = (weather_iterator->first);
+                    //end this round of funnel updates when the weather changes.
+                    weather_iterator--; //select the weather span we want to use
+                    }
                 }
                 
                 std::pair<int, int> weathercond = rain_or_acid_level( weather_iterator->second.weather );
