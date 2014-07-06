@@ -824,7 +824,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                       "handled by the merchant in the front.");
 
         case TALK_FREE_MERCHANT_STOCKS_ALL:
-             return _("I'm actually accepting a number of different foodstuffs: beer, sugar, flour, "
+             return _("I'm actually accepting a number of different foodstuffs: homebrew beer, sugar, flour, "
                       "smoked meat, smoked fish, cooking oil and as mentioned before jerky, cornmeal, and fruit wine.");
 
         case TALK_FREE_MERCHANT_STOCKS_JERKY:
@@ -843,7 +843,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return effect.bulk_trade_inquire(p, "sugar");
 
         case TALK_FREE_MERCHANT_STOCKS_BEER:
-            return effect.bulk_trade_inquire(p, "brew_hb_beer");
+            return effect.bulk_trade_inquire(p, "hb_beer");
 
         case TALK_FREE_MERCHANT_STOCKS_SMMEAT:
             return effect.bulk_trade_inquire(p, "meat_smoked");
@@ -1766,7 +1766,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_FREE_MERCHANT_STOCKS_WINE);
   }
   if (g->u.charges_of("brew_hb_beer") > 0){
-  RESPONSE(_("Delivering homemade beer."));
+  RESPONSE(_("Delivering homebrew beer."));
    SUCCESS(TALK_FREE_MERCHANT_STOCKS_BEER);
   }
   if (g->u.charges_of("sugar") > 0){
@@ -1819,7 +1819,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
  case TALK_FREE_MERCHANT_STOCKS_BEER:
   RESPONSE(_("Works for me."));
-   effect.bulk_trade_accept(p, "brew_hb_beer");
+   effect.bulk_trade_accept(p, "hb_beer");
    SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
   break;
 
