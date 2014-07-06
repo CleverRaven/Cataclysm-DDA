@@ -1097,23 +1097,39 @@ void trapfunc::notice(Creature *c, int x, int y)
     {
         const trap *tr = traplist[g->m.tr_at(x, y)];
         int di = tr->get_difficulty();
-        int av = tr->get_avoidance();
         player *n = dynamic_cast<player *>(c);
-        if(n->has_trait("PSYCHOPATH"))
+        if(di>0)
         {
-            n->add_morale(MORALE_FEELING_GOOD,5,15);
-            add_msg(m_good, _("Haha, You've got one sick, twisted, sense of humor."));
+            if(n->has_trait("PSYCHOPATH")){
+            n->add_morale(MORALE_FEELING_GOOD,di/2,20);
+            }else{
+            n->add_morale(MORALE_FEELING_GOOD,di,20);
+            }
+        }else{
+        if(di>=-10&&di<0){
+            if(n->has_trait("PSYCHOPATH") || n->has_trait("PRED1") || n->has_trait("PRED2")||n->has_trait("PRED3")||n->has_trait("PRED4"))
+            {
+                n->add_morale(MORALE_FEELING_GOOD,-di,20);
+            }
+            else{
+                n->add_morale(MORALE_SCARED,di,30);}
         }
-        else
-        {
+        if(di>=20&&di<-10){
             n->add_morale(MORALE_SCARED,di,30);
             n->add_disease("shakes", rng(10,75));
-            add_msg(m_bad, _("The very sight of this scene turns your stomach."));
-            if(one_in(10))
-            {
-                add_msg(m_bad, _("You feel like you're gonna hurl!"));
-                n->vomit();
-            }
+            if(n->has_trait("WEAKSTOMACH")){
+                if(one_in(10))
+                    n->vomit();
+                }
+        }
+        if(di>=30&&di<-20){
+            n->add_morale(MORALE_SCARED,di,30);
+            n->add_disease("shakes", rng(40,150));
+            if(n->has_trait("WEAKSTOMACH")){
+                if(one_in(5))
+                    n->vomit();
+                }
+        }
         }
         g->m.remove_trap(x, y);
     }
