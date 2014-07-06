@@ -812,8 +812,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
              return _("I oversee the food stocks for the center.  There was significant looting during "
                       "the panic when we first arrived so most of our food was carried away.  I manage "
                       "what we have left and do everything I can to increase our supplies.  Rot and mold "
-                      "are more significant in the damp basement so I prioritize non-perishable food: "
-                      "cornmeal, jerky, and fruit wine.");
+                      "are more significant in the damp basement so I prioritize non-perishable food, "
+                      "such as cornmeal, jerky, and fruit wine.");
 
         case TALK_FREE_MERCHANT_STOCKS_WHY:
              return _("All three are easy to locally produce in significant quantities and are "
@@ -825,7 +825,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_FREE_MERCHANT_STOCKS_ALL:
              return _("I'm actually accepting a number of different foodstuffs: homebrew beer, sugar, flour, "
-                      "smoked meat, smoked fish, cooking oil and as mentioned before jerky, cornmeal, and fruit wine.");
+                      "smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, cornmeal, "
+                      "and fruit wine.");
 
         case TALK_FREE_MERCHANT_STOCKS_JERKY:
             return effect.bulk_trade_inquire(p, "jerky");
@@ -1746,7 +1747,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_FREE_MERCHANT_STOCKS_SMMEAT);
   }
   if (g->u.charges_of("fish_smoked") > 0){
-  RESPONSE(_("Delivering smoked meat."));
+  RESPONSE(_("Delivering smoked fish."));
    SUCCESS(TALK_FREE_MERCHANT_STOCKS_SMFISH);
   }
   if (g->u.charges_of("cooking_oil") > 0){
@@ -2643,6 +2644,7 @@ std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
 {
  int you_have = g->u.charges_of(it);
  int item_cost = item(it, 0).price();
+ p->add_msg_if_player(m_good, _("Let's see what you've got..."));
  std::stringstream response;
  response << string_format(_("I'm willing to pay $%.2f per serving. You have "
                             "%d servings for a total of $%.2f.  No questions asked, here is your cash.")
@@ -2656,6 +2658,7 @@ void talk_function::bulk_trade_accept(npc *p, itype_id it)
  int total = item(it, 0).price()*you_have;
  g->u.use_charges(it, you_have);
  g->u.cash += total;
+ p->add_msg_if_player(m_good, _("Pleasure doing business!"));
 }
 
 void talk_function::assign_base(npc *p)
