@@ -804,6 +804,63 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
              return _("I guess you're the boss.");
 
+        case TALK_FREE_MERCHANT_STOCKS:
+             return _("Hope you're here to trade.");
+
+        case TALK_FREE_MERCHANT_STOCKS_NEW:
+             return _("I oversee the food stocks for the center.  There was significant looting during "
+                      "the panic when we first arrived so most of our food was carried away.  I manage "
+                      "what we have left and do everything I can to increase our supplies.  Rot and mold "
+                      "are more significant in the damp basement so I prioritize non-perishable food: "
+                      "cornmeal, jerky, and fruit wine.");
+
+        case TALK_FREE_MERCHANT_STOCKS_WHY:
+             return _("All three are easy to locally produce in significant quantities and are "
+                      "non-perishable.  We have a local farmer or two and a few hunter types that have "
+                      "been making attempts to provide us with the nutritious supplies.  We do always "
+                      "need more suppliers though.  Because this stuff is rather cheap in bulk I can "
+                      "pay a premium for any you have on you.  Canned food and other edibles are "
+                      "handled by the merchant in the front.");
+
+        case TALK_FREE_MERCHANT_STOCKS_JERKY:
+            {
+            int you_have = g->u.charges_of("jerky");
+            int item_cost = item("jerky", 0).price();
+            int total = item_cost*you_have;
+            std::stringstream response;
+            response << string_format(_("I'm willing to pay $%.2f per 4.5 gram serving of jerky. You have "
+                                        "%d servings for a total of $%.2f.  No questions asked, cash now.")
+                                      ,(double)item_cost/100 ,you_have , (double)total/100);
+            return response.str();
+            }
+
+        case TALK_FREE_MERCHANT_STOCKS_CORNMEAL:
+            {
+            int you_have = g->u.charges_of("cornmeal");
+            int item_cost = item("cornmeal", 0).price();
+            int total = item_cost*you_have;
+            std::stringstream response;
+            response << string_format(_("I'm willing to pay $%.2f per .1 lbs of cornmeal. You have "
+                                        "%d lbs for a total of $%.2f.  No questions asked, cash now.")
+                                      ,(double)item_cost/100 ,you_have , (double)total/100);
+            return response.str();
+            }
+
+        case TALK_FREE_MERCHANT_STOCKS_WINE:
+            {
+            int you_have = g->u.charges_of("fruit_wine");
+            int item_cost = item("fruit_wine", 0).price();
+            int total = item_cost*you_have;
+            std::stringstream response;
+            response << string_format(_("I'm willing to pay $%.2f per 50 ml of fruit wine. You have "
+                                        "%d servings for a total of $%.2f.  No questions asked, cash now.")
+                                      ,(double)item_cost/100 ,you_have , (double)total/100);
+            return response.str();
+            }
+
+        case TALK_FREE_MERCHANT_STOCKS_DELIVERED:
+             return _("Thank you for your business!");
+
         case TALK_SHELTER:
             switch (rng(1, 2)) {
                 case 1: return _("Well, I guess it's just us.");
@@ -1678,6 +1735,77 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS_ACTION(&talk_function::follow);
    SUCCESS_OPINION(1, 0, 1, 0, 0);
    SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_FREE_MERCHANT_STOCKS:
+  RESPONSE(_("Who are you?"));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_NEW);
+  if (g->u.charges_of("jerky") > 0){
+  RESPONSE(_("Delivering jerky."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_JERKY);
+  }
+  if (g->u.charges_of("cornmeal") > 0){
+  RESPONSE(_("Delivering cornmeal."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_CORNMEAL);
+  }
+  if (g->u.charges_of("fruit_wine") > 0){
+  RESPONSE(_("Delivering fruit wine."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_WINE);
+  }
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_FREE_MERCHANT_STOCKS_JERKY:
+  RESPONSE(_("Works for me."));
+    {
+    int you_have = g->u.charges_of("jerky");
+    int total = item("jerky", 0).price()*you_have;
+    g->u.use_charges("jerky", you_have);
+    g->u.cash += total;
+    }
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  RESPONSE(_("No thanks."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+  break;
+
+ case TALK_FREE_MERCHANT_STOCKS_CORNMEAL:
+  RESPONSE(_("Works for me."));
+    {
+    int you_have = g->u.charges_of("cornmeal");
+    int total = item("cornmeal", 0).price()*you_have;
+    g->u.use_charges("cornmeal", you_have);
+    g->u.cash += total;
+    }
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  RESPONSE(_("No thanks."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+  break;
+
+ case TALK_FREE_MERCHANT_STOCKS_WINE:
+  RESPONSE(_("Works for me."));
+    {
+    int you_have = g->u.charges_of("fruit_wine");
+    int total = item("fruit_wine", 0).price()*you_have;
+    g->u.use_charges("fruit_wine", you_have);
+    g->u.cash += total;
+    }
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  RESPONSE(_("No thanks."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+  break;
+
+ case TALK_FREE_MERCHANT_STOCKS_NEW:
+  RESPONSE(_("Why cornmeal, jerky, and fruit wine?"));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_WHY);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_WHY:
+  RESPONSE(_("Very well..."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_DELIVERED:
+  RESPONSE(_("You might be seeing more of me..."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS);
   break;
 
  case TALK_SHELTER:
