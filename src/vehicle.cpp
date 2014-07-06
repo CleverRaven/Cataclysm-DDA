@@ -75,7 +75,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     reactor_on = false;
     engine_on = false;
     has_pedals = false;
-	has_paddles = false;
+    has_paddles = false;
     has_hand_rims = false;
 
     //type can be null if the type_id parameter is omitted
@@ -699,9 +699,9 @@ void vehicle::use_controls()
                   add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
               } else if( has_pedals ) {
                   add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
-			  } else if (has_paddles) {
-				  add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
-			  } else if( has_hand_rims ) {
+              } else if (has_paddles) {
+                  add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
+              } else if( has_hand_rims ) {
                   add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
               } else {
                   add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -2366,7 +2366,7 @@ float vehicle::wheels_area (int *cnt)
         *cnt = count;
     }
 
-	if (all_parts_with_feature("FLOATS").size() > 0) return 13;
+    if (all_parts_with_feature("FLOATS").size() > 0) return 13;
 
     return total_area;
 }
@@ -2877,9 +2877,9 @@ void vehicle::thrust (int thd) {
                   add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
               } else if( has_pedals ) {
                   add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
-			  } else if (has_paddles) {
-				  add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
-			  } else if (has_hand_rims) {
+              } else if (has_paddles) {
+                  add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
+              } else if (has_hand_rims) {
                   add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
               } else {
                   add_msg (m_info, _("The %s's engine emits a sneezing sound."), name.c_str());
@@ -2888,12 +2888,12 @@ void vehicle::thrust (int thd) {
             cruise_velocity = 0;
             return;
         }
-		else if (!engine_on && !has_pedals && !has_hand_rims && !has_paddles) {
+        else if (!engine_on && !has_pedals && !has_hand_rims && !has_paddles) {
           add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
 		}
-		else if (has_pedals || has_hand_rims || has_paddles) {
+        else if (has_pedals || has_hand_rims || has_paddles) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -3629,7 +3629,7 @@ void vehicle::refresh()
     recharger_epower = 0;
     alternator_load = 0;
     has_pedals = false;
-	has_paddles = false;
+    has_paddles = false;
     has_hand_rims = false;
 
     // Used to sort part list so it displays properly when examining
@@ -3680,9 +3680,9 @@ void vehicle::refresh()
         if( vpi.has_flag("PEDALS") ) {
             has_pedals = true;
         }
-		if (vpi.has_flag("PADDLES")) {
-			has_paddles = true;
-		}
+        if (vpi.has_flag("PADDLES")) {
+            has_paddles = true;
+        }
         if( vpi.has_flag("HAND_RIMS") ) {
             has_hand_rims = true;
         }
