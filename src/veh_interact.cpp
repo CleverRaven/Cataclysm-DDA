@@ -1133,8 +1133,8 @@ void veh_interact::display_stats()
         }
     }
 
-	bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
-	bool conf;
+    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool conf;
 
     conf = veh->valid_wheel_config();
 
