@@ -1292,6 +1292,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     RESPONSE(_("Justice has been served."));
      SUCCESS(TALK_MISSION_SUCCESS);
      SUCCESS_ACTION(&talk_function::mission_success);
+    break;
    case MGOAL_KILL_MONSTER:
     RESPONSE(_("I killed it."));
      SUCCESS(TALK_MISSION_SUCCESS);
