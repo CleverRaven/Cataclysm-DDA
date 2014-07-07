@@ -5597,7 +5597,7 @@
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "CBM_OP", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
         "type" : "MONSTER",
-        "id" : "mon_prox_alam",
+        "id" : "mon_prox_alarm",
     "name": "Proximity Sensor",
     "species":"ROBOT",
     "symbol":"A",
@@ -5623,9 +5623,9 @@
         ]
     },
     "luminance":0,
-    "hp":100,
+    "hp":20,
     "special_freq":50,
-    "death_function":"EXPLODE",
+    "death_function":"BROKEN",
     "special_attack":"PROXIMITY_ALARM",
     "description":"A Proximity Sensor designed to automatically protect an area by calling for robotic reinforcements ",
     "flags":["SEES", "IMMOBILE", "ELECTRONIC", "NO_BREATHE", "NOHEAD"]
@@ -5670,8 +5670,8 @@
     "morale":100,
     "speed":100,
     "melee_skill":10,
-    "melee_dice":7,
-    "melee_dice_sides":7,
+    "melee_dice":8,
+    "melee_dice_sides":8,
     "melee_cut":0,
     "dodge":5,
     "armor_bash":15,
