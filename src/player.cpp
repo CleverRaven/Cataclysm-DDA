@@ -2240,39 +2240,27 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  skill_win_size_y--;
  effect_win_size_y--;
 
-// Print name and header
-
-    std::string gender_prof;
+    // Print name and header
     // Post-humanity trumps your pre-Cataclysm life.
     if (crossed_threshold()) {
         std::vector<std::string> traitslist;
         std::string race;
-        for( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            traitslist.push_back(*iter);
-        }
-        for (int i = 0; i < traitslist.size(); i++) {
+        for (size_t i = 0; i < traitslist.size(); i++) {
             if (mutation_data[traitslist[i]].threshold == true)
                 race = traits[traitslist[i]].name;
-            }
-            const char *format;
-            if (male) {
-                format = _("%s - a male %s");
-            }
-            else {
-                format = _("%s - a female %s");
-            }
-            gender_prof = string_format(format, name.c_str(), race.c_str());
-    } else if (prof == NULL || prof == prof->generic()) {
-        if (male) {
-            gender_prof = string_format(_("%s - Male"), name.c_str());
-        } else {
-            gender_prof = string_format(_("%s - Female"), name.c_str());
         }
+        //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
+        mvwprintw(w_tip, 0, 0, _("%1$s | %2$s | %3$s"), name.c_str(),
+                  male ? _("Male") : _("Female"), race.c_str());
+    } else if (prof == NULL || prof == prof->generic()) {
+        // Regular person. Nothing interesting.
+        //~ player info window: 1s - name, 2s - gender, '|' - field separator.
+        mvwprintw(w_tip, 0, 0, _("%1$s | %2$s"), name.c_str(),
+                  male ? _("Male") : _("Female"));
     } else {
-        //~ player info: "<name> - <gender specific profession>"
-        gender_prof = string_format(_("%s - %s"), name.c_str(), prof->gender_appropriate_name(male).c_str());
+        mvwprintw(w_tip, 0, 0, _("%1$s | %2$s | %3$s"), name.c_str(),
+                  male ? _("Male") : _("Female"), prof->gender_appropriate_name(male).c_str());
     }
-    mvwprintw(w_tip, 0, 0, gender_prof.c_str());
 
     input_context ctxt("PLAYER_INFO");
     ctxt.register_updown();
