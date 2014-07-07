@@ -2017,7 +2017,7 @@ void player::disp_info()
     int line;
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
-    for (int i = 0; i < illness.size(); i++) {
+    for (size_t i = 0; i < illness.size(); i++) {
         if (dis_name(illness[i]).size() > 0) {
             effect_name.push_back(dis_name(illness[i]));
             effect_text.push_back(dis_description(illness[i]));
@@ -2113,7 +2113,7 @@ Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2"));
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     }
 
-    for (int i = 0; i < addictions.size(); i++) {
+    for (size_t i = 0; i < addictions.size(); i++) {
         if (addictions[i].sated < 0 &&
             addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
             effect_name.push_back(addiction_name(addictions[i]));
@@ -2148,97 +2148,97 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
     WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom + VIEW_OFFSET_Y, 53 + VIEW_OFFSET_X);
 
- WINDOW* w_tip     = newwin(1, FULL_SCREEN_WIDTH,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
- WINDOW* w_stats   = newwin(9, 26,  1 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
- WINDOW* w_traits  = newwin(trait_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y,  27 + VIEW_OFFSET_X);
- WINDOW* w_encumb  = newwin(9, 26,  1 + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
- WINDOW* w_effects = newwin(effect_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
- WINDOW* w_speed   = newwin(9, 26,  1 + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
- WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
- WINDOW* w_info    = newwin(3, FULL_SCREEN_WIDTH, infooffsetytop + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+    WINDOW* w_tip     = newwin(1, FULL_SCREEN_WIDTH,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+    WINDOW* w_stats   = newwin(9, 26,  1 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+    WINDOW* w_traits  = newwin(trait_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y,  27 + VIEW_OFFSET_X);
+    WINDOW* w_encumb  = newwin(9, 26,  1 + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
+    WINDOW* w_effects = newwin(effect_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
+    WINDOW* w_speed   = newwin(9, 26,  1 + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
+    WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
+    WINDOW* w_info    = newwin(3, FULL_SCREEN_WIDTH, infooffsetytop + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
 
- for (int i = 0; i < FULL_SCREEN_WIDTH+1; i++) {
-  //Horizontal line top grid
-  mvwputch(w_grid_top, 10, i, BORDER_COLOR, LINE_OXOX);
-  mvwputch(w_grid_top, 14, i, BORDER_COLOR, LINE_OXOX);
+    for (int i = 0; i < FULL_SCREEN_WIDTH+1; i++) {
+        //Horizontal line top grid
+        mvwputch(w_grid_top, 10, i, BORDER_COLOR, LINE_OXOX);
+        mvwputch(w_grid_top, 14, i, BORDER_COLOR, LINE_OXOX);
 
-  //Vertical line top grid
-  if (i <= infooffsetybottom) {
-   mvwputch(w_grid_top, i, 26, BORDER_COLOR, LINE_XOXO);
-   mvwputch(w_grid_top, i, 53, BORDER_COLOR, LINE_XOXO);
-   mvwputch(w_grid_top, i, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXO);
-  }
+        //Vertical line top grid
+        if (i <= infooffsetybottom) {
+            mvwputch(w_grid_top, i, 26, BORDER_COLOR, LINE_XOXO);
+            mvwputch(w_grid_top, i, 53, BORDER_COLOR, LINE_XOXO);
+            mvwputch(w_grid_top, i, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXO);
+        }
 
-  //Horizontal line skills
-  if (i <= 26) {
-   mvwputch(w_grid_skill, skill_win_size_y, i, BORDER_COLOR, LINE_OXOX);
-  }
+        //Horizontal line skills
+        if (i <= 26) {
+            mvwputch(w_grid_skill, skill_win_size_y, i, BORDER_COLOR, LINE_OXOX);
+        }
 
-  //Vertical line skills
-  if (i <= skill_win_size_y) {
-   mvwputch(w_grid_skill, i, 26, BORDER_COLOR, LINE_XOXO);
-  }
+        //Vertical line skills
+        if (i <= skill_win_size_y) {
+            mvwputch(w_grid_skill, i, 26, BORDER_COLOR, LINE_XOXO);
+        }
 
-  //Horizontal line traits
-  if (i <= 26) {
-   mvwputch(w_grid_trait, trait_win_size_y, i, BORDER_COLOR, LINE_OXOX);
-  }
+        //Horizontal line traits
+        if (i <= 26) {
+            mvwputch(w_grid_trait, trait_win_size_y, i, BORDER_COLOR, LINE_OXOX);
+        }
 
-  //Vertical line traits
-  if (i <= trait_win_size_y) {
-   mvwputch(w_grid_trait, i, 26, BORDER_COLOR, LINE_XOXO);
-  }
+        //Vertical line traits
+        if (i <= trait_win_size_y) {
+            mvwputch(w_grid_trait, i, 26, BORDER_COLOR, LINE_XOXO);
+        }
 
-  //Horizontal line effects
-  if (i <= 27) {
-   mvwputch(w_grid_effect, effect_win_size_y, i, BORDER_COLOR, LINE_OXOX);
-  }
+        //Horizontal line effects
+        if (i <= 27) {
+            mvwputch(w_grid_effect, effect_win_size_y, i, BORDER_COLOR, LINE_OXOX);
+        }
 
-  //Vertical line effects
-  if (i <= effect_win_size_y) {
-   mvwputch(w_grid_effect, i, 0, BORDER_COLOR, LINE_XOXO);
-   mvwputch(w_grid_effect, i, 27, BORDER_COLOR, LINE_XOXO);
-  }
- }
+        //Vertical line effects
+        if (i <= effect_win_size_y) {
+            mvwputch(w_grid_effect, i, 0, BORDER_COLOR, LINE_XOXO);
+            mvwputch(w_grid_effect, i, 27, BORDER_COLOR, LINE_XOXO);
+        }
+    }
 
- //Intersections top grid
- mvwputch(w_grid_top, 14, 26, BORDER_COLOR, LINE_OXXX); // T
- mvwputch(w_grid_top, 14, 53, BORDER_COLOR, LINE_OXXX); // T
- mvwputch(w_grid_top, 10, 26, BORDER_COLOR, LINE_XXOX); // _|_
- mvwputch(w_grid_top, 10, 53, BORDER_COLOR, LINE_XXOX); // _|_
- mvwputch(w_grid_top, 10, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX); // -|
- mvwputch(w_grid_top, 14, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX); // -|
- wrefresh(w_grid_top);
+    //Intersections top grid
+    mvwputch(w_grid_top, 14, 26, BORDER_COLOR, LINE_OXXX); // T
+    mvwputch(w_grid_top, 14, 53, BORDER_COLOR, LINE_OXXX); // T
+    mvwputch(w_grid_top, 10, 26, BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(w_grid_top, 10, 53, BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(w_grid_top, 10, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_grid_top, 14, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX); // -|
+    wrefresh(w_grid_top);
 
- mvwputch(w_grid_skill, skill_win_size_y, 26, BORDER_COLOR, LINE_XOOX); // _|
+    mvwputch(w_grid_skill, skill_win_size_y, 26, BORDER_COLOR, LINE_XOOX); // _|
 
- if (skill_win_size_y > trait_win_size_y)
-  mvwputch(w_grid_skill, trait_win_size_y, 26, BORDER_COLOR, LINE_XXXO); // |-
- else if (skill_win_size_y == trait_win_size_y)
-  mvwputch(w_grid_skill, trait_win_size_y, 26, BORDER_COLOR, LINE_XXOX); // _|_
+    if (skill_win_size_y > trait_win_size_y)
+        mvwputch(w_grid_skill, trait_win_size_y, 26, BORDER_COLOR, LINE_XXXO); // |-
+    else if (skill_win_size_y == trait_win_size_y)
+        mvwputch(w_grid_skill, trait_win_size_y, 26, BORDER_COLOR, LINE_XXOX); // _|_
 
- mvwputch(w_grid_trait, trait_win_size_y, 26, BORDER_COLOR, LINE_XOOX); // _|
+    mvwputch(w_grid_trait, trait_win_size_y, 26, BORDER_COLOR, LINE_XOOX); // _|
 
- if (trait_win_size_y > effect_win_size_y)
-  mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXXO); // |-
- else if (trait_win_size_y == effect_win_size_y)
-  mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXOX); // _|_
- else if (trait_win_size_y < effect_win_size_y) {
-  mvwputch(w_grid_trait, trait_win_size_y, 26, BORDER_COLOR, LINE_XOXX); // -|
-  mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXOO); // |_
- }
+    if (trait_win_size_y > effect_win_size_y) {
+        mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXXO); // |-
+    } else if (trait_win_size_y == effect_win_size_y) {
+        mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXOX); // _|_
+    } else if (trait_win_size_y < effect_win_size_y) {
+        mvwputch(w_grid_trait, trait_win_size_y, 26, BORDER_COLOR, LINE_XOXX); // -|
+        mvwputch(w_grid_trait, effect_win_size_y, 26, BORDER_COLOR, LINE_XXOO); // |_
+    }
 
- mvwputch(w_grid_effect, effect_win_size_y, 0, BORDER_COLOR, LINE_XXOO); // |_
- mvwputch(w_grid_effect, effect_win_size_y, 27, BORDER_COLOR, LINE_XOOX); // _|
+    mvwputch(w_grid_effect, effect_win_size_y, 0, BORDER_COLOR, LINE_XXOO); // |_
+    mvwputch(w_grid_effect, effect_win_size_y, 27, BORDER_COLOR, LINE_XOOX); // _|
 
- wrefresh(w_grid_skill);
- wrefresh(w_grid_effect);
- wrefresh(w_grid_trait);
+    wrefresh(w_grid_skill);
+    wrefresh(w_grid_effect);
+    wrefresh(w_grid_trait);
 
- //-1 for header
- trait_win_size_y--;
- skill_win_size_y--;
- effect_win_size_y--;
+    //-1 for header
+    trait_win_size_y--;
+    skill_win_size_y--;
+    effect_win_size_y--;
 
     // Print name and header
     // Post-humanity trumps your pre-Cataclysm life.
@@ -2270,296 +2270,288 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     ctxt.register_action("HELP_KEYBINDINGS");
     std::string action;
 
- std::string help_msg = string_format(_("Press %s for help."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
- mvwprintz(w_tip, 0, FULL_SCREEN_WIDTH - utf8_width(help_msg.c_str()), c_ltred, help_msg.c_str());
- help_msg.clear();
- wrefresh(w_tip);
+    std::string help_msg = string_format(_("Press %s for help."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
+    mvwprintz(w_tip, 0, FULL_SCREEN_WIDTH - utf8_width(help_msg.c_str()), c_ltred, help_msg.c_str());
+    help_msg.clear();
+    wrefresh(w_tip);
 
-// First!  Default STATS screen.
- const char* title_STATS = _("STATS");
- mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
- mvwprintz(w_stats, 2, 1, c_ltgray, "                     ");
- mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
- mvwprintz(w_stats, 2, 20, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
- mvwprintz(w_stats, 3, 1, c_ltgray, "                     ");
- mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
- mvwprintz(w_stats, 3, 20, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
- mvwprintz(w_stats, 4, 1, c_ltgray, "                     ");
- mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
- mvwprintz(w_stats, 4, 20, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
- mvwprintz(w_stats, 5, 1, c_ltgray, "                     ");
- mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
- mvwprintz(w_stats, 5, 20, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
+    // First!  Default STATS screen.
+    const char* title_STATS = _("STATS");
+    mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
+    mvwprintz(w_stats, 2, 1, c_ltgray, "                     ");
+    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
+    mvwprintz(w_stats, 2, 20, c_ltgray, str_max>9?"(%d)":" (%d)", str_max);
+    mvwprintz(w_stats, 3, 1, c_ltgray, "                     ");
+    mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
+    mvwprintz(w_stats, 3, 20, c_ltgray, dex_max>9?"(%d)":" (%d)", dex_max);
+    mvwprintz(w_stats, 4, 1, c_ltgray, "                     ");
+    mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
+    mvwprintz(w_stats, 4, 20, c_ltgray, int_max>9?"(%d)":" (%d)", int_max);
+    mvwprintz(w_stats, 5, 1, c_ltgray, "                     ");
+    mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
+    mvwprintz(w_stats, 5, 20, c_ltgray, per_max>9?"(%d)":" (%d)", per_max);
 
- nc_color status = c_white;
+    nc_color status = c_white;
 
- if (str_cur <= 0)
-  status = c_dkgray;
- else if (str_cur < str_max / 2)
-  status = c_red;
- else if (str_cur < str_max)
-  status = c_ltred;
- else if (str_cur == str_max)
-  status = c_white;
- else if (str_cur < str_max * 1.5)
-  status = c_ltgreen;
- else
-  status = c_green;
- mvwprintz(w_stats,  2, (str_cur < 10 ? 17 : 16), status, "%d", str_cur);
+    if (str_cur <= 0)
+        status = c_dkgray;
+    else if (str_cur < str_max / 2)
+        status = c_red;
+    else if (str_cur < str_max)
+        status = c_ltred;
+    else if (str_cur == str_max)
+        status = c_white;
+    else if (str_cur < str_max * 1.5)
+        status = c_ltgreen;
+    else
+        status = c_green;
+    mvwprintz(w_stats,  2, (str_cur < 10 ? 17 : 16), status, "%d", str_cur);
 
- if (dex_cur <= 0)
-  status = c_dkgray;
- else if (dex_cur < dex_max / 2)
-  status = c_red;
- else if (dex_cur < dex_max)
-  status = c_ltred;
- else if (dex_cur == dex_max)
-  status = c_white;
- else if (dex_cur < dex_max * 1.5)
-  status = c_ltgreen;
- else
-  status = c_green;
- mvwprintz(w_stats,  3, (dex_cur < 10 ? 17 : 16), status, "%d", dex_cur);
+    if (dex_cur <= 0)
+        status = c_dkgray;
+    else if (dex_cur < dex_max / 2)
+        status = c_red;
+    else if (dex_cur < dex_max)
+        status = c_ltred;
+    else if (dex_cur == dex_max)
+        status = c_white;
+    else if (dex_cur < dex_max * 1.5)
+        status = c_ltgreen;
+    else
+        status = c_green;
+    mvwprintz(w_stats,  3, (dex_cur < 10 ? 17 : 16), status, "%d", dex_cur);
 
- if (int_cur <= 0)
-  status = c_dkgray;
- else if (int_cur < int_max / 2)
-  status = c_red;
- else if (int_cur < int_max)
-  status = c_ltred;
- else if (int_cur == int_max)
-  status = c_white;
- else if (int_cur < int_max * 1.5)
-  status = c_ltgreen;
- else
-  status = c_green;
- mvwprintz(w_stats,  4, (int_cur < 10 ? 17 : 16), status, "%d", int_cur);
+    if (int_cur <= 0)
+        status = c_dkgray;
+    else if (int_cur < int_max / 2)
+        status = c_red;
+    else if (int_cur < int_max)
+        status = c_ltred;
+    else if (int_cur == int_max)
+        status = c_white;
+    else if (int_cur < int_max * 1.5)
+        status = c_ltgreen;
+    else
+        status = c_green;
+    mvwprintz(w_stats,  4, (int_cur < 10 ? 17 : 16), status, "%d", int_cur);
 
- if (per_cur <= 0)
-  status = c_dkgray;
- else if (per_cur < per_max / 2)
-  status = c_red;
- else if (per_cur < per_max)
-  status = c_ltred;
- else if (per_cur == per_max)
-  status = c_white;
- else if (per_cur < per_max * 1.5)
-  status = c_ltgreen;
- else
-  status = c_green;
- mvwprintz(w_stats,  5, (per_cur < 10 ? 17 : 16), status, "%d", per_cur);
+    if (per_cur <= 0)
+        status = c_dkgray;
+    else if (per_cur < per_max / 2)
+        status = c_red;
+    else if (per_cur < per_max)
+        status = c_ltred;
+    else if (per_cur == per_max)
+        status = c_white;
+    else if (per_cur < per_max * 1.5)
+        status = c_ltgreen;
+    else
+        status = c_green;
+    mvwprintz(w_stats,  5, (per_cur < 10 ? 17 : 16), status, "%d", per_cur);
 
- wrefresh(w_stats);
+    wrefresh(w_stats);
 
-// Next, draw encumberment.
- std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"), _("Hands"), _("Legs"), _("Feet")};
- body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
- int iEnc, iArmorEnc, iWarmth;
- double iLayers;
+    // Next, draw encumberment.
+    std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"),
+                            _("Arms"), _("Hands"), _("Legs"), _("Feet")};
+    body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
+    int iEnc, iArmorEnc, iWarmth;
+    double iLayers;
 
- const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
- mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
- for (int i = 0; i < 8; i++) {
-  iLayers = iArmorEnc = 0;
-  iWarmth = warmth(body_part(i));
-  iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
-  mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s:", asText[i].c_str());
-  mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", iLayers);
-  mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
-            " ", iArmorEnc, "+", iEnc - iArmorEnc);
-  wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-  wprintz(w_encumb, bodytemp_color(i), " (%3d)", iWarmth);
- }
- wrefresh(w_encumb);
+    const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
+    mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
+    for (int i = 0; i < 8; i++) {
+        iLayers = iArmorEnc = 0;
+        iWarmth = warmth(body_part(i));
+        iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
+        mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s:", asText[i].c_str());
+        mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", iLayers);
+        mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
+                  " ", iArmorEnc, "+", iEnc - iArmorEnc);
+        wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
+        wprintz(w_encumb, bodytemp_color(i), " (%3d)", iWarmth);
+    }
+    wrefresh(w_encumb);
 
-// Next, draw traits.
- const char *title_TRAITS = _("TRAITS");
- mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
- std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
- for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-  if (mutation_data[traitslist[i]].threshold == true)
-   status = c_white;
-  else if (traits[traitslist[i]].mixed_effect == true)
-   status = c_pink;
-  else if (traits[traitslist[i]].points > 0)
-   status = c_ltgreen;
-  else if (traits[traitslist[i]].points < 0)
-   status = c_ltred;
-  else
-   status = c_yellow;
-  mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
- }
+    // Next, draw traits.
+    const char *title_TRAITS = _("TRAITS");
+    mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
+    std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
+    for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
+        if (mutation_data[traitslist[i]].threshold == true)
+            status = c_white;
+        else if (traits[traitslist[i]].mixed_effect == true)
+            status = c_pink;
+        else if (traits[traitslist[i]].points > 0)
+            status = c_ltgreen;
+        else if (traits[traitslist[i]].points < 0)
+            status = c_ltred;
+        else
+            status = c_yellow;
+        mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
+    }
+    wrefresh(w_traits);
 
- wrefresh(w_traits);
+    // Next, draw effects.
+    const char *title_EFFECTS = _("EFFECTS");
+    mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
+    for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
+        mvwprintz(w_effects, i+1, 0, c_ltgray, "%s", effect_name[i].c_str());
+    }
+    wrefresh(w_effects);
 
-// Next, draw effects.
- const char *title_EFFECTS = _("EFFECTS");
- mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
- for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
-  mvwprintz(w_effects, i+1, 0, c_ltgray, "%s", effect_name[i].c_str());
- }
- wrefresh(w_effects);
+    // Next, draw skills.
+    line = 1;
+    std::vector<Skill*> skillslist;
+    const char *title_SKILLS = _("SKILLS");
+    mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
-// Next, draw skills.
- line = 1;
- std::vector<Skill*> skillslist;
- const char *title_SKILLS = _("SKILLS");
- mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
+    std::vector<std::pair<Skill *, int> > sorted;
+    int num_skills = Skill::skills.size();
+    for (int i = 0; i < num_skills; i++) {
+        Skill *s = Skill::skills[i];
+        SkillLevel &sl = skillLevel(s);
+        sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
+    }
+    std::sort(sorted.begin(), sorted.end(), skill_display_sort);
+    for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); ++i) {
+        skillslist.push_back((*i).first);
+    }
 
- std::vector<std::pair<Skill *, int> > sorted;
- int num_skills = Skill::skills.size();
- for (int i = 0; i < num_skills; i++) {
-     Skill *s = Skill::skills[i];
-     SkillLevel &sl = skillLevel(s);
-     sorted.push_back(std::pair<Skill *, int>(s, sl.level() * 100 + sl.exercise()));
- }
- std::sort(sorted.begin(), sorted.end(), skill_display_sort);
- for (std::vector<std::pair<Skill *, int> >::iterator i = sorted.begin(); i != sorted.end(); ++i) {
-     skillslist.push_back((*i).first);
- }
+    for (auto aSkill = skillslist.begin(); aSkill != skillslist.end(); ++aSkill) {
+        SkillLevel level = skillLevel(*aSkill);
 
- for (std::vector<Skill*>::iterator aSkill = skillslist.begin();
-      aSkill != skillslist.end(); ++aSkill)
- {
-   SkillLevel level = skillLevel(*aSkill);
+        // Default to not training and not rusting
+        nc_color text_color = c_blue;
+        bool training = level.isTraining();
+        bool rusting = level.isRusting();
 
-   // Default to not training and not rusting
-   nc_color text_color = c_blue;
-   bool training = level.isTraining();
-   bool rusting = level.isRusting();
+        if(training && rusting) {
+            text_color = c_ltred;
+        } else if (training) {
+            text_color = c_ltblue;
+        } else if (rusting) {
+            text_color = c_red;
+        }
 
-   if(training && rusting)
-   {
-       text_color = c_ltred;
-   }
-   else if (training)
-   {
-       text_color = c_ltblue;
-   }
-   else if (rusting)
-   {
-       text_color = c_red;
-   }
+        int level_num = (int)level;
+        int exercise = level.exercise();
 
-   int level_num = (int)level;
-   int exercise = level.exercise();
-
-   if (has_active_bionic("bio_cqb") &&
+        if (has_active_bionic("bio_cqb") &&
         ((*aSkill)->ident() == "melee" || (*aSkill)->ident() == "unarmed" ||
          (*aSkill)->ident() == "cutting" || (*aSkill)->ident() == "bashing" ||
          (*aSkill)->ident() == "stabbing")) {
-    level_num = 5;
-    exercise = 0;
-    text_color = c_yellow;
-   }
-   if (line < skill_win_size_y + 1)
-   {
-     mvwprintz(w_skills, line, 1, text_color, "%s:", (*aSkill)->name().c_str());
-     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", level_num,
-               (exercise <  0 ? 0 : exercise));
-     line++;
-   }
- }
+            level_num = 5;
+            exercise = 0;
+            text_color = c_yellow;
+        }
 
- wrefresh(w_skills);
+        if (line < skill_win_size_y + 1) {
+            mvwprintz(w_skills, line, 1, text_color, "%s:", (*aSkill)->name().c_str());
+            mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", level_num,
+                      (exercise <  0 ? 0 : exercise));
+            line++;
+        }
+    }
+    wrefresh(w_skills);
 
-// Finally, draw speed.
- const char *title_SPEED = _("SPEED");
- mvwprintz(w_speed, 0, 13 - utf8_width(title_SPEED)/2, c_ltgray, title_SPEED);
- mvwprintz(w_speed, 1,  1, c_ltgray, _("Base Move Cost:"));
- mvwprintz(w_speed, 2,  1, c_ltgray, _("Current Speed:"));
- int newmoves = get_speed();
- int pen = 0;
- line = 3;
- if (weight_carried() > weight_capacity()) {
-  pen = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
-  mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  line++;
- }
- pen = int(morale_level() / 25);
- if (abs(pen) >= 4) {
-  if (pen > 10)
-   pen = 10;
-  else if (pen < -10)
-   pen = -10;
-  if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%"),
-             (pen < 10 ? " " : ""), pen);
-  else
-   mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%"),
-             (abs(pen) < 10 ? " " : ""), abs(pen));
-  line++;
- }
- pen = int((pain - pkill) * .7);
- if (has_trait("CENOBITE")) {
-      pen /= 4;
-  }
- if (pen > 60)
-  pen = 60;
- if (pen >= 1) {
-  mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  line++;
- }
- if (pkill >= 10) {
-  pen = int(pkill * .1);
-  mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  line++;
- }
- if (stim != 0) {
-  pen = stim;
-  if (pen > 0)
-   mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  else
-   mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%"),
-            (abs(pen) < 10 ? " " : ""), abs(pen));
-  line++;
- }
- if (thirst > 40) {
-  pen = int((thirst - 40) / 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  line++;
- }
- if (hunger > 100) {
-  pen = int((hunger - 100) / 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  line++;
- }
- if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy)) {
-  pen = (g->light_level() >= 12 ? 5 : 10);
-  mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  line++;
- }
- if (has_trait ("COLDBLOOD4") && g->get_temperature() > 65) {
-  pen = int( (g->get_temperature() - 65) / 2);
-  mvwprintz(w_speed, line, 1, c_green, _("Cold-Blooded        +%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  line++;
- }
-  if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
-      has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) &&
-      g->get_temperature() < 65) {
-  if (has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) {
-   pen = int( (65 - g->get_temperature()) / 2);
-   }
-  else if (has_trait("COLDBLOOD2")) {
-   pen = int( (65 - g->get_temperature()) / 3);
-   }
-  else pen = int( (65 - g->get_temperature()) / 2);
-  mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
-  line++;
- }
+    // Finally, draw speed.
+    const char *title_SPEED = _("SPEED");
+    mvwprintz(w_speed, 0, 13 - utf8_width(title_SPEED)/2, c_ltgray, title_SPEED);
+    mvwprintz(w_speed, 1,  1, c_ltgray, _("Base Move Cost:"));
+    mvwprintz(w_speed, 2,  1, c_ltgray, _("Current Speed:"));
+    int newmoves = get_speed();
+    int pen = 0;
+    line = 3;
+    if (weight_carried() > weight_capacity()) {
+        pen = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
+        mvwprintz(w_speed, line, 1, c_red, _("Overburdened        -%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+        line++;
+    }
+    pen = int(morale_level() / 25);
+    if (abs(pen) >= 4) {
+        if (pen > 10)
+            pen = 10;
+        else if (pen < -10)
+            pen = -10;
+        if (pen > 0)
+            mvwprintz(w_speed, line, 1, c_green, _("Good mood           +%s%d%%"),
+                      (pen < 10 ? " " : ""), pen);
+        else
+            mvwprintz(w_speed, line, 1, c_red, _("Depressed           -%s%d%%"),
+                      (abs(pen) < 10 ? " " : ""), abs(pen));
+        line++;
+    }
+    pen = int((pain - pkill) * .7);
+    if (has_trait("CENOBITE")) {
+        pen /= 4;
+    }
+    if (pen > 60)
+        pen = 60;
+    if (pen >= 1) {
+        mvwprintz(w_speed, line, 1, c_red, _("Pain                -%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+        line++;
+    }
+    if (pkill >= 10) {
+        pen = int(pkill * .1);
+        mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+        line++;
+    }
+    if (stim != 0) {
+        pen = stim;
+        if (pen > 0)
+            mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%"),
+                      (pen < 10 ? " " : ""), pen);
+        else
+            mvwprintz(w_speed, line, 1, c_red, _("Depressants         -%s%d%%"),
+                      (abs(pen) < 10 ? " " : ""), abs(pen));
+        line++;
+    }
+    if (thirst > 40) {
+        pen = int((thirst - 40) / 10);
+        mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+        line++;
+    }
+    if (hunger > 100) {
+        pen = int((hunger - 100) / 10);
+        mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+        line++;
+    }
+    if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(posx, posy)) {
+        pen = (g->light_level() >= 12 ? 5 : 10);
+        mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+        line++;
+    }
+    if (has_trait ("COLDBLOOD4") && g->get_temperature() > 65) {
+        pen = int( (g->get_temperature() - 65) / 2);
+        mvwprintz(w_speed, line, 1, c_green, _("Cold-Blooded        +%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+        line++;
+    }
+    if ((has_trait("COLDBLOOD") || has_trait("COLDBLOOD2") ||
+         has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) &&
+        g->get_temperature() < 65) {
+        if (has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) {
+            pen = int( (65 - g->get_temperature()) / 2);
+        } else if (has_trait("COLDBLOOD2")) {
+            pen = int( (65 - g->get_temperature()) / 3);
+        } else {
+            pen = int( (65 - g->get_temperature()) / 2);
+        }
+        mvwprintz(w_speed, line, 1, c_red, _("Cold-Blooded        -%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+        line++;
+    }
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for (int i = 0; i < illness.size(); i++) {
+    for (size_t i = 0; i < illness.size(); i++) {
         int move_adjust = disease_speed_boost(illness[i]);
         if (move_adjust != 0) {
             if (dis_combined_name(illness[i]) == "") {
@@ -2571,482 +2563,490 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         }
     }
 
-    for (std::map<std::string, int>::iterator it = speed_effects.begin();
-          it != speed_effects.end(); ++it) {
+    for (auto it = speed_effects.begin(); it != speed_effects.end(); ++it) {
         nc_color col = (it->second > 0 ? c_green : c_red);
         mvwprintz(w_speed, line,  1, col, "%s", it->first.c_str());
         mvwprintz(w_speed, line, 21, col, (it->second > 0 ? "+" : "-"));
         mvwprintz(w_speed, line, (abs(it->second) >= 10 ? 22 : 23), col, "%d%%",
-                   abs(it->second));
+                  abs(it->second));
         line++;
     }
 
- if (has_trait("QUICK")) {
-  pen = int(newmoves * .1);
-  mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
- }
- if (has_bionic("bio_speed")) {
-  pen = int(newmoves * .1);
-  mvwprintz(w_speed, line, 1, c_green, _("Bionic Speed        +%s%d%%"),
-            (pen < 10 ? " " : ""), pen);
- }
- int runcost = run_cost(100);
- nc_color col = (runcost <= 100 ? c_green : c_red);
- mvwprintz(w_speed, 1, (runcost  >= 100 ? 21 : (runcost  < 10 ? 23 : 22)), col,
-           "%d", runcost);
- col = (newmoves >= 100 ? c_green : c_red);
- mvwprintz(w_speed, 2, (newmoves >= 100 ? 21 : (newmoves < 10 ? 23 : 22)), col,
-           "%d", newmoves);
- wrefresh(w_speed);
+    if (has_trait("QUICK")) {
+        pen = int(newmoves * .1);
+        mvwprintz(w_speed, line, 1, c_green, _("Quick               +%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+    }
+    if (has_bionic("bio_speed")) {
+        pen = int(newmoves * .1);
+        mvwprintz(w_speed, line, 1, c_green, _("Bionic Speed        +%s%d%%"),
+                  (pen < 10 ? " " : ""), pen);
+    }
+    int runcost = run_cost(100);
+    nc_color col = (runcost <= 100 ? c_green : c_red);
+    mvwprintz(w_speed, 1, (runcost  >= 100 ? 21 : (runcost  < 10 ? 23 : 22)), col,
+              "%d", runcost);
+    col = (newmoves >= 100 ? c_green : c_red);
+    mvwprintz(w_speed, 2, (newmoves >= 100 ? 21 : (newmoves < 10 ? 23 : 22)), col,
+              "%d", newmoves);
+    wrefresh(w_speed);
 
- refresh();
- int curtab = 1;
- int min, max;
- line = 0;
- bool done = false;
- int half_y = 0;
+    refresh();
 
-// Initial printing is DONE.  Now we give the player a chance to scroll around
-// and "hover" over different items for more info.
- do {
-  werase(w_info);
-  switch (curtab) {
-  case 1: // Stats tab
-   mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
-   mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
-   if (line == 0) {
-    mvwprintz(w_stats, 2, 1, h_ltgray, _("Strength:"));
+    int curtab = 1;
+    int min, max;
+    line = 0;
+    bool done = false;
+    int half_y = 0;
 
-// display player current STR effects
-    mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP: %d              "),
-             hp_max[1]);
-    mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight: %.1f %s     "), convert_weight(weight_capacity(false)),
-                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
-    mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage: %d         "),
-             base_damage(false));
+    // Initial printing is DONE.  Now we give the player a chance to scroll around
+    // and "hover" over different items for more info.
+    do {
+        werase(w_info);
+        switch (curtab) {
+            case 1: // Stats tab
+                mvwprintz(w_stats, 0, 0, h_ltgray, _("                          "));
+                mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, h_ltgray, title_STATS);
+                if (line == 0) {
+                    // display player current STR effects
+                    mvwprintz(w_stats, 2, 1, h_ltgray, _("Strength:"));
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP: %d              "), hp_max[1]);
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight: %.1f %s     "),
+                              convert_weight(weight_capacity(false)),
+                              OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
+                    mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage: %d         "),
+                              base_damage(false));
 
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Strength affects your melee damage, the amount of weight you can carry, your total HP, \
 your resistance to many diseases, and the effectiveness of actions which require brute force."));
-   } else if (line == 1) {
-    mvwprintz(w_stats, 3, 1, h_ltgray, _("Dexterity:"));
- // display player current DEX effects
-    mvwprintz(w_stats, 6, 1, c_magenta, _("Melee to-hit bonus: +%d                      "),
-             base_to_hit(false));
-    mvwprintz(w_stats, 7, 1, c_magenta, "                                            ");
-    mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty: -%d"),
-             abs(ranged_dex_mod(false)));
-    mvwprintz(w_stats, 8, 1, c_magenta, "                                            ");
-    if (throw_dex_mod(false) <= 0) {
-        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing bonus: +%d"),
-                  abs(throw_dex_mod(false)));
-    } else {
-        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing penalty: -%d"),
-                  abs(throw_dex_mod(false)));
-    }
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+                } else if (line == 1) {
+                    // display player current DEX effects
+                    mvwprintz(w_stats, 3, 1, h_ltgray, _("Dexterity:"));
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Melee to-hit bonus: +%d                      "),
+                              base_to_hit(false));
+                    mvwprintz(w_stats, 7, 1, c_magenta, "                                            ");
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty: -%d"),
+                              abs(ranged_dex_mod(false)));
+                    mvwprintz(w_stats, 8, 1, c_magenta, "                                            ");
+                    if (throw_dex_mod(false) <= 0) {
+                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing bonus: +%d"),
+                        abs(throw_dex_mod(false)));
+                    } else {
+                        mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing penalty: -%d"),
+                        abs(throw_dex_mod(false)));
+                    }
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Dexterity affects your chance to hit in melee combat, helps you steady your \
 gun for ranged combat, and enhances many actions that require finesse."));
-   } else if (line == 2) {
-    mvwprintz(w_stats, 4, 1, h_ltgray, _("Intelligence:"));
- // display player current INT effects
-   mvwprintz(w_stats, 6, 1, c_magenta, _("Read times: %d%%           "),
-             read_speed(false));
-   mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust: %d%%           "),
-             rust_rate(false));
-   mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "),
-             int_cur);
+                } else if (line == 2) {
+                    // display player current INT effects
+                    mvwprintz(w_stats, 4, 1, h_ltgray, _("Intelligence:"));
+                    mvwprintz(w_stats, 6, 1, c_magenta, _("Read times: %d%%           "), read_speed(false));
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust: %d%%           "), rust_rate(false));
+                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "), int_cur);
 
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Intelligence is less important in most situations, but it is vital for more complex tasks like \
 electronics crafting. It also affects how much skill you can pick up from reading a book."));
-   } else if (line == 3) {
-    mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
-
-       mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
-             abs(ranged_per_mod(false)),"          ");
-    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "),
-             per_cur);
-    mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+                } else if (line == 3) {
+                    // display player current PER effects
+                    mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
+                    mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
+                              abs(ranged_per_mod(false)),"          ");
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), per_cur);
+                    mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
+                    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Perception is the most important stat for ranged combat. It's also used for \
 detecting traps and other things of interest."));
-   }
-   wrefresh(w_stats);
-   wrefresh(w_info);
-   action = ctxt.handle_input();
-   if (action == "DOWN") {
-     line++;
-     if (line == 4)
-      line = 0;
-   } else if (action == "UP") {
-     line--;
-     if (line == -1)
-      line = 3;
-   } else if (action == "NEXT_TAB") {
-     mvwprintz(w_stats, 0, 0, c_ltgray, _("                          "));
-     mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
-     wrefresh(w_stats);
-     line = 0;
-     curtab++;
-   } else if (action == "QUIT") {
-     done = true;
-   }
-   mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
-   mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
-   mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
-   mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
-   wrefresh(w_stats);
-   break;
-  case 2: // Encumberment tab
-  {
-   mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
-   mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
-   std::string s;
-   if (line == 0) {
-    mvwprintz(w_encumb, 1, 1, h_ltgray, _("Torso"));
-    s = _("Melee skill %+d;");
-    s+= _(" Dodge skill %+d;\n");
-    s+= ngettext("Swimming costs %+d movement point;\n",
-                 "Swimming costs %+d movement points;\n",
-                 encumb(bp_torso) * (80 - skillLevel("swimming") * 3));
-    s+= ngettext("Melee and thrown attacks cost %+d movement point.",
-                 "Melee and thrown attacks cost %+d movement points.",
-                 encumb(bp_torso) * 20);
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s.c_str(), -encumb(bp_torso), -encumb(bp_torso),
-              encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
-   } else if (line == 1) {
-    mvwprintz(w_encumb, 2, 1, h_ltgray, _("Head"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+                }
+                wrefresh(w_stats);
+                wrefresh(w_info);
+
+                action = ctxt.handle_input();
+                if (action == "DOWN") {
+                    line++;
+                    if (line == 4)
+                        line = 0;
+                } else if (action == "UP") {
+                    line--;
+                    if (line == -1)
+                        line = 3;
+                } else if (action == "NEXT_TAB") {
+                    mvwprintz(w_stats, 0, 0, c_ltgray, _("                          "));
+                    mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
+                    wrefresh(w_stats);
+                    line = 0;
+                    curtab++;
+                } else if (action == "QUIT") {
+                    done = true;
+                }
+            mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
+            mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
+            mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
+            mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
+            wrefresh(w_stats);
+            break;
+        case 2: // Encumberment tab
+        {
+            mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
+            std::string s;
+            if (line == 0) {
+                mvwprintz(w_encumb, 1, 1, h_ltgray, _("Torso"));
+                s = _("Melee skill %+d;");
+                s+= _(" Dodge skill %+d;\n");
+                s+= ngettext("Swimming costs %+d movement point;\n",
+                             "Swimming costs %+d movement points;\n",
+                             encumb(bp_torso) * (80 - skillLevel("swimming") * 3));
+                s+= ngettext("Melee and thrown attacks cost %+d movement point.",
+                             "Melee and thrown attacks cost %+d movement points.",
+                             encumb(bp_torso) * 20);
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s.c_str(),
+                               -encumb(bp_torso), -encumb(bp_torso),
+                               encumb(bp_torso) * (80 - skillLevel("swimming") * 3),
+                               encumb(bp_torso) * 20);
+            } else if (line == 1) {
+                mvwprintz(w_encumb, 2, 1, h_ltgray, _("Head"));
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Head encumbrance has no effect; it simply limits how much you can put on."));
-   } else if (line == 2) {
-    mvwprintz(w_encumb, 3, 1, h_ltgray, _("Eyes"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+            } else if (line == 2) {
+                mvwprintz(w_encumb, 3, 1, h_ltgray, _("Eyes"));
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Perception %+d when checking traps or firing ranged weapons;\n\
-Perception %+.1f when throwing items."), -encumb(bp_eyes),
-double(double(-encumb(bp_eyes)) / 2));
-   } else if (line == 3) {
-    mvwprintz(w_encumb, 4, 1, h_ltgray, _("Mouth"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, ngettext("\
+Perception %+.1f when throwing items."),
+                               -encumb(bp_eyes),
+                               double(double(-encumb(bp_eyes)) / 2));
+            } else if (line == 3) {
+                mvwprintz(w_encumb, 4, 1, h_ltgray, _("Mouth"));
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, ngettext("\
 Running costs %+d movement point.", "Running costs %+d movement points.", encumb(bp_mouth) * 5), encumb(bp_mouth) * 5);
-   } else if (line == 4)
-  {
-    mvwprintz(w_encumb, 5, 1, h_ltgray, _("Arms"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+            } else if (line == 4) {
+                mvwprintz(w_encumb, 5, 1, h_ltgray, _("Arms"));
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Arm encumbrance affects your accuracy with ranged weapons."));
-   } else if (line == 5)
-   {
-    mvwprintz(w_encumb, 6, 1, h_ltgray, _("Hands"));
-    s = ngettext("Reloading costs %+d movement point; ",
-                 "Reloading costs %+d movement points; ",
-                 encumb(bp_hands) * 30);
-    s+= _("Dexterity %+d when throwing items.");
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-    s.c_str() , encumb(bp_hands) * 30, -encumb(bp_hands));
-   } else if (line == 6) {
-    mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
-    s = ngettext("Running costs %+d movement point; ",
-                 "Running costs %+d movement points; ",
-                 encumb(bp_legs) * 3);
-    s+= ngettext("Swimming costs %+d movement point;\n",
-                 "Swimming costs %+d movement points;\n",
-                 encumb(bp_legs) *(50 - skillLevel("swimming") * 2));
-    s+= _("Dodge skill %+.1f.");
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-              s.c_str(), encumb(bp_legs) * 3,
-              encumb(bp_legs) *(50 - skillLevel("swimming") * 2),
-                     double(double(-encumb(bp_legs)) / 2));
-   } else if (line == 7) {
-    mvwprintz(w_encumb, 8, 1, h_ltgray, _("Feet"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, ngettext("\
-Running costs %+d movement point.", "Running costs %+d movement points.", encumb(bp_feet) * 5), encumb(bp_feet) * 5);
-   }
-   wrefresh(w_encumb);
-   wrefresh(w_info);
-   action = ctxt.handle_input();
-   if (action == "DOWN") {
-     line++;
-     if (line == 8)
-      line = 0;
-   } else if (action == "UP") {
-     line--;
-     if (line == -1)
-      line = 7;
-   } else if (action == "NEXT_TAB") {
-     mvwprintz(w_encumb, 0, 0, c_ltgray,  _("                          "));
-     mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
-     wrefresh(w_encumb);
-     line = 0;
-     curtab++;
-   } else if (action == "QUIT") {
-     done = true;
-   }
-   mvwprintz(w_encumb, 1, 1, c_ltgray, _("Torso"));
-   mvwprintz(w_encumb, 2, 1, c_ltgray, _("Head"));
-   mvwprintz(w_encumb, 3, 1, c_ltgray, _("Eyes"));
-   mvwprintz(w_encumb, 4, 1, c_ltgray, _("Mouth"));
-   mvwprintz(w_encumb, 5, 1, c_ltgray, _("Arms"));
-   mvwprintz(w_encumb, 6, 1, c_ltgray, _("Hands"));
-   mvwprintz(w_encumb, 7, 1, c_ltgray, _("Legs"));
-   mvwprintz(w_encumb, 8, 1, c_ltgray, _("Feet"));
-   wrefresh(w_encumb);
-   break;
-  }
-  case 4: // Traits tab
-   mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
-   mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
-   if (line <= (trait_win_size_y-1)/2) {
-    min = 0;
-    max = trait_win_size_y;
-    if (traitslist.size() < max)
-     max = traitslist.size();
-   } else if (line >= traitslist.size() - (trait_win_size_y+1)/2) {
-    min = (traitslist.size() < trait_win_size_y ? 0 : traitslist.size() - trait_win_size_y);
-    max = traitslist.size();
-   } else {
-    min = line - (trait_win_size_y-1)/2;
-    max = line + (trait_win_size_y+1)/2;
-    if (traitslist.size() < max)
-     max = traitslist.size();
-    if (min < 0)
-     min = 0;
-   }
+            } else if (line == 5) {
+                mvwprintz(w_encumb, 6, 1, h_ltgray, _("Hands"));
+                s = ngettext("Reloading costs %+d movement point; ",
+                             "Reloading costs %+d movement points; ",
+                             encumb(bp_hands) * 30);
+                s+= _("Dexterity %+d when throwing items.");
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                               s.c_str() , encumb(bp_hands) * 30, -encumb(bp_hands));
+            } else if (line == 6) {
+                mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
+                s = ngettext("Running costs %+d movement point; ",
+                             "Running costs %+d movement points; ",
+                             encumb(bp_legs) * 3);
+                s+= ngettext("Swimming costs %+d movement point;\n",
+                             "Swimming costs %+d movement points;\n",
+                             encumb(bp_legs) *(50 - skillLevel("swimming") * 2));
+                s+= _("Dodge skill %+.1f.");
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                               s.c_str(), encumb(bp_legs) * 3,
+                               encumb(bp_legs) *(50 - skillLevel("swimming") * 2),
+                               double(double(-encumb(bp_legs)) / 2));
+            } else if (line == 7) {
+                mvwprintz(w_encumb, 8, 1, h_ltgray, _("Feet"));
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                               ngettext("Running costs %+d movement point.", 
+                                        "Running costs %+d movement points.",
+                                        encumb(bp_feet) * 5),
+                               encumb(bp_feet) * 5);
+            }
+            wrefresh(w_encumb);
+            wrefresh(w_info);
 
-   for (int i = min; i < max; i++) {
-    mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
-    if (i > traits.size())
-     status = c_ltblue;
-    else if (mutation_data[traitslist[i]].threshold == true)
-     status = c_white;
-    else if (traits[traitslist[i]].mixed_effect == true)
-     status = c_pink;
-    else if (traits[traitslist[i]].points > 0)
-     status = c_ltgreen;
-    else if (traits[traitslist[i]].points < 0)
-     status = c_ltred;
-    else
-     status = c_yellow;
-    if (i == line)
-     mvwprintz(w_traits, 1 + i - min, 1, hilite(status), "%s",
-               traits[traitslist[i]].name.c_str());
-    else
-     mvwprintz(w_traits, 1 + i - min, 1, status, "%s",
-               traits[traitslist[i]].name.c_str());
-   }
-   if (line >= 0 && line < traitslist.size()) {
-     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, traits[traitslist[line]].description);
-   }
-   wrefresh(w_traits);
-   wrefresh(w_info);
-   action = ctxt.handle_input();
-   if (action == "DOWN") {
-     if (line < traitslist.size() - 1)
-      line++;
-     break;
-   } else if (action == "UP") {
-     if (line > 0)
-      line--;
-   } else if (action == "NEXT_TAB") {
-     mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
-     mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
-     for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-      mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-      if (mutation_data[traitslist[i]].threshold == true)
-       status = c_white;
-      else if (traits[traitslist[i]].mixed_effect == true)
-       status = c_pink;
-      else if (traits[traitslist[i]].points > 0)
-       status = c_ltgreen;
-      else if (traits[traitslist[i]].points < 0)
-       status = c_ltred;
-      else
-       status = c_yellow;
-      mvwprintz(w_traits, i + 1, 1, status, "%s", traits[traitslist[i]].name.c_str());
-     }
-     wrefresh(w_traits);
-     line = 0;
-     curtab++;
-   } else if (action == "QUIT") {
-     done = true;
-   }
-   break;
+            action = ctxt.handle_input();
+            if (action == "DOWN") {
+                line++;
+                if (line == 8)
+                    line = 0;
+            } else if (action == "UP") {
+                line--;
+                if (line == -1)
+                    line = 7;
+            } else if (action == "NEXT_TAB") {
+                mvwprintz(w_encumb, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
+                wrefresh(w_encumb);
+                line = 0;
+                curtab++;
+            } else if (action == "QUIT") {
+                done = true;
+            }
+            mvwprintz(w_encumb, 1, 1, c_ltgray, _("Torso"));
+            mvwprintz(w_encumb, 2, 1, c_ltgray, _("Head"));
+            mvwprintz(w_encumb, 3, 1, c_ltgray, _("Eyes"));
+            mvwprintz(w_encumb, 4, 1, c_ltgray, _("Mouth"));
+            mvwprintz(w_encumb, 5, 1, c_ltgray, _("Arms"));
+            mvwprintz(w_encumb, 6, 1, c_ltgray, _("Hands"));
+            mvwprintz(w_encumb, 7, 1, c_ltgray, _("Legs"));
+            mvwprintz(w_encumb, 8, 1, c_ltgray, _("Feet"));
+            wrefresh(w_encumb);
+            break;
+        }
+        case 4: // Traits tab
+            mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
+            if (line <= (trait_win_size_y-1)/2) {
+                min = 0;
+                max = trait_win_size_y;
+                if (traitslist.size() < max)
+                    max = traitslist.size();
+            } else if (line >= traitslist.size() - (trait_win_size_y+1)/2) {
+                min = (traitslist.size() < trait_win_size_y ? 0 : traitslist.size() - trait_win_size_y);
+                max = traitslist.size();
+            } else {
+                min = line - (trait_win_size_y-1)/2;
+                max = line + (trait_win_size_y+1)/2;
+                if (traitslist.size() < max)
+                    max = traitslist.size();
+                if (min < 0)
+                    min = 0;
+            }
 
-  case 5: // Effects tab
-   mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
-   mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
-   half_y = effect_win_size_y / 2;
-   if (line <= half_y) {
-    min = 0;
-    max = effect_win_size_y;
-    if (effect_name.size() < max)
-     max = effect_name.size();
-   } else if (line >= effect_name.size() - half_y) {
-    min = (effect_name.size() < effect_win_size_y ? 0 : effect_name.size() - effect_win_size_y);
-    max = effect_name.size();
-   } else {
-    min = line - half_y;
-    max = line - half_y + effect_win_size_y;
-    if (effect_name.size() < max)
-     max = effect_name.size();
-    if (min < 0)
-     min = 0;
-   }
+            for (int i = min; i < max; i++) {
+                mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
+                if (i > traits.size())
+                    status = c_ltblue;
+                else if (mutation_data[traitslist[i]].threshold == true)
+                    status = c_white;
+                else if (traits[traitslist[i]].mixed_effect == true)
+                    status = c_pink;
+                else if (traits[traitslist[i]].points > 0)
+                    status = c_ltgreen;
+                else if (traits[traitslist[i]].points < 0)
+                    status = c_ltred;
+                else
+                    status = c_yellow;
+                if (i == line) {
+                    mvwprintz(w_traits, 1 + i - min, 1, hilite(status), "%s",
+                              traits[traitslist[i]].name.c_str());
+                } else {
+                    mvwprintz(w_traits, 1 + i - min, 1, status, "%s",
+                              traits[traitslist[i]].name.c_str());
+                }
+            }
+            if (line >= 0 && line < traitslist.size()) {
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta,
+                               traits[traitslist[line]].description);
+            }
+            wrefresh(w_traits);
+            wrefresh(w_info);
 
-   for (int i = min; i < max; i++) {
-    if (i == line)
-     mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, "%s", effect_name[i].c_str());
-    else
-     mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, "%s", effect_name[i].c_str());
-   }
-   if (line >= 0 && line < effect_text.size()) {
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, effect_text[line]);
-   }
-   wrefresh(w_effects);
-   wrefresh(w_info);
-   action = ctxt.handle_input();
-   if (action == "DOWN") {
-     if (line < effect_name.size() - 1)
-      line++;
-     break;
-   } else if (action == "UP") {
-     if (line > 0)
-      line--;
-   } else if (action == "NEXT_TAB") {
-     mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
-     mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
-     for (int i = 0; i < effect_name.size() && i < 7; i++)
-      mvwprintz(w_effects, i + 1, 0, c_ltgray, "%s", effect_name[i].c_str());
-     wrefresh(w_effects);
-     line = 0;
-     curtab = 1;
-   } else if (action == "QUIT") {
-     done = true;
-   }
-   break;
+            action = ctxt.handle_input();
+            if (action == "DOWN") {
+                if (line < traitslist.size() - 1)
+                    line++;
+                break;
+            } else if (action == "UP") {
+                if (line > 0)
+                    line--;
+            } else if (action == "NEXT_TAB") {
+                mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
+                for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
+                    mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
+                    if (mutation_data[traitslist[i]].threshold == true)
+                        status = c_white;
+                    else if (traits[traitslist[i]].mixed_effect == true)
+                        status = c_pink;
+                    else if (traits[traitslist[i]].points > 0)
+                        status = c_ltgreen;
+                    else if (traits[traitslist[i]].points < 0)
+                        status = c_ltred;
+                    else
+                        status = c_yellow;
+                    mvwprintz(w_traits, i + 1, 1, status, "%s", traits[traitslist[i]].name.c_str());
+                }
+                wrefresh(w_traits);
+                line = 0;
+                curtab++;
+            } else if (action == "QUIT") {
+                done = true;
+            }
+            break;
 
-  case 3: // Skills tab
-   mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
-   mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
-   half_y = skill_win_size_y / 2;
-   if (line <= half_y) {
-    min = 0;
-    max = skill_win_size_y;
-    if (skillslist.size() < max)
-     max = skillslist.size();
-   } else if (line >= skillslist.size() - half_y) {
-    min = (skillslist.size() < skill_win_size_y ? 0 : skillslist.size() - skill_win_size_y);
-    max = skillslist.size();
-   } else {
-    min = line - half_y;
-    max = line - half_y + skill_win_size_y;
-    if (skillslist.size() < max)
-     max = skillslist.size();
-    if (min < 0)
-     min = 0;
-   }
+        case 5: // Effects tab
+            mvwprintz(w_effects, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, h_ltgray, title_EFFECTS);
+            half_y = effect_win_size_y / 2;
+            if (line <= half_y) {
+                min = 0;
+                max = effect_win_size_y;
+            if (effect_name.size() < max)
+                max = effect_name.size();
+            } else if (line >= effect_name.size() - half_y) {
+                min = (effect_name.size() < effect_win_size_y ? 0 : effect_name.size() - effect_win_size_y);
+                max = effect_name.size();
+            } else {
+                min = line - half_y;
+                max = line - half_y + effect_win_size_y;
+                if (effect_name.size() < max)
+                    max = effect_name.size();
+                if (min < 0)
+                    min = 0;
+            }
 
-   Skill *selectedSkill = NULL;
+            for (int i = min; i < max; i++) {
+                if (i == line)
+                    mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, "%s", effect_name[i].c_str());
+                else
+                    mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, "%s", effect_name[i].c_str());
+            }
+            if (line >= 0 && line < effect_text.size()) {
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, effect_text[line]);
+            }
+            wrefresh(w_effects);
+            wrefresh(w_info);
 
-   for (int i = min; i < max; i++)
-   {
-    Skill *aSkill = skillslist[i];
-    SkillLevel level = skillLevel(aSkill);
+            action = ctxt.handle_input();
+            if (action == "DOWN") {
+                if (line < effect_name.size() - 1)
+                    line++;
+                break;
+            } else if (action == "UP") {
+                if (line > 0)
+                    line--;
+            } else if (action == "NEXT_TAB") {
+                mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
+                for (int i = 0; i < effect_name.size() && i < 7; i++) {
+                    mvwprintz(w_effects, i + 1, 0, c_ltgray, "%s", effect_name[i].c_str());
+                }
+                wrefresh(w_effects);
+                line = 0;
+                curtab = 1;
+            } else if (action == "QUIT") {
+                done = true;
+            }
+            break;
 
-    bool isLearning = level.isTraining();
-    int exercise = level.exercise();
-    bool rusting = level.isRusting();
+        case 3: // Skills tab
+            mvwprintz(w_skills, 0, 0, h_ltgray,  _("                          "));
+            mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, h_ltgray, title_SKILLS);
+            half_y = skill_win_size_y / 2;
+            if (line <= half_y) {
+                min = 0;
+                max = skill_win_size_y;
+                if (skillslist.size() < max)
+                    max = skillslist.size();
+            } else if (line >= skillslist.size() - half_y) {
+                min = (skillslist.size() < skill_win_size_y ? 0 : skillslist.size() - skill_win_size_y);
+                max = skillslist.size();
+            } else {
+                min = line - half_y;
+                max = line - half_y + skill_win_size_y;
+                if (skillslist.size() < max)
+                    max = skillslist.size();
+                    if (min < 0)
+                        min = 0;
+            }
 
-    if (i == line) {
-      selectedSkill = aSkill;
-     if (exercise >= 100)
-      status = isLearning ? h_pink : h_magenta;
-     else if (rusting)
-      status = isLearning ? h_ltred : h_red;
-     else
-      status = isLearning ? h_ltblue : h_blue;
-    } else {
-     if (rusting)
-      status = isLearning ? c_ltred : c_red;
-     else
-      status = isLearning ? c_ltblue : c_blue;
-    }
-    mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
-    mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%)", (int)level, (exercise <  0 ? 0 : exercise));
-   }
+            Skill *selectedSkill = NULL;
 
-   //Draw Scrollbar
-   draw_scrollbar(w_skills, line, skill_win_size_y, skillslist.size(), 1);
+            for (int i = min; i < max; i++) {
+                Skill *aSkill = skillslist[i];
+                SkillLevel level = skillLevel(aSkill);
 
-   werase(w_info);
-   if (line >= 0 && line < skillslist.size()) {
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, selectedSkill->description());
-   }
-   wrefresh(w_skills);
-   wrefresh(w_info);
-   action = ctxt.handle_input();
-   if (action == "DOWN") {
-     if (line < skillslist.size() - 1)
-      line++;
-   } else if (action == "UP") {
-     if (line > 0)
-      line--;
-   } else if (action == "NEXT_TAB") {
-      werase(w_skills);
-     mvwprintz(w_skills, 0, 0, c_ltgray,  _("                          "));
-     mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
-     for (int i = 0; i < skillslist.size() && i < skill_win_size_y; i++) {
-      Skill *thisSkill = skillslist[i];
-      SkillLevel level = skillLevel(thisSkill);
-      bool isLearning = level.isTraining();
-      bool rusting = level.isRusting();
+                bool isLearning = level.isTraining();
+                bool rusting = level.isRusting();
+                int exercise = level.exercise();
 
-      if (rusting)
-       status = isLearning ? c_ltred : c_red;
-      else
-       status = isLearning ? c_ltblue : c_blue;
+                if (i == line) {
+                    selectedSkill = aSkill;
+                    if (exercise >= 100)
+                        status = isLearning ? h_pink : h_magenta;
+                    else if (rusting)
+                        status = isLearning ? h_ltred : h_red;
+                    else
+                        status = isLearning ? h_ltblue : h_blue;
+                } else {
+                    if (rusting)
+                        status = isLearning ? c_ltred : c_red;
+                    else
+                        status = isLearning ? c_ltblue : c_blue;
+                }
+                mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
+                mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
+                mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%)", (int)level, (exercise <  0 ? 0 : exercise));
+            }
 
-      mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
-      mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%)", (int)level, (level.exercise() <  0 ? 0 : level.exercise()));
-     }
-     wrefresh(w_skills);
-     line = 0;
-     curtab++;
-   } else if (action == "CONFIRM") {
-     skillLevel(selectedSkill).toggleTraining();
-   } else if (action == "QUIT") {
-     done = true;
-   }
-  }
- } while (!done);
+            //Draw Scrollbar
+            draw_scrollbar(w_skills, line, skill_win_size_y, skillslist.size(), 1);
 
- werase(w_info);
- werase(w_tip);
- werase(w_stats);
- werase(w_encumb);
- werase(w_traits);
- werase(w_effects);
- werase(w_skills);
- werase(w_speed);
- werase(w_info);
- werase(w_grid_top);
- werase(w_grid_effect);
- werase(w_grid_skill);
- werase(w_grid_trait);
+            werase(w_info);
 
- delwin(w_info);
- delwin(w_tip);
- delwin(w_stats);
- delwin(w_encumb);
- delwin(w_traits);
- delwin(w_effects);
- delwin(w_skills);
- delwin(w_speed);
- delwin(w_grid_top);
- delwin(w_grid_effect);
- delwin(w_grid_skill);
- delwin(w_grid_trait);
+            if (line >= 0 && line < skillslist.size()) {
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, selectedSkill->description());
+            }
+            wrefresh(w_skills);
+            wrefresh(w_info);
+
+            action = ctxt.handle_input();
+            if (action == "DOWN") {
+                if (line < skillslist.size() - 1)
+                    line++;
+            } else if (action == "UP") {
+                if (line > 0)
+                    line--;
+            } else if (action == "NEXT_TAB") {
+                werase(w_skills);
+                mvwprintz(w_skills, 0, 0, c_ltgray,  _("                          "));
+                mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
+                for (int i = 0; i < skillslist.size() && i < skill_win_size_y; i++) {
+                    Skill *thisSkill = skillslist[i];
+                    SkillLevel level = skillLevel(thisSkill);
+                    bool isLearning = level.isTraining();
+                    bool rusting = level.isRusting();
+
+                    if (rusting)
+                        status = isLearning ? c_ltred : c_red;
+                    else
+                        status = isLearning ? c_ltblue : c_blue;
+
+                    mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
+                    mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%)", (int)level,
+                              (level.exercise() <  0 ? 0 : level.exercise()));
+                }
+                wrefresh(w_skills);
+                line = 0;
+                curtab++;
+            } else if (action == "CONFIRM") {
+                skillLevel(selectedSkill).toggleTraining();
+            } else if (action == "QUIT") {
+                done = true;
+            }
+        }
+    } while (!done);
+
+    werase(w_info);
+    werase(w_tip);
+    werase(w_stats);
+    werase(w_encumb);
+    werase(w_traits);
+    werase(w_effects);
+    werase(w_skills);
+    werase(w_speed);
+    werase(w_info);
+    werase(w_grid_top);
+    werase(w_grid_effect);
+    werase(w_grid_skill);
+    werase(w_grid_trait);
+
+    delwin(w_info);
+    delwin(w_tip);
+    delwin(w_stats);
+    delwin(w_encumb);
+    delwin(w_traits);
+    delwin(w_effects);
+    delwin(w_skills);
+    delwin(w_speed);
+    delwin(w_grid_top);
+    delwin(w_grid_effect);
+    delwin(w_grid_skill);
+    delwin(w_grid_trait);
 }
 
 void player::disp_morale()
