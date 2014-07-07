@@ -429,10 +429,14 @@ void initOptions()
                                            false
                                           );
 
+    mOptionsSort["general"]++;
+
     OPTIONS["DANGEROUS_PICKUPS"] = cOpt("general", _("Dangerous pickups"),
                                         _("If false will cause player to drop new items that cause them to exceed the weight limit."),
                                         false
                                        );
+
+    mOptionsSort["general"]++;
 
     OPTIONS["AUTOSAFEMODE"] = cOpt("general", _("Auto-safemode on by default"),
                                    _("If true, auto-safemode will be on after starting a new game or loading."),
@@ -459,6 +463,8 @@ void initOptions()
                                   false
                                  );
 
+    mOptionsSort["general"]++;
+
     OPTIONS["AUTOSAVE"] = cOpt("general", _("Periodically autosave"),
                                _("If true, game will periodically save the map."),
                                false
@@ -473,6 +479,8 @@ void initOptions()
                                        _("Number of real time minutes between autosaves"),
                                        0, 127, 5
                                       );
+
+    mOptionsSort["general"]++;
 
     OPTIONS["CIRCLEDIST"] = cOpt("general", _("Circular distances"),
                                  _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
@@ -515,6 +523,8 @@ void initOptions()
                                ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                "" );
 
+    mOptionsSort["interface"]++;
+
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
     OPTIONS["USE_CELSIUS"] = cOpt("interface", _("Temperature units"),
@@ -546,6 +556,8 @@ void initOptions()
                               "12h,military,24h", "12h"
                              );
 
+    mOptionsSort["interface"]++;
+
     OPTIONS["FORCE_CAPITAL_YN"] = cOpt("interface", _("Force Y/N in prompts"),
                                        _("If true, Y/N prompts are case-sensitive and y and n are not accepted."),
                                        true
@@ -556,20 +568,10 @@ void initOptions()
                                      false
                                     );
 
-    OPTIONS["VEHICLE_ARMOR_COLOR"] = cOpt("interface", _("Vehicle plating changes part color"),
-                                          _("If true, vehicle parts will change color if they are armor plated"),
-                                          true
-                                         );
-
-    OPTIONS["DRIVING_VIEW_OFFSET"] = cOpt("interface", _("Auto-shift the view while driving"),
-                                          _("If true, view will automatically shift towards the driving direction"),
-                                          true
-                                         );
-
-    OPTIONS["VEHICLE_DIR_INDICATOR"] = cOpt("interface", _("Draw vehicle facing indicator"),
-                                            _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
-                                            false
-                                           );
+    OPTIONS["SAVE_SLEEP"] = cOpt("interface", _("Ask to save before sleeping"),
+                                 _("If true, game will ask to save the map before sleeping."),
+                                 false
+                                );
 
     OPTIONS["QUERY_DISASSEMBLE"] = cOpt("interface", _("Query on disassembly"),
                                         _("If true, will query before disassembling items."),
@@ -586,6 +588,25 @@ void initOptions()
                                     _("If true, will close the advanced inventory when the move all items command is used."),
                                     false
                                    );
+
+    mOptionsSort["interface"]++;
+
+    OPTIONS["VEHICLE_ARMOR_COLOR"] = cOpt("interface", _("Vehicle plating changes part color"),
+                                          _("If true, vehicle parts will change color if they are armor plated"),
+                                          true
+                                         );
+
+    OPTIONS["DRIVING_VIEW_OFFSET"] = cOpt("interface", _("Auto-shift the view while driving"),
+                                          _("If true, view will automatically shift towards the driving direction"),
+                                          true
+                                         );
+
+    OPTIONS["VEHICLE_DIR_INDICATOR"] = cOpt("interface", _("Draw vehicle facing indicator"),
+                                            _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
+                                            false
+                                           );
+
+    mOptionsSort["interface"]++;
 
     //~ sidebar style
     optionNames["wider"] = _("Wider");
@@ -604,15 +625,28 @@ void initOptions()
                                      "vertical,horizontal,hybrid", "vertical"
                                     );
 
+    mOptionsSort["interface"]++;
+
     OPTIONS["MOVE_VIEW_OFFSET"] = cOpt("interface", _("Move view offset"),
                                        _("Move view by how many squares per keypress."),
                                        1, 50, 1
                                       );
 
-    OPTIONS["SAVE_SLEEP"] = cOpt("interface", _("Ask to save before sleeping"),
-                                 _("If true, game will ask to save the map before sleeping."),
-                                 false
-                                );
+
+    OPTIONS["MENU_SCROLL"] = cOpt("interface", _("Centered menu scrolling"),
+                                  _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
+                                  true
+                                 );
+
+    optionNames["false"] = _("False");
+    optionNames["centered"] = _("Centered");
+    optionNames["edge"] = _("To edge");
+    OPTIONS["SHIFT_LIST_ITEM_VIEW"] = cOpt("interface", _("Shift list item view"),
+                                           _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
+                                           "false,centered,edge",  "centered"
+                                          );
+
+    mOptionsSort["interface"]++;
 
     OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
                                       _("SDL ONLY: Enable input from joystick."),
@@ -630,24 +664,13 @@ void initOptions()
                                   "show,hide,hidekb", "show"
                                  );
 
-    OPTIONS["MENU_SCROLL"] = cOpt("interface", _("Centered menu scrolling"),
-                                  _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
-                                  true
-                                 );
-
-    optionNames["false"] = _("False");
-    optionNames["centered"] = _("Centered");
-    optionNames["edge"] = _("To edge");
-    OPTIONS["SHIFT_LIST_ITEM_VIEW"] = cOpt("interface", _("Shift list item view"),
-                                           _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
-                                           "false,centered,edge",  "centered"
-                                          );
-
     ////////////////////////////GRAPHICS/////////////////////////
     OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
                                             _("If true, bright backgrounds are not used - some consoles are not compatible."),
                                             false
                                            );
+
+    mOptionsSort["graphics"]++;
 
     OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
                                  _("If true, will display enabled animations."),
@@ -669,6 +692,8 @@ void initOptions()
                                       0, 100, 10
                                       );
 
+    mOptionsSort["graphics"]++;
+
     OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
                                  _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
                                  80, 242, 80
@@ -678,6 +703,8 @@ void initOptions()
                                  _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
                                  24, 187, 24
                                 );
+
+    mOptionsSort["graphics"]++;
 
     OPTIONS["USE_TILES"] = cOpt("graphics", _("Use tiles"),
                                 _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
@@ -689,6 +716,8 @@ void initOptions()
                             tileset_names, "hoder"
                            ); // populate the options dynamically
 
+    mOptionsSort["graphics"]++;
+
     OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
                                  _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
                                  false
@@ -698,6 +727,8 @@ void initOptions()
                                          _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
                                          false
                                         );
+
+    mOptionsSort["graphics"]++;
 
     OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
                                    _("SDL ONLY: Adjust the volume of the music being played in the background."),
@@ -710,6 +741,8 @@ void initOptions()
                                                   3, 20, 15
                                                  );
 
+    mOptionsSort["debug"]++;
+
     OPTIONS["INITIAL_POINTS"] = cOpt("debug", _("Initial points"),
                                      _("Initial points available on character generation."),
                                      0, 1000, 6
@@ -719,6 +752,8 @@ void initOptions()
                                        _("Maximum trait points available for character generation."),
                                        0, 1000, 12
                                       );
+
+    mOptionsSort["debug"]++;
 
     //~ plain, default, normal
     optionNames["vanilla"] = _("Vanilla");
@@ -743,6 +778,13 @@ void initOptions()
                                    "no,yes,query", "no"
                                   );
 
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["CITY_SIZE"] = cOpt("world_default", _("Size of cities"),
+                                _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
+                                1, 16, 4
+                               );
+
     OPTIONS["SPAWN_DENSITY"] = cOpt("world_default", _("Spawn rate scaling factor"),
                                     _("A scaling factor that determines density of monster spawns."),
                                     0.0, 50.0, 1.0, 0.1
@@ -753,6 +795,8 @@ void initOptions()
                                      0.01, 10.0, 1.0, 0.01
                                     );
 
+    mOptionsSort["world_default"]++;
+
     std::string region_ids("default");
     optionNames["default"] = "default";
     OPTIONS["DEFAULT_REGION"] = cOpt("world_default", _("Default region type"),
@@ -760,10 +804,7 @@ void initOptions()
                                      region_ids, "default"
                                     );
 
-    OPTIONS["CITY_SIZE"] = cOpt("world_default", _("Size of cities"),
-                                _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
-                                1, 16, 4
-                               );
+    mOptionsSort["world_default"]++;
 
     OPTIONS["INITIAL_TIME"] = cOpt("world_default", _("Initial time"),
                                    _("Initial starting time of day on character generation."),
@@ -777,6 +818,13 @@ void initOptions()
     OPTIONS["INITIAL_SEASON"] = cOpt("world_default", _("Initial season"),
                                      _("Initial starting season of day on character generation."),
                                      "spring,summer,autumn,winter", "spring");
+
+    OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
+                                    _("Season length, in days."),
+                                    14, 127, 14
+                                   );
+
+    mOptionsSort["world_default"]++;
 
     OPTIONS["STATIC_SPAWN"] = cOpt("world_default", _("Static spawn"),
                                    _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
@@ -798,10 +846,7 @@ void initOptions()
                                  false
                                 );
 
-    OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
-                                    _("Season length, in days."),
-                                    14, 127, 14
-                                   );
+    mOptionsSort["world_default"]++;
 
     OPTIONS["STATIC_NPC"] = cOpt("world_default", _("Static npcs"),
                                  _("If true, the game will spawn static NPC at the start of the game, requires world reset."),
@@ -812,6 +857,8 @@ void initOptions()
                                  _("If true, the game will randomly spawn NPC during gameplay."),
                                  false
                                 );
+
+    mOptionsSort["world_default"]++;
 
     OPTIONS["RAD_MUTATION"] = cOpt("world_default", _("Mutations by radiation"),
                                    _("If true, radiation causes the player to mutate."),
@@ -921,12 +968,18 @@ void show_options(bool ingame)
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
         //Draw options
+        int iBlankOffset = 0;
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ?
                 mPageItems[iCurrentPage].size() : iContentHeight); i++) {
             nc_color cLineColor = c_ltgreen;
 
+            if (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText() == "") {
+                iBlankOffset++;
+                continue;
+            }
+
             sTemp.str("");
-            sTemp << i + 1;
+            sTemp << i + 1 - iBlankOffset;
             mvwprintz(w_options, i - iStartPos, 0, c_white, sTemp.str().c_str());
             mvwprintz(w_options, i - iStartPos, 4, c_white, "");
 
@@ -1022,15 +1075,19 @@ void show_options(bool ingame)
 
         bool bChangedSomething = false;
         if (action == "DOWN") {
-            iCurrentLine++;
-            if (iCurrentLine >= mPageItems[iCurrentPage].size()) {
-                iCurrentLine = 0;
-            }
+            do {
+                iCurrentLine++;
+                if (iCurrentLine >= mPageItems[iCurrentPage].size()) {
+                    iCurrentLine = 0;
+                }
+            } while(cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "");
         } else if (action == "UP") {
-            iCurrentLine--;
-            if (iCurrentLine < 0) {
-                iCurrentLine = mPageItems[iCurrentPage].size() - 1;
-            }
+            do {
+                iCurrentLine--;
+                if (iCurrentLine < 0) {
+                    iCurrentLine = mPageItems[iCurrentPage].size() - 1;
+                }
+            } while(cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "");
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
             bChangedSomething = true;
