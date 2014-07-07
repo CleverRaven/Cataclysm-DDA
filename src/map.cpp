@@ -546,7 +546,7 @@ bool map::vehproceed()
 			}
 		}
 		
-		if (moored >= num - 1) {
+		if (moored > num - 1) {
 			veh->stop();
 			veh->of_turn = 0;
 

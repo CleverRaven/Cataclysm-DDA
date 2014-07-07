@@ -1135,10 +1135,9 @@ void veh_interact::display_stats()
 
 	bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
 	bool conf;
-	if (!isBoat)
-    {
-        conf = veh->valid_wheel_config();
-    }
+
+    conf = veh->valid_wheel_config();
+
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
     if (speed_units == "km/h") {
@@ -1177,8 +1176,14 @@ void veh_interact::display_stats()
 		}
 	}
 	else{
-		fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-			_("Boat:    <color_blue>can swim</color>"));
+		if (conf){
+			fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+				_("Boat:    <color_blue>can swim</color>"));
+		}
+		else{
+			fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+				_("Boat:  <color_ltred>can't swim</color>"));
+		}
 	}
 
     // Write the most damaged part

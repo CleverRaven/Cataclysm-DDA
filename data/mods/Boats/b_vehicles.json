@@ -10,7 +10,7 @@
         ],
         "parts" : [
             {"x": 0, "y": 0, "part": "inflatable_section"},
-            {"x": 0, "y": 0, "part": "inflatable_seat"},
+            {"x": 0, "y": 0, "part": "folding_seat"},
             {"x": 0, "y": 0, "part": "inflatable_airbag"},
             {"x": 0, "y": 0, "part": "hand_paddles"},
             {"x": 0, "y": 0, "part": "controls"},

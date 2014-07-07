@@ -10,32 +10,12 @@
         "broken_symbol" : "#",
         "broken_color" : "light_gray",
         "durability" : 50,
-        "item" : "pipe", 
+        "item" : "inflatable_section", 
         "difficulty" : 3,
         "location" : "structure",
         "flags" : ["MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO"],
         "breaks_into" : [
             {"item": "plastic_chunk", "min": 10, "max": 20}
-        ]
-    },
-{
-        "type" : "vehicle_part",
-        "id" : "inflatable_seat",
-        "name" : "inflatable seat",
-        "symbol" : "#",
-        "color" : "red",
-        "broken_symbol" : "*",
-        "broken_color" : "red",
-        "damage_modifier" : 10,
-        "durability" : 20,
-        "item" : "sheet",
-        "difficulty" : 3,
-        "location" : "anywhere",
-        "flags" : [
-            "SEAT", "BOARDABLE", "FOLDABLE"
-        ],
-        "breaks_into" : [
-            {"item": "plastic_chunk", "min": 5, "max": 20}
         ]
     },
 
@@ -50,7 +30,7 @@
         "damage_modifier" : 50,
         "durability" : 40,
         "wheel_width" : 4,
-        "item" : "inflatable_boat",
+        "item" : "inflatable_airbag",
         "difficulty" : 2,
         "location" : "under",
         "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
