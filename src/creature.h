@@ -13,11 +13,9 @@
 #include "messages.h"
 #include <stdlib.h>
 #include <string>
-#include <vector>
-#include <set>
+#include <unordered_map>
 
 class game;
-class effect;
 
 class Creature
 {
@@ -140,7 +138,12 @@ class Creature
                             int intensity = 1, bool permanent = false); // gives chance to save via env resist, returns if successful
         void remove_effect(efftype_id eff_id);
         void clear_effects(); // remove all effects
-        bool has_effect(efftype_id eff_id);
+        bool has_effect(efftype_id eff_id) const;
+
+        // Methods for setting/getting misc key/value pairs.
+        void set_value( const std::string key, const std::string value );
+        void remove_value( const std::string key );
+        std::string get_value( const std::string key ) const;
 
         virtual void process_effects(); // runs all the effects on the Creature
 
@@ -272,8 +275,6 @@ class Creature
 
         void draw(WINDOW *w, int plx, int ply, bool inv);
 
-        static void init_hit_weights();
-
         // Message related stuff
         virtual void add_msg_if_player(const char *, ...){};
         virtual void add_msg_if_player(game_message_type, const char *, ...){};
@@ -287,7 +288,9 @@ class Creature
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
-        std::vector<effect> effects;
+        std::unordered_map<std::string, effect> effects;
+        // Miscelaneous key/value pairs.
+        std::unordered_map<std::string, std::string> values;
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
@@ -330,18 +333,7 @@ class Creature
         virtual const std::string &symbol() const;
         virtual bool is_symbol_highlighted();
 
-
-        //Hit weight work.
-        static std::map<int, std::map<body_part, double> > default_hit_weights;
-
-        typedef std::pair<body_part, double> weight_pair;
-
-        struct weight_compare {
-            bool operator() (const weight_pair &left, const weight_pair &right) { return left.second < right.second;}
-        };
-
-        body_part select_body_part(Creature *source, int hitroll);
-
+        body_part select_body_part(Creature *source, int hit_roll);
 };
 
 #endif

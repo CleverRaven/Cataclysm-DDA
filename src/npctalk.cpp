@@ -481,6 +481,7 @@ void npc::talk_to_u()
 
 std::string dynamic_line(talk_topic topic, npc *p)
 {
+    talk_function effect;
     // First, a sanity test for mission stuff
     if (topic >= TALK_MISSION_START && topic <= TALK_MISSION_END) {
         if (topic == TALK_MISSION_START) {
@@ -804,6 +805,59 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_SCAVENGER_MERC_HIRE_SUCCESS:
              return _("I guess you're the boss.");
 
+        case TALK_FREE_MERCHANT_STOCKS:
+             return _("Hope you're here to trade.");
+
+        case TALK_FREE_MERCHANT_STOCKS_NEW:
+             return _("I oversee the food stocks for the center.  There was significant looting during "
+                      "the panic when we first arrived so most of our food was carried away.  I manage "
+                      "what we have left and do everything I can to increase our supplies.  Rot and mold "
+                      "are more significant in the damp basement so I prioritize non-perishable food, "
+                      "such as cornmeal, jerky, and fruit wine.");
+
+        case TALK_FREE_MERCHANT_STOCKS_WHY:
+             return _("All three are easy to locally produce in significant quantities and are "
+                      "non-perishable.  We have a local farmer or two and a few hunter types that have "
+                      "been making attempts to provide us with the nutritious supplies.  We do always "
+                      "need more suppliers though.  Because this stuff is rather cheap in bulk I can "
+                      "pay a premium for any you have on you.  Canned food and other edibles are "
+                      "handled by the merchant in the front.");
+
+        case TALK_FREE_MERCHANT_STOCKS_ALL:
+             return _("I'm actually accepting a number of different foodstuffs: homebrew beer, sugar, flour, "
+                      "smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, cornmeal, "
+                      "and fruit wine.");
+
+        case TALK_FREE_MERCHANT_STOCKS_JERKY:
+            return effect.bulk_trade_inquire(p, "jerky");
+
+        case TALK_FREE_MERCHANT_STOCKS_CORNMEAL:
+            return effect.bulk_trade_inquire(p, "cornmeal");
+
+        case TALK_FREE_MERCHANT_STOCKS_WINE:
+            return effect.bulk_trade_inquire(p, "fruit_wine");
+
+        case TALK_FREE_MERCHANT_STOCKS_FLOUR:
+            return effect.bulk_trade_inquire(p, "flour");
+
+        case TALK_FREE_MERCHANT_STOCKS_SUGAR:
+            return effect.bulk_trade_inquire(p, "sugar");
+
+        case TALK_FREE_MERCHANT_STOCKS_BEER:
+            return effect.bulk_trade_inquire(p, "hb_beer");
+
+        case TALK_FREE_MERCHANT_STOCKS_SMMEAT:
+            return effect.bulk_trade_inquire(p, "meat_smoked");
+
+        case TALK_FREE_MERCHANT_STOCKS_SMFISH:
+            return effect.bulk_trade_inquire(p, "fish_smoked");
+
+        case TALK_FREE_MERCHANT_STOCKS_OIL:
+            return effect.bulk_trade_inquire(p, "cooking_oil");
+
+        case TALK_FREE_MERCHANT_STOCKS_DELIVERED:
+             return _("Thank you for your business!");
+
         case TALK_SHELTER:
             switch (rng(1, 2)) {
                 case 1: return _("Well, I guess it's just us.");
@@ -1093,6 +1147,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
  std::vector<talk_response> ret;
  int selected = p->chatbin.mission_selected;
  mission *miss = NULL;
+ talk_function effect;
  if (selected != -1 && selected < p->chatbin.missions_assigned.size())
   miss = g->find_mission( p->chatbin.missions_assigned[selected] );
 
@@ -1678,6 +1733,114 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS_ACTION(&talk_function::follow);
    SUCCESS_OPINION(1, 0, 1, 0, 0);
    SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_FREE_MERCHANT_STOCKS:
+  RESPONSE(_("Who are you?"));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_NEW);
+  if (g->u.charges_of("jerky") > 0){
+  RESPONSE(_("Delivering jerky."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_JERKY);
+  }
+  if (g->u.charges_of("meat_smoked") > 0){
+  RESPONSE(_("Delivering smoked meat."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_SMMEAT);
+  }
+  if (g->u.charges_of("fish_smoked") > 0){
+  RESPONSE(_("Delivering smoked fish."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_SMFISH);
+  }
+  if (g->u.charges_of("cooking_oil") > 0){
+  RESPONSE(_("Delivering cooking oil."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_OIL);
+  }
+  if (g->u.charges_of("cornmeal") > 0){
+  RESPONSE(_("Delivering cornmeal."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_CORNMEAL);
+  }
+  if (g->u.charges_of("flour") > 0){
+  RESPONSE(_("Delivering flour."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_FLOUR);
+  }
+  if (g->u.charges_of("fruit_wine") > 0){
+  RESPONSE(_("Delivering fruit wine."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_WINE);
+  }
+  if (g->u.charges_of("hb_beer") > 0){
+  RESPONSE(_("Delivering homebrew beer."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_BEER);
+  }
+  if (g->u.charges_of("sugar") > 0){
+  RESPONSE(_("Delivering sugar."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_SUGAR);
+  }
+  RESPONSE(_("Well, bye."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_FREE_MERCHANT_STOCKS_JERKY:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "jerky");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_SMMEAT:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "meat_smoked");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_SMFISH:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "fish_smoked");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_OIL:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "cooking_oil");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_CORNMEAL:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "cornmeal");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_FLOUR:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "flour");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_SUGAR:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "sugar");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_WINE:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "fruit_wine");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_BEER:
+  RESPONSE(_("Works for me."));
+   effect.bulk_trade_accept(p, "hb_beer");
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_DELIVERED);
+  break;
+
+ case TALK_FREE_MERCHANT_STOCKS_NEW:
+  RESPONSE(_("Why cornmeal, jerky, and fruit wine?"));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_WHY);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_WHY:
+  RESPONSE(_("Are you looking to buy anything else?"));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS_ALL);
+  RESPONSE(_("Very well..."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_ALL:
+  RESPONSE(_("Interesting..."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS);
+  break;
+ case TALK_FREE_MERCHANT_STOCKS_DELIVERED:
+  RESPONSE(_("You might be seeing more of me..."));
+   SUCCESS(TALK_FREE_MERCHANT_STOCKS);
   break;
 
  case TALK_SHELTER:
@@ -2475,6 +2638,27 @@ void talk_function::start_trade(npc *p)
  int trade_amount = p->op_of_u.owed;
  p->op_of_u.owed = 0;
  trade(p, trade_amount, _("Trade"));
+}
+
+std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
+{
+ int you_have = g->u.charges_of(it);
+ int item_cost = item(it, 0).price();
+ p->add_msg_if_player(m_good, _("Let's see what you've got..."));
+ std::stringstream response;
+ response << string_format(_("I'm willing to pay $%.2f per serving. You have "
+                            "%d servings for a total of $%.2f.  No questions asked, here is your cash.")
+                            ,(double)item_cost/100 ,you_have, (double)(item_cost*you_have)/100);
+ return response.str();
+}
+
+void talk_function::bulk_trade_accept(npc *p, itype_id it)
+{
+ int you_have = g->u.charges_of(it);
+ int total = item(it, 0).price()*you_have;
+ g->u.use_charges(it, you_have);
+ g->u.cash += total;
+ p->add_msg_if_player(m_good, _("Pleasure doing business!"));
 }
 
 void talk_function::assign_base(npc *p)

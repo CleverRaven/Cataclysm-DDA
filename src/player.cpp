@@ -2014,108 +2014,112 @@ inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair
 
 void player::disp_info()
 {
- int line;
- std::vector<std::string> effect_name;
- std::vector<std::string> effect_text;
- for (int i = 0; i < illness.size(); i++) {
-  if (dis_name(illness[i]).size() > 0) {
-   effect_name.push_back(dis_name(illness[i]));
-   effect_text.push_back(dis_description(illness[i]));
-  }
- }
-    for (std::vector<effect>::iterator it = effects.begin();
-        it != effects.end(); ++it) {
-        effect_name.push_back(it->disp_name());
-        effect_text.push_back(it->get_effect_type()->get_desc());
+    int line;
+    std::vector<std::string> effect_name;
+    std::vector<std::string> effect_text;
+    for (int i = 0; i < illness.size(); i++) {
+        if (dis_name(illness[i]).size() > 0) {
+            effect_name.push_back(dis_name(illness[i]));
+            effect_text.push_back(dis_description(illness[i]));
+        }
     }
- if (abs(morale_level()) >= 100) {
-  bool pos = (morale_level() > 0);
-  effect_name.push_back(pos ? _("Elated") : _("Depressed"));
-  std::stringstream morale_text;
-  if (abs(morale_level()) >= 200)
-   morale_text << _("Dexterity") << (pos ? " +" : " ") <<
-                   int(morale_level() / 200) << "   ";
-  if (abs(morale_level()) >= 180)
-   morale_text << _("Strength") << (pos ? " +" : " ") <<
-                  int(morale_level() / 180) << "   ";
-  if (abs(morale_level()) >= 125)
-   morale_text << _("Perception") << (pos ? " +" : " ") <<
-                  int(morale_level() / 125) << "   ";
-  morale_text << _("Intelligence") << (pos ? " +" : " ") <<
-                 int(morale_level() / 100) << "   ";
-  effect_text.push_back(morale_text.str());
- }
- if (pain - pkill > 0) {
-  effect_name.push_back(_("Pain"));
-  std::stringstream pain_text;
-  // Cenobites aren't markedly physically impaired by pain.
-  if ((pain - pkill >= 15) && (!(has_trait("CENOBITE")))) {
-   pain_text << "Strength" << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
+    for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it) {
+        effect_name.push_back( effect_it->second.disp_name() );
+        effect_text.push_back( effect_it->second.get_effect_type()->get_desc() );
+    }
+    if (abs(morale_level()) >= 100) {
+        bool pos = (morale_level() > 0);
+        effect_name.push_back(pos ? _("Elated") : _("Depressed"));
+        std::stringstream morale_text;
+        if (abs(morale_level()) >= 200) {
+            morale_text << _("Dexterity") << (pos ? " +" : " ") <<
+                int(morale_level() / 200) << "   ";
+        }
+        if (abs(morale_level()) >= 180) {
+            morale_text << _("Strength") << (pos ? " +" : " ") <<
+                int(morale_level() / 180) << "   ";
+        }
+        if (abs(morale_level()) >= 125) {
+            morale_text << _("Perception") << (pos ? " +" : " ") <<
+                int(morale_level() / 125) << "   ";
+        }
+        morale_text << _("Intelligence") << (pos ? " +" : " ") <<
+            int(morale_level() / 100) << "   ";
+        effect_text.push_back(morale_text.str());
+    }
+    if (pain - pkill > 0) {
+        effect_name.push_back(_("Pain"));
+        std::stringstream pain_text;
+        // Cenobites aren't markedly physically impaired by pain.
+        if ((pain - pkill >= 15) && (!(has_trait("CENOBITE")))) {
+            pain_text << "Strength" << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
                 int((pain - pkill) / 15) << "   ";
-  }
-  // They do find the sensations distracting though.
-  // Pleasurable...but distracting.
-  if (pain - pkill >= 20)
-   pain_text << _("Perception") << " -" << int((pain - pkill) / 15) << "   ";
-  pain_text << _("Intelligence") << " -" << 1 + int((pain - pkill) / 25);
-  effect_text.push_back(pain_text.str());
- }
- if (stim > 0) {
-  int dexbonus = int(stim / 10);
-  int perbonus = int(stim /  7);
-  int intbonus = int(stim /  6);
-  if (abs(stim) >= 30) {
-   dexbonus -= int(abs(stim - 15) /  8);
-   perbonus -= int(abs(stim - 15) / 12);
-   intbonus -= int(abs(stim - 15) / 14);
-  }
+        }
+        // They do find the sensations distracting though.
+        // Pleasurable...but distracting.
+        if (pain - pkill >= 20) {
+            pain_text << _("Perception") << " -" << int((pain - pkill) / 15) << "   ";
+        }
+        pain_text << _("Intelligence") << " -" << 1 + int((pain - pkill) / 25);
+        effect_text.push_back(pain_text.str());
+    }
+    if (stim > 0) {
+        int dexbonus = int(stim / 10);
+        int perbonus = int(stim /  7);
+        int intbonus = int(stim /  6);
+        if (abs(stim) >= 30) {
+            dexbonus -= int(abs(stim - 15) /  8);
+            perbonus -= int(abs(stim - 15) / 12);
+            intbonus -= int(abs(stim - 15) / 14);
+        }
 
-  if (dexbonus < 0)
-   effect_name.push_back(_("Stimulant Overdose"));
-  else
-   effect_name.push_back(_("Stimulant"));
-  std::stringstream stim_text;
-  stim_text << _("Speed") << " +" << stim << "   " << _("Intelligence") <<
-               (intbonus > 0 ? " + " : " ") << intbonus << "   " << _("Perception") <<
-               (perbonus > 0 ? " + " : " ") << perbonus << "   " << _("Dexterity")  <<
-               (dexbonus > 0 ? " + " : " ") << dexbonus;
-  effect_text.push_back(stim_text.str());
- } else if (stim < 0) {
-  effect_name.push_back(_("Depressants"));
-  std::stringstream stim_text;
-  int dexpen = int(stim / 10);
-  int perpen = int(stim /  7);
-  int intpen = int(stim /  6);
-// Since dexpen etc. are always less than 0, no need for + signs
-  stim_text << _("Speed") << " " << stim << "   " << _("Intelligence") << " " << intpen <<
-               "   " << _("Perception") << " " << perpen << "   " << "Dexterity" << " " << dexpen;
-  effect_text.push_back(stim_text.str());
- }
+        if (dexbonus < 0) {
+            effect_name.push_back(_("Stimulant Overdose"));
+        } else {
+            effect_name.push_back(_("Stimulant"));
+        }
+        std::stringstream stim_text;
+        stim_text << _("Speed") << " +" << stim << "   " << _("Intelligence") <<
+            (intbonus > 0 ? " + " : " ") << intbonus << "   " << _("Perception") <<
+            (perbonus > 0 ? " + " : " ") << perbonus << "   " << _("Dexterity")  <<
+            (dexbonus > 0 ? " + " : " ") << dexbonus;
+        effect_text.push_back(stim_text.str());
+    } else if (stim < 0) {
+        effect_name.push_back(_("Depressants"));
+        std::stringstream stim_text;
+        int dexpen = int(stim / 10);
+        int perpen = int(stim /  7);
+        int intpen = int(stim /  6);
+        // Since dexpen etc. are always less than 0, no need for + signs
+        stim_text << _("Speed") << " " << stim << "   " << _("Intelligence") << " " << intpen <<
+            "   " << _("Perception") << " " << perpen << "   " << "Dexterity" << " " << dexpen;
+        effect_text.push_back(stim_text.str());
+    }
 
- if ((has_trait("TROGLO") && g->is_in_sunlight(posx, posy) &&
-      g->weather == WEATHER_SUNNY) ||
-     (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy) &&
-      g->weather != WEATHER_SUNNY)) {
-  effect_name.push_back(_("In Sunlight"));
-  effect_text.push_back(_("The sunlight irritates you.\n\
+    if ((has_trait("TROGLO") && g->is_in_sunlight(posx, posy) &&
+         g->weather == WEATHER_SUNNY) ||
+        (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy) &&
+         g->weather != WEATHER_SUNNY)) {
+        effect_name.push_back(_("In Sunlight"));
+        effect_text.push_back(_("The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1"));
- } else if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
-  effect_name.push_back(_("In Sunlight"));
-  effect_text.push_back(_("The sunlight irritates you badly.\n\
+    } else if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
+        effect_name.push_back(_("In Sunlight"));
+        effect_text.push_back(_("The sunlight irritates you badly.\n\
 Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2"));
- } else if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
-  effect_name.push_back(_("In Sunlight"));
-  effect_text.push_back(_("The sunlight irritates you terribly.\n\
+    } else if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
+        effect_name.push_back(_("In Sunlight"));
+        effect_text.push_back(_("The sunlight irritates you terribly.\n\
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
- }
+    }
 
- for (int i = 0; i < addictions.size(); i++) {
-  if (addictions[i].sated < 0 &&
-      addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
-   effect_name.push_back(addiction_name(addictions[i]));
-   effect_text.push_back(addiction_text(addictions[i]));
-  }
- }
+    for (int i = 0; i < addictions.size(); i++) {
+        if (addictions[i].sated < 0 &&
+            addictions[i].intensity >= MIN_ADDICTION_LEVEL) {
+            effect_name.push_back(addiction_name(addictions[i]));
+            effect_text.push_back(addiction_text(addictions[i]));
+        }
+    }
 
     int maxy = TERMY;
 
@@ -3646,6 +3650,34 @@ bool player::in_climate_control()
     }
     return regulated_area;
 }
+
+std::list<item *> player::get_radio_items()
+{
+    std::list<item *> rc_items;
+    const invslice & stacks = inv.slice();
+    for( size_t x  = 0; x  < stacks.size(); ++x  ) {
+        item &itemit = stacks[x]->front();
+        item *stack_iter = &itemit;
+        if (stack_iter->active && stack_iter->has_flag("RADIO_ACTIVATION")) {
+            rc_items.push_back( stack_iter );
+        }
+    }
+
+    for (size_t i = 0; i < worn.size(); i++) {
+        if ( worn[i].active  && worn[i].has_flag("RADIO_ACTIVATION")) {
+            rc_items.push_back( &worn[i] );
+        }
+    }
+
+    if (!weapon.is_null()) {
+        if ( weapon.active  && weapon.has_flag("RADIO_ACTIVATION")) {
+            rc_items.push_back( &weapon );
+        }
+    }
+    return rc_items;
+}
+
+
 
 bool player::has_bionic(const bionic_id & b) const
 {
@@ -5318,9 +5350,8 @@ static void handle_cough(player &p, int intensity, int loudness) {
 }
 void player::process_effects() {
     int psnChance;
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
-        std::string id = it->get_id();
+    for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it ) {
+        std::string id = effect_it->second.get_id();
         if (id == "onfire") {
             manage_fire_exposure(*this, 1);
         } else if (id == "poison") {
@@ -5355,14 +5386,14 @@ void player::process_effects() {
             }
         } else if (id == "smoke") {
             // A hard limit on the duration of the smoke disease.
-            if( it->get_duration() >= 600) {
-                it->set_duration(600);
+            if( effect_it->second.get_duration() >= 600) {
+                effect_it->second.set_duration(600);
             }
             mod_str_bonus(-1);
             mod_dex_bonus(-1);
-            it->set_intensity((it->get_duration()+190)/200);
-            if (it->get_intensity() >= 10 && one_in(6)) {
-                handle_cough(*this, it->get_intensity());
+            effect_it->second.set_intensity((effect_it->second.get_duration()+190)/200);
+            if( effect_it->second.get_intensity() >= 10 && one_in(6)) {
+                handle_cough(*this, effect_it->second.get_intensity());
             }
         } else if (id == "teargas") {
             mod_str_bonus(-2);

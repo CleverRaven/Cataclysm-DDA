@@ -431,9 +431,9 @@ void add_corpse(int x, int y);
  point find_item(const item *it);
  void spawn_artifact( const int x, const int y );
  void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
-    void spawn_item(const int x, const int y, const std::string &itype_id,
-                    const unsigned quantity=1, const long charges=0,
-                    const unsigned birthday=0, const int damlevel=0, const bool rand = true);
+ void spawn_item(const int x, const int y, const std::string &itype_id,
+                 const unsigned quantity=1, const long charges=0,
+                 const unsigned birthday=0, const int damlevel=0, const bool rand = true);
  int max_volume(const int x, const int y);
  int free_volume(const int x, const int y);
  int stored_volume(const int x, const int y);
@@ -441,10 +441,14 @@ void add_corpse(int x, int y);
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
  void process_active_items();
 
- std::list<item> use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container);
- std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
-                              const bool use_container = false);
- std::list<item> use_charges(const point origin, const int range, const itype_id type, const long amount);
+ std::list<item> use_amount_square( const int x, const int y, const itype_id type,
+                                    int &quantity, const bool use_container );
+ std::list<item> use_amount( const point origin, const int range, const itype_id type,
+                             const int amount, const bool use_container = false );
+ std::list<item> use_charges( const point origin, const int range, const itype_id type,
+                              const long amount );
+
+ std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
 // Traps
  std::string trap_get(const int x, const int y) const;
