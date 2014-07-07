@@ -8447,7 +8447,7 @@ void game::examine(int examx, int examy)
         }
     }
     //check for disarming traps last to avoid disarming query black box issue.
-    if(m.tr_at(examx, examy) != tr_null) {
+    if(m.tr_at(examx, examy) != tr_null && m.tr_at(examx, examy) != tr_notice) {
         xmine.trap(&u, &m, examx, examy);
         if(m.tr_at(examx, examy) == tr_null) {
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
@@ -12433,7 +12433,7 @@ bool game::plmove(int dx, int dy)
         }
 
         const trap_id tid = m.tr_at(x, y);
-        if (tid != tr_null) {
+        if (tid != tr_null&&tid != tr_notice) {
             const struct trap &t = *traplist[tid];
             if ((t.can_see(u, x, y)) && !t.is_benign() &&
                 !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
@@ -12853,7 +12853,7 @@ bool game::plmove(int dx, int dy)
         // Try to detect.
         u.search_surroundings();
         // We stepped on a trap!
-        if (m.tr_at(x, y) != tr_null) {
+        if (m.tr_at(x, y) != tr_null && m.tr_at(x, y) != tr_notice) {
             trap *tr = traplist[m.tr_at(x, y)];
             if (!u.avoid_trap(tr, x, y)) {
                 tr->trigger(&g->u, x, y);
@@ -13508,7 +13508,7 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
-    if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
+    if (m.tr_at(u.posx, u.posy) != tr_null && m.tr_at(u.posx, u.posy) != tr_notice) { // We stepped on a trap!
         trap *tr = traplist[m.tr_at(u.posx, u.posy)];
         if (force || !u.avoid_trap(tr, u.posx, u.posy)) {
             tr->trigger(&g->u, u.posx, u.posy);

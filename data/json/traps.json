@@ -545,5 +545,18 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "action" : "snake"
-    }
+    },
+	{
+        "type" : "trap",
+        "id": "tr_notice",
+        "identstring" : "NOTICE_EVENT",
+        "legacy_id": 39,
+        "name" : "Gruesome Scene",
+        "color" : "white",
+        "symbol" : ".",
+        "visibility" : 1,
+        "avoidance" : 1,
+        "difficulty" : -5,
+        "action" : "notice"
+	}
 ]
