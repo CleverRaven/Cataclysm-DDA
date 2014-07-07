@@ -10915,6 +10915,9 @@ int map::place_npc(int x, int y, std::string type)
         temp->chatbin.first_topic = TALK_OLD_GUARD_REP;
         temp->fac_id = 1;
         temp->my_fac = g->faction_by_id(1);
+        int mission_index = g->reserve_mission(MISSION_OLD_GUARD_REP_1, temp->getID());
+        if (mission_index != -1)
+            temp->chatbin.missions.push_back(mission_index);
         g->load_npcs();
         return temp->getID();
         }
@@ -11067,7 +11070,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->posx = x;
         temp->posy = y;
         temp->attitude = NPCATT_NULL;
-        temp->mission = NPC_MISSION_NULL;
+        temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_DONE;
         temp->personality.aggression = 10;
         temp->fac_id = 4;
