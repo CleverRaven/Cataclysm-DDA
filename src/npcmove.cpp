@@ -57,7 +57,7 @@ void npc::move()
 
     //faction opinion determines if it should consider you hostile
     int j;
-    if (my_fac != NULL && my_fac->likes_u < -10 && g->sees_u(posx, posy, j)){//acidia
+    if (my_fac != NULL && my_fac->likes_u < -10 && g->sees_u(posx, posy, j)){
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
             attitude = NPCATT_FLEE; // We don't want to take u on!
         else
@@ -565,7 +565,9 @@ npc_action npc::method_of_attack(int target, int danger)
                 else {
                     return npc_avoid_friendly_fire;
                 }
-            else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
+            else if (target == TARGET_PLAYER && !g->sees_u(posx, posy, junk)) {
+                return npc_melee;//Can't see target
+            }else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
                      g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
