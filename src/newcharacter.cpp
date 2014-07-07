@@ -1063,7 +1063,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         // Draw header.
-        std::string points_msg = string_format("Points left: %2d", points);
+        std::string points_msg = string_format(_("Points left: %2d"), points);
         int pMsg_length = utf8_width(_(points_msg.c_str()));
         if (netPointCost > 0) {
             mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
