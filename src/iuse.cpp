@@ -1727,7 +1727,7 @@ int iuse::mut_iv(player *p, item *it, bool)
         } else if (it->has_flag("MUTAGEN_CEPHALOPOD")) {
             //~Zork reference, but it's talking about your blood vessels
             p->add_msg_if_player(_("You watch the mutagen flow through a maze of little twisty passages.\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								               All the same."));
+            All the same."));
             mutation_category = "MUTCAT_CEPHALOPOD";
         } else if (it->has_flag("MUTAGEN_BIRD")) {
             p->add_msg_if_player(_("Your arms spasm in an oddly wavelike motion."));
@@ -1741,7 +1741,7 @@ int iuse::mut_iv(player *p, item *it, bool)
         } else if (it->has_flag("MUTAGEN_ELFA")) {
             // 3-15 pain, morale boost, but no more mutagenic than cat-9s
             p->add_msg_if_player(_("Everything goes green for a second.\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								           It's painfully beautiful..."));
+            It's painfully beautiful..."));
             p->fall_asleep(20); //Should be out for two minutes.  Ecstasy Of Green
             // Extra helping of pain.
             p->mod_pain(rng(1, 5));
@@ -1750,10 +1750,9 @@ int iuse::mut_iv(player *p, item *it, bool)
         } else if (it->has_flag("MUTAGEN_RAPTOR")) {
             //Little more painful than average, but nowhere near as harsh & effective as Chimera.
             p->add_msg_if_player(_("You distinctly smell the mutagen mixing with your blood\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								           ...and then it passes."));
+            ...and then it passes."));
             mutation_category = "MUTCAT_RAPTOR";
         }
-
         p->mutate_category(mutation_category);
         p->mod_pain(2 * rng(1, 5));
         p->hunger += 10;
@@ -1774,7 +1773,6 @@ int iuse::mut_iv(player *p, item *it, bool)
             p->thirst += 10;
         }
     }
-
     // Threshold-check.  You only get to cross once!
     if (p->crossed_threshold() == false) {
         // Threshold-breaching
