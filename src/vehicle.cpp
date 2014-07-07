@@ -2816,10 +2816,10 @@ void vehicle::thrust (int thd) {
         return;
     }
 
-    bool thrusting = true;
-    if( velocity ) { //brake?
-       int sgn = velocity < 0? -1 : 1;
-       thrusting = sgn == thd;
+    bool thrusting = (thd != 0);
+    if( velocity != 0 ) { //brake?
+       int sgn = velocity < 0 ? -1 : 1;
+       thrusting = (sgn == thd);
     }
 
     int accel = acceleration();
@@ -2858,7 +2858,7 @@ void vehicle::thrust (int thd) {
     noise_and_smoke( load );
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
-    if (thrusting && rng(1, accel) <= vel_inc )
+    if (thrusting && abs(rng(1, accel)) <= abs(vel_inc))
     {
         if (total_power () < 1)
         {
