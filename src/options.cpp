@@ -406,9 +406,94 @@ void initOptions()
     OPTIONS.clear();
 
     std::string tileset_names;
-    tileset_names = get_tileset_names(
-                        FILENAMES["gfxdir"]);      //get the tileset names and set the optionNames
+    tileset_names = get_tileset_names(FILENAMES["gfxdir"]); //get the tileset names and set the optionNames
 
+    ////////////////////////////GENERAL//////////////////////////
+    OPTIONS["AUTO_PICKUP"] = cOpt("general", _("Auto pickup enabled"),
+                                  _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
+                                  false
+                                 );
+
+    OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
+                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your homebase."),
+                                           false
+                                          );
+
+    OPTIONS["AUTO_PICKUP_ZERO"] = cOpt("general", _("Auto pickup 0 vol light items"),
+                                       _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
+                                       0, 20, 0
+                                      );
+
+    OPTIONS["AUTO_PICKUP_SAFEMODE"] = cOpt("general", _("Auto pickup safemode"),
+                                           _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by Safemode proximity distance."),
+                                           false
+                                          );
+
+    OPTIONS["DANGEROUS_PICKUPS"] = cOpt("general", _("Dangerous pickups"),
+                                        _("If false will cause player to drop new items that cause them to exceed the weight limit."),
+                                        false
+                                       );
+
+    OPTIONS["AUTOSAFEMODE"] = cOpt("general", _("Auto-safemode on by default"),
+                                   _("If true, auto-safemode will be on after starting a new game or loading."),
+                                   false
+                                  );
+
+    OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to reenable safemode"),
+                                        _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance."),
+                                        1, 100, 50
+                                       );
+
+    OPTIONS["SAFEMODE"] = cOpt("general", _("Safemode on by default"),
+                               _("If true, safemode will be on after starting a new game or loading."),
+                               true
+                              );
+
+    OPTIONS["SAFEMODEPROXIMITY"] = cOpt("general", _("Safemode proximity distance"),
+                                        _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
+                                        0, 50, 0
+                                       );
+
+    OPTIONS["SAFEMODEVEH"] = cOpt("general", _("Safemode when driving"),
+                                  _("When true, safemode will alert you to hostiles whilst you are driving a vehicle."),
+                                  false
+                                 );
+
+    OPTIONS["AUTOSAVE"] = cOpt("general", _("Periodically autosave"),
+                               _("If true, game will periodically save the map."),
+                               false
+                              );
+
+    OPTIONS["AUTOSAVE_TURNS"] = cOpt("general", _("Game turns between autosaves"),
+                                     _("Number of game turns between autosaves"),
+                                     1, 1000, 5
+                                    );
+
+    OPTIONS["AUTOSAVE_MINUTES"] = cOpt("general", _("Real minutes between autosaves"),
+                                       _("Number of real time minutes between autosaves"),
+                                       0, 127, 5
+                                      );
+
+    OPTIONS["CIRCLEDIST"] = cOpt("general", _("Circular distances"),
+                                 _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
+                                 false
+                                );
+
+    optionNames["no"] = _("No");
+    //~ containers
+    optionNames["watertight"] = _("Watertight");
+    optionNames["all"] = _("All");
+    OPTIONS["DROP_EMPTY"] = cOpt("general", _("Drop empty containers"),
+                                 _("Set to drop empty containers after use. No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers."),
+                                 "no,watertight,all", "no"
+                                );
+
+    OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
+                                 _("If true automatically sets notes on places that have stairs that go up or down"),
+                                 false
+                                );
+
+    ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
     optionNames["cs"] = _("Czech");
@@ -450,16 +535,6 @@ void initOptions()
                                          "lbs,kg", "lbs"
                                         );
 
-    OPTIONS["FORCE_CAPITAL_YN"] = cOpt("interface", _("Force Y/N in prompts"),
-                                       _("If true, Y/N prompts are case-sensitive and y and n are not accepted."),
-                                       true
-                                      );
-
-    OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
-                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
-                                            false
-                                           );
-
     //~ 12h time, e.g. 11:59pm
     optionNames["12h"] = _("12h");
     //~ Military time, e.g. 2359
@@ -471,15 +546,15 @@ void initOptions()
                               "12h,military,24h", "12h"
                              );
 
+    OPTIONS["FORCE_CAPITAL_YN"] = cOpt("interface", _("Force Y/N in prompts"),
+                                       _("If true, Y/N prompts are case-sensitive and y and n are not accepted."),
+                                       true
+                                      );
+
     OPTIONS["SNAP_TO_TARGET"] = cOpt("interface", _("Snap to target"),
                                      _("If true, automatically follow the crosshair when firing/throwing."),
                                      false
                                     );
-
-    OPTIONS["SAFEMODE"] = cOpt("general", _("Safemode on by default"),
-                               _("If true, safemode will be on after starting a new game or loading."),
-                               true
-                              );
 
     OPTIONS["VEHICLE_ARMOR_COLOR"] = cOpt("interface", _("Vehicle plating changes part color"),
                                           _("If true, vehicle parts will change color if they are armor plated"),
@@ -495,66 +570,6 @@ void initOptions()
                                             _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
                                             false
                                            );
-
-    OPTIONS["SAFEMODEPROXIMITY"] = cOpt("general", _("Safemode proximity distance"),
-                                        _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
-                                        0, 50, 0
-                                       );
-
-    OPTIONS["SAFEMODEVEH"] = cOpt("general", _("Safemode when driving"),
-                                  _("When true, safemode will alert you to hostiles whilst you are driving a vehicle."),
-                                  false
-                                 );
-
-    OPTIONS["AUTOSAFEMODE"] = cOpt("general", _("Auto-safemode on by default"),
-                                   _("If true, auto-safemode will be on after starting a new game or loading."),
-                                   false
-                                  );
-
-    OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to reenable safemode"),
-                                        _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance."),
-                                        1, 100, 50
-                                       );
-
-    OPTIONS["AUTOSAVE"] = cOpt("general", _("Periodically autosave"),
-                               _("If true, game will periodically save the map."),
-                               false
-                              );
-
-    OPTIONS["AUTOSAVE_TURNS"] = cOpt("general", _("Game turns between autosaves"),
-                                     _("Number of game turns between autosaves"),
-                                     1, 1000, 5
-                                    );
-
-    OPTIONS["AUTOSAVE_MINUTES"] = cOpt("general", _("Real minutes between autosaves"),
-                                       _("Number of real time minutes between autosaves"),
-                                       0, 127, 5
-                                      );
-
-    OPTIONS["ANIMATION_DELAY"] = cOpt("graphics", _("Animation delay"),
-                                      _("The amount of time to pause between animation frames in ms."),
-                                      0, 100, 10
-                                      );
-
-    OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
-                                 _("If true, will display enabled animations."),
-                                 true
-                                );
-
-    OPTIONS["ANIMATION_RAIN"] = cOpt("graphics", _("Rain animation"),
-                                     _("If true, will display weather animations."),
-                                     true
-                                    );
-
-    OPTIONS["ANIMATION_SCT"] = cOpt("graphics", _("SCT animation"),
-                                    _("If true, will display scrolling combat text animations."),
-                                    true
-                                   );
-
-    OPTIONS["CIRCLEDIST"] = cOpt("general", _("Circular distances"),
-                                 _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
-                                 false
-                                );
 
     OPTIONS["QUERY_DISASSEMBLE"] = cOpt("interface", _("Query on disassembly"),
                                         _("If true, will query before disassembling items."),
@@ -572,14 +587,138 @@ void initOptions()
                                     false
                                    );
 
-    optionNames["no"] = _("No");
-    //~ containers
-    optionNames["watertight"] = _("Watertight");
-    optionNames["all"] = _("All");
-    OPTIONS["DROP_EMPTY"] = cOpt("general", _("Drop empty containers"),
-                                 _("Set to drop empty containers after use. No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers."),
-                                 "no,watertight,all", "no"
+    //~ sidebar style
+    optionNames["wider"] = _("Wider");
+    optionNames["narrow"] = _("Narrow");
+    OPTIONS["SIDEBAR_STYLE"] = cOpt("interface", _("Sidebar style"),
+                                    _("Switch between a narrower or wider sidebar. Requires restart."),
+                                    "wider,narrow", "narrow"
+                                   );
+
+    //~ style of vehicle interaction menu; vertical is old one.
+    optionNames["vertical"] = _("Vertical");
+    optionNames["horizontal"] = _("Horizontal");
+    optionNames["hybrid"] = _("Hybrid");
+    OPTIONS["VEH_MENU_STYLE"] = cOpt("interface", _("Vehicle menu style"),
+                                     _("Switch between two different styles of vehicle interaction menu or combination of them."),
+                                     "vertical,horizontal,hybrid", "vertical"
+                                    );
+
+    OPTIONS["MOVE_VIEW_OFFSET"] = cOpt("interface", _("Move view offset"),
+                                       _("Move view by how many squares per keypress."),
+                                       1, 50, 1
+                                      );
+
+    OPTIONS["SAVE_SLEEP"] = cOpt("interface", _("Ask to save before sleeping"),
+                                 _("If true, game will ask to save the map before sleeping."),
+                                 false
                                 );
+
+    OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
+                                      _("SDL ONLY: Enable input from joystick."),
+                                      true
+                                     );
+
+    //~ show mouse cursor
+    optionNames["show"] = _("Show");
+    //~ hide mouse cursor
+    optionNames["hide"] = _("Hide");
+    //~ hide mouse cursor when keyboard is used
+    optionNames["hidekb"] = _("HideKB");
+    OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
+                                  _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
+                                  "show,hide,hidekb", "show"
+                                 );
+
+    OPTIONS["MENU_SCROLL"] = cOpt("interface", _("Centered menu scrolling"),
+                                  _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
+                                  true
+                                 );
+
+    optionNames["false"] = _("False");
+    optionNames["centered"] = _("Centered");
+    optionNames["edge"] = _("To edge");
+    OPTIONS["SHIFT_LIST_ITEM_VIEW"] = cOpt("interface", _("Shift list item view"),
+                                           _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
+                                           "false,centered,edge",  "centered"
+                                          );
+
+    ////////////////////////////GRAPHICS/////////////////////////
+    OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
+                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
+                                            false
+                                           );
+
+    OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
+                                 _("If true, will display enabled animations."),
+                                 true
+                                );
+
+    OPTIONS["ANIMATION_RAIN"] = cOpt("graphics", _("Rain animation"),
+                                     _("If true, will display weather animations."),
+                                     true
+                                    );
+
+    OPTIONS["ANIMATION_SCT"] = cOpt("graphics", _("SCT animation"),
+                                    _("If true, will display scrolling combat text animations."),
+                                    true
+                                   );
+
+    OPTIONS["ANIMATION_DELAY"] = cOpt("graphics", _("Animation delay"),
+                                      _("The amount of time to pause between animation frames in ms."),
+                                      0, 100, 10
+                                      );
+
+    OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
+                                 _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
+                                 80, 242, 80
+                                );
+
+    OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
+                                 _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
+                                 24, 187, 24
+                                );
+
+    OPTIONS["USE_TILES"] = cOpt("graphics", _("Use tiles"),
+                                _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
+                                true
+                               );
+
+    OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
+                            _("Choose the tileset you want to use. Only applicable on SDL builds."),
+                            tileset_names, "hoder"
+                           ); // populate the options dynamically
+
+    OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
+                                 _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
+                                 false
+                                );
+
+    OPTIONS["SOFTWARE_RENDERING"] = cOpt("graphics", _("Software rendering"),
+                                         _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
+                                         false
+                                        );
+
+    OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
+                                   _("SDL ONLY: Adjust the volume of the music being played in the background."),
+                                   0, 200, 100
+                                  );
+
+    ////////////////////////////DEBUG////////////////////////////
+    OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
+                                                  _("Determines the scope, which is known in the beginning of the game."),
+                                                  3, 20, 15
+                                                 );
+
+    OPTIONS["INITIAL_POINTS"] = cOpt("debug", _("Initial points"),
+                                     _("Initial points available on character generation."),
+                                     0, 1000, 6
+                                    );
+
+    OPTIONS["MAX_TRAIT_POINTS"] = cOpt("debug", _("Maximum trait points"),
+                                       _("Maximum trait points available for character generation."),
+                                       0, 1000, 12
+                                      );
 
     //~ plain, default, normal
     optionNames["vanilla"] = _("Vanilla");
@@ -595,6 +734,7 @@ void initOptions()
                                  "vanilla,capped,int,intcap,off", "int"
                                 );
 
+    ////////////////////////////WORLD DEFAULT////////////////////
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
@@ -602,16 +742,6 @@ void initOptions()
                                    _("Delete the world when the last active character dies."),
                                    "no,yes,query", "no"
                                   );
-
-    OPTIONS["INITIAL_POINTS"] = cOpt("debug", _("Initial points"),
-                                     _("Initial points available on character generation."),
-                                     0, 1000, 6
-                                    );
-
-    OPTIONS["MAX_TRAIT_POINTS"] = cOpt("debug", _("Maximum trait points"),
-                                       _("Maximum trait points available for character generation."),
-                                       0, 1000, 12
-                                      );
 
     OPTIONS["SPAWN_DENSITY"] = cOpt("world_default", _("Spawn rate scaling factor"),
                                     _("A scaling factor that determines density of monster spawns."),
@@ -647,38 +777,6 @@ void initOptions()
     OPTIONS["INITIAL_SEASON"] = cOpt("world_default", _("Initial season"),
                                      _("Initial starting season of day on character generation."),
                                      "spring,summer,autumn,winter", "spring");
-
-    OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
-                                 _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 80, 242, 80
-                                );
-
-    OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
-                                 _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 24, 187, 24
-                                );
-
-    //~ sidebar style
-    optionNames["wider"] = _("Wider");
-    optionNames["narrow"] = _("Narrow");
-    OPTIONS["SIDEBAR_STYLE"] = cOpt("interface", _("Sidebar style"),
-                                    _("Switch between a narrower or wider sidebar. Requires restart."),
-                                    "wider,narrow", "narrow"
-                                   );
-
-    //~ style of vehicle interaction menu; vertical is old one.
-    optionNames["vertical"] = _("Vertical");
-    optionNames["horizontal"] = _("Horizontal");
-    optionNames["hybrid"] = _("Hybrid");
-    OPTIONS["VEH_MENU_STYLE"] = cOpt("interface", _("Vehicle menu style"),
-                                     _("Switch between two different styles of vehicle interaction menu or combination of them."),
-                                     "vertical,horizontal,hybrid", "vertical"
-                                    );
-
-    OPTIONS["MOVE_VIEW_OFFSET"] = cOpt("interface", _("Move view offset"),
-                                       _("Move view by how many squares per keypress."),
-                                       1, 50, 1
-                                      );
 
     OPTIONS["STATIC_SPAWN"] = cOpt("world_default", _("Static spawn"),
                                    _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
@@ -719,100 +817,6 @@ void initOptions()
                                    _("If true, radiation causes the player to mutate."),
                                    true
                                   );
-
-    OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
-                                                  _("Determines the scope, which is known in the beginning of the game."),
-                                                  3, 20, 15
-                                                 );
-
-    OPTIONS["SAVE_SLEEP"] = cOpt("interface", _("Ask to save before sleeping"),
-                                 _("If true, game will ask to save the map before sleeping."),
-                                 false
-                                );
-
-    OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
-                                      _("SDL ONLY: Enable input from joystick."),
-                                      true
-                                     );
-
-    //~ show mouse cursor
-    optionNames["show"] = _("Show");
-    //~ hide mouse cursor
-    optionNames["hide"] = _("Hide");
-    //~ hide mouse cursor when keyboard is used
-    optionNames["hidekb"] = _("HideKB");
-    OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
-                                  _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
-                                  "show,hide,hidekb", "show"
-                                 );
-
-    OPTIONS["MENU_SCROLL"] = cOpt("interface", _("Centered menu scrolling"),
-                                  _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
-                                  true
-                                 );
-
-    OPTIONS["AUTO_PICKUP"] = cOpt("general", _("Auto pickup enabled"),
-                                  _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
-                                  false
-                                 );
-
-    OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
-                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your homebase."),
-                                           false
-                                          );
-
-    OPTIONS["AUTO_PICKUP_ZERO"] = cOpt("general", _("Auto pickup 0 vol light items"),
-                                       _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
-                                       0, 20, 0
-                                      );
-
-    OPTIONS["AUTO_PICKUP_SAFEMODE"] = cOpt("general", _("Auto pickup safemode"),
-                                           _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by Safemode proximity distance."),
-                                           false
-                                          );
-
-    OPTIONS["DANGEROUS_PICKUPS"] = cOpt("general", _("Dangerous pickups"),
-                                        _("If false will cause player to drop new items that cause them to exceed the weight limit."),
-                                        false
-                                       );
-
-    optionNames["false"] = _("False");
-    optionNames["centered"] = _("Centered");
-    optionNames["edge"] = _("To edge");
-    OPTIONS["SHIFT_LIST_ITEM_VIEW"] = cOpt("interface", _("Shift list item view"),
-                                           _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
-                                           "false,centered,edge",  "centered"
-                                          );
-
-    OPTIONS["USE_TILES"] = cOpt("graphics", _("Use tiles"),
-                                _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
-                                true
-                               );
-
-    OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
-                            _("Choose the tileset you want to use. Only applicable on SDL builds."),
-                            tileset_names, "hoder"
-                           );
-
-    OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
-                                 _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
-                                 false
-                                );
-
-    OPTIONS["SOFTWARE_RENDERING"] = cOpt("graphics", _("Software rendering"),
-                                         _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
-                                         false
-                                        );  // populate the options dynamically
-
-    OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
-                                   _("SDL ONLY: Adjust the volume of the music being played in the background."),
-                                   0, 200, 100
-                                  );  // populate the options dynamically
-
-    OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
-                                 _("If true automatically sets notes on places that have stairs that go up or down"),
-                                 false
-                                );
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
