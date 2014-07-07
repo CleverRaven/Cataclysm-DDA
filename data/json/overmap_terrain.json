@@ -3884,7 +3884,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_7",
-        "name" : "Refugee Center",
+        "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3894,7 +3894,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_8",
-        "name" : "Refugee Center",
+        "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3904,7 +3904,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_9",
-        "name" : "Refugee Center",
+        "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3934,7 +3934,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_12",
-        "name" : "Refugee Center",
+        "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3944,7 +3944,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_13",
-        "name" : "Refugee Center",
+        "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3954,7 +3954,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_14",
-        "name" : "Refugee Center",
+        "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3984,7 +3984,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_17",
-        "name" : "Refugee Center",
+        "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3994,7 +3994,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_18",
-        "name" : "Refugee Center",
+        "name" : "refugee center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -4004,7 +4004,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_19",
-        "name" : "Refugee Center",
+        "name" : "refugee renter",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -4071,6 +4071,47 @@
         "extras" : "build",
         "see_cost" : 5,
         "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_cabin",
+        "name" : "bandit cabin",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_1",
+        "name" : "bandit camp",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_2",
+        "name" : "bandit camp",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_3",
+        "name" : "bandit camp",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_4",
+        "name" : "bandit camp",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
     }
 ]
+
 
