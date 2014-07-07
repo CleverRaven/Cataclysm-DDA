@@ -3884,7 +3884,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_7",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3894,7 +3894,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_8",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3904,7 +3904,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_9",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3934,7 +3934,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_12",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3944,7 +3944,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_13",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3954,7 +3954,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_14",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3984,7 +3984,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_17",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -3994,7 +3994,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_18",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",
@@ -4004,7 +4004,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_19",
-        "name" : "Refguee Center",
+        "name" : "Refugee Center",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",

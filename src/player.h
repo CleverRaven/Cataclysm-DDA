@@ -538,6 +538,8 @@ public:
                    bool main_parts_only = false);
  /** Removes a disease from a player */
  void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
+ /** Returns list of rc items in player inventory. **/
+ std::list<item *> get_radio_items();
  /** Returns true if the player has the entered disease */
  bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
  /** Pauses a disease, making it permanent until unpaused */

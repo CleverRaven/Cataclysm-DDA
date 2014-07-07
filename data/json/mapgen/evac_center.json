@@ -836,14 +836,14 @@
 				"  # L##          ##L #  ",
 				"  #####          #####  ",
 				"     ##2        2##     ",
-				"     +            0     ",
-				"     +            0     ",
-				"     ##          ##     ",
-				"##=####      zz  #######",
+				"     +          bL0     ",
+				"     +          hL0     ",
+				"     ##         b##     ",
+				"##+####      zz  #######",
 				"     ##      zz  #######",
 				"     ###        ########",
 				" k6k ######  ###########",
-				"  h  #####EEEE##########",
+				"  h  #####EEE6##########",
 				"     #####EEEE##########",
 				"##########EEEE##########",
 				"##########EEEE##########"
@@ -855,6 +855,7 @@
                 { "item": "cleaning", "chance": 80, "x": [ 4, 4 ], "y": [ 8, 10 ]}
 			],
             "place_specials": [
+                { "type": "npc", "class": "evac_broker", "x": 2, "y": 20 },
                 { "type": "npc", "class": "guard", "x": 15, "y": 15 }
             ],
 			"terrain": {
@@ -1346,7 +1347,6 @@
                 { "item": "cannedfood", "chance": 90, "x": [ 2, 20 ], "y": [ 8, 8 ]}
 			],
             "place_specials": [
-                { "type": "npc", "class": "evac_merchant", "x": 23, "y": 23 },
                 { "type": "npc", "class": "evac_guard1", "x": 9, "y": 21 },
                 { "type": "npc", "class": "guard", "x": 14, "y": 21 }
             ],
@@ -1419,9 +1419,9 @@
 		"object": {
 			"fill_ter": "t_floor",
 			"rows": [
-				"  #c   #####..........ss",
-				"  #S 2 +t##..........sss",
-				"  #c   ####...sssssssss_",
+				"LL#c   #####..........ss",
+				"bh#S 2 +t##..........sss",
+				"h #c   ####...sssssssss_",
 				"  #S D +t##..sssssssss__",
 				"  ##+######..sss________",
 				"  #  #~#~##..ss_________",
@@ -1832,7 +1832,8 @@
 				".........ssssss........."
             ],
             "place_specials": [
-                { "type": "npc", "class": "arsonist", "x": 5, "y": 2 }
+                { "type": "npc", "class": "arsonist", "x": 5, "y": 2 },
+                { "type": "npc", "class": "evac_merchant", "x": 23, "y": 0 }
             ],
 			"terrain": {
 				"~": "t_floor",
