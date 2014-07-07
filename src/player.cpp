@@ -2282,7 +2282,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     ctxt.register_action("HELP_KEYBINDINGS");
     std::string action;
 
- mvwprintz(w_tip, 0, 39, c_ltred, _("Press %s for help."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
+ std::string help_msg = string_format(_("Press %s for help."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
+ mvwprintz(w_tip, 0, FULL_SCREEN_WIDTH - utf8_width(help_msg.c_str()), c_ltred, help_msg.c_str());
+ help_msg.clear();
  wrefresh(w_tip);
 
 // First!  Default STATS screen.
