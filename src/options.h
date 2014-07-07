@@ -46,7 +46,11 @@ class cOpt
         //Default deconstructor
         ~cOpt() {};
 
+        void setSortPos(const std::string sPageIn);
+
         //helper functions
+        int getSortPos();
+
         std::string getPage();
         std::string getMenuText();
         std::string getTooltip();
@@ -78,6 +82,8 @@ class cOpt
         std::string sMenuText;
         std::string sTooltip;
         std::string sType;
+
+        int iSortPos;
 
         //sType == "string"
         std::string sSet;

@@ -32,6 +32,7 @@ std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
+std::map<std::string, int> mOptionsSort;
 std::map<std::string, std::string> optionNames;
 int iWorldOptPage;
 
@@ -76,6 +77,8 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
     sDefault = sDefaultIn;
     sSet = sDefaultIn;
+
+    setSortPos(sPageIn);
 }
 
 //bool constructor
@@ -89,6 +92,8 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
     bDefault = bDefaultIn;
     bSet = bDefaultIn;
+
+    setSortPos(sPageIn);
 }
 
 //int constructor
@@ -113,6 +118,8 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
     iDefault = iDefaultIn;
     iSet = iDefaultIn;
+
+    setSortPos(sPageIn);
 }
 
 //float constructor
@@ -138,9 +145,22 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
     fDefault = fDefaultIn;
     fSet = fDefaultIn;
+
+    setSortPos(sPageIn);
+}
+
+void cOpt::setSortPos(const std::string sPageIn)
+{
+    mOptionsSort[sPageIn]++;
+    iSortPos = mOptionsSort[sPageIn] - 1;
 }
 
 //helper functions
+int cOpt::getSortPos()
+{
+    return iSortPos;
+}
+
 std::string cOpt::getPage()
 {
     return sPage;
@@ -794,11 +814,15 @@ void initOptions()
                                  false
                                 );
 
+    for (unsigned i = 0; i < vPages.size(); ++i) {
+        mPageItems[i].resize(mOptionsSort[vPages[i].first]);
+    }
+
     std::map<std::string, cOpt> OPTIONS_ORDERED(OPTIONS.begin(), OPTIONS.end());
     for( auto iter = OPTIONS_ORDERED.begin(); iter != OPTIONS_ORDERED.end(); ++iter ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
-                mPageItems[i].push_back(iter->first);
+                mPageItems[i][(iter->second).getSortPos()] = iter->first;
                 break;
             }
         }
