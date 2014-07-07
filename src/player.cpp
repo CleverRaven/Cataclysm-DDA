@@ -7593,6 +7593,12 @@ bool player::consume(int pos)
             if (to_eat->type->m1 == "wood" || to_eat->type->m2 == "wood") {
                 charge /= 2;
             }
+            if ((to_eat->type->m1 == "wool" || to_eat->type->m2 == "wool") && (has_trait("WOOLALLERGY")) && (!has_bionic("bio_digestion"))) {
+                if (!query_yn(_("Are you sure you want to eat the %s? The wool might upset your stomach..."), to_eat->tname().c_str())) {
+                    return false;
+                }
+                add_disease("foodpoison", rng(60, 300));
+            }
             charge_power(charge);
             to_eat->charges = 0;
             add_msg_player_or_npc( _("You eat your %s."), _("<npcname> eats a %s."),
