@@ -6694,7 +6694,7 @@ bool player::process_single_active_item(item *it)
                 if (it->has_flag("USE_UPS")){
                     add_msg_if_player(_("You need an active UPS to run that!"));
                     tmp->invoke(this, it, false);
-                }	else	{
+                } else {
                     tmp->invoke(this, it, false);
                     if (tmp->revert_to == "null") {
                         return false;
