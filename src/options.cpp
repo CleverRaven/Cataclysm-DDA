@@ -1269,12 +1269,14 @@ void save_options(bool ingame)
     for( size_t j = 0; j < vPages.size(); ++j ) {
         bool update_wopt = (ingame && j == iWorldOptPage );
         for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
-            fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
-            fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
-            fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
-            if ( update_wopt ) {
-                world_generator->active_world->world_options[ mPageItems[j][i] ] =
-                    ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+            if (OPTIONS[mPageItems[j][i]].getDefaultText() != "") {
+                fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
+                fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
+                fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
+                if ( update_wopt ) {
+                    world_generator->active_world->world_options[ mPageItems[j][i] ] =
+                        ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+                }
             }
         }
     }
