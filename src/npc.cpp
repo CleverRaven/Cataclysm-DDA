@@ -410,7 +410,7 @@ void npc::randomize(npc_class type)
    set_skill_level(*aSkill, level);
   }
   boost_skill_level("dodge", rng(1, 3));
-  boost_skill_level("melee", rng(1, 4));
+  boost_skill_level("melee", rng(2, 4));
   boost_skill_level("unarmed", rng(1, 3));
   boost_skill_level("bashing", rng(1, 5));
   boost_skill_level("stabbing", rng(1, 5));
@@ -441,10 +441,10 @@ void npc::randomize(npc_class type)
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
  }
- starting_weapon(type);//acidia, done
- worn = starting_clothes(type, male);//acidia, done
+ starting_weapon(type);
+ worn = starting_clothes(type, male);
  inv.clear();
- inv.add_stack(starting_inv(this, type));//acidia, done
+ inv.add_stack(starting_inv(this, type));
  update_worst_item_value();
 }
 
@@ -679,7 +679,7 @@ std::vector<item> starting_clothes(npc_class type, bool male)
  std::vector<item> ret;
  itype_id pants = "null", shoes = "null", shirt = "null",
                   gloves = "null", coat = "null", mask = "null",
-                  glasses = "null", hat = "null";
+                  glasses = "null", hat = "null", extras = "null";
 
  Item_tag selected_item;
  pants = item_controller->id_from(npc_class_name_str(type)+"_pants_male");
@@ -732,87 +732,9 @@ std::vector<item> starting_clothes(npc_class type, bool male)
     hat = item_controller->id_from("npc_hat");
  }
 
-// Now, more specific stuff for certain classes.
- switch (type) {
- case NC_DOCTOR:
-  if (one_in(2))
-   pants = "pants";
-  if (one_in(3))
-   shirt = (one_in(2) ? "polo_shirt" : "dress_shirt");
-  if (!one_in(8))
-   coat = "coat_lab";
-  if (one_in(3))
-   mask = "mask_dust";
-  if (one_in(4))
-   glasses = "glasses_safety";
-  if (gloves != "null" || one_in(3))
-   gloves = "gloves_medical";
-  break;
-
- case NC_TRADER:
-  if (one_in(2))
-   pants = "pants_cargo";
-  switch (rng(0, 8)) {
-   case 1: coat = "hoodie"; break;
-   case 2: coat = "jacket_jean"; break;
-   case 3: case 4: coat = "vest"; break;
-   case 5: case 6: case 7: case 8: coat = "trenchcoat"; break;
-  }
-  break;
-
- case NC_NINJA:
-  if (one_in(4))
-   shirt = "null";
-  else if (one_in(3))
-   shirt = "tank_top";
-  if (one_in(5))
-   gloves = "gloves_leather";
-  if (one_in(2))
-   mask = "bandana";
-  if (one_in(3))
-   hat = "null";
-  break;
-
- case NC_COWBOY:
-  if (one_in(2))
-   shoes = "boots";
-  if (one_in(2))
-   pants = "jeans";
-  if (one_in(3))
-   shirt = "tshirt";
-  if (one_in(4))
-   gloves = "gloves_leather";
-  if (one_in(4))
-   coat = "jacket_jean";
-  if (one_in(3))
-   hat = "hat_boonie";
-  break;
-
- case NC_SCIENTIST:
-  if (one_in(4))
-   glasses = "glasses_eye";
-  else if (one_in(2))
-   glasses = "glasses_safety";
-  if (one_in(5))
-   coat = "coat_lab";
-  break;
-
- case NC_BOUNTY_HUNTER:
-  if (one_in(3))
-   pants = "pants_cargo";
-  if (one_in(2))
-   shoes = "boots_steel";
-  if (one_in(4))
-   coat = "jacket_leather";
-  if (one_in(4))
-   mask = "mask_filter";
-  if (one_in(5))
-   glasses = "goggles_ski";
-  if (one_in(3)) {
-   mask = "null";
-   hat = "helmet_motor";
-  }
-  break;
+ extras = item_controller->id_from(npc_class_name_str(type)+"_extra");
+ if (extras == "MISSING_ITEM"){
+    extras = item_controller->id_from("npc_extra");
  }
 // Fill in the standard things we wear
  if (shoes != "null")
@@ -832,28 +754,8 @@ std::vector<item> starting_clothes(npc_class type, bool male)
   ret.push_back(item(glasses, 0));
  if (hat != "null")
   ret.push_back(item(hat, 0));
-
-// Second pass--for extra stuff like backpacks, etc
- switch (type) {
- case NC_NONE:
- case NC_ARSONIST:
-  ret.push_back(item("rucksack", 0));
-  break;
- case NC_DOCTOR:
- case NC_SCIENTIST:
-  if (one_in(10))
-   ret.push_back(item("backpack", 0));
-  break;
- case NC_COWBOY:
- case NC_BOUNTY_HUNTER:
-  if (one_in(2))
-   ret.push_back(item("backpack", 0));
-  break;
- case NC_TRADER:
-  if (!one_in(15))
-   ret.push_back(item("backpack", 0));
-  break;
- }
+ if (extras != "null")
+  ret.push_back(item(extras, 0));
 
  return ret;
 }
@@ -864,7 +766,6 @@ std::list<item> starting_inv(npc *me, npc_class type)
  std::list<item> ret;
  ret.push_back( item("lighter", 0, false) );
  itype_id tmp;
-
 // First, if we're wielding a gun, get some ammo for it
  if (me->weapon.is_gun()) {
   it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
@@ -874,13 +775,21 @@ std::list<item> starting_inv(npc *me, npc_class type)
    total_space -= ret.back().volume();
   }
   while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
-         !one_in(4) && total_space >= itypes[tmp]->volume) {
+         !one_in(2) && total_space >= itypes[tmp]->volume) {
    ret.push_back(item(tmp, 0));
    total_space -= ret.back().volume();
   }
  }
 
- while (total_space > 0 && !one_in(50)) {
+ int stopChance = 25;
+ if (type == NC_ARSONIST)
+  ret.push_back(item("molotov", 0));
+ if (type == NC_EVAC_SHOPKEEP || type == NC_TRADER){
+  total_space += 30;
+  stopChance = 40;
+ }
+
+ while (total_space > 0 && !one_in(stopChance)) {
     tmp = item_controller->id_from(npc_class_name_str(type)+"_misc");
     if (tmp == "MISSING_ITEM"){
         tmp = item_controller->id_from("npc_misc");
@@ -898,7 +807,6 @@ std::list<item> starting_inv(npc *me, npc_class type)
    --iter;
   }
  }
-
  return ret;
 }
 
@@ -995,7 +903,8 @@ Skill* npc::best_skill()
  std::vector<Skill*> best_skills;
  int highest = 0;
  for (std::vector<Skill*>::iterator iter = Skill::skills.begin(); iter != Skill::skills.end(); ++iter) {
-  if ((*iter)->ident() != "gun") {
+  //Should check to see if the skill has a "combat_skill" tag
+  if ((*iter)->is_combat_skill()) {
    if (skillLevel(*iter) > highest) {
     highest = skillLevel(*iter);
     best_skills.clear();
@@ -1063,7 +972,7 @@ void npc::starting_weapon(npc_class type)
     }else if (best->ident() == "launcher"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_launcher");
         if (sel_weapon == "MISSING_ITEM"){
-            sel_weapon = item_controller->id_from("launcher");
+            sel_weapon = item_controller->id_from("npc_launcher");
         }
     }
 
@@ -1604,11 +1513,11 @@ void npc::shop_restock(){
     //guards and other fixed npcs may need a small supply of food daily...
     switch (this->myclass) {
         case NC_EVAC_SHOPKEEP:
-            from = "npc_evac_shopkeep";
-            total_space += rng(50,100);
+            from = "NC_EVAC_SHOPKEEP_misc";
+            total_space += rng(30,40);
             this-> cash = 100000 * rng(1, 10)+ rng(1, 100000);
         case NC_ARSONIST:
-            from = "npc_arsonist";
+            from = "NC_ARSONIST_misc";
             this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
             ret.push_back(item("molotov", 0));
     }
