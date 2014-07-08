@@ -23,8 +23,8 @@
     "use_action": {
         "type": "unfold_vehicle",
         "vehicle_name": "inflatable_boat",
-        "unfold_msg": "You painstakingly unfold, inflate, and launch the inflatable boat.",
-        "moves": 5000
+        "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
+        "moves": 15000
     }
   }
 
