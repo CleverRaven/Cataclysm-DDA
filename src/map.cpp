@@ -550,7 +550,7 @@ bool map::vehproceed()
 			veh->stop();
 			veh->of_turn = 0;
 
-			add_msg(m_info, _("Your %s moored."), veh->name.c_str());
+			add_msg(m_info, _("Your %s is moored."), veh->name.c_str());
 
 			return true;			
 		}

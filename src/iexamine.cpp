@@ -388,9 +388,59 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
     delwin(w);
 }
 
-void iexamine::toilet(player *p, map *m, int examx, int examy)
-{
-	//DO NOT MERGE THIS METHOD. SPOILED BY BAD USING GIT :)
+void iexamine::toilet(player *p, map *m, int examx, int examy) {
+	std::vector<item>& items = m->i_at(examx, examy);
+	int waterIndex = -1;
+	for (int i = 0; i < items.size(); i++) {
+		if (items[i].typeId() == "water") {
+			waterIndex = i;
+			break;
+		}
+	}
+
+	if (waterIndex < 0) {
+		add_msg(m_info, _("This toilet is empty."));
+	}
+	else {
+		bool drained = false;
+
+		item& water = items[waterIndex];
+		// Use a different poison value each time water is drawn from the toilet.
+		water.poison = one_in(3) ? 0 : rng(1, 3);
+
+		// First try handling/bottling, then try drinking.
+		if (g->handle_liquid(water, true, false))
+		{
+			p->moves -= 100;
+			drained = true;
+		}
+		else if (query_yn(_("Drink from your hands?")))
+		{
+			// Create a dose of water no greater than the amount of water remaining.
+			item water_temp("water", 0);
+			water_temp.poison = water.poison;
+			water_temp.charges = std::min(water_temp.charges, water.charges);
+
+			p->inv.push_back(water_temp);
+			// If player is slaked water might not get consumed.
+			if (p->consume(p->inv.position_by_type(water_temp.typeId())))
+			{
+				p->moves -= 350;
+
+				water.charges -= water_temp.charges;
+				if (water.charges <= 0) {
+					drained = true;
+				}
+			}
+			else {
+				p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
+			}
+		}
+
+		if (drained) {
+			items.erase(items.begin() + waterIndex);
+		}
+	}
 }
 
 void iexamine::elevator(player *p, map *m, int examx, int examy)
@@ -1760,13 +1810,36 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
  
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
-	//DO NOT MERGE THIS METHOD. SPOILED BY BAD USING GIT :)
+	item water = m->water_from(examx, examy);
+	// Try to handle first (bottling) drink after.
+	// changed boolean, large sources should be infinite
+	if (g->handle_liquid(water, true, true))
+	{
+		p->moves -= 100;
+	}
+	else if (query_yn(_("Drink from your hands?")))
+	{
+		p->inv.push_back(water);
+		p->consume(p->inv.position_by_type(water.typeId()));
+		p->moves -= 350;
+	}
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
 {
-	//DO NOT MERGE THIS METHOD. SPOILED BY BAD USING GIT :)
+	item swater = m->swater_from(examx, examy);
+	// Try to handle first (bottling) drink after.
+	// changed boolean, large sources should be infinite
+	if (g->handle_liquid(swater, true, true))
+	{
+		p->moves -= 100;
+	}
+	else if (query_yn(_("Drink from your hands?")))
+	{
+		p->inv.push_back(swater);
+		p->consume(p->inv.position_by_type(swater.typeId()));
+		p->moves -= 350;
+	}
 }
-
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
 {
     item acid = m->acid_from(examx, examy);

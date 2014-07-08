@@ -8,7 +8,7 @@
     "name": "inflatable boat",
     "description": "This is inflatable boat.",
     "price": 350000,
-    "material": "aluminum",
+    "material": "plastic",
     "weight": 9071,
     "volume": 86,
     "bashing": 10,
@@ -23,8 +23,8 @@
     "use_action": {
         "type": "unfold_vehicle",
         "vehicle_name": "inflatable_boat",
-        "unfold_msg": "You painstakingly unfold the inflatable boat and, grab it to water to swim.",
-        "moves": 500
+        "unfold_msg": "You painstakingly unfold, inflate, and launch the inflatable boat.",
+        "moves": 5000
     }
   }
 
