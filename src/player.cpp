@@ -11348,15 +11348,9 @@ bool player::is_suitable_weapon( const item &it ) const
         return true;
     }
     // Assume all martial art styles can use any UNARMED_WEAPON item.
+    // This includes the brawling style
     if( style_selected != "style_none" ) {
         return it.has_flag( "UNARMED_WEAPON" );
     }
-    if( get_skill_level( "unarmed" ).level() >= 2 ) {
-        // For player with good unarmed skill, wielding items is normally
-        // bad as it prevents using the unarmed skill. Except items with the
-        // UNARMED_WEAPON flag, they are special, see player::unarmed_attack.
-        return it.has_flag( "UNARMED_WEAPON" );
-    }
-    // No style and no unarmed preference
-    return it.is_weap() || it.is_gun();
+    return false;
 }

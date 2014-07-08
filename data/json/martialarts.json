@@ -8,6 +8,13 @@
         "leg_block" : -1
     },{
         "type" : "martial_art",
+        "id" : "style_brawling",
+        "name" : "Brawling",
+        "description" : "Not a martial art, this is just plain old punching and kicking.",
+        "arm_block" : -1,
+        "leg_block" : -1
+    },{
+        "type" : "martial_art",
         "id" : "style_karate",
         "name" : "Karate",
         "description" : "Karate is a popular martial art, originating from Japan. It focuses on rapid, precise attacks, blocks, and fluid movement. A successful hit allows you an extra dodge and two extra blocks on the following round.",
