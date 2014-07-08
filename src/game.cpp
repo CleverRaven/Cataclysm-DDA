@@ -6382,7 +6382,12 @@ void game::monmove()
     cleanup_dead();
 }
 
-bool game::sound(int x, int y, int vol, std::string description)
+bool game::ambient_sound(int x, int y, int vol, std::string description)
+{
+    return sound( x, y, vol, description, true );
+}
+
+bool game::sound(int x, int y, int vol, std::string description, bool ambient)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
@@ -6492,7 +6497,7 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
-    if ((x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist)) {
+    if (!ambient && (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist)) {
         if (u.activity.ignore_trivial != true) {
             std::string query;
             if (description != "") {

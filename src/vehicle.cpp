@@ -873,7 +873,7 @@ void vehicle::play_music()
             }
 
         }
-        g->sound(radio_x,radio_y,15,sound);
+        g->ambient_sound( radio_x, radio_y, 15, sound );
         if ((g->u.posx < radio_x + 15 && g->u.posy < radio_y + 15) && (g->u.posx > radio_x - 15 && g->u.posy > radio_y - 15)) {
             g->u.add_morale(MORALE_MUSIC,5,20,30,1);
         }
@@ -2343,7 +2343,7 @@ void vehicle::noise_and_smoke( double load, double time )
            lvl++;
        }
     }
-    g->sound( global_x(), global_y(), noise, sound_msgs[lvl] );
+    g->ambient_sound( global_x(), global_y(), noise, sound_msgs[lvl] );
 }
 
 float vehicle::wheels_area (int *cnt)

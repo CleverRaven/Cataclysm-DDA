@@ -126,8 +126,17 @@ class game
         void add_event(event_type type, int on_turn, int faction_id = -1,
                        int x = -1, int y = -1);
         bool event_queued(event_type type);
-        // Sound at (x, y) of intensity (vol), described to the player is (description)
-        bool sound(int x, int y, int vol, std::string description); //returns true if you heard the sound
+        /**
+         * Sound at (x, y) of intensity (vol)
+         * @param description Description of the sound for the player,
+         * if non-empty string a message is generated.
+         * @param ambient If false, the sound interrupts player activities.
+         * If true, activities continue.
+         * @returns true if the player could hear the sound.
+         */
+        bool sound(int x, int y, int vol, std::string description, bool ambient = false);
+        // same as sound(..., true)
+        bool ambient_sound(int x, int y, int vol, std::string description);
         // creates a list of coordinates to draw footsteps
         void add_footstep(int x, int y, int volume, int distance, monster *source);
         std::vector<std::vector<point> > footsteps;
