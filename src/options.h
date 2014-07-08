@@ -58,7 +58,7 @@ class cOpt
 
         std::string getValue();
         std::string getValueName();
-        std::string getDefaultText();
+        std::string getDefaultText(const bool bTranslated = true);
 
         int getItemPos(const std::string sSearch);
 
