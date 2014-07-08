@@ -2446,11 +2446,11 @@ float vehicle::strain ()
 
 bool vehicle::valid_wheel_config ()
 {
-	std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
-	if (!floats.empty())
-	{
-	    return floats.size() > 2;
-	}
+    std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
+    if (!floats.empty())
+    {
+        return floats.size() > 2;
+    }
 
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
@@ -2821,9 +2821,16 @@ void vehicle::thrust (int thd) {
 
     bool pl_ctrl = player_in_control( &g->u );
 
-    if( !valid_wheel_config() && velocity == 0 ) {
-        if( pl_ctrl ) {
-            add_msg (_("The %s doesn't have enough wheels to move!"), name.c_str());
+    if( !valid_wheel_config() && velocity == 0 )
+    {
+        if (pl_ctrl) {
+            {
+                if (all_parts_with_feature(VPFLAG_FLOATS).empty()) {
+                    add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
+                } else {
+                    add_msg(_("The %s is too leaky!"), name.c_str());
+                }
+            }
         }
         return;
     }

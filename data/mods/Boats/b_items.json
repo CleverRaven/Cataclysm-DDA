@@ -6,7 +6,7 @@
     "symbol": "0",
     "color": "light_gray",
     "name": "inflatable boat",
-    "description": "This is inflatable boat.",
+    "description": "This is inflatable boat. You can inflate it and swim across rivers.",
     "price": 350000,
     "material": "plastic",
     "weight": 9071,

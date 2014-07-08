@@ -2,27 +2,6 @@
 
     {
         "type":"VAR_VEH_PART",
-        "id": "inflatable_boat",
-        "symbol": "]",
-        "color": "dark_gray",
-        "name": "inflatable boat",
-        "name_plural": "inflatable boats",
-        "description": "inflatable boat",
-        "price": 8000,
-        "material": ["steel", "plastic"],
-        "weight": 3000,
-        "volume": 50,
-        "bashing": 8,
-        "cutting": 0,
-        "to_hit": -1,
-        "min-bigness": 30,
-        "max-bigness": 30,
-        "category": "veh_parts",
-        "bigness-aspect": "WHEEL_DIAMETER"
-    },
-
-    {
-        "type":"VAR_VEH_PART",
         "id": "inflatable_section",
         "symbol": "o",
         "color": "green",
