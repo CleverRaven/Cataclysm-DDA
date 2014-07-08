@@ -95,6 +95,15 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "NC_ARSONIST_extra",
+    "items":[
+      ["null", 5],
+      ["backpack", 25],
+      ["backpack_leather", 25],
+      ["rucksack", 5]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "NC_ARSONIST_bashing",
     "items":[
       ["hammer", 20],
@@ -167,7 +176,7 @@
     "type" : "item_group",
     "id" : "NC_ARSONIST_launcher",
     "items":[
-      ["RPG", 50]
+      ["flamethrower",50]
     ]
   },{
     "type" : "item_group",
@@ -179,32 +188,21 @@
     "type" : "item_group",
     "id" : "NC_ARSONIST_misc",
     "items":[
-      ["water_clean", 90],
-      ["water_mineral", 5],
-      ["cola", 70],
-      ["creamsoda", 60],
-      ["lemonlime", 60],
-      ["orangesoda", 60],
-      ["crispycran", 40],
-      ["colamdew", 60],
-      ["choc_drink", 30],
-      ["jerky", 55],
-      ["cracklins", 25],
-      ["salted_fish", 35],
-      ["porkstick", 55],
-      ["ravioli", 25],
-      ["can_beans", 40],
-      ["can_corn", 35],
-      ["can_spam", 30],
-      ["salt", 10],
-      ["seasoning_salt", 5],
-      ["vinegar", 10],
-      ["jar_veggy_pickled", 30],
-      ["con_milk", 20],
-      ["jar_fish_pickled", 26],
-      ["lutefisk", 1],
-      ["pemmican", 10],
-      ["jar_meat_pickled", 20]
+        ["trenchcoat", 25],
+        ["gloves_fingerless", 30],
+        ["mask_hockey", 20],
+        ["flamethrower_crude", 20],
+        ["flamethrower_simple", 20],
+        ["pipebomb", 40],
+        ["molotov", 100],
+        ["ref_lighter", 30],
+        ["lighter", 30],
+        ["matches", 30],
+        ["firecracker_pack", 50],
+        ["firecracker", 30],
+        ["dynamite", 50],
+        ["rebar", 100],
+        ["matchbomb", 50]
     ]
   }
 ]
