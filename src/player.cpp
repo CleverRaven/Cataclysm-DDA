@@ -41,7 +41,7 @@ static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void handle_cough(player& p, int intensity = 1, int volume = 4);
 
 std::map<std::string, trait> traits;
-std::map<std::string, martialart> ma_styles;
+extern std::map<std::string, martialart> ma_styles;
 std::vector<std::string> vStartingTraits[2];
 
 std::string morale_data[NUM_MORALE_TYPES];
@@ -6899,16 +6899,14 @@ int player::get_item_position(item* it) {
 }
 
 
-martialart player::get_combat_style()
+const martialart &player::get_combat_style() const
 {
- martialart tmp;
- bool pickstyle = (!ma_styles.empty());
- if (pickstyle) {
-  tmp = martialarts[style_selected];
-  return tmp;
- } else {
-  return martialarts["style_none"];
- }
+    auto it = martialarts.find( style_selected );
+    if( it != martialarts.end() ) {
+        return it->second;
+    }
+    debugmsg( "unknown martial art style %s selected", style_selected.c_str() );
+    return martialarts["style_none"];
 }
 
 std::vector<item *> player::inv_dump()
@@ -11362,4 +11360,18 @@ void player::add_known_trap(int x, int y, const std::string &t)
 bool player::is_deaf() const
 {
     return has_disease("deaf") || worn_with_flag("DEAF");
+}
+
+bool player::is_suitable_weapon( const item &it ) const
+{
+    // if style is selected, always prefer compatible weapons
+    if( get_combat_style().has_weapon( it.typeId() ) ) {
+        return true;
+    }
+    // Assume all martial art styles can use any UNARMED_WEAPON item.
+    // This includes the brawling style
+    if( style_selected != "style_none" ) {
+        return it.has_flag( "UNARMED_WEAPON" );
+    }
+    return false;
 }

@@ -476,7 +476,7 @@ bool martialart::has_technique(player& u, matec_id tec_id) {
   return false;
 }
 
-bool martialart::has_weapon(itype_id item)
+bool martialart::has_weapon(itype_id item) const
 {
     return weapons.count(item);
 }
