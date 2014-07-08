@@ -399,15 +399,52 @@ void npc::randomize(npc_class type)
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
   break;
+
+ case NC_THUG:
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = dice(3, 2) - 3;
+   if (level > 0 && one_in(3))
+   {
+    level--;
+   }
+   set_skill_level(*aSkill, level);
+  }
+  boost_skill_level("dodge", rng(1, 3));
+  boost_skill_level("melee", rng(1, 4));
+  boost_skill_level("unarmed", rng(1, 3));
+  boost_skill_level("bashing", rng(1, 5));
+  boost_skill_level("stabbing", rng(1, 5));
+  boost_skill_level("unarmed", rng(1, 3));
+  personality.aggression += rng(1, 6);
+  personality.bravery += rng(0, 5);
+  break;
+
+ case NC_SCAVENGER:
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = dice(3, 2) - 3;
+   if (level > 0 && one_in(3))
+   {
+    level--;
+   }
+   set_skill_level(*aSkill, level);
+  }
+  boost_skill_level("gun", rng(2, 4));
+  boost_skill_level("pistol", rng(2, 5));
+  boost_skill_level("rifle", rng(0, 3));
+  boost_skill_level("archery", rng(0, 3));
+  personality.aggression += rng(1, 3);
+  personality.bravery += rng(1, 4);
+  break;
+
  }
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
  }
- starting_weapon();
- worn = starting_clothes(type, male);
+ starting_weapon(type);//acidia, done
+ worn = starting_clothes(type, male);//acidia, done
  inv.clear();
- inv.add_stack(starting_inv(this, type));
+ inv.add_stack(starting_inv(this, type));//acidia, done
  update_worst_item_value();
 }
 
@@ -644,55 +681,55 @@ std::vector<item> starting_clothes(npc_class type, bool male)
                   gloves = "null", coat = "null", mask = "null",
                   glasses = "null", hat = "null";
 
- switch(rng(0, (male ? 3 : 4))) {
-  case 0: pants = "jeans"; break;
-  case 1: pants = "pants"; break;
-  case 2: pants = "pants_leather"; break;
-  case 3: pants = "pants_cargo"; break;
-  case 4: pants = "skirt"; break;
+ Item_tag selected_item;
+ pants = item_controller->id_from(npc_class_name_str(type)+"_pants_male");
+ if (!male)
+     pants = item_controller->id_from(npc_class_name_str(type)+"_pants_female");
+ if (pants == "MISSING_ITEM"){
+     if (male)
+        pants = item_controller->id_from("npc_pants_male");
+     else
+        pants = item_controller->id_from("npc_pants_female");
  }
- switch (rng(0, 3)) {
-  case 0: shirt = "tshirt"; break;
-  case 1: shirt = "polo_shirt"; break;
-  case 2: shirt = "dress_shirt"; break;
-  case 3: shirt = "tank_top"; break;
+
+ shirt = item_controller->id_from(npc_class_name_str(type)+"_shirt_male");
+ if (!male)
+     shirt = item_controller->id_from(npc_class_name_str(type)+"_shirt_female");
+ if (shirt == "MISSING_ITEM"){
+     if (male)
+        shirt = item_controller->id_from("npc_shirt_male");
+     else
+        shirt = item_controller->id_from("npc_shirt_male");
  }
- switch(rng(0, 10)) {
-  case  8: gloves = "gloves_leather"; break;
-  case  9: gloves = "gloves_fingerless"; break;
-  case 10: gloves = "fire_gauntlets"; break;
+
+ gloves = item_controller->id_from(npc_class_name_str(type)+"_gloves");
+ if (gloves == "MISSING_ITEM"){
+    gloves = item_controller->id_from("npc_gloves");
  }
- switch (rng(0, 6)) {
-  case 2: coat = "hoodie"; break;
-  case 3: coat = "jacket_light"; break;
-  case 4: coat = "jacket_jean"; break;
-  case 5: coat = "jacket_leather"; break;
-  case 6: coat = "trenchcoat"; break;
+
+ coat = item_controller->id_from(npc_class_name_str(type)+"_coat");
+ if (coat == "MISSING_ITEM"){
+    coat = item_controller->id_from("npc_coat");
  }
- if (one_in(30))
-  coat = "kevlar";
- shoes = "sneakers";
- mask = "null";
- if (one_in(8)) {
-  switch(rng(0, 2)) {
-   case 0: mask = "mask_dust"; break;
-   case 1: mask = "bandana"; break;
-   case 2: mask = "mask_filter"; break;
-  }
+
+ shoes = item_controller->id_from(npc_class_name_str(type)+"_shoes");
+ if (shoes == "MISSING_ITEM"){
+    shoes = item_controller->id_from("npc_shoes");
  }
- glasses = "null";
- if (one_in(8))
-  glasses = "glasses_safety";
- hat = "null";
- if (one_in(6)) {
-  switch(rng(0, 5)) {
-   case 0: hat = "hat_ball"; break;
-   case 1: hat = "hat_hunting"; break;
-   case 2: hat = "hat_hard"; break;
-   case 3: hat = "helmet_bike"; break;
-   case 4: hat = "helmet_riot"; break;
-   case 5: hat = "helmet_motor"; break;
-  }
+
+ mask = item_controller->id_from(npc_class_name_str(type)+"_masks");
+ if (mask == "MISSING_ITEM"){
+    mask = item_controller->id_from("npc_masks");
+ }
+
+ glasses = item_controller->id_from(npc_class_name_str(type)+"_glasses");
+ if (glasses == "MISSING_ITEM"){
+    glasses = item_controller->id_from("npc_eyes");
+ }
+
+ hat = item_controller->id_from(npc_class_name_str(type)+"_hat");
+ if (hat == "MISSING_ITEM"){
+    hat = item_controller->id_from("npc_hat");
  }
 
 // Now, more specific stuff for certain classes.
@@ -842,79 +879,17 @@ std::list<item> starting_inv(npc *me, npc_class type)
    total_space -= ret.back().volume();
   }
  }
- if (type == NC_TRADER) { // Traders just have tons of random junk
-  while (total_space > 0 && !one_in(50)) {
-   tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
-   if (total_space >= itypes[tmp]->volume) {
-    ret.push_back(item(tmp, 0));
-    ret.back() = ret.back().in_its_container();
-    total_space -= ret.back().volume();
-   }
-  }
- }
- items_location from;
- if (type == NC_EVAC_SHOPKEEP) {
-  from = "npc_evac_shopkeep";
-  total_space += rng(50,100);
-  while (total_space > 0 && !one_in(50)) {
-   Item_tag selected_item = item_controller->id_from(from);
-   item tmpit(selected_item, 0);
-   tmpit = tmpit.in_its_container();
-   if (total_space >= tmpit.volume()) {
-    ret.push_back(tmpit);
-    total_space -= tmpit.volume();
-   }
-  }
- }
- if (type == NC_ARSONIST) {
-  ret.push_back(item("molotov", 0));
-  from = "npc_arsonist";
-  while (total_space > 0 && !one_in(50)) {
-   Item_tag selected_item = item_controller->id_from(from);
-   item tmpit(selected_item, 0);
-   tmpit = tmpit.in_its_container();
-   if (total_space >= tmpit.volume()) {
-    ret.push_back(tmpit);
-    total_space -= tmpit.volume();
-   }
-  }
- }
- if (type == NC_HACKER) {
-  from = "npc_hacker";
-  while(total_space > 0 && !one_in(10)) {
-   Item_tag selected_item = item_controller->id_from(from);
-   item tmpit(selected_item, 0);
-   tmpit = tmpit.in_its_container();
-   if (total_space >= tmpit.volume()) {
-    ret.push_back(tmpit);
-    total_space -= tmpit.volume();
-   }
-  }
- }
- if (type == NC_DOCTOR) {
-  while(total_space > 0 && !one_in(10)) {
-   if (one_in(3))
-    from = "softdrugs";
-   else
-    from = "harddrugs";
-   Item_tag selected_item = item_controller->id_from(from);
-   item tmpit(selected_item, 0);
-   tmpit = tmpit.in_its_container();
-   if (total_space >= tmpit.volume()) {
-    ret.push_back(tmpit);
-    total_space -= tmpit.volume();
-   }
-  }
- }
-// TODO: More specifics.
 
- while (total_space > 0 && !one_in(8)) {
-  tmp = standard_itype_ids[rng(0, standard_itype_ids.size()-1)];
-  if (total_space >= itypes[tmp]->volume) {
-   ret.push_back(item(tmp, 0));
-   ret.back() = ret.back().in_its_container();
-   total_space -= ret.back().volume();
-  }
+ while (total_space > 0 && !one_in(50)) {
+    tmp = item_controller->id_from(npc_class_name_str(type)+"_misc");
+    if (tmp == "MISSING_ITEM"){
+        tmp = item_controller->id_from("npc_misc");
+    }
+    if (total_space >= itypes[tmp]->volume) {
+        ret.push_back(item(tmp, 0));
+        ret.back() = ret.back().in_its_container();
+        total_space -= ret.back().volume();
+    }
  }
 
  for (std::list<item>::iterator iter = ret.begin(); iter != ret.end(); ++iter) {
@@ -1034,57 +1009,72 @@ Skill* npc::best_skill()
  return best_skills[index];
 }
 
-void npc::starting_weapon()
+void npc::starting_weapon(npc_class type)
 {
-    // TODO add throwing weapons
 
-    std::list<itype_id> possible_items;
-    Skill* best = best_skill();
-    if (best->ident() == "bashing")
-    {
-        possible_items.push_back("hammer");
-        possible_items.push_back("wrench");
-        possible_items.push_back("hammer_sledge");
-        possible_items.push_back("pipe");
-        possible_items.push_back("bat");
-        possible_items.push_back("crowbar");
-    }
-    else if (best->ident() == "cutting")
-    {
-        possible_items.push_back("knife_butcher");
-        possible_items.push_back("hatchet");
-        possible_items.push_back("ax");
-        possible_items.push_back("machete");
-        possible_items.push_back("knife_combat");
-        possible_items.push_back("katana");
-    }
-    else if (best->ident() == "pistol")
-    {
-        Item_tag selected_item = item_controller->id_from("pistols");
-        possible_items.push_back(selected_item);
-    }
-    else if (best->ident() == "shotgun")
-    {
-        Item_tag selected_item = item_controller->id_from("shotguns");
-        possible_items.push_back(selected_item);
-    }
-    else if (best->ident() == "smg")
-    {
-        Item_tag selected_item = item_controller->id_from("smg");
-        possible_items.push_back(selected_item);
-    }
-    else if (best->ident() == "rifle")
-    {
-        Item_tag selected_item = item_controller->id_from("rifles");
-        possible_items.push_back(selected_item);
+    // TODO add launcher and archery
+    Skill* best = best_skill();//acidia
+    itype_id sel_weapon = "null";
+    if (best->ident() == "bashing"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_bashing");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("npc_bashing");
+        }
+    } else if (best->ident() == "cutting"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_cutting");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("npc_cutting");
+        }
+    } else if (best->ident() == "stabbing"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_stabbing");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("npc_stabbing");
+        }
+    } else if (best->ident() == "throw"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_throw");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("npc_throw");
+        }
+    } else if (best->ident() == "archery"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_archery");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("npc_archery");
+        }
+    }else if (best->ident() == "pistol"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_pistols");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("pistols");
+        }
+    }else if (best->ident() == "shotgun"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_shotgun");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("shotguns");
+        }
+    }else if (best->ident() == "smg"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_smg");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("smg");
+        }
+    }else if (best->ident() == "rifle"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_rifle");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("rifles");
+        }
+    }else if (best->ident() == "launcher"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_launcher");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("launcher");
+        }
     }
 
-    if (!possible_items.empty())
-    {
-        std::list<itype_id>::iterator chosen = possible_items.begin();
-        std::advance(chosen, rng(0, possible_items.size() - 1));
-        weapon.make(*chosen);
+    if (sel_weapon == "null"){
+        sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_weapon_random");
+        if (sel_weapon == "MISSING_ITEM"){
+            sel_weapon = item_controller->id_from("npc_weapon_random");
+        }
     }
+
+    weapon.make(sel_weapon);
 
     if (weapon.is_gun())
     {
@@ -2188,7 +2178,7 @@ void npc::die(bool your_fault)
     mission_type *type;
     for (int i = 0; i < g->active_missions.size(); i++) {
         type = g->active_missions[i].type;
-        //complete the mission if he/she needed killing
+        //complete the mission if you needed killing
         if (type->goal == MGOAL_ASSASSINATE &&
              g->active_missions[i].target_npc_id == getID())
                 g->mission_step_complete( g->active_missions[i].uid, 1);
@@ -2242,6 +2232,39 @@ std::string npc_attitude_name(npc_attitude att)
  return _("Unknown");
 }
 
+std::string npc_class_name_str(npc_class classtype)
+{
+    switch(classtype) {
+    case NC_NONE:
+        return _("NC_NONE");
+    case NC_EVAC_SHOPKEEP: // Found in the evacuation center.
+        return _("NC_EVAC_SHOPKEEP");
+    case NC_ARSONIST: // Found in the evacuation center.
+        return _("NC_ARSONIST");
+    case NC_SHOPKEEP: // Found in towns.  Stays in his shop mostly.
+        return _("NC_SHOPKEEP");
+    case NC_HACKER: // Weak in combat but has hacking skills and equipment
+        return _("NC_HACKER");
+    case NC_DOCTOR: // Found in towns, or roaming.  Stays in the clinic.
+        return _("NC_DOCTOR");
+    case NC_TRADER: // Roaming trader, journeying between towns.
+        return _("NC_TRADER");
+    case NC_NINJA: // Specializes in unarmed combat, carries few items
+        return _("NC_NINJA");
+    case NC_COWBOY: // Gunslinger and survivalist
+        return _("NC_COWBOY");
+    case NC_SCIENTIST: // Uses intelligence-based skills and high-tech items
+        return _("NC_SCIENTIST");
+    case NC_BOUNTY_HUNTER: // Resourceful and well-armored
+        return _("NC_BOUNTY_HUNTER");
+    case NC_THUG:   // Moderate melee skills and poor equipment
+        return _("NC_THUG");
+    case NC_SCAVENGER: // Good with pistols light weapons
+        return _("NC_SCAVENGER");
+    }
+    return _("Unknown class");
+}
+
 std::string npc_class_name(npc_class classtype)
 {
     switch(classtype) {
@@ -2267,6 +2290,10 @@ std::string npc_class_name(npc_class classtype)
         return _("Scientist");
     case NC_BOUNTY_HUNTER: // Resourceful and well-armored
         return _("Bounty Hunter");
+    case NC_THUG:   // Moderate melee skills and poor equipment
+        return _("Thug");
+    case NC_SCAVENGER: // Good with pistols light weapons
+        return _("Scavenger");
     }
     return _("Unknown class");
 }
