@@ -75,20 +75,23 @@ enum npc_mission {
 
 enum npc_class {
  NC_NONE,
- NC_EVAC_SHOPKEEP, // Found in the Evacuation Center, unique, has more goods than he should be able to carry
- NC_SHOPKEEP, // Found in towns.  Stays in his shop mostly.
- NC_HACKER, // Weak in combat but has hacking skills and equipment
- NC_DOCTOR, // Found in towns, or roaming.  Stays in the clinic.
- NC_TRADER, // Roaming trader, journeying between towns.
- NC_NINJA, // Specializes in unarmed combat, carries few items
- NC_COWBOY, // Gunslinger and survivalist
- NC_SCIENTIST, // Uses intelligence-based skills and high-tech items
- NC_BOUNTY_HUNTER, // Resourceful and well-armored
- NC_ARSONIST, // Evacuation Center, restocks moltovs and anarcist type stuff
+ NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
+ NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
+ NC_HACKER,         // Weak in combat but has hacking skills and equipment
+ NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
+ NC_TRADER,         // Roaming trader, journeying between towns.
+ NC_NINJA,          // Specializes in unarmed combat, carries few items
+ NC_COWBOY,         // Gunslinger and survivalist
+ NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
+ NC_BOUNTY_HUNTER,  // Resourceful and well-armored
+ NC_THUG,           // Moderate melee skills and poor equipment
+ NC_SCAVENGER,      // Good with pistols light weapons
+ NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
  NC_MAX
 };
 
 std::string npc_class_name(npc_class);
+std::string npc_class_name_str(npc_class);
 
 enum npc_action {
  npc_undecided = 0,
@@ -478,7 +481,7 @@ public:
      */
     void place_on_map();
  Skill* best_skill();
- void starting_weapon();
+ void starting_weapon(npc_class type);
 
 // Save & load
  virtual void load_legacy(std::stringstream & dump);// Overloaded from player
