@@ -10944,7 +10944,7 @@ int map::place_npc(int x, int y, std::string type)
     if (type == "evac_broker"){
         npc *temp = new npc();
         temp->normalize();
-        temp->randomize(NC_SCAVENGER);
+        temp->randomize(NC_BOUNTY_HUNTER);
         temp->name += ", Broker";
         temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
@@ -11061,10 +11061,27 @@ int map::place_npc(int x, int y, std::string type)
         return temp->getID();
         }
     //Hell's Raiders NPCs, fac_id 4
+    if (type == "thug"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_THUG);
+        temp->name += ", Thug";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
+        g->load_npcs();
+        return temp->getID();
+        }
     if (type == "bandit"){
         npc *temp = new npc();
         temp->normalize();
-        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->randomize(NC_SCAVENGER);
         temp->name += ", Bandit";
         temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
