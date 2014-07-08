@@ -609,6 +609,7 @@ void Creature::process_effects()
                 g->u.add_memorial_log(
                     pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
                     pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
+                remove_effect( it->second.get_id() );
             }
         }
     }
