@@ -218,7 +218,7 @@ std::string cOpt::getValueName()
     return getValue();
 }
 
-std::string cOpt::getDefaultText()
+std::string cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string") {
         std::string sItems = "";
@@ -226,9 +226,9 @@ std::string cOpt::getDefaultText()
             if (sItems != "") {
                 sItems += _(", ");
             }
-            sItems += optionNames[vItems[i]];
+            sItems += (bTranslated) ? optionNames[vItems[i]] : vItems[i];
         }
-        return string_format(_("Default: %s - Values: %s"), optionNames[sDefault].c_str(), sItems.c_str());
+        return string_format(_("Default: %s - Values: %s"), (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
 
     } else if (sType == "bool") {
         return (bDefault) ? _("Default: True") : _("Default: False");
@@ -521,7 +521,8 @@ void initOptions()
     optionNames["zh_TW"] = _("Traditional Chinese");
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
                                ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
-                               "" );
+                               ""
+                              );
 
     mOptionsSort["interface"]++;
 
@@ -529,7 +530,8 @@ void initOptions()
     optionNames["celsius"] = _("Celsius");
     OPTIONS["USE_CELSIUS"] = cOpt("interface", _("Temperature units"),
                                   _("Switch between Celsius and Fahrenheit."),
-                                  "fahrenheit,celsius", "fahrenheit" );
+                                  "fahrenheit,celsius", "fahrenheit"
+                                 );
 
     optionNames["mph"] = _("mph");
     optionNames["km/h"] = _("km/h");
@@ -631,7 +633,6 @@ void initOptions()
                                        _("Move view by how many squares per keypress."),
                                        1, 50, 1
                                       );
-
 
     OPTIONS["MENU_SCROLL"] = cOpt("interface", _("Centered menu scrolling"),
                                   _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
@@ -895,7 +896,7 @@ void show_options(bool ingame)
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     std::map<int, bool> mapLines;
-    mapLines[3] = true;
+    mapLines[4] = true;
     mapLines[60] = true;
 
     WINDOW *w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
@@ -980,8 +981,8 @@ void show_options(bool ingame)
 
             sTemp.str("");
             sTemp << i + 1 - iBlankOffset;
-            mvwprintz(w_options, i - iStartPos, 0, c_white, sTemp.str().c_str());
-            mvwprintz(w_options, i - iStartPos, 4, c_white, "");
+            mvwprintz(w_options, i - iStartPos, 1, c_white, sTemp.str().c_str());
+            mvwprintz(w_options, i - iStartPos, 5, c_white, "");
 
             if (iCurrentLine == i) {
                 wprintz(w_options, c_yellow, ">> ");
@@ -1269,12 +1270,14 @@ void save_options(bool ingame)
     for( size_t j = 0; j < vPages.size(); ++j ) {
         bool update_wopt = (ingame && j == iWorldOptPage );
         for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
-            fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
-            fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
-            fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
-            if ( update_wopt ) {
-                world_generator->active_world->world_options[ mPageItems[j][i] ] =
-                    ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+            if (OPTIONS[mPageItems[j][i]].getDefaultText() != "") {
+                fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
+                fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText(false) << std::endl;
+                fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
+                if ( update_wopt ) {
+                    world_generator->active_world->world_options[ mPageItems[j][i] ] =
+                        ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+                }
             }
         }
     }
