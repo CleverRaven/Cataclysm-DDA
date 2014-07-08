@@ -9427,8 +9427,7 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 std::string game::ask_item_filter(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to see"));
@@ -9449,8 +9448,7 @@ std::string game::ask_item_filter(WINDOW *window, int rows)
 std::string game::ask_item_priority_high(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -9469,8 +9467,7 @@ std::string game::ask_item_priority_high(WINDOW *window, int rows)
 std::string game::ask_item_priority_low(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -14631,21 +14628,18 @@ void intro()
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);
         if (maxy < minHeight && maxx < minWidth) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Whoa! Your terminal is tiny! This game requires a minimum terminal size of \
-													   %dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Whoa! Your terminal is tiny! This game requires a minimum terminal size of "
+                                                       "%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
                            minWidth, minHeight, maxx, maxy);
         } else if (maxx < minWidth) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Oh! Hey, look at that. Your terminal is just a little too narrow. This game \
-													   requires a minimum terminal size of %dx%d to function. It just won't work \
-													   with only %dx%d. Can you stretch it out sideways a bit?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Oh! Hey, look at that. Your terminal is just a little too narrow. This game "
+                                                       "requires a minimum terminal size of %dx%d to function. It just won't work "
+                                                       "with only %dx%d. Can you stretch it out sideways a bit?"),
                            minWidth, minHeight, maxx, maxy);
         } else {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Woah, woah, we're just a little short on space here. The game requires a \
-													   minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you \
-													   make the terminal just a smidgen taller?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Woah, woah, we're just a little short on space here. The game requires a "
+                                                       "minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you "
+                                                       "make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
         wgetch(tmp);

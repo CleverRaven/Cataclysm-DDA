@@ -6676,8 +6676,7 @@ int iuse::bullet_puller(player *p, item *it, bool)
         return 0;
     }
     if (p->skillLevel("gun") < 2) {
-        add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you\
-						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						    can disassemble ammunition."));
+        add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you can disassemble ammunition."));
         return 0;
     }
     const long multiply = std::min<long>(20, pull->charges);
