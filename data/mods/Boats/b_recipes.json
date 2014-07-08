@@ -1,7 +1,7 @@
 [
 
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "boat_board",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
