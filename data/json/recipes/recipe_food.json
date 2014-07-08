@@ -400,7 +400,7 @@
         "type" : "recipe",
   "result": "dry_mushroom",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 2,
   "skills_required": [ "survival", 5 ],
