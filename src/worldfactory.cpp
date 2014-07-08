@@ -594,34 +594,44 @@ std::string worldfactory::pick_random_name()
 
 int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 {
-    const int iTooltipHeight = 1;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight;
+    const int iTooltipHeight = 4;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 5 - iTooltipHeight;
 
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 2 + iOffsetY,
+    WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 4 + iOffsetY,
                                1 + iOffsetX);
+
+    WINDOW *w_options_tooltip = newwin(iTooltipHeight - 2, FULL_SCREEN_WIDTH - 2, 3 + iOffsetY,
+                                       1 + iOffsetX);
+
+    WINDOW *w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 3 + iOffsetY,
+                                      1 + iOffsetX);
+
     std::stringstream sTemp;
 
     std::map<int, bool> mapLines;
     mapLines[4] = true;
     mapLines[60] = true;
 
-    std::vector<std::string> keys;
-    for (auto it = world->world_options.begin();
-         it != world->world_options.end(); ++it) {
-        keys.push_back(it->first);
+    for (std::map<int, bool>::iterator mLine = mapLines.begin(); mLine != mapLines.end(); ++mLine) {
+        mvwputch(win, FULL_SCREEN_HEIGHT - 1, mLine->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
     }
 
-    for (std::map<int, bool>::iterator mLine = mapLines.begin(); mLine != mapLines.end(); ++mLine) {
-        if (mLine->second) {
-            mvwputch(win, 2, mLine->first + 1, BORDER_COLOR, LINE_OXXX); // -.-
-            mvwputch(win, FULL_SCREEN_HEIGHT - 1, mLine->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
+    for (int i = 0; i < 78; i++) {
+        if (mapLines[i]) {
+            mvwputch(w_options_header, 0, i, BORDER_COLOR, LINE_OXXX);
+        } else {
+            mvwputch(w_options_header, 0, i, BORDER_COLOR, LINE_OXOX); // Draw header line
         }
     }
+
+    mvwputch(win, iTooltipHeight + 3,  0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(win, iTooltipHeight + 3, 79, BORDER_COLOR, LINE_XOXX); // -|
+
     wrefresh(win);
-    refresh();
+    wrefresh(w_options_header);
 
     input_context ctxt("WORLDGEN_OPTION_DIALOG");
     ctxt.register_cardinal();
@@ -639,6 +649,10 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                     mvwputch(w_options, i, j, BORDER_COLOR, LINE_XOXO);
                 } else {
                     mvwputch(w_options, i, j, c_black, ' ');
+                }
+
+                if (i < iTooltipHeight) {
+                    mvwputch(w_options_tooltip, i, j, c_black, ' ');
                 }
             }
         }
@@ -679,8 +693,13 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
         //Draw Scrollbar
         draw_scrollbar(win, iCurrentLine, iContentHeight,
-                       mPageItems[iWorldOptPage].size(), iTooltipHeight + 2, 0, BORDER_COLOR);
+                       mPageItems[iWorldOptPage].size(), iTooltipHeight + 4, 0, BORDER_COLOR);
 
+        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s",
+                       world->world_options[mPageItems[iWorldOptPage][iCurrentLine]].getTooltip().c_str(),
+                       world->world_options[mPageItems[iWorldOptPage][iCurrentLine]].getDefaultText().c_str());
+
+        wrefresh(w_options_tooltip);
         wrefresh(w_options);
         refresh();
 
