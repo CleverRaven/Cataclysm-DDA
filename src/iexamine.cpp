@@ -412,7 +412,8 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
         {
             p->moves -= 100;
             drained = true;
-        } else if (query_yn(_("Drink from your hands?")))
+        }
+		else if (query_yn(_("Drink from your hands?")))
         {
             // Create a dose of water no greater than the amount of water remaining.
             item water_temp("water", 0);
@@ -429,8 +430,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
                 if (water.charges <= 0) {
                     drained = true;
                 }
-            }
-            else {
+            } else {
                 p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
             }
         }
@@ -1805,6 +1805,7 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         m->disarm_trap(examx, examy);
     }
 } 
+
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
     item water = m->water_from(examx, examy);
