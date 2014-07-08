@@ -400,8 +400,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
 
     if (waterIndex < 0) {
         add_msg(m_info, _("This toilet is empty."));
-    }
-    else {
+    } else {
         bool drained = false;
 
         item& water = items[waterIndex];
@@ -413,8 +412,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
         {
             p->moves -= 100;
             drained = true;
-        }
-        else if (query_yn(_("Drink from your hands?")))
+        } else if (query_yn(_("Drink from your hands?")))
         {
             // Create a dose of water no greater than the amount of water remaining.
             item water_temp("water", 0);
@@ -1806,8 +1804,7 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
     } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
-}
- 
+} 
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
     item water = m->water_from(examx, examy);
