@@ -3410,7 +3410,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             message = messtream.str();
         }
         point pos = g->find_item(it);
-        g->sound(pos.x, pos.y, 6, message.c_str());
+        g->ambient_sound(pos.x, pos.y, 6, message.c_str());
     } else { // Activated
         int ch = 2;
         if (it->charges > 0) {
@@ -3495,7 +3495,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t)
     if (t) { // Normal use
         point pos = g->find_item(it);
         //~ the sound of a noise emitter when turned on
-        g->sound(pos.x, pos.y, 30, _("KXSHHHHRRCRKLKKK!"));
+        g->ambient_sound(pos.x, pos.y, 30, _("KXSHHHHRRCRKLKKK!"));
     } else { // Turning it off
         p->add_msg_if_player(_("The infernal racket dies as you turn off the noise emitter."));
         it->make("noise_emitter");
@@ -4014,7 +4014,7 @@ int iuse::combatsaw_on(player *p, item *it, bool t)
             it->make("combatsaw_off");
             it->active = false;
         } else if (one_in(12)) {
-            g->sound(p->posx, p->posy, 18, _("Your combat chainsaw growls."));
+            g->ambient_sound(p->posx, p->posy, 18, _("Your combat chainsaw growls."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your combat chainsaw goes quiet."));
@@ -4046,7 +4046,7 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
         it->active = false;
     } else if (t) { // Effects while simply on
         if (one_in(15)) {
-            g->sound(p->posx, p->posy, 12, _("Your chainsaw rumbles."));
+            g->ambient_sound(p->posx, p->posy, 12, _("Your chainsaw rumbles."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your chainsaw dies."));
@@ -4074,7 +4074,7 @@ int iuse::cs_lajatang_on(player *p, item *it, bool t)
 {
     if (t) { // Effects while simply on
         if (one_in(15)) {
-            g->sound(p->posx, p->posy, 12, _("Your chainsaws rumble."));
+            g->ambient_sound(p->posx, p->posy, 12, _("Your chainsaws rumble."));
         }
         //Deduct an additional charge (since there are two of them)
         if (it->charges > 0) {
@@ -4106,7 +4106,7 @@ int iuse::carver_on(player *p, item *it, bool t)
 {
     if (t) { // Effects while simply on
         if (one_in(10)) {
-            g->sound(p->posx, p->posy, 8, _("Your electric carver buzzes."));
+            g->ambient_sound(p->posx, p->posy, 8, _("Your electric carver buzzes."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your electric carver dies."));
@@ -4134,7 +4134,7 @@ int iuse::trimmer_on(player *p, item *it, bool t)
 {
     if (t) { // Effects while simply on
         if (one_in(15)) {
-            g->sound(p->posx, p->posy, 10, _("Your hedge trimmer rumbles."));
+            g->ambient_sound(p->posx, p->posy, 10, _("Your hedge trimmer rumbles."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your hedge trimmer dies."));
@@ -4148,7 +4148,7 @@ int iuse::circsaw_on(player *p, item *it, bool t)
 {
     if (t) { // Effects while simply on
         if (one_in(15)) {
-            g->sound(p->posx, p->posy, 7, _("Your circular saw buzzes."));
+            g->ambient_sound(p->posx, p->posy, 7, _("Your circular saw buzzes."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your circular saw powers off."));
@@ -4194,7 +4194,7 @@ int iuse::shishkebab_on(player *p, item *it, bool t)
     } else if (t) {
         // Effects while simply on
         if (one_in(25)) {
-            g->sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
+            g->ambient_sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
         }
 
         if (one_in(75)) {
@@ -4263,7 +4263,7 @@ int iuse::firemachete_on(player *p, item *it, bool t)
             it->make("firemachete_off");
             it->active = false;
         } else if (one_in(25)) {
-            g->sound(p->posx, p->posy, 5, _("Your No. 9 hisses."));
+            g->ambient_sound(p->posx, p->posy, 5, _("Your No. 9 hisses."));
         }
         if (one_in(100)) {
             p->add_msg_if_player(m_bad, _("Your No. 9 cuts out!"));
@@ -7848,7 +7848,7 @@ int iuse::talking_doll(player *p, item *it, bool)
 
     const SpeechBubble speech = get_speech(label);
 
-    g->sound(p->posx, p->posy, speech.volume, speech.text);
+    g->ambient_sound(p->posx, p->posy, speech.volume, speech.text);
 
     return it->type->charges_to_use();
 }
