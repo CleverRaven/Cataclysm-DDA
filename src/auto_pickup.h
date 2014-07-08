@@ -7,6 +7,12 @@
 #include <locale>
 #include <algorithm>
 
+enum apu_type {
+    APU_MERGED = 0,
+    APU_GLOBAL,
+    APU_CHARACTER
+};
+
 class cPickupRules
 {
     public:

@@ -474,7 +474,7 @@ void load_auto_pickup(bool bCharacter)
         }
     }
 
-    vAutoPickupRules[(bCharacter) ? 2 : 1].clear();
+    vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].clear();
 
     std::string sLine;
     while(!fin.eof()) {
@@ -515,7 +515,7 @@ void load_auto_pickup(bool bCharacter)
 
                 } while(iPos != std::string::npos);
 
-                vAutoPickupRules[(bCharacter) ? 2 : 1].push_back(cPickupRules(sRule, bActive, bExclude));
+                vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].push_back(cPickupRules(sRule, bActive, bExclude));
             }
         }
     }
@@ -531,13 +531,13 @@ void load_auto_pickup(bool bCharacter)
 
 void merge_vector()
 {
-    vAutoPickupRules[0].clear();
+    vAutoPickupRules[APU_MERGED].clear();
 
-    for (unsigned i = 1; i <= 2; i++) { //Loop through global 1 and character 2
+    for (unsigned i = APU_GLOBAL; i <= APU_CHARACTER; i++) { //Loop through global 1 and character 2
         for (std::vector<cPickupRules>::iterator it=vAutoPickupRules[i].begin();
              it != vAutoPickupRules[i].end(); ++it) {
             if (it->sRule != "") {
-                vAutoPickupRules[0].push_back(cPickupRules(it->sRule,
+                vAutoPickupRules[APU_MERGED].push_back(cPickupRules(it->sRule,
                                               it->bActive, it->bExclude));
             }
         }
@@ -546,8 +546,8 @@ void merge_vector()
 
 bool hasPickupRule(std::string sRule)
 {
-    for (std::vector<cPickupRules>::iterator it = vAutoPickupRules[2].begin();
-         it != vAutoPickupRules[2].end(); ++it) {
+    for (std::vector<cPickupRules>::iterator it = vAutoPickupRules[APU_CHARACTER].begin();
+         it != vAutoPickupRules[APU_CHARACTER].end(); ++it) {
         if (sRule.length() == it->sRule.length() &&
             ci_find_substr(sRule, it->sRule) != -1) {
             return true;
@@ -558,7 +558,7 @@ bool hasPickupRule(std::string sRule)
 
 void addPickupRule(std::string sRule)
 {
-    vAutoPickupRules[2].push_back(cPickupRules(sRule, true, false));
+    vAutoPickupRules[APU_CHARACTER].push_back(cPickupRules(sRule, true, false));
     merge_vector();
     createPickupRules();
 
@@ -571,11 +571,11 @@ void addPickupRule(std::string sRule)
 
 void removePickupRule(std::string sRule)
 {
-    for (std::vector<cPickupRules>::iterator it = vAutoPickupRules[2].begin();
-         it != vAutoPickupRules[2].end(); ++it) {
+    for (std::vector<cPickupRules>::iterator it = vAutoPickupRules[APU_CHARACTER].begin();
+         it != vAutoPickupRules[APU_CHARACTER].end(); ++it) {
         if (sRule.length() == it->sRule.length() &&
             ci_find_substr(sRule, it->sRule) != -1) {
-            vAutoPickupRules[2].erase(it);
+            vAutoPickupRules[APU_CHARACTER].erase(it);
             merge_vector();
             createPickupRules();
             break;
@@ -593,8 +593,8 @@ void createPickupRules(const std::string sItemNameIn)
 
     //Includes only
     for (std::vector<cPickupRules>::iterator pattern_it =
-             vAutoPickupRules[0].begin();
-         pattern_it != vAutoPickupRules[0].end(); ++pattern_it) {
+             vAutoPickupRules[APU_MERGED].begin();
+         pattern_it != vAutoPickupRules[APU_MERGED].end(); ++pattern_it) {
         if (!pattern_it->bExclude) {
             if (sItemNameIn != "") {
                 if (pattern_it->bActive &&
@@ -620,8 +620,8 @@ void createPickupRules(const std::string sItemNameIn)
 
     //Excludes only
     for (std::vector<cPickupRules>::iterator pattern_it =
-             vAutoPickupRules[0].begin();
-         pattern_it != vAutoPickupRules[0].end(); ++pattern_it) {
+             vAutoPickupRules[APU_MERGED].begin();
+         pattern_it != vAutoPickupRules[APU_MERGED].end(); ++pattern_it) {
         if (pattern_it->bExclude) {
             if (sItemNameIn != "") {
                 if (pattern_it->bActive &&
@@ -646,7 +646,7 @@ void createPickupRules(const std::string sItemNameIn)
 
 void save_reset_changes(bool bReset)
 {
-    for (int i = 1; i <= 2; i++) { //Loop through global 1 and character 2
+    for (int i = APU_GLOBAL; i <= APU_CHARACTER; i++) { //Loop through global 1 and character 2
         vAutoPickupRules[i + ((bReset) ? 0 : 2)].clear();
         for (std::vector<cPickupRules>::iterator it =
                  vAutoPickupRules[i + ((bReset) ? 2 : 0)].begin();
@@ -702,8 +702,8 @@ bool save_auto_pickup(bool bCharacter)
 
         fout << auto_pickup_header(bCharacter) << std::endl;
         for (std::vector<cPickupRules>::iterator it =
-                 vAutoPickupRules[(bCharacter) ? 2 : 1].begin();
-             it != vAutoPickupRules[(bCharacter) ? 2 : 1].end(); ++it) {
+                 vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].begin();
+             it != vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].end(); ++it) {
             fout << it->sRule << ";";
             fout << (it->bActive ? "T" : "F") << ";";
             fout << (it->bExclude ? "T" : "F");
