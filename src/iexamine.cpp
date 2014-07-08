@@ -413,7 +413,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
             p->moves -= 100;
             drained = true;
         }
-		else if (query_yn(_("Drink from your hands?")))
+        else if (query_yn(_("Drink from your hands?")))
         {
             // Create a dose of water no greater than the amount of water remaining.
             item water_temp("water", 0);
