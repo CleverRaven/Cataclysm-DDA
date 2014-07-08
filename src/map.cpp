@@ -4386,7 +4386,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
 
     // check traps
     std::map<point, trap_id> rain_backlog;
-    bool do_funnels = ( worldz >= 0 && !g->weather_log.empty() ); // empty if just loaded a save here
+    bool do_funnels = ( worldz >= 0 ); // empty if just loaded a save here
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             const trap_id t = tmpsub->get_trap(x, y);
