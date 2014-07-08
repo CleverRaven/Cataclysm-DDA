@@ -110,6 +110,8 @@ class cOpt
 
 extern std::unordered_map<std::string, cOpt> OPTIONS;
 extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern std::map<int, std::vector<std::string> > mPageItems;
+extern int iWorldOptPage;
 
 extern options_data optionsdata;
 void initOptions();
