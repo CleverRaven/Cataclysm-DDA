@@ -105,53 +105,94 @@ std::pair<int, int> rain_or_acid_level( const int wt )
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn )
+//void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn )
+//{
+//    const int startturn = ( it->bday > 0 ? it->bday - 1 : 0 );
+//    if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
+//        return;
+//    }
+//
+//    it->bday = endturn; // bday == last fill check
+//    double fillrain = 0;
+//    double fillacid = 0;
+//    int firstfill = 0;
+//
+//    for( std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( startturn );
+//         wit != g->weather_log.end() && wit->first < endturn; ++wit
+//       ) {
+//        int fillstart = ( wit->first < startturn ? startturn : wit->first );
+//        int fillend = g->weather_log.upper_bound(wit->first)->first;
+//        fillend = ( fillend > endturn ? endturn : fillend );
+//
+//        std::pair<int, int> wlev = rain_or_acid_level( wit->second.weather );
+//
+//        if ( wlev.first != 0 ) {
+//            fillrain += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.first );
+//            if ( firstfill == 0 ) {
+//                firstfill = 1;
+//            }
+//        } else if ( wlev.second != 0 ) {
+//            fillacid += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.second );
+//            if ( firstfill == 0 ) {
+//                firstfill = 2;
+//            }
+//        }
+//
+//    }
+//    /// @todo refactor add_rain function
+//    //dbg(D_INFO) << string_format("retroactive funnel fill %s %.4f, %.4f",it->typeId().c_str() ,fillrain,fillacid);
+//    if ( firstfill == 1 ) {
+//        it->add_rain_to_container( false, int(fillrain) );
+//        if ( fillacid != 0 ) {
+//            it->add_rain_to_container( true, int(fillacid) );
+//        }
+//    } else if ( firstfill == 2 ) {
+//        it->add_rain_to_container( true, int(fillacid) );
+//        if ( fillrain != 0 ) {
+//            it->add_rain_to_container( false, int(fillrain) );
+//        }
+//    }
+//}
+
+void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &endturn, const point &location )
 {
-    const int startturn = ( it->bday > 0 ? it->bday - 1 : 0 );
+    const calendar startturn = calendar( it->bday > 0 ? it->bday - 1 : 0 );
     if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
         return;
     }
-
-    it->bday = endturn; // bday == last fill check
-    double fillrain = 0;
-    double fillacid = 0;
-    int firstfill = 0;
-
-    for( std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( startturn );
-         wit != g->weather_log.end() && wit->first < endturn; ++wit
-       ) {
-        int fillstart = ( wit->first < startturn ? startturn : wit->first );
-        int fillend = g->weather_log.upper_bound(wit->first)->first;
-        fillend = ( fillend > endturn ? endturn : fillend );
-
-        std::pair<int, int> wlev = rain_or_acid_level( wit->second.weather );
-
-        if ( wlev.first != 0 ) {
-            fillrain += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.first );
-            if ( firstfill == 0 ) {
-                firstfill = 1;
-            }
-        } else if ( wlev.second != 0 ) {
-            fillacid += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.second );
-            if ( firstfill == 0 ) {
-                firstfill = 2;
-            }
-        }
-
-    }
-    /// @todo refactor add_rain function
-    //dbg(D_INFO) << string_format("retroactive funnel fill %s %.4f, %.4f",it->typeId().c_str() ,fillrain,fillacid);
-    if ( firstfill == 1 ) {
-        it->add_rain_to_container( false, int(fillrain) );
-        if ( fillacid != 0 ) {
-            it->add_rain_to_container( true, int(fillacid) );
-        }
-    } else if ( firstfill == 2 ) {
-        it->add_rain_to_container( true, int(fillacid) );
-        if ( fillrain != 0 ) {
-            it->add_rain_to_container( false, int(fillrain) );
+    it->bday = int(endturn.get_turn()); // bday == last fill check
+    int rain_amount = 0;
+    int acid_amount = 0;
+    int rain_turns = 0;
+    int acid_turns = 0;
+    for( calendar turn(startturn); turn >= endturn; turn += 10) {
+        switch(g->weatherGen.get_weather_conditions(location, turn)) {
+            case WEATHER_DRIZZLE:
+                rain_amount += 4;
+                rain_turns++;
+                break;
+            case WEATHER_RAINY:
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING:
+                rain_amount += 8;
+                rain_turns++;
+                break;
+            case WEATHER_ACID_DRIZZLE:
+                acid_amount += 4;
+                acid_turns++;
+                break;
+            case WEATHER_ACID_RAIN:
+                acid_amount += 8;
+                acid_turns++;
+                break;
+            default:
+                break;
         }
     }
+    int rain = rain_turns / traplist[t]->funnel_turns_per_charge( rain_amount );
+    int acid = acid_turns / traplist[t]->funnel_turns_per_charge( acid_amount );
+    it->add_rain_to_container( false, rain );
+    it->add_rain_to_container( true, acid );
 }
 
 /**

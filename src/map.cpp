@@ -4446,7 +4446,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
           if ( do_container_check == true && biggest_container_idx != -1 ) { // funnel: check. bucket: check
               item * it = &tmpsub->itm[x][y][biggest_container_idx];
               trap_id fun_trap_id = rain_backlog[point(x,y)];
-              retroactively_fill_from_funnel(it, fun_trap_id, int(calendar::turn) ); // bucket: what inside??
+              retroactively_fill_from_funnel( it, fun_trap_id, calendar(calendar::turn), point(x,y) ); // bucket: what inside??
           }
 
       }
