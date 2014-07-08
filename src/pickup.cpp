@@ -388,7 +388,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                     //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                     if (OPTIONS["AUTO_PICKUP_ZERO"]) {
                         if (here[i].volume() == 0 &&
-                            here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50) {
+                            here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
+                            checkExcludeRules(here[i].tname())) {
                             bPickup = true;
                         }
                     }

@@ -644,6 +644,19 @@ void createPickupRules(const std::string sItemNameIn)
     }
 }
 
+bool checkExcludeRules(const std::string sItemNameIn)
+{
+    for (std::vector<cPickupRules>::iterator pattern_it = vAutoPickupRules[APU_MERGED].begin();
+         pattern_it != vAutoPickupRules[APU_MERGED].end(); ++pattern_it) {
+        if (pattern_it->bExclude && pattern_it->bActive &&
+            auto_pickup_match(sItemNameIn, pattern_it->sRule)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void save_reset_changes(bool bReset)
 {
     for (int i = APU_GLOBAL; i <= APU_CHARACTER; i++) { //Loop through global 1 and character 2

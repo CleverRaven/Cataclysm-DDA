@@ -45,6 +45,7 @@ bool hasPickupRule(std::string sRule);
 void addPickupRule(std::string sRule);
 void removePickupRule(std::string sRule);
 void createPickupRules(const std::string sItemNameIn = "");
+bool checkExcludeRules(const std::string sItemNameIn);
 void save_reset_changes(bool bReset);
 void show_auto_pickup();
 void load_auto_pickup(bool bCharacter);
