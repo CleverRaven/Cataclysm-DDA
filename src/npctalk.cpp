@@ -1063,6 +1063,10 @@ std::string dynamic_line(talk_topic topic, npc *p)
                             return _("I'm looking for clues concerning these monsters' origins...");
                         case NC_BOUNTY_HUNTER:
                             return _("I'm a killer for hire.");
+                        case NC_THUG:
+                            return _("I'm just here for the paycheck.");
+                        case NC_SCAVENGER:
+                            return _("I'm just trying to survive.");
                         case NC_NONE:
                             return _("I'm just wandering.");
                         default:
