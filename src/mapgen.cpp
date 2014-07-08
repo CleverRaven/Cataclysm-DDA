@@ -10944,7 +10944,7 @@ int map::place_npc(int x, int y, std::string type)
     if (type == "evac_broker"){
         npc *temp = new npc();
         temp->normalize();
-        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->randomize(NC_SCAVENGER);
         temp->name += ", Broker";
         temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
