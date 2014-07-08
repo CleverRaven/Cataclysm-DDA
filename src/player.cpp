@@ -34,6 +34,8 @@
 #include <algorithm>
 #include <numeric>
 #include <string>
+#include <memory>
+#include <array>
 
 #include <fstream>
 
@@ -8194,6 +8196,47 @@ bool player::wield(item* it, bool autodrop)
 
 }
 
+// ids of martial art styles that are available with the bio_cqb bionic.
+static const std::array<std::string, 4> bio_cqb_styles {{
+"style_karate", "style_judo", "style_muay_thai", "style_biojutsu"
+}};
+
+class ma_style_callback : public uimenu_callback
+{
+public:
+    virtual bool key(int key, int entnum, uimenu *menu) {
+        if( key != '?' ) {
+            return false;
+        }
+        std::string style_selected;
+        const size_t index = entnum;
+        if( g->u.has_active_bionic( "bio_cqb" ) && index < menu->entries.size() ) {
+            const size_t id = menu->entries[index].retval - 1;
+            if( id < bio_cqb_styles.size() ) {
+                style_selected = bio_cqb_styles[id];
+            }
+        } else if( index >= 2 && index - 2 < g->u.ma_styles.size() ) {
+            style_selected = g->u.ma_styles[index - 2];
+        }
+        if( !style_selected.empty() ) {
+            const martialart &ma = martialarts[style_selected];
+            std::ostringstream buffer;
+            buffer << ma.name << "\n\n";
+            buffer << ma.description << "\n\n";
+            if( !ma.techniques.empty() ) {
+                buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << "\n";
+                for( auto &tec : ma.techniques ) {
+                    buffer << ma_techniques[tec].name << "\n";
+                }
+            }
+            popup(buffer.str(), PF_NONE);
+            menu->redraw();
+        }
+        return true;
+    }
+    virtual ~ma_style_callback() { }
+};
+
 void player::pick_style() // Style selection menu
 {
     //Create menu
@@ -8206,29 +8249,24 @@ void player::pick_style() // Style selection menu
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
-    // No matter how menu is cancelled, style_selected is not changed.
 
     uimenu kmenu;
-    kmenu.text = _("Select a style");
+    kmenu.text = _("Select a style (press ? for style info)");
+    std::auto_ptr<ma_style_callback> ma_style_info(new ma_style_callback());
+    kmenu.callback = ma_style_info.get();
 
     if (has_active_bionic("bio_cqb")) {
         kmenu.addentry( 0, true, 'c', _("Cancel") );
-        if (martialarts.find("style_karate") != martialarts.end())
-            kmenu.addentry( 1, true, -1, martialarts["style_karate"].name );
-        if (martialarts.find("style_judo") != martialarts.end())
-            kmenu.addentry( 2, true, -1, martialarts["style_judo"].name );
-        if (martialarts.find("style_muay_thai") != martialarts.end())
-            kmenu.addentry( 3, true, -1, martialarts["style_muay_thai"].name );
-        if (martialarts.find("style_biojutsu") != martialarts.end())
-            kmenu.addentry( 4, true, -1, martialarts["style_biojutsu"].name );
+        for(size_t i = 0; i < bio_cqb_styles.size(); i++) {
+            if (martialarts.find(bio_cqb_styles[i]) != martialarts.end()) {
+                kmenu.addentry( i + 1, true, -1, martialarts[bio_cqb_styles[i]].name );
+            }
+        }
 
         kmenu.query();
-        int selection = kmenu.ret;
-        switch (selection) {
-            case 1: style_selected = "style_karate"; break;
-            case 2: style_selected = "style_judo"; break;
-            case 3: style_selected = "style_muay_thai"; break;
-            case 4: style_selected = "style_biojutsu"; break;
+        const size_t selection = kmenu.ret - 1;
+        if( selection < bio_cqb_styles.size() ) {
+            style_selected = bio_cqb_styles[selection];
         }
     }
     else {
@@ -8237,12 +8275,12 @@ void player::pick_style() // Style selection menu
         kmenu.selected = 1;
         kmenu.return_invalid = true; //cancel with any other keys
 
-        for (int i = 0; i < ma_styles.size(); i++) {
+        for (size_t i = 0; i < ma_styles.size(); i++) {
             if(martialarts.find(ma_styles[i]) == martialarts.end()) {
                 debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
             } else {
                 //Check if this style is currently selected
-                if (strcmp(martialarts[ma_styles[i]].id.c_str(),style_selected.c_str())==0) {
+                if( ma_styles[i] == style_selected ) {
                     kmenu.selected =i+2; //+2 because there are "cancel" and "no style" first in the list
                 }
                 kmenu.addentry( i+2, true, -1, martialarts[ma_styles[i]].name );
