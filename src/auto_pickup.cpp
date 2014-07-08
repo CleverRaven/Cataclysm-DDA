@@ -28,7 +28,7 @@ void show_auto_pickup()
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     std::map<int, bool> mapLines;
-    mapLines[3] = true;
+    mapLines[4] = true;
     mapLines[50] = true;
     mapLines[54] = true;
 
@@ -79,8 +79,8 @@ void show_auto_pickup()
         }
     }
 
-    mvwprintz(w_auto_pickup_header, 3, 0, c_white, "#");
-    mvwprintz(w_auto_pickup_header, 3, 7, c_white, _("Rules"));
+    mvwprintz(w_auto_pickup_header, 3, 1, c_white, "#");
+    mvwprintz(w_auto_pickup_header, 3, 8, c_white, _("Rules"));
     mvwprintz(w_auto_pickup_header, 3, 51, c_white, _("I/E"));
 
     wrefresh(w_auto_pickup_header);
@@ -141,183 +141,173 @@ void show_auto_pickup()
 
         const bool currentPageNonEmpty = !vAutoPickupRules[iCurrentPage].empty();
 
-        if (iCurrentPage == 1 || iCurrentPage == 2) {
-            if (iCurrentPage == 2 && g->u.name == "") {
-                vAutoPickupRules[2].clear();
-                mvwprintz(w_auto_pickup, 8, 15, c_white,
-                          _("Please load a character first to use this page!"));
-            }
-
-            //Draw Scrollbar
-            draw_scrollbar(w_auto_pickup_border, iCurrentLine, iContentHeight,
-                           vAutoPickupRules[iCurrentPage].size(), 5);
-
-            calcStartPos(iStartPos, iCurrentLine, iContentHeight,
-                         vAutoPickupRules[iCurrentPage].size());
-
-            // display auto pickup
-            for (int i = iStartPos; i < vAutoPickupRules[iCurrentPage].size(); i++) {
-                if (i >= iStartPos &&
-                    i < iStartPos + ((iContentHeight > vAutoPickupRules[iCurrentPage].size()) ?
-                                     vAutoPickupRules[iCurrentPage].size() : iContentHeight)) {
-                    nc_color cLineColor = (vAutoPickupRules[iCurrentPage][i].bActive) ?
-                        c_white : c_ltgray;
-
-                    sTemp.str("");
-                    sTemp << i + 1;
-                    mvwprintz(w_auto_pickup, i - iStartPos, 0, cLineColor, "%s", sTemp.str().c_str());
-                    mvwprintz(w_auto_pickup, i - iStartPos, 4, cLineColor, "");
-
-                    if (iCurrentLine == i) {
-                        wprintz(w_auto_pickup, c_yellow, ">> ");
-                    } else {
-                        wprintz(w_auto_pickup, c_yellow, "   ");
-                    }
-
-                    wprintz(w_auto_pickup, (iCurrentLine == i &&
-                                            iCurrentCol == 1) ? hilite(cLineColor) : cLineColor, "%s",
-                            ((vAutoPickupRules[iCurrentPage][i].sRule == "") ? _("<empty rule>") :
-                             vAutoPickupRules[iCurrentPage][i].sRule).c_str());
-
-                    mvwprintz(w_auto_pickup, i - iStartPos, 52, (iCurrentLine == i &&
-                              iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s",
-                              ((vAutoPickupRules[iCurrentPage][i].bExclude) ? rm_prefix(_("<Exclude>E")).c_str() : rm_prefix(
-                                   _("<Include>I")).c_str()));
-                }
-            }
-
-            wrefresh(w_auto_pickup);
-
-        } else if (iCurrentPage == 3) {
-            draw_border(w_auto_pickup_options);
-
-            mvwprintz(w_auto_pickup_options, 5, 10, c_white, _("Under construction!"));
-
-            wrefresh(w_auto_pickup);
-            wrefresh(w_auto_pickup_options);
+        if (iCurrentPage == 2 && g->u.name == "") {
+            vAutoPickupRules[2].clear();
+            mvwprintz(w_auto_pickup, 8, 15, c_white,
+                      _("Please load a character first to use this page!"));
         }
+
+        //Draw Scrollbar
+        draw_scrollbar(w_auto_pickup_border, iCurrentLine, iContentHeight,
+                       vAutoPickupRules[iCurrentPage].size(), 5);
+
+        calcStartPos(iStartPos, iCurrentLine, iContentHeight,
+                     vAutoPickupRules[iCurrentPage].size());
+
+        // display auto pickup
+        for (int i = iStartPos; i < vAutoPickupRules[iCurrentPage].size(); i++) {
+            if (i >= iStartPos &&
+                i < iStartPos + ((iContentHeight > vAutoPickupRules[iCurrentPage].size()) ?
+                                 vAutoPickupRules[iCurrentPage].size() : iContentHeight)) {
+                nc_color cLineColor = (vAutoPickupRules[iCurrentPage][i].bActive) ?
+                    c_white : c_ltgray;
+
+                sTemp.str("");
+                sTemp << i + 1;
+                mvwprintz(w_auto_pickup, i - iStartPos, 1, cLineColor, "%s", sTemp.str().c_str());
+                mvwprintz(w_auto_pickup, i - iStartPos, 5, cLineColor, "");
+
+                if (iCurrentLine == i) {
+                    wprintz(w_auto_pickup, c_yellow, ">> ");
+                } else {
+                    wprintz(w_auto_pickup, c_yellow, "   ");
+                }
+
+                wprintz(w_auto_pickup, (iCurrentLine == i &&
+                                        iCurrentCol == 1) ? hilite(cLineColor) : cLineColor, "%s",
+                        ((vAutoPickupRules[iCurrentPage][i].sRule == "") ? _("<empty rule>") :
+                         vAutoPickupRules[iCurrentPage][i].sRule).c_str());
+
+                mvwprintz(w_auto_pickup, i - iStartPos, 52, (iCurrentLine == i &&
+                          iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s",
+                          ((vAutoPickupRules[iCurrentPage][i].bExclude) ? rm_prefix(_("<Exclude>E")).c_str() : rm_prefix(
+                               _("<Include>I")).c_str()));
+            }
+        }
+
+        wrefresh(w_auto_pickup);
 
         const std::string action = ctxt.handle_input();
 
         if (action == "NEXT_TAB") {
-                iCurrentPage++;
-                if (iCurrentPage > 3) {
-                    iCurrentPage = 1;
-                    iCurrentLine = 0;
-                }
+            iCurrentPage++;
+            if (iCurrentPage > 2) {
+                iCurrentPage = 1;
+                iCurrentLine = 0;
+            }
         } else if (action == "PREV_TAB") {
-                iCurrentPage--;
-                if (iCurrentPage < 0) {
-                    iCurrentPage = 0;
-                    iCurrentLine = 0;
-                }
+            iCurrentPage--;
+            if (iCurrentPage < 1) {
+                iCurrentPage = 2;
+                iCurrentLine = 0;
+            }
         } else if (action == "QUIT") {
             break;
         } else if (iCurrentPage == 2 && g->u.name.empty()) {
-                //Only allow loaded games to use the char sheet
+            //Only allow loaded games to use the char sheet
         } else if (action == "DOWN") {
-                    iCurrentLine++;
-                    iCurrentCol = 1;
-                    if (iCurrentLine >= vAutoPickupRules[iCurrentPage].size()) {
-                        iCurrentLine = 0;
-                    }
+            iCurrentLine++;
+            iCurrentCol = 1;
+            if (iCurrentLine >= vAutoPickupRules[iCurrentPage].size()) {
+                iCurrentLine = 0;
+            }
         } else if (action == "UP") {
-                    iCurrentLine--;
-                    iCurrentCol = 1;
-                    if (iCurrentLine < 0) {
-                        iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
-                    }
+            iCurrentLine--;
+            iCurrentCol = 1;
+            if (iCurrentLine < 0) {
+                iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
+            }
         } else if (action == "ADD_RULE") {
-                    bStuffChanged = true;
-                    vAutoPickupRules[iCurrentPage].push_back(cPickupRules("", true, false));
-                    iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
+            bStuffChanged = true;
+            vAutoPickupRules[iCurrentPage].push_back(cPickupRules("", true, false));
+            iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
         } else if (action == "REMOVE_RULE" && currentPageNonEmpty) {
-                    bStuffChanged = true;
-                    vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
-                    if (iCurrentLine > vAutoPickupRules[iCurrentPage].size() - 1) {
-                        iCurrentLine--;
-                    }
+            bStuffChanged = true;
+            vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
+            if (iCurrentLine > vAutoPickupRules[iCurrentPage].size() - 1) {
+                iCurrentLine--;
+            }
         } else if (action == "COPY_RULE" && currentPageNonEmpty) {
-                    bStuffChanged = true;
-                    vAutoPickupRules[iCurrentPage].push_back(cPickupRules(
-                                vAutoPickupRules[iCurrentPage][iCurrentLine].sRule,
-                                vAutoPickupRules[iCurrentPage][iCurrentLine].bActive,
-                                vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
-                    iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
+            bStuffChanged = true;
+            vAutoPickupRules[iCurrentPage].push_back(cPickupRules(
+                        vAutoPickupRules[iCurrentPage][iCurrentLine].sRule,
+                        vAutoPickupRules[iCurrentPage][iCurrentLine].bActive,
+                        vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
+            iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
         } else if (action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty) {
-                    if ((iCurrentPage == 1 && g->u.name != "") || iCurrentPage == 2) {
-                        bStuffChanged = true;
-                        //copy over
-                        vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].push_back(cPickupRules(
-                                    vAutoPickupRules[iCurrentPage][iCurrentLine].sRule,
-                                    vAutoPickupRules[iCurrentPage][iCurrentLine].bActive,
-                                    vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
+            if ((iCurrentPage == 1 && g->u.name != "") || iCurrentPage == 2) {
+                bStuffChanged = true;
+                //copy over
+                vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].push_back(cPickupRules(
+                            vAutoPickupRules[iCurrentPage][iCurrentLine].sRule,
+                            vAutoPickupRules[iCurrentPage][iCurrentLine].bActive,
+                            vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
 
-                        //remove old
-                        vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
-                        iCurrentLine = vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].size() - 1;
-                        iCurrentPage = (iCurrentPage == 1) ? 2 : 1;
-                    }
+                //remove old
+                vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
+                iCurrentLine = vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].size() - 1;
+                iCurrentPage = (iCurrentPage == 1) ? 2 : 1;
+            }
         } else if (action == "CONFIRM" && currentPageNonEmpty) {
-                    bStuffChanged = true;
-                    if (iCurrentCol == 1) {
-                        fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white,
-                                       _(
-                                           "* is used as a Wildcard. A few Examples:\n"
-                                           "\n"
-                                           "wood arrow    matches the itemname exactly\n"
-                                           "wood ar*      matches items beginning with wood ar\n"
-                                           "*rrow         matches items ending with rrow\n"
-                                           "*avy fle*fi*arrow     multible * are allowed\n"
-                                           "heAVY*woOD*arrOW      case insesitive search\n"
-                                           "")
-                                      );
+            bStuffChanged = true;
+            if (iCurrentCol == 1) {
+                fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white,
+                               _(
+                                   "* is used as a Wildcard. A few Examples:\n"
+                                   "\n"
+                                   "wooden arrow    matches the itemname exactly\n"
+                                   "wooden ar*      matches items beginning with wood ar\n"
+                                   "*rrow           matches items ending with rrow\n"
+                                   "*avy fle*fi*arrow     multiple * are allowed\n"
+                                   "heAVY*woOD*arrOW      case insesitive search\n"
+                                   "")
+                              );
 
-                        draw_border(w_auto_pickup_help);
-                        wrefresh(w_auto_pickup_help);
-                        vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = trim_rule(string_input_popup(_("Pickup Rule:"),
-                                30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule));
-                    } else if (iCurrentCol == 2) {
-                        vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude =
-                            !vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude;
-                    }
+                draw_border(w_auto_pickup_help);
+                wrefresh(w_auto_pickup_help);
+                vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = trim_rule(string_input_popup(_("Pickup Rule:"),
+                        30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule));
+            } else if (iCurrentCol == 2) {
+                vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude =
+                    !vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude;
+            }
         } else if (action == "ENABLE_RULE" && currentPageNonEmpty) {
-                    bStuffChanged = true;
-                    vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = true;
+            bStuffChanged = true;
+            vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = true;
         } else if (action == "DISABLE_RULE" && currentPageNonEmpty) {
-                    bStuffChanged = true;
-                    vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = false;
+            bStuffChanged = true;
+            vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = false;
         } else if (action == "LEFT") {
-                    iCurrentCol--;
-                    if (iCurrentCol < 1) {
-                        iCurrentCol = iTotalCols;
-                    }
+            iCurrentCol--;
+            if (iCurrentCol < 1) {
+                iCurrentCol = iTotalCols;
+            }
         } else if (action == "RIGHT") {
-                    iCurrentCol++;
-                    if (iCurrentCol > iTotalCols) {
-                        iCurrentCol = 1;
-                    }
+            iCurrentCol++;
+            if (iCurrentCol > iTotalCols) {
+                iCurrentCol = 1;
+            }
         } else if (action == "MOVE_RULE_UP" && currentPageNonEmpty) {
-                    bStuffChanged = true;
-                    if (iCurrentLine < vAutoPickupRules[iCurrentPage].size() - 1) {
-                        std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
-                                  vAutoPickupRules[iCurrentPage][iCurrentLine + 1]);
-                        iCurrentLine++;
-                        iCurrentCol = 1;
-                    }
+            bStuffChanged = true;
+            if (iCurrentLine < vAutoPickupRules[iCurrentPage].size() - 1) {
+                std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
+                          vAutoPickupRules[iCurrentPage][iCurrentLine + 1]);
+                iCurrentLine++;
+                iCurrentCol = 1;
+            }
         } else if (action == "MOVE_RULE_DOWN" && currentPageNonEmpty) {
-                    bStuffChanged = true;
-                    if (iCurrentLine > 0) {
-                        std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
-                                  vAutoPickupRules[iCurrentPage][iCurrentLine - 1]);
-                        iCurrentLine--;
-                        iCurrentCol = 1;
-                    }
+            bStuffChanged = true;
+            if (iCurrentLine > 0) {
+                std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
+                          vAutoPickupRules[iCurrentPage][iCurrentLine - 1]);
+                iCurrentLine--;
+                iCurrentCol = 1;
+            }
         } else if (action == "TEST_RULE" && currentPageNonEmpty) {
-                    test_pattern(iCurrentPage, iCurrentLine);
+            test_pattern(iCurrentPage, iCurrentLine);
         } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
-                    OPTIONS["AUTO_PICKUP"].setNext();
-                    save_options((g->u.name != ""));
+            OPTIONS["AUTO_PICKUP"].setNext();
+            save_options((g->u.name != ""));
         }
     }
 
