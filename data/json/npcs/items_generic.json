@@ -95,6 +95,15 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "npc_extra",
+    "items":[
+      ["null", 75],
+      ["backpack", 10],
+      ["backpack_leather", 10],
+      ["rucksack", 5]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "npc_bashing",
     "items":[
       ["hammer", 20],
@@ -102,7 +111,11 @@
       ["hammer_sledge", 20],
       ["pipe", 20],
       ["bat", 20],
-      ["crowbar", 20]
+      ["crowbar", 20],
+      ["spear_rebar",20],
+      ["q_staff",20],
+      ["hatchet", 20],
+      ["bat_metal",20]
     ]
   },{
     "type" : "item_group",
@@ -138,14 +151,48 @@
     "type" : "item_group",
     "id" : "npc_launcher",
     "items":[
-      ["RPG", 50]
+      ["flamethrower_simple",50]
     ]
   },{
     "type" : "item_group",
     "id" : "npc_weapon_random",
     "items":[
-      ["knife_butcher", 20],
-      ["hatchet", 20]
+      ["hatchet", 10],
+      ["nailbat", 10],
+      ["bwirebat",10],
+      ["nailboard", 25],
+      ["makeshift_crowbar", 15],
+      ["crowbar", 7],
+      ["machete", 7],
+      ["ax", 5],
+      ["halligan", 3],
+      ["fire_ax", 5],
+      ["bullwhip", 2],
+      ["spear_knife", 15],
+      ["rifle_9mm", 20],
+      ["rifle_22", 20],
+      ["uzi", 10],
+      ["mac_10", 10],
+      ["crossbow", 5],
+      ["sig_mosquito", 5],
+      ["sw_22", 5],
+      ["glock_19", 7],
+      ["usp_9mm", 10],
+      ["cx4", 1],
+      ["usp_45", 10],
+      ["m1911", 5],
+      ["ar15", 1],
+      ["savage_111f", 2],
+      ["remington_700", 2],
+      ["ruger_1022", 10],
+      ["marlin_9a", 10],
+      ["remington_870", 8],
+      ["mossberg_500", 2],
+      ["shotgun_sawn", 4],
+      ["shotgun_d", 4],
+      ["longbow", 5],
+      ["compositebow", 3],
+      ["shortbow", 5]
     ]
   },{
     "type" : "item_group",
