@@ -104,6 +104,8 @@ void display() const;
 int get_selected_item_position() const;
 /** Set/toggle dropping count items of currently selected item stack, see @ref set_drop_count */
 void set_selected_to_drop(int count);
+/** Select the item at position and set the correct in_inventory and current_page_offset value */
+void select_item_by_position(const int &position);
 /** Starts the inventory screen
  * @param m sets @ref multidrop
  * @param c sets @ref compare
@@ -571,6 +573,42 @@ bool inventory_selector::handle_movement(const std::string &action)
     return true;
 }
 
+void inventory_selector::select_item_by_position(const int &position)
+{
+    if (position != INT_MIN) {
+        int pos = position;
+
+        if (pos == -1) {
+            //weapon
+            in_inventory = false;
+            return;
+
+        } else if (pos < -1) {
+            //worn
+            in_inventory = false;
+            pos = abs(position) - ((g->u.weapon.is_null()) ? 2 : 1);
+        }
+
+        const itemstack_vector &items = in_inventory ? this->items : this->worn;
+        size_t &selected = in_inventory ? selected_i : selected_w;
+        size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
+
+        //skip headers
+        int iHeaderOffset = 0;
+        for (size_t i = 0; i < items.size(); ++i) {
+            if (items[i].it == NULL) {
+                iHeaderOffset++;
+
+            } else if (items[i].item_pos == pos) {
+                break;
+            }
+        }
+
+        selected = pos + iHeaderOffset;
+        current_page_offset = selected - (selected % items_per_page);
+    }
+}
+
 int inventory_selector::get_selected_item_position() const
 {
     const itemstack_vector &items = in_inventory ? this->items : this->worn;
@@ -703,11 +741,13 @@ std::vector<item> inventory_selector::remove_dropping_items( player &u ) const
     return ret;
 }
 
-int game::display_slice(indexed_invslice &slice, const std::string &title)
+int game::display_slice(indexed_invslice &slice, const std::string &title, const int &position)
 {
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(slice);
     inv_s.prepare_paging();
+    inv_s.select_item_by_position(position);
+
     while(true) {
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
@@ -728,12 +768,12 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
 }
 
 // Display current inventory.
-int game::inv(const std::string &title)
+int game::inv(const std::string &title, const int &position)
 {
     u.inv.restack(&u);
     u.inv.sort();
     indexed_invslice slice = u.inv.slice_filter();
-    return display_slice(slice , title);
+    return display_slice(slice, title, position);
 }
 
 int game::inv_activatable(std::string title)

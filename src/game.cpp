@@ -3293,8 +3293,9 @@ bool game::handle_action()
 
     case ACTION_INVENTORY: {
         int cMenu = ' ';
+        int position = INT_MIN;
         do {
-            int position = inv(_("Inventory:"));
+            position = inv(_("Inventory:"), position);
             cMenu = inventory_item_menu(position);
         } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
                  cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
