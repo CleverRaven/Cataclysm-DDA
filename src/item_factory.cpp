@@ -1608,8 +1608,8 @@ void Item_factory::debug_spawn()
     menu.entries.push_back(uimenu_entry(menu.entries.size(), true, -2, "cancel"));
     while (true) {
         menu.query();
-        const int index = menu.ret;
-        if (index < 0 || index >= groups.size()) {
+        const size_t index = menu.ret;
+        if (index >= groups.size()) {
             break;
         }
         // Spawn items from the group 100 times
@@ -1623,15 +1623,14 @@ void Item_factory::debug_spawn()
         }
         // Invert the map to get sorting!
         std::multimap<int, std::string> itemnames2;
-        for (std::map<std::string, int>::iterator a = itemnames.begin(); a != itemnames.end(); ++a) {
-            itemnames2.insert(std::pair<int, std::string>(a->second, a->first));
+        for (const auto &e: itemnames) {
+            itemnames2.insert(std::pair<int, std::string>(e.second, e.first));
         }
         uimenu menu2;
         menu2.text = "result of 100 spawns:";
-        for (std::map<int, std::string>::reverse_iterator a = itemnames2.rbegin(); a != itemnames2.rend();
-             ++a) {
+        for (const auto &e: itemnames2) {
             std::ostringstream buffer;
-            buffer << a->first << " x " << a->second << " [" << a->first << "]\n";
+            buffer << e.first << " x " << e.second << "\n";
             menu2.entries.push_back(uimenu_entry(menu2.entries.size(), true, -2, buffer.str()));
         }
         menu2.query();
