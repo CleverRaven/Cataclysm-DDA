@@ -899,8 +899,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
                      "different.  Kill all of them and make sure they won't bother us again.  We can't "
                      "pay much but it would help us to reclaim the bay.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-Please be careful, we don't need any more deaths.");
+            return _("Please be careful, we don't need any more deaths.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we really need to start reclaiming the region.");
         case TALK_MISSION_ADVICE:
@@ -931,8 +930,7 @@ Please be careful, we don't need any more deaths.");
                      "scavengers can continue to pass through in relative safety.  The best "
                      "reward I can offer is a claim to the supplies they were carrying.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-Our community survives on trade, we appreciate it.");
+            return _("Our community survives on trade, we appreciate it.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we really need to start reclaiming the region.");
         case TALK_MISSION_ADVICE:
@@ -963,8 +961,7 @@ Our community survives on trade, we appreciate it.");
                      "able to get an electrical expansion working for a year or two.  I know they "
                      "are rare but running generators isn't a viable option in the basement.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-If you can do this for us our survival options would vastly increase.");
+            return _("If you can do this for us our survival options would vastly increase.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we really need to start reclaiming the region.");
         case TALK_MISSION_ADVICE:
@@ -993,8 +990,7 @@ If you can do this for us our survival options would vastly increase.");
                      "anyone who preys upon civilians meets a quick end... execute both of them for their "
                      "crimes.  Complete this and the Old Guard will consider you an asset in the region.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-Contractor, I welcome you aboard.");
+            return _("Contractor, I welcome you aboard.");
         case TALK_MISSION_REJECTED:
             return _("The States will remain a wasteland unless good men choose to save it.");
         case TALK_MISSION_ADVICE:
@@ -1023,8 +1019,7 @@ Contractor, I welcome you aboard.");
                      "of my suspicions.  We normally allow the Free Merchants to govern themselves "
                      "so I would hate to offend them.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-Thank you, please keep this discrete.");
+            return _("Thank you, please keep this discreet.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we could use a few good men.");
         case TALK_MISSION_ADVICE:
@@ -1053,8 +1048,7 @@ Thank you, please keep this discrete.");
                      "raider may have been real sneaky.  Check out the area and report anything "
                      "you find.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-Thanks, keeping the people safe is what we try and do.");
+            return _("Thanks, keeping the people safe is what we try and do.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we really need to start reclaiming the region.");
         case TALK_MISSION_ADVICE:
@@ -1085,8 +1079,16 @@ Thanks, keeping the people safe is what we try and do.");
                      "Marshals Service and by agreeing to the mission you will become a marshal, "
                      "swearing to assist the federal government in regaining order.");
         case TALK_MISSION_ACCEPTED:
-            return _("\
-Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are "
+            popup("Now repeat after me...");
+            popup("I, %s, do solemnly swear that I will support and defend the Constitution of the "
+                  "United States against all enemies, foreign and domestic...", g->u.name.c_str());
+            popup("...that I will bear true faith and allegiance to the same...");
+            popup("...that I take this obligation freely, without any mental reservation or purpose of evasion...");
+            popup("...and that I will well and faithfully discharge the duties of the office on which I am about to enter.");
+            popup("To establish justice, insure domestic tranquility, provide for the common defense, promote the "
+                  "general welfare and secure the blessings of liberty.");
+            popup("So help me God.");
+            return _("Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are "
                      "considered deputy marshals so keep them in line.");
         case TALK_MISSION_REJECTED:
             return _("Come back when you get a chance, we could use a few good men.");
