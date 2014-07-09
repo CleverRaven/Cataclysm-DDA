@@ -389,58 +389,58 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::toilet(player *p, map *m, int examx, int examy) {
-	std::vector<item>& items = m->i_at(examx, examy);
-	int waterIndex = -1;
-	for (int i = 0; i < items.size(); i++) {
-		if (items[i].typeId() == "water") {
-			waterIndex = i;
-			break;
-		}
-	}
+    std::vector<item>& items = m->i_at(examx, examy);
+    int waterIndex = -1;
+    for (int i = 0; i < items.size(); i++) {
+        if (items[i].typeId() == "water") {
+            waterIndex = i;
+            break;
+        }
+    }
 
-	if (waterIndex < 0) {
-		add_msg(m_info, _("This toilet is empty."));
-	}
-	else {
-		bool drained = false;
+    if (waterIndex < 0) {
+        add_msg(m_info, _("This toilet is empty."));
+    }
+    else {
+        bool drained = false;
 
-		item& water = items[waterIndex];
-		// Use a different poison value each time water is drawn from the toilet.
-		water.poison = one_in(3) ? 0 : rng(1, 3);
+        item& water = items[waterIndex];
+        // Use a different poison value each time water is drawn from the toilet.
+        water.poison = one_in(3) ? 0 : rng(1, 3);
 
-		// First try handling/bottling, then try drinking.
-		if (g->handle_liquid(water, true, false))
-		{
-			p->moves -= 100;
-			drained = true;
-		}
-		else if (query_yn(_("Drink from your hands?")))
-		{
-			// Create a dose of water no greater than the amount of water remaining.
-			item water_temp("water", 0);
-			water_temp.poison = water.poison;
-			water_temp.charges = std::min(water_temp.charges, water.charges);
+        // First try handling/bottling, then try drinking.
+        if (g->handle_liquid(water, true, false))
+        {
+            p->moves -= 100;
+            drained = true;
+        }
+        else if (query_yn(_("Drink from your hands?")))
+        {
+            // Create a dose of water no greater than the amount of water remaining.
+            item water_temp("water", 0);
+            water_temp.poison = water.poison;
+            water_temp.charges = std::min(water_temp.charges, water.charges);
 
-			p->inv.push_back(water_temp);
-			// If player is slaked water might not get consumed.
-			if (p->consume(p->inv.position_by_type(water_temp.typeId())))
-			{
-				p->moves -= 350;
+            p->inv.push_back(water_temp);
+            // If player is slaked water might not get consumed.
+            if (p->consume(p->inv.position_by_type(water_temp.typeId())))
+            {
+                p->moves -= 350;
 
-				water.charges -= water_temp.charges;
-				if (water.charges <= 0) {
-					drained = true;
-				}
-			}
-			else {
-				p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
-			}
-		}
+                water.charges -= water_temp.charges;
+                if (water.charges <= 0) {
+                    drained = true;
+                }
+            }
+            else {
+                p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
+            }
+        }
 
-		if (drained) {
-			items.erase(items.begin() + waterIndex);
-		}
-	}
+        if (drained) {
+            items.erase(items.begin() + waterIndex);
+        }
+    }
 }
 
 void iexamine::elevator(player *p, map *m, int examx, int examy)
@@ -1810,35 +1810,35 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
 
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
-	item water = m->water_from(examx, examy);
-	// Try to handle first (bottling) drink after.
-	// changed boolean, large sources should be infinite
-	if (g->handle_liquid(water, true, true))
-	{
-		p->moves -= 100;
-	}
-	else if (query_yn(_("Drink from your hands?")))
-	{
-		p->inv.push_back(water);
-		p->consume(p->inv.position_by_type(water.typeId()));
-		p->moves -= 350;
-	}
+    item water = m->water_from(examx, examy);
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+    if (g->handle_liquid(water, true, true))
+    {
+        p->moves -= 100;
+    }
+    else if (query_yn(_("Drink from your hands?")))
+    {
+        p->inv.push_back(water);
+        p->consume(p->inv.position_by_type(water.typeId()));
+        p->moves -= 350;
+    }
 }
 void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
 {
-	item swater = m->swater_from(examx, examy);
-	// Try to handle first (bottling) drink after.
-	// changed boolean, large sources should be infinite
-	if (g->handle_liquid(swater, true, true))
-	{
-		p->moves -= 100;
-	}
-	else if (query_yn(_("Drink from your hands?")))
-	{
-		p->inv.push_back(swater);
-		p->consume(p->inv.position_by_type(swater.typeId()));
-		p->moves -= 350;
-	}
+    item swater = m->swater_from(examx, examy);
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+    if (g->handle_liquid(swater, true, true))
+    {
+        p->moves -= 100;
+    }
+    else if (query_yn(_("Drink from your hands?")))
+    {
+        p->inv.push_back(swater);
+        p->consume(p->inv.position_by_type(swater.typeId()));
+        p->moves -= 350;
+    }
 }
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
 {
@@ -2069,17 +2069,22 @@ point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
     return p;
 }
 
-int getGasDiscountCardQuality(itype_id id)
+int getGasDiscountCardQuality(item it)
 {
-    if (id == "gasdiscount_platinum") {
-        return 3;
-    } else if (id == "gasdiscount_gold") {
-        return 2;
-    } else if (id == "gasdiscount_silver") {
-        return 1;
-    } else {
-        return 0;
+
+    std::set<std::string> tags = it.type->item_tags;
+
+    for (std::set<std::string>::iterator it = tags.begin();
+         it != tags.end(); ++it) {
+        std::string tag = (*it);
+
+        if (tag.size() > 15 && tag.substr(0, 15) == "DISCOUNT_VALUE_") {
+            return atoi(tag.substr(15).c_str());
+        }
     }
+
+    return 0;
+
 }
 
 int findBestGasDiscount(player *p)
@@ -2092,7 +2097,7 @@ int findBestGasDiscount(player *p)
 
         if (it.has_flag("GAS_DISCOUNT")) {
 
-            int q = getGasDiscountCardQuality(it.type->id);
+            int q = getGasDiscountCardQuality(it);
             if (q > discount) {
                 discount = q;
             }
@@ -2125,19 +2130,6 @@ int getPricePerGasUnit(int discount)
         return 330;
     } else {
         return 350;
-    }
-}
-
-std::string getPricePerGasUnitStr(int discount)
-{
-    if (discount == 3) {
-        return _("$2.50");
-    } else if (discount == 2) {
-        return _("$3.00");
-    } else if (discount == 1) {
-        return _("$3.30");
-    } else {
-        return _("$3.50");
     }
 }
 
@@ -2254,7 +2246,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     std::string discountName = getGasDiscountName(discount);
 
     int pricePerUnit = getPricePerGasUnit(discount);
-    std::string unitPriceStr = getPricePerGasUnitStr(discount);
+	std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
 
     uimenu amenu;
     amenu.selected = 1;
