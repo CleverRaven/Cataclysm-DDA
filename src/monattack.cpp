@@ -691,8 +691,8 @@ void mattack::triffid_heartbeat(monster *z)
             int x = rng(g->u.posx, z->posx() - 3), y = rng(g->u.posy, z->posy() - 3);
             tries++;
             g->m.ter_set(x, y, t_dirt);
-            if (rl_dist(x, y, g->u.posx, g->u.posy > 3 && g->num_zombies() < 30 &&
-                        g->mon_at(x, y) == -1 && one_in(20))) { // Spawn an extra monster
+            if (rl_dist(x, y, g->u.posx, g->u.posy) > 3 && g->num_zombies() < 30 &&
+                        g->mon_at(x, y) == -1 && one_in(20)) { // Spawn an extra monster
                 std::string montype = "mon_triffid";
                 if (one_in(4)) {
                     montype = "mon_creeper_hub";
