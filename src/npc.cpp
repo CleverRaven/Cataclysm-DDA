@@ -770,14 +770,19 @@ std::list<item> starting_inv(npc *me, npc_class type)
  if (me->weapon.is_gun()) {
   it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
   tmp = default_ammo(gun->ammo);
-  if (total_space >= itypes[tmp]->volume) {
-   ret.push_back(item(tmp, 0));
-   total_space -= ret.back().volume();
-  }
-  while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
-         !one_in(2) && total_space >= itypes[tmp]->volume) {
-   ret.push_back(item(tmp, 0));
-   total_space -= ret.back().volume();
+  if (tmp == "" || tmp == "UPS"){
+    if (g->debugmon)
+        debugmsg("Unknown ammo type for spawned NPC: '%s'", tmp.c_str());
+  }else {
+      if (total_space >= itypes[tmp]->volume) {
+       ret.push_back(item(tmp, 0));
+       total_space -= ret.back().volume();
+      }
+      while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
+             !one_in(2) && total_space >= itypes[tmp]->volume) {
+       ret.push_back(item(tmp, 0));
+       total_space -= ret.back().volume();
+      }
   }
  }
 
