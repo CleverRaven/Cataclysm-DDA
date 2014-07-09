@@ -1999,6 +1999,115 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     }
 }
 
+bool hide_secret_wall(map *m, point  *p)
+{
+#define radius 50
+
+    std::vector<point> v;
+
+    for (int i = p->x - radius; i < p->x + radius; i++)
+        for (int j = p->y - radius; j < p->y + radius; j++) {
+            if (m->ter_at(i, j).has_flag("ON_SECRET_HIDE")) {
+                v.push_back(point(i, j));
+            }
+        }
+
+    if (v.size() == 0) {
+        return false;
+    }
+
+    int n = rng(0, v.size() - 1);
+    p->x = v[n].x;
+    p->y = v[n].y;
+
+    m->ter_set(p->x, p->y, t_floor);
+
+    return true;
+}
+
+void iexamine::secret_examine(player *p, map *m, int examx, int examy)
+{
+
+    std::string furname = m->furnname(examx, examy);
+
+    if (!query_yn(_("Try to do something with %s?"), furname.c_str())) {
+        p->add_msg_if_player(m_neutral, _("This is %s."), furname.c_str());
+        return;
+    } {
+
+        std::string furid = m->furn_at(examx, examy).id;
+        std::string newfur = furid.substr(0, furid.size() - 2);
+        g->m.furn_set(examx, examy, newfur);
+
+        int ract = rng(1, 3);
+        if (1 == ract) {
+            ract = rng(1, 4);
+            if (1 == ract) {
+                p->add_msg_if_player(m_neutral, _("You strongly pushed %s."), furname.c_str());
+            } else if (2 == ract) {
+                p->add_msg_if_player(m_neutral, _("You strongly pulled %s."), furname.c_str());
+            } else if (3 == ract) {
+                p->add_msg_if_player(m_neutral, _("You strongly shook %s."), furname.c_str());
+            } else if (4 == ract) {
+                p->add_msg_if_player(m_neutral, _("You strongly yanked %s."), furname.c_str());
+            }
+        } else if (2 == ract) {
+            ract = rng(1, 4);
+            if (1 == ract) {
+                p->add_msg_if_player(m_neutral, _("You slightly pushed %s."), furname.c_str());
+            } else if (2 == ract) {
+                p->add_msg_if_player(m_neutral, _("You slightly pulled %s."), furname.c_str());
+            } else if (3 == ract) {
+                p->add_msg_if_player(m_neutral, _("You slightly shook %s."), furname.c_str());
+            } else if (4 == ract) {
+                p->add_msg_if_player(m_neutral, _("You slightly yanked %s."), furname.c_str());
+            }
+        } else if (3 == ract) {
+            ract = rng(1, 4);
+            if (1 == ract) {
+                p->add_msg_if_player(m_neutral, _("You pushed %s."), furname.c_str());
+            } else if (2 == ract) {
+                p->add_msg_if_player(m_neutral, _("You pulled %s."), furname.c_str());
+            } else if (3 == ract) {
+                p->add_msg_if_player(m_neutral, _("You shook %s."), furname.c_str());
+            } else if (4 == ract) {
+                p->add_msg_if_player(m_neutral, _("You yanked %s."), furname.c_str());
+            }
+        }
+
+        //todo: may be needed normal balanced formula
+        if (rng(5, 25) < rng(g->u.int_cur, g->u.int_cur + g->u.per_cur / 2)) {
+
+            point pwall = point(examx, examy);
+
+            if (!one_in(3) && hide_secret_wall(m, &pwall)) {
+                g->sound(pwall.x, pwall.y, 15, _("ground grumbling"));
+
+            } else {
+
+                p->add_msg_if_player(_("Nothing happens."));
+
+            }
+
+        } else {
+
+            if (!one_in(10)) {
+                p->add_msg_if_player(_("Nothing happens."));
+            } else {
+
+                //todo: need more different traps
+
+                for (int i = p->xpos() - 1; i <= p->xpos() + 1; i++)
+                    for (int j = p->ypos() - 1; j <= p->ypos() + 1; j++) {
+                        if (m->move_cost(i, j) != 0 && !m->has_furn(i, j)) {
+                            m->trap_set(i, j, tr_spike_pit);
+                        }
+                    }
+            }
+        }
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2161,7 +2270,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   if( "sign" == function_name ) {
       return &iexamine::sign;
   }
-
+  if ("secret_examine" == function_name) {
+	  return &iexamine::secret_examine;
+  }
   //No match found
   debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
   return &iexamine::none;
