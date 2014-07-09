@@ -545,5 +545,18 @@
         "avoidance" : 99,
         "difficulty" : 99,
         "action" : "snake"
+    },
+    {
+        "type" : "trap",
+        "id": "tr_secret_switch",
+        "identstring" : "SECRET_SWITCH",
+        "name" : "hidden switch",
+        "color" : "white",
+        "symbol" : " ",
+        "visibility" : 10,
+        "avoidance" : 99,
+        "difficulty" : 99,
+        "benign" : true,
+        "action" : "none"
     }
 ]

@@ -3812,7 +3812,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             case 4: sym = '&'; break;
             case 5: sym = '+'; break;
             }
-        } else {
+        } else if( traplist[curr_trap]->sym != ' ' ){
             sym = traplist[curr_trap]->sym;
         }
     }
