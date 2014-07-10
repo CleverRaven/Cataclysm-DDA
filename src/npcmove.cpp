@@ -56,8 +56,7 @@ void npc::move()
                  name.c_str(), target, danger, confident_range(-1));
 
     //faction opinion determines if it should consider you hostile
-    int j;
-    if (my_fac != NULL && my_fac->likes_u < -10 && g->sees_u(posx, posy, j)){
+    if (my_fac != NULL && my_fac->likes_u < -10 && this->sees(g->u.posx, g->u.posy)){
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
             attitude = NPCATT_FLEE; // We don't want to take u on!
         else
@@ -67,7 +66,7 @@ void npc::move()
 
     if (is_enemy()) {
         int pl_danger = player_danger( &(g->u) );
-        if (pl_danger > danger || target == -1) {
+        if ((pl_danger > danger || rl_dist(posx, posy, g->u.posx, g->u.posy) <= 1) || target == -1) {
             target = TARGET_PLAYER;
             danger = pl_danger;
             if (g->debugmon) {
@@ -565,7 +564,8 @@ npc_action npc::method_of_attack(int target, int danger)
                 else {
                     return npc_avoid_friendly_fire;
                 }
-            else if (target == TARGET_PLAYER && !g->sees_u(posx, posy, junk)) {
+
+            else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)){
                 return npc_melee;//Can't see target
             }else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
                      g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
