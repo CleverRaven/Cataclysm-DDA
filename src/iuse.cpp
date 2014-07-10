@@ -7724,24 +7724,21 @@ int iuse::unfold_generic(player *p, item *it, bool)
     }
     g->m.update_vehicle_cache(veh, true);
 
-	std::string unfold_msg = it->item_vars["unfold_msg"];
-	if (unfold_msg.size() == 0)
-	{
-	    unfold_msg = _("You painstakingly unfold the %s and make it ready to ride.");
-	} else
-	{
-	    unfold_msg = _(unfold_msg.c_str());
-	}
-	p->add_msg_if_player(unfold_msg.c_str(), veh->name.c_str());
+    std::string unfold_msg = it->item_vars["unfold_msg"];
+    if (unfold_msg.size() == 0) {
+        unfold_msg = _("You painstakingly unfold the %s and make it ready to ride.");
+    } else {
+        unfold_msg = _(unfold_msg.c_str());
+    }
+    p->add_msg_if_player(unfold_msg.c_str(), veh->name.c_str());
 
-	std::string smoves = it->item_vars["moves"];
-	int moves = 500;
-	if (smoves.size() > 0)
-	{
-	    moves = std::stoi(smoves);
-	}
-	p->moves -= moves;
-	return 1;
+    std::string smoves = it->item_vars["moves"];
+    int moves = 500;
+    if (smoves.size() > 0) {
+        moves = std::stoi(smoves);
+    }
+    p->moves -= moves;
+    return 1;
 }
 
 int iuse::adrenaline_injector(player *p, item *it, bool)

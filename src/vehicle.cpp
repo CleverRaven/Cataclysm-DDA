@@ -2366,7 +2366,9 @@ float vehicle::wheels_area (int *cnt)
         *cnt = count;
     }
 
-    if (all_parts_with_feature("FLOATS").size() > 0) return 13;
+    if (all_parts_with_feature("FLOATS").size() > 0) {
+        return 13;
+    }
 
     return total_area;
 }
@@ -2387,8 +2389,7 @@ float vehicle::k_aerodynamics ()
         obst[o] = 0;
     }
     std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
-    for (size_t i = 0; i < structure_indices.size(); ++i)
-    {
+    for (size_t i = 0; i < structure_indices.size(); ++i) {
         int p = structure_indices[i];
         int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 30 : 10;
         int pos = parts[p].mount_dy + max_obst / 2;
@@ -2447,8 +2448,7 @@ float vehicle::strain ()
 bool vehicle::valid_wheel_config ()
 {
     std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
-    if (!floats.empty())
-    {
+    if( !floats.empty() ) {
         return floats.size() > 2;
     }
 
@@ -2821,15 +2821,12 @@ void vehicle::thrust (int thd) {
 
     bool pl_ctrl = player_in_control( &g->u );
 
-    if( !valid_wheel_config() && velocity == 0 )
-    {
+    if( !valid_wheel_config() && velocity == 0 ) {
         if (pl_ctrl) {
-            {
-                if (all_parts_with_feature(VPFLAG_FLOATS).empty()) {
-                    add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
-                } else {
-                    add_msg(_("The %s is too leaky!"), name.c_str());
-                }
+            if (all_parts_with_feature(VPFLAG_FLOATS).empty()) {
+                add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
+            } else {
+                add_msg(_("The %s is too leaky!"), name.c_str());
             }
         }
         return;
@@ -2877,33 +2874,28 @@ void vehicle::thrust (int thd) {
     noise_and_smoke( load );
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
-    if (thrusting && rng(1, accel) <= vel_inc )
-    {
-        if (total_power () < 1)
-        {
-            if (pl_ctrl)
-            {
-              if (total_power (false) < 1) {
-                  add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-              } else if( has_pedals ) {
-                  add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
-              } else if (has_paddles) {
-                  add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
-              } else if (has_hand_rims) {
-                  add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
-              } else {
-                  add_msg (m_info, _("The %s's engine emits a sneezing sound."), name.c_str());
-              }
+    if (thrusting && rng(1, accel) <= vel_inc ) {
+        if (total_power () < 1) {
+            if (pl_ctrl) {
+                if (total_power (false) < 1) {
+                    add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
+                } else if( has_pedals ) {
+                    add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
+                } else if (has_paddles) {
+                    add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
+                } else if (has_hand_rims) {
+                    add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
+                } else {
+                    add_msg (m_info, _("The %s's engine emits a sneezing sound."), name.c_str());
+                }
             }
             cruise_velocity = 0;
             return;
-        }
-        else if (!engine_on && !has_pedals && !has_hand_rims && !has_paddles) {
+        } else if (!engine_on && !has_pedals && !has_hand_rims && !has_paddles) {
           add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
-		}
-        else if (has_pedals || has_hand_rims || has_paddles) {
+        } else if (has_pedals || has_hand_rims || has_paddles) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -2914,37 +2906,37 @@ void vehicle::thrust (int thd) {
 
         int strn = (int) (strain () * strain() * 100);
 
-        for (int p = 0; p < parts.size(); p++)
-        {
-            if (part_flag(p, VPFLAG_ENGINE))
-            {
-                if(fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn)
-                {
+        for( int p = 0; p < parts.size(); p++ ) {
+            if( part_flag(p, VPFLAG_ENGINE) ) {
+                if( fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
                     int dmg = rng (strn * 2, strn * 4);
                     damage_direct (p, dmg, 0);
-                    if(one_in(2))
+                    if(one_in(2)) {
                      add_msg(_("Your engine emits a high pitched whine."));
-                    else
+                    } else {
                      add_msg(_("Your engine emits a loud grinding sound."));
+                    }
                 }
             }
         }
     }
 
-    if (skidding)
+    if (skidding) {
         return;
+    }
 
     if ((velocity > 0 && velocity + vel_inc < 0) ||
-        (velocity < 0 && velocity + vel_inc > 0))
+        (velocity < 0 && velocity + vel_inc > 0)) {
         stop ();
-    else
-    {
+    } else {
         velocity += vel_inc;
-        if (velocity > max_vel)
+        if (velocity > max_vel) {
             velocity = max_vel;
-        else
-        if (velocity < -max_vel / 4)
-            velocity = -max_vel / 4;
+        } else {
+            if (velocity < -max_vel / 4) {
+                velocity = -max_vel / 4;
+            }
+        }
     }
     if (stereo_on == true && engine_on == true) {
         play_music();
@@ -2953,30 +2945,37 @@ void vehicle::thrust (int thd) {
 
 void vehicle::cruise_thrust (int amount)
 {
-    if (!amount)
+    if (!amount) {
         return;
+    }
     int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
     cruise_velocity += amount;
     cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
-    if (cruise_velocity > max_vel)
+    if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
-    else
-    if (-cruise_velocity > max_vel / 4)
-        cruise_velocity = -max_vel / 4;
+    } else {
+        if (-cruise_velocity > max_vel / 4) {
+            cruise_velocity = -max_vel / 4;
+        }
+    }
 }
 
 void vehicle::turn (int deg)
 {
-    if (deg == 0)
+    if (deg == 0) {
         return;
-    if (velocity < 0)
+    }
+    if (velocity < 0) {
         deg = -deg;
+    }
     last_turn = deg;
     turn_dir += deg;
-    if (turn_dir < 0)
+    if (turn_dir < 0) {
         turn_dir += 360;
-    if (turn_dir >= 360)
+    }
+    if (turn_dir >= 360) {
         turn_dir -= 360;
+    }
 }
 
 void vehicle::stop ()

@@ -1182,7 +1182,8 @@ void veh_interact::display_stats()
     }
     fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
                    _("Safe/Top speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"),
-                   int(veh->safe_velocity(false) * speed_factor), int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
+                   int(veh->safe_velocity(false) * speed_factor),
+                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
     fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
                    _("Acceleration: <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
@@ -1197,26 +1198,23 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status: ")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
-	if (!isBoat){
-		if (conf) {
-			fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-				_("Wheels:    <color_ltgreen>enough</color>"));
-		}
-		else {
-			fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-				_("Wheels:      <color_ltred>lack</color>"));
-		}
-	}
-	else{
-		if (conf){
-			fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-				_("Boat:    <color_blue>can swim</color>"));
-		}
-		else{
-			fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-				_("Boat:  <color_ltred>can't swim</color>"));
-		}
-	}
+    if( !isBoat ) {
+        if( conf ) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:    <color_ltgreen>enough</color>"));
+        }	else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:      <color_ltred>lack</color>"));
+        }
+    }	else{
+        if (conf){
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:    <color_blue>can swim</color>"));
+        }	else{
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:  <color_ltred>can't swim</color>"));
+        }
+    }
 
     // Write the most damaged part
     if (mostDamagedPart != -1) {

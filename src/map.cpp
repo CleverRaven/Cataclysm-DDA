@@ -508,54 +508,53 @@ bool map::vehproceed()
         return true;
     }
 
-	std::vector<int> float_indices = veh->all_parts_with_feature(VPFLAG_FLOATS, false);
-	if (float_indices.empty())
-	{ // sink in water?
-		std::vector<int> wheel_indices = veh->all_parts_with_feature(VPFLAG_WHEEL, false);
-		int num_wheels = wheel_indices.size(), submerged_wheels = 0;
-		for (int w = 0; w < num_wheels; w++) {
-			const int p = wheel_indices[w];
-			const int px = x + veh->parts[p].precalc_dx[0];
-			const int py = y + veh->parts[p].precalc_dy[0];
-			// deep water
-			if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
-				submerged_wheels++;
-			}
-		}
-		// submerged wheels threshold is 2/3.
-		if (num_wheels && (float)submerged_wheels / num_wheels > .666) {
-			add_msg(m_bad, _("Your %s sank."), veh->name.c_str());
-			if (pl_ctrl) {
-				veh->unboard_all();
-			}
-			// destroy vehicle (sank to nowhere)
-			destroy_vehicle(veh);
-			return true;
-		}
-	}
-	else {
+    std::vector<int> float_indices = veh->all_parts_with_feature(VPFLAG_FLOATS, false);
+    if (float_indices.empty()) {
+        // sink in water?
+        std::vector<int> wheel_indices = veh->all_parts_with_feature(VPFLAG_WHEEL, false);
+        int num_wheels = wheel_indices.size(), submerged_wheels = 0;
+        for (int w = 0; w < num_wheels; w++) {
+            const int p = wheel_indices[w];
+            const int px = x + veh->parts[p].precalc_dx[0];
+            const int py = y + veh->parts[p].precalc_dy[0];
+            // deep water
+            if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
+                submerged_wheels++;
+            }
+        }
+        // submerged wheels threshold is 2/3.
+        if (num_wheels && (float)submerged_wheels / num_wheels > .666) {
+            add_msg(m_bad, _("Your %s sank."), veh->name.c_str());
+            if (pl_ctrl) {
+                veh->unboard_all();
+            }
+            // destroy vehicle (sank to nowhere)
+            destroy_vehicle(veh);
+            return true;
+        }
+    } else {
 
-		int num = float_indices.size(), moored = 0;
-		for (int w = 0; w < num; w++) {
-			const int p = float_indices[w];
-			const int px = x + veh->parts[p].precalc_dx[0];
-			const int py = y + veh->parts[p].precalc_dy[0];
-			
-			if (!has_flag("SWIMMABLE", px, py)) {
-				moored++;
-			}
-		}
-		
-		if (moored > num - 1) {
-			veh->stop();
-			veh->of_turn = 0;
+        int num = float_indices.size(), moored = 0;
+        for (int w = 0; w < num; w++) {
+            const int p = float_indices[w];
+            const int px = x + veh->parts[p].precalc_dx[0];
+            const int py = y + veh->parts[p].precalc_dy[0];
 
-			add_msg(m_info, _("Your %s is beached."), veh->name.c_str());
+            if (!has_flag("SWIMMABLE", px, py)) {
+                moored++;
+            }
+        }
 
-			return true;			
-		}
+        if (moored > num - 1) {
+            veh->stop();
+            veh->of_turn = 0;
 
-	}
+            add_msg(m_info, _("Your %s is beached."), veh->name.c_str());
+
+            return true;
+        }
+
+    }
     // One-tile step take some of movement
     //  terrain cost is 1000 on roads.
     // This is stupid btw, it makes veh magically seem

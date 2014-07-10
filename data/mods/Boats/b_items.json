@@ -1,5 +1,4 @@
 [
-
   {
     "id": "inflatable_boat",
     "type": "TOOL",
@@ -21,16 +20,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
-        "type": "unfold_vehicle",
-        "vehicle_name": "inflatable_boat",
-        "tools_needed" : { "hand_pump" : 1 },
-        "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
-        "moves": 15000
+      "type": "unfold_vehicle",
+      "vehicle_name": "inflatable_boat",
+      "tools_needed" : { "hand_pump" : 1 },
+      "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
+      "moves": 15000
     }
-  },
-
-
-  {
+  },{
     "id": "hand_pump",
     "type": "TOOL",
     "symbol": "/",
@@ -52,5 +48,4 @@
     "ammo": "NULL",
     "revert_to": "null"
   }
-
 ]
