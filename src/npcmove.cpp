@@ -1065,6 +1065,12 @@ void npc::move_to(int x, int y)
             posy = y;
             bool diag = trigdist && posx != x && posy != y;
             moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
+            if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
+                trap* tr = traplist[g->m.tr_at(x, y)];
+                if (!this->avoid_trap(tr, x, y)) {
+                    tr->trigger(this, x, y);
+                }
+            }
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;
         } else if (g->m.has_flag("BASHABLE", x, y)) {
