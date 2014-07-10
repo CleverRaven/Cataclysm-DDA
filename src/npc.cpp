@@ -766,6 +766,8 @@ std::list<item> starting_inv(npc *me, npc_class type)
  std::list<item> ret;
  ret.push_back( item("lighter", 0, false) );
  itype_id tmp;
+ item tmpitem;
+
 // First, if we're wielding a gun, get some ammo for it
  if (me->weapon.is_gun()) {
   it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
@@ -795,12 +797,11 @@ std::list<item> starting_inv(npc *me, npc_class type)
  }
 
  while (total_space > 0 && !one_in(stopChance)) {
-    tmp = item_controller->id_from(npc_class_name_str(type)+"_misc");
-    if (tmp == "MISSING_ITEM"){
-        tmp = item_controller->id_from("npc_misc");
-    }
-    if (total_space >= itypes[tmp]->volume) {
-        ret.push_back(item(tmp, 0));
+    tmpitem = item_controller->item_from(npc_class_name_str(type)+"_misc");
+    if (tmpitem.tname() == "none")
+        tmpitem = item_controller->item_from("npc_misc");
+    if (total_space >= tmpitem.volume()) {
+        ret.push_back(tmpitem);
         ret.back() = ret.back().in_its_container();
         total_space -= ret.back().volume();
     }
@@ -925,9 +926,7 @@ Skill* npc::best_skill()
 
 void npc::starting_weapon(npc_class type)
 {
-
-    // TODO add launcher and archery
-    Skill* best = best_skill();//acidia
+    Skill* best = best_skill();
     itype_id sel_weapon = "null";
     if (best->ident() == "bashing"){
         sel_weapon = item_controller->id_from(npc_class_name_str(type)+"_bashing");
@@ -987,7 +986,6 @@ void npc::starting_weapon(npc_class type)
             sel_weapon = item_controller->id_from("npc_weapon_random");
         }
     }
-
     weapon.make(sel_weapon);
 
     if (weapon.is_gun())
