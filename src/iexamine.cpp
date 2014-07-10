@@ -2264,8 +2264,8 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     int pricePerUnit = getPricePerGasUnit(discount);
     std::string unitPriceStr = string_format(str_to_illiterate_str("$%0.2f"), pricePerUnit / 100.0);
 
-	bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
-		(p->has_bionic("bio_fingerhack") && p->power_level > 0)));
+    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
+                     (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
 
     uimenu amenu;
     amenu.selected = 1;
@@ -2281,13 +2281,13 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
     amenu.addentry(0, false, -1, str_to_illiterate_str("Your discount: ") + discountName);
     amenu.addentry(0, false, -1, str_to_illiterate_str("Your price per gasoline unit: ") +
-                   unitPriceStr);    
+                   unitPriceStr);
 
     if (can_hack) {
         amenu.addentry(hack, true, 'h', _("Hack console."));
     }
 
-	amenu.addentry(cancel, true, 'q', str_to_illiterate_str("Cancel"));
+    amenu.addentry(cancel, true, 'q', str_to_illiterate_str("Cancel"));
 
     amenu.query();
     choice = amenu.ret;
@@ -2412,10 +2412,10 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
                 if (toPumpFuel(p, m, pTank, pGasPump, tankGasUnits)) {
                     add_msg(_("You hacked gas terminal and pumped all the fuel in the column!"));
-				}
-				else{
-					add_msg(_("Nothing happens."));
-				}
+                    g->sound(p->posx, p->posy, 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
+                } else {
+                    add_msg(_("Nothing happens."));
+                }
             }
         } else {
             return;
