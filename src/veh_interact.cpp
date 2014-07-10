@@ -399,6 +399,9 @@ task_reason veh_interact::cant_do (char mode)
         return UNKNOWN_TASK;
     }
 
+    if( abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
+        return MOVING_VEHICLE;
+    }
     if( !enough_morale ) {
         return LOW_MORALE;
     }
@@ -446,6 +449,10 @@ void veh_interact::do_install()
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
+    case MOVING_VEHICLE:
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't install parts while driving." ) );
+        wrefresh (w_msg);
+        return;
     default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
@@ -469,9 +476,10 @@ void veh_interact::do_install()
         bool eng = sel_vpart_info->has_flag("ENGINE");
         bool install_pedals = sel_vpart_info->has_flag("PEDALS");
         bool install_hand_rims = sel_vpart_info->has_flag("HAND_RIMS");
+        bool install_paddles = sel_vpart_info->has_flag("PADDLES");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
-        bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims;
-        bool install_muscle_engine = install_pedals || install_hand_rims;
+        bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims || veh->has_paddles;
+        bool install_muscle_engine = install_pedals || install_hand_rims || install_paddles;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
@@ -567,6 +575,10 @@ void veh_interact::do_repair()
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
+    case MOVING_VEHICLE:
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't repair stuff while driving." ) );
+        wrefresh (w_msg);
+        return;
     default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to repair:"));
@@ -624,7 +636,7 @@ void veh_interact::do_refill()
     const task_reason reason = cant_do('f');
     display_mode('f');
     werase (w_msg);
-    //int msg_width = getmaxx(w_msg);
+    int msg_width = getmaxx(w_msg);
 
     switch (reason) {
     case INVALID_TARGET:
@@ -635,6 +647,10 @@ void veh_interact::do_refill()
         mvwprintz(w_msg, 1, 1, c_ltred, _("There is no refillable part here."));
         mvwprintz(w_msg, 2, 1, c_white, _("The part is broken, or you don't have the "
                                           "proper fuel."));
+        wrefresh (w_msg);
+        return;
+    case MOVING_VEHICLE:
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't refill the vehicle while driving." ) );
         wrefresh (w_msg);
         return;
     default: break; // no reason, all is well
@@ -684,8 +700,8 @@ void veh_interact::do_remove()
     display_mode('o');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
-    bool can_hacksaw = has_wrench && has_hacksaw &&
-                       g->u.skillLevel("mechanics") >= 2;
+    bool has_skill = g->u.skillLevel("mechanics") >= 2;
+    bool can_hacksaw = has_wrench && has_hacksaw && has_skill;
     switch (reason) {
     case LOW_MORALE:
         mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
@@ -717,6 +733,10 @@ void veh_interact::do_remove()
         mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
         wrefresh (w_msg);
         return;
+    case MOVING_VEHICLE:
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "Better not remove something will driving." ) );
+        wrefresh (w_msg);
+        return;
     default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
@@ -738,9 +758,10 @@ void veh_interact::do_remove()
                     return;
                 } else {
                     fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> to remove parts."),
+                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw or circular saw (off)</color> and <color_%3$s>level 2</color> mechanics skill to remove parts."),
                                    has_wrench ? "ltgreen" : "red",
-                                   has_hacksaw ? "ltgreen" : "red");
+                                   has_hacksaw ? "ltgreen" : "red",
+                                   has_skill ? "ltgreen" : "red");
                     wrefresh (w_msg);
                     return;
                 }
@@ -783,6 +804,10 @@ void veh_interact::do_siphon()
                        _("You need a <color_red>hose</color> to siphon fuel."));
         wrefresh (w_msg);
         return;
+    case MOVING_VEHICLE:
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't siphon from a moving vehicle." ) );
+        wrefresh (w_msg);
+        return;
     default: break; // no reason, all is well
     }
     sel_cmd = 's';
@@ -809,6 +834,10 @@ void veh_interact::do_tirechange()
                        _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
                        has_wrench ? "ltgreen" : "red",
                        has_jack ? "ltgreen" : "red");
+        wrefresh (w_msg);
+        return;
+    case MOVING_VEHICLE:
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "Who is driving while you work?" ) );
         wrefresh (w_msg);
         return;
     default: break; // no reason, all is well
@@ -859,6 +888,10 @@ void veh_interact::do_drain()
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need a <color_red>hose</color> to siphon water.") );
+        wrefresh (w_msg);
+        return;
+    case MOVING_VEHICLE:
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't siphon from a moving vehicle." ) );
         wrefresh (w_msg);
         return;
     default: break; // no reason, all is well
@@ -1131,7 +1164,12 @@ void veh_interact::display_stats()
             w[i] = stats_w - 1;
         }
     }
-    bool conf = veh->valid_wheel_config();
+
+    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool conf;
+
+    conf = veh->valid_wheel_config();
+
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
     if (speed_units == "km/h") {
@@ -1144,7 +1182,8 @@ void veh_interact::display_stats()
     }
     fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
                    _("Safe/Top speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"),
-                   int(veh->safe_velocity(false) * speed_factor), int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
+                   int(veh->safe_velocity(false) * speed_factor),
+                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
     fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
                    _("Acceleration: <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
@@ -1159,12 +1198,22 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status: ")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
-    if (conf) {
-        fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                       _("Wheels:    <color_ltgreen>enough</color>"));
-    } else {
-        fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                       _("Wheels:      <color_ltred>lack</color>"));
+    if( !isBoat ) {
+        if( conf ) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:    <color_ltgreen>enough</color>"));
+        }	else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:      <color_ltred>lack</color>"));
+        }
+    }	else{
+        if (conf){
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:    <color_blue>can swim</color>"));
+        }	else{
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:  <color_ltred>can't swim</color>"));
+        }
     }
 
     // Write the most damaged part
@@ -1305,11 +1354,11 @@ size_t veh_interact::display_esc(WINDOW *win)
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
  */
-void veh_interact::display_list(int pos, std::vector<vpart_info> list)
+void veh_interact::display_list(size_t pos, std::vector<vpart_info> list)
 {
     werase (w_list);
-    int page = pos / page_size;
-    for (int i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
+    size_t page = pos / page_size;
+    for (size_t i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
         int y = i - page * page_size;
         nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());

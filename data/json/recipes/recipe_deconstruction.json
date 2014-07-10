@@ -1065,6 +1065,143 @@
     ]
   ]
 },{
+    "type" : "recipe",
+    "result": "broken_eyebot",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": 30000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 3 ], [ "toolset", 1 ] ]
+    ], "components": [
+        [ [ "processor", 1 ] ],
+        [ [ "lens", 1 ] ],
+        [ [ "e_scrap", 1 ] ],
+        [ [ "scrap", 1 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "broken_skitterbot",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 60000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 10 ], [ "toolset", 1 ] ]
+    ], "components": [
+        [ [ "power_supply", 1 ] ],
+        [ [ "tazer", 2 ] ],
+        [ [ "e_scrap", 2 ] ],
+        [ [ "scrap", 4 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "broken_copbot",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": 120000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 20 ], [ "toolset", 2 ] ],
+        [ [ "welder", 50 ], [ "toolset", 5 ], [ "welder_crude", 75 ] ]
+    ], "components": [
+        [ [ "power_supply", 4 ] ],
+        [ [ "solar_cell", 2 ] ],
+        [ [ "motor", 1 ] ],
+        [ [ "tazer", 1 ] ],
+        [ [ "e_scrap", 3 ] ],
+        [ [ "steel_chunk", 12 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "broken_molebot",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 180000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "welder", 60 ], [ "toolset", 6 ], [ "welder_crude", 90 ] ]
+    ], "components": [
+        [ [ "power_supply", 4 ] ],
+        [ [ "motor", 1 ] ],
+        [ [ "steel_chunk", 20 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "broken_tripod",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 300000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 10 ], [ "toolset", 1 ] ],
+        [ [ "welder", 100 ], [ "toolset", 10 ], [ "welder_crude", 150 ] ]
+    ], "components": [
+        [ [ "power_supply", 12 ] ],
+        [ [ "processor", 1 ] ],
+        [ [ "RAM", 1 ] ],
+        [ [ "flamethrower", 1 ] ],
+        [ [ "wire", 4 ] ],
+        [ [ "motor", 2 ] ],
+        [ [ "steel_chunk", 60 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "broken_tankbot",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 600000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1},
+        {"id":"WRENCH","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 30 ], [ "toolset", 3 ] ],
+        [ [ "welder", 200 ], [ "toolset", 20 ], [ "welder_crude", 300 ] ]
+    ], "components": [
+        [ [ "flamethrower", 1 ] ],
+        [ [ "tazer", 1 ] ],
+        [ [ "hk_mp5", 1 ] ],
+        [ [ "motor_large", 1 ] ],
+        [ [ "power_supply", 30 ] ],
+        [ [ "plut_cell", 4 ] ],
+        [ [ "processor", 3 ] ],
+        [ [ "RAM", 4 ] ],
+        [ [ "steel_chunk", 20 ] ],
+        [ [ "mil_plate", 2 ] ]
+    ]
+},{
         "type" : "recipe",
   "result": "gold",
   "id_suffix": "uncraft",

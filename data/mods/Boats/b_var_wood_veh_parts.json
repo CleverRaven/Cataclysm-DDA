@@ -1,0 +1,22 @@
+[
+  {
+    "type":"VAR_VEH_PART",
+    "id": "boat_board",
+    "symbol": "o",
+    "color": "brown",
+    "name": "boat board",
+    "name_plural": "boat board",
+    "description": "boat board",
+    "price": 8000,
+    "material": ["wood", "null"],
+    "weight": 3000,
+    "volume": 50,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -1,
+    "min-bigness": 30,
+    "max-bigness": 30,
+    "category": "veh_parts",
+    "bigness-aspect": "WHEEL_DIAMETER"
+  }
+]

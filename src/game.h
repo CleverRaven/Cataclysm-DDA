@@ -127,8 +127,17 @@ class game
         void add_event(event_type type, int on_turn, int faction_id = -1,
                        int x = -1, int y = -1);
         bool event_queued(event_type type);
-        // Sound at (x, y) of intensity (vol), described to the player is (description)
-        bool sound(int x, int y, int vol, std::string description); //returns true if you heard the sound
+        /**
+         * Sound at (x, y) of intensity (vol)
+         * @param description Description of the sound for the player,
+         * if non-empty string a message is generated.
+         * @param ambient If false, the sound interrupts player activities.
+         * If true, activities continue.
+         * @returns true if the player could hear the sound.
+         */
+        bool sound(int x, int y, int vol, std::string description, bool ambient = false);
+        // same as sound(..., true)
+        bool ambient_sound(int x, int y, int vol, std::string description);
         // creates a list of coordinates to draw footsteps
         void add_footstep(int x, int y, int volume, int distance, monster *source);
         std::vector<std::vector<point> > footsteps;
@@ -288,12 +297,12 @@ class game
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
         std::string list_item_downvote;
-        int inv(const std::string &title);
+        int inv(const std::string &title, const int &position = INT_MIN);
         int inv_activatable(std::string title);
         int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
         int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
-        int display_slice(indexed_invslice &, const std::string &);
+        int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
         // Same as other multidrop, only the dropped_worn vector
         // is merged into the result.
@@ -457,9 +466,6 @@ class game
         void write_msg();        // Prints the messages in the messages list
         void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0,
                           int cy = 0); // open vehicle interaction screen
-
-        bool isRemoteControl;  //remote controlled cars etc.
-        bool isActivatedRadioCarPresent();
 
     private:
         // Game-start procedures

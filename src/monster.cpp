@@ -1183,9 +1183,8 @@ void monster::drop_items_on_death()
 
 void monster::process_effects()
 {
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
-        std::string id = it->get_id();
+    for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it ) {
+        std::string id = effect_it->second.get_id();
         if (id == "nasty_poisoned") {
             speed -= rng(3, 5);
             hurt(rng(3, 6));

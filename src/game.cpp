@@ -1337,6 +1337,15 @@ bool game::do_turn()
             u.fatigue++;
         }
     }
+    // auto-learning. This is here because skill-increases happens all over the place:
+    // SkillLevel::readBook (has no connection to the skill or the player),
+    // player::read, player::practice, ...
+    if( u.skillLevel( "unarmed" ) >= 2 ) {
+        if( std::find( u.ma_styles.begin(), u.ma_styles.end(), "style_brawling" ) == u.ma_styles.end() ) {
+            u.ma_styles.push_back( "style_brawling" );
+            add_msg( m_info, _( "You learend a new style." ) );
+        }
+    }
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
@@ -2160,8 +2169,11 @@ bool game::mission_complete(int id, int npc_id)
     break;
 
     case MGOAL_FIND_ITEM:
-        if (!u.has_amount(type->item_id, 1)) {
-            return false;
+        if (!u.has_amount(type->item_id, miss->item_count)) {
+            if (u.has_amount(type->item_id, 1) && u.has_charges(type->item_id, miss->item_count))
+                return true;
+            else
+                return false;
         }
         if (miss->npc_id != -1 && miss->npc_id != npc_id) {
             return false;
@@ -2184,7 +2196,7 @@ bool game::mission_complete(int id, int npc_id)
         return false;
 
     case MGOAL_RECRUIT_NPC: {
-        npc *p = find_npc(miss->recruit_npc_id);
+        npc *p = find_npc(miss->target_npc_id);
         return (p != NULL && p->attitude == NPCATT_FOLLOW);
     }
 
@@ -2203,6 +2215,9 @@ bool game::mission_complete(int id, int npc_id)
 
     case MGOAL_FIND_NPC:
         return (miss->npc_id == npc_id);
+
+    case MGOAL_ASSASSINATE:
+        return (miss->step >= 1);
 
     case MGOAL_KILL_MONSTER:
         return (miss->step >= 1);
@@ -2246,8 +2261,14 @@ void game::wrap_up_mission(int id)
     }
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
-        u.use_amount(miss->type->item_id, 1);
-        break;
+        if (u.has_charges(miss->type->item_id, miss->item_count)){
+            u.use_charges(miss->type->item_id, miss->item_count);
+            break;
+        }
+        else{
+            u.use_amount(miss->type->item_id, miss->item_count);
+            break;
+        }
     case MGOAL_FIND_ANY_ITEM:
         u.remove_mission_items(miss->uid);
         break;
@@ -2286,6 +2307,7 @@ void game::mission_step_complete(int id, int step)
     switch (miss->type->goal) {
     case MGOAL_FIND_ITEM:
     case MGOAL_FIND_MONSTER:
+    case MGOAL_ASSASSINATE:
     case MGOAL_KILL_MONSTER: {
         npc *p = find_npc(miss->npc_id);
         if (p != NULL) {
@@ -2872,57 +2894,44 @@ input_context game::get_player_input(std::string &action)
     return ctxt;
 }
 
-
-bool game::isActivatedRadioCarPresent()
-{
-
-    int MYMAPSIZE = m.getmapsize();
-
-    point pos;
-    for (pos.x = 0; pos.x < SEEX * MYMAPSIZE; pos.x++)
-        for (pos.y = 0; pos.y < SEEY * MYMAPSIZE; pos.y++)
-            for (int i = 0; i < g->m.i_at(pos.x, pos.y).size(); i++) {
-                item &ii = g->m.i_at(pos.x, pos.y)[i];
-                if (ii.type->id == "radio_car_on" && ii.active) {
-                    return true;
-                }
-            }
-
-    return false;
-
-}
-
-
 void game::rcdrive(int dx, int dy)
 {
+    std::stringstream car_location_string( u.get_value( "remote_controlling" ) );
+    if( car_location_string.str() == "" ) {
+        //no turned radio car found
+        u.add_msg_if_player(m_warning, _("No radio car connected."));
+        return;
+    }
+    int cx, cy, cz;
+    car_location_string >> cx >> cy >> cz;
 
-    int MYMAPSIZE = g->m.getmapsize();
-
-    point pos;
-    for( pos.x = 0; pos.x < SEEX * MYMAPSIZE; pos.x++ ) {
-        for( pos.y = 0; pos.y < SEEY * MYMAPSIZE; pos.y++ ) {
-            for( int i = 0; i < g->m.i_at(pos.x, pos.y).size(); i++ ) {
-
-                item &ii = g->m.i_at(pos.x, pos.y)[i];
-                if( ii.type->id == "radio_car_on" && ii.active ) {
-                    if( m.move_cost(pos.x + dx, pos.y + dy) == 0 ||
-                      !m.can_put_items(pos.x + dx, pos.y + dy) || m.has_furn(pos.x + dx, pos.y + dy)) {
-                        sound(pos.x + dx, pos.y + dy, 7, "a collision.");
-                        return;
-                    } else if( m.add_item_or_charges(pos.x + dx, pos.y + dy, ii) ) {
-                        sound(pos.x, pos.y, 6, "zzz...");
-                        u.moves -= 50;
-                        m.i_rem(pos.x, pos.y, &ii);
-                        return;
-                    }
-                }
-            }
+    auto rc_pairs = m.get_rc_items( cx, cy, cz );
+    auto rc_pair = rc_pairs.begin();
+    for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
+        if( rc_pair->second->type->id == "radio_car_on" && rc_pair->second->active ) {
+            break;
         }
     }
+    if( rc_pair == rc_pairs.end() ) {
+        u.add_msg_if_player(m_warning, _("No radio car connected."));
+        u.remove_value( "remote_controlling" );
+        return;
+    }
+    item *rc_car = rc_pair->second;
 
-    //no turned radio car found
-    u.add_msg_if_player(m_warning, _("No radio car connected."));
-    isRemoteControl = false;
+    if( m.move_cost(cx + dx, cy + dy) == 0 || !m.can_put_items(cx + dx, cy + dy) ||
+        m.has_furn(cx + dx, cy + dy) ) {
+        sound(cx + dx, cy + dy, 7, "sound of a collision with an obstacle.");
+        return;
+    } else if( m.add_item_or_charges(cx + dx, cy + dy, *rc_car ) ) {
+        sound(cx, cy, 6, "zzz...");
+        u.moves -= 50;
+        m.i_rem( cx, cy, rc_car );
+        car_location_string.clear();
+        car_location_string << cx + dx << ' ' << cy + dy << ' ' << cz;
+        u.set_value( "remote_controlling", car_location_string.str() );
+        return;
+    }
 }
 
 bool game::handle_action()
@@ -3086,7 +3095,7 @@ bool game::handle_action()
     case ACTION_MOVE_N:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(0, -1);
         } else if (veh_ctrl) {
             pldrive(0, -1);
@@ -3098,7 +3107,7 @@ bool game::handle_action()
     case ACTION_MOVE_NE:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(1, -1);
         } else if (veh_ctrl) {
             pldrive(1, -1);
@@ -3110,7 +3119,7 @@ bool game::handle_action()
     case ACTION_MOVE_E:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(1, 0);
         } else if (veh_ctrl) {
             pldrive(1, 0);
@@ -3122,7 +3131,7 @@ bool game::handle_action()
     case ACTION_MOVE_SE:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(1, 1);
         } else if (veh_ctrl) {
             pldrive(1, 1);
@@ -3134,7 +3143,7 @@ bool game::handle_action()
     case ACTION_MOVE_S:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(0, 1);
         } else if (veh_ctrl) {
             pldrive(0, 1);
@@ -3146,7 +3155,7 @@ bool game::handle_action()
     case ACTION_MOVE_SW:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(-1, 1);
         } else if (veh_ctrl) {
             pldrive(-1, 1);
@@ -3158,7 +3167,7 @@ bool game::handle_action()
     case ACTION_MOVE_W:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(-1, 0);
         } else if (veh_ctrl) {
             pldrive(-1, 0);
@@ -3170,7 +3179,7 @@ bool game::handle_action()
     case ACTION_MOVE_NW:
         moveCount++;
 
-        if (isRemoteControl) {
+        if( u.get_value( "remote_controlling" ) != "" ) {
             rcdrive(-1, -1);
         } else if (veh_ctrl) {
             pldrive(-1, -1);
@@ -3320,8 +3329,9 @@ bool game::handle_action()
 
     case ACTION_INVENTORY: {
         int cMenu = ' ';
+        int position = INT_MIN;
         do {
-            int position = inv(_("Inventory:"));
+            position = inv(_("Inventory:"), position);
             cMenu = inventory_item_menu(position);
         } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
                  cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
@@ -6410,7 +6420,12 @@ void game::monmove()
     cleanup_dead();
 }
 
-bool game::sound(int x, int y, int vol, std::string description)
+bool game::ambient_sound(int x, int y, int vol, std::string description)
+{
+    return sound( x, y, vol, description, true );
+}
+
+bool game::sound(int x, int y, int vol, std::string description, bool ambient)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
@@ -6520,7 +6535,7 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
-    if ((x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist)) {
+    if (!ambient && (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist)) {
         if (u.activity.ignore_trivial != true) {
             std::string query;
             if (description != "") {
@@ -7784,6 +7799,13 @@ void game::smash()
         return;
     }
 
+    if( m.field_at( smashx, smashy ).findField( fd_web ) ) {
+        m.remove_field( smashx, smashy, fd_web );
+        sound( smashx, smashy, 2, "" );
+        add_msg( m_info, _( "You brush aside some webs." ) );
+        u.moves -= 100;
+        return;
+    }
     static const int full_pulp_threshold = 4;
     for (auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it) {
         if (it->type->id == "corpse" && it->damage < full_pulp_threshold) {
@@ -9443,8 +9465,7 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 std::string game::ask_item_filter(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to see"));
@@ -9465,8 +9486,7 @@ std::string game::ask_item_filter(WINDOW *window, int rows)
 std::string game::ask_item_priority_high(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -9485,8 +9505,7 @@ std::string game::ask_item_priority_high(WINDOW *window, int rows)
 std::string game::ask_item_priority_low(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -12238,8 +12257,7 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--safe mode is on! \
-							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 							 (%s to turn it off or %s to ignore monster.)"),
+        add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
@@ -12418,11 +12436,17 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-    if (m.has_flag("SWIMMABLE", x, y) && m.has_flag(TFLAG_DEEP_WATER, x, y)) { // Dive into water!
+	bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
+	bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
+	bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
+	bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
+	bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+	bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+
+	if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
         // Requires confirmation if we were on dry land previously
-        if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
-             m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)) || query_yn(_("Dive into the water?"))) {
-            if (!m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy) && u.swim_speed() < 500) {
+        if ((fromSwimmable && fromDeepWater && !fromBoat) || query_yn(_("Dive into the water?"))) {
+            if ((!fromDeepWater || fromBoat) && u.swim_speed() < 500) {
                 add_msg(_("You start swimming."));
                 add_msg(m_info, "%s to dive underwater.",
                         press_x(ACTION_MOVE_DOWN).c_str());
@@ -14648,21 +14672,18 @@ void intro()
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);
         if (maxy < minHeight && maxx < minWidth) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Whoa! Your terminal is tiny! This game requires a minimum terminal size of \
-													   %dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Whoa! Your terminal is tiny! This game requires a minimum terminal size of "
+                                                       "%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
                            minWidth, minHeight, maxx, maxy);
         } else if (maxx < minWidth) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Oh! Hey, look at that. Your terminal is just a little too narrow. This game \
-													   requires a minimum terminal size of %dx%d to function. It just won't work \
-													   with only %dx%d. Can you stretch it out sideways a bit?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Oh! Hey, look at that. Your terminal is just a little too narrow. This game "
+                                                       "requires a minimum terminal size of %dx%d to function. It just won't work "
+                                                       "with only %dx%d. Can you stretch it out sideways a bit?"),
                            minWidth, minHeight, maxx, maxy);
         } else {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Woah, woah, we're just a little short on space here. The game requires a \
-													   minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you \
-													   make the terminal just a smidgen taller?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Woah, woah, we're just a little short on space here. The game requires a "
+                                                       "minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you "
+                                                       "make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
         wgetch(tmp);

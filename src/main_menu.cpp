@@ -128,6 +128,23 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     }
 }
 
+std::vector<std::string> load_translated_file(const std::string &path, int width, const std::string &alternative_text)
+{
+    std::string text;
+    std::ifstream stream( path.c_str() );
+    std::string line;
+    while( std::getline( stream, line ) ) {
+        text += line;
+        text += "\n";
+    }
+    if( text.empty() ) {
+        text = alternative_text;
+    } else {
+        text = _( text.c_str() );
+    }
+    return foldstring( text, width );
+}
+
 bool game::opening_screen()
 {
     // Play title music, whoo!
@@ -206,43 +223,9 @@ bool game::opening_screen()
     ctxt.register_action("ANY_INPUT");
     bool start = false;
 
-    // Load MOTD and store it in a string
-    // Only load it once, it shouldn't change for the duration of the application being open
-    static std::vector<std::string> motd;
-    if (motd.empty()) {
-        std::ifstream motd_file;
-        motd_file.open(FILENAMES["motd"].c_str());
-        if (!motd_file.is_open()) {
-            motd.push_back(_("No message today."));
-        } else {
-            while (!motd_file.eof()) {
-                std::string tmp;
-                getline(motd_file, tmp);
-                if (!tmp.length() || tmp[0] != '#') {
-                    motd.push_back(tmp);
-                }
-            }
-        }
-    }
-
-    // Load Credits and store it in a string
-    // Only load it once, it shouldn't change for the duration of the application being open
-    static std::vector<std::string> credits;
-    if (credits.empty()) {
-        std::ifstream credits_file;
-        credits_file.open(FILENAMES["credits"].c_str());
-        if (!credits_file.is_open()) {
-            credits.push_back(_("No message today."));
-        } else {
-            while (!credits_file.eof()) {
-                std::string tmp;
-                getline(credits_file, tmp);
-                if (!tmp.length() || tmp[0] != '#') {
-                    credits.push_back(tmp);
-                }
-            }
-        }
-    }
+    // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
+    static std::vector<std::string> motd = load_translated_file( FILENAMES["motd"], 68, _( "No message today." ) );
+    static std::vector<std::string> credits = load_translated_file( FILENAMES["credits"], 68, _( "No message today." ) );
 
     u = player();
 

@@ -299,7 +299,8 @@ void Pickup::pick_up(int posx, int posy, int min)
             handle_quiver_insertion(newit, true, moves_taken, picked_up);
         } else if (!g->u.is_armed() &&
                    (g->u.volume_carried() + newit.volume() > g->u.volume_capacity() - 2 ||
-                    newit.is_weap() || newit.is_gun())) {
+                    g->u.is_suitable_weapon(newit))) {
+            g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
             g->u.weapon = newit;
             picked_up = true;
             add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
@@ -388,7 +389,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                     //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                     if (OPTIONS["AUTO_PICKUP_ZERO"]) {
                         if (here[i].volume() == 0 &&
-                            here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50) {
+                            here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
+                            checkExcludeRules(here[i].tname())) {
                             bPickup = true;
                         }
                     }
@@ -723,6 +725,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 } else {
                     g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                     g->u.wield(&(g->u.i_add(here[i])));
+                    add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet, g->u.weapon.display_name().c_str());
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
@@ -732,8 +735,10 @@ void Pickup::pick_up(int posx, int posy, int min)
                 handle_quiver_insertion(here[i], true, moves_taken, picked_up);
             } else if (!g->u.is_armed() &&
                        (g->u.volume_carried() + here[i].volume() > g->u.volume_capacity() - 2 ||
-                        here[i].is_weap() || here[i].is_gun())) {
+                        g->u.is_suitable_weapon(here[i]))) {
+                g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                 g->u.weapon = here[i];
+                add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet, g->u.weapon.display_name().c_str());
                 picked_up = true;
             } else {
                 g->u.i_add(here[i]);

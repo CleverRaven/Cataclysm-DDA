@@ -37,8 +37,8 @@ void profession::load_profession(JsonObject &jsobj)
     //If the "name" is an object then we have to deal with gender-specific titles,
     if(jsobj.has_object("name")) {
         JsonObject name_obj=jsobj.get_object("name");
-        prof._name_male = _(name_obj.get_string("male").c_str());
-        prof._name_female = _(name_obj.get_string("female").c_str());
+        prof._name_male = pgettext("profession_male", name_obj.get_string("male").c_str());
+        prof._name_female = pgettext("profession_female", name_obj.get_string("female").c_str());
     }
     else {
         // Same profession names for male and female in English.

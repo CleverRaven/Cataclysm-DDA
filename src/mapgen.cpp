@@ -10894,17 +10894,13 @@ void map::place_vending(int x, int y, std::string type)
     place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
-void map::place_npc(int x, int y, std::string type)
+int map::place_npc(int x, int y, std::string type)
 {
     if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
-        return; //Do not generate an npc.
+        return -1; //Do not generate an npc.
     }
-    //const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
-    //const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
     real_coords rc;
     rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
-    //debugmsg("place_npc: success? om_terrain = '%s' (%s) (%d:%d:%d) (%d:%d)",
-    //             oid.t().id.c_str(), oid.t().id_mapgen.c_str(),rc.om_sub.x/2,rc.om_sub.y/2,get_abs_sub().z, x,y );
     //Old Guard NPCs, fac_id 1
     if (type == "old_guard_rep"){
         npc *temp = new npc();
@@ -10920,7 +10916,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 1;
         temp->my_fac = g->faction_by_id(1);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     //Free Merchant NPCs, fac_id 2
     if (type == "evac_merchant"){
@@ -10936,8 +10932,28 @@ void map::place_npc(int x, int y, std::string type)
         temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
+        int mission_index = g->reserve_mission(MISSION_FREE_MERCHANTS_EVAC_1, temp->getID());
+        if (mission_index != -1)
+            temp->chatbin.missions.push_back(mission_index);
         g->load_npcs();
-        return;
+        return temp->getID();
+        }
+    if (type == "evac_broker"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Broker";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_FREE_MERCHANT_STOCKS;
+        temp->personality.aggression -= 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
         }
     if (type == "evac_guard1"){
         npc *temp = new npc();
@@ -10954,7 +10970,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "evac_guard2"){
         npc *temp = new npc();
@@ -10971,7 +10987,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "guard"){
         npc *temp = new npc();
@@ -10988,7 +11004,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "hostile_guard"){
         npc *temp = new npc();
@@ -11005,7 +11021,7 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 2;
         temp->my_fac = g->faction_by_id(2);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     //Wasteland Scavengers NPCs, fac_id 3
     if (type == "scavenger_merc"){
@@ -11022,23 +11038,24 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 3;
         temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     if (type == "arsonist"){
         npc *temp = new npc();
         temp->normalize();
         temp->randomize(NC_ARSONIST);
-        temp->name += ", Arsonist";
+        temp->name = "Makayla Sanchez, Arsonist";
         temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
         temp->posx = x;
         temp->posy = y;
+        temp->male = false;
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_SHOPKEEP;
         temp->chatbin.first_topic = TALK_ARSONIST;
         temp->fac_id = 3;
         temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     //Hell's Raiders NPCs, fac_id 4
     if (type == "bandit"){
@@ -11056,9 +11073,10 @@ void map::place_npc(int x, int y, std::string type)
         temp->fac_id = 4;
         temp->my_fac = g->faction_by_id(4);
         g->load_npcs();
-        return;
+        return temp->getID();
         }
     debugmsg("place_npc: did not recognize npc class");
+    return -1;
 }
 
 // A chance of 100 indicates that items should always spawn,
@@ -13155,8 +13173,9 @@ void map::add_extra(map_extra type)
                 item_group = "mil_rifles";
                 break;
             }
-            for(int i = 0; i < 140 && i_at(x, y).size() < 2; i++) {
-                place_items(item_group, 80, x, y, x, y, true, 0);
+            int items_created = 0;
+            for(int i = 0; i < 10 && items_created < 2; i++) {
+                items_created += place_items(item_group, 80, x, y, x, y, true, 0);
             }
             if (i_at(x, y).empty()) {
                 destroy(x, y, false);

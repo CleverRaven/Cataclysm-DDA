@@ -2129,7 +2129,7 @@
         "type": "profession",
         "ident": "archaeologist",
         "name": "Archaeologist",
-        "description": "While on your way to a long-lost temple following a clue from your dead grandfather\'s journal, the ground started to shake uncontrollably. Getting a bad feeling about the situation, you head to the nearest shelter.",
+        "description": "While on your way to a long-lost temple following a clue from your dead grandfather's journal, the ground started to shake uncontrollably. Getting a bad feeling about the situation, you head to the nearest shelter.",
         "points": 5,
 		"skills": [
             {
@@ -2183,6 +2183,8 @@
                 "seed_blueberries",
                 "seed_strawberries",
                 "seed_wheat",
+                "seed_hops",
+                "seed_barley",
                 "seed_sugar_beet",
                 "seed_tomato"
             ],
@@ -2194,35 +2196,5 @@
                 "panties"
             ]
         }
-    },
-    
-    {
-      "type": "profession",
-      "ident": "patriot",
-      "name": "Patriot",
-      "description": "It's Independence Day, and you're fully prepared to celebrate the end of the world in style.",
-      "points": 0,
-      "items": {
-           "both": [
-           "jeans",
-           "flag_shirt",
-           "backpack",
-           "sneakers",
-           "firecracker_pack",
-           "firecracker_pack",
-           "firecracker_pack",
-           "firecracker_pack",
-           "firecracker_pack",
-           "american_flag",
-           "ref_lighter"
-           ],
-           "male": [
-                "boxer_shorts"
-            ],
-            "female": [
-                "bra",
-                "boy_shorts"
-            ]
-      }
- }
+    }
 ]

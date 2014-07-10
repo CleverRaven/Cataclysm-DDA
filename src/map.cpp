@@ -508,7 +508,9 @@ bool map::vehproceed()
         return true;
     }
 
-    { // sink in water?
+    std::vector<int> float_indices = veh->all_parts_with_feature(VPFLAG_FLOATS, false);
+    if (float_indices.empty()) {
+        // sink in water?
         std::vector<int> wheel_indices = veh->all_parts_with_feature(VPFLAG_WHEEL, false);
         int num_wheels = wheel_indices.size(), submerged_wheels = 0;
         for (int w = 0; w < num_wheels; w++) {
@@ -516,20 +518,42 @@ bool map::vehproceed()
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
             // deep water
-            if(ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
+            if (ter_at(px, py).has_flag(TFLAG_DEEP_WATER)) {
                 submerged_wheels++;
             }
         }
         // submerged wheels threshold is 2/3.
-        if (num_wheels &&  (float)submerged_wheels / num_wheels > .666) {
+        if (num_wheels && (float)submerged_wheels / num_wheels > .666) {
             add_msg(m_bad, _("Your %s sank."), veh->name.c_str());
             if (pl_ctrl) {
-                veh->unboard_all ();
+                veh->unboard_all();
             }
             // destroy vehicle (sank to nowhere)
             destroy_vehicle(veh);
             return true;
         }
+    } else {
+
+        int num = float_indices.size(), moored = 0;
+        for (int w = 0; w < num; w++) {
+            const int p = float_indices[w];
+            const int px = x + veh->parts[p].precalc_dx[0];
+            const int py = y + veh->parts[p].precalc_dy[0];
+
+            if (!has_flag("SWIMMABLE", px, py)) {
+                moored++;
+            }
+        }
+
+        if (moored > num - 1) {
+            veh->stop();
+            veh->of_turn = 0;
+
+            add_msg(m_info, _("Your %s is beached."), veh->name.c_str());
+
+            return true;
+        }
+
     }
     // One-tile step take some of movement
     //  terrain cost is 1000 on roads.
@@ -2375,7 +2399,7 @@ void map::set_temperature(const int x, const int y, int new_temperature)
     temperature(x + SEEX, y + SEEY) = new_temperature;
 }
 
-std::vector<item>& map::i_at(const int x, const int y)
+std::vector<item> &map::i_at(const int x, const int y)
 {
  if (!INBOUNDS(x, y)) {
   nulitems.clear();
@@ -2923,18 +2947,15 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
 
 /**
  * Processes a single active item.
- * @param g A pointer to the current game.
  * @param it A pointer to the item we're processing.
  * @param nonant The current submap nonant.
  * @param i The x-coordinate inside the submap.
  * @param j The y-coordinate inside the submap.
  * @return true If the item needs to be removed.
  */
-bool map::process_active_item(item *it, submap * const current_submap, const int gridx, const int gridy, const int i, const int j) {
-    if (it->active ||
-        (it->is_container() && !it->contents.empty() &&
-         it->contents[0].active))
-    {
+bool map::process_active_item(item *it, submap *const current_submap,
+                              const int gridx, const int gridy, const int i, const int j) {
+    if (it->active || (it->is_container() && !it->contents.empty() && it->contents[0].active)) {
         it->calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
         if (it->is_food()) { // food items
             if (it->has_flag("HOT")) {
@@ -3273,6 +3294,34 @@ std::list<item> map::use_charges(const point origin, const int range,
         }
     }
     return ret;
+}
+
+std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
+{
+    std::list<std::pair<tripoint, item *> > rc_pairs;
+    tripoint pos;
+    (void)z;
+    pos.z = abs_sub.z;
+    for( pos.x = 0; pos.x < SEEX * MAPSIZE; pos.x++ ) {
+        if( x != -1 && x != pos.x ) {
+            continue;
+        }
+        for( pos.y = 0; pos.y < SEEY * MAPSIZE; pos.y++ ) {
+            if( y != -1 && y != pos.y ) {
+                continue;
+            }
+            std::vector<item> &item_stack = i_at( pos.x, pos.y );
+            for( auto item_ref = item_stack.begin(); item_ref != item_stack.end(); ++item_ref ) {
+                if( ( item_ref->has_flag("RADIO_ACTIVATION") ||
+                      item_ref->has_flag("RADIO_CONTAINER") ) &&
+                    item_ref->active ) {
+                    rc_pairs.push_back( std::make_pair( pos, &(*item_ref) ) );
+                }
+            }
+        }
+    }
+
+    return rc_pairs;
 }
 
 std::string map::trap_get(const int x, const int y) const {
