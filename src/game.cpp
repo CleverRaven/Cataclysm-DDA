@@ -12399,11 +12399,17 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-    if (m.has_flag("SWIMMABLE", x, y) && m.has_flag(TFLAG_DEEP_WATER, x, y)) { // Dive into water!
+	bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
+	bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
+	bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
+	bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
+	bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+	bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+
+	if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
         // Requires confirmation if we were on dry land previously
-        if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
-             m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)) || query_yn(_("Dive into the water?"))) {
-            if (!m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy) && u.swim_speed() < 500) {
+        if ((fromSwimmable && fromDeepWater && !fromBoat) || query_yn(_("Dive into the water?"))) {
+            if ((!fromDeepWater || fromBoat) && u.swim_speed() < 500) {
                 add_msg(_("You start swimming."));
                 add_msg(m_info, "%s to dive underwater.",
                         press_x(ACTION_MOVE_DOWN).c_str());
