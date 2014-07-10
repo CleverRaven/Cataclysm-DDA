@@ -400,8 +400,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
 
     if (waterIndex < 0) {
         add_msg(m_info, _("This toilet is empty."));
-    }
-    else {
+    } else {
         bool drained = false;
 
         item& water = items[waterIndex];
@@ -431,8 +430,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
                 if (water.charges <= 0) {
                     drained = true;
                 }
-            }
-            else {
+            } else {
                 p->inv.remove_item(p->inv.position_by_type(water_temp.typeId()));
             }
         }
@@ -2107,16 +2105,29 @@ int findBestGasDiscount(player *p)
     return discount;
 }
 
+std::string str_to_illiterate_str(std::string s)
+{
+	if (!g->u.has_trait("ILLITERATE")) {
+		return _(s.c_str());
+	}
+	else {
+		for (int i = 0; i < s.size(); i++) {
+			s[i] = s[i] + rng(0, 5) - rng(0, 5);
+		}
+		return s;
+	}
+}
+
 std::string getGasDiscountName(int discount)
 {
     if (discount == 3) {
-        return _("Platinum member");
+		return str_to_illiterate_str("Platinum member");
     } else if (discount == 2) {
-        return _("Gold member");
+		return str_to_illiterate_str("Gold member");
     } else if (discount == 1) {
-        return _("Silver member");
+		return str_to_illiterate_str("Silver member");
     } else {
-        return _("Beloved customer");
+		return str_to_illiterate_str("Beloved customer");
     }
 }
 
@@ -2217,22 +2228,27 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     const int buy_gas = 1;
     const int choose_pump = 2;
     const int cancel = 3;
+	
+	if (p->has_trait("ILLITERATE"))
+	{
+	    popup(_("You're illiterate, what is happening on the screen for you big mystery."));
+	}
 
     int pumpCount = getNearPumpCount(m, examx, examy);
     if (pumpCount == 0) {
-        popup(_("Failure! No gas pumps found!"));
+		popup(str_to_illiterate_str("Failure! No gas pumps found!").c_str());
         return;
     }
 
     long tankGasUnits;
     point pTank = getNearFilledGasTank(m, examx, examy, tankGasUnits);
     if (pTank.x == -999) {
-        popup(_("Failure! No gas tank found!"));
+		popup(str_to_illiterate_str("Failure! No gas tank found!").c_str());
         return;
     }
 
     if (tankGasUnits == 0) {
-        popup(_("Sorry, gas tank empty, come back later."));
+		popup(str_to_illiterate_str("Sorry, gas tank empty, come back later.").c_str());
         return;
     }
 
@@ -2246,36 +2262,36 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     std::string discountName = getGasDiscountName(discount);
 
     int pricePerUnit = getPricePerGasUnit(discount);
-	std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
+	std::string unitPriceStr = string_format(str_to_illiterate_str("$%0.2f"), pricePerUnit / 100.0);
 
     uimenu amenu;
     amenu.selected = 1;
-    amenu.text = _("Welcome to automated gas station console!");
-    amenu.addentry(0, false, -1, _("What would you like to do?"));
+	amenu.text = str_to_illiterate_str("Welcome to automated gas station console!");
+	amenu.addentry(0, false, -1, str_to_illiterate_str("What would you like to do?"));
 
-    amenu.addentry(buy_gas, true, 'b', _("Buy gas."));
+	amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str("Buy gas."));
 
-    std::string gaspumpselected = _("Current gas pump: ") + std::to_string(
+	std::string gaspumpselected = str_to_illiterate_str("Current gas pump: ") + std::to_string(
                                       uistate.ags_pay_gas_selected_pump + 1);
     amenu.addentry(0, false, -1, gaspumpselected);
-    amenu.addentry(choose_pump, true, 'p', _("Choose a gas pump."));
+	amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str("Choose a gas pump."));
 
-    amenu.addentry(0, false, -1, _("Your discount: ") + discountName);
-    amenu.addentry(0, false, -1, _("Your price per gasoline unit: ") + unitPriceStr);
+	amenu.addentry(0, false, -1, str_to_illiterate_str("Your discount: ") + discountName);
+	amenu.addentry(0, false, -1, str_to_illiterate_str("Your price per gasoline unit: ") + unitPriceStr);
 
-    amenu.addentry(cancel, true, 'q', _("Cancel"));
+	amenu.addentry(cancel, true, 'q', str_to_illiterate_str("Cancel"));
     amenu.query();
     choice = amenu.ret;
 
     if (choose_pump == choice) {
         uimenu amenu;
         amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
-        amenu.text = _("Please choose gas pump:");
+		amenu.text = str_to_illiterate_str("Please choose gas pump:");
 
-        amenu.addentry(0, true, 'q', _("Cancel"));
+		amenu.addentry(0, true, 'q', str_to_illiterate_str("Cancel"));
 
         for (int i = 0; i < pumpCount; i++) {
-            amenu.addentry(i + 1, true, -1, _("Pump ¹") + std::to_string(i + 1));
+			amenu.addentry(i + 1, true, -1, str_to_illiterate_str("Pump ¹") + std::to_string(i + 1));
         }
         amenu.query();
         choice = amenu.ret;
@@ -2309,7 +2325,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
             return;
         }
         if (cashcard->charges < pricePerUnit) {
-            popup(_("Not enough money, please refill your cash card.")); //or ride on a solar car, ha ha ha
+			popup(str_to_illiterate_str("Not enough money, please refill your cash card.").c_str()); //or ride on a solar car, ha ha ha
             return;
         }
 
