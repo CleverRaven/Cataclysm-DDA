@@ -2227,28 +2227,28 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     int choice = -1;
     const int buy_gas = 1;
     const int choose_pump = 2;
-    const int cancel = 3;
-	
-	if (p->has_trait("ILLITERATE"))
-	{
-	    popup(_("You're illiterate, what is happening on the screen for you big mystery."));
-	}
+    const int hack = 3;
+    const int cancel = 4;
+
+    if (p->has_trait("ILLITERATE")) {
+        popup(_("You're illiterate, what is happening on the screen for you big mystery."));
+    }
 
     int pumpCount = getNearPumpCount(m, examx, examy);
     if (pumpCount == 0) {
-		popup(str_to_illiterate_str("Failure! No gas pumps found!").c_str());
+        popup(str_to_illiterate_str("Failure! No gas pumps found!").c_str());
         return;
     }
 
     long tankGasUnits;
     point pTank = getNearFilledGasTank(m, examx, examy, tankGasUnits);
     if (pTank.x == -999) {
-		popup(str_to_illiterate_str("Failure! No gas tank found!").c_str());
+        popup(str_to_illiterate_str("Failure! No gas tank found!").c_str());
         return;
     }
 
     if (tankGasUnits == 0) {
-		popup(str_to_illiterate_str("Sorry, gas tank empty, come back later.").c_str());
+        popup(str_to_illiterate_str("Sorry, gas tank empty, come back later.").c_str());
         return;
     }
 
@@ -2262,36 +2262,45 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     std::string discountName = getGasDiscountName(discount);
 
     int pricePerUnit = getPricePerGasUnit(discount);
-	std::string unitPriceStr = string_format(str_to_illiterate_str("$%0.2f"), pricePerUnit / 100.0);
+    std::string unitPriceStr = string_format(str_to_illiterate_str("$%0.2f"), pricePerUnit / 100.0);
+
+	bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
+		(p->has_bionic("bio_fingerhack") && p->power_level > 0)));
 
     uimenu amenu;
     amenu.selected = 1;
-	amenu.text = str_to_illiterate_str("Welcome to automated gas station console!");
-	amenu.addentry(0, false, -1, str_to_illiterate_str("What would you like to do?"));
+    amenu.text = str_to_illiterate_str("Welcome to automated gas station console!");
+    amenu.addentry(0, false, -1, str_to_illiterate_str("What would you like to do?"));
 
-	amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str("Buy gas."));
+    amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str("Buy gas."));
 
-	std::string gaspumpselected = str_to_illiterate_str("Current gas pump: ") + std::to_string(
+    std::string gaspumpselected = str_to_illiterate_str("Current gas pump: ") + std::to_string(
                                       uistate.ags_pay_gas_selected_pump + 1);
     amenu.addentry(0, false, -1, gaspumpselected);
-	amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str("Choose a gas pump."));
+    amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str("Choose a gas pump."));
 
-	amenu.addentry(0, false, -1, str_to_illiterate_str("Your discount: ") + discountName);
-	amenu.addentry(0, false, -1, str_to_illiterate_str("Your price per gasoline unit: ") + unitPriceStr);
+    amenu.addentry(0, false, -1, str_to_illiterate_str("Your discount: ") + discountName);
+    amenu.addentry(0, false, -1, str_to_illiterate_str("Your price per gasoline unit: ") +
+                   unitPriceStr);    
+
+    if (can_hack) {
+        amenu.addentry(hack, true, 'h', _("Hack console."));
+    }
 
 	amenu.addentry(cancel, true, 'q', str_to_illiterate_str("Cancel"));
+
     amenu.query();
     choice = amenu.ret;
 
     if (choose_pump == choice) {
         uimenu amenu;
         amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
-		amenu.text = str_to_illiterate_str("Please choose gas pump:");
+        amenu.text = str_to_illiterate_str("Please choose gas pump:");
 
-		amenu.addentry(0, true, 'q', str_to_illiterate_str("Cancel"));
+        amenu.addentry(0, true, 'q', str_to_illiterate_str("Cancel"));
 
         for (int i = 0; i < pumpCount; i++) {
-			amenu.addentry(i + 1, true, -1, str_to_illiterate_str("Pump ¹") + std::to_string(i + 1));
+            amenu.addentry(i + 1, true, -1, str_to_illiterate_str("Pump ¹") + std::to_string(i + 1));
         }
         amenu.query();
         choice = amenu.ret;
@@ -2325,7 +2334,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
             return;
         }
         if (cashcard->charges < pricePerUnit) {
-			popup(str_to_illiterate_str("Not enough money, please refill your cash card.").c_str()); //or ride on a solar car, ha ha ha
+            popup(str_to_illiterate_str("Not enough money, please refill your cash card.").c_str()); //or ride on a solar car, ha ha ha
             return;
         }
 
@@ -2360,6 +2369,59 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
         p->moves -= 100;
         return;
     }
+
+    if (hack == choice) {
+        bool using_electrohack = (p->has_amount("electrohack", 1) &&
+                                  query_yn(_("Use electrohack on the terminal?")));
+        bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
+                                 p->power_level > 0 &&
+                                 query_yn(_("Use fingerhack on the reader?")));
+        if (using_electrohack || using_fingerhack) {
+            p->moves -= 500;
+            p->practice("computer", 20);
+            int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+            success += rng(-3, 3);
+            if (using_fingerhack) {
+                success++;
+            }
+            if (p->int_cur < 8) {
+                success -= rng(0, int((8 - p->int_cur) / 2));
+            } else if (p->int_cur > 8) {
+                success += rng(0, int((p->int_cur - 8) / 2));
+            }
+            if (success < 0) {
+                add_msg(_("You cause a short circuit!"));
+                if (success <= -5) {
+                    if (using_electrohack) {
+                        add_msg(m_bad, _("Your electrohack is ruined!"));
+                        p->use_amount("electrohack", 1);
+                    } else {
+                        add_msg(m_bad, _("Your power is drained!"));
+                        p->charge_power(0 - rng(0, p->power_level));
+                    }
+                }
+                g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                                      pgettext("memorial_female", "Set off an alarm."));
+                g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
+                if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
+                    g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+                }
+            } else if (success < 6) {
+                add_msg(_("Nothing happens."));
+            } else {
+                point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
+                if (toPumpFuel(p, m, pTank, pGasPump, tankGasUnits)) {
+                    add_msg(_("You hacked gas terminal and pumped all the fuel in the column!"));
+				}
+				else{
+					add_msg(_("Nothing happens."));
+				}
+            }
+        } else {
+            return;
+        }
+    }
+
 }
 
 /**
