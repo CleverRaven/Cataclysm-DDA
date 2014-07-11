@@ -2270,7 +2270,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
         for (int i = 0; i < pumpCount; i++) {
             amenu.addentry( i + 1, true, -1,
-                            str_to_illiterate_str("Pump ¹") + helper::to_string_int(i + 1) );
+                            str_to_illiterate_str("Pump ") + helper::to_string_int(i + 1) );
         }
         amenu.query();
         choice = amenu.ret;
