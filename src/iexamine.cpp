@@ -1999,6 +1999,414 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     }
 }
 
+int getNearPumpCount(map *m, int x, int y)
+{
+#define radius 12
+
+    int result = 0;
+
+    for (int i = x - radius; i <= x + radius; i++)
+        for (int j = y - radius; j <= y + radius; j++)
+            if (m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") {
+                result++;
+            }
+
+
+    return result;
+}
+
+point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
+{
+#define radius 24
+
+    point p = point(-999, -999);
+    gas_units = 0;
+
+    for (int i = x - radius; i <= x + radius; i++)
+        for (int j = y - radius; j <= y + radius; j++)
+            if (m->ter_at(i, j).id == "t_gas_tank") {
+
+                double dfound = sqrt(pow((x - i), 2) + pow((y - j), 2));
+                double dsaved = sqrt(pow((x - p.x), 2) + pow((y - p.y), 2));
+
+                if (dfound < dsaved) {
+
+                    p = point(i, j);
+                    gas_units = 0;
+
+                    for (int k = 0; k < m->i_at(i, j).size(); k++)
+                        if (m->i_at(i, j)[k].made_of(LIQUID)) {
+                            item *liq = &(m->i_at(i, j)[k]);
+
+                            long count = dynamic_cast<it_ammo *>(liq->type)->count;
+                            long units = liq->charges / count;
+
+                            gas_units = units;
+
+                        }
+                }
+            }
+
+    return p;
+}
+
+int getGasDiscountCardQuality(item it)
+{
+
+    std::set<std::string> tags = it.type->item_tags;
+
+    for (std::set<std::string>::iterator it = tags.begin();
+         it != tags.end(); ++it) {
+        std::string tag = (*it);
+
+        if (tag.size() > 15 && tag.substr(0, 15) == "DISCOUNT_VALUE_") {
+            return atoi(tag.substr(15).c_str());
+        }
+    }
+
+    return 0;
+
+}
+
+int findBestGasDiscount(player *p)
+{
+
+    int discount = 0;
+
+    for (int i = 0; i < p->inv.size(); i++) {
+        item &it = p->inv.find_item(i);
+
+        if (it.has_flag("GAS_DISCOUNT")) {
+
+            int q = getGasDiscountCardQuality(it);
+            if (q > discount) {
+                discount = q;
+            }
+        }
+    }
+
+    return discount;
+}
+
+std::string str_to_illiterate_str(std::string s)
+{
+	if (!g->u.has_trait("ILLITERATE")) {
+		return _(s.c_str());
+	}
+	else {
+		for (int i = 0; i < s.size(); i++) {
+			s[i] = s[i] + rng(0, 5) - rng(0, 5);
+		}
+		return s;
+	}
+}
+
+std::string getGasDiscountName(int discount)
+{
+    if (discount == 3) {
+		return str_to_illiterate_str("Platinum member");
+    } else if (discount == 2) {
+		return str_to_illiterate_str("Gold member");
+    } else if (discount == 1) {
+		return str_to_illiterate_str("Silver member");
+    } else {
+		return str_to_illiterate_str("Beloved customer");
+    }
+}
+
+int getPricePerGasUnit(int discount)
+{
+    if (discount == 3) {
+        return 250;
+    } else if (discount == 2) {
+        return 300;
+    } else if (discount == 1) {
+        return 330;
+    } else {
+        return 350;
+    }
+}
+
+point getGasPumpByNumber(map *m, int x, int y, int number)
+{
+
+#define radius 12
+
+    int k = 0;
+
+    for (int i = x - radius; i <= x + radius; i++)
+        for (int j = y - radius; j <= y + radius; j++)
+            if ((m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") && number == k++) {
+                return point(i, j);
+            }
+
+    return point(-999, -999);
+
+}
+
+bool toPumpFuel(player *p, map *m, point src, point dst, long units)
+{
+
+    if (src.x == -999) {
+        return false;
+    }
+    if (dst.x == -999) {
+        return false;
+    }
+
+    for (int i = 0; i < m->i_at(src.x, src.y).size(); i++)
+        if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
+
+            item *liq = &(m->i_at(src.x, src.y)[i]);
+
+            long count = dynamic_cast<it_ammo *>(liq->type)->count;
+
+            if (liq->charges < count * units) {
+                return false;
+            }
+
+            liq->charges -= count * units;
+
+            item liq_d(liq->type->id, calendar::turn);
+            liq_d.charges = count * units;
+
+            ter_t backup_pump = m->ter_at(dst.x, dst.y);
+            m->ter_set(dst.x, dst.y, "t_null");
+            m->add_item_or_charges(dst.x, dst.y, liq_d);
+            m->ter_set(dst.x, dst.y, backup_pump.id);
+
+            if (liq->charges < 1) {
+                m->i_at(src.x, src.y).erase(m->i_at(src.x, src.y).begin() + i);
+            }
+
+            return true;
+        }
+
+    return false;
+}
+
+void turnOnSelectedPump(map *m, int x, int y, int number)
+{
+
+#define radius 12
+
+    int k = 0;
+
+    for (int i = x - radius; i <= x + radius; i++)
+        for (int j = y - radius; j <= y + radius; j++)
+            if ((m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") ) {
+
+                if (number == k++) {
+                    m->ter_set(i, j, "t_gas_pump_a");
+                } else {
+                    m->ter_set(i, j, "t_gas_pump");
+                }
+            }
+}
+
+void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
+{
+
+    int choice = -1;
+    const int buy_gas = 1;
+    const int choose_pump = 2;
+    const int hack = 3;
+    const int cancel = 4;
+
+    if (p->has_trait("ILLITERATE")) {
+        popup(_("You're illiterate, what is happening on the screen for you big mystery."));
+    }
+
+    int pumpCount = getNearPumpCount(m, examx, examy);
+    if (pumpCount == 0) {
+        popup(str_to_illiterate_str("Failure! No gas pumps found!").c_str());
+        return;
+    }
+
+    long tankGasUnits;
+    point pTank = getNearFilledGasTank(m, examx, examy, tankGasUnits);
+    if (pTank.x == -999) {
+        popup(str_to_illiterate_str("Failure! No gas tank found!").c_str());
+        return;
+    }
+
+    if (tankGasUnits == 0) {
+        popup(str_to_illiterate_str("Sorry, gas tank empty, come back later.").c_str());
+        return;
+    }
+
+    if (uistate.ags_pay_gas_selected_pump + 1 > pumpCount) {
+        uistate.ags_pay_gas_selected_pump = 0;
+    }
+
+    turnOnSelectedPump(m, examx, examy, uistate.ags_pay_gas_selected_pump);
+
+    int discount = findBestGasDiscount(p);
+    std::string discountName = getGasDiscountName(discount);
+
+    int pricePerUnit = getPricePerGasUnit(discount);
+    std::string unitPriceStr = string_format(str_to_illiterate_str("$%0.2f"), pricePerUnit / 100.0);
+
+    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
+                     (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
+
+    uimenu amenu;
+    amenu.selected = 1;
+    amenu.text = str_to_illiterate_str("Welcome to automated gas station console!");
+    amenu.addentry(0, false, -1, str_to_illiterate_str("What would you like to do?"));
+
+    amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str("Buy gas."));
+
+    std::string gaspumpselected = str_to_illiterate_str("Current gas pump: ") + std::to_string(
+                                      uistate.ags_pay_gas_selected_pump + 1);
+    amenu.addentry(0, false, -1, gaspumpselected);
+    amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str("Choose a gas pump."));
+
+    amenu.addentry(0, false, -1, str_to_illiterate_str("Your discount: ") + discountName);
+    amenu.addentry(0, false, -1, str_to_illiterate_str("Your price per gasoline unit: ") +
+                   unitPriceStr);
+
+    if (can_hack) {
+        amenu.addentry(hack, true, 'h', _("Hack console."));
+    }
+
+    amenu.addentry(cancel, true, 'q', str_to_illiterate_str("Cancel"));
+
+    amenu.query();
+    choice = amenu.ret;
+
+    if (choose_pump == choice) {
+        uimenu amenu;
+        amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
+        amenu.text = str_to_illiterate_str("Please choose gas pump:");
+
+        amenu.addentry(0, true, 'q', str_to_illiterate_str("Cancel"));
+
+        for (int i = 0; i < pumpCount; i++) {
+            amenu.addentry(i + 1, true, -1, str_to_illiterate_str("Pump ¹") + std::to_string(i + 1));
+        }
+        amenu.query();
+        choice = amenu.ret;
+
+        if (choice == 0) {
+            return;
+        }
+
+        uistate.ags_pay_gas_selected_pump = choice - 1;
+
+        turnOnSelectedPump(m, examx, examy, uistate.ags_pay_gas_selected_pump);
+
+        return;
+
+    }
+
+    if (buy_gas == choice) {
+
+        int pos;
+        item *cashcard;
+
+        pos = g->inv(_("Insert card."));
+        cashcard = &(p->i_at(pos));
+
+        if (cashcard->is_null()) {
+            popup(_("You do not have that item!"));
+            return;
+        }
+        if (cashcard->type->id != "cash_card") {
+            popup(_("Please insert cash cards only!"));
+            return;
+        }
+        if (cashcard->charges < pricePerUnit) {
+            popup(str_to_illiterate_str("Not enough money, please refill your cash card.").c_str()); //or ride on a solar car, ha ha ha
+            return;
+        }
+
+        long c_max = cashcard->charges / pricePerUnit;
+        long max = (c_max < tankGasUnits) ? c_max : tankGasUnits;
+
+        std::string popupmsg = string_format(
+                                   ngettext("How many gas units to buy? Max:%d unit. (0 to cancel) ",
+                                            "How many gas units to buy? Max:%d units. (0 to cancel) ",
+                                            max), max);
+        long amount = helper::to_int(string_input_popup(popupmsg, 20,
+                                     helper::to_string_int(max), "", "", -1, true)
+                                    );
+        if (amount <= 0) {
+            return;
+        }
+        if (amount > max) {
+            amount = max;
+        }
+
+        point pGasPump = getGasPumpByNumber(m, examx, examy,  uistate.ags_pay_gas_selected_pump);
+        if (!toPumpFuel(p, m, pTank, pGasPump, amount)) {
+            return;
+        }
+
+        g->sound(p->posx, p->posy, 6, _("Glug Glug Glug"));
+
+        cashcard->charges -= amount * pricePerUnit;
+
+        add_msg(m_info, ngettext("Your cash card now holds %d cent.", "Your cash card now holds %d cents.",
+                                 cashcard->charges), cashcard->charges);
+        p->moves -= 100;
+        return;
+    }
+
+    if (hack == choice) {
+        bool using_electrohack = (p->has_amount("electrohack", 1) &&
+                                  query_yn(_("Use electrohack on the terminal?")));
+        bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
+                                 p->power_level > 0 &&
+                                 query_yn(_("Use fingerhack on the reader?")));
+        if (using_electrohack || using_fingerhack) {
+            p->moves -= 500;
+            p->practice("computer", 20);
+            int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+            success += rng(-3, 3);
+            if (using_fingerhack) {
+                success++;
+            }
+            if (p->int_cur < 8) {
+                success -= rng(0, int((8 - p->int_cur) / 2));
+            } else if (p->int_cur > 8) {
+                success += rng(0, int((p->int_cur - 8) / 2));
+            }
+            if (success < 0) {
+                add_msg(_("You cause a short circuit!"));
+                if (success <= -5) {
+                    if (using_electrohack) {
+                        add_msg(m_bad, _("Your electrohack is ruined!"));
+                        p->use_amount("electrohack", 1);
+                    } else {
+                        add_msg(m_bad, _("Your power is drained!"));
+                        p->charge_power(0 - rng(0, p->power_level));
+                    }
+                }
+                g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                                      pgettext("memorial_female", "Set off an alarm."));
+                g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
+                if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
+                    g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+                }
+            } else if (success < 6) {
+                add_msg(_("Nothing happens."));
+            } else {
+                point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
+                if (toPumpFuel(p, m, pTank, pGasPump, tankGasUnits)) {
+                    add_msg(_("You hacked gas terminal and pumped all the fuel in the column!"));
+                    g->sound(p->posx, p->posy, 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
+                } else {
+                    add_msg(_("Nothing happens."));
+                }
+            }
+        } else {
+            return;
+        }
+    }
+
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2160,6 +2568,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if( "sign" == function_name ) {
       return &iexamine::sign;
+  }
+  if ("pay_gas" == function_name) {
+      return &iexamine::pay_gas;
   }
 
   //No match found
