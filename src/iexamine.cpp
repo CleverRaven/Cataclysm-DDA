@@ -1791,19 +1791,16 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
     } else if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
-} 
+}
 
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
 {
     item water = m->water_from(examx, examy);
     // Try to handle first (bottling) drink after.
     // changed boolean, large sources should be infinite
-    if (g->handle_liquid(water, true, true))
-    {
+    if (g->handle_liquid(water, true, true)) {
         p->moves -= 100;
-    }
-    else 
-    {
+    } else {
         p->drink_from_hands(water);
     }
 }
@@ -1812,20 +1809,16 @@ void iexamine::swater_source(player *p, map *m, const int examx, const int examy
     item swater = m->swater_from(examx, examy);
     // Try to handle first (bottling) drink after.
     // changed boolean, large sources should be infinite
-    if (g->handle_liquid(swater, true, true))
-    {
+    if (g->handle_liquid(swater, true, true)) {
         p->moves -= 100;
-    }
-    else
-    {
+    } else {
         p->drink_from_hands(swater);
     }
 }
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
 {
     item acid = m->acid_from(examx, examy);
-    if (g->handle_liquid(acid, true, true))
-    {
+    if (g->handle_liquid(acid, true, true)) {
         p->moves -= 100;
     }
 }
@@ -1970,15 +1963,15 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     } else {
         p->add_msg_if_player(m_neutral, _("Nothing legible on the sign."));
     }
-    
+
     // Allow chance to modify message.
     // Chose spray can because it seems appropriate.
-    int required_writing_charges = 1; 
+    int required_writing_charges = 1;
     if (p->has_charges("spray_can", required_writing_charges)) {
         // Different messages if the sign already has writing associated with it.
-        std::string query_message = previous_signage_exists ? 
-            _("Overwrite the existing message on the sign with spray paint?") : 
-            _("Add a message to the sign with spray paint?"); 
+        std::string query_message = previous_signage_exists ?
+            _("Overwrite the existing message on the sign with spray paint?") :
+            _("Add a message to the sign with spray paint?");
         std::string spray_painted_message = previous_signage_exists ?
             _("You overwrite the previous message on the sign with your graffiti") :
             _("You graffiti a message onto the sign.");
@@ -1999,9 +1992,9 @@ void iexamine::sign(player *p, map *m, int examx, int examy)
     }
 }
 
-int getNearPumpCount(map *m, int x, int y)
+static int getNearPumpCount(map *m, int x, int y)
 {
-#define radius 12
+    const int radius = 12;
 
     int result = 0;
 
@@ -2015,9 +2008,9 @@ int getNearPumpCount(map *m, int x, int y)
     return result;
 }
 
-point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
+static point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
 {
-#define radius 24
+    const int radius = 24;
 
     point p = point(-999, -999);
     int distance = radius + 1;
@@ -2052,7 +2045,7 @@ point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
     return p;
 }
 
-int getGasDiscountCardQuality(item it)
+static int getGasDiscountCardQuality(item it)
 {
     std::set<std::string> tags = it.type->item_tags;
 
@@ -2067,7 +2060,7 @@ int getGasDiscountCardQuality(item it)
     return 0;
 }
 
-int findBestGasDiscount(player *p)
+static int findBestGasDiscount(player *p)
 {
     int discount = 0;
 
@@ -2086,7 +2079,7 @@ int findBestGasDiscount(player *p)
     return discount;
 }
 
-std::string str_to_illiterate_str(std::string s)
+static std::string str_to_illiterate_str(std::string s)
 {
     if (!g->u.has_trait("ILLITERATE")) {
         return _(s.c_str());
@@ -2098,7 +2091,7 @@ std::string str_to_illiterate_str(std::string s)
     }
 }
 
-std::string getGasDiscountName(int discount)
+static std::string getGasDiscountName(int discount)
 {
     if (discount == 3) {
         return str_to_illiterate_str("Platinum member");
@@ -2111,7 +2104,7 @@ std::string getGasDiscountName(int discount)
     }
 }
 
-int getPricePerGasUnit(int discount)
+static int getPricePerGasUnit(int discount)
 {
     if (discount == 3) {
         return 250;
@@ -2124,9 +2117,9 @@ int getPricePerGasUnit(int discount)
     }
 }
 
-point getGasPumpByNumber(map *m, int x, int y, int number)
+static point getGasPumpByNumber(map *m, int x, int y, int number)
 {
-#define radius 12
+    const int radius = 12;
 
     int k = 0;
 
@@ -2142,7 +2135,7 @@ point getGasPumpByNumber(map *m, int x, int y, int number)
     return point(-999, -999);
 }
 
-bool toPumpFuel(player *p, map *m, point src, point dst, long units)
+static bool toPumpFuel(map *m, point src, point dst, long units)
 {
     if (src.x == -999) {
         return false;
@@ -2181,9 +2174,9 @@ bool toPumpFuel(player *p, map *m, point src, point dst, long units)
     return false;
 }
 
-void turnOnSelectedPump(map *m, int x, int y, int number)
+static void turnOnSelectedPump(map *m, int x, int y, int number)
 {
-#define radius 12
+    const int radius = 12;
 
     int k = 0;
     for (int i = x - radius; i <= x + radius; i++) {
@@ -2250,8 +2243,8 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
     amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str("Buy gas."));
 
-    std::string gaspumpselected = str_to_illiterate_str("Current gas pump: ") + std::to_string(
-                                      uistate.ags_pay_gas_selected_pump + 1);
+    std::string gaspumpselected = str_to_illiterate_str("Current gas pump: ") +
+        helper::to_string_int( uistate.ags_pay_gas_selected_pump + 1 );
     amenu.addentry(0, false, -1, gaspumpselected);
     amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str("Choose a gas pump."));
 
@@ -2276,7 +2269,8 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
         amenu.addentry(0, true, 'q', str_to_illiterate_str("Cancel"));
 
         for (int i = 0; i < pumpCount; i++) {
-            amenu.addentry(i + 1, true, -1, str_to_illiterate_str("Pump ¹") + std::to_string(i + 1));
+            amenu.addentry( i + 1, true, -1,
+                            str_to_illiterate_str("Pump ¹") + helper::to_string_int(i + 1) );
         }
         amenu.query();
         choice = amenu.ret;
@@ -2332,7 +2326,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
         }
 
         point pGasPump = getGasPumpByNumber(m, examx, examy,  uistate.ags_pay_gas_selected_pump);
-        if (!toPumpFuel(p, m, pTank, pGasPump, amount)) {
+        if (!toPumpFuel(m, pTank, pGasPump, amount)) {
             return;
         }
 
@@ -2387,7 +2381,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
                 add_msg(_("Nothing happens."));
             } else {
                 point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
-                if (toPumpFuel(p, m, pTank, pGasPump, tankGasUnits)) {
+                if (toPumpFuel(m, pTank, pGasPump, tankGasUnits)) {
                     add_msg(_("You hacked gas terminal and pumped all the fuel in the column!"));
                     g->sound(p->posx, p->posy, 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
                 } else {
