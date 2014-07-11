@@ -2005,13 +2005,13 @@ int getNearPumpCount(map *m, int x, int y)
 
     int result = 0;
 
-    for (int i = x - radius; i <= x + radius; i++)
-        for (int j = y - radius; j <= y + radius; j++)
+    for (int i = x - radius; i <= x + radius; i++) {
+        for (int j = y - radius; j <= y + radius; j++) {
             if (m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") {
                 result++;
             }
-
-
+        }
+    }
     return result;
 }
 
@@ -2020,57 +2020,55 @@ point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
 #define radius 24
 
     point p = point(-999, -999);
+    int distance = radius + 1;
     gas_units = 0;
 
-    for (int i = x - radius; i <= x + radius; i++)
-        for (int j = y - radius; j <= y + radius; j++)
-            if (m->ter_at(i, j).id == "t_gas_tank") {
-
-                double dfound = sqrt(pow((x - i), 2) + pow((y - j), 2));
-                double dsaved = sqrt(pow((x - p.x), 2) + pow((y - p.y), 2));
-
-                if (dfound < dsaved) {
-
-                    p = point(i, j);
-                    gas_units = 0;
-
-                    for (int k = 0; k < m->i_at(i, j).size(); k++)
-                        if (m->i_at(i, j)[k].made_of(LIQUID)) {
-                            item *liq = &(m->i_at(i, j)[k]);
-
-                            long count = dynamic_cast<it_ammo *>(liq->type)->count;
-                            long units = liq->charges / count;
-
-                            gas_units = units;
-
-                        }
-                }
+    for (int i = x - radius; i <= x + radius; i++) {
+        for (int j = y - radius; j <= y + radius; j++) {
+            if (m->ter_at(i, j).id != "t_gas_tank") {
+                continue;
             }
 
+            int new_distance = rl_dist( x, y, i, j );
+
+            if( new_distance >= distance ) {
+                continue;
+            }
+            for( int k = 0; k < m->i_at(i, j).size(); k++ ) {
+                if( m->i_at(i, j)[k].made_of(LIQUID) ) {
+                    item *liq = &(m->i_at(i, j)[k]);
+
+                    long count = dynamic_cast<it_ammo *>(liq->type)->count;
+                    long units = liq->charges / count;
+
+                    distance = new_distance;
+                    p = point(i, j);
+                    gas_units = units;
+                    break;
+                }
+            }
+        }
+    }
     return p;
 }
 
 int getGasDiscountCardQuality(item it)
 {
-
     std::set<std::string> tags = it.type->item_tags;
 
-    for (std::set<std::string>::iterator it = tags.begin();
-         it != tags.end(); ++it) {
+    for( std::set<std::string>::iterator it = tags.begin(); it != tags.end(); ++it ) {
         std::string tag = (*it);
 
-        if (tag.size() > 15 && tag.substr(0, 15) == "DISCOUNT_VALUE_") {
+        if( tag.size() > 15 && tag.substr(0, 15) == "DISCOUNT_VALUE_" ) {
             return atoi(tag.substr(15).c_str());
         }
     }
 
     return 0;
-
 }
 
 int findBestGasDiscount(player *p)
 {
-
     int discount = 0;
 
     for (int i = 0; i < p->inv.size(); i++) {
@@ -2090,27 +2088,26 @@ int findBestGasDiscount(player *p)
 
 std::string str_to_illiterate_str(std::string s)
 {
-	if (!g->u.has_trait("ILLITERATE")) {
-		return _(s.c_str());
-	}
-	else {
-		for (int i = 0; i < s.size(); i++) {
-			s[i] = s[i] + rng(0, 5) - rng(0, 5);
-		}
-		return s;
-	}
+    if (!g->u.has_trait("ILLITERATE")) {
+        return _(s.c_str());
+    } else {
+        for (int i = 0; i < s.size(); i++) {
+            s[i] = s[i] + rng(0, 5) - rng(0, 5);
+        }
+        return s;
+    }
 }
 
 std::string getGasDiscountName(int discount)
 {
     if (discount == 3) {
-		return str_to_illiterate_str("Platinum member");
+        return str_to_illiterate_str("Platinum member");
     } else if (discount == 2) {
-		return str_to_illiterate_str("Gold member");
+        return str_to_illiterate_str("Gold member");
     } else if (discount == 1) {
-		return str_to_illiterate_str("Silver member");
+        return str_to_illiterate_str("Silver member");
     } else {
-		return str_to_illiterate_str("Beloved customer");
+        return str_to_illiterate_str("Beloved customer");
     }
 }
 
@@ -2129,24 +2126,24 @@ int getPricePerGasUnit(int discount)
 
 point getGasPumpByNumber(map *m, int x, int y, int number)
 {
-
 #define radius 12
 
     int k = 0;
 
-    for (int i = x - radius; i <= x + radius; i++)
-        for (int j = y - radius; j <= y + radius; j++)
-            if ((m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") && number == k++) {
+    for( int i = x - radius; i <= x + radius; i++ ) {
+        for( int j = y - radius; j <= y + radius; j++ ) {
+            if( (m->ter_at(i, j).id == "t_gas_pump" ||
+                 m->ter_at(i, j).id == "t_gas_pump_a") && number == k++) {
                 return point(i, j);
             }
+        }
+    }
 
     return point(-999, -999);
-
 }
 
 bool toPumpFuel(player *p, map *m, point src, point dst, long units)
 {
-
     if (src.x == -999) {
         return false;
     }
@@ -2154,11 +2151,9 @@ bool toPumpFuel(player *p, map *m, point src, point dst, long units)
         return false;
     }
 
-    for (int i = 0; i < m->i_at(src.x, src.y).size(); i++)
+    for (int i = 0; i < m->i_at(src.x, src.y).size(); i++) {
         if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
-
             item *liq = &(m->i_at(src.x, src.y)[i]);
-
             long count = dynamic_cast<it_ammo *>(liq->type)->count;
 
             if (liq->charges < count * units) {
@@ -2181,27 +2176,27 @@ bool toPumpFuel(player *p, map *m, point src, point dst, long units)
 
             return true;
         }
+    }
 
     return false;
 }
 
 void turnOnSelectedPump(map *m, int x, int y, int number)
 {
-
 #define radius 12
 
     int k = 0;
-
-    for (int i = x - radius; i <= x + radius; i++)
-        for (int j = y - radius; j <= y + radius; j++)
+    for (int i = x - radius; i <= x + radius; i++) {
+        for (int j = y - radius; j <= y + radius; j++) {
             if ((m->ter_at(i, j).id == "t_gas_pump" || m->ter_at(i, j).id == "t_gas_pump_a") ) {
-
                 if (number == k++) {
                     m->ter_set(i, j, "t_gas_pump_a");
                 } else {
                     m->ter_set(i, j, "t_gas_pump");
                 }
             }
+        }
+    }
 }
 
 void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
@@ -2347,7 +2342,8 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
         cashcard->charges -= amount * pricePerUnit;
 
-        add_msg(m_info, ngettext("Your cash card now holds %d cent.", "Your cash card now holds %d cents.",
+        add_msg(m_info, ngettext("Your cash card now holds %d cent.",
+                                 "Your cash card now holds %d cents.",
                                  cashcard->charges), cashcard->charges);
         p->moves -= 100;
         return;
@@ -2404,7 +2400,6 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
             return;
         }
     }
-
 }
 
 /**
