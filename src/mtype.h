@@ -100,6 +100,7 @@ enum mon_id {
     mon_zombie_bio_op, mon_zombie_gasbag, mon_turret_rifle,
     mon_irradiated_wanderer_1, mon_irradiated_wanderer_2, mon_irradiated_wanderer_3, mon_irradiated_wanderer_4,
     mon_charred_nightmare,
+    mon_zig,
     num_monsters
 };
 
