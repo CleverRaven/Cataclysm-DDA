@@ -2234,8 +2234,6 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
         uistate.ags_pay_gas_selected_pump = 0;
     }
 
-    turnOnSelectedPump(m, examx, examy, uistate.ags_pay_gas_selected_pump);
-
     int discount = findBestGasDiscount(p);
     std::string discountName = getGasDiscountName(discount);
 
