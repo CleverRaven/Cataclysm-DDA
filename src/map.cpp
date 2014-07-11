@@ -4078,6 +4078,39 @@ bool map::accessable_furniture(const int Fx, const int Fy, const int Tx, const i
            clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
+std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty)
+{
+    std::vector<point> vCircle;
+    vCircle.resize(8);
+
+    const std::vector<point> vLine = line_to(Fx, Fy, Tx, Ty, 0);
+    const std::vector<point> vSpiral = closest_points_first(1, Fx, Fy);
+    const std::vector<int> vPos {1,3,5,7,8,6,4,2};
+
+    //  All possible constelations (closest_points_first goes counterclokcwise)
+    //  753  531  312  124  246  468  687  875
+    //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
+    //  642  864  786  578  357  135  213  421
+
+    int iPosOffset = 0;
+    for (unsigned int i = 1; i < vSpiral.size(); i++) {
+        if (vSpiral[i].x == vLine[0].x && vSpiral[i].y == vLine[0].y) {
+            iPosOffset = i-1;
+            break;
+        }
+    }
+
+    for (unsigned int i = 1; i < vSpiral.size(); i++) {
+        if (iPosOffset >= vPos.size()) {
+            iPosOffset = 0;
+        }
+
+        vCircle[vPos[iPosOffset++]-1] = point(vSpiral[i].x, vSpiral[i].y);
+    }
+
+    return vCircle;
+}
+
 // Bash defaults to true.
 std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool can_bash)
 {
@@ -4152,10 +4185,13 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
     index = i;
    }
   }
-  for (int x = open[index].x - 1; x <= open[index].x + 1; x++) {
-   for (int y = open[index].y - 1; y <= open[index].y + 1; y++) {
-    if (x == open[index].x && y == open[index].y)
-     y++; // Skip the current square
+
+  std::vector<point> vDirCircle = getDirCircle(open[index].x, open[index].y, Tx, Ty);
+
+  for (unsigned int i = 0; i < vDirCircle.size(); ++i) {
+    const int x = vDirCircle[i].x;
+    const int y = vDirCircle[i].y;
+
     if (x == Tx && y == Ty) {
      done = true;
      parent[x][y] = open[index];
@@ -4184,7 +4220,6 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
       }
      }
     }
-   }
   }
   list[open[index].x][open[index].y] = ASL_CLOSED;
   open.erase(open.begin() + index);

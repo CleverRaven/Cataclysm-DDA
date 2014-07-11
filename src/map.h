@@ -240,6 +240,13 @@ class map
  bool accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
 
  /**
+  * Calculate next search points surrounding the current position.
+  * Points closer to the target come first.
+  * This method leads to straighter lines and prevents weird looking movements away from the target.
+  */
+ std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty);
+
+ /**
   * Calculate a best path using A*
   *
   * @param Fx, Fy The source location from which to path.
