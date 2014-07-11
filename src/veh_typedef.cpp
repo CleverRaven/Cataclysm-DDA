@@ -322,6 +322,7 @@ void init_vpart_bitflag_map() {
     vpart_bitflag_map["OPENABLE"]=VPFLAG_OPENABLE;
     vpart_bitflag_map["SEATBELT"]=VPFLAG_SEATBELT;         // crashes
     vpart_bitflag_map["WHEEL"]=VPFLAG_WHEEL;
+    vpart_bitflag_map["FLOATS"] = VPFLAG_FLOATS;
     vpart_bitflag_map["ALTERNATOR"]=VPFLAG_ALTERNATOR;
     vpart_bitflag_map["ENGINE"]=VPFLAG_ENGINE;
     vpart_bitflag_map["FRIDGE"]=    VPFLAG_FRIDGE;

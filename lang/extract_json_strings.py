@@ -367,6 +367,16 @@ def add_fake_types():
     # fake monster types
     writestr(outfile, "human", "humans")
 
+def add_file_translation(path, name):
+    """Load the whole content of the file into a string and outputs that
+    string to be translated. """
+    outfile = os.path.join(to_dir, "{0}.py".format(name))
+    with open(path) as f:
+        content = f.read().splitlines()
+        text = ""
+        for line in content:
+            text += line + "\n";
+        writestr(outfile, text)
 
 ##
 ##  EXTRACTION
@@ -376,5 +386,9 @@ extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
 extract_all_from_dir(mods_dir)
 add_fake_types()
+
+add_file_translation("data/motd", "motd")
+add_file_translation("data/credits", "credits")
+
 
 # done.

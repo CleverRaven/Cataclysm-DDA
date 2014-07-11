@@ -81,6 +81,7 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     }
     std::vector<std::string> dependencies = mod->dependencies;
     std::vector<std::string> authors = mod->authors;
+    std::string description = mod->description;
     std::string dependency_string = "";
     if (!dependencies.empty()) {
         DebugLog() << mod->name << " Dependencies --";
@@ -117,6 +118,13 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     } else {
         info << _("Dependencies: [NONE]\n");
     }
+
+    if(!description.empty()) {
+        info << string_format("Description: %s\n", description.c_str());
+    } else {
+        info << _("Description: [NONE]\n");
+    }
+
     if (mod->_type == MT_SUPPLEMENTAL && !note.empty()) {
         info << note;
     }

@@ -1335,6 +1335,15 @@ bool game::do_turn()
             u.fatigue++;
         }
     }
+    // auto-learning. This is here because skill-increases happens all over the place:
+    // SkillLevel::readBook (has no connection to the skill or the player),
+    // player::read, player::practice, ...
+    if( u.skillLevel( "unarmed" ) >= 2 ) {
+        if( std::find( u.ma_styles.begin(), u.ma_styles.end(), "style_brawling" ) == u.ma_styles.end() ) {
+            u.ma_styles.push_back( "style_brawling" );
+            add_msg( m_info, _( "You learend a new style." ) );
+        }
+    }
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
@@ -3284,8 +3293,9 @@ bool game::handle_action()
 
     case ACTION_INVENTORY: {
         int cMenu = ' ';
+        int position = INT_MIN;
         do {
-            int position = inv(_("Inventory:"));
+            position = inv(_("Inventory:"), position);
             cMenu = inventory_item_menu(position);
         } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
                  cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
@@ -6373,7 +6383,12 @@ void game::monmove()
     cleanup_dead();
 }
 
-bool game::sound(int x, int y, int vol, std::string description)
+bool game::ambient_sound(int x, int y, int vol, std::string description)
+{
+    return sound( x, y, vol, description, true );
+}
+
+bool game::sound(int x, int y, int vol, std::string description, bool ambient)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
@@ -6483,7 +6498,7 @@ bool game::sound(int x, int y, int vol, std::string description)
         }
     }
 
-    if ((x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist)) {
+    if (!ambient && (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist)) {
         if (u.activity.ignore_trivial != true) {
             std::string query;
             if (description != "") {
@@ -9413,8 +9428,7 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 std::string game::ask_item_filter(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to see"));
@@ -9435,8 +9449,7 @@ std::string game::ask_item_filter(WINDOW *window, int rows)
 std::string game::ask_item_priority_high(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -9455,8 +9468,7 @@ std::string game::ask_item_priority_high(WINDOW *window, int rows)
 std::string game::ask_item_priority_low(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "\
-											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											   											                                                        ");
+        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -12387,11 +12399,17 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-    if (m.has_flag("SWIMMABLE", x, y) && m.has_flag(TFLAG_DEEP_WATER, x, y)) { // Dive into water!
+	bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
+	bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
+	bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
+	bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
+	bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+	bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+
+	if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
         // Requires confirmation if we were on dry land previously
-        if ((m.has_flag("SWIMMABLE", u.posx, u.posy) &&
-             m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy)) || query_yn(_("Dive into the water?"))) {
-            if (!m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy) && u.swim_speed() < 500) {
+        if ((fromSwimmable && fromDeepWater && !fromBoat) || query_yn(_("Dive into the water?"))) {
+            if ((!fromDeepWater || fromBoat) && u.swim_speed() < 500) {
                 add_msg(_("You start swimming."));
                 add_msg(m_info, "%s to dive underwater.",
                         press_x(ACTION_MOVE_DOWN).c_str());
@@ -14617,21 +14635,18 @@ void intro()
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);
         if (maxy < minHeight && maxx < minWidth) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Whoa! Your terminal is tiny! This game requires a minimum terminal size of \
-													   %dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Whoa! Your terminal is tiny! This game requires a minimum terminal size of "
+                                                       "%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
                            minWidth, minHeight, maxx, maxy);
         } else if (maxx < minWidth) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Oh! Hey, look at that. Your terminal is just a little too narrow. This game \
-													   requires a minimum terminal size of %dx%d to function. It just won't work \
-													   with only %dx%d. Can you stretch it out sideways a bit?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Oh! Hey, look at that. Your terminal is just a little too narrow. This game "
+                                                       "requires a minimum terminal size of %dx%d to function. It just won't work "
+                                                       "with only %dx%d. Can you stretch it out sideways a bit?"),
                            minWidth, minHeight, maxx, maxy);
         } else {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("\
-													   Woah, woah, we're just a little short on space here. The game requires a \
-													   minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you \
-													   make the terminal just a smidgen taller?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white, _("Woah, woah, we're just a little short on space here. The game requires a "
+                                                       "minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you "
+                                                       "make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
         wgetch(tmp);

@@ -75,6 +75,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     reactor_on = false;
     engine_on = false;
     has_pedals = false;
+    has_paddles = false;
     has_hand_rims = false;
 
     //type can be null if the type_id parameter is omitted
@@ -481,7 +482,7 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if( !has_pedals && !has_hand_rims && has_engine ) {
+    if( !has_pedals && !has_hand_rims && !has_paddles && has_engine ) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
             options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
@@ -698,6 +699,8 @@ void vehicle::use_controls()
                   add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
               } else if( has_pedals ) {
                   add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
+              } else if (has_paddles) {
+                  add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
               } else if( has_hand_rims ) {
                   add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
               } else {
@@ -873,7 +876,7 @@ void vehicle::play_music()
             }
 
         }
-        g->sound(radio_x,radio_y,15,sound);
+        g->ambient_sound( radio_x, radio_y, 15, sound );
         if ((g->u.posx < radio_x + 15 && g->u.posy < radio_y + 15) && (g->u.posx > radio_x - 15 && g->u.posy > radio_y - 15)) {
             g->u.add_morale(MORALE_MUSIC,5,20,30,1);
         }
@@ -1022,7 +1025,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     if( part.has_flag("PEDALS") && !engines.empty() ) {
         return false;
     }
-    if( part.has_flag(VPFLAG_ENGINE) && (has_pedals || has_hand_rims) ) {
+    if( part.has_flag(VPFLAG_ENGINE) && (has_pedals || has_hand_rims || has_paddles) ) {
         return false;
     }
 
@@ -2338,12 +2341,12 @@ void vehicle::noise_and_smoke( double load, double time )
     // Even a car with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );
     int lvl = 0;
-    if( !has_pedals && !has_hand_rims && one_in(4) && rng(0, 30) < noise ) {
+    if( !has_pedals && !has_hand_rims && !has_paddles && one_in(4) && rng(0, 30) < noise ) {
        while( noise > sound_levels[lvl] ) {
            lvl++;
        }
     }
-    g->sound( global_x(), global_y(), noise, sound_msgs[lvl] );
+    g->ambient_sound( global_x(), global_y(), noise, sound_msgs[lvl] );
 }
 
 float vehicle::wheels_area (int *cnt)
@@ -2362,6 +2365,11 @@ float vehicle::wheels_area (int *cnt)
     if (cnt) {
         *cnt = count;
     }
+
+    if (all_parts_with_feature("FLOATS").size() > 0) {
+        return 13;
+    }
+
     return total_area;
 }
 
@@ -2381,8 +2389,7 @@ float vehicle::k_aerodynamics ()
         obst[o] = 0;
     }
     std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
-    for (size_t i = 0; i < structure_indices.size(); ++i)
-    {
+    for (size_t i = 0; i < structure_indices.size(); ++i) {
         int p = structure_indices[i];
         int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 30 : 10;
         int pos = parts[p].mount_dy + max_obst / 2;
@@ -2440,6 +2447,11 @@ float vehicle::strain ()
 
 bool vehicle::valid_wheel_config ()
 {
+    std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
+    if( !floats.empty() ) {
+        return floats.size() > 2;
+    }
+
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
@@ -2726,7 +2738,7 @@ void vehicle::idle() {
     int engines_power = 0;
     float idle_rate;
 
-    if( engine_on && total_power() > 0 && !has_pedals && !has_hand_rims ) {
+    if( engine_on && total_power() > 0 && !has_pedals && !has_hand_rims && !has_paddles) {
         int strn = (int)(strain() * strain() * 100);
         for (int p = 0; p < parts.size(); p++) {
             if (part_flag(p, VPFLAG_ENGINE)) {
@@ -2810,8 +2822,12 @@ void vehicle::thrust (int thd) {
     bool pl_ctrl = player_in_control( &g->u );
 
     if( !valid_wheel_config() && velocity == 0 ) {
-        if( pl_ctrl ) {
-            add_msg (_("The %s doesn't have enough wheels to move!"), name.c_str());
+        if (pl_ctrl) {
+            if (all_parts_with_feature(VPFLAG_FLOATS).empty()) {
+                add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
+            } else {
+                add_msg(_("The %s is too leaky!"), name.c_str());
+            }
         }
         return;
     }
@@ -2858,30 +2874,28 @@ void vehicle::thrust (int thd) {
     noise_and_smoke( load );
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
-    if (thrusting && rng(1, accel) <= vel_inc )
-    {
-        if (total_power () < 1)
-        {
-            if (pl_ctrl)
-            {
-              if (total_power (false) < 1) {
-                  add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
-              } else if( has_pedals ) {
-                  add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
-              } else if( has_hand_rims ) {
-                  add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
-              } else {
-                  add_msg (m_info, _("The %s's engine emits a sneezing sound."), name.c_str());
-              }
+    if (thrusting && rng(1, accel) <= vel_inc ) {
+        if (total_power () < 1) {
+            if (pl_ctrl) {
+                if (total_power (false) < 1) {
+                    add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
+                } else if( has_pedals ) {
+                    add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
+                } else if (has_paddles) {
+                    add_msg(m_info, _("The %s's paddles are out of reach!"), name.c_str());
+                } else if (has_hand_rims) {
+                    add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
+                } else {
+                    add_msg (m_info, _("The %s's engine emits a sneezing sound."), name.c_str());
+                }
             }
             cruise_velocity = 0;
             return;
-        }
-        else if( !engine_on && !has_pedals && !has_hand_rims ) {
+        } else if (!engine_on && !has_pedals && !has_hand_rims && !has_paddles) {
           add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
-        } else if( has_pedals || has_hand_rims ) {
+        } else if (has_pedals || has_hand_rims || has_paddles) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && calendar::turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -2892,37 +2906,37 @@ void vehicle::thrust (int thd) {
 
         int strn = (int) (strain () * strain() * 100);
 
-        for (int p = 0; p < parts.size(); p++)
-        {
-            if (part_flag(p, VPFLAG_ENGINE))
-            {
-                if(fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn)
-                {
+        for( int p = 0; p < parts.size(); p++ ) {
+            if( part_flag(p, VPFLAG_ENGINE) ) {
+                if( fuel_left(part_info(p).fuel_type) && parts[p].hp > 0 && rng (1, 100) < strn ) {
                     int dmg = rng (strn * 2, strn * 4);
                     damage_direct (p, dmg, 0);
-                    if(one_in(2))
+                    if(one_in(2)) {
                      add_msg(_("Your engine emits a high pitched whine."));
-                    else
+                    } else {
                      add_msg(_("Your engine emits a loud grinding sound."));
+                    }
                 }
             }
         }
     }
 
-    if (skidding)
+    if (skidding) {
         return;
+    }
 
     if ((velocity > 0 && velocity + vel_inc < 0) ||
-        (velocity < 0 && velocity + vel_inc > 0))
+        (velocity < 0 && velocity + vel_inc > 0)) {
         stop ();
-    else
-    {
+    } else {
         velocity += vel_inc;
-        if (velocity > max_vel)
+        if (velocity > max_vel) {
             velocity = max_vel;
-        else
-        if (velocity < -max_vel / 4)
-            velocity = -max_vel / 4;
+        } else {
+            if (velocity < -max_vel / 4) {
+                velocity = -max_vel / 4;
+            }
+        }
     }
     if (stereo_on == true && engine_on == true) {
         play_music();
@@ -2931,30 +2945,37 @@ void vehicle::thrust (int thd) {
 
 void vehicle::cruise_thrust (int amount)
 {
-    if (!amount)
+    if (!amount) {
         return;
+    }
     int max_vel = (safe_velocity() * 11 / 10000 + 1) * 1000;
     cruise_velocity += amount;
     cruise_velocity = cruise_velocity / abs(amount) * abs(amount);
-    if (cruise_velocity > max_vel)
+    if (cruise_velocity > max_vel) {
         cruise_velocity = max_vel;
-    else
-    if (-cruise_velocity > max_vel / 4)
-        cruise_velocity = -max_vel / 4;
+    } else {
+        if (-cruise_velocity > max_vel / 4) {
+            cruise_velocity = -max_vel / 4;
+        }
+    }
 }
 
 void vehicle::turn (int deg)
 {
-    if (deg == 0)
+    if (deg == 0) {
         return;
-    if (velocity < 0)
+    }
+    if (velocity < 0) {
         deg = -deg;
+    }
     last_turn = deg;
     turn_dir += deg;
-    if (turn_dir < 0)
+    if (turn_dir < 0) {
         turn_dir += 360;
-    if (turn_dir >= 360)
+    }
+    if (turn_dir >= 360) {
         turn_dir -= 360;
+    }
 }
 
 void vehicle::stop ()
@@ -3617,6 +3638,7 @@ void vehicle::refresh()
     recharger_epower = 0;
     alternator_load = 0;
     has_pedals = false;
+    has_paddles = false;
     has_hand_rims = false;
 
     // Used to sort part list so it displays properly when examining
@@ -3666,6 +3688,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag("PEDALS") ) {
             has_pedals = true;
+        }
+        if (vpi.has_flag("PADDLES")) {
+            has_paddles = true;
         }
         if( vpi.has_flag("HAND_RIMS") ) {
             has_hand_rims = true;

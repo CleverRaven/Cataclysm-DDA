@@ -476,9 +476,10 @@ void veh_interact::do_install()
         bool eng = sel_vpart_info->has_flag("ENGINE");
         bool install_pedals = sel_vpart_info->has_flag("PEDALS");
         bool install_hand_rims = sel_vpart_info->has_flag("HAND_RIMS");
+        bool install_paddles = sel_vpart_info->has_flag("PADDLES");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
-        bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims;
-        bool install_muscle_engine = install_pedals || install_hand_rims;
+        bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims || veh->has_paddles;
+        bool install_muscle_engine = install_pedals || install_hand_rims || install_paddles;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
@@ -1163,7 +1164,12 @@ void veh_interact::display_stats()
             w[i] = stats_w - 1;
         }
     }
-    bool conf = veh->valid_wheel_config();
+
+    bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool conf;
+
+    conf = veh->valid_wheel_config();
+
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
     float speed_factor = 0.01f;
     if (speed_units == "km/h") {
@@ -1176,7 +1182,8 @@ void veh_interact::display_stats()
     }
     fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
                    _("Safe/Top speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"),
-                   int(veh->safe_velocity(false) * speed_factor), int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
+                   int(veh->safe_velocity(false) * speed_factor),
+                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
     fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
                    _("Acceleration: <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
@@ -1191,12 +1198,22 @@ void veh_interact::display_stats()
     x[4] += utf8_width(_("Status: ")) + 1;
     fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
 
-    if (conf) {
-        fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                       _("Wheels:    <color_ltgreen>enough</color>"));
-    } else {
-        fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
-                       _("Wheels:      <color_ltred>lack</color>"));
+    if( !isBoat ) {
+        if( conf ) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:    <color_ltgreen>enough</color>"));
+        }	else {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels:      <color_ltred>lack</color>"));
+        }
+    }	else{
+        if (conf){
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:    <color_blue>can swim</color>"));
+        }	else{
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Boat:  <color_ltred>can't swim</color>"));
+        }
     }
 
     // Write the most damaged part

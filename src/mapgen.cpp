@@ -13173,8 +13173,9 @@ void map::add_extra(map_extra type)
                 item_group = "mil_rifles";
                 break;
             }
-            for(int i = 0; i < 140 && i_at(x, y).size() < 2; i++) {
-                place_items(item_group, 80, x, y, x, y, true, 0);
+            int items_created = 0;
+            for(int i = 0; i < 10 && items_created < 2; i++) {
+                items_created += place_items(item_group, 80, x, y, x, y, true, 0);
             }
             if (i_at(x, y).empty()) {
                 destroy(x, y, false);
