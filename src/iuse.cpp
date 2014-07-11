@@ -7735,7 +7735,7 @@ int iuse::unfold_generic(player *p, item *it, bool)
     std::string smoves = it->item_vars["moves"];
     int moves = 500;
     if (smoves.size() > 0) {
-        moves = std::stoi(smoves);
+        std::istringstream( smoves ) >> moves;
     }
     p->moves -= moves;
     return 1;
