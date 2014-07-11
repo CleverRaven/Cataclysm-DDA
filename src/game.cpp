@@ -11745,8 +11745,11 @@ void game::eat(int pos)
         pos = inv_type(_("Consume item:"), IC_COMESTIBLE);
     }
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+    if (pos == INT_MIN)
+    {
+        if (!u.eat_from_ground()) {
+            add_msg(_("Never mind."));
+        }
         return;
     }
 

@@ -7981,6 +7981,126 @@ bool player::eat(item *eaten, it_comest *comest)
     return true;
 }
 
+bool player::eat_from_ground()
+{
+    item *to_eat = NULL;
+    it_comest *comest = NULL;
+    int which = -1;
+
+    std::vector<item> &all_items = g->m.i_at(posx, posy);
+    std::vector<item *> edible_items;
+    for (int i = 0; i < all_items.size(); i++) {
+        item &it = all_items[i];
+
+        if (it.is_food_container()) {
+
+            bool isDublicate = false;
+
+            for (int i = 0; i < edible_items.size();
+                 i++) if (edible_items[i]->display_name() == it.display_name()) {
+                    isDublicate = true;
+                }
+
+            if (!isDublicate) {
+                edible_items.push_back(&it);
+            }
+        } else {
+
+            if (it.is_food()) {
+
+                it_comest *com = dynamic_cast<it_comest *>(it.type);
+
+                if (com->comesttype == "FOOD") {
+
+                    bool isDublicate = false;
+
+                    for (int i = 0; i < edible_items.size();
+                         i++) if (edible_items[i]->display_name() == it.display_name()) {
+                            isDublicate = true;
+                        }
+
+                    if (!isDublicate) {
+                        edible_items.push_back(&it);
+                    }
+                }
+            }
+        }
+    }
+
+    if (edible_items.empty()) {
+        return false;
+    }
+
+    uimenu amenu;
+    amenu.selected = 0;
+    amenu.text = _("Eat something on the ground?");
+    amenu.addentry(0, true, 'q', _("Cancel"));
+
+    for (int i = 0; i < edible_items.size(); i++) {
+        amenu.addentry(i + 1, true, -1, edible_items[i]->display_name() );
+    }
+
+    amenu.query();
+    if (amenu.ret == 0) {
+        return false;
+    }
+
+    item *it = edible_items[amenu.ret - 1];
+    if (it->is_food_container(this)) {
+        to_eat = &(it->contents[0]);
+        which = 1;
+        if (it->contents[0].is_food()) {
+            comest = dynamic_cast<it_comest *>(it->contents[0].type);
+        }
+    } else if (it->is_food(this)) {
+        to_eat = it;
+        which = 0;
+        comest = dynamic_cast<it_comest *>(it->type);
+    } else {
+        add_msg_if_player(m_info, _("You can't eat your %s."), it->tname().c_str());
+        if (is_npc()) {
+            debugmsg("%s tried to eat a %s", name.c_str(), it->tname().c_str());
+        }
+        return false;
+    }
+
+    if (to_eat == NULL) {
+        debugmsg("Consumed item is lost!");
+        return false;
+    }
+
+    int amount_used = 1;
+    bool was_consumed = false;
+    if (comest != NULL) {
+        if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
+            was_consumed = eat(to_eat, comest);
+            if (!was_consumed) {
+                return was_consumed;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+    if (!was_consumed) {
+        return false;
+    }
+
+    // Actions after consume
+    to_eat->charges -= amount_used;
+    if (to_eat->charges <= 0) {
+        if (which == 0) {
+            g->m.i_rem(posx, posy, it);
+        } else if (which >= 0) {
+            it->contents.erase(it->contents.begin());
+            add_msg(_("Now %s is empty."), it->tname().c_str());
+        }
+    }
+    return true;
+}
+
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
     if ((rotten) && !(has_trait("SAPROPHAGE")) ) {

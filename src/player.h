@@ -584,6 +584,8 @@ public:
  bool consume(int pos);
  /** Used for eating entered comestible, returns true if comestible is successfully eaten */
  bool eat(item *eat, it_comest *comest);
+ /* Used for eating food or drinks in containers from ground, returns true if some is successfully eaten or drinked*/
+ bool eat_from_ground();
  /** Handles the effects of consuming an item */
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
  /** Handles rooting effects */
