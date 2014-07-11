@@ -580,7 +580,7 @@ void game::start_game(std::string worldname)
     } else {
         calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
     }
-    nextweather = calendar::turn + MINUTES(15);
+    nextweather = calendar::turn;
     weatherSeed = rand();
     run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
@@ -631,6 +631,7 @@ void game::start_game(std::string worldname)
     u.reset();
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
+    update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -2020,12 +2021,13 @@ void game::update_weather()
             weather_generator weatherGen(weatherSeed);
             has_generator = true;
         }
+//        debugmsg("Generating weather for turn %d", int(calendar::turn));
         w_point w = weatherGen.get_weather(u.pos(), calendar(calendar::turn));
         weather_type old_weather = weather;
         weather = weatherGen.get_weather_conditions(w);
         temperature = w.temperature;
         g->lightning_active = false;
-        nextweather += 150; // Check weather each quarter hour.
+        nextweather += 1; // Check weather each turn.
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());

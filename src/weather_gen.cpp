@@ -15,7 +15,15 @@ weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
 w_point weather_generator::get_weather(const point &location, const calendar &t) {
     const double x(location.x / 2000.0);// Integer x position / widening factor of the Perlin function.
     const double y(location.y / 2000.0);// Integer y position / widening factor of the Perlin function.
-    const double z((double) t.get_turn() / 2000.0); // Integer turn / widening factor of the Perlin function.
+    int initial_season(0);
+    if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring") {
+        initial_season = 1;
+    } else if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+        initial_season = 2;
+    } else if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
+        initial_season = 3;
+    }
+    const double z( double( t.get_turn() + DAYS(initial_season * t.season_length()) ) / 2000.0); // Integer turn / widening factor of the Perlin function.
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
@@ -24,7 +32,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     double H2(raw_noise_4d(x, y, z, SEED + 151) / 4);
     double P(raw_noise_4d(x, y, z / 3, SEED + 211) * 70);
 
-    const double now((double)t.turn_of_year() / (double)calendar::year_turns()); // [0,1)
+    const double now((double)t.turn_of_year() + DAYS(initial_season * t.season_length()) / (double)calendar::year_turns()); // [0,1)
     const double ctn(cos(tau * now));
 
     // Temperature variation
@@ -33,7 +41,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     const double seasonal_variation(ctn * -1); // Start and end at -1 going up to 1 in summer.
     const double season_atenuation(ctn / 2 + 1); // Harsh winter nights, hot summers.
     const double season_dispersion(pow(2, ctn * -1 + 1) - 2.3); // Make summers peak faster and winters not perma-frozen.
-    const double daily_variation(cos( tau * dayFraction ) * season_atenuation + season_dispersion); // Day-night temperature variation.
+    const double daily_variation(cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation + season_dispersion); // Day-night temperature variation.
 
     T += current_t; // Add baseline to the noise.
     T += seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5, 2)); // Add season curve offset to account for the winter-summer difference in day-night difference.
