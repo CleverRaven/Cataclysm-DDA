@@ -294,7 +294,7 @@ point overmapbuffer::find_closest(const tripoint& origin, const std::string& typ
 std::vector<point> overmapbuffer::find_all(const tripoint& origin, const std::string& type, int dist, bool must_be_seen)
 {
     std::vector<point> result;
-    int max = (dist == 0 ? OMAPX / 2 : dist);
+    int max = (dist == 0 ? OMAPX : dist);
     for (dist = 0; dist <= max; dist++) {
         for (int x = origin.x - dist; x <= origin.x + dist; x++) {
             for (int y = origin.y - dist; y <= origin.y + dist; y++) {
