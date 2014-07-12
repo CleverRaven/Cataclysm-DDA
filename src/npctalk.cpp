@@ -2478,6 +2478,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
       SUCCESS(TALK_STRANGER_NEUTRAL);
       SUCCESS_ACTION(&talk_function::player_weapon_away);
       SUCCESS_OPINION(2, -2, 0, 0, 0);
+      SUCCESS_ACTION(&talk_function::stranger_neutral);
     }
     RESPONSE(_("&Drop weapon."));
      SUCCESS(TALK_STRANGER_NEUTRAL);
@@ -2490,6 +2491,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     TRIAL(TALK_TRIAL_PERSUADE, diff);
     SUCCESS(TALK_STRANGER_NEUTRAL);
      SUCCESS_OPINION(1, -1, 0, 0, 0);
+     SUCCESS_ACTION(&talk_function::stranger_neutral);
     FAILURE(TALK_DONE);
      FAILURE_ACTION(&talk_function::flee);
   }
@@ -2519,6 +2521,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     TRIAL(TALK_TRIAL_PERSUADE, chance);
     SUCCESS(TALK_STRANGER_WARY);
      SUCCESS_OPINION(1, -1, 0, 0, 0);
+     SUCCESS_ACTION(&talk_function::stranger_neutral);
     FAILURE(TALK_DONE);
      FAILURE_ACTION(&talk_function::hostile);
    RESPONSE(_("!Screw you, no."));
@@ -2542,6 +2545,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     TRIAL(TALK_TRIAL_PERSUADE, chance);
     SUCCESS(TALK_STRANGER_WARY);
      SUCCESS_OPINION(1, -1, 0, 0, 0);
+     SUCCESS_ACTION(&talk_function::stranger_neutral);
     FAILURE(TALK_DONE);
      FAILURE_ACTION(&talk_function::hostile);
    RESPONSE(_("!Screw you, no."));
@@ -2989,6 +2993,13 @@ void talk_function::leave(npc *p)
 {
  add_msg(_("%s leaves."), p->name.c_str());
  p->attitude = NPCATT_NULL;
+}
+
+void talk_function::stranger_neutral(npc *p)
+{
+ add_msg(_("%s feels less threatened by you."), p->name.c_str());
+ p->attitude = NPCATT_NULL;
+ p->chatbin.first_topic = TALK_STRANGER_NEUTRAL;
 }
 
 void talk_function::start_mugging(npc *p)
