@@ -272,7 +272,6 @@ struct furn_t {
 
 extern std::vector<furn_t> furnlist;
 extern std::map<std::string, furn_t> furnmap;
-extern std::map<int,int> reverse_legacy_furn_id;
 furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
 
@@ -608,29 +607,6 @@ extern furn_id f_null,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
-
-enum old_furn_id {
-old_f_null,
-old_f_hay,
-old_f_bulletin,
-old_f_indoor_plant,
-old_f_bed, old_f_toilet, old_f_makeshift_bed,
-old_f_sink, old_f_oven, old_f_woodstove, old_f_fireplace, old_f_bathtub,
-old_f_chair, old_f_armchair, old_f_sofa, old_f_cupboard, old_f_trashcan, old_f_desk, old_f_exercise,
-old_f_bench, old_f_table, old_f_pool_table,
-old_f_counter,
-old_f_fridge, old_f_glass_fridge, old_f_dresser, old_f_locker,
-old_f_rack, old_f_bookcase,
-old_f_washer, old_f_dryer,
-old_f_dumpster, old_f_dive_block,
-old_f_crate_c, old_f_crate_o,
-old_f_canvas_wall, old_f_canvas_door, old_f_canvas_door_o, old_f_groundsheet, old_f_fema_groundsheet,
-old_f_skin_wall, old_f_skin_door, old_f_skin_door_o, old_f_skin_groundsheet,
-old_f_mutpoppy,
-old_f_safe_c, old_f_safe_l, old_f_safe_o,
-old_f_plant_seed, old_f_plant_seedling, old_f_plant_mature, old_f_plant_harvest,
-old_num_furniture_types
-};
 
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();

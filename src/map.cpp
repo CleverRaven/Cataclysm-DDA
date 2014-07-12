@@ -958,14 +958,6 @@ std::string map::get_furn(const int x, const int y) const {
     return furnlist[ furn(x,y) ].id;
 }
 
-int map::oldfurn(const int x, const int y) const {
-    const int nfurn = furn(x, y);
-    if ( reverse_legacy_furn_id.find(nfurn) == reverse_legacy_furn_id.end() ) {
-        return t_null;
-    }
-    return reverse_legacy_furn_id[ nfurn ];
-}
-
 furn_t & map::furn_at(const int x, const int y) const
 {
     return furnlist[ furn(x,y) ];
@@ -1605,7 +1597,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
             }
         } else {
             furn_id furnid = furn(x, y);
-            if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
+            if ( furnid == f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
                  furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
                  furnid == f_canvas_door_o || furnid == f_groundsheet ) {
                 result = rng(0, 6);

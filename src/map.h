@@ -303,7 +303,6 @@ class map
  bool has_furn(const int x, const int y);
 
  furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- int oldfurn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  std::string get_furn(const int x, const int y) const;
  furn_t & furn_at(const int x, const int y) const;
 
