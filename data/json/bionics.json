@@ -7,7 +7,7 @@
     },{
         "type" : "bionic",
         "id" : "bio_power_storage_mkII",
-    "name"       :    "Power Storage Mk.  II",
+    "name"       :    "Power Storage Mk. II",
     "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful Power Storage CBM.  Increases your power capacity by 10 units."
     },{
         "type" : "bionic",
@@ -479,11 +479,11 @@
     },{
         "type" : "bionic",
         "id" : "bio_power_armor_interface_mkII",
-    "name"       :    "Power Armor Interface Mk.  II",
+    "name"       :    "Power Armor Interface Mk. II",
     "active"     :    true,
     "cost"       :    1,
     "time"       :    50,
-    "description":    "Interfaces your power system with the internal charging port on suits of power armor.  The Mk.  II was designed by DoubleTech Inc., to meet the popularity of the Mk.  II power armor series."
+    "description":    "Interfaces your power system with the internal charging port on suits of power armor.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series."
     },{
         "type" : "bionic",
         "id" : "bio_flashbang",
