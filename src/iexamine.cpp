@@ -2202,7 +2202,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     const int cancel = 4;
 
     if (p->has_trait("ILLITERATE")) {
-        popup(_("You're illiterate, what is happening on the screen for you big mystery."));
+        popup(_("You're illiterate, and can't read the screen."));
     }
 
     int pumpCount = getNearPumpCount(m, examx, examy);
@@ -2219,7 +2219,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     }
 
     if (tankGasUnits == 0) {
-        popup(str_to_illiterate_str("Sorry, gas tank empty, come back later.").c_str());
+        popup(str_to_illiterate_str("This station is out of fuel.  We apologize for the inconvenience.").c_str());
         return;
     }
 
@@ -2238,7 +2238,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
     uimenu amenu;
     amenu.selected = 1;
-    amenu.text = str_to_illiterate_str("Welcome to automated gas station console!");
+    amenu.text = str_to_illiterate_str("Welcome to AutoGas!");
     amenu.addentry(0, false, -1, str_to_illiterate_str("What would you like to do?"));
 
     amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str("Buy gas."));
@@ -2343,7 +2343,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
     if (hack == choice) {
         bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                                  query_yn(_("Use electrohack on the terminal?")));
+                                  query_yn(_("Use electrohack on the reader?")));
         bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
                                  p->power_level > 0 &&
                                  query_yn(_("Use fingerhack on the reader?")));
@@ -2382,7 +2382,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
             } else {
                 point pGasPump = getGasPumpByNumber(m, examx, examy, uistate.ags_pay_gas_selected_pump);
                 if (toPumpFuel(m, pTank, pGasPump, tankGasUnits)) {
-                    add_msg(_("You hacked gas terminal and pumped all the fuel in the column!"));
+                    add_msg(_("You hack the terminal and route all available fuel to your pump!"));
                     g->sound(p->posx, p->posy, 6, _("Glug Glug Glug Glug Glug Glug Glug Glug Glug"));
                 } else {
                     add_msg(_("Nothing happens."));

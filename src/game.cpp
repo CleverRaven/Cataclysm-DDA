@@ -1341,7 +1341,7 @@ bool game::do_turn()
     if( u.skillLevel( "unarmed" ) >= 2 ) {
         if( std::find( u.ma_styles.begin(), u.ma_styles.end(), "style_brawling" ) == u.ma_styles.end() ) {
             u.ma_styles.push_back( "style_brawling" );
-            add_msg( m_info, _( "You learend a new style." ) );
+            add_msg( m_info, _( "You learned a new style." ) );
         }
     }
 
