@@ -300,47 +300,20 @@ void game::load_weather(std::ifstream & fin) {
    } else {
        lightning_active = false;
    }
-
-     while(!fin.eof()) {
-        std::string data;
-        getline(fin, data);
-
-        std::stringstream wl;
-        wl.str(data);
-        int inturn, intemp, inweather, inzone;
-        wl >> inturn >> intemp >> inweather >> inzone;
-        weather_segment wtm;
-        wtm.weather = (weather_type)inweather;
-        wtm.temperature = intemp;
-        wtm.deadline = inturn;
-        if ( inzone == 0 ) {
-           weather_log[inturn] = wtm;
-        } else {
-           debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
-        }
-     }
-     std::map<int, weather_segment>::iterator w_it = weather_log.upper_bound(int(calendar::turn));
-    if ( w_it != weather_log.end() ) {
-        // lower_bound returns the smallest key, that
-        // is >= turn. (The key in that map is the deadline
-        // of the weather segment.) That is the current weather.
-        weather_segment cur = w_it->second;
-        weather = cur.weather;
-        temperature = cur.temperature;
-        nextweather = cur.deadline;
+    if (fin.peek() == 's') {
+        std::string line, label;
+        getline(fin, line);
+        int seed(0);
+        std::stringstream liness(line);
+        liness >> label >> seed;
+        weatherSeed = seed;
     }
 }
 
 void game::save_weather(std::ofstream & fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    const int climatezone = 0;
-    for( std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it ) {
-      fout << it->first
-        << " " << int(it->second.temperature)
-        << " " << it->second.weather
-        << " " << climatezone << std::endl;
-    }
+    fout << "seed: " << weatherSeed;
 }
 ///// overmap
 void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
