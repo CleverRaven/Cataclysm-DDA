@@ -221,7 +221,6 @@ void set_furn_ids();
  */
 extern std::vector<ter_t> terlist;
 extern std::map<std::string, ter_t> termap;
-extern std::map<int,int> reverse_legacy_ter_id;
 ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
 
@@ -609,83 +608,6 @@ extern furn_id f_null,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
-
-enum old_ter_id {
-old_t_null = 0,
-old_t_hole, // Real nothingness; makes you fall a z-level
-// Ground
-old_t_dirt, old_t_sand, old_t_dirtmound, old_t_pit_shallow, old_t_pit,
-old_t_pit_corpsed, old_t_pit_covered, old_t_pit_spiked, old_t_pit_spiked_covered,
-old_t_rock_floor, old_t_rubble, old_t_ash, old_t_metal, old_t_wreckage,
-old_t_grass,
-old_t_metal_floor,
-old_t_pavement, old_t_pavement_y, old_t_sidewalk, old_t_concrete,
-old_t_floor,
-old_t_dirtfloor,//Dirt floor(Has roof)
-old_t_grate,
-old_t_slime,
-old_t_bridge,
-// Lighting related
-old_t_skylight, old_t_emergency_light_flicker, old_t_emergency_light,
-// Walls
-old_t_wall_log_half, old_t_wall_log, old_t_wall_log_chipped, old_t_wall_log_broken, old_t_palisade, old_t_palisade_gate, old_t_palisade_gate_o,
-old_t_wall_half, old_t_wall_wood, old_t_wall_wood_chipped, old_t_wall_wood_broken,
-old_t_wall_v, old_t_wall_h, old_t_concrete_v, old_t_concrete_h,
-old_t_wall_metal_v, old_t_wall_metal_h,
-old_t_wall_glass_v, old_t_wall_glass_h,
-old_t_wall_glass_v_alarm, old_t_wall_glass_h_alarm,
-old_t_reinforced_glass_v, old_t_reinforced_glass_h,
-old_t_bars,
-old_t_door_c, old_t_door_b, old_t_door_o, old_t_rdoor_c,
-old_t_door_locked_interior, old_t_door_locked, old_t_door_locked_alarm, old_t_door_frame,
-old_t_chaingate_l, old_t_fencegate_c, old_t_fencegate_o, old_t_chaingate_c, old_t_chaingate_o, old_t_door_boarded,
-old_t_door_metal_c, old_t_door_metal_o, old_t_door_metal_locked,
-old_t_door_bar_c, old_t_door_bar_o, old_t_door_bar_locked,
-old_t_door_glass_c, old_t_door_glass_o,
-old_t_portcullis,
-old_t_recycler, old_t_window, old_t_window_taped, old_t_window_domestic, old_t_window_domestic_taped, old_t_window_open, old_t_curtains,
-old_t_window_alarm, old_t_window_alarm_taped, old_t_window_empty, old_t_window_frame, old_t_window_boarded,
-old_t_window_stained_green, old_t_window_stained_red, old_t_window_stained_blue,
-old_t_rock, old_t_fault,
-old_t_paper,
-// Tree
-old_t_tree, old_t_tree_young, old_t_tree_apple, old_t_underbrush, old_t_shrub, old_t_shrub_blueberry, old_t_shrub_strawberry, old_t_trunk,
-old_t_root_wall,
-old_t_wax, old_t_floor_wax,
-old_t_fence_v, old_t_fence_h, old_t_chainfence_v, old_t_chainfence_h, old_t_chainfence_posts,
-old_t_fence_post, old_t_fence_wire, old_t_fence_barbed, old_t_fence_rope,
-old_t_railing_v, old_t_railing_h,
-// Nether
-old_t_marloss, old_t_fungus, old_t_tree_fungal,
-// Water, lava, etc.
-old_t_water_sh, old_t_water_dp, old_t_swater_sh, old_t_swater_dp, old_t_water_pool, old_t_sewage,
-old_t_lava,
-// More embellishments than you can shake a stick at.
-old_t_sandbox, old_t_slide, old_t_monkey_bars, old_t_backboard,
-old_t_gas_pump, old_t_gas_pump_smashed,
-old_t_generator_broken,
-old_t_missile, old_t_missile_exploded,
-old_t_radio_tower, old_t_radio_controls,
-old_t_console_broken, old_t_console, old_t_gates_mech_control, old_t_gates_control_concrete, old_t_barndoor, old_t_palisade_pulley,
-old_t_sewage_pipe, old_t_sewage_pump,
-old_t_centrifuge,
-old_t_column,
-old_t_vat,
-// Staircases etc.
-old_t_stairs_down, old_t_stairs_up, old_t_manhole, old_t_ladder_up, old_t_ladder_down, old_t_slope_down,
- old_t_slope_up, old_t_rope_up,
-old_t_manhole_cover,
-// Special
-old_t_card_science, old_t_card_military, old_t_card_reader_broken, old_t_slot_machine,
- old_t_elevator_control, old_t_elevator_control_off, old_t_elevator, old_t_pedestal_wyrm,
- old_t_pedestal_temple,
-// Temple tiles
-old_t_rock_red, old_t_rock_green, old_t_rock_blue, old_t_floor_red, old_t_floor_green, old_t_floor_blue,
- old_t_switch_rg, old_t_switch_gb, old_t_switch_rb, old_t_switch_even,
-old_t_rdoor_b, old_t_rdoor_o, old_t_mdoor_frame, old_t_window_reinforced, old_t_window_reinforced_noglass,
- old_t_window_enhanced, old_t_window_enhanced_noglass,
-old_num_terrain_types,
-};
 
 enum old_furn_id {
 old_f_null,

@@ -1040,17 +1040,6 @@ ter_id map::ter(const int x, const int y) const {
 
  return current_submap->ter[lx][ly];
 }
-/*
- * -temporary- for non-rewritten switch statements
- */
-int map::oldter(const int x, const int y) const {
-    const int nter = ter(x, y);
-    if ( reverse_legacy_ter_id.find(nter) == reverse_legacy_ter_id.end() ) {
-        return t_null;
-    }
-    return reverse_legacy_ter_id[ nter ];
-}
-
 
 /*
  * Get the terrain string id. This will remain the same across revisions,
@@ -1712,9 +1701,8 @@ void map::destroy(const int x, const int y, const bool makesound)
  if (has_furn(x, y))
   furn_set(x, y, f_null);
 
- switch (oldter(x, y)) {
-
- case old_t_gas_pump:
+    const ter_id t = ter( x, y );
+    if( t == t_gas_pump) {
   if (makesound && one_in(3))
    g->explosion(x, y, 40, 0, true);
   else {
@@ -1727,12 +1715,7 @@ void map::destroy(const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
-  break;
-
- case old_t_door_c:
- case old_t_door_b:
- case old_t_door_locked:
- case old_t_door_boarded:
+    } else if( t == t_door_c || t == t_door_b || t == t_door_locked || t == t_door_boarded ) {
   ter_set(x, y, t_door_frame);
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1741,11 +1724,7 @@ void map::destroy(const int x, const int y, const bool makesound)
        if (one_in(6)) spawn_item(i, j, "nail", 0, 3);
    }
   }
-  break;
-
- case old_t_pavement:
- case old_t_pavement_y:
- case old_t_sidewalk:
+    } else if( t == t_pavement || t == t_pavement_y || t == t_sidewalk ) {
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
@@ -1753,9 +1732,7 @@ void map::destroy(const int x, const int y, const bool makesound)
     ter_set(x, y, t_rubble);
    }
   }
-  break;
-
- case old_t_floor:
+    } else if( t == t_floor ) {
  g->sound(x, y, 20, _("SMASH!!"));
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1796,12 +1773,7 @@ void map::destroy(const int x, const int y, const bool makesound)
      if (one_in(num_supports))
       destroy (i, j, false);
    }
-  break;
-
- case old_t_concrete_v:
- case old_t_concrete_h:
- case old_t_wall_v:
- case old_t_wall_h:
+    } else if( t == t_concrete_v || t == t_concrete_h || t == t_wall_v || t == t_wall_h ) {
  g->sound(x, y, 20, _("SMASH!!"));
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1847,10 +1819,7 @@ void map::destroy(const int x, const int y, const bool makesound)
      if (one_in(num_supports))
       destroy (i, j, false);
    }
-  break;
-
-  case old_t_palisade:
-  case old_t_palisade_gate:
+    } else if( t == t_palisade || t == t_palisade_gate ) {
       g->sound(x, y, 16, _("CRUNCH!!"));
       for (int i = x - 1; i <= x + 1; i++)
       {
@@ -1866,9 +1835,7 @@ void map::destroy(const int x, const int y, const bool makesound)
       }
       ter_set(x, y, t_dirt);
       add_trap(x, y, tr_pit);
-      break;
-
- default:
+    } else {
   if (makesound && has_flag("EXPLODES", x, y) && one_in(2)) {
    g->explosion(x, y, 40, 0, true);
   }
@@ -2124,62 +2091,38 @@ void map::shoot(const int x, const int y, int &dam,
     }
 }
 
-bool map::hit_with_acid(const int x, const int y)
+bool map::hit_with_acid( const int x, const int y )
 {
- if (move_cost(x, y) != 0)
-  return false; // Didn't hit the tile!
-
- switch (oldter(x, y)) {
-  case old_t_wall_glass_v:
-  case old_t_wall_glass_h:
-  case old_t_wall_glass_v_alarm:
-  case old_t_wall_glass_h_alarm:
-  case old_t_vat:
-   ter_set(x, y, t_floor);
-   break;
-
-  case old_t_door_c:
-  case old_t_door_locked:
-  case old_t_door_locked_alarm:
-   if (one_in(3))
-    ter_set(x, y, t_door_b);
-   break;
-
-  case old_t_door_bar_c:
-  case old_t_door_bar_o:
-  case old_t_door_bar_locked:
-  case old_t_bars:
-   ter_set(x, y, t_floor);
-   add_msg(m_warning, _("The metal bars melt!"));
-   break;
-
-  case old_t_door_b:
-   if (one_in(4))
-    ter_set(x, y, t_door_frame);
-   else
-    return false;
-   break;
-
-  case old_t_window:
-  case old_t_window_alarm:
-   ter_set(x, y, t_window_empty);
-   break;
-
-  case old_t_wax:
-   ter_set(x, y, t_floor_wax);
-   break;
-
-  case old_t_gas_pump:
-  case old_t_gas_pump_smashed:
-   return false;
-
-  case old_t_card_science:
-  case old_t_card_military:
-   ter_set(x, y, t_card_reader_broken);
-   break;
- }
-
- return true;
+    if( move_cost( x, y ) != 0 ) {
+        return false;    // Didn't hit the tile!
+    }
+    const ter_id t = ter( x, y );
+    if( t == t_wall_glass_v || t == t_wall_glass_h || t == t_wall_glass_v_alarm || t == t_wall_glass_h_alarm ||
+        t == t_vat ) {
+        ter_set( x, y, t_floor );
+    } else if( t == t_door_c || t == t_door_locked || t == t_door_locked_alarm ) {
+        if( one_in( 3 ) ) {
+            ter_set( x, y, t_door_b );
+        }
+    } else if( t == t_door_bar_c || t == t_door_bar_o || t == t_door_bar_locked || t == t_bars ) {
+        ter_set( x, y, t_floor );
+        add_msg( m_warning, _( "The metal bars melt!" ) );
+    } else if( t == t_door_b ) {
+        if( one_in( 4 ) ) {
+            ter_set( x, y, t_door_frame );
+        } else {
+            return false;
+        }
+    } else if( t == t_window || t == t_window_alarm ) {
+        ter_set( x, y, t_window_empty );
+    } else if( t == t_wax ) {
+        ter_set( x, y, t_floor_wax );
+    } else if( t == t_gas_pump || t == t_gas_pump_smashed ) {
+        return false;
+    } else if( t == t_card_science || t == t_card_military ) {
+        ter_set( x, y, t_card_reader_broken );
+    }
+    return true;
 }
 
 // returns true if terrain stops fire
