@@ -469,7 +469,7 @@ std::string weather_forecast(radio_tower tower)
     city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
     // Current time
     weather_report << string_format(
-        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s"),
+        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
         calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(), closest_city->name.c_str(),
         weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
     );
@@ -487,28 +487,33 @@ std::string weather_forecast(radio_tower tower)
     // forecasting periods are divided into 12-hour periods, day (6-18) and night (19-5)
     // Accumulate percentages for each period of various weather statistics, and report that
     // (with fuzz) as the weather chances.
-    int weather_proportions[NUM_WEATHER_TYPES] = {0};
+    // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
     // TODO wind direction and speed
+    int last_hour = calendar::turn - (calendar::turn % HOURS(1));
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
-        for(calendar i(calendar::turn + 7200 * d); i < calendar::turn + 7200 * (d + 1); i += 600) {
+        for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
             w_point w = g->weatherGen.get_weather(point(tower.x, tower.y), i);
             forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);
         }
         std::string day;
-        if(d == 0 && (calendar::turn + 7200).is_night()) {
+        bool started_at_night;
+        calendar c(last_hour + 7200 * d);
+        if(d == 0 && c.is_night()) {
             day = _("Tonight");
+            started_at_night = true;
         } else {
             day = _("Today");
+            started_at_night = false;
         }
-        if(d > 0 && (calendar::turn + 7200 * d).is_night()) {
-            day = rmp_format(_("<Mon Night>%s Night"), (calendar::turn + 7200 * d).day_of_week().c_str());
+        if(d > 0 && ((started_at_night && !(d % 2)) || (!started_at_night && d % 2))) {
+            day = rmp_format(_("<Mon Night>%s Night"), c.day_of_week().c_str());
         } else {
-            day = (calendar::turn + 7200 * d).day_of_week();
+            day = c.day_of_week();
         }
         weather_report << string_format(
             _("%s...%s. Highs of %s. Lows of %s. "),
