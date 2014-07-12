@@ -87,6 +87,7 @@ enum npc_class {
  NC_THUG,           // Moderate melee skills and poor equipment
  NC_SCAVENGER,      // Good with pistols light weapons
  NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
+ NC_HUNTER,         // Survivor type good with bow or rifle
  NC_MAX
 };
 
@@ -344,6 +345,25 @@ enum talk_topic {
  TALK_EVAC_GUARD2_RULES_BASEMENT,
  TALK_EVAC_GUARD2_WHO,
  TALK_EVAC_GUARD2_TRADE,
+
+ TALK_EVAC_GUARD3,//Located in Refugee Center
+ TALK_EVAC_GUARD3_NEW,
+ TALK_EVAC_GUARD3_RULES,
+ TALK_EVAC_GUARD3_HIDE1,
+ TALK_EVAC_GUARD3_HIDE2,
+ TALK_EVAC_GUARD3_WASTE,
+ TALK_EVAC_GUARD3_DEAD,
+ TALK_EVAC_GUARD3_HOSTILE,
+ TALK_EVAC_GUARD3_INSULT,
+
+ TALK_EVAC_HUNTER,//Located in Refugee Center
+ TALK_EVAC_HUNTER_SMELL,
+ TALK_EVAC_HUNTER_DO,
+ TALK_EVAC_HUNTER_LIFE,
+ TALK_EVAC_HUNTER_HUNT,
+ TALK_EVAC_HUNTER_SALE,
+ TALK_EVAC_HUNTER_ADVICE,
+ TALK_EVAC_HUNTER_BYE,
 
  TALK_OLD_GUARD_REP,//Located in Refugee Center
  TALK_OLD_GUARD_REP_NEW,
