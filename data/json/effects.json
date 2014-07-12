@@ -466,5 +466,9 @@
    {
       "type":"effect_type",
       "id":"attack_boost"
+   },
+   {
+      "type":"effect_type",
+      "id":"has_bag"
    }
 ]

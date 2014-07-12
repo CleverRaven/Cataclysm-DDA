@@ -6222,12 +6222,56 @@ int iuse::vacutainer(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+void make_zlave(player *p)
+{
+    std::vector<item> &items = g->m.i_at(p->posx, p->posy);
+    std::vector<item *> corpses;
+
+    const int cancel = 0;
+
+    for (int i = 0; i < items.size(); i++) {
+        item &it = items[i];
+
+        if (it.is_corpse() && it.corpse->id == "mon_zombie_brute") {
+            corpses.push_back(&it);
+        }
+    }
+
+    if (corpses.empty()) {
+        p->add_msg_if_player(_("No suitable corpses"));
+        return;
+    }
+
+    uimenu amenu;
+
+    amenu.selected = 0;
+    amenu.text = _("Use corpse to make zlave?");
+    amenu.addentry(cancel, true, 'q', _("Cancel"));
+    for (int i = 0; i < corpses.size(); i++) {
+        amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
+    }
+
+    amenu.query();
+
+    if (cancel == amenu.ret) {
+        p->add_msg_if_player(_("Make love, not zlave."));
+        return;
+    }
+
+    corpses[amenu.ret - 1]->make_corpse("corpse", GetMType("mon_zlave"), calendar::turn);
+
+    p->add_msg_if_player(_("You made a zlave, now wait until it revives."));
+
+    p->moves -= 300;
+}
+
 int iuse::knife(player *p, item *it, bool t)
 {
     int choice = -1;
     const int cut_fabric = 0;
     const int carve_writing = 1;
     const int cauterize = 2;
+	const int make_slave = 3;
     const int cancel = 4;
     int pos;
 
@@ -6247,6 +6291,12 @@ int iuse::knife(player *p, item *it, bool t)
                             !p->is_underwater()) ? _("Cauterize") : _("Cauterize...for FUN!"));
         }
     }
+
+	if (p->has_trait("CANNIBAL") || p->has_trait("PSYCHOPATH"))
+	{
+	    kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
+	}
+
     kmenu.addentry(cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;
@@ -6264,7 +6314,12 @@ int iuse::knife(player *p, item *it, bool t)
         pos = g->inv(_("Chop up what?"));
     } else if (choice == carve_writing) {
         pos = g->inv(_("Carve writing on what?"));
-    } else {
+	}
+	else if (choice == make_slave) {
+		make_zlave(p);
+		return 0;
+	}
+	else{
         return 0;
     }
 

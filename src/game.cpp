@@ -8382,6 +8382,201 @@ void game::control_vehicle()
     }
 }
 
+bool zlave_menu(monster *z)
+{
+
+    const int cancel = 0;
+    const int swap_pos = 1;
+    const int attach_bag = 2;
+    const int drop_all = 3;
+    const int give_items = 4;
+    const int pheromone = 5;
+
+    uimenu amenu;
+
+    amenu.selected = 0;
+    amenu.text = _("What to do with zlave?");
+    amenu.addentry(cancel, true, 'q', _("Cancel"));
+
+    amenu.addentry(swap_pos, true, 's', _("Swap positions"));
+
+    if (z->has_effect("has_bag")) {
+        amenu.addentry(give_items, true, 'g', _("Place items into bag"));
+        amenu.addentry(drop_all, true, 'd', _("Drop all items"));
+    } else {
+        amenu.addentry(attach_bag, true, 'b', _("Attach bag"));
+    }
+
+    amenu.addentry(pheromone, true, 'p', _("Extract pheromone"));
+
+    amenu.query();
+    int choice = amenu.ret;
+
+    if (cancel == choice) {
+        return false;
+    }
+
+    if (swap_pos == choice) {
+        g->u.moves -= 150;
+
+        if (!one_in((g->u.str_cur + g->u.dex_cur) / 6)) {
+
+            int x = z->posx(), y = z->posy();
+            z->move_to(g->u.posx, g->u.posy, true);
+            g->u.posx = x;
+            g->u.posy = y;
+
+            add_msg(_("You displaced your zlave."));
+
+            return true;
+        } else {
+            add_msg(_("You failed to displace the zlave!"));
+
+            return true;
+        }
+    }
+
+    if (attach_bag == choice) {
+
+        int pos = g->inv_type(_("Bag item:"), IC_ARMOR);
+
+        item *it = &g->u.i_at(pos);
+
+        if (!it->is_armor()) {
+            add_msg(_("This is not a bag"));
+            return true;
+        }
+
+        it_armor *armor = dynamic_cast<it_armor *>(it->type);
+        if (armor->storage <= 0) {
+            add_msg(_("This is not a bag"));
+            return true;
+        }
+
+        z->add_item(*it);
+
+        g->u.i_rem(pos);
+
+        z->add_effect("has_bag", 1, 1, true);
+
+        add_msg(_("You're wore the %s on your zlave."), it->display_name().c_str());
+
+        g->u.moves -= 200;
+
+        return true;
+    }
+
+    if (drop_all == choice) {
+        for (std::vector<item>::iterator it = z->inv.begin();
+             it != z->inv.end(); ++it) {
+            g->m.add_item_or_charges(z->posx(), z->posy(), *it);
+        }
+
+        z->inv.clear();
+
+        z->remove_effect("has_bag");
+
+        add_msg(_("Your zlave dropped some stuff."));
+
+        g->u.moves -= 200;
+        return true;
+    }
+
+    if (give_items == choice) {
+
+        int max_cap = 0;
+
+        if (z->inv.empty()) {
+            add_msg(_("Zlave has no bag!"));
+            return true;
+        }
+
+        item *it = &z->inv[0];
+
+        if (!it->is_armor()) {
+            add_msg(_("Zlave has no bag!"));
+            return true;
+        }
+
+        it_armor *armor = dynamic_cast<it_armor *>(it->type);
+
+        max_cap = armor->storage;
+
+        if (z->inv.size() > 1) {
+            for (int i = 1; i < z->inv.size(); i++) {
+                max_cap -= z->inv[i].volume();
+            }
+        }
+
+        if (max_cap <= 0) {
+            add_msg(_("No more free space in zlave bag!"));
+            return true;
+        }
+
+		int dummy;
+        std::vector<item> dropped_worn;
+        std::vector<item> result = g->multidrop(dropped_worn, dummy);
+        result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
+
+        add_msg(_("Are you trying to push things in a zlave bag."));
+
+        for (int i = 0; i < result.size(); i++) {
+
+            int vol = result[i].volume();
+
+            if (max_cap - vol >= 0) {
+                z->inv.push_back(result[i]);
+                max_cap -= vol;
+            } else {
+                g->m.add_item_or_charges(z->xpos(), z->ypos(), result[i], 1);
+                g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
+                                       result[i].display_name().c_str());
+            }
+        }
+
+        return true;
+
+    }
+
+    if (pheromone == choice) {
+
+        g->u.add_msg_if_player(_("You tear out and squeeze the pheremone ball from zlave..."));
+		z->make_friendly();
+        z->hurt(100);
+
+        g->u.moves -= 150;
+
+        int converts = 0;
+        for (int x = g->u.posx - 5; x <= g->u.posx + 5; x++) {
+            for (int y = g->u.posy - 5; y <= g->u.posy + 5; y++) {
+                int mondex = g->mon_at(x, y);
+                if (mondex == -1) {
+                    continue;
+                }
+                monster &critter = g->zombie(mondex);
+                if (critter.type->in_species("ZOMBIE") && critter.friendly == 0 && rng(0, 800) > critter.hp) {
+                    converts++;
+                    critter.make_friendly();
+                }
+            }
+        }
+
+        if (g->u_see(g->u)) {
+            if (converts == 0) {
+                add_msg(_("...but nothing happens."));
+            } else if (converts == 1) {
+                add_msg(m_good, _("...and a nearby zombie turns friendly!"));
+            } else {
+                add_msg(m_good, _("...and several nearby zombies turn friendly!"));
+            }
+        }
+
+    }
+
+    return true;
+
+}
+
 void game::examine(int examx, int examy)
 {
     int veh_part = 0;
@@ -8461,6 +8656,18 @@ void game::examine(int examx, int examy)
             Pickup::pick_up(examx, examy, 0);
         }
     }
+
+	if (critter_at(examx, examy) != NULL)
+	{
+	    Creature *c = critter_at(examx, examy);
+	    monster *mon = dynamic_cast<monster *>(c);
+
+	    if (mon != NULL && mon->type->id == "mon_zlave") {
+			if (!zlave_menu(mon)) return;
+	    }
+
+	}
+
     //check for disarming traps last to avoid disarming query black box issue.
     if(m.tr_at(examx, examy) != tr_null) {
         xmine.trap(&u, &m, examx, examy);
