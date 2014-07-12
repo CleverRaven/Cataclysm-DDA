@@ -10284,6 +10284,50 @@ void game::grab()
     }
 }
 
+item *choose_container_on_ground(int posx, int posy, item &liquid, bool &ground)
+{
+    std::vector<item> &all_items = g->m.i_at(posx, posy);
+    std::vector<item *> containers;
+
+    ground = true;
+
+    for (int i = 0; i < all_items.size(); i++) {
+        item &it = all_items[i];
+
+        if (it.is_container()) {
+            containers.push_back(&it);
+        }
+    }
+
+    if (containers.empty()) {
+        return NULL;
+    }
+
+    uimenu amenu;
+
+    amenu.selected = 1;
+    amenu.text = _("Pour to");
+    amenu.addentry(0, true, 'q', _("Cancel"));
+    amenu.addentry(1, true, 'g', _("Ground"));
+    for (int i = 0; i < containers.size(); i++) {
+        amenu.addentry(i + 2, true, -1, containers[i]->display_name());
+    }
+
+    amenu.query();
+
+    if (1 == amenu.ret) {
+        return NULL;
+    }
+
+	ground = false;
+
+	if (0 == amenu.ret) {
+		return NULL;
+	}    
+
+    return containers[amenu.ret - 2];
+}
+
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont)
@@ -10365,11 +10409,23 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
                     add_msg(m_info, _("You can't pour there!"));
                     return false;
                 }
-                m.add_item_or_charges(dirx, diry, liquid, 1);
-                return true;
-            }
-            add_msg(_("Never mind."));
-            return false;
+
+				bool ground;
+				cont = choose_container_on_ground(dirx, diry, liquid, ground);
+
+				if (ground){
+					m.add_item_or_charges(dirx, diry, liquid, 1);
+					return true;
+				}
+				else if (cont == NULL){
+					add_msg(_("Never mind."));
+					return false;
+				}
+			}
+			else{
+				add_msg(_("Never mind."));
+				return false;
+			}
         }
     }
 
