@@ -10992,6 +10992,23 @@ int map::place_npc(int x, int y, std::string type)
         g->load_npcs();
         return temp->getID();
         }
+    if (type == "evac_guard3"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD3;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
     if (type == "guard"){
         npc *temp = new npc();
         temp->normalize();
@@ -11027,6 +11044,22 @@ int map::place_npc(int x, int y, std::string type)
         return temp->getID();
         }
     //Wasteland Scavengers NPCs, fac_id 3
+    if (type == "scavenger_hunter"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_HUNTER);
+        temp->name += ", Hunter";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_HUNTER;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return temp->getID();
+        }
     if (type == "scavenger_merc"){
         npc *temp = new npc();
         temp->normalize();
