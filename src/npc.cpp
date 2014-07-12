@@ -259,6 +259,29 @@ void npc::randomize(npc_class type)
   this->restock = 14400*3;  //Every three days
   break;
 
+ case NC_HUNTER:
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = dice(3, 2) - rng(0, 4);
+   if (level < 0)
+   {
+    level = 0;
+   }
+   set_skill_level(*aSkill, level);
+  }
+  boost_skill_level("barter", rng(2, 5));
+  boost_skill_level("gun", rng(2, 4));
+  if (one_in(3)){
+    boost_skill_level("rifle", rng(2, 4));
+  } else {
+    boost_skill_level("archery", rng(2, 4));
+  }
+  str_max -= rng(0, 2);
+  dex_max -= rng(1, 3);
+  per_max += rng(2, 4);
+  cash = 15000 * rng(1, 10)+ rng(1, 1000);
+  this->restock = 14400*3;  //Every three days
+  break;
+
  case NC_HACKER:
   for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    int level = 0;
@@ -409,6 +432,8 @@ void npc::randomize(npc_class type)
    }
    set_skill_level(*aSkill, level);
   }
+  str_max -= rng(2, 4);
+  dex_max -= rng(0, 2);
   boost_skill_level("dodge", rng(1, 3));
   boost_skill_level("melee", rng(2, 4));
   boost_skill_level("unarmed", rng(1, 3));
@@ -680,7 +705,6 @@ std::vector<item> starting_clothes(npc_class type, bool male)
  itype_id pants = "null", shoes = "null", shirt = "null",
                   gloves = "null", coat = "null", mask = "null",
                   glasses = "null", hat = "null", extras = "null";
-
  Item_tag selected_item;
  pants = item_controller->id_from(npc_class_name_str(type)+"_pants_male");
  if (!male)
@@ -1523,6 +1547,9 @@ void npc::shop_restock(){
             from = "NC_ARSONIST_misc";
             this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
             ret.push_back(item("molotov", 0));
+        case NC_HUNTER:
+            from = "NC_HUNTER_misc";
+            this-> cash = 15000 * rng(1, 10)+ rng(1, 1000);
     }
     if (from == "NULL")
         return;
@@ -2173,6 +2200,8 @@ std::string npc_class_name_str(npc_class classtype)
         return _("NC_THUG");
     case NC_SCAVENGER: // Good with pistols light weapons
         return _("NC_SCAVENGER");
+    case NC_HUNTER: // Good with bows and rifles
+        return _("NC_HUNTER");
     }
     return _("Unknown class");
 }
@@ -2206,6 +2235,8 @@ std::string npc_class_name(npc_class classtype)
         return _("Thug");
     case NC_SCAVENGER: // Good with pistols light weapons
         return _("Scavenger");
+    case NC_HUNTER: // Good with bows and rifles
+        return _("Hunter");
     }
     return _("Unknown class");
 }
