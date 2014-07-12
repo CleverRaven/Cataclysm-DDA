@@ -10303,12 +10303,12 @@ item *choose_container_on_ground(int posx, int posy, item &liquid, bool &ground)
         return NULL;
     }
 
-	const std::string text = string_format(_("Pour %s to"), liquid.tname().c_str());
+    const std::string text = string_format(_("Pour %s to"), liquid.tname().c_str());
 
     uimenu amenu;
 
     amenu.selected = 1;
-	amenu.text = text;
+    amenu.text = text;
     amenu.addentry(0, true, 'q', _("Cancel"));
     amenu.addentry(1, true, 'g', _("Ground"));
     for (int i = 0; i < containers.size(); i++) {
@@ -10321,11 +10321,11 @@ item *choose_container_on_ground(int posx, int posy, item &liquid, bool &ground)
         return NULL;
     }
 
-	ground = false;
+    ground = false;
 
-	if (0 == amenu.ret) {
-		return NULL;
-	}    
+    if (0 == amenu.ret) {
+        return NULL;
+    }
 
     return containers[amenu.ret - 2];
 }
