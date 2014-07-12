@@ -33,13 +33,13 @@ point target_om_ter_random(const std::string &omter, int reveal_rad, mission *mi
     std::vector<point> places = overmap_buffer.find_all(
         g->om_global_location(), omter, dist, must_see);
     if (places.size() == 0){
-        debugmsg("Couldn't find");
-        return NULL;
+        debugmsg("Couldn't find %s", omter.c_str());
+        return point();
     }
     std::vector<point> places_om;
     for (int i = 0; i < places.size(); i++) {
-            if (g->cur_om == overmap_buffer.get_existing_om_global(places[i]))
-                places_om.push_back(places[i]);
+        if (g->cur_om == overmap_buffer.get_existing_om_global(places[i]))
+            places_om.push_back(places[i]);
     }
     const point place = places_om[rng(0,places_om.size()-1)];
     if(place != overmap::invalid_point && reveal_rad >= 0) {
@@ -167,7 +167,7 @@ void mission_start::place_caravan_ambush(mission *miss)
  bay.add_field(SEEX+1, SEEY+9,fd_blood,1);
  bay.add_field(SEEX, SEEY+9,fd_blood,1);
  bay.place_npc(SEEX+3,SEEY-5, "bandit");
- bay.place_npc(SEEX, SEEY-7, "bandit");
+ bay.place_npc(SEEX, SEEY-7, "thug");
  miss->target_npc_id = bay.place_npc(SEEX-3, SEEY-4, "bandit");
  bay.save();
 }
@@ -187,13 +187,18 @@ void mission_start::place_bandit_cabin(mission *miss)
 
 void mission_start::place_informant(mission *miss)
 {
- //int whichOne = rng(0,3);
- point site = target_om_ter_random("evac_center_8", 1, miss, false);
+ point site = target_om_ter_random("evac_center_19", 1, miss, false);
  tinymap bay;
  bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
- //target_npc_id = bay.place_npc(SEEX, SEEY, "bandit");
- miss->target_npc_id = bay.place_npc(SEEX, SEEY, "bandit");
+ miss->target_npc_id = bay.place_npc(SEEX, SEEY, "evac_guard3");
  bay.save();
+
+ site = target_om_ter_random("evac_center_7", 1, miss, false);
+ tinymap bay2;
+ bay2.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay2.place_npc(SEEX+rng(-3,3), SEEY+rng(-3,3), "scavenger_hunter");
+ bay2.save();
+ site = target_om_ter_random("evac_center_17", 1, miss, false);
 }
 
 void mission_start::place_grabber(mission *miss)
