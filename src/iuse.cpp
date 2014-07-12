@@ -6271,7 +6271,7 @@ int iuse::knife(player *p, item *it, bool t)
     const int cut_fabric = 0;
     const int carve_writing = 1;
     const int cauterize = 2;
-	const int make_slave = 3;
+    const int make_slave = 3;
     const int cancel = 4;
     int pos;
 
