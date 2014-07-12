@@ -320,44 +320,12 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
     }
 }
 
-#if defined LOCALIZE && ! defined __CYGWIN__
-// load names depending on current locale
 void init_names()
 {
-    std::locale loc;
-
-    try {
-        loc = std::locale("");
-    }
-    catch( std::exception ) {
-        loc = std::locale("C");
-    }
-
-    std::string loc_name = loc.name();
-    if (loc_name == "C") {
-        loc_name = "en";
-    }
-    size_t dotpos = loc_name.find('.');
-    if (dotpos != std::string::npos) {
-        loc_name = loc_name.substr(0, dotpos);
-    }
-    // test if a local version exists
-    std::string filename = FILENAMES["namesdir"] + loc_name + ".json";
-    std::ifstream fin(filename.c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!fin.good()) {
-        // if not, use "en.json"
-        filename = FILENAMES["names"];
-    }
-    fin.close();
-
+    const std::string filename = PATH_INFO::find_translated_file( "namesdir",
+                                                                  ".json", "names" );
     load_names_from_file(filename);
 }
-#else
-void init_names()
-{
-    load_names_from_file(FILENAMES["names"]);
-}
-#endif
 
 void DynamicDataLoader::unload_data()
 {
