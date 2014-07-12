@@ -199,10 +199,14 @@ void npc::randomize(npc_class type)
   male = false;
  pick_name();
 
- if (type == NC_NONE)
-  type = npc_class(rng(0, NC_MAX - 1));
- if (one_in(5))
-  type = NC_NONE;
+ npc_class typetmp;
+ if (type == NC_NONE){
+  typetmp = npc_class(rng(0, NC_MAX - 1));
+  if (typetmp != NC_SHOPKEEP) //Exclude unique classes from random NPCs here
+    type = typetmp;
+  if (one_in(5))
+    type = NC_NONE;
+ }
 
  myclass = type;
  switch (type) { // Type of character
