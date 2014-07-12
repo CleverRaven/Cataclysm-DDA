@@ -8407,7 +8407,7 @@ bool zlave_menu(monster *z)
         amenu.addentry(attach_bag, true, 'b', _("Attach bag"));
     }
 
-    amenu.addentry(pheromone, true, 'p', _("Extract pheromone"));
+    amenu.addentry(pheromone, true, 'p', _("Tear out pheromone"));
 
     amenu.query();
     int choice = amenu.ret;
@@ -8513,7 +8513,7 @@ bool zlave_menu(monster *z)
             return true;
         }
 
-		int dummy;
+        int dummy;
         std::vector<item> dropped_worn;
         std::vector<item> result = g->multidrop(dropped_worn, dummy);
         result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
@@ -8541,7 +8541,7 @@ bool zlave_menu(monster *z)
     if (pheromone == choice) {
 
         g->u.add_msg_if_player(_("You tear out and squeeze the pheremone ball from zlave..."));
-		z->make_friendly();
+        z->make_friendly();
         z->hurt(100);
 
         g->u.moves -= 150;
@@ -8663,7 +8663,9 @@ void game::examine(int examx, int examy)
 	    monster *mon = dynamic_cast<monster *>(c);
 
 	    if (mon != NULL && mon->type->id == "mon_zlave") {
-			if (!zlave_menu(mon)) return;
+	        if (!zlave_menu(mon)) {
+	            return;
+	        }
 	    }
 
 	}
