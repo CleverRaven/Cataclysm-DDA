@@ -10303,10 +10303,12 @@ item *choose_container_on_ground(int posx, int posy, item &liquid, bool &ground)
         return NULL;
     }
 
+	const std::string text = string_format(_("Pour %s to"), liquid.tname().c_str());
+
     uimenu amenu;
 
     amenu.selected = 1;
-    amenu.text = _("Pour to");
+	amenu.text = text;
     amenu.addentry(0, true, 'q', _("Cancel"));
     amenu.addentry(1, true, 'g', _("Ground"));
     for (int i = 0; i < containers.size(); i++) {
@@ -10394,7 +10396,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
     }
 
-    if (cont == NULL || cont->is_null()) {
+    if (cont == NULL || cont->is_null())
+    {
         const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
         int pos = inv_for_liquid(liquid, text, false);
@@ -10410,22 +10413,20 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
                     return false;
                 }
 
-				bool ground;
-				cont = choose_container_on_ground(dirx, diry, liquid, ground);
+                bool ground;
+                cont = choose_container_on_ground(dirx, diry, liquid, ground);
 
-				if (ground){
-					m.add_item_or_charges(dirx, diry, liquid, 1);
-					return true;
-				}
-				else if (cont == NULL){
-					add_msg(_("Never mind."));
-					return false;
-				}
-			}
-			else{
-				add_msg(_("Never mind."));
-				return false;
-			}
+                if (ground) {
+                    m.add_item_or_charges(dirx, diry, liquid, 1);
+                    return true;
+                } else if (cont == NULL) {
+                    add_msg(_("Never mind."));
+                    return false;
+                }
+            } else {
+                add_msg(_("Never mind."));
+                return false;
+            }
         }
     }
 
