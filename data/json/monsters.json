@@ -5618,7 +5618,7 @@
     "armor_cut":0,
     "luminance":0,
     "hp":55,
-    "special_freq":0,
+    "special_freq":2,
     "death_function":"NORMAL",
     "special_attack":"BITE",
     "description":"A zombified omnivore descended from the wild boar.  Now it's got black goo all over it, instead of mud.",
