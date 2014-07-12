@@ -234,7 +234,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 1000, false,
          &mission_place::always, &mission_start::place_bandit_cabin,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  FOLLOWUP(MISSION_OLD_GUARD_REP_3);
+  FOLLOWUP(MISSION_OLD_GUARD_REP_2);
 
  MISSION(_("Deal with Informant"), MGOAL_ASSASSINATE, 5, 50000, false,
          &mission_place::always, &mission_start::place_informant,
