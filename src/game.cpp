@@ -952,8 +952,8 @@ void game::cleanup_at_end()
         }
         if (characters.empty()) {
             if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "yes" ||
-                    (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" &&
-                     query_yn(_("Delete saved world?")))) {
+                (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] == "query" &&
+                 query_yn(_("Delete saved world?")))) {
                 delete_world(world_generator->active_world->world_name, true);
             }
         } else if (ACTIVE_WORLD_OPTIONS["DELETE_WORLD"] != "no") {
@@ -1011,7 +1011,7 @@ void game::calc_driving_offset(vehicle *veh)
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
     if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
-            veh->player_in_control(&u)) {
+        veh->player_in_control(&u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actuall velocity.
         // The actuall velocity changes too often (see above slowdown).
@@ -1212,7 +1212,7 @@ bool game::do_turn()
 
     if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
         if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
-                (!u.has_bionic("bio_recycler") || calendar::turn % 300 == 0)) {
+            (!u.has_bionic("bio_recycler") || calendar::turn % 300 == 0)) {
             u.hunger++;
             if (u.has_trait("HUNGER")) {
                 if (one_in(2)) {
@@ -1230,7 +1230,7 @@ bool game::do_turn()
             }
         }
         if ((!u.has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
-                (!u.has_trait("PLANTSKIN") || !one_in(5))) {
+            (!u.has_trait("PLANTSKIN") || !one_in(5))) {
             u.thirst++;
             if (u.has_trait("THIRST")) {
                 if (one_in(2)) {
@@ -1350,7 +1350,7 @@ bool game::do_turn()
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
-            calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0) {
+        calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0) {
         autosave();
     }
 
@@ -1358,7 +1358,7 @@ bool game::do_turn()
 
     // The following happens when we stay still; 10/40 minutes overdue for spawn
     if ((!u.has_trait("INCONSPICUOUS") && calendar::turn > nextspawn + 100) ||
-            (u.has_trait("INCONSPICUOUS") && calendar::turn > nextspawn + 400)) {
+        (u.has_trait("INCONSPICUOUS") && calendar::turn > nextspawn + 400)) {
         spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
         nextspawn = calendar::turn;
     }
@@ -4617,8 +4617,7 @@ void game::debug()
             calendar diffturn;
 
             decay_test_menu.text = string_format("turn: %d, next: %d",
-                                                 int(calendar::turn), int(nextweather)
-                                                );
+                                                 int(calendar::turn), int(nextweather) );
 
             const int ne = 3;
             std::string examples[ne] = { "milk", "meat", "bread", };
@@ -4697,7 +4696,7 @@ void game::mondebug()
         monster &critter = critter_tracker.find(i);
         critter.debug(u);
         if (critter.has_flag(MF_SEES) &&
-                m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc)) {
+            m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc)) {
             debugmsg("The %s can see you.", critter.name().c_str());
         } else {
             debugmsg("The %s can't see you...", critter.name().c_str());
@@ -6261,7 +6260,7 @@ void game::monmove()
 
         if (!critter->dead) {
             if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
-                    rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
+                rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
                 u.power_level--;
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
@@ -6418,7 +6417,7 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
 
     // Check for deafness
     if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on") &&
-            rng((vol - dist) / 2, (vol - dist)) >= 150) {
+        rng((vol - dist) / 2, (vol - dist)) >= 150) {
         int duration = (vol - dist - 130) / 4;
         u.add_disease("deaf", duration);
     }
@@ -6626,7 +6625,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 int npcdex = npc_at(tx, ty);
                 active_npc[npcdex]->hit(NULL, hit, rng(0, 1), 0, dam);
                 if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
-                        active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
+                    active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
                     active_npc[npcdex]->die();
                 }
             } else if (tx == u.posx && ty == u.posy) {
@@ -7726,7 +7725,7 @@ void game::smash()
             u.practice("melee", rng(0, 1) * rng(0, 1));
         }
         if (u.weapon.made_of("glass") &&
-                rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
+            rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
             for (std::vector<item>::iterator it = u.weapon.contents.begin();
                  it != u.weapon.contents.end(); ++it) {
@@ -10279,7 +10278,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     const std::string liqstr = string_format(_("Pour %s where?"), liquid.tname().c_str());
     refresh_all();
     if (!from_ground && liquid.rotten() &&
-            choose_adjacent(liqstr, dirx, diry)) {
+        choose_adjacent(liqstr, dirx, diry)) {
 
         if (!m.can_put_items(dirx, diry)) {
             add_msg(m_info, _("You can't pour there!"));
@@ -10298,7 +10297,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
-                    choose_adjacent(liqstr, dirx, diry)) {
+                choose_adjacent(liqstr, dirx, diry)) {
 
                 if (!m.can_put_items(dirx, diry)) {
                     add_msg(m_info, _("You can't pour there!"));
@@ -11214,7 +11213,7 @@ void game::butcher()
     }
 
     if (is_hostile_nearby() &&
-            !query_yn(_("Hostiles are nearby! Start Butchering anyway?"))) {
+        !query_yn(_("Hostiles are nearby! Start Butchering anyway?"))) {
         return;
     }
 
@@ -11259,7 +11258,7 @@ void game::butcher()
         recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
         if (OPTIONS["QUERY_DISASSEMBLE"] &&
-                !(query_yn(_("Really disassemble the %s?"), dis_item.tname().c_str()))) {
+            !(query_yn(_("Really disassemble the %s?"), dis_item.tname().c_str()))) {
             return;
         }
         u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
@@ -11668,7 +11667,7 @@ void game::eat(int pos)
         return;
     }
     if (u.has_trait("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
-            query_yn(_("Graze?"))) {
+        query_yn(_("Graze?"))) {
         u.moves -= 400;
         if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
             add_msg(_("You eat some of the taller grass, careful to leave some growing."));
@@ -13383,7 +13382,7 @@ void game::vertical_move(int movez, bool force)
         monster &critter = zombie(i);
         int turns = critter.turns_to_reach(u.posx, u.posy);
         if (turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach(u.posx, u.posy)
-                && !slippedpast) {
+            && !slippedpast) {
             critter.onstairs = true;
             critter.staircount = 10 + turns;
             coming_to_stairs.push_back(critter);
@@ -13746,7 +13745,7 @@ void game::update_stair_monsters()
                         int iposx = mposx + pushx;
                         int iposy = mposy + pushy;
                         if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) &&
-                                critter.can_move_to(iposx, iposy)) {
+                            critter.can_move_to(iposx, iposy)) {
                             bool resiststhrow = (g->u.is_throw_immune()) ||
                                                 (u.has_trait("LEG_TENT_BRACE"));
                             if (resiststhrow && one_in(player_throw_resist_chance)) {
@@ -14622,7 +14621,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
                 break;
             case ARTC_SOLAR:
                 if (calendar::turn.seconds() == 0 && calendar::turn.minutes() % 10 == 0 &&
-                        is_in_sunlight(p->posx, p->posy)) {
+                    is_in_sunlight(p->posx, p->posy)) {
                     it->charges++;
                 }
                 break;
