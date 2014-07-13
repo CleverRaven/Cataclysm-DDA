@@ -2956,8 +2956,8 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const curre
 bool map::process_active_item(item *it, submap *const current_submap,
                               const int gridx, const int gridy, const int i, const int j) {
     if (it->active || (it->is_container() && !it->contents.empty() && it->contents[0].active)) {
-        it->calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
         if (it->is_food()) { // food items
+            it->calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
             if (it->has_flag("HOT")) {
                 it->item_counter--;
                 if (it->item_counter == 0) {
@@ -2966,6 +2966,7 @@ bool map::process_active_item(item *it, submap *const current_submap,
                 }
             }
         } else if (it->is_food_container()) { // food in containers
+            it->contents[0].calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
             if (it->contents[0].has_flag("HOT")) {
                 it->contents[0].item_counter--;
                 if (it->contents[0].item_counter == 0) {

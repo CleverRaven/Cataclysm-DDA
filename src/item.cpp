@@ -42,6 +42,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand)
         charges = ammo->count;
     } else if (type->is_food()) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
+        active = true;
         if (comest->charges == 1 && !made_of(LIQUID)) {
             charges = -1;
         } else {

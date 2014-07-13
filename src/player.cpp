@@ -6598,6 +6598,7 @@ bool player::process_single_active_item(item *it)
     {
         if (it->is_food())
         {
+            it->calc_rot(this->pos());
             if (it->has_flag("HOT"))
             {
                 it->item_counter--;
@@ -6609,6 +6610,7 @@ bool player::process_single_active_item(item *it)
         }
         else if (it->is_food_container())
         {
+            it->contents[0].calc_rot(this->pos());
             if (it->contents[0].has_flag("HOT"))
             {
                 it->contents[0].item_counter--;
