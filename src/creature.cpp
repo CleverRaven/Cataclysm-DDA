@@ -168,7 +168,10 @@ void Creature::reset_stats()
     if (int_cur < 0) {
         int_cur = 0;
     }
+}
 
+void Creature::process_turn()
+{
     // add an appropriate number of moves
     moves += get_speed();
 }

@@ -625,8 +625,8 @@ void game::start_game(std::string worldname)
         u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
         u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
     }
-    u.moves = 0; // u.reset below will add the initial move points
     u.reset();
+    u.process_turn(); // process_turn adds the initial move points
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
     u.next_climate_control_check = 0;  // Force recheck at startup
@@ -1404,6 +1404,7 @@ bool game::do_turn()
     monmove();
     update_stair_monsters();
     u.reset();
+    u.process_turn();
     u.process_active_items();
 
     if (levz >= 0 && !u.is_underwater()) {
@@ -3972,11 +3973,7 @@ void game::load(std::string worldname, std::string name)
     load_master(worldname);
     update_map(u.posx, u.posy);
 
-    const int tmp_moves = u.moves;
     u.reset();
-    // u.reset has added move points, but we should keep the original count that was
-    // loaded from the save. Don't give out free move points!
-    u.moves = tmp_moves;
     draw();
 }
 
@@ -6296,6 +6293,7 @@ void game::monmove()
         if (!critter->dead) {
             critter->process_effects();
             critter->reset();
+            critter->process_turn();
             if (critter->hurt(0)) {
                 kill_mon(i, false);
                 // might have spaned more monsters on death,
@@ -6364,6 +6362,7 @@ void game::monmove()
             (*it)->die();
         } else {
             (*it)->reset();
+            (*it)->process_turn();
             while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
                 int moves = (*it)->moves;
                 (*it)->move();

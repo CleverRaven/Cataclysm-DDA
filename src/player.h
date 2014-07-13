@@ -142,8 +142,10 @@ public:
  /** Generates the sidebar and it's data in-game */
  void disp_status(WINDOW* w, WINDOW *w2);
 
- /** Resets movement points, stats, and applies effects */
+ /** Resets stats, and applies effects in an idempotent manner */
  void reset_stats();
+ /** Resets movement points and applies other non-idempotent changes */
+ void process_turn();
  /** Calculates the various speed bonuses we will get from mutations, etc. */
  void recalc_speed_bonus();
  /** Called after every action, invalidates player caches */

@@ -40,9 +40,10 @@ class Creature
         virtual void set_fake (const bool fake_value);
 
         virtual void normalize(); // recreate the Creature from scratch
+        virtual void process_turn(); // handles long-term non-idempotent updates to creature state (e.g. moves += speed, bionics hunger costs)
         virtual void reset(); // handle both reset steps. Call this function instead of reset_stats/bonuses
         virtual void reset_bonuses(); // reset the value of all bonus fields to 0
-        virtual void reset_stats(); // prepare the Creature for the next turn
+        virtual void reset_stats(); // prepare the Creature for the next turn. Should be idempotent
         virtual void die(Creature *killer) = 0;
 
         virtual int hit_roll() = 0;
