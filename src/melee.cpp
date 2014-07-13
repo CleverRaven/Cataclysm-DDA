@@ -318,6 +318,11 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         if (!specialmsg.empty()) {
             add_msg_if_player(specialmsg.c_str());
         }
+        
+        if (t.is_dead_state()) {
+            t.die(this);
+        }
+        
     }
 
     mod_moves(-move_cost);
