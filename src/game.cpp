@@ -6291,7 +6291,6 @@ void game::monmove()
         }
 
         if (!critter->dead) {
-            critter->process_effects();
             critter->process_turn();
             critter->reset();
             if (critter->hurt(0)) {
