@@ -2962,7 +2962,6 @@ bool map::process_active_item(item *it, submap *const current_submap,
                 it->item_counter--;
                 if (it->item_counter == 0) {
                     it->item_tags.erase("HOT");
-                    it->active = false;
                     current_submap->active_item_count--;
                 }
             }
@@ -2971,7 +2970,6 @@ bool map::process_active_item(item *it, submap *const current_submap,
                 it->contents[0].item_counter--;
                 if (it->contents[0].item_counter == 0) {
                     it->contents[0].item_tags.erase("HOT");
-                    it->contents[0].active = false;
                     current_submap->active_item_count--;
                 }
             }

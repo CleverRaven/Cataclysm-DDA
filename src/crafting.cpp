@@ -1562,10 +1562,10 @@ void game::complete_craft()
     if (newit.is_food()) {
         int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
         newit.bday = int(newit.bday) + 3600 - bday_tmp;
+        newit.active = true;
 
         if (newit.has_flag("EATEN_HOT")) { // hot foods generated
             newit.item_tags.insert("HOT");
-            newit.active = true;
             newit.item_counter = 600;
         }
     }
@@ -1906,6 +1906,7 @@ void game::disassemble(int pos)
     //checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item->is_food() && dis_item->goes_bad()) ||
         (dis_item->is_food_container() && dis_item->contents[0].goes_bad()) ) {
+        dis_item->calc_rot(u.pos());
         if( dis_item->rotten() ||
             (dis_item->is_food_container() && dis_item->contents[0].rotten())) {
             add_msg(m_info, _("It's rotten, I'm not taking that apart."));

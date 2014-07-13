@@ -1622,6 +1622,7 @@ void item::calc_rot(const point &location)
     } else {
       is_rotten = false;
     }
+    if(is_rotten) {active = false;}
 }
 
 int item::brewing_time()
