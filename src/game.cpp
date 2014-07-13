@@ -8385,12 +8385,16 @@ void game::control_vehicle()
 bool zlave_menu(monster *z)
 {
 
-    const int cancel = 0;
-    const int swap_pos = 1;
-    const int attach_bag = 2;
-    const int drop_all = 3;
-    const int give_items = 4;
-    const int pheromone = 5;
+    enum choices {
+        cancel,
+        swap_pos,
+        attach_bag,
+        drop_all,
+        give_items,
+        pheromone,
+        rope
+    };
+
 
     uimenu amenu;
 
@@ -8405,6 +8409,16 @@ bool zlave_menu(monster *z)
         amenu.addentry(drop_all, true, 'd', _("Drop all items"));
     } else {
         amenu.addentry(attach_bag, true, 'b', _("Attach bag"));
+    }
+
+    if (z->has_effect("beartrap")) {
+		amenu.addentry(rope, true, 'r', _("Untie"));
+    } else {
+        if (g->u.has_amount("rope_6", 1)) {
+			amenu.addentry(rope, true, 'r', _("Tie"));
+        } else {
+			amenu.addentry(rope, false, 'r', _("You need short rope"));
+        }
     }
 
     amenu.addentry(pheromone, true, 'p', _("Tear out pheromone"));
@@ -8573,7 +8587,20 @@ bool zlave_menu(monster *z)
 
     }
 
-    return true;
+	if (rope == choice)
+	{
+	    if (z->has_effect("beartrap")) {
+	        z->remove_effect("beartrap");
+	        g->u.inv.add_item_by_type("rope_6");
+	    } else {
+	        z->add_effect("beartrap", 1, 1, true);
+	        g->u.inv.remove_item("rope_6");
+	    }
+
+	    return true;
+	}
+
+	return true;
 
 }
 
@@ -8643,6 +8670,18 @@ void game::examine(int examx, int examy)
         none = false;
     }
 
+	if (critter_at(examx, examy) != NULL)
+	{
+		Creature *c = critter_at(examx, examy);
+		monster *mon = dynamic_cast<monster *>(c);
+
+		if (mon != NULL && mon->type->id == "mon_zlave") {
+			if (zlave_menu(mon)) {
+				return;
+			}
+		}
+	}
+
     if (m.has_flag("SEALED", examx, examy)) {
         if (none) {
             add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
@@ -8656,19 +8695,6 @@ void game::examine(int examx, int examy)
             Pickup::pick_up(examx, examy, 0);
         }
     }
-
-	if (critter_at(examx, examy) != NULL)
-	{
-	    Creature *c = critter_at(examx, examy);
-	    monster *mon = dynamic_cast<monster *>(c);
-
-	    if (mon != NULL && mon->type->id == "mon_zlave") {
-	        if (!zlave_menu(mon)) {
-	            return;
-	        }
-	    }
-
-	}
 
     //check for disarming traps last to avoid disarming query black box issue.
     if(m.tr_at(examx, examy) != tr_null) {
