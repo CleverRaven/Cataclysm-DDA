@@ -46,7 +46,11 @@ class cOpt
         //Default deconstructor
         ~cOpt() {};
 
+        void setSortPos(const std::string sPageIn);
+
         //helper functions
+        int getSortPos();
+
         std::string getPage();
         std::string getMenuText();
         std::string getTooltip();
@@ -54,7 +58,7 @@ class cOpt
 
         std::string getValue();
         std::string getValueName();
-        std::string getDefaultText();
+        std::string getDefaultText(const bool bTranslated = true);
 
         int getItemPos(const std::string sSearch);
 
@@ -78,6 +82,8 @@ class cOpt
         std::string sMenuText;
         std::string sTooltip;
         std::string sType;
+
+        int iSortPos;
 
         //sType == "string"
         std::string sSet;
@@ -104,6 +110,8 @@ class cOpt
 
 extern std::unordered_map<std::string, cOpt> OPTIONS;
 extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern std::map<int, std::vector<std::string> > mPageItems;
+extern int iWorldOptPage;
 
 extern options_data optionsdata;
 void initOptions();

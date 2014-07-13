@@ -156,6 +156,7 @@ public:
     std::string unfold_msg;
     /** Creature::moves it takes to unfold. */
     int moves;
+    std::map<std::string, int> tools_needed;
     unfold_vehicle_iuse()
     : iuse_actor()
     , moves(0)

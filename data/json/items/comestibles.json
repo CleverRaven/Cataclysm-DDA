@@ -11790,7 +11790,7 @@
         "price" : 90,
         "material" : "null",
         "tool" : "null",
-        "volume" : 1,
+        "volume" : 0,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,

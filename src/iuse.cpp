@@ -1727,7 +1727,7 @@ int iuse::mut_iv(player *p, item *it, bool)
         } else if (it->has_flag("MUTAGEN_CEPHALOPOD")) {
             //~Zork reference, but it's talking about your blood vessels
             p->add_msg_if_player(_("You watch the mutagen flow through a maze of little twisty passages.\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								               All the same."));
+            All the same."));
             mutation_category = "MUTCAT_CEPHALOPOD";
         } else if (it->has_flag("MUTAGEN_BIRD")) {
             p->add_msg_if_player(_("Your arms spasm in an oddly wavelike motion."));
@@ -1741,7 +1741,7 @@ int iuse::mut_iv(player *p, item *it, bool)
         } else if (it->has_flag("MUTAGEN_ELFA")) {
             // 3-15 pain, morale boost, but no more mutagenic than cat-9s
             p->add_msg_if_player(_("Everything goes green for a second.\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								           It's painfully beautiful..."));
+            It's painfully beautiful..."));
             p->fall_asleep(20); //Should be out for two minutes.  Ecstasy Of Green
             // Extra helping of pain.
             p->mod_pain(rng(1, 5));
@@ -1750,10 +1750,9 @@ int iuse::mut_iv(player *p, item *it, bool)
         } else if (it->has_flag("MUTAGEN_RAPTOR")) {
             //Little more painful than average, but nowhere near as harsh & effective as Chimera.
             p->add_msg_if_player(_("You distinctly smell the mutagen mixing with your blood\n\
-								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								   								           ...and then it passes."));
+            ...and then it passes."));
             mutation_category = "MUTCAT_RAPTOR";
         }
-
         p->mutate_category(mutation_category);
         p->mod_pain(2 * rng(1, 5));
         p->hunger += 10;
@@ -1774,7 +1773,6 @@ int iuse::mut_iv(player *p, item *it, bool)
             p->thirst += 10;
         }
     }
-
     // Threshold-check.  You only get to cross once!
     if (p->crossed_threshold() == false) {
         // Threshold-breaching
@@ -3412,7 +3410,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             message = messtream.str();
         }
         point pos = g->find_item(it);
-        g->sound(pos.x, pos.y, 6, message.c_str());
+        g->ambient_sound(pos.x, pos.y, 6, message.c_str());
     } else { // Activated
         int ch = 2;
         if (it->charges > 0) {
@@ -3497,7 +3495,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t)
     if (t) { // Normal use
         point pos = g->find_item(it);
         //~ the sound of a noise emitter when turned on
-        g->sound(pos.x, pos.y, 30, _("KXSHHHHRRCRKLKKK!"));
+        g->ambient_sound(pos.x, pos.y, 30, _("KXSHHHHRRCRKLKKK!"));
     } else { // Turning it off
         p->add_msg_if_player(_("The infernal racket dies as you turn off the noise emitter."));
         it->make("noise_emitter");
@@ -4016,7 +4014,7 @@ int iuse::combatsaw_on(player *p, item *it, bool t)
             it->make("combatsaw_off");
             it->active = false;
         } else if (one_in(12)) {
-            g->sound(p->posx, p->posy, 18, _("Your combat chainsaw growls."));
+            g->ambient_sound(p->posx, p->posy, 18, _("Your combat chainsaw growls."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your combat chainsaw goes quiet."));
@@ -4048,7 +4046,7 @@ int iuse::chainsaw_on(player *p, item *it, bool t)
         it->active = false;
     } else if (t) { // Effects while simply on
         if (one_in(15)) {
-            g->sound(p->posx, p->posy, 12, _("Your chainsaw rumbles."));
+            g->ambient_sound(p->posx, p->posy, 12, _("Your chainsaw rumbles."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your chainsaw dies."));
@@ -4076,7 +4074,7 @@ int iuse::cs_lajatang_on(player *p, item *it, bool t)
 {
     if (t) { // Effects while simply on
         if (one_in(15)) {
-            g->sound(p->posx, p->posy, 12, _("Your chainsaws rumble."));
+            g->ambient_sound(p->posx, p->posy, 12, _("Your chainsaws rumble."));
         }
         //Deduct an additional charge (since there are two of them)
         if (it->charges > 0) {
@@ -4108,7 +4106,7 @@ int iuse::carver_on(player *p, item *it, bool t)
 {
     if (t) { // Effects while simply on
         if (one_in(10)) {
-            g->sound(p->posx, p->posy, 8, _("Your electric carver buzzes."));
+            g->ambient_sound(p->posx, p->posy, 8, _("Your electric carver buzzes."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your electric carver dies."));
@@ -4136,7 +4134,7 @@ int iuse::trimmer_on(player *p, item *it, bool t)
 {
     if (t) { // Effects while simply on
         if (one_in(15)) {
-            g->sound(p->posx, p->posy, 10, _("Your hedge trimmer rumbles."));
+            g->ambient_sound(p->posx, p->posy, 10, _("Your hedge trimmer rumbles."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your hedge trimmer dies."));
@@ -4150,7 +4148,7 @@ int iuse::circsaw_on(player *p, item *it, bool t)
 {
     if (t) { // Effects while simply on
         if (one_in(15)) {
-            g->sound(p->posx, p->posy, 7, _("Your circular saw buzzes."));
+            g->ambient_sound(p->posx, p->posy, 7, _("Your circular saw buzzes."));
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your circular saw powers off."));
@@ -4196,7 +4194,7 @@ int iuse::shishkebab_on(player *p, item *it, bool t)
     } else if (t) {
         // Effects while simply on
         if (one_in(25)) {
-            g->sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
+            g->ambient_sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
         }
 
         if (one_in(75)) {
@@ -4265,7 +4263,7 @@ int iuse::firemachete_on(player *p, item *it, bool t)
             it->make("firemachete_off");
             it->active = false;
         } else if (one_in(25)) {
-            g->sound(p->posx, p->posy, 5, _("Your No. 9 hisses."));
+            g->ambient_sound(p->posx, p->posy, 5, _("Your No. 9 hisses."));
         }
         if (one_in(100)) {
             p->add_msg_if_player(m_bad, _("Your No. 9 cuts out!"));
@@ -6447,40 +6445,32 @@ int iuse::hacksaw(player *p, item *it, bool)
         return it->type->charges_to_use();
     }
 
-    switch (g->m.oldter(dirx, diry)) {
-        case old_t_chainfence_v:
-        case old_t_chainfence_h:
-        case old_t_chaingate_c:
+    const ter_id ter = g->m.ter( dirx, diry );
+    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ) {
             p->moves -= 500;
             g->m.ter_set(dirx, diry, t_dirt);
             g->sound(dirx, diry, 15, _("grnd grnd grnd"));
             g->m.spawn_item(dirx, diry, "pipe", 6);
             g->m.spawn_item(dirx, diry, "wire", 20);
-            break;
-
-        case old_t_chainfence_posts:
+    } else if( ter == t_chainfence_posts ) {
             p->moves -= 500;
             g->m.ter_set(dirx, diry, t_dirt);
             g->sound(dirx, diry, 15, _("grnd grnd grnd"));
             g->m.spawn_item(dirx, diry, "pipe", 6);
-            break;
-
-        case old_t_bars:
+    } else if( ter == t_bars ) {
             if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
                 g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
                 g->m.ter_set(dirx, diry, t_sewage);
                 p->moves -= 1000;
                 g->sound(dirx, diry, 15, _("grnd grnd grnd"));
                 g->m.spawn_item(p->posx, p->posy, "pipe", 3);
-            } else if (g->m.ter(p->posx, p->posy)) {
+            } else {
                 g->m.ter_set(dirx, diry, t_floor);
                 p->moves -= 500;
                 g->sound(dirx, diry, 15, _("grnd grnd grnd"));
                 g->m.spawn_item(p->posx, p->posy, "pipe", 3);
             }
-            break;
-
-        default:
+    } else {
             add_msg(m_info, _("You can't cut that."));
             return 0;
     }
@@ -6678,8 +6668,7 @@ int iuse::bullet_puller(player *p, item *it, bool)
         return 0;
     }
     if (p->skillLevel("gun") < 2) {
-        add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you\
-						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						  						    can disassemble ammunition."));
+        add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you can disassemble ammunition."));
         return 0;
     }
     const long multiply = std::min<long>(20, pull->charges);
@@ -7726,9 +7715,21 @@ int iuse::unfold_generic(player *p, item *it, bool)
         return 0;
     }
     g->m.update_vehicle_cache(veh, true);
-    p->add_msg_if_player(_("You painstakingly unfold the %s and make it ready to ride."),
-                         veh->name.c_str());
-    p->moves -= 500;
+
+    std::string unfold_msg = it->item_vars["unfold_msg"];
+    if (unfold_msg.size() == 0) {
+        unfold_msg = _("You painstakingly unfold the %s and make it ready to ride.");
+    } else {
+        unfold_msg = _(unfold_msg.c_str());
+    }
+    p->add_msg_if_player(unfold_msg.c_str(), veh->name.c_str());
+
+    std::string smoves = it->item_vars["moves"];
+    int moves = 500;
+    if (smoves.size() > 0) {
+        std::istringstream( smoves ) >> moves;
+    }
+    p->moves -= moves;
     return 1;
 }
 
@@ -7850,7 +7851,7 @@ int iuse::talking_doll(player *p, item *it, bool)
 
     const SpeechBubble speech = get_speech(label);
 
-    g->sound(p->posx, p->posy, speech.volume, speech.text);
+    g->ambient_sound(p->posx, p->posy, speech.volume, speech.text);
 
     return it->type->charges_to_use();
 }

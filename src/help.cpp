@@ -578,8 +578,7 @@ or empty your hands, by pressing %s, then the key for the item you are currently
     text.push_back(string_format(_("\
 Most styles have a variety of special moves associated with them. Most have a skill requirement, \
 and will be unavailable until you reach a level of unarmed skill. You can check the moves by \
-examining your style via the inventory screen (%s key)."),
-                                 press_x(ACTION_INVENTORY, "", "").c_str()));
+pressing '?' in the pick style menu.")));
 
     text.push_back(_("\
 Many styles also have special effects unlocked under certain conditions. \
