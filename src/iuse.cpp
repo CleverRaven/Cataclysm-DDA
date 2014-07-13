@@ -3236,6 +3236,7 @@ int iuse::water_purifier(player *p, item *it, bool)
     }
     p->moves -= 150;
     pure->make("water_clean");
+    pure->is_rotten = false;
     pure->poison = 0;
     return pure->charges;
 }

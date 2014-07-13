@@ -139,6 +139,7 @@ void item::init() {
     light = nolight;
     fridge = 0;
     rot = 0;
+    is_rotten = false;
     last_rot_check = 0;
 }
 

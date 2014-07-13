@@ -1547,7 +1547,7 @@ void game::complete_craft()
     int used_age_count = 0;
     for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter) {
         if (iter->goes_bad()) {
-            iter->rotten();
+            iter->calc_rot(u.pos());
             used_age_tally += iter->rot /
                               (float)(dynamic_cast<it_comest *>(iter->type)->spoils);
             ++used_age_count;
