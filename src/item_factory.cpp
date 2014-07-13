@@ -490,7 +490,7 @@ void Item_factory::check_itype_definitions() const
         }
         for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
              a != type->qualities.end(); ++a) {
-            if (::qualities.count(a->first) == 0) {
+            if( !quality::has( a->first ) ) {
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
             }
         }

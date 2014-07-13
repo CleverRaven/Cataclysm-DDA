@@ -796,7 +796,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
             quality != type->qualities.end(); ++quality){
             dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %1$d %2$s quality."),
-                            quality->second, qualities[quality->first].name.c_str())));
+                            quality->second, quality::get_name(quality->first).c_str())));
         }
     }
 

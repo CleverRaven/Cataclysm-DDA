@@ -1446,36 +1446,12 @@ void construct::done_mine_upstair(point p)
 void load_construction(JsonObject &jo)
 {
     construction *con = new construction;
-    JsonArray temp;
 
     con->description = _(jo.get_string("description").c_str());
     con->skill = jo.get_string("skill", "carpentry");
     con->difficulty = jo.get_int("difficulty");
     con->time = jo.get_int("time");
-
-    temp = jo.get_array("tools");
-    while (temp.has_more()) {
-        std::vector<component> tool_choices;
-        JsonArray ja = temp.next_array();
-        while (ja.has_more()) {
-            std::string name = ja.next_string();
-            tool_choices.push_back(component(name, 1));
-        }
-        con->tools.push_back(tool_choices);
-    }
-
-    temp = jo.get_array("components");
-    while (temp.has_more()) {
-        std::vector<component> comp_choices;
-        JsonArray ja = temp.next_array();
-        while (ja.has_more()) {
-            JsonArray comp = ja.next_array();
-            std::string name = comp.get_string(0);
-            int quant = comp.get_int(1);
-            comp_choices.push_back(component(name, quant));
-        }
-        con->components.push_back(comp_choices);
-    }
+    con->load(jo);
 
     con->pre_terrain = jo.get_string("pre_terrain", "");
     if (con->pre_terrain.size() > 1
@@ -1563,8 +1539,7 @@ void check_constructions()
         if (!c->skill.empty() && Skill::skill(c->skill) == NULL) {
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
-        check_component_list(c->tools, display_name);
-        check_component_list(c->components, display_name);
+        c->check_consistency(display_name);
         if (!c->pre_terrain.empty() && !c->pre_is_furniture && termap.count(c->pre_terrain) == 0) {
             debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
         }

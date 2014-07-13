@@ -19,9 +19,7 @@
 std::vector<craft_cat> craft_cat_list;
 std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
 recipe_map recipes;
-std::map<std::string, quality> qualities;
 
-bool any_marked_available(const std::vector<component> &comps);
 static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered = false);
 static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab,
                                 bool filtered = false);
@@ -54,23 +52,6 @@ void reset_recipe_categories()
 {
     craft_cat_list.clear();
     craft_subcat_list.clear();
-}
-
-void load_obj_list(JsonArray &jsarr, std::vector< std::vector<component> > &objs)
-{
-    while (jsarr.has_more()) {
-        std::vector<component> choices;
-        JsonArray ja = jsarr.next_array();
-        while (ja.has_more()) {
-            JsonArray comp = ja.next_array();
-            std::string name = comp.get_string(0);
-            int quant = comp.get_int(1);
-            choices.push_back(component(name, quant));
-        }
-        if (!choices.empty()) {
-            objs.push_back(choices);
-        }
-    }
 }
 
 // Check that the given recipe ident (rec_name) is unique, throw if not,
@@ -144,21 +125,7 @@ void load_recipe(JsonObject &jsobj)
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, time, reversible,
                              autolearn, learn_by_disassembly, result_mult);
-
-    jsarr = jsobj.get_array("components");
-    load_obj_list(jsarr, rec->components);
-
-    jsarr = jsobj.get_array("qualities");
-    while(jsarr.has_more()) {
-        JsonObject quality_data = jsarr.next_object();
-        std::string ident = quality_data.get_string("id");
-        int level = quality_data.get_int("level", 1);
-        int amount = quality_data.get_int("amount", 1);
-        rec->qualities.push_back(quality_requirement(ident, amount, level));
-    }
-
-    jsarr = jsobj.get_array("tools");
-    load_obj_list(jsarr, rec->tools);
+    rec->load(jsobj);
 
     jsarr = jsobj.get_array("book_learn");
     while (jsarr.has_more()) {
@@ -206,19 +173,6 @@ void finalize_recipes()
     }
 }
 
-void reset_recipes_qualities()
-{
-    qualities.clear();
-}
-
-void load_quality(JsonObject &jo)
-{
-    quality qual;
-    qual.id = jo.get_string("id");
-    qual.name = _(jo.get_string("name").c_str());
-    qualities[qual.id] = qual;
-}
-
 bool game::crafting_allowed()
 {
     if (u.morale_level() < MIN_MORALE_CRAFT) { // See morale.h
@@ -248,54 +202,6 @@ void game::recraft()
     }
 }
 
-std::string print_missing_objs(const std::vector< std::vector <component> > &objs, bool is_tools)
-{
-    std::ostringstream buffer;
-    for(std::vector<std::vector<component> >::const_iterator it = objs.begin();
-        it != objs.end(); ++it) {
-        if (any_marked_available(*it)) {
-            continue;
-        }
-        if (!buffer.str().empty()) {
-            buffer << _("\nand ");
-        }
-        for(std::vector<component>::const_iterator comp = it->begin();
-            comp != it->end(); ++comp) {
-            itype *type = item_controller->find_template(comp->type);
-            if (comp != it->begin()) {
-                buffer << _(" or ");
-            }
-            if (!is_tools) {
-                //~ <item-count> <item-name>
-                buffer << string_format(_("%d %s"), abs(comp->count),
-                                        type->nname(abs(comp->count)).c_str());
-            } else if (comp->count > 0) {
-                //~ <tool-name> (<numer-of-charges> charges)
-                buffer << string_format(ngettext("%s (%d charge)", "%s (%d charges)", comp->count),
-                                        type->nname(1).c_str(), comp->count);
-            } else {
-                buffer << type->nname(abs(comp->count));
-            }
-        }
-    }
-    return buffer.str();
-}
-
-std::string print_missing_objs(const std::vector< quality_requirement > &objs)
-{
-    std::ostringstream buffer;
-    for(std::vector<quality_requirement>::const_iterator it = objs.begin();
-        it != objs.end(); ++it) {
-        if (it != objs.begin()) {
-            buffer << _("\nand ");
-        }
-        buffer << string_format(ngettext("%d tool with %s of %d or more.",
-                                         "%d tools with %s of %d or more.", it->count),
-                                it->count, qualities[it->id].name.c_str(), it->level);
-    }
-    return buffer.str();
-}
-
 bool game::making_would_work(recipe *making)
 {
     if (!crafting_allowed()) {
@@ -309,21 +215,7 @@ bool game::making_would_work(recipe *making)
     if(!can_make(making)) {
         std::ostringstream buffer;
         buffer << _("You can no longer make that craft!");
-        const std::string missing_tools = print_missing_objs(making->tools, true);
-        if (!missing_tools.empty()) {
-            buffer << _("\nThese tools are missing:\n") << missing_tools;
-        }
-        const std::string missing_quali = print_missing_objs(making->qualities);
-        if (!missing_quali.empty()) {
-            if (missing_tools.empty()) {
-                buffer << _("\nThese tools are missing:");
-            }
-            buffer << "\n" << missing_quali;
-        }
-        const std::string missing_comps = print_missing_objs(making->components, false);
-        if (!missing_comps.empty()) {
-            buffer << _("\nThose components are missing:\n") << missing_comps;
-        }
+        buffer << making->list_missing();
         popup(buffer.str(), PF_NONE);
         return false;
     }
@@ -357,7 +249,7 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
     std::vector<quality_requirement> &qualities = r->qualities;
     std::vector<quality_requirement>::iterator quality_iter = qualities.begin();
     while (quality_iter != qualities.end()) {
-        std::string id = quality_iter->id;
+        std::string id = quality_iter->type;
         int amount = quality_iter->count;
         int level = quality_iter->level;
         if(crafting_inv.has_items_with_quality(id, level, amount)) {
@@ -674,18 +566,6 @@ static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat su
     return NULL;
 }
 
-// return whether any of the listed components have been flagged as available
-bool any_marked_available(const std::vector<component> &comps)
-{
-    for (std::vector<component>::const_iterator it = comps.begin();
-            it != comps.end(); ++it) {
-        if (it->available == 1) {
-            return true;
-        }
-    }
-    return false;
-}
-
 recipe *game::select_crafting_recipe()
 {
     const int headHeight = 3;
@@ -889,7 +769,7 @@ recipe *game::select_crafting_recipe()
                         qualinfo << string_format(ngettext("Requires %d tool with %s quality of %d or more.",
                                                            "Requires %d tools with %s quality of %d or more.",
                                                            iter->count),
-                                                  iter->count, qualities[iter->id].name.c_str(),
+                                                  iter->count, quality::get_name(iter->type).c_str(),
                                                   iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
                                                toolcol, qualinfo.str());
@@ -902,7 +782,7 @@ recipe *game::select_crafting_recipe()
                         ypos++;
                         xpos = 32;
                         mvwputch(w_data, ypos, 30, col, '>');
-                        bool has_one = any_marked_available(*it);
+                        bool has_one = requirements::any_marked_available(*it);
                         for (std::vector<component>::iterator tool = it->begin();
                              tool != it->end(); ++tool) {
                             itype_id type = tool->type;
@@ -956,7 +836,7 @@ recipe *game::select_crafting_recipe()
                 ypos++;
                 mvwputch(w_data, ypos, 30, col, '>');
                 xpos = 32;
-                bool has_one = any_marked_available(*it);
+                bool has_one = requirements::any_marked_available(*it);
                 for (std::vector<component>::iterator comp = it->begin();
                      comp != it->end(); ++comp++) {
                     int count = comp->count;
@@ -2133,28 +2013,6 @@ recipe *recipe_by_name(std::string name)
     return NULL;
 }
 
-void check_component_list(const std::vector<std::vector<component> > &vec,
-                          const std::string &display_name)
-{
-    for (std::vector<std::vector<component> >::const_iterator b = vec.begin(); b != vec.end(); b++) {
-        for (std::vector<component>::const_iterator c = b->begin(); c != b->end(); c++) {
-            if (!item_controller->has_template(c->type)) {
-                debugmsg("%s in %s is not a valid item template", c->type.c_str(), display_name.c_str());
-            }
-        }
-    }
-}
-
-static void check_qualities(const std::vector<quality_requirement> &vec,
-                            const std::string &rName)
-{
-    for (std::vector<quality_requirement>::const_iterator b = vec.begin(); b != vec.end(); b++) {
-        if (qualities.count(b->id) == 0) {
-            debugmsg("Unknown quality %s in recipe %s", b->id.c_str(), rName.c_str());
-        }
-    }
-}
-
 void check_recipe_definitions()
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
@@ -2162,9 +2020,7 @@ void check_recipe_definitions()
                 list_iter != map_iter->second.end(); ++list_iter) {
             const recipe &r = **list_iter;
             const std::string display_name = std::string("recipe ") + r.ident;
-            ::check_component_list(r.tools, display_name);
-            ::check_component_list(r.components, display_name);
-            ::check_qualities(r.qualities, r.ident);
+            r.check_consistency(display_name);
             if (!item_controller->has_template(r.result)) {
                 debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
             }

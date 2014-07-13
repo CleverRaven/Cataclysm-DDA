@@ -166,7 +166,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
-    type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
+    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
@@ -330,7 +330,7 @@ void DynamicDataLoader::unload_data()
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     reset_recipes();
-    reset_recipes_qualities();
+    quality::reset();
     release_traps();
     reset_constructions();
     reset_overmap_terrain();
