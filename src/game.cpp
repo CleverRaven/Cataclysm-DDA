@@ -6471,7 +6471,7 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
         if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF") || u.is_wearing("rm13_armor_on")) &&
             rng((vol - dist) / 2, (vol - dist)) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
-            u.add_disease("deaf", duration);
+            u.add_effect("deaf", duration);
         }
         // We're deaf, can't hear it
         return false;
@@ -6481,7 +6481,7 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
     if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on") &&
         rng((vol - dist) / 2, (vol - dist)) >= 150) {
         int duration = (vol - dist - 130) / 4;
-        u.add_disease("deaf", duration);
+        u.add_effect("deaf", duration);
     }
 
     // See if we need to wake someone up
@@ -6709,7 +6709,7 @@ void game::flashbang(int x, int y, bool player_immune)
     int dist = rl_dist(u.posx, u.posy, x, y), t;
     if (dist <= 8 && !player_immune) {
         if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on")) {
-            u.add_disease("deaf", 40 - dist * 4);
+            u.add_effect("deaf", 40 - dist * 4);
         }
         if (m.sees(u.posx, u.posy, x, y, 8, t)) {
             int flash_mod = 0;
