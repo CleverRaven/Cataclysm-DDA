@@ -1403,8 +1403,8 @@ bool game::do_turn()
 
     monmove();
     update_stair_monsters();
-    u.reset();
     u.process_turn();
+    u.reset();
     u.process_active_items();
 
     if (levz >= 0 && !u.is_underwater()) {
@@ -6292,8 +6292,8 @@ void game::monmove()
 
         if (!critter->dead) {
             critter->process_effects();
-            critter->reset();
             critter->process_turn();
+            critter->reset();
             if (critter->hurt(0)) {
                 kill_mon(i, false);
                 // might have spaned more monsters on death,
@@ -6361,8 +6361,8 @@ void game::monmove()
         if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
             (*it)->die();
         } else {
-            (*it)->reset();
             (*it)->process_turn();
+            (*it)->reset();
             while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
                 int moves = (*it)->moves;
                 (*it)->move();

@@ -149,7 +149,6 @@ void Creature::reset_stats()
     // player::suffer(), etc.
 
     // repopulate the stat fields
-    process_effects();
     str_cur = str_max + get_str_bonus();
     dex_cur = dex_max + get_dex_bonus();
     per_cur = per_max + get_per_bonus();
@@ -172,6 +171,8 @@ void Creature::reset_stats()
 
 void Creature::process_turn()
 {
+    process_effects();
+
     // add an appropriate number of moves
     moves += get_speed();
 }
