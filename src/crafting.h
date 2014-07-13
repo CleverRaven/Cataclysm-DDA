@@ -70,6 +70,8 @@ struct recipe : public requirements {
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
     item create_result() const;
+
+    bool can_make_with_inventory(const inventory& crafting_inv) const;
 };
 
 typedef std::vector<recipe *> recipe_list;

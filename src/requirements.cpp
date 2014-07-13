@@ -322,3 +322,189 @@ int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color
     text = string_format( _( "Time to complete: %s" ), text.c_str() );
     return fold_and_print( w, ypos, xpos, width, col, text );
 }
+
+bool requirements::can_make_with_inventory( const inventory &crafting_inv ) const
+{
+    bool retval = true;
+    // check all tool_quality requirements
+    // this is an alternate method of checking for tools by using the tools qualities instead of the specific tool
+    // You can specify the amount of tools with this quality required, but it does not work for consumed charges.
+    for( const auto & qual_req : qualities ) {
+        qual_req.available = crafting_inv.has_items_with_quality( qual_req.type, qual_req.level,
+                             qual_req.count );
+        if( !qual_req.available ) {
+            retval = false;
+        }
+    }
+
+    // check all tools
+    for( const auto & set_of_tools : tools ) {
+        bool has_tool_in_set = false;
+        for( const auto & tool : set_of_tools ) {
+            const itype_id &type = tool.type;
+            int req = tool.count;
+            if( req <= 0 && crafting_inv.has_amount( type, 1 ) ) {
+                tool.available = 1;
+            } else if( req <= 0 && type == ( "goggles_welding" ) && ( g->u.has_bionic( "bio_sunglasses" ) ||
+                       g->u.is_wearing( "rm13_armor_on" ) ) ) {
+                tool.available = 1;
+            } else if( req > 0 && crafting_inv.has_charges( type, req ) ) {
+                tool.available = 1;
+            } else {
+                tool.available = -1;
+            }
+            has_tool_in_set = has_tool_in_set || tool.available == 1;
+        }
+        if( !has_tool_in_set ) {
+            retval = false;
+        }
+    }
+    // check all components
+    for( const auto & component_choices : components ) {
+        bool has_comp_in_set = false;
+        for( const auto & comp : component_choices ) {
+            const itype_id &type = comp.type;
+            int req = comp.count;
+            // If you've Rope Webs, you can spin up the webbing to replace any amount of
+            // rope your projects may require.  But you need to be somewhat nourished:
+            // Famished or worse stops it.
+            if( ( type == "rope_30" ||
+                  type == "rope_6" ) &&
+                g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+                comp.available = 1;
+            } else if( req > 0 && item_controller->find_template( type )->count_by_charges() ) {
+                if( crafting_inv.has_charges( type, req ) ) {
+                    comp.available = 1;
+                } else {
+                    comp.available = -1;
+                }
+            } else if( crafting_inv.has_components( type, abs( req ) ) ) {
+                comp.available = 1;
+            } else {
+                comp.available = -1;
+            }
+            has_comp_in_set = has_comp_in_set || comp.available == 1;
+        }
+        if( !has_comp_in_set ) {
+            retval = false;
+        }
+    }
+    return check_enough_materials( crafting_inv ) && retval;
+}
+
+bool requirements::check_enough_materials( const inventory &crafting_inv ) const
+{
+    bool retval = true;
+    for( const auto & component_choices : components ) {
+        bool atleast_one_available = false;
+        for( const auto & comp : component_choices ) {
+            if( comp.available == 1 ) {
+                bool have_enough_in_set = true;
+                for( const auto & set_of_tools : tools ) {
+                    bool have_enough = false;
+                    bool found_same_type = false;
+                    for( const auto & tool : set_of_tools ) {
+                        if( tool.available == 1 ) {
+                            if( comp.type == tool.type ) {
+                                found_same_type = true;
+                                bool count_by_charges =
+                                    item_controller->find_template( comp.type )->count_by_charges();
+                                if( count_by_charges ) {
+                                    int req = comp.count;
+                                    if( tool.count > 0 ) {
+                                        req += tool.count;
+                                    } else  {
+                                        ++req;
+                                    }
+                                    if( crafting_inv.has_charges( comp.type, req ) ) {
+                                        have_enough = true;
+                                    }
+                                } else {
+                                    int req = comp.count + 1;
+                                    if( crafting_inv.has_components( comp.type, req ) ) {
+                                        have_enough = true;
+                                    }
+                                }
+                            } else {
+                                have_enough = true;
+                            }
+                        }
+                    }
+                    if( found_same_type ) {
+                        have_enough_in_set &= have_enough;
+                    }
+                }
+                if( !have_enough_in_set ) {
+                    // This component can't be used with any tools
+                    // from one of the sets of tools, which means
+                    // its availability should be set to 0 (in inventory,
+                    // but not enough for both tool and components).
+                    comp.available = 0;
+                }
+            }
+            //Flag that at least one of the components in the set is available
+            if( comp.available == 1 ) {
+                atleast_one_available = true;
+            }
+        }
+
+        if( !atleast_one_available ) {
+            // this set doesn't have any components available,
+            // so the recipe can't be crafted
+            retval = false;
+        }
+    }
+
+    for( const auto & set_of_tools : tools ) {
+        bool atleast_one_available = false;
+        for( const auto & tool : set_of_tools ) {
+            if( tool.available == 1 ) {
+                bool have_enough_in_set = true;
+                for( const auto & component_choices : components ) {
+                    bool have_enough = false, conflict = false;
+                    for( const auto & comp : component_choices ) {
+                        if( tool.type == comp.type ) {
+                            if( tool.count > 0 ) {
+                                int req = comp.count + tool.count;
+                                if( !crafting_inv.has_charges( comp.type, req ) ) {
+                                    conflict = true;
+                                    have_enough = have_enough || false;
+                                }
+                            } else {
+                                int req = comp.count + 1;
+                                if( !crafting_inv.has_components( comp.type, req ) ) {
+                                    conflict = true;
+                                    have_enough = have_enough || false;
+                                }
+                            }
+                        } else if( comp.available == 1 ) {
+                            have_enough = true;
+                        }
+                    }
+                    if( conflict ) {
+                        have_enough_in_set = have_enough_in_set && have_enough;
+                    }
+                }
+                if( !have_enough_in_set ) {
+                    // This component can't be used with any components
+                    // from one of the sets of components, which means
+                    // its availability should be set to 0 (in inventory,
+                    // but not enough for both tool and components).
+                    tool.available = 0;
+                }
+            }
+            //Flag that at least one of the tools in the set is available
+            if( tool.available == 1 ) {
+                atleast_one_available = true;
+            }
+        }
+
+        if( !atleast_one_available ) {
+            // this set doesn't have any tools available,
+            // so the recipe can't be crafted
+            retval = false;
+        }
+    }
+
+    return retval;
+}

@@ -341,69 +341,7 @@ static bool player_can_build(player &p, const inventory &pinv, construction *con
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
     }
-
-    bool has_tool = false;
-    bool has_component = false;
-    bool tools_required = false;
-    bool components_required = false;
-
-    for (std::vector<std::vector<component> >::iterator it = con->tools.begin();
-         it != con->tools.end(); ++it) {
-        if (!it->empty()) {
-            tools_required = true;
-            has_tool = false;
-            for (std::vector<component>::iterator tool = it->begin();
-                 tool != it->end(); ++tool) {
-                if (pinv.has_tools(tool->type, 1)) {
-                    has_tool = true;
-                    tool->available = 1;
-                } else {
-                    tool->available = -1;
-                }
-            }
-            if (!has_tool) { // missing one of the tools for this stage
-                break;
-            }
-        }
-    }
-
-    for (std::vector<std::vector<component> >::iterator it =
-             con->components.begin();
-         it != con->components.end(); ++it) {
-        if (!it->empty()) {
-            components_required = true;
-            has_component = false;
-            for (std::vector<component>::iterator comp = it->begin();
-                 comp != it->end(); ++comp) {
-                if // If you've Rope Webs, you can spin up the webbing to replace any amount of
-                      // rope your projects may require.  But you need to be somewhat nourished:
-                      // Famished or worse stops it.
-                      ( ((comp->type == "rope_30") ||
-                      (comp->type == "rope_6")) &&
-                      ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
-                      has_component = true;
-                      comp->available = 1;
-                } else if (( item_controller->find_template(comp->type)->is_ammo() &&
-                      pinv.has_charges(comp->type,
-                                       comp->count)    ) ||
-                    (!item_controller->find_template(comp->type)->is_ammo() &&
-                     (pinv.has_components (comp->type,
-                                      comp->count)) )) {
-                    has_component = true;
-                    comp->available = 1;
-
-                } else {
-                    comp->available = -1;
-                }
-            }
-            if (!has_component) { // missing one of the comps for this stage
-                break;
-            }
-        }
-    }
-
-    return (has_component || !components_required) &&
-           (has_tool || !tools_required);
+    return con->can_make_with_inventory( pinv );
 }
 
 static bool can_construct( const std::string &desc )
