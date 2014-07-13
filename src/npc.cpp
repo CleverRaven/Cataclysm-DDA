@@ -793,7 +793,7 @@ std::vector<item> starting_clothes(npc_class type, bool male)
   ret.push_back(item(mask, 0));
  if (glasses != "null")
   ret.push_back(item(glasses, 0));
- if (hat != "null")
+ if (hat != "null")https://github.com/CleverRaven/Cataclysm-DDA/pull/8157
   ret.push_back(item(hat, 0));
 
 // Second pass--for extra stuff like backpacks, etc
@@ -1187,9 +1187,9 @@ void npc::form_opinion(player *u)
 // FEAR
  if (u->weapon.is_gun()) {
   if (weapon.is_gun())
-   op_of_u.fear += 6;
-  else
    op_of_u.fear += 2;
+  else
+   op_of_u.fear += 6;
  } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
   op_of_u.fear += 3;
  else if (u->unarmed_attack()) // Unarmed
