@@ -43,9 +43,9 @@ void weather_effect::glare()
  */
 int get_rot_since( const int since, const int endturn, const point &location ) {
     int ret = 0;
-    for (calendar i(since); i < endturn; i += 600) {
+    for (calendar i(since); i.get_turn() < endturn; i += 600) {
         w_point w = g->weatherGen.get_weather(location, i);
-        ret += get_hourly_rotpoints_at_temp(w.temperature);
+        ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;
 }
@@ -516,7 +516,7 @@ std::string weather_forecast(radio_tower tower)
             day = c.day_of_week();
         }
         weather_report << string_format(
-            _("%s...%s. Highs of %s. Lows of %s. "),
+            _("%s... %s. Highs of %s. Lows of %s. "),
             day.c_str(), weather_data[forecast].name.c_str(),
             print_temperature(high).c_str(),print_temperature(low).c_str()
         );

@@ -1616,8 +1616,8 @@ void item::calc_rot(const point &location)
         }
     }
     it_comest* food = dynamic_cast<it_comest*>(type);
-    if (food->spoils != 0) {
-      is_rotten = (rot > (signed int)food->spoils * 600);
+    if (food->spoils != 0 && (rot > (signed int)food->spoils * 600)) {
+      is_rotten = true;
     } else {
       is_rotten = false;
     }
