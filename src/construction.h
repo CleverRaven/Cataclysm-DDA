@@ -18,7 +18,6 @@ struct construction : public requirements
     std::string description; // how the action is displayed to the player
     std::string skill;
     int difficulty; // carpentry skill level required
-    int time; // time taken to construct, in minutes
 
     std::string pre_terrain; // beginning terrain for construction
     bool pre_is_furniture; // whether it's furniture or terrain

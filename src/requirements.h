@@ -65,6 +65,12 @@ struct requirements {
     alter_comp_vector tools;
     quality_vector qualities;
     alter_comp_vector components;
+
+    /**
+     * Time in movement points (100 movement points per turns) required
+     * to do the task.
+     */
+    int time;
     /**
      * Load @ref tools, @ref qualities and @ref components from
      * the json object. Assumes them to be in sub-objects.
@@ -96,6 +102,7 @@ struct requirements {
 
     int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col, const inventory &crafting_inv) const;
     int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col, const inventory &crafting_inv) const;
+    int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
 };
 
 #endif

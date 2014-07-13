@@ -7,6 +7,7 @@
 #include "output.h"
 #include "itype.h"
 #include <sstream>
+#include "calendar.h"
 
 quality::quality_map quality::qualities;
 
@@ -81,6 +82,7 @@ void requirements::load( JsonObject &jsobj )
     load_obj_list( jsarr, qualities );
     jsarr = jsobj.get_array( "tools" );
     load_obj_list( jsarr, tools );
+    time = jsobj.get_int( "time" );
 }
 
 bool requirements::any_marked_available( const comp_vector &comps )
@@ -294,4 +296,29 @@ int requirements::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_colo
     }
     ypos++;
     return ypos - oldy;
+}
+
+int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col ) const
+{
+    const int turns = time / 100;
+    std::string text;
+    if( turns < MINUTES( 1 ) ) {
+        const int seconds = std::max( 1, turns * 6 );
+        text = string_format( ngettext( "%d second", "%d seconds", seconds ), seconds );
+    } else {
+        const int minutes = ( turns % HOURS( 1 ) ) / MINUTES( 1 );
+        const int hours = turns / HOURS( 1 );
+        if( hours == 0 ) {
+            text = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
+        } else if( minutes == 0 ) {
+            text = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
+        } else {
+            const std::string h = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
+            const std::string m = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
+            //~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6 minutes"
+            text = string_format( _( "%s and %s" ), h.c_str(), m.c_str() );
+        }
+    }
+    text = string_format( _( "Time to complete: %s" ), text.c_str() );
+    return fold_and_print( w, ypos, xpos, width, col, text );
 }

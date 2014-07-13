@@ -94,7 +94,6 @@ void load_recipe(JsonObject &jsobj)
     std::string subcategory = jsobj.get_string("subcategory", "");
 
     int difficulty = jsobj.get_int("difficulty");
-    int time = jsobj.get_int("time");
     bool autolearn = jsobj.get_bool("autolearn");
     // optional
     bool reversible = jsobj.get_bool("reversible", false);
@@ -123,7 +122,7 @@ void load_recipe(JsonObject &jsobj)
     int id = check_recipe_ident(rec_name, jsobj);
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
-                             requires_skills, difficulty, time, reversible,
+                             requires_skills, difficulty, reversible,
                              autolearn, learn_by_disassembly, result_mult);
     rec->load(jsobj);
 
@@ -739,15 +738,7 @@ recipe *game::select_crafting_recipe()
                               // Macs don't seem to like passing this as a class, so force it to int
                               (int)u.skillLevel(current[line]->skill_used));
                 }
-                if (current[line]->time >= 1000) {
-                    mvwprintz(w_data, ypos++, 30, col, ngettext("Time to complete: %d minute",
-                              "Time to complete: %d minutes", int(current[line]->time / 1000)),
-                              int(current[line]->time / 1000));
-                } else {
-                    mvwprintz(w_data, ypos++, 30, col, ngettext("Time to complete: %d turn",
-                              "Time to complete: %d turns", int(current[line]->time / 100)),
-                              int(current[line]->time / 100));
-                }
+                ypos += current[line]->print_time(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col);
             }
             if(display_mode == 0 || display_mode == 1) {
                 ypos += current[line]->print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv);

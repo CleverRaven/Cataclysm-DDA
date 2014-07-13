@@ -243,8 +243,7 @@ void construction_menu()
                 }
                 // display time needed
                 posy++;
-                mvwprintz(w_con, posy, 31, color_stage, ngettext("Time: %1d minute","Time: %1d minutes",current_con->time), current_con->time);
-                posy++;
+                posy += current_con->print_time(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage);
                 posy += current_con->print_tools(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
                 posy += current_con->print_components(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
             }
@@ -511,7 +510,7 @@ static void place_construction(const std::string &desc)
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(ACT_BUILD, con->time * 1000, con->id);
+    g->u.assign_activity(ACT_BUILD, con->time, con->id);
     g->u.activity.placement = choice;
 }
 
@@ -1365,8 +1364,10 @@ void load_construction(JsonObject &jo)
     con->description = _(jo.get_string("description").c_str());
     con->skill = jo.get_string("skill", "carpentry");
     con->difficulty = jo.get_int("difficulty");
-    con->time = jo.get_int("time");
     con->load(jo);
+    // constructions use different time units in json, this makes it compatible
+    // with recipes/requirements, TODO: should be changed in json
+    con->time *= 1000;
 
     con->pre_terrain = jo.get_string("pre_terrain", "");
     if (con->pre_terrain.size() > 1
