@@ -442,7 +442,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             }
         }
     }
-
+    if (this->is_dead_state()) {
+        this->die(source);
+    }
     return 0;
 }
 
