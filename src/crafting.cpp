@@ -594,7 +594,7 @@ recipe *game::select_crafting_recipe()
     std::vector<recipe *> current;
     std::vector<bool> available;
     item tmp;
-    int line = 0, xpos, ypos;
+    int line = 0, ypos;
     bool redraw = true;
     bool keepline = false;
     bool done = false;
@@ -750,127 +750,9 @@ recipe *game::select_crafting_recipe()
                 }
             }
             if(display_mode == 0 || display_mode == 1) {
-                mvwprintz(w_data, ypos++, 30, col, _("Tools required:"));
-                if (current[line]->tools.empty() && current[line]->qualities.empty()) {
-                    mvwputch(w_data, ypos, 30, col, '>');
-                    mvwprintz(w_data, ypos, 32, c_green, _("NONE"));
-                } else {
-                    // Loop to print the required tool qualities
-                    for( auto iter = current[line]->qualities.begin();
-                         iter != current[line]->qualities.end(); ++iter ) {
-                        xpos = 32;
-                        mvwputch(w_data, ypos, 30, col, '>');
-                        nc_color toolcol = c_red;
-                        if(iter->available) {
-                            toolcol = c_green;
-                        }
-
-                        std::stringstream qualinfo;
-                        qualinfo << string_format(ngettext("Requires %d tool with %s quality of %d or more.",
-                                                           "Requires %d tools with %s quality of %d or more.",
-                                                           iter->count),
-                                                  iter->count, quality::get_name(iter->type).c_str(),
-                                                  iter->level);
-                        ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
-                                               toolcol, qualinfo.str());
-                    }
-                    ypos--;
-                    // Loop to print the required tools
-                    for (std::vector<std::vector<component> >::iterator it =
-                             current[line]->tools.begin();
-                         it != current[line]->tools.end(); ++it) {
-                        ypos++;
-                        xpos = 32;
-                        mvwputch(w_data, ypos, 30, col, '>');
-                        bool has_one = requirements::any_marked_available(*it);
-                        for (std::vector<component>::iterator tool = it->begin();
-                             tool != it->end(); ++tool) {
-                            itype_id type = tool->type;
-                            long charges = tool->count;
-                            nc_color toolcol = has_one ? c_dkgray : c_red;
-
-                            if (tool->available == 0) {
-                                toolcol = c_brown;
-                            } else if (charges < 0 && crafting_inv.has_tools(type, 1)) {
-                                toolcol = c_green;
-                            } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
-                                toolcol = c_green;
-                            } else if ((type == "goggles_welding") && (u.has_bionic("bio_sunglasses") ||
-                                       u.is_wearing("rm13_armor_on"))) {
-                                toolcol = c_cyan;
-                            }
-
-                            std::stringstream toolinfo;
-                            toolinfo << item_controller->find_template(type)->nname(1) << " ";
-
-                            if (charges > 0) {
-                                toolinfo << string_format(ngettext("(%d charge) ", "(%d charges) ",
-                                                                   charges), charges);
-                            }
-
-                            std::string toolname = toolinfo.str();
-                            if (xpos != 32 && xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH) {
-                                xpos = 32;
-                                ypos++;
-                            }
-                            mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
-                            xpos += utf8_width(toolname.c_str());
-                            if (tool != it->end() - 1) {
-                                if (xpos >= FULL_SCREEN_WIDTH - 3) {
-                                    xpos = 32;
-                                    ypos++;
-                                }
-                                mvwprintz(w_data, ypos, xpos, c_white, _("%s "), _("OR"));
-                                xpos += utf8_width(_("OR")) + 1;
-                            }
-                        }
-                    }
-                }
-                ypos++;
+                ypos += current[line]->print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv);
             }
-            // Loop to print the required components
-            mvwprintz(w_data, ypos, 30, col, _("Components required:"));
-            for (std::vector<std::vector<component> >::iterator it =
-                     current[line]->components.begin();
-                 it != current[line]->components.end(); ++it) {
-                ypos++;
-                mvwputch(w_data, ypos, 30, col, '>');
-                xpos = 32;
-                bool has_one = requirements::any_marked_available(*it);
-                for (std::vector<component>::iterator comp = it->begin();
-                     comp != it->end(); ++comp++) {
-                    int count = comp->count;
-                    itype_id type = comp->type;
-                    nc_color compcol = has_one ? c_dkgray : c_red;
-                    if (comp->available == 0) {
-                        compcol = c_brown;
-                    } else if (item_controller->find_template(type)->count_by_charges() && count > 0) {
-                        if (crafting_inv.has_charges(type, count)) {
-                            compcol = c_green;
-                        }
-                    } else if (crafting_inv.has_components(type, abs(count))) {
-                        compcol = c_green;
-                    }
-                    std::stringstream dump;
-                    dump << abs(count) << " " <<
-                        item_controller->find_template(type)->nname(abs(count)) << " ";
-                    std::string compname = dump.str();
-                    if (xpos + utf8_width(compname.c_str()) >= FULL_SCREEN_WIDTH) {
-                        ypos++;
-                        xpos = 32;
-                    }
-                    mvwprintz(w_data, ypos, xpos, compcol, compname.c_str());
-                    xpos += utf8_width(compname.c_str());
-                    if (comp != it->end() - 1) {
-                        if (xpos >= FULL_SCREEN_WIDTH - 3) {
-                            ypos++;
-                            xpos = 32;
-                        }
-                        mvwprintz(w_data, ypos, xpos, c_white, _("%s "), _("OR"));
-                        xpos += utf8_width(_("OR")) + 1;
-                    }
-                }
-            }
+            ypos += current[line]->print_components(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv);
 
             if ( isWide ) {
                 if ( lastid != current[line]->id ) {

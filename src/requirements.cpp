@@ -2,6 +2,8 @@
 #include "json.h"
 #include "translations.h"
 #include "item_factory.h"
+#include "game.h"
+#include "inventory.h"
 #include "output.h"
 #include "itype.h"
 #include <sstream>
@@ -187,4 +189,109 @@ void requirements::check_consistency( const std::string &display_name ) const
     check_objs( tools, display_name );
     check_objs( components, display_name );
     check_objs( qualities, display_name );
+}
+
+int requirements::print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                                    const inventory &crafting_inv ) const
+{
+    if( components.empty() ) {
+        return 0;
+    }
+    const int oldy = ypos;
+    mvwprintz( w, ypos, xpos, col, _( "Components required:" ) );
+    ypos++;
+    for( const auto & comp_list : components ) {
+        const bool has_one = any_marked_available( comp_list );
+        mvwprintz( w, ypos, xpos, col, "> " );
+        std::ostringstream buffer;
+        for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
+            const component &comp = *a;
+            if( a != comp_list.begin() ) {
+                buffer << "<color_white> " << _( "OR" ) << "</color> ";
+            }
+            std::string compcol = has_one ? "dkgray" : "red";
+            const itype *type = item_controller->find_template( comp.type );
+            const int count = comp.count;
+            if( comp.available == 0 ) {
+                compcol = "brown";
+            } else if( type->count_by_charges() && count > 0 ) {
+                if( crafting_inv.has_charges( comp.type, count ) ) {
+                    compcol = "green";
+                }
+            } else if( crafting_inv.has_components( comp.type, abs( count ) ) ) {
+                compcol = "green";
+            }
+            if( ( comp.type == "rope_30" || comp.type == "rope_6" ) &&
+                ( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) ) {
+                compcol = "ltgreen"; // Show that WEB_ROPE is on the job!
+            }
+            buffer << "<color_" << compcol << ">";
+            buffer << abs( count ) << " " << type->nname( abs( count ) );
+            buffer << "</color>";
+        }
+        ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );
+    }
+    return ypos - oldy;
+}
+
+int requirements::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                               const inventory &crafting_inv ) const
+{
+    const int oldy = ypos;
+    mvwprintz( w, ypos, xpos, col, _( "Tools required:" ) );
+    ypos++;
+    if( tools.empty() && qualities.empty() ) {
+        mvwprintz( w, ypos, xpos, col, "> " );
+        mvwprintz( w, ypos, xpos + 2, c_green, _( "NONE" ) );
+        ypos++;
+        return ypos - oldy;
+    }
+    for( auto a = qualities.begin(); a != qualities.end(); ++a ) {
+        mvwprintz( w, ypos, xpos, col, "> " );
+        std::ostringstream buffer;
+        nc_color toolcol = c_red;
+        if( a->available ) {
+            toolcol = c_green;
+        }
+        buffer << string_format( ngettext( "Requires %d tool with %s quality of %d or more.",
+                                           "Requires %d tools with %s quality of %d or more.",
+                                           a->count ),
+                                 a->count, quality::get_name( a->type ).c_str(), a->level );
+        ypos += fold_and_print( w, ypos, xpos + 2, width - 2, toolcol, buffer.str() );
+    }
+    for( const auto & tool_list : tools ) {
+        const bool has_one = any_marked_available( tool_list );
+        mvwprintz( w, ypos, xpos, col, "> " );
+        std::ostringstream buffer;
+        for( auto a = tool_list.begin(); a != tool_list.end(); ++a ) {
+            const component &comp = *a;
+            if( a != tool_list.begin() ) {
+                buffer << "<color_white> " << _( "OR" ) << "</color> ";
+            }
+            const long charges = comp.count;
+            const itype *type = item_controller->find_template( comp.type );
+            std::string toolcol = has_one ? "dkgray" : "red";
+
+            if( comp.available == 0 ) {
+                toolcol = "brown";
+            } else if( charges < 0 && crafting_inv.has_tools( comp.type, 1 ) ) {
+                toolcol = "green";
+            } else if( charges > 0 && crafting_inv.has_charges( comp.type, charges ) ) {
+                toolcol = "green";
+            } else if( ( comp.type == "goggles_welding" ) && ( g->u.has_bionic( "bio_sunglasses" ) ||
+                       g->u.is_wearing( "rm13_armor_on" ) ) ) {
+                toolcol = "cyan";
+            }
+
+            buffer << "<color_" << toolcol << ">";
+            buffer << type->nname( 1 );
+            if( charges > 0 ) {
+                buffer << " " << string_format( ngettext( "(%d charge)", "(%d charges)", charges ), charges );
+            }
+            buffer << "</color>";
+        }
+        ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );
+    }
+    ypos++;
+    return ypos - oldy;
 }

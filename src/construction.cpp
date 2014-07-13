@@ -200,7 +200,7 @@ void construction_menu()
             mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
             // Print stages and their requirement
-            int posx = 33, posy = 1;
+            int posy = 1;
             std::vector<construction *> options = constructions_by_desc(current_desc);
             for(std::vector<construction *>::iterator it = options.begin();
                 it != options.end(); ++it) {
@@ -244,94 +244,9 @@ void construction_menu()
                 // display time needed
                 posy++;
                 mvwprintz(w_con, posy, 31, color_stage, ngettext("Time: %1d minute","Time: %1d minutes",current_con->time), current_con->time);
-                // Print tools
-                std::vector<bool> has_tool;
                 posy++;
-                posx = 33;
-                for (int i = 0; i < current_con->tools.size(); i++) {
-                    has_tool.push_back(false);
-                    mvwprintz(w_con, posy, posx - 2, c_white, ">");
-                    for (std::vector<component>::iterator curr_tool =
-                             current_con->tools[i].begin();
-                         curr_tool != current_con->tools[i].end(); ++curr_tool){
-                        itype_id tool = curr_tool->type;
-                        nc_color col = c_red;
-                        if (total_inv.has_tools(tool, 1)) {
-                            has_tool[i] = true;
-                            col = c_green;
-                        }
-                        int length = utf8_width(item_controller->find_template(tool)->nname(1).c_str());
-                        if( posx + length > FULL_SCREEN_WIDTH - 1 ) {
-                            posy++;
-                            posx = 33;
-                        }
-                        mvwprintz(w_con, posy, posx, col,
-                                  item_controller->find_template(tool)->nname(1).c_str());
-                        posx += length + 1; // + 1 for an empty space
-                        if (curr_tool != current_con->tools[i].end() - 1) { // "OR" if there's more
-                            if (posx > FULL_SCREEN_WIDTH - 3) {
-                                posy++;
-                                posx = 33;
-                            }
-                            mvwprintz(w_con, posy, posx, c_white, _("OR"));
-                            posx += utf8_width(_("OR")) + 1;
-                        }
-                    }
-                    posy ++;
-                    posx = 33;
-                }
-                // Print components
-                posx = 33;
-                std::vector<bool> has_component;
-                for( size_t i = 0; i < current_con->components.size(); ++i ) {
-                    has_component.push_back(false);
-                    mvwprintz(w_con, posy, posx - 2, c_white, ">");
-                    for(std::vector<component>::iterator comp =
-                            current_con->components[i].begin();
-                        comp != current_con->components[i].end(); ++comp) {
-                        nc_color col = c_red;
-                        if( ( item_controller->find_template(comp->type)->is_ammo() &&
-                              total_inv.has_charges(comp->type, comp->count)) ||
-                            (!item_controller->find_template(comp->type)->is_ammo() &&
-                             total_inv.has_components(comp->type, comp->count)) ) {
-                            has_component[i] = true;
-                            col = c_green;
-                        }
-                        if ( ((item_controller->find_template(comp->type)->id == "rope_30") ||
-                          (item_controller->find_template(comp->type)->id == "rope_6")) &&
-                          ((g->u.has_trait("WEB_ROPE")) && (g->u.hunger <= 300)) ) {
-                            has_component[i] = true;
-                            col = c_ltgreen; // Show that WEB_ROPE is on the job!
-                        }
-                        int length = utf8_width(item_controller->find_template(comp->type)->nname(comp->count).c_str());
-                        if (posx + length > FULL_SCREEN_WIDTH - 1) {
-                            posy++;
-                            posx = 33;
-                        }
-                        mvwprintz(w_con, posy, posx, col, "%d %s",
-                                  comp->count, item_controller->find_template(comp->type)->nname(comp->count).c_str());
-                        posx += length + 2; 
-                        // Add more space for the length of the count
-                        if (comp->count < 10) {
-                            posx++;
-                        } else if (comp->count < 100) {
-                            posx += 2;
-                        } else {
-                            posx += 3;
-                        }
-
-                        if (comp != current_con->components[i].end() - 1) { // "OR" if there's more
-                            if (posx > FULL_SCREEN_WIDTH - 3) {
-                                posy++;
-                                posx = 33;
-                            }
-                            mvwprintz(w_con, posy, posx, c_white, _("OR"));
-                            posx += utf8_width(_("OR")) + 1;
-                        }
-                    }
-                    posy ++;
-                    posx = 33;
-                }
+                posy += current_con->print_tools(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
+                posy += current_con->print_components(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
             }
         } // Finished updating
 

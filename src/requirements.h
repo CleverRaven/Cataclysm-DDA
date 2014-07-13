@@ -4,9 +4,12 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "color.h"
+#include "output.h"
 
 class JsonObject;
 class JsonArray;
+class inventory;
 
 // Denotes the id of an item type
 typedef std::string itype_id;
@@ -90,6 +93,9 @@ struct requirements {
 
     static void check_objs(const alter_comp_vector &objs, const std::string &display_name);
     static void check_objs(const quality_vector &objs, const std::string &display_name);
+
+    int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col, const inventory &crafting_inv) const;
+    int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col, const inventory &crafting_inv) const;
 };
 
 #endif

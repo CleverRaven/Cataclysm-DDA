@@ -208,7 +208,7 @@ public:
     {
         return false;
     }
-    virtual bool count_by_charges()
+    virtual bool count_by_charges() const
     {
         return false;
     }
@@ -274,7 +274,7 @@ struct it_comest : public virtual itype {
         return "FOOD";
     }
 
-    virtual bool count_by_charges()
+    virtual bool count_by_charges() const
     {
         if (phase == LIQUID) {
             return true;
@@ -349,7 +349,7 @@ struct it_ammo : public virtual itype {
         return true;
     }
     // virtual bool count_by_charges() { return id != "gasoline"; }
-    virtual bool count_by_charges()
+    virtual bool count_by_charges() const
     {
         return true;
     }
