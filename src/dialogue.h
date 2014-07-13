@@ -54,6 +54,7 @@ struct talk_function
     void hostile              (npc*); // p turns hostile to u
     void flee                 (npc*);
     void leave                (npc*); // p becomes indifferant
+    void stranger_neutral     (npc*); // p is now neutral towards you
 
     void start_mugging        (npc*);
     void player_leaving       (npc*);

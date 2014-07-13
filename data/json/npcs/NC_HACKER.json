@@ -1,0 +1,39 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "NC_HACKER_misc",
+    "items":[
+        ["energy_drink", 55],
+        ["energy_drink_atomic", 12],
+        ["mag_computer", 45],
+        ["mag_electronics", 25],
+        ["colamdew", 50],
+        ["adderall", 10],
+        ["fries", 10],
+        ["cheese_fries", 10],
+        ["onion_rings", 10],
+        ["mintpatties", 20],
+        ["electrohack", 3],
+        ["usb_drive", 5],
+        ["battery", 50],
+        ["file", 10],
+        ["manual_computers", 20],
+        ["textbook_computer", 8],
+        ["textbook_anarch", 4],
+        ["computer_science", 7],
+        ["solar_cell", 5],
+        ["SICP", 3],
+        ["recipe_serum", 2],
+        ["recipe_chimera", 1],
+        ["recipe_mil_augs", 1],
+        ["recipe_labchem", 1],
+        ["soldering_iron", 70],
+        ["solder_wire", 70],
+        ["textbook_weapwest", 2],
+        ["textbook_weapeast", 2],
+        ["textbook_armwest", 2],
+        ["textbook_armeast", 2],
+        ["radio_book", 22]
+    ]
+  }
+]

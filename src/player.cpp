@@ -4599,9 +4599,6 @@ void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     }
     lifetime_stats()->damage_taken+=dam;
 
-    if (is_dead_state()) {
-        die(source);
-    }
 }
 
 void player::mod_pain(int npain) {

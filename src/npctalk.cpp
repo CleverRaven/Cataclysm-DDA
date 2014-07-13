@@ -712,6 +712,87 @@ std::string dynamic_line(talk_topic topic, npc *p)
                      "merchant by the main entrance. Perhaps one of the scavengers "
                      "is also interested.");
 
+        case TALK_EVAC_GUARD3:
+            return _("Keep to yourself and you won't find any problems.");
+
+        case TALK_EVAC_GUARD3_NEW:
+            return _("I haven't been here for long but I do my best to watch who "
+                     "comes and goes.  You can't always predict who will bring trouble.");
+
+        case TALK_EVAC_GUARD3_RULES:
+            return _("Keep your head down and stay out of my way.");
+
+        case TALK_EVAC_GUARD3_HIDE1:
+            return _("Like what?");
+
+        case TALK_EVAC_GUARD3_HIDE2:
+            return _("You're new here, who the hell put you up to this crap?");
+
+        case TALK_EVAC_GUARD3_WASTE:
+            return _("If you don't get on with your business I'm going to have to "
+                     "ask you to leave and not come back.");
+
+        case TALK_EVAC_GUARD3_DEAD:
+            return _("That's it, you're dead!");
+
+        case TALK_EVAC_GUARD3_HOSTILE:
+            return _("You must really have a death wish!");
+
+        case TALK_EVAC_GUARD3_INSULT:
+            return _("We don't put-up with garbage like you, finish your business and "
+                     "get the hell out.");
+
+        case TALK_EVAC_HUNTER:
+            return _("Huh, thought I smelled someone new. Can I help you?");
+
+        case TALK_EVAC_HUNTER_SMELL:
+            return _("Oh, I didn't mean that in a bad way. Been out in the wilderness "
+                     "so long, I find myself noticing things by scent before sight.");
+
+        case TALK_EVAC_HUNTER_DO:
+            return _("I trade food here in exchange for a place to crash and general "
+                     "supplies. Well, more specifically I trade food that isn't stale "
+                     "chips and flat cola.");
+
+        case TALK_EVAC_HUNTER_LIFE:
+            return _("Not really, just trying to lead my life.");
+
+        case TALK_EVAC_HUNTER_HUNT:
+            return _("Yep. Whatever game I spot, I bag and sell the meat and other "
+                     "parts here. Got the occaisional fish and basketfull of wild "
+                     "fruit, but nothing comes close to a freshly-cooked moose steak "
+                     "for supper!");
+
+        case TALK_EVAC_HUNTER_SALE:
+            return _("Sure, just bagged a fresh batch of meat. You may want to grill "
+                     "it up before it gets too, uh... 'tender'. ");
+
+        case TALK_EVAC_HUNTER_ADVICE:
+            switch (rng(1,7)){
+            case 1:
+                return _("Feed a man a fish, he's full for a day. Feed a man a bullet, "
+                         "he's full for the rest of his life.");
+            case 2:
+                return _("Spot your prey before something nastier spots you.");
+            case 3:
+                return _("I've heard that cougars sometimes leap. Maybe it's just a myth.");
+            case 4:
+                return _("The Jabberwock is real, don't listen to what anybody else says. "
+                         "If you see it, RUN.");
+            case 5:
+                return _("Zombie animal meat isn't good for eating, but sometimes you "
+                         "might find usable fur on 'em.");
+            case 6:
+                return _("A steady diet of cooked meat and clean water will keep you "
+                         "alive forever, but your taste buds and your colon may start "
+                         "to get angry at you. Eat a piece of fruit every once in a while.");
+            case 7:
+                return _("Smoke crack to get more shit done.");
+            }
+
+        case TALK_EVAC_HUNTER_BYE:
+            return _("Watch your back out there.");
+
         case TALK_OLD_GUARD_REP:
             return _("Citizen...");
 
@@ -1063,6 +1144,10 @@ std::string dynamic_line(talk_topic topic, npc *p)
                             return _("I'm looking for clues concerning these monsters' origins...");
                         case NC_BOUNTY_HUNTER:
                             return _("I'm a killer for hire.");
+                        case NC_THUG:
+                            return _("I'm just here for the paycheck.");
+                        case NC_SCAVENGER:
+                            return _("I'm just trying to survive.");
                         case NC_NONE:
                             return _("I'm just wandering.");
                         default:
@@ -1292,6 +1377,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     RESPONSE(_("Justice has been served."));
      SUCCESS(TALK_MISSION_SUCCESS);
      SUCCESS_ACTION(&talk_function::mission_success);
+    break;
    case MGOAL_KILL_MONSTER:
     RESPONSE(_("I killed it."));
      SUCCESS(TALK_MISSION_SUCCESS);
@@ -1510,6 +1596,18 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_EVAC_GUARD1_OLDGUARD);
   break;
 
+ case TALK_EVAC_GUARD1_OLDGUARD:
+  RESPONSE(_("Whatever, I had another question."));
+   SUCCESS(TALK_EVAC_GUARD1);
+  RESPONSE(_("Okay, I'll go look for him then."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_GUARD1_BYE:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_DONE);
+  break;
+
  case TALK_EVAC_GUARD2:
   RESPONSE(_("I am actually new."));
    SUCCESS(TALK_EVAC_GUARD2_NEW);
@@ -1559,14 +1657,124 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_EVAC_GUARD2);
   break;
 
- case TALK_EVAC_GUARD1_OLDGUARD:
-  RESPONSE(_("Whatever, I had another question."));
-   SUCCESS(TALK_EVAC_GUARD1);
-  RESPONSE(_("Okay, I'll go look for him then."));
+ case TALK_EVAC_GUARD3:
+  RESPONSE(_("What do you do around here?"));
+   SUCCESS(TALK_EVAC_GUARD3_NEW);
+  RESPONSE(_("Got tips for avoiding trouble?"));
+   SUCCESS(TALK_EVAC_GUARD3_RULES);
+  RESPONSE(_("Have you seen anyone who might be hiding something?"));
+   SUCCESS(TALK_EVAC_GUARD3_HIDE1);
+  RESPONSE(_("Bye..."));
    SUCCESS(TALK_DONE);
   break;
 
- case TALK_EVAC_GUARD1_BYE:
+ case TALK_EVAC_GUARD3_NEW:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_EVAC_GUARD3);
+  break;
+
+ case TALK_EVAC_GUARD3_RULES:
+  RESPONSE(_("OK..."));
+   SUCCESS(TALK_EVAC_GUARD3);
+  break;
+
+ case TALK_EVAC_GUARD3_WASTE:
+  RESPONSE(_("Sorry..."));
+   SUCCESS(TALK_EVAC_GUARD3);
+  break;
+
+ case TALK_EVAC_GUARD3_HIDE1:
+  RESPONSE(_("I'm not sure..."));
+   SUCCESS(TALK_EVAC_GUARD3_WASTE);
+  RESPONSE(_("Like they could be working for someone else?"));
+   SUCCESS(TALK_EVAC_GUARD3_HIDE2);
+  break;
+
+ case TALK_EVAC_GUARD3_HIDE2:
+  RESPONSE(_("Sorry, I didn't mean to offend you..."));
+   SUCCESS(TALK_EVAC_GUARD3_WASTE);
+  RESPONSE(_("Get bent traitor!"));
+   TRIAL(TALK_TRIAL_INTIMIDATE, 20 + p->op_of_u.fear * 3);
+   SUCCESS(TALK_EVAC_GUARD3_HOSTILE);
+   FAILURE(TALK_EVAC_GUARD3_INSULT);
+  RESPONSE(_("Got something to hide?"));
+   TRIAL(TALK_TRIAL_PERSUADE, 10 + p->op_of_u.trust * 3);
+   SUCCESS(TALK_EVAC_GUARD3_DEAD);
+   FAILURE(TALK_EVAC_GUARD3_INSULT);
+  break;
+
+ case TALK_EVAC_GUARD3_HOSTILE:
+  p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
+  p->my_fac->respects_u -= 15;
+  p->my_fac = g->faction_by_id(4);
+  RESPONSE(_("I didn't mean it!"));
+   SUCCESS(TALK_DONE);
+  RESPONSE(_("..."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_GUARD3_INSULT:
+  p->my_fac->likes_u -= 5;//The Free Merchants are insulted by your actions!
+  p->my_fac->respects_u -= 5;
+  RESPONSE(_("..."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_GUARD3_DEAD:
+  p->my_fac = g->faction_by_id(4);
+  RESPONSE(_("I didn't mean it!"));
+   SUCCESS(TALK_DONE);
+  RESPONSE(_("..."));
+   SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_EVAC_HUNTER:
+  RESPONSE(_("You... smelled me?"));
+   SUCCESS(TALK_EVAC_HUNTER_SMELL);
+  RESPONSE(_("What do you do around here?"));
+   SUCCESS(TALK_EVAC_HUNTER_DO);
+  RESPONSE(_("Got anything for sale?"));
+   SUCCESS(TALK_EVAC_HUNTER_SALE);
+  RESPONSE(_("Got any survival advice?"));
+   SUCCESS(TALK_EVAC_HUNTER_ADVICE);
+  RESPONSE(_("Goodbye."));
+   SUCCESS(TALK_EVAC_HUNTER_BYE);
+  break;
+
+ case TALK_EVAC_HUNTER_SMELL:
+  RESPONSE(_("O..kay..? "));
+   SUCCESS(TALK_EVAC_HUNTER);
+  break;
+
+ case TALK_EVAC_HUNTER_DO:
+  RESPONSE(_("Interesting."));
+   SUCCESS(TALK_EVAC_HUNTER_LIFE);
+  RESPONSE(_("Oh, so you hunt?"));
+   SUCCESS(TALK_EVAC_HUNTER_HUNT);
+  break;
+
+ case TALK_EVAC_HUNTER_LIFE:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_EVAC_HUNTER);
+  break;
+
+ case TALK_EVAC_HUNTER_HUNT:
+  RESPONSE(_("Great, now my mouth is watering..."));
+   SUCCESS(TALK_EVAC_HUNTER);
+  break;
+
+ case TALK_EVAC_HUNTER_SALE:
+  RESPONSE(_("..."));
+   SUCCESS_ACTION(&talk_function::start_trade);
+   SUCCESS(TALK_EVAC_HUNTER);
+  break;
+
+ case TALK_EVAC_HUNTER_ADVICE:
+  RESPONSE(_("..."));
+   SUCCESS(TALK_EVAC_HUNTER);
+  break;
+
+ case TALK_EVAC_HUNTER_BYE:
   RESPONSE(_("..."));
    SUCCESS(TALK_DONE);
   break;
@@ -2270,6 +2478,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
       SUCCESS(TALK_STRANGER_NEUTRAL);
       SUCCESS_ACTION(&talk_function::player_weapon_away);
       SUCCESS_OPINION(2, -2, 0, 0, 0);
+      SUCCESS_ACTION(&talk_function::stranger_neutral);
     }
     RESPONSE(_("&Drop weapon."));
      SUCCESS(TALK_STRANGER_NEUTRAL);
@@ -2282,6 +2491,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     TRIAL(TALK_TRIAL_PERSUADE, diff);
     SUCCESS(TALK_STRANGER_NEUTRAL);
      SUCCESS_OPINION(1, -1, 0, 0, 0);
+     SUCCESS_ACTION(&talk_function::stranger_neutral);
     FAILURE(TALK_DONE);
      FAILURE_ACTION(&talk_function::flee);
   }
@@ -2311,6 +2521,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     TRIAL(TALK_TRIAL_PERSUADE, chance);
     SUCCESS(TALK_STRANGER_WARY);
      SUCCESS_OPINION(1, -1, 0, 0, 0);
+     SUCCESS_ACTION(&talk_function::stranger_neutral);
     FAILURE(TALK_DONE);
      FAILURE_ACTION(&talk_function::hostile);
    RESPONSE(_("!Screw you, no."));
@@ -2334,6 +2545,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     TRIAL(TALK_TRIAL_PERSUADE, chance);
     SUCCESS(TALK_STRANGER_WARY);
      SUCCESS_OPINION(1, -1, 0, 0, 0);
+     SUCCESS_ACTION(&talk_function::stranger_neutral);
     FAILURE(TALK_DONE);
      FAILURE_ACTION(&talk_function::hostile);
    RESPONSE(_("!Screw you, no."));
@@ -2781,6 +2993,13 @@ void talk_function::leave(npc *p)
 {
  add_msg(_("%s leaves."), p->name.c_str());
  p->attitude = NPCATT_NULL;
+}
+
+void talk_function::stranger_neutral(npc *p)
+{
+ add_msg(_("%s feels less threatened by you."), p->name.c_str());
+ p->attitude = NPCATT_NULL;
+ p->chatbin.first_topic = TALK_STRANGER_NEUTRAL;
 }
 
 void talk_function::start_mugging(npc *p)

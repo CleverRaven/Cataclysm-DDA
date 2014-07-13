@@ -43,6 +43,10 @@ enum mission_id {
  MISSION_FREE_MERCHANTS_EVAC_1,         //Clear Back Bay
  MISSION_FREE_MERCHANTS_EVAC_2,         //Kill Raiders
  MISSION_FREE_MERCHANTS_EVAC_3,         //Acquire Plutonium Cells
+ MISSION_OLD_GUARD_REP_1,               //Bandit Pair
+ MISSION_OLD_GUARD_REP_2,               //Raider Informant
+ MISSION_OLD_GUARD_REP_3,               //Missing without a trace
+ MISSION_OLD_GUARD_REP_4,               //Raider Camp
  NUM_MISSION_IDS
 };
 
@@ -94,6 +98,10 @@ struct mission_start {
     void place_zombie_mom   ( mission *); // Put a zombie mom in a house!
     void place_zombie_bay   ( mission *); // Put a boss zombie in the refugee/evac center back bay
     void place_caravan_ambush ( mission *); // For Free Merchants mission
+    void place_bandit_cabin ( mission *); // For Old Guard mission
+    void place_informant    ( mission *); // For Old Guard mission
+    void place_grabber      ( mission *); // For Old Guard mission
+    void place_bandit_camp  ( mission *); // For Old Guard mission
     void place_jabberwock   ( mission *); // Put a jabberwok in the woods nearby
     void kill_100_z         ( mission *); // Kill 100 more regular zombies
     void kill_horde_master  ( mission *); // Kill the master zombie at the center of the horde

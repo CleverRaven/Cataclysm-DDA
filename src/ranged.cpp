@@ -714,6 +714,9 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             if (z.hurt(dam, real_dam)) {
                 z.die(&p);
             }
+            if (z.is_dead_state()) {
+                z.die(&p);
+            }
             return;
         } else { // No monster hit, but the terrain might be.
             m.shoot(tx, ty, dam, false, no_effects);
