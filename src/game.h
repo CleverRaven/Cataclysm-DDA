@@ -320,8 +320,8 @@ class game
         void remove_item(item *it);
 
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
-        std::list<item> consume_items(player *p, std::vector<component> components);
-        void consume_tools(player *p, std::vector<component> tools);
+        std::list<item> consume_items(player *p, const std::vector<item_comp> &components);
+        void consume_tools(player *p, const std::vector<tool_comp> &tools);
         /**
          * Returns the recipe that is used to disassemble the given item type.
          * Returns NULL if there is no recipe to disassemble the item type.

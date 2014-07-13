@@ -884,8 +884,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                 }
                 if(search_component) {
                     bool found = false;
-                    for( auto it = (*iter)->components.begin();
-                         it != (*iter)->components.end(); ++it ) {
+                    for( auto it = (*iter)->components.begin(); it != (*iter)->components.end(); ++it ) {
                         for( auto it2 = (*it).begin() ; it2 != (*it).end() ; ++it2) {
                             if( item_controller->find_template((*it2).type)->nname(1).find(filter) !=
                                 std::string::npos ) {
@@ -1001,15 +1000,11 @@ void game::complete_craft()
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
                 item_controller->find_template(making->result)->nname(1).c_str());
-        for (std::vector<std::vector<component> >::iterator it =
-                 making->components.begin();
-             it != making->components.end(); ++it) {
+        for (auto it = making->components.begin(); it != making->components.end(); ++it) {
             consume_items(&u, *it);
         }
 
-        for (std::vector<std::vector<component> >::iterator it =
-                 making->tools.begin();
-             it != making->tools.end(); ++it) {
+        for (auto it = making->tools.begin(); it != making->tools.end(); ++it) {
             consume_tools(&u, *it);
         }
         u.activity.type = ACT_NULL;
@@ -1027,15 +1022,11 @@ void game::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    for (std::vector<std::vector<component> >::iterator it =
-             making->components.begin();
-         it != making->components.end(); ++it) {
+    for (auto it = making->components.begin(); it != making->components.end(); ++it) {
         std::list<item> tmp = consume_items(&u, *it);
         used.splice(used.end(), tmp);
     }
-    for (std::vector<std::vector<component> >::iterator it =
-             making->tools.begin();
-         it != making->tools.end(); ++it) {
+    for (auto it = making->tools.begin(); it != making->tools.end(); ++it) {
         consume_tools(&u, *it);
     }
 
@@ -1121,25 +1112,24 @@ void game::complete_craft()
     u.inv.restack(&u);
 }
 
-std::list<item> game::consume_items(player *p, std::vector<component> components)
+std::list<item> game::consume_items(player *p, const std::vector<item_comp> &components)
 {
     std::list<item> ret;
     // For each set of components in the recipe, fill you_have with the list of all
     // matching ingredients the player has.
-    std::vector<component> player_has;
-    std::vector<component> map_has;
-    std::vector<component> mixed;
+    std::vector<item_comp> player_has;
+    std::vector<item_comp> map_has;
+    std::vector<item_comp> mixed;
     enum {
         use_from_map = 1,
         use_from_player = 2,
         use_from_both = 1 | 2
     } use_from;
-    component selected_comp("", 0);
+    item_comp selected_comp("", 0);
     inventory map_inv;
     map_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE);
 
-    for (std::vector<component>::iterator it = components.begin();
-         it != components.end(); ++it) {
+    for (auto it = components.begin(); it != components.end(); ++it) {
         itype_id type = it->type;
         int count = abs(it->count);
         bool pl = false, mp = false;
@@ -1187,17 +1177,14 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     } else { // Let the player pick which component they want to use
         std::vector<std::string> options; // List for the menu_vec below
         // Populate options with the names of the items
-        for (std::vector<component>::iterator it = map_has.begin();
-             it != map_has.end(); ++it) {
+        for (auto it = map_has.begin(); it != map_has.end(); ++it) {
             std::string tmpStr = item_controller->find_template(it->type)->nname(1) + _(" (nearby)");
             options.push_back(tmpStr);
         }
-        for (std::vector<component>::iterator it = player_has.begin();
-             it != player_has.end(); ++it) {
+        for (auto it = player_has.begin(); it != player_has.end(); ++it) {
             options.push_back(item_controller->find_template(it->type)->nname(1));
         }
-        for (std::vector<component>::iterator it = mixed.begin();
-             it != mixed.end(); ++it) {
+        for (auto it = mixed.begin(); it != mixed.end(); ++it) {
             std::string tmpStr = item_controller->find_template(it->type)->nname(1) +
                                  _(" (on person & nearby)");
             options.push_back(tmpStr);
@@ -1268,16 +1255,15 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     return ret;
 }
 
-void game::consume_tools(player *p, std::vector<component> tools)
+void game::consume_tools(player *p, const std::vector<tool_comp> &tools)
 {
     bool found_nocharge = false;
     inventory map_inv;
     map_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE);
-    std::vector<component> player_has;
-    std::vector<component> map_has;
+    std::vector<tool_comp> player_has;
+    std::vector<tool_comp> map_has;
     // Use charges of any tools that require charges used
-    for (std::vector<component>::iterator it = tools.begin();
-         it != tools.end() && !found_nocharge; ++it) {
+    for (auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it) {
         itype_id type = it->type;
         if (it->count > 0) {
             long count = it->count;
@@ -1304,11 +1290,11 @@ void game::consume_tools(player *p, std::vector<component> tools)
     } else { // Variety of options, list them and pick one
         // Populate the list
         std::vector<std::string> options;
-        for( std::vector<component>::iterator it = map_has.begin(); it != map_has.end(); ++it ) {
+        for( auto it = map_has.begin(); it != map_has.end(); ++it ) {
             std::string tmpStr = item_controller->find_template(it->type)->nname(1) + _(" (nearby)");
             options.push_back(tmpStr);
         }
-        for (std::vector<component>::iterator it = player_has.begin();
+        for (auto it = player_has.begin();
              it != player_has.end(); ++it) {
             options.push_back(item_controller->find_template(it->type)->nname(1));
         }
@@ -1365,10 +1351,10 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
     // check tools are available
     // loop over the tools and see what's required...again
     bool have_all_tools = true;
-    for( std::vector<std::vector<component> >::const_iterator it = cur_recipe->tools.cbegin();
+    for( auto it = cur_recipe->tools.cbegin();
          it != cur_recipe->tools.cend(); ++it ) {
         bool have_this_tool = false;
-        for( std::vector<component>::const_iterator tool = it->cbegin();
+        for( auto tool = it->cbegin();
              tool != it->cend(); ++tool ) {
             itype_id type = tool->type;
             int req = tool->count; // -1 => 1
@@ -1526,7 +1512,7 @@ void game::complete_disassemble()
     }
 
     // consume tool charges
-    for (std::vector<std::vector<component> >::iterator it = dis->tools.begin();
+    for (auto it = dis->tools.begin();
          it != dis->tools.end(); ++it) {
         consume_tools(&u, *it);
     }
@@ -1548,15 +1534,14 @@ void game::complete_disassemble()
         u.practice( dis->skill_used, (dis->difficulty) * 2, dis->difficulty );
     }
 
-    for (std::vector<std::vector<component> >::iterator altercomps =
-             dis->components.begin();
+    for (auto altercomps = dis->components.begin();
          altercomps != dis->components.end(); ++altercomps) {
         // If there are several (alternative) components, search the
         // one that was used.
         // Don't check the first in altercomps, it's the default anyway.
-        std::vector<component>::iterator it;
-        for(it = altercomps->begin()+1; it != altercomps->end(); ++it) {
-            for( item::t_item_vector::iterator a = dis_item.components.begin();
+        auto it = altercomps->begin();
+        for(++it; it != altercomps->end(); ++it) {
+            for( auto a = dis_item.components.begin();
                  a != dis_item.components.end(); ++a ) {
                 if (a->type->id == it->type) {
                     break;
@@ -1564,7 +1549,7 @@ void game::complete_disassemble()
             }
         }
         // If not found, use the first one.
-        const component &comp = (it == altercomps->end()) ? altercomps->front() : *it;
+        const item_comp &comp = (it == altercomps->end()) ? altercomps->front() : *it;
 
         itype *itt = item_controller->find_template(comp.type);
         if (itt->item_tags.count("UNRECOVERABLE") > 0) {

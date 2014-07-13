@@ -458,9 +458,7 @@ void complete_construction()
 
     g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
                    (int)(built->difficulty * 1.25) );
-    for (std::vector<std::vector<component> >::iterator it =
-             built->components.begin();
-         it != built->components.end(); ++it) {
+    for (auto it = built->components.begin(); it != built->components.end(); ++it) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
         if (!it->empty()) {

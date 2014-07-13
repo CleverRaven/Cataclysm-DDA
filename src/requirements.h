@@ -40,36 +40,84 @@ struct component {
     }
     component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {
     }
+    void check_consistency(const std::string &display_name) const;
+};
 
-    bool has_tool(const inventory &crafting_inv) const;
-    bool has_component(const inventory &crafting_inv) const;
+struct tool_comp : public component {
+    tool_comp() : component() { }
+    tool_comp(const itype_id &TYPE, int COUNT) : component(TYPE, COUNT) { }
+
+    void load(JsonArray &jarr);
+    bool has(const inventory &crafting_inv) const;
+    std::string to_string() const;
+    std::string get_color(bool has_one, const inventory &crafting_inv) const;
+};
+
+struct item_comp : public component {
+    item_comp() : component() { }
+    item_comp(const itype_id &TYPE, int COUNT) : component(TYPE, COUNT) { }
+
+    void load(JsonArray &jarr);
+    bool has(const inventory &crafting_inv) const;
+    std::string to_string() const;
+    std::string get_color(bool has_one, const inventory &crafting_inv) const;
 };
 
 struct quality_requirement {
     quality_id type;
     int count;
     int level;
-    mutable bool available;
+    mutable int available;
 
-    quality_requirement() : type("UNKNOWN"), count(0), level(0), available(false) {
+    quality_requirement() : type("UNKNOWN"), count(0), level(0), available(-1) {
     }
-    quality_requirement(const quality_id &TYPE, int COUNT, int LEVEL) : type(TYPE), count(COUNT), level(LEVEL), available(false) {
+    quality_requirement(const quality_id &TYPE, int COUNT, int LEVEL) : type(TYPE), count(COUNT), level(LEVEL), available(-1) {
     }
 
-    bool has_tool(const inventory &crafting_inv) const;
+    void load(JsonArray &jarr);
+    bool has(const inventory &crafting_inv) const;
+    std::string to_string() const;
+    void check_consistency(const std::string &display_name) const;
+    std::string get_color(bool has_one, const inventory &crafting_inv) const;
 };
 
+/**
+ * The *_vector members represent list of alternatives requirements:
+ * alter_tool_comp_vector = { * { { a, b }, { c, d } }
+ * That means: the player needs (requirement a or b) and (requirement c or d).
+ *
+ * Some functions in this struct use template arguments so they can be
+ * applied to all three *_vector members. For example:
+ * check_consistency iterates over all entries in the supplied vector and calls
+ * check_consistency on each entry.
+ * If called as <code>check_consistency(tools)</code> this will actually call
+ * tool_comp::check_consistency. If called as
+ * <code>check_consistency(qualities)</code> it will call
+ * quality_requirement:check_consistency.
+ *
+ * Requirements (item_comp, tool_comp, quality_requirement) must have those
+ * functions:
+ * Load from the next entry of the json array:
+ *   void load(JsonArray &jarr);
+ * Check whether the player has fulfills the requirement with this crafting
+ * inventory (or by mutation):
+ *   bool has(const inventory &crafting_inv) const;
+ * A textual representation of the requirement:
+ *   std::string to_string() const;
+ * Consistency check:
+ *   void check_consistency(const std::string &display_name) const;
+ * Color to be used for displaying the requirement. has_one is true of the
+ * player fulfills an alternative requirement:
+ *   std::string get_color(bool has_one, const inventory &crafting_inv) const;
+*/
 struct requirements {
-    // A list of components/tools of which at least one must be available
-    typedef std::vector<component> comp_vector;
-    // A list of comp_vector of which all must be available
-    typedef std::vector<comp_vector> alter_comp_vector;
-    // List of qualites, each one must be available
-    typedef std::vector<quality_requirement> quality_vector;
+    typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
+    typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
+    typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
 
-    alter_comp_vector tools;
-    quality_vector qualities;
-    alter_comp_vector components;
+    alter_tool_comp_vector tools;
+    alter_quali_req_vector qualities;
+    alter_item_comp_vector components;
 
     /**
      * Time in movement points (100 movement points per turns) required
@@ -81,29 +129,24 @@ struct requirements {
      * the json object. Assumes them to be in sub-objects.
      */
     void load(JsonObject &jsobj);
-    static void load_obj_list(JsonArray &jsarr, alter_comp_vector &objs);
-    static void load_obj_list(JsonArray &jsarr, quality_vector &objs);
-    /**
-     * @returns whether any of the listed components have been flagged as available.
-     */
-    static bool any_marked_available(const comp_vector &comps);
     /**
      * Returns a list of components/tools/qualities that are not available,
      * nicely formatted for popup window or similar.
      */
     std::string list_missing() const;
-    static std::string print_missing_objs(const alter_comp_vector &objs, bool is_tools);
-    static std::string print_missing_objs(const quality_vector &objs);
-
     /**
      * Consistency checking
      * @param display_name the string is used when displaying a error about
      * inconsistent data (unknown item id, ...).
      */
     void check_consistency(const std::string &display_name) const;
-
-    static void check_objs(const alter_comp_vector &objs, const std::string &display_name);
-    static void check_objs(const quality_vector &objs, const std::string &display_name);
+    /**
+     * Remove components (tools/items) of the given item type. Qualities are not
+     * changed.
+     * @returns true if any the last requirement in a list of alternatives has
+     * been removed. This requirement can never be fulfilled and should be discarded.
+     */
+    bool remove_item(const std::string &type);
 
     bool can_make_with_inventory(const inventory& crafting_inv) const;
 
@@ -113,6 +156,21 @@ struct requirements {
 
 private:
     bool check_enough_materials(const inventory& crafting_inv) const;
+
+    template<typename T>
+    static void check_consistency(const std::vector< std::vector<T> > &vec, const std::string &display_name);
+    template<typename T>
+    static std::string print_missing_objs(const std::string &header, const std::vector< std::vector<T> > &objs);
+    template<typename T>
+    static bool has_comps(const inventory &crafting_inv, const std::vector< std::vector<T> > &vec);
+    template<typename T>
+    static int print_list(WINDOW *w, int ypos, int xpos, int width, nc_color col, const inventory &crafting_inv, const std::vector< std::vector<T> > &objs);
+    template<typename T>
+    static bool remove_item(const std::string &type, std::vector< std::vector<T> > &vec);
+    template<typename T>
+    static bool any_marked_available(const std::vector<T> &comps);
+    template<typename T>
+    static void load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> > &objs);
 };
 
 #endif

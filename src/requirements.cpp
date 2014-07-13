@@ -38,38 +38,80 @@ bool quality::has( const std::string &id )
     return qualities.count( id ) > 0;
 }
 
-void requirements::load_obj_list( JsonArray &jsarr, alter_comp_vector &objs )
+std::string quality_requirement::to_string() const
 {
-    while( jsarr.has_more() ) {
-        std::vector<component> choices;
-        JsonArray ja = jsarr.next_array();
-        while( ja.has_more() ) {
-            if( ja.test_array() ) {
-                // crafting uses this format: [ ["tool", count], ... ]
-                JsonArray comp = ja.next_array();
-                const itype_id name = comp.get_string( 0 );
-                const int quant = comp.get_int( 1 );
-                choices.push_back( component( name, quant ) );
-            } else {
-                // constructions uses this format: [ "tool", ... ]
-                const itype_id name = ja.next_string( );
-                choices.push_back( component( name, -1 ) );
-            }
-        }
-        if( !choices.empty() ) {
-            objs.push_back( choices );
-        }
+    return string_format( ngettext( "%d tool with %s of %d or more.",
+                                    "%d tools with %s of %d or more.", count ),
+                          count, quality::get_name( type ).c_str(), level );
+}
+
+std::string tool_comp::to_string() const
+{
+    const itype *it = item_controller->find_template( type );
+    if( count > 0 ) {
+        //~ <tool-name> (<numer-of-charges> charges)
+        return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count ),
+                              it->nname( 1 ).c_str(), count );
+    } else {
+        return it->nname( abs( count ) );
     }
 }
 
-void requirements::load_obj_list( JsonArray &jsarr, quality_vector &objs )
+std::string item_comp::to_string() const
 {
-    while( jsarr.has_more() ) {
-        JsonObject quality_data = jsarr.next_object();
-        const quality_id ident = quality_data.get_string( "id" );
-        const int level = quality_data.get_int( "level", 1 );
-        const int amount = quality_data.get_int( "amount", 1 );
-        objs.push_back( quality_requirement( ident, amount, level ) );
+    const itype *it = item_controller->find_template( type );
+    const int c = abs( count );
+    //~ <item-count> <item-name>
+    return string_format( ngettext( "%d %s", "%d %s", c ), c, it->nname( c ).c_str() );
+}
+
+void quality_requirement::load( JsonArray &jsarr )
+{
+    JsonObject quality_data = jsarr.next_object();
+    type = quality_data.get_string( "id" );
+    level = quality_data.get_int( "level", 1 );
+    count = quality_data.get_int( "amount", 1 );
+}
+
+void tool_comp::load( JsonArray &ja )
+{
+    if( ja.test_string() ) {
+        // constructions uses this format: [ "tool", ... ]
+        type = ja.next_string();
+        count = -1;
+    } else {
+        JsonArray comp = ja.next_array();
+        type = comp.get_string( 0 );
+        count = comp.get_int( 1 );
+    }
+}
+
+void item_comp::load( JsonArray &ja )
+{
+    JsonArray comp = ja.next_array();
+    type = comp.get_string( 0 );
+    count = comp.get_int( 1 );
+}
+
+template<typename T>
+void requirements::load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> > &objs) {
+    while (jsarr.has_more()) {
+        if(jsarr.test_array()) {
+            std::vector<T> choices;
+            JsonArray ja = jsarr.next_array();
+            while (ja.has_more()) {
+                choices.push_back(T());
+                choices.back().load(ja);
+            }
+            if( !choices.empty() ) {
+                objs.push_back( choices );
+            }
+        } else {
+            // tool qualities don't normally use a list of alternatives
+            // each quality is mandatory.
+            objs.push_back(std::vector<T>(1));
+            objs.back().back().load(jsarr);
+        }
     }
 }
 
@@ -85,7 +127,8 @@ void requirements::load( JsonObject &jsobj )
     time = jsobj.get_int( "time" );
 }
 
-bool requirements::any_marked_available( const comp_vector &comps )
+template<typename T>
+bool requirements::any_marked_available( const std::vector<T> &comps )
 {
     for( const auto & comp : comps ) {
         if( comp.available == 1 ) {
@@ -95,7 +138,8 @@ bool requirements::any_marked_available( const comp_vector &comps )
     return false;
 }
 
-std::string requirements::print_missing_objs( const alter_comp_vector &objs, bool is_tools )
+template<typename T>
+std::string requirements::print_missing_objs(const std::string &header, const std::vector< std::vector<T> > &objs)
 {
     std::ostringstream buffer;
     for( const auto & list : objs ) {
@@ -103,94 +147,60 @@ std::string requirements::print_missing_objs( const alter_comp_vector &objs, boo
             continue;
         }
         if( !buffer.str().empty() ) {
-            buffer << _( "\nand " );
+            buffer << "\n" << _("and ");
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
-            const component &comp = *it;
-            const itype *type = item_controller->find_template( comp.type );
             if( it != list.begin() ) {
-                buffer << _( " or " );
+                buffer << _(" or ");
             }
-            if( !is_tools ) {
-                //~ <item-count> <item-name>
-                buffer << string_format( _( "%d %s" ), abs( comp.count ),
-                                         type->nname( abs( comp.count ) ).c_str() );
-            } else if( comp.count > 0 ) {
-                //~ <tool-name> (<numer-of-charges> charges)
-                buffer << string_format( ngettext( "%s (%d charge)", "%s (%d charges)", comp.count ),
-                                         type->nname( 1 ).c_str(), comp.count );
-            } else {
-                buffer << type->nname( abs( comp.count ) );
-            }
+            buffer << it->to_string();
         }
     }
-    return buffer.str();
-}
-
-std::string requirements::print_missing_objs( const quality_vector &objs )
-{
-    std::ostringstream buffer;
-    for( auto it = objs.begin(); it != objs.end(); ++it ) {
-        if( it->available ) {
-            continue;
-        }
-        if( it != objs.begin() ) {
-            buffer << _( "\nand " );
-        }
-        buffer << string_format( ngettext( "%d tool with %s of %d or more.",
-                                           "%d tools with %s of %d or more.", it->count ),
-                                 it->count, quality::get_name( it->type ).c_str(), it->level );
+    if (buffer.str().empty()) {
+        return std::string();
     }
-    return buffer.str();
+    return header + "\n" + buffer.str() + "\n";
 }
 
 std::string requirements::list_missing() const
 {
     std::ostringstream buffer;
-
-    const std::string missing_tools = print_missing_objs( tools, true );
-    if( !missing_tools.empty() ) {
-        buffer << _( "\nThese tools are missing:\n" ) << missing_tools;
-    }
-    const std::string missing_quali = print_missing_objs( qualities );
-    if( !missing_quali.empty() ) {
-        if( missing_tools.empty() ) {
-            buffer << _( "\nThese tools are missing:" );
-        }
-        buffer << "\n" << missing_quali;
-    }
-    const std::string missing_comps = print_missing_objs( components, false );
-    if( !missing_comps.empty() ) {
-        buffer << _( "\nThose components are missing:\n" ) << missing_comps;
-    }
+    buffer << print_missing_objs(_("These tools are missing:"), tools);
+    buffer << print_missing_objs(_("These tools are missing:"), qualities);
+    buffer << print_missing_objs(_("Those components are missing:"), components);
     return buffer.str();
 }
 
-void requirements::check_objs( const alter_comp_vector &objs, const std::string &display_name )
+void quality_requirement::check_consistency( const std::string &display_name ) const
 {
-    for( const auto & list : objs ) {
-        for( const auto & comp : list ) {
-            if( !item_controller->has_template( comp.type ) ) {
-                debugmsg( "%s in %s is not a valid item template", comp.type.c_str(), display_name.c_str() );
-            }
-        }
+    if( !quality::has( type ) ) {
+        debugmsg( "Unknown quality %s in %s", type.c_str(), display_name.c_str() );
     }
 }
 
-void requirements::check_objs( const quality_vector &objs, const std::string &display_name )
+void component::check_consistency( const std::string &display_name ) const
 {
-    for( const auto & q : objs ) {
-        if( !quality::has( q.type ) ) {
-            debugmsg( "Unknown quality %s in %s", q.type.c_str(), display_name.c_str() );
+    if( !item_controller->has_template( type ) ) {
+        debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name.c_str() );
+    }
+}
+
+template<typename T>
+void requirements::check_consistency( const std::vector< std::vector<T> > &vec,
+                                      const std::string &display_name )
+{
+    for( const auto & list : vec ) {
+        for( const auto & comp : list ) {
+            comp.check_consistency( display_name );
         }
     }
 }
 
 void requirements::check_consistency( const std::string &display_name ) const
 {
-    check_objs( tools, display_name );
-    check_objs( components, display_name );
-    check_objs( qualities, display_name );
+    check_consistency(tools, display_name);
+    check_consistency(components, display_name);
+    check_consistency(qualities, display_name);
 }
 
 int requirements::print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
@@ -199,38 +209,26 @@ int requirements::print_components( WINDOW *w, int ypos, int xpos, int width, nc
     if( components.empty() ) {
         return 0;
     }
-    const int oldy = ypos;
     mvwprintz( w, ypos, xpos, col, _( "Components required:" ) );
-    ypos++;
-    for( const auto & comp_list : components ) {
+    return print_list( w, ypos + 1, xpos, width, col, crafting_inv, components ) + 1;
+}
+
+template<typename T>
+int requirements::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs )
+{
+    const int oldy = ypos;
+    for( const auto & comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
-        mvwprintz( w, ypos, xpos, col, "> " );
         std::ostringstream buffer;
         for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
-            const component &comp = *a;
             if( a != comp_list.begin() ) {
                 buffer << "<color_white> " << _( "OR" ) << "</color> ";
             }
-            std::string compcol = has_one ? "dkgray" : "red";
-            const itype *type = item_controller->find_template( comp.type );
-            const int count = comp.count;
-            if( comp.available == 0 ) {
-                compcol = "brown";
-            } else if( type->count_by_charges() && count > 0 ) {
-                if( crafting_inv.has_charges( comp.type, count ) ) {
-                    compcol = "green";
-                }
-            } else if( crafting_inv.has_components( comp.type, abs( count ) ) ) {
-                compcol = "green";
-            }
-            if( ( comp.type == "rope_30" || comp.type == "rope_6" ) &&
-                ( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) ) {
-                compcol = "ltgreen"; // Show that WEB_ROPE is on the job!
-            }
-            buffer << "<color_" << compcol << ">";
-            buffer << abs( count ) << " " << type->nname( abs( count ) );
-            buffer << "</color>";
+            const std::string col = a->get_color( has_one, crafting_inv );
+            buffer << "<color_" << col << ">" << a->to_string() << "</color>";
         }
+        mvwprintz( w, ypos, xpos, col, "> " );
         ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );
     }
     return ypos - oldy;
@@ -248,53 +246,8 @@ int requirements::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_colo
         ypos++;
         return ypos - oldy;
     }
-    for( auto a = qualities.begin(); a != qualities.end(); ++a ) {
-        mvwprintz( w, ypos, xpos, col, "> " );
-        std::ostringstream buffer;
-        nc_color toolcol = c_red;
-        if( a->available ) {
-            toolcol = c_green;
-        }
-        buffer << string_format( ngettext( "Requires %d tool with %s quality of %d or more.",
-                                           "Requires %d tools with %s quality of %d or more.",
-                                           a->count ),
-                                 a->count, quality::get_name( a->type ).c_str(), a->level );
-        ypos += fold_and_print( w, ypos, xpos + 2, width - 2, toolcol, buffer.str() );
-    }
-    for( const auto & tool_list : tools ) {
-        const bool has_one = any_marked_available( tool_list );
-        mvwprintz( w, ypos, xpos, col, "> " );
-        std::ostringstream buffer;
-        for( auto a = tool_list.begin(); a != tool_list.end(); ++a ) {
-            const component &comp = *a;
-            if( a != tool_list.begin() ) {
-                buffer << "<color_white> " << _( "OR" ) << "</color> ";
-            }
-            const long charges = comp.count;
-            const itype *type = item_controller->find_template( comp.type );
-            std::string toolcol = has_one ? "dkgray" : "red";
-
-            if( comp.available == 0 ) {
-                toolcol = "brown";
-            } else if( charges < 0 && crafting_inv.has_tools( comp.type, 1 ) ) {
-                toolcol = "green";
-            } else if( charges > 0 && crafting_inv.has_charges( comp.type, charges ) ) {
-                toolcol = "green";
-            } else if( ( comp.type == "goggles_welding" ) && ( g->u.has_bionic( "bio_sunglasses" ) ||
-                       g->u.is_wearing( "rm13_armor_on" ) ) ) {
-                toolcol = "cyan";
-            }
-
-            buffer << "<color_" << toolcol << ">";
-            buffer << type->nname( 1 );
-            if( charges > 0 ) {
-                buffer << " " << string_format( ngettext( "(%d charge)", "(%d charges)", charges ), charges );
-            }
-            buffer << "</color>";
-        }
-        ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );
-    }
-    ypos++;
+    ypos += print_list(w, ypos, xpos, width, col, crafting_inv, qualities);
+    ypos += print_list(w, ypos, xpos, width, col, crafting_inv, tools);
     return ypos - oldy;
 }
 
@@ -326,29 +279,24 @@ int requirements::print_time( WINDOW *w, int ypos, int xpos, int width, nc_color
 bool requirements::can_make_with_inventory( const inventory &crafting_inv ) const
 {
     bool retval = true;
-    // check all tool_quality requirements
-    // this is an alternate method of checking for tools by using the tools qualities instead of the specific tool
-    // You can specify the amount of tools with this quality required, but it does not work for consumed charges.
-    for( const auto & qual_req : qualities ) {
-        qual_req.available = crafting_inv.has_items_with_quality( qual_req.type, qual_req.level,
-                             qual_req.count );
-        if( !qual_req.available ) {
-            retval = false;
-        }
-    }
+    // Doing this in several steps avoids C++ Short-circuit evaluation
+    // and makes sure that the available value is set for every entry
+    retval &= has_comps(crafting_inv, qualities);
+    retval &= has_comps(crafting_inv, tools);
+    retval &= has_comps(crafting_inv, components);
+    retval &= check_enough_materials(crafting_inv);
+    return retval;
+}
 
-    // check all tools
-    for( const auto & set_of_tools : tools ) {
+template<typename T>
+bool requirements::has_comps( const inventory &crafting_inv,
+                              const std::vector< std::vector<T> > &vec )
+{
+    bool retval = true;
+    for( const auto & set_of_tools : vec ) {
         bool has_tool_in_set = false;
         for( const auto & tool : set_of_tools ) {
-            const itype_id &type = tool.type;
-            int req = tool.count;
-            if( req <= 0 && crafting_inv.has_amount( type, 1 ) ) {
-                tool.available = 1;
-            } else if( req <= 0 && type == ( "goggles_welding" ) && ( g->u.has_bionic( "bio_sunglasses" ) ||
-                       g->u.is_wearing( "rm13_armor_on" ) ) ) {
-                tool.available = 1;
-            } else if( req > 0 && crafting_inv.has_charges( type, req ) ) {
+            if( tool.has( crafting_inv ) ) {
                 tool.available = 1;
             } else {
                 tool.available = -1;
@@ -359,37 +307,88 @@ bool requirements::can_make_with_inventory( const inventory &crafting_inv ) cons
             retval = false;
         }
     }
-    // check all components
-    for( const auto & component_choices : components ) {
-        bool has_comp_in_set = false;
-        for( const auto & comp : component_choices ) {
-            const itype_id &type = comp.type;
-            int req = comp.count;
-            // If you've Rope Webs, you can spin up the webbing to replace any amount of
-            // rope your projects may require.  But you need to be somewhat nourished:
-            // Famished or worse stops it.
-            if( ( type == "rope_30" ||
-                  type == "rope_6" ) &&
-                g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
-                comp.available = 1;
-            } else if( req > 0 && item_controller->find_template( type )->count_by_charges() ) {
-                if( crafting_inv.has_charges( type, req ) ) {
-                    comp.available = 1;
-                } else {
-                    comp.available = -1;
-                }
-            } else if( crafting_inv.has_components( type, abs( req ) ) ) {
-                comp.available = 1;
-            } else {
-                comp.available = -1;
-            }
-            has_comp_in_set = has_comp_in_set || comp.available == 1;
-        }
-        if( !has_comp_in_set ) {
-            retval = false;
+    return retval;
+}
+
+bool quality_requirement::has( const inventory &crafting_inv ) const
+{
+    return crafting_inv.has_items_with_quality( type, level, count );
+}
+
+std::string quality_requirement::get_color( bool, const inventory & ) const
+{
+    return available == 1 ? "green" : "red";
+}
+
+bool tool_comp::has( const inventory &crafting_inv ) const
+{
+    if( type == "goggles_welding" ) {
+        if( g->u.has_bionic( "bio_sunglasses" ) || g->u.is_wearing( "rm13_armor_on" ) ) {
+            return true;
         }
     }
-    return check_enough_materials( crafting_inv ) && retval;
+    if( count <= 0 ) {
+        return crafting_inv.has_tools( type, 1 );
+    } else {
+        return crafting_inv.has_charges( type, count );
+    }
+}
+
+std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv ) const
+{
+    if( type == "goggles_welding" ) {
+        if( g->u.has_bionic( "bio_sunglasses" ) || g->u.is_wearing( "rm13_armor_on" ) ) {
+            return "cyan";
+        }
+    }
+    if( available == 0 ) {
+        return "brown";
+    } else if( count < 0 && crafting_inv.has_tools( type, 1 ) ) {
+        return "green";
+    } else if( count > 0 && crafting_inv.has_charges( type, count ) ) {
+        return "green";
+    }
+    return has_one ? "dkgray" : "red";
+}
+
+bool item_comp::has( const inventory &crafting_inv ) const
+{
+    // If you've Rope Webs, you can spin up the webbing to replace any amount of
+    // rope your projects may require.  But you need to be somewhat nourished:
+    // Famished or worse stops it.
+    if( type == "rope_30" || type == "rope_6" ) {
+        // NPC don't craft?
+        // TODO: what about the amount of ropes vs the hunger?
+        if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+            return true;
+        }
+    }
+    const itype *it = item_controller->find_template( type );
+    if( it->count_by_charges() && count > 0 ) {
+        return crafting_inv.has_charges( type, count );
+    } else {
+        return crafting_inv.has_components( type, abs( count ) );
+    }
+}
+
+std::string item_comp::get_color( bool has_one, const inventory &crafting_inv ) const
+{
+    if( type == "rope_30" || type == "rope_6" ) {
+        if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+            return "ltgreen"; // Show that WEB_ROPE is on the job!
+        }
+    }
+    const itype *it = item_controller->find_template( type );
+    if( available == 0 ) {
+        return "brown";
+    } else if( it->count_by_charges() && count > 0 ) {
+        if( crafting_inv.has_charges( type, count ) ) {
+            return "green";
+        }
+    } else if( crafting_inv.has_components( type, abs( count ) ) ) {
+        return "green";
+    }
+    return has_one ? "dkgray" : "red";
 }
 
 bool requirements::check_enough_materials( const inventory &crafting_inv ) const
@@ -507,4 +506,27 @@ bool requirements::check_enough_materials( const inventory &crafting_inv ) const
     }
 
     return retval;
+}
+
+template<typename T>
+bool requirements::remove_item( const std::string &type, std::vector< std::vector<T> > &vec )
+{
+    for( auto b = vec.begin(); b != vec.end(); b++ ) {
+        for( auto c = b->begin(); c != b->end(); ) {
+            if( c->type == type ) {
+                if( b->size() == 1 ) {
+                    return true;
+                }
+                c = b->erase( c );
+            } else {
+                ++c;
+            }
+        }
+    }
+    return false;
+}
+
+bool requirements::remove_item( const std::string &type )
+{
+    return remove_item( type, tools ) || remove_item( type, components );
 }
