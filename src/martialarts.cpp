@@ -17,9 +17,9 @@ void load_technique(JsonObject &jo)
 
     tec.id = jo.get_string("id");
     tec.name = jo.get_string("name", "");
-	if (!tec.name.empty()) {
-		tec.name = _(tec.name.c_str());
-	}
+    if (!tec.name.empty()) {
+        tec.name = _(tec.name.c_str());
+    }
 
     JsonArray jsarr = jo.get_array("messages");
     while (jsarr.has_more()) {
@@ -476,7 +476,7 @@ bool martialart::has_technique(player& u, matec_id tec_id) {
   return false;
 }
 
-bool martialart::has_weapon(itype_id item)
+bool martialart::has_weapon(itype_id item) const
 {
     return weapons.count(item);
 }

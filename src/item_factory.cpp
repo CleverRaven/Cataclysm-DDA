@@ -1433,6 +1433,7 @@ use_function Item_factory::use_from_object(JsonObject obj)
         obj.read("unfold_msg", actor->unfold_msg);
         actor->unfold_msg = _(actor->unfold_msg.c_str());
         obj.read("moves", actor->moves);
+        obj.read("tools_needed", actor->tools_needed);
         return use_function(actor.release());
     } else if (type == "consume_drug") {
         std::unique_ptr<consume_drug_iuse> actor(new consume_drug_iuse);

@@ -23,6 +23,7 @@ public:
   int adv_inv_leftpage;
   int adv_inv_rightpage;
   int adv_inv_last_popup_dest;
+  int ags_pay_gas_selected_pump;
   std::string adv_inv_leftfilter;
   std::string adv_inv_rightfilter;
 
@@ -49,6 +50,7 @@ public:
       wishmonster_selected = 0;
       iuse_knife_selected = 0;
       iexamine_atm_selected = 0;
+      ags_pay_gas_selected_pump = 0;
       adv_inv_leftsort = 1;
       adv_inv_rightsort = 1;
       adv_inv_leftarea = 5;

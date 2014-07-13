@@ -14,9 +14,6 @@
 #include <string>
 #include <algorithm>
 
-extern std::unordered_map<std::string, cOpt> OPTIONS;
-extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
-
 struct WORLD
 {
     std::string world_path;

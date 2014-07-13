@@ -437,13 +437,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 it++;
                             }
                         }
+                        std::vector<item> new_content;
                         // Consume items as fuel to help us grow/last longer.
                         bool destroyed = false; //Is the item destroyed?
                         // Volume, Smoke generation probability, consumed items count
                         int vol = 0, smoke = 0, consumed = 0;
-                        for (std::vector<item>::iterator it =
-                                 i_at(x, y).begin();
-                             it != i_at(x, y).end() &&
+                        for (auto it = items_here.begin(); it != items_here.end() &&
                                  consumed < cur->getFieldDensity() * 2;) {
                             // Stop when we hit the end of the item buffer OR we consumed
                             // enough items given our fire size.
@@ -588,16 +587,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             if (destroyed) {
                                 //If we decided the item was destroyed by fire, remove it.
-                                for (std::vector<item>::iterator cont =
-                                         it->contents.begin();
-                                     cont != it->contents.end(); ++cont) {
-                                    i_at(x, y).push_back(*cont);
-                                }
-                                it = i_at(x, y).erase(it);
+                                new_content.insert( new_content.end(), it->contents.begin(), it->contents.end() );
+                                it = items_here.erase( it );
                             } else {
                                 it++;
                             }
                         }
+                        items_here.insert( items_here.end(), new_content.begin(), new_content.end() );
 
                         veh = veh_at(x, y, part); //Get the part of the vehicle in the fire.
                         if (veh) {

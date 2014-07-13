@@ -8,7 +8,6 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "help.h"
-#include "options.h"
 #include "worldfactory.h"
 #include "file_wrapper.h"
 #include "path_info.h"
@@ -128,6 +127,24 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     }
 }
 
+
+std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
+{
+    std::ifstream stream( path.c_str() );
+    std::vector<std::string> result;
+    std::string line;
+    while( std::getline( stream, line ) ) {
+        if( !line.empty() && line[0] == '#' ) {
+            continue;
+        }
+        result.push_back( line );
+    }
+    if( result.empty() ) {
+        result.push_back( alternative_text );
+    }
+    return result;
+}
+
 bool game::opening_screen()
 {
     // Play title music, whoo!
@@ -206,43 +223,11 @@ bool game::opening_screen()
     ctxt.register_action("ANY_INPUT");
     bool start = false;
 
-    // Load MOTD and store it in a string
-    // Only load it once, it shouldn't change for the duration of the application being open
-    static std::vector<std::string> motd;
-    if (motd.empty()) {
-        std::ifstream motd_file;
-        motd_file.open(FILENAMES["motd"].c_str());
-        if (!motd_file.is_open()) {
-            motd.push_back(_("No message today."));
-        } else {
-            while (!motd_file.eof()) {
-                std::string tmp;
-                getline(motd_file, tmp);
-                if (!tmp.length() || tmp[0] != '#') {
-                    motd.push_back(tmp);
-                }
-            }
-        }
-    }
-
-    // Load Credits and store it in a string
-    // Only load it once, it shouldn't change for the duration of the application being open
-    static std::vector<std::string> credits;
-    if (credits.empty()) {
-        std::ifstream credits_file;
-        credits_file.open(FILENAMES["credits"].c_str());
-        if (!credits_file.is_open()) {
-            credits.push_back(_("No message today."));
-        } else {
-            while (!credits_file.eof()) {
-                std::string tmp;
-                getline(credits_file, tmp);
-                if (!tmp.length() || tmp[0] != '#') {
-                    credits.push_back(tmp);
-                }
-            }
-        }
-    }
+    // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
+    static std::vector<std::string> motd = load_file(
+        PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ) , _( "No message today." ) );
+    static std::vector<std::string> credits = load_file(
+        PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
 
     u = player();
 

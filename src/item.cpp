@@ -2874,6 +2874,11 @@ bool item::flammable() const
 {
     const material_type* cur_mat1 = get_material(1);
     const material_type* cur_mat2 = get_material(2);
+    if( cur_mat1->is_null() && cur_mat2->is_null() ) {
+        // All materials null means it could be anything, or nothing (software)
+        // anyway, if it does not have a material, it does not burn.
+        return false;
+    }
 
     return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
 }

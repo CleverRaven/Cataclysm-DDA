@@ -1478,5 +1478,5 @@
         "move_cost_mod": 2,
         "required_str": 9,
         "flags": ["TRANSPARENT", "PLACE_ITEM"]
-    }	
+    }
 ]

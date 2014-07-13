@@ -934,34 +934,27 @@ void trapfunc::temple_toggle(Creature *c, int x, int y)
     // Monsters and npcs are completely ignored here, should they?
     if (c == &g->u) {
         add_msg(_("You hear the grinding of shifting rock."));
-        ter_id type = g->m.oldter(x, y);
+        const ter_id type = g->m.ter(x, y);
         for (int i = 0; i < SEEX * MAPSIZE; i++) {
             for (int j = 0; j < SEEY * MAPSIZE; j++) {
-                switch (type) {
-                    case old_t_floor_red:
+                if( type == t_floor_red ) {
                         if (g->m.ter(i, j) == t_rock_green) {
                             g->m.ter_set(i, j, t_floor_green);
                         } else if (g->m.ter(i, j) == t_floor_green) {
                             g->m.ter_set(i, j, t_rock_green);
                         }
-                        break;
-
-                    case old_t_floor_green:
+                } else if( type == t_floor_green ) {
                         if (g->m.ter(i, j) == t_rock_blue) {
                             g->m.ter_set(i, j, t_floor_blue);
                         } else if (g->m.ter(i, j) == t_floor_blue) {
                             g->m.ter_set(i, j, t_rock_blue);
                         }
-                        break;
-
-                    case old_t_floor_blue:
+                } else if( type == t_floor_blue ) {
                         if (g->m.ter(i, j) == t_rock_red) {
                             g->m.ter_set(i, j, t_floor_red);
                         } else if (g->m.ter(i, j) == t_floor_red) {
                             g->m.ter_set(i, j, t_rock_red);
                         }
-                        break;
-
                 }
             }
         }

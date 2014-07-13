@@ -175,11 +175,22 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
+
+    for (auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool) {
+        // Amount == -1 means need one, but don't consume it.
+        if (!p->has_amount(tool->first, 1)) {
+            p->add_msg_if_player(_("You need %s to do it!"),
+                                 item(tool->first, 0).type->nname(1).c_str());
+            return 0;
+        }
+    }
+
     vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx, p->posy, 0, 0, 0, false);
     if (veh == NULL) {
         p->add_msg_if_player(m_info, _("There's no room to unfold the %s."), it->tname().c_str());
         return 0;
     }
+
     // Mark the vehicle as foldable.
     veh->tags.insert("convertible");
     // Store the id of the item the vehicle is made of.

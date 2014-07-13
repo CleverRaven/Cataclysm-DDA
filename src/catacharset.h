@@ -49,7 +49,7 @@ class utf8_wrapper {
 public:
     utf8_wrapper() : _data(), _length(0), _display_width(0) { }
     utf8_wrapper(const std::string &d);
-    utf8_wrapper(const char *d) : utf8_wrapper(std::string(d)) { }
+    utf8_wrapper(const char *d);
 
     void insert(size_t start, const utf8_wrapper &other);
     utf8_wrapper substr(size_t start, size_t length) const;
@@ -110,6 +110,7 @@ protected:
     size_t byte_start_display(size_t bstart, size_t start) const;
     // Same as @ref substr, but with a byte index as start
     utf8_wrapper substr_byte(size_t bytestart, size_t length, bool use_display_width) const;
+    void init_utf8_wrapper();
 };
 
 #endif

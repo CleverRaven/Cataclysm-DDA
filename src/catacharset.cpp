@@ -393,7 +393,10 @@ std::string base64_decode(std::string str)
     return ret;
 }
 
-utf8_wrapper::utf8_wrapper(const std::string &d) : _data(d), _length(0), _display_width(0)
+// In an attempt to maintain compatibility with gcc 4.6, use an initializer function
+// instead of a delegated constructor.
+// When we declare a hard dependency on gcc 4.7+, turn this back into a delegated constructor.
+void utf8_wrapper::init_utf8_wrapper()
 {
     const char *utf8str = _data.c_str();
     int len = _data.length();
@@ -405,6 +408,17 @@ utf8_wrapper::utf8_wrapper(const std::string &d) : _data(d), _length(0), _displa
         _length++;
         _display_width += mk_wcwidth(ch);
     }
+}
+
+utf8_wrapper::utf8_wrapper(const std::string &d) : _data(d), _length(0), _display_width(0)
+{
+    init_utf8_wrapper();
+}
+
+utf8_wrapper::utf8_wrapper(const char *d) : _length(0), _display_width(0)
+{
+    _data = std::string(d);
+    init_utf8_wrapper();
 }
 
 size_t utf8_wrapper::byte_start(size_t bstart, size_t start) const
