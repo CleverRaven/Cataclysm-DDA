@@ -303,7 +303,6 @@ class map
  bool has_furn(const int x, const int y);
 
  furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- int oldfurn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  std::string get_furn(const int x, const int y) const;
  furn_t & furn_at(const int x, const int y) const;
 
@@ -314,7 +313,6 @@ class map
  bool can_move_furniture( const int x, const int y, player * p = NULL);
 // Terrain
  ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- int oldter(const int x, const int y) const; // Temporary; the game is riddled with case statements requiring enum
  std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
