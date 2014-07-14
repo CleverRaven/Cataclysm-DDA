@@ -61,8 +61,6 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
-std::map<int, int> reverse_legacy_ter_id;
-std::map<int, int> reverse_legacy_furn_id;
 /*
  * Populate optional ter_id and furn_id variables
  */
@@ -72,31 +70,6 @@ void init_data_mappings()
     set_furn_ids();
     set_oter_ids();
     set_trap_ids();
-    // temporary (reliable) kludge until switch statements are rewritten
-    std::map<std::string, int> legacy_lookup;
-    for(int i = 0; i < num_legacy_ter; i++) {
-        legacy_lookup[ legacy_ter_id[i] ] = i;
-    }
-    reverse_legacy_ter_id.clear();
-    for( size_t i = 0; i < terlist.size(); ++i ) {
-        if ( legacy_lookup.find(terlist[i].id) != legacy_lookup.end() ) {
-            reverse_legacy_ter_id[ i ] = legacy_lookup[ terlist[i].id ];
-        } else {
-            reverse_legacy_ter_id[ i ] = 0;
-        }
-    }
-    legacy_lookup.clear();
-    for(int i = 0; i < num_legacy_furn; i++) {
-        legacy_lookup[ legacy_furn_id[i] ] = i;
-    }
-    reverse_legacy_furn_id.clear();
-    for( size_t i = 0; i < furnlist.size(); ++i ) {
-        if ( legacy_lookup.find(furnlist[i].id) != legacy_lookup.end() ) {
-            reverse_legacy_furn_id[ i ] = legacy_lookup[ furnlist[i].id ];
-        } else {
-            reverse_legacy_furn_id[ i ] = 0;
-        }
-    }
 }
 
 void DynamicDataLoader::load_object(JsonObject &jo)

@@ -306,6 +306,10 @@ void player::power_bionics()
                         if (bio_id == "bio_cqb") {
                             pick_style();
                         }
+                    } else {
+                        popup( _( "You don't have enough power to activate the %s." ), bio_data.name.c_str() );
+                        redraw = true;
+                        continue;
                     }
                     // Action done, leave screen
                     break;

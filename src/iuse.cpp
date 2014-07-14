@@ -6445,40 +6445,32 @@ int iuse::hacksaw(player *p, item *it, bool)
         return it->type->charges_to_use();
     }
 
-    switch (g->m.oldter(dirx, diry)) {
-        case old_t_chainfence_v:
-        case old_t_chainfence_h:
-        case old_t_chaingate_c:
+    const ter_id ter = g->m.ter( dirx, diry );
+    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ) {
             p->moves -= 500;
             g->m.ter_set(dirx, diry, t_dirt);
             g->sound(dirx, diry, 15, _("grnd grnd grnd"));
             g->m.spawn_item(dirx, diry, "pipe", 6);
             g->m.spawn_item(dirx, diry, "wire", 20);
-            break;
-
-        case old_t_chainfence_posts:
+    } else if( ter == t_chainfence_posts ) {
             p->moves -= 500;
             g->m.ter_set(dirx, diry, t_dirt);
             g->sound(dirx, diry, 15, _("grnd grnd grnd"));
             g->m.spawn_item(dirx, diry, "pipe", 6);
-            break;
-
-        case old_t_bars:
+    } else if( ter == t_bars ) {
             if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
                 g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
                 g->m.ter_set(dirx, diry, t_sewage);
                 p->moves -= 1000;
                 g->sound(dirx, diry, 15, _("grnd grnd grnd"));
                 g->m.spawn_item(p->posx, p->posy, "pipe", 3);
-            } else if (g->m.ter(p->posx, p->posy)) {
+            } else {
                 g->m.ter_set(dirx, diry, t_floor);
                 p->moves -= 500;
                 g->sound(dirx, diry, 15, _("grnd grnd grnd"));
                 g->m.spawn_item(p->posx, p->posy, "pipe", 3);
             }
-            break;
-
-        default:
+    } else {
             add_msg(m_info, _("You can't cut that."));
             return 0;
     }
