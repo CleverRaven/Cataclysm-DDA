@@ -817,12 +817,14 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title,
     LIQUID_FILL_ERROR error;
 
     std::set<std::string> dups;
-    for (size_t i = 0; i < here.size() &&
-         grounditems.size() < 10; i++) if (here[i].get_remaining_capacity_for_liquid(liquid, error) > 0) {
+    for (size_t i = 0; i < here.size();
+         i++) if (here[i].get_remaining_capacity_for_liquid(liquid, error) > 0) {
             if (dups.count(here[i].tname()) == 0) {
                 grounditems.push_back(std::list<item>(1, here[i]));
 
-                grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+                if (grounditems.size() < 10) {
+                    grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+                }
                 dups.insert(here[i].tname());
 
                 ground_containers.push_back(&here[i]);
