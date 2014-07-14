@@ -8,7 +8,6 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "help.h"
-#include "options.h"
 #include "worldfactory.h"
 #include "file_wrapper.h"
 #include "path_info.h"
@@ -128,21 +127,22 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     }
 }
 
-std::vector<std::string> load_translated_file(const std::string &path, int width, const std::string &alternative_text)
+
+std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
 {
-    std::string text;
     std::ifstream stream( path.c_str() );
+    std::vector<std::string> result;
     std::string line;
     while( std::getline( stream, line ) ) {
-        text += line;
-        text += "\n";
+        if( !line.empty() && line[0] == '#' ) {
+            continue;
+        }
+        result.push_back( line );
     }
-    if( text.empty() ) {
-        text = alternative_text;
-    } else {
-        text = _( text.c_str() );
+    if( result.empty() ) {
+        result.push_back( alternative_text );
     }
-    return foldstring( text, width );
+    return result;
 }
 
 bool game::opening_screen()
@@ -224,8 +224,10 @@ bool game::opening_screen()
     bool start = false;
 
     // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
-    static std::vector<std::string> motd = load_translated_file( FILENAMES["motd"], 68, _( "No message today." ) );
-    static std::vector<std::string> credits = load_translated_file( FILENAMES["credits"], 68, _( "No message today." ) );
+    static std::vector<std::string> motd = load_file(
+        PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ) , _( "No message today." ) );
+    static std::vector<std::string> credits = load_file(
+        PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
 
     u = player();
 

@@ -958,14 +958,6 @@ std::string map::get_furn(const int x, const int y) const {
     return furnlist[ furn(x,y) ].id;
 }
 
-int map::oldfurn(const int x, const int y) const {
-    const int nfurn = furn(x, y);
-    if ( reverse_legacy_furn_id.find(nfurn) == reverse_legacy_furn_id.end() ) {
-        return t_null;
-    }
-    return reverse_legacy_furn_id[ nfurn ];
-}
-
 furn_t & map::furn_at(const int x, const int y) const
 {
     return furnlist[ furn(x,y) ];
@@ -1040,17 +1032,6 @@ ter_id map::ter(const int x, const int y) const {
 
  return current_submap->ter[lx][ly];
 }
-/*
- * -temporary- for non-rewritten switch statements
- */
-int map::oldter(const int x, const int y) const {
-    const int nter = ter(x, y);
-    if ( reverse_legacy_ter_id.find(nter) == reverse_legacy_ter_id.end() ) {
-        return t_null;
-    }
-    return reverse_legacy_ter_id[ nter ];
-}
-
 
 /*
  * Get the terrain string id. This will remain the same across revisions,
@@ -1616,7 +1597,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
             }
         } else {
             furn_id furnid = furn(x, y);
-            if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
+            if ( furnid == f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
                  furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
                  furnid == f_canvas_door_o || furnid == f_groundsheet ) {
                 result = rng(0, 6);
@@ -1712,9 +1693,8 @@ void map::destroy(const int x, const int y, const bool makesound)
  if (has_furn(x, y))
   furn_set(x, y, f_null);
 
- switch (oldter(x, y)) {
-
- case old_t_gas_pump:
+    const ter_id t = ter( x, y );
+    if( t == t_gas_pump) {
   if (makesound && one_in(3))
    g->explosion(x, y, 40, 0, true);
   else {
@@ -1727,12 +1707,7 @@ void map::destroy(const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
-  break;
-
- case old_t_door_c:
- case old_t_door_b:
- case old_t_door_locked:
- case old_t_door_boarded:
+    } else if( t == t_door_c || t == t_door_b || t == t_door_locked || t == t_door_boarded ) {
   ter_set(x, y, t_door_frame);
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1741,11 +1716,7 @@ void map::destroy(const int x, const int y, const bool makesound)
        if (one_in(6)) spawn_item(i, j, "nail", 0, 3);
    }
   }
-  break;
-
- case old_t_pavement:
- case old_t_pavement_y:
- case old_t_sidewalk:
+    } else if( t == t_pavement || t == t_pavement_y || t == t_sidewalk ) {
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
@@ -1753,9 +1724,7 @@ void map::destroy(const int x, const int y, const bool makesound)
     ter_set(x, y, t_rubble);
    }
   }
-  break;
-
- case old_t_floor:
+    } else if( t == t_floor ) {
  g->sound(x, y, 20, _("SMASH!!"));
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1796,12 +1765,7 @@ void map::destroy(const int x, const int y, const bool makesound)
      if (one_in(num_supports))
       destroy (i, j, false);
    }
-  break;
-
- case old_t_concrete_v:
- case old_t_concrete_h:
- case old_t_wall_v:
- case old_t_wall_h:
+    } else if( t == t_concrete_v || t == t_concrete_h || t == t_wall_v || t == t_wall_h ) {
  g->sound(x, y, 20, _("SMASH!!"));
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1847,10 +1811,7 @@ void map::destroy(const int x, const int y, const bool makesound)
      if (one_in(num_supports))
       destroy (i, j, false);
    }
-  break;
-
-  case old_t_palisade:
-  case old_t_palisade_gate:
+    } else if( t == t_palisade || t == t_palisade_gate ) {
       g->sound(x, y, 16, _("CRUNCH!!"));
       for (int i = x - 1; i <= x + 1; i++)
       {
@@ -1866,9 +1827,7 @@ void map::destroy(const int x, const int y, const bool makesound)
       }
       ter_set(x, y, t_dirt);
       add_trap(x, y, tr_pit);
-      break;
-
- default:
+    } else {
   if (makesound && has_flag("EXPLODES", x, y) && one_in(2)) {
    g->explosion(x, y, 40, 0, true);
   }
@@ -2124,62 +2083,38 @@ void map::shoot(const int x, const int y, int &dam,
     }
 }
 
-bool map::hit_with_acid(const int x, const int y)
+bool map::hit_with_acid( const int x, const int y )
 {
- if (move_cost(x, y) != 0)
-  return false; // Didn't hit the tile!
-
- switch (oldter(x, y)) {
-  case old_t_wall_glass_v:
-  case old_t_wall_glass_h:
-  case old_t_wall_glass_v_alarm:
-  case old_t_wall_glass_h_alarm:
-  case old_t_vat:
-   ter_set(x, y, t_floor);
-   break;
-
-  case old_t_door_c:
-  case old_t_door_locked:
-  case old_t_door_locked_alarm:
-   if (one_in(3))
-    ter_set(x, y, t_door_b);
-   break;
-
-  case old_t_door_bar_c:
-  case old_t_door_bar_o:
-  case old_t_door_bar_locked:
-  case old_t_bars:
-   ter_set(x, y, t_floor);
-   add_msg(m_warning, _("The metal bars melt!"));
-   break;
-
-  case old_t_door_b:
-   if (one_in(4))
-    ter_set(x, y, t_door_frame);
-   else
-    return false;
-   break;
-
-  case old_t_window:
-  case old_t_window_alarm:
-   ter_set(x, y, t_window_empty);
-   break;
-
-  case old_t_wax:
-   ter_set(x, y, t_floor_wax);
-   break;
-
-  case old_t_gas_pump:
-  case old_t_gas_pump_smashed:
-   return false;
-
-  case old_t_card_science:
-  case old_t_card_military:
-   ter_set(x, y, t_card_reader_broken);
-   break;
- }
-
- return true;
+    if( move_cost( x, y ) != 0 ) {
+        return false;    // Didn't hit the tile!
+    }
+    const ter_id t = ter( x, y );
+    if( t == t_wall_glass_v || t == t_wall_glass_h || t == t_wall_glass_v_alarm || t == t_wall_glass_h_alarm ||
+        t == t_vat ) {
+        ter_set( x, y, t_floor );
+    } else if( t == t_door_c || t == t_door_locked || t == t_door_locked_alarm ) {
+        if( one_in( 3 ) ) {
+            ter_set( x, y, t_door_b );
+        }
+    } else if( t == t_door_bar_c || t == t_door_bar_o || t == t_door_bar_locked || t == t_bars ) {
+        ter_set( x, y, t_floor );
+        add_msg( m_warning, _( "The metal bars melt!" ) );
+    } else if( t == t_door_b ) {
+        if( one_in( 4 ) ) {
+            ter_set( x, y, t_door_frame );
+        } else {
+            return false;
+        }
+    } else if( t == t_window || t == t_window_alarm ) {
+        ter_set( x, y, t_window_empty );
+    } else if( t == t_wax ) {
+        ter_set( x, y, t_floor_wax );
+    } else if( t == t_gas_pump || t == t_gas_pump_smashed ) {
+        return false;
+    } else if( t == t_card_science || t == t_card_military ) {
+        ter_set( x, y, t_card_reader_broken );
+    }
+    return true;
 }
 
 // returns true if terrain stops fire
@@ -4078,6 +4013,39 @@ bool map::accessable_furniture(const int Fx, const int Fy, const int Tx, const i
            clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
+std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty)
+{
+    std::vector<point> vCircle;
+    vCircle.resize(8);
+
+    const std::vector<point> vLine = line_to(Fx, Fy, Tx, Ty, 0);
+    const std::vector<point> vSpiral = closest_points_first(1, Fx, Fy);
+    const std::vector<int> vPos {1,3,5,7,8,6,4,2};
+
+    //  All possible constelations (closest_points_first goes counterclokcwise)
+    //  753  531  312  124  246  468  687  875
+    //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
+    //  642  864  786  578  357  135  213  421
+
+    int iPosOffset = 0;
+    for (unsigned int i = 1; i < vSpiral.size(); i++) {
+        if (vSpiral[i].x == vLine[0].x && vSpiral[i].y == vLine[0].y) {
+            iPosOffset = i-1;
+            break;
+        }
+    }
+
+    for (unsigned int i = 1; i < vSpiral.size(); i++) {
+        if (iPosOffset >= vPos.size()) {
+            iPosOffset = 0;
+        }
+
+        vCircle[vPos[iPosOffset++]-1] = point(vSpiral[i].x, vSpiral[i].y);
+    }
+
+    return vCircle;
+}
+
 // Bash defaults to true.
 std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool can_bash)
 {
@@ -4152,10 +4120,13 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
     index = i;
    }
   }
-  for (int x = open[index].x - 1; x <= open[index].x + 1; x++) {
-   for (int y = open[index].y - 1; y <= open[index].y + 1; y++) {
-    if (x == open[index].x && y == open[index].y)
-     y++; // Skip the current square
+
+  std::vector<point> vDirCircle = getDirCircle(open[index].x, open[index].y, Tx, Ty);
+
+  for (unsigned int i = 0; i < vDirCircle.size(); ++i) {
+    const int x = vDirCircle[i].x;
+    const int y = vDirCircle[i].y;
+
     if (x == Tx && y == Ty) {
      done = true;
      parent[x][y] = open[index];
@@ -4184,7 +4155,6 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
       }
      }
     }
-   }
   }
   list[open[index].x][open[index].y] = ASL_CLOSED;
   open.erase(open.begin() + index);

@@ -1,3 +1,6 @@
+# This message may be 16 lines long at maximum.
+# Max length of a line is 68 characters; the following line is for reference
+####################################################################
 Major features v0.A Kaufman:
 * Mod manager (deactivate and activate various content)
 * Fullscreen mode.

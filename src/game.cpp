@@ -625,8 +625,8 @@ void game::start_game(std::string worldname)
         u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
         u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
     }
-    u.moves = 0; // u.reset below will add the initial move points
     u.reset();
+    u.process_turn(); // process_turn adds the initial move points
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
     u.next_climate_control_check = 0;  // Force recheck at startup
@@ -1341,7 +1341,7 @@ bool game::do_turn()
     if( u.skillLevel( "unarmed" ) >= 2 ) {
         if( std::find( u.ma_styles.begin(), u.ma_styles.end(), "style_brawling" ) == u.ma_styles.end() ) {
             u.ma_styles.push_back( "style_brawling" );
-            add_msg( m_info, _( "You learend a new style." ) );
+            add_msg( m_info, _( "You learned a new style." ) );
         }
     }
 
@@ -1403,6 +1403,7 @@ bool game::do_turn()
 
     monmove();
     update_stair_monsters();
+    u.process_turn();
     u.reset();
     u.process_active_items();
 
@@ -3972,11 +3973,7 @@ void game::load(std::string worldname, std::string name)
     load_master(worldname);
     update_map(u.posx, u.posy);
 
-    const int tmp_moves = u.moves;
     u.reset();
-    // u.reset has added move points, but we should keep the original count that was
-    // loaded from the save. Don't give out free move points!
-    u.moves = tmp_moves;
     draw();
 }
 
@@ -6294,7 +6291,7 @@ void game::monmove()
         }
 
         if (!critter->dead) {
-            critter->process_effects();
+            critter->process_turn();
             critter->reset();
             if (critter->hurt(0)) {
                 kill_mon(i, false);
@@ -6363,6 +6360,7 @@ void game::monmove()
         if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
             (*it)->die();
         } else {
+            (*it)->process_turn();
             (*it)->reset();
             while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
                 int moves = (*it)->moves;
@@ -6471,7 +6469,7 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
         if (!(u.has_bionic("bio_ears") || u.worn_with_flag("DEAF") || u.is_wearing("rm13_armor_on")) &&
             rng((vol - dist) / 2, (vol - dist)) >= 150) {
             int duration = std::min(40, (vol - dist - 130) / 4);
-            u.add_disease("deaf", duration);
+            u.add_effect("deaf", duration);
         }
         // We're deaf, can't hear it
         return false;
@@ -6481,7 +6479,7 @@ bool game::sound(int x, int y, int vol, std::string description, bool ambient)
     if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on") &&
         rng((vol - dist) / 2, (vol - dist)) >= 150) {
         int duration = (vol - dist - 130) / 4;
-        u.add_disease("deaf", duration);
+        u.add_effect("deaf", duration);
     }
 
     // See if we need to wake someone up
@@ -6709,7 +6707,7 @@ void game::flashbang(int x, int y, bool player_immune)
     int dist = rl_dist(u.posx, u.posy, x, y), t;
     if (dist <= 8 && !player_immune) {
         if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on")) {
-            u.add_disease("deaf", 40 - dist * 4);
+            u.add_effect("deaf", 40 - dist * 4);
         }
         if (m.sees(u.posx, u.posy, x, y, 8, t)) {
             int flash_mod = 0;
