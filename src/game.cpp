@@ -10353,8 +10353,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 	if (cont == NULL || cont->is_null()) {
 	    const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
-		cont = inv_map_for_liquid(liquid, text, false);
-	    
+	    cont = inv_map_for_liquid(liquid, text, false);
+
 	    if (cont == NULL || cont->is_null()) {
 	        // No container selected (escaped, ...), ask to pour
 	        // we asked to pour rotten already
