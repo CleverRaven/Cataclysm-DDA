@@ -793,7 +793,7 @@ std::vector<item> starting_clothes(npc_class type, bool male)
   ret.push_back(item(mask, 0));
  if (glasses != "null")
   ret.push_back(item(glasses, 0));
- if (hat != "null")https://github.com/CleverRaven/Cataclysm-DDA/pull/8157
+ if (hat != "null")
   ret.push_back(item(hat, 0));
 
 // Second pass--for extra stuff like backpacks, etc
