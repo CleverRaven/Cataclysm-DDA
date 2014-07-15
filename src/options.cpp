@@ -1228,7 +1228,7 @@ void show_options(bool ingame)
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
-            tilecontext->reinit( "gfx" );
+            tilecontext->reinit( FILENAMES["gfxdir"] );
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();

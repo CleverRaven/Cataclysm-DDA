@@ -196,20 +196,32 @@ bool fexists(const char *filename)
 bool InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+    int ret;
 
-    if (SDL_Init(init_flags) < 0) {
+    ret = SDL_Init( init_flags );
+    if( ret != 0 ) {
+        dbg( D_ERROR ) << "SDL_Init failed with " << ret << ", error: " << SDL_GetError();
         return false;
     }
-    if (TTF_Init() < 0) {
+    ret = TTF_Init();
+    if( ret != 0 ) {
+        dbg( D_ERROR ) << "TTF_Init failed with " << ret << ", error: " << TTF_GetError();
         return false;
     }
     #ifdef SDLTILES
-    if (IMG_Init(IMG_INIT_PNG) < 0) {
-        return false;
+    ret = IMG_Init( IMG_INIT_PNG );
+    if( (ret & IMG_INIT_PNG) != IMG_INIT_PNG ) {
+        dbg( D_ERROR ) << "IMG_Init failed to initialize PNG support, tiles won't work, error: " << IMG_GetError();
+        // cata_tiles won't be able to load the tiles, but the normal SDL
+        // code will display fine.
     }
     #endif // SDLTILES
 
-    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+    ret = SDL_InitSubSystem( SDL_INIT_JOYSTICK );
+    if( ret != 0 ) {
+        dbg( D_WARNING ) << "Initializing joystick subsystem failed with " << ret << ", error: " <<
+        SDL_GetError() << "\nIf you don't have a joystick plugged in, this is probably fine.";
+    }
 
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
@@ -242,6 +254,7 @@ bool WinCreate()
         );
 
     if (window == NULL) {
+        dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
     if (window_flags & SDL_WINDOW_FULLSCREEN) {
@@ -251,7 +264,12 @@ bool WinCreate()
         TERMINAL_HEIGHT = WindowHeight / fontheight;
     }
 
-    format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
+    const Uint32 wformat = SDL_GetWindowPixelFormat(window);
+    format = SDL_AllocFormat(wformat);
+    if(format == 0) {
+        dbg(D_ERROR) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
+        return false;
+    }
 
     bool software_renderer = OPTIONS["SOFTWARE_RENDERING"];
     if( !software_renderer ) {
@@ -272,11 +290,23 @@ bool WinCreate()
         }
     }
 
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    if( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
+        // Ignored for now, rendering could still work
+    }
     display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
-    SDL_SetRenderTarget(renderer, display_buffer);
+    if( display_buffer == nullptr ) {
+        dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
+        return false;
+    }
+    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+        dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
+        return false;
+    }
     ClearScreen();
 
+    // Errors here are ignored, worst case: the option does not work as expected,
+    // but that won't crash
     if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
     } else {
@@ -291,7 +321,14 @@ bool WinCreate()
             dbg( D_WARNING ) << "You have more than one gamepads/joysticks plugged in, only the first will be used.";
         }
         joystick = SDL_JoystickOpen(0);
-        SDL_JoystickEventState(SDL_ENABLE);
+        if( joystick == nullptr ) {
+            dbg( D_ERROR ) << "Opening the first joystick failed: " << SDL_GetError();
+        } else {
+            const int ret = SDL_JoystickEventState(SDL_ENABLE);
+            if( ret < 0 ) {
+                dbg( D_ERROR ) << "SDL_JoystickEventState(SDL_ENABLE) failed: " << SDL_GetError();
+            }
+        }
     } else {
         joystick = NULL;
     }
@@ -303,10 +340,8 @@ bool WinCreate()
     int audio_channels = 2;
     int audio_buffers = 4096;
 
-    SDL_Init(SDL_INIT_AUDIO);
-
     if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
-      dbg(D_ERROR) << "Failed to open audio mixer.";
+        dbg( D_ERROR ) << "Failed to open audio mixer, sound won't work: " << Mix_GetError();
     }
 #endif
 
@@ -339,8 +374,12 @@ void WinDestroy()
 };
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    SDL_SetRenderDrawColor(renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255);
-    SDL_RenderFillRect(renderer, &rect);
+    if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255 ) != 0 ) {
+        dbg(D_ERROR) << "SDL_SetRenderDrawColor failed: " << SDL_GetError();
+    }
+    if( SDL_RenderFillRect( renderer, &rect ) != 0 ) {
+        dbg(D_ERROR) << "SDL_RenderFillRect failed: " << SDL_GetError();
+    }
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -453,7 +492,9 @@ void CachedTTFFont::OutputChar(const std::string &ch, int x, int y, unsigned cha
     rect.y = y;
     rect.w = fontwidth * utf8_wrapper( ch ).display_width();
     rect.h = fontheight;
-    SDL_RenderCopy(renderer, glyph, NULL, &rect);
+    if( SDL_RenderCopy( renderer, glyph, NULL, &rect ) != 0 ) {
+        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+    }
 }
 
 void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
@@ -476,7 +517,9 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     src.h = fontheight;
     SDL_Rect rect;
     rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
-    SDL_RenderCopy(renderer,ascii[color],&src,&rect);
+    if( SDL_RenderCopy( renderer, ascii[color], &src, &rect ) != 0 ) {
+        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+    }
 }
 
 #ifdef SDLTILES
@@ -487,10 +530,16 @@ void try_update()
     if (now - lastupdate >= interval) {
         // Select default target (the window), copy rendered buffer
         // there, present it, select the buffer as target again.
-        SDL_SetRenderTarget(renderer, NULL);
-        SDL_RenderCopy(renderer, display_buffer, NULL, NULL);
+        if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+        }
+        if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
+            dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
+        }
         SDL_RenderPresent(renderer);
-        SDL_SetRenderTarget(renderer, display_buffer);
+        if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+            dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+        }
         needupdate = false;
         lastupdate = now;
     } else {
@@ -1063,7 +1112,8 @@ static void save_font_list()
 
 static std::string find_system_font(std::string name, int& faceIndex)
 {
-    std::ifstream fin(FILENAMES["fontlist"].c_str());
+    const std::string fontlist_path = FILENAMES["fontlist"];
+    std::ifstream fin(fontlist_path.c_str());
     if ( !fin.is_open() ) {
         // Try opening the fontlist at the old location.
         fin.open(FILENAMES["legacy_fontlist"].c_str());
@@ -1071,9 +1121,9 @@ static std::string find_system_font(std::string name, int& faceIndex)
             dbg( D_INFO ) << "Generating fontlist";
             assure_dir_exist(FILENAMES["config_dir"]);
             save_font_list();
-            fin.open(FILENAMES["fontlist"].c_str());
+            fin.open(fontlist_path.c_str());
             if( !fin ) {
-                dbg( D_ERROR ) << "Can't open or create fontlist file.";
+                dbg( D_ERROR ) << "Can't open or create fontlist file " << fontlist_path;
                 return "";
             }
         } else {
@@ -1221,7 +1271,6 @@ WINDOW *curses_init(void)
     }
 
     if(!InitSDL()) {
-        dbg( D_ERROR ) << "Failed to initialize SDL: " << SDL_GetError();
         return NULL;
     }
 
@@ -1229,7 +1278,6 @@ WINDOW *curses_init(void)
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
 
     if(!WinCreate()) {
-        dbg( D_ERROR ) << "Failed to create game window: " << SDL_GetError();
         return NULL;
     }
 
@@ -1240,6 +1288,7 @@ WINDOW *curses_init(void)
         tilecontext->init(FILENAMES["gfxdir"]);
         dbg( D_INFO ) << "Tiles initialized successfully.";
     } catch(std::string err) {
+        dbg( D_ERROR ) << "failed to initialize tile: " << err;
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
         // Setting it to false disables this from getting used.
@@ -1754,9 +1803,17 @@ std::map<std::string, music_playlist> playlists;
 void musicFinished();
 
 void play_music_file(std::string filename, int volume) {
-    current_music = Mix_LoadMUS((FILENAMES["datadir"] + "/sound/" + filename).c_str());
+    const std::string path = (FILENAMES["datadir"] + "/sound/" + filename);
+    current_music = Mix_LoadMUS(path.c_str());
+    if( current_music == nullptr ) {
+        dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+        return;
+    }
     Mix_VolumeMusic(volume * OPTIONS["MUSIC_VOLUME"] / 100);
-    Mix_PlayMusic(current_music, 0);
+    if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
+        dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
+        return;
+    }
     Mix_HookMusicFinished(musicFinished);
 }
 
