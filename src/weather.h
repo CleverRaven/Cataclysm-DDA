@@ -55,20 +55,23 @@ enum weather_type {
 /**
  * Weather animation class.
  */
-class clWeatherAnim {
+class clWeatherAnim
+{
     public:
         char cGlyph;
         nc_color colGlyph;
         float fFactor;
 
-        clWeatherAnim() {
+        clWeatherAnim()
+        {
             cGlyph = '?';
             colGlyph = c_white;
             fFactor = 0.0f;
         };
         ~clWeatherAnim() {};
 
-        clWeatherAnim(const char p_cGlyph, const nc_color p_colGlyph, const float p_fFactor) {
+        clWeatherAnim(const char p_cGlyph, const nc_color p_colGlyph, const float p_fFactor)
+        {
             cGlyph = p_cGlyph;
             colGlyph = p_colGlyph;
             fFactor = p_fFactor;
@@ -125,7 +128,8 @@ struct weather_datum {
     int ranged_penalty;     //!< Penalty to ranged attacks.
     int sight_penalty;      //!< Penalty to max sight range.
     int light_modifier;     //!< Modification to ambient light.
-    int mintime, maxtime;   //!< min/max time it lasts, in minutes. Note that this is a *recalculation* deadline.
+    int mintime,
+        maxtime;   //!< min/max time it lasts, in minutes. Note that this is a *recalculation* deadline.
     bool dangerous;         //!< If true, our activity gets interrupted.
     void (weather_effect::*effect)(); //!< Function pointer for weather effects.
 };

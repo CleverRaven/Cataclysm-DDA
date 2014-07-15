@@ -81,7 +81,13 @@ public:
 // Type of trap
  bool is_benign() const { return benign; }
  // non-generic numbers for special cases
- int funnel_radius_mm;
+    /** Funnel value can be generated from the surface area or radius of the rain catching device to be modeled 
+        following unit conversion between game units: 600 turns = 1 hour, 250 mL = 1 charge of water
+        funnel value is easily calculated as surface area in square mm divided by 150
+        a standard funnel with a (huge) radius of 380mm (area = 453645.6...)
+        has a funnel value of 3024
+    */
+    int funnel_value;
     /** If an item with this weight or more is thrown onto the trap, it triggers. */
     int trigger_weight;
     /** Player has not yet seen the trap and returns the variable chance, at this moment,
@@ -118,7 +124,7 @@ public:
         // It's a traaaap! So default;
         benign = false;
         // Traps are not typically funnels
-        funnel_radius_mm = 0;
+        funnel_value = 0;
         trigger_weight = -1;
     };
 };
