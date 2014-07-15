@@ -4534,6 +4534,20 @@ void map::copy_grid(const int to, const int from)
   (*it)->smx = to % my_MAPSIZE;
   (*it)->smy = to / my_MAPSIZE;
  }
+
+    const int oldx = (from % my_MAPSIZE) * SEEX;
+    const int oldy = (from / my_MAPSIZE) * SEEY;
+    const int newx = (to % my_MAPSIZE) * SEEX;
+    const int newy = (to / my_MAPSIZE) * SEEY;
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            trap_id t = grid[to]->get_trap(x, y);
+            if (t != tr_null) {
+                traplocs[t].erase(point(oldx + x, oldy + y));
+                traplocs[t].insert(point(newx + x, newy + y));
+            }
+        }
+    }
 }
 
 void map::spawn_monsters()
@@ -4605,9 +4619,14 @@ void map::clear_traps()
     }
 }
 
-std::set<point> map::trap_locations(trap_id t)
+const std::set<point> &map::trap_locations(trap_id t) const
 {
-    return traplocs[t];
+    const auto it = traplocs.find(t);
+    if(it != traplocs.end()) {
+        return it->second;
+    }
+    static std::set<point> empty_set;
+    return empty_set;
 }
 
 bool map::inbounds(const int x, const int y)
