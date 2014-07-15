@@ -9726,8 +9726,8 @@ int game::list_items(const int iLastState)
     int iStartPos = 0;
     int iActiveX = 0;
     int iActiveY = 0;
-    int iLastActiveX = -1;
-    int iLastActiveY = -1;
+    int iLastActiveX = INT_MIN;
+    int iLastActiveY = INT_MIN;
     bool reset = true;
     bool refilter = true;
     int iFilter = 0;
@@ -9763,8 +9763,8 @@ int game::list_items(const int iLastState)
             } else if (action == "RESET_FILTER") {
                 sFilter = "";
                 filtered_items = ground_items;
-                iLastActiveX = -1;
-                iLastActiveY = -1;
+                iLastActiveX = INT_MIN;
+                iLastActiveY = INT_MIN;
                 reset = true;
                 refilter = true;
             } else if (action == "EXAMINE" && filtered_items.size()) {
@@ -9776,8 +9776,8 @@ int game::list_items(const int iLastState)
                                oThisItem.tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
 
-                iLastActiveX = -1;
-                iLastActiveY = -1;
+                iLastActiveX = INT_MIN;
+                iLastActiveY = INT_MIN;
                 reset = true;
             } else if (action == "PRIORITY_INCREASE") {
                 std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
@@ -9797,8 +9797,8 @@ int game::list_items(const int iLastState)
                 lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
                 iActive = 0;
                 iPage = 0;
-                iLastActiveX = -1;
-                iLastActiveY = -1;
+                iLastActiveX = INT_MIN;
+                iLastActiveY = INT_MIN;
                 refilter = false;
             }
 
