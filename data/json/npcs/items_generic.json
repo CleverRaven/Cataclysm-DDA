@@ -1,0 +1,229 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "npc_pants_male",
+    "items":[
+      ["jeans", 20],
+      ["pants", 20],
+      ["pants_leather", 20],
+      ["pants_cargo", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_pants_female",
+    "items":[
+      ["jeans", 20],
+      ["pants", 20],
+      ["pants_leather", 20],
+      ["pants_cargo", 20],
+      ["skirt", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_shirt_male",
+    "items":[
+      ["tshirt", 20],
+      ["polo_shirt", 20],
+      ["dress_shirt", 20],
+      ["tank_top", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_shirt_female",
+    "items":[
+      ["tshirt", 20],
+      ["polo_shirt", 20],
+      ["dress_shirt", 20],
+      ["tank_top", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_gloves",
+    "items":[
+      ["null", 60],
+      ["gloves_leather", 20],
+      ["gloves_fingerless", 20],
+      ["fire_gauntlets", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_coat",
+    "items":[
+      ["null", 20],
+      ["hoodie", 20],
+      ["jacket_light", 20],
+      ["jacket_leather", 20],
+      ["trenchcoat", 20],
+      ["jacket_jean", 20],
+      ["kevlar", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_shoes",
+    "items":[
+      ["sneakers", 20],
+      ["boots", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_masks",
+    "items":[
+      ["null", 80],
+      ["mask_dust", 10],
+      ["bandana", 10],
+      ["mask_filter", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_eyes",
+    "items":[
+      ["null", 80],
+      ["glasses_safety", 20],
+      ["sunglasses", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_hat",
+    "items":[
+      ["null", 80],
+      ["hat_ball", 10],
+      ["hat_hard", 10],
+      ["helmet_bike", 10],
+      ["helmet_riot", 10],
+      ["helmet_motor", 10],
+      ["hat_hunting", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_extra",
+    "items":[
+      ["null", 75],
+      ["backpack", 10],
+      ["backpack_leather", 10],
+      ["rucksack", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_bashing",
+    "items":[
+      ["hammer", 20],
+      ["wrench", 20],
+      ["hammer_sledge", 20],
+      ["pipe", 20],
+      ["bat", 20],
+      ["crowbar", 20],
+      ["spear_rebar",20],
+      ["q_staff",20],
+      ["hatchet", 20],
+      ["bat_metal",20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_cutting",
+    "items":[
+      ["knife_butcher", 20],
+      ["hatchet", 20],
+      ["ax", 20],
+      ["machete", 20],
+      ["knife_combat", 20],
+      ["katana", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_stabbing",
+    "items":[
+      ["spear_knife", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_throw",
+    "items":[
+      ["throwing_knife", 7],
+      ["throwing_axe", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_archery",
+    "items":[
+      ["crossbow", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_launcher",
+    "items":[
+      ["flamethrower_simple",50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_weapon_random",
+    "items":[
+      ["hatchet", 10],
+      ["nailbat", 10],
+      ["bwirebat",10],
+      ["nailboard", 25],
+      ["makeshift_crowbar", 15],
+      ["crowbar", 7],
+      ["machete", 7],
+      ["ax", 5],
+      ["halligan", 3],
+      ["fire_ax", 5],
+      ["bullwhip", 2],
+      ["spear_knife", 15],
+      ["rifle_9mm", 20],
+      ["rifle_22", 20],
+      ["uzi", 10],
+      ["mac_10", 10],
+      ["crossbow", 5],
+      ["sig_mosquito", 5],
+      ["sw_22", 5],
+      ["glock_19", 7],
+      ["usp_9mm", 10],
+      ["cx4", 1],
+      ["usp_45", 10],
+      ["m1911", 5],
+      ["ar15", 1],
+      ["savage_111f", 2],
+      ["remington_700", 2],
+      ["ruger_1022", 10],
+      ["marlin_9a", 10],
+      ["remington_870", 8],
+      ["mossberg_500", 2],
+      ["shotgun_sawn", 4],
+      ["shotgun_d", 4],
+      ["longbow", 5],
+      ["compositebow", 3],
+      ["shortbow", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_misc",
+    "items":[
+      ["water_clean", 90],
+      ["water_mineral", 5],
+      ["cola", 70],
+      ["creamsoda", 60],
+      ["lemonlime", 60],
+      ["orangesoda", 60],
+      ["crispycran", 40],
+      ["colamdew", 60],
+      ["choc_drink", 30],
+      ["jerky", 55],
+      ["cracklins", 25],
+      ["salted_fish", 35],
+      ["porkstick", 55],
+      ["ravioli", 25],
+      ["can_beans", 40],
+      ["can_corn", 35],
+      ["can_spam", 30],
+      ["salt", 10],
+      ["seasoning_salt", 5],
+      ["vinegar", 10],
+      ["jar_veggy_pickled", 30],
+      ["con_milk", 20],
+      ["jar_fish_pickled", 26],
+      ["lutefisk", 1],
+      ["pemmican", 10],
+      ["jar_meat_pickled", 20]
+    ]
+  }
+]

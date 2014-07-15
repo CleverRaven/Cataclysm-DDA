@@ -226,7 +226,6 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         technique = ma_techniques[force_technique];
     } else
         technique = ma_techniques["tec_none"];
-
     int hit_spread = t.deal_melee_attack(this, hit_roll());
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
@@ -239,8 +238,14 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
                 add_msg(_("You swing wildly and miss."));
             else
                 add_msg(_("You miss."));
+        } else {
+            if (stumble_pen >= 60)
+                add_msg( _("%s misses and stumbles with the momentum."),name.c_str());
+            else if (stumble_pen >= 10)
+                add_msg(_("%s swings wildly and misses."),name.c_str());
+            else
+                add_msg(_("%s misses."),name.c_str());
         }
-
         if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
             melee_practice( *this, false, unarmed_attack(),
                             weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
@@ -313,6 +318,11 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         if (!specialmsg.empty()) {
             add_msg_if_player(specialmsg.c_str());
         }
+        
+        if (t.is_dead_state()) {
+            t.die(this);
+        }
+        
     }
 
     mod_moves(-move_cost);

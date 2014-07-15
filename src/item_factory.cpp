@@ -626,6 +626,18 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag)
     }
 }
 
+//Returns a random item from the list of all templates
+const item Item_factory::item_from(const Item_tag group_tag)
+{
+    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
+    //If the tag isn't found, just return a reference to missing item.
+    if (group_iter != m_template_groups.end()) {
+        return group_iter->second->create_single(calendar::turn);
+    } else {
+        return item();
+    }
+}
+
 bool Item_factory::has_group(const Item_tag &group_tag) const
 {
     return m_template_groups.count(group_tag) > 0;

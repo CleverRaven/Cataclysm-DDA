@@ -83,6 +83,10 @@ public:
      * Return a random item type from the given item group.
      */
     const Item_tag id_from(Item_tag group_tag);
+    /**
+     * Return a random item from the item group, handles packaged food where id_from returns the container.
+     */
+    const item item_from(Item_tag group_tag);
     bool group_contains_item(Item_tag group_tag, Item_tag item);
 
     /**

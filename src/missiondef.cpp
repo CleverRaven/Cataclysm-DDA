@@ -222,12 +222,36 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 1000, false,
   ORIGINS(ORIGIN_SECONDARY);
   FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_3);
 
- MISSION(_("Find 25 Plutonium Cells"), MGOAL_FIND_ITEM, 5, 300000, false,
+ MISSION(_("Find 25 Plutonium Cells"), MGOAL_FIND_ITEM, 5, 350000, false,
          &mission_place::always, &mission_start::standard,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("plut_cell");
   COUNT(25);
+
+////Old Guard
+ MISSION(_("Kill Bandits"), MGOAL_ASSASSINATE, 5, 50000, false,
+         &mission_place::always, &mission_start::place_bandit_cabin,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_REP_2);
+
+ MISSION(_("Deal with Informant"), MGOAL_ASSASSINATE, 5, 50000, false,
+         &mission_place::always, &mission_start::place_informant,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_REP_3);
+
+ MISSION(_("Kill ???"), MGOAL_KILL_MONSTER, 5, 50000, false,
+         &mission_place::always, &mission_start::place_grabber,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_REP_4);
+
+ MISSION(_("Kill Raider Leader"), MGOAL_ASSASSINATE, 10, 100000, false,
+         &mission_place::always, &mission_start::place_bandit_camp,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
 
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,

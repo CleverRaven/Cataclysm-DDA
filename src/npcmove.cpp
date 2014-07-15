@@ -56,8 +56,8 @@ void npc::move()
                  name.c_str(), target, danger, confident_range(-1));
 
     //faction opinion determines if it should consider you hostile
-    int j;
-    if (my_fac != NULL && my_fac->likes_u < -10 && g->sees_u(posx, posy, j)){//acidia
+    if (my_fac != NULL && my_fac->likes_u < -10 && this->sees(g->u.posx, g->u.posy)
+        && g->u.is_invisible() == false){
         if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
             attitude = NPCATT_FLEE; // We don't want to take u on!
         else
@@ -67,7 +67,7 @@ void npc::move()
 
     if (is_enemy()) {
         int pl_danger = player_danger( &(g->u) );
-        if (pl_danger > danger || target == -1) {
+        if ((pl_danger > danger || rl_dist(posx, posy, g->u.posx, g->u.posy) <= 1) || target == -1) {
             target = TARGET_PLAYER;
             danger = pl_danger;
             if (g->debugmon) {
@@ -565,7 +565,11 @@ npc_action npc::method_of_attack(int target, int danger)
                 else {
                     return npc_avoid_friendly_fire;
                 }
-            else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
+            else if (target == TARGET_PLAYER && g->u.is_invisible() == true){
+                return npc_pause;//Lost you since you went invisible
+            }else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)){
+                return npc_melee;//Can't see target
+            }else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
                      g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
@@ -655,7 +659,7 @@ npc_action npc::address_player()
 {
     int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
-        g->sees_u(posx, posy, linet)) {
+        this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
         if (g->u.has_disease("sleep")) {
             // Leave sleeping characters alone.
             return npc_undecided;
@@ -670,7 +674,7 @@ npc_action npc::address_player()
         }
     }
 
-    if (attitude == NPCATT_MUG && g->sees_u(posx, posy, linet)) {
+    if (attitude == NPCATT_MUG && this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
         if (one_in(3)) {
             say(_("Don't move a <swear> muscle..."));
         }
@@ -1065,6 +1069,12 @@ void npc::move_to(int x, int y)
             posy = y;
             bool diag = trigdist && posx != x && posy != y;
             moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
+            if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
+                trap* tr = traplist[g->m.tr_at(x, y)];
+                if (!this->avoid_trap(tr, x, y)) {
+                    tr->trigger(this, x, y);
+                }
+            }
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;
         } else if (g->m.has_flag("BASHABLE", x, y)) {
