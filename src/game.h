@@ -300,7 +300,7 @@ class game
         int inv_activatable(std::string title);
         int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
         int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
-        item *inv_map_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
+        item *inv_map_for_liquid(const item &liquid, const std::string title, bool &on_ground);
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
         int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
