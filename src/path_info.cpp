@@ -153,6 +153,7 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
         const std::string &extension, const std::string &fallbackid )
 {
     const std::string base_path = FILENAMES[pathid];
+
 #if defined LOCALIZE && ! defined __CYGWIN__
     std::string local_path_1; // complete locale: en_NZ
     std::string local_path_2; // only the first part: en
@@ -186,5 +187,6 @@ std::string PATH_INFO::find_translated_file( const std::string &pathid,
         }
     }
 #endif
+    (void) extension;
     return FILENAMES[fallbackid];
 }
