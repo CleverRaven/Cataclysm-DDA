@@ -47,6 +47,8 @@
 #include "SDL_mixer.h"
 #endif
 
+#define dbg(x) dout((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -253,19 +255,19 @@ bool WinCreate()
 
     bool software_renderer = OPTIONS["SOFTWARE_RENDERING"];
     if( !software_renderer ) {
-        DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
+        dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
         renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
                                        SDL_RENDERER_PRESENTVSYNC );
         if( renderer == NULL ) {
-            DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
+            dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
             software_renderer = true;
         }
     }
     if( software_renderer ) {
         renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE );
         if( renderer == NULL ) {
-            DebugLog() << "Failed to initialize software renderer: " << SDL_GetError() << "\n";
+            dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;
         }
     }
@@ -286,7 +288,7 @@ bool WinCreate()
 
     if( OPTIONS["ENABLE_JOYSTICK"] && numjoy >= 1 ) {
         if( numjoy > 1 ) {
-            DebugLog() << "You have more than one gamepads/joysticks plugged in, only the first will be used.\n";
+            dbg( D_WARNING ) << "You have more than one gamepads/joysticks plugged in, only the first will be used.";
         }
         joystick = SDL_JoystickOpen(0);
         SDL_JoystickEventState(SDL_ENABLE);
@@ -304,7 +306,7 @@ bool WinCreate()
     SDL_Init(SDL_INIT_AUDIO);
 
     if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
-      DebugLog() << "Failed to open audio mixer.\n";
+      dbg(D_ERROR) << "Failed to open audio mixer.";
     }
 #endif
 
@@ -375,7 +377,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
 {
     SDL_Surface * sglyph = (fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid)(font, ch.c_str(), windowsPalette[color]);
     if (sglyph == NULL) {
-        DebugLog() << "Failed to create glyph for " << ch << ": " << TTF_GetError() << "\n";
+        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return NULL;
     }
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
@@ -396,7 +398,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
     SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth * wf, fontheight, 32, rmask, gmask, bmask, amask);
     if (surface == NULL) {
-        DebugLog() << "CreateRGBSurface failed: " << SDL_GetError() << "\n";
+        dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
         SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
         SDL_FreeSurface(sglyph);
         return glyph;
@@ -419,7 +421,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
     }
 
     if (SDL_BlitSurface(sglyph, &src_rect, surface, &dst_rect) != 0) {
-        DebugLog() << SDL_GetError() << "\n";
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
         SDL_FreeSurface(surface);
     } else {
         SDL_FreeSurface(sglyph);
@@ -997,8 +999,7 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                         if (start != std::string::npos && end != std::string::npos) {
                             fout << " [" << f.substr(start + 1, end - start - 1) + "]";
                         } else {
-                            DebugLog() << "sdltiles.cpp::font_folder_list():" <<
-                            "Skipping wrong font file: \"" << f.c_str() << "\"\n";
+                            dbg( D_INFO ) << "Skipping wrong font file: \"" << f << "\"";
                         }
                     }
                 }
@@ -1067,12 +1068,12 @@ static std::string find_system_font(std::string name, int& faceIndex)
         // Try opening the fontlist at the old location.
         fin.open(FILENAMES["legacy_fontlist"].c_str());
         if( !fin.is_open() ) {
-            DebugLog() << "Generating fontlist\n";
+            dbg( D_INFO ) << "Generating fontlist";
             assure_dir_exist(FILENAMES["config_dir"]);
             save_font_list();
             fin.open(FILENAMES["fontlist"].c_str());
             if( !fin ) {
-                DebugLog() << "Can't open or create fontlist file.\n";
+                dbg( D_ERROR ) << "Can't open or create fontlist file.";
                 return "";
             }
         } else {
@@ -1193,8 +1194,8 @@ WINDOW *curses_init(void)
             assure_dir_exist(FILENAMES["config_dir"]);
             std::ofstream OutStream(FILENAMES["fontdata"].c_str(), std::ofstream::binary);
             if(!OutStream.good()) {
-                DebugLog() << "Can't save user fontdata file.\n"
-                << "Check permissions for: " << FILENAMES["fontdata"].c_str();
+                dbg(D_ERROR) << "Can't save user fontdata file.\n"
+                << "Check permissions for: " << FILENAMES["fontdata"];
                 return NULL;
             }
             JsonOut jOut(OutStream, true); // pretty-print
@@ -1212,15 +1213,15 @@ WINDOW *curses_init(void)
             OutStream << "\n";
             OutStream.close();
         } else {
-            DebugLog() << "Can't load fontdata files.\n"
-            << "Check permissions for:\n" << FILENAMES["legacy_fontdata"].c_str() << "\n"
-            << FILENAMES["fontdata"].c_str() << "\n";
+            dbg(D_ERROR) << "Can't load fontdata files.\n"
+            << "Check permissions for:\n" << FILENAMES["legacy_fontdata"] << "\n"
+            << FILENAMES["fontdata"];
             return NULL;
         }
     }
 
     if(!InitSDL()) {
-        DebugLog() << "Failed to initialize SDL: " << SDL_GetError() << "\n";
+        dbg( D_ERROR ) << "Failed to initialize SDL: " << SDL_GetError();
         return NULL;
     }
 
@@ -1228,16 +1229,16 @@ WINDOW *curses_init(void)
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
 
     if(!WinCreate()) {
-        DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
+        dbg( D_ERROR ) << "Failed to create game window: " << SDL_GetError();
         return NULL;
     }
 
     #ifdef SDLTILES
-    DebugLog() << "Initializing SDL Tiles context\n";
+    dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext = new cata_tiles(renderer);
     try {
         tilecontext->init(FILENAMES["gfxdir"]);
-        DebugLog() << "Tiles initialized successfully.\n";
+        dbg( D_INFO ) << "Tiles initialized successfully.";
     } catch(std::string err) {
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
@@ -1274,7 +1275,7 @@ Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, 
             return bm_font;
         } catch(std::exception &err) {
             delete bm_font;
-            DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
+            dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
             // Continue to load as truetype font
         }
     }
@@ -1287,7 +1288,7 @@ Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, 
         return ttf_font;
     } catch(std::exception &err) {
         delete ttf_font;
-        DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
+        dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
     }
     return NULL;
 }
@@ -1556,7 +1557,7 @@ void BitmapFont::clear()
 void BitmapFont::load_font(const std::string &typeface)
 {
     clear();
-    DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;
+    dbg( D_INFO ) << "Loading bitmap font [" + typeface + "]." ;
     SDL_Surface *asciiload = IMG_Load(typeface.c_str());
     if (asciiload == NULL) {
         throw std::runtime_error(IMG_GetError());
@@ -1675,21 +1676,21 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
     const std::string sysfnt = find_system_font(typeface, faceIndex);
     if (!sysfnt.empty()) {
         typeface = sysfnt;
-        DebugLog() << "Using font [" + typeface + "].\n" ;
+        dbg( D_INFO ) << "Using font [" + typeface + "]." ;
     }
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
         typeface = FILENAMES["fontdir"] + typeface + ".ttf";
-        DebugLog() << "Using compatible font [" + typeface + "].\n" ;
+        dbg( D_INFO ) << "Using compatible font [" + typeface + "]." ;
     }
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
         typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
-        DebugLog() << "Using fallback font [" + typeface + "].\n" ;
+        dbg( D_INFO ) << "Using fallback font [" + typeface + "]." ;
     }
-    DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
+    dbg( D_INFO ) << "Loading truetype font [" + typeface + "]." ;
     if(fontsize <= 0) {
         fontsize = fontheight - 1;
     }

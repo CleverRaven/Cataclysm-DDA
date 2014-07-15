@@ -13,6 +13,8 @@
 
 #include "SDL2/SDL_image.h"
 
+#define dbg(x) dout((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+
 #define ITEM_HIGHLIGHT "highlight_item"
 
 extern game *g;
@@ -100,7 +102,7 @@ void cata_tiles::reinit(std::string load_file_path)
 
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
-    DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
+    dbg( D_INFO ) << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]";
     const std::string filename = "tileset.txt";                 // tileset-information-file
     const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
     const std::string default_tileset = FILENAMES["defaulttilepng"];
@@ -113,7 +115,7 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
         fin.open(it->c_str());
         if(!fin.is_open()) {
             fin.close();
-            DebugLog() << "\tCould not read ." << *it << " -- Setting to default values!\n";
+            dbg( D_ERROR ) << "Could not read " << *it << " -- Setting to default values!";
             json_path = default_json;
             tileset_path = default_tileset;
             return;
@@ -141,11 +143,11 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
                 } else if (sOption.find("JSON") != std::string::npos) {
                     fin >> json_path;
                     json_path = FILENAMES["gfxdir"] + json_path;
-                    DebugLog() << "\tJSON path set to [" << json_path << "].\n";
+                    dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
                 } else if (sOption.find("TILESET") != std::string::npos) {
                     fin >> tileset_path;
                     tileset_path = FILENAMES["gfxdir"] + tileset_path;
-                    DebugLog() << "\tTILESET path set to [" << tileset_path << "].\n";
+                    dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
                 }
             }
         }
@@ -154,11 +156,11 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
     if (json_path == "") {
         json_path = default_json;
-        DebugLog() << "\tJSON set to default [" << json_path << "].\n";
+        dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
     }
     if (tileset_path == "") {
         tileset_path = default_tileset;
-        DebugLog() << "\tTILESET set to default [" << tileset_path << "].\n";
+        dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
     }
 }
 
@@ -169,7 +171,7 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 
     if(!tile_atlas) {
         std::cerr << "Could not locate tileset file at " << path << std::endl;
-        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
+        dbg( D_ERROR ) << "Could not load tileset image at " << path;
         // TODO: run without tileset
         return 0;
     }
@@ -212,7 +214,7 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
             }
         }
 
-        DebugLog() << "Tiles Created: " << tilecount << "\n";
+        dbg( D_INFO ) << "Tiles Created: " << tilecount;
         SDL_FreeSurface(tile_atlas);
         return tilecount;
 }
@@ -227,12 +229,12 @@ void cata_tiles::set_draw_scale(int scale) {
 
 void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 {
-    DebugLog() << "Attempting to Load JSON file\n";
+    dbg( D_INFO ) << "Attempting to Load JSON file " << path;
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
         //throw (std::string)"ERROR: " + path + (std::string)" could not be read.";
-        DebugLog() << (std::string)"ERROR: " + path + (std::string)" could not be read.\n";
+        dbg( D_ERROR ) << path << " could not be read.";
         throw std::string("failed to open tile info json");
     }
 
@@ -289,7 +291,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
                 B = tra.get_int("B");
             }
             // First load the tileset image to get the number of available tiles.
-            DebugLog() << "Attempting to Load Tileset file\n";
+            dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
             const int newsize = load_tileset(tileset_image_path, R, G, B);
             // Now load the tile definitions for the loaded tileset image.
             load_tilejson_from_file(tile_part_def, offset, newsize);
@@ -302,7 +304,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         }
     } else {
         // old system, no tile file path entry, only one array of tiles
-        DebugLog() << "Attempting to Load Tileset file\n";
+        dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
     }
@@ -467,7 +469,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
         curr_tile->multitile = t_multi;
         curr_tile->rotates = t_rota;
     }
-    DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size() << "\n";
+    dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size();
 }
 
 tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
@@ -760,7 +762,6 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         if (std::find(display_subtiles.begin(), display_subtiles.end(), multitile_keys[subtile]) != display_subtiles.end()) {
             // append subtile name to tile and re-find display_tile
             const std::string new_id = id + "_" + multitile_keys[subtile];
-            //DebugLog() << "<"<< id << ">\n";
             return draw_from_id_string(new_id, x, y, -1, rota);
         }
     }

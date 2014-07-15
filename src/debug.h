@@ -49,8 +49,10 @@ enum DebugClass {
     D_GAME    = 1 << 4,
     /** ncps*.cpp */
     D_NPC     = 1 << 5,
+    /** SDL & tiles & anything graphical */
+    D_SDL     = 1 << 6,
 
-    DC_ALL    = ( 1 << 6 ) - 1
+    DC_ALL    = ( 1 << 30 ) - 1
 };
 
 /** Initializes the debugging system, called exactly once from main() */
