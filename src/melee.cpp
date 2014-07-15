@@ -303,6 +303,23 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         bool cutting = (d.type_damage(DT_CUT) >= 10);
         bool stabbing = (d.type_damage(DT_STAB) >= 10);
 
+        // Set the highest damage type to true.
+        if( !unarmed_attack() ) {
+            if( d.type_damage(DT_BASH) > d.type_damage(DT_CUT) ) {
+                if( d.type_damage(DT_BASH) > d.type_damage(DT_STAB) ) {
+                    bashing = true;
+                } else {
+                    stabbing = true;
+                }
+            } else {
+                if( d.type_damage(DT_CUT) > d.type_damage(DT_STAB) ) {
+                    cutting = true;
+                } else {
+                    stabbing = true;
+                }
+            }
+        }
+
         if (!has_active_bionic("bio_cqb")) {
             //no practice if you're relying on bio_cqb to fight for you
             melee_practice( *this, true, unarmed_attack(), bashing, cutting, stabbing );
@@ -2000,8 +2017,7 @@ void melee_practice( player &u, bool hit, bool unarmed,
     std::string second = "";
     std::string third = "";
 
-    if (hit)
-    {
+    if (hit) {
         min = 5;
         max = 10;
         u.practice( "melee", rng(5, 10) );
@@ -2010,35 +2026,26 @@ void melee_practice( player &u, bool hit, bool unarmed,
     }
 
     // type of weapon used determines order of practice
-    if (u.weapon.has_flag("SPEAR"))
-    {
+    if (u.weapon.has_flag("SPEAR")) {
         if (stabbing) first  = "stabbing";
         if (bashing)  second = "bashing";
         if (cutting)  third  = "cutting";
-    }
-    else if (u.weapon.has_flag("STAB"))
-    {
+    } else if (u.weapon.has_flag("STAB")) {
         // stabbity weapons have a 50-50 chance of raising either stabbing or cutting first
-        if (one_in(2))
-        {
+        if (one_in(2)) {
             if (stabbing) first  = "stabbing";
             if (cutting)  second = "cutting";
             if (bashing)  third  = "bashing";
-        } else
-        {
+        } else {
             if (cutting)  first  = "cutting";
             if (stabbing) second = "stabbing";
             if (bashing)  third  = "bashing";
         }
-    }
-    else if (u.weapon.is_cutting_weapon()) // cutting weapon
-    {
+    } else if (u.weapon.is_cutting_weapon()) {
         if (cutting)  first  = "cutting";
         if (bashing)  second = "bashing";
         if (stabbing) third  = "stabbing";
-    }
-    else // bashing weapon
-    {
+    } else {
         if (bashing)  first  = "bashing";
         if (cutting)  second = "cutting";
         if (stabbing) third  = "stabbing";
