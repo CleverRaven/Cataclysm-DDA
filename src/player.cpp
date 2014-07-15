@@ -4545,7 +4545,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
+void player::apply_damage(Creature *, body_part bp, int side, int dam) {
     if (is_dead_state()) {
         // don't do any more damage if we're already dead
         return;
