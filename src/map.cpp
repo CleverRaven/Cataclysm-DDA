@@ -4020,9 +4020,9 @@ std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, c
 
     const std::vector<point> vLine = line_to(Fx, Fy, Tx, Ty, 0);
     const std::vector<point> vSpiral = closest_points_first(1, Fx, Fy);
-    const std::vector<int> vPos {1,3,5,7,8,6,4,2};
+    const std::vector<int> vPos {1,2,4,6,8,7,5,3};
 
-    //  All possible constelations (closest_points_first goes counterclokcwise)
+    //  All possible constelations (closest_points_first goes clockwise)
     //  753  531  312  124  246  468  687  875
     //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
     //  642  864  786  578  357  135  213  421
@@ -4136,14 +4136,14 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
       list[x][y] = ASL_OPEN;
       open.push_back(point(x, y));
       parent[x][y] = open[index];
-      gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y);
+      gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
       if (ter(x, y) == t_door_c)
        gscore[x][y] += 4; // A turn to open it and a turn to move there
       else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y)))
        gscore[x][y] += 18; // Worst case scenario with damage penalty
       score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
      } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
-      int newg = gscore[open[index].x][open[index].y] + move_cost(x, y);
+      int newg = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
       if (ter(x, y) == t_door_c)
        newg += 4; // A turn to open it and a turn to move there
       else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y)))
