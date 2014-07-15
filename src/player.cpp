@@ -1619,8 +1619,7 @@ nc_color player::color()
  if (underwater)
   return c_blue;
  if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-    (is_wearing("optical_cloak") && (has_active_item("UPS_on") ||
-    has_active_item("adv_UPS_on"))) || has_trait("DEBUG_CLOAK"))
+    has_active_optcloak() || has_trait("DEBUG_CLOAK"))
   return c_dkgray;
  return c_white;
 }
@@ -3625,7 +3624,7 @@ bool player::in_climate_control()
     // Check
     if(has_active_bionic("bio_climate")) { return true; }
     if ((is_wearing("rm13_armor_on")) || (is_wearing_power_armor() &&
-        (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII"))))
+        (has_active_UPS() || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII"))))
     {
         return true;
     }
@@ -3690,12 +3689,9 @@ bool player::has_bionic(const bionic_id & b) const
 }
 
 bool player::has_active_optcloak() const {
-  static const std::string str_UPS_on("UPS_on");
-  static const std::string str_adv_UPS_on("adv_UPS_on");
   static const std::string str_optical_cloak("optical_cloak");
 
-  if ((has_active_item(str_UPS_on) || has_active_item(str_adv_UPS_on))
-      && is_wearing(str_optical_cloak)) {
+  if (has_active_UPS() && is_wearing(str_optical_cloak)) {
     return true;
   } else {
     return false;
@@ -6505,7 +6501,7 @@ void player::process_active_items()
     } else if (weapon.active) {
         if (weapon.has_flag("CHARGE")) {
             if (weapon.charges == 8) { // Maintaining charge takes less power.
-                if( use_charges_if_avail("adv_UPS_on", 2) || use_charges_if_avail("UPS_on", 4) ) {
+                if( use_charges_if_avail("UPS_on", 4) ) {
                     weapon.poison++;
                 } else {
                     weapon.poison--;
@@ -6523,8 +6519,7 @@ void player::process_active_items()
                     add_msg(m_warning, _("Your %s beeps alarmingly."), weapon.tname().c_str());
                 }
             } else { // We're chargin it up!
-                if ( use_charges_if_avail("adv_UPS_on", ceil(static_cast<float>(1 + weapon.charges) / 2)) ||
-                     use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
+                if ( use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
                     weapon.poison++;
                 } else {
                     weapon.poison--;
@@ -6573,25 +6568,16 @@ void player::process_active_items()
 
   // Drain UPS if using optical cloak.
   // TODO: Move somewhere else.
-  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
-      && is_wearing("optical_cloak")) {
+  long ch_UPS = charges_of("UPS_on");
+  if (ch_UPS > 0 && is_wearing("optical_cloak")) {
     // Drain UPS.
-    if (has_charges("adv_UPS_on", 24)) {
-      use_charges("adv_UPS_on", 24);
-      if (charges_of("adv_UPS_on") < 120 && one_in(3))
-        add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
-    } else if (has_charges("UPS_on", 40)) {
+    if ( ch_UPS >= 40 ) {
       use_charges("UPS_on", 40);
-      if (charges_of("UPS_on") < 200 && one_in(3))
+      if (ch_UPS < 200 && one_in(3))
         add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
     } else {
-      if (has_charges("adv_UPS_on", charges_of("adv_UPS_on"))) {
-          // Drain last power.
-          use_charges("adv_UPS_on", charges_of("adv_UPS_on"));
-      }
-      else {
-        use_charges("UPS_on", charges_of("UPS_on"));
-      }
+        // Drain last power.
+        use_charges("UPS_on", ch_UPS);
     }
   }
 }
@@ -6692,24 +6678,37 @@ bool player::process_single_active_item(item *it)
             }
         } else if (it->is_tool()) {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            tmp->invoke(this, it, true);
+            long charges_used = 0;
             if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
-                it->charges--;
+                charges_used = 1;
             }
-            if (it->charges <= 0 && !(it->has_flag("USE_UPS") &&
-                                      (has_charges("adv_UPS_on", 1) || has_charges("UPS_on", 1) ||
-                                       has_active_bionic("bio_ups")))) {
-                if (it->has_flag("USE_UPS")){
-                    add_msg_if_player(_("You need an active UPS to run that!"));
-                    tmp->invoke(this, it, false);
-                } else {
-                    tmp->invoke(this, it, false);
-                    if (tmp->revert_to == "null") {
-                        return false;
-                    } else {
-                        it->type = itypes[tmp->revert_to];
-                        it->active = false;
+            if( charges_used > 0 ) {
+                if( it->has_flag( "USE_UPS" ) ) {
+                    if( use_charges_if_avail( "UPS_on", charges_used ) ) {
+                        charges_used = 0;
                     }
+                } else if( it->charges > 0 ) {
+                    it->charges -= charges_used;
+                    charges_used = 0;
+                }
+            }
+            // charges_used is 0 when the tool did not require charges at
+            // this turn or the required charges have been consumed.
+            // Otherwise the required charges are not available, shut the
+            // tool down.
+            if( charges_used == 0 ) {
+                tmp->invoke(this, it, true);
+            } else {
+                if( it->has_flag( "USE_UPS" ) ) {
+                    add_msg_if_player( _( "You need an active UPS to run %s!" ), it->tname().c_str() );
+                }
+                // deactivate
+                tmp->invoke( this, it, false );
+                if( tmp->revert_to == "null" ) {
+                    return false; // delete it.
+                } else {
+                    it->type = itypes[tmp->revert_to];
+                    it->active = false;
                 }
             }
         } else if (it->type->id == "corpse") {
@@ -6967,7 +6966,7 @@ bool player::use_charges_if_avail(itype_id it, long quantity)
     return false;
 }
 
-bool player::has_fire(const int quantity)
+bool player::has_fire(const int quantity) const
 {
 // TODO: Replace this with a "tool produces fire" flag.
 
@@ -7109,6 +7108,27 @@ std::list<item> player::use_charges(itype_id it, long quantity)
         use_fire(quantity);
         return ret;
     }
+    if ( it == "UPS" ) {
+        const long charges_off = std::min( quantity, charges_of( "UPS_off" ) );
+        if ( charges_off > 0 ) {
+            std::list<item> tmp = use_charges( "UPS_off", charges_off );
+            ret.splice(ret.end(), tmp);
+            quantity -= charges_off;
+            if (quantity <= 0) {
+                return ret;
+            }
+        }
+        const long charges_on = std::min( quantity, charges_of( "UPS_on" ) );
+        if ( charges_on > 0 ) {
+            std::list<item> tmp = use_charges( "UPS_on", charges_on );
+            ret.splice(ret.end(), tmp);
+            quantity -= charges_on;
+            if (quantity <= 0) {
+                return ret;
+            }
+        }
+        return ret;
+    }
     if (weapon.use_charges(it, quantity, ret)) {
         remove_weapon();
     }
@@ -7126,6 +7146,56 @@ std::list<item> player::use_charges(itype_id it, long quantity)
     }
     std::list<item> tmp = inv.use_charges(it, quantity);
     ret.splice(ret.end(), tmp);
+    if (quantity <= 0) {
+        return ret;
+    }
+    // Threat requests for UPS charges as request for adv. UPS charges
+    // and as request for bionic UPS charges, both with their own modificators
+    // If we reach this, the regular UPS could not provide all the requested
+    // charges, so we *have* to remove as many as charges as we can (but not
+    // more than requested) to not let any charges un-consumed.
+    if ( it == "UPS_off" ) {
+        // Request for 8 UPS charges:
+        // 8 UPS = 8 * 6 / 10 == 48/10 == 4.8 adv. UPS
+        // consume 5 adv. UPS charges, see player::charges_of, if the adv. UPS
+        // had only 4 charges, it would report as floor(4/0.6)==6 normal UPS
+        // charges
+        long quantity_adv = ceil(quantity * 0.6);
+        long avail_adv = charges_of("adv_UPS_off");
+        long adv_charges_to_use = std::min(avail_adv, quantity_adv);
+        if (adv_charges_to_use > 0) {
+            std::list<item> tmp = use_charges("adv_UPS_off", adv_charges_to_use);
+            ret.splice(ret.end(), tmp);
+            quantity -= static_cast<long>(adv_charges_to_use / 0.6);
+            if (quantity <= 0) {
+                return ret;
+            }
+        }
+    }
+    if ( it == "UPS_on" ) {
+        long quantity_adv = ceil(quantity * 0.6);
+        long avail_adv = charges_of("adv_UPS_on");
+        long adv_charges_to_use = std::min(avail_adv, quantity_adv);
+        if (adv_charges_to_use > 0) {
+            std::list<item> tmp = use_charges("adv_UPS_on", adv_charges_to_use);
+            ret.splice(ret.end(), tmp);
+            quantity -= static_cast<long>(adv_charges_to_use / 0.6);
+            if (quantity <= 0) {
+                return ret;
+            }
+        }
+    }
+    if ( power_level > 0 && (
+        (it == "UPS_off" && has_bionic( "bio_ups" )) ||
+        (it == "UPS_on" && has_active_bionic( "bio_ups" )))) {
+        // Need always at least 1 power unit, to prevent exploits
+        // and make sure power_level does not get negative
+        long ch = std::max(1l, quantity / 10);
+        ch = std::min<long>(power_level, ch);
+        power_level -= ch;
+        quantity -= ch * 10;
+        // TODO: add some(pseudo?) item to resulting list?
+    }
     return ret;
 }
 
@@ -7246,7 +7316,7 @@ bool player::has_artifact_with(const art_effect_passive effect) const
  return false;
 }
 
-bool player::has_amount(itype_id it, int quantity)
+bool player::has_amount(const itype_id &it, int quantity) const
 {
     if (it == "toolset")
     {
@@ -7255,7 +7325,8 @@ bool player::has_amount(itype_id it, int quantity)
     return (amount_of(it) >= quantity);
 }
 
-int player::amount_of(itype_id it) {
+int player::amount_of(const itype_id &it) const
+{
     if (it == "toolset" && has_bionic("bio_tools")) {
         return 1;
     }
@@ -7268,14 +7339,14 @@ int player::amount_of(itype_id it) {
         }
     }
     int quantity = weapon.amount_of(it, true);
-    for (std::vector<item>::iterator a = worn.begin(); a != worn.end(); ++a) {
+    for (std::vector<item>::const_iterator a = worn.begin(); a != worn.end(); ++a) {
         quantity += a->amount_of(it, true);
     }
     quantity += inv.amount_of(it);
     return quantity;
 }
 
-bool player::has_charges(itype_id it, long quantity)
+bool player::has_charges(const itype_id &it, long quantity) const
 {
     if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
@@ -7283,7 +7354,7 @@ bool player::has_charges(itype_id it, long quantity)
     return (charges_of(it) >= quantity);
 }
 
-long player::charges_of(itype_id it)
+long player::charges_of(const itype_id &it) const
 {
     if (it == "toolset") {
         if (has_bionic("bio_tools")) {
@@ -7292,11 +7363,41 @@ long player::charges_of(itype_id it)
             return 0;
         }
     }
+    // Handle requests for UPS charges as request for adv. UPS charges
+    // and as request for bionic UPS charges, both with their own multiplier
+    if ( it == "UPS" ) {
+        // This includes the UPS bionic (regardless of active state)
+        long quantity = charges_of( "UPS_off" );
+        // When the bionic is active, it is counted again as "UPS_on"
+        quantity += charges_of( "UPS_on" );
+        // therefor we have to remove it again:
+        if ( has_active_bionic( "bio_ups" ) ) {
+            quantity -= power_level * 10;
+        }
+        return quantity;
+    }
+    // Now regular charges from all items (weapone,worn,inventory)
     long quantity = weapon.charges_of(it);
-    for (std::vector<item>::iterator a = worn.begin(); a != worn.end(); ++a) {
-        quantity += a->charges_of(it);
+    for( const auto &armor : worn ) {
+        quantity += armor.charges_of(it);
     }
     quantity += inv.charges_of(it);
+    // Now include charges from advanced UPS if the request was UPS
+    if ( it == "UPS_off" ) {
+        // Round charges from adv. UPS down, if this reports there are N
+        // charges available, we must be able to remove at least N charges.
+        quantity += static_cast<long>( floor( charges_of( "adv_UPS_off" ) / 0.6 ) );
+    }
+    if ( it == "UPS_on" ) {
+        quantity += static_cast<long>( floor( charges_of( "adv_UPS_on" ) / 0.6 ) );
+    }
+    if ( power_level > 0 ) {
+        if ( it == "UPS_off" && has_bionic( "bio_ups" ) ) {
+            quantity += power_level * 10;
+        } else if ( it == "UPS_on" && has_active_bionic( "bio_ups" ) ) {
+            quantity += power_level * 10;
+        }
+    }
     return quantity;
 }
 
@@ -9054,6 +9155,43 @@ hint_rating player::rate_action_use(const item *it) const
     return HINT_CANT;
 }
 
+bool player::has_enough_charges( const item &it, bool show_msg ) const
+{
+    const it_tool *tool = dynamic_cast<const it_tool *>( it.type );
+    if( tool == NULL || tool->charges_per_use <= 0 ) {
+        // If the item is not a tool, it can always be invoked as it does not consume charges.
+        return true;
+    }
+    if( it.has_flag( "USE_UPS" ) ) {
+        if( has_charges( "UPS", tool->charges_per_use ) ) {
+            return true;
+        }
+        if( show_msg ) {
+            const_cast<player *>( this )->add_msg_if_player( m_info,
+                    ngettext( "Your %s needs %d charge from some UPS.",
+                              "Your %s needs %d charges from some UPS.",
+                              tool->charges_per_use ),
+                    it.tname().c_str(), tool->charges_per_use );
+        }
+        return false;
+    } else if( it.charges < tool->charges_per_use ) {
+        if( show_msg ) {
+            const_cast<player *>( this )->add_msg_if_player( m_info,
+                    ngettext( "Your %s has %d charge but needs %d.",
+                              "Your %s has %d charges but needs %d.",
+                              it.charges ),
+                    it.tname().c_str(), it.charges, tool->charges_per_use );
+        }
+        return false;
+    }
+    return true;
+}
+
+bool player::has_active_UPS() const
+{
+    return has_active_bionic("bio_ups") || has_amount("UPS_on", 1) || has_amount("adv_UPS_on", 1);
+}
+
 void player::use(int pos)
 {
     item* used = &i_at(pos);
@@ -9068,50 +9206,33 @@ void player::use(int pos)
 
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        int charges_used = tool->invoke(this, used, false);
-        if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use ||
-            (used->has_flag("USE_UPS") &&
-             (has_charges("adv_UPS_on", charges_used * (.6)) || has_charges("UPS_on", charges_used) ||
-              has_charges("adv_UPS_off", charges_used * (.6)) ||
-              has_charges("UPS_off", charges_used) ||
-              (has_bionic("bio_ups") && power_level >= (charges_used / 10))))) {
-            if ( charges_used >= 1 ) {
-                if( tool->charges_per_use > 0 ) {
-                    if (used->has_flag("USE_UPS")){
-                        //If the device has been modded to run off ups,
-                        // we want to reduce ups charges instead of item charges.
-                        if (has_charges("adv_UPS_off", charges_used * (.6))) {
-                            use_charges("adv_UPS_off", charges_used * (.6));
-                        } else if (has_charges("adv_UPS_on", charges_used * (.6))) {
-                            use_charges("adv_UPS_on", charges_used * (.6));
-                        } else if (has_charges("UPS_off", charges_used)) {
-                            use_charges("UPS_off", charges_used);
-                        } else if (has_charges("UPS_on", charges_used)) {
-                            use_charges("UPS_on", charges_used);
-                        } else if (has_bionic("bio_ups")) {
-                            charge_power(-1 * (charges_used/10));
-                        }
-                    } else {
-                        used->charges -= std::min(used->charges, long(charges_used));
-                    }
-                } else {
-                    // An item that doesn't normally expend charges is destroyed instead.
-                    /* We can't be certain the item is still in the same position,
-                     * as other items may have been consumed as well, so remove
-                     * the item directly instead of by its position. */
-                    i_rem(used);
-                }
-            }
-            // We may have fiddled with the state of the item in the iuse method,
-            // so restack to sort things out.
-            inv.restack();
-        } else {
-            add_msg(m_info, ngettext("Your %s has %d charge but needs %d.",
-                                "Your %s has %d charges but needs %d.",
-                                used->charges),
-                       used->tname().c_str(),
-                       used->charges, tool->charges_per_use);
+        if (!has_enough_charges(*used, true)) {
+            return;
         }
+        const long charges_used = tool->invoke( this, used, false );
+        if (charges_used <= 0) {
+            // Canceled or not used up or whatever
+            return;
+        }
+        if( tool->charges_per_use <= 0 ) {
+            // An item that doesn't normally expend charges is destroyed instead.
+            /* We can't be certain the item is still in the same position,
+             * as other items may have been consumed as well, so remove
+             * the item directly instead of by its position. */
+            i_rem(used);
+            return;
+        }
+        if( used->has_flag( "USE_UPS" ) ) {
+            use_charges( "UPS", charges_used );
+            if( used->active && !has_active_UPS() ) {
+                add_msg_if_player( m_info, _( "You need an active UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
+            }
+        } else {
+            used->charges -= std::min( used->charges, charges_used );
+        }
+        // We may have fiddled with the state of the item in the iuse method,
+        // so restack to sort things out.
+        inv.restack();
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
             add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you\
@@ -10019,7 +10140,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
 
             layer[level]++;
             if( armor->is_power_armor() &&
-                (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
+                (has_active_UPS() ||
                  has_active_bionic("bio_power_armor_interface") ||
                  has_active_bionic("bio_power_armor_interface_mkII")) ) {
                 armorenc += std::max( 0, armor->encumber - 4);

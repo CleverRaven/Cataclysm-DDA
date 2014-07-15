@@ -736,10 +736,10 @@ public:
  std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
  bool use_charges_if_avail(itype_id it, long quantity);// Uses up charges
  std::list<item> use_charges(itype_id it, long quantity);// Uses up charges
- bool has_amount(itype_id it, int quantity);
- bool has_charges(itype_id it, long quantity);
- int  amount_of(itype_id it);
- long  charges_of(itype_id it);
+ bool has_amount(const itype_id &it, int quantity) const;
+ bool has_charges(const itype_id &it, long quantity) const;
+ int  amount_of(const itype_id &it) const;
+ long charges_of(const itype_id &it) const;
 
  int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
@@ -935,8 +935,14 @@ private:
     bool valid_aoe_technique( Creature &t, ma_technique &technique,
                               std::vector<int> &mon_targets, std::vector<int> &npc_targets );
 
-    bool has_fire(const int quantity);
+    bool has_fire(const int quantity) const;
     void use_fire(const int quantity);
+    /**
+     * Has the item enough charges to invoke its use function?
+     * Also checks if UPS from this player is used instead of item charges.
+     */
+    bool has_enough_charges(const item &it, bool show_msg) const;
+    bool has_active_UPS() const;
 
     bool can_study_recipe(it_book *book);
     bool try_study_recipe(it_book *book);
