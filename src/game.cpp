@@ -10414,8 +10414,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-		add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
-                cont->tname().c_str());
+        add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
+		        cont->tname().c_str());
         cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
         if (infinite) {
             cont->charges = max;
@@ -10462,11 +10462,11 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // Container is partly full
             if (infinite) {
                 cont->contents[0].charges += remaining_capacity;
-				add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
+                add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
                         cont->tname().c_str());
                 return true;
             } else { // Container is finite, not empty and not full, add liquid to it
-				add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
+                add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
                         cont->tname().c_str());
                 if (remaining_capacity > liquid.charges) {
                     remaining_capacity = liquid.charges;
@@ -10486,17 +10486,17 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             bool all_poured = true;
             if (infinite) { // if filling from infinite source, top it to max
                 liquid_copy.charges = remaining_capacity;
-				add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
+                add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
                         cont->tname().c_str());
             } else if (liquid.charges > remaining_capacity) {
-				add_msg(_(on_ground ? "You fill %s with some of the %s." : "You fill your %s with some of the %s."), cont->tname().c_str(),
+                add_msg(_(on_ground ? "You fill %s with some of the %s." : "You fill your %s with some of the %s."), cont->tname().c_str(),
                         liquid.tname().c_str());
                 u.inv.unsort();
                 liquid.charges -= remaining_capacity;
                 liquid_copy.charges = remaining_capacity;
                 all_poured = false;
             } else {
-				add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
+                add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
                         cont->tname().c_str());
             }
             cont->put_in(liquid_copy);
