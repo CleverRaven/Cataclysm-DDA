@@ -10415,7 +10415,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         }
 
         add_msg(_(on_ground ? "You pour %s into %s." : "You pour %s into your %s."), liquid.tname().c_str(),
-            cont->tname().c_str());
+                cont->tname().c_str());
         cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
         if (infinite) {
             cont->charges = max;
