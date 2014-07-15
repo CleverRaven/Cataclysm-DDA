@@ -198,8 +198,8 @@ class Creature
         virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) = 0;
         virtual std::string get_material() { return "flesh"; };
-        virtual field_id bloodType () { debugmsg("creature:bloodType: not a valid monster/npc/player, returned fd_null"); return fd_null; };
-        virtual field_id gibType () { debugmsg("creature:gibType: not a valid monster/npc/player, returned fd_gibs_flesh"); return fd_gibs_flesh; };
+        virtual field_id bloodType () = 0;
+        virtual field_id gibType () = 0;
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const { return false; };
 

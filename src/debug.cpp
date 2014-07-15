@@ -1,12 +1,28 @@
 #include "debug.h"
 #include "path_info.h"
+#include "output.h"
 #include <time.h>
 #include <cstdlib>
+#include <cstdarg>
 
 #ifndef _MSC_VER
 #include <sys/time.h>
 #endif
 
+void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
+{
+    va_list ap;
+    va_start(ap, mes);
+    const std::string text = vstring_format(mes, ap);
+    va_end(ap);
+    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " " << text;
+    fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", text.c_str());
+    while (getch() != ' ') {
+        // wait for spacebar
+    }
+    werase(stdscr);
+    refresh();
+}
 
 #if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
 #include <execinfo.h>

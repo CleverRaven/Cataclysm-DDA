@@ -1,5 +1,6 @@
 #include "start_location.h"
 #include "output.h"
+#include "debug.h"
 
 static location_map _locations;
 

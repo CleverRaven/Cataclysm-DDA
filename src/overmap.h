@@ -5,6 +5,7 @@
 #include "omdata.h"
 #include "mongroup.h"
 #include "output.h"
+#include "debug.h"
 #include <vector>
 #include <iosfwd>
 #include <string>

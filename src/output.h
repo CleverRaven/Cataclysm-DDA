@@ -112,13 +112,6 @@ std::string word_rewrap (const std::string &ins, int width);
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
 
-#define STRING2(x) #x
-#define STRING(x) STRING2(x)
-
-// classy
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __VA_ARGS__)
-
-void realDebugmsg(const char *name, const char *line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 

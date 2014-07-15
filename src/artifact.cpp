@@ -2,6 +2,8 @@
 
 #include "output.h" // string_format
 #include "item_factory.h"
+#include "debug.h"
+#include "json.h"
 
 #include <sstream>
 #include <fstream>

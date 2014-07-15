@@ -2,6 +2,7 @@
 #include "game.h"
 #include "mapdata.h"
 #include "output.h"
+#include "debug.h"
 #include "options.h"
 #include "rng.h"
 #include "line.h"

@@ -1,6 +1,6 @@
 #include "material.h"
 
-#include "output.h" // debugmsg
+#include "debug.h"
 #include "damage.h" // damage_type
 #include "json.h"
 #include "translations.h"

@@ -11,6 +11,7 @@
 
 #include "options.h"
 #include "output.h"
+#include "debug.h"
 
 Skill::Skill() {
   _ident = std::string("null");

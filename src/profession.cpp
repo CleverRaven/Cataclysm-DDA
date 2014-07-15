@@ -4,7 +4,7 @@
 
 #include "profession.h"
 
-#include "output.h" //debugmsg
+#include "debug.h"
 #include "json.h"
 #include "player.h"
 #include "item_factory.h"

@@ -418,24 +418,6 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     }
 }
 
-void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
-{
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
-    fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", text.c_str());
-    std::ofstream fout;
-    fout.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
-    fout << filename << "[" << line << "]: " << text << "\n";
-    fout.close();
-    while (getch() != ' ') {
-        // wait for spacebar
-    }
-    werase(stdscr);
-    refresh();
-}
-
 // yn to make an immediate selection
 // esc to cancel, returns false
 // enter or space to accept, any other key to toggle
