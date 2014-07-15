@@ -2981,7 +2981,7 @@ int item::getlight_emit(bool calculate_dimming) const {
     if ( lumint == 0 ) {
         return 0;
     }
-    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool()) {
+    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
         if ( maxcharge > 0 ) {

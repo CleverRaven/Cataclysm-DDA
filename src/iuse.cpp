@@ -2595,6 +2595,11 @@ int iuse::ups_battery(player *p, item *, bool)
         p->add_msg_if_player(_("That item has already had its battery modded to use a UPS!"));
         return 0;
     }
+    if( modded->typeId() == "UPS_on" || modded->typeId() == "UPS_off" ||
+        modded->typeId() == "adv_UPS_on" || modded->typeId() == "adv_UPS_off" ) {
+        p->add_msg_if_player( _( "You want to power a UPS with another UPS?  Very clever." ) );
+        return 0;
+    }
 
     remove_double_ammo_mod(*modded, *p);
     remove_recharge_mod(*modded, *p);

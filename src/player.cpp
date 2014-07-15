@@ -6580,6 +6580,23 @@ void player::process_active_items()
         use_charges("UPS_on", ch_UPS);
     }
   }
+    // Load all items that use the UPS to their minimal functional charge,
+    // The tool is not really useful if its charges are below charges_to_use
+    ch_UPS = charges_of( "UPS_on" ); // might have been changed by cloak
+    long ch_UPS_used = 0;
+    for( int i = 0; i < inv.size() && ch_UPS_used < ch_UPS; i++ ) { // inventory::size returns int!
+        item &it = inv.find_item(i);
+        if( !it.has_flag( "USE_UPS" ) ) {
+            continue;
+        }
+        if( it.charges < it.type->charges_to_use() ) {
+            ch_UPS_used++;
+            it.charges++;
+        }
+    }
+    if( ch_UPS_used > 0 ) {
+        use_charges( "UPS_on", ch_UPS_used );
+    }
 }
 
 // returns false if the item needs to be removed
