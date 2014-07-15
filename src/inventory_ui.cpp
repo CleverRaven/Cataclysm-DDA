@@ -822,8 +822,10 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title,
             if (dups.count(here[i].tname()) == 0) {
                 grounditems.push_back(std::list<item>(1, here[i]));
 
-                if (grounditems.size() < 10) {
+                if (grounditems.size() <= 10) {
                     grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+                } else {
+                    grounditems.back().front().invlet = ' ';
                 }
                 dups.insert(here[i].tname());
 
