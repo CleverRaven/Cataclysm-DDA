@@ -806,6 +806,184 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
+item* game::inv_map_for_food(const std::string title, int distance) {
+
+    std::set<std::string> dups;
+
+    struct checkFood {
+
+        static bool isGood(item it, std::set<std::string> &dups) {
+
+            if (dups.count(it.tname()) > 0) {
+                return false;
+            }
+
+            it_comest *com = NULL;
+
+            if (it.is_food()) {
+                com = dynamic_cast<it_comest *>(it.type);
+                if (com->comesttype == "FOOD") {
+                    dups.insert(it.tname());
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            if (it.is_food_container()) {
+                com = dynamic_cast<it_comest *>(it.contents[0].type);
+                if (com->comesttype == "FOOD" || com->comesttype == "DRINK") {
+                    dups.insert(it.tname());
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        bool isDrink(item it) {
+
+            it_comest *com = NULL;
+
+            if (it.is_food()) {
+                return false;
+            }
+
+            if (it.is_food_container()) {
+                com = dynamic_cast<it_comest *>(it.contents[0].type);
+                if (com->comesttype == "DRINK") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            return false;
+
+        }
+
+    } check;
+
+	std::vector<item> nulitems;
+	std::vector <item*> here_food;
+	std::vector <item*> here_drinks;
+
+    for (int x = g->u.posx - distance; x <= g->u.posx + distance; x++)
+        for (int y = g->u.posy - distance; y <= g->u.posy + distance; y++) {
+            std::vector <item> &items = m.i_at(x, y);
+			for (int i = 0; i < items.size(); i++){
+
+				item* it = &items[i];
+				
+				if (check.isGood(*it, dups)) {
+
+					if (check.isDrink(*it)) {
+
+						here_drinks.push_back(it);
+                    } else {
+						here_food.push_back(it);
+                    }
+                }
+            }
+        }
+
+    if (here_food.empty() && here_drinks.empty()) {
+        return NULL;
+    }
+
+    typedef std::vector< std::list<item> > pseudo_inventory;
+    pseudo_inventory pseudo_food;
+    pseudo_inventory pseudo_drinks;
+    indexed_invslice slice_food;
+    indexed_invslice slice_drinks;
+
+    for (size_t i = 0; i < here_food.size(); i++) {
+        pseudo_food.push_back(std::list<item>(1, *here_food[i]));
+    }
+
+    for (size_t i = 0; i < here_drinks.size(); i++) {
+        pseudo_drinks.push_back(std::list<item>(1, *here_drinks[i]));
+    }
+
+	
+    for (size_t a = 0; a < pseudo_food.size(); a++) {
+		
+		slice_food.push_back(indexed_invslice::value_type(&pseudo_food[a], INT_MIN + a + 1));
+    }
+
+    for (size_t a = 0; a < pseudo_drinks.size(); a++) {
+        slice_drinks.push_back(indexed_invslice::value_type(&pseudo_drinks[a], INT_MIN + a + 1));
+    }
+
+    static const item_category category_food(
+        "FOOD:",
+        _("FOOD:"),
+        -1000
+    );
+
+    static const item_category category_drinks(
+        "DRINKS:",
+        _("DRINKS:"),
+        -1000
+    );
+
+    inventory_selector inv_s(false, true, title);
+    inv_s.make_item_list(slice_food, &category_food);
+    inv_s.make_item_list(slice_drinks, &category_drinks);
+    inv_s.prepare_paging();
+
+    inventory_selector::drop_map prev_droppings;
+    while (true) {
+        inv_s.display();
+        const std::string action = inv_s.ctxt.handle_input();
+        const long ch = inv_s.ctxt.get_raw_input().get_first_input();
+        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+
+        if (item_pos != INT_MIN) {
+            inv_s.set_to_drop(item_pos, 0);
+
+			for (int i = 0; i < slice_food.size(); i++) {
+				if (&slice_food[i].first->front() == inv_s.first_item) {
+					return here_food[i];
+				}
+			}
+
+			for (int i = 0; i < slice_drinks.size(); i++) {
+				if (&slice_drinks[i].first->front() == inv_s.first_item) {
+					return here_drinks[i];
+				}
+			}
+
+			return NULL;
+
+        } else if (inv_s.handle_movement(action)) {
+            // continue with comparison below
+        } else if (action == "QUIT") {
+            return NULL;
+        } else if (action == "RIGHT" || action == "CONFIRM") {
+
+            inv_s.set_selected_to_drop(0);
+
+			for (int i = 0; i < slice_food.size(); i++) {
+				if (&slice_food[i].first->front() == inv_s.first_item) {					
+					return here_food[i];
+				}
+			}
+
+			for (int i = 0; i < slice_drinks.size(); i++) {
+				if (&slice_drinks[i].first->front() == inv_s.first_item) {
+					return here_drinks[i];
+				}
+			}
+
+            return NULL;
+
+        }
+    }
+}
+
 int game::inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single)
 {
     u.inv.restack(&u);

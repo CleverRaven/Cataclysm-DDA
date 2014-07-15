@@ -7987,65 +7987,10 @@ bool player::eat_from_ground()
     it_comest *comest = NULL;
     int which = -1;
 
-    std::vector<item> &all_items = g->m.i_at(posx, posy);
-    std::vector<item *> edible_items;
-    for (int i = 0; i < all_items.size(); i++) {
-        item &it = all_items[i];
+	item *it = g->inv_map_for_food(_("Eat from ground"), 1);
 
-        if (it.is_food_container()) {
+	if (it == NULL || it->is_null()) return false;
 
-            bool isDublicate = false;
-
-            for (int i = 0; i < edible_items.size();
-                 i++) if (edible_items[i]->display_name() == it.display_name()) {
-                    isDublicate = true;
-                }
-
-            if (!isDublicate) {
-                edible_items.push_back(&it);
-            }
-        } else {
-
-            if (it.is_food()) {
-
-                it_comest *com = dynamic_cast<it_comest *>(it.type);
-
-                if (com->comesttype == "FOOD") {
-
-                    bool isDublicate = false;
-
-                    for (int i = 0; i < edible_items.size();
-                         i++) if (edible_items[i]->display_name() == it.display_name()) {
-                            isDublicate = true;
-                        }
-
-                    if (!isDublicate) {
-                        edible_items.push_back(&it);
-                    }
-                }
-            }
-        }
-    }
-
-    if (edible_items.empty()) {
-        return false;
-    }
-
-    uimenu amenu;
-    amenu.selected = 0;
-    amenu.text = _("Eat something on the ground?");
-    amenu.addentry(0, true, 'q', _("Cancel"));
-
-    for (int i = 0; i < edible_items.size(); i++) {
-        amenu.addentry(i + 1, true, -1, edible_items[i]->display_name() );
-    }
-
-    amenu.query();
-    if (amenu.ret == 0) {
-        return false;
-    }
-
-    item *it = edible_items[amenu.ret - 1];
     if (it->is_food_container(this)) {
         to_eat = &(it->contents[0]);
         which = 1;
