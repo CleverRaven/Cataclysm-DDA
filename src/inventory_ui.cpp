@@ -934,7 +934,7 @@ item *game::inv_map_for_food(const std::string title, int distance)
         -1000
     );
 
-    inventory_selector inv_s(false, true, title);
+    inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(slice_food, &category_food);
     inv_s.make_item_list(slice_drinks, &category_drinks);
     inv_s.prepare_paging();
