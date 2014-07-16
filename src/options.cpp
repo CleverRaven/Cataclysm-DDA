@@ -149,13 +149,39 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
     setSortPos(sPageIn);
 }
 
+//helper functions
+bool cOpt::is_hidden()
+{
+    switch(hide)
+    {
+        case COPT_NO_HIDE:
+            return false;
+
+        case COPT_SDL_HIDE:
+#ifdef SDLTILES
+            return true;
+#else
+            return false;
+#endif
+
+        case COPT_CURSES_HIDE:
+#ifndef SDLTILES // If not defined. it's curses interface.
+            return true;
+#else
+            return false;
+#endif
+
+        default:
+            return false; // No hide on default
+    }
+}
+
 void cOpt::setSortPos(const std::string sPageIn)
 {
     mOptionsSort[sPageIn]++;
     iSortPos = mOptionsSort[sPageIn] - 1;
 }
 
-//helper functions
 int cOpt::getSortPos()
 {
     return iSortPos;

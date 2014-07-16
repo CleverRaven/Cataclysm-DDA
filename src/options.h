@@ -7,6 +7,11 @@
 #include <vector>
 #include <algorithm> //atoi
 
+typedef enum { COPT_NO_HIDE,
+               COPT_SDL_HIDE,
+               COPT_CURSES_HIDE
+} copt_hide_t;
+
 class regional_settings;
 class options_data
 {
@@ -51,6 +56,12 @@ class cOpt
         //helper functions
         int getSortPos();
 
+        /**
+         * Option should be hidden in current build.
+         * @return true if option should be hidden, false if not.
+         */
+        bool is_hidden();
+
         std::string getPage();
         std::string getMenuText();
         std::string getTooltip();
@@ -83,6 +94,7 @@ class cOpt
         std::string sTooltip;
         std::string sType;
 
+        copt_hide_t hide;
         int iSortPos;
 
         //sType == "string"
