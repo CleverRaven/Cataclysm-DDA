@@ -806,7 +806,7 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
-item* game::inv_map_for_food(const std::string title, int distance) {
+item *game::inv_map_for_food(const std::string title, int distance) {
 
     std::set<std::string> dups;
 
@@ -866,28 +866,29 @@ item* game::inv_map_for_food(const std::string title, int distance) {
 
     } check;
 
-	std::vector<item> nulitems;
-	std::vector <item*> here_food;
-	std::vector <item*> here_drinks;
+    std::vector<item> nulitems;
+    std::vector <item *> here_food;
+    std::vector <item *> here_drinks;
 
     for (int x = g->u.posx - distance; x <= g->u.posx + distance; x++)
-        for (int y = g->u.posy - distance; y <= g->u.posy + distance; y++) {
-            std::vector <item> &items = m.i_at(x, y);
-			for (int i = 0; i < items.size(); i++){
+        for (int y = g->u.posy - distance; y <= g->u.posy + distance; y++)
+            if (!m.has_flag("SEALED", x, y)) {
+                std::vector <item> &items = m.i_at(x, y);
+                for (int i = 0; i < items.size(); i++) {
 
-				item* it = &items[i];
-				
-				if (check.isGood(*it, dups)) {
+                    item *it = &items[i];
 
-					if (check.isDrink(*it)) {
+                    if (check.isGood(*it, dups)) {
 
-						here_drinks.push_back(it);
-                    } else {
-						here_food.push_back(it);
+                        if (check.isDrink(*it)) {
+
+                            here_drinks.push_back(it);
+                        } else {
+                            here_food.push_back(it);
+                        }
                     }
                 }
             }
-        }
 
     if (here_food.empty() && here_drinks.empty()) {
         return NULL;
@@ -901,16 +902,20 @@ item* game::inv_map_for_food(const std::string title, int distance) {
 
     for (size_t i = 0; i < here_food.size(); i++) {
         pseudo_food.push_back(std::list<item>(1, *here_food[i]));
+        if ('a' + i <= 'z') {
+            pseudo_food.back().front().invlet = 'a' + i;
+        }
     }
 
     for (size_t i = 0; i < here_drinks.size(); i++) {
         pseudo_drinks.push_back(std::list<item>(1, *here_drinks[i]));
+        if ('A' + i <= 'Z') {
+            pseudo_food.back().front().invlet = 'A' + i;
+        }
     }
 
-	
     for (size_t a = 0; a < pseudo_food.size(); a++) {
-		
-		slice_food.push_back(indexed_invslice::value_type(&pseudo_food[a], INT_MIN + a + 1));
+        slice_food.push_back(indexed_invslice::value_type(&pseudo_food[a], INT_MIN + a + 1));
     }
 
     for (size_t a = 0; a < pseudo_drinks.size(); a++) {
@@ -934,7 +939,6 @@ item* game::inv_map_for_food(const std::string title, int distance) {
     inv_s.make_item_list(slice_drinks, &category_drinks);
     inv_s.prepare_paging();
 
-    inventory_selector::drop_map prev_droppings;
     while (true) {
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
@@ -944,19 +948,19 @@ item* game::inv_map_for_food(const std::string title, int distance) {
         if (item_pos != INT_MIN) {
             inv_s.set_to_drop(item_pos, 0);
 
-			for (int i = 0; i < slice_food.size(); i++) {
-				if (&slice_food[i].first->front() == inv_s.first_item) {
-					return here_food[i];
-				}
-			}
+            for (int i = 0; i < slice_food.size(); i++) {
+                if (&slice_food[i].first->front() == inv_s.first_item) {
+                    return here_food[i];
+                }
+            }
 
-			for (int i = 0; i < slice_drinks.size(); i++) {
-				if (&slice_drinks[i].first->front() == inv_s.first_item) {
-					return here_drinks[i];
-				}
-			}
+            for (int i = 0; i < slice_drinks.size(); i++) {
+                if (&slice_drinks[i].first->front() == inv_s.first_item) {
+                    return here_drinks[i];
+                }
+            }
 
-			return NULL;
+            return NULL;
 
         } else if (inv_s.handle_movement(action)) {
             // continue with comparison below
@@ -966,17 +970,17 @@ item* game::inv_map_for_food(const std::string title, int distance) {
 
             inv_s.set_selected_to_drop(0);
 
-			for (int i = 0; i < slice_food.size(); i++) {
-				if (&slice_food[i].first->front() == inv_s.first_item) {					
-					return here_food[i];
-				}
-			}
+            for (int i = 0; i < slice_food.size(); i++) {
+                if (&slice_food[i].first->front() == inv_s.first_item) {
+                    return here_food[i];
+                }
+            }
 
-			for (int i = 0; i < slice_drinks.size(); i++) {
-				if (&slice_drinks[i].first->front() == inv_s.first_item) {
-					return here_drinks[i];
-				}
-			}
+            for (int i = 0; i < slice_drinks.size(); i++) {
+                if (&slice_drinks[i].first->front() == inv_s.first_item) {
+                    return here_drinks[i];
+                }
+            }
 
             return NULL;
 
