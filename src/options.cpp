@@ -256,7 +256,7 @@ std::string cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string") {
         std::string sItems = "";
-        for (int i = 0; i < vItems.size(); i++) {
+        for (size_t i = 0; i < vItems.size(); i++) {
             if (sItems != "") {
                 sItems += _(", ");
             }
@@ -280,7 +280,7 @@ std::string cOpt::getDefaultText(const bool bTranslated)
 int cOpt::getItemPos(const std::string sSearch)
 {
     if (sType == "string") {
-        for (int i = 0; i < vItems.size(); i++) {
+        for (size_t i = 0; i < vItems.size(); i++) {
             if (vItems[i] == sSearch) {
                 return i;
             }
@@ -1059,7 +1059,7 @@ void show_options(bool ingame)
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
-        for (unsigned i = 0; i < vPages.size(); i++) {
+        for (int i = 0; i < (ssize_t)vPages.size(); i++) {
             if (!mPageItems[i].empty()) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
