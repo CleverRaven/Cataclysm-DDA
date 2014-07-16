@@ -274,7 +274,7 @@ long consume_drug_iuse::use(player *p, item *it, bool) const
         else if (p->has_trait("LIGHTWEIGHT")) {
             duration *= 1.25;
         }
-        p->add_effect( disease->first, duration );
+        p->add_effect( effect->first, duration );
     }
     for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
         p->mod_stat( stat->first, stat->second );

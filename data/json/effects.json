@@ -65,7 +65,7 @@
 		"desc" : ["Nighty-night, don't let the dermatiks bite."],
 		"max_intensity" : 24,
 		"remove_message" : "You wake up.",
-        "rating" : ""
+        "rating" : "neutral"
 	},
     {
         "type" : "effect_type",
@@ -296,12 +296,16 @@
     {
         "type" : "effect_type",
         "id" : "lightsnare",
+        "name" : ["Stuck in snare"],
+        "desc" : ["You can't move!"],
         "apply_message" : "You are snared.",
         "rating": "bad"
     },
     {
         "type" : "effect_type",
         "id" : "heavysnare",
+        "name" : ["Stuck in heavy snare"],
+        "desc" : ["You can't move!"],
         "apply_message" : "You are snared.",
         "rating": "bad"
     },
