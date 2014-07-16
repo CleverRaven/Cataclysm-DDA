@@ -2252,7 +2252,7 @@ void mattack::bio_op_takedown(monster *z)
         g->u.ma_ondodge_effects();
         return;
     }
-    // Yes, it has CQC training.
+    // Yes, it has the CQC bionic.
     body_part hit = bp_legs;
     // Weak kick to start with, knocks you off your footing
     int dam = rng(3, 9), side = random_side(hit);
@@ -2275,7 +2275,7 @@ void mattack::bio_op_takedown(monster *z)
         }
         g->u.add_effect("downed", 3);
     }
-    if (!thrown_by_judo(z)) {
+    else if (!thrown_by_judo(z)) {
         // Saved by the tentacle-bracing! :)
         hit = bp_torso;
         dam = rng(3, 9);
