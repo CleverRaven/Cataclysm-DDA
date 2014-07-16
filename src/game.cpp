@@ -11744,7 +11744,9 @@ void game::eat(int pos)
     }
 
     if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+        if (!u.eat_from_ground()) {
+            add_msg(_("Never mind."));
+        }
         return;
     }
 

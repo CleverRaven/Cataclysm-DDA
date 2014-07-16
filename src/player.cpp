@@ -7987,6 +7987,76 @@ bool player::eat(item *eaten, it_comest *comest)
     return true;
 }
 
+bool player::eat_from_ground() 
+{
+    item *to_eat = NULL;
+    it_comest *comest = NULL;
+    int which = -1;
+#define distance 1
+    item *it = g->inv_map_for_food(_("Eat from ground"), distance);
+
+    if (it == NULL || it->is_null()) {
+        return false;
+    }
+
+    if (it->is_food_container(this)) {
+        to_eat = &(it->contents[0]);
+        which = 1;
+        if (it->contents[0].is_food()) {
+            comest = dynamic_cast<it_comest *>(it->contents[0].type);
+        }
+    } else if (it->is_food(this)) {
+        to_eat = it;
+        which = 0;
+        comest = dynamic_cast<it_comest *>(it->type);
+    } else {
+        add_msg_if_player(m_info, _("You can't eat %s."), it->tname().c_str());
+        if (is_npc()) {
+            debugmsg("%s tried to eat a %s", name.c_str(), it->tname().c_str());
+        }
+        return false;
+    }
+
+    if (to_eat == NULL) {
+        debugmsg("Consumed item is lost!");
+        return false;
+    }
+
+    int amount_used = 1;
+    bool was_consumed = false;
+    if (comest != NULL) {
+        if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
+            was_consumed = eat(to_eat, comest);
+            if (!was_consumed) {
+                return was_consumed;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
+    if (!was_consumed) {
+        return false;
+    }
+
+    // Actions after consume
+    to_eat->charges -= amount_used;
+    if (to_eat->charges <= 0) {
+        if (which == 0) {
+            for (int x = g->u.posx - distance; x <= g->u.posx + distance; x++)
+                for (int y = g->u.posy - distance; y <= g->u.posy + distance; y++) {
+                    g->m.i_rem(x, y, it);
+                }
+        } else if (which >= 0) {
+            it->contents.erase(it->contents.begin());
+            add_msg(_("Now %s is empty."), it->tname().c_str());
+        }
+    }
+    return true;
+}
+
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
     if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
