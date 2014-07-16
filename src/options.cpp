@@ -1003,35 +1003,54 @@ void show_options(bool ingame)
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
         //Draw options
-        int iBlankOffset = 0;
+        bool was_blank_line = false; // Is prev. line was blank linei?.
+        size_t hidden_counter = 0; // Counter of hidden options.
+        size_t blanklines_counter = 0; // Counter of double blank lines.
+        size_t iBlankOffset = 0; // Offset when blank line is printed.
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ?
                 mPageItems[iCurrentPage].size() : iContentHeight); i++) {
-            nc_color cLineColor = c_ltgreen;
 
-            if (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText() == "") {
-                iBlankOffset++;
+            int line_pos; // Current line position in window.
+            nc_color cLineColor = c_ltgreen;
+            cOpt *current_opt = &(cOPTIONS[mPageItems[iCurrentPage][i]]);
+
+            if(current_opt->is_hidden()) {
+                ++hidden_counter;
+                DebugLog() << "Hidden increment. Current: " << hidden_counter;
+                DebugLog() << "End iteration" << '\n';
                 continue;
             }
 
+            if (current_opt->getMenuText() == "") { 
+                if (was_blank_line) {
+                    blanklines_counter++;
+                }
+                iBlankOffset++;
+                was_blank_line = true;
+                continue;
+            }
+            was_blank_line = false;
+
+            line_pos = i - iStartPos - hidden_counter - blanklines_counter;
+
             sTemp.str("");
-            sTemp << i + 1 - iBlankOffset;
-            mvwprintz(w_options, i - iStartPos, 1, c_white, sTemp.str().c_str());
-            mvwprintz(w_options, i - iStartPos, 5, c_white, "");
+            sTemp << i + 1 - iBlankOffset - hidden_counter;
+            mvwprintz(w_options, line_pos, 1, c_white, sTemp.str().c_str());
+            mvwprintz(w_options, line_pos, 5, c_white, "");
 
             if (iCurrentLine == i) {
                 wprintz(w_options, c_yellow, ">> ");
             } else {
                 wprintz(w_options, c_yellow, "   ");
             }
-            wprintz(w_options, c_white, "%s",
-                    (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
+            wprintz(w_options, c_white, "%s", current_opt->getMenuText().c_str());
 
-            if (cOPTIONS[mPageItems[iCurrentPage][i]].getValue() == "false") {
+            if (current_opt->getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", (cOPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
+            mvwprintz(w_options, line_pos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
+                      cLineColor, "%s", current_opt->getValueName().c_str());
         }
 
         //Draw Scrollbar
