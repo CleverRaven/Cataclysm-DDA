@@ -1,12 +1,32 @@
 #include "debug.h"
 #include "path_info.h"
 #include "output.h"
+#include "file_wrapper.h"
 #include <time.h>
 #include <cstdlib>
 #include <cstdarg>
+#include <iosfwd>
+#include <fstream>
+#include <streambuf>
 
 #ifndef _MSC_VER
 #include <sys/time.h>
+#endif
+
+#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+#include <execinfo.h>
+#include <stdlib.h>
+#endif
+
+// Static defines                                                   {{{1
+// ---------------------------------------------------------------------
+
+#if (defined(DEBUG) || defined(_DEBUG)) && !defined(NDEBUG)
+static int debugLevel = DL_ALL;
+static int debugClass = DC_ALL;
+#else
+static int debugLevel = D_ERROR;
+static int debugClass = D_MAIN;
 #endif
 
 void realDebugmsg( const char *filename, const char *line, const char *mes, ... )
@@ -24,17 +44,6 @@ void realDebugmsg( const char *filename, const char *line, const char *mes, ... 
     werase( stdscr );
     refresh();
 }
-
-#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-#include <execinfo.h>
-#include <stdlib.h>
-#endif
-
-// Static defines                                                   {{{1
-// ---------------------------------------------------------------------
-
-static int debugLevel = DL_ALL;
-static int debugClass = DC_ALL;
 
 // Normal functions                                                 {{{1
 // ---------------------------------------------------------------------
@@ -54,17 +63,12 @@ void limitDebugClass( int class_bitmask )
 // Debug only                                                       {{{1
 // ---------------------------------------------------------------------
 
-#ifdef ENABLE_LOGGING
-
 #define TRACE_SIZE 20
 
 void *tracePtrs[TRACE_SIZE];
 
 // Debug Includes                                                   {{{2
 // ---------------------------------------------------------------------
-
-#include <fstream>
-#include <streambuf>
 
 // Null OStream                                                     {{{2
 // ---------------------------------------------------------------------
@@ -76,13 +80,18 @@ struct NullBuf : public std::streambuf {
     }
 };
 
+// DebugFile OStream Wrapper                                        {{{2
+// ---------------------------------------------------------------------
+
 struct DebugFile {
     DebugFile();
     ~DebugFile();
     void init( std::string filename );
+    void deinit();
 
     std::ofstream &currentTime();
     std::ofstream file;
+    std::string filename;
 };
 
 static NullBuf nullBuf;
@@ -99,6 +108,13 @@ DebugFile::DebugFile()
 
 DebugFile::~DebugFile()
 {
+    if( file.is_open() ) {
+        deinit();
+    }
+}
+
+void DebugFile::deinit()
+{
     file << "\n";
     currentTime() << " : Log shutdown.\n";
     file << "-----------------------------------------\n\n";
@@ -107,6 +123,7 @@ DebugFile::~DebugFile()
 
 void DebugFile::init( std::string filename )
 {
+    this->filename = filename;
     file.open( filename.c_str(), std::ios::out | std::ios::app );
     file << "\n\n-----------------------------------------\n";
     currentTime() << " : Starting log.";
@@ -161,6 +178,11 @@ void setupDebug()
     debugFile.init( FILENAMES["debug"] );
 }
 
+void deinitDebug()
+{
+    debugFile.deinit();
+}
+
 // OStream Operators                                                {{{2
 // ---------------------------------------------------------------------
 
@@ -192,6 +214,15 @@ std::ostream &operator<<( std::ostream &out, DebugClass cl )
         if( cl & D_MAP ) {
             out << "MAP ";
         }
+        if( cl & D_MAP_GEN ) {
+            out << "MAP_GEN ";
+        }
+        if( cl & D_NPC ) {
+            out << "NPC ";
+        }
+        if( cl & D_GAME ) {
+            out << "GAME ";
+        }
     }
     return out;
 }
@@ -212,7 +243,9 @@ std::ofstream &DebugFile::currentTime()
 
 std::ostream &dout( DebugLevel lev, DebugClass cl )
 {
-    if( ( lev & debugLevel ) && ( cl & debugClass ) ) {
+    // Error are always logged, they are important,
+    // Messages from D_MAIN come from debugmsg and are equally important.
+    if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
         debugFile.file << std::endl;
         debugFile.currentTime() << " ";
         if( lev != debugLevel ) {
@@ -240,18 +273,5 @@ std::ostream &dout( DebugLevel lev, DebugClass cl )
     }
     return nullStream;
 }
-
-// Non Debug Only                                                   {{{1
-// ---------------------------------------------------------------------
-
-#else // If NOT defined ENABLE_LOGGING
-
-
-DebugVoid dout( DebugLevel, DebugClass )
-{
-    return DebugVoid();
-}
-
-#endif // END If NOT defined ENABLE_LOGGING
 
 // vim:tw=72:sw=1:fdm=marker:fdl=0:

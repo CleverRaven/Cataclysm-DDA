@@ -209,9 +209,7 @@ int main(int argc, char *argv[])
     }
 
     // setup debug loggind
-#ifdef ENABLE_LOGGING
     setupDebug();
-#endif
     // set locale to system default
     setlocale(LC_ALL, "");
 #ifdef LOCALIZE
@@ -339,6 +337,7 @@ void exit_handler(int s) {
         if (ret != 0) {
             DebugLog() << "main.cpp:exit_handler(): system(\"clear\"): error returned\n";
         }
+        deinitDebug();
 
         if(g != NULL) {
             if(g->game_error()) {
