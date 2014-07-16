@@ -7981,7 +7981,8 @@ bool player::eat(item *eaten, it_comest *comest)
     return true;
 }
 
-bool player::eat_from_ground() {
+bool player::eat_from_ground() 
+{
     item *to_eat = NULL;
     it_comest *comest = NULL;
     int which = -1;
@@ -8003,7 +8004,7 @@ bool player::eat_from_ground() {
         which = 0;
         comest = dynamic_cast<it_comest *>(it->type);
     } else {
-        add_msg_if_player(m_info, _("You can't eat your %s."), it->tname().c_str());
+        add_msg_if_player(m_info, _("You can't eat %s."), it->tname().c_str());
         if (is_npc()) {
             debugmsg("%s tried to eat a %s", name.c_str(), it->tname().c_str());
         }

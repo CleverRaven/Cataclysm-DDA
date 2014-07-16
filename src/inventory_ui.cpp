@@ -806,7 +806,8 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
-item *game::inv_map_for_food(const std::string title, int distance) {
+item *game::inv_map_for_food(const std::string title, int distance)
+{
 
     std::set<std::string> dups;
 
