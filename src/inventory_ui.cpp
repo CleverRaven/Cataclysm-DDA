@@ -806,7 +806,8 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
-item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool &on_ground) {
+item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool &on_ground)
+{
     std::vector <item> &here = m.i_at(g->u.posx, g->u.posy);
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
