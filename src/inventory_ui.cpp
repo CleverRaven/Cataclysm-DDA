@@ -881,7 +881,6 @@ item *game::inv_map_for_food(const std::string title, int distance) {
                     if (check.isGood(*it, dups)) {
 
                         if (check.isDrink(*it)) {
-
                             here_drinks.push_back(it);
                         } else {
                             here_food.push_back(it);
@@ -910,7 +909,7 @@ item *game::inv_map_for_food(const std::string title, int distance) {
     for (size_t i = 0; i < here_drinks.size(); i++) {
         pseudo_drinks.push_back(std::list<item>(1, *here_drinks[i]));
         if ('A' + i <= 'Z') {
-            pseudo_food.back().front().invlet = 'A' + i;
+            pseudo_drinks.back().front().invlet = 'A' + i;
         }
     }
 
@@ -943,31 +942,22 @@ item *game::inv_map_for_food(const std::string title, int distance) {
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
 
-        if (item_pos != INT_MIN) {
-            inv_s.set_to_drop(item_pos, 0);
-
-            for (int i = 0; i < slice_food.size(); i++) {
-                if (&slice_food[i].first->front() == inv_s.first_item) {
-                    return here_food[i];
-                }
+        if (ch >= 'a' && ch <= 'z') {
+            const int ip = ch - 'a';
+            if (ip < here_food.size()) {
+                return here_food[ip];
             }
-
-            for (int i = 0; i < slice_drinks.size(); i++) {
-                if (&slice_drinks[i].first->front() == inv_s.first_item) {
-                    return here_drinks[i];
-                }
+        } else if (ch >= 'A' && ch <= 'Z') {
+            const int ip = ch - 'A';
+            if (ip < here_drinks.size()) {
+                return here_drinks[ip];
             }
-
-            return NULL;
-
         } else if (inv_s.handle_movement(action)) {
             // continue with comparison below
         } else if (action == "QUIT") {
             return NULL;
         } else if (action == "RIGHT" || action == "CONFIRM") {
-
             inv_s.set_selected_to_drop(0);
 
             for (int i = 0; i < slice_food.size(); i++) {
@@ -981,9 +971,7 @@ item *game::inv_map_for_food(const std::string title, int distance) {
                     return here_drinks[i];
                 }
             }
-
             return NULL;
-
         }
     }
 }

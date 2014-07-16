@@ -7981,15 +7981,16 @@ bool player::eat(item *eaten, it_comest *comest)
     return true;
 }
 
-bool player::eat_from_ground()
-{
+bool player::eat_from_ground() {
     item *to_eat = NULL;
     it_comest *comest = NULL;
     int which = -1;
+#define distance 1
+    item *it = g->inv_map_for_food(_("Eat from ground"), distance);
 
-	item *it = g->inv_map_for_food(_("Eat from ground"), 1);
-
-	if (it == NULL || it->is_null()) return false;
+    if (it == NULL || it->is_null()) {
+        return false;
+    }
 
     if (it->is_food_container(this)) {
         to_eat = &(it->contents[0]);
@@ -8037,7 +8038,10 @@ bool player::eat_from_ground()
     to_eat->charges -= amount_used;
     if (to_eat->charges <= 0) {
         if (which == 0) {
-            g->m.i_rem(posx, posy, it);
+            for (int x = g->u.posx - distance; x <= g->u.posx + distance; x++)
+                for (int y = g->u.posy - distance; y <= g->u.posy + distance; y++) {
+                    g->m.i_rem(x, y, it);
+                }
         } else if (which >= 0) {
             it->contents.erase(it->contents.begin());
             add_msg(_("Now %s is empty."), it->tname().c_str());
