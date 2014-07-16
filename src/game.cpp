@@ -10352,28 +10352,28 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
 	bool on_ground;
 
-	if (cont == NULL || cont->is_null()) {
-	    const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
+    if (cont == NULL || cont->is_null()) {
+        const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
-	    cont = inv_map_for_liquid(liquid, text, on_ground);
+        cont = inv_map_for_liquid(liquid, text, on_ground);
 
-	    if (cont == NULL || cont->is_null()) {
-	        // No container selected (escaped, ...), ask to pour
-	        // we asked to pour rotten already
-	        if (!from_ground && !liquid.rotten() &&
-	            choose_adjacent(liqstr, dirx, diry)) {
+        if (cont == NULL || cont->is_null()) {
+            // No container selected (escaped, ...), ask to pour
+            // we asked to pour rotten already
+            if (!from_ground && !liquid.rotten() &&
+                choose_adjacent(liqstr, dirx, diry)) {
 
-	            if (!m.can_put_items(dirx, diry)) {
-	                add_msg(m_info, _("You can't pour there!"));
-	                return false;
-	            }
-	            m.add_item_or_charges(dirx, diry, liquid, 1);
-	            return true;
-	        }
-	        add_msg(_("Never mind."));
-	        return false;
-	    }
-	}
+                if (!m.can_put_items(dirx, diry)) {
+                    add_msg(m_info, _("You can't pour there!"));
+                    return false;
+                }
+                m.add_item_or_charges(dirx, diry, liquid, 1);
+                return true;
+            }
+            add_msg(_("Never mind."));
+            return false;
+        }
+    }
 
     if (cont == source) {
         //Source and destination are the same; abort
