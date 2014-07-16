@@ -34,19 +34,19 @@ class cOpt
 
         //string constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const std::string sItemsIn, std::string sDefaultIn);
+             const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide);
 
         //bool constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const bool bDefaultIn);
+             const bool bDefaultIn, copt_hide_t opt_hide);
 
         //int constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const int iMinIn, int iMaxIn, int iDefaultIn);
+             const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide);
 
         //float constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn);
+             const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide);
 
         //Default deconstructor
         ~cOpt() {};

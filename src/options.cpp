@@ -58,12 +58,14 @@ cOpt::cOpt()
 
 //string constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const std::string sItemsIn, std::string sDefaultIn)
+           const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "string";
+
+    hide = opt_hide;
 
     std::stringstream ssTemp(sItemsIn);
     std::string sItem;
@@ -83,12 +85,14 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //bool constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const bool bDefaultIn)
+           const bool bDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "bool";
+
+    hide = opt_hide;
 
     bDefault = bDefaultIn;
     bSet = bDefaultIn;
@@ -98,12 +102,14 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //int constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const int iMinIn, int iMaxIn, int iDefaultIn)
+           const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "int";
+    
+    hide = opt_hide;
 
     if (iMinIn > iMaxIn) {
         iMaxIn = iMinIn;
@@ -124,12 +130,14 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //float constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn)
+           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide=COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "float";
+
+    hide = opt_hide;
 
     if (fMinIn > fMaxIn) {
         fMaxIn = fMinIn;
