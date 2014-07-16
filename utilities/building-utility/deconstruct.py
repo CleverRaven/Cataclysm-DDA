@@ -9,28 +9,30 @@
 #I figured someone else might be able to use it.
 #
 
+base_path = 'C:\\building-utility\\'
+
 def main():
     mapCount = 1
-    file_path = 'C:\\building-utility\\drawing.txt'
+    file_path = base_path + 'drawing.txt'
     file = open(file_path,"r")
     data = '[\n'
     mapList = ["","","","","","","","",""]
     for line in file:
         lineCT = 0
         while len(line) > 23:
-            if len(mapList[lineCT]) >= 725: 
+            if len(mapList[lineCT]) >= 725:
                 mapList[lineCT] = mapList[lineCT] + '				"' + line[:24] + '"\n'
             else:
                 mapList[lineCT] = mapList[lineCT] + '				"' + line[:24] + '",\n'
             line = line[24:]
             lineCT += 1
-        if len(mapList[0]) >= 760: 
+        if len(mapList[0]) >= 760:
             for x in range(len(mapList)):
                 if len(mapList[x]) > 20:
-                    data = writeJSON(mapCount,mapList[x],data)
+                    data = writeJSON(mapCount, mapList[x], data)
                     writeTerrain(mapCount)
                     mapCount += 1
-            mapList = ["","","","","","","","",""]         
+            mapList = ["","","","","","","","",""]
     file.close()
     data = data[:-1] + "\n]"
     finalizeEntry(data)
@@ -38,23 +40,23 @@ def main():
 #Takes the mapNum and 'text' is the 24x24 map
 def writeJSON(mapNum, text, data):
     entry = ''
-    file_path = 'C:\\building-utility\\json_header.txt'
+    file_path = base_path + 'json_header.txt'
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
     file.close
 
     entry = entry + str(mapNum)
-    
-    file_path = 'C:\\building-utility\\json_middle.txt'
+
+    file_path = base_path + 'json_middle.txt'
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
     file.close
-    
+
     entry = entry + text
-    
-    file_path = 'C:\\building-utility\\json_footer.txt'
+
+    file_path = base_path + 'json_footer.txt'
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
@@ -64,14 +66,14 @@ def writeJSON(mapNum, text, data):
     return data
 
 def finalizeEntry(data):
-    file_path = 'C:\\building-utility\\output\\office_tower.json'
+    file_path = base_path + 'output\\office_tower.json'
     file = open(file_path,"w")
     file.write(data)
     file.close()
-    
+
 def writeTerrain(mapNum):
     entry = ''
-    file_path = 'C:\\building-utility\\terrain_header.txt'
+    file_path = base_path + 'terrain_header.txt'
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
@@ -79,13 +81,13 @@ def writeTerrain(mapNum):
 
     entry = entry + str(mapNum)
 
-    file_path = 'C:\\building-utility\\terrain_footer.txt'
+    file_path = base_path + 'terrain_footer.txt'
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
     file.close
-    
-    file_path = 'C:\\building-utility\\output\\overmap_terrain_entry.json'
+
+    file_path = base_path + 'output\\overmap_terrain_entry.json'
     file = open(file_path,"a")
     file.write(entry)
     file.close()
