@@ -685,7 +685,7 @@ void initOptions()
 
     OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
                                       _("SDL ONLY: Enable input from joystick."),
-                                      true
+                                      true, COPT_CURSES_HIDE
                                      );
 
     //~ show mouse cursor
@@ -696,7 +696,7 @@ void initOptions()
     optionNames["hidekb"] = _("HideKB");
     OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
                                   _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
-                                  "show,hide,hidekb", "show"
+                                  "show,hide,hidekb", "show", COPT_CURSES_HIDE
                                  );
 
     ////////////////////////////GRAPHICS/////////////////////////
@@ -731,43 +731,43 @@ void initOptions()
 
     OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
                                  _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 80, 242, 80
+                                 80, 242, 80, COPT_CURSES_HIDE
                                 );
 
     OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
                                  _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 24, 187, 24
+                                 24, 187, 24, COPT_CURSES_HIDE
                                 );
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["USE_TILES"] = cOpt("graphics", _("Use tiles"),
                                 _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
-                                true
+                                true, COPT_CURSES_HIDE
                                );
 
     OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
                             _("Choose the tileset you want to use. Only applicable on SDL builds."),
-                            tileset_names, "hoder"
+                            tileset_names, "hoder", COPT_CURSES_HIDE
                            ); // populate the options dynamically
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
                                  _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
-                                 false
+                                 false, COPT_CURSES_HIDE
                                 );
 
     OPTIONS["SOFTWARE_RENDERING"] = cOpt("graphics", _("Software rendering"),
                                          _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
-                                         false
+                                         false, COPT_CURSES_HIDE
                                         );
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
                                    _("SDL ONLY: Adjust the volume of the music being played in the background."),
-                                   0, 200, 100
+                                   0, 200, 100, COPT_CURSES_HIDE
                                   );
 
     ////////////////////////////DEBUG////////////////////////////
