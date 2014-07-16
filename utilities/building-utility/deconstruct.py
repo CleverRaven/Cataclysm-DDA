@@ -8,10 +8,18 @@
 #way polished, it just saved me a huge amount of time creating 9x9 buildings so
 #I figured someone else might be able to use it.
 #
+import os
 
 base_path = 'C:\\building-utility\\'
 
 def main():
+    global base_path
+    
+    #This should auto-detect the correct directory.
+    full_path = os.path.realpath(__file__)
+    path, file = os.path.split(full_path)
+    base_path = path + "\\"
+    
     mapCount = 1
     file_path = base_path + 'drawing.txt'
     file = open(file_path,"r")
