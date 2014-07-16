@@ -9172,6 +9172,11 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
           used->tname().c_str());
           return;
         }
+        if (mod->id == "brass_catcher" && gun->has_flag("RELOAD_EJECT")) {
+            add_msg(m_info, _("You cannot attach a brass catcher to your %s."),
+                       gun->tname().c_str());
+            return;
+        }
         for (int i = 0; i < gun->contents.size(); i++) {
             if (gun->contents[i].type->id == used->type->id) {
                 add_msg(m_info, _("Your %s already has a %s."), gun->tname().c_str(),
