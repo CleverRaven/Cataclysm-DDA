@@ -867,7 +867,6 @@ item *game::inv_map_for_food(const std::string title, int distance)
 
     } check;
 
-    std::vector<item> nulitems;
     std::vector <item *> here_food;
     std::vector <item *> here_drinks;
 
