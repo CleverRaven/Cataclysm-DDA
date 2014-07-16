@@ -445,10 +445,7 @@ static int traceback(lua_State *L) {
     debugmsg("Error in lua module: %s", error);
 
     // Print the stack trace to our debug log.
-    std::ofstream debug_out;
-    debug_out.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
-    debug_out << stacktrace << "\n";
-    debug_out.close();
+    DebugLog( D_ERROR, DC_ALL ) << stacktrace;
     return 1;
 }
 
