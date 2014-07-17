@@ -4,15 +4,20 @@
         "id" : "style_none",
         "name" : "No style",
         "description" : "Not a martial art, this is just plain old punching and kicking.",
-        "arm_block" : -1,
-        "leg_block" : -1
+        "arm_block" : 1
     },{
         "type" : "martial_art",
         "id" : "style_brawling",
         "name" : "Brawling",
-        "description" : "Not a martial art, this is just plain old punching and kicking.",
+        "description" : "You've started getting used to hand-to-creature fighting.  This isn't stylish or sporting, but it gets the job done.",
         "arm_block" : -1,
-        "leg_block" : -1
+        "leg_block" : 6,
+        "techniques" : [
+            "tec_brawl_feint",
+            "tec_brawl_power",
+            "tec_brawl_trip",
+            "tec_brawl_counter"
+        ]
     },{
         "type" : "martial_art",
         "id" : "style_karate",
@@ -341,7 +346,7 @@
         ],
         "techniques" : [
             "tec_zuiquan_feint",
-            "tec_counter"
+            "tec_zuiquan_counter"
         ]
     },{
         "type" : "martial_art",
@@ -578,7 +583,7 @@
             {
                 "id" : "dragon_move_buff",
                 "name" : "Dragon's Flight",
-                "description" : "+2 Acc/Dam",
+                "description" : "+2 Accuracy & Damage",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
                 "buff_duration" : 2,
@@ -588,7 +593,7 @@
         ],
         "techniques" : [
             "tec_dragon_grab",
-            "tec_counter",
+            "tec_dragon_counter",
             "tec_dragon_sweep",
             "tec_dragon_brutal"
         ]
@@ -620,7 +625,7 @@
         ],
         "techniques" : [
             "tec_leopard_rapid",
-            "tec_counter",
+            "tec_leopard_counter",
             "tec_leopard_precise"
         ]
     },{
