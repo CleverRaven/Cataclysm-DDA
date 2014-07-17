@@ -722,6 +722,13 @@ void game::create_starting_npcs()
     if (!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return; //Do not generate a starting npc.
     }
+    
+    //We don't want more than one starting npc per shelter
+    const int radius = 1;
+    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
+    if (npcs.size() >= 1)
+        return; //There is already an NPC in this shelter
+    
     npc *tmp = new npc();
     tmp->normalize();
     tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
