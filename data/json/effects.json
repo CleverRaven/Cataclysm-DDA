@@ -469,6 +469,14 @@
    },
    {
       "type":"effect_type",
+      "id":"zlave"
+   },
+   {
+      "type":"effect_type",
       "id":"has_bag"
+   },
+   {
+      "type":"effect_type",
+      "id":"tied"
    }
 ]

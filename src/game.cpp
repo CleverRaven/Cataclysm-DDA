@@ -7575,6 +7575,11 @@ bool game::revive_corpse(int x, int y, item *it)
         critter.hp /= it->damage + 1;
     }
     critter.no_extra_death_drops = true;
+
+	if (it->item_vars["zlave"] == "zlave"){
+		critter.add_effect("zlave", 1, 1, true);
+	}
+
     add_zombie(critter);
     return true;
 }
@@ -8411,7 +8416,7 @@ bool zlave_menu(monster *z)
         amenu.addentry(attach_bag, true, 'b', _("Attach bag"));
     }
 
-    if (z->has_effect("beartrap")) {
+    if (z->has_effect("tied")) {
 		amenu.addentry(rope, true, 'r', _("Untie"));
     } else {
         if (g->u.has_amount("rope_6", 1)) {
@@ -8532,25 +8537,28 @@ bool zlave_menu(monster *z)
         std::vector<item> result = g->multidrop(dropped_worn, dummy);
         result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
 
-        add_msg(_("Are you trying to push things in a zlave bag."));
+		if (result.size() == 0) {
+		    add_msg(_("Never mind."));
+		} else {
+		    add_msg(_("Are you trying to push things in a zlave bag."));
 
-        for (int i = 0; i < result.size(); i++) {
+		    for (int i = 0; i < result.size(); i++) {
 
-            int vol = result[i].volume();
+		        int vol = result[i].volume();
 
-            if (max_cap - vol >= 0) {
-                z->inv.push_back(result[i]);
-                max_cap -= vol;
-            } else {
-                g->m.add_item_or_charges(z->xpos(), z->ypos(), result[i], 1);
-                g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
-                                       result[i].display_name().c_str());
-            }
-        }
+		        if (max_cap - vol >= 0) {
+		            z->inv.push_back(result[i]);
+		            max_cap -= vol;
+		        } else {
+		            g->m.add_item_or_charges(z->xpos(), z->ypos(), result[i], 1);
+		            g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
+		                                   result[i].display_name().c_str());
+		        }
+		    }
+		}
 
-        return true;
-
-    }
+		return true;
+		}
 
     if (pheromone == choice) {
 
@@ -8589,11 +8597,11 @@ bool zlave_menu(monster *z)
 
 	if (rope == choice)
 	{
-	    if (z->has_effect("beartrap")) {
-	        z->remove_effect("beartrap");
+	    if (z->has_effect("tied")) {
+	        z->remove_effect("tied");
 	        g->u.inv.add_item_by_type("rope_6");
 	    } else {
-	        z->add_effect("beartrap", 1, 1, true);
+	        z->add_effect("tied", 1, 1, true);
 	        g->u.inv.remove_item("rope_6");
 	    }
 
@@ -8675,7 +8683,7 @@ void game::examine(int examx, int examy)
 		Creature *c = critter_at(examx, examy);
 		monster *mon = dynamic_cast<monster *>(c);
 
-		if (mon != NULL && mon->type->id == "mon_zlave") {
+		if (mon != NULL && mon->has_effect("zlave")) {
 			if (zlave_menu(mon)) {
 				return;
 			}

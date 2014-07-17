@@ -322,8 +322,10 @@ bool monster::is_symbol_highlighted()
 nc_color monster::color_with_effects()
 {
  nc_color ret = type->color;
- if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed"))
+ if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied"))
   ret = hilite(ret);
+ if (has_effect("zlave"))
+  ret = magenta_background(ret);
  if (has_effect("onfire"))
   ret = red_background(ret);
  return ret;

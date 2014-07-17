@@ -6232,7 +6232,8 @@ void make_zlave(player *p)
     for (int i = 0; i < items.size(); i++) {
         item &it = items[i];
 
-        if (it.is_corpse() && it.corpse->id == "mon_zombie_brute") {
+		//todo: attributes of humanoid-corpse?
+		if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->size == MS_MEDIUM) {
             corpses.push_back(&it);
         }
     }
@@ -6258,11 +6259,23 @@ void make_zlave(player *p)
         return;
     }
 
-    corpses[amenu.ret - 1]->make_corpse("corpse", GetMType("mon_zlave"), calendar::turn);
+	//todo: rng(?, ?)
+	p->practice("firstaid", rng(3, 8));
+	p->practice("survival", rng(3, 8));
+	//todo: morale
+
+	item* body = corpses[amenu.ret - 1];
+	mtype* mt = body->corpse;
+	//todo: correct formula
+	int hard = mt->difficulty * 2 + mt->hp / 10 + mt->speed / 10;
+
+	body->item_vars["zlave"] = "zlave";
+
+    //body->make_corpse("corpse", GetMType("mon_zlave"), calendar::turn);
 
     p->add_msg_if_player(_("You made a zlave, now wait until it revives."));
 
-    p->moves -= 300;
+    p->moves -= hard * 30;
 }
 
 int iuse::knife(player *p, item *it, bool t)
@@ -6292,7 +6305,7 @@ int iuse::knife(player *p, item *it, bool t)
         }
     }
 
-	if (p->has_trait("CANNIBAL") || p->has_trait("PSYCHOPATH"))
+	if (p->skillLevel("survival") > 3)
 	{
 	    kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
 	}

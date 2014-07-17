@@ -289,7 +289,7 @@ void monster::move()
         }
     }
 
-    if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
+	if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL)) && !has_effect("zlave")) {
         mattack ma;
         if(!is_hallucination()) {
             (ma.*type->sp_attack)(this);
@@ -656,6 +656,9 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
 }
 
 int monster::bash_at(int x, int y) {
+
+	if (has_effect("zlave")) return 1;
+
     //Hallucinations can't bash stuff.
     if(is_hallucination()) {
         return 0;
@@ -703,6 +706,9 @@ int monster::bash_at(int x, int y) {
 }
 
 int monster::attack_at(int x, int y) {
+
+	if (has_effect("zlave")) return 1;
+
     int mondex = g->mon_at(x, y);
     int npcdex = g->npc_at(x, y);
 
@@ -762,7 +768,7 @@ int monster::move_to(int x, int y, bool force)
         return 0;
     }
 
-    if (has_effect("beartrap")) {
+	if (has_effect("beartrap") || has_effect("tied")) {
         moves = 0;
         return 0;
     }
