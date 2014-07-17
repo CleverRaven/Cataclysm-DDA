@@ -550,7 +550,7 @@
                       "description" : "+2 Dodge",
                       "unarmed_allowed" : true,
                       "min_unarmed" : 2,
-                      "buff_duration" : 1,
+                      "buff_duration" : 2,
                       "dodge" : 2
                   }
         ],
@@ -581,7 +581,7 @@
                 "description" : "+2 Acc/Dam",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
-                "buff_duration" : 1,
+                "buff_duration" : 2,
                 "hit" : 2,
                 "bash" : 2
             }
@@ -610,11 +610,11 @@
         "onmove_buffs" : [
             {
                 "id" : "leopard_move_buff",
-                "name" : "Leopard Stalk",
+                "name" : "Leopard's Stalk",
                 "description" : "+2 Accuracy",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
-                "buff_duration" : 1,
+                "buff_duration" : 2,
                 "hit" : 2
             }
         ],
