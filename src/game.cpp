@@ -35,6 +35,7 @@
 #include "mapsharing.h"
 #include "messages.h"
 #include "pickup.h"
+#include "weather_gen.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -579,7 +580,8 @@ void game::start_game(std::string worldname)
     } else {
         calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
     }
-    nextweather = calendar::turn + MINUTES(30);
+    nextweather = calendar::turn;
+    weatherSeed = rand();
     run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -629,6 +631,7 @@ void game::start_game(std::string worldname)
     u.process_turn(); // process_turn adds the initial move points
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
+    update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -1919,85 +1922,18 @@ bool game::cancel_activity_query(const char *message, ...)
 
 void game::update_weather()
 {
-    season_type season;
-    // Default to current weather, and update to the furthest future weather if any.
-    weather_segment prev_weather = { temperature, weather, nextweather };
-    if (!weather_log.empty()) {
-        prev_weather = weather_log.rbegin()->second;
-    }
-    while (prev_weather.deadline < calendar::turn + HOURS(MAX_FUTURE_WEATHER)) {
-        weather_segment new_weather;
-        // Pick a new weather type (most likely the same one)
-        int chances[NUM_WEATHER_TYPES];
-        int total = 0;
-        season = prev_weather.deadline.get_season();
-        for (int i = 0; i < NUM_WEATHER_TYPES; i++) {
-            // Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
-            // and vice versa.
-            if ((weather_data[i].avg_temperature[season] < 32 && temperature > 32) ||
-                (weather_data[i].avg_temperature[season] > 32 && temperature < 32)) {
-                chances[i] = 0;
-            } else {
-                chances[i] = weather_shift[season][prev_weather.weather][i];
-                if (weather_data[i].dangerous && u.has_artifact_with(AEP_BAD_WEATHER)) {
-                    chances[i] = chances[i] * 4 + 10;
-                }
-                total += chances[i];
-            }
-        }
-        int choice = rng(0, total - 1);
-        new_weather.weather = WEATHER_CLEAR;
-
-        if (total > 0) {
-            while (choice >= chances[new_weather.weather]) {
-                choice -= chances[new_weather.weather];
-                new_weather.weather = weather_type(int(new_weather.weather) + 1);
-            }
-        } else {
-            new_weather.weather = weather_type(int(new_weather.weather) + 1);
-        }
-        // Advance the weather timer
-        int minutes = rng(weather_data[new_weather.weather].mintime,
-                          weather_data[new_weather.weather].maxtime);
-        new_weather.deadline = prev_weather.deadline + MINUTES(minutes);
-        if (new_weather.weather == WEATHER_SUNNY && new_weather.deadline.is_night()) {
-            new_weather.weather = WEATHER_CLEAR;
-        }
-
-        // Now update temperature
-        if (!one_in(4)) {
-            // 3 in 4 chance of respecting avg temp for the weather
-            int average = weather_data[weather].avg_temperature[season];
-            if (prev_weather.temperature < average) {
-                new_weather.temperature = prev_weather.temperature + 1;
-            } else if (prev_weather.temperature > average) {
-                new_weather.temperature = prev_weather.temperature - 1;
-            } else {
-                new_weather.temperature = prev_weather.temperature;
-            }
-        } else { // 1 in 4 chance of random walk
-            new_weather.temperature = prev_weather.temperature + rng(-1, 1);
-        }
-
-        if (calendar::turn.is_night()) {
-            new_weather.temperature += rng(-2, 1);
-        } else {
-            new_weather.temperature += rng(-1, 2);
-        }
-        prev_weather = new_weather;
-        weather_log[(int)new_weather.deadline] = new_weather;
-    }
-
     if (calendar::turn >= nextweather) {
+        if(!has_generator) {
+            weather_generator weatherGen(weatherSeed);
+            has_generator = true;
+        }
+//        debugmsg("Generating weather for turn %d", int(calendar::turn));
+        w_point w = weatherGen.get_weather(u.pos(), calendar(calendar::turn));
         weather_type old_weather = weather;
-        weather_segment new_weather = weather_log.upper_bound((int)calendar::turn)->second;
-        weather = new_weather.weather;
-        temperature = new_weather.temperature;
-        nextweather = new_weather.deadline;
-
-        //In case weather changes right after a lightning strike
+        weather = weatherGen.get_weather_conditions(w);
+        temperature = w.temperature;
         g->lightning_active = false;
-
+        nextweather += 50; // Check weather each turn.
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
@@ -3953,11 +3889,7 @@ void game::load(std::string worldname, std::string name)
         load_weather(fin);
     }
     fin.close();
-    if (weather_log.empty()) { // todo: game::get_default_weather() { based on OPTION["STARTING_SEASON"]
-        weather = WEATHER_CLEAR;
-        temperature = 65;
-        nextweather = int(calendar::turn) + 300;
-    }
+    nextweather = int(calendar::turn);
     // log
     std::string mfile = std::string(worldpath + base64_encode(u.name) + ".log");
     fin.open(mfile.c_str());
@@ -4623,6 +4555,8 @@ void game::debug()
     break;
 
     case 18: {
+        debugmsg("This menu is disabled in this version. Sorry!");
+        break;
         const int weather_offset = 1;
         uimenu weather_menu;
         weather_menu.text = _("Select new weather pattern:");
@@ -4705,8 +4639,8 @@ void game::debug()
                 spstr = "";
                 diffturn = int(calendar::turn) - (i * 600);
                 pit = weather_log.lower_bound(int(diffturn));
-                int prt = get_rot_since(int(diffturn), int(calendar::turn));
-                int perc = (get_rot_since(int(diffturn), int(diffturn) + 600) * 100) / 600;
+                int prt = get_rot_since(int(diffturn), int(calendar::turn), u.pos());
+                int perc = (get_rot_since(int(diffturn), int(diffturn) + 600, u.pos()) * 100) / 600;
                 int frt = int(calendar::turn) - int(diffturn);
                 for (int e = 0; e < ne; e++) {
                     spstr = string_format("%s | %c %c%s", spstr.c_str(),

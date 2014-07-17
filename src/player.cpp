@@ -6603,25 +6603,25 @@ bool player::process_single_active_item(item *it)
     {
         if (it->is_food())
         {
+            it->calc_rot(this->pos());
             if (it->has_flag("HOT"))
             {
                 it->item_counter--;
                 if (it->item_counter == 0)
                 {
                     it->item_tags.erase("HOT");
-                    it->active = false;
                 }
             }
         }
         else if (it->is_food_container())
         {
+            it->contents[0].calc_rot(this->pos());
             if (it->contents[0].has_flag("HOT"))
             {
                 it->contents[0].item_counter--;
                 if (it->contents[0].item_counter == 0)
                 {
                     it->contents[0].item_tags.erase("HOT");
-                    it->contents[0].active = false;
                 }
             }
         }
@@ -7672,6 +7672,7 @@ bool player::eat(item *eaten, it_comest *comest)
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
     bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));
+    eaten->calc_rot(pos()); // check if it's rotten before eating!
     bool spoiled = eaten->rotten();
 
     last_item = itype_id(eaten->type->id);
