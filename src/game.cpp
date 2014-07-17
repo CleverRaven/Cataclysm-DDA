@@ -3881,11 +3881,7 @@ void game::load(std::string worldname, std::string name)
         load_weather(fin);
     }
     fin.close();
-    if (weather_log.empty()) { // todo: game::get_default_weather() { based on OPTION["STARTING_SEASON"]
-        weather = WEATHER_CLEAR;
-        temperature = 65;
-        nextweather = int(calendar::turn) + 300;
-    }
+    nextweather = int(calendar::turn);
     // log
     std::string mfile = std::string(worldpath + base64_encode(u.name) + ".log");
     fin.open(mfile.c_str());
