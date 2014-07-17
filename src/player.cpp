@@ -19,6 +19,7 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "crafting.h"
+#include "item_factory.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -11424,4 +11425,30 @@ bool player::is_suitable_weapon( const item &it ) const
         return it.has_flag( "UNARMED_WEAPON" );
     }
     return false;
+}
+
+void player::place_corpse()
+{
+    std::vector<item *> tmp = inv_dump();
+    item body;
+    body.make_corpse( "corpse", GetMType( "mon_null" ), calendar::turn, name );
+    for( auto itm : tmp ) {
+        g->m.add_item_or_charges( posx, posy, *itm );
+    }
+    for( auto & bio : my_bionics ) {
+        if( item_controller->has_template( bio.id ) ) {
+            body.put_in( item( bio.id, calendar::turn ) );
+        }
+    }
+    int pow = max_power_level;
+    while( pow >= 4 ) {
+        if( pow >= 10 ) {
+            pow -= 10;
+            body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
+        } else {
+            pow -= 4;
+            body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
+        }
+    }
+    g->m.add_item_or_charges( posx, posy, body );
 }

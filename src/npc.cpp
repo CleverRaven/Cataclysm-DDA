@@ -785,6 +785,16 @@ std::vector<item> starting_clothes(npc_class type, bool male)
  if (extras != "null")
   ret.push_back(item(extras, 0));
 
+    // the player class and other code all over the place assume that the
+    // worn vector contains *only* armor items. It will *crash* when there
+    // is a non-armor item!
+    for( auto it = ret.begin(); it != ret.end(); ) {
+        if( it->is_armor() ) {
+            ++it;
+        } else {
+            it = ret.erase( it );
+        }
+    }
  return ret;
 }
 
@@ -804,13 +814,20 @@ std::list<item> starting_inv(npc *me, npc_class type)
     if (g->debugmon)
         debugmsg("Unknown ammo type for spawned NPC: '%s'", tmp.c_str());
   }else {
-      if (total_space >= itypes[tmp]->volume) {
-       ret.push_back(item(tmp, 0));
+      item itammo( tmp, 0 );
+      itammo = itammo.in_its_container();
+      if( itammo.made_of( LIQUID ) ) {
+          item container( "bottle_plastic", 0 );
+          container.put_in( itammo );
+          itammo = container;
+      }
+      if (total_space >= itammo.volume()) {
+       ret.push_back(itammo);
        total_space -= ret.back().volume();
       }
       while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
-             !one_in(2) && total_space >= itypes[tmp]->volume) {
-       ret.push_back(item(tmp, 0));
+             !one_in(2) && total_space >= itammo.volume()) {
+       ret.push_back(itammo);
        total_space -= ret.back().volume();
       }
   }
@@ -826,7 +843,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 
  while (total_space > 0 && !one_in(stopChance)) {
     tmpitem = item_controller->item_from(npc_class_name_str(type)+"_misc");
-    if (tmpitem.tname() == "none")
+    if (tmpitem.is_null())
         tmpitem = item_controller->item_from("npc_misc");
     if (total_space >= tmpitem.volume()) {
         ret.push_back(tmpitem);
@@ -1014,7 +1031,7 @@ void npc::starting_weapon(npc_class type)
             sel_weapon = item_controller->id_from("npc_weapon_random");
         }
     }
-    weapon.make(sel_weapon);
+    weapon = item( sel_weapon, 0 );
 
     if (weapon.is_gun())
     {
@@ -2106,17 +2123,7 @@ void npc::die(bool your_fault)
         }
     }
 
-    item my_body;
-    my_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn, name);
-    g->m.add_item_or_charges(posx, posy, my_body);
-    std::vector<item *> dump;
-    inv.dump(dump);
-    for (int i = 0; i < dump.size(); i++)
-        g->m.add_item_or_charges(posx, posy, *(dump[i]));
-    for (int i = 0; i < worn.size(); i++)
-        g->m.add_item_or_charges(posx, posy, worn[i]);
-    if (weapon.type->id != "null")
-        g->m.add_item_or_charges(posx, posy, weapon);
+    place_corpse();
 
     mission_type *type;
     for (int i = 0; i < g->active_missions.size(); i++) {

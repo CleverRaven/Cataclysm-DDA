@@ -3484,7 +3484,7 @@ bool game::handle_action()
         if (query_yn(_("Commit suicide?"))) {
             if (query_yn(_("REALLY commit suicide?"))) {
                 u.moves = 0;
-                place_corpse();
+                u.place_corpse();
                 uquit = QUIT_SUICIDE;
             }
         }
@@ -3726,7 +3726,7 @@ bool game::is_game_over()
             if (u.in_vehicle) {
                 g->m.unboard_vehicle(u.posx, u.posy);
             }
-            place_corpse();
+            u.place_corpse();
             std::stringstream playerfile;
             playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
             DebugLog() << "Unlinking player file: <" << playerfile.str() << "> -- ";
@@ -3737,34 +3737,6 @@ bool game::is_game_over()
         }
     }
     return false;
-}
-
-void game::place_corpse()
-{
-    std::vector<item *> tmp = u.inv_dump();
-    item your_body;
-    your_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn, u.name);
-    for (std::vector<item *>::iterator it = tmp.begin();
-         it != tmp.end(); ++it) {
-        m.add_item_or_charges(u.posx, u.posy, **it);
-    }
-    for (int i = 0; i < u.num_bionics(); i++) {
-        bionic &b = u.bionic_at_index(i);
-        if (itypes.find(b.id) != itypes.end()) {
-            your_body.contents.push_back(item(b.id, calendar::turn));
-        }
-    }
-    int pow = u.max_power_level;
-    while (pow >= 4) {
-        if (pow % 4 != 0 && pow >= 10) {
-            pow -= 10;
-            your_body.contents.push_back(item("bio_power_storage_mkII", calendar::turn));
-        } else {
-            pow -= 4;
-            your_body.contents.push_back(item("bio_power_storage", calendar::turn));
-        }
-    }
-    m.add_item_or_charges(u.posx, u.posy, your_body);
 }
 
 void game::death_screen()

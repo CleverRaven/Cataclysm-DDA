@@ -660,7 +660,6 @@ class game
 
         void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died
-        void place_corpse();     // Place player corpse
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void gameover();         // Ends the game
         void msg_buffer();       // Opens a window with old messages in it

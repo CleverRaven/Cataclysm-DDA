@@ -141,6 +141,7 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("male",male);
     data.read("cash",cash);
     data.read("recoil",recoil);
+    data.read("in_vehicle",in_vehicle);
 
     parray = data.get_array("hp_cur");
     if ( parray.size() == num_hp_parts ) {
@@ -245,6 +246,7 @@ void player::json_save_common_variables(JsonOut &json) const
 
     json.member( "cash", cash );
     json.member( "recoil", int(recoil) );
+    json.member( "in_vehicle", in_vehicle );
 
     // potential incompatibility with future expansion
     // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
@@ -318,7 +320,6 @@ void player::serialize(JsonOut &json, bool save_contents) const
 
     // someday, npcs may drive
     json.member( "driving_recoil", int(driving_recoil) );
-    json.member( "in_vehicle", in_vehicle );
     json.member( "controlling_vehicle", controlling_vehicle );
 
     // shopping carts, furniture etc
@@ -412,7 +413,6 @@ void player::deserialize(JsonIn &jsin)
     data.read("backlog",backlog);
 
     data.read("driving_recoil",driving_recoil);
-    data.read("in_vehicle",in_vehicle);
     data.read("controlling_vehicle",controlling_vehicle);
 
     data.read("grab_point", grab_point);
