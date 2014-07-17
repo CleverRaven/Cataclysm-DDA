@@ -768,7 +768,7 @@ int monster::move_to(int x, int y, bool force)
         return 0;
     }
 
-	if (has_effect("beartrap") || has_effect("tied")) {
+	if (has_effect("beartrap") || (has_effect("tied") && !force)) {
         moves = 0;
         return 0;
     }
