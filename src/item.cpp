@@ -1297,6 +1297,36 @@ int item::price() const
     }
 
     int ret = type->price;
+    if( is_rotten ) {
+        // better price here calculation? No value at all?
+        ret = type->price / 10;
+    }
+    if( damage > 0 ) {
+        // maximal damage is 4, maximal reduction is 1/10 of the value.
+        ret -= ret * static_cast<double>( damage ) / 40;
+    }
+    if( curammo != nullptr && charges > 0 ) {
+        item tmp( curammo->id, 0 );
+        tmp.charges = charges;
+        ret += tmp.price();
+    }
+    if( type->is_ammo() ) {
+        const it_ammo* ammo = dynamic_cast<const it_ammo*>( type );
+        ret = ret * charges / static_cast<double>( ammo->count );
+    } else if( type->is_food() ) {
+        const it_comest* comest = dynamic_cast<const it_comest*>( type );
+        if( comest->charges > 1 || made_of( LIQUID ) ) {
+            ret = ret * charges * static_cast<double>( comest->charges );
+        }
+    }
+    if( is_tool() && curammo == nullptr ) {
+        // If the tool uses specific ammo (like gasoline) it is handled above.
+        const it_tool *itt = dynamic_cast<const it_tool*>( type );
+        if( itt->max_charges > 0 && itt->def_charges > 0 ) {
+            const double f = static_cast<double>( itt->def_charges ) / itt->max_charges;
+            ret = f * std::max<long>( 0, charges ) * ret;
+        }
+    }
     for (size_t i = 0; i < contents.size(); i++) {
         ret += contents[i].price();
     }

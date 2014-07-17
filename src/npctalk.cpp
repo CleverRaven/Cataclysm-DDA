@@ -2855,19 +2855,24 @@ void talk_function::start_trade(npc *p)
 std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
 {
  int you_have = g->u.charges_of(it);
- int item_cost = item(it, 0).price();
+ item tmp(it, 0);
+ int item_cost = tmp.price();
+ tmp.charges = you_have;
+ int total_cost = tmp.price();
  p->add_msg_if_player(m_good, _("Let's see what you've got..."));
  std::stringstream response;
  response << string_format(_("I'm willing to pay $%.2f per serving. You have "
                             "%d servings for a total of $%.2f.  No questions asked, here is your cash.")
-                            ,(double)item_cost/100 ,you_have, (double)(item_cost*you_have)/100);
+                            ,(double)item_cost/100 ,you_have, (double)total_cost/100);
  return response.str();
 }
 
 void talk_function::bulk_trade_accept(npc *p, itype_id it)
 {
  int you_have = g->u.charges_of(it);
- int total = item(it, 0).price()*you_have;
+ item tmp(it, 0);
+ tmp.charges = you_have;
+ int total = tmp.price();
  g->u.use_charges(it, you_have);
  g->u.cash += total;
  p->add_msg_if_player(m_good, _("Pleasure doing business!"));
