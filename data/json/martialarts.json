@@ -727,7 +727,7 @@
             {
                 "id" : "toad_static",
                 "name" : "Toad's Iron Skin",
-                "description" : "Gain +2 armor while standing still",
+                "description" : "Gain +4 armor while standing still",
                 "unarmed_allowed" : true,
                 "arm_bash": 4,
                 "arm_cut": 4
