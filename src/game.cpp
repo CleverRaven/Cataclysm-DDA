@@ -4436,6 +4436,7 @@ void game::debug()
     case 12:
         add_msg(m_info, _("Martial arts debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
+        u.add_martialart("style_brawling");
         u.add_martialart("style_karate");
         u.add_martialart("style_judo");
         u.add_martialart("style_aikido");
