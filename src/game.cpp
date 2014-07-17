@@ -1925,7 +1925,7 @@ void game::update_weather()
         weather = weatherGen.get_weather_conditions(w);
         temperature = w.temperature;
         g->lightning_active = false;
-        nextweather += 1; // Check weather each turn.
+        nextweather += 50; // Check weather each turn.
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
