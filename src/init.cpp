@@ -240,7 +240,6 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
             JsonIn jsin(iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
-            DebugLog() << file << ": " << e << "\n";
             throw file + ": " + e;
         }
     }

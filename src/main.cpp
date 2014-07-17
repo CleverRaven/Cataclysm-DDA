@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
     setlocale(LC_ALL, OPTIONS["USE_LANG"].getValue().c_str());
 #endif // LOCALIZE
     if (initscr() == NULL) { // Initialize ncurses
-        DebugLog() << "initscr failed!\n";
+        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
         return 1;
     }
     init_interface();
@@ -335,7 +335,7 @@ void exit_handler(int s) {
             ret = system("clear"); // Tell the terminal to clear itself
         #endif
         if (ret != 0) {
-            DebugLog() << "main.cpp:exit_handler(): system(\"clear\"): error returned\n";
+            DebugLog( D_ERROR, DC_ALL ) << "system(\"clear\"): error returned: " << ret;
         }
         deinitDebug();
 

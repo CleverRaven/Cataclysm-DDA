@@ -32,7 +32,7 @@
 #include "json.h"
 
 #include "debug.h"
-#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player.h

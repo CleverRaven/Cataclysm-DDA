@@ -484,7 +484,7 @@ WINDOW *curses_init(void)
             assure_dir_exist(FILENAMES["config_dir"]);
             std::ofstream OutStream(FILENAMES["fontdata"].c_str(), std::ofstream::binary);
             if(!OutStream.good()) {
-                DebugLog() << "Can't save user fontdata file.\n"
+                DebugLog( D_ERROR, DC_ALL ) << "Can't save user fontdata file.\n"
                 << "Check permissions for: " << FILENAMES["fontdata"].c_str();
                 return NULL;
             }
@@ -503,7 +503,7 @@ WINDOW *curses_init(void)
             OutStream << "\n";
             OutStream.close();
         } else {
-            DebugLog() << "Can't load fontdata files.\n"
+            DebugLog( D_ERROR, DC_ALL ) << "Can't load fontdata files.\n"
             << "Check permissions for:\n" << FILENAMES["legacy_fontdata"].c_str() << "\n"
             << FILENAMES["fontdata"].c_str() << "\n";
             return NULL;

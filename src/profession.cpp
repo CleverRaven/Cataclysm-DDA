@@ -81,7 +81,7 @@ void profession::load_profession(JsonObject &jsobj)
     }
 
     _all_profs[prof._ident] = prof;
-    //dout(D_INFO) << "Loaded profession: " << prof._name;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof._ident;
 }
 
 profession* profession::prof(std::string ident)

@@ -60,7 +60,7 @@ void Skill::load_skill(JsonObject &jsobj)
 
     Skill *sk = new Skill(skills.size(), ident, name, description, tags);
     skills.push_back(sk);
-    //dout(D_INFO) << "Loaded skill: " << name << "\n";
+    DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << name;
 }
 
 Skill* Skill::skill(std::string ident) {

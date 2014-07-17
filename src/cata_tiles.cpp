@@ -11,7 +11,7 @@
 
 #include "SDL2/SDL_image.h"
 
-#define dbg(x) dout((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 #define ITEM_HIGHLIGHT "highlight_item"
 

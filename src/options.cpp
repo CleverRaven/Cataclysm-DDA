@@ -1016,8 +1016,8 @@ void show_options(bool ingame)
 
             if(current_opt->is_hidden()) {
                 ++hidden_counter;
-                DebugLog() << "Hidden increment. Current: " << hidden_counter;
-                DebugLog() << "End iteration" << '\n';
+                DebugLog( D_INFO, DC_ALL ) << "Hidden increment. Current: " << hidden_counter;
+                DebugLog( D_INFO, DC_ALL ) << "End iteration" << '\n';
                 continue;
             }
 
@@ -1259,7 +1259,7 @@ void load_options()
             save_options();
             fin.open(FILENAMES["options"].c_str());
             if(!fin.is_open()) {
-                DebugLog() << "Could neither read nor create" << FILENAMES["options"].c_str() << "\n";
+                DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create" << FILENAMES["options"];
                 return;
             }
         } else {
@@ -1364,7 +1364,7 @@ std::string get_tileset_names(std::string dir_path)
         fin.open(it->c_str());
         if(!fin.is_open()) {
             fin.close();
-            DebugLog() << "\tCould not read ." << *it;
+            DebugLog( D_ERROR, DC_ALL ) << "Could not read " << *it;
             optionNames["deon"] = _("Deon's");          // just setting some standards
             optionNames["hoder"] = _("Hoder's");
             return defaultTilesets;
@@ -1376,14 +1376,10 @@ std::string get_tileset_names(std::string dir_path)
             std::string sOption;
             fin >> sOption;
 
-            //DebugLog() << "\tCurrent: " << sOption << " -- ";
-
             if(sOption == "") {
                 getline(fin, sOption);    // Empty line, chomp it
-                //DebugLog() << "Empty line, skipping\n";
             } else if(sOption[0] == '#') { // # indicates a comment
                 getline(fin, sOption);
-                //DebugLog() << "Comment line, skipping\n";
             } else {
                 if (sOption.find("NAME") != std::string::npos) {
                     tileset_name = "";

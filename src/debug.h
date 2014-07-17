@@ -1,6 +1,44 @@
 #ifndef DEBUG_H_1YCYLZSS
 #define DEBUG_H_1YCYLZSS
 
+/**
+ *      debugmsg(msg, ...)
+ * varg-style functions: the first argument is the format (see printf),
+ * the other optional arguments must match that format.
+ * The message is formatted and printed on screen to player, they must
+ * acknowledge the message by pressing SPACE. This can be quite annoying, so
+ * avoid this function if possible.
+ * The message is also logged with DebugLog, a separate call to DebugLog
+ * is not needed.
+ *
+ *      DebugLog
+ * The main debugging system. It uses debug levels (how critical/important
+ * the message is) and debug classes (which part of the code it comes from,
+ * e.g. mapgen, SDL, npcs). This allows disabling debug classes and levels
+ * (e.g. only write SDL messages, but no npc or map related ones).
+ * It returns a reference to an outputs stream. Simply write your message into
+ * that stream (using the << operators).
+ * DebugLog always returns a stream that starts on a new line. Don't add a
+ * newline at the end of your debug message.
+ * If the specific debug level or class have been disabled, the message is
+ * actually discarded, otherwise it is written to a log file (FILENAMES["debug"]).
+ * If a single source file contains mostly messages for the same debug class
+ * (e.g. mapgen.cpp), create and use the macro dbg.
+ *
+ *      dbg
+ * Usually a single source contains only debug messages for a single debug class
+ * (e.g. mapgen.cpp contains only messages for D_MAP_GEN, npcmove.cpp only D_NPC).
+ * Those files contain a macro at top:
+#define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
+ * It allows to call the debug system and just supply the debug level, the debug
+ * class is automatically inserted as it is the same for the whole file. Also this
+ * adds the file name and the line of the statement to the debug message.
+ * This can be replicated in any source file, just copy the above macro and change
+ * D_NPC to the debug class to use. Don't add this macro to a header file
+ * as the debug class is source file specific.
+ * As dbg calls DebugLog, it returns the stream, its usage is the same.
+ */
+
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
 #include <iostream>
@@ -9,12 +47,14 @@
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
 
-// classy
+/**
+ * Debug message of level D_ERROR and class D_MAIN, also includes the source
+ * file name and line, uses varg style arguments, teh first argument must be
+ * a printf style format string.
+ */
 #define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __VA_ARGS__)
 
-/**
- * Debug message of level D_ERROR and class D_MAIN
- */
+// Don't use this, use debugmsg instead.
 void realDebugmsg( const char *name, const char *line, const char *mes, ... );
 
 // Enumerations                                                     {{{1
@@ -78,7 +118,8 @@ void limitDebugClass( int );
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------
 
-std::ostream &dout( DebugLevel = DL_ALL, DebugClass = DC_ALL );
+// See documentation at the top.
+std::ostream &DebugLog( DebugLevel, DebugClass );
 
 // OStream operators                                                {{{1
 // ---------------------------------------------------------------------
@@ -101,11 +142,6 @@ std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
 
     return out;
 }
-
-#ifndef DebugLog
-#define DebugLog dout
-#endif
-
 
 // vim:tw=72:sw=1:fdm=marker:fdl=0:
 #endif /* end of include guard: DEBUG_H_1YCYLZSS */

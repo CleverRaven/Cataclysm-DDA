@@ -12,7 +12,7 @@
 #include <fstream>
 #include <sstream>
 
-#define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 mapbuffer MAPBUFFER;
 

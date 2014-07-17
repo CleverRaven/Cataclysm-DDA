@@ -50,13 +50,13 @@ void realDebugmsg( const char *filename, const char *line, const char *mes, ... 
 
 void limitDebugLevel( int level_bitmask )
 {
-    dout() << "Set debug level to: " << level_bitmask;
+    DebugLog( DL_ALL, DC_ALL ) << "Set debug level to: " << level_bitmask;
     debugLevel = level_bitmask;
 }
 
 void limitDebugClass( int class_bitmask )
 {
-    dout() << "Set debug class to: " << class_bitmask;
+    DebugLog( DL_ALL, DC_ALL ) << "Set debug class to: " << class_bitmask;
     debugClass = class_bitmask;
 }
 
@@ -244,7 +244,7 @@ std::ofstream &DebugFile::currentTime()
     return file;
 }
 
-std::ostream &dout( DebugLevel lev, DebugClass cl )
+std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
