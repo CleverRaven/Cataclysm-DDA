@@ -1000,7 +1000,7 @@
         "speed_mult" : 0.5,
         "bash_mult" : 1.5,
         "messages" : [
-            "You dodge the attack and swipe at %s'exposed flank!",
+            "You dodge the attack and swipe at %s's exposed flank!",
             "<npcname> dodges and catches %s exposed!"
         ]
     },{
