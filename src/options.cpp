@@ -108,7 +108,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "int";
-    
+
     hide = opt_hide;
 
     if (iMinIn > iMaxIn) {
@@ -1021,7 +1021,7 @@ void show_options(bool ingame)
                 continue;
             }
 
-            if (current_opt->getMenuText() == "") { 
+            if (current_opt->getMenuText() == "") {
                 if (was_blank_line) {
                     blanklines_counter++;
                 }
@@ -1059,7 +1059,7 @@ void show_options(bool ingame)
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
-        for (int i = 0; i < (ssize_t)vPages.size(); i++) {
+        for (int i = 0; i < (int)vPages.size(); i++) {
             if (!mPageItems[i].empty()) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
