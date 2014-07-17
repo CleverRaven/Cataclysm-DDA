@@ -368,6 +368,9 @@ void npc::execute_action(npc_action action, int target)
                     // TODO: replace extra hop distance with finding the correct door
                     //       Hop in the last few squares is mostly to avoid player clash
                     if (path.size() <= 2) {
+                        if( in_vehicle ) {
+                            g->m.unboard_vehicle( posx, posy );
+                        }
                         g->m.board_vehicle(px, py, this);
                         move_pause();
                     } else {
@@ -1074,6 +1077,11 @@ void npc::move_to(int x, int y)
                 if (!this->avoid_trap(tr, x, y)) {
                     tr->trigger(this, x, y);
                 }
+            }
+            int part;
+            vehicle *veh = g->m.veh_at( posx, posy, part );
+            if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+                g->m.board_vehicle( posx, posy, this );
             }
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;

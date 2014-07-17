@@ -51,7 +51,7 @@
         "type" : "ammunition_type",
         "id" : "pebble",
         "name" : "pebbles",
-        "default" : ""
+        "default" : "pebbles"
     },
     {
         "type" : "ammunition_type",
