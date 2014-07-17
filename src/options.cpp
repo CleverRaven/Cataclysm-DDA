@@ -58,12 +58,14 @@ cOpt::cOpt()
 
 //string constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const std::string sItemsIn, std::string sDefaultIn)
+           const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "string";
+
+    hide = opt_hide;
 
     std::stringstream ssTemp(sItemsIn);
     std::string sItem;
@@ -83,12 +85,14 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //bool constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const bool bDefaultIn)
+           const bool bDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "bool";
+
+    hide = opt_hide;
 
     bDefault = bDefaultIn;
     bSet = bDefaultIn;
@@ -98,12 +102,14 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //int constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const int iMinIn, int iMaxIn, int iDefaultIn)
+           const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "int";
+    
+    hide = opt_hide;
 
     if (iMinIn > iMaxIn) {
         iMaxIn = iMinIn;
@@ -124,12 +130,14 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //float constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn)
+           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide=COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "float";
+
+    hide = opt_hide;
 
     if (fMinIn > fMaxIn) {
         fMaxIn = fMinIn;
@@ -149,13 +157,39 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
     setSortPos(sPageIn);
 }
 
+//helper functions
+bool cOpt::is_hidden()
+{
+    switch(hide)
+    {
+        case COPT_NO_HIDE:
+            return false;
+
+        case COPT_SDL_HIDE:
+#ifdef SDLTILES
+            return true;
+#else
+            return false;
+#endif
+
+        case COPT_CURSES_HIDE:
+#ifndef SDLTILES // If not defined. it's curses interface.
+            return true;
+#else
+            return false;
+#endif
+
+        default:
+            return false; // No hide on default
+    }
+}
+
 void cOpt::setSortPos(const std::string sPageIn)
 {
     mOptionsSort[sPageIn]++;
     iSortPos = mOptionsSort[sPageIn] - 1;
 }
 
-//helper functions
 int cOpt::getSortPos()
 {
     return iSortPos;
@@ -222,7 +256,7 @@ std::string cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string") {
         std::string sItems = "";
-        for (int i = 0; i < vItems.size(); i++) {
+        for (size_t i = 0; i < vItems.size(); i++) {
             if (sItems != "") {
                 sItems += _(", ");
             }
@@ -246,7 +280,7 @@ std::string cOpt::getDefaultText(const bool bTranslated)
 int cOpt::getItemPos(const std::string sSearch)
 {
     if (sType == "string") {
-        for (int i = 0; i < vItems.size(); i++) {
+        for (size_t i = 0; i < vItems.size(); i++) {
             if (vItems[i] == sSearch) {
                 return i;
             }
@@ -651,7 +685,7 @@ void initOptions()
 
     OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
                                       _("SDL ONLY: Enable input from joystick."),
-                                      true
+                                      true, COPT_CURSES_HIDE
                                      );
 
     //~ show mouse cursor
@@ -662,7 +696,7 @@ void initOptions()
     optionNames["hidekb"] = _("HideKB");
     OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
                                   _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
-                                  "show,hide,hidekb", "show"
+                                  "show,hide,hidekb", "show", COPT_CURSES_HIDE
                                  );
 
     ////////////////////////////GRAPHICS/////////////////////////
@@ -697,43 +731,43 @@ void initOptions()
 
     OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
                                  _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 80, 242, 80
+                                 80, 242, 80, COPT_CURSES_HIDE
                                 );
 
     OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
                                  _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 24, 187, 24
+                                 24, 187, 24, COPT_CURSES_HIDE
                                 );
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["USE_TILES"] = cOpt("graphics", _("Use tiles"),
                                 _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
-                                true
+                                true, COPT_CURSES_HIDE
                                );
 
     OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
                             _("Choose the tileset you want to use. Only applicable on SDL builds."),
-                            tileset_names, "hoder"
+                            tileset_names, "hoder", COPT_CURSES_HIDE
                            ); // populate the options dynamically
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
                                  _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
-                                 false
+                                 false, COPT_CURSES_HIDE
                                 );
 
     OPTIONS["SOFTWARE_RENDERING"] = cOpt("graphics", _("Software rendering"),
                                          _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
-                                         false
+                                         false, COPT_CURSES_HIDE
                                         );
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
                                    _("SDL ONLY: Adjust the volume of the music being played in the background."),
-                                   0, 200, 100
+                                   0, 200, 100, COPT_CURSES_HIDE
                                   );
 
     ////////////////////////////DEBUG////////////////////////////
@@ -969,35 +1003,54 @@ void show_options(bool ingame)
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
         //Draw options
-        int iBlankOffset = 0;
+        bool was_blank_line = false; // Is prev. line was blank linei?.
+        size_t hidden_counter = 0; // Counter of hidden options.
+        size_t blanklines_counter = 0; // Counter of double blank lines.
+        size_t iBlankOffset = 0; // Offset when blank line is printed.
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ?
                 mPageItems[iCurrentPage].size() : iContentHeight); i++) {
-            nc_color cLineColor = c_ltgreen;
 
-            if (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText() == "") {
-                iBlankOffset++;
+            int line_pos; // Current line position in window.
+            nc_color cLineColor = c_ltgreen;
+            cOpt *current_opt = &(cOPTIONS[mPageItems[iCurrentPage][i]]);
+
+            if(current_opt->is_hidden()) {
+                ++hidden_counter;
+                DebugLog() << "Hidden increment. Current: " << hidden_counter;
+                DebugLog() << "End iteration" << '\n';
                 continue;
             }
 
+            if (current_opt->getMenuText() == "") { 
+                if (was_blank_line) {
+                    blanklines_counter++;
+                }
+                iBlankOffset++;
+                was_blank_line = true;
+                continue;
+            }
+            was_blank_line = false;
+
+            line_pos = i - iStartPos - hidden_counter - blanklines_counter;
+
             sTemp.str("");
-            sTemp << i + 1 - iBlankOffset;
-            mvwprintz(w_options, i - iStartPos, 1, c_white, sTemp.str().c_str());
-            mvwprintz(w_options, i - iStartPos, 5, c_white, "");
+            sTemp << i + 1 - iBlankOffset - hidden_counter;
+            mvwprintz(w_options, line_pos, 1, c_white, sTemp.str().c_str());
+            mvwprintz(w_options, line_pos, 5, c_white, "");
 
             if (iCurrentLine == i) {
                 wprintz(w_options, c_yellow, ">> ");
             } else {
                 wprintz(w_options, c_yellow, "   ");
             }
-            wprintz(w_options, c_white, "%s",
-                    (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
+            wprintz(w_options, c_white, "%s", current_opt->getMenuText().c_str());
 
-            if (cOPTIONS[mPageItems[iCurrentPage][i]].getValue() == "false") {
+            if (current_opt->getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", (cOPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
+            mvwprintz(w_options, line_pos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
+                      cLineColor, "%s", current_opt->getValueName().c_str());
         }
 
         //Draw Scrollbar
@@ -1006,7 +1059,7 @@ void show_options(bool ingame)
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
-        for (unsigned i = 0; i < vPages.size(); i++) {
+        for (int i = 0; i < (ssize_t)vPages.size(); i++) {
             if (!mPageItems[i].empty()) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
