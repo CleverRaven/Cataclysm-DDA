@@ -126,15 +126,13 @@ void load_recipe(JsonObject &jsobj)
     jsarr = jsobj.get_array("skills_required");
     if (!jsarr.empty()) {
         // could be a single requirement, or multiple
-        try {
-            // try to parse as single requirement
-            requires_skills[jsarr.get_string(0)] = jsarr.get_int(1);
-        } catch (std::string e) {
-            // get_string or get_int failed, so assume array of arrays
+        if( jsarr.has_array(0) ) {
             while (jsarr.has_more()) {
                 JsonArray ja = jsarr.next_array();
                 requires_skills[ja.get_string(0)] = ja.get_int(1);
             }
+        } else {
+            requires_skills[jsarr.get_string(0)] = jsarr.get_int(1);
         }
     }
 
