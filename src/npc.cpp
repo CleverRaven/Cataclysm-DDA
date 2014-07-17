@@ -2123,17 +2123,7 @@ void npc::die(bool your_fault)
         }
     }
 
-    item my_body;
-    my_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn, name);
-    g->m.add_item_or_charges(posx, posy, my_body);
-    std::vector<item *> dump;
-    inv.dump(dump);
-    for (int i = 0; i < dump.size(); i++)
-        g->m.add_item_or_charges(posx, posy, *(dump[i]));
-    for (int i = 0; i < worn.size(); i++)
-        g->m.add_item_or_charges(posx, posy, worn[i]);
-    if (weapon.type->id != "null")
-        g->m.add_item_or_charges(posx, posy, weapon);
+    place_corpse();
 
     mission_type *type;
     for (int i = 0; i < g->active_missions.size(); i++) {
