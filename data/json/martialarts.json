@@ -9,9 +9,9 @@
         "type" : "martial_art",
         "id" : "style_brawling",
         "name" : "Brawling",
-        "description" : "You've started getting used to hand-to-creature fighting.  This isn't stylish or sporting, but it gets the job done.",
+        "description" : "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
         "arm_block" : -1,
-        "leg_block" : 6,
+        "leg_block" : 7,
         "techniques" : [
             "tec_brawl_feint",
             "tec_brawl_power",
@@ -729,19 +729,19 @@
                 "name" : "Toad's Iron Skin",
                 "description" : "Gain +2 armor while standing still",
                 "unarmed_allowed" : true,
-                "arm_bash": 2,
-                "arm_cut": 2
+                "arm_bash": 4,
+                "arm_cut": 4
             }
         ],
         "onmove_buffs": [
             {
                 "id" : "toad_armor_dissipate",
                 "name" : "Iron Skin Dissipation",
-                "description" : "Iron skin loses half its bonus per stack",
+                "description" : "Iron skin loses a quarter of its bonus per stack",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "max_stacks" : 2,
+                "buff_duration" : 4,
+                "max_stacks" : 4,
                 "arm_bash" : -1,
                 "arm_cut" : -1
             }
