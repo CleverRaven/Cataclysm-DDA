@@ -657,7 +657,7 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
 
 int monster::bash_at(int x, int y) {
 
-	if (has_effect("zlave")) return 1;
+	if (has_effect("zlave")) return 0;
 
     //Hallucinations can't bash stuff.
     if(is_hallucination()) {
@@ -707,7 +707,7 @@ int monster::bash_at(int x, int y) {
 
 int monster::attack_at(int x, int y) {
 
-	if (has_effect("zlave")) return 1;
+	if (has_effect("zlave")) return 0;
 
     int mondex = g->mon_at(x, y);
     int npcdex = g->npc_at(x, y);

@@ -325,7 +325,7 @@ nc_color monster::color_with_effects()
  if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied"))
   ret = hilite(ret);
  if (has_effect("zlave"))
-  ret = magenta_background(ret);
+  ret = white_background(ret);
  if (has_effect("onfire"))
   ret = red_background(ret);
  return ret;

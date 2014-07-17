@@ -8474,11 +8474,11 @@ bool zlave_menu(monster *z)
 
         z->add_item(*it);
 
+		add_msg(_("You're wore the %s on your zlave."), it->display_name().c_str());
+
         g->u.i_rem(pos);
 
         z->add_effect("has_bag", 1, 1, true);
-
-        add_msg(_("You're wore the %s on your zlave."), it->display_name().c_str());
 
         g->u.moves -= 200;
 
