@@ -179,6 +179,14 @@ bool cOpt::is_hidden()
             return false;
 #endif
 
+        case COPT_POSIX_CURSES_HIDE:
+// Check if we on windows and using wincuses.
+#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
+        return false;
+#else
+        return true;
+#endif
+
         default:
             return false; // No hide on default
     }
@@ -731,12 +739,12 @@ void initOptions()
 
     OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
                                  _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 80, 242, 80, COPT_CURSES_HIDE
+                                 80, 242, 80, COPT_POSIX_CURSES_HIDE
                                 );
 
     OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
                                  _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 24, 187, 24, COPT_CURSES_HIDE
+                                 24, 187, 24, COPT_POSIX_CURSES_HIDE
                                 );
 
     mOptionsSort["graphics"]++;
