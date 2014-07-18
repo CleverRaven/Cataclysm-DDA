@@ -371,4 +371,5 @@ void DynamicDataLoader::check_consistency() {
     check_constructions();
     profession::check_definitions();
     check_martialarts();
+    ammunition_type::check_consistency();
 }
