@@ -6377,8 +6377,7 @@ int iuse::knife(player *p, item *it, bool t)
         pos = g->inv(_("Chop up what?"));
     } else if (choice == carve_writing) {
         pos = g->inv(_("Carve writing on what?"));
-	}
-	else if (choice == make_slave) {
+	} else if (choice == make_slave) {
 		make_zlave(p);
 		return 0;
 	}

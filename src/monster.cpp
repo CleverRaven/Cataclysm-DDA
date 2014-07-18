@@ -235,10 +235,10 @@ void monster::get_Attitude(nc_color &color, std::string &text)
             color = c_red;
             text = _("Hostile! ");
             break;
-		case MATT_ZLAVE:
-			color = c_green;
-			text = _("Zlave ");
-			break;
+        case MATT_ZLAVE:
+            color = c_green;
+            text = _("Zlave ");
+            break;
         default:
             color = h_red;
             text = "BUG: Behavior unnamed. (monster.cpp:get_Attitude)";
