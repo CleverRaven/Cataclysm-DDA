@@ -391,6 +391,8 @@
 		<Unit filename="src/profession.cpp" />
 		<Unit filename="src/profession.h" />
 		<Unit filename="src/ranged.cpp" />
+		<Unit filename="src/requirements.cpp" />
+		<Unit filename="src/requirements.h" />
 		<Unit filename="src/resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
