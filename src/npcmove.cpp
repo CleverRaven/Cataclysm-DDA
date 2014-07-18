@@ -7,7 +7,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 
-#define dbg(x) dout((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
 
 // A list of items used for escape, in order from least to most valuable

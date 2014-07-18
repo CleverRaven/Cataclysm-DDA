@@ -1,6 +1,7 @@
 #include "ui.h"
 #include "catacharset.h"
 #include "output.h"
+#include "debug.h"
 #include <sstream>
 #include <stdlib.h>
 #include <algorithm>

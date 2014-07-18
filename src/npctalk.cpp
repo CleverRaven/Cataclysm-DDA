@@ -110,7 +110,7 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 
 #define SUCCESS_MISSION(type) ret.back().miss = type
 
-#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 std::string dynamic_line(talk_topic topic, npc *p);
 std::vector<talk_response> gen_responses(talk_topic topic, npc *p);

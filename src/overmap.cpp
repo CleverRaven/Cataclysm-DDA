@@ -22,7 +22,7 @@
 #include <queue>
 #include "mapdata.h"
 #include "mapgen.h"
-#define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250

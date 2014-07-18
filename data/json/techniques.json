@@ -144,6 +144,19 @@
         "stun_dur" : 2
     },{
         "type" : "technique",
+        "id" : "tec_counter",
+        "name" : "Counterattack",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "block_counter": true,
+        "dodge_counter": true,
+        "speed_mult" : 0.75,
+        "messages" : [
+            "You counter-attack %s",
+            "<npcname> counter-attacks %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "tec_feint",
         "name" : "Feint",
         "unarmed_allowed" : true,
@@ -602,6 +615,19 @@
         ]
     },{
         "type" : "technique",
+        "id" : "tec_zuiquan_counter",
+        "name" : "Drunk counter",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "dodge_counter" : true,
+        "speed_mult" : 0.75,
+        "bashing_mult" : 1.25,
+        "messages" : [
+            "You lurch, and your wild swing hits %s",
+            "<npcname> lurches, and hits %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "tec_fencing_lunge",
         "name" : "Fencing lunge",
         "min_melee" : 2,
@@ -966,6 +992,19 @@
         ]
     },{
         "type" : "technique",
+        "id" : "tec_leopard_counter",
+        "name" : "Leopard Foresight",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "dodge_counter" : true,
+        "speed_mult" : 0.5,
+        "bash_mult" : 1.5,
+        "messages" : [
+            "You dodge the attack and swipe at %s's exposed flank!",
+            "<npcname> dodges and catches %s exposed!"
+        ]
+    },{
+        "type" : "technique",
         "id" : "tec_dragon_grab",
         "name" : "Dragon Snatch",
         "min_unarmed" : 4,
@@ -973,6 +1012,20 @@
         "messages" : [
             "You grab and knee %s!",
             "<npcname> grabs and knees %s!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_dragon_counter",
+        "name" : "Dragon's Vortex",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "block_counter" : true,
+        "dodge_counter" : true,
+        "speed_mult" : 0.7,
+        "stun_dur" : 2,
+        "messages" : [
+            "You catch the attack and send %s spinning!",
+            "<npcname> catches ans spins %s!"
         ]
     },{
         "type" : "technique",
@@ -1034,5 +1087,55 @@
             "<npcname> hand-pecks %s"
         ],
         "stun_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "tec_brawl_feint",
+        "name" : "Feint",
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
+        "messages" : [
+            "You fake a strike at %s",
+            "<npcname> feints at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_brawl_power",
+        "name" : "Power Hit",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "knockback_dist" : 1,
+        "messages" : [
+            "You send %s reeling",
+            "<npcname> sends %s reeling"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_brawl_counter",
+        "name" : "Hit Them Back",
+        "min_unarmed" : 5,
+        "unarmed_allowed" : true,
+        "block_counter": true,
+        "speed_mult" : 0.66,
+        "messages" : [
+            "You catch %s's attack, and hit back!",
+            "<npcname> catches %s, and counters!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_brawl_trip",
+        "name" : "Trip",
+        "min_unarmed" : 5,
+        "unarmed_allowed" : true,
+        "down_dur" : 2,
+        "messages" : [
+            "You trip %s",
+            "<npcname> trips %s"
+        ]
     }
 ]

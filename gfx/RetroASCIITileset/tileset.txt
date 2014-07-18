@@ -1,9 +1,9 @@
-#RETRO DAYS TILESET
+#RETRO ASCII TILESET
 #Name of the tileset
-NAME: retrodays
+NAME: retroascii
 #Viewing (Option) name of the tileset
-VIEW: RetroDays
+VIEW: RetroASCII
 #JSON Path - Default of gfx/tile_config.json
-JSON: RetroDaysTileset/tile_config.json
+JSON: RetroASCIITileset/tile_config.json
 #Tileset Path - Default of gfx/tinytile.png
-TILESET: RetroDaysTileset/retrodaystiles.png
+TILESET: RetroASCIITileset/retroasciitiles.png

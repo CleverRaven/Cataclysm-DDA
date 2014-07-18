@@ -66,7 +66,7 @@
 #include <tchar.h>
 #endif
 
-#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
 
@@ -3713,9 +3713,9 @@ bool game::is_game_over()
         }
         std::stringstream playerfile;
         playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-        DebugLog() << "Unlinking player file: <" << playerfile.str() << "> -- ";
+        dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
         bool ok = (unlink(playerfile.str().c_str()) == 0);
-        DebugLog() << (ok ? "SUCCESS" : "FAIL") << "\n";
+        dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
         return true;
     }
     if (uquit != QUIT_NO) {
@@ -3729,9 +3729,9 @@ bool game::is_game_over()
             u.place_corpse();
             std::stringstream playerfile;
             playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-            DebugLog() << "Unlinking player file: <" << playerfile.str() << "> -- ";
+            dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
             bool ok = (unlink(playerfile.str().c_str()) == 0);
-            DebugLog() << (ok ? "SUCCESS" : "FAIL") << "\n";
+            dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
             uquit = QUIT_DIED;
             return true;
         }
@@ -4408,6 +4408,7 @@ void game::debug()
     case 12:
         add_msg(m_info, _("Martial arts debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
+        u.add_martialart("style_brawling");
         u.add_martialart("style_karate");
         u.add_martialart("style_judo");
         u.add_martialart("style_aikido");
@@ -9035,7 +9036,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         bNewWindow = true;
     }
 
-    DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
+    dbg( D_PEDANTIC_INFO ) << ": calling handle_input()";
 
     std::string action;
     input_context ctxt("LOOK");

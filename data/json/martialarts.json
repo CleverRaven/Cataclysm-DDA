@@ -4,15 +4,20 @@
         "id" : "style_none",
         "name" : "No style",
         "description" : "Not a martial art, this is just plain old punching and kicking.",
-        "arm_block" : -1,
-        "leg_block" : -1
+        "arm_block" : 1
     },{
         "type" : "martial_art",
         "id" : "style_brawling",
         "name" : "Brawling",
-        "description" : "Not a martial art, this is just plain old punching and kicking.",
+        "description" : "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
         "arm_block" : -1,
-        "leg_block" : -1
+        "leg_block" : 7,
+        "techniques" : [
+            "tec_brawl_feint",
+            "tec_brawl_power",
+            "tec_brawl_trip",
+            "tec_brawl_counter"
+        ]
     },{
         "type" : "martial_art",
         "id" : "style_karate",
@@ -341,7 +346,7 @@
         ],
         "techniques" : [
             "tec_zuiquan_feint",
-            "tec_counter"
+            "tec_zuiquan_counter"
         ]
     },{
         "type" : "martial_art",
@@ -550,7 +555,7 @@
                       "description" : "+2 Dodge",
                       "unarmed_allowed" : true,
                       "min_unarmed" : 2,
-                      "buff_duration" : 1,
+                      "buff_duration" : 2,
                       "dodge" : 2
                   }
         ],
@@ -578,17 +583,17 @@
             {
                 "id" : "dragon_move_buff",
                 "name" : "Dragon's Flight",
-                "description" : "+2 Acc/Dam",
+                "description" : "+2 Accuracy & Damage",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
-                "buff_duration" : 1,
+                "buff_duration" : 2,
                 "hit" : 2,
                 "bash" : 2
             }
         ],
         "techniques" : [
             "tec_dragon_grab",
-            "tec_counter",
+            "tec_dragon_counter",
             "tec_dragon_sweep",
             "tec_dragon_brutal"
         ]
@@ -610,17 +615,17 @@
         "onmove_buffs" : [
             {
                 "id" : "leopard_move_buff",
-                "name" : "Leopard Stalk",
+                "name" : "Leopard's Stalk",
                 "description" : "+2 Accuracy",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
-                "buff_duration" : 1,
+                "buff_duration" : 2,
                 "hit" : 2
             }
         ],
         "techniques" : [
             "tec_leopard_rapid",
-            "tec_counter",
+            "tec_leopard_counter",
             "tec_leopard_precise"
         ]
     },{
@@ -722,21 +727,22 @@
             {
                 "id" : "toad_static",
                 "name" : "Toad's Iron Skin",
-                "description" : "Gain +2 armor while standing still",
+                "description" : "Gain +3 armor while standing still",
+                "//" : "FWIW, this is the same amount of armor provided by bionic plating.",
                 "unarmed_allowed" : true,
-                "arm_bash": 2,
-                "arm_cut": 2
+                "arm_bash": 3,
+                "arm_cut": 3
             }
         ],
         "onmove_buffs": [
             {
                 "id" : "toad_armor_dissipate",
                 "name" : "Iron Skin Dissipation",
-                "description" : "Iron skin loses half its bonus per stack",
+                "description" : "Iron Skin softens when you move!",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "max_stacks" : 2,
+                "buff_duration" : 3,
+                "max_stacks" : 3,
                 "arm_bash" : -1,
                 "arm_cut" : -1
             }

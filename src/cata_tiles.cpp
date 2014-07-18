@@ -1,6 +1,3 @@
-
-#include "veh_type.h"
-
 #if (defined SDLTILES)
 #include <algorithm>
 #include "cata_tiles.h"
@@ -9,9 +6,12 @@
 #include "path_info.h"
 #include "monstergenerator.h"
 #include "item_factory.h"
+#include "veh_type.h"
 #include <fstream>
 
 #include "SDL2/SDL_image.h"
+
+#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 #define ITEM_HIGHLIGHT "highlight_item"
 
@@ -89,18 +89,17 @@ void cata_tiles::init(std::string load_file_path)
     // send this information to old init to avoid redundant code
     load_tilejson(json_path, tileset_path);
 }
+
 void cata_tiles::reinit(std::string load_file_path)
 {
     clear_buffer();
     clear();
-    std::string json_path, tileset_path;
-    get_tile_information(load_file_path, json_path, tileset_path);
-    load_tilejson(json_path, tileset_path);
+    init(load_file_path);
 }
 
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
-    DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
+    dbg( D_INFO ) << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]";
     const std::string filename = "tileset.txt";                 // tileset-information-file
     const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
     const std::string default_tileset = FILENAMES["defaulttilepng"];
@@ -113,7 +112,7 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
         fin.open(it->c_str());
         if(!fin.is_open()) {
             fin.close();
-            DebugLog() << "\tCould not read ." << *it << " -- Setting to default values!\n";
+            dbg( D_ERROR ) << "Could not read " << *it << " -- Setting to default values!";
             json_path = default_json;
             tileset_path = default_tileset;
             return;
@@ -141,11 +140,11 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
                 } else if (sOption.find("JSON") != std::string::npos) {
                     fin >> json_path;
                     json_path = FILENAMES["gfxdir"] + json_path;
-                    DebugLog() << "\tJSON path set to [" << json_path << "].\n";
+                    dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
                 } else if (sOption.find("TILESET") != std::string::npos) {
                     fin >> tileset_path;
                     tileset_path = FILENAMES["gfxdir"] + tileset_path;
-                    DebugLog() << "\tTILESET path set to [" << tileset_path << "].\n";
+                    dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
                 }
             }
         }
@@ -154,11 +153,11 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
     if (json_path == "") {
         json_path = default_json;
-        DebugLog() << "\tJSON set to default [" << json_path << "].\n";
+        dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
     }
     if (tileset_path == "") {
         tileset_path = default_tileset;
-        DebugLog() << "\tTILESET set to default [" << tileset_path << "].\n";
+        dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
     }
 }
 
@@ -168,10 +167,7 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
     SDL_Surface *tile_atlas = IMG_Load(path.c_str());
 
     if(!tile_atlas) {
-        std::cerr << "Could not locate tileset file at " << path << std::endl;
-        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
-        // TODO: run without tileset
-        return 0;
+        throw std::string("Could not load tileset image at ") + path + ", error: " + IMG_GetError();
     }
 
         /** get dimensions of the atlas image */
@@ -196,7 +192,12 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
                 source_rect.y = y;
 
                 SDL_Surface *tile_surf = create_tile_surface();
-                SDL_BlitSurface(tile_atlas, &source_rect, tile_surf, &dest_rect);
+                if( tile_surf == nullptr ) {
+                    continue;
+                }
+                if( SDL_BlitSurface( tile_atlas, &source_rect, tile_surf, &dest_rect ) != 0 ) {
+                    dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+                }
                 if (R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255) {
                     Uint32 key = SDL_MapRGB(tile_surf->format, 0,0,0);
                     SDL_SetColorKey(tile_surf, SDL_TRUE, key);
@@ -204,15 +205,20 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
                 }
 
                 SDL_Texture *tile_tex = SDL_CreateTextureFromSurface(renderer,tile_surf);
+                if( tile_tex == nullptr ) {
+                    dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
+                }
 
                 SDL_FreeSurface(tile_surf);
 
+                if( tile_tex != nullptr ) {
                 tile_values.push_back(tile_tex);
                 tilecount++;
+                }
             }
         }
 
-        DebugLog() << "Tiles Created: " << tilecount << "\n";
+        dbg( D_INFO ) << "Tiles Created: " << tilecount;
         SDL_FreeSurface(tile_atlas);
         return tilecount;
 }
@@ -227,23 +233,17 @@ void cata_tiles::set_draw_scale(int scale) {
 
 void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 {
-    DebugLog() << "Attempting to Load JSON file\n";
+    dbg( D_INFO ) << "Attempting to Load JSON file " << path;
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
-        //throw (std::string)"ERROR: " + path + (std::string)" could not be read.";
-        DebugLog() << (std::string)"ERROR: " + path + (std::string)" could not be read.\n";
-        throw std::string("failed to open tile info json");
+        throw std::string("failed to open tile info json: ") + path;
     }
 
-    try {
         load_tilejson_from_file( config_file, image_path );
         if (tile_ids.count("unknown") == 0) {
             debugmsg("The tileset you're using has no 'unknown' tile defined!");
         }
-    } catch (std::string e) {
-        debugmsg("%s: %s", path.c_str(), e.c_str());
-    }
 }
 
 void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &image_path)
@@ -254,7 +254,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
 
     /** 1) Make sure that the loaded file has the "tile_info" section */
     if (!config.has_member("tile_info")) {
-        throw (std::string)"ERROR: \"tile_info\" missing\n";
+        config.throw_error( "\"tile_info\" missing" );
     }
 
     JsonArray info = config.get_array("tile_info");
@@ -289,7 +289,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
                 B = tra.get_int("B");
             }
             // First load the tileset image to get the number of available tiles.
-            DebugLog() << "Attempting to Load Tileset file\n";
+            dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
             const int newsize = load_tileset(tileset_image_path, R, G, B);
             // Now load the tile definitions for the loaded tileset image.
             load_tilejson_from_file(tile_part_def, offset, newsize);
@@ -302,7 +302,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         }
     } else {
         // old system, no tile file path entry, only one array of tiles
-        DebugLog() << "Attempting to Load Tileset file\n";
+        dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
     }
@@ -322,7 +322,7 @@ void cata_tiles::add_ascii_subtile(tile_type *curr_tile, const std::string &t_id
 void cata_tiles::load_ascii_tilejson_from_file(JsonObject &config, int offset, int size)
 {
     if (!config.has_member("ascii")) {
-        config.throw_error("ERROR: \"ascii\" section missing", "ascii");
+        config.throw_error( "\"ascii\" section missing" );
     }
     JsonArray ascii = config.get_array("ascii");
     while (ascii.has_more()) {
@@ -439,7 +439,7 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
 void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int size)
 {
     if (!config.has_member("tiles")) {
-        throw (std::string)"ERROR: \"tiles\" section missing\n";
+        config.throw_error( "\"tiles\" section missing" );
     }
 
     JsonArray tiles = config.get_array("tiles");
@@ -467,7 +467,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
         curr_tile->multitile = t_multi;
         curr_tile->rotates = t_rota;
     }
-    DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size() << "\n";
+    dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size();
 }
 
 tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
@@ -760,7 +760,6 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         if (std::find(display_subtiles.begin(), display_subtiles.end(), multitile_keys[subtile]) != display_subtiles.end()) {
             // append subtile name to tile and re-find display_tile
             const std::string new_id = id + "_" + multitile_keys[subtile];
-            //DebugLog() << "<"<< id << ">\n";
             return draw_from_id_string(new_id, x, y, -1, rota);
         }
     }
@@ -793,39 +792,45 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     destination.h = tile_height;
 
     // blit background first : always non-rotated
-    if (bg >= 0 && bg < tile_values.size()) {
+    if( bg >= 0 && static_cast<size_t>( bg ) < tile_values.size() ) {
         SDL_Texture *bg_tex = tile_values[bg];
-        SDL_RenderCopyEx(renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE );
+        if( SDL_RenderCopyEx( renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE ) != 0 ) {
+            dbg( D_ERROR ) << "SDL_RenderCopyEx(bg) failed: " << SDL_GetError();
+        }
     }
 
+    int ret = 0;
     // blit foreground based on rotation
     if (rota == 0) {
-        if (fg >= 0 && fg < tile_values.size()) {
+        if (fg >= 0 && static_cast<size_t>( fg ) < tile_values.size()) {
             SDL_Texture *fg_tex = tile_values[fg];
-            SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE);
+            ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE );
         }
     } else {
-        if (fg >= 0 && fg < tile_values.size()) {
+        if (fg >= 0 && static_cast<size_t>( fg ) < tile_values.size()) {
             SDL_Texture *fg_tex = tile_values[fg];
 
             if(rota == 1) {
 #if (defined _WIN32 || defined WINDOWS)
                 destination.y -= 1;
 #endif
-                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
+                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
                     -90, NULL, SDL_FLIP_NONE );
             } else if(rota == 2) {
                 //flip rather then rotate here
-                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
-                    0, NULL, (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL) );
+                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                    0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
             } else { //rota == 3
 #if (defined _WIN32 || defined WINDOWS)
                 destination.x -= 1;
 #endif
-                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
+                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
                     90, NULL, SDL_FLIP_NONE );
             }
         }
+    }
+    if( ret != 0 ) {
+        dbg( D_ERROR ) << "SDL_RenderCopyEx(fg) failed: " << SDL_GetError();
     }
 
     return true;
@@ -850,6 +855,8 @@ bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
         case BOOMER_DARK:
             light_name = "lighting_boomered_dark";
             break;
+        case CLEAR: // Actually handled by the caller.
+            return false;
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
@@ -1125,6 +1132,9 @@ SDL_Surface *cata_tiles::create_tile_surface()
     #else
         surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
     #endif
+    if( surface == nullptr ) {
+        dbg( D_ERROR ) << "Failed to create surface: " << SDL_GetError();
+    }
     return surface;
 }
 
@@ -1136,15 +1146,23 @@ void cata_tiles::create_default_item_highlight()
     int index = tile_values.size();
 
     SDL_Surface *surface = create_tile_surface();
+    if( surface == nullptr ) {
+        return;
+    }
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if( texture == nullptr ) {
+        dbg( D_ERROR ) << "Failed to create texture: " << SDL_GetError();
+    }
     SDL_FreeSurface(surface);
 
+    if( texture != nullptr ) {
     tile_values.push_back(texture);
     tile_type *type = new tile_type;
     type->fg = index;
     type->bg = -1;
     tile_ids[key] = type;
+    }
 }
 
 /* Animation Functions */

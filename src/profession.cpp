@@ -4,7 +4,7 @@
 
 #include "profession.h"
 
-#include "output.h" //debugmsg
+#include "debug.h"
 #include "json.h"
 #include "player.h"
 #include "item_factory.h"
@@ -81,7 +81,7 @@ void profession::load_profession(JsonObject &jsobj)
     }
 
     _all_profs[prof._ident] = prof;
-    //dout(D_INFO) << "Loaded profession: " << prof._name;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof._ident;
 }
 
 profession* profession::prof(std::string ident)

@@ -2,6 +2,7 @@
 #include "game.h"
 #include "mapdata.h"
 #include "output.h"
+#include "debug.h"
 #include "options.h"
 #include "rng.h"
 #include "line.h"
@@ -2309,8 +2310,8 @@ int iuse::sew(player *p, item *it, bool)
         return 0;
     }
 
-    std::vector<component> comps;
-    comps.push_back(component(repair_item, items_needed));
+    std::vector<item_comp> comps;
+    comps.push_back(item_comp(repair_item, items_needed));
     comps.back().available = true;
 
     if (fix->damage > 0) {
@@ -3120,8 +3121,8 @@ int iuse::solder_weld(player *p, item *it, bool)
                 return 0;
             }
 
-            std::vector<component> comps;
-            comps.push_back(component(repair_item, items_needed));
+            std::vector<item_comp> comps;
+            comps.push_back(item_comp(repair_item, items_needed));
             comps.back().available = true;
 
             if (fix->damage > 0) {

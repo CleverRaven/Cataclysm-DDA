@@ -3,6 +3,7 @@
 #include "init.h"
 #include "item_factory.h"
 #include "game_constants.h"
+#include "debug.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;

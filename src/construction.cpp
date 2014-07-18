@@ -200,7 +200,7 @@ void construction_menu()
             mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
             // Print stages and their requirement
-            int posx = 33, posy = 1;
+            int posy = 1;
             std::vector<construction *> options = constructions_by_desc(current_desc);
             for(std::vector<construction *>::iterator it = options.begin();
                 it != options.end(); ++it) {
@@ -243,95 +243,9 @@ void construction_menu()
                 }
                 // display time needed
                 posy++;
-                mvwprintz(w_con, posy, 31, color_stage, ngettext("Time: %1d minute","Time: %1d minutes",current_con->time), current_con->time);
-                // Print tools
-                std::vector<bool> has_tool;
-                posy++;
-                posx = 33;
-                for (int i = 0; i < current_con->tools.size(); i++) {
-                    has_tool.push_back(false);
-                    mvwprintz(w_con, posy, posx - 2, c_white, ">");
-                    for (std::vector<component>::iterator curr_tool =
-                             current_con->tools[i].begin();
-                         curr_tool != current_con->tools[i].end(); ++curr_tool){
-                        itype_id tool = curr_tool->type;
-                        nc_color col = c_red;
-                        if (total_inv.has_tools(tool, 1)) {
-                            has_tool[i] = true;
-                            col = c_green;
-                        }
-                        int length = utf8_width(item_controller->find_template(tool)->nname(1).c_str());
-                        if( posx + length > FULL_SCREEN_WIDTH - 1 ) {
-                            posy++;
-                            posx = 33;
-                        }
-                        mvwprintz(w_con, posy, posx, col,
-                                  item_controller->find_template(tool)->nname(1).c_str());
-                        posx += length + 1; // + 1 for an empty space
-                        if (curr_tool != current_con->tools[i].end() - 1) { // "OR" if there's more
-                            if (posx > FULL_SCREEN_WIDTH - 3) {
-                                posy++;
-                                posx = 33;
-                            }
-                            mvwprintz(w_con, posy, posx, c_white, _("OR"));
-                            posx += utf8_width(_("OR")) + 1;
-                        }
-                    }
-                    posy ++;
-                    posx = 33;
-                }
-                // Print components
-                posx = 33;
-                std::vector<bool> has_component;
-                for( size_t i = 0; i < current_con->components.size(); ++i ) {
-                    has_component.push_back(false);
-                    mvwprintz(w_con, posy, posx - 2, c_white, ">");
-                    for(std::vector<component>::iterator comp =
-                            current_con->components[i].begin();
-                        comp != current_con->components[i].end(); ++comp) {
-                        nc_color col = c_red;
-                        if( ( item_controller->find_template(comp->type)->is_ammo() &&
-                              total_inv.has_charges(comp->type, comp->count)) ||
-                            (!item_controller->find_template(comp->type)->is_ammo() &&
-                             total_inv.has_components(comp->type, comp->count)) ) {
-                            has_component[i] = true;
-                            col = c_green;
-                        }
-                        if ( ((item_controller->find_template(comp->type)->id == "rope_30") ||
-                          (item_controller->find_template(comp->type)->id == "rope_6")) &&
-                          ((g->u.has_trait("WEB_ROPE")) && (g->u.hunger <= 300)) ) {
-                            has_component[i] = true;
-                            col = c_ltgreen; // Show that WEB_ROPE is on the job!
-                        }
-                        int length = utf8_width(item_controller->find_template(comp->type)->nname(comp->count).c_str());
-                        if (posx + length > FULL_SCREEN_WIDTH - 1) {
-                            posy++;
-                            posx = 33;
-                        }
-                        mvwprintz(w_con, posy, posx, col, "%d %s",
-                                  comp->count, item_controller->find_template(comp->type)->nname(comp->count).c_str());
-                        posx += length + 2; 
-                        // Add more space for the length of the count
-                        if (comp->count < 10) {
-                            posx++;
-                        } else if (comp->count < 100) {
-                            posx += 2;
-                        } else {
-                            posx += 3;
-                        }
-
-                        if (comp != current_con->components[i].end() - 1) { // "OR" if there's more
-                            if (posx > FULL_SCREEN_WIDTH - 3) {
-                                posy++;
-                                posx = 33;
-                            }
-                            mvwprintz(w_con, posy, posx, c_white, _("OR"));
-                            posx += utf8_width(_("OR")) + 1;
-                        }
-                    }
-                    posy ++;
-                    posx = 33;
-                }
+                posy += current_con->print_time(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage);
+                posy += current_con->print_tools(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
+                posy += current_con->print_components(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
             }
         } // Finished updating
 
@@ -427,69 +341,7 @@ static bool player_can_build(player &p, const inventory &pinv, construction *con
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
     }
-
-    bool has_tool = false;
-    bool has_component = false;
-    bool tools_required = false;
-    bool components_required = false;
-
-    for (std::vector<std::vector<component> >::iterator it = con->tools.begin();
-         it != con->tools.end(); ++it) {
-        if (!it->empty()) {
-            tools_required = true;
-            has_tool = false;
-            for (std::vector<component>::iterator tool = it->begin();
-                 tool != it->end(); ++tool) {
-                if (pinv.has_tools(tool->type, 1)) {
-                    has_tool = true;
-                    tool->available = 1;
-                } else {
-                    tool->available = -1;
-                }
-            }
-            if (!has_tool) { // missing one of the tools for this stage
-                break;
-            }
-        }
-    }
-
-    for (std::vector<std::vector<component> >::iterator it =
-             con->components.begin();
-         it != con->components.end(); ++it) {
-        if (!it->empty()) {
-            components_required = true;
-            has_component = false;
-            for (std::vector<component>::iterator comp = it->begin();
-                 comp != it->end(); ++comp) {
-                if // If you've Rope Webs, you can spin up the webbing to replace any amount of
-                      // rope your projects may require.  But you need to be somewhat nourished:
-                      // Famished or worse stops it.
-                      ( ((comp->type == "rope_30") ||
-                      (comp->type == "rope_6")) &&
-                      ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
-                      has_component = true;
-                      comp->available = 1;
-                } else if (( item_controller->find_template(comp->type)->is_ammo() &&
-                      pinv.has_charges(comp->type,
-                                       comp->count)    ) ||
-                    (!item_controller->find_template(comp->type)->is_ammo() &&
-                     (pinv.has_components (comp->type,
-                                      comp->count)) )) {
-                    has_component = true;
-                    comp->available = 1;
-
-                } else {
-                    comp->available = -1;
-                }
-            }
-            if (!has_component) { // missing one of the comps for this stage
-                break;
-            }
-        }
-    }
-
-    return (has_component || !components_required) &&
-           (has_tool || !tools_required);
+    return con->can_make_with_inventory( pinv );
 }
 
 static bool can_construct( const std::string &desc )
@@ -596,7 +448,7 @@ static void place_construction(const std::string &desc)
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(ACT_BUILD, con->time * 1000, con->id);
+    g->u.assign_activity(ACT_BUILD, con->time, con->id);
     g->u.activity.placement = choice;
 }
 
@@ -606,9 +458,7 @@ void complete_construction()
 
     g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
                    (int)(built->difficulty * 1.25) );
-    for (std::vector<std::vector<component> >::iterator it =
-             built->components.begin();
-         it != built->components.end(); ++it) {
+    for (auto it = built->components.begin(); it != built->components.end(); ++it) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
         if (!it->empty()) {
@@ -1446,36 +1296,14 @@ void construct::done_mine_upstair(point p)
 void load_construction(JsonObject &jo)
 {
     construction *con = new construction;
-    JsonArray temp;
 
     con->description = _(jo.get_string("description").c_str());
     con->skill = jo.get_string("skill", "carpentry");
     con->difficulty = jo.get_int("difficulty");
-    con->time = jo.get_int("time");
-
-    temp = jo.get_array("tools");
-    while (temp.has_more()) {
-        std::vector<component> tool_choices;
-        JsonArray ja = temp.next_array();
-        while (ja.has_more()) {
-            std::string name = ja.next_string();
-            tool_choices.push_back(component(name, 1));
-        }
-        con->tools.push_back(tool_choices);
-    }
-
-    temp = jo.get_array("components");
-    while (temp.has_more()) {
-        std::vector<component> comp_choices;
-        JsonArray ja = temp.next_array();
-        while (ja.has_more()) {
-            JsonArray comp = ja.next_array();
-            std::string name = comp.get_string(0);
-            int quant = comp.get_int(1);
-            comp_choices.push_back(component(name, quant));
-        }
-        con->components.push_back(comp_choices);
-    }
+    con->load(jo);
+    // constructions use different time units in json, this makes it compatible
+    // with recipes/requirements, TODO: should be changed in json
+    con->time *= 1000;
 
     con->pre_terrain = jo.get_string("pre_terrain", "");
     if (con->pre_terrain.size() > 1
@@ -1563,8 +1391,7 @@ void check_constructions()
         if (!c->skill.empty() && Skill::skill(c->skill) == NULL) {
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
-        check_component_list(c->tools, display_name);
-        check_component_list(c->components, display_name);
+        c->check_consistency(display_name);
         if (!c->pre_terrain.empty() && !c->pre_is_furniture && termap.count(c->pre_terrain) == 0) {
             debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
         }

@@ -1,5 +1,6 @@
 #include "creature_tracker.h"
 #include "output.h"
+#include "debug.h"
 
 Creature_tracker::Creature_tracker()
 {

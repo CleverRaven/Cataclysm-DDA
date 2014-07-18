@@ -2,7 +2,7 @@
 #include "item_group.h"
 #include "monstergenerator.h"
 #include "rng.h"
-#include "output.h"
+#include "debug.h"
 #include <map>
 #include <algorithm>
 #include <cassert>
