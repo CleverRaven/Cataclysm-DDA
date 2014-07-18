@@ -6227,13 +6227,16 @@ void make_zlave(player *p)
     std::vector<item> &items = g->m.i_at(p->posx, p->posy);
     std::vector<item *> corpses;
 
+    static const int full_pulp_threshold = 4;
+
     const int cancel = 0;
 
     for (int i = 0; i < items.size(); i++) {
         item &it = items[i];
 
-		//todo: attributes of humanoid-corpse?
-		if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->size == MS_MEDIUM) {
+        //todo: attributes of humanoid-corpse?
+        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->size == MS_MEDIUM &&
+            it.active && it.item_vars["zlave"] == "") {
             corpses.push_back(&it);
         }
     }
@@ -6259,23 +6262,70 @@ void make_zlave(player *p)
         return;
     }
 
-	//todo: rng(?, ?)
-	p->practice("firstaid", rng(3, 8));
-	p->practice("survival", rng(3, 8));
-	//todo: morale
+    //todo: morale
 
-	item* body = corpses[amenu.ret - 1];
-	mtype* mt = body->corpse;
-	//todo: correct formula
-	int hard = mt->difficulty * 2 + mt->hp / 10 + mt->speed / 10;
+    item *body = corpses[amenu.ret - 1];
+    mtype *mt = body->corpse;
 
-	body->item_vars["zlave"] = "zlave";
+    int hard = mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
+               (1 + mt->melee_cut) * (1 + mt->melee_sides);
+    int skills = p->skillLevel("survival") * p->int_cur + p->skillLevel("firstaid") * p->int_cur *
+                 p->dex_cur / 3;
 
-    //body->make_corpse("corpse", GetMType("mon_zlave"), calendar::turn);
+    p->moves -= hard * 10;
 
-    p->add_msg_if_player(_("You made a zlave, now wait until it revives."));
+    int success = skills - hard - rng(1, 100);
 
-    p->moves -= hard * 30;
+    if (success > 0) {
+
+        //todo: rng(?, ?)
+        p->practice("firstaid", rng(2, 5));
+        p->practice("survival", rng(2, 5));
+
+        p->add_msg_if_player(m_good,
+                             _("You surely had surgery and make zlave, now wait when he will rise again."));
+
+        body->item_vars["zlave"] = "zlave";
+    } else {
+
+        if (success > -20) {
+            //todo: rng(?, ?)
+            p->practice("firstaid", rng(3, 6));
+            p->practice("survival", rng(3, 6));
+
+            p->add_msg_if_player(m_warning,
+                                 _("You had surgery, now wait when he will rise again."));
+
+            success += rng(1, 20);
+
+            if (success > 0) {
+                body->item_vars["zlave"] = "zlave";
+            } else {
+                body->item_vars["zlave"] = "mutilated";
+            }
+
+        } else {
+            //todo: rng(?, ?)
+            p->practice("firstaid", rng(1, 8));
+            p->practice("survival", rng(1, 8));
+
+            int pulp = rng(1, full_pulp_threshold);
+
+            body->damage += pulp;
+
+            if (body->damage >= full_pulp_threshold) {
+                body->damage = full_pulp_threshold;
+                body->active = false;
+
+                p->add_msg_if_player(m_warning,
+                                     _("The corpse is thoroughly pulped."));
+            } else {
+                p->add_msg_if_player(m_warning,
+                                     _("The corpse is damaged."));
+            }
+
+        }
+    }
 }
 
 int iuse::knife(player *p, item *it, bool t)
@@ -6305,7 +6355,7 @@ int iuse::knife(player *p, item *it, bool t)
         }
     }
 
-	if (p->skillLevel("survival") > 3)
+	if (p->skillLevel("survival") > 4 && p->skillLevel("firstaid") > 3)
 	{
 	    kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
 	}

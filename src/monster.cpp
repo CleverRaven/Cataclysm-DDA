@@ -235,6 +235,10 @@ void monster::get_Attitude(nc_color &color, std::string &text)
             color = c_red;
             text = _("Hostile! ");
             break;
+		case MATT_ZLAVE:
+			color = c_green;
+			text = _("Zlave ");
+			break;
         default:
             color = h_red;
             text = "BUG: Behavior unnamed. (monster.cpp:get_Attitude)";
@@ -325,7 +329,7 @@ nc_color monster::color_with_effects()
  if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied"))
   ret = hilite(ret);
  if (has_effect("zlave"))
-  ret = white_background(ret);
+  ret = invert_color(ret);
  if (has_effect("onfire"))
   ret = red_background(ret);
  return ret;
@@ -486,6 +490,8 @@ monster_attitude monster::attitude(player *u)
   return MATT_FPASSIVE;
  if (has_effect("run"))
   return MATT_FLEE;
+ if (has_effect("zlave"))
+  return MATT_ZLAVE;
 
  int effective_anger  = anger;
  int effective_morale = morale;

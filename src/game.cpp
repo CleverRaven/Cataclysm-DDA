@@ -8389,7 +8389,6 @@ void game::control_vehicle()
 
 bool zlave_menu(monster *z)
 {
-
     enum choices {
         cancel,
         swap_pos,
@@ -8399,7 +8398,6 @@ bool zlave_menu(monster *z)
         pheromone,
         rope
     };
-
 
     uimenu amenu;
 
@@ -8417,12 +8415,12 @@ bool zlave_menu(monster *z)
     }
 
     if (z->has_effect("tied")) {
-		amenu.addentry(rope, true, 'r', _("Untie"));
+        amenu.addentry(rope, true, 'r', _("Untie"));
     } else {
         if (g->u.has_amount("rope_6", 1)) {
-			amenu.addentry(rope, true, 'r', _("Tie"));
+            amenu.addentry(rope, true, 'r', _("Tie"));
         } else {
-			amenu.addentry(rope, false, 'r', _("You need short rope"));
+            amenu.addentry(rope, false, 'r', _("You need short rope"));
         }
     }
 
@@ -8440,10 +8438,19 @@ bool zlave_menu(monster *z)
 
         if (!one_in((g->u.str_cur + g->u.dex_cur) / 6)) {
 
+            bool t = z->has_effect("tied");
+            if (t) {
+                z->remove_effect("tied");
+            }
+
             int x = z->posx(), y = z->posy();
             z->move_to(g->u.posx, g->u.posy, true);
             g->u.posx = x;
             g->u.posy = y;
+
+            if (t) {
+                z->add_effect("tied", 1, 1, true);
+            }
 
             add_msg(_("You displaced your zlave."));
 
@@ -8458,6 +8465,10 @@ bool zlave_menu(monster *z)
     if (attach_bag == choice) {
 
         int pos = g->inv_type(_("Bag item:"), IC_ARMOR);
+        if (pos == INT_MIN) {
+            add_msg(_("Never mind."));
+            return true;
+        }
 
         item *it = &g->u.i_at(pos);
 
@@ -8474,7 +8485,7 @@ bool zlave_menu(monster *z)
 
         z->add_item(*it);
 
-		add_msg(_("You're wore the %s on your zlave."), it->display_name().c_str());
+        add_msg(_("You're wore the %s on your zlave."), it->display_name().c_str());
 
         g->u.i_rem(pos);
 
@@ -8537,78 +8548,56 @@ bool zlave_menu(monster *z)
         std::vector<item> result = g->multidrop(dropped_worn, dummy);
         result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
 
-		if (result.size() == 0) {
-		    add_msg(_("Never mind."));
-		} else {
-		    add_msg(_("Are you trying to push things in a zlave bag."));
+        if (result.size() == 0) {
+            add_msg(_("Never mind."));
+        } else {
+            add_msg(_("You push some things into the zlave bag."));
 
-		    for (int i = 0; i < result.size(); i++) {
+            for (int i = 0; i < result.size(); i++) {
 
-		        int vol = result[i].volume();
+                int vol = result[i].volume();
 
-		        if (max_cap - vol >= 0) {
-		            z->inv.push_back(result[i]);
-		            max_cap -= vol;
-		        } else {
-		            g->m.add_item_or_charges(z->xpos(), z->ypos(), result[i], 1);
-		            g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
-		                                   result[i].display_name().c_str());
-		        }
-		    }
-		}
+                if (max_cap - vol >= 0) {
+                    z->inv.push_back(result[i]);
+                    max_cap -= vol;
+                } else {
+                    g->m.add_item_or_charges(z->xpos(), z->ypos(), result[i], 1);
+                    g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
+                                           result[i].display_name().c_str());
+                }
+            }
+        }
 
-		return true;
-		}
+        return true;
+    }
 
     if (pheromone == choice) {
 
-        g->u.add_msg_if_player(_("You tear out and squeeze the pheremone ball from zlave..."));
-        z->make_friendly();
+        g->u.add_msg_if_player(_("You tear out the pheremone ball from zlave."));
         z->hurt(100);
+        z->die(z);
 
         g->u.moves -= 150;
 
-        int converts = 0;
-        for (int x = g->u.posx - 5; x <= g->u.posx + 5; x++) {
-            for (int y = g->u.posy - 5; y <= g->u.posy + 5; y++) {
-                int mondex = g->mon_at(x, y);
-                if (mondex == -1) {
-                    continue;
-                }
-                monster &critter = g->zombie(mondex);
-                if (critter.type->in_species("ZOMBIE") && critter.friendly == 0 && rng(0, 800) > critter.hp) {
-                    converts++;
-                    critter.make_friendly();
-                }
-            }
-        }
-
-        if (g->u_see(g->u)) {
-            if (converts == 0) {
-                add_msg(_("...but nothing happens."));
-            } else if (converts == 1) {
-                add_msg(m_good, _("...and a nearby zombie turns friendly!"));
-            } else {
-                add_msg(m_good, _("...and several nearby zombies turn friendly!"));
-            }
-        }
+        item ball("pheromone", 0);
+        iuse pheromone;
+        pheromone.pheromone(&(g->u), &ball, true);
 
     }
 
-	if (rope == choice)
-	{
-	    if (z->has_effect("tied")) {
-	        z->remove_effect("tied");
-	        g->u.inv.add_item_by_type("rope_6");
-	    } else {
-	        z->add_effect("tied", 1, 1, true);
-	        g->u.inv.remove_item("rope_6");
-	    }
+    if (rope == choice) {
+        if (z->has_effect("tied")) {
+            z->remove_effect("tied");
+            g->u.inv.add_item_by_type("rope_6");
+        } else {
+            z->add_effect("tied", 1, 1, true);
+            g->u.inv.remove_item("rope_6");
+        }
 
-	    return true;
-	}
+        return true;
+    }
 
-	return true;
+    return true;
 
 }
 
