@@ -8244,7 +8244,7 @@ public:
                 buffer << "\n";
             }
             if( !ma.weapons.empty() ) {
-                buffer << ngettext( "weapon:", "Weapons:", ma.weapons.size() ) << " ";
+                buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
                 for( auto weapon = ma.weapons.cbegin(); weapon != ma.weapons.cend(); ++weapon ) {
                     buffer << item(*weapon, 0).type->nname(1);
                     if( ma.weapons.size() > 1 && weapon == ----ma.weapons.cend() ) {
