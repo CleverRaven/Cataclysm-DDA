@@ -10261,11 +10261,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
     }
 
-    bool on_ground;
+    bool on_ground = false;
 
     if (cont == NULL || cont->is_null()) {
         const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
+        // Check for a container on the ground.
         cont = inv_map_for_liquid(liquid, text, on_ground);
         if (cont == NULL || cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
