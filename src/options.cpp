@@ -1024,8 +1024,6 @@ void show_options(bool ingame)
 
             if(current_opt->is_hidden()) {
                 ++hidden_counter;
-                DebugLog( D_INFO, DC_ALL ) << "Hidden increment. Current: " << hidden_counter;
-                DebugLog( D_INFO, DC_ALL ) << "End iteration" << '\n';
                 continue;
             }
 
