@@ -806,7 +806,7 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
-item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool &on_ground)
+item *game::inv_map_for_liquid(const item &liquid, const std::string title)
 {
     std::vector <item> &here = m.i_at(g->u.posx, g->u.posy);
     typedef std::vector< std::list<item> > pseudo_inventory;
@@ -814,26 +814,25 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool
     indexed_invslice grounditems_slice;
     std::vector<item *> ground_containers;
 
-    on_ground = false;
-
     LIQUID_FILL_ERROR error;
 
     std::set<std::string> dups;
-    for (size_t i = 0; i < here.size();
-         i++) if (here[i].get_remaining_capacity_for_liquid(liquid, error) > 0) {
-            if (dups.count(here[i].tname()) == 0) {
-                grounditems.push_back(std::list<item>(1, here[i]));
+    for( auto item_iter = here.begin(); item_iter != here.end(); ++item_iter ) {
+        if( item_iter->get_remaining_capacity_for_liquid(liquid, error) > 0 ) {
+            if( dups.count( item_iter->tname()) == 0 ) {
+                grounditems.push_back( std::list<item>(1, *item_iter) );
 
-                if (grounditems.size() <= 10) {
+                if( grounditems.size() <= 10 ) {
                     grounditems.back().front().invlet = '0' + grounditems.size() - 1;
                 } else {
                     grounditems.back().front().invlet = ' ';
                 }
-                dups.insert(here[i].tname());
+                dups.insert( item_iter->tname() );
 
-                ground_containers.push_back(&here[i]);
+                ground_containers.push_back( &*item_iter );
             }
         }
+    }
 
     for (size_t a = 0; a < grounditems.size(); a++) {
         // avoid INT_MIN, as it can be confused with "no item at all"
@@ -854,8 +853,6 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool
     inv_s.make_item_list(stacks);
     inv_s.prepare_paging();
 
-    //return display_slice(reduced_inv, title);
-
     inventory_selector::drop_map prev_droppings;
     while (true) {
         inv_s.display();
@@ -874,9 +871,8 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool
 
             inv_s.set_selected_to_drop(0);
 
-            for (int i = 0; i < grounditems_slice.size(); i++) {
-                if (&grounditems_slice[i].first->front() == inv_s.first_item) {
-                    on_ground = true;
+            for( size_t i = 0; i < grounditems_slice.size(); i++) {
+                if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
                     return ground_containers[i];
                 }
             }
@@ -884,7 +880,6 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool
             return inv_s.first_item;
 
         } else if (ch >= '0' && ch <= '9' && (size_t)(ch - '0') < grounditems_slice.size()) {
-            on_ground = true;
             const int ip = ch - '0';
             return ground_containers[ip];
         }
