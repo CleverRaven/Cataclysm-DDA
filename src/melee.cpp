@@ -238,7 +238,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
                 add_msg(_("You swing wildly and miss."));
             else
                 add_msg(_("You miss."));
-        } else {
+        } else if( g->u.sees( this ) ) {
             if (stumble_pen >= 60)
                 add_msg( _("%s misses and stumbles with the momentum."),name.c_str());
             else if (stumble_pen >= 10)
@@ -470,7 +470,7 @@ int player::dodge_roll()
 {
     if ( (is_wearing("roller_blades")) && one_in((get_dex() + skillLevel("dodge")) / 3 ) ) {
         if (!has_disease("downed")) {
-            add_msg("Fighting on wheels is hard!");
+            add_msg_if_player(_("Fighting on wheels is hard!"));
         }
         add_disease("downed", 3);
     }
