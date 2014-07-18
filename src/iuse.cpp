@@ -6355,10 +6355,10 @@ int iuse::knife(player *p, item *it, bool t)
         }
     }
 
-	if (p->skillLevel("survival") > 4 && p->skillLevel("firstaid") > 3)
-	{
-	    kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
-	}
+    if (p->skillLevel("survival") > 4 && p->skillLevel("firstaid") > 3)
+    {
+        kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
+    }
 
     kmenu.addentry(cancel, true, 'q', _("Cancel"));
     kmenu.query();
@@ -6377,11 +6377,11 @@ int iuse::knife(player *p, item *it, bool t)
         pos = g->inv(_("Chop up what?"));
     } else if (choice == carve_writing) {
         pos = g->inv(_("Carve writing on what?"));
-	} else if (choice == make_slave) {
-		make_zlave(p);
-		return 0;
-	}
-	else{
+    } else if (choice == make_slave) {
+        make_zlave(p);
+        return 0;
+    }
+    else{
         return 0;
     }
 

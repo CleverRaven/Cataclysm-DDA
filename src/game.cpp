@@ -7576,9 +7576,9 @@ bool game::revive_corpse(int x, int y, item *it)
     }
     critter.no_extra_death_drops = true;
 
-	if (it->item_vars["zlave"] == "zlave"){
-		critter.add_effect("zlave", 1, 1, true);
-	}
+    if (it->item_vars["zlave"] == "zlave"){
+        critter.add_effect("zlave", 1, 1, true);
+    }
 
     add_zombie(critter);
     return true;
@@ -8463,7 +8463,6 @@ bool zlave_menu(monster *z)
     }
 
     if (attach_bag == choice) {
-
         int pos = g->inv_type(_("Bag item:"), IC_ARMOR);
         if (pos == INT_MIN) {
             add_msg(_("Never mind."));
@@ -8667,17 +8666,17 @@ void game::examine(int examx, int examy)
         none = false;
     }
 
-	if (critter_at(examx, examy) != NULL)
-	{
-		Creature *c = critter_at(examx, examy);
-		monster *mon = dynamic_cast<monster *>(c);
+    if (critter_at(examx, examy) != NULL)
+    {
+        Creature *c = critter_at(examx, examy);
+        monster *mon = dynamic_cast<monster *>(c);
 
-		if (mon != NULL && mon->has_effect("zlave")) {
-			if (zlave_menu(mon)) {
-				return;
-			}
-		}
-	}
+        if (mon != NULL && mon->has_effect("zlave")) {
+            if (zlave_menu(mon)) {
+                return;
+            }
+        }
+    }
 
     if (m.has_flag("SEALED", examx, examy)) {
         if (none) {
