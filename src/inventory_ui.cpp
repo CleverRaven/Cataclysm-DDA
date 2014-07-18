@@ -806,7 +806,7 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
-item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool &on_ground)
+item *game::inv_map_for_liquid(const item &liquid, const std::string title)
 {
     std::vector <item> &here = m.i_at(g->u.posx, g->u.posy);
     typedef std::vector< std::list<item> > pseudo_inventory;
@@ -873,7 +873,6 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool
 
             for( size_t i = 0; i < grounditems_slice.size(); i++) {
                 if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
-                    on_ground = true;
                     return ground_containers[i];
                 }
             }
@@ -881,7 +880,6 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title, bool
             return inv_s.first_item;
 
         } else if (ch >= '0' && ch <= '9' && (size_t)(ch - '0') < grounditems_slice.size()) {
-            on_ground = true;
             const int ip = ch - '0';
             return ground_containers[ip];
         }
