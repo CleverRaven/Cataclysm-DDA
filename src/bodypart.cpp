@@ -4,7 +4,7 @@
 
 std::map<std::string, body_part> body_parts;
 
-std::string body_part_name (body_part bp, int side)
+std::string body_part_name (body_part bp)
 {
     switch (bp) {
     case bp_head:
@@ -15,38 +15,22 @@ std::string body_part_name (body_part bp, int side)
         return _("mouth");
     case bp_torso:
         return _("torso");
-    case bp_arms:
-        if (side == 0) {
-            return  _("left arm");
-        }
-        if (side == 1) {
-            return _("right arm");
-        }
-        return _("arms");
-    case bp_hands:
-        if (side == 0) {
-            return _("left hand");
-        }
-        if (side == 1) {
-            return _("right hand");
-        }
-        return _("hands");
-    case bp_legs:
-        if (side == 0) {
-            return _("left leg");
-        }
-        if (side == 1) {
-            return _("right leg");
-        }
-        return _("legs");
-    case bp_feet:
-        if (side == 0) {
-            return _("left foot");
-        }
-        if (side == 1) {
-            return _("right foot");
-        }
-        return _("feet");
+    case bp_arm_l:
+        return  _("left arm");
+    case bp_arm_r:
+        return  _("right arm");
+    case bp_hand_l:
+        return _("left hand");
+    case bp_hand_r:
+        return _("right hand");
+    case bp_leg_l:
+        return _("left leg");
+    case bp_leg_r:
+        return _("right leg");
+    case bp_foot_l:
+        return _("left foot");
+    case bp_foot_r:
+        return _("left foot");
     default:
         return _("appendix");
     }
@@ -63,13 +47,17 @@ std::string encumb_text(body_part bp)
         return _("Running is slowed.");
     case bp_torso:
         return _("Dodging and melee is hampered.");
-    case bp_arms:
+    case bp_arm_l:
+    case bp_arm_r:
         return _("Melee and ranged combat is hampered.");
-    case bp_hands:
+    case bp_hand_l:
+    case bp_hand_r:
         return _("Manual tasks are slowed.");
-    case bp_legs:
+    case bp_leg_l:
+    case bp_leg_r:
         return _("Running and swimming are slowed.");
-    case bp_feet:
+    case bp_foot_l:
+    case bp_foot_r:
         return _("Running is slowed.");
     default:
         return _("It's inflammed.");
@@ -89,48 +77,42 @@ body_part random_body_part(bool main_parts_only)
         if (rn <= 7) {
             return bp_head;
         }
-        if (rn <= 24) {
-            return bp_legs;
+        if (rn <= 16) {
+            return bp_leg_l;
         }
-        if (rn <= 30) {
-            return bp_feet;
+        if (rn <= 25) {
+            return bp_leg_r;
         }
-        if (rn <= 47) {
-            return bp_arms;
+        if (rn <= 28) {
+            return bp_foot_l;
         }
-        if (rn <= 53) {
-            return bp_hands;
+        if (rn <= 31) {
+            return bp_foot_r;
+        }
+        if (rn <= 40) {
+            return bp_arm_l;
+        }
+        if (rn <= 49) {
+            return bp_arm_r;
+        }
+        if (rn <= 52) {
+            return bp_hand_l;
+        }
+        if (rn <= 55) {
+            return bp_hand_r;
         }
         return bp_torso;
     } else {
         if (rn <= 7) {
             return bp_head;
         }
-        if (rn <= 30) {
+        if (rn <= 31) {
             return bp_legs;
         }
-        if (rn <= 53) {
+        if (rn <= 55) {
             return bp_arms;
         }
         return bp_torso;
-    }
-}
-
-int random_side(body_part bp)
-{
-    switch (bp) {
-    case bp_torso:
-    case bp_head:
-    case bp_eyes:
-    case bp_mouth:
-        return -1;
-    case bp_arms:
-    case bp_hands:
-    case bp_legs:
-    case bp_feet:
-        return rng(0, 1);
-    default:
-        return rng(0, 1);
     }
 }
 
