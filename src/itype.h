@@ -419,7 +419,7 @@ struct it_gunmod : public virtual itype {
 };
 
 struct it_armor : public virtual itype {
-    unsigned char covers; // Bitfield of enum body_part
+    long unsigned int covers; // Bitfield of enum body_part
     signed char encumber;
     unsigned char coverage;
     unsigned char thickness;
