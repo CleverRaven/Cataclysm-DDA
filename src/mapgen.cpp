@@ -11198,8 +11198,10 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
         debugmsg("Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y);
         return;
     }
-    int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    if(!grid[nonant]) {
+    int offset_x, offset_y;
+    submap *place_on_submap = get_submap_at(x, y, offset_x, offset_y);
+
+    if(!place_on_submap) {
         debugmsg("centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
                  type.c_str(), count, x, y);
         return;
@@ -11209,10 +11211,8 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
         // Don't spawn non-classic monsters in classic zombie mode.
         return;
     }
-    x %= SEEX;
-    y %= SEEY;
-    spawn_point tmp(type, count, x, y, faction_id, mission_id, friendly, name);
-    grid[nonant]->spawns.push_back(tmp);
+    spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);
+    place_on_submap->spawns.push_back(tmp);
 }
 
 void map::add_spawn(monster *mon)
@@ -11269,8 +11269,8 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y, merge_wrecks);
 
     if(placed_vehicle != NULL) {
-        const int nonant = placed_vehicle->smx + placed_vehicle->smy * my_MAPSIZE;
-        grid[nonant]->vehicles.push_back(placed_vehicle);
+        submap *place_on_submap = get_submap_at_grid(placed_vehicle->smx, placed_vehicle->smy);
+        place_on_submap->vehicles.push_back(placed_vehicle);
 
         vehicle_list.insert(placed_vehicle);
         update_vehicle_cache(placed_vehicle, true);
@@ -11398,9 +11398,9 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
 computer *map::add_computer(int x, int y, std::string name, int security)
 {
     ter_set(x, y, t_console); // TODO: Turn this off?
-    int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    grid[nonant]->comp = computer(name, security);
-    return &(grid[nonant]->comp);
+    submap *place_on_submap = get_submap_at(x, y);
+    place_on_submap->comp = computer(name, security);
+    return &(place_on_submap->comp);
 }
 
 /**
