@@ -6227,8 +6227,6 @@ void make_zlave(player *p)
     std::vector<item> &items = g->m.i_at(p->posx, p->posy);
     std::vector<item *> corpses;
 
-    static const int full_pulp_threshold = 4;
-
     const int cancel = 0;
 
     for (int i = 0; i < items.size(); i++) {
@@ -6304,64 +6302,13 @@ void make_zlave(player *p)
     int skills = p->skillLevel("survival") * p->int_cur + p->skillLevel("firstaid") * p->int_cur *
                  p->dex_cur / 3;
 
-    p->moves -= hard * 10;
-
     int success = skills - hard - rng(1, 100);
 
-    if (success > 0) {
-
-        p->practice("firstaid", rng(2, 5));
-        p->practice("survival", rng(2, 5));
-
-        p->add_msg_if_player(m_good,
-                             _("You're confident you've removed the zombie's ability to pose a threat. When it reanimates, you'll be able to use it as a zlave."));
-
-        body->item_vars["zlave"] = "zlave";
-        //take into account the chance that the body yet can regenerate not as we need.
-        if (one_in(10)) {
-            body->item_vars["zlave"] = "mutilated";
-        }
-
-    } else {
-
-        if (success > -20) {
-
-            p->practice("firstaid", rng(3, 6));
-            p->practice("survival", rng(3, 6));
-
-            p->add_msg_if_player(m_warning,
-                                 _("You've cut a lot of tissue. Now to wait and see..."));
-
-            success += rng(1, 20);
-
-            if (success > 0 && !one_in(5)) {
-                body->item_vars["zlave"] = "zlave";
-            } else {
-                body->item_vars["zlave"] = "mutilated";
-            }
-
-        } else {
-
-            p->practice("firstaid", rng(1, 8));
-            p->practice("survival", rng(1, 8));
-
-            int pulp = rng(1, full_pulp_threshold);
-
-            body->damage += pulp;
-
-            if (body->damage >= full_pulp_threshold) {
-                body->damage = full_pulp_threshold;
-                body->active = false;
-
-                p->add_msg_if_player(m_warning,
-                                     _("The corpse is thoroughly pulped."));
-            } else {
-                p->add_msg_if_player(m_warning,
-                                     _("The corpse is damaged."));
-            }
-
-        }
-    }
+    p->assign_activity(ACT_MAKE_ZLAVE, hard * 200);
+    p->activity.values.push_back(corpses.size());
+    p->activity.values.push_back(amenu.ret - 1);
+    p->activity.values.push_back(success);
+    p->moves = 0;
 }
 
 int iuse::knife(player *p, item *it, bool t)
