@@ -2542,9 +2542,8 @@ void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings
-    if (u.activity.type != ACT_NULL &&
-            u.activity.moves_left > 0 &&
-            !u.activity.warned_of_proximity) {
+    if( u.activity.type != ACT_NULL && u.activity.type != ACT_AIM &&
+        u.activity.moves_left > 0 && !u.activity.warned_of_proximity ) {
         Creature *hostile_critter = is_hostile_very_close();
         if (hostile_critter != nullptr) {
             u.activity.warned_of_proximity = true;
