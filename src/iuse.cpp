@@ -6234,8 +6234,7 @@ void make_zlave(player *p)
     for (int i = 0; i < items.size(); i++) {
         item &it = items[i];
 
-        //todo: attributes of humanoid-corpse?
-        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->size == MS_MEDIUM &&
+        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" && it.corpse->sym == "Z" &&
             it.active && it.item_vars["zlave"] == "") {
             corpses.push_back(&it);
         }
