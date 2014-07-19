@@ -49,7 +49,7 @@ RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
-DEBUG = -g -D_GLIBCXX_DEBUG
+DEBUG = -g
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
