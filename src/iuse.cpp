@@ -6234,14 +6234,21 @@ void make_zlave(player *p)
     for (int i = 0; i < items.size(); i++) {
         item &it = items[i];
 
-        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" && it.corpse->sym == "Z" &&
-            it.active && it.item_vars["zlave"] == "") {
+        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
+            it.corpse->sym == "Z" && it.active && it.item_vars["zlave"] == "") {
             corpses.push_back(&it);
         }
     }
 
     if (corpses.empty()) {
         p->add_msg_if_player(_("No suitable corpses"));
+        return;
+    }
+
+    const bool tolerance = p->has_trait("PSYCHOPATH") || p->skillLevel("survival") > 9;
+
+    if (!tolerance && p->morale_level() <= -150) {
+        add_msg(m_neutral, _("It's too awful."));
         return;
     }
 
@@ -6261,7 +6268,33 @@ void make_zlave(player *p)
         return;
     }
 
-    //todo: morale
+    if (tolerance) {
+
+        if (p->has_trait("PSYCHOPATH")) {
+            add_msg(m_neutral, _("There is nothing to worry."));
+        } else {
+            add_msg(m_neutral, _("Ready for anything in order to survive."));
+        }
+    } else {
+
+        add_msg(m_bad, _("You are your own nasty for this action."));
+
+        int moraleMalus = -50 * (5.0 / (float) p->skillLevel("survival"));
+        int maxMalus = -250 * (5.0 / (float)p->skillLevel("survival"));
+        int duration = 300 * (5.0 / (float)p->skillLevel("survival"));
+        int decayDelay = 30 * (5.0 / (float)p->skillLevel("survival"));
+
+        if (g->u.has_trait("PACIFIST")) {
+            moraleMalus *= 5;
+            maxMalus *= 3;
+        } else if (g->u.has_trait("PRED1")) {
+            moraleMalus /= 4;
+        } else if (g->u.has_trait("PRED2")) {
+            moraleMalus /= 5;
+        }
+
+        g->u.add_morale(MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay);
+    }
 
     item *body = corpses[amenu.ret - 1];
     mtype *mt = body->corpse;
@@ -6277,7 +6310,6 @@ void make_zlave(player *p)
 
     if (success > 0) {
 
-        //todo: rng(?, ?)
         p->practice("firstaid", rng(2, 5));
         p->practice("survival", rng(2, 5));
 
@@ -6293,7 +6325,7 @@ void make_zlave(player *p)
     } else {
 
         if (success > -20) {
-            //todo: rng(?, ?)
+
             p->practice("firstaid", rng(3, 6));
             p->practice("survival", rng(3, 6));
 
@@ -6309,7 +6341,7 @@ void make_zlave(player *p)
             }
 
         } else {
-            //todo: rng(?, ?)
+
             p->practice("firstaid", rng(1, 8));
             p->practice("survival", rng(1, 8));
 
