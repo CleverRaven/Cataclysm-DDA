@@ -370,4 +370,5 @@ void DynamicDataLoader::check_consistency() {
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();
+    check_martialarts();
 }

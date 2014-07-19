@@ -4,7 +4,7 @@
 #include "color.h"
 #include "json.h"
 #include "iuse.h"
-#include "martialarts.h"
+#include "enums.h"
 #include <string>
 #include <vector>
 #include <map>

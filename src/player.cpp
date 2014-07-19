@@ -8230,9 +8230,31 @@ public:
             buffer << ma.name << "\n\n";
             buffer << ma.description << "\n\n";
             if( !ma.techniques.empty() ) {
-                buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << "\n";
-                for( auto &tec : ma.techniques ) {
-                    buffer << ma_techniques[tec].name << "\n";
+                buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
+                for( auto technique = ma.techniques.cbegin();
+                     technique != ma.techniques.cend(); ++technique ) {
+                    buffer << ma_techniques[*technique].name;
+                    if( ma.techniques.size() > 1 && technique == ----ma.techniques.cend() ) {
+                        //~ Seperators that comes before last element of a list.
+                        buffer << _(" and ");
+                    } else if( technique != --ma.techniques.cend() ) {
+                        //~ Seperator for a list of items.
+                        buffer << _(", ");
+                    }
+                }
+                buffer << "\n";
+            }
+            if( !ma.weapons.empty() ) {
+                buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
+                for( auto weapon = ma.weapons.cbegin(); weapon != ma.weapons.cend(); ++weapon ) {
+                    buffer << item(*weapon, 0).type->nname(1);
+                    if( ma.weapons.size() > 1 && weapon == ----ma.weapons.cend() ) {
+                        //~ Seperators that comes before last element of a list.
+                        buffer << _(" and ");
+                    } else if( weapon != --ma.weapons.cend() ) {
+                        //~ Seperator for a list of items.
+                        buffer << _(", ");
+                    }
                 }
             }
             popup(buffer.str(), PF_NONE);
