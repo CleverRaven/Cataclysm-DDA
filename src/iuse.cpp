@@ -6294,7 +6294,9 @@ void make_zlave(player *p)
         g->u.add_morale(MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay);
     }
 
-    item *body = corpses[amenu.ret - 1];
+    const int selected_corpse = amenu.ret - 1;
+
+    item *body = corpses[selected_corpse];
     mtype *mt = body->corpse;
 
     int hard = body->damage * 10 + mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
@@ -6304,9 +6306,11 @@ void make_zlave(player *p)
 
     int success = skills - hard - rng(1, 100);
 
-    p->assign_activity(ACT_MAKE_ZLAVE, hard * 200);
+    const int moves = hard * 1200 / p->skillLevel("firstaid");
+
+    p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(corpses.size());
-    p->activity.values.push_back(amenu.ret - 1);
+    p->activity.values.push_back(selected_corpse);
     p->activity.values.push_back(success);
     p->moves = 0;
 }
@@ -6363,8 +6367,7 @@ int iuse::knife(player *p, item *it, bool t)
     } else if (choice == make_slave) {
         make_zlave(p);
         return 0;
-    }
-    else{
+    } else {
         return 0;
     }
 

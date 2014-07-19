@@ -1658,7 +1658,7 @@ void game::activity_on_turn_refill_vehicle()
     u.pause();
 }
 
-void game::on_finish_activity_make_zlave(player *p)
+void game::activity_on_finish_make_zlave(player *p)
 {
 
     static const int full_pulp_threshold = 4;
@@ -1805,7 +1805,7 @@ void game::activity_on_finish()
         u.activity.type = ACT_NULL;
         break;
     case ACT_MAKE_ZLAVE:
-        on_finish_activity_make_zlave(&u);
+		activity_on_finish_make_zlave(&u);
         u.activity.type = ACT_NULL;
         break;
     default:
