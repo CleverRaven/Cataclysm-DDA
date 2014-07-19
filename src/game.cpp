@@ -8570,17 +8570,20 @@ bool zlave_menu(monster *z)
         return true;
     }
 
-    if (pheromone == choice) {
-
-        g->u.add_msg_if_player(_("You tear out the pheremone ball from the zlave."));
+	if (pheromone == choice && query_yn(_("Really kill the zlave?"))) {
+        
         z->hurt(100);
         z->die(z);
 
         g->u.moves -= 150;
 
-        item ball("pheromone", 0);
-        iuse pheromone;
-        pheromone.pheromone(&(g->u), &ball, true);
+		if (!one_in(3)){
+			g->u.add_msg_if_player(_("You tear out the pheremone ball from the zlave."));
+
+			item ball("pheromone", 0);
+			iuse pheromone;
+			pheromone.pheromone(&(g->u), &ball, true);
+		}
 
     }
 

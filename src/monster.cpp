@@ -271,6 +271,9 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
     } else if (has_effect("beartrap")) {
         wprintz(w, h_white, _("Trapped"));
     }
+    else if (has_effect("tied")) {
+        wprintz(w, h_white, _("Tied"));
+    }
     std::string damage_info;
     nc_color col;
     if (hp >= type->hp) {
@@ -1051,7 +1054,7 @@ int monster::get_dodge()
  if (has_effect("downed"))
   return 0;
  int ret = type->sk_dodge;
- if (has_effect("beartrap"))
+ if (has_effect("beartrap") || has_effect("tied"))
   ret /= 2;
  if (moves <= 0 - 100 - type->speed)
   ret = rng(0, ret);

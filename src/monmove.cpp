@@ -1018,7 +1018,7 @@ void monster::knock_back_from(int x, int y)
 bool monster::will_reach(int x, int y)
 {
  monster_attitude att = attitude(&(g->u));
- if (att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND /*&& att != MATT_ZLAVE*/)
+ if (att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE)
   return false;
 
  if (has_flag(MF_DIGS))
