@@ -874,10 +874,9 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
         }
     }
     // Increase aim at the cost of moves
-    p->moves -= p->time_to_aim( relevant );
-    if( p->recoil > 0) {
-        p->recoil--;
-    }
+    p->moves -= 10;
+    p->recoil -= p->aim_per_time( relevant );
+    p->recoil = std::max( 0, p->recoil );
 }
 
 // TODO: Shunt redundant drawing code elsewhere

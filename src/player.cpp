@@ -4549,18 +4549,26 @@ int player::throw_dex_mod(bool return_stat_effect) const
  return (return_stat_effect ? rng(0, deviation) : deviation);
 }
 
-// Calculates moves per point of reduced recoil, based on
+// Calculates MOC of aim improvement per 10 moves, based on
 // skills, stats, and quality of the gun sight being used.
-int player::time_to_aim( item *gun ) const
+// Using this weird setup because # of MOC per move is too fast, (slowest is one MOC/move)
+// and number of moves per MOC is too slow. (fastest is one MOC/move)
+// A worst case of 1 MOC per 10 moves is acceptable, and it scales up
+// indefinitely, though the smallest unit of aim time is 10 moves.
+int player::aim_per_time( item *gun ) const
 {
     // Account for Dexterity, weapon skill, weapon mods and flags,
-    int speed_score = 1;
-    speed_score += skill_dispersion( gun, false );
-    speed_score += ranged_dex_mod();
+    int speed_score = 0;
+    // Ranges from 0 - 600.
+    // 0 - 10 after adjustment.
+    speed_score += skill_dispersion( gun, false ) / 60;
+    // Ranges from 0 - 12 after adjustment.
+    speed_score += ranged_dex_mod() / 15;
+    // Ranges from 0 - 10
     speed_score += gun->aim_speed( recoil );
     // TODO: should any conditions, mutations, etc affect this?
     // Probably CBMs too.
-    return speed_score;
+    return std::max( 1, 32 - speed_score );
 }
 
 int player::read_speed(bool return_stat_effect)
