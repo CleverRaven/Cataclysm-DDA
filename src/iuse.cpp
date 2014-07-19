@@ -6267,7 +6267,7 @@ void make_zlave(player *p)
     item *body = corpses[amenu.ret - 1];
     mtype *mt = body->corpse;
 
-    int hard = mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
+    int hard = body->damage * 10 + mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
                (1 + mt->melee_cut) * (1 + mt->melee_sides);
     int skills = p->skillLevel("survival") * p->int_cur + p->skillLevel("firstaid") * p->int_cur *
                  p->dex_cur / 3;
@@ -6286,6 +6286,11 @@ void make_zlave(player *p)
                              _("You're confident you've removed the zombie's ability to pose a threat. When it reanimates, you'll be able to use it as a zlave."));
 
         body->item_vars["zlave"] = "zlave";
+        //take into account the chance that the body yet can regenerate not as we need.
+        if (one_in(10)) {
+            body->item_vars["zlave"] = "mutilated";
+        }
+
     } else {
 
         if (success > -20) {
@@ -6298,7 +6303,7 @@ void make_zlave(player *p)
 
             success += rng(1, 20);
 
-            if (success > 0) {
+            if (success > 0 && !one_in(5)) {
                 body->item_vars["zlave"] = "zlave";
             } else {
                 body->item_vars["zlave"] = "mutilated";
