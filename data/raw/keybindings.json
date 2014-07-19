@@ -794,6 +794,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"AIMED_SHOT",
+        "name":"Aimed Shot",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"CAREFUL_SHOT",
         "name":"Careful Shot",
         "bindings":[

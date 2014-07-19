@@ -833,7 +833,7 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
     }
     if( relevant ) {
         // Reserve lines for aiming and firing instructions.
-        text_y -= 5;
+        text_y -= 6;
     }
     mvwprintz(w_target, text_y++, 1, c_white,
               _("Move cursor to target with directional keys"));
@@ -844,6 +844,8 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
                   _("'0' target self; '*' toggle snap-to-target"));
         mvwprintz(w_target, text_y++, 1, c_white,
                   _("'.' to steady your aim."));
+        mvwprintz(w_target, text_y++, 1, c_white,
+                  _("'a' to aim and fire."));
         mvwprintz(w_target, text_y++, 1, c_white,
                   _("'c' to take careful aim and fire."));
         mvwprintz(w_target, text_y++, 1, c_white,
@@ -1038,6 +1040,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         ctxt.register_action("NEXT_TARGET");
         ctxt.register_action("PREV_TARGET");
         ctxt.register_action("AIM");
+        ctxt.register_action("AIMED_SHOT");
         ctxt.register_action("CAREFUL_SHOT");
         ctxt.register_action("PRECISE_SHOT");
         ctxt.register_action("CENTER");
@@ -1121,9 +1124,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 ret.clear();
                 return ret;
             }
-        } else if( (action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") && target != -1 ) {
-            int aim_threshold = 10;
-            if( action == "PRECISE_SHOT" ) {
+        } else if( (action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") &&
+                   target != -1 ) {
+            int aim_threshold = 20;
+            if( action == "CAREFUL_SHOT" ) {
+                aim_threshold = 10;
+            } else if( action == "PRECISE_SHOT" ) {
                 aim_threshold = 0;
             }
             do {
