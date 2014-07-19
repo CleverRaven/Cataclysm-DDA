@@ -8420,7 +8420,7 @@ bool zlave_menu(monster *z)
         if (g->u.has_amount("rope_6", 1)) {
             amenu.addentry(rope, true, 'r', _("Tie"));
         } else {
-            amenu.addentry(rope, false, 'r', _("You need short rope"));
+            amenu.addentry(rope, false, 'r', _("You need a short rope"));
         }
     }
 
@@ -8472,19 +8472,19 @@ bool zlave_menu(monster *z)
         item *it = &g->u.i_at(pos);
 
         if (!it->is_armor()) {
-            add_msg(_("This is not a bag"));
+            add_msg(_("This is not a bag!"));
             return true;
         }
 
         it_armor *armor = dynamic_cast<it_armor *>(it->type);
         if (armor->storage <= 0) {
-            add_msg(_("This is not a bag"));
+            add_msg(_("This is not a bag!"));
             return true;
         }
 
         z->add_item(*it);
 
-        add_msg(_("You're wore the %s on your zlave."), it->display_name().c_str());
+        add_msg(_("You mount the %s on your zlave, ready to store gear."), it->display_name().c_str());
 
         g->u.i_rem(pos);
 
@@ -8505,7 +8505,7 @@ bool zlave_menu(monster *z)
 
         z->remove_effect("has_bag");
 
-        add_msg(_("Your zlave dropped some stuff."));
+        add_msg(_("You remove the stuff you had your zlave carry."));
 
         g->u.moves -= 200;
         return true;
@@ -8516,14 +8516,14 @@ bool zlave_menu(monster *z)
         int max_cap = 0;
 
         if (z->inv.empty()) {
-            add_msg(_("Zlave has no bag!"));
+            add_msg(_("Your zlave has nothing to carry that in!"));
             return true;
         }
 
         item *it = &z->inv[0];
 
         if (!it->is_armor()) {
-            add_msg(_("Zlave has no bag!"));
+            add_msg(_("Your zlave has nothing to carry that in!"));
             return true;
         }
 
@@ -8538,7 +8538,7 @@ bool zlave_menu(monster *z)
         }
 
         if (max_cap <= 0) {
-            add_msg(_("No more free space in zlave bag!"));
+            add_msg(_("Your zlave's doesn't have space for that, it's too bulky!"));
             return true;
         }
 
@@ -8550,7 +8550,7 @@ bool zlave_menu(monster *z)
         if (result.size() == 0) {
             add_msg(_("Never mind."));
         } else {
-            add_msg(_("You push some things into the zlave bag."));
+            add_msg(_("You stash some gear on your zlave."));
 
             for (int i = 0; i < result.size(); i++) {
 
@@ -8572,7 +8572,7 @@ bool zlave_menu(monster *z)
 
     if (pheromone == choice) {
 
-        g->u.add_msg_if_player(_("You tear out the pheremone ball from zlave."));
+        g->u.add_msg_if_player(_("You tear out the pheremone ball from the zlave."));
         z->hurt(100);
         z->die(z);
 

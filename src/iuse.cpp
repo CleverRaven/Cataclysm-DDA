@@ -6249,7 +6249,7 @@ void make_zlave(player *p)
     uimenu amenu;
 
     amenu.selected = 0;
-    amenu.text = _("Use corpse to make zlave?");
+    amenu.text = _("Selectively butcher the downed zombie into a zlave?");
     amenu.addentry(cancel, true, 'q', _("Cancel"));
     for (int i = 0; i < corpses.size(); i++) {
         amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
@@ -6283,7 +6283,7 @@ void make_zlave(player *p)
         p->practice("survival", rng(2, 5));
 
         p->add_msg_if_player(m_good,
-                             _("You surely had surgery and make zlave, now wait when he will rise again."));
+                             _("You're confident you've removed the zombie's ability to pose a threat. When it reanimates, you'll be able to use it as a zlave."));
 
         body->item_vars["zlave"] = "zlave";
     } else {
@@ -6294,7 +6294,7 @@ void make_zlave(player *p)
             p->practice("survival", rng(3, 6));
 
             p->add_msg_if_player(m_warning,
-                                 _("You had surgery, now wait when he will rise again."));
+                                 _("You've cut a lot of tissue. Now to wait and see..."));
 
             success += rng(1, 20);
 
