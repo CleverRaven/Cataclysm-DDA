@@ -8392,6 +8392,7 @@ bool zlave_menu(monster *z)
     enum choices {
         cancel,
         swap_pos,
+        push_zlave,
         attach_bag,
         drop_all,
         give_items,
@@ -8406,6 +8407,7 @@ bool zlave_menu(monster *z)
     amenu.addentry(cancel, true, 'q', _("Cancel"));
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
+    amenu.addentry(push_zlave, true, 'p', _("Push zlave"));
 
     if (z->has_effect("has_bag")) {
         amenu.addentry(give_items, true, 'g', _("Place items into bag"));
@@ -8424,7 +8426,7 @@ bool zlave_menu(monster *z)
         }
     }
 
-    amenu.addentry(pheromone, true, 'p', _("Tear out pheromone"));
+    amenu.addentry(pheromone, true, 't', _("Tear out pheromone"));
 
     amenu.query();
     int choice = amenu.ret;
@@ -8460,6 +8462,24 @@ bool zlave_menu(monster *z)
 
             return true;
         }
+    }
+
+    if (push_zlave == choice) {
+
+        g->u.moves -= 30;
+
+        if (!one_in(g->u.str_cur)) {
+            add_msg(_("You pushed the zlave."));
+        } else {
+            add_msg(_("You pushed the zlave, but he resisted."));
+            return true;
+        }
+
+        int deltax = z->posx() - g->u.posx, deltay = z->posy() - g->u.posy;
+
+        z->move_to(z->posx() + deltax, z->posy() + deltay);
+
+        return true;
     }
 
     if (attach_bag == choice) {
