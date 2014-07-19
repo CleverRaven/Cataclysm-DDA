@@ -1805,7 +1805,7 @@ void game::activity_on_finish()
         u.activity.type = ACT_NULL;
         break;
     case ACT_MAKE_ZLAVE:
-		on_finish_activity_make_zlave(&u);
+        on_finish_activity_make_zlave(&u);
         u.activity.type = ACT_NULL;
         break;
     default:
