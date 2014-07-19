@@ -96,6 +96,7 @@ class effect : public JsonSerializer, public JsonDeserializer
             json.member("eff_type", eff_type != NULL ? eff_type->id : "");
             json.member("duration", duration);
             json.member("intensity", intensity);
+            json.member("permanent", permanent);
             json.end_object();
         }
         using JsonDeserializer::deserialize;
@@ -104,6 +105,7 @@ class effect : public JsonSerializer, public JsonDeserializer
             eff_type = &effect_types[jo.get_string("eff_type")];
             duration = jo.get_int("duration");
             intensity = jo.get_int("intensity");
+            permanent = jo.get_bool("permanent");
         }
 
     protected:
