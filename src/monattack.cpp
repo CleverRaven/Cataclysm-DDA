@@ -439,7 +439,6 @@ void mattack::growplants(monster *z)
                             } else {
                                 body_part hit = bp_leg_r;
                             }
-                            int side = random_side(hit);
                             if (one_in(4)) {
                                 hit = bp_torso;
                             } else if (one_in(2)) {
@@ -450,8 +449,8 @@ void mattack::growplants(monster *z)
                                 }
                             }
                             add_msg(m_bad, _("A tree bursts forth from the earth and pierces your %s!"),
-                                    body_part_name(hit, side).c_str());
-                            g->u.hit(z, hit, side, 0, rng(10, 30));
+                                    body_part_name(hit).c_str());
+                            g->u.hit(z, hit, 0, rng(10, 30));
                         }
                     } else {
                         int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
@@ -461,7 +460,6 @@ void mattack::growplants(monster *z)
                             } else {
                                 body_part hit = bp_leg_r;
                             }
-                            int side = random_side(hit);
                             if (one_in(4)) {
                                 hit = bp_torso;
                             } else if (one_in(2)) {
@@ -474,8 +472,8 @@ void mattack::growplants(monster *z)
                             if (g->u_see(z->posx() + i, z->posy() + j))
                                 add_msg(m_warning, _("A tree bursts forth from the earth and pierces %s's %s!"),
                                         g->active_npc[npcdex]->name.c_str(),
-                                        body_part_name(hit, side).c_str());
-                            g->active_npc[npcdex]->hit(z, hit, side, 0, rng(10, 30));
+                                        body_part_name(hit).c_str());
+                            g->active_npc[npcdex]->hit(z, hit, 0, rng(10, 30));
                         }
                     }
                     g->m.ter_set(z->posx() + i, z->posy() + j, t_tree_young);
@@ -514,7 +512,6 @@ void mattack::growplants(monster *z)
                                 } else {
                                     body_part hit = bp_leg_r;
                                 }
-                                int side = random_side(hit);
                                 if (one_in(4)) {
                                     hit = bp_torso;
                                 } else if (one_in(2)) {
@@ -525,8 +522,8 @@ void mattack::growplants(monster *z)
                                     }
                                 }
                                 add_msg(m_bad, _("The underbrush beneath your feet grows and pierces your %s!"),
-                                        body_part_name(hit, side).c_str());
-                                g->u.hit(z, hit, side, 0, rng(10, 30));
+                                        body_part_name(hit).c_str());
+                                g->u.hit(z, hit, 0, rng(10, 30));
                             }
                         } else {
                             int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
@@ -536,7 +533,6 @@ void mattack::growplants(monster *z)
                                 } else {
                                     body_part hit = bp_leg_r;
                                 }
-                                int side = random_side(hit);
                                 if (one_in(4)) {
                                     hit = bp_torso;
                                 } else if (one_in(2)) {
@@ -549,8 +545,8 @@ void mattack::growplants(monster *z)
                                 if (g->u_see(z->posx() + i, z->posy() + j))
                                     add_msg(m_warning, _("Underbrush grows into a tree, and it pierces %s's %s!"),
                                             g->active_npc[npcdex]->name.c_str(),
-                                            body_part_name(hit, side).c_str());
-                                g->active_npc[npcdex]->hit(z, hit, side, 0, rng(10, 30));
+                                            body_part_name(hit).c_str());
+                                g->active_npc[npcdex]->hit(z, hit, 0, rng(10, 30));
                             }
                         }
                     }
@@ -593,10 +589,9 @@ void mattack::vine(monster *z)
                     return;
                 } else {
                     body_part bphit = random_body_part();
-                    int side = random_side(bphit);
                     add_msg(m_bad, _("The %s lashes your %s!"), z->name().c_str(),
-                            body_part_name(bphit, side).c_str());
-                    g->u.hit(z, bphit, side, 4, 4);
+                            body_part_name(bphit).c_str());
+                    g->u.hit(z, bphit, 4, 4);
                     z->sp_timeout = z->type->sp_freq;
                     z->moves -= 100;
                     return;
@@ -796,16 +791,16 @@ void mattack::fungus(monster *z)
                     if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
                     if ((hit) && (g->u.has_trait("TAIL_CATTLE") &&
@@ -959,10 +954,9 @@ void mattack::dermatik(monster *z)
 
     // Can the bug penetrate our armor?
     body_part targeted = random_body_part();
-    int side = random_side(targeted);
     if (4 < g->u.get_armor_cut(targeted) / 3) {
         add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
-                z->name().c_str(), body_part_name(targeted, side).c_str());
+                z->name().c_str(), body_part_name(targeted).c_str());
         z->moves -= 150; // Attempted laying takes a while
         return;
     }
@@ -970,9 +964,9 @@ void mattack::dermatik(monster *z)
     // Success!
     z->moves -= 500; // Successful laying takes a long time
     add_msg(m_bad, _("The %s sinks its ovipositor into your %s!"), z->name().c_str(),
-            body_part_name(targeted, side).c_str());
+            body_part_name(targeted).c_str());
     if (!g->u.has_trait("PARAIMMUNE")) {
-        g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
+        g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, true);
         g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
                               pgettext("memorial_female", "Injected with dermatik eggs."));
     }
@@ -1169,9 +1163,9 @@ void mattack::tentacle(monster *z)
     }
 
     body_part hit = random_body_part();
-    int dam = rng(10, 20), side = random_side(hit);
-    add_msg(m_bad, _("Your %s is hit for %d damage!"), body_part_name(hit, side).c_str(), dam);
-    g->u.hit(z, hit, side, dam, 0);
+    int dam = rng(10, 20);
+    add_msg(m_bad, _("Your %s is hit for %d damage!"), body_part_name(hit).c_str(), dam);
+    g->u.hit(z, hit, dam, 0);
     g->u.practice( "dodge", z->type->melee_skill );
 }
 
@@ -1224,10 +1218,9 @@ void mattack::vortex(monster *z)
                         } else if (traj[i].x == g->u.posx && traj[i].y == g->u.posy) {
                             if (! g->u.uncanny_dodge()) {
                                 body_part hit = random_body_part();
-                                int side = random_side(hit);
                                 add_msg(m_bad, _("A %s hits your %s for %d damage!"), thrown.tname().c_str(),
-                                        body_part_name(hit, side).c_str(), dam);
-                                g->u.hit(z, hit, side, dam, 0);
+                                        body_part_name(hit).c_str(), dam);
+                                g->u.hit(z, hit, dam, 0);
                                 dam = 0;
                             }
                         }
@@ -1944,24 +1937,24 @@ void mattack::bite(monster *z)
     }
 
     body_part hit = random_body_part();
-    int dam = rng(5, 10), side = random_side(hit);
-    dam = g->u.hit(z, hit, side, dam, 0);
+    int dam = rng(5, 10);
+    dam = g->u.hit(z, hit, dam, 0);
 
     if (dam > 0) {
-        add_msg(m_bad, _("The %s bites your %s!"), z->name().c_str(), body_part_name(hit, side).c_str());
+        add_msg(m_bad, _("The %s bites your %s!"), z->name().c_str(), body_part_name(hit).c_str());
 
         if(one_in(14 - dam)) {
-            if (g->u.has_disease("bite", hit, side)) {
-                g->u.add_disease("bite", 400, false, 1, 1, 0, -1, hit, side, true);
+            if (g->u.has_disease("bite", hit)) {
+                g->u.add_disease("bite", 400, false, 1, 1, 0, -1, hit, true);
             } else if (g->u.has_disease("infected", hit, side)) {
-                g->u.add_disease("infected", 250, false, 1, 1, 0, -1, hit, side, true);
+                g->u.add_disease("infected", 250, false, 1, 1, 0, -1, hit, true);
             } else {
-                g->u.add_disease("bite", 3601, false, 1, 1, 0, 0, hit, side, true); //6 hours + 1 "tick"
+                g->u.add_disease("bite", 3601, false, 1, 1, 0, 0, hit, true); //6 hours + 1 "tick"
             }
         }
     } else {
         add_msg(_("The %s bites your %s, but your armor protects you."), z->name().c_str(),
-                body_part_name(hit, side).c_str());
+                body_part_name(hit).c_str());
     }
 
     g->u.practice( "dodge", z->type->melee_skill );
@@ -2010,9 +2003,9 @@ void mattack::flesh_golem(monster *z)
         return;
     }
     body_part hit = random_body_part();
-    int dam = rng(5, 10), side = random_side(hit);
-    add_msg(m_bad, _("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
-    g->u.hit(z, hit, side, dam, 0);
+    int dam = rng(5, 10);
+    add_msg(m_bad, _("Your %s is battered for %d damage!"), body_part_name(hit).c_str(), dam);
+    g->u.hit(z, hit, dam, 0);
     if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
                          (g->u.is_wearing_footwear())) && (!(g->u.is_throw_immune())) ) {
         g->u.add_effect("downed", 30);
@@ -2083,9 +2076,9 @@ void mattack::longswipe(monster *z)
                 return;
             }
             body_part hit = random_body_part();
-            int dam = rng(3, 7), side = random_side(hit);
-            add_msg(m_bad, _("Your %s is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
-            g->u.hit(z, hit, side, dam, 0);
+            int dam = rng(3, 7);
+            add_msg(m_bad, _("Your %s is slashed for %d damage!"), body_part_name(hit).c_str(), dam);
+            g->u.hit(z, hit, dam, 0);
             g->u.practice( "dodge", z->type->melee_skill );
         }
         return;
@@ -2105,10 +2098,10 @@ void mattack::longswipe(monster *z)
         return;
     }
     body_part hit = bp_head;
-    int dam = rng(6, 10), side = random_side(hit);
-    add_msg(m_bad, _("Your throat is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
-    g->u.hit(z, hit, side, dam, 0);
-    g->u.add_disease("bleed", 100, false, 1, 1, 0, -1, hit, side, true);
+    int dam = rng(6, 10);
+    add_msg(m_bad, _("Your throat is slashed for %d damage!"), body_part_name(hit).c_str(), dam);
+    g->u.hit(z, hit, dam, 0);
+    g->u.add_disease("bleed", 100, false, 1, 1, 0, -1, hit, true);
     g->u.practice( "dodge", z->type->melee_skill );
 }
 

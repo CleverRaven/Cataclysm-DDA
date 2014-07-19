@@ -2995,10 +2995,9 @@ static bool cauterize_effect(player *p, item *it, bool force = true)
             p->add_msg_if_player(m_neutral, _("It itches a little."));
         }
         body_part bp = num_bp;
-        int side = -1;
-        p->hp_convert(hpart, bp, side);
-        if (p->has_disease("bite", bp, side)) {
-            g->u.add_disease("bite", 2600, false, 1, 1, 0, -1, bp, side, true);
+        p->hp_convert(hpart, bp);
+        if (p->has_disease("bite", bp)) {
+            g->u.add_disease("bite", 2600, false, 1, 1, 0, -1, bp, true);
         }
         return true;
     }

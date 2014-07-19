@@ -949,9 +949,9 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
-void monster::apply_damage(Creature* source, body_part bp, int side, int amount) {
+void monster::apply_damage(Creature* source, body_part bp, int amount) {
     if (is_dead_state()) return; // don't do any more damage if we're already dead
-    hurt(bp, side, amount);
+    hurt(bp, amount);
     if (is_dead_state()) die(source);
 }
 

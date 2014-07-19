@@ -1071,7 +1071,7 @@ void dis_effect(player &p, disease &dis)
                 p.add_msg_player_or_npc(m_bad, _("You lose some blood."),
                                                _("<npcname> loses some blood.") );
                 p.mod_pain(1);
-                p.hurt(dis.bp, dis.side == -1 ? 0 : dis.side, 1);
+                p.hurt(dis.bp, 1);
                 p.mod_per_bonus(-1);
                 p.mod_str_bonus(-1);
                 g->m.add_field(p.posx, p.posy, p.playerBloodType(), 1);
@@ -1243,14 +1243,14 @@ void dis_effect(player &p, disease &dis)
             if (x_in_y(dis.intensity, 100 + 50 * p.get_int())) {
                 if (!p.is_npc()) {
                      add_msg(m_warning, _("You start scratching your %s!"),
-                                              body_part_name(dis.bp, dis.side).c_str());
+                                              body_part_name(dis.bp).c_str());
                      g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
                     add_msg(_("%s starts scratching their %s!"), p.name.c_str(),
-                                       body_part_name(dis.bp, dis.side).c_str());
+                                       body_part_name(dis.bp).c_str());
                 }
                 p.moves -= 150;
-                p.hurt(dis.bp, dis.side, 1);
+                p.hurt(dis.bp, 1);
             }
             break;
 
@@ -1336,8 +1336,7 @@ void dis_effect(player &p, disease &dis)
                 } else if (one_in(500)) {
                     p.add_msg_if_player(m_bad, _("You notice a large abscess. You pick at it."));
                     body_part bp = random_body_part(true);
-                    int side = random_side(bp);
-                    p.add_disease("formication", 600, false, 1, 3, 0, 1, bp, side, true);
+                    p.add_disease("formication", 600, false, 1, 3, 0, 1, bp, true);
                     p.mod_pain(1);
                 } else if (one_in(500)) {
                     p.add_msg_if_player(m_bad, _("You feel so sick, like you've been poisoned, but you need more. So much more."));
@@ -2896,12 +2895,12 @@ static void handle_bite_wound(player& p, disease& dis)
 
         if ((x_in_y(recover_factor, 108000)) || (p.has_trait("INFIMMUNE"))) {
             p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
-                                 body_part_name(dis.bp, dis.side).c_str());
+                                 body_part_name(dis.bp).c_str());
              //No recovery time threshold
             if (((3601 - dis.duration) > 2400) && (!(p.has_trait("INFIMMUNE")))) {
                 p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
             }
-            p.rem_disease("bite", dis.bp, dis.side);
+            p.rem_disease("bite", dis.bp);
         }
     }
 
@@ -2910,7 +2909,7 @@ static void handle_bite_wound(player& p, disease& dis)
         // No real symptoms for 2 hours
         if ((one_in(300)) && (!(p.has_trait("NOPAIN")))) {
             p.add_msg_if_player(m_bad, _("Your %s wound really hurts."),
-                                 body_part_name(dis.bp, dis.side).c_str());
+                                 body_part_name(dis.bp).c_str());
         }
     } else if (dis.duration > 1) {
         // Then some pain for 4 hours
@@ -2919,7 +2918,7 @@ static void handle_bite_wound(player& p, disease& dis)
                 p.wake_up();
             }
             p.add_msg_if_player(m_bad, _("Your %s wound feels swollen and painful."),
-                                 body_part_name(dis.bp, dis.side).c_str());
+                                 body_part_name(dis.bp).c_str());
             if (p.pain < 10) {
                 p.mod_pain(1);
             }
@@ -2928,8 +2927,8 @@ static void handle_bite_wound(player& p, disease& dis)
     } else {
         // Infection starts
          // 1 day of timer + 1 tick
-        p.add_disease("infected", 14401, false, 1, 1, 0, 0, dis.bp, dis.side, true);
-        p.rem_disease("bite", dis.bp, dis.side);
+        p.add_disease("infected", 14401, false, 1, 1, 0, 0, dis.bp, true);
+        p.rem_disease("bite", dis.bp);
     }
 }
 
@@ -2939,13 +2938,13 @@ static void handle_infected_wound(player& p, disease& dis)
     if(int(calendar::turn) % 10 == 1) {
         if(x_in_y(100 + p.health, 864000)) {
             p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
-                                 body_part_name(dis.bp, dis.side).c_str());
+                                 body_part_name(dis.bp).c_str());
             if (dis.duration > 8401) {
                 p.add_disease("recover", 3 * (14401 - dis.duration + 3600) - 4800);
             } else {
                 p.add_disease("recover", 4 * (14401 - dis.duration + 3600) - 4800);
             }
-            p.rem_disease("infected", dis.bp, dis.side);
+            p.rem_disease("infected", dis.bp);
         }
     }
 
@@ -2956,7 +2955,7 @@ static void handle_infected_wound(player& p, disease& dis)
                 p.wake_up();
             }
             p.add_msg_if_player(m_bad, _("Your %s wound is incredibly painful."),
-                                 body_part_name(dis.bp, dis.side).c_str());
+                                 body_part_name(dis.bp).c_str());
             if(p.pain < 30) {
                 p.mod_pain(1);
             }
@@ -2970,7 +2969,7 @@ static void handle_infected_wound(player& p, disease& dis)
                 p.wake_up();
             }
             p.add_msg_if_player(m_bad, _("You feel feverish and nauseous, your %s wound has begun to turn green."),
-                  body_part_name(dis.bp, dis.side).c_str());
+                  body_part_name(dis.bp).c_str());
             p.vomit();
             if(p.pain < 50) {
                 p.mod_pain(1);
@@ -3227,7 +3226,7 @@ static void handle_insect_parasites(player& p, disease& dis)
         formication_chance += 2400 - (14401 - dis.duration);
     }
     if (one_in(formication_chance)) {
-        p.add_disease("formication", 600, false, 1, 3, 0, 1, dis.bp, dis.side, true);
+        p.add_disease("formication", 600, false, 1, 3, 0, 1, dis.bp, true);
     }
     if (dis.duration > 1 && one_in(2400)) {
         p.vomit();
@@ -3236,7 +3235,7 @@ static void handle_insect_parasites(player& p, disease& dis)
         // Spawn some larvae!
         // Choose how many insects; more for large characters
         int num_insects = rng(1, std::min(3, p.str_max / 3));
-        p.hurt(dis.bp, dis.side, rng(2, 4) * num_insects);
+        p.hurt(dis.bp, rng(2, 4) * num_insects);
         // Figure out where they may be placed
         p.add_msg_player_or_npc( m_bad, _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
             _("Insects begin to emerge from <npcname>'s skin!") );
@@ -3265,7 +3264,7 @@ static void handle_insect_parasites(player& p, disease& dis)
         }
         p.add_memorial_log(pgettext("memorial_male", "Dermatik eggs hatched."),
                            pgettext("memorial_female", "Dermatik eggs hatched."));
-        p.rem_disease("formication", dis.bp, dis.side);
+        p.rem_disease("formication", dis.bp);
         p.moves -= 600;
     }
 }

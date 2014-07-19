@@ -198,8 +198,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     bool has_weapon();
     bool is_dead_state(); // check if we should be dead or not
 
-    void absorb_hit(body_part bp, int side,
-            damage_instance &dam);
+    void absorb_hit(body_part bp, damage_instance &dam);
     void dodge_hit(Creature *source, int hit_spread);
     bool block_hit(Creature *source, body_part &bp_hit, damage_instance &d);
     void melee_attack(Creature &p, bool allow_special = true, matec_id force_technique = "");
@@ -212,12 +211,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     void hit_monster(int i);
     // TODO: fully replace hurt with apply/deal_damage
     virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
-    void apply_damage(Creature* source, body_part bp, int side, int amount);
+    void apply_damage(Creature* source, body_part bp, int amount);
     // Deals this dam damage; returns true if we dead
     // If real_dam is provided, caps overkill at real_dam.
     bool hurt(int dam, int real_dam = 0);
     // TODO: make this not a shim (possibly need to redo prototype)
-    void hurt(body_part bp, int side, int dam);
+    void hurt(body_part bp, int dam);
     int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
     int  get_armor_bash(body_part bp);  // Natural armor, plus any worn armor
     int  get_dodge();       // Natural dodge, or 0 if we're occupied

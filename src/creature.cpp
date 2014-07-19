@@ -196,13 +196,12 @@ bool Creature::digging()
 
 // TODO: this is a shim for the currently existing calls to Creature::hit,
 // start phasing them out
-int Creature::hit(Creature *source, body_part bphurt, int side,
-                  int dam, int cut)
+int Creature::hit(Creature *source, body_part bphurt, int dam, int cut)
 {
     damage_instance d;
     d.add_damage(DT_BASH, dam);
     d.add_damage(DT_CUT, cut);
-    dealt_damage_instance dealt_dams = deal_damage(source, bphurt, side, d);
+    dealt_damage_instance dealt_dams = deal_damage(source, bphurt, d);
 
     return dealt_dams.total_damage();
 }
@@ -227,7 +226,6 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part(source, hit_spread);
-    int side = rng(0, 1);
     block_hit(source, bp_hit, d);
 
     // Bashing crit
@@ -465,7 +463,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     return 0;
 }
 
-dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int side,
+dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
                                             const damage_instance &dam)
 {
     int total_damage = 0;
@@ -474,7 +472,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int 
 
     std::vector<int> dealt_dams(NUM_DT, 0);
 
-    absorb_hit(bp, side, d);
+    absorb_hit(bp, d);
 
     // add up all the damage units dealt
     int cur_damage;
@@ -493,7 +491,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int 
         total_damage = std::min( total_damage, get_hp() + 1 );
     }
 
-    apply_damage(source, bp, side, total_damage);
+    apply_damage(source, bp, total_damage);
     return dealt_damage_instance(dealt_dams);
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)

@@ -4404,10 +4404,9 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
     }
 }
 
-dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
-                                          int side, const damage_instance& d) {
-
-    dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, side, d); //damage applied here
+dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const damage_instance& d)
+{
+    dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, d); //damage applied here
     int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
 
     if (has_disease("sleep")) {
@@ -4428,13 +4427,13 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             //monster hits player melee
             nc_color color;
             std::string health_bar = "";
-            get_HP_Bar(dam, this->get_hp_max(bodypart_to_hp_part(bp, side)), color, health_bar);
+            get_HP_Bar(dam, this->get_hp_max(bodypart_to_hp_part(bp)), color, health_bar);
 
             SCT.add(this->xpos(),
                     this->ypos(),
                     direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
                     health_bar.c_str(), m_bad,
-                    body_part_name(bp, side), m_neutral);
+                    body_part_name(bp), m_neutral);
         }
     }
 
@@ -4528,12 +4527,14 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         break;
     case bp_hand_l: // Fall through to arms
     case bp_arm_l:
+        if (weapon.is_two_handed(this)) {
+            recoil += int(dam / 3);
+        }
+        break;
     case bp_hand_r: // Fall through to arms
     case bp_arm_r:
         // getting hit in the arms throws off our shooting
-        if (side == 1 || weapon.is_two_handed(this)) {
-            recoil += int(dam / 3);
-        }
+        recoil += int(dam / 3);
         break;
     case bp_foot_l: // Fall through to legs
     case bp_leg_l:
@@ -4568,7 +4569,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             // Maybe should only be if DT_CUT > 6... Balance question
             add_msg_if_player(m_bad, _("You're Bleeding!"));
             // Only place bleed effect added to player in code
-            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, side, true);
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, true);
         }
 
         if ( source->has_flag(MF_GRABS)) {
@@ -4590,7 +4591,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void player::apply_damage(Creature *, body_part bp, int side, int dam) {
+void player::apply_damage(Creature *, body_part bp, int dam) {
     if (is_dead_state()) {
         // don't do any more damage if we're already dead
         return;
@@ -4667,7 +4668,7 @@ void player::mod_pain(int npain) {
     Creature::mod_pain(npain);
 }
 
-void player::hurt(body_part hurt, int side, int dam)
+void player::hurt(body_part hurt, int dam)
 {
     hp_part hurtpart;
     switch (hurt) {
@@ -4761,7 +4762,7 @@ void player::hurt(hp_part hurt, int dam)
     lifetime_stats()->damage_taken += dam;
 }
 
-void player::heal(body_part healed, int side, int dam)
+void player::heal(body_part healed, int dam)
 {
     hp_part healpart;
     switch (healed) {
@@ -4935,7 +4936,7 @@ void player::knock_back_from(int x, int y)
  }
 }
 
-void player::bp_convert(hp_part &hpart, body_part bp, int side)
+void player::bp_convert(hp_part &hpart, body_part bp)
 {
     hpart =  num_hp_parts;
     switch(bp) {
@@ -4960,10 +4961,9 @@ void player::bp_convert(hp_part &hpart, body_part bp, int side)
     }
 }
 
-void player::hp_convert(hp_part hpart, body_part &bp, int &side)
+void player::hp_convert(hp_part hpart, body_part &bp)
 {
     bp =  num_bp;
-    side = -1;
     switch(hpart) {
         case hp_head:
             bp = bp_head;
@@ -5079,7 +5079,7 @@ void player::get_sick()
 bool player::infect(dis_type type, body_part vector, int strength,
                      int duration, bool permanent, int intensity,
                      int max_intensity, int decay, int additive, bool targeted,
-                     int side, bool main_parts_only)
+                     bool main_parts_only)
 {
     if (strength <= 0) {
         return false;
@@ -5088,7 +5088,7 @@ bool player::infect(dis_type type, body_part vector, int strength,
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         if (targeted) {
             add_disease(type, duration, permanent, intensity, max_intensity, decay,
-                          additive, vector, side, main_parts_only);
+                          additive, vector, main_parts_only);
         } else {
             add_disease(type, duration, permanent, intensity, max_intensity, decay, additive);
         }
@@ -5100,8 +5100,7 @@ bool player::infect(dis_type type, body_part vector, int strength,
 
 void player::add_disease(dis_type type, int duration, bool permanent,
                          int intensity, int max_intensity, int decay,
-                         int additive, body_part part, int side,
-                         bool main_parts_only)
+                         int additive, body_part part, bool main_parts_only)
 {
     if (duration <= 0) {
         return;
@@ -5133,13 +5132,8 @@ void player::add_disease(dis_type type, int duration, bool permanent,
                 debugmsg("Bodypart missmatch when applying disease %s",
                          type.c_str());
                 return;
-            } else if (illness[i].bp == part &&
-                       ((illness[i].side == -1) ^ (side == -1))) {
-                debugmsg("Side of body missmatch when applying disease %s",
-                         type.c_str());
-                return;
             }
-            if (illness[i].bp == part && illness[i].side == side) {
+            if (illness[i].bp == part) {
                 if (additive > 0) {
                     illness[i].duration += duration;
                 } else if (additive < 0) {
@@ -5162,7 +5156,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         i++;
     }
     if (!found) {
-        disease tmp(type, duration, intensity, part, side, permanent, decay);
+        disease tmp(type, duration, intensity, part, permanent, decay);
         illness.push_back(tmp);
 
         if (!is_npc()) {
@@ -5178,12 +5172,10 @@ void player::add_disease(dis_type type, int duration, bool permanent,
     recalc_sight_limits();
 }
 
-void player::rem_disease(dis_type type, body_part part, int side)
+void player::rem_disease(dis_type type, body_part part)
 {
     for (int i = 0; i < illness.size();) {
-        if (illness[i].type == type &&
-            ( part == num_bp || illness[i].bp == part ) &&
-            ( side == -1 || illness[i].side == side ) ) {
+        if (illness[i].type == type && ( part == num_bp || illness[i].bp == part )) {
             illness.erase(illness.begin() + i);
             if(!is_npc()) {
                 dis_remove_memorial(type);
@@ -5196,24 +5188,20 @@ void player::rem_disease(dis_type type, body_part part, int side)
     recalc_sight_limits();
 }
 
-bool player::has_disease(dis_type type, body_part part, int side) const
+bool player::has_disease(dis_type type, body_part part) const
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type &&
-            ( part == num_bp || illness[i].bp == part ) &&
-            ( side == -1 || illness[i].side == side ) ) {
+        if (illness[i].type == type && ( part == num_bp || illness[i].bp == part ) ) {
             return true;
         }
     }
     return false;
 }
 
-bool player::pause_disease(dis_type type, body_part part, int side)
+bool player::pause_disease(dis_type type, body_part part)
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type &&
-            ( part == num_bp || illness[i].bp == part ) &&
-            ( side == -1 || illness[i].side == side ) ) {
+        if (illness[i].type == type && ( part == num_bp || illness[i].bp == part )) {
                 illness[i].permanent = true;
                 return true;
         }
@@ -5221,12 +5209,10 @@ bool player::pause_disease(dis_type type, body_part part, int side)
     return false;
 }
 
-bool player::unpause_disease(dis_type type, body_part part, int side)
+bool player::unpause_disease(dis_type type, body_part part)
 {
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type &&
-            ( part == num_bp || illness[i].bp == part ) &&
-            ( side == -1 || illness[i].side == side ) ) {
+        if (illness[i].type == type && ( part == num_bp || illness[i].bp == part )) {
                 illness[i].permanent = false;
                 return true;
         }
@@ -5234,12 +5220,11 @@ bool player::unpause_disease(dis_type type, body_part part, int side)
     return false;
 }
 
-int player::disease_duration(dis_type type, bool all, body_part part, int side)
+int player::disease_duration(dis_type type, bool all, body_part part)
 {
     int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && (part ==  num_bp || illness[i].bp == part) &&
-            (side == -1 || illness[i].side == side)) {
+        if (illness[i].type == type && (part ==  num_bp || illness[i].bp == part)) {
             if (all == false) {
                 return illness[i].duration;
             } else {
@@ -5250,12 +5235,11 @@ int player::disease_duration(dis_type type, bool all, body_part part, int side)
     return tmp;
 }
 
-int player::disease_intensity(dis_type type, bool all, body_part part, int side)
+int player::disease_intensity(dis_type type, bool all, body_part part)
 {
     int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == type && (part ==  num_bp || illness[i].bp == part) &&
-            (side == -1 || illness[i].side == side)) {
+        if (illness[i].type == type && (part ==  num_bp || illness[i].bp == part)) {
             if (all == false) {
                 return illness[i].intensity;
             } else {
@@ -5688,8 +5672,7 @@ void player::suffer()
                     break;
                 case 11:
                     body_part bp = random_body_part(true);
-                    int side = random_side(bp);
-                    add_disease("formication", 600, false, 1, 3, 0, 1, bp, side, true);
+                    add_disease("formication", 600, false, 1, 3, 0, 1, bp, true);
                     break;
             }
         }
@@ -5996,8 +5979,7 @@ void player::suffer()
     if (has_bionic("bio_itchy") && one_in(500) && !has_disease("formication")) {
         add_msg(m_bad, _("Your malfunctioning bionic itches!"));
       body_part bp = random_body_part(true);
-      int side = random_side(bp);
-        add_disease("formication", 100, false, 1, 3, 0, 1, bp, side, true);
+        add_disease("formication", 100, false, 1, 3, 0, 1, bp, true);
     }
 
     // Artifact effects
@@ -6090,9 +6072,9 @@ void player::mend()
     //~ %s is bodypart
     add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
                      pgettext("memorial_female", "Broken %s began to mend."),
-                     body_part_name(part, side).c_str());
+                     body_part_name(part).c_str());
     add_msg(m_good, _("Your %s has started to mend!"),
-      body_part_name(part, side).c_str());
+      body_part_name(part).c_str());
    }
   }
  }

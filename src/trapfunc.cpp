@@ -224,9 +224,8 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                         hit = bp_head;
                         break;
                 }
-                int side = random_side(hit);
-                n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit, side).c_str());
-                n->hit(NULL, hit, side, 0, rng(20, 30));
+                n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit).c_str());
+                n->hit(NULL, hit, 0, rng(20, 30));
                 add_bolt = !one_in(10);
             } else {
                 n->add_msg_player_or_npc(m_neutral, _("You dodge the shot!"),
@@ -318,9 +317,8 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                         hit = bp_head;
                         break;
                 }
-                int side = random_side(hit);
-                n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit, side).c_str());
-                n->hit(NULL, hit, side, 0, rng(40 * shots, 60 * shots));
+                n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit).c_str());
+                n->hit(NULL, hit, 0, rng(40 * shots, 60 * shots));
             } else {
                 n->add_msg_player_or_npc(m_neutral, _("You dodge the shot!"),
                                          _("<npcname> dodges the shot!"));
@@ -446,7 +444,7 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
         body_part hit = bp_leg_r;
     }
     c->add_msg_player_or_npc(m_bad, _("A snare closes on your %s."),
-                             _("A snare closes on <npcname>s %s."), body_part_name(hit, side).c_str());
+                             _("A snare closes on <npcname>s %s."), body_part_name(hit).c_str());
     c->add_memorial_log(pgettext("memorial_male", "Triggered a heavy snare."),
                         pgettext("memorial_female", "Triggered a heavy snare."));
     monster *z = dynamic_cast<monster *>(c);
@@ -595,8 +593,8 @@ void trapfunc::dissector(Creature *c, int x, int y)
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
-            n->hit(NULL, bp_head,  -1, 0, 15);
-            n->hit(NULL, bp_torso, -1, 0, 20);
+            n->hit(NULL, bp_head,   0, 15);
+            n->hit(NULL, bp_torso,  0, 20);
             n->hit(NULL, bp_arm_r,  0, 12);
             n->hit(NULL, bp_arm_l,  0, 12);
             n->hit(NULL, bp_hand_r, 0, 10);
@@ -635,8 +633,8 @@ void trapfunc::pit(Creature *c, int x, int y)
                 if (damage > 0) {
                     n->add_msg_if_player(m_bad, _("You hurt yourself!"));
                     n->hurtall(rng(int(damage / 2), damage));
-                    n->hit(NULL, bp_legs, 0, damage, 0);
-                    n->hit(NULL, bp_legs, 1, damage, 0);
+                    n->hit(NULL, bp_leg_l, damage, 0);
+                    n->hit(NULL, bp_leg_r, damage, 0);
                 } else {
                     n->add_msg_if_player(_("You land nimbly."));
                 }
@@ -693,9 +691,8 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                         hit = bp_torso;
                         break;
                 }
-                int side = random_side(hit);
-                n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name(hit, side).c_str());
-                n->hit(NULL, hit, side, 0, damage);
+                n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name(hit).c_str());
+                n->hit(NULL, hit, 0, damage);
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
                   n->add_disease("tetanus",1,true);
               }

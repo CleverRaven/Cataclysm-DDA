@@ -1003,8 +1003,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if (g->u.posx == newp.x && g->u.posy == newp.y) {
                                         add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
-                                        int side = random_side(hit);
-                                        g->u.hit(NULL, hit, side, 6, 0);
+                                        g->u.hit(NULL, hit, 6, 0);
                                     }
                                     int npcdex = g->npc_at(newp.x, newp.y),
                                         mondex = g->mon_at(newp.x, newp.y);
@@ -1012,8 +1011,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if (npcdex != -1) {
                                         npc *p = g->active_npc[npcdex];
                                         body_part hit = random_body_part();
-                                        int side = random_side(hit);
-                                        p->hit(NULL, hit, side, 6, 0);
+                                        p->hit(NULL, hit, 6, 0);
                                         if (g->u_see(newp.x, newp.y)) {
                                             add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }

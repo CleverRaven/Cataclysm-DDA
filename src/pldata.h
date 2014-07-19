@@ -42,7 +42,6 @@ public:
  int intensity;
  int duration;
  body_part bp;
- int side;
  bool permanent;
  int decay;
 
@@ -57,9 +56,9 @@ public:
    return (buff_id != "" && type == "ma_buff");
  }
 
- disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; side = -1; permanent = false; decay = 0; }
+ disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; permanent = false; decay = 0; }
  disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1, bool perm = false, int dec = 0) :
-    type(t) { duration = d; intensity = i; bp = part; side = s; permanent = perm; decay = dec; }
+    type(t) { duration = d; intensity = i; bp = part; permanent = perm; decay = dec; }
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &json) const {
@@ -68,7 +67,6 @@ public:
         json.member("intensity", intensity);
         json.member("duration", duration);
         json.member("bp", (int)bp);
-        json.member("side", side);
         json.member("permanent", permanent);
         json.member("decay", decay);
         json.member("ma_buff_id", buff_id);
@@ -81,7 +79,6 @@ public:
         intensity = jo.get_int("intensity");
         duration = jo.get_int("duration");
         bp = (body_part)jo.get_int("bp");
-        side = jo.get_int("side");
         permanent = jo.get_bool("permanent");
         decay = jo.get_int("decay");
         buff_id = jo.get_string("ma_buff_id");
@@ -143,7 +140,7 @@ enum hp_part {
     num_hp_parts
 };
 
-inline hp_part bodypart_to_hp_part(body_part p_bp, int p_iSide = 0)
+inline hp_part bodypart_to_hp_part(body_part p_bp)
 {
     switch(p_bp) {
         case bp_torso:

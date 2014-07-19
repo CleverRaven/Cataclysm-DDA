@@ -1605,7 +1605,7 @@ void player::load_legacy(std::stringstream & dump)
  dump >> numill;
  for (int i = 0; i < numill; i++) {
      dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart >> illtmp.side;
+          >> temp_bpart;
      illtmp.bp = (body_part)temp_bpart;
      illness.push_back(illtmp);
  }

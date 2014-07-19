@@ -5286,17 +5286,16 @@ void game::draw_HP()
     static body_part part[] = { bp_head, bp_torso, bp_arm_l,
                                 bp_arm_r, bp_leg_l, bp_leg_r, num_bp
                               };
-    static int side[] = { -1, -1, 0, 1, 0, 1, -1 };
     int num_parts = sizeof(body_parts) / sizeof(body_parts[0]);
     for (int i = 0; i < num_parts; i++) {
         const char *str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide) {
-            wprintz(w_HP, limb_color(&u, part[i], side[i]), " ");
+            wprintz(w_HP, limb_color(&u, part[i]), " ");
         }
-        wprintz(w_HP, limb_color(&u, part[i], side[i]), str);
+        wprintz(w_HP, limb_color(&u, part[i]), str);
         if (!wide) {
-            wprintz(w_HP, limb_color(&u, part[i], side[i]), ":");
+            wprintz(w_HP, limb_color(&u, part[i]), ":");
         }
     }
 
@@ -5326,7 +5325,7 @@ void game::draw_HP()
     wrefresh(w_HP);
 }
 
-nc_color game::limb_color(player *p, body_part bp, int side, bool bleed, bool bite, bool infect)
+nc_color game::limb_color(player *p, body_part bp, bool bleed, bool bite, bool infect)
 {
     if (bp == num_bp) {
         return c_ltgray;
@@ -5334,13 +5333,13 @@ nc_color game::limb_color(player *p, body_part bp, int side, bool bleed, bool bi
 
     int color_bit = 0;
     nc_color i_color = c_ltgray;
-    if (bleed && p->has_disease("bleed", bp, side)) {
+    if (bleed && p->has_disease("bleed", bp)) {
         color_bit += 1;
     }
-    if (bite && p->has_disease("bite", bp, side)) {
+    if (bite && p->has_disease("bite", bp)) {
         color_bit += 10;
     }
-    if (infect && p->has_disease("infected", bp, side)) {
+    if (infect && p->has_disease("infected", bp)) {
         color_bit += 100;
     }
     switch (color_bit) {
@@ -6597,16 +6596,15 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
                 int npcdex = npc_at(tx, ty);
-                active_npc[npcdex]->hit(NULL, hit, rng(0, 1), 0, dam);
+                active_npc[npcdex]->hit(NULL, hit, 0, dam);
                 if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
                     active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
                     active_npc[npcdex]->die();
                 }
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
-                int side = random_side(hit);
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
-                u.hit(NULL, hit, random_side(hit), 0, dam);
+                u.hit(NULL, hit, 0, dam);
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects);
@@ -12635,8 +12633,7 @@ bool game::plmove(int dx, int dy)
             && (!u.in_vehicle)) {
             if (!u.has_trait("PARKOUR") || one_in(4)) {
                 body_part bp = random_body_part();
-                int side = random_side(bp);
-                if(u.hit(NULL, bp, side, 0, rng(1, 4)) > 0) {
+                if(u.hit(NULL, bp, 0, rng(1, 4)) > 0) {
                     add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x,
                             y).c_str());
                 }
