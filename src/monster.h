@@ -201,8 +201,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     void absorb_hit(body_part bp, int side,
             damage_instance &dam);
     void dodge_hit(Creature *source, int hit_spread);
-    bool block_hit(Creature *source, body_part &bp_hit, int &side,
-        damage_instance &d);
+    bool block_hit(Creature *source, body_part &bp_hit, damage_instance &d);
     void melee_attack(Creature &p, bool allow_special = true, matec_id force_technique = "");
     virtual int deal_melee_attack(Creature* source, int hitroll);
     virtual int deal_projectile_attack(Creature* source, double missed_by,

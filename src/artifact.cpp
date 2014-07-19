@@ -473,7 +473,7 @@ void init_artifacts()
         // Name    color  Materials         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
             _("Robe"),   c_red, "wool", "null", 6, 700,  1,  3,  3,  0,  2,  0, -8,  0, -3,
-            mfb(bp_torso) | mfb(bp_legs), false,
+            mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
                 ARMORMOD_PADDED
@@ -510,7 +510,7 @@ void init_artifacts()
 
         {
             _("Gloves"), c_ltblue, "leather", "null", 2, 100,  1,  3,  3,  1,  2,  0, -4,  0, -2,
-            mfb(bp_hands), true,
+            mfb(bp_hand_l) | mfb(bp_hand_r), true,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
                 ARMORMOD_NULL
@@ -520,7 +520,7 @@ void init_artifacts()
         // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
             _("Boots"), c_blue, "leather", "null",  6, 250,  1,  3,  3,  1,  3,  0,  4,  0, -1,
-            mfb(bp_feet), true,
+            mfb(bp_foot_l) | mfb(bp_foot_r), true,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
                 ARMORMOD_NULL

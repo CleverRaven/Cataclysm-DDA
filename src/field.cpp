@@ -1276,20 +1276,20 @@ void map::step_in_field(int x, int y)
             //TODO: Add resistance to this with rubber shoes or something?
             if (cur->getFieldDensity() == 3 && !inside) {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
-                g->u.hit(NULL, bp_feet, 0, 0, rng(4, 10));
-                g->u.hit(NULL, bp_feet, 1, 0, rng(4, 10));
-                g->u.hit(NULL, bp_legs, 0, 0, rng(2,  8));
-                g->u.hit(NULL, bp_legs, 1, 0, rng(2,  8));
+                g->u.hit(NULL, bp_foot_l, 0, rng(4, 10));
+                g->u.hit(NULL, bp_foot_r, 0, rng(4, 10));
+                g->u.hit(NULL, bp_leg_l, 0, rng(2,  8));
+                g->u.hit(NULL, bp_leg_r, 0, rng(2,  8));
             } else if (cur->getFieldDensity() == 2 && !inside) {
-                g->u.hit(NULL, bp_feet, 0, 0, rng(2, 5));
-                g->u.hit(NULL, bp_feet, 1, 0, rng(2, 5));
-                g->u.hit(NULL, bp_legs, 0, 0, rng(1,  4));
-                g->u.hit(NULL, bp_legs, 1, 0, rng(1,  4));
+                g->u.hit(NULL, bp_foot_l, 0, rng(2, 5));
+                g->u.hit(NULL, bp_foot_r, 0, rng(2, 5));
+                g->u.hit(NULL, bp_leg_l, 0, rng(1,  4));
+                g->u.hit(NULL, bp_leg_r, 0, rng(1,  4));
             } else if (!inside) {
-                g->u.hit(NULL, bp_feet, 0, 0, rng(1, 3));
-                g->u.hit(NULL, bp_feet, 1, 0, rng(1, 3));
-                g->u.hit(NULL, bp_legs, 0, 0, rng(0,  2));
-                g->u.hit(NULL, bp_legs, 1, 0, rng(0,  2));
+                g->u.hit(NULL, bp_foot_l, 0, rng(1, 3));
+                g->u.hit(NULL, bp_foot_r, 0, rng(1, 3));
+                g->u.hit(NULL, bp_leg_l, 0, rng(0,  2));
+                g->u.hit(NULL, bp_leg_r, 0, rng(0,  2));
             }
             break;
 
@@ -1325,20 +1325,20 @@ void map::step_in_field(int x, int y)
             if (!g->u.has_active_bionic("bio_heatsink") && !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
                     add_msg(m_bad, _("You burn your legs and feet!"));
-                    g->u.hit(NULL, bp_feet, 0, 0, rng(2, 6));
-                    g->u.hit(NULL, bp_feet, 1, 0, rng(2, 6));
-                    g->u.hit(NULL, bp_legs, 0, 0, rng(1, 4));
-                    g->u.hit(NULL, bp_legs, 1, 0, rng(1, 4));
+                    g->u.hit(NULL, bp_foot_l, 0, rng(2, 6));
+                    g->u.hit(NULL, bp_foot_r, 0, rng(2, 6));
+                    g->u.hit(NULL, bp_leg_l, 0, rng(1, 4));
+                    g->u.hit(NULL, bp_leg_r, 0, rng(1, 4));
                 } else if (adjusted_intensity == 2) {
                     add_msg(m_bad, _("You're burning up!"));
-                    g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
-                    g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));
-                    g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
+                    g->u.hit(NULL, bp_leg_l, 0,  rng(2, 6));
+                    g->u.hit(NULL, bp_leg_r, 0,  rng(2, 6));
+                    g->u.hit(NULL, bp_torso, 4, rng(4, 9));
                 } else if (adjusted_intensity == 3) {
                     add_msg(m_bad, _("You're set ablaze!"));
-                    g->u.hit(NULL, bp_legs, 0, 0, rng(2, 6));
-                    g->u.hit(NULL, bp_legs, 1, 0, rng(2, 6));
-                    g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
+                    g->u.hit(NULL, bp_leg_l, 0, rng(2, 6));
+                    g->u.hit(NULL, bp_leg_r, 0, rng(2, 6));
+                    g->u.hit(NULL, bp_torso, 4, rng(4, 9));
                     g->u.add_effect("onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
@@ -1418,9 +1418,9 @@ void map::step_in_field(int x, int y)
             if (inside) break; //fireballs can't touch you inside a car.
             if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit stops fire.
                 add_msg(m_bad, _("You're torched by flames!"));
-                g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
-                g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));
-                g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
+                g->u.hit(NULL, bp_leg_l, 0,  rng(2, 6));
+                g->u.hit(NULL, bp_leg_r, 0,  rng(2, 6));
+                g->u.hit(NULL, bp_torso, 4, rng(4, 9));
             } else
                 add_msg(_("These flames do not burn you."));
             break;
@@ -1842,14 +1842,14 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
       g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       add_msg(m_bad, _("You are hit by the falling debris!"));
      }
-     if ((one_in(g->u.dex_cur)) && (((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.wearing_something_on(bp_feet))) ) {
+     if ((one_in(g->u.dex_cur)) && (((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.is_wearing_footwear())) ) {
       g->u.add_effect("downed", 2);
      }
      if (one_in(g->u.str_cur)) {
       g->u.add_effect("stunned", 2);
      }
     }
-    else if ((one_in(g->u.str_cur)) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet))) ) {
+    else if ((one_in(g->u.str_cur)) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.is_wearing_footwear())) ) {
      add_msg(m_bad, _("You trip as you evade the falling debris!"));
      g->u.add_effect("downed", 1);
     }
@@ -1871,14 +1871,14 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       }
       // Not sure how to track what NPCs are wearing, and they're under revision anyway so leaving it checking player. :-/
-      if ((one_in(me->dex_cur)) && ( ((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.wearing_something_on(bp_feet)) ) ) {
+      if ((one_in(me->dex_cur)) && ( ((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.is_wearing_footwear()) ) ) {
        me->add_effect("downed", 2);
       }
       if (one_in(me->str_cur)) {
        me->add_effect("stunned", 2);
       }
      }
-     else if (me && (one_in(me->str_cur)) && ( ((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.wearing_something_on(bp_feet)) ) ) {
+     else if (me && (one_in(me->str_cur)) && ( ((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.is_wearing_footwear()) ) ) {
       me->add_effect("downed", 1);
      }
     }

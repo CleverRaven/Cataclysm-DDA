@@ -599,7 +599,7 @@ int player::roll_cut_damage(bool crit)
         unarmed_skill = 5;
     }
 
-    if (unarmed_attack() && !wearing_something_on(bp_hands)) {
+    if (unarmed_attack() && !wearing_something_on(bp_hand_l) && !wearing_something_on(bp_hand_r)) {
         if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
             ret += 6;
         if (has_bionic("bio_razors"))
@@ -632,7 +632,7 @@ int player::roll_stab_damage(bool crit)
     double ret = 0;
     //TODO: armor formula is z->get_armor_cut() - 3 * skillLevel("stabbing")
 
-    if (unarmed_attack() && !wearing_something_on(bp_hands)) {
+    if (unarmed_attack() && !wearing_something_on(bp_hand_l) && !wearing_something_on(bp_hand_r)) {
         ret = 0;
         if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
             ret += 6;
@@ -1104,8 +1104,7 @@ void player::dodge_hit(Creature *source, int) {
     }
 }
 
-bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
-                       damage_instance &dam) {
+bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
 
     //Shouldn't block if player is asleep; this only seems to be used by player.
     //g->u.has_disease("sleep") would work as well from looking at other block functions.
@@ -1199,23 +1198,27 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
         thing_blocked_with = weapon.tname();
         handle_melee_wear();
     } else if (can_limb_block()) {
-        //Choose which body part to block with
+        //Choose which body part to block with, use left side as a place holder
         if (can_leg_block() && can_arm_block()) {
-            bp_hit = one_in(2) ? bp_legs : bp_arms;
+            bp_hit = one_in(2) ? bp_leg_l : bp_arm_l;
         } else if (can_leg_block()) {
-            bp_hit = bp_legs;
+            bp_hit = bp_leg_l;
         } else {
-            bp_hit = bp_arms;
+            bp_hit = bp_arm_l;
         }
 
-        // Choose what side to block with.
-        if (bp_hit == bp_legs) {
-            side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
+        // Check if we should actually use the right side to block
+        if (bp_hit == bp_leg_l) {
+            if (hp_cur[hp_leg_r] > hp_cur[hp_leg_l]) {
+                bp_hit = bp_leg_r
+            }
         } else {
-            side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
+            if (hp_cur[hp_arm_r] > hp_cur[hp_arm_l]) {
+                bp_hit = bp_arm_r
+            }
         }
 
-        thing_blocked_with = body_part_name(bp_hit, side);
+        thing_blocked_with = body_part_name(bp_hit);
     }
 
     std::string damage_blocked_description;
@@ -1365,9 +1368,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     //Hurting the wielder from poorly-chosen weapons
     if(weapon.has_flag("HURT_WHEN_WIELDED") && x_in_y(2, 3)) {
         add_msg_if_player(m_bad, _("The %s cuts your hand!"), weapon.tname().c_str());
-        deal_damage(NULL, bp_hands, 0, damage_instance::physical(0, weapon.damage_cut(), 0));
+        deal_damage(NULL, bp_hand_l, damage_instance::physical(0, weapon.damage_cut(), 0));
         if (weapon.is_two_handed(this)) { // Hurt left hand too, if it was big
-            deal_damage(NULL, bp_hands, 1, damage_instance::physical(0, weapon.damage_cut(), 0));
+            deal_damage(NULL, bp_hand_r, damage_instance::physical(0, weapon.damage_cut(), 0));
         }
     }
 
@@ -1388,10 +1391,10 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
             g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
         }
         // Take damage
-        deal_damage(this, bp_arms, 1, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));
+        deal_damage(this, bp_arm_r, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));
         if (weapon.is_two_handed(this)) {// Hurt left arm too, if it was big
             //redeclare shatter_dam because deal_damage mutates it
-            deal_damage(this, bp_arms, 0, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));
+            deal_damage(this, bp_arm_l, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));
         }
         d.add_damage(DT_CUT, rng(0, 5 + int(weapon.volume() * 1.5)));// Hurt the monster extra
         remove_weapon();
@@ -1444,8 +1447,11 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
             //Sharp objects that injure wielder when pulled from hands (so cutting damage only)
             dump << std::endl << string_format(_("You are hurt by the %s being pulled from your hands!"),
                                                weapon.tname().c_str());
-            deal_damage( this, bp_hands, random_side(bp_hands),
-                         damage_instance::physical( 0, weapon.damage_cut() / 2, 0) );
+            if (one_in(2)) {
+                deal_damage( this, bp_hand_l, damage_instance::physical( 0, weapon.damage_cut() / 2, 0) );
+            } else {
+                deal_damage( this, bp_hand_r, damage_instance::physical( 0, weapon.damage_cut() / 2, 0) );
+            }
         }
     } else {
         if (d.total_damage() > 20) { // TODO: change this back to "if it would kill the monster"

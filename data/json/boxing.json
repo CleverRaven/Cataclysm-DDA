@@ -6,7 +6,7 @@
         "name_plural" : "pairs of boxing gloves",
         "weight" : 453,
         "color" : "red",
-        "covers" : ["HANDS"],
+        "covers" : ["HAND_L", "HAND_R"],
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",

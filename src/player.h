@@ -665,6 +665,8 @@ public:
  bool wearing_something_on(body_part bp) const;
  /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
  bool is_wearing_shoes() const;
+ /** Returns true if the player is wearing something on their feet */
+ bool is_wearing_footwear() const;
  /** Returns true if the player is wearing power armor */
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 

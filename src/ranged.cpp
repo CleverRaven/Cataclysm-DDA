@@ -584,7 +584,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         deviation -= p.per_cur - 8;
     }
 
-    deviation += rng(0, p.encumb(bp_hands) * 2 + p.encumb(bp_eyes) + 1);
+    deviation += rng(0, (p.encumb(bp_hand_l) + p.encumb(bp_hand_r)) * 2 + p.encumb(bp_eyes) + 1);
     if (thrown.volume() > 5) {
         deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
     }
@@ -1307,18 +1307,13 @@ double player::get_weapon_dispersion(item *weapon)
     dispersion += rng(0, ranged_dex_mod());
     dispersion += rng(0, ranged_per_mod());
 
-    dispersion += rng(0, 2 * encumb(bp_arms)) + rng(0, 4 * encumb(bp_eyes));
+    dispersion += rng(0, 2 * (encumb(bp_arm_l) + encumb(bp_arm_r))) + rng(0, 4 * encumb(bp_eyes));
 
     dispersion += rng(0, weapon->curammo->dispersion);
     // item::dispersion() doesn't support gunmods.
     dispersion += rng(0, weapon->dispersion());
     int adj_recoil = recoil + driving_recoil;
     dispersion += rng(int(adj_recoil / 4), adj_recoil);
-
-    // this is what the total bonus USED to look like
-    // rng(0,x) on each term in the sum
-    // 3 * skill + skill + 2 * dex + 2 * per
-    // - 2*p.encumb(bp_arms) - 4*p.encumb(bp_eyes) - 5/8 * recoil
 
     // old targeting bionic suddenly went from 0.8 to 0.65 when LONG_RANGE was
     // crossed, so increasing range by 1 would actually increase accuracy by a

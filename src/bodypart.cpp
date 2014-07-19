@@ -122,10 +122,14 @@ void init_body_parts()
     body_parts["HEAD"]  = bp_head;
     body_parts["EYES"]  = bp_eyes;
     body_parts["MOUTH"] = bp_mouth;
-    body_parts["ARMS"]  = bp_arms;
-    body_parts["HANDS"] = bp_hands;
-    body_parts["LEGS"]  = bp_legs;
-    body_parts["FEET"]  = bp_feet;
+    body_parts["ARM_L"]  = bp_arm_l;
+    body_parts["ARM_R"]  = bp_arm_r;
+    body_parts["HAND_L"] = bp_hand_l;
+    body_parts["HAND_R"] = bp_hand_r;
+    body_parts["LEG_L"]  = bp_leg_l;
+    body_parts["LEG_R"]  = bp_leg_r;
+    body_parts["FOOT_L"]  = bp_foot_l;
+    body_parts["FOOT_R"]  = bp_foot_r;
 }
 
 std::string get_body_part_id(body_part bp)
@@ -139,17 +143,23 @@ std::string get_body_part_id(body_part bp)
         return "MOUTH";
     case bp_torso:
         return "TORSO";
-    case bp_arms:
-        return "ARMS";
-    case bp_hands:
-        return "HANDS";
-    case bp_legs:
-        return "LEGS";
-    case bp_feet:
-        return "FEET";
+    case bp_arm_l:
+        return "ARM_L";
+    case bp_arm_r:
+        return "ARM_R";
+    case bp_hand_l:
+        return "HAND_L";
+    case bp_hand_r:
+        return "HAND_R";
+    case bp_leg_l:
+        return "LEG_L";
+    case bp_leg_r:
+        return "LEG_R";
+    case bp_foot_l:
+        return "FOOT_L";
+    case bp_foot_r:
+        return "FOOT_R";
     default:
         throw std::string("bad body part: %d", bp);
     }
 }
-
-

@@ -592,12 +592,14 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "WEBBED" || mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
       mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
         // Push off gloves
-        bps.push_back(bp_hands);
+        bps.push_back(bp_hand_l);
+        bps.push_back(bp_hand_r);
 
     } else if (mut == "TALONS") {
         // Destroy gloves
         destroy = true;
-        bps.push_back(bp_hands);
+        bps.push_back(bp_hand_l);
+        bps.push_back(bp_hand_r);
 
     } else if (mut == "BEAK" || mut == "BEAK_PECK" || mut == "BEAK_HUM" || mut == "MANDIBLES" || mut == "SABER_TEETH") {
         // Destroy mouthwear
@@ -612,7 +614,8 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "HOOVES" || mut == "RAP_TALONS") {
         // Destroy footwear
         destroy = true;
-        bps.push_back(bp_feet);
+        bps.push_back(bp_foot_l);
+        bps.push_back(bp_foot_r);
 
     } else if (mut == "SHELL") {
         // Destroy torsowear
@@ -643,11 +646,15 @@ void mutation_effect(player &p, std::string mut)
         add_msg(m_bad, _("You rip out of your clothing!"));
         destroy = true;
         bps.push_back(bp_torso);
-        bps.push_back(bp_legs);
-        bps.push_back(bp_arms);
-        bps.push_back(bp_hands);
+        bps.push_back(bp_leg_l);
+        bps.push_back(bp_leg_r);
+        bps.push_back(bp_arm_l);
+        bps.push_back(bp_arm_r);
+        bps.push_back(bp_hand_l);
+        bps.push_back(bp_hand_r);
         bps.push_back(bp_head);
-        bps.push_back(bp_feet);
+        bps.push_back(bp_foot_l);
+        bps.push_back(bp_foot_r);
 
     }  else if (mut == "HUGE_OK") {
         p.str_max += 4;

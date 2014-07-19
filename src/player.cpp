@@ -195,10 +195,14 @@ player::player() : Character(), name("")
  mDrenchEffect[bp_eyes] = 1;
  mDrenchEffect[bp_mouth] = 1;
  mDrenchEffect[bp_head] = 7;
- mDrenchEffect[bp_legs] = 21;
- mDrenchEffect[bp_feet] = 6;
- mDrenchEffect[bp_arms] = 19;
- mDrenchEffect[bp_hands] = 5;
+ mDrenchEffect[bp_leg_l] = 11;
+ mDrenchEffect[bp_leg_r] = 11;
+ mDrenchEffect[bp_foot_l] = 3;
+ mDrenchEffect[bp_foot_r] = 3;
+ mDrenchEffect[bp_arm_l] = 10;
+ mDrenchEffect[bp_arm_r] = 10;
+ mDrenchEffect[bp_hand_l] = 3;
+ mDrenchEffect[bp_hand_r] = 3;
  mDrenchEffect[bp_torso] = 40;
 
  recalc_sight_limits();
@@ -468,7 +472,7 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - encumb(bp_legs)/2 - encumb(bp_torso) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - (encumb(bp_leg_l) + encumb(bp_leg_r))/2 - encumb(bp_torso) );
     if (has_trait("TAIL_LONG")) {
         mod_dodge_bonus(2);
     }
@@ -659,13 +663,13 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_torso)) {
             bonus += 6;
         }
-        if(covered & mfb(bp_legs)) {
+        if(covered & (mfb(bp_leg_l) | mfb(bp_leg_r))) {
             bonus += 4;
         }
-        if(covered & mfb(bp_feet)) {
+        if(covered & (mfb(bp_feet_l) | mfb(bp_feet_r))) {
             bonus += 2;
         }
-        if(covered & mfb(bp_hands)) {
+        if(covered & (mfb(bp_hand_l) | mfb(bp_hand_r))) {
             bonus += 2;
         }
         if(covered & mfb(bp_head)) {
@@ -674,7 +678,7 @@ void player::apply_persistent_morale()
         if(covered & mfb(bp_eyes)) {
             bonus += 2;
         }
-        if(covered & mfb(bp_arms)) {
+        if(covered & (mfb(bp_arm_l) | mfb(bp_arm_r))) {
             bonus += 2;
         }
         if(covered & mfb(bp_mouth)) {
@@ -697,7 +701,7 @@ void player::apply_persistent_morale()
     // The same applies to rooters and their feet; however, they don't take
     // too many problems from no-footgear.
     if( (has_trait("ROOTS") || has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
-        wearing_something_on(bp_feet) ) {
+        is_wearing_footwear() ) {
         add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
     }
 
@@ -881,7 +885,7 @@ void player::update_bodytemp()
             // Smaller items don't do as good a job
             if ( floor_armor->volume > 1 &&
             ((floor_armor->covers & mfb(bp_torso)) ||
-             (floor_armor->covers & mfb(bp_legs))) ) {
+             (floor_armor->covers & (mfb(bp_leg_l) | mfb(bp_leg_r))) ) {
                 floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
             }
         }
@@ -1050,11 +1054,11 @@ void player::update_bodytemp()
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
-        if      (i == bp_legs)
+        if      (i == bp_leg_l || i == bp_leg_r)
         {
             blood_loss = (100 - 100*(hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) / (hp_max[hp_leg_l] + hp_max[hp_leg_r]));
         }
-        else if (i == bp_arms)
+        else if (i == bp_arm_l || i == bp_arm_r)
         {
             blood_loss = (100 - 100*(hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) / (hp_max[hp_arm_l] + hp_max[hp_arm_r]));
         }
@@ -1070,26 +1074,48 @@ void player::update_bodytemp()
         // EQUALIZATION
         switch (i)
         {
-            case bp_torso :
-                temp_equalizer(bp_torso, bp_arms);
-                temp_equalizer(bp_torso, bp_legs);
+            case bp_torso:
+                temp_equalizer(bp_torso, bp_arm_l);
+                temp_equalizer(bp_torso, bp_arm_r);
+                temp_equalizer(bp_torso, bp_leg_l);
+                temp_equalizer(bp_torso, bp_leg_r);
                 temp_equalizer(bp_torso, bp_head);
                 break;
-            case bp_head :
+            case bp_head:
                 temp_equalizer(bp_head, bp_torso);
                 temp_equalizer(bp_head, bp_mouth);
                 break;
-            case bp_arms :
-                temp_equalizer(bp_arms, bp_torso);
-                temp_equalizer(bp_arms, bp_hands);
+            case bp_arm_l:
+                temp_equalizer(bp_arm_l, bp_torso);
+                temp_equalizer(bp_arm_l, bp_hand_l);
                 break;
-            case bp_legs :
-                temp_equalizer(bp_legs, bp_torso);
-                temp_equalizer(bp_legs, bp_feet);
+            case bp_arm_r:
+                temp_equalizer(bp_arm_r, bp_torso);
+                temp_equalizer(bp_arm_r, bp_hand_r);
                 break;
-            case bp_mouth : temp_equalizer(bp_mouth, bp_head); break;
-            case bp_hands : temp_equalizer(bp_hands, bp_arms); break;
-            case bp_feet  : temp_equalizer(bp_feet, bp_legs); break;
+            case bp_leg_l:
+                temp_equalizer(bp_leg_l, bp_torso);
+                temp_equalizer(bp_leg_l, bp_foot_l);
+                break;
+            case bp_leg_r:
+                temp_equalizer(bp_leg_r, bp_torso);
+                temp_equalizer(bp_leg_r, bp_foot_r);
+                break;
+            case bp_mouth:
+                temp_equalizer(bp_mouth, bp_head);
+                break;
+            case bp_hand_l:
+                temp_equalizer(bp_hand_l, bp_arm_l);
+                break;
+            case bp_hand_r:
+                temp_equalizer(bp_hand_r, bp_arm_r);
+                break;
+            case bp_foot_l:
+                temp_equalizer(bp_foot_l, bp_leg_l);
+                break;
+            case bp_foot_r:
+                temp_equalizer(bp_foot_r, bp_leg_r);
+                break;
         }
         // MUTATIONS and TRAITS
         // Bark : lowers blister count to -100; harder to get blisters
@@ -1162,8 +1188,8 @@ void player::update_bodytemp()
         }
         if (temp_cur[i] != temp_conv[i])
         {
-            if      ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage)
-                    && (i == bp_feet || i == bp_legs))
+            if      ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage) &&
+                      (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r))
             {
                 temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
             }
@@ -1221,13 +1247,23 @@ void player::update_bodytemp()
         {
             switch (i)
             {
-                case bp_head :
-                case bp_torso :
-                case bp_mouth : morale_pen += 2*intensity_mult;
-                case bp_arms :
-                case bp_legs : morale_pen += 1*intensity_mult;
-                case bp_hands:
-                case bp_feet : morale_pen += 1*intensity_mult;
+                case bp_head:
+                case bp_torso:
+                case bp_mouth:
+                    morale_pen += 2 * intensity_mult;
+                    break;
+                case bp_arm_l:
+                case bp_arm_r:
+                case bp_leg_l:
+                case bp_leg_r:
+                    morale_pen += 1 * intensity_mult;
+                    break;
+                case bp_hand_l:
+                case bp_hand_r:
+                case bp_foot_l:
+                case bp_foot_r:
+                    morale_pen += 1 * intensity_mult;
+                    break;
             }
         }
         // FROSTBITE (level 1 after 2 hours, level 2 after 4 hours)
@@ -1240,9 +1276,9 @@ void player::update_bodytemp()
             add_disease("frostbite", 1, false, 2, 2, 0, 1, (body_part)i, -1);
             // Warning message for the player
             if (disease_intensity("frostbite", false, (body_part)i) < 2
-                &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
+                &&  (i == bp_mouth || i == bp_hands || i == bp_foot_l || i == bp_foot_r))
             {
-                add_msg(m_bad, (i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
+                add_msg(m_bad, (i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i)).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
@@ -1462,7 +1498,7 @@ int player::run_cost(int base_cost, bool diag)
     if (has_trait("SLOWRUNNER") && flatground) {
         movecost *= 1.15f;
     }
-    if (has_trait("PADDED_FEET") && !wearing_something_on(bp_feet)) {
+    if (has_trait("PADDED_FEET") && !is_wearing_footwear()) {
         movecost *= .9f;
     }
     if (has_trait("LIGHT_BONES")) {
@@ -1508,7 +1544,7 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
+    movecost += encumb(bp_mouth) * 5 + (encumb(bp_feet_l) + encumb(bp_feet_r)) * 5 + (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -1518,7 +1554,7 @@ int player::run_cost(int base_cost, bool diag)
         movecost += 15;
     }
 
-    if( !wearing_something_on(bp_feet) && has_trait("ROOTS3") &&
+    if( !is_wearing_footwear() && has_trait("ROOTS3") &&
         g->m.has_flag("DIGGABLE", posx, posy) ) {
         movecost += 10;
     }
@@ -1557,7 +1593,7 @@ int player::swim_speed()
   if (has_trait("FAT")) {
       ret -= 30;
   }
- ret += (50 - skillLevel("swimming") * 2) * encumb(bp_legs);
+ ret += (50 - skillLevel("swimming") * 2) * (encumb(bp_leg_l) + encumb(bp_leg_r));
  ret += (80 - skillLevel("swimming") * 3) * encumb(bp_torso);
  if (skillLevel("swimming") < 10) {
   for (int i = 0; i < worn.size(); i++)
@@ -2363,9 +2399,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     wrefresh(w_stats);
 
     // Next, draw encumberment.
-    std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"),
-                            _("Arms"), _("Hands"), _("Legs"), _("Feet")};
-    body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
+    std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Left Arm"),
+                            _("Right Arm"), _("Left Hand"), _("Right Hand"), _("Left Leg"),
+                             _("Right Leg"), _("Left Foot"), _("Right Foot")};
+    body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
+                             bp_hand_r, bp_leg_l, bp_hand_r, bp_foot_l, bp_foot_r};
     int iEnc, iArmorEnc, iWarmth;
     double iLayers;
 
@@ -2740,10 +2778,10 @@ Arm encumbrance affects your accuracy with ranged weapons."));
                 mvwprintz(w_encumb, 6, 1, h_ltgray, _("Hands"));
                 s = ngettext("Reloading costs %+d movement point; ",
                              "Reloading costs %+d movement points; ",
-                             encumb(bp_hands) * 30);
+                             (encumb(bp_hand_l) + encum(bp_hand_r)) * 30);
                 s+= _("Dexterity %+d when throwing items.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str() , encumb(bp_hands) * 30, -encumb(bp_hands));
+                               s.c_str() , encumb(bp_hands) * 30, -(encumb(bp_hand_l) + encum(bp_hand_r)));
             } else if (line == 6) {
                 mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
                 s = ngettext("Running costs %+d movement point; ",
@@ -2754,16 +2792,16 @@ Arm encumbrance affects your accuracy with ranged weapons."));
                              encumb(bp_legs) *(50 - skillLevel("swimming") * 2));
                 s+= _("Dodge skill %+.1f.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str(), encumb(bp_legs) * 3,
+                               s.c_str(), (encumb(bp_leg_l) + encum(bp_leg_r)) * 3,
                                encumb(bp_legs) *(50 - skillLevel("swimming") * 2),
-                               double(double(-encumb(bp_legs)) / 2));
+                               double(double(-(encumb(bp_leg_l) + encum(bp_leg_r))) / 2));
             } else if (line == 7) {
                 mvwprintz(w_encumb, 8, 1, h_ltgray, _("Feet"));
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                ngettext("Running costs %+d movement point.", 
                                         "Running costs %+d movement points.",
-                                        encumb(bp_feet) * 5),
-                               encumb(bp_feet) * 5);
+                                        (encumb(bp_foot_l) + encum(bp_foot_r)) * 5),
+                               (encumb(bp_foot_l) + encum(bp_foot_r)) * 5);
             }
             wrefresh(w_encumb);
             wrefresh(w_info);
@@ -4090,11 +4128,12 @@ void player::pause()
     if (underwater) {
         practice( "swimming", 1 );
         if (g->temperature <= 50) {
-            drench(100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
-                           mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_feet)|mfb(bp_hands));
+            drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
+                        mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_foot_l)|mfb(bp_foot_r)|
+                        mfb(bp_hand_l)|mfb(bp_hand_r));
         } else {
-            drench(100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
-                           mfb(bp_eyes)|mfb(bp_mouth));
+            drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
+                        mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth));
         }
     }
 
@@ -4487,15 +4526,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         // getting hit throws off our shooting
         recoil += int(dam / 5);
         break;
-    case bp_hands: // Fall through to arms
-    case bp_arms:
+    case bp_hand_l: // Fall through to arms
+    case bp_arm_l:
+    case bp_hand_r: // Fall through to arms
+    case bp_arm_r:
         // getting hit in the arms throws off our shooting
         if (side == 1 || weapon.is_two_handed(this)) {
             recoil += int(dam / 3);
         }
         break;
-    case bp_feet: // Fall through to legs
-    case bp_legs:
+    case bp_foot_l: // Fall through to legs
+    case bp_leg_l:
+        break;
+    case bp_foot_r: // Fall through to legs
+    case bp_leg_r:
         break;
     default:
         debugmsg("Wacky body part hit!");
@@ -4569,38 +4613,36 @@ void player::apply_damage(Creature *, body_part bp, int side, int dam) {
             hp_cur[hp_torso] = 0;
         }
         break;
-    case bp_hands: // Fall through to arms
-    case bp_arms:
-        if (side == 0) {
-            hp_cur[hp_arm_l] -= dam;
-            if (hp_cur[hp_arm_l] < 0) {
-                lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
-                hp_cur[hp_arm_l] = 0;
-            }
-        }
-        if (side == 1) {
-            hp_cur[hp_arm_r] -= dam;
-            if (hp_cur[hp_arm_r] < 0) {
-                lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
-                hp_cur[hp_arm_r] = 0;
-            }
+    case bp_hand_l: // Fall through to arms
+    case bp_arm_l:
+        hp_cur[hp_arm_l] -= dam;
+        if (hp_cur[hp_arm_l] < 0) {
+            lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
+            hp_cur[hp_arm_l] = 0;
         }
         break;
-    case bp_feet: // Fall through to legs
-    case bp_legs:
-        if (side == 0) {
-            hp_cur[hp_leg_l] -= dam;
-            if (hp_cur[hp_leg_l] < 0) {
-                lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
-                hp_cur[hp_leg_l] = 0;
-            }
+    case bp_hand_r: // Fall through to arms
+    case bp_arm_r:
+        hp_cur[hp_arm_r] -= dam;
+        if (hp_cur[hp_arm_r] < 0) {
+            lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
+            hp_cur[hp_arm_r] = 0;
         }
-        if (side == 1) {
-            hp_cur[hp_leg_r] -= dam;
-            if (hp_cur[hp_leg_r] < 0) {
-                lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
-                hp_cur[hp_leg_r] = 0;
-            }
+        break;
+    case bp_foot_l: // Fall through to legs
+    case bp_leg_l:
+        hp_cur[hp_leg_l] -= dam;
+        if (hp_cur[hp_leg_l] < 0) {
+            lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
+            hp_cur[hp_leg_l] = 0;
+        }
+        break;
+    case bp_foot_r: // Fall through to legs
+    case bp_leg_r:
+        hp_cur[hp_leg_r] -= dam;
+        if (hp_cur[hp_leg_r] < 0) {
+            lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
+            hp_cur[hp_leg_r] = 0;
         }
         break;
     default:
@@ -4637,25 +4679,29 @@ void player::hurt(body_part hurt, int side, int dam)
         case bp_torso:
             hurtpart = hp_torso;
             break;
-        case bp_hands:
+        case bp_hand_l:
             // Shouldn't happen, but fall through to arms
             debugmsg("Hurt against hands!");
-        case bp_arms:
-            if (side == 0) {
-                hurtpart = hp_arm_l;
-            } else {
-                hurtpart = hp_arm_r;
-            }
+        case bp_arm_l:
+            hurtpart = hp_arm_l;
             break;
-        case bp_feet:
+        case bp_hand_r:
+            // Shouldn't happen, but fall through to arms
+            debugmsg("Hurt against hands!");
+        case bp_arm_r:
+            hurtpart = hp_arm_r;
+            break;
+        case bp_foot_l:
             // Shouldn't happen, but fall through to legs
             debugmsg("Hurt against feet!");
-        case bp_legs:
-            if (side == 0) {
-                hurtpart = hp_leg_l;
-            } else {
-                hurtpart = hp_leg_r;
-            }
+        case bp_leg_l:
+            hurtpart = hp_leg_l;
+            break;
+        case bp_foot_r:
+            // Shouldn't happen, but fall through to legs
+            debugmsg("Hurt against feet!");
+        case bp_leg_r:
+            hurtpart = hp_leg_r;
             break;
         default:
             debugmsg("Wacky body part hurt!");
@@ -4727,25 +4773,29 @@ void player::heal(body_part healed, int side, int dam)
         case bp_torso:
             healpart = hp_torso;
             break;
-        case bp_hands:
+        case bp_hand_l:
             // Shouldn't happen, but fall through to arms
             debugmsg("Heal against hands!");
-        case bp_arms:
-            if (side == 0) {
-                healpart = hp_arm_l;
-            } else {
-                healpart = hp_arm_r;
-            }
+        case bp_arm_l:
+            healpart = hp_arm_l;
             break;
-        case bp_feet:
+        case bp_hand_r:
+            // Shouldn't happen, but fall through to arms
+            debugmsg("Heal against hands!");
+        case bp_arm_r:
+            healpart = hp_arm_r;
+            break;
+        case bp_foot_l:
             // Shouldn't happen, but fall through to legs
             debugmsg("Heal against feet!");
-        case bp_legs:
-            if (side == 0) {
-                healpart = hp_leg_l;
-            } else {
-                healpart = hp_leg_r;
-            }
+        case bp_leg_l:
+            healpart = hp_leg_l;
+            break;
+        case bp_foot_r:
+            // Shouldn't happen, but fall through to legs
+            debugmsg("Heal against feet!");
+        case bp_leg_r:
+            healpart = hp_leg_r;
             break;
         default:
             debugmsg("Wacky body part healed!");
@@ -4838,7 +4888,7 @@ void player::knock_back_from(int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *critter = &(g->zombie(mondex));
-  hit(this, bp_torso, -1, critter->type->size, 0);
+  hit(this, bp_torso, critter->type->size, 0);
   add_effect("stunned", 1);
   if ((str_max - 6) / 4 > critter->type->size) {
    critter->knock_back_from(posx, posy); // Chain reaction!
@@ -4858,9 +4908,9 @@ void player::knock_back_from(int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hit(this, bp_torso, -1, 3, 0);
+  hit(this, bp_torso, 3, 0);
   add_effect("stunned", 1);
-  p->hit(this, bp_torso, -1, 3, 0);
+  p->hit(this, bp_torso, 3, 0);
   add_msg_player_or_npc( _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
@@ -4874,7 +4924,7 @@ void player::knock_back_from(int x, int y)
  } else if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
 
   // It's some kind of wall.
-  hurt(bp_torso, -1, 3);
+  hurt(bp_torso, 3);
   add_effect("stunned", 2);
   add_msg_player_or_npc( _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
@@ -4895,19 +4945,17 @@ void player::bp_convert(hp_part &hpart, body_part bp, int side)
         case bp_torso:
             hpart = hp_torso;
             break;
-        case bp_arms:
-            if (side == 0) {
-                hpart = hp_arm_l;
-            } else {
-                hpart = hp_arm_r;
-            }
+        case bp_arm_l:
+            hpart = hp_arm_l;
             break;
-        case bp_legs:
-            if (side == 0) {
-                hpart = hp_leg_l;
-            } else {
-                hpart = hp_leg_r;
-            }
+        case bp_arm_r:
+            hpart = hp_arm_r;
+            break;
+        case bp_leg_l:
+            hpart = hp_leg_l;
+            break;
+        case bp_leg_r:
+            hpart = hp_leg_r;
             break;
     }
 }
@@ -4924,20 +4972,16 @@ void player::hp_convert(hp_part hpart, body_part &bp, int &side)
             bp = bp_torso;
             break;
         case hp_arm_l:
-            bp = bp_arms;
-            side = 0;
+            bp = bp_arm_l;
             break;
         case hp_arm_r:
-            bp = bp_arms;
-            side = 1;
+            bp = bp_arm_r;
             break;
         case hp_leg_l:
-            bp = bp_legs;
-            side = 0;
+            bp = bp_leg_l;
             break;
         case hp_leg_r:
-            bp = bp_legs;
-            side = 1;
+            bp = bp_leg_l;
             break;
     }
 }
@@ -5070,10 +5114,14 @@ void player::add_disease(dis_type type, int duration, bool permanent,
     if (main_parts_only) {
         if (part == bp_eyes || part == bp_mouth) {
             part = bp_head;
-        } else if (part == bp_hands) {
-            part = bp_arms;
-        } else if (part == bp_feet) {
-            part = bp_legs;
+        } else if (part == bp_hand_l) {
+            part = bp_arm_l;
+        } else if (part == bp_hand_r) {
+            part = bp_arm_r;
+        } else if (part == bp_foot_l) {
+            part = bp_leg_l;
+        } else if (part == bp_foot_r) {
+            part = bp_leg_r;
         }
     }
 
@@ -5340,7 +5388,7 @@ static void handle_cough(player &p, int intensity, int loudness) {
     }
     p.mod_moves(-80);
     if (rng(1,6) < intensity) {
-        p.apply_damage(NULL, bp_torso, -1, 1);
+        p.apply_damage(NULL, bp_torso, 1);
     }
     if (p.has_disease("sleep") && intensity >= 2) {
         p.wake_up(_("You wake up coughing."));
@@ -5373,7 +5421,7 @@ void player::process_effects() {
             if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
                 add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
                 mod_pain(1);
-                hurt(bp_torso, -1, rng(0, 2) * rng(0, 1));
+                hurt(bp_torso, rng(0, 2) * rng(0, 1));
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
@@ -5428,13 +5476,12 @@ void player::suffer()
                 power_level--;
             } else {
                 add_msg(m_bad, _("You're drowning!"));
-                hurt(bp_torso, -1, rng(1, 4));
+                hurt(bp_torso, rng(1, 4));
             }
         }
     }
 
-    if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) &&
-        (!(wearing_something_on(bp_feet))) ) {
+    if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !(is_wearing_footwear())) {
         if (one_in(25)) {
             add_msg(m_good, _("This soil is delicious!"));
             hunger -= 2;
@@ -6016,21 +6063,22 @@ void player::mend()
    }
 
    bool mended = false;
-   int side = 0;
    body_part part;
    switch(i) {
     case hp_arm_r:
-     side = 1;
-     // fall-through
+     part = bp_arm_r;
+     mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
+     break;
     case hp_arm_l:
-     part = bp_arms;
+     part = bp_arm_l;
      mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
      break;
     case hp_leg_r:
-     side = 1;
-     // fall-through
+     part = bp_leg_r;
+     mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
+     break;
     case hp_leg_l:
-     part = bp_legs;
+     part = bp_leg_l;
      mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
      break;
     default:
@@ -8100,7 +8148,7 @@ void player::rooted_message() const
 {
     if( (has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
         g->m.has_flag("DIGGABLE", posx, posy) &&
-        !wearing_something_on(bp_feet) ) {
+        !is_wearing_footwear() ) {
         add_msg(m_info, _("You sink your roots into the soil."));
     }
 }
@@ -8112,7 +8160,7 @@ void player::rooted()
 {
     if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
         g->m.has_flag("DIGGABLE", posx, posy) &&
-        !wearing_something_on(bp_feet) ) {
+        !is_wearing_footwear() ) {
         if( one_in(20) ) {
             hunger--;
             thirst--;
@@ -8347,13 +8395,13 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_hands) && has_trait("WEBBED")) {
+ if (armor->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && has_trait("WEBBED")) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_hands) && has_trait("TALONS")) {
+ if (armor->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && has_trait("TALONS")) {
   return HINT_IFFY;
  }
- if ( armor->covers & mfb(bp_hands) && (has_trait("ARM_TENTACLES") ||
+ if ( armor->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && (has_trait("ARM_TENTACLES") ||
         has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) ) {
   return HINT_IFFY;
  }
@@ -8361,10 +8409,10 @@ hint_rating player::rate_action_wear(item *it)
     has_trait("BEAK_PECK") || has_trait("BEAK_HUM")) ) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_feet) && has_trait("HOOVES")) {
+ if (armor->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("HOOVES")) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_feet) && has_trait("LEG_TENTACLES")) {
+ if (armor->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("LEG_TENTACLES")) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_head) && has_trait("HORNS_CURLED")) {
@@ -8379,7 +8427,7 @@ hint_rating player::rate_action_wear(item *it)
   return HINT_IFFY;
  }
  // Checks to see if the player is wearing shoes
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+ if (armor->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && is_wearing_footwear() &&
      (!it->has_flag("BELTED")) &&
      (!it->has_flag("SKINTIGHT") && is_wearing_shoes())){
   return HINT_IFFY;
@@ -8555,8 +8603,9 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ((armor->covers & (mfb(bp_hands) | mfb(bp_arms) | mfb(bp_torso) |
-                              mfb(bp_legs) | mfb(bp_feet) | mfb(bp_head))) &&
+        if ((armor->covers & (mfb(bp_hands) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_torso) |
+                              mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_foot_l) | mfb(bp_foot_r) |
+                              mfb(bp_head))) &&
             (has_trait("HUGE") || has_trait("HUGE_OK"))) {
             if(interactive) {
                 add_msg(m_info, _("The %s is much too small to fit your huge body!"),
@@ -8565,7 +8614,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_hands) && has_trait("WEBBED"))
+        if (armor->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && has_trait("WEBBED"))
         {
             if(interactive)
             {
@@ -8574,7 +8623,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ( armor->covers & mfb(bp_hands) &&
+        if ( armor->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) &&
              (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
               has_trait("ARM_TENTACLES_8")) )
         {
@@ -8585,7 +8634,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_hands) && has_trait("TALONS"))
+        if (armor->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && has_trait("TALONS"))
         {
             if(interactive)
             {
@@ -8594,7 +8643,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_hands) && (has_trait("PAWS") || has_trait("PAWS_LARGE")) )
+        if (armor->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && (has_trait("PAWS") || has_trait("PAWS_LARGE")) )
         {
             if(interactive)
             {
@@ -8659,7 +8708,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_feet) && has_trait("HOOVES"))
+        if (armor->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("HOOVES"))
         {
             if(interactive)
             {
@@ -8668,7 +8717,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_feet) && has_trait("LEG_TENTACLES"))
+        if (armor->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("LEG_TENTACLES"))
         {
             if(interactive)
             {
@@ -8677,7 +8726,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_feet) && has_trait("RAP_TALONS"))
+        if (armor->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("RAP_TALONS"))
         {
             if(interactive)
             {
@@ -8727,7 +8776,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+        if (armor->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && is_wearing_footwear() &&
             (!to_wear->has_flag("BELTED")) &&
             (!to_wear->has_flag("SKINTIGHT")) && is_wearing_shoes()) {
             // Checks to see if the player is wearing shoes
@@ -9423,7 +9472,7 @@ void player::read(int pos)
                     it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
             if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
                  g->m.has_flag("DIGGABLE", posx, posy) &&
-                 (!(wearing_something_on(bp_feet))) ) {
+                 (!(is_wearing_footwear())) ) {
                 add_msg(m_info, _("You sink your roots into the soil."));
             }
         }
@@ -9596,7 +9645,7 @@ void player::do_read( item *book )
             int root_factor = (reading->time / 20);
             if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
                 g->m.has_flag("DIGGABLE", posx, posy) &&
-                !wearing_something_on(bp_feet) ) {
+                !is_wearing_footwear() ) {
                 hunger -= root_factor;
                 thirst -= root_factor;
                 health += root_factor;
@@ -9835,7 +9884,7 @@ std::string player::is_snuggling()
         }
         else if ( afloor_item->volume() > 1 &&
         (dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_torso) ||
-         dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_legs)) ){
+         dynamic_cast<it_armor*>(afloor_item->type)->covers & (mfb(bp_leg_l) | mfb(bp_leg_r)) ){
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
             ticker++;
         }
@@ -10041,33 +10090,33 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
         ret += 1;
     }
-    if ( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
+    if ( has_trait("ARM_FEATHERS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
         ret += 2;
     }
-    if ( has_trait("INSECT_ARMS") && bp == bp_arms ) {
+    if ( has_trait("INSECT_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
         ret += 3;
     }
-    if ( has_trait("ARACHNID_ARMS") && bp == bp_arms ) {
+    if ( has_trait("ARACHNID_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
         ret += 4;
     }
-    if ( has_trait("PAWS") && bp == bp_hands ) {
+    if ( has_trait("PAWS") && (bp == bp_hand_l || bp == bp_hand_r) ) {
         ret += 1;
     }
-    if ( has_trait("PAWS_LARGE") && bp == bp_hands ) {
+    if ( has_trait("PAWS_LARGE") && (bp == bp_hand_l || bp == bp_hand_r) ) {
         ret += 2;
     }
-    if ( has_trait("LARGE") && (bp == bp_arms || bp == bp_torso )) {
+    if ( has_trait("LARGE") && (bp == bp_arm_l || bp == bp_arm_r || bp == bp_torso )) {
         ret += 1;
     }
     if ( has_trait("WINGS_BUTTERFLY") && (bp == bp_torso )) {
         ret += 1;
     }
-    if (bp == bp_hands &&
+    if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
         ret += 3;
     }
-    if (bp == bp_hands &&
+    if ((bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("CLAWS_TENTACLE") )) {
         ret += 2;
     }
@@ -10075,7 +10124,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         ( has_bionic("bio_nostril") ) ) {
         ret += 1;
     }
-    if (bp == bp_hands &&
+    if ((bp == bp_hand_l || bp == bp_hand_r) &&
         ( has_bionic("bio_thumbs") ) ) {
         ret += 2;
     }
@@ -10114,13 +10163,13 @@ int player::get_armor_bash_base(body_part bp)
  if (bp == bp_head && has_bionic("bio_armor_head")) {
     ret += 3;
  }
- if (bp == bp_arms && has_bionic("bio_armor_arms")) {
+ if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
     ret += 3;
  }
  if (bp == bp_torso && has_bionic("bio_armor_torso")) {
     ret += 3;
  }
- if (bp == bp_legs && has_bionic("bio_armor_legs")) {
+ if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
     ret += 3;
  }
  if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
@@ -10158,11 +10207,11 @@ int player::get_armor_cut_base(body_part bp)
   ret += 4;
  if (bp == bp_head && has_bionic("bio_armor_head"))
   ret += 3;
- else if (bp == bp_arms && has_bionic("bio_armor_arms"))
+ else if ((bp == bp_arm_l || bp == bp_leg_r) && has_bionic("bio_armor_arms"))
   ret += 3;
  else if (bp == bp_torso && has_bionic("bio_armor_torso"))
   ret += 3;
- else if (bp == bp_legs && has_bionic("bio_armor_legs"))
+ else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs"))
   ret += 3;
  else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
   ret += 3;
@@ -10421,7 +10470,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
         dam -= 3;
         cut -= 3;
     }
-    else if (bp == bp_arms && has_bionic("bio_armor_arms"))
+    else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms"))
     {
         dam -= 3;
         cut -= 3;
@@ -10431,7 +10480,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
         dam -= 3;
         cut -= 3;
     }
-    else if (bp == bp_legs && has_bionic("bio_armor_legs"))
+    else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs"))
     {
         dam -= 3;
         cut -= 3;
@@ -10465,7 +10514,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
             dam -= 3;
         }
     }
-    if (bp == bp_arms && has_trait("ARM_FEATHERS")) {
+    if ((bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARM_FEATHERS")) {
         dam--;
     }
     if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
@@ -10494,7 +10543,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
     if (has_trait("BARK")) {
         dam -= 2;
     }
-    if (bp == bp_feet && has_trait("HOOVES")) {
+    if ((bp == bp_foot_l || bp == bp_foot_r) && has_trait("HOOVES")) {
         cut--;
     }
     if (has_trait("LIGHT_BONES")) {
@@ -10556,13 +10605,18 @@ bool player::is_wearing_shoes() const
         const item *worn_item = &worn[i];
         const it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
-        if (worn_armor->covers & mfb(bp_feet) &&
+        if (worn_armor->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) &&
             (!worn_item->has_flag("BELTED")) &&
             (!worn_item->has_flag("SKINTIGHT"))) {
             return true;
         }
     }
     return false;
+}
+
+bool player::is_wearing_footwear() const
+{
+    return wearing_something_on(bp_foot_l) && wearing_something_on(bp_foot_r);
 }
 
 bool player::is_wearing_power_armor(bool *hasHelmet) const {

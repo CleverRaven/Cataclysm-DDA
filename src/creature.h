@@ -73,13 +73,12 @@ class Creature
         virtual void dodge_hit(Creature *source, int hit_spread) = 0;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit(Creature *source, body_part &bp_hit, int &side,
+        virtual bool block_hit(Creature *source, body_part &bp_hit,
                                damage_instance &dam) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
-        virtual void absorb_hit(body_part bp, int side,
-                                damage_instance &dam) = 0;
+        virtual void absorb_hit(body_part bp, damage_instance &dam) = 0;
 
         // TODO: this is just a shim so knockbacks work
         virtual void knock_back_from(int posx, int posy) = 0;

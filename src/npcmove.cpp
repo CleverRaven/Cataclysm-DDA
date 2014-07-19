@@ -840,7 +840,8 @@ int npc::confident_range(char invlet)
         deviation += ranged_dex_mod();
         deviation += ranged_per_mod();
 
-        deviation += 2 * encumb(bp_arms) + 4 * encumb(bp_eyes);
+        deviation += 2 * encumb(bp_arm_l) + 4 * encumb(bp_eyes);
+        deviation += 2 * encumb(bp_arm_r) + 4 * encumb(bp_eyes);
 
         if (weapon.curammo == NULL) { // This shouldn't happen, but it does sometimes
             debugmsg("%s has NULL curammo!", name.c_str());    // TODO: investigate this bug
@@ -870,7 +871,8 @@ int npc::confident_range(char invlet)
             deviation -= per_cur - 8;
         }
 
-        deviation += encumb(bp_hands) * 2 + encumb(bp_eyes) + 1;
+        deviation += encumb(bp_hand_l) * 2 + encumb(bp_eyes) + 1;
+        deviation += encumb(bp_hand_r) * 2 + encumb(bp_eyes) + 1;
         if (thrown->volume() > 5) {
             deviation += 1 + (thrown->volume() - 5) / 4;
         }

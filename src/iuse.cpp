@@ -210,7 +210,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
         (p->has_disease("bite", bp_head)) ||
         // By rights "bleed" ought to enable itself via HP loss, but...
         (p->has_disease("bleed", bp_head)) || force) {
-        color = g->limb_color(p, bp_head, -1, bleed, bite, infect);
+        color = g->limb_color(p, bp_head, bleed, bite, infect);
         if (color != c_ltgray || head_bonus != 0) {
             mvwprintz(hp_window, 2, 1, color, _("1: Head"));
             allowed_result[hp_head] = true;
@@ -220,47 +220,47 @@ static hp_part body_window(player *p, item *, std::string item_name,
         (p->has_disease("infected", bp_torso)) ||
         (p->has_disease("bite", bp_torso)) ||
         (p->has_disease("bleed", bp_torso)) || force) {
-        color = g->limb_color(p, bp_torso, -1, bleed, bite, infect);
+        color = g->limb_color(p, bp_torso, bleed, bite, infect);
         if (color != c_ltgray || torso_bonus != 0) {
             mvwprintz(hp_window, 3, 1, color, _("2: Torso"));
             allowed_result[hp_torso] = true;
         }
     }
     if (p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l] ||
-        (p->has_disease("infected", bp_arms, 0)) ||
-        (p->has_disease("bite", bp_arms, 0)) ||
-        (p->has_disease("bleed", bp_arms, 0)) || force) {
-        color = g->limb_color(p, bp_arms, 0, bleed, bite, infect);
+        (p->has_disease("infected", bp_arm_l)) ||
+        (p->has_disease("bite", bp_arm_l)) ||
+        (p->has_disease("bleed", bp_arm_l)) || force) {
+        color = g->limb_color(p, bp_arm_l, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 4, 1, color, _("3: Left Arm"));
             allowed_result[hp_arm_l] = true;
         }
     }
     if (p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r] ||
-        (p->has_disease("infected", bp_arms, 1)) ||
-        (p->has_disease("bite", bp_arms, 1)) ||
-        (p->has_disease("bleed", bp_arms, 1)) || force) {
-        color = g->limb_color(p, bp_arms, 1, bleed, bite, infect);
+        (p->has_disease("infected", bp_arm_r)) ||
+        (p->has_disease("bite", bp_arm_r)) ||
+        (p->has_disease("bleed", bp_arm_r)) || force) {
+        color = g->limb_color(p, bp_arm_r, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 5, 1, color, _("4: Right Arm"));
             allowed_result[hp_arm_r] = true;
         }
     }
     if (p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l] ||
-        (p->has_disease("infected", bp_legs, 0)) ||
-        (p->has_disease("bite", bp_legs, 0)) ||
-        (p->has_disease("bleed", bp_legs, 0)) || force) {
-        color = g->limb_color(p, bp_legs, 0, bleed, bite, infect);
+        (p->has_disease("infected", bp_leg_l)) ||
+        (p->has_disease("bite", bp_leg_l)) ||
+        (p->has_disease("bleed", bp_leg_l)) || force) {
+        color = g->limb_color(p, bp_leg_l, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 6, 1, color, _("5: Left Leg"));
             allowed_result[hp_leg_l] = true;
         }
     }
     if (p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r] ||
-        (p->has_disease("infected", bp_legs, 1)) ||
-        (p->has_disease("bite", bp_legs, 1)) ||
-        (p->has_disease("bleed", bp_legs, 1)) || force) {
-        color = g->limb_color(p, bp_legs, 1, bleed, bite, infect);
+        (p->has_disease("infected", bp_leg_r)) ||
+        (p->has_disease("bite", bp_leg_r)) ||
+        (p->has_disease("bleed", bp_leg_r)) || force) {
+        color = g->limb_color(p, bp_leg_r, bleed, bite, infect);
         if (color != c_ltgray || normal_bonus != 0) {
             mvwprintz(hp_window, 7, 1, color, _("6: Right Leg"));
             allowed_result[hp_leg_r] = true;
@@ -324,9 +324,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
             healed_part = hp_torso;
         } else if (ch == '3') {
             if ((p->hp_cur[hp_arm_l] == 0) &&
-                (!((p->has_disease("infected", bp_arms, 0)) ||
-                   (p->has_disease("bite", bp_arms, 0)) ||
-                   (p->has_disease("bleed", bp_arms, 0))))) {
+                (!((p->has_disease("infected", bp_arm_l)) ||
+                   (p->has_disease("bite", bp_arm_l)) ||
+                   (p->has_disease("bleed", bp_arm_l))))) {
                 p->add_msg_if_player(m_info, _("That arm is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {
@@ -334,9 +334,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
             }
         } else if (ch == '4') {
             if ((p->hp_cur[hp_arm_r] == 0) &&
-                (!((p->has_disease("infected", bp_arms, 1)) ||
-                   (p->has_disease("bite", bp_arms, 1)) ||
-                   (p->has_disease("bleed", bp_arms, 1))))) {
+                (!((p->has_disease("infected", bp_arm_r)) ||
+                   (p->has_disease("bite", bp_arm_r)) ||
+                   (p->has_disease("bleed", bp_arm_r))))) {
                 p->add_msg_if_player(m_info, _("That arm is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {
@@ -344,9 +344,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
             }
         } else if (ch == '5') {
             if ((p->hp_cur[hp_leg_l] == 0) &&
-                (!((p->has_disease("infected", bp_legs, 0)) ||
-                   (p->has_disease("bite", bp_legs, 0)) ||
-                   (p->has_disease("bleed", bp_legs, 0))))) {
+                (!((p->has_disease("infected", bp_leg_l)) ||
+                   (p->has_disease("bite", bp_leg_l)) ||
+                   (p->has_disease("bleed", bp_leg_l))))) {
                 p->add_msg_if_player(m_info, _("That leg is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {
@@ -354,9 +354,9 @@ static hp_part body_window(player *p, item *, std::string item_name,
             }
         } else if (ch == '6') {
             if ((p->hp_cur[hp_leg_r] == 0) &&
-                (!((p->has_disease("infected", bp_legs, 1)) ||
-                   (p->has_disease("bite", bp_legs, 1)) ||
-                   (p->has_disease("bleed", bp_legs, 1))))) {
+                (!((p->has_disease("infected", bp_leg_r)) ||
+                   (p->has_disease("bite", bp_leg_r)) ||
+                   (p->has_disease("bleed", bp_legs_r))))) {
                 p->add_msg_if_player(m_info, _("That leg is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {
@@ -456,31 +456,30 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     }
 
     body_part bp_healed = bp_torso;
-    int side = -1;
-    p->hp_convert(healed, bp_healed, side);
+    p->hp_convert(healed, bp_healed);
 
-    if (p->has_disease("bleed", bp_healed, side)) {
+    if (p->has_disease("bleed", bp_healed)) {
         if (x_in_y(bleed, 100)) {
-            p->rem_disease("bleed", bp_healed, side);
+            p->rem_disease("bleed", bp_healed);
             p->add_msg_if_player(m_good, _("You stop the bleeding."));
         } else {
             p->add_msg_if_player(_("You fail to stop the bleeding."));
         }
     }
-    if (p->has_disease("bite", bp_healed, side)) {
+    if (p->has_disease("bite", bp_healed)) {
         if (x_in_y(bite, 100)) {
-            int bite_dur = p->disease_duration("bite", false, bp_healed, side);
-            p->rem_disease("bite", bp_healed, side);
+            int bite_dur = p->disease_duration("bite", false, bp_healed);
+            p->rem_disease("bite", bp_healed);
             p->add_disease("recover", 2 * (3601 - bite_dur) - 4800);
             p->add_msg_if_player(m_good, _("You clean the wound."));
         } else {
             p->add_msg_if_player(m_warning, _("Your wound still aches."));
         }
     }
-    if (p->has_disease("infected", bp_healed, side)) {
+    if (p->has_disease("infected", bp_healed)) {
         if (x_in_y(infect, 100)) {
-            int infected_dur = p->disease_duration("infected", false, bp_healed, side);
-            p->rem_disease("infected", bp_healed, side);
+            int infected_dur = p->disease_duration("infected", false, bp_healed);
+            p->rem_disease("infected", bp_healed);
             if (infected_dur > 8401) {
                 p->add_disease("recover", 3 * (14401 - infected_dur + 3600) - 4800);
             } else {
