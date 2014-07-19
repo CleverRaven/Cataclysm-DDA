@@ -260,7 +260,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         debugFile.file << ": ";
 
         // Backtrace on error.
-#if !(defined _WIN32 || defined WINDOWS)
+#if !(defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
         if( lev == D_ERROR ) {
             int count = backtrace( tracePtrs, TRACE_SIZE );
             char **funcNames = backtrace_symbols( tracePtrs, count );
