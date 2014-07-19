@@ -281,7 +281,7 @@ void generic_wet(bool acid)
          one_in(2)) {
             if (g->u.weapon.has_flag("RAIN_PROTECT")) {
             // Umbrellas tend to protect one's head and torso pretty well
-                g->u.drench(30 - ((g->u.warmth(bp_leg_l) + (g->u.warmth(bp_leg_r)) * 4/5 +
+                g->u.drench(30 - (g->u.warmth(bp_leg_l) + (g->u.warmth(bp_leg_r)) * 4/5 +
                                     (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 5),
                      mfb(bp_leg_l)|mfb(bp_leg_r));
             }
@@ -311,7 +311,7 @@ void generic_very_wet(bool acid)
             // Umbrellas tend to protect one's head and torso pretty well
                 g->u.drench(60 - ((g->u.warmth(bp_leg_l) + g->u.warmth(bp_leg_r)) * 4/5 +
                                     (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 5),
-                     mfb(bp_leg_l)|mfb(bp_leg_r);
+                     mfb(bp_leg_l)|mfb(bp_leg_r));
             }
             else {
                 g->u.drench(60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),

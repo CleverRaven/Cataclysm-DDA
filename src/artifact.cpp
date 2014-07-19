@@ -197,7 +197,7 @@ struct artifact_armor_form_datum {
     int warmth;
     int storage;
     int melee_bash, melee_cut, melee_hit;
-    unsigned char covers;
+    long unsigned int covers;
     bool plural;
     artifact_armor_mod available_mods[5];
 };

@@ -434,10 +434,11 @@ void mattack::growplants(monster *z)
                     } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                         // Player is hit by a growing tree
                         if (!g->u.uncanny_dodge()) {
+                            body_part hit = num_bp;
                             if (one_in(2)) {
-                                body_part hit = bp_leg_l;
+                                hit = bp_leg_l;
                             } else {
-                                body_part hit = bp_leg_r;
+                                hit = bp_leg_r;
                             }
                             if (one_in(4)) {
                                 hit = bp_torso;
@@ -455,10 +456,11 @@ void mattack::growplants(monster *z)
                     } else {
                         int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
                         if (npcdex != -1) { // An NPC got hit
+                            body_part hit = num_bp;
                             if (one_in(2)) {
-                                body_part hit = bp_leg_l;
+                                hit = bp_leg_l;
                             } else {
-                                body_part hit = bp_leg_r;
+                                hit = bp_leg_r;
                             }
                             if (one_in(4)) {
                                 hit = bp_torso;
@@ -507,10 +509,11 @@ void mattack::growplants(monster *z)
                             }
                         } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                             if (!g->u.uncanny_dodge()) {
+                                    body_part hit = num_bp;
                                 if (one_in(2)) {
-                                    body_part hit = bp_leg_l;
+                                    hit = bp_leg_l;
                                 } else {
-                                    body_part hit = bp_leg_r;
+                                    hit = bp_leg_r;
                                 }
                                 if (one_in(4)) {
                                     hit = bp_torso;
@@ -528,10 +531,11 @@ void mattack::growplants(monster *z)
                         } else {
                             int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
                             if (npcdex != -1) {
+                                body_part hit = num_bp;
                                 if (one_in(2)) {
-                                    body_part hit = bp_leg_l;
+                                    hit = bp_leg_l;
                                 } else {
-                                    body_part hit = bp_leg_r;
+                                    hit = bp_leg_r;
                                 }
                                 if (one_in(4)) {
                                     hit = bp_torso;
@@ -1946,7 +1950,7 @@ void mattack::bite(monster *z)
         if(one_in(14 - dam)) {
             if (g->u.has_disease("bite", hit)) {
                 g->u.add_disease("bite", 400, false, 1, 1, 0, -1, hit, true);
-            } else if (g->u.has_disease("infected", hit, side)) {
+            } else if (g->u.has_disease("infected", hit)) {
                 g->u.add_disease("infected", 250, false, 1, 1, 0, -1, hit, true);
             } else {
                 g->u.add_disease("bite", 3601, false, 1, 1, 0, 0, hit, true); //6 hours + 1 "tick"
@@ -2279,10 +2283,11 @@ void mattack::bio_op_takedown(monster *z)
         return;
     }
     // Yes, it has the CQC bionic.
+    body_part hit = num_bp;
     if (one_in(2)) {
-        body_part hit = bp_leg_l;
+        hit = bp_leg_l;
     } else {
-        body_part hit = bp_leg_r;
+        hit = bp_leg_r;
     }
     // Weak kick to start with, knocks you off your footing
     int dam = rng(3, 9);

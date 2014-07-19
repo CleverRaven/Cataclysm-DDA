@@ -1210,11 +1210,11 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         // Check if we should actually use the right side to block
         if (bp_hit == bp_leg_l) {
             if (hp_cur[hp_leg_r] > hp_cur[hp_leg_l]) {
-                bp_hit = bp_leg_r
+                bp_hit = bp_leg_r;
             }
         } else {
             if (hp_cur[hp_arm_r] > hp_cur[hp_arm_l]) {
-                bp_hit = bp_arm_r
+                bp_hit = bp_arm_r;
             }
         }
 

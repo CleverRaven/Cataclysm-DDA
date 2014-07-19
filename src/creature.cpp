@@ -245,7 +245,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
         stab_moves *= 1.5;
     }
     if (stab_moves >= 150) {
-        if ((is_player()) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.is_wearing_footwear()) ) {
+        if ((is_player()) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.is_wearing_footwear()) ) {
             // can the player force their self to the ground? probably not.
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {

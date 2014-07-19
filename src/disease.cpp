@@ -1705,7 +1705,8 @@ std::string dis_name(disease& dis)
 
     case DI_FROSTBITE:
         switch(dis.bp) {
-            case bp_hands:
+            case bp_hand_l:
+            case bp_hand_r:
                 switch (dis.intensity) {
                 case 1: return _("Frostnip - hands");
                 case 2: return _("Frostbite - hands");}

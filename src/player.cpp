@@ -666,7 +666,7 @@ void player::apply_persistent_morale()
         if(covered & (mfb(bp_leg_l) | mfb(bp_leg_r))) {
             bonus += 4;
         }
-        if(covered & (mfb(bp_feet_l) | mfb(bp_feet_r))) {
+        if(covered & (mfb(bp_foot_l) | mfb(bp_foot_r))) {
             bonus += 2;
         }
         if(covered & (mfb(bp_hand_l) | mfb(bp_hand_r))) {
@@ -883,9 +883,8 @@ void player::update_bodytemp()
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
             // Items that are big enough and covers the torso are used to keep warm.
             // Smaller items don't do as good a job
-            if ( floor_armor->volume > 1 &&
-            ((floor_armor->covers & mfb(bp_torso)) ||
-             (floor_armor->covers & (mfb(bp_leg_l) | mfb(bp_leg_r))) ) {
+            if ( floor_armor->volume > 1 && (floor_armor->covers & mfb(bp_torso) ||
+             (floor_armor->covers & (mfb(bp_leg_l) | mfb(bp_leg_r)))) ) {
                 floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
             }
         }
@@ -1276,9 +1275,11 @@ void player::update_bodytemp()
             add_disease("frostbite", 1, false, 2, 2, 0, 1, (body_part)i, -1);
             // Warning message for the player
             if (disease_intensity("frostbite", false, (body_part)i) < 2
-                &&  (i == bp_mouth || i == bp_hands || i == bp_foot_l || i == bp_foot_r))
+                &&  (i == bp_mouth || i == bp_hand_l || i == bp_hand_r || i == bp_foot_l ||
+                      i == bp_foot_r))
             {
-                add_msg(m_bad, (i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i)).c_str());
+                add_msg(m_bad, (i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")),
+                                body_part_name(body_part(i)).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
@@ -1287,7 +1288,7 @@ void player::update_bodytemp()
                 if (!has_disease("frostbite", (body_part)i))
                 {
                     add_msg(m_bad, _("You lose sensation in your %s."),
-                        body_part_name(body_part(i), -1).c_str());
+                        body_part_name(body_part(i)).c_str());
                 }
             }
         }
@@ -1295,32 +1296,32 @@ void player::update_bodytemp()
         if  (temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING)
         {
             add_msg(m_warning, _("You feel your %s beginning to go numb from the cold!"),
-                body_part_name(body_part(i), -1).c_str());
+                body_part_name(body_part(i)).c_str());
         }
         else if (temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD)
         {
             add_msg(m_warning, _("You feel your %s getting very cold."),
-                body_part_name(body_part(i), -1).c_str());
+                body_part_name(body_part(i)).c_str());
         }
         else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD)
         {
             add_msg(m_warning, _("You feel your %s getting chilly."),
-                body_part_name(body_part(i), -1).c_str());
+                body_part_name(body_part(i)).c_str());
         }
         else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING)
         {
             add_msg(m_bad, _("You feel your %s getting red hot from the heat!"),
-                body_part_name(body_part(i), -1).c_str());
+                body_part_name(body_part(i)).c_str());
         }
         else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT)
         {
             add_msg(m_warning, _("You feel your %s getting very hot."),
-                body_part_name(body_part(i), -1).c_str());
+                body_part_name(body_part(i)).c_str());
         }
         else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT)
         {
             add_msg(m_warning, _("You feel your %s getting warm."),
-                body_part_name(body_part(i), -1).c_str());
+                body_part_name(body_part(i)).c_str());
         }
     }
     // Morale penalties, updated at the same rate morale is
@@ -1544,7 +1545,7 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += encumb(bp_mouth) * 5 + (encumb(bp_feet_l) + encumb(bp_feet_r)) * 5 + (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3;
+    movecost += encumb(bp_mouth) * 5 + (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5 + (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -2778,30 +2779,31 @@ Arm encumbrance affects your accuracy with ranged weapons."));
                 mvwprintz(w_encumb, 6, 1, h_ltgray, _("Hands"));
                 s = ngettext("Reloading costs %+d movement point; ",
                              "Reloading costs %+d movement points; ",
-                             (encumb(bp_hand_l) + encum(bp_hand_r)) * 30);
+                             (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30);
                 s+= _("Dexterity %+d when throwing items.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str() , encumb(bp_hands) * 30, -(encumb(bp_hand_l) + encum(bp_hand_r)));
+                               s.c_str() , (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30,
+                               -(encumb(bp_hand_l) + encumb(bp_hand_r)));
             } else if (line == 6) {
                 mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
                 s = ngettext("Running costs %+d movement point; ",
                              "Running costs %+d movement points; ",
-                             encumb(bp_legs) * 3);
+                             (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3);
                 s+= ngettext("Swimming costs %+d movement point;\n",
                              "Swimming costs %+d movement points;\n",
-                             encumb(bp_legs) *(50 - skillLevel("swimming") * 2));
+                             (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2));
                 s+= _("Dodge skill %+.1f.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str(), (encumb(bp_leg_l) + encum(bp_leg_r)) * 3,
-                               encumb(bp_legs) *(50 - skillLevel("swimming") * 2),
-                               double(double(-(encumb(bp_leg_l) + encum(bp_leg_r))) / 2));
+                               s.c_str(), (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3,
+                               (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2),
+                               double(double(-(encumb(bp_leg_l) + encumb(bp_leg_r))) / 2));
             } else if (line == 7) {
                 mvwprintz(w_encumb, 8, 1, h_ltgray, _("Feet"));
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                ngettext("Running costs %+d movement point.", 
                                         "Running costs %+d movement points.",
-                                        (encumb(bp_foot_l) + encum(bp_foot_r)) * 5),
-                               (encumb(bp_foot_l) + encum(bp_foot_r)) * 5);
+                                        (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5),
+                               (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5);
             }
             wrefresh(w_encumb);
             wrefresh(w_info);
@@ -4366,7 +4368,7 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             }
             damage_instance ods_shock_damage;
             ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
-            source->deal_damage(this, bp_torso, 3, ods_shock_damage);
+            source->deal_damage(this, bp_torso, ods_shock_damage);
         }
         if ((!(wearing_something_on(bp_hit))) && (has_trait("SPINES") || has_trait("QUILLS"))) {
             int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
@@ -4383,7 +4385,7 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             }
             damage_instance spine_damage;
             spine_damage.add_damage(DT_STAB, spine);
-            source->deal_damage(this, bp_torso, 3, spine_damage);
+            source->deal_damage(this, bp_torso, spine_damage);
         }
         if ((!(wearing_something_on(bp_hit))) && (has_trait("THORNS")) && (!(source->has_weapon()))) {
             if (!is_player()) {
@@ -4399,7 +4401,7 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             thorn_damage.add_damage(DT_CUT, thorn);
             // In general, critters don't have separate limbs
             // so safer to target the torso
-            source->deal_damage(this, bp_torso, 3, thorn_damage);
+            source->deal_damage(this, bp_torso, thorn_damage);
         }
     }
 }
@@ -8585,9 +8587,9 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ((armor->covers & (mfb(bp_hands) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_torso) |
-                              mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_foot_l) | mfb(bp_foot_r) |
-                              mfb(bp_head))) &&
+        if ((armor->covers & (mfb(bp_hand_l) | mfb(bp_hand_r) | mfb(bp_arm_l) | mfb(bp_arm_r) |
+                              mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_foot_l) |
+                              mfb(bp_foot_r) | mfb(bp_head))) &&
             (has_trait("HUGE") || has_trait("HUGE_OK"))) {
             if(interactive) {
                 add_msg(m_info, _("The %s is much too small to fit your huge body!"),
@@ -8795,7 +8797,7 @@ bool player::wear_item(item *to_wear, bool interactive)
                 add_msg(m_warning,
                     (i == bp_head || i == bp_torso || i == bp_mouth) ?
                     _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
-                    body_part_name(body_part(i), -1).c_str(), encumb_text(body_part(i)).c_str());
+                    body_part_name(body_part(i)).c_str(), encumb_text(body_part(i)).c_str());
             }
         }
         if( !was_deaf && is_deaf() ) {
@@ -9866,7 +9868,7 @@ std::string player::is_snuggling()
         }
         else if ( afloor_item->volume() > 1 &&
         (dynamic_cast<it_armor*>(afloor_item->type)->covers & mfb(bp_torso) ||
-         dynamic_cast<it_armor*>(afloor_item->type)->covers & (mfb(bp_leg_l) | mfb(bp_leg_r)) ){
+         dynamic_cast<it_armor*>(afloor_item->type)->covers & (mfb(bp_leg_l) | mfb(bp_leg_r)) )){
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
             ticker++;
         }
@@ -9947,7 +9949,8 @@ int player::warmth(body_part bp)
     }
 
     // If the player is not wielding anything, check if hands can be put in pockets
-    if(bp == bp_hands && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) && worn_with_flag("POCKETS"))
+    if((bp == bp_hand_l || bp == bp_hand_r) && !is_armed() && (temp_conv[bp] <=  BODYTEMP_COLD) &&
+        worn_with_flag("POCKETS"))
     {
         ret += 10;
     }
@@ -10275,7 +10278,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     }
     return armor_damaged;
 }
-void player::absorb_hit(body_part bp, int, damage_instance &dam) {
+void player::absorb_hit(body_part bp, damage_instance &dam) {
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
 

@@ -438,10 +438,11 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
     if (c == NULL) {
         return;
     }
+    body_part hit = num_bp;
     if (one_in(2)) {
-        body_part hit = bp_leg_l;
+        hit = bp_leg_l;
     } else {
-        body_part hit = bp_leg_r;
+        hit = bp_leg_r;
     }
     c->add_msg_player_or_npc(m_bad, _("A snare closes on your %s."),
                              _("A snare closes on <npcname>s %s."), body_part_name(hit).c_str());

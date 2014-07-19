@@ -652,11 +652,11 @@ bool monster::is_dead_state() {
 void monster::dodge_hit(Creature *, int) {
 }
 
-bool monster::block_hit(Creature *, body_part &, int &, damage_instance &) {
+bool monster::block_hit(Creature *, body_part &, damage_instance &) {
     return false;
 }
 
-void monster::absorb_hit(body_part, int, damage_instance &dam) {
+void monster::absorb_hit(body_part, damage_instance &dam) {
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
         it->amount -= std::min(resistances(*this).get_effective_resist(*it),
@@ -780,10 +780,10 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         if (target.is_player()) {
             if (u_see_me) {
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
-                        body_part_name(bp_hit)).c_str());
+                        body_part_name(bp_hit).c_str());
             } else {
                 add_msg(m_bad, _("Something hits your %s."),
-                        body_part_name(bp_hit)).c_str());
+                        body_part_name(bp_hit).c_str());
             }
         } else {
             if (u_see_me) {
@@ -955,7 +955,7 @@ void monster::apply_damage(Creature* source, body_part bp, int amount) {
     if (is_dead_state()) die(source);
 }
 
-void monster::hurt(body_part, int, int dam) {
+void monster::hurt(body_part, int dam) {
     hurt(dam);
 }
 

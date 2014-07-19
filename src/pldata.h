@@ -57,7 +57,7 @@ public:
  }
 
  disease() : type("null") { duration = 0; intensity = 0; bp = num_bp; permanent = false; decay = 0; }
- disease(dis_type t, int d, int i = 0, body_part part = num_bp, int s = -1, bool perm = false, int dec = 0) :
+ disease(dis_type t, int d, int i = 0, body_part part = num_bp, bool perm = false, int dec = 0) :
     type(t) { duration = d; intensity = i; bp = part; permanent = perm; decay = dec; }
 
     using JsonSerializer::serialize;

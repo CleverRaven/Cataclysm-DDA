@@ -356,7 +356,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
             if ((p->hp_cur[hp_leg_r] == 0) &&
                 (!((p->has_disease("infected", bp_leg_r)) ||
                    (p->has_disease("bite", bp_leg_r)) ||
-                   (p->has_disease("bleed", bp_legs_r))))) {
+                   (p->has_disease("bleed", bp_leg_r))))) {
                 p->add_msg_if_player(m_info, _("That leg is broken.  It needs surgical attention."));
                 healed_part = num_hp_parts;
             } else {

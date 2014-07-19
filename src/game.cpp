@@ -6603,7 +6603,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 }
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
-                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
+                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name(hit).c_str());
                 u.hit(NULL, hit, 0, dam);
             } else {
                 std::set<std::string> shrapnel_effects;
@@ -12634,7 +12634,7 @@ bool game::plmove(int dx, int dy)
             if (!u.has_trait("PARKOUR") || one_in(4)) {
                 body_part bp = random_body_part();
                 if(u.hit(NULL, bp, 0, rng(1, 4)) > 0) {
-                    add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x,
+                    add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp).c_str(), m.tername(x,
                             y).c_str());
                 }
                 if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
@@ -13033,7 +13033,7 @@ void game::plswim(int x, int y)
                         mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
 
     if (get_temperature() <= 50) {
-        drenchFlags |= mfb(bp_hands);
+        drenchFlags |= mfb(bp_hand_l) | mfb(bp_hand_r);
     }
 
     if (u.is_underwater()) {

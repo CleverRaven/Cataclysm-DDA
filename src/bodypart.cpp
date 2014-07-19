@@ -106,11 +106,17 @@ body_part random_body_part(bool main_parts_only)
         if (rn <= 7) {
             return bp_head;
         }
+        if (rn <= 19) {
+            return bp_leg_l;
+        }
         if (rn <= 31) {
-            return bp_legs;
+            return bp_leg_r;
+        }
+        if (rn <= 43) {
+            return bp_arm_l;
         }
         if (rn <= 55) {
-            return bp_arms;
+            return bp_arm_r;
         }
         return bp_torso;
     }
