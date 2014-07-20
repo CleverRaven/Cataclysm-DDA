@@ -642,28 +642,28 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             temp1 << _("The torso. ");
         }
         if (armor->covers & mfb(bp_arm_l)) {
-            temp1 << _("The arms. ");
+            temp1 << _("The left arm. ");
         }
         if (armor->covers & mfb(bp_arm_r)) {
-            temp1 << _("The arms. ");
+            temp1 << _("The right arm. ");
         }
         if (armor->covers & mfb(bp_hand_l)) {
-            temp1 << _("The hands. ");
+            temp1 << _("The left hand. ");
         }
         if (armor->covers & mfb(bp_hand_r)) {
-            temp1 << _("The hands. ");
+            temp1 << _("The right hand. ");
         }
         if (armor->covers & mfb(bp_leg_l)) {
-            temp1 << _("The legs. ");
+            temp1 << _("The left leg. ");
         }
         if (armor->covers & mfb(bp_leg_r)) {
-            temp1 << _("The legs. ");
+            temp1 << _("The right leg. ");
         }
         if (armor->covers & mfb(bp_foot_l)) {
-            temp1 << _("The feet. ");
+            temp1 << _("The left foot. ");
         }
         if (armor->covers & mfb(bp_foot_r)) {
-            temp1 << _("The feet. ");
+            temp1 << _("The right foot. ");
         }
 
         dump->push_back(iteminfo("ARMOR", temp1.str()));
@@ -2267,8 +2267,8 @@ int item::reload_time(player &u)
         ret -= u.str_cur * 20;
     if (ret < 25)
         ret = 25;
-    ret += u.encumb(bp_hand_l) * 30;
-    ret += u.encumb(bp_hand_r) * 30;
+    ret += u.encumb(bp_hand_l) * 15;
+    ret += u.encumb(bp_hand_r) * 15;
     return ret;
 }
 

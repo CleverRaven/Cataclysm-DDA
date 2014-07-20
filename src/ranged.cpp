@@ -584,7 +584,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         deviation -= p.per_cur - 8;
     }
 
-    deviation += rng(0, (p.encumb(bp_hand_l) + p.encumb(bp_hand_r)) * 2 + p.encumb(bp_eyes) + 1);
+    deviation += rng(0, (p.encumb(bp_hand_l) + p.encumb(bp_hand_r)) + p.encumb(bp_eyes) + 1);
     if (thrown.volume() > 5) {
         deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
     }
@@ -1307,7 +1307,7 @@ double player::get_weapon_dispersion(item *weapon)
     dispersion += rng(0, ranged_dex_mod());
     dispersion += rng(0, ranged_per_mod());
 
-    dispersion += rng(0, 2 * (encumb(bp_arm_l) + encumb(bp_arm_r))) + rng(0, 4 * encumb(bp_eyes));
+    dispersion += rng(0, (encumb(bp_arm_l) + encumb(bp_arm_r))) + rng(0, 4 * encumb(bp_eyes));
 
     dispersion += rng(0, weapon->curammo->dispersion);
     // item::dispersion() doesn't support gunmods.

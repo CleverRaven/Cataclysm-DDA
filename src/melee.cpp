@@ -599,16 +599,29 @@ int player::roll_cut_damage(bool crit)
         unarmed_skill = 5;
     }
 
-    if (unarmed_attack() && !wearing_something_on(bp_hand_l) && !wearing_something_on(bp_hand_r)) {
-        if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
-            ret += 6;
-        if (has_bionic("bio_razors"))
-            ret += 4;
-        if (has_trait("TALONS"))
-            ret += 6 + (unarmed_skill > 8 ? 8 : unarmed_skill);
-        //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-        if (has_trait("SLIME_HANDS"))
-            ret += rng(4, 6);
+    if (unarmed_attack()) {
+        if (wearing_something_on(bp_hand_l)) {
+            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+                ret += 3;
+            if (has_bionic("bio_razors"))
+                ret += 2;
+            if (has_trait("TALONS"))
+                ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            //TODO: add acidproof check back to slime hands (probably move it elsewhere)
+            if (has_trait("SLIME_HANDS"))
+                ret += rng(2, 3);
+        }
+        if (wearing_something_on(bp_hand_r)) {
+            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+                ret += 3;
+            if (has_bionic("bio_razors"))
+                ret += 2;
+            if (has_trait("TALONS"))
+                ret += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
+            //TODO: add acidproof check back to slime hands (probably move it elsewhere)
+            if (has_trait("SLIME_HANDS"))
+                ret += rng(2, 3);
+        }
     }
 
     if (ret <= 0)
@@ -632,16 +645,28 @@ int player::roll_stab_damage(bool crit)
     double ret = 0;
     //TODO: armor formula is z->get_armor_cut() - 3 * skillLevel("stabbing")
 
-    if (unarmed_attack() && !wearing_something_on(bp_hand_l) && !wearing_something_on(bp_hand_r)) {
+    if (unarmed_attack()) {
         ret = 0;
-        if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
-            ret += 6;
-        if (has_trait("NAILS"))
-            ret++;
-        if (has_bionic("bio_razors"))
-            ret += 4;
-        if (has_trait("THORNS"))
-            ret += 4;
+        if (!wearing_something_on(bp_hand_l)) {
+            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+                ret += 3;
+            if (has_trait("NAILS"))
+                ret += .5;
+            if (has_bionic("bio_razors"))
+                ret += 2;
+            if (has_trait("THORNS"))
+                ret += 2;
+        }
+        if (!wearing_something_on(bp_hand_r)) {
+            if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+                ret += 3;
+            if (has_trait("NAILS"))
+                ret += .5;
+            if (has_bionic("bio_razors"))
+                ret += 2;
+            if (has_trait("THORNS"))
+                ret += 2;
+        }
     } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
         ret = weapon.damage_cut();
     else
@@ -1368,9 +1393,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     //Hurting the wielder from poorly-chosen weapons
     if(weapon.has_flag("HURT_WHEN_WIELDED") && x_in_y(2, 3)) {
         add_msg_if_player(m_bad, _("The %s cuts your hand!"), weapon.tname().c_str());
-        deal_damage(NULL, bp_hand_l, damage_instance::physical(0, weapon.damage_cut(), 0));
+        deal_damage(NULL, bp_hand_r, damage_instance::physical(0, weapon.damage_cut(), 0));
         if (weapon.is_two_handed(this)) { // Hurt left hand too, if it was big
-            deal_damage(NULL, bp_hand_r, damage_instance::physical(0, weapon.damage_cut(), 0));
+            deal_damage(NULL, bp_hand_l, damage_instance::physical(0, weapon.damage_cut(), 0));
         }
     }
 

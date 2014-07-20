@@ -664,13 +664,13 @@ void player::apply_persistent_morale()
             bonus += 6;
         }
         if(covered & (mfb(bp_leg_l) | mfb(bp_leg_r))) {
-            bonus += 4;
+            bonus += 2;
         }
         if(covered & (mfb(bp_foot_l) | mfb(bp_foot_r))) {
-            bonus += 2;
+            bonus += 1;
         }
         if(covered & (mfb(bp_hand_l) | mfb(bp_hand_r))) {
-            bonus += 2;
+            bonus += 1;
         }
         if(covered & mfb(bp_head)) {
             bonus += 3;
@@ -679,7 +679,7 @@ void player::apply_persistent_morale()
             bonus += 2;
         }
         if(covered & (mfb(bp_arm_l) | mfb(bp_arm_r))) {
-            bonus += 2;
+            bonus += 1;
         }
         if(covered & mfb(bp_mouth)) {
             bonus += 2;
@@ -1255,13 +1255,13 @@ void player::update_bodytemp()
                 case bp_arm_r:
                 case bp_leg_l:
                 case bp_leg_r:
-                    morale_pen += 1 * intensity_mult;
+                    morale_pen += .5 * intensity_mult;
                     break;
                 case bp_hand_l:
                 case bp_hand_r:
                 case bp_foot_l:
                 case bp_foot_r:
-                    morale_pen += 1 * intensity_mult;
+                    morale_pen += .5 * intensity_mult;
                     break;
             }
         }
@@ -1278,7 +1278,7 @@ void player::update_bodytemp()
                 &&  (i == bp_mouth || i == bp_hand_l || i == bp_hand_r || i == bp_foot_l ||
                       i == bp_foot_r))
             {
-                add_msg(m_bad, (i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")),
+                add_msg(m_bad, _("Your %s hardens from the frostbite!"),
                                 body_part_name(body_part(i)).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
@@ -1545,7 +1545,7 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += encumb(bp_mouth) * 5 + (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5 + (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3;
+    movecost += encumb(bp_mouth) * 5 + (encumb(bp_foot_l) + encumb(bp_foot_r)) * 2.5 + (encumb(bp_leg_l) + encumb(bp_leg_r)) * 1.5;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -2771,7 +2771,7 @@ detecting traps and other things of interest."));
                 wprintz(w_encumb, bodytemp_color(i), " (%3d)", iWarmth);
             }
             draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
-            
+
             werase(w_info);
             std::string s;
             if (line == 0) {
@@ -2787,76 +2787,74 @@ detecting traps and other things of interest."));
                                -encumb(bp_torso), -encumb(bp_torso),
                                encumb(bp_torso) * (80 - skillLevel("swimming") * 3),
                                encumb(bp_torso) * 20);
-            } else if (line == 1) {
+            } else if (line == 1) { //Torso
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Head encumbrance has no effect; it simply limits how much you can put on."));
-            } else if (line == 2) {
+            } else if (line == 2) { //Head
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Perception %+d when checking traps or firing ranged weapons;\n\
 Perception %+.1f when throwing items."),
                                -encumb(bp_eyes),
                                double(double(-encumb(bp_eyes)) / 2));
-            } else if (line == 3) {
+            } else if (line == 3) { //Eyes
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, ngettext("\
 Running costs %+d movement point.", "Running costs %+d movement points.", encumb(bp_mouth) * 5), encumb(bp_mouth) * 5);
-            } else if (line == 4) {
+            } else if (line == 4) { //Left Arm
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Arm encumbrance affects your accuracy with ranged weapons."));
-            } else if (line == 5) {
+            } else if (line == 5) { //Right Arm
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Arm encumbrance affects your accuracy with ranged weapons."));
-            } else if (line == 6) {
+            } else if (line == 6) { //Left Hand
                 s = ngettext("Reloading costs %+d movement point; ",
                              "Reloading costs %+d movement points; ",
-                             (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30);
+                             encumb(bp_hand_l) * 15);
                 s += _("Dexterity %+d when throwing items.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str() , (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30,
-                               -(encumb(bp_hand_l) + encumb(bp_hand_r)));
-            } else if (line == 7) {
+                               s.c_str() , encumb(bp_hand_l) * 15,
+                               -encumb(bp_hand_l));
+            } else if (line == 7) { //Right Hand
                 s = ngettext("Reloading costs %+d movement point; ",
                              "Reloading costs %+d movement points; ",
-                             (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30);
+                             encumb(bp_hand_r) * 15);
                 s += _("Dexterity %+d when throwing items.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str() , (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30,
-                               -(encumb(bp_hand_l) + encumb(bp_hand_r)));
-            } else if (line == 8) {
+                               s.c_str() , encumb(bp_hand_r) * 15,
+                               -encumb(bp_hand_r));
+            } else if (line == 8) { //Left Leg
                 s = ngettext("Running costs %+d movement point; ",
                              "Running costs %+d movement points; ",
-                             (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3);
+                             encumb(bp_leg_l) * 1.5);
                 s += ngettext("Swimming costs %+d movement point;\n",
                              "Swimming costs %+d movement points;\n",
-                             (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2));
+                             encumb(bp_leg_l) * (50 - skillLevel("swimming") * 2) / 2);
                 s += _("Dodge skill %+.1f.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str(), (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3,
-                               (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2),
-                               double(double(-(encumb(bp_leg_l) + encumb(bp_leg_r))) / 2));
-            } else if (line == 9) {
+                               s.c_str(), encumb(bp_leg_l) * 1.5,
+                               encumb(bp_leg_l) * (50 - skillLevel("swimming") * 2) / 2,
+                               double(-encumb(bp_leg_l)) / 4);
+            } else if (line == 9) { //Right Leg
                 s = ngettext("Running costs %+d movement point; ",
                              "Running costs %+d movement points; ",
-                             (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3);
+                             encumb(bp_leg_r) * 1.5);
                 s += ngettext("Swimming costs %+d movement point;\n",
                              "Swimming costs %+d movement points;\n",
-                             (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2));
+                             encumb(bp_leg_r) * (50 - skillLevel("swimming") * 2) / 2);
                 s += _("Dodge skill %+.1f.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str(), (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3,
-                               (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2),
-                               double(double(-(encumb(bp_leg_l) + encumb(bp_leg_r))) / 2));
-            } else if (line == 10) {
+                               s.c_str(), encumb(bp_leg_r) * 1.5,
+                               encumb(bp_leg_r) * (50 - skillLevel("swimming") * 2) / 2,
+                               double(-encumb(bp_leg_r)) / 4);
+            } else if (line == 10) { //Left Foot
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                ngettext("Running costs %+d movement point.", 
                                         "Running costs %+d movement points.",
-                                        (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5),
-                               (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5);
-            } else if (line == 11) {
+                                        encumb(bp_foot_l) * 2.5), encumb(bp_foot_l) * 2.5);
+            } else if (line == 11) { //Right Foot
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                ngettext("Running costs %+d movement point.", 
                                         "Running costs %+d movement points.",
-                                        (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5),
-                               (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5);
+                                        encumb(bp_foot_r) * 2.5), encumb(bp_foot_r) * 2.5);
             }
             wrefresh(w_info);
             
@@ -8839,8 +8837,8 @@ bool player::wear_item(item *to_wear, bool interactive)
             if (armor->covers & mfb(i) && encumb(i) >= 4)
             {
                 add_msg(m_warning,
-                    (i == bp_head || i == bp_torso || i == bp_mouth) ?
-                    _("Your %s is very encumbered! %s"):_("Your %s are very encumbered! %s"),
+                    !(i == bp_eyes) ?
+                    _("Your %s are very encumbered! %s"):_("Your %s is very encumbered! %s"),
                     body_part_name(body_part(i)).c_str(), encumb_text(body_part(i)).c_str());
             }
         }

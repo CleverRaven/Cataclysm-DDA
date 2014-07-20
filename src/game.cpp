@@ -12622,11 +12622,13 @@ bool game::plmove(int dx, int dy)
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
-            if (one_in(5) && (u.get_armor_bash(bp_foot_l) < rng(2, 5) ||
-                    u.get_armor_bash(bp_foot_r) < rng(2, 5))) {
-                add_msg(m_bad, _("You hurt your feet on the %s!"), m.tername(x, y).c_str());
+            if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
+                add_msg(m_bad, _("You hurt your left foot on the %s!"), m.tername(x, y).c_str());
                 u.hit(NULL, bp_foot_l, 0, 1);
-                u.hit(NULL, bp_foot_r, 0, 1);
+            }
+            if (one_in(5) && u.get_armor_bash(bp_foot_r) < rng(2, 5)) {
+                add_msg(m_bad, _("You hurt your right foot on the %s!"), m.tername(x, y).c_str());
+                u.hit(NULL, bp_foot_l, 0, 1);
             }
         }
         if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2))
