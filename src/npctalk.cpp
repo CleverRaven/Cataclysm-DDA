@@ -1046,6 +1046,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_DENY_GUARD:
             return _("Not a bloody chance, I'm going to get left behind!");
+            
+        case TALK_DENY_PERSONAL:
+            return _("I really don't feel comfortable doing so...");
 
         case TALK_COMBAT_COMMANDS:
             {
@@ -2387,6 +2390,16 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     FAILURE(TALK_DENY_GUARD);
      FAILURE_OPINION(-1, -2, -1, 1, 0);
   }
+  if (p->is_following()) {
+   RESPONSE(_("I'd like to know a bit more about you..."));
+    int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
+                 3 * p->op_of_u.anger + p->op_of_u.owed / 25;
+    TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
+    SUCCESS(TALK_FRIEND);
+    SUCCESS_ACTION(&talk_function::reveal_stats);
+    FAILURE(TALK_DENY_PERSONAL);
+     FAILURE_OPINION(-1, 0, 0, 0, 0);
+  }  
   RESPONSE(_("I'm going to go my own way for a while."));
    SUCCESS(TALK_LEAVE);
   RESPONSE(_("Let's go."));
@@ -2910,6 +2923,11 @@ void talk_function::stop_guard(npc *p)
     p->goal = p->no_goal_point;
     p->guardx = -1;
     p->guardy = -1;
+}
+
+void talk_function::reveal_stats (npc *p)
+{
+    p->disp_info();
 }
 
 void talk_function::end_conversation(npc *p)
