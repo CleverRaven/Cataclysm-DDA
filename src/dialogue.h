@@ -46,6 +46,7 @@ struct talk_function
     void stop_guard           (npc*);
     void end_conversation     (npc*);
     void insult_combat        (npc*);
+    void reveal_stats         (npc*);
     void follow               (npc*); // p follows u
     void deny_follow          (npc*); // p gets DI_ASKED_TO_FOLLOW
     void deny_lead            (npc*); // p gets DI_ASKED_TO_LEAD
