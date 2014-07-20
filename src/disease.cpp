@@ -48,6 +48,7 @@ enum dis_type_enum {
  DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
 // Inflicted by an NPC
  DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
+ DI_ASKED_TO_TRAIN, DI_ASKED_PERSONAL_INFO,
 // Martial arts-related buffs
  DI_MA_BUFF,
 // NPC-only
@@ -156,6 +157,8 @@ void game::init_diseases() {
     disease_type_lookup["asked_to_follow"] = DI_ASKED_TO_FOLLOW;
     disease_type_lookup["asked_to_lead"] = DI_ASKED_TO_LEAD;
     disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
+    disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
+    disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
@@ -1017,7 +1020,7 @@ void dis_effect(player &p, disease &dis)
         case DI_DRUNK:
             handle_alcohol(p, dis);
             break;
-            
+
         case DI_VALIUM:
             if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
                 p.stim--;
@@ -2726,7 +2729,7 @@ void manage_sleep(player& p, disease& dis)
         p.hunger--;
         p.thirst--;
     }
-    
+
     if (int(calendar::turn) % 100 == 0 && p.has_trait("CHLOROMORPH") &&
     g->is_in_sunlight(g->u.posx, g->u.posy) ) {
         // Hunger and thirst fall before your Chloromorphic physiology!

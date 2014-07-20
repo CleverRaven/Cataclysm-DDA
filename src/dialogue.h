@@ -46,10 +46,13 @@ struct talk_function
     void stop_guard           (npc*);
     void end_conversation     (npc*);
     void insult_combat        (npc*);
+    void reveal_stats         (npc*);
     void follow               (npc*); // p follows u
     void deny_follow          (npc*); // p gets DI_ASKED_TO_FOLLOW
     void deny_lead            (npc*); // p gets DI_ASKED_TO_LEAD
     void deny_equipment       (npc*); // p gets DI_ASKED_FOR_ITEM
+    void deny_train           (npc*); // p gets DI_ASKED_TO_TRAIN
+    void deny_personal_info   (npc*); // p gets DI_ASKED_PERSONAL_INFO
     void enslave              (npc*) {}; // p becomes slave of u
     void hostile              (npc*); // p turns hostile to u
     void flee                 (npc*);
