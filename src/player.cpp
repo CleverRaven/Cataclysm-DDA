@@ -2400,9 +2400,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     wrefresh(w_stats);
 
     // Next, draw encumberment.
-    std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Left Arm"),
-                            _("Right Arm"), _("Left Hand"), _("Right Hand"), _("Left Leg"),
-                             _("Right Leg"), _("Left Foot"), _("Right Foot")};
+    std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("L. Arm"), _("R. Arm"),
+                             _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
+                             _("R. Foot")};
     body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
                              bp_hand_r, bp_leg_l, bp_hand_r, bp_foot_l, bp_foot_r};
     int iEnc, iArmorEnc, iWarmth;
@@ -2414,7 +2414,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         iLayers = iArmorEnc = 0;
         iWarmth = warmth(body_part(i));
         iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
-        mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s:", asText[i].c_str());
+        mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s", asText[i].c_str());
         mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", iLayers);
         mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
                   " ", iArmorEnc, "+", iEnc - iArmorEnc);
@@ -2739,17 +2739,48 @@ detecting traps and other things of interest."));
             break;
         case 2: // Encumberment tab
         {
+            werase(w_encumb);
             mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
             mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
+            int encumb_win_size_y = 8;
+            half_y = encumb_win_size_y / 2;
+            if (line <= half_y) {
+                min = 0;
+                max = encumb_win_size_y;
+            } else if (line >= 12 - half_y) {
+                min = (12 - encumb_win_size_y);
+                max = 12;
+            } else {
+                min = line - half_y;
+                max = line - half_y + encumb_win_size_y;
+            }
+            
+            for (int i = min; i < max; i++) {
+                iLayers = iArmorEnc = 0;
+                iWarmth = warmth(body_part(i));
+                iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
+                if (line == i) {
+                    mvwprintz(w_encumb, i + 1 - min, 1, h_ltgray, "%s", asText[i].c_str());
+                } else {
+                    mvwprintz(w_encumb, i + 1 - min, 1, c_ltgray, "%s", asText[i].c_str());
+                }
+                mvwprintz(w_encumb, i + 1 - min, 8, c_ltgray, "(%d)", iLayers);
+                mvwprintz(w_encumb, i + 1 - min, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
+                          " ", iArmorEnc, "+", iEnc - iArmorEnc);
+                wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
+                wprintz(w_encumb, bodytemp_color(i), " (%3d)", iWarmth);
+            }
+            draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
+            
+            werase(w_info);
             std::string s;
             if (line == 0) {
-                mvwprintz(w_encumb, 1, 1, h_ltgray, _("Torso"));
                 s = _("Melee skill %+d;");
-                s+= _(" Dodge skill %+d;\n");
-                s+= ngettext("Swimming costs %+d movement point;\n",
+                s += _(" Dodge skill %+d;\n");
+                s += ngettext("Swimming costs %+d movement point;\n",
                              "Swimming costs %+d movement points;\n",
                              encumb(bp_torso) * (80 - skillLevel("swimming") * 3));
-                s+= ngettext("Melee and thrown attacks cost %+d movement point.",
+                s += ngettext("Melee and thrown attacks cost %+d movement point.",
                              "Melee and thrown attacks cost %+d movement points.",
                              encumb(bp_torso) * 20);
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s.c_str(),
@@ -2757,66 +2788,88 @@ detecting traps and other things of interest."));
                                encumb(bp_torso) * (80 - skillLevel("swimming") * 3),
                                encumb(bp_torso) * 20);
             } else if (line == 1) {
-                mvwprintz(w_encumb, 2, 1, h_ltgray, _("Head"));
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Head encumbrance has no effect; it simply limits how much you can put on."));
             } else if (line == 2) {
-                mvwprintz(w_encumb, 3, 1, h_ltgray, _("Eyes"));
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Perception %+d when checking traps or firing ranged weapons;\n\
 Perception %+.1f when throwing items."),
                                -encumb(bp_eyes),
                                double(double(-encumb(bp_eyes)) / 2));
             } else if (line == 3) {
-                mvwprintz(w_encumb, 4, 1, h_ltgray, _("Mouth"));
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, ngettext("\
 Running costs %+d movement point.", "Running costs %+d movement points.", encumb(bp_mouth) * 5), encumb(bp_mouth) * 5);
             } else if (line == 4) {
-                mvwprintz(w_encumb, 5, 1, h_ltgray, _("Arms"));
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Arm encumbrance affects your accuracy with ranged weapons."));
             } else if (line == 5) {
-                mvwprintz(w_encumb, 6, 1, h_ltgray, _("Hands"));
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+Arm encumbrance affects your accuracy with ranged weapons."));
+            } else if (line == 6) {
                 s = ngettext("Reloading costs %+d movement point; ",
                              "Reloading costs %+d movement points; ",
                              (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30);
-                s+= _("Dexterity %+d when throwing items.");
+                s += _("Dexterity %+d when throwing items.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                s.c_str() , (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30,
                                -(encumb(bp_hand_l) + encumb(bp_hand_r)));
-            } else if (line == 6) {
-                mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
+            } else if (line == 7) {
+                s = ngettext("Reloading costs %+d movement point; ",
+                             "Reloading costs %+d movement points; ",
+                             (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30);
+                s += _("Dexterity %+d when throwing items.");
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                               s.c_str() , (encumb(bp_hand_l) + encumb(bp_hand_r)) * 30,
+                               -(encumb(bp_hand_l) + encumb(bp_hand_r)));
+            } else if (line == 8) {
                 s = ngettext("Running costs %+d movement point; ",
                              "Running costs %+d movement points; ",
                              (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3);
-                s+= ngettext("Swimming costs %+d movement point;\n",
+                s += ngettext("Swimming costs %+d movement point;\n",
                              "Swimming costs %+d movement points;\n",
                              (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2));
-                s+= _("Dodge skill %+.1f.");
+                s += _("Dodge skill %+.1f.");
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                s.c_str(), (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3,
                                (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2),
                                double(double(-(encumb(bp_leg_l) + encumb(bp_leg_r))) / 2));
-            } else if (line == 7) {
-                mvwprintz(w_encumb, 8, 1, h_ltgray, _("Feet"));
+            } else if (line == 9) {
+                s = ngettext("Running costs %+d movement point; ",
+                             "Running costs %+d movement points; ",
+                             (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3);
+                s += ngettext("Swimming costs %+d movement point;\n",
+                             "Swimming costs %+d movement points;\n",
+                             (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2));
+                s += _("Dodge skill %+.1f.");
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                               s.c_str(), (encumb(bp_leg_l) + encumb(bp_leg_r)) * 3,
+                               (encumb(bp_leg_l) + encumb(bp_leg_r)) *(50 - skillLevel("swimming") * 2),
+                               double(double(-(encumb(bp_leg_l) + encumb(bp_leg_r))) / 2));
+            } else if (line == 10) {
+                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                               ngettext("Running costs %+d movement point.", 
+                                        "Running costs %+d movement points.",
+                                        (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5),
+                               (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5);
+            } else if (line == 11) {
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                ngettext("Running costs %+d movement point.", 
                                         "Running costs %+d movement points.",
                                         (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5),
                                (encumb(bp_foot_l) + encumb(bp_foot_r)) * 5);
             }
-            wrefresh(w_encumb);
             wrefresh(w_info);
-
+            
+            
             action = ctxt.handle_input();
             if (action == "DOWN") {
-                line++;
-                if (line == 8)
-                    line = 0;
+                if (line < 11) {
+                    line++;
+                }
             } else if (action == "UP") {
-                line--;
-                if (line == -1)
-                    line = 7;
+                if (line > 0) {
+                    line--;
+                }
             } else if (action == "NEXT_TAB") {
                 mvwprintz(w_encumb, 0, 0, c_ltgray,  _("                          "));
                 mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
@@ -2826,15 +2879,6 @@ Arm encumbrance affects your accuracy with ranged weapons."));
             } else if (action == "QUIT") {
                 done = true;
             }
-            mvwprintz(w_encumb, 1, 1, c_ltgray, _("Torso"));
-            mvwprintz(w_encumb, 2, 1, c_ltgray, _("Head"));
-            mvwprintz(w_encumb, 3, 1, c_ltgray, _("Eyes"));
-            mvwprintz(w_encumb, 4, 1, c_ltgray, _("Mouth"));
-            mvwprintz(w_encumb, 5, 1, c_ltgray, _("Arms"));
-            mvwprintz(w_encumb, 6, 1, c_ltgray, _("Hands"));
-            mvwprintz(w_encumb, 7, 1, c_ltgray, _("Legs"));
-            mvwprintz(w_encumb, 8, 1, c_ltgray, _("Feet"));
-            wrefresh(w_encumb);
             break;
         }
         case 4: // Traits tab
