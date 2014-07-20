@@ -121,6 +121,7 @@ struct mission_start {
 struct mission_end { // These functions are run when a mission ends
     void standard       ( mission *){}; // Nothing special happens
     void leave          ( mission *); // NPC leaves after the mission is complete
+    void thankful       ( mission *); // NPC defaults to being a friendly stranger
     void deposit_box    ( mission *); // random valuable reward
     void heal_infection ( mission *);
 };
