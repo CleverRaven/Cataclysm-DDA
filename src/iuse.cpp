@@ -6309,9 +6309,8 @@ void make_zlave(player *p)
     const int moves = hard * 1200 / p->skillLevel("firstaid");
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
-    p->activity.values.push_back(corpses.size());
-    p->activity.values.push_back(selected_corpse);
     p->activity.values.push_back(success);
+    p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
     p->moves = 0;
 }
 

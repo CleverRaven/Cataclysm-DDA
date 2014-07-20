@@ -1658,42 +1658,34 @@ void game::activity_on_turn_refill_vehicle()
     u.pause();
 }
 
-void game::activity_on_finish_make_zlave(player *p)
+void game::activity_on_finish_make_zlave()
 {
-
     static const int full_pulp_threshold = 4;
 
-    std::vector<item> &items = g->m.i_at(p->posx, p->posy);
-    std::vector<item *> corpses;
+    std::vector<item> &items = g->m.i_at(u.posx, u.posy);
+    std::string corpse_name = u.activity.str_values[0];
+    item *body = NULL;
 
-    for (int i = 0; i < items.size(); i++) {
-        item &it = items[i];
-
-        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
-            it.corpse->sym == "Z" && it.active && it.item_vars["zlave"] == "") {
-            corpses.push_back(&it);
+    for (auto it = items.begin(); it != items.end(); ++it) {
+        if (it->display_name() == corpse_name) {
+            body = &(*it);
         }
     }
 
-    const int corpses_count = p->activity.values[0];
-
-    if (corpses.size() != corpses_count) {
+    if (body == NULL) {
         add_msg(m_info, _("There's no corpse to make zlave!"));
         return;
     }
 
-    const int selected_corpse = p->activity.values[1];
-    int success = p->activity.values[2];
-
-    item *body = corpses[selected_corpse];
+    int success = u.activity.values[0];
 
     if (success > 0) {
 
-        p->practice("firstaid", rng(2, 5));
-        p->practice("survival", rng(2, 5));
+        u.practice("firstaid", rng(2, 5));
+        u.practice("survival", rng(2, 5));
 
-        p->add_msg_if_player(m_good,
-                             _("You're confident you've removed the zombie's ability to pose a threat. When it reanimates, you'll be able to use it as a zlave."));
+        u.add_msg_if_player(m_good,
+                            _("You're confident you've removed the zombie's ability to pose a threat. When it reanimates, you'll be able to use it as a zlave."));
 
         body->item_vars["zlave"] = "zlave";
         //take into account the chance that the body yet can regenerate not as we need.
@@ -1705,11 +1697,11 @@ void game::activity_on_finish_make_zlave(player *p)
 
         if (success > -20) {
 
-            p->practice("firstaid", rng(3, 6));
-            p->practice("survival", rng(3, 6));
+            u.practice("firstaid", rng(3, 6));
+            u.practice("survival", rng(3, 6));
 
-            p->add_msg_if_player(m_warning,
-                                 _("You've cut a lot of tissue. Now to wait and see..."));
+            u.add_msg_if_player(m_warning,
+                                _("You've cut a lot of tissue. Now to wait and see..."));
 
             success += rng(1, 20);
 
@@ -1721,8 +1713,8 @@ void game::activity_on_finish_make_zlave(player *p)
 
         } else {
 
-            p->practice("firstaid", rng(1, 8));
-            p->practice("survival", rng(1, 8));
+            u.practice("firstaid", rng(1, 8));
+            u.practice("survival", rng(1, 8));
 
             int pulp = rng(1, full_pulp_threshold);
 
@@ -1732,11 +1724,11 @@ void game::activity_on_finish_make_zlave(player *p)
                 body->damage = full_pulp_threshold;
                 body->active = false;
 
-                p->add_msg_if_player(m_warning,
-                                     _("The corpse is thoroughly pulped."));
+                u.add_msg_if_player(m_warning,
+                                    _("The corpse is thoroughly pulped."));
             } else {
-                p->add_msg_if_player(m_warning,
-                                     _("The corpse is damaged."));
+                u.add_msg_if_player(m_warning,
+                                    _("The corpse is damaged."));
             }
         }
     }
@@ -1805,7 +1797,7 @@ void game::activity_on_finish()
         u.activity.type = ACT_NULL;
         break;
     case ACT_MAKE_ZLAVE:
-        activity_on_finish_make_zlave(&u);
+        activity_on_finish_make_zlave();
         u.activity.type = ACT_NULL;
         break;
     default:
