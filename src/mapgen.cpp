@@ -27,7 +27,7 @@
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
 
-#define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
 

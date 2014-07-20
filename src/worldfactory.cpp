@@ -228,11 +228,11 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
             rename(origin_files[i].c_str(), std::string(newworld->world_path + filename).c_str());
         }
 
-        DebugLog() << "worldfactory::convert_to_world -- World Converted Successfully!\n";
+        DebugLog( D_INFO, DC_ALL ) << "worldfactory::convert_to_world -- World Converted Successfully!";
         return newworld;
     } else {
         // something horribly wrong happened
-        DebugLog() << "worldfactory::convert_to_world -- World Conversion Failed!\n";
+        DebugLog( D_ERROR, DC_ALL ) << "worldfactory::convert_to_world -- World Conversion Failed!";
         return NULL;
     }
 }
@@ -264,7 +264,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     woption << world->world_path << "/" << WORLD_OPTION_FILE;
 
     if (!assure_dir_exist(world->world_path)) {
-        DebugLog() << "Unable to create or open world[" << world->world_name << "] directory for saving\n";
+        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world->world_name << "] directory for saving";
         return false;
     }
 
@@ -1300,7 +1300,7 @@ std::unordered_map<std::string, cOpt> worldfactory::get_world_options(std::strin
         fin.open(path.c_str());
         if (!fin.is_open()) {
             fin.close();
-            DebugLog() << "Could neither read nor create world options file\n";
+            DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create world options file";
             return retoptions;
         }
     }

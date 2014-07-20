@@ -163,6 +163,16 @@ mongroup *create_monster_group(overmap *map, std::string type, int overmap_x, in
     return &(map->zg.back());
 }
 
+/** Create a new monster of the given type. */
+monster *create_monster(std::string mon_type, int x, int y) {
+    monster new_monster(GetMType(mon_type), x, y);
+    if(!g->add_zombie(new_monster)) {
+        return NULL;
+    } else {
+        return &(g->zombie(g->mon_at(x, y)));
+    }
+}
+
 it_comest *get_comestible_type(std::string name) {
     return dynamic_cast<it_comest*>(item_controller->find_template(name));
 }
@@ -445,10 +455,7 @@ static int traceback(lua_State *L) {
     debugmsg("Error in lua module: %s", error);
 
     // Print the stack trace to our debug log.
-    std::ofstream debug_out;
-    debug_out.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
-    debug_out << stacktrace << "\n";
-    debug_out.close();
+    DebugLog( D_ERROR, DC_ALL ) << stacktrace;
     return 1;
 }
 
@@ -565,6 +572,9 @@ int use_function::call(player* player_instance, item* item_instance, bool active
 
         // Push the lua function on top of the stack
         lua_rawgeti(L, LUA_REGISTRYINDEX, lua_function);
+
+        // TODO: also pass the player object, because of NPCs and all
+        //       I guess
 
         // Push the item on top of the stack.
         int item_in_registry;

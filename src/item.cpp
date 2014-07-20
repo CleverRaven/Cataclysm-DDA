@@ -42,6 +42,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand)
         charges = ammo->count;
     } else if (type->is_food()) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
+        active = true;
         if (comest->charges == 1 && !made_of(LIQUID)) {
             charges = -1;
         } else {
@@ -139,6 +140,7 @@ void item::init() {
     light = nolight;
     fridge = 0;
     rot = 0;
+    is_rotten = false;
     last_rot_check = 0;
 }
 
@@ -796,7 +798,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
             quality != type->qualities.end(); ++quality){
             dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %1$d %2$s quality."),
-                            quality->second, qualities[quality->first].name.c_str())));
+                            quality->second, quality::get_name(quality->first).c_str())));
         }
     }
 
@@ -1295,6 +1297,36 @@ int item::price() const
     }
 
     int ret = type->price;
+    if( is_rotten ) {
+        // better price here calculation? No value at all?
+        ret = type->price / 10;
+    }
+    if( damage > 0 ) {
+        // maximal damage is 4, maximal reduction is 1/10 of the value.
+        ret -= ret * static_cast<double>( damage ) / 40;
+    }
+    if( curammo != nullptr && charges > 0 ) {
+        item tmp( curammo->id, 0 );
+        tmp.charges = charges;
+        ret += tmp.price();
+    }
+    if( type->is_ammo() ) {
+        const it_ammo* ammo = dynamic_cast<const it_ammo*>( type );
+        ret = ret * charges / static_cast<double>( ammo->count );
+    } else if( type->is_food() ) {
+        const it_comest* comest = dynamic_cast<const it_comest*>( type );
+        if( comest->charges > 1 || made_of( LIQUID ) ) {
+            ret = ret * charges * static_cast<double>( comest->charges );
+        }
+    }
+    if( is_tool() && curammo == nullptr ) {
+        // If the tool uses specific ammo (like gasoline) it is handled above.
+        const it_tool *itt = dynamic_cast<const it_tool*>( type );
+        if( itt->max_charges > 0 && itt->def_charges > 0 ) {
+            const double f = static_cast<double>( itt->def_charges ) / itt->max_charges;
+            ret = f * std::max<long>( 0, charges ) * ret;
+        }
+    }
     for (size_t i = 0; i < contents.size(); i++) {
         ret += contents[i].price();
     }
@@ -1586,20 +1618,15 @@ int item::has_gunmod(itype_id mod_type)
 
 bool item::rotten()
 {
-    if (!is_food() || g == NULL)
-        return false;
-    it_comest* food = dynamic_cast<it_comest*>(type);
-    if (food->spoils != 0) {
-      calc_rot();
-
-      return (rot > (signed int)food->spoils * 600);
-    } else {
-      return false;
-    }
+    return is_rotten;
 }
 
-void item::calc_rot()
+void item::calc_rot(const point &location)
 {
+    if (!is_food() || g == NULL){
+        is_rotten = false;
+        return;
+    }
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
         const int since = ( last_rot_check == 0 ? bday : last_rot_check );
@@ -1607,7 +1634,7 @@ void item::calc_rot()
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             int old = rot;
-            rot += get_rot_since( since, until );
+            rot += get_rot_since( since, until, location );
             if (g->debugmon) {
                 add_msg(m_info, "r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
             }
@@ -1620,6 +1647,13 @@ void item::calc_rot()
             fridge = 0;
         }
     }
+    it_comest* food = dynamic_cast<it_comest*>(type);
+    if (food->spoils != 0 && (rot > (signed int)food->spoils * 600)) {
+      is_rotten = true;
+    } else {
+      is_rotten = false;
+    }
+    if(is_rotten) {active = false;}
 }
 
 int item::brewing_time()

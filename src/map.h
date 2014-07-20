@@ -464,7 +464,7 @@ void add_corpse(int x, int y);
  void add_trap(const int x, const int y, const trap_id t);
  void disarm_trap( const int x, const int y);
  void remove_trap(const int x, const int y);
- std::set<point> trap_locations(trap_id t);
+ const std::set<point> &trap_locations(trap_id t) const;
 
 // Fields
  field& field_at(const int x, const int y);

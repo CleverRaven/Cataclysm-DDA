@@ -228,16 +228,22 @@ void Pickup::pick_up(int posx, int posy, int min)
             for (int i=0; i < 8; i++) {
                 vItemIndex[adjacentDir[i]] = 0;
 
-                point pairDir = direction_XY(adjacentDir[i]);
+                point apos = direction_XY(adjacentDir[i]);
+                apos.x += posx;
+                apos.y += posy;
 
-                if (!g->checkZone("NO_AUTO_PICKUP", posx + pairDir.x, posy + pairDir.y)) {
-                    std::vector<item> hereTemp = g->m.i_at(posx + pairDir.x, posy + pairDir.y);
+                if( g->m.has_flag( "SEALED", apos.x, apos.y ) ) {
+                    continue;
+                }
+                if( g->checkZone( "NO_AUTO_PICKUP", apos.x, apos.y ) ) {
+                    continue;
+                }
+                const std::vector<item> &hereTemp = g->m.i_at( apos.x, apos.y );
 
                     for (int j=0; j < hereTemp.size(); j++) {
                         vItemDir.push_back(adjacentDir[i]);
                         here.push_back(hereTemp[j]);
                     }
-                }
             }
         }
     }

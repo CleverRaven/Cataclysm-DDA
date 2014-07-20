@@ -35,6 +35,7 @@
 #include "mapsharing.h"
 #include "messages.h"
 #include "pickup.h"
+#include "weather_gen.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -65,7 +66,7 @@
 #include <tchar.h>
 #endif
 
-#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
 
@@ -579,7 +580,8 @@ void game::start_game(std::string worldname)
     } else {
         calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
     }
-    nextweather = calendar::turn + MINUTES(30);
+    nextweather = calendar::turn;
+    weatherSeed = rand();
     run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -629,6 +631,7 @@ void game::start_game(std::string worldname)
     u.process_turn(); // process_turn adds the initial move points
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
+    update_weather(); // Springtime-appropriate, definitely.
     u.next_climate_control_check = 0;  // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -722,6 +725,13 @@ void game::create_starting_npcs()
     if (!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return; //Do not generate a starting npc.
     }
+    
+    //We don't want more than one starting npc per shelter
+    const int radius = 1;
+    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
+    if (npcs.size() >= 1)
+        return; //There is already an NPC in this shelter
+    
     npc *tmp = new npc();
     tmp->normalize();
     tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
@@ -1912,85 +1922,18 @@ bool game::cancel_activity_query(const char *message, ...)
 
 void game::update_weather()
 {
-    season_type season;
-    // Default to current weather, and update to the furthest future weather if any.
-    weather_segment prev_weather = { temperature, weather, nextweather };
-    if (!weather_log.empty()) {
-        prev_weather = weather_log.rbegin()->second;
-    }
-    while (prev_weather.deadline < calendar::turn + HOURS(MAX_FUTURE_WEATHER)) {
-        weather_segment new_weather;
-        // Pick a new weather type (most likely the same one)
-        int chances[NUM_WEATHER_TYPES];
-        int total = 0;
-        season = prev_weather.deadline.get_season();
-        for (int i = 0; i < NUM_WEATHER_TYPES; i++) {
-            // Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
-            // and vice versa.
-            if ((weather_data[i].avg_temperature[season] < 32 && temperature > 32) ||
-                (weather_data[i].avg_temperature[season] > 32 && temperature < 32)) {
-                chances[i] = 0;
-            } else {
-                chances[i] = weather_shift[season][prev_weather.weather][i];
-                if (weather_data[i].dangerous && u.has_artifact_with(AEP_BAD_WEATHER)) {
-                    chances[i] = chances[i] * 4 + 10;
-                }
-                total += chances[i];
-            }
-        }
-        int choice = rng(0, total - 1);
-        new_weather.weather = WEATHER_CLEAR;
-
-        if (total > 0) {
-            while (choice >= chances[new_weather.weather]) {
-                choice -= chances[new_weather.weather];
-                new_weather.weather = weather_type(int(new_weather.weather) + 1);
-            }
-        } else {
-            new_weather.weather = weather_type(int(new_weather.weather) + 1);
-        }
-        // Advance the weather timer
-        int minutes = rng(weather_data[new_weather.weather].mintime,
-                          weather_data[new_weather.weather].maxtime);
-        new_weather.deadline = prev_weather.deadline + MINUTES(minutes);
-        if (new_weather.weather == WEATHER_SUNNY && new_weather.deadline.is_night()) {
-            new_weather.weather = WEATHER_CLEAR;
-        }
-
-        // Now update temperature
-        if (!one_in(4)) {
-            // 3 in 4 chance of respecting avg temp for the weather
-            int average = weather_data[weather].avg_temperature[season];
-            if (prev_weather.temperature < average) {
-                new_weather.temperature = prev_weather.temperature + 1;
-            } else if (prev_weather.temperature > average) {
-                new_weather.temperature = prev_weather.temperature - 1;
-            } else {
-                new_weather.temperature = prev_weather.temperature;
-            }
-        } else { // 1 in 4 chance of random walk
-            new_weather.temperature = prev_weather.temperature + rng(-1, 1);
-        }
-
-        if (calendar::turn.is_night()) {
-            new_weather.temperature += rng(-2, 1);
-        } else {
-            new_weather.temperature += rng(-1, 2);
-        }
-        prev_weather = new_weather;
-        weather_log[(int)new_weather.deadline] = new_weather;
-    }
-
     if (calendar::turn >= nextweather) {
+        if(!has_generator) {
+            weather_generator weatherGen(weatherSeed);
+            has_generator = true;
+        }
+//        debugmsg("Generating weather for turn %d", int(calendar::turn));
+        w_point w = weatherGen.get_weather(u.pos(), calendar(calendar::turn));
         weather_type old_weather = weather;
-        weather_segment new_weather = weather_log.upper_bound((int)calendar::turn)->second;
-        weather = new_weather.weather;
-        temperature = new_weather.temperature;
-        nextweather = new_weather.deadline;
-
-        //In case weather changes right after a lightning strike
+        weather = weatherGen.get_weather_conditions(w);
+        temperature = w.temperature;
         g->lightning_active = false;
-
+        nextweather += 50; // Check weather each turn.
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());
@@ -3541,7 +3484,7 @@ bool game::handle_action()
         if (query_yn(_("Commit suicide?"))) {
             if (query_yn(_("REALLY commit suicide?"))) {
                 u.moves = 0;
-                place_corpse();
+                u.place_corpse();
                 uquit = QUIT_SUICIDE;
             }
         }
@@ -3770,9 +3713,9 @@ bool game::is_game_over()
         }
         std::stringstream playerfile;
         playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-        DebugLog() << "Unlinking player file: <" << playerfile.str() << "> -- ";
+        dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
         bool ok = (unlink(playerfile.str().c_str()) == 0);
-        DebugLog() << (ok ? "SUCCESS" : "FAIL") << "\n";
+        dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
         return true;
     }
     if (uquit != QUIT_NO) {
@@ -3783,45 +3726,17 @@ bool game::is_game_over()
             if (u.in_vehicle) {
                 g->m.unboard_vehicle(u.posx, u.posy);
             }
-            place_corpse();
+            u.place_corpse();
             std::stringstream playerfile;
             playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-            DebugLog() << "Unlinking player file: <" << playerfile.str() << "> -- ";
+            dbg( D_INFO ) << "Unlinking player file: <" << playerfile.str() << "> -- ";
             bool ok = (unlink(playerfile.str().c_str()) == 0);
-            DebugLog() << (ok ? "SUCCESS" : "FAIL") << "\n";
+            dbg( D_INFO ) << (ok ? "SUCCESS" : "FAIL");
             uquit = QUIT_DIED;
             return true;
         }
     }
     return false;
-}
-
-void game::place_corpse()
-{
-    std::vector<item *> tmp = u.inv_dump();
-    item your_body;
-    your_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn, u.name);
-    for (std::vector<item *>::iterator it = tmp.begin();
-         it != tmp.end(); ++it) {
-        m.add_item_or_charges(u.posx, u.posy, **it);
-    }
-    for (int i = 0; i < u.num_bionics(); i++) {
-        bionic &b = u.bionic_at_index(i);
-        if (itypes.find(b.id) != itypes.end()) {
-            your_body.contents.push_back(item(b.id, calendar::turn));
-        }
-    }
-    int pow = u.max_power_level;
-    while (pow >= 4) {
-        if (pow % 4 != 0 && pow >= 10) {
-            pow -= 10;
-            your_body.contents.push_back(item("bio_power_storage_mkII", calendar::turn));
-        } else {
-            pow -= 4;
-            your_body.contents.push_back(item("bio_power_storage", calendar::turn));
-        }
-    }
-    m.add_item_or_charges(u.posx, u.posy, your_body);
 }
 
 void game::death_screen()
@@ -3946,11 +3861,7 @@ void game::load(std::string worldname, std::string name)
         load_weather(fin);
     }
     fin.close();
-    if (weather_log.empty()) { // todo: game::get_default_weather() { based on OPTION["STARTING_SEASON"]
-        weather = WEATHER_CLEAR;
-        temperature = 65;
-        nextweather = int(calendar::turn) + 300;
-    }
+    nextweather = int(calendar::turn);
     // log
     std::string mfile = std::string(worldpath + base64_encode(u.name) + ".log");
     fin.open(mfile.c_str());
@@ -4497,6 +4408,7 @@ void game::debug()
     case 12:
         add_msg(m_info, _("Martial arts debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
+        u.add_martialart("style_brawling");
         u.add_martialart("style_karate");
         u.add_martialart("style_judo");
         u.add_martialart("style_aikido");
@@ -4616,6 +4528,8 @@ void game::debug()
     break;
 
     case 18: {
+        debugmsg("This menu is disabled in this version. Sorry!");
+        break;
         const int weather_offset = 1;
         uimenu weather_menu;
         weather_menu.text = _("Select new weather pattern:");
@@ -4698,8 +4612,8 @@ void game::debug()
                 spstr = "";
                 diffturn = int(calendar::turn) - (i * 600);
                 pit = weather_log.lower_bound(int(diffturn));
-                int prt = get_rot_since(int(diffturn), int(calendar::turn));
-                int perc = (get_rot_since(int(diffturn), int(diffturn) + 600) * 100) / 600;
+                int prt = get_rot_since(int(diffturn), int(calendar::turn), u.pos());
+                int perc = (get_rot_since(int(diffturn), int(diffturn) + 600, u.pos()) * 100) / 600;
                 int frt = int(calendar::turn) - int(diffturn);
                 for (int e = 0; e < ne; e++) {
                     spstr = string_format("%s | %c %c%s", spstr.c_str(),
@@ -9122,7 +9036,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         bNewWindow = true;
     }
 
-    DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
+    dbg( D_PEDANTIC_INFO ) << ": calling handle_input()";
 
     std::string action;
     input_context ctxt("LOOK");
@@ -9726,8 +9640,8 @@ int game::list_items(const int iLastState)
     int iStartPos = 0;
     int iActiveX = 0;
     int iActiveY = 0;
-    int iLastActiveX = -1;
-    int iLastActiveY = -1;
+    int iLastActiveX = INT_MIN;
+    int iLastActiveY = INT_MIN;
     bool reset = true;
     bool refilter = true;
     int iFilter = 0;
@@ -9763,8 +9677,8 @@ int game::list_items(const int iLastState)
             } else if (action == "RESET_FILTER") {
                 sFilter = "";
                 filtered_items = ground_items;
-                iLastActiveX = -1;
-                iLastActiveY = -1;
+                iLastActiveX = INT_MIN;
+                iLastActiveY = INT_MIN;
                 reset = true;
                 refilter = true;
             } else if (action == "EXAMINE" && filtered_items.size()) {
@@ -9776,8 +9690,8 @@ int game::list_items(const int iLastState)
                                oThisItem.tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
 
-                iLastActiveX = -1;
-                iLastActiveY = -1;
+                iLastActiveX = INT_MIN;
+                iLastActiveY = INT_MIN;
                 reset = true;
             } else if (action == "PRIORITY_INCREASE") {
                 std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
@@ -9797,8 +9711,8 @@ int game::list_items(const int iLastState)
                 lowPStart = list_filter_low_priority(filtered_items, highPEnd, list_item_downvote);
                 iActive = 0;
                 iPage = 0;
-                iLastActiveX = -1;
-                iLastActiveY = -1;
+                iLastActiveX = INT_MIN;
+                iLastActiveY = INT_MIN;
                 refilter = false;
             }
 
@@ -10351,9 +10265,9 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (cont == NULL || cont->is_null()) {
         const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
-        int pos = inv_for_liquid(liquid, text, false);
-        cont = &(u.i_at(pos));
-        if (cont->is_null()) {
+        // Check for a container on the ground.
+        cont = inv_map_for_liquid(liquid, text);
+        if (cont == NULL || cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
@@ -10410,8 +10324,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
-                cont->tname().c_str());
+        add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
         cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
         if (infinite) {
             cont->charges = max;
@@ -10458,12 +10371,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // Container is partly full
             if (infinite) {
                 cont->contents[0].charges += remaining_capacity;
-                add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
-                        cont->tname().c_str());
+                add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
                 return true;
             } else { // Container is finite, not empty and not full, add liquid to it
-                add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
-                        cont->tname().c_str());
+                add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
                 if (remaining_capacity > liquid.charges) {
                     remaining_capacity = liquid.charges;
                 }
@@ -10482,18 +10393,16 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             bool all_poured = true;
             if (infinite) { // if filling from infinite source, top it to max
                 liquid_copy.charges = remaining_capacity;
-                add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
-                        cont->tname().c_str());
+                add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
             } else if (liquid.charges > remaining_capacity) {
-                add_msg(_("You fill your %s with some of the %s."), cont->tname().c_str(),
+                add_msg(_("You fill the %s with some of the %s."), cont->tname().c_str(),
                         liquid.tname().c_str());
                 u.inv.unsort();
                 liquid.charges -= remaining_capacity;
                 liquid_copy.charges = remaining_capacity;
                 all_poured = false;
             } else {
-                add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
-                        cont->tname().c_str());
+                add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
             }
             cont->put_in(liquid_copy);
             return all_poured;

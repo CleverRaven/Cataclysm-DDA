@@ -293,8 +293,8 @@ void veh_interact::cache_tool_availability()
                  crafting_inv.has_tools("toolbox", 1);
     has_hacksaw = crafting_inv.has_tools("hacksaw", 1) ||
                   crafting_inv.has_tools("toolbox", 1) ||
-                  crafting_inv.has_tools("circsaw_off", 1) ||
-                  crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED) ||
+                  (crafting_inv.has_tools("circsaw_off", 1) &&
+                  crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
                   crafting_inv.has_tools("toolset", 1);
     has_welder = (crafting_inv.has_tools("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
@@ -1526,7 +1526,7 @@ void complete_vehicle ()
     int vehicle_part = g->u.activity.values[6];
     int type = g->u.activity.values[7];
     std::string part_id = g->u.activity.str_values[0];
-    std::vector<component> tools;
+    std::vector<tool_comp> tools;
     int welder_charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
     int welder_crude_charges = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     inventory crafting_inv = g->crafting_inventory(&g->u);
@@ -1553,12 +1553,12 @@ void complete_vehicle ()
         if (has_goggles) {
             // Need welding goggles to use any of these tools,
             // without the goggles one _must_ use the duct tape
-            tools.push_back(component("welder", welder_charges));
-            tools.push_back(component("welder_crude", welder_crude_charges));
-            tools.push_back(component("toolset", welder_charges / 20));
+            tools.push_back(tool_comp("welder", welder_charges));
+            tools.push_back(tool_comp("welder_crude", welder_crude_charges));
+            tools.push_back(tool_comp("toolset", welder_charges / 20));
         }
-        tools.push_back(component("duct_tape", DUCT_TAPE_USED));
-        tools.push_back(component("toolbox", DUCT_TAPE_USED));
+        tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
+        tools.push_back(tool_comp("toolbox", DUCT_TAPE_USED));
         g->consume_tools(&g->u, tools);
 
         used_item = consume_vpart_item (part_id);
@@ -1609,8 +1609,8 @@ void complete_vehicle ()
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
             used_item = consume_vpart_item (veh->parts[vehicle_part].id);
             veh->parts[vehicle_part].bigness = used_item.bigness;
-            tools.push_back(component("wrench", -1));
-            tools.push_back(component("toolbox", -1));
+            tools.push_back(tool_comp("wrench", -1));
+            tools.push_back(tool_comp("toolbox", -1));
             g->consume_tools(&g->u, tools);
             tools.clear();
             dd = 0;
@@ -1618,11 +1618,11 @@ void complete_vehicle ()
         } else {
             dmg = 1.1 - double(veh->parts[vehicle_part].hp) / veh->part_info(vehicle_part).durability;
         }
-        tools.push_back(component("welder", int(welder_charges*dmg)));
-        tools.push_back(component("welder_crude", int(welder_crude_charges*dmg)));
-        tools.push_back(component("duct_tape", int(DUCT_TAPE_USED*dmg)));
-        tools.push_back(component("toolbox", int(DUCT_TAPE_USED*dmg)));
-        tools.push_back(component("toolset", int(welder_charges*dmg / 20)));
+        tools.push_back(tool_comp("welder", int(welder_charges*dmg)));
+        tools.push_back(tool_comp("welder_crude", int(welder_crude_charges*dmg)));
+        tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED*dmg)));
+        tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED*dmg)));
+        tools.push_back(tool_comp("toolset", int(welder_charges*dmg / 20)));
         g->consume_tools(&g->u, tools);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
@@ -1636,9 +1636,9 @@ void complete_vehicle ()
         g->pl_refill_vehicle(*veh, vehicle_part);
         break;
     case 'o':
-        tools.push_back(component("hacksaw", -1));
-        tools.push_back(component("toolbox", -1));
-        tools.push_back(component("circsaw_off", 20));
+        tools.push_back(tool_comp("hacksaw", -1));
+        tools.push_back(tool_comp("toolbox", -1));
+        tools.push_back(tool_comp("circsaw_off", 20));
         g->consume_tools(&g->u, tools);
         // Dump contents of part at player's feet, if any.
         for (size_t i = 0; i < veh->parts[vehicle_part].items.size(); i++) {

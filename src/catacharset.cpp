@@ -325,8 +325,6 @@ std::string base64_encode(std::string str)
     ret += encoded_data;
     delete[] encoded_data;
 
-    //DebugLog()<<"base64 encoded: \n"<<str<<"\n"<<ret<<"\n";
-
     return ret;
 }
 
@@ -387,8 +385,6 @@ std::string base64_decode(std::string str)
 
     std::string ret = (char *)decoded_data;
     delete[] decoded_data;
-
-    //DebugLog()<<"base64 decoded: \n"<<str<<"\n"<<ret<<"\n";
 
     return ret;
 }

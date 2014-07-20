@@ -232,10 +232,10 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
     std::vector<std::string> search_extensions;
     search_extensions.push_back(".json");
 
-    DebugLog() << "Copying mod contents into directory: " << output_base_path << "\n";
+    DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 
     if (!assure_dir_exist(output_base_path)) {
-        DebugLog() << "Unable to create or open mod directory at [" << output_base_path << "] for saving\n";
+        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" << output_base_path << "] for saving";
         return false;
     }
 
@@ -279,8 +279,8 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
         while (!dir_to_make.empty()) {
             if (!assure_dir_exist(dir_to_make.front())) {
-                DebugLog() << "Unable to create or open mod directory at [" << dir_to_make.front() <<
-                           "] for saving\n";
+                DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" <<
+                           dir_to_make.front() << "] for saving";
             }
 
             dir_to_make.pop();
@@ -379,7 +379,7 @@ void mod_manager::save_mods_list(WORLDPTR world) const
         // this might happen and indicates an I/O-error
         popup(_("Failed to write to %s"), path.c_str());
     } catch (std::string e) {
-        DebugLog() << "worldfactory: failed to write list of mods to world folder\n";
+        popup( _( "Failed to write list of mods to %s: %s" ), path.c_str(), e.c_str() );
     }
 }
 
@@ -405,7 +405,7 @@ void mod_manager::load_mods_list(WORLDPTR world) const
             amo.push_back(mod);
         }
     } catch (std::string e) {
-        DebugLog() << "worldfactory: loading mods list failed: " << e;
+        DebugLog( D_ERROR, DC_ALL ) << "worldfactory: loading mods list failed: " << e;
     }
 }
 

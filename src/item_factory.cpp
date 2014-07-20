@@ -43,30 +43,6 @@ typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 
-bool remove_item(const std::string &itm, std::vector<component> &com)
-{
-    std::vector<component>::iterator a = com.begin();
-    while (a != com.end()) {
-        if (a->type == itm) {
-            a = com.erase(a);
-        } else {
-            ++a;
-        }
-    }
-    return com.empty();
-}
-
-bool remove_item(const std::string &itm, std::vector<std::vector<component> > &com)
-{
-    for (size_t i = 0; i < com.size(); i++) {
-        // Note: this assumes that coms[i] is never an empty vector
-        if (remove_item(itm, com[i])) {
-            return true;
-        }
-    }
-    return false;
-}
-
 void remove_item(const std::string &itm, std::vector<map_bash_item_drop> &vec)
 {
     for (size_t i = 0; i < vec.size(); i++) {
@@ -113,7 +89,7 @@ void Item_factory::finialize_item_blacklist()
         for (recipe_map::iterator b = recipes.begin(); b != recipes.end(); ++b) {
             for (size_t c = 0; c < b->second.size(); c++) {
                 recipe *r = b->second[c];
-                if (r->result == itm || remove_item(itm, r->components) || remove_item(itm, r->tools)) {
+                if( r->result == itm || r->remove_item( itm ) ) {
                     delete r;
                     b->second.erase(b->second.begin() + c);
                     c--;
@@ -123,7 +99,7 @@ void Item_factory::finialize_item_blacklist()
         }
         for (size_t i = 0; i < constructions.size(); i++) {
             construction *c = constructions[i];
-            if (remove_item(itm, c->components) || remove_item(itm, c->tools)) {
+            if( c->remove_item( itm ) ) {
                 delete c;
                 constructions.erase(constructions.begin() + i);
                 i--;
@@ -490,7 +466,7 @@ void Item_factory::check_itype_definitions() const
         }
         for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
              a != type->qualities.end(); ++a) {
-            if (::qualities.count(a->first) == 0) {
+            if( !quality::has( a->first ) ) {
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
             }
         }

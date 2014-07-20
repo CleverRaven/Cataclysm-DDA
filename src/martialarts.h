@@ -253,7 +253,7 @@ class martialart {
 
 void load_technique(JsonObject &jo);
 void load_martial_art(JsonObject &jo);
-
+void check_martialarts();
 void clear_techniques_and_martial_arts();
 
 extern std::map<matype_id, martialart> martialarts;

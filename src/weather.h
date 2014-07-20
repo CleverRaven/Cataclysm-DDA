@@ -144,9 +144,10 @@ std::string weather_forecast(radio_tower tower);
 // Use the decimals parameter to set number of decimal places returned in string.
 std::string print_temperature(float fahrenheit, int decimals = 0);
 
-void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn );
+void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &, const point & );
 
 extern const std::vector<int> rot_chart;
 int get_hourly_rotpoints_at_temp (const int &temp);
-int get_rot_since( const int since, const int endturn );
+//int get_rot_since( const int since, const int endturn );
+int get_rot_since( const int since, const int endturn, const point & );
 #endif // _WEATHER_H_

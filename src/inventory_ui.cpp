@@ -806,6 +806,86 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
     return display_slice(reduced_inv, title);
 }
 
+item *game::inv_map_for_liquid(const item &liquid, const std::string title)
+{
+    std::vector <item> &here = m.i_at(g->u.posx, g->u.posy);
+    typedef std::vector< std::list<item> > pseudo_inventory;
+    pseudo_inventory grounditems;
+    indexed_invslice grounditems_slice;
+    std::vector<item *> ground_containers;
+
+    LIQUID_FILL_ERROR error;
+
+    std::set<std::string> dups;
+    for( auto item_iter = here.begin(); item_iter != here.end(); ++item_iter ) {
+        if( item_iter->get_remaining_capacity_for_liquid(liquid, error) > 0 ) {
+            if( dups.count( item_iter->tname()) == 0 ) {
+                grounditems.push_back( std::list<item>(1, *item_iter) );
+
+                if( grounditems.size() <= 10 ) {
+                    grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+                } else {
+                    grounditems.back().front().invlet = ' ';
+                }
+                dups.insert( item_iter->tname() );
+
+                ground_containers.push_back( &*item_iter );
+            }
+        }
+    }
+
+    for (size_t a = 0; a < grounditems.size(); a++) {
+        // avoid INT_MIN, as it can be confused with "no item at all"
+        grounditems_slice.push_back(indexed_invslice::value_type(&grounditems[a], INT_MIN + a + 1));
+    }
+    static const item_category category_on_ground(
+        "GROUND:",
+        _("GROUND:"),
+        -1000
+    );
+
+    u.inv.restack(&u);
+    u.inv.sort();
+    const indexed_invslice stacks = u.inv.slice_filter_by_capacity_for_liquid(liquid);
+
+    inventory_selector inv_s(false, true, title);
+    inv_s.make_item_list(grounditems_slice, &category_on_ground);
+    inv_s.make_item_list(stacks);
+    inv_s.prepare_paging();
+
+    inventory_selector::drop_map prev_droppings;
+    while (true) {
+        inv_s.display();
+        const std::string action = inv_s.ctxt.handle_input();
+        const long ch = inv_s.ctxt.get_raw_input().get_first_input();
+        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+
+        if (item_pos != INT_MIN) {
+            inv_s.set_to_drop(item_pos, 0);
+            return inv_s.first_item;
+        } else if (inv_s.handle_movement(action)) {
+            // continue with comparison below
+        } else if (action == "QUIT") {
+            return NULL;
+        } else if (action == "RIGHT" || action == "CONFIRM") {
+
+            inv_s.set_selected_to_drop(0);
+
+            for( size_t i = 0; i < grounditems_slice.size(); i++) {
+                if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
+                    return ground_containers[i];
+                }
+            }
+
+            return inv_s.first_item;
+
+        } else if (ch >= '0' && ch <= '9' && (size_t)(ch - '0') < grounditems_slice.size()) {
+            const int ip = ch - '0';
+            return ground_containers[ip];
+        }
+    }
+}
+
 int game::inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single)
 {
     u.inv.restack(&u);

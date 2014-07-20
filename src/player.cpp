@@ -19,6 +19,7 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "crafting.h"
+#include "item_factory.h"
 #include "monstergenerator.h"
 #include "help.h" // get_hint
 #include "martialarts.h"
@@ -6603,25 +6604,25 @@ bool player::process_single_active_item(item *it)
     {
         if (it->is_food())
         {
+            it->calc_rot(this->pos());
             if (it->has_flag("HOT"))
             {
                 it->item_counter--;
                 if (it->item_counter == 0)
                 {
                     it->item_tags.erase("HOT");
-                    it->active = false;
                 }
             }
         }
         else if (it->is_food_container())
         {
+            it->contents[0].calc_rot(this->pos());
             if (it->contents[0].has_flag("HOT"))
             {
                 it->contents[0].item_counter--;
                 if (it->contents[0].item_counter == 0)
                 {
                     it->contents[0].item_tags.erase("HOT");
-                    it->contents[0].active = false;
                 }
             }
         }
@@ -7672,6 +7673,7 @@ bool player::eat(item *eaten, it_comest *comest)
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
     bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));
+    eaten->calc_rot(pos()); // check if it's rotten before eating!
     bool spoiled = eaten->rotten();
 
     last_item = itype_id(eaten->type->id);
@@ -8228,9 +8230,31 @@ public:
             buffer << ma.name << "\n\n";
             buffer << ma.description << "\n\n";
             if( !ma.techniques.empty() ) {
-                buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << "\n";
-                for( auto &tec : ma.techniques ) {
-                    buffer << ma_techniques[tec].name << "\n";
+                buffer << ngettext( "Technique:", "Techniques:", ma.techniques.size() ) << " ";
+                for( auto technique = ma.techniques.cbegin();
+                     technique != ma.techniques.cend(); ++technique ) {
+                    buffer << ma_techniques[*technique].name;
+                    if( ma.techniques.size() > 1 && technique == ----ma.techniques.cend() ) {
+                        //~ Seperators that comes before last element of a list.
+                        buffer << _(" and ");
+                    } else if( technique != --ma.techniques.cend() ) {
+                        //~ Seperator for a list of items.
+                        buffer << _(", ");
+                    }
+                }
+                buffer << "\n";
+            }
+            if( !ma.weapons.empty() ) {
+                buffer << ngettext( "Weapon:", "Weapons:", ma.weapons.size() ) << " ";
+                for( auto weapon = ma.weapons.cbegin(); weapon != ma.weapons.cend(); ++weapon ) {
+                    buffer << item(*weapon, 0).type->nname(1);
+                    if( ma.weapons.size() > 1 && weapon == ----ma.weapons.cend() ) {
+                        //~ Seperators that comes before last element of a list.
+                        buffer << _(" and ");
+                    } else if( weapon != --ma.weapons.cend() ) {
+                        //~ Seperator for a list of items.
+                        buffer << _(", ");
+                    }
                 }
             }
             popup(buffer.str(), PF_NONE);
@@ -9171,6 +9195,11 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
           add_msg(m_info, _("Your %s isn't big enough to use that mod.'"), gun->tname().c_str(),
           used->tname().c_str());
           return;
+        }
+        if (mod->id == "brass_catcher" && gun->has_flag("RELOAD_EJECT")) {
+            add_msg(m_info, _("You cannot attach a brass catcher to your %s."),
+                       gun->tname().c_str());
+            return;
         }
         for (int i = 0; i < gun->contents.size(); i++) {
             if (gun->contents[i].type->id == used->type->id) {
@@ -11418,4 +11447,30 @@ bool player::is_suitable_weapon( const item &it ) const
         return it.has_flag( "UNARMED_WEAPON" );
     }
     return false;
+}
+
+void player::place_corpse()
+{
+    std::vector<item *> tmp = inv_dump();
+    item body;
+    body.make_corpse( "corpse", GetMType( "mon_null" ), calendar::turn, name );
+    for( auto itm : tmp ) {
+        g->m.add_item_or_charges( posx, posy, *itm );
+    }
+    for( auto & bio : my_bionics ) {
+        if( item_controller->has_template( bio.id ) ) {
+            body.put_in( item( bio.id, calendar::turn ) );
+        }
+    }
+    int pow = max_power_level;
+    while( pow >= 4 ) {
+        if( pow >= 10 ) {
+            pow -= 10;
+            body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
+        } else {
+            pow -= 4;
+            body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
+        }
+    }
+    g->m.add_item_or_charges( posx, posy, body );
 }

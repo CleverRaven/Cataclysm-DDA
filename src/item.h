@@ -213,7 +213,8 @@ public:
  bool craft_has_charges();
  long num_charges();
  bool rotten();
- void calc_rot();
+ bool is_rotten;
+ void calc_rot(const point &);
  int brewing_time();
  bool ready_to_revive(); // used for corpses
  void detonate(point p) const;

@@ -166,7 +166,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
-    type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
+    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
@@ -240,7 +240,6 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
             JsonIn jsin(iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
-            DebugLog() << file << ": " << e << "\n";
             throw file + ": " + e;
         }
     }
@@ -330,7 +329,7 @@ void DynamicDataLoader::unload_data()
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     reset_recipes();
-    reset_recipes_qualities();
+    quality::reset();
     release_traps();
     reset_constructions();
     reset_overmap_terrain();
@@ -371,4 +370,5 @@ void DynamicDataLoader::check_consistency() {
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();
+    check_martialarts();
 }

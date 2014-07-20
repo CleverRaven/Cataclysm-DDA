@@ -2,7 +2,7 @@
 #include "color.h"
 #include "translations.h"
 #include "rng.h"
-#include "output.h"
+#include "debug.h"
 #include "item_factory.h"
 #include "catacharset.h"
 

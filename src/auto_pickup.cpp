@@ -459,7 +459,7 @@ void load_auto_pickup(bool bCharacter)
         }
 
         if(!fin.is_open()) {
-            DebugLog() << "Could neither read nor create " << sFile << "\n";
+            DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create " << sFile;
             return;
         }
     }
@@ -474,7 +474,7 @@ void load_auto_pickup(bool bCharacter)
             int iNum = std::count(sLine.begin(), sLine.end(), ';');
 
             if(iNum != 2) {
-                DebugLog() << "Bad Rule: " << sLine << "\n";
+                DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
             } else {
                 std::string sRule = "";
                 bool bActive = true;

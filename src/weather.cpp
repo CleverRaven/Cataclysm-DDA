@@ -41,38 +41,14 @@ void weather_effect::glare()
  * Retroactively determine weather-related rotting effects.
  * Applies rot based on the temperatures incurred between a turn range.
  */
-int get_rot_since( const int since, const int endturn ) {
+int get_rot_since( const int since, const int endturn, const point &location ) {
     int ret = 0;
-    int tbegin = since;
-    int tend = endturn;
-    /// @todo hourly quick lookback, select weather_log from climate zone
-    std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( endturn );
-    if ( wit == g->weather_log.end() ) { // missing wlog, debugmsg?
-       return endturn-since;
-    } else if ( wit->first > endturn ) { // incomplete wlog
-       return ( (endturn-since) * get_hourly_rotpoints_at_temp(wit->second.temperature) ) / 600;
+    for (calendar i(since); i.get_turn() < endturn; i += 600) {
+        w_point w = g->weatherGen.get_weather(location, i);
+        ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
-
-    for( ;
-         wit != g->weather_log.begin(); --wit
-       ) {
-       if ( wit->first <= endturn ) {
-           tbegin = wit->first;
-           if ( tbegin < since ) {
-               tbegin = since;
-               ret += ( (tend-tbegin) * get_hourly_rotpoints_at_temp(wit->second.temperature) );// / 600 ;
-               tend = wit->first;
-               break;
-           }
-           ret += ( (tend-tbegin) * get_hourly_rotpoints_at_temp(wit->second.temperature) );// / 600 ;
-           tend = wit->first;
-       }
-    }
-    if ( since < tbegin ) { // incomplete wlog
-       ret += ( (tbegin-since) * get_hourly_rotpoints_at_temp(65) );
-    }
-    return ret / 600;
-};
+    return ret;
+}
 
 ////// Funnels.
 /**
@@ -96,53 +72,45 @@ std::pair<int, int> rain_or_acid_level( const int wt )
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn )
+void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &endturn, const point &location )
 {
-    const int startturn = ( it->bday > 0 ? it->bday - 1 : 0 );
+    const calendar startturn = calendar( it->bday > 0 ? it->bday - 1 : 0 );
     if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
         return;
     }
-
-    it->bday = endturn; // bday == last fill check
-    double fillrain = 0;
-    double fillacid = 0;
-    int firstfill = 0;
-
-    for( std::map<int, weather_segment>::iterator wit = g->weather_log.lower_bound( startturn );
-         wit != g->weather_log.end() && wit->first < endturn; ++wit
-       ) {
-        int fillstart = ( wit->first < startturn ? startturn : wit->first );
-        int fillend = g->weather_log.upper_bound(wit->first)->first;
-        fillend = ( fillend > endturn ? endturn : fillend );
-
-        std::pair<int, int> wlev = rain_or_acid_level( wit->second.weather );
-
-        if ( wlev.first != 0 ) {
-            fillrain += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.first );
-            if ( firstfill == 0 ) {
-                firstfill = 1;
-            }
-        } else if ( wlev.second != 0 ) {
-            fillacid += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.second );
-            if ( firstfill == 0 ) {
-                firstfill = 2;
-            }
-        }
-
-    }
-    /// @todo refactor add_rain function
-    //dbg(D_INFO) << string_format("retroactive funnel fill %s %.4f, %.4f",it->typeId().c_str() ,fillrain,fillacid);
-    if ( firstfill == 1 ) {
-        it->add_rain_to_container( false, int(fillrain) );
-        if ( fillacid != 0 ) {
-            it->add_rain_to_container( true, int(fillacid) );
-        }
-    } else if ( firstfill == 2 ) {
-        it->add_rain_to_container( true, int(fillacid) );
-        if ( fillrain != 0 ) {
-            it->add_rain_to_container( false, int(fillrain) );
+    it->bday = int(endturn.get_turn()); // bday == last fill check
+    int rain_amount = 0;
+    int acid_amount = 0;
+    int rain_turns = 0;
+    int acid_turns = 0;
+    for( calendar turn(startturn); turn >= endturn; turn += 10) {
+        switch(g->weatherGen.get_weather_conditions(location, turn)) {
+            case WEATHER_DRIZZLE:
+                rain_amount += 4;
+                rain_turns++;
+                break;
+            case WEATHER_RAINY:
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING:
+                rain_amount += 8;
+                rain_turns++;
+                break;
+            case WEATHER_ACID_DRIZZLE:
+                acid_amount += 4;
+                acid_turns++;
+                break;
+            case WEATHER_ACID_RAIN:
+                acid_amount += 8;
+                acid_turns++;
+                break;
+            default:
+                break;
         }
     }
+    int rain = rain_turns / traplist[t]->funnel_turns_per_charge( rain_amount );
+    int acid = acid_turns / traplist[t]->funnel_turns_per_charge( acid_amount );
+    it->add_rain_to_container( false, rain );
+    it->add_rain_to_container( true, acid );
 }
 
 /**
@@ -241,8 +209,8 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
 {
     const double turns_per_charge = traplist[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
     // Give each funnel on the map a chance to collect the rain.
-    std::set<point> funnel_locs = g->m.trap_locations(t);
-    std::set<point>::iterator i;
+    const std::set<point> &funnel_locs = g->m.trap_locations(t);
+    std::set<point>::const_iterator i;
     for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
         item *c = NULL;
         unsigned int maxcontains = 0;
@@ -501,7 +469,7 @@ std::string weather_forecast(radio_tower tower)
     city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
     // Current time
     weather_report << string_format(
-        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s"),
+        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
         calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(), closest_city->name.c_str(),
         weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
     );
@@ -519,74 +487,39 @@ std::string weather_forecast(radio_tower tower)
     // forecasting periods are divided into 12-hour periods, day (6-18) and night (19-5)
     // Accumulate percentages for each period of various weather statistics, and report that
     // (with fuzz) as the weather chances.
-    int weather_proportions[NUM_WEATHER_TYPES] = {0};
-    signed char high = 0;
-    signed char low = 0;
-    calendar start_time = calendar::turn;
-    int period_start = calendar::turn.hours();
+    // int weather_proportions[NUM_WEATHER_TYPES] = {0};
+    double high = -100.0;
+    double low = 100.0;
     // TODO wind direction and speed
-    for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(calendar::turn) ); it != g->weather_log.end(); ++it ) {
-        weather_segment * period = &(it->second);
-        int period_deadline = period->deadline.hours();
-        signed char period_temperature = period->temperature;
-        weather_type period_weather = period->weather;
-        bool start_day = period_start >= 6 && period_start <= 18;
-        bool end_day = period_deadline >= 6 && period_deadline <= 18;
-
-        high = std::max(high, period_temperature);
-        low = std::min(low, period_temperature);
-
-        if(start_day != end_day) // Assume a period doesn't last over 12 hrs?
-        {
-            weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
-            int weather_duration = 0;
-            int predominant_weather = 0;
-            std::string day;
-            if( calendar::turn.days() == period->deadline.days() )
-            {
-                if( start_day )
-                {
-                    day = _("Today");
-                }
-                else
-                {
-                    day = _("Tonight");
-                }
-            }
-            else
-            {
-                std::string dayofweak = start_time.day_of_week();
-                if( !start_day )
-                {
-                    day = rmp_format(_("<Mon Night>%s Night"), dayofweak.c_str());
-                }
-                else
-                {
-                    day = dayofweak;
-                }
-            }
-            for( int i = WEATHER_CLEAR; i < NUM_WEATHER_TYPES; i++)
-            {
-                if( weather_proportions[i] > weather_duration)
-                {
-                    weather_duration = weather_proportions[i];
-                    predominant_weather = i;
-                }
-            }
-            // Print forecast
-            weather_report << string_format(
-                _("%s...%s. Highs of %s. Lows of %s. "),
-                day.c_str(), weather_data[predominant_weather].name.c_str(),
-                print_temperature(high).c_str(), print_temperature(low).c_str()
-            );
-            low = period_temperature;
-            high = period_temperature;
-            weather_proportions[period_weather] += end_day ? 6 : 18 - period_start;
-        } else {
-            weather_proportions[period_weather] += period_deadline - period_start;
+    int last_hour = calendar::turn - (calendar::turn % HOURS(1));
+    for(int d = 0; d < 6; d++) {
+        weather_type forecast = WEATHER_NULL;
+        for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
+            w_point w = g->weatherGen.get_weather(point(tower.x, tower.y), i);
+            forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
+            high = std::max(high, w.temperature);
+            low = std::min(low, w.temperature);
         }
-        start_time = period->deadline;
-        period_start = period_deadline;
+        std::string day;
+        bool started_at_night;
+        calendar c(last_hour + 7200 * d);
+        if(d == 0 && c.is_night()) {
+            day = _("Tonight");
+            started_at_night = true;
+        } else {
+            day = _("Today");
+            started_at_night = false;
+        }
+        if(d > 0 && ((started_at_night && !(d % 2)) || (!started_at_night && d % 2))) {
+            day = rmp_format(_("<Mon Night>%s Night"), c.day_of_week().c_str());
+        } else {
+            day = c.day_of_week();
+        }
+        weather_report << string_format(
+            _("%s... %s. Highs of %s. Lows of %s. "),
+            day.c_str(), weather_data[forecast].name.c_str(),
+            print_temperature(high).c_str(),print_temperature(low).c_str()
+        );
     }
     return weather_report.str();
 }

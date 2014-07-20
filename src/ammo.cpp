@@ -1,6 +1,6 @@
 #include "ammo.h"
 
-#include "output.h" // debugmsg
+#include "debug.h"
 #include "json.h"
 #include "translations.h"
 

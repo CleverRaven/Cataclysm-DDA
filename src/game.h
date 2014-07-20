@@ -24,6 +24,7 @@
 #include "worldfactory.h"
 #include "creature_tracker.h"
 #include "game_constants.h"
+#include "weather_gen.h"
 #include <vector>
 #include <map>
 #include <queue>
@@ -300,6 +301,7 @@ class game
         int inv_activatable(std::string title);
         int inv_type(std::string title, item_cat inv_item_type = IC_NULL);
         int inv_for_liquid(const item &liquid, const std::string title, bool auto_choose_single);
+        item *inv_map_for_liquid(const item &liquid, const std::string title);
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
         int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
@@ -320,8 +322,8 @@ class game
         void remove_item(item *it);
 
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
-        std::list<item> consume_items(player *p, std::vector<component> components);
-        void consume_tools(player *p, std::vector<component> tools);
+        std::list<item> consume_items(player *p, const std::vector<item_comp> &components);
+        void consume_tools(player *p, const std::vector<tool_comp> &tools);
         /**
          * Returns the recipe that is used to disassemble the given item type.
          * Returns NULL if there is no recipe to disassemble the item type.
@@ -355,6 +357,9 @@ class game
 
         std::vector <mission_type> mission_types; // The list of mission templates
 
+        weather_generator weatherGen; //A weather engine.
+        bool has_generator = false;
+        unsigned int weatherSeed = 0;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -532,9 +537,6 @@ class game
         recipe *select_crafting_recipe();    // See crafting.cpp
         bool making_would_work(recipe *r);   // See crafting.cpp
         bool can_make(recipe *r);            // See crafting.cpp
-        bool can_make_with_inventory(recipe *r,
-                                     const inventory &crafting_inv);            // See crafting.cpp
-        bool check_enough_materials(recipe *r, const inventory &crafting_inv);
         void make_craft(recipe *making);     // See crafting.cpp
         void make_all_craft(recipe *making); // See crafting.cpp
         void complete_craft();               // See crafting.cpp
@@ -655,7 +657,6 @@ class game
 
         void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died
-        void place_corpse();     // Place player corpse
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void gameover();         // Ends the game
         void msg_buffer();       // Opens a window with old messages in it
