@@ -1541,8 +1541,8 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     tripoint tripointZone = tripoint(-1, -1, -1);
 
     if (iZoneIndex != -1) {
-        sZoneName = g->m.Zones.vZones[iZoneIndex].getName();
-        point pOMZone = overmapbuffer::ms_to_omt_copy(g->m.Zones.vZones[iZoneIndex].getCenterPoint());
+        sZoneName = g->u.Zones.vZones[iZoneIndex].getName();
+        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[iZoneIndex].getCenterPoint());
         tripointZone = tripoint(pOMZone.x, pOMZone.y);
     }
 
