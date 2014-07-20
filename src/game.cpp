@@ -4486,7 +4486,8 @@ void game::debug()
             nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
             nmenu.addentry(2, true, 'h', "%s", _("Cause [h]urt (to torso)"));
             nmenu.addentry(3, true, 'p', "%s", _("Cause [p]ain"));
-            nmenu.addentry(4, true, 'q', "%s", _("[q]uit"));
+            nmenu.addentry(4, true, '@', "%s", _("Status Window [@]"));
+            nmenu.addentry(5, true, 'q', "%s", _("[q]uit"));
             nmenu.selected = 0;
             nmenu.query();
             switch (nmenu.ret) {
@@ -4501,6 +4502,9 @@ void game::debug()
                 break;
             case 3:
                 p->mod_pain(20);
+                break;
+            case 4:
+                p->disp_info();
                 break;
             default:
                 break;
