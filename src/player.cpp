@@ -4624,6 +4624,15 @@ void player::mod_pain(int npain) {
     if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
         npain = npain * 4 / rng(6,9);
     }
+    if (!is_npc()) {
+        g->cancel_activity_query(_("Ouch, you were hurt!"));
+        if (has_disease("sleep")) {
+        wake_up(_("You wake up!"));
+        }
+        else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+        }
+    }
     Creature::mod_pain(npain);
 }
 
