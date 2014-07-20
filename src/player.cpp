@@ -3058,6 +3058,8 @@ Arm encumbrance affects your accuracy with ranged weapons."));
     delwin(w_grid_effect);
     delwin(w_grid_skill);
     delwin(w_grid_trait);
+    
+    g->refresh_all();
 }
 
 void player::disp_morale()
