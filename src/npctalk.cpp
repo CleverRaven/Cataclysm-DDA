@@ -1046,8 +1046,14 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_DENY_GUARD:
             return _("Not a bloody chance, I'm going to get left behind!");
-            
+
+        case TALK_DENY_TRAIN:
+            return _("Give it some time, I'll show you something new later...");
+
         case TALK_DENY_PERSONAL:
+            return _("I'd prefer to keep that to myself.");
+
+        case TALK_FRIEND_UNCOMFORTABLE:
             return _("I really don't feel comfortable doing so...");
 
         case TALK_COMBAT_COMMANDS:
@@ -2371,7 +2377,16 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   RESPONSE(_("Can I do anything for you?"));
    SUCCESS(TALK_MISSION_LIST);
   SELECT_TEMP(_("Can you teach me anything?"), 0);
-   SUCCESS(TALK_TRAIN);
+   if (!p->has_disease(_("asked_to_train"))) {
+    int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
+                  3 * p->op_of_u.anger + p->op_of_u.owed / 50;
+    TRIAL(TALK_TRIAL_PERSUADE, commitment * 2);
+    SUCCESS(TALK_TRAIN);
+    FAILURE(TALK_DENY_PERSONAL);
+    FAILURE_ACTION(&talk_function::deny_train);
+   } else {
+   SUCCESS(TALK_DENY_TRAIN);
+   }
   RESPONSE(_("Let's trade items."));
    SUCCESS(TALK_NONE);
    SUCCESS_ACTION(&talk_function::start_trade);
@@ -2392,18 +2407,37 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   }
   if (p->is_following()) {
    RESPONSE(_("I'd like to know a bit more about you..."));
+   if (!p->has_disease(_("asked_personal_info"))) {
     int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
                  3 * p->op_of_u.anger + p->op_of_u.owed / 25;
     TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
     SUCCESS(TALK_FRIEND);
     SUCCESS_ACTION(&talk_function::reveal_stats);
     FAILURE(TALK_DENY_PERSONAL);
-     FAILURE_OPINION(-1, 0, 0, 0, 0);
-  }  
+    FAILURE_ACTION(&talk_function::deny_personal_info);
+   } else {
+   SUCCESS (TALK_FRIEND_UNCOMFORTABLE);
+   }
+  }
   RESPONSE(_("I'm going to go my own way for a while."));
    SUCCESS(TALK_LEAVE);
   RESPONSE(_("Let's go."));
    SUCCESS(TALK_DONE);
+  break;
+
+ case TALK_FRIEND_UNCOMFORTABLE:
+  RESPONSE(_("I'll give you some space."));
+    SUCCESS(TALK_FRIEND);
+  break;
+
+ case TALK_DENY_TRAIN:
+  RESPONSE(_("Very well..."));
+    SUCCESS(TALK_FRIEND);
+  break;
+
+ case TALK_DENY_PERSONAL:
+  RESPONSE(_("I understand..."));
+    SUCCESS(TALK_FRIEND);
   break;
 
  case TALK_COMBAT_COMMANDS: {
@@ -2997,6 +3031,16 @@ void talk_function::deny_equipment(npc *p)
  p->add_disease("asked_for_item", 600);
 }
 
+void talk_function::deny_train(npc *p)
+{
+ p->add_disease("asked_to_train", 3600);
+}
+
+void talk_function::deny_personal_info(npc *p)
+{
+ p->add_disease("asked_personal_info", 1800);
+}
+
 void talk_function::hostile(npc *p)
 {
  add_msg(_("%s turns hostile!"), p->name.c_str());
@@ -3132,6 +3176,7 @@ void talk_function::start_training(npc *p)
   return;
 // Then receive it
  g->u.assign_activity(ACT_TRAIN, time, p->chatbin.tempvalue, 0, name);
+ p->add_disease("asked_to_train", 3600);
 }
 
 void parse_tags(std::string &phrase, player *u, npc *me)
