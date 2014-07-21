@@ -2528,7 +2528,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    RESPONSE(_("What are you doing?"));
     SUCCESS(TALK_DESCRIBE_MISSION);
    RESPONSE(_("Care to trade?"));
-    SUCCESS(TALK_NONE);
+    SUCCESS(TALK_DONE);
     SUCCESS_ACTION(&talk_function::start_trade);
    RESPONSE(_("Bye."));
     SUCCESS(TALK_DONE);
