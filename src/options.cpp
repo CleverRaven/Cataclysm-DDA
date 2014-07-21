@@ -1134,10 +1134,11 @@ void show_options(bool ingame)
         const std::string action = ctxt.handle_input();
 
         bool bChangedSomething = false;
+        int was_skipped = hidden_counter + blanklines_counter;
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
-                if (iCurrentLine >= mPageItems[iCurrentPage].size()) {
+                if (iCurrentLine >= mPageItems[iCurrentPage].size() - was_skipped) {
                     iCurrentLine = 0;
                 }
             } while(cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "");
@@ -1145,7 +1146,7 @@ void show_options(bool ingame)
             do {
                 iCurrentLine--;
                 if (iCurrentLine < 0) {
-                    iCurrentLine = mPageItems[iCurrentPage].size() - 1;
+                    iCurrentLine = mPageItems[iCurrentPage].size() - 1 - was_skipped;
                 }
             } while(cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "");
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
