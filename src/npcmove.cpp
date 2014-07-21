@@ -813,16 +813,16 @@ void npc::use_escape_item(int position)
 }
 
 // Index defaults to 0, i.e., wielded weapon
-int npc::confident_range(char invlet)
+int npc::confident_range(int position)
 {
 
-    if (invlet == 0 && (!weapon.is_gun() || weapon.charges <= 0)) {
+    if (position == -1 && (!weapon.is_gun() || weapon.charges <= 0)) {
         return 1;
     }
 
     double deviation = 0;
     int max = 0;
-    if (invlet == 0) {
+    if (position == -1) {
         it_gun *firing = dynamic_cast<it_gun *>(weapon.type);
         // We want at least 50% confidence that missed_by will be < .5.
         // missed_by = .00325 * deviation * range <= .5; deviation * range <= 156
@@ -853,8 +853,8 @@ int npc::confident_range(char invlet)
 
     } else { // We aren't firing a gun, we're throwing something!
 
-        item *thrown = &(inv.item_by_letter(invlet));
-        max = throw_range(invlet); // The max distance we can throw
+        item *thrown = &i_at(position);
+        max = throw_range(position); // The max distance we can throw
         deviation = 0;
         if (skillLevel("throw") < 8) {
             deviation += 8 - skillLevel("throw");
@@ -892,10 +892,10 @@ int npc::confident_range(char invlet)
 }
 
 // Index defaults to -1, i.e., wielded weapon
-bool npc::wont_hit_friend(int tarx, int tary, char invlet)
+bool npc::wont_hit_friend(int tarx, int tary, int position)
 {
     int linet = 0, dist = sight_range(g->light_level());
-    int confident = confident_range(invlet);
+    int confident = confident_range(position);
     if (rl_dist(posx, posy, tarx, tary) == 1) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
@@ -1498,7 +1498,7 @@ void npc::drop_items(int weight, int volume)
         }
         weight_dropped += slice[index]->front().weight();
         volume_dropped += slice[index]->front().volume();
-        item dropped = i_remn(slice[index]->front().invlet);
+        item dropped = i_rem(index);
         num_items_dropped++;
         if (num_items_dropped == 1) {
             item_name << dropped.tname();
@@ -1628,30 +1628,30 @@ void npc::alt_attack(int target)
         }
     }
 
-    char invlet = 0;
+    int position = INT_MIN;
     item *used = NULL;
     if (weapon.type->id == which) {
         used = &weapon;
-        invlet = 0;
+        position = -1;
     } else {
         invslice slice = inv.slice();
         for (int i = 0; i < inv.size(); i++) {
             if (slice[i]->front().type->id == which) {
                 used = &(slice[i]->front());
-                invlet = used->invlet;
+                position = i;
             }
         }
     }
 
     // Are we going to throw this item?
     if (!thrown_item(used)) {
-        activate_item(invlet);
+        activate_item(position);
     } else { // We are throwing it!
 
         std::vector<point> trajectory;
         int linet, light = g->light_level();
 
-        if (dist <= confident_range(invlet) && wont_hit_friend(tarx, tary, invlet)) {
+        if (dist <= confident_range(position) && wont_hit_friend(tarx, tary, position)) {
 
             if (g->m.sees(posx, posy, tarx, tary, light, linet)) {
                 trajectory = line_to(posx, posy, tarx, tary, linet);
@@ -1672,16 +1672,16 @@ void npc::alt_attack(int target)
             g->throw_item(*this, tarx, tary, *used, trajectory);
             // Throw a single charge of a stacking object.
             if( stack_size == -1 || stack_size == 1 ) {
-                i_remn(invlet);
+                i_rem(position);
             } else {
                 used->charges = stack_size - 1;
             }
-        } else if (!wont_hit_friend(tarx, tary, invlet)) {// Danger of friendly fire
+        } else if (!wont_hit_friend(tarx, tary, position)) {// Danger of friendly fire
 
             if (!used->active || used->charges > 2) { // Safe to hold on to, for now
                 avoid_friendly_fire(target);    // Maneuver around player
             } else { // We need to throw this live (grenade, etc) NOW! Pick another target?
-                int conf = confident_range(invlet);
+                int conf = confident_range(position);
                 for (int dist = 2; dist <= conf; dist++) {
                     for (int x = posx - dist; x <= posx + dist; x++) {
                         for (int y = posy - dist; y <= posy + dist; y++) {
@@ -1690,7 +1690,7 @@ void npc::alt_attack(int target)
                             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
                             // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
                             if (newdist <= conf && newdist >= 2 && newtarget != -1 &&
-                                wont_hit_friend(x, y, invlet)) { // Friendlyfire-safe!
+                                wont_hit_friend(x, y, position)) { // Friendlyfire-safe!
                                 alt_attack(newtarget);
                                 return;
                             }
@@ -1706,7 +1706,7 @@ void npc::alt_attack(int target)
                     for (int x = posx - dist; x <= posx + dist; x++) {
                         for (int y = posy - dist; y <= posy + dist; y++) {
                             int new_dist = rl_dist(posx, posy, x, y);
-                            if (new_dist > best_dist && wont_hit_friend(x, y, invlet)) {
+                            if (new_dist > best_dist && wont_hit_friend(x, y, position)) {
                                 best_dist = new_dist;
                                 tarx = x;
                                 tary = y;
@@ -1738,12 +1738,12 @@ void npc::alt_attack(int target)
 
                 // Throw a single charge of a stacking object.
                 if( stack_size == -1 || stack_size == 1 ) {
-                    i_remn(invlet);
+                    i_rem(position);
                 } else {
                     used->charges = stack_size - 1;
                 }
 
-                i_remn(invlet);
+                i_rem(position);
             }
 
         } else { // Within this block, our chosen target is outside of our range
@@ -1753,9 +1753,9 @@ void npc::alt_attack(int target)
     } // Done with throwing-item block
 }
 
-void npc::activate_item(char invlet)
+void npc::activate_item(int position)
 {
-    item *it = &(inv.item_by_letter(invlet));
+    item *it = &i_at(position);
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
         tool->invoke(this, it, false);
@@ -2023,17 +2023,17 @@ void npc::mug_player(player &mark)
                 value_mod -= double((8 - op_of_u.value) * .07);
             }
             int best_value = minimum_item_value() * value_mod;
-            char invlet = 0;
+            int position = INT_MIN;
             invslice slice = mark.inv.slice();
             for (int i = 0; i < slice.size(); i++) {
                 if (value(slice[i]->front()) >= best_value &&
                     can_pickVolume(slice[i]->front().volume()) &&
                     can_pickWeight(slice[i]->front().weight())) {
                     best_value = value(slice[i]->front());
-                    invlet = slice[i]->front().invlet;
+                    position = i;
                 }
             }
-            if (invlet == 0) { // Didn't find anything worthwhile!
+            if (position == INT_MIN) { // Didn't find anything worthwhile!
                 attitude = NPCATT_FLEE;
                 if (!one_in(3)) {
                     say("<done_mugging>");
@@ -2042,7 +2042,7 @@ void npc::mug_player(player &mark)
             } else {
                 bool u_see_me   = g->u_see(posx, posy),
                      u_see_mark = g->u_see(mark.posx, mark.posy);
-                item stolen = mark.i_remn(invlet);
+                item stolen = mark.i_rem(position);
                 if (mark.is_npc()) {
                     if (u_see_me) {
                         if (u_see_mark)
