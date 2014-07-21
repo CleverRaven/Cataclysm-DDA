@@ -6791,27 +6791,6 @@ item player::reduce_charges(int position, long quantity) {
     }
 }
 
-
-item player::i_rem(char let)
-{
- item tmp;
- if (weapon.invlet == let) {
-  tmp = weapon;
-  weapon = ret_null;
-  return tmp;
- }
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].invlet == let) {
-   tmp = worn[i];
-   worn.erase(worn.begin() + i);
-   return tmp;
-  }
- }
- if (!inv.item_by_letter(let).is_null())
-  return inv.remove_item(let);
- return ret_null;
-}
-
 item player::i_rem(int pos)
 {
  item tmp;
@@ -6859,19 +6838,6 @@ item& player::i_at(int position)
  return inv.find_item(position);
 }
 
-item& player::i_at(char let)
-{
- if (let == KEY_ESCAPE)
-  return ret_null;
- if (weapon.invlet == let)
-  return weapon;
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].invlet == let)
-   return worn[i];
- }
- return inv.item_by_letter(let);
-}
-
 item& player::i_of_type(itype_id type)
 {
  if (weapon.type->id == type)
@@ -6883,18 +6849,20 @@ item& player::i_of_type(itype_id type)
  return inv.item_by_type(type);
 }
 
-char player::position_to_invlet(int position) {
-    return i_at(position).invlet;
-}
-
-int player::invlet_to_position(char invlet) {
-    if (weapon.invlet == invlet)
-     return -1;
-    for (int i = 0; i < worn.size(); i++) {
-     if (worn[i].invlet == invlet)
-      return worn_position_to_index(i);
+int player::invlet_to_position( char invlet ) const
+{
+    if( const_cast<player *>( this )->is_npc() ) {
+        DebugLog( D_WARNING,  D_GAME ) << "Why do you need to call player::invlet_to_position on npc " << name;
     }
-    return inv.position_by_letter(invlet);
+    if( weapon.invlet == invlet ) {
+        return -1;
+    }
+    for( size_t i = 0; i < worn.size(); i++ ) {
+        if( worn[i].invlet == invlet ) {
+            return worn_position_to_index( i );
+        }
+    }
+    return inv.invlet_to_position( invlet );
 }
 
 int player::get_item_position(item* it) {
@@ -6929,11 +6897,6 @@ std::vector<item *> player::inv_dump()
   ret.push_back(&worn[i]);
  inv.dump(ret);
  return ret;
-}
-
-item player::i_remn(char invlet)
-{
- return inv.remove_item(invlet);
 }
 
 std::list<item> player::use_amount(itype_id it, int quantity, bool use_container)
@@ -7320,17 +7283,6 @@ bool player::has_drink()
     return false;
 }
 
-bool player::has_weapon_or_armor(char let) const
-{
- if (weapon.invlet == let)
-  return true;
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].invlet == let)
-   return true;
- }
- return false;
-}
-
 bool player::has_item_with_flag( std::string flag ) const
 {
     //check worn items for flag
@@ -7354,19 +7306,16 @@ bool player::has_item_with_flag( std::string flag ) const
     return false;
 }
 
-bool player::has_item(char let)
-{
- return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
-}
-
-std::set<char> player::allocated_invlets() {
+std::set<char> player::allocated_invlets() const {
     std::set<char> invlets = inv.allocated_invlets();
 
     if (weapon.invlet != 0) {
         invlets.insert(weapon.invlet);
     }
-    for (int i = 0; i < worn.size(); i++) {
-        invlets.insert(worn[i].invlet);
+    for( const auto &w : worn ) {
+        if( w.invlet != 0 ) {
+            invlets.insert( w.invlet );
+        }
     }
 
     return invlets;
@@ -7425,17 +7374,6 @@ bool player::i_add_or_drop(item& it, int qty) {
         }
     }
     return retval;
-}
-
-char player::lookup_item(char let)
-{
- if (weapon.invlet == let)
-  return -1;
-
- if (inv.item_by_letter(let).is_null())
-  return -2; // -2 is for "item not found"
-
- return let;
 }
 
 hint_rating player::rate_action_eat(item *it)
@@ -8188,8 +8126,7 @@ bool player::wield(item* it, bool autodrop)
  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                      weapon.tname().c_str())) {
   g->m.add_item_or_charges(posx, posy, remove_weapon());
-  weapon = *it;
-  inv.remove_item(weapon.invlet);
+  weapon = inv.remove_item(it);
   inv.unsort();
   moves -= 30;
   if (weapon.is_artifact() && weapon.is_tool()) {

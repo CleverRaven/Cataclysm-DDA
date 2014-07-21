@@ -24,16 +24,6 @@ const_invslice inventory::const_slice() const
     return stacks;
 }
 
-std::list<item> &inventory::stack_by_letter(char ch)
-{
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (iter->begin()->invlet == ch) {
-            return *iter;
-        }
-    }
-    return nullstack;
-}
-
 const std::list<item> &inventory::const_stack(int i) const
 {
     if (i < 0 || i >= items.size()) {
@@ -374,7 +364,6 @@ char inventory::get_invlet_for_item( std::string item_type )
     return candidate_invlet;
 }
 
-
 item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
 {
     bool reuse_cached_letter = false;
@@ -394,7 +383,7 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
         }
 
         // Make sure the assigned invlet doesn't exist already.
-        if(g->u.has_item(newit.invlet)) {
+        if(this == &g->u.inv && g->u.invlet_to_position(newit.invlet) != INT_MIN) {
             assign_empty_invlet(newit);
         }
     }
@@ -473,8 +462,10 @@ void inventory::restack(player *p)
     }
 
     std::list<item> to_restack;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(iter->front().invlet)) {
+    int idx = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx) {
+        const int ipos = p->invlet_to_position(iter->front().invlet);
+        if (!iter->front().invlet_is_okay() || ( ipos != INT_MIN && ipos != idx ) ) {
             assign_empty_invlet(iter->front());
             for( std::list<item>::iterator stack_iter = iter->begin();
                  stack_iter != iter->end(); ++stack_iter ) {
@@ -706,10 +697,7 @@ std::list<item> inventory::reduce_stack(int position, int quantity)
 {
     return reduce_stack_internal(position, quantity);
 }
-std::list<item> inventory::reduce_stack(char ch, int quantity)
-{
-    return reduce_stack_internal(ch, quantity);
-}
+
 std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
 {
     return reduce_stack_internal(type, quantity);
@@ -765,10 +753,7 @@ item inventory::remove_item(int position)
 {
     return remove_item_internal(position);
 }
-item inventory::remove_item(char ch)
-{
-    return remove_item_internal(ch);
-}
+
 item inventory::remove_item(const itype_id &type)
 {
     return remove_item_internal(type);
@@ -809,10 +794,7 @@ item inventory::reduce_charges(int position, long quantity)
 {
     return reduce_charges_internal(position, quantity);
 }
-item inventory::reduce_charges(char ch, long quantity)
-{
-    return reduce_charges_internal(ch, quantity);
-}
+
 item inventory::reduce_charges(const itype_id &type, long quantity)
 {
     return reduce_charges_internal(type, quantity);
@@ -865,11 +847,11 @@ item &inventory::find_item(int position)
     return iter->front();
 }
 
-int inventory::position_by_letter(char ch)
+int inventory::invlet_to_position( char invlet ) const
 {
     int i = 0;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (iter->begin()->invlet == ch) {
+    for( auto iter = items.begin(); iter != items.end(); ++iter ) {
+        if( iter->begin()->invlet == invlet ) {
             return i;
         }
         ++i;
@@ -890,16 +872,6 @@ int inventory::position_by_item(item *it)
         ++i;
     }
     return INT_MIN;
-}
-
-item &inventory::item_by_letter(char ch)
-{
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (iter->begin()->invlet == ch) {
-            return *iter->begin();
-        }
-    }
-    return nullitem;
 }
 
 item &inventory::item_by_type(itype_id type)
@@ -1479,16 +1451,13 @@ void inventory::assign_empty_invlet(item &it, bool force)
     debugmsg("could not find a hotkey for %s", it.tname().c_str());
 }
 
-std::set<char> inventory::allocated_invlets() {
-    char ch;
+std::set<char> inventory::allocated_invlets() const {
     std::set<char> invlets;
-
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
-        ch = iter->begin()->invlet;
-        if (ch != 0) {
-            invlets.insert(ch);
+    for( const auto &stack : items ) {
+        const char invlet = stack.front().invlet;
+        if( invlet != 0 ) {
+            invlets.insert( invlet );
         }
     }
-
     return invlets;
 }

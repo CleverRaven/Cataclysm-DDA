@@ -3191,9 +3191,6 @@ bool item_matches_locator(const item &it, const itype_id &id, int) {
 bool item_matches_locator(const item &, int locator_pos, int item_pos) {
     return item_pos == locator_pos;
 }
-bool item_matches_locator(const item &it, char invlet, int) {
-    return it.invlet == invlet;
-}
 
 iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double Value, bool _is_int, std::string Plus, bool NewLine, bool LowerIsBetter, bool DrawName) {
     sType = Type;

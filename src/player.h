@@ -579,8 +579,6 @@ public:
  /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
  void drench_mut_calc();
 
- /** Returns -1 if the weapon is in the let invlet, -2 if NULL, or just returns let */
- char lookup_item(char let);
  /** used for drinking from hands, returns how many charges were consumed */
  int drink_from_hands(item& water);
  /** Used for eating object at pos, returns true if object is successfully eaten */
@@ -703,20 +701,18 @@ public:
  long active_item_charges(itype_id id);
  void process_active_items();
  bool process_single_active_item(item *it); // returns false if it needs to be removed
- item i_rem(char let); // Remove item from inventory; returns ret_null on fail
- item i_rem(signed char ch) { return i_rem((char) ch); }  // prevent signed char->int conversion
  item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item i_rem(item *it);// Remove specific item.
  item remove_weapon();
  void remove_mission_items(int mission_id);
  item reduce_charges(int position, long quantity);
- item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
- item &i_at(char let); // Returns the item with inventory letter let
  item &i_at(int position);  // Returns the item with a given inventory position.
  item &i_of_type(itype_id type); // Returns the first item with this type
- char position_to_invlet(int position);
- int invlet_to_position(char invlet);
+ /** Return the item position of the item with given invlet, return INT_MIN if
+  * the player does not have such an item with that invlet. Don't use this on npcs.
+  * Only use the invelt in the user interface, otherwise always use the item position. */
+ int invlet_to_position(char invlet) const;
  int get_item_position(item* it);  // looks up an item (via pointer comparison)
  const martialart &get_combat_style() const; // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
@@ -747,12 +743,12 @@ public:
  // Check for free container space for the whole liquid item
  bool has_container_for(const item &liquid);
  bool has_drink();
- bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
- bool has_item(char let);  // Has an item with invlet let
  bool has_item(int position);
  bool has_item(item *it);  // Has a specific item
- std::set<char> allocated_invlets();
+ /** Only use for UI things. Returns all invelts that are currently used in
+  * the player inventory, the weapon slot and the worn items. */
+ std::set<char> allocated_invlets() const;
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 

@@ -258,7 +258,11 @@ void Pickup::pick_up(int posx, int posy, int min)
             add_msg(m_info, _("You can't pick up a liquid!"));
             return;
         }
-        newit.invlet = g->u.inv.get_invlet_for_item( newit.typeId() );
+        if( newit.invlet != '\0' && g->u.invlet_to_position( newit.invlet ) != INT_MIN ) {
+            // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
+            // add a new invlet, otherwise keep the (usable) invlet.
+            newit.invlet = '\0';
+        }
         if (!g->u.can_pickWeight(newit.weight(), false)) {
             add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
         } else if (!g->u.can_pickVolume(newit.volume())) {
@@ -668,7 +672,11 @@ void Pickup::pick_up(int posx, int posy, int min)
             item temp = here[i].clone();
             int moves_taken = 100;
 
-            here[i].invlet = g->u.inv.get_invlet_for_item( here[i].typeId() );
+            if( here[i].invlet != '\0' && g->u.invlet_to_position( here[i].invlet ) != INT_MIN ) {
+                // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
+                // add a new invlet, otherwise keep the (usable) invlet.
+                here[i].invlet = '\0';
+            }
 
             if(pickup_count[i] != 0) {
                 // Reinserting leftovers happens after item removal to avoid stacking issues.
