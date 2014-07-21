@@ -2542,6 +2542,40 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
         {
             new_item.item_tags.insert("FIT");
         }
+        if (new_item.is_armor() && new_item.has_flag("PAIRED") && x_in_y(4, 5)) {
+            //Clear old side info
+            it_armor* armor = dynamic_cast<it_armor*>(new_item.type);
+            new_item.covers = armor->covers;
+            if (new_item.has_flag("RIGHT")) {
+                new_item.item_tags.erase("RIGHT");
+            }
+            if (new_item.has_flag("LEFT")) {
+                new_item.item_tags.erase("LEFT");
+            }
+            //Clone unsided item
+            item new_item2 = new_item;
+            
+            //Add new sides to both items
+            new_item.item_tags.insert("LEFT");
+            new_item2.item_tags.insert("RIGHT");
+            if (armor->sided & mfb(bp_arm_l)) {
+                new_item.covers |= mfb(bp_arm_l);
+                new_item2.covers |= mfb(bp_arm_r);
+            }
+            if (armor->sided & mfb(bp_hand_l)) {
+                new_item.covers |= mfb(bp_hand_l);
+                new_item2.covers |= mfb(bp_hand_r);
+            }
+            if (armor->sided & mfb(bp_leg_l)) {
+                new_item.covers |= mfb(bp_leg_l);
+                new_item2.covers |= mfb(bp_leg_r);
+            }
+            if (armor->sided & mfb(bp_foot_l)) {
+                new_item.covers |= mfb(bp_foot_l);
+                new_item2.covers |= mfb(bp_foot_r);
+            }
+            add_item_or_charges(x, y, new_item2);
+        }
         add_item_or_charges(x, y, new_item);
     }
 }

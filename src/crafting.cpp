@@ -956,7 +956,7 @@ void game::complete_craft()
     
     int handed = 0;
     if (making->paired) {
-        handed = menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), _("Cancel"), NULL);
+        handed = menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL);
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)

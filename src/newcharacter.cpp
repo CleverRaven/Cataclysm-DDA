@@ -444,7 +444,8 @@ bool player::create(character_type type, std::string tempname)
 
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
-        tmp = item(*iter, 0, false);
+        // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
+        tmp = item(*iter, 0, false, "LEFT");
         tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
