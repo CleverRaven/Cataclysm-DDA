@@ -3876,7 +3876,7 @@ void player::recalc_sight_limits()
         sight_max = 1;
     } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
-            !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
+            !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
         sight_max = 4;
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
@@ -4004,7 +4004,7 @@ bool player::sight_impaired()
                         !is_wearing("glasses_eye") &&
                         !is_wearing("glasses_monocle") &&
                         !is_wearing("glasses_bifocal") &&
-                        !has_disease("contacts")) ||
+                        !has_effect("contacts")) ||
    has_trait("PER_SLIME"));
 }
 
@@ -6738,13 +6738,6 @@ item player::remove_weapon()
  }
  item tmp = weapon;
  weapon = ret_null;
-// We need to remove any boosts related to our style
- rem_disease("attack_boost");
- rem_disease("dodge_boost");
- rem_disease("damage_boost");
- rem_disease("speed_boost");
- rem_disease("armor_boost");
- rem_disease("viper_combo");
  return tmp;
 }
 
@@ -9327,7 +9320,7 @@ hint_rating player::rate_action_read(item *it)
  } else if (book->intel > 0 && has_trait("ILLITERATE")) {
   return HINT_IFFY;
  } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-            && !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
+            && !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
   return HINT_IFFY;
  }
 
@@ -9351,7 +9344,7 @@ void player::read(int pos)
 
     // check for traits
     if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
-        !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
+        !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
         add_msg(m_info, _("Your eyes won't focus without reading glasses."));
         return;
     }

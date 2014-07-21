@@ -7006,7 +7006,7 @@ void game::use_computer(int x, int y)
     }
 
     if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-        && !u.is_wearing("glasses_bifocal") && !u.has_disease("contacts")) {
+        && !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts")) {
         add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
         return;
     }

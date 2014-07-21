@@ -345,6 +345,8 @@
       "remove_message":"Your vision starts to blur.",
       "type":"effect_type",
       "id":"contacts",
+      "name": "Contact Lenses",
+      "desc": "You are wearing contact lenses.",
       "apply_message":"You can see more clearly.",
       "rating": "good"
    },
