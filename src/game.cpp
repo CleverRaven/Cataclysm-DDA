@@ -3878,7 +3878,7 @@ void game::load(std::string worldname, std::string name)
     }
 
     load_auto_pickup(true); // Load character auto pickup rules
-    m.load_zones(); // Load character world zones
+    u.load_zones(); // Load character world zones
     load_uistate(worldname);
     // Now load up the master game data; factions (and more?)
     load_master(worldname);
@@ -4486,7 +4486,8 @@ void game::debug()
             nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
             nmenu.addentry(2, true, 'h', "%s", _("Cause [h]urt (to torso)"));
             nmenu.addentry(3, true, 'p', "%s", _("Cause [p]ain"));
-            nmenu.addentry(4, true, 'q', "%s", _("[q]uit"));
+            nmenu.addentry(4, true, '@', "%s", _("Status Window [@]"));
+            nmenu.addentry(5, true, 'q', "%s", _("[q]uit"));
             nmenu.selected = 0;
             nmenu.query();
             switch (nmenu.ret) {
@@ -4501,6 +4502,9 @@ void game::debug()
                 break;
             case 3:
                 p->mod_pain(20);
+                break;
+            case 4:
+                p->disp_info();
                 break;
             default:
                 break;
@@ -8586,7 +8590,7 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
 
 bool game::checkZone(const std::string p_sType, const int p_iX, const int p_iY)
 {
-    return m.Zones.hasZone(p_sType, m.getabs(p_iX, p_iY));
+    return u.Zones.hasZone(p_sType, m.getabs(p_iX, p_iY));
 }
 
 void game::zones_manager_shortcuts(WINDOW *w_info)
@@ -8688,7 +8692,7 @@ void game::zones_manager()
     ctxt.register_action("ENABLE_ZONE");
     ctxt.register_action("DISABLE_ZONE");
 
-    int iZonesNum = m.Zones.size();
+    int iZonesNum = u.Zones.size();
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
     int iStartPos = 0;
     int iActive = 0;
@@ -8718,16 +8722,16 @@ void game::zones_manager()
                 werase(w_zones_info);
                 wrefresh(w_zones_info);
 
-                m.Zones.add("", "", false, true,
+                u.Zones.add("", "", false, true,
                             m.getabs(std::min(pFirst.x, pSecond.x), std::min(pFirst.y, pSecond.y)),
                             m.getabs(std::max(pFirst.x, pSecond.x), std::max(pFirst.y, pSecond.y))
                            );
 
-                iZonesNum = m.Zones.size();
+                iZonesNum = u.Zones.size();
                 iActive = iZonesNum - 1;
 
-                m.Zones.vZones[iActive].setName();
-                m.Zones.vZones[iActive].setZoneType(m.Zones.getZoneTypes());
+                u.Zones.vZones[iActive].setName();
+                u.Zones.vZones[iActive].setZoneType(u.Zones.getZoneTypes());
             }
 
             draw_ter();
@@ -8737,7 +8741,7 @@ void game::zones_manager()
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
             zones_manager_shortcuts(w_zones_info);
 
-        } else if (m.Zones.size() > 0) {
+        } else if (u.Zones.size() > 0) {
             if (action == "UP") {
                 iActive--;
                 if (iActive < 0) {
@@ -8757,15 +8761,15 @@ void game::zones_manager()
                 bRedrawInfo = true;
 
             } else if (action == "REMOVE_ZONE") {
-                if (iActive < m.Zones.size()) {
-                    m.Zones.remove(iActive);
+                if (iActive < u.Zones.size()) {
+                    u.Zones.remove(iActive);
                     iActive--;
 
                     if (iActive < 0) {
                         iActive = 0;
                     }
 
-                    iZonesNum = m.Zones.size();
+                    iZonesNum = u.Zones.size();
 
                     draw_ter();
                     wrefresh(w_terrain);
@@ -8786,11 +8790,11 @@ void game::zones_manager()
 
                 switch (as_m.ret) {
                 case 1:
-                    m.Zones.vZones[iActive].setName();
+                    u.Zones.vZones[iActive].setName();
                     bStuffChanged = true;
                     break;
                 case 2:
-                    m.Zones.vZones[iActive].setZoneType(m.Zones.getZoneTypes());
+                    u.Zones.vZones[iActive].setZoneType(u.Zones.getZoneTypes());
                     bStuffChanged = true;
                     break;
                 case 3:
@@ -8813,20 +8817,20 @@ void game::zones_manager()
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
                 zones_manager_shortcuts(w_zones_info);
 
-            } else if (action == "MOVE_ZONE_UP" && m.Zones.size() > 1) {
-                if (iActive < m.Zones.size() - 1) {
-                    std::swap(m.Zones.vZones[iActive],
-                              m.Zones.vZones[iActive + 1]);
+            } else if (action == "MOVE_ZONE_UP" && u.Zones.size() > 1) {
+                if (iActive < u.Zones.size() - 1) {
+                    std::swap(u.Zones.vZones[iActive],
+                              u.Zones.vZones[iActive + 1]);
                     iActive++;
                 }
                 bBlink = false;
                 bRedrawInfo = true;
                 bStuffChanged = true;
 
-            } else if (action == "MOVE_ZONE_DOWN" && m.Zones.size() > 1) {
+            } else if (action == "MOVE_ZONE_DOWN" && u.Zones.size() > 1) {
                 if (iActive > 0) {
-                    std::swap(m.Zones.vZones[iActive],
-                              m.Zones.vZones[iActive - 1]);
+                    std::swap(u.Zones.vZones[iActive],
+                              u.Zones.vZones[iActive - 1]);
                     iActive--;
                 }
                 bBlink = false;
@@ -8836,7 +8840,7 @@ void game::zones_manager()
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
                 point pOMPlayer = overmapbuffer::ms_to_omt_copy(m.getabs(u.posx, u.posy));
-                point pOMZone = overmapbuffer::ms_to_omt_copy(m.Zones.vZones[iActive].getCenterPoint());
+                point pOMZone = overmapbuffer::ms_to_omt_copy(u.Zones.vZones[iActive].getCenterPoint());
                 overmap::draw_overmap(tripoint(pOMPlayer.x, pOMPlayer.y),
                                       false,
                                       tripoint(pOMZone.x, pOMZone.y),
@@ -8851,13 +8855,13 @@ void game::zones_manager()
                 bRedrawInfo = true;
 
             } else if (action == "ENABLE_ZONE") {
-                m.Zones.vZones[iActive].setEnabled(true);
+                u.Zones.vZones[iActive].setEnabled(true);
 
                 bRedrawInfo = true;
                 bStuffChanged = true;
 
             } else if (action == "DISABLE_ZONE") {
-                m.Zones.vZones[iActive].setEnabled(false);
+                u.Zones.vZones[iActive].setEnabled(false);
 
                 bRedrawInfo = true;
                 bStuffChanged = true;
@@ -8885,22 +8889,22 @@ void game::zones_manager()
             //Display saved zones
             for (size_t i = 0; i < iZonesNum; ++i) {
                 if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iZonesNum) ? iZonesNum : iMaxRows)) {
-                    nc_color colorLine = (m.Zones.vZones[i].getEnabled()) ? c_white : c_ltgray;
+                    nc_color colorLine = (u.Zones.vZones[i].getEnabled()) ? c_white : c_ltgray;
 
                     if (iNum == iActive) {
                         mvwprintz(w_zones, iNum - iStartPos, 0, c_yellow, "%s", ">>");
-                        colorLine = (m.Zones.vZones[i].getEnabled()) ? c_ltgreen : c_green;
+                        colorLine = (u.Zones.vZones[i].getEnabled()) ? c_ltgreen : c_green;
                     }
 
                     //Draw Zone name
                     mvwprintz(w_zones, iNum - iStartPos, 3, colorLine, "%s",
-                              m.Zones.vZones[iNum].getName().c_str());
+                              u.Zones.vZones[iNum].getName().c_str());
 
                     //Draw Type name
                     mvwprintz(w_zones, iNum - iStartPos, 20, colorLine, "%s",
-                              m.Zones.getNameFromType(m.Zones.vZones[iNum].getZoneType()).c_str());
+                              u.Zones.getNameFromType(u.Zones.vZones[iNum].getZoneType()).c_str());
 
-                    point pCenter = m.Zones.vZones[i].getCenterPoint();
+                    point pCenter = u.Zones.vZones[i].getCenterPoint();
 
                     //Draw direction + distance
                     mvwprintz(w_zones, iNum - iStartPos, 35, colorLine, "%*d %s",
@@ -8924,8 +8928,8 @@ void game::zones_manager()
         if (iZonesNum > 0) {
             bBlink = !bBlink;
 
-            point pStart = m.getlocal(m.Zones.vZones[iActive].getStartPoint());
-            point pEnd = m.getlocal(m.Zones.vZones[iActive].getEndPoint());
+            point pStart = m.getlocal(u.Zones.vZones[iActive].getStartPoint());
+            point pEnd = m.getlocal(u.Zones.vZones[iActive].getEndPoint());
 
             if (bBlink) {
                 //draw marked area
@@ -8996,9 +9000,9 @@ void game::zones_manager()
 
     if (bStuffChanged) {
         if (query_yn(_("Save changes?"))) {
-            m.save_zones();
+            u.save_zones();
         } else {
-            m.load_zones();
+            u.load_zones();
         }
     }
 
@@ -10266,12 +10270,11 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return true;
     }
 
-    bool on_ground;
-
     if (cont == NULL || cont->is_null()) {
         const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
-        cont = inv_map_for_liquid(liquid, text, on_ground);
+        // Check for a container on the ground.
+        cont = inv_map_for_liquid(liquid, text);
         if (cont == NULL || cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
@@ -10329,8 +10332,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        add_msg(on_ground ? _("You pour %s into %s.") : _("You pour %s into your %s."), liquid.tname().c_str(),
-                cont->tname().c_str());
+        add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
         cont->curammo = dynamic_cast<it_ammo *>(liquid.type);
         if (infinite) {
             cont->charges = max;
@@ -10377,12 +10379,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // Container is partly full
             if (infinite) {
                 cont->contents[0].charges += remaining_capacity;
-                add_msg(on_ground ? _("You pour %s into %s.") : _("You pour %s into your %s."), liquid.tname().c_str(),
-                        cont->tname().c_str());
+                add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
                 return true;
             } else { // Container is finite, not empty and not full, add liquid to it
-                add_msg(on_ground ? _("You pour %s into %s.") : _("You pour %s into your %s."), liquid.tname().c_str(),
-                        cont->tname().c_str());
+                add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
                 if (remaining_capacity > liquid.charges) {
                     remaining_capacity = liquid.charges;
                 }
@@ -10401,18 +10401,16 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             bool all_poured = true;
             if (infinite) { // if filling from infinite source, top it to max
                 liquid_copy.charges = remaining_capacity;
-                add_msg(on_ground ? _("You pour %s into %s.") : _("You pour %s into your %s."), liquid.tname().c_str(),
-                        cont->tname().c_str());
+                add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
             } else if (liquid.charges > remaining_capacity) {
-                add_msg(on_ground ? _("You fill %s with some of the %s.") : _("You fill your %s with some of the %s."), cont->tname().c_str(),
+                add_msg(_("You fill the %s with some of the %s."), cont->tname().c_str(),
                         liquid.tname().c_str());
                 u.inv.unsort();
                 liquid.charges -= remaining_capacity;
                 liquid_copy.charges = remaining_capacity;
                 all_poured = false;
             } else {
-                add_msg(on_ground ? _("You pour %s into %s.") : _("You pour %s into your %s."), liquid.tname().c_str(),
-                        cont->tname().c_str());
+                add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
             }
             cont->put_in(liquid_copy);
             return all_poured;

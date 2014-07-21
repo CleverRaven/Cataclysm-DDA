@@ -13,6 +13,7 @@
 #include "martialarts.h"
 #include "player_activity.h"
 #include "messages.h"
+#include "clzones.h"
 
 #include <unordered_set>
 
@@ -909,6 +910,13 @@ public:
     void add_known_trap(int x, int y, const std::string &t);
     /** Search surrounding squares for traps (and maybe other things in the future). */
     void search_surroundings();
+ 
+ // zone related stuff
+ // (zones as in the zones designated by players)
+    clZones Zones;
+
+    bool save_zones();
+    void load_zones();
     
 protected:
     std::unordered_set<std::string> my_traits;

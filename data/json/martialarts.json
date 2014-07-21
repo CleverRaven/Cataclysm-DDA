@@ -757,7 +757,6 @@
         "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker. Lizard Style focuses on using walls to your advantage.",
         "arm_block" : 2,
         "techniques" : [
-            "tec_counter"
         ]
     },{
         "type" : "martial_art",

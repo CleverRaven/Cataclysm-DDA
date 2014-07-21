@@ -214,6 +214,8 @@
 		<Unit filename="src/char_validity_check.h" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/character.h" />
+		<Unit filename="src/clzones.cpp" />
+		<Unit filename="src/clzones.h" />
 		<Unit filename="src/color.cpp" />
 		<Unit filename="src/color.h" />
 		<Unit filename="src/computer.cpp" />
@@ -391,6 +393,8 @@
 		<Unit filename="src/profession.cpp" />
 		<Unit filename="src/profession.h" />
 		<Unit filename="src/ranged.cpp" />
+		<Unit filename="src/requirements.cpp" />
+		<Unit filename="src/requirements.h" />
 		<Unit filename="src/resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

@@ -6446,7 +6446,8 @@ int iuse::hacksaw(player *p, item *it, bool)
     }
 
     const ter_id ter = g->m.ter( dirx, diry );
-    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ) {
+    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
+        ter == t_chaingate_l) {
             p->moves -= 500;
             g->m.ter_set(dirx, diry, t_dirt);
             g->sound(dirx, diry, 15, _("grnd grnd grnd"));

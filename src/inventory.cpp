@@ -547,7 +547,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 fire.charges = 1;
                 add_item(fire);
             }
-            if (terrain_id == t_water_sh || terrain_id == t_water_dp) {
+            if (terrain_id == t_water_sh || terrain_id == t_water_dp || terrain_id == t_water_pool) {
                 item water("water", 0);
                 water.charges = 50;
                 add_item(water);

@@ -179,6 +179,14 @@ bool cOpt::is_hidden()
             return false;
 #endif
 
+        case COPT_POSIX_CURSES_HIDE:
+// Check if we on windows and using wincuses.
+#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
+        return false;
+#else
+        return true;
+#endif
+
         default:
             return false; // No hide on default
     }
@@ -730,43 +738,43 @@ void initOptions()
     mOptionsSort["graphics"]++;
 
     OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
-                                 _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 80, 242, 80, COPT_CURSES_HIDE
+                                 _("Set the size of the terminal along the X axis. Requires restart."),
+                                 80, 242, 80, COPT_POSIX_CURSES_HIDE
                                 );
 
     OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
-                                 _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 24, 187, 24, COPT_CURSES_HIDE
+                                 _("Set the size of the terminal along the Y axis. Requires restart."),
+                                 24, 187, 24, COPT_POSIX_CURSES_HIDE
                                 );
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["USE_TILES"] = cOpt("graphics", _("Use tiles"),
-                                _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
+                                _("If true, replaces some TTF rendered text with tiles."),
                                 true, COPT_CURSES_HIDE
                                );
 
     OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
-                            _("Choose the tileset you want to use. Only applicable on SDL builds."),
+                            _("Choose the tileset you want to use."),
                             tileset_names, "hoder", COPT_CURSES_HIDE
                            ); // populate the options dynamically
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
-                                 _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
+                                 _("Starts Cataclysm in fullscreen-mode. Requires Restart."),
                                  false, COPT_CURSES_HIDE
                                 );
 
     OPTIONS["SOFTWARE_RENDERING"] = cOpt("graphics", _("Software rendering"),
-                                         _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
+                                         _("Use software renderer instead of graphics card acceleration."),
                                          false, COPT_CURSES_HIDE
                                         );
 
     mOptionsSort["graphics"]++;
 
     OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
-                                   _("SDL ONLY: Adjust the volume of the music being played in the background."),
+                                   _("Adjust the volume of the music being played in the background."),
                                    0, 200, 100, COPT_CURSES_HIDE
                                   );
 
@@ -1016,8 +1024,6 @@ void show_options(bool ingame)
 
             if(current_opt->is_hidden()) {
                 ++hidden_counter;
-                DebugLog( D_INFO, DC_ALL ) << "Hidden increment. Current: " << hidden_counter;
-                DebugLog( D_INFO, DC_ALL ) << "End iteration" << '\n';
                 continue;
             }
 

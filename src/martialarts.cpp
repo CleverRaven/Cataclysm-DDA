@@ -3,6 +3,7 @@
 #include "martialarts.h"
 #include "json.h"
 #include "translations.h"
+#include "item_factory.h"
 #include <map>
 #include <string>
 #include <algorithm>
@@ -202,6 +203,26 @@ void load_martial_art(JsonObject &jo)
     ma.leg_block_with_bio_armor_legs = jo.get_bool("leg_block_with_bio_armor_legs", false);
 
     martialarts[ma.id] = ma;
+}
+
+void check_martialarts()
+{
+    for( auto style = martialarts.cbegin(); style != martialarts.cend(); ++style ) {
+        for( auto technique = style->second.techniques.cbegin();
+             technique != style->second.techniques.cend(); ++technique ) {
+            if( ma_techniques.find( *technique ) == ma_techniques.end() ) {
+                debugmsg( "Technique with id %s in style %s doesn't exist.",
+                          technique->c_str(), style->second.name.c_str() );
+            }
+        }
+        for( auto weapon = style->second.weapons.cbegin();
+             weapon != style->second.weapons.cend(); ++weapon ) {
+            if( !item_controller->has_template( *weapon ) ) {
+                debugmsg( "Weapon %s in style %s doesn't exist.",
+                          weapon->c_str(), style->second.name.c_str() );
+            }
+        }
+    }
 }
 
 void clear_techniques_and_martial_arts()

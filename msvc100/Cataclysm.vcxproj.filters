@@ -303,6 +303,9 @@
     <ClInclude Include="..\src\profession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\requirements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\rng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -677,6 +680,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ranged.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\requirements.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\rng.cpp">
