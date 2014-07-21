@@ -1840,14 +1840,16 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
       g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       add_msg(m_bad, _("You are hit by the falling debris!"));
      }
-     if ((one_in(g->u.dex_cur)) && (((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.is_wearing_footwear())) ) {
+     if (one_in(g->u.dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+          (g->u.footwear_factor() == .5 && one_in(2))) ) {
       g->u.add_effect("downed", 2);
      }
      if (one_in(g->u.str_cur)) {
       g->u.add_effect("stunned", 2);
      }
     }
-    else if ((one_in(g->u.str_cur)) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.is_wearing_footwear())) ) {
+    else if (one_in(g->u.str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+              (g->u.footwear_factor() == .5 && one_in(2))) ) {
      add_msg(m_bad, _("You trip as you evade the falling debris!"));
      g->u.add_effect("downed", 1);
     }
@@ -1869,14 +1871,16 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       }
       // Not sure how to track what NPCs are wearing, and they're under revision anyway so leaving it checking player. :-/
-      if ((one_in(me->dex_cur)) && ( ((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.is_wearing_footwear()) ) ) {
+      if (one_in(me->dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+          (g->u.footwear_factor() == .5 && one_in(2))) ) {
        me->add_effect("downed", 2);
       }
       if (one_in(me->str_cur)) {
        me->add_effect("stunned", 2);
       }
      }
-     else if (me && (one_in(me->str_cur)) && ( ((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.is_wearing_footwear()) ) ) {
+     else if (me && one_in(me->str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+               (g->u.footwear_factor() == .5 && one_in(2))) ) {
       me->add_effect("downed", 1);
      }
     }

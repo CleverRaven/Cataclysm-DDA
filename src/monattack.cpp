@@ -1313,14 +1313,17 @@ void mattack::vortex(monster *z)
             } // if (mondex != -1)
 
             if (g->u.posx == x && g->u.posy == y) { // Throw... the player?! D:
-                if ((g->u.has_trait("LEG_TENT_BRACE")) && (!(g->u.is_wearing_footwear())) ) {
+                bool immune = false;
+                if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
+                      (g->u.footwear_factor() == .5 && one_in(2)))) {
                     add_msg(_("You secure yourself using your tentacles!"));
+                    immune = true;
                 }
                 if (g->u.is_throw_immune()) {
                     add_msg(_("You deftly maintain your footing!"));
+                    immune = true;
                 }
-                if (!((g->u.uncanny_dodge()) && ( (g->u.has_trait("LEG_TENT_BRACE")) &&
-                                                  (!(g->u.is_wearing_footwear())) ) && (!(g->u.is_throw_immune())) )) {
+                if (!g->u.uncanny_dodge() && !immune) {
                     std::vector<point> traj = continue_line(from_monster, rng(2, 3));
                     add_msg(m_bad, _("You're thrown by winds!"));
                     bool hit_wall = false;
@@ -2010,8 +2013,8 @@ void mattack::flesh_golem(monster *z)
     int dam = rng(5, 10);
     add_msg(m_bad, _("Your %s is battered for %d damage!"), body_part_name(hit).c_str(), dam);
     g->u.hit(z, hit, dam, 0);
-    if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
-                         (g->u.is_wearing_footwear())) && (!(g->u.is_throw_immune())) ) {
+    if  (one_in(6) && !g->u.is_throw_immune() && (!g->u.has_trait("LEG_TENT_BRACE") ||
+          g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2)))) {
         g->u.add_effect("downed", 30);
     }
     g->u.practice( "dodge", z->type->melee_skill );
@@ -2050,8 +2053,8 @@ void mattack::lunge(monster *z)
     int dam = rng(3, 7);
     add_msg(m_bad, _("Your %s is battered for %d damage!"), body_part_name(hit).c_str(), dam);
     g->u.hit(z, hit, dam, 0);
-    if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
-    (g->u.is_wearing_footwear())) && (!(g->u.is_throw_immune())) ) {
+    if (one_in(6) && !g->u.is_throw_immune() && (!g->u.has_trait("LEG_TENT_BRACE") ||
+          g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2)))) {
         g->u.add_effect("downed", 3);
     }
     g->u.practice( "dodge", z->type->melee_skill );
@@ -2294,20 +2297,22 @@ void mattack::bio_op_takedown(monster *z)
     add_msg(m_bad, _("The zombie kicks your %s for %d damage..."), body_part_name(hit).c_str(), dam);
     g->u.hit(z, hit, dam, 0);
     // At this point, Judo or Tentacle Bracing can make this much less painful
-    if ( (!(g->u.is_throw_immune())) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) ||
-                                         (g->u.is_wearing_footwear())) ) {
-        if (one_in(4)) {
-            hit = bp_head;
-            dam = rng(9, 21); // 50% damage buff for the headshot.
-            add_msg(m_bad, _("and slams you, face first, to the ground for %d damage!"), dam);
-            g->u.hit(z, hit, dam, 0);
-        } else {
-            hit = bp_torso;
-            dam = rng(6, 18);
-            add_msg(m_bad, _("and slams you to the ground for %d damage!"), dam);
-            g->u.hit(z, hit, dam, 0);
+    if ( !g->u.is_throw_immune()) {
+        if (!g->u.has_trait("LEG_TENT_BRACE") && (g->u.footwear_factor() == 1 ||
+             (g->u.footwear_factor() == .5 && one_in(2))) ) {
+            if (one_in(4)) {
+                hit = bp_head;
+                dam = rng(9, 21); // 50% damage buff for the headshot.
+                add_msg(m_bad, _("and slams you, face first, to the ground for %d damage!"), dam);
+                g->u.hit(z, hit, dam, 0);
+            } else {
+                hit = bp_torso;
+                dam = rng(6, 18);
+                add_msg(m_bad, _("and slams you to the ground for %d damage!"), dam);
+                g->u.hit(z, hit, dam, 0);
+            }
+            g->u.add_effect("downed", 3);
         }
-        g->u.add_effect("downed", 3);
     }
     else if (!thrown_by_judo(z)) {
         // Saved by the tentacle-bracing! :)

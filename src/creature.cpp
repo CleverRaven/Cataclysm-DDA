@@ -245,7 +245,8 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
         stab_moves *= 1.5;
     }
     if (stab_moves >= 150) {
-        if ((is_player()) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.is_wearing_footwear()) ) {
+        if (is_player() && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+              (g->u.footwear_factor() == .5 && one_in(2))) ) {
             // can the player force their self to the ground? probably not.
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
@@ -253,7 +254,8 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
                                                    _("<npcname> forces %s to the ground!"),
                                                    disp_name().c_str() );
         }
-        if ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.is_wearing_footwear()) ) {
+        if (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+              (g->u.footwear_factor() == .5 && one_in(2))) {
             add_effect("downed", 1);
             mod_moves(-stab_moves / 2);
         }

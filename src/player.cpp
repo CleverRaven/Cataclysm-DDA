@@ -699,9 +699,10 @@ void player::apply_persistent_morale()
 
     // The same applies to rooters and their feet; however, they don't take
     // too many problems from no-footgear.
+    double shoe_factor = footwear_factor();
     if( (has_trait("ROOTS") || has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
-        is_wearing_footwear() ) {
-        add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
+        shoe_factor ) {
+        add_morale(MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true);
     }
 
     // Masochists get a morale bonus from pain.
@@ -1498,8 +1499,8 @@ int player::run_cost(int base_cost, bool diag)
     if (has_trait("SLOWRUNNER") && flatground) {
         movecost *= 1.15f;
     }
-    if (has_trait("PADDED_FEET") && !is_wearing_footwear()) {
-        movecost *= .9f;
+    if (has_trait("PADDED_FEET") && !footwear_factor()) {
+        movecost *= (1 - footwear_factor());
     }
     if (has_trait("LIGHT_BONES")) {
         movecost *= .9f;
@@ -1549,14 +1550,18 @@ int player::run_cost(int base_cost, bool diag)
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
     // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-    if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES") &&
+    if (!is_wearing_shoes("left") && !has_trait("PADDED_FEET") && !has_trait("HOOVES") &&
         !has_trait("TOUGH_FEET") && !has_trait("ROOTS2") ) {
-        movecost += 15;
+        movecost += 8;
+    }
+    if (!is_wearing_shoes("right") && !has_trait("PADDED_FEET") && !has_trait("HOOVES") &&
+        !has_trait("TOUGH_FEET") && !has_trait("ROOTS2") ) {
+        movecost += 8;
     }
 
-    if( !is_wearing_footwear() && has_trait("ROOTS3") &&
+    if( !footwear_factor() && has_trait("ROOTS3") &&
         g->m.has_flag("DIGGABLE", posx, posy) ) {
-        movecost += 10;
+        movecost += 10 * footwear_factor();
     }
 
     if (diag) {
@@ -5508,8 +5513,9 @@ void player::suffer()
         }
     }
 
-    if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !(is_wearing_footwear())) {
-        if (one_in(25)) {
+    double shoe_factor = footwear_factor();
+    if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx, posy) && !shoe_factor) {
+        if (one_in(25 / shoe_factor)) {
             add_msg(m_good, _("This soil is delicious!"));
             hunger -= 2;
             thirst -= 2;
@@ -5518,7 +5524,7 @@ void player::suffer()
             }
             // Mmm, dat soil...
             focus_pool--;
-        } else if (one_in(20)){
+        } else if (one_in(20 / shoe_factor)){
             hunger--;
             thirst--;
             if (health <= 5) {
@@ -8173,7 +8179,7 @@ void player::rooted_message() const
 {
     if( (has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
         g->m.has_flag("DIGGABLE", posx, posy) &&
-        !is_wearing_footwear() ) {
+        !footwear_factor() ) {
         add_msg(m_info, _("You sink your roots into the soil."));
     }
 }
@@ -8183,10 +8189,11 @@ void player::rooted()
 // If being able to "overfill" is a serious balance issue, will revisit
 // Otherwise, nutrient intake via roots can fill past the "Full" point, WAI
 {
+    double shoe_factor = footwear_factor();
     if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
         g->m.has_flag("DIGGABLE", posx, posy) &&
-        !is_wearing_footwear() ) {
-        if( one_in(20) ) {
+        !shoe_factor ) {
+        if( one_in(20 / shoe_factor) ) {
             hunger--;
             thirst--;
             if (health <= 5) {
@@ -8452,9 +8459,9 @@ hint_rating player::rate_action_wear(item *it)
   return HINT_IFFY;
  }
  // Checks to see if the player is wearing shoes
- if (it->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && is_wearing_footwear() &&
-     (!it->has_flag("BELTED")) &&
-     (!it->has_flag("SKINTIGHT") && is_wearing_shoes())){
+ if (((it->covers & mfb(bp_foot_l) && is_wearing_shoes("left")) || 
+      (it->covers & mfb(bp_foot_r) && is_wearing_shoes("right"))) &&
+      !it->has_flag("BELTED") && !it->has_flag("SKINTIGHT")) {
   return HINT_IFFY;
  }
 
@@ -8801,9 +8808,9 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && is_wearing_footwear() &&
-            (!to_wear->has_flag("BELTED")) &&
-            (!to_wear->has_flag("SKINTIGHT")) && is_wearing_shoes()) {
+        if (((to_wear->covers & mfb(bp_foot_l) && is_wearing_shoes("left")) || 
+              (to_wear->covers & mfb(bp_foot_r) && is_wearing_shoes("right"))) &&
+              !to_wear->has_flag("BELTED") && !to_wear->has_flag("SKINTIGHT")) {
             // Checks to see if the player is wearing shoes
             if(interactive){
                 add_msg(m_info, _("You're already wearing footwear!"));
@@ -9496,7 +9503,7 @@ void player::read(int pos)
                     it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
             if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
                  g->m.has_flag("DIGGABLE", posx, posy) &&
-                 (!(is_wearing_footwear())) ) {
+                 (!(footwear_factor())) ) {
                 add_msg(m_info, _("You sink your roots into the soil."));
             }
         }
@@ -9667,13 +9674,14 @@ void player::do_read( item *book )
             read(activity.position);
             // Rooters root (based on time spent reading)
             int root_factor = (reading->time / 20);
+            double foot_factor = footwear_factor();
             if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
                 g->m.has_flag("DIGGABLE", posx, posy) &&
-                !is_wearing_footwear() ) {
-                hunger -= root_factor;
-                thirst -= root_factor;
-                health += root_factor;
-                health = std::min( 5, health );
+                !foot_factor ) {
+                hunger -= root_factor * foot_factor;
+                thirst -= root_factor * foot_factor;
+                health += root_factor * foot_factor;
+                health = std::min( int(5  * foot_factor), health );
             }
             if (activity.type != ACT_NULL) {
                 return;
@@ -10617,23 +10625,46 @@ bool player::wearing_something_on(body_part bp) const
     return false;
 }
 
-bool player::is_wearing_shoes() const
+bool player::is_wearing_shoes(std::string side) const
 {
-    for (int i = 0; i < worn.size(); i++) {
-        const item *worn_item = &worn[i];
-
-        if (worn[i].covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) &&
-            (!worn_item->has_flag("BELTED")) &&
-            (!worn_item->has_flag("SKINTIGHT"))) {
-            return true;
+    bool left = true;
+    bool right = true;
+    if (side == "left" || side == "both") {
+        left = false;
+        for (int i = 0; i < worn.size(); i++) {
+            const item *worn_item = &worn[i];
+            if (worn[i].covers & (mfb(bp_foot_l)) &&
+                (!worn_item->has_flag("BELTED")) &&
+                (!worn_item->has_flag("SKINTIGHT"))) {
+                left = true;
+                break;
+            }
         }
     }
-    return false;
+    if (side == "right" || side == "both") {
+        right = false;
+        for (int i = 0; i < worn.size(); i++) {
+            const item *worn_item = &worn[i];
+            if (worn[i].covers & (mfb(bp_foot_r)) &&
+                (!worn_item->has_flag("BELTED")) &&
+                (!worn_item->has_flag("SKINTIGHT"))) {
+                right = true;
+                break;
+            }
+        }
+    }
+    return (left && right);
 }
 
-bool player::is_wearing_footwear() const
+double player::footwear_factor() const
 {
-    return wearing_something_on(bp_foot_l) && wearing_something_on(bp_foot_r);
+    double ret = 0;
+    if (wearing_something_on(bp_foot_l)) {
+        ret += .5;
+    }
+    if (wearing_something_on(bp_foot_r)) {
+        ret += .5;
+    }
 }
 
 bool player::is_wearing_power_armor(bool *hasHelmet) const {

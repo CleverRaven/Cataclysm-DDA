@@ -6674,8 +6674,8 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player &&
-        ((!(u.has_trait("LEG_TENT_BRACE"))) ||
-         (u.is_wearing_footwear()))) {
+          (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+          (g->u.footwear_factor() == .5 && one_in(2)))) {
         add_msg(m_bad, _("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
     }
@@ -6889,13 +6889,13 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                         add_msg(_("%s collided with someone else and sent her flying!"),
                                 targ->name.c_str());
                     }
-                } else if ((u.posx == traj.front().x && u.posy == traj.front().y) &&
-                           ((!(u.has_trait("LEG_TENT_BRACE"))) || (u.is_wearing_footwear()))) {
-                    add_msg(m_bad, _("%s collided with you and sent you flying!"), targ->name.c_str());
-                } else if ((u.posx == traj.front().x && u.posy == traj.front().y) &&
-                           ((u.has_trait("LEG_TENT_BRACE")) && (!(u.is_wearing_footwear())))) {
+                } else if (u.posx == traj.front().x && u.posy == traj.front().y &&
+                           (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
+                            (g->u.footwear_factor() == .5 && one_in(2))))) {
                     add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
                     force_remaining = 1;
+                } else if (u.posx == traj.front().x && u.posy == traj.front().y) {
+                    add_msg(m_bad, _("%s collided with you and sent you flying!"), targ->name.c_str());
                 }
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
@@ -12646,7 +12646,8 @@ bool game::plmove(int dx, int dy)
                 }
             }
         }
-        if (u.has_trait("LEG_TENT_BRACE") && (!(u.is_wearing_footwear())) ) {
+        if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
+              (g->u.footwear_factor() == .5 && one_in(2)))) {
             // DX and IN are long suits for Cephalopods,
             // so this shouldn't cause too much hardship
             // Presumed that if it's swimmable, they're

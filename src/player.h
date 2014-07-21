@@ -659,9 +659,9 @@ public:
  /** Returns true if the player is wearing something on the entered body_part */
  bool wearing_something_on(body_part bp) const;
  /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
- bool is_wearing_shoes() const;
- /** Returns true if the player is wearing something on their feet */
- bool is_wearing_footwear() const;
+ bool is_wearing_shoes(std::string side = "both") const;
+ /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
+ double footwear_factor() const;
  /** Returns true if the player is wearing power armor */
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
