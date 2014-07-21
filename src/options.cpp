@@ -181,7 +181,7 @@ bool cOpt::is_hidden()
 
         case COPT_POSIX_CURSES_HIDE:
 // Check if we on windows and using wincuses.
-#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
+#if ((defined TILES && defined SDLTILES) || defined _WIN32 || defined WINDOWS)
         return false;
 #else
         return true;
