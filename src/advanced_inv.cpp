@@ -25,8 +25,11 @@
 
 // should probably move to an adv_inv_pane class
 enum advanced_inv_sortby {
-    SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, NUM_SORTBY
+    SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, SORTBY_DAMAGE, NUM_SORTBY
 };
+
+const std::string sortnames[NUM_SORTBY] = { "-none-", _( "none" ), _( "name" ), _( "weight" ), _( "volume" ),
+                                            _( "charges" ), _( "category" ), _( "damage" ) };
 
 bool advanced_inventory::isDirectionalDragged(int area1, int area2)
 {
@@ -313,6 +316,14 @@ struct advanced_inv_sorter {
                 }
                 break;
             }
+            case SORTBY_DAMAGE: {
+                if( d1.it != nullptr && d2.it != nullptr ) {
+                    if( d1.it->damage != d2.it->damage ) {
+                        return d1.it->damage < d2.it->damage;
+                    }
+                }
+                break;
+            }
             default:
                 return d1.idx > d2.idx;
                 break;
@@ -546,7 +557,7 @@ void advanced_inventory::recalc_pane(int i)
             item &an_item = stacks[x]->front();
             advanced_inv_listitem it;
             it.name = an_item.tname();
-            it.name_without_prefix = an_item.tname( false );
+            it.name_without_prefix = an_item.tname( 1, false );
             if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                 continue;
             }
@@ -608,7 +619,7 @@ void advanced_inventory::recalc_pane(int i)
 
                     it.idx = x;
                     it.name = an_item->tname();
-                    it.name_without_prefix = an_item->tname( false );
+                    it.name_without_prefix = an_item->tname( 1, false );
                     if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                         continue;
                     }
@@ -676,9 +687,6 @@ void advanced_inventory::recalc_pane(int i)
 
 void advanced_inventory::redraw_pane( int i )
 {
-    std::string sortnames[8] = { "-none-", _("none"), _("name"), _("weight"), _("volume"),
-                                 _("charges"), _("category"), "-"
-                               };
     // calculate the offset.
     getsquare(panes[i].area, panes[i].offx, panes[i].offy, panes[i].area_string, squares);
 
@@ -753,7 +761,7 @@ void advanced_inventory::redraw_pane( int i )
     }
     draw_border(panes[i].window);
     mvwprintw(panes[i].window, 0, 3, _("< [s]ort: %s >"),
-              sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
+              sortnames[ panes[i].sortby < NUM_SORTBY ? panes[i].sortby : 0 ].c_str() );
     int max = MAX_ITEM_IN_SQUARE;
     if ( panes[i].area == isall ) {
         max *= 9;
@@ -1123,9 +1131,6 @@ void advanced_inventory::display(player *pp)
     u.inv.sort();
     u.inv.restack((&g->u));
 
-    std::string sortnames[8] = { "-none-", _("none"), _("name"), _("weight"), _("volume"),
-                                 _("charges"), _("category"), "-"
-                               };
 
     WINDOW *head = newwin(head_height, w_width, headstart, colstart);
     WINDOW *left_window = newwin(w_height, w_width / 2, headstart + head_height, colstart);
@@ -1595,6 +1600,7 @@ void advanced_inventory::display(player *pp)
             sm.entries.push_back(uimenu_entry(SORTBY_VOLUME, true, 'v', sortnames[SORTBY_VOLUME]));
             sm.entries.push_back(uimenu_entry(SORTBY_CHARGES, true, 'x', sortnames[SORTBY_CHARGES]));
             sm.entries.push_back(uimenu_entry(SORTBY_CATEGORY, true, 'c', sortnames[SORTBY_CATEGORY]));
+            sm.entries.push_back(uimenu_entry(SORTBY_DAMAGE, true, 'd', sortnames[SORTBY_DAMAGE]));
             sm.selected = panes[src].sortby - 1; /* pre-select current sort. uimenu.selected is entries[index] (starting at 0), not return value */
             sm.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
             if (sm.ret < 1) {
