@@ -657,7 +657,7 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
-    int num = 4+dice(3, 3);
+    int num = 5;
     faction tmp(0);
     tmp.make_army();
     factions.push_back(tmp);
@@ -669,21 +669,26 @@ void game::create_factions()
         tmp.known_by_u = true;
         //Test faction
         if (i == 0){
+            tmp.name = "Your Followers";
+            tmp.likes_u = 80;
+            tmp.respects_u = 80;
+        }
+        if (i == 1){
             tmp.name = "The Old Guard";
             tmp.likes_u = 15;
             tmp.respects_u = 15;
         }
-        if (i == 1){
+        if (i == 2){
             tmp.name = "The Free Merchants";
             tmp.likes_u = 30;
             tmp.respects_u = 30;
         }
-        if (i == 2){
+        if (i == 3){
             tmp.name = "The Wasteland Scavengers";
             tmp.likes_u = 0;
             tmp.respects_u = 0;
         }
-        if (i == 3){
+        if (i == 4){
             tmp.name = "Hell's Raiders";
             tmp.likes_u = -25;
             tmp.respects_u = -25;
