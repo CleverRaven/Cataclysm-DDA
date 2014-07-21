@@ -10901,7 +10901,7 @@ int map::place_npc(int x, int y, std::string type)
     }
     real_coords rc;
     rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
-    //Old Guard NPCs, fac_id 1
+    //Old Guard NPCs, fac_id 2
     if (type == "old_guard_rep"){
         npc *temp = new npc();
         temp->normalize();
@@ -10913,15 +10913,15 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_OLD_GUARD_REP;
-        temp->fac_id = 1;
-        temp->my_fac = g->faction_by_id(1);
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
         int mission_index = g->reserve_mission(MISSION_OLD_GUARD_REP_1, temp->getID());
         if (mission_index != -1)
             temp->chatbin.missions.push_back(mission_index);
         g->load_npcs();
         return temp->getID();
         }
-    //Free Merchant NPCs, fac_id 2
+    //Free Merchant NPCs, fac_id 3
     if (type == "evac_merchant"){
         npc *temp = new npc();
         temp->normalize();
@@ -10933,8 +10933,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude = NPCATT_NULL;
         temp->mission = NPC_MISSION_SHOPKEEP;
         temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
-        temp->fac_id = 2;
-        temp->my_fac = g->faction_by_id(2);
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
         int mission_index = g->reserve_mission(MISSION_FREE_MERCHANTS_EVAC_1, temp->getID());
         if (mission_index != -1)
             temp->chatbin.missions.push_back(mission_index);
@@ -10953,8 +10953,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_FREE_MERCHANT_STOCKS;
         temp->personality.aggression -= 1;
-        temp->fac_id = 2;
-        temp->my_fac = g->faction_by_id(2);
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
         return temp->getID();
         }
@@ -10970,8 +10970,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_EVAC_GUARD1;
         temp->personality.aggression += 1;
-        temp->fac_id = 2;
-        temp->my_fac = g->faction_by_id(2);
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
         return temp->getID();
         }
@@ -10987,8 +10987,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_EVAC_GUARD2;
         temp->personality.aggression += 1;
-        temp->fac_id = 2;
-        temp->my_fac = g->faction_by_id(2);
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
         return temp->getID();
         }
@@ -11004,8 +11004,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_EVAC_GUARD3;
         temp->personality.aggression += 1;
-        temp->fac_id = 2;
-        temp->my_fac = g->faction_by_id(2);
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
         return temp->getID();
         }
@@ -11021,8 +11021,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_GUARD;
         temp->personality.aggression += 1;
-        temp->fac_id = 2;
-        temp->my_fac = g->faction_by_id(2);
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
         return temp->getID();
         }
@@ -11038,12 +11038,12 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_DONE;
         temp->personality.aggression = 10;
-        temp->fac_id = 2;
-        temp->my_fac = g->faction_by_id(2);
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
         g->load_npcs();
         return temp->getID();
         }
-    //Wasteland Scavengers NPCs, fac_id 3
+    //Wasteland Scavengers NPCs, fac_id 4
     if (type == "scavenger_hunter"){
         npc *temp = new npc();
         temp->normalize();
@@ -11055,8 +11055,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_EVAC_HUNTER;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
         g->load_npcs();
         return temp->getID();
         }
@@ -11071,8 +11071,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_SCAVENGER_MERC;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
         g->load_npcs();
         return temp->getID();
         }
@@ -11088,12 +11088,12 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_SHOPKEEP;
         temp->chatbin.first_topic = TALK_ARSONIST;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
         g->load_npcs();
         return temp->getID();
         }
-    //Hell's Raiders NPCs, fac_id 4
+    //Hell's Raiders NPCs, fac_id 5
     if (type == "thug"){
         npc *temp = new npc();
         temp->normalize();
@@ -11106,8 +11106,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_DONE;
         temp->personality.aggression = 10;
-        temp->fac_id = 4;
-        temp->my_fac = g->faction_by_id(4);
+        temp->fac_id = 5;
+        temp->my_fac = g->faction_by_id(5);
         g->load_npcs();
         return temp->getID();
         }
@@ -11123,8 +11123,8 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_DONE;
         temp->personality.aggression = 10;
-        temp->fac_id = 4;
-        temp->my_fac = g->faction_by_id(4);
+        temp->fac_id = 5;
+        temp->my_fac = g->faction_by_id(5);
         g->load_npcs();
         return temp->getID();
         }
