@@ -692,7 +692,7 @@ void initOptions()
     mOptionsSort["interface"]++;
 
     OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
-                                      _("SDL ONLY: Enable input from joystick."),
+                                      _("Enable input from joystick."),
                                       true, COPT_CURSES_HIDE
                                      );
 
