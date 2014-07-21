@@ -672,6 +672,7 @@ void game::create_factions()
             tmp.name = "Your Followers";
             tmp.likes_u = 80;
             tmp.respects_u = 80;
+            tmp.known_by_u = false;
         }
         if (i == 1){
             tmp.name = "The Old Guard";
