@@ -22319,10 +22319,10 @@ msgstr ""
 "à nouveau."
 
 #: lang/json/GUN_from_json.py
-msgid "Ganz-Rustung"
-msgid_plural "Ganz-Rustungen"
-msgstr[0] "Ganz-Rustung"
-msgstr[1] "Ganz-Rustungen"
+msgid "heavy crossbow"
+msgid_plural "heavy crossbows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""

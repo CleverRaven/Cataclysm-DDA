@@ -19896,9 +19896,9 @@ msgstr ""
 "확률이 높습니다."
 
 #: lang/json/GUN_from_json.py
-msgid "Ganz-Rustung"
-msgid_plural "Ganz-Rustungen"
-msgstr[0] "군트-러스터그(Ganz-Rustung)"
+msgid "heavy crossbow"
+msgid_plural "heavy crossbows"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
