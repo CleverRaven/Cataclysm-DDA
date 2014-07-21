@@ -12312,7 +12312,7 @@ bool game::plmove(int dx, int dy)
         if ((fromSwimmable && fromDeepWater && !fromBoat) || query_yn(_("Dive into the water?"))) {
             if ((!fromDeepWater || fromBoat) && u.swim_speed() < 500) {
                 add_msg(_("You start swimming."));
-                add_msg(m_info, "%s to dive underwater.",
+                add_msg(m_info, _("%s to dive underwater."),
                         press_x(ACTION_MOVE_DOWN).c_str());
             }
             plswim(x, y);
@@ -12548,7 +12548,7 @@ bool game::plmove(int dx, int dy)
                             // Assume contents of both cells are legal, so we can just swap contents.
                             m.i_at( fpos.x, fpos.y).swap( m.i_at(fdest.x, fdest.y) );
                         } else {
-                            add_msg("Stuff spills from the %s!", furntype.name.c_str() );
+                            add_msg(_("Stuff spills from the %s!"), furntype.name.c_str() );
                         }
                     }
 

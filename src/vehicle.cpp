@@ -601,7 +601,7 @@ void vehicle::use_controls()
             std::vector<std::string> music_names;
             add_msg((stereo_on) ? _("Loading...") : _("Ejecting..."));
             if (!g->u.has_item_with_flag("CD")&& stereo_on == true) {
-                add_msg("You don't have anything to play!");
+                add_msg(_("You don't have anything to play!"));
                 stereo_on = false;
             } else if (stereo_on == false) {
                 item cd( music_id, 0 );
@@ -615,7 +615,7 @@ void vehicle::use_controls()
                 }
             }
             if (music_types.size() > 1) {
-                music_names.push_back("Cancel");
+                music_names.push_back(_("Cancel"));
                 music_index = menu_vec(false, _("Use which item?"), music_names) - 1;
             if (music_index == music_names.size() - 1)
             music_index = -1;

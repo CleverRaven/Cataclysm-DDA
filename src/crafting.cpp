@@ -1730,7 +1730,7 @@ std::string recipe::required_skills_string()
             }
         }
     } else {
-        skills_as_stream << "N/A";
+        skills_as_stream << _("N/A");
     }
     return skills_as_stream.str();
 }

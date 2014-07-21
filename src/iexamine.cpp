@@ -1882,7 +1882,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     itype *type = f.crafting_pseudo_item_type();
     itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {
-        add_msg(m_info, "This %s can not be reloaded!", f.name.c_str());
+        add_msg(m_info, _("This %s can not be reloaded!"), f.name.c_str());
         return;
     }
     const int pos = p->inv.position_by_type(ammo->id);
@@ -1890,10 +1890,10 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
         if (amount > 0) {
             //~ The <piece of furniture> contains <number> <items>.
-            add_msg("The %s contains %d %s.", f.name.c_str(), amount, ammo->nname(amount).c_str());
+            add_msg(_("The %s contains %d %s."), f.name.c_str(), amount, ammo->nname(amount).c_str());
         }
         //~ Reloading or restocking a piece of furniture, for example a forge.
-        add_msg(m_info, "You need some %s to reload this %s.", ammo->nname(2).c_str(), f.name.c_str());
+        add_msg(m_info, _("You need some %s to reload this %s."), ammo->nname(2).c_str(), f.name.c_str());
         return;
     }
     const long max_amount = p->inv.find_item(pos).charges;
@@ -1920,7 +1920,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         it.charges = amount;
         items.push_back(it);
     }
-    add_msg("You reload the %s.", m->furnname(examx, examy).c_str());
+    add_msg(_("You reload the %s."), m->furnname(examx, examy).c_str());
     p->moves -= 100;
 }
 

@@ -2064,7 +2064,7 @@ void player::disp_info()
         std::stringstream pain_text;
         // Cenobites aren't markedly physically impaired by pain.
         if ((pain - pkill >= 15) && (!(has_trait("CENOBITE")))) {
-            pain_text << "Strength" << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
+            pain_text << _("Strength") << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
                 int((pain - pkill) / 15) << "   ";
         }
         // They do find the sensations distracting though.
@@ -2104,7 +2104,7 @@ void player::disp_info()
         int intpen = int(stim /  6);
         // Since dexpen etc. are always less than 0, no need for + signs
         stim_text << _("Speed") << " " << stim << "   " << _("Intelligence") << " " << intpen <<
-            "   " << _("Perception") << " " << perpen << "   " << "Dexterity" << " " << dexpen;
+            "   " << _("Perception") << " " << perpen << "   " << _("Dexterity") << " " << dexpen;
         effect_text.push_back(stim_text.str());
     }
 
@@ -4070,7 +4070,7 @@ void player::pause()
     //Web Weavers...weave web
     if (has_trait("WEB_WEAVER") && !in_vehicle) {
       g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
-      add_msg("You spin some webbing.");
+      add_msg(_("You spin some webbing."));
      }
 
     // Meditation boost for Toad Style, obsolete

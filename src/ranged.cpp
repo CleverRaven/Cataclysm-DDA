@@ -381,7 +381,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
             npc *p = g->active_npc[npcdex];
             if(!p->weapon.is_null()) {
                 item weap = p->remove_weapon();
-                add_msg_if_player(m_good, "You disarm %s's %s using your whip!", p->name.c_str(),
+                add_msg_if_player(m_good, _("You disarm %s's %s using your whip!"), p->name.c_str(),
                                   weap.tname().c_str());
                 g->m.add_item_or_charges(tarx + rng(-1, 1), tary + rng(-1, 1), weap);
             }

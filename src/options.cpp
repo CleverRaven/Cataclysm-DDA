@@ -1303,7 +1303,7 @@ void load_options()
 std::string options_header()
 {
     return "\
-# This is the options file.  It works similarly to keymap.txt: the format is\n\
+# This is the options file.  The format is\n\
 # <option name> <option value>\n\
 # <option value> may be any number, positive or negative.  If you use a\n\
 # negative sign, do not put a space between it and the number.\n\

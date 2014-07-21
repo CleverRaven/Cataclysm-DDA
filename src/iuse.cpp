@@ -1270,7 +1270,7 @@ int iuse::meth(player *p, item *it, bool)
     int duration = 10 * (60 - p->str_cur);
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         p->add_msg_if_player(m_neutral, _("You smoke your meth."));
-        p->add_msg_if_player(m_good, ("The world seems to sharpen."));
+        p->add_msg_if_player(m_good, _("The world seems to sharpen."));
         if (p->has_trait("TOLERANCE")) {
             duration *= 1.2;
         } else {
@@ -2989,12 +2989,12 @@ int iuse::solder_weld(player *p, item *it, bool)
     // Option for cauterization only if player has the incentive to do so
     // One does not check for open wounds with a soldering iron.
     if ((p->has_disease("bite") || p->has_disease("bleed")) && !p->is_underwater()) {
-        choice = menu(true, ("Using soldering item:"), _("Cauterize wound"),
+        choice = menu(true, _("Using soldering item:"), _("Cauterize wound"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     } else if (p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") ||
                p->has_trait("CENOBITE")) {
         // Masochists might be wounded too, let's not ask twice.
-        choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"),
+        choice = menu(true, _("Using soldering item:"), _("Cauterize yourself for fun"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     }
 
@@ -3707,7 +3707,7 @@ int iuse::picklock(player *p, item *it, bool)
         if (it->damage >= 5) {
             sStatus = rm_prefix(_("<door_status>destroy"));
         }
-        p->add_msg_if_player(m_bad, "The lock stumps your efforts to pick it, and you %s your tool.",
+        p->add_msg_if_player(m_bad, _("The lock stumps your efforts to pick it, and you %s your tool."),
                              sStatus.c_str());
     } else {
         p->add_msg_if_player(m_bad, _("The lock stumps your efforts to pick it."));
@@ -3909,9 +3909,9 @@ int iuse::siphon(player *p, item *it, bool)
     if (!foundv.empty()) {
         uimenu fmenu;
         fmenu.text = _("Fill what?");
-        fmenu.addentry("Nearby vehicle (%d)", foundv.size());
-        fmenu.addentry("Container");
-        fmenu.addentry("Never mind");
+        fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
+        fmenu.addentry(_("Container"));
+        fmenu.addentry(_("Never mind"));
         fmenu.query();
         if (fmenu.ret == 0) {
             if (foundv.size() > 1) {
@@ -3935,7 +3935,7 @@ int iuse::siphon(player *p, item *it, bool)
         add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s",
                          "Siphoned %d units of %s from the %s into the %s%s", got), got,
                 "gasoline", veh->name.c_str(), fillv->name.c_str(),
-                (got < want ? ", draining the tank completely." : ", receiving tank is full."));
+                (got < want ? _(", draining the tank completely.") : _(", receiving tank is full.")));
         p->moves -= 200;
     } else {
         if (p->siphon(veh, "gasoline")) {
@@ -5389,7 +5389,7 @@ int iuse::mininuke(player *p, item *it, bool)
 {
     int time = query_int(_("Set the timer to (0 to cancel)?"));
     if (time <= 0) {
-        p->add_msg_if_player("Never mind.");
+        p->add_msg_if_player(_("Never mind."));
         return 0;
     }
     p->add_msg_if_player(_("You set the timer to %d."), time);
@@ -6312,7 +6312,7 @@ int iuse::knife(player *p, item *it, bool t)
                              "You carve the %1$s into %2$i %3$ss.", count),
                     cut->tname().c_str(), count, result->tname().c_str());
         } else {
-            add_msg(m_bad, "You clumsily carve the %s into useless pieces.",
+            add_msg(m_bad, _("You clumsily carve the %s into useless pieces."),
                     cut->tname().c_str());
         }
     } else {
@@ -6321,7 +6321,7 @@ int iuse::knife(player *p, item *it, bool t)
                                      "You cut the %1$s into %2$i %3$ss.", count),
                     cut->tname().c_str(), count, result->tname().c_str());
         } else {
-            add_msg(m_bad, "You clumsily cut the %s into useless pieces.",
+            add_msg(m_bad, _("You clumsily cut the %s into useless pieces."),
                     cut->tname().c_str());
         }
     }
@@ -7169,7 +7169,7 @@ int iuse::hotplate(player *p, item *it, bool)
     if ((p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ||
          p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) && !p->is_underwater()) {
         //Might want to cauterize
-        choice = menu(true, ("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
+        choice = menu(true, _("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
     }
 
     if (choice == 1) {
@@ -7690,7 +7690,7 @@ int iuse::unfold_generic(player *p, item *it, bool)
 int iuse::adrenaline_injector(player *p, item *it, bool)
 {
     p->moves -= 100;
-    p->add_msg_if_player("You inject yourself with adrenaline.");
+    p->add_msg_if_player(_("You inject yourself with adrenaline."));
 
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
@@ -8241,7 +8241,7 @@ int iuse::radiocontrol(player *p, item *it, bool t)
     }
 
     choice = menu(true, _("What do with radiocontrol:"), _("Nothing"), car_action,
-                  "Press red button", "Press blue button", "Press green button", NULL);
+                  _("Press red button"), _("Press blue button"), _("Press green button"), NULL);
 
     if (choice == 1) {
         return 0;
