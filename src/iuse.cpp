@@ -7741,7 +7741,8 @@ int iuse::adrenaline_injector(player *p, item *it, bool)
     p->moves -= 100;
     p->add_msg_if_player("You inject yourself with adrenaline.");
 
-    p->inv.add_item_by_type("syringe");
+    item syringe( "syringe", it->bday );
+    p->i_add( syringe );
     if (p->has_disease("adrenaline")) {
         //Increase current surge by 3 minutes (if not on comedown)
         p->add_disease("adrenaline", 30);

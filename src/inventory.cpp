@@ -426,19 +426,6 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     return items.back().back();
 }
 
-void inventory::add_item_by_type(itype_id type, int count, long charges, bool rand)
-{
-    // TODO add proper birthday
-    while (count > 0) {
-        item tmp(type, 0, rand);
-        if (charges != -1) {
-            tmp.charges = charges;
-        }
-        add_item(tmp);
-        count--;
-    }
-}
-
 void inventory::add_item_keep_invlet(item newit)
 {
     add_item(newit, true);
