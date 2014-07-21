@@ -2586,7 +2586,7 @@
         "name" : "ornamental plate armor",
         "weight" : 18000,
         "color" : "light_gray",
-        "covers" : ["TORSO", "LEG_S", "ARMS"],
+        "covers" : ["TORSO", "LEGS", "ARMS"],
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
