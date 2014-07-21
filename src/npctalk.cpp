@@ -594,7 +594,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Sure, here you go!");
 
         case TALK_EVAC_MERCHANT:
-             return _("Welcome...");
+            if (g->u.is_wearing("badge_marshal"))
+                return _("Welcome marshal...");
+            return _("Welcome...");
 
         case TALK_EVAC_MERCHANT_NEW:
             return _("Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees."
@@ -644,6 +646,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                      "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
 
         case TALK_EVAC_GUARD1:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("Hello marshal.");
             return _("Hello there.");
 
         case TALK_EVAC_GUARD1_PLACE:
@@ -682,6 +686,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Stay safe out there. Hate to have to kill you after you've already died.");
 
         case TALK_EVAC_GUARD2:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("Hello marshal.");
             return _("Hello.");
 
         case TALK_EVAC_GUARD2_NEW:
@@ -743,6 +749,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                      "get the hell out.");
 
         case TALK_EVAC_HUNTER:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("I thought I smelled a pig.  I jest... please don't arrest me.");
             return _("Huh, thought I smelled someone new. Can I help you?");
 
         case TALK_EVAC_HUNTER_SMELL:
@@ -794,6 +802,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Watch your back out there.");
 
         case TALK_OLD_GUARD_REP:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("Marshal...");
             return _("Citizen...");
 
         case TALK_OLD_GUARD_REP_NEW:
@@ -832,6 +842,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                       "the most powerful men left in the world.");
 
         case TALK_ARSONIST:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("That sure is a shiney badge you got there!");
             return _("Heh, you look important.");
 
         case TALK_ARSONIST_NEW:
@@ -870,7 +882,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Screw You!");
 
         case TALK_SCAVENGER_MERC:
-             return _("...");
+            if (g->u.is_wearing("badge_marshal"))
+                return _("I haven't done anything wrong...");
+            return _("...");
 
         case TALK_SCAVENGER_MERC_NEW:
              return _("I'm just a hired hand.  Someone pays me and I do what needs to be done.");
