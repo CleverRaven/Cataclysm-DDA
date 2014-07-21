@@ -418,6 +418,7 @@ bool player::create(character_type type, std::string tempname)
 
 
     item tmp; //gets used several times
+    item tmp2;
 
     std::vector<std::string> prof_items = g->u.prof->items();
     std::vector<std::string> gender_items;
@@ -451,6 +452,16 @@ bool player::create(character_type type, std::string tempname)
             }
             // If wearing an item fails we fail silently.
             wear_item(&tmp, false);
+            
+            // If item is part of a pair give a second one for the other side
+            if (tmp.has_flag("PAIRED")) {
+                tmp2 = item(*iter, 0, false, "RIGHT");
+                if(tmp2.has_flag("VARSIZE")) {
+                    tmp2.item_tags.insert("FIT");
+                }
+                // If wearing an item fails we fail silently.
+                wear_item(&tmp2, false);
+            }
         // if something is wet, start it as active with some time to dry off
         } else if(tmp.has_flag("WET")) {
             tmp.active = true;

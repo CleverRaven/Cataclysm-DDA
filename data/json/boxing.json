@@ -20,7 +20,7 @@
         "environmental_protection" : 3,
         "encumbrance" : 7,
         "bashing" : -1,
-        "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "OVERSIZE", "STURDY", "PAIRED"],
         "coverage" : 100,
         "material_thickness" : 3
     },
