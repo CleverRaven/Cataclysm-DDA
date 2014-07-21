@@ -40,8 +40,10 @@
 
 #include <fstream>
 
+/* Utility functions in process_effects */
 static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void handle_cough(player& p, int intensity = 1, int volume = 4);
+static bool will_vomit(player& p, int chance = 1000);
 
 std::map<std::string, trait> traits;
 extern std::map<std::string, martialart> ma_styles;
@@ -1614,7 +1616,7 @@ nc_color player::color()
   return c_red;
  if (has_effect("stunned"))
   return c_ltblue;
- if (has_disease("boomered"))
+ if (has_effect("boomered"))
   return c_pink;
  if (underwater)
   return c_blue;
@@ -3869,7 +3871,7 @@ void player::recalc_sight_limits()
     if (has_effect("blind")) {
         sight_max = 0;
     } else if (has_disease("in_pit") ||
-            (has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 (!(has_trait("PER_SLIME_OK"))))) {
@@ -3997,7 +3999,7 @@ int player::clairvoyance()
 
 bool player::sight_impaired()
 {
- return ((has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+ return ((has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
               && !worn_with_flag("SWIM_GOGGLES") && !(has_trait("PER_SLIME_OK"))) ||
   ((has_trait("MYOPIC") || has_trait("URSINE_EYE") ) &&
@@ -5348,6 +5350,16 @@ static void handle_cough(player &p, int intensity, int loudness) {
         p.wake_up(_("You wake up coughing."));
     }
 }
+bool will_vomit(player& p, int chance)
+{
+    bool drunk = p.has_disease("drunk");
+    bool antiEmetics = p.has_disease("weed_high");
+    bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
+    bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
+    bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) ||
+        (antiEmetics && !drunk && !one_in(chance));
+    return ((stomachUpset || hasNausea) && !suppressed);
+}
 void player::process_effects() {
     int psnChance;
     for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it ) {
@@ -5404,6 +5416,13 @@ void player::process_effects() {
             }
         } else if ( id == "stung" ) {
             mod_pain(1);
+        } else if ( id == "boomered" ) {
+            mod_per_bonus(-5);
+            if (will_vomit(*this)) {
+                vomit();
+            } else if (one_in(3600)) {
+                add_msg_if_player(m_bad, _("You gag and retch."));
+            }
         }
     }
 
@@ -9878,7 +9897,7 @@ float player::fine_detail_vision_mod()
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if (has_effect("blind") || ((has_disease("boomered")) &&
+    if (has_effect("blind") || ((has_effect("boomered")) &&
     !(has_trait("PER_SLIME_OK"))))
     {
         return 5;

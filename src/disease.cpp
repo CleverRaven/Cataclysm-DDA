@@ -28,7 +28,7 @@ enum dis_type_enum {
 // Fields - onfire moved to effects
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
- DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
+ DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -94,7 +94,6 @@ void game::init_diseases() {
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
-    disease_type_lookup["boomered"] = DI_BOOMERED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
@@ -173,9 +172,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_BOULDERING:
         add_msg(m_warning, _("You are slowed by the rubble."));
-        break;
-    case DI_BOOMERED:
-        add_msg(m_bad, _("You're covered in bile!"));
         break;
     case DI_SAP:
         add_msg(m_bad, _("You're coated in sap!"));
@@ -826,15 +822,6 @@ void dis_effect(player &p, disease &dis)
             if (p.get_dex() < 1) {
                 // Add to dexterity current + 1 so it's at least 1
                 p.mod_dex_bonus(abs(p.get_dex())+1);
-            }
-            break;
-
-        case DI_BOOMERED:
-            p.mod_per_bonus(-5);
-            if (will_vomit(p)) {
-                p.vomit();
-            } else if (one_in(3600)) {
-                p.add_msg_if_player(m_bad, _("You gag and retch."));
             }
             break;
 
@@ -1735,7 +1722,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
     case DI_SPORES:
@@ -2265,11 +2251,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return stream.str();
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
-
-    case DI_BOOMERED:
-        return _(
-        "Perception - 5\n"
-        "Range of Sight: 1;   All sight is tinted magenta.");
 
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");

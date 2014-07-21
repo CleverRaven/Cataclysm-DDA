@@ -142,6 +142,8 @@
    {
       "type":"effect_type",
       "id":"boomered",
+      "name": "Boomered",
+      "desc": "Perception - 5\nRange of Sight: 1;   All sight is tinted magenta.",
       "apply_message":"You're covered in bile!",
       "rating": "bad"
    },

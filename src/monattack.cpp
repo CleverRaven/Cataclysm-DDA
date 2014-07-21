@@ -245,7 +245,7 @@ void mattack::boomer(monster *z)
     }
     if (!g->u.uncanny_dodge()) {
         if (rng(0, 10) > g->u.get_dodge() || one_in(g->u.get_dodge())) {
-            g->u.infect("boomered", bp_eyes, 3, 12, false, 1, 1);
+            g->u.add_env_effect("boomered", bp_eyes, 3, 12, 1, false);
         } else if (u_see) {
             add_msg(_("You dodge it!"));
         }
