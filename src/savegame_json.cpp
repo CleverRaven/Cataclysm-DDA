@@ -963,6 +963,7 @@ void item::deserialize(JsonObject &data)
 
     data.read( "charges", charges );
     data.read( "burnt", burnt );
+    data.read( "covers", covers );
     data.read( "poison", poison );
     data.read( "owned", owned );
 
@@ -1067,6 +1068,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( charges != -1 )     json.member( "charges", long(charges) );
     if ( damage != 0 )       json.member( "damage", int(damage) );
     if ( burnt != 0 )        json.member( "burnt", burnt );
+    if ( covers != 0 )       json.member( "covers", covers );
     if ( poison != 0 )       json.member( "poison", poison );
     if ( ammotmp != "null" ) json.member( "curammo", ammotmp );
     if ( mode != "NULL" )    json.member( "mode", mode );

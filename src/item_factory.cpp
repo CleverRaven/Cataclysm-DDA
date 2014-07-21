@@ -711,6 +711,8 @@ void Item_factory::load_armor(JsonObject &jo)
     armor_template->power_armor = jo.get_bool("power_armor", false);
     armor_template->covers = jo.has_member("covers") ?
                              flags_from_json(jo, "covers", "bodyparts") : 0;
+    armor_template->sided = jo.has_member("covers") ?
+                             flags_from_json(jo, "covers", "sided") : 0;
 
     itype *new_item_template = armor_template;
     load_basic_info(jo, new_item_template);
@@ -770,6 +772,8 @@ void Item_factory::load_tool_armor(JsonObject &jo)
     armor_template->power_armor = jo.get_bool("power_armor", false);
     armor_template->covers = jo.has_member("covers") ?
                              flags_from_json(jo, "covers", "bodyparts") : 0;
+    armor_template->sided = jo.has_member("covers") ?
+                             flags_from_json(jo, "covers", "sided") : 0;
 
     load_basic_info(jo, tool_armor_template);
 }
@@ -1446,11 +1450,64 @@ void Item_factory::set_flag_by_string(unsigned &cur_flags, const std::string &ne
 {
     if (flag_type == "bodyparts") {
         // global defined in bodypart.h
-        std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
-        if (found_flag_iter != body_parts.end()) {
-            cur_flags = cur_flags | mfb((unsigned)found_flag_iter->second);
+        if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
+            return;
+        } else if (new_flag == "ARMS" || new_flag == "HANDS" || new_flag == "LEGS" || new_flag == "FEET") {
+            std::vector<std::string> parts;
+            if (new_flag == "ARMS") {
+                parts.push_back("ARM_L");
+                parts.push_back("ARM_R");
+            } else if (new_flag == "HANDS") {
+                parts.push_back("HAND_L");
+                parts.push_back("HAND_R");
+            } else if (new_flag == "LEGS") {
+                parts.push_back("LEG_L");
+                parts.push_back("LEG_R");
+            } else if (new_flag == "FEET") {
+                parts.push_back("FOOT_L");
+                parts.push_back("FOOT_R");
+            }
+            for (auto it = parts.begin(); it != parts.end(); ++it) {
+                std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(*it);
+                if (found_flag_iter != body_parts.end()) {
+                    cur_flags = cur_flags | mfb((unsigned)found_flag_iter->second);
+                } else {
+                    debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
+                }
+            }
         } else {
-            debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
+            std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
+            if (found_flag_iter != body_parts.end()) {
+                cur_flags = cur_flags | mfb((unsigned)found_flag_iter->second);
+            } else {
+                debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
+            }
+        }
+    } else if (flag_type == "sided") {
+        // global defined in bodypart.h
+        if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
+            std::vector<std::string> parts;
+            if (new_flag == "ARM") {
+                parts.push_back("ARM_L");
+                parts.push_back("ARM_R");
+            } else if (new_flag == "HAND") {
+                parts.push_back("HAND_L");
+                parts.push_back("HAND_R");
+            } else if (new_flag == "LEG") {
+                parts.push_back("LEG_L");
+                parts.push_back("LEG_R");
+            } else if (new_flag == "FOOT") {
+                parts.push_back("FOOT_L");
+                parts.push_back("FOOT_R");
+            }
+            for (auto it = parts.begin(); it != parts.end(); ++it) {
+                std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(*it);
+                if (found_flag_iter != body_parts.end()) {
+                    cur_flags = cur_flags | mfb((unsigned)found_flag_iter->second);
+                } else {
+                    debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
+                }
+            }
         }
     }
 

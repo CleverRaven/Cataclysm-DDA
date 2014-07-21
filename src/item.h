@@ -62,7 +62,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true );
+ item(const std::string new_type, unsigned int turn, bool rand = true, std::string = "");
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
  item(std::string itemdata);
@@ -291,16 +291,17 @@ public:
 private:
  std::string name;
 public:
- char invlet;           // Inventory letter
+ char invlet;             // Inventory letter
  long charges;
- bool active;           // If true, it has active effects to be processed
- int fridge;            // The turn we entered a fridge.
- int rot;               // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
- int last_rot_check;    // last turn we calculated rot
- signed char damage;    // How much damage it's sustained; generally, max is 5
- int burnt;             // How badly we're burnt
- int bday;              // The turn on which it was created
- int owned;             // UID of NPC owner; 0 = player, -1 = unowned
+ bool active;             // If true, it has active effects to be processed
+ int fridge;              // The turn we entered a fridge.
+ int rot;                 // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
+ int last_rot_check;      // last turn we calculated rot
+ signed char damage;      // How much damage it's sustained; generally, max is 5
+ int burnt;               // How badly we're burnt
+ long unsigned int covers;// What body parts it covers
+ int bday;                // The turn on which it was created
+ int owned;               // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;
  union{
    int poison;          // How badly poisoned is it?

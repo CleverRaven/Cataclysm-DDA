@@ -193,8 +193,8 @@ private:
     void set_intvar(std::string tag, unsigned int & var, int min, int max);
 
     //two convenience functions that just call into set_bitmask_by_string
-    void set_flag_by_string(unsigned& cur_flags, const std::string & new_flag,
-                            const std::string & flag_type);
+    void set_flag_by_string(unsigned &cur_flags, const std::string &new_flag,
+                            const std::string &flag_type);
 
     //iuse stuff
     std::map<Item_tag, use_function> iuse_function_list;

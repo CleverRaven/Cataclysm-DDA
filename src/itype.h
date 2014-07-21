@@ -420,6 +420,7 @@ struct it_gunmod : public virtual itype {
 
 struct it_armor : public virtual itype {
     long unsigned int covers; // Bitfield of enum body_part
+    long unsigned int sided; // Bitfield of enum body_part
     signed char encumber;
     unsigned char coverage;
     unsigned char thickness;
@@ -429,7 +430,7 @@ struct it_armor : public virtual itype {
 
     bool power_armor;
 
-    it_armor() : itype(), covers(0), encumber(0), coverage(0), thickness(0), env_resist(0), warmth(0),
+    it_armor() : itype(), covers(0), sided(0), encumber(0), coverage(0), thickness(0), env_resist(0), warmth(0),
         storage(), power_armor(false)
     {
     }

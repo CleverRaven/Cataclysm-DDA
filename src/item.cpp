@@ -28,7 +28,7 @@ item::item()
     init();
 }
 
-item::item(const std::string new_type, unsigned int turn, bool rand)
+item::item(const std::string new_type, unsigned int turn, bool rand, std::string handed)
 {
     init();
     type = item_controller->find_template( new_type );
@@ -73,8 +73,54 @@ item::item(const std::string new_type, unsigned int turn, bool rand)
         charges = book->chapters;
     } else if ((type->is_gunmod() && type->id == "spare_mag") || type->item_tags.count("MODE_AUX")) {
         charges = 0;
-    } else
+    } else {
         charges = -1;
+    }
+    if (type->is_armor()) {
+        it_armor* armor = dynamic_cast<it_armor*>(type);
+        covers = armor->covers;
+        if (armor->sided != 0) {
+            bool side = rng(0,1);
+            if (handed == "RIGHT") {
+                side = 1;
+            } else if (handed == "LEFT") {
+                side = 0;
+            }
+            if (side) {
+                item_tags.insert("RIGHT");
+            } else {
+                item_tags.insert("LEFT");
+            }
+            if (armor->sided & mfb(bp_arm_l)) {
+                if (side == 0) {
+                    covers |= mfb(bp_arm_l);
+                } else {
+                    covers |= mfb(bp_arm_r);
+                }
+            }
+            if (armor->sided & mfb(bp_hand_l)) {
+                if (side == 0) {
+                    covers |= mfb(bp_hand_l);
+                } else {
+                    covers |= mfb(bp_hand_r);
+                }
+            }
+            if (armor->sided & mfb(bp_leg_l)) {
+                if (side == 0) {
+                    covers |= mfb(bp_leg_l);
+                } else {
+                    covers |= mfb(bp_leg_r);
+                }
+            }
+            if (armor->sided & mfb(bp_foot_l)) {
+                if (side == 0) {
+                    covers |= mfb(bp_foot_l);
+                } else {
+                    covers |= mfb(bp_foot_r);
+                }
+            }
+        }
+    }
     if(type->is_var_veh_part()) {
         it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
         bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
@@ -127,6 +173,7 @@ void item::init() {
     invlet = 0;
     damage = 0;
     burnt = 0;
+    covers = 0;
     poison = 0;
     mode = "NULL";
     item_counter = 0;
@@ -629,40 +676,40 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         temp1.str("");
         temp1 << _("Covers: ");
-        if (armor->covers & mfb(bp_head)) {
+        if (covers & mfb(bp_head)) {
             temp1 << _("The head. ");
         }
-        if (armor->covers & mfb(bp_eyes)) {
+        if (covers & mfb(bp_eyes)) {
             temp1 << _("The eyes. ");
         }
-        if (armor->covers & mfb(bp_mouth)) {
+        if (covers & mfb(bp_mouth)) {
             temp1 << _("The mouth. ");
         }
-        if (armor->covers & mfb(bp_torso)) {
+        if (covers & mfb(bp_torso)) {
             temp1 << _("The torso. ");
         }
-        if (armor->covers & mfb(bp_arm_l)) {
+        if (covers & mfb(bp_arm_l)) {
             temp1 << _("The left arm. ");
         }
-        if (armor->covers & mfb(bp_arm_r)) {
+        if (covers & mfb(bp_arm_r)) {
             temp1 << _("The right arm. ");
         }
-        if (armor->covers & mfb(bp_hand_l)) {
+        if (covers & mfb(bp_hand_l)) {
             temp1 << _("The left hand. ");
         }
-        if (armor->covers & mfb(bp_hand_r)) {
+        if (covers & mfb(bp_hand_r)) {
             temp1 << _("The right hand. ");
         }
-        if (armor->covers & mfb(bp_leg_l)) {
+        if (covers & mfb(bp_leg_l)) {
             temp1 << _("The left leg. ");
         }
-        if (armor->covers & mfb(bp_leg_r)) {
+        if (covers & mfb(bp_leg_r)) {
             temp1 << _("The right leg. ");
         }
-        if (armor->covers & mfb(bp_foot_l)) {
+        if (covers & mfb(bp_foot_l)) {
             temp1 << _("The left foot. ");
         }
-        if (armor->covers & mfb(bp_foot_r)) {
+        if (covers & mfb(bp_foot_r)) {
             temp1 << _("The right foot. ");
         }
 
@@ -1222,6 +1269,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     const it_comest* food_type = NULL;
     std::string tagtext = "";
     std::string toolmodtext = "";
+    std::string sidedtext = "";
     ret.str("");
     if (is_food())
     {
@@ -1251,6 +1299,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
     }
+    
+    if (has_flag("LEFT")) {
+        sidedtext = _("left ");
+    } else if (has_flag("RIGHT")) {
+        sidedtext = _("right ");
+    }
 
     if (owned > 0)
         ret << _(" (owned)");
@@ -1266,8 +1320,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     ret.str("");
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”. %2$s: burn adjectives (eg. “burnt”). %3$s: tool modifier text (eg. “atomic”). %4$s: vehicle part text (eg. “3.8-Liter”. $5$s: main item text (eg. “apple”), %6$s: tags (eg. “ (wet) (fits)”).
-    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(),
-                         toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
+    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
+                         sidedtext.c_str(), toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(),
+                         tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {

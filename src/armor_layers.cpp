@@ -23,8 +23,7 @@ void player::sort_armor()
     for (int cover = 0; cover < num_bp; cover++) {
         for (std::vector<item>::iterator it = worn.begin();
              it != worn.end(); ++it) {
-            each_armor = dynamic_cast<it_armor *>(it->type);
-            if (each_armor->covers & mfb(cover)) {
+            if (it->covers & mfb(cover)) {
                 req_right_h++;
             }
         }
@@ -126,8 +125,7 @@ void player::sort_armor()
         } else { // bp_*
             for (std::vector<item>::iterator it = worn.begin();
                  it != worn.end(); ++it) {
-                each_armor = dynamic_cast<it_armor *>(it->type);
-                if (each_armor->covers & mfb(tabindex)) {
+                if (it->covers & mfb(tabindex)) {
                     tmp_worn.push_back(&*it);
                 }
             }
@@ -174,17 +172,13 @@ void player::sort_armor()
         }
 
         // Player encumbrance - altered copy of '@' screen
-        it_armor *each_armor = 0;
-        if (leftListSize)
-            each_armor = dynamic_cast<it_armor *>(tmp_worn[leftListIndex]->type);
-
         mvwprintz(w_sort_middle, cont_h - 13, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; ++i) {
             int enc, armorenc;
             double layers;
             layers = armorenc = 0;
             enc = encumb(body_part(i), layers, armorenc);
-            if (leftListSize && (each_armor->covers & mfb(i))) {
+            if (leftListSize && (tmp_worn[leftListIndex]->covers & mfb(i))) {
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_green, "%s:", armor_cat[i].c_str());
             } else {
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
@@ -215,7 +209,7 @@ void player::sort_armor()
             for (std::vector<item>::iterator it = worn.begin();
                  it != worn.end(); ++it) {
                 each_armor = dynamic_cast<it_armor *>(it->type);
-                if (each_armor->covers & mfb(cover)) {
+                if (it->covers & mfb(cover)) {
                     if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
                         mvwprintz(w_sort_right, pos, 2, dam_color[int(it->damage + 1)],
                                   each_armor->nname(1).c_str());

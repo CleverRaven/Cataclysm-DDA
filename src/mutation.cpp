@@ -790,7 +790,7 @@ void mutation_effect(player &p, std::string mut)
     std::string mutation_safe = "OVERSIZE";
     for (size_t i = 0; i < p.worn.size(); i++) {
         for (size_t j = 0; j < bps.size(); j++) {
-            if ( ((dynamic_cast<it_armor*>(p.worn[i].type))->covers & mfb(bps[j])) &&
+            if ( (p.worn[i].covers & mfb(bps[j])) &&
             (!(p.worn[i].has_flag(mutation_safe))) ) {
                 if (destroy) {
                     if (is_u) {
