@@ -1533,13 +1533,13 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 1.3f;
     }
     if (is_wearing("swim_fins")) {
-        movecost *= 1.5f;
+            movecost *= 1.0f + (0.25f * shoe_type_count("swim_fins"));
     }
     if (is_wearing("roller_blades")) {
         if (offroading) {
-            movecost *= 1.5f;
+            movecost *= 1.0f + (0.25f * shoe_type_count("roller_blades"));
         } else if (flatground) {
-            movecost *= 0.5f;
+            movecost *= 1.0f - (0.25f * shoe_type_count("roller_blades"));
         } else {
             movecost *= 1.5f;
         }
@@ -1581,7 +1581,7 @@ int player::swim_speed()
       ret -= 20 + str_cur * 4;
   }
   if (is_wearing("swim_fins")) {
-      ret -= (10 * str_cur) * 1.5;
+      ret -= (15 * str_cur) / (3 - shoe_type_count("swim_fins"));
   }
   if (has_trait("WEBBED")) {
       ret -= 60 + str_cur * 5;
@@ -6100,19 +6100,19 @@ void player::mend()
    switch(i) {
     case hp_arm_r:
      part = bp_arm_r;
-     mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
+     mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
      break;
     case hp_arm_l:
      part = bp_arm_l;
-     mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
+     mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
      break;
     case hp_leg_r:
      part = bp_leg_r;
-     mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
+     mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
      break;
     case hp_leg_l:
      part = bp_leg_l;
-     mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
+     mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
      break;
     default:
      // No mending for you!
@@ -7245,11 +7245,22 @@ item* player::pick_usb()
 
 bool player::is_wearing(const itype_id & it) const
 {
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].type->id == it)
-   return true;
- }
- return false;
+    for (int i = 0; i < worn.size(); i++) {
+        if (worn[i].type->id == it) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool player::is_wearing_on_bp(const itype_id & it, body_part bp) const
+{
+    for (int i = 0; i < worn.size(); i++) {
+        if (worn[i].type->id == it && worn[i].covers & mfb(bp)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool player::worn_with_flag( std::string flag ) const
@@ -10689,6 +10700,19 @@ double player::footwear_factor() const
     if (wearing_something_on(bp_foot_r)) {
         ret += .5;
     }
+    return ret;
+}
+
+int player::shoe_type_count(const itype_id & it) const
+{
+    int ret = 0;
+    if (is_wearing_on_bp(it, bp_foot_l)) {
+        ret++;
+    }
+    if (is_wearing_on_bp(it, bp_foot_r)) {
+        ret++;
+    }
+    return ret;
 }
 
 bool player::is_wearing_power_armor(bool *hasHelmet) const {

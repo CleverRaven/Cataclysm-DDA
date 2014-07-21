@@ -663,6 +663,8 @@ public:
  bool is_wearing_shoes(std::string side = "both") const;
  /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
  double footwear_factor() const;
+ /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
+ int shoe_type_count(const itype_id & it) const;
  /** Returns true if the player is wearing power armor */
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
@@ -720,7 +722,10 @@ public:
  void place_corpse(); // put corpse+inventory on map at the place where this is.
  int butcher_factor() const; // Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
- bool is_wearing(const itype_id & it) const; // Are we wearing a specific itype?
+ /** Returns true if the player is wearing the item */
+ bool is_wearing(const itype_id & it) const;
+ /** Returns true if the player is wearing the item on the given body_part */
+ bool is_wearing_on_bp(const itype_id & it, body_part bp) const;
  bool has_artifact_with(const art_effect_passive effect) const;
  bool worn_with_flag( std::string flag ) const;
 

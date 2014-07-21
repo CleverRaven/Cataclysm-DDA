@@ -468,7 +468,8 @@ int player::get_dodge()
 
 int player::dodge_roll()
 {
-    if ( (is_wearing("roller_blades")) && one_in((get_dex() + skillLevel("dodge")) / 3 ) ) {
+    if ( (shoe_type_count("roller_blades") == 2 && one_in((get_dex() + skillLevel("dodge")) / 3 )) ||
+          (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + skillLevel("dodge")) / 8 ))) {
         if (!has_disease("downed")) {
             add_msg("Fighting on wheels is hard!");
         }

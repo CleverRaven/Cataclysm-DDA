@@ -13012,7 +13012,8 @@ void game::plswim(int x, int y)
     int movecost = u.swim_speed();
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
-        if (!u.is_underwater() || !u.is_wearing("swim_fins")) {
+        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 || 
+            (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
             u.oxygen = 30 + 2 * u.str_cur;
@@ -13223,13 +13224,15 @@ void game::vertical_move(int movez, bool force)
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
-            if (u.swim_speed() < 500 || u.is_wearing("swim_fins")) {
+            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 || 
+                  (g->u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));
             } else {
-                add_msg(m_info, _("You can't surface!"));
+                add_msg(m_info, _("You try to surface but can't!"));
             }
         }
+        u.moves -= 100;
         return;
     }
     // Force means we're going down, even if there's no staircase, etc.
