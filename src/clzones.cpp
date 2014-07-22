@@ -24,7 +24,7 @@ void clZones::clZoneData::setName()
 }
 
 void clZones::clZoneData::setZoneType(std::vector<std::pair<std::string, std::string> >
-        vZoneTypes)
+                                      vZoneTypes)
 {
     uimenu as_m;
     as_m.text = _("Select zone type:");
