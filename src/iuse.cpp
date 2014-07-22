@@ -992,8 +992,8 @@ int iuse::eyedrops(player *p, item *it, bool)
     } 
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
-    if (p->has_disease("boomered")) {
-        p->rem_disease("boomered");
+    if (p->has_effect("boomered")) {
+        p->remove_effect("boomered");
         p->add_msg_if_player(m_good, _("You wash the slime from your eyes."));
     }
     return it->type->charges_to_use();
@@ -7815,12 +7815,12 @@ int iuse::contacts(player *p, item *it, bool)
         return 0;
     }
     int duration = rng(80640, 120960); // Around 7 days.
-    if (p->has_disease("contacts")) {
+    if (p->has_effect("contacts")) {
         if (query_yn(_("Replace your current lenses?"))) {
             p->moves -= 200;
             p->add_msg_if_player(_("You replace your current %s."), it->tname().c_str());
-            p->rem_disease("contacts");
-            p->add_disease("contacts", duration);
+            p->remove_effect("contacts");
+            p->add_effect("contacts", duration);
             return it->type->charges_to_use();
         } else {
             p->add_msg_if_player(_("You don't do anything with your %s."), it->tname().c_str());
@@ -7829,7 +7829,7 @@ int iuse::contacts(player *p, item *it, bool)
     } else if (p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC") || p->has_trait("URSINE_EYE")) {
         p->moves -= 200;
         p->add_msg_if_player(_("You put the %s in your eyes."), it->tname().c_str());
-        p->add_disease("contacts", duration);
+        p->add_effect("contacts", duration);
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player(m_info, _("Your vision is fine already."));

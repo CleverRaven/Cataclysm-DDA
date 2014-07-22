@@ -2743,7 +2743,7 @@ input_context game::get_player_input(std::string &action)
                                     const int iDX = POSX + (iter->getPosX() -
                                                             (u.posx + u.view_offset_x));
 
-                                    if (u.has_disease("boomered")) {
+                                    if (u.has_effect("boomered")) {
                                         mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
 
                                     } else {
@@ -7006,7 +7006,7 @@ void game::use_computer(int x, int y)
     }
 
     if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-        && !u.is_wearing("glasses_bifocal") && !u.has_disease("contacts")) {
+        && !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts")) {
         add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
         return;
     }
@@ -8955,7 +8955,7 @@ void game::zones_manager()
                                          u.posx + u.view_offset_x,
                                          u.posy + u.view_offset_y);
                             } else {
-                                if (u.has_disease("boomered")) {
+                                if (u.has_effect("boomered")) {
                                     mvwputch(w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#');
 
                                 } else {
@@ -9096,7 +9096,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                                              lx,
                                              ly);
                                 } else {
-                                    if (u.has_disease("boomered")) {
+                                    if (u.has_effect("boomered")) {
                                         mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_magenta, '#');
 
                                     } else {
@@ -9126,7 +9126,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                        m.light_at(lx, ly) == LL_BRIGHT &&
                        rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
                        m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk)) {
-                if (u.has_disease("boomered")) {
+                if (u.has_effect("boomered")) {
                     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
 
                 } else if (u.has_disease("darkness")) {

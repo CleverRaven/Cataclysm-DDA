@@ -28,8 +28,7 @@ enum dis_type_enum {
 // Fields - onfire moved to effects
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
- DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_DEAF,
+ DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -41,11 +40,10 @@ enum dis_type_enum {
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Traps
  DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
-// Martial Arts
- DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
-  DI_SPEED_BOOST, DI_VIPER_COMBO,
 // Other
- DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
+ DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
+// Bite wound infected (dependent on bodypart.h)
+ DI_INFECTED,
 // Inflicted by an NPC
  DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
  DI_ASKED_TO_TRAIN, DI_ASKED_PERSONAL_INFO,
@@ -53,8 +51,6 @@ enum dis_type_enum {
  DI_MA_BUFF,
 // NPC-only
  DI_CATCH_UP,
- // Contact lenses
- DI_CONTACTS,
  // Lack/sleep
  DI_LACKSLEEP,
  // Grabbed (from MA or monster)
@@ -98,12 +94,10 @@ void game::init_diseases() {
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
-    disease_type_lookup["boomered"] = DI_BOOMERED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
-    disease_type_lookup["deaf"] = DI_DEAF;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
@@ -142,12 +136,6 @@ void game::init_diseases() {
     disease_type_lookup["in_pit"] = DI_IN_PIT;
     disease_type_lookup["stunned"] = DI_STUNNED;
     disease_type_lookup["downed"] = DI_DOWNED;
-    disease_type_lookup["attack_boost"] = DI_ATTACK_BOOST;
-    disease_type_lookup["damage_boost"] = DI_DAMAGE_BOOST;
-    disease_type_lookup["dodge_boost"] = DI_DODGE_BOOST;
-    disease_type_lookup["armor_boost"] = DI_ARMOR_BOOST;
-    disease_type_lookup["speed_boost"] = DI_SPEED_BOOST;
-    disease_type_lookup["viper_combo"] = DI_VIPER_COMBO;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
@@ -162,7 +150,6 @@ void game::init_diseases() {
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
-    disease_type_lookup["contacts"] = DI_CONTACTS;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
     disease_type_lookup["grabbed"] = DI_GRABBED;
 }
@@ -185,9 +172,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_BOULDERING:
         add_msg(m_warning, _("You are slowed by the rubble."));
-        break;
-    case DI_BOOMERED:
-        add_msg(m_bad, _("You're covered in bile!"));
         break;
     case DI_SAP:
         add_msg(m_bad, _("You're coated in sap!"));
@@ -217,9 +201,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_ASTHMA:
         add_msg(m_bad, _("You can't breathe... asthma attack!"));
-        break;
-    case DI_DEAF:
-        add_msg(m_bad, _("You're deafened!"));
         break;
     case DI_STUNNED:
         add_msg(m_bad, _("You're stunned!"));
@@ -251,9 +232,6 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_HEAVYSNARE:
         add_msg(m_bad, _("You are snared."));
-        break;
-    case DI_CONTACTS:
-        add_msg(m_good, _("You can see more clearly."));
         break;
     case DI_LACKSLEEP:
         add_msg(m_warning, _("You are too tired to function well."));
@@ -395,9 +373,6 @@ void dis_end_msg(player &p, disease &dis)
     switch (disease_type_lookup[dis.type]) {
     case DI_SLEEP:
         p.add_msg_if_player(_("You wake up."));
-        break;
-    case DI_CONTACTS:
-        p.add_msg_if_player(m_bad, _("Your vision starts to blur."));
         break;
     default:
         break;
@@ -847,15 +822,6 @@ void dis_effect(player &p, disease &dis)
             if (p.get_dex() < 1) {
                 // Add to dexterity current + 1 so it's at least 1
                 p.mod_dex_bonus(abs(p.get_dex())+1);
-            }
-            break;
-
-        case DI_BOOMERED:
-            p.mod_per_bonus(-5);
-            if (will_vomit(p)) {
-                p.vomit();
-            } else if (one_in(3600)) {
-                p.add_msg_if_player(m_bad, _("You gag and retch."));
             }
             break;
 
@@ -1340,16 +1306,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_ATTACK_BOOST:
-        case DI_DAMAGE_BOOST:
-        case DI_DODGE_BOOST:
-        case DI_ARMOR_BOOST:
-        case DI_SPEED_BOOST:
-            if (dis.intensity > 1) {
-                dis.intensity--;
-            }
-            break;
-
         case DI_TELEGLOW:
             // Default we get around 300 duration points per teleport (possibly more
             // depending on the source).
@@ -1766,7 +1722,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
     case DI_SPORES:
@@ -1805,7 +1760,6 @@ std::string dis_name(disease& dis)
     }
 
     case DI_SLIMED: return _("Slimed");
-    case DI_DEAF: return _("Deaf");
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
     case DI_BLEED:
@@ -1926,16 +1880,6 @@ std::string dis_name(disease& dis)
     case DI_BOULDERING: return _("Clambering Over Rubble");
 
     case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
-    case DI_ATTACK_BOOST: return _("Hit Bonus");
-    case DI_DAMAGE_BOOST: return _("Damage Bonus");
-    case DI_DODGE_BOOST: return _("Dodge Bonus");
-    case DI_ARMOR_BOOST: return _("Armor Bonus");
-    case DI_SPEED_BOOST: return _("Attack Speed Bonus");
-    case DI_VIPER_COMBO:
-        switch (dis.intensity) {
-        case 1: return _("Snakebite Unlocked!");
-        case 2: return _("Viper Strike Unlocked!");
-        default: return "Viper combo bug. (in disease.cpp:dis_name)";}
     case DI_BITE:
     {
         std::string status = "";
@@ -2005,8 +1949,6 @@ std::string dis_name(disease& dis)
         return status;
     }
     case DI_RECOVER: return _("Recovering From Infection");
-
-    case DI_CONTACTS: return _("Contact lenses");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
@@ -2310,11 +2252,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
-    case DI_BOOMERED:
-        return _(
-        "Perception - 5\n"
-        "Range of Sight: 1;   All sight is tinted magenta.");
-
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");
 
@@ -2327,8 +2264,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_SLIMED:
         return _("Speed -25%;   Dexterity - 2");
-
-    case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
 
     case DI_STUNNED: return _("Your movement is randomized.");
 
@@ -2481,36 +2416,9 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_IN_PIT: return _("You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
-    case DI_ATTACK_BOOST:
-        return string_format(_("To-hit bonus + %d"), dis.intensity);
-
-    case DI_DAMAGE_BOOST:
-        return string_format(_("Damage bonus + %d"), dis.intensity);
-
-    case DI_DODGE_BOOST:
-        return string_format(_("Dodge bonus + %d"), dis.intensity);
-
-    case DI_ARMOR_BOOST:
-        return string_format(_("Armor bonus + %d"), dis.intensity);
-
-    case DI_SPEED_BOOST:
-        return string_format(_("Attack speed + %d"), dis.intensity);
-
-    case DI_VIPER_COMBO:
-        switch (dis.intensity) {
-        case 1: return _("\
-Your next strike will be a Snakebite, using your hand in a cone shape.  This\n\
-will deal piercing damage.");
-        case 2: return _("\
-Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
-condition, and deals massive damage.");
-        }
-
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
-
-    case DI_CONTACTS: return _("You are wearing contact lenses.");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
