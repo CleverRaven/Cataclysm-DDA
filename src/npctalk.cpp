@@ -3003,7 +3003,7 @@ void talk_function::give_equipment(npc *p)
  }
  if (chosen == -1)
   chosen = 0;
- item it = p->i_remn(giving[chosen]->invlet);
+ item it = p->i_rem(giving[chosen]);
  popup(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str());
 
  g->u.i_add( it );
@@ -3617,12 +3617,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
  if (ch == '\n' || ch == 'T') {
   inventory newinv;
   int practice = 0;
-  std::vector<char> removing;
+  std::vector<item*> removing;
   for (size_t i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
     newinv.push_back(*yours[i]);
     practice++;
-    removing.push_back(yours[i]->invlet);
+    removing.push_back(yours[i]);
    }
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
@@ -3633,15 +3633,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    item tmp = *theirs[i];
    if (getting_theirs[i]) {
     practice += 2;
-    tmp.invlet = 'a';
-    while (g->u.has_item(tmp.invlet)) {
-     if (tmp.invlet == 'z')
-      tmp.invlet = 'A';
-     else if (tmp.invlet == 'Z')
-      return false; // TODO: Do something else with these.
-     else
-      tmp.invlet++;
-    }
     g->u.inv.push_back(tmp);
    } else
     newinv.push_back(tmp);

@@ -394,7 +394,6 @@ class map_item_stack
 // The item's position is optional, if not passed in we expect the item to fail position match.
 bool item_matches_locator(const item& it, const itype_id& id, int item_pos = INT_MIN);
 bool item_matches_locator(const item& it, int locator_pos, int item_pos = INT_MIN);
-bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);

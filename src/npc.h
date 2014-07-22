@@ -577,7 +577,7 @@ public:
  bool has_painkiller();
  bool took_painkiller();
  void use_painkiller();
- void activate_item(char invlet);
+ void activate_item(int position);
 
 // Interaction and assessment of the world around us
  int  danger_assessment();
@@ -612,8 +612,8 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
- int  confident_range(char invlet = 0); // >= 50% chance to hit
- bool wont_hit_friend(int tarx, int tary, char invlet = 0);
+ int  confident_range(int position = -1); // >= 50% chance to hit
+ bool wont_hit_friend(int tarx, int tary, int position = -1);
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(int target, item &gun);

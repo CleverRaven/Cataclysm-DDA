@@ -10568,18 +10568,10 @@ void game::drop(int pos)
     if (pos == INT_MIN) {
         dropped = multidrop(dropped_worn, freed_volume_capacity);
     } else if (pos <= -2) {
-        // Item is worn, must be taken off before dropping it.
-        char invl = u.position_to_invlet(pos);
-        if (!u.takeoff(pos)) {
+        if (!u.takeoff(pos, false, &dropped_worn)) {
             return;
         }
         u.moves -= 250; // same as game::takeoff
-        dropped_worn.push_back(u.i_rem(invl));
-        if (dropped_worn.back().is_null()) {
-            // item is not in the inventory because it has been dropped
-            // while taking it off
-            return;
-        }
     } else if (pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot drop your %s."), u.weapon.tname().c_str());
         return;
@@ -10754,8 +10746,9 @@ void game::reassign_item( int pos )
         add_msg( m_info, _( "%c is not a valid inventory letter." ), newch );
         return;
     }
-    if( newch != 0 && u.has_item( newch ) ) {
-        item &change_to = u.i_at( newch );
+    const int oldpos = newch == 0 ? INT_MIN : u.invlet_to_position( newch );
+    if( oldpos != INT_MIN ) {
+        item &change_to = u.i_at( oldpos );
         change_to.invlet = change_from.invlet;
         add_msg( m_info, "%c - %s", change_to.invlet == 0 ? ' ' : change_to.invlet,
                  change_to.tname().c_str() );
@@ -11863,9 +11856,6 @@ void game::unload(item &it)
         std::vector<item> new_contents; // In case we put stuff back
         while (!it.contents.empty()) {
             item content = it.contents[0];
-            if (content.invlet == 0 || u.has_item(content.invlet)) {
-                u.inv.assign_empty_invlet(content);
-            }
             if (content.is_gunmod() && content.mode == "MODE_AUX") {
                 it.next_mode();
             }
