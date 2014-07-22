@@ -6587,20 +6587,20 @@ void player::process_active_items()
         }
     }
 
-  // Drain UPS if using optical cloak.
-  // TODO: Move somewhere else.
-  long ch_UPS = charges_of("UPS_on");
-  if (ch_UPS > 0 && is_wearing("optical_cloak")) {
-    // Drain UPS.
-    if ( ch_UPS >= 40 ) {
-      use_charges("UPS_on", 40);
-      if (ch_UPS < 200 && one_in(3))
-        add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
-    } else {
-        // Drain last power.
-        use_charges("UPS_on", ch_UPS);
+    // Drain UPS if using optical cloak.
+    // TODO: Move somewhere else.
+    long ch_UPS = charges_of("UPS_on");
+    if (ch_UPS > 0 && is_wearing("optical_cloak")) {
+        // Drain UPS.
+        if ( ch_UPS >= 40 ) {
+            use_charges("UPS_on", 40);
+            if (ch_UPS < 200 && one_in(3))
+                add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
+        } else {
+            // Drain last power.
+            use_charges("UPS_on", ch_UPS);
+        }
     }
-  }
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     ch_UPS = charges_of( "UPS_on" ); // might have been changed by cloak
@@ -6613,6 +6613,20 @@ void player::process_active_items()
         if( it.charges < it.type->charges_to_use() ) {
             ch_UPS_used++;
             it.charges++;
+        }
+    }
+    if( weapon.has_flag( "USE_UPS" ) &&  ch_UPS_used < ch_UPS &&
+        weapon.charges < weapon.type->charges_to_use() ) {
+        ch_UPS_used++;
+        weapon.charges++;
+    }
+    for( auto worn_item : worn ) {
+        if( !worn_item.has_flag( "USE_UPS" ) ) {
+            continue;
+        }
+        if( worn_item.charges < worn_item.type->charges_to_use() ) {
+            ch_UPS_used++;
+            worn_item.charges++;
         }
     }
     if( ch_UPS_used > 0 ) {
