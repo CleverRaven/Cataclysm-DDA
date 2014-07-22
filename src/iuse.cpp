@@ -31,7 +31,7 @@
 
 void remove_double_ammo_mod( item &it, player &p )
 {
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) > 0 ) {
+    if( !it.item_tags.count( "DOUBLE_AMMO" ) ) {
         return;
     }
     p.add_msg_if_player( _( "You remove the double battery capacity mod of your %s!" ),
@@ -50,7 +50,7 @@ void remove_double_ammo_mod( item &it, player &p )
 
 void remove_recharge_mod( item &it, player &p )
 {
-    if( !it.item_tags.count( "RECHARGE" ) > 0 ) {
+    if( !it.item_tags.count( "RECHARGE" ) ) {
         return;
     }
     p.add_msg_if_player( _( "You remove the rechargeable powerpack in your %s!" ),
@@ -65,7 +65,7 @@ void remove_recharge_mod( item &it, player &p )
 
 void remove_atomic_mod( item &it, player &p )
 {
-    if( !it.item_tags.count( "ATOMIC_AMMO" ) > 0 ) {
+    if( !it.item_tags.count( "ATOMIC_AMMO" ) ) {
         return;
     }
     p.add_msg_if_player( _( "You remove the plutonium cells of your %s!" ), it.tname().c_str() );
