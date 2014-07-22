@@ -1068,7 +1068,45 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( charges != -1 )     json.member( "charges", long(charges) );
     if ( damage != 0 )       json.member( "damage", int(damage) );
     if ( burnt != 0 )        json.member( "burnt", burnt );
-    if ( covers != 0 )       json.member( "covers", covers );
+    if ( covers != 0 ) {
+        json.member( "covers", covers );
+    } else if (is_armor()) {
+        it_armor *legacy_armor = dynamic_cast<it_armor *>(type);
+        long unsigned int tmp_covers = legacy_armor->covers;
+        if (legacy_armor->sided != 0) {
+            bool side = rng(0,1);
+            if (legacy_armor->sided & mfb(bp_arm_l)) {
+                if (side == 0) {
+                    tmp_covers |= mfb(bp_arm_l);
+                } else {
+                    tmp_covers |= mfb(bp_arm_r);
+                }
+            }
+            if (legacy_armor->sided & mfb(bp_hand_l)) {
+                if (side == 0) {
+                    tmp_covers |= mfb(bp_hand_l);
+                } else {
+                    tmp_covers |= mfb(bp_hand_r);
+                }
+            }
+            if (legacy_armor->sided & mfb(bp_leg_l)) {
+                if (side == 0) {
+                    tmp_covers |= mfb(bp_leg_l);
+                } else {
+                    tmp_covers |= mfb(bp_leg_r);
+                }
+            }
+            if (legacy_armor->sided & mfb(bp_foot_l)) {
+                if (side == 0) {
+                    tmp_covers |= mfb(bp_foot_l);
+                } else {
+                    tmp_covers |= mfb(bp_foot_r);
+                }
+            }
+        }
+        json.member( "covers", tmp_covers);
+    }
+    
     if ( poison != 0 )       json.member( "poison", poison );
     if ( ammotmp != "null" ) json.member( "curammo", ammotmp );
     if ( mode != "NULL" )    json.member( "mode", mode );
