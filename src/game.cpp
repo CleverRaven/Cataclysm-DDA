@@ -8695,7 +8695,8 @@ bool zlave_menu(monster *z)
     if (rope == choice) {
         if (z->has_effect("tied")) {
             z->remove_effect("tied");
-            g->u.inv.add_item_by_type("rope_6");
+            item rope_6("rope_6", 0);
+            g->u.i_add(rope_6);
         } else {
             z->add_effect("tied", 1, 1, true);
             g->u.inv.remove_item("rope_6");
