@@ -1500,7 +1500,7 @@ int player::run_cost(int base_cost, bool diag)
     if (is_wearing("swim_fins")) {
         movecost *= 1.5f;
     }
-    if (is_wearing("roller_blades")) {
+    if ( (is_wearing("roller_blades")) && !(is_on_ground())) {
         if (offroading) {
             movecost *= 1.5f;
         } else if (flatground) {
