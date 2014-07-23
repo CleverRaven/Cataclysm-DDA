@@ -1942,8 +1942,8 @@ void mattack::brandish(monster *z)
         return; // Only brandish if we can see you!
     }
     z->sp_timeout = 10000; // Reset timer
-    add_msg(m_warning, "He's brandishing a knife!");
-    add_msg("Quiet, quiet");
+    add_msg(m_warning, _("He's brandishing a knife!"));
+    add_msg(_("Quiet, quiet"));
 }
 
 void mattack::flesh_golem(monster *z)
