@@ -1500,7 +1500,7 @@ int player::run_cost(int base_cost, bool diag)
     if (is_wearing("swim_fins")) {
         movecost *= 1.5f;
     }
-    if (is_wearing("roller_blades")) {
+    if ( (is_wearing("roller_blades")) && !(is_on_ground())) {
         if (offroading) {
             movecost *= 1.5f;
         } else if (flatground) {
@@ -4621,6 +4621,15 @@ void player::mod_pain(int npain) {
     // Dwarves get better pain-resist, what with mining and all
     if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
         npain = npain * 4 / rng(6,9);
+    }
+    if (!is_npc() && ((npain >= 1) && (rng(0, pain) >= 10))) {
+        g->cancel_activity_query(_("Ouch, you were hurt!"));
+        if (has_disease("sleep")) {
+        wake_up(_("You wake up!"));
+        }
+        else if (has_disease("lying_down")) {
+        rem_disease("lying_down");
+        }
     }
     Creature::mod_pain(npain);
 }
