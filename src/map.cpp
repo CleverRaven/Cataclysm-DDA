@@ -1486,19 +1486,25 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
         remove_field(x, y, fd_web);
     }
 
-    for (int i = 0; i < i_at(x, y).size(); i++) { // Destroy glass items (maybe)
+    // Destroy glass items, spilling their contents.
+    std::vector<item> smashed_contents;
+    std::vector<item> &bashed_items = i_at(x, y);
+    for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active supresses molotovs smashing themselves with their own explosion
-        if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
+        if (bashed_item->made_of("glass") && !bashed_item->active && one_in(2)) {
             sound = _("glass shattering");
             sound_volume = 12;
             smashed_something = true;
-            for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
-                i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            for( auto bashed_content : bashed_item->contents ) {
+                smashed_contents.push_back( bashed_content );
             }
-            i_rem(x, y, i);
-            i--;
+            bashed_item = bashed_items.erase( bashed_item );
+        } else {
+            ++bashed_item;
         }
     }
+    // Now plunk in the contents of the smashed items.
+    bashed_items.insert( bashed_items.end(), smashed_contents.begin(), smashed_contents.end() );
 
     // Smash vehicle if present
     int result = -1;
