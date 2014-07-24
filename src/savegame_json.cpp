@@ -1344,6 +1344,12 @@ void faction::deserialize(JsonIn &jsin)
 
     jo.read("id", id);
     jo.read("name", name);
+    if ( !jo.read( "desc", desc )){
+        debugmsg( "No existing faction description!");
+        desc = "";
+    } else {
+        jo.read("desc", desc);
+    }
     goal = faction_goal(jo.get_int("goal", goal));
     values = jo.get_int("values", values);
     job1 = faction_job(jo.get_int("job1", job1));
@@ -1373,6 +1379,7 @@ void faction::serialize(JsonOut &json) const
 
     json.member("id", id);
     json.member("name", name);
+    json.member("desc", desc);
     json.member("values", values);
     json.member("goal", goal);
     json.member("job1", job1);
