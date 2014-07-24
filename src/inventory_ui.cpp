@@ -866,6 +866,9 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title)
         if (item_pos != INT_MIN) {
             inv_s.set_to_drop(item_pos, 0);
             return inv_s.first_item;
+        } else if (ch >= '0' && ch <= '9' && (size_t)(ch - '0') < grounditems_slice.size()) {
+            const int ip = ch - '0';
+            return ground_containers[ip];
         } else if (inv_s.handle_movement(action)) {
             // continue with comparison below
         } else if (action == "QUIT") {
@@ -881,10 +884,6 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string title)
             }
 
             return inv_s.first_item;
-
-        } else if (ch >= '0' && ch <= '9' && (size_t)(ch - '0') < grounditems_slice.size()) {
-            const int ip = ch - '0';
-            return ground_containers[ip];
         }
     }
 }
@@ -1032,15 +1031,15 @@ void game::compare(int iCompareX, int iCompareY)
         const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
         if (item_pos != INT_MIN) {
             inv_s.set_to_drop(item_pos, 0);
+        } else if (ch >= '0' && ch <= '9' && (size_t) (ch - '0') < grounditems_slice.size()) {
+            const int ip = ch - '0';
+            inv_s.set_drop_count(INT_MIN + 1 + ip, 0, grounditems_slice[ip].first->front());
         } else if (inv_s.handle_movement(action)) {
             // continue with comparison below
         } else if (action == "QUIT") {
             break;
         } else if (action == "RIGHT") {
             inv_s.set_selected_to_drop(0);
-        } else if (ch >= '0' && ch <= '9' && (size_t) (ch - '0') < grounditems_slice.size()) {
-            const int ip = ch - '0';
-            inv_s.set_drop_count(INT_MIN + 1 + ip, 0, grounditems_slice[ip].first->front());
         }
         if (inv_s.second_item != NULL) {
             std::vector<iteminfo> vItemLastCh, vItemCh;

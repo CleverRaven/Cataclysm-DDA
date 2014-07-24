@@ -9241,7 +9241,9 @@ bool game::list_items_match(item &item, std::string sPattern)
             hasExclude = false; //If there are non exclusive items to filter, we flip this back to false.
         }
 
-        if (item.tname().find(pat) != std::string::npos) {
+        std::string namepat = pat;
+        std::transform( namepat.begin(), namepat.end(), namepat.begin(), tolower );
+        if( lcmatch( item.tname(), namepat ) ) {
             return !exclude;
         }
 
