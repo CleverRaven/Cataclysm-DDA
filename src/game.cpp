@@ -657,43 +657,12 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
-    int num = 5;
     faction tmp(0);
-    tmp.make_army();
-    factions.push_back(tmp);
-    for (int i = 0; i < num; i++) {
+    std::vector<std::string> faction_vector = tmp.all_json_factions();
+    for(std::vector<std::string>::reverse_iterator it = faction_vector.rbegin(); it != faction_vector.rend(); ++it) {
         tmp = faction(assign_faction_id());
         tmp.randomize();
-        tmp.likes_u = 100;
-        tmp.respects_u = 100;
-        tmp.known_by_u = true;
-        //Test faction
-        if (i == 0){
-            tmp.name = "Your Followers";
-            tmp.likes_u = 80;
-            tmp.respects_u = 80;
-            tmp.known_by_u = false;
-        }
-        if (i == 1){
-            tmp.name = "The Old Guard";
-            tmp.likes_u = 15;
-            tmp.respects_u = 15;
-        }
-        if (i == 2){
-            tmp.name = "The Free Merchants";
-            tmp.likes_u = 30;
-            tmp.respects_u = 30;
-        }
-        if (i == 3){
-            tmp.name = "The Wasteland Scavengers";
-            tmp.likes_u = 0;
-            tmp.respects_u = 0;
-        }
-        if (i == 4){
-            tmp.name = "Hell's Raiders";
-            tmp.likes_u = -25;
-            tmp.respects_u = -25;
-        }
+        tmp.load_faction_template(it[0].c_str());
         factions.push_back(tmp);
     }
 }
