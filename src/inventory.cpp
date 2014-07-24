@@ -690,7 +690,7 @@ std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
     return reduce_stack_internal(type, quantity);
 }
 
-item inventory::remove_item(item *it)
+item inventory::remove_item(const item *it)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::iterator stack_iter = iter->begin(); stack_iter != iter->end();

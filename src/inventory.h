@@ -66,7 +66,7 @@ class inventory
 
   void form_from_map(point origin, int distance, bool assign_invlet = true);
 
-  item remove_item(item *it);
+  item remove_item(const item *it);
   item remove_item(int position);
   item remove_item(const itype_id& type);
   std::list<item> reduce_stack(int position, int quantity);

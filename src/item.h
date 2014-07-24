@@ -142,7 +142,7 @@ public:
     bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
 
  bool invlet_is_okay();
- bool stacks_with(item rhs);
+ bool stacks_with(const item rhs) const;
  void put_in(item payload);
  void add_rain_to_container(bool acid, int charges = 1);
 
@@ -207,7 +207,7 @@ public:
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
- bool goes_bad();
+ bool goes_bad() const;
  bool count_by_charges() const;
  long max_charges() const;
  bool craft_has_charges();

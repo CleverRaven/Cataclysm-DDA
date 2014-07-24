@@ -28,6 +28,9 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, NUM_SORTBY
 };
 
+const point areaIndicatorRoot(5, 2);
+const point linearIndicatorRoot(13, 2);
+
 bool advanced_inventory::isDirectionalDragged(int area1, int area2)
 {
 
@@ -1831,4 +1834,884 @@ void advanced_inventory::display(player *pp)
     delwin(panes[left].window);
     delwin(panes[right].window);
     g->refresh_all();
+}
+
+AdvancedInventory::InventoryPane::InventoryPane(std::string id, player *p) : InventoryPane(id, p->inv, p->volume_capacity(), p->weight_capacity()) { }
+
+bool AdvancedInventory::selectPane(std::string id, SelectedPane area) {
+  if (area == SelectedPane::None)
+    area = _selectedPane;
+
+  Pane *candidate = _panes[id];
+
+  if (candidate == nullptr) {
+    return false;
+  } else if (_selections[SelectedPane::Left] == candidate || _selections[SelectedPane::Right] == candidate) {
+    std::swap(_selections[SelectedPane::Left], _selections[SelectedPane::Right]);
+    return true;
+  } else {
+    _selections[area] = candidate;
+
+    if (unselectedPane())
+      unselectedPane()->ignorePane(selectedPane());
+
+    if (selectedPane())
+      selectedPane()->ignorePane(unselectedPane());
+
+    return true;
+  }
+}
+
+AdvancedInventory::AdvancedInventory(player *p, player *o) {
+  if (o == nullptr) {
+    _mode = Mode::Area;
+  } else {
+    _mode = Mode::Linear;
+  }
+
+  if (_mode == Mode::Area) {
+    // set up the local area
+
+    for (auto dir : helper::planarDirections) {
+      std::string id(1, helper::directionToNumpad(dir));
+      point mapTile(helper::directionToPoint(dir) + p->pos());
+
+      int part_num;
+      vehicle *veh(g->m.veh_at(mapTile, part_num));
+
+      if (veh != nullptr) {
+        part_num = veh->part_with_feature(part_num, "CARGO");
+
+        if (part_num != -1) {
+          _panes[id] = new ItemVectorPane(id, veh->parts[part_num].items, veh->max_volume(part_num), -1);
+          _panes[id]->chevrons("< >");
+          continue;
+        }
+      }
+      if (g->m.can_put_items(mapTile))
+        _panes[id] = new ItemVectorPane(id, g->m.i_at(mapTile), g->m.max_volume(mapTile), -1);
+      else
+        _panes[id] = nullptr;
+    }
+
+    // set up the ALL tab
+    _panes["A"] = new AggregatePane("A", _panes);
+
+    // Set up the inventory
+    _panes["I"] = new InventoryPane("I", p);
+
+    // set up the dragged inventory
+    _panes["D"] = nullptr;
+
+    helper::Direction gDir(helper::pointToDirection(p->grab_point));
+
+    if (gDir != helper::Direction::Center) {
+      _panes["D"] = _panes[std::string(1, directionToNumpad(gDir))];
+    }
+
+    // Set initial panes; for now they are as default
+    selectPane("A", SelectedPane::Left);
+    selectPane("I", SelectedPane::Right);
+  }
+}
+
+void AdvancedInventory::Pane::restack() {
+  _dirtyStack = false;
+
+  if (_filter.size())
+    _stackedItems.erase(std::remove_if(_stackedItems.begin(), _stackedItems.end(), [this](const std::list<const item *> &l) { return _filter.compare(0, _filter.size(), l.front()->tname(), 0, _filter.size()); }), _stackedItems.end());
+
+  if (_sortRule > SortRule::Unsorted) {
+    ItemCompare cmp(_sortRule, _sortAscending);
+
+    std::sort(_stackedItems.begin(), _stackedItems.end(), cmp);
+  } else if (!_sortAscending) {
+    std::reverse(_stackedItems.begin(), _stackedItems.end());
+  }
+
+  if (_cursor >= _stackedItems.size())
+    _cursor = _stackedItems.size() - 1;
+
+  clampCursor();
+}
+
+void AdvancedInventory::InventoryPane::restack () {
+  _stackedItems.clear();
+
+  invslice slice = _inv.slice();
+
+  for (auto &iList : slice) {
+    _stackedItems.push_back(std::list<const item *>());
+
+    for (auto &item : *iList) {
+      _stackedItems.back().push_back(&item);
+    }
+  }
+
+  Pane::restack();
+}
+
+void AdvancedInventory::ItemVectorPane::restack () {
+  _stackedItems.clear();
+
+  for (auto &item : _inv) {
+    bool stacked = false;
+
+    for (auto &stack : _stackedItems) {
+      if (item.stacks_with(*(stack.front()))) {
+        stack.push_back(&item);
+
+        stacked = true;
+        break;
+      }
+    }
+
+    if (!stacked)
+      _stackedItems.push_back({&item});
+  }
+
+  Pane::restack();
+}
+
+void AdvancedInventory::AggregatePane::restack () {
+  _dirtyStack = false;
+
+  std::vector<std::pair<std::list<const item *>, Pane *>> keyedStacks;
+
+  for (auto paneP : _panes) {
+    Pane *pane(paneP.second);
+
+    if (ignoring(pane))
+      continue;
+
+    for (auto &iList : pane->stackedItems()) {
+      std::pair<std::list<const item *>, Pane *> iPair(iList, pane);
+
+      keyedStacks.push_back(iPair);
+    }
+  }
+
+  if (_sortRule > SortRule::Unsorted) {
+    ItemCompare cmp(_sortRule, _sortAscending);
+
+    std::sort(keyedStacks.begin(), keyedStacks.end(), cmp);
+  } else if (!_sortAscending) {
+    std::reverse(keyedStacks.begin(), keyedStacks.end());
+  }
+
+  _stackedItems.clear();
+  _stackedItemsPane.clear();
+
+  for (auto &pair : keyedStacks) {
+    _stackedItems.push_back(pair.first);
+    _stackedItemsPane.push_back(pair.second);
+  }
+
+  if (_cursor >= _stackedItems.size())
+    _cursor = _stackedItems.size() - 1;
+
+  clampCursor();
+}
+
+int AdvancedInventory::AggregatePane::maxVolume () {
+  if (_maxVolume == -1)
+    _maxVolume = const_cast<const AggregatePane *>(this)->maxVolume();
+
+  return _maxVolume;
+}
+
+int AdvancedInventory::AggregatePane::maxVolume () const {
+  if (_maxVolume == -1) {
+    int mV = 0;
+
+    for (auto &pair : _panes) {
+      if (ignoring(pair.second))
+        continue;
+
+      mV += pair.second->maxVolume();
+    }
+
+    return mV;
+  } else {
+    return _maxVolume;
+  }
+}
+
+int AdvancedInventory::AggregatePane::maxWeight () {
+  if (_maxWeight == -1)
+    _maxWeight = const_cast<const AggregatePane *>(this)->maxWeight();
+
+  return _maxWeight;
+}
+
+int AdvancedInventory::AggregatePane::maxWeight () const {
+  if (_maxWeight == -1) {
+    int mW = 0;
+
+    for (auto &pair : _panes) {
+      if (ignoring(pair.second))
+        continue;
+
+      mW += pair.second->maxWeight();
+    }
+
+    return mW;
+  } else {
+    return _maxWeight;
+  }
+}
+
+int AdvancedInventory::AggregatePane::volume () const {
+  int volume = 0;
+
+  for (auto &pair : _panes) {
+    if (ignoring(pair.second))
+      continue;
+
+    volume += pair.second->volume();
+  }
+
+  return volume;
+}
+
+int AdvancedInventory::AggregatePane::weight () const {
+  int weight = 0;
+
+  for (auto &pair : _panes) {
+    if (ignoring(pair.second))
+      continue;
+
+    weight += pair.second->weight();
+  }
+
+  return weight;
+}
+
+int AdvancedInventory::InventoryPane::volume () const {
+  return _inv.volume();
+}
+
+int AdvancedInventory::InventoryPane::weight () const {
+  return _inv.weight();
+}
+
+int AdvancedInventory::ItemVectorPane::volume () const {
+  int volume = 0;
+
+  for (auto &item : _inv) {
+    volume += item.volume();
+  }
+
+  return volume;
+}
+
+int AdvancedInventory::ItemVectorPane::weight () const {
+  int weight = 0;
+
+  for (auto &item : _inv) {
+    weight += item.weight();
+  }
+
+  return weight;
+}
+
+void AdvancedInventory::display (player *p, player *o) {
+  AdvancedInventory advInv(p, o);
+
+  int head_height(5);
+  int min_w_height(10);
+  int min_w_width(FULL_SCREEN_WIDTH);
+  int max_w_width(120);
+
+  int w_height((TERMY < min_w_height + head_height) ? min_w_height : TERMY - head_height);
+  int w_width((TERMX < min_w_width) ? min_w_width : (TERMX > max_w_width) ? max_w_width : (int)TERMX);
+
+  advInv.w_height = w_height;
+  advInv.w_width = w_width;
+
+  int headstart(0);
+  int colstart((TERMX > w_width) ? (TERMX - w_width) / 2 : 0);
+
+  WINDOW *head = newwin(head_height, w_width, headstart, colstart);
+  WINDOW *left_window = newwin(w_height, w_width / 2, headstart + head_height, colstart);
+  WINDOW *right_window = newwin(w_height, w_width / 2, headstart + head_height, colstart + w_width / 2);
+
+  size_t itemsPerPage(w_height - ADVINVOFS);
+
+  while (1) { // input loop
+    advInv.displayHead(head);
+    advInv.displayPanes(left_window, right_window);
+
+    int input(getch());
+    helper::Direction inputDir(helper::movementKeyToDirection(input));
+
+    switch (inputDir) {
+    case helper::Direction::None: // further processing is needed
+      break;
+    case helper::Direction::Up:
+      advInv.selectedPane()->pageUp(itemsPerPage);
+      continue;
+    case helper::Direction::Down:
+      advInv.selectedPane()->pageDown(itemsPerPage);
+      continue;
+
+    default: // Received a viable direction; switch focus
+      advInv.selectPane(std::string(1, directionToNumpad(inputDir)));
+    }
+
+    switch (input) {
+    case KEY_PPAGE:
+      advInv.selectedPane()->pageUp(itemsPerPage);
+      break;
+    case KEY_NPAGE:
+      advInv.selectedPane()->pageDown(itemsPerPage);
+      break;
+    case KEY_DOWN:
+      advInv.selectedPane()->down();
+      break;
+    case KEY_UP:
+      advInv.selectedPane()->up();
+      break;
+    case KEY_LEFT:
+      advInv.left();
+      break;
+    case KEY_RIGHT:
+      advInv.right();
+      break;
+    case '\t':
+      advInv.swapFocus();
+      break;
+    case 'f':
+    case 'F':
+    case '.':
+    case '/':
+      advInv.setFilter();
+      break;
+    case 'r':
+    case 'R':
+      advInv.resetFilter();
+      break;
+    case 'm':
+      advInv.moveItem();
+      break;
+    case 'M':
+    case KEY_ENTER:
+    case '\n':
+    case '\r':
+      advInv.moveAll();
+      break;
+    case ',':
+      advInv.moveALL();
+      break;
+    case 's':
+      advInv.sort();
+      break;
+    case 'n':
+      advInv.sort(SortRule::Name);
+      break;
+    case 'x':
+      advInv.sort(SortRule::Charges);
+      break;
+    case 'v':
+      advInv.sort(SortRule::Volume);
+      break;
+    case 'w':
+      advInv.sort(SortRule::Weight);
+      break;
+    case 'u':
+      advInv.sort(SortRule::Unsorted);
+      break;
+    case 'd':
+    case 'D':
+      advInv.selectPane("D");
+      break;
+    case 'a':
+    case 'A':
+      advInv.selectPane("A");
+      break;
+    case '0':
+    case 'i':
+    case 'I':
+      advInv.selectPane("I");
+      break;
+    }
+
+    if (input == KEY_ESCAPE)
+      return;
+  }
+
+  delwin(head), delwin(left_window), delwin(right_window);
+}
+
+void AdvancedInventory::left () {
+  if (_selectedPane != SelectedPane::Left)
+    swapFocus();
+}
+
+void AdvancedInventory::right () {
+  if (_selectedPane != SelectedPane::Right)
+    swapFocus();
+}
+
+void AdvancedInventory::displayHead (WINDOW *head) {
+  werase(head);
+  draw_border(head);
+
+  mvwprintz(head, 0, w_width - utf8_width(_("< [?] show log >")) - 2, c_white, _("< [?] show log >"));
+  mvwprintz(head, 1, 2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes ([M]: all)"));
+  mvwprintz(head, 2, 2, c_white, _("1-9 to select square for active tab, 0 for inventory, D for dragged item,"));
+  mvwprintz(head, 3, 2, c_white, _("[e]xamine, [s]ort, toggle auto[p]ickup, [,] to move all items, [q]uit."));
+
+  wrefresh(head);
+}
+
+void AdvancedInventory::displayPanes (WINDOW *lWin, WINDOW *rWin) {
+  // TODO: fix this for linear mode
+  Pane *lPane(_selections[SelectedPane::Left]);
+  Pane *rPane(_selections[SelectedPane::Right]);
+
+  lPane->draw(lWin, _selectedPane == SelectedPane::Left);
+  rPane->draw(rWin, _selectedPane == SelectedPane::Right);
+
+  drawAreaIndicator(lWin, _selectedPane == SelectedPane::Left);
+  drawAreaIndicator(rWin, _selectedPane == SelectedPane::Right);
+}
+
+void AdvancedInventory::Pane::draw (WINDOW *window, bool active) {
+  werase(window);
+  draw_border(window);
+
+  size_t columns(getmaxx(window));
+  size_t itemsPerPage(getmaxy(window) - ADVINVOFS);
+
+  std::string spaces(columns - 4, ' ');
+
+  nc_color norm = active ? c_white : c_dkgray;
+
+  if (this == nullptr) { // Why is this valid? C++, you so crazy!
+    mvwprintz(window, itemsPerPage / 2, columns / 2 - 15, norm, "This is not a place for items!");
+    return;
+  }
+
+  int v(volume()), w(weight());
+  int mV = maxVolume(), mW = maxWeight();
+
+  double dWeight(helper::convertWeight(w));
+  double dMaxWeight(helper::convertWeight(mW));
+
+  // filter info
+  mvwprintz(window, getmaxy(window) - 1, 2, norm, _filter.size() ? "< [F]ilter: %s >" : "< [F]ilter >", _filter.c_str());
+
+  if (_filter.size())
+    mvwprintz(window, getmaxy(window) - 1, columns - 13, norm, "< [R]eset >");
+
+  // pagination
+  int page(_cursor / itemsPerPage);
+  int pages(stackedItems().size() / itemsPerPage + 1);
+
+  if (active && pages > 1)
+    mvwprintz(window, 4, 2, c_ltblue, "[<] page %d of %d [>]", page + 1, pages);
+
+  // sorting info
+
+  const char *sortName = _("none");
+
+  switch (_sortRule) {
+  case SortRule::Weight:
+    sortName = _("weight");
+    break;
+  case SortRule::Volume:
+    sortName = _("volume");
+    break;
+  case SortRule::Name:
+    sortName = _("name");
+    break;
+  case SortRule::Charges:
+    sortName = _("charges");
+    break;
+  }
+
+  mvwprintz(window, 0, 4, norm, "< [s]ort: %s (%s)>", sortName, _sortAscending ? "^" : "v" );
+
+  // header
+  nc_color warnColor = norm;
+
+  if (mW >= 0 && dWeight > dMaxWeight)
+    warnColor = c_red;
+
+  mvwprintz(window, 4, columns - 29, warnColor, "W: %4.1f", dWeight);
+
+  if (mW >= 0)
+    wprintz(window, norm, "/%4.1f ", dMaxWeight);
+  else
+    wprintz(window, norm, "/---- ");
+
+  warnColor = norm;
+
+  if (v > mV)
+    warnColor = c_red;
+
+  wprintz(window, warnColor, "V: %5.1d", v);
+  wprintz(window, norm, "/%5.1d", mV);
+
+  //print header row and determine max item name length
+  const int lastcol = columns - 2; // Last printable column
+
+  const int table_hdr_len1 = utf8_width(_("amt weight vol")); // Header length type 1
+
+  mvwprintz( window, 5, 3, c_ltgray, _("Name (charges)") );
+  mvwprintz( window, 5, lastcol - table_hdr_len1 + 1, c_ltgray, _("amt weight vol") );
+
+  size_t x = 0;
+
+  for (auto item = stackedItems().begin() + page * itemsPerPage; item != stackedItems().end() && item != stackedItems().begin() + (page + 1 ) * itemsPerPage; item++, x++) {
+    wmove(window, 6 + x, 1);
+    printItem(window, *item, active, x == _cursor % itemsPerPage);
+  }
+}
+
+void AdvancedInventory::Pane::printItem(WINDOW *window, const std::list<const item *> &iList, bool active, bool highlighted) {
+  const item *item = iList.front();
+
+  size_t columns(getmaxx(window));
+
+  const int lastcol = columns - 2; // Last printable column
+  const size_t name_startpos = 4;
+  const size_t amt_startpos = lastcol - 14;
+  int max_name_length = amt_startpos - name_startpos - 1; // Default name length
+
+  nc_color norm = active ? c_white : c_dkgray;
+
+  nc_color thiscolor = active ? item->color(&g->u) : norm;
+  nc_color thiscolordark = c_dkgray;
+  nc_color errorColor = (active && highlighted) ? hilite(c_red) : c_red;
+  nc_color print_color = thiscolor;
+
+  if (highlighted) {
+    if (active) {
+      thiscolor = hilite(thiscolor);
+      thiscolordark = hilite(thiscolordark);
+    }
+
+    wprintz(window, thiscolor, ">> ");
+  } else {
+    wprintz(window, thiscolor, "   ");
+  }
+
+  //print item name
+  std::string it_name = utf8_truncate(item->display_name(), max_name_length);
+  wprintz(window, thiscolor, "%-*.*s ", max_name_length, max_name_length, it_name.c_str() );
+
+  //print "amount" column
+  int it_amt = iList.size();
+  if( it_amt > 1 ) {
+    print_color = thiscolor;
+
+    if (it_amt > 9999) {
+      it_amt = 9999;
+      print_color = errorColor;
+    }
+
+    wprintz(window, print_color, "%4d ", it_amt);
+  } else {
+    wprintz(window, thiscolor, "     ");
+  }
+
+  //print weight column
+  double it_weight = helper::convertWeight(item->weight()) * it_amt;
+  size_t w_precision;
+  print_color = (it_weight > 0) ? thiscolor : thiscolordark;
+
+  if (it_weight >= 1000.0) {
+    if (it_weight >= 10000.0) {
+      print_color = errorColor;
+      it_weight = 9999.0;
+    }
+    w_precision = 0;
+  } else if (it_weight >= 100.0) {
+    w_precision = 1;
+  } else {
+    w_precision = 2;
+  }
+
+  wprintz(window, print_color, "%5.*f ", w_precision, it_weight);
+
+  //print volume column
+  int it_vol = item->volume() * it_amt;
+  print_color = (it_vol > 0) ? thiscolor : thiscolordark;
+  if (it_vol > 9999) {
+    it_vol = 9999;
+    print_color = errorColor;
+  }
+
+  wprintz(window, print_color, "%4d", it_vol );
+}
+
+void AdvancedInventory::drawIndicatorAtom (WINDOW *window, std::string id, point location, bool active) const {
+  Pane *pane(_panes.at(id));
+
+  if (pane != nullptr) {
+    bool selected(active ? selectedPane() && selectedPane()->covers(pane) : unselectedPane() && unselectedPane()->covers(pane));
+
+    mvwprintz(window, location.y, location.x, selected ? c_cyan : active ? c_white : c_ltgray, pane->chevrons().c_str());
+    mvwprintz(window, location.y, location.x + 1, selected ? c_green : active ? c_white : c_ltgray, id.c_str());
+  } else {
+    mvwprintz(window, location.y, location.x, c_red, "[%1.1s]", id.c_str());
+  }
+}
+
+void AdvancedInventory::drawAreaIndicator (WINDOW *window, bool active) const {
+  for (auto dir : helper::planarDirections) {
+    point loc(helper::directionToPoint(dir));
+    std::string id(1, helper::directionToNumpad(dir));
+
+    drawIndicatorAtom(window, id, {areaIndicatorRoot.x + loc.x * 3, areaIndicatorRoot.y + loc.y}, active);
+  }
+
+  drawIndicatorAtom(window, "D", {linearIndicatorRoot.x, linearIndicatorRoot.y - 1}, active);
+  drawIndicatorAtom(window, "I", {linearIndicatorRoot.x, linearIndicatorRoot.y}, active);
+  drawIndicatorAtom(window, "A", {linearIndicatorRoot.x, linearIndicatorRoot.y + 1}, active);
+
+  wrefresh(window);
+}
+
+bool AdvancedInventory::Pane::canTakeItem(const item *item, size_t &count) {
+  if (item == nullptr)
+    return false;
+
+  do {
+    if (item->volume() * count <= freeVolume())
+      return true;
+  } while (--count != 0);
+
+  return false;
+}
+
+bool AdvancedInventory::AggregatePane::canTakeItem(const item *, size_t &) {
+  popup(_("You have to choose a destination area."));
+
+  return false;
+}
+
+void AdvancedInventory::AggregatePane::addItem (const item *) { }
+
+void AdvancedInventory::AggregatePane::removeItem (const item *item) {
+  _dirtyStack = true;
+
+  for (auto pane : _panes) {
+    if (ignoring(pane.second))
+      continue;
+
+    pane.second->removeItem(item);
+  }
+}
+
+void AdvancedInventory::InventoryPane::addItem (const item *item) {
+  _inv.add_item(*item);
+
+  _dirtyStack = true;
+}
+
+void AdvancedInventory::InventoryPane::removeItem (const item *item) {
+  _inv.remove_item(item);
+
+  _dirtyStack = true;
+}
+
+void AdvancedInventory::ItemVectorPane::addItem (const item *item) {
+  _dirtyStack = true;
+
+  if (item->count_by_charges()) {
+    for (auto &i : _inv) {
+      if (i.stacks_with(*item)) {
+        i.charges += item->charges;
+
+        return;
+      }
+    }
+  }
+
+  _inv.push_back(*item);
+}
+
+void AdvancedInventory::ItemVectorPane::removeItem (const item *iT) {
+  size_t index = 0;
+
+  for (auto &i : _inv) {
+    if (&i == iT)
+      break;
+
+    index++;
+  }
+
+  if (index < _inv.size()) {
+    _inv.erase(_inv.begin() + index);
+
+    _dirtyStack = true;
+  }
+}
+
+std::list<const item *> &AdvancedInventory::Pane::itemsAtCursor() {
+  return _stackedItems[_cursor];
+}
+
+const item *AdvancedInventory::Pane::itemAtCursor (size_t &count) {
+  std::list<const item *> &cursorItems(itemsAtCursor());
+
+  count = cursorItems.size();
+
+  return cursorItems.front();
+}
+
+bool AdvancedInventory::moveItem () {
+  size_t count;
+  const item *toMove = selectedPane()->itemAtCursor(count);
+
+  if (unselectedPane()->canTakeItem(toMove, count)) {
+    unselectedPane()->addItem(toMove);
+    selectedPane()->removeItem(toMove);
+
+    return true;
+  }
+
+  return false;
+}
+
+bool AdvancedInventory::moveAll () {
+  std::list<const item *> &toMove(selectedPane()->itemsAtCursor());
+  size_t count(toMove.size());
+
+  if (unselectedPane()->canTakeItem(toMove.front(), count)) {
+
+    for (auto iTMove = toMove.rbegin(); iTMove != toMove.rend(); iTMove++) {
+      unselectedPane()->addItem(*iTMove);
+      selectedPane()->removeItem(*iTMove);
+    }
+
+    return true;
+  }
+
+  return false;
+}
+
+void AdvancedInventory::moveALL () {
+  selectedPane()->_cursor = 0;
+
+  while (moveAll()) {
+    selectedPane()->restack();
+  };
+}
+
+void AdvancedInventory::sort () {
+  uimenu sm;
+
+  sm.text = _("Sort by... ");
+
+  sm.entries.push_back(uimenu_entry((int)SortRule::Unsorted, true, 'u', _("Unsorted (recently added first)") ));
+  sm.entries.push_back(uimenu_entry((int)SortRule::Name, true, 'n', _("name")));
+  sm.entries.push_back(uimenu_entry((int)SortRule::Weight, true, 'w', _("weight")));
+  sm.entries.push_back(uimenu_entry((int)SortRule::Volume, true, 'v', _("volume")));
+  sm.entries.push_back(uimenu_entry((int)SortRule::Charges, true, 'x', _("charges")));
+
+  sm.query();
+
+  SortRule ret = (SortRule)sm.ret;
+
+  sort(ret);
+}
+
+void AdvancedInventory::sort (SortRule rule) {
+  selectedPane()->sortRule(rule);
+  selectedPane()->restack();
+}
+
+bool AdvancedInventory::Pane::ItemCompare::operator() (const std::list<const item *> &a, const std::list<const item *> &b) const {
+  const item &d1(*(a.front()));
+  const item &d2(*(b.front()));
+
+  int compa = 0, compb = 0;
+
+  switch (_rule) {
+  case SortRule::Weight:
+    compa = d1.weight(), compb = d2.weight();
+    break;
+
+  case SortRule::Volume:
+    compa = d1.volume(), compb = d2.volume();
+    break;
+
+  case SortRule::Charges:
+    compa = d1.charges, compb = d2.charges;
+    break;
+  }
+
+  if (compb == compa) {
+    std::string n1(d1.tname(false)), n2(d2.tname(false));
+    if (n1 == n2) {
+      n1 = d1.tname(), n2 = d2.tname();
+    }
+
+    bool retval = std::lexicographical_compare( n1.begin(), n1.end(), n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
+    return _ascending ? retval : !retval;
+  } else {
+    return _ascending ? compa < compb : compa > compb;
+  }
+}
+
+bool AdvancedInventory::Pane::ItemCompare::operator()(const std::pair<const std::list<const item *> &, Pane *> &a, const std::pair<const std::list<const item *> &, Pane *> &b) const {
+  return operator()(a.first, b.first);
+}
+
+AdvancedInventory::~AdvancedInventory() {
+  for (auto pane : _panes) {
+    if (pane.second == nullptr)
+      continue;
+
+    delete pane.second;
+    pane.second = nullptr;
+  }
+}
+
+bool AdvancedInventory::AggregatePane::covers (Pane *o) const {
+  if (ignoring(o))
+    return false;
+
+  if (o == this)
+    return true;
+
+  for (auto pair : _panes) {
+    if (o == pair.second)
+      return true;
+  }
+
+  return false;
+}
+
+void AdvancedInventory::Pane::setFilter () {
+  filter(string_input_popup("Filter:", 0, _filter));
+}
+
+void AdvancedInventory::setFilter () {
+  if (selectedPane() != nullptr)
+    return selectedPane()->setFilter();
+}
+
+void AdvancedInventory::resetFilter () {
+  if (selectedPane() != nullptr)
+    selectedPane()->filter("");
+}
+
+void AdvancedInventory::Pane::filter (const std::string &filter) {
+  _filter = filter;
+
+  _dirtyStack = true;
+}
+
+void AdvancedInventory::AggregatePane::filter (const std::string &filter) {
+  for (auto pair : _panes) {
+    if (covers(pair.second))
+      pair.second->filter(filter);
+  }
+
+  Pane::filter(filter);
 }

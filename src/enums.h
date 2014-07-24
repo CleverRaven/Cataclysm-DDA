@@ -65,6 +65,10 @@ inline bool operator!=(const point& a, const point& b)
   return !(a == b);
 }
 
+inline point operator+(const point& a, const point& b) {
+  return point(a.x + b.x, a.y + b.y);
+}
+
 struct tripoint {
  int x;
  int y;
@@ -72,6 +76,10 @@ struct tripoint {
  tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
  tripoint(const tripoint &p) : x (p.x), y (p.y), z (p.z) {}
  ~tripoint(){}
+
+ point to_point() {
+   return point(x, y);
+ }
 };
 
 inline bool operator==(const tripoint& a, const tripoint& b)

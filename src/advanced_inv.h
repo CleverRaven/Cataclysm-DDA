@@ -2,8 +2,217 @@
 #define _ADVANCED_INV_H_
 #include "output.h"
 #include <string>
+#include <map>
 
 typedef std::vector< std::list<item*> > itemslice;
+
+class player;
+class inventory;
+class item;
+
+struct point;
+
+class AdvancedInventory {
+  enum class Mode {
+    Area, Linear
+  };
+
+  enum class SelectedPane {
+    FarLeft = 0, Left = 1, Right = 2, FarRight = 3, None = -1
+  };
+
+  enum class SortRule {
+    Unspecified = -1, Unsorted = 0, Name, Weight, Volume, Charges
+  };
+
+  class Pane {
+    friend class AdvancedInventory;
+
+    class ItemCompare {
+      SortRule _rule;
+      bool _ascending;
+    public:
+      ItemCompare(SortRule rule, bool ascending = true) : _rule(rule), _ascending(ascending) { }
+      bool operator()(const std::list<const item *> &, const std::list<const item *> &) const;
+      bool operator()(const std::pair<const std::list<const item *> &, Pane *> &, const std::pair<const std::list<const item *> &, Pane *> &) const;
+    };
+
+  protected:
+    std::string _identifier;
+    size_t _cursor = 0;
+    int _maxVolume, _maxWeight;
+
+    SortRule _sortRule = SortRule::Unsorted;
+    bool _sortAscending = true;
+    std::string _chevrons = "[ ]";
+
+    std::string _filter = "";
+
+    std::vector<std::list<const item *>> _stackedItems;
+    bool _dirtyStack = true;
+
+    void printItem (WINDOW *, const std::list<const item *> &, bool active, bool highlighted);
+
+    void clampCursor () { if (_cursor >= stackedItems().size()) _cursor = 0; }
+
+  public:
+    Pane(std::string id, int mV, int mW) : _identifier(id), _maxVolume(mV), _maxWeight(mW) { }
+    virtual ~Pane() { }
+
+    virtual int volume () const = 0;
+    virtual int weight () const = 0;
+
+    virtual int maxVolume () const { return _maxVolume; }
+    virtual int maxWeight () const { return _maxWeight; }
+
+    virtual int freeVolume () const { return maxVolume() - volume(); }
+    virtual int freeWeight () const { return maxWeight() - weight(); }
+
+    std::string chevrons () const { return _chevrons; }
+    void chevrons (const std::string &c) { _chevrons = c; }
+
+    SortRule sortRule () const { return _sortRule; }
+    void sortRule (SortRule sortRule) { if (_sortRule == sortRule) _sortAscending = !_sortAscending; _sortRule = sortRule; }
+
+    virtual bool covers (Pane *p) const { return this == p; }
+
+    const std::vector<std::list<const item *>> &stackedItems () {
+      if (_dirtyStack)
+        restack();
+
+      return _stackedItems;
+    }
+
+    void draw (WINDOW *, bool active);
+
+    void up () { if (_cursor == 0) _cursor = stackedItems().size(); _cursor--; }
+    void down () { _cursor++; if (_cursor == stackedItems().size()) _cursor = 0; }
+
+    void pageUp (size_t rows) { _cursor -= rows; clampCursor(); }
+    void pageDown (size_t rows) { _cursor += rows; clampCursor(); }
+
+    virtual bool canTakeItem (const item *, size_t &count);
+    const item *itemAtCursor (size_t &);
+    std::list<const item *> &itemsAtCursor ();
+
+    virtual void addItem (const item *) = 0;
+    virtual void removeItem (const item *) = 0;
+
+    virtual void ignorePane(Pane *) {};
+    virtual bool ignoring (Pane *pane) const { return pane == nullptr; }
+
+    const std::string &filter () const { return _filter; }
+    virtual void filter (const std::string &);
+
+    void setFilter ();
+
+  private:
+    virtual void restack ();
+  };
+
+  class InventoryPane : public Pane {
+    inventory &_inv;
+
+    void restack () override;
+  public:
+    InventoryPane(std::string id, inventory &inv, int mV, int mW) : Pane(id, mV, mW), _inv(inv) {};
+    InventoryPane(std::string id, player *);
+
+    int volume () const override;
+    int weight () const override;
+
+    void addItem (const item *) override;
+    void removeItem (const item *) override;
+  };
+
+  class ItemVectorPane : public Pane {
+    std::vector<item> &_inv;
+
+    void restack () override;
+  public:
+    ItemVectorPane(std::string id, std::vector<item> &inv, int mV, int mW) : Pane(id, mV, mW), _inv(inv) { }
+
+    int volume () const override;
+    int weight () const override;
+
+    void addItem (const item *) override;
+    void removeItem (const item *) override;
+  };
+
+  class AggregatePane : public Pane {
+    std::map<std::string, Pane *> _panes;
+
+    std::vector<Pane *> _stackedItemsPane;
+    Pane *_ignoring = nullptr;
+
+    void restack () override;
+  public:
+    AggregatePane(std::string id, std::map<std::string, Pane *> panes) : Pane(id, -1, -1), _panes(panes) { }
+
+    bool canTakeItem (const item *, size_t &) override;
+
+    int volume () const override;
+    int weight () const override;
+
+    int maxVolume ();
+    int maxWeight ();
+
+    int maxVolume () const override;
+    int maxWeight () const override;
+
+    void addItem (const item *) override;
+    void removeItem (const item *) override;
+
+    void ignorePane (Pane *pane) override { _ignoring = pane; _dirtyStack = true; }
+    bool ignoring (Pane *pane) const override { return pane == _ignoring || Pane::ignoring(pane); }
+
+    bool covers (Pane *) const override;
+
+    void filter (const std::string &) override;
+  };
+
+  std::map<std::string, Pane *> _panes;
+
+  std::map<SelectedPane, Pane *> _selections;
+  SelectedPane _selectedPane = SelectedPane::Left;
+  SelectedPane _unselectedPane = SelectedPane::Right;
+
+  Mode _mode;
+
+  AdvancedInventory(player *, player * = nullptr);
+  ~AdvancedInventory();
+
+  void displayHead (WINDOW *);
+  void displayPanes (WINDOW *, WINDOW *);
+
+  bool selectPane (std::string id, SelectedPane = SelectedPane::None);
+
+  int w_width, w_height;
+
+  void right ();
+  void left ();
+
+  void swapFocus () { std::swap(_selectedPane, _unselectedPane); }
+
+  Pane *selectedPane () const { return _selections.at(_selectedPane); }
+  Pane *unselectedPane () const { return _selections.at(_unselectedPane); }
+
+  void drawIndicatorAtom (WINDOW *, std::string, point, bool) const;
+  void drawAreaIndicator (WINDOW *, bool) const;
+
+  bool moveItem ();
+  bool moveAll ();
+  void moveALL ();
+
+  void setFilter ();
+  void resetFilter ();
+
+  void sort ();
+  void sort (SortRule);
+
+ public:
+  static void display (player *, player * = nullptr);
+};
 
 struct advanced_inv_area {
     int id;
