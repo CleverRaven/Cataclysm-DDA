@@ -211,7 +211,7 @@ bool game::making_would_work(recipe *making)
 
     if(!can_make(making)) {
         std::ostringstream buffer;
-        buffer << _("You can no longer make that craft!");
+        buffer << _("You can no longer make that craft!") << "\n";
         buffer << making->list_missing();
         popup(buffer.str(), PF_NONE);
         return false;

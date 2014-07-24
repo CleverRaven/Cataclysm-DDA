@@ -1321,6 +1321,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "qualities": [["DIG", 3]],
     "use_action": "DIG"
   },
 
@@ -1418,6 +1419,7 @@
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "chainsaw_off",
+    "qualities": [["AXE", 2]],
     "use_action": "CHAINSAW_ON"
   },
   {
@@ -1611,6 +1613,7 @@
     "ammo": "gasoline",
     "revert_to": "combatsaw_off",
     "category" : "weapons",
+    "qualities": [["AXE", 1]],
     "use_action": "COMBATSAW_ON"
   },{
     "id": "cs_lajatang_off",
@@ -4528,7 +4531,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "LUMBER",
-	"qualities":[["SAW_W", 1]]
+	"qualities":[["SAW_W", 2]]
   },
 
   {
@@ -4552,6 +4555,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "qualities": [["AXE", 3]],
     "use_action": "LUMBER"
   },
 
@@ -4577,6 +4581,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
   },
 
@@ -4602,6 +4607,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
+    "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
   },
 
@@ -5474,6 +5480,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
   },
 
@@ -5497,6 +5504,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "qualities": [["DIG", 2]],
     "use_action": "DIG"
   },
 
@@ -5548,7 +5556,7 @@
     "use_action": "DIG",
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["DIG", 3]]
   },
 
   {
@@ -5571,6 +5579,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "qualities": [["DIG", 1]],
     "use_action": "DIG"
   },
 
