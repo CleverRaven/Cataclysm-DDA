@@ -459,6 +459,13 @@ public:
  int get_dodge();
  /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
  int dodge_roll();
+ /**
+  * Returns an explanation for why the player would miss a melee attack
+  *
+  * Builds a list of melee accuracy penalties weighted by magnitude and selects
+  * a random message from the list.
+  */
+ const char* get_reason_for_miss();
 
  /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
  bool uncanny_dodge(bool is_u = true);
