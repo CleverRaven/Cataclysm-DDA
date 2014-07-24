@@ -24,6 +24,7 @@
 #include "coordinates.h"
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
+#define NUMBER_Z_LAYERS (OVERMAP_DEPTH + OVERMAP_HEIGHT + 1)
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
@@ -161,6 +162,10 @@ class map
      * Note: the map must have been loaded before this can be called.
      */
     void shift(const int sx, const int sy);
+    /**
+     * Shift the map on layer @z by (@sx, @sy).
+     */
+    void shift_layer(const int z, const int sx, const int sy);
     /**
      * Spawn monsters from submap spawn points and from the overmap.
      * @param ignore_sight If true, monsters may spawn in the view of the player
@@ -605,7 +610,7 @@ protected:
             const int gridx, const int gridy);
  void loadn(const int x, const int y, const int z, const int gridx, const int gridy,
             const  bool update_vehicles = true);
- void copy_grid(const int to, const int from);
+ void copy_grid(const tripoint to, const tripoint from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
                 const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
@@ -643,20 +648,51 @@ protected:
      */
     void set_abs_sub(const int x, const int y, const int z);
 
+    // 3d related functions
+
+    /** Get number of grid cells in total. */
+    int number_grid_cells() const {
+        return my_MAPSIZE * my_MAPSIZE * NUMBER_Z_LAYERS;
+    }
+
+    /**
+     * Convert an absolute z-coordinate(0 is ground layer) to a z-position within
+     * the grid(0 is the bottom most layer, OVERMAP_DEPTH is the ground layer,
+     * OVERMAP_DEPTH+OVERMAP_HEIGHT is the highest layer)
+     */
+    int abs_z_to_grid_z(int abs_z) const {
+        return abs_z + OVERMAP_DEPTH;
+    }
+
+    /**
+     * Guess the correct z-level that a call probably wants to access. This is a heuristic
+     * based on what would happen when the reality bubble spanned only one level.
+     *
+     * This call should be entirely removed once z-level conversion is complete.
+     */
+    int guess_correct_z_level() const;
+
 private:
  bool transparency_cache_dirty;
  bool outside_cache_dirty;
 
  submap * getsubmap( const int grididx );
 
+ int get_submap_index(int gridx, int gridy, int gridz) {
+    return gridx + my_MAPSIZE * gridy + my_MAPSIZE * my_MAPSIZE * gridz;
+ }
+
  /** Get the submap containing the specified position within the reality bubble. */
  submap *get_submap_at(int x, int y) const;
+ submap *get_submap_at(int x, int y, int z) const;
 
  /** Get the submap containing the specified position within the reality bubble.
   *  Also writes the position within the submap to offset_x, offset_y
   */
  submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
+ submap *get_submap_at(int x, int y, int z, int& offset_x, int& offset_y) const;
  submap *get_submap_at_grid(int gridx, int gridy) const;
+ submap *get_submap_at_grid(int gridx, int gridy, int gridz) const;
 
     void spawn_monsters( int gx, int gy, mongroup &group, bool ignore_sight );
 
@@ -672,7 +708,7 @@ private:
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
  void add_light_from_items( const int x, const int y, const std::vector<item> &items );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
- void forget_traps(int gridx, int gridy);
+ void forget_traps(int gridx, int gridy, int gridz);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
@@ -688,7 +724,7 @@ private:
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
- submap* grid[MAPSIZE * MAPSIZE];
+ submap* grid[MAPSIZE * MAPSIZE * NUMBER_Z_LAYERS];
  std::map<trap_id, std::set<point> > traplocs;
 };
 

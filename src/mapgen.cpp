@@ -56,7 +56,9 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // We create all the submaps, even if we're not a tinymap, so that map
     //  generation which overflows won't cause a crash.  At the bottom of this
     //  function, we save the upper-left 4 submaps, and delete the rest.
-    for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
+    //
+    // TODO: don't generate more submaps than needed
+    for (int i = 0; i < number_grid_cells(); i++) {
         grid[i] = new submap;
         // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
@@ -126,13 +128,15 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // And finally save used submaps and delete the rest.
     for (int i = 0; i < my_MAPSIZE; i++) {
         for (int j = 0; j < my_MAPSIZE; j++) {
-            dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
-            dbg(D_INFO) << grid[i + j];
+            for (int abs_z = -OVERMAP_DEPTH; abs_z <= OVERMAP_HEIGHT; abs_z++) {
+                dbg(D_INFO) << "map::generate: submap (" << i << "," << j << ")";
+                dbg(D_INFO) << grid[get_submap_index(i, j, abs_z_to_grid_z(abs_z))];
 
-            if (i <= 1 && j <= 1) {
-                saven(x, y, z, i, j);
-            } else {
-                delete grid[i + j * my_MAPSIZE];
+                if (i <= 1 && j <= 1 && abs_z == z) {
+                    saven(x, y, abs_z, i, j);
+                } else {
+                    delete grid[get_submap_index(i, j, abs_z_to_grid_z(abs_z))];
+                }
             }
         }
     }
