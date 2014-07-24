@@ -203,6 +203,75 @@ int player::hit_roll()
  return dice(numdice, sides);
 }
 
+// Likelyhood to pick a reason
+struct reason_weight {
+    const char *reason;
+    unsigned int weight;
+};
+
+// Local class for picking a message from a weighted list.
+struct reason_weight_list {
+        reason_weight_list() : total_weight(0) { };
+
+        void add_item(const char *reason, unsigned int weight)
+        {
+            // ignore items with zero weight
+            if (weight != 0) {
+                reason_weight new_weight = { reason, weight };
+                items.push_back(new_weight);
+                total_weight += weight;
+            }
+        }
+
+        unsigned int pick_ent()
+        {
+            unsigned int picked = rng(0, total_weight);
+            unsigned int accumulated_weight = 0;
+            unsigned int i;
+            for(i = 0; i < items.size(); i++) {
+                accumulated_weight += items[i].weight;
+                if(accumulated_weight >= picked) {
+                    break;
+                }
+            }
+            return i;
+        }
+
+        const char *pick()
+        {
+            if (total_weight != 0) {
+                return items[ pick_ent() ].reason;
+            } else {
+                // if no items have been added, or only zero-weight items have
+                // been added, don't pick anything
+                return NULL;
+            }
+        }
+
+    private:
+        unsigned int total_weight;
+        std::vector<reason_weight> items;
+};
+
+const char *player::get_reason_for_miss()
+{
+    // should include everything that lowers accuracy in player::hit_roll()
+    struct reason_weight_list list = reason_weight_list();
+
+    list.add_item("Your torso encumbrance throws you off-balance.",
+                  encumb(bp_torso));
+
+    int farsightedness = 2 * (has_trait("HYPEROPIC")
+                              && !is_wearing("glasses_reading")
+                              && !is_wearing("glasses_bifocal"));
+    list.add_item("You can't hit reliably without your glasses.",
+                  farsightedness);
+
+    // TODO: include effects that indirectly lower accuracy, like those that
+    // decrease dexterity
+    return list.pick();
+}
+
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 void player::melee_attack(Creature &t, bool allow_special, matec_id force_technique) {
@@ -230,6 +299,13 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
         if (is_player()) { // Only display messages if this is the player
+
+            if (one_in(2)) {
+                const char* reason_for_miss = get_reason_for_miss();
+                if (reason_for_miss != NULL)
+                    add_msg(_(reason_for_miss));
+	    }
+
             if (has_miss_recovery_tec())
                 add_msg(_("You feint."));
             else if (stumble_pen >= 60)
