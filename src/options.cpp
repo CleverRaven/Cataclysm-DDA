@@ -1141,14 +1141,18 @@ void show_options(bool ingame)
                 if (iCurrentLine >= mPageItems[iCurrentPage].size() - was_skipped) {
                     iCurrentLine = 0;
                 }
-            } while(cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "");
+            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "") ||
+                     (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].is_hidden())
+                   );
         } else if (action == "UP") {
             do {
                 iCurrentLine--;
                 if (iCurrentLine < 0) {
                     iCurrentLine = mPageItems[iCurrentPage].size() - 1 - was_skipped;
                 }
-            } while(cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "");
+            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "") ||
+                     (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].is_hidden())
+                   );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
             bChangedSomething = true;
