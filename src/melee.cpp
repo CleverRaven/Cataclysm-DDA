@@ -258,13 +258,13 @@ const char *player::get_reason_for_miss()
     // should include everything that lowers accuracy in player::hit_roll()
     struct reason_weight_list list = reason_weight_list();
 
-    list.add_item("Your torso encumbrance throws you off-balance.",
+    list.add_item(_("Your torso encumbrance throws you off-balance."),
                   encumb(bp_torso));
 
     int farsightedness = 2 * (has_trait("HYPEROPIC")
                               && !is_wearing("glasses_reading")
                               && !is_wearing("glasses_bifocal"));
-    list.add_item("You can't hit reliably without your glasses.",
+    list.add_item(_("You can't hit reliably without your glasses."),
                   farsightedness);
 
     // TODO: include effects that indirectly lower accuracy, like those that
@@ -303,7 +303,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
             if (one_in(2)) {
                 const char* reason_for_miss = get_reason_for_miss();
                 if (reason_for_miss != NULL)
-                    add_msg(_(reason_for_miss));
+                    add_msg(reason_for_miss);
 	    }
 
             if (has_miss_recovery_tec())
