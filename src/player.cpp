@@ -4625,10 +4625,9 @@ void player::mod_pain(int npain) {
     if (!is_npc() && ((npain >= 1) && (rng(0, pain) >= 10))) {
         g->cancel_activity_query(_("Ouch, you were hurt!"));
         if (has_disease("sleep")) {
-        wake_up(_("You wake up!"));
-        }
-        else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+            wake_up(_("You wake up!"));
+        } else if (has_disease("lying_down")) {
+            rem_disease("lying_down");
         }
     }
     Creature::mod_pain(npain);
