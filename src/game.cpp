@@ -1673,7 +1673,7 @@ void game::activity_on_finish_make_zlave()
         u.practice("survival", rng(2, 5));
 
         u.add_msg_if_player(m_good,
-                            _("You're confident you've removed the zombie's ability to pose a threat. When it reanimates, you'll be able to use it as a zlave."));
+                            _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
 
         body->item_vars["zlave"] = "zlave";
         //take into account the chance that the body yet can regenerate not as we need.
@@ -1689,7 +1689,7 @@ void game::activity_on_finish_make_zlave()
             u.practice("survival", rng(3, 6));
 
             u.add_msg_if_player(m_warning,
-                                _("You've cut a lot of tissue. Now to wait and see..."));
+                                _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
 
             success += rng(1, 20);
 
@@ -1712,11 +1712,9 @@ void game::activity_on_finish_make_zlave()
                 body->damage = full_pulp_threshold;
                 body->active = false;
 
-                u.add_msg_if_player(m_warning,
-                                    _("The corpse is thoroughly pulped."));
+                u.add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
-                u.add_msg_if_player(m_warning,
-                                    _("The corpse is damaged."));
+                u.add_msg_if_player(m_warning, _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
             }
         }
     }
@@ -8251,11 +8249,11 @@ bool zlave_menu(monster *z)
                 z->add_effect("tied", 1, 1, true);
             }
 
-            add_msg(_("You displaced your zlave."));
+            add_msg(_("You swap positions with your zlave."));
 
             return true;
         } else {
-            add_msg(_("You failed to displace the zlave!"));
+            add_msg(_("You fail to budge the zlave!"));
 
             return true;
         }
@@ -8268,7 +8266,7 @@ bool zlave_menu(monster *z)
         if (!one_in(g->u.str_cur)) {
             add_msg(_("You pushed the zlave."));
         } else {
-            add_msg(_("You pushed the zlave, but he resisted."));
+            add_msg(_("You pushed the zlave, but it resisted."));
             return true;
         }
 
@@ -8322,7 +8320,7 @@ bool zlave_menu(monster *z)
 
         z->remove_effect("has_bag");
 
-        add_msg(_("You remove the stuff you had your zlave carry."));
+        add_msg(_("You dump the contents of the zlave's bag on the ground."));
 
         g->u.moves -= 200;
         return true;
