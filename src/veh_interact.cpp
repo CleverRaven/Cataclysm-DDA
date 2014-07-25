@@ -501,7 +501,7 @@ void veh_interact::do_install()
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
         if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill && has_skill2 &&
-             !(has_muscle_engine && eng) && !(has_muscle_engine && install_muscle_engine)) {
+             !(has_muscle_engine && eng) && !((engines > 0) && install_muscle_engine)) {
             sel_cmd = 'i';
             return;
         } else if (action == "QUIT") {
