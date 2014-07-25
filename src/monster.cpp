@@ -270,8 +270,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
         wprintz(w, h_white, _("Stunned"));
     } else if (has_effect("beartrap")) {
         wprintz(w, h_white, _("Trapped"));
-    }
-    else if (has_effect("tied")) {
+    } else if (has_effect("tied")) {
         wprintz(w, h_white, _("Tied"));
     }
     std::string damage_info;
@@ -328,14 +327,17 @@ bool monster::is_symbol_highlighted()
 
 nc_color monster::color_with_effects()
 {
- nc_color ret = type->color;
- if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied"))
-  ret = hilite(ret);
- if (has_effect("zlave"))
-  ret = invert_color(ret);
- if (has_effect("onfire"))
-  ret = red_background(ret);
- return ret;
+    nc_color ret = type->color;
+    if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied")) {
+        ret = hilite(ret);
+    }
+    if (has_effect("zlave")) {
+        ret = invert_color(ret);
+    }
+    if (has_effect("onfire")) {
+        ret = red_background(ret);
+    }
+    return ret;
 }
 
 bool monster::has_flag(const m_flag f) const
@@ -487,61 +489,71 @@ bool monster::is_fleeing(player &u)
 
 monster_attitude monster::attitude(player *u)
 {
- if (friendly != 0 && !(has_effect("docile")))
-  return MATT_FRIEND;
- if (friendly != 0 )
-  return MATT_FPASSIVE;
- if (has_effect("run"))
-  return MATT_FLEE;
- if (has_effect("zlave"))
-  return MATT_ZLAVE;
+    if (friendly != 0 && !(has_effect("docile"))) {
+        return MATT_FRIEND;
+    }
+    if (friendly != 0 ) {
+        return MATT_FPASSIVE;
+    }
+    if (has_effect("run")) {
+        return MATT_FLEE;
+    }
+    if (has_effect("zlave")) {
+        return MATT_ZLAVE;
+    }
 
- int effective_anger  = anger;
- int effective_morale = morale;
+    int effective_anger  = anger;
+    int effective_morale = morale;
 
- if (u != NULL) {
+    if (u != NULL) {
+        if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
+             (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT"))) &&
+            effective_anger >= 10) {
+            effective_anger -= 20;
+        }
 
-  if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
-       (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT"))) &&
-      effective_anger >= 10) {
-      effective_anger -= 20;
-  }
-  
-  if ( (type->id == "mon_bee") && (u->has_trait("FLOWERS"))) {
-      effective_anger -= 10;
-  }
+        if ( (type->id == "mon_bee") && (u->has_trait("FLOWERS"))) {
+            effective_anger -= 10;
+        }
 
-  if (u->has_trait("TERRIFYING"))
-   effective_morale -= 10;
+        if (u->has_trait("TERRIFYING")) {
+            effective_morale -= 10;
+        }
 
-  if (u->has_trait("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
-   if (effective_anger >= 10)
-    effective_anger -= 10;
-   if (effective_anger < 10)
-    effective_morale += 5;
-  }
-  if (u->has_trait("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
-   if (effective_anger >= 10)
-    effective_anger += 10;
-   if (effective_anger < 10)
-    effective_morale -= 5;
-  }
+        if (u->has_trait("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
+            if (effective_anger >= 10) {
+                effective_anger -= 10;
+            }
+            if (effective_anger < 10) {
+                effective_morale += 5;
+            }
+        }
+        if (u->has_trait("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
+            if (effective_anger >= 10) {
+                effective_anger += 10;
+            }
+            if (effective_anger < 10) {
+                effective_morale -= 5;
+            }
+        }
+    }
 
- }
+    if (effective_morale < 0) {
+        if (effective_morale + effective_anger > 0) {
+            return MATT_FOLLOW;
+        }
+        return MATT_FLEE;
+    }
 
- if (effective_morale < 0) {
-  if (effective_morale + effective_anger > 0)
-   return MATT_FOLLOW;
-  return MATT_FLEE;
- }
+    if (effective_anger <= 0) {
+        return MATT_IGNORE;
+    }
 
- if (effective_anger <= 0)
-  return MATT_IGNORE;
+    if (effective_anger < 10) {
+        return MATT_FOLLOW;
+    }
 
- if (effective_anger < 10)
-  return MATT_FOLLOW;
-
- return MATT_ATTACK;
+    return MATT_ATTACK;
 }
 
 void monster::process_triggers()

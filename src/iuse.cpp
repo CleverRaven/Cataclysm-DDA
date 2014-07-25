@@ -6301,8 +6301,7 @@ int iuse::knife(player *p, item *it, bool t)
         }
     }
 
-    if (p->skillLevel("survival") > 4 && p->skillLevel("firstaid") > 3)
-    {
+    if( p->skillLevel("survival") > 4 && p->skillLevel("firstaid") > 3 ) {
         kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
     }
 
