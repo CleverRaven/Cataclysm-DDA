@@ -62,6 +62,7 @@ class ma_technique {
     std::vector<std::string> messages;
 
     bool defensive;
+    bool dummy;
     bool crit_tec;
 
     ma_requirements reqs;
@@ -227,7 +228,7 @@ class martialart {
     // determines if a technique is valid or not for this style
     bool has_technique(player& u, matec_id tech);
     // determines if a weapon is valid for this style
-    bool has_weapon(std::string item);
+    bool has_weapon(std::string item) const;
     // gets custom melee string for a technique under this style
     std::string melee_verb(matec_id tech, player& u);
 
@@ -252,7 +253,7 @@ class martialart {
 
 void load_technique(JsonObject &jo);
 void load_martial_art(JsonObject &jo);
-
+void check_martialarts();
 void clear_techniques_and_martial_arts();
 
 extern std::map<matype_id, martialart> martialarts;

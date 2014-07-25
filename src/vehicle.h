@@ -506,6 +506,7 @@ public:
 
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
+    void remove_item (int part, item *it);
 
 // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
@@ -609,6 +610,7 @@ public:
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     bool has_pedals;
+    bool has_paddles;
     bool has_hand_rims;
     bool lights_on;     // lights on/off
     bool stereo_on;

@@ -291,6 +291,9 @@
     <ClCompile Include="..\src\ranged.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\requirements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\rng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -675,6 +678,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\rng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\requirements.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\savegame.h">

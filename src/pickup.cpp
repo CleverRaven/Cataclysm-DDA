@@ -111,7 +111,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             if( tmp_hotplate.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_hotplate)->type);
                 if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                    tmptool->use.call(&g->u, &tmp_hotplate, false);
+                    tmptool->invoke(&g->u, &tmp_hotplate, false);
                     tmp_hotplate.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_hotplate.charges );
                 }
@@ -148,7 +148,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             if( tmp_welder.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_welder)->type);
                 if ( tmp_welder.charges >= tmptool->charges_per_use ) {
-                    tmptool->use.call( &g->u, &tmp_welder, false );
+                    tmptool->invoke( &g->u, &tmp_welder, false );
                     tmp_welder.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_welder.charges );
                 }
@@ -164,7 +164,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             if( tmp_purifier.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
                 if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
-                    tmptool->use.call( &g->u, &tmp_purifier, false );
+                    tmptool->invoke( &g->u, &tmp_purifier, false );
                     tmp_purifier.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_purifier.charges );
                 }
@@ -202,13 +202,51 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
         }
 
-        if (isEmpty) {
+        if (isEmpty && (min != -1 || !OPTIONS["AUTO_PICKUP_ADJACENT"] )) {
             return;
         }
     }
 
     // which items are we grabbing?
     std::vector<item> here = pickup_obj.from_veh ? veh->parts[cargo_part].items : g->m.i_at(posx, posy);
+    std::vector<direction> vItemDir;
+    std::map<direction, int> vItemIndex;
+
+    vItemIndex[CENTER] = 0;
+    for (int i=0; i < here.size(); ++i) {
+        vItemDir.push_back(CENTER);
+    }
+
+    if (min == -1) {
+        if (g->checkZone("NO_AUTO_PICKUP", posx, posy)) {
+            here.clear();
+        }
+
+        if (OPTIONS["AUTO_PICKUP_ADJACENT"]) {
+            //Autopickup adjacent
+            direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+            for (int i=0; i < 8; i++) {
+                vItemIndex[adjacentDir[i]] = 0;
+
+                point apos = direction_XY(adjacentDir[i]);
+                apos.x += posx;
+                apos.y += posy;
+
+                if( g->m.has_flag( "SEALED", apos.x, apos.y ) ) {
+                    continue;
+                }
+                if( g->checkZone( "NO_AUTO_PICKUP", apos.x, apos.y ) ) {
+                    continue;
+                }
+                const std::vector<item> &hereTemp = g->m.i_at( apos.x, apos.y );
+
+                    for (int j=0; j < hereTemp.size(); j++) {
+                        vItemDir.push_back(adjacentDir[i]);
+                        here.push_back(hereTemp[j]);
+                    }
+            }
+        }
+    }
 
     // Not many items, just grab them
     if (here.size() <= min && min != -1) {
@@ -220,7 +258,11 @@ void Pickup::pick_up(int posx, int posy, int min)
             add_msg(m_info, _("You can't pick up a liquid!"));
             return;
         }
-        newit.invlet = g->u.inv.get_invlet_for_item( newit.typeId() );
+        if( newit.invlet != '\0' && g->u.invlet_to_position( newit.invlet ) != INT_MIN ) {
+            // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
+            // add a new invlet, otherwise keep the (usable) invlet.
+            newit.invlet = '\0';
+        }
         if (!g->u.can_pickWeight(newit.weight(), false)) {
             add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
         } else if (!g->u.can_pickVolume(newit.volume())) {
@@ -228,8 +270,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                 handle_quiver_insertion(newit, false, moves_taken, picked_up);
                 if (newit.charges > 0) {
                     add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                             "There's no room in your inventory for the %ss.",
-                                             newit.charges), newit.name.c_str());
+                                             "There's no room in your inventory for the %s.",
+                                             newit.charges), newit.tname(newit.charges).c_str());
                 }
             } else if (g->u.is_armed()) {
                 if (!g->u.weapon.has_flag("NO_UNWIELD")) {
@@ -267,7 +309,8 @@ void Pickup::pick_up(int posx, int posy, int min)
             handle_quiver_insertion(newit, true, moves_taken, picked_up);
         } else if (!g->u.is_armed() &&
                    (g->u.volume_carried() + newit.volume() > g->u.volume_capacity() - 2 ||
-                    newit.is_weap() || newit.is_gun())) {
+                    g->u.is_suitable_weapon(newit))) {
+            g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
             g->u.weapon = newit;
             picked_up = true;
             add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
@@ -356,7 +399,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                     //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                     if (OPTIONS["AUTO_PICKUP_ZERO"]) {
                         if (here[i].volume() == 0 &&
-                            here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50) {
+                            here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
+                            checkExcludeRules(here[i].tname())) {
                             bPickup = true;
                         }
                     }
@@ -437,7 +481,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         ) ) {
                 idx = selected;
             } else if ( ch == '`' ) {
-                std::string ext = string_input_popup(_("Enter 2 letters (case sensitive):"), 2);
+                std::string ext = string_input_popup(
+                    _("Enter 2 letters (case sensitive):"), 3, "", "", "", 2);
                 if(ext.size() == 2) {
                     int p1 = pickup_chars.find(ext.at(0));
                     int p2 = pickup_chars.find(ext.at(1));
@@ -613,11 +658,13 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     // At this point we've selected our items, now we add them to our inventory
-    int curmit = 0;
     bool got_water = false; // Did we try to pick up water?
     bool offered_swap = false;
     std::map<std::string, int> mapPickup;
+
     for (size_t i = 0; i < here.size(); i++) {
+        const direction dirThisItem = vItemDir[i];
+
         if (getitem[i] && here[i].made_of(LIQUID)) {
             got_water = true;
         } else if (getitem[i]) {
@@ -625,7 +672,11 @@ void Pickup::pick_up(int posx, int posy, int min)
             item temp = here[i].clone();
             int moves_taken = 100;
 
-            here[i].invlet = g->u.inv.get_invlet_for_item( here[i].typeId() );
+            if( here[i].invlet != '\0' && g->u.invlet_to_position( here[i].invlet ) != INT_MIN ) {
+                // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
+                // add a new invlet, otherwise keep the (usable) invlet.
+                here[i].invlet = '\0';
+            }
 
             if(pickup_count[i] != 0) {
                 // Reinserting leftovers happens after item removal to avoid stacking issues.
@@ -652,8 +703,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         }
 
                         add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                                 "There's no room in your inventory for the %ss.",
-                                                 here[i].charges), here[i].name.c_str());
+                                                 "There's no room in your inventory for the %s.",
+                                                 here[i].charges), here[i].tname(here[i].charges).c_str());
                     }
                 } else if (g->u.is_armed()) {
                     if (!g->u.weapon.has_flag("NO_UNWIELD")) {
@@ -688,6 +739,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 } else {
                     g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                     g->u.wield(&(g->u.i_add(here[i])));
+                    add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet, g->u.weapon.display_name().c_str());
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
@@ -697,8 +749,10 @@ void Pickup::pick_up(int posx, int posy, int min)
                 handle_quiver_insertion(here[i], true, moves_taken, picked_up);
             } else if (!g->u.is_armed() &&
                        (g->u.volume_carried() + here[i].volume() > g->u.volume_capacity() - 2 ||
-                        here[i].is_weap() || here[i].is_gun())) {
+                        g->u.is_suitable_weapon(here[i]))) {
+                g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                 g->u.weapon = here[i];
+                add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet, g->u.weapon.display_name().c_str());
                 picked_up = true;
             } else {
                 g->u.i_add(here[i]);
@@ -707,8 +761,9 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
 
             if (picked_up) {
-                pickup_obj.remove_from_map_or_vehicle(posx, posy, veh, cargo_part, moves_taken, curmit);
-                curmit--;
+                point pairDir = direction_XY(dirThisItem);
+                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.x, posy + pairDir.y, veh, cargo_part, moves_taken, vItemIndex[dirThisItem]);
+                vItemIndex[dirThisItem]--;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !pickup_obj.from_veh;
 
@@ -721,7 +776,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
             }
         }
-        curmit++;
+        vItemIndex[dirThisItem]++;
     }
 
     // Auto pickup item message

@@ -11,6 +11,7 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 
  #define ORIGINS(...) setvector(&mission_types[id].origins, __VA_ARGS__, NULL)
  #define ITEM(itid)     mission_types[id].item_id = itid
+ #define COUNT(num)     mission_types[id].item_count = num
  #define DESTINATION(dest)     mission_types[id].target_id = dest
  #define FOLLOWUP(next_up) mission_types[id].follow_up = next_up
 // DEADLINE defines the low and high end time limits, in hours
@@ -207,6 +208,50 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 1000, false,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("badge_deputy");
+
+////Free Merchants
+ MISSION(_("Clear Back Bay"), MGOAL_KILL_MONSTER, 2, 50000, false,
+         &mission_place::always, &mission_start::place_zombie_bay,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);//So it won't spawn on random npcs
+  FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_2);
+
+ MISSION(_("Missing Caravan"), MGOAL_ASSASSINATE, 5, 5000, false,
+         &mission_place::always, &mission_start::place_caravan_ambush,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_3);
+
+ MISSION(_("Find 25 Plutonium Cells"), MGOAL_FIND_ITEM, 5, 350000, false,
+         &mission_place::always, &mission_start::standard,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("plut_cell");
+  COUNT(25);
+
+////Old Guard
+ MISSION(_("Kill Bandits"), MGOAL_ASSASSINATE, 5, 50000, false,
+         &mission_place::always, &mission_start::place_bandit_cabin,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_REP_2);
+
+ MISSION(_("Deal with Informant"), MGOAL_ASSASSINATE, 5, 50000, false,
+         &mission_place::always, &mission_start::place_informant,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_REP_3);
+
+ MISSION(_("Kill ???"), MGOAL_KILL_MONSTER, 5, 50000, false,
+         &mission_place::always, &mission_start::place_grabber,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_OLD_GUARD_REP_4);
+
+ MISSION(_("Kill Raider Leader"), MGOAL_ASSASSINATE, 10, 100000, false,
+         &mission_place::always, &mission_start::place_bandit_camp,
+         &mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
 
  MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
          &mission_place::always, &mission_start::place_book,

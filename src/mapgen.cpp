@@ -27,7 +27,7 @@
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
 
-#define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
 
@@ -42,10 +42,14 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2);
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
 void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat); // pick & build
 
-void map::generate(overmap *om, const int x, const int y, const int z, const int turn)
+// (x,y,z) are absolute coordinates of a submap
+// x%2 and y%2 must be 0!
+void map::generate(const int x, const int y, const int z, const int turn)
 {
-    dbg(D_INFO) << "map::generate( g[" << g << "], om[" << (void *)om << "], x[" << x << "], "
+    dbg(D_INFO) << "map::generate( g[" << g << "], x[" << x << "], "
                 << "y[" << y << "], turn[" << turn << "] )";
+
+    set_abs_sub( x, y, z );
 
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
@@ -53,28 +57,13 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
     //  function, we save the upper-left 4 submaps, and delete the rest.
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
         grid[i] = new submap;
-        grid[i]->active_item_count = 0;
-        grid[i]->field_count = 0;
-        grid[i]->turn_last_touched = turn;
-        grid[i]->temperature = 0;
-        grid[i]->comp = computer();
-        grid[i]->camp = basecamp();
-        for (int x = 0; x < SEEX; x++) {
-            for (int y = 0; y < SEEY; y++) {
-                grid[i]->ter[x][y] = t_null;
-                grid[i]->set_furn(x, y, f_null);
-                grid[i]->set_trap(x, y, tr_null);
-                grid[i]->set_radiation(x, y, 0);
-                grid[i]->set_graffiti(x, y, graffiti());
-            }
-        }
+        // TODO: memory leak if the code below throws before the submaps get stored/deleted!
     }
 
     unsigned zones = 0;
-    // x, and y are submap coordinates, local to om -> make them global,
-    // than convert to overmap terrain coordinates
-    int overx = x + om->pos().x * OMAPX * 2;
-    int overy = y + om->pos().y * OMAPY * 2;
+    // x, and y are submap coordinates, convert to overmap terrain coordinates
+    int overx = x;
+    int overy = y;
     overmapbuffer::sm_to_omt(overx, overy);
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
     oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
@@ -116,7 +105,7 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
             dbg(D_INFO) << grid[i + j];
 
             if (i <= 1 && j <= 1) {
-                saven(om, turn, x, y, z, i, j);
+                saven(x, y, z, i, j);
             } else {
                 delete grid[i + j * my_MAPSIZE];
             }
@@ -156,13 +145,10 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
                 funcnum++;
                 continue; // rejected!
             }
-            if ( (*fit)->function_type() == MAPGENFUNC_JSON ) {
-                mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(*fit);
-                if ( ! mf->setup() ) {
-                    dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                    funcnum++;
-                    continue; // disqualify! doesn't get to play in the pool
-                }
+            if ( ! (*fit)->setup() ) {
+                dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
+                funcnum++;
+                continue; // disqualify! doesn't get to play in the pool
             }
             //
             wtotal += weight;
@@ -181,7 +167,6 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
  */
 mapgen_function_builtin::mapgen_function_builtin(std::string sptr, int w)
 {
-    ftype = MAPGENFUNC_C;
     weight = w;
     std::map<std::string, building_gen_pointer>::iterator gptr = mapgen_cfunction_map.find(sptr);
     if ( gptr !=  mapgen_cfunction_map.end() ) {
@@ -540,8 +525,23 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
                 if (!item_controller->has_group(tmp_type)) {
                     jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
                 }
+            } else if (tmpval == "sign") {
+                tmpop = JMAPGEN_PLACESPECIAL_SIGN;
+                // Distinct to signs
+                if (!jsi.has_member("signage")) {
+                    jsi.throw_error("  place_specials: signs must have a signage member (the written text for the sign).");
+                }
+                // Because the "type" member is open for use, make use of it
+                // to act as the label of the sign.
+                tmp_type = jsi.get_string("signage");
+            } else if (tmpval == "npc") {
+                tmpop = JMAPGEN_PLACESPECIAL_NPC;
+                if (!jsi.has_member("class")) {
+                    jsi.throw_error("  place_specials: npcs must have a class");
+                }
+                tmp_type = jsi.get_string("class");
             } else {
-            jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
+                jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
             }
         } else {
             parray.throw_error("placing other specials is not supported yet"); return;
@@ -845,6 +845,15 @@ void jmapgen_place_special::apply( map * m ) {
             m->furn_set(x.get(), y.get(), f_null);
             m->place_vending(x.get(), y.get(), type);
         } break;
+        case JMAPGEN_PLACESPECIAL_SIGN: {
+            // type meaning here: the writing on the sign, not the type of sign.
+            m->furn_set(x.get(), y.get(), f_null);
+            m->furn_set(x.get(), y.get(), "f_sign");
+            m->set_signage(x.get(), y.get(), type);
+        } break;
+        case JMAPGEN_PLACESPECIAL_NPC: {
+            m->place_npc(x.get(), y.get(), type);
+        } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
         {
@@ -934,7 +943,7 @@ void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::s
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
+void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
     if ( fill_ter != -1 ) {
         m->draw_fill_background( fill_ter );
     }
@@ -966,7 +975,6 @@ void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, i
     }
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////
 ///// lua mapgen functions
 // wip: need moar bindings. Basic stuff works
@@ -997,6 +1005,12 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 
 #endif
 }
+
+#ifdef LUA
+void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
+    mapgen_lua(m, terrain_type, dat, t, d, scr );
+}
+#endif
 
 /////////////
 // TODO: clean up variable shadowing in this function
@@ -1060,18 +1074,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         const int fidx = weightit->second.lower_bound( roll )->second;
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
-        if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_C ) {
-           void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( fmapit->second[fidx] )->fptr;
-           gfunction(this, terrain_type, dat, turn, density);
-        } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_JSON ) {
-           mapgen_function_json * mf = dynamic_cast<mapgen_function_json*>(fmapit->second[fidx]);
-           mf->apply( this, terrain_type, dat, turn, density );
-        } else if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_LUA ) {
-           mapgen_function_lua * mf = dynamic_cast<mapgen_function_lua*>(fmapit->second[fidx]);
-           mapgen_lua(this, terrain_type, dat, turn, density, mf->scr );
-        } else {
-           debugmsg("mapgen %s (%s): Invalid mapgen function type.",terrain_type.c_str(), function_key.c_str() );
-        }
+        fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
     // todo; make these mappable functions
     } else if (terrain_type == "apartments_con_tower_1_entrance") {
 
@@ -3011,7 +3014,7 @@ C..C..C...|hhh|#########\n\
         if (is_ot_type("sewer", t_west) && connects_to(t_west, 1)) {
             lw = SEEX * 2;
         }
-        if (t_above == "") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (i <= 1 || i >= SEEX * 2 - 2 ||
@@ -3553,6 +3556,7 @@ C..C..C...|hhh|#########\n\
                         tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
                         tmpcomp->add_failure(COMPFAIL_DAMAGE);
                         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+                        lw = lw > 0 ? 1 : 0; // only a single row (not two) of walls on the left
                     } else if (one_in(3)) { //operations or utility
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3617,6 +3621,7 @@ A......D.........|dh...|\n\
                                 }
                             }
                         }
+                        lw = 0; // no wall on the left
                     } else if (one_in(2)) { //tribute
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3673,8 +3678,8 @@ ff.......|....|WWWWWWWW|\n\
                         add_item(8, 3, body);
                         add_item(10, 3, body);
                         spawn_item(18, 15, "ax");
+                        lw = 0; // no wall on the left
                     }
-
                     else { //analyzer
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3998,7 +4003,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "bunker") {
 
-        if (t_above == "") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             dat.fill_groundcover();
             //chainlink fence that surrounds bunker
             line(this, t_chainfence_v, 1, 1, 1, SEEY * 2 - 1);
@@ -4052,8 +4057,8 @@ ff.......|....|WWWWWWWW|\n\
             for (int i = 9; i <= 13; i += 2) {
                 line(this, t_wall_metal_h,  9, i, 10, i);
                 line(this, t_wall_metal_h, 13, i, 14, i);
-                add_spawn("mon_turret", 1, 9, i + 1);
-                add_spawn("mon_turret", 1, 14, i + 1);
+                add_spawn("mon_turret_rifle", 1, 9, i + 1);
+                add_spawn("mon_turret_rifle", 1, 14, i + 1);
             }
             ter_set(13, 16, t_card_military);
 
@@ -4299,14 +4304,14 @@ ff.......|....|WWWWWWWW|\n\
         }
 
         // Place turrets by (possible) entrances
-        add_spawn("mon_turret", 1,  3, 11);
-        add_spawn("mon_turret", 1,  3, 12);
-        add_spawn("mon_turret", 1, 20, 11);
-        add_spawn("mon_turret", 1, 20, 12);
-        add_spawn("mon_turret", 1, 11,  3);
-        add_spawn("mon_turret", 1, 12,  3);
-        add_spawn("mon_turret", 1, 11, 20);
-        add_spawn("mon_turret", 1, 12, 20);
+        add_spawn("mon_turret_rifle", 1,  3, 11);
+        add_spawn("mon_turret_rifle", 1,  3, 12);
+        add_spawn("mon_turret_rifle", 1, 20, 11);
+        add_spawn("mon_turret_rifle", 1, 20, 12);
+        add_spawn("mon_turret_rifle", 1, 11,  3);
+        add_spawn("mon_turret_rifle", 1, 12,  3);
+        add_spawn("mon_turret_rifle", 1, 11, 20);
+        add_spawn("mon_turret_rifle", 1, 12, 20);
 
         // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++) {
@@ -4344,7 +4349,7 @@ ff.......|....|WWWWWWWW|\n\
 
     } else if (terrain_type == "silo") {
 
-        if (t_above == "") { // We're on ground level
+        if (zlevel == 0) { // We're on ground level
             for (int i = 0; i < SEEX * 2; i++) {
                 for (int j = 0; j < SEEY * 2; j++) {
                     if (trig_dist(i, j, SEEX, SEEY) <= 6) {
@@ -4436,7 +4441,7 @@ ff.......|....|WWWWWWWW|\n\
     } else if (terrain_type == "temple" ||
                terrain_type == "temple_stairs") {
 
-        if (t_above == "") { // Ground floor
+        if (zlevel == 0) { // Ground floor
             // TODO: More varieties?
             fill_background(this, t_dirt);
             square(this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX);
@@ -5713,7 +5718,7 @@ ____sss                 \n\
 ____sss                 \n\
 ____sss                 \n",
                                        mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
-                                               t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
+                                               t_chaingate_l, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
@@ -9613,6 +9618,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             place_items("hospital_lab", 60, 2, 14, 2, 22, false, 0);
             square_furn(this, f_counter, 4, 17, 6, 19);
             ter_set(4, 18, t_centrifuge);
+            furn_set(4, 18, f_null);
             line(this, t_floor, 5, 18, 6, rng(17, 19)); // Clear path to console
             tmpcomp = add_computer(5, 18, _("Centrifuge"), 0);
             tmpcomp->add_option(_("Analyze blood"), COMPACT_BLOOD_ANAL, 4);
@@ -10440,7 +10446,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                     ter_set(i, j, (!one_in(10) ? t_slime : t_rock_floor));
                 } else if (rng(0, SEEX) > abs(i - SEEX) && rng(0, SEEY) > abs(j - SEEY)) {
                     ter_set(i, j, t_slime);
-                } else if (t_above == "") {
+                } else if (zlevel == 0) {
                     ter_set(i, j, t_dirt);
                 } else {
                     ter_set(i, j, t_rock_floor);
@@ -10825,10 +10831,9 @@ void map::place_spawns(std::string group, const int chance,
         return;
     }
 
-    if ( MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
-        real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
-        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+    if (MonsterGroupManager::isValidMonsterGroup( group ) == false ) {
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return;
     }
@@ -10889,6 +10894,244 @@ void map::place_vending(int x, int y, std::string type)
     place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
+int map::place_npc(int x, int y, std::string type)
+{
+    if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
+        return -1; //Do not generate an npc.
+    }
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+    //Old Guard NPCs, fac_id 1
+    if (type == "old_guard_rep"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_COWBOY);
+        temp->name += ", Representative";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_OLD_GUARD_REP;
+        temp->fac_id = 1;
+        temp->my_fac = g->faction_by_id(1);
+        int mission_index = g->reserve_mission(MISSION_OLD_GUARD_REP_1, temp->getID());
+        if (mission_index != -1)
+            temp->chatbin.missions.push_back(mission_index);
+        g->load_npcs();
+        return temp->getID();
+        }
+    //Free Merchant NPCs, fac_id 2
+    if (type == "evac_merchant"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_EVAC_SHOPKEEP);
+        temp->name += ", Merchant";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_SHOPKEEP;
+        temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        int mission_index = g->reserve_mission(MISSION_FREE_MERCHANTS_EVAC_1, temp->getID());
+        if (mission_index != -1)
+            temp->chatbin.missions.push_back(mission_index);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "evac_broker"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Broker";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_FREE_MERCHANT_STOCKS;
+        temp->personality.aggression -= 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "evac_guard1"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD1;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "evac_guard2"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD2;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "evac_guard3"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD3;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_GUARD;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "hostile_guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_KILL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    //Wasteland Scavengers NPCs, fac_id 3
+    if (type == "scavenger_hunter"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_HUNTER);
+        temp->name += ", Hunter";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_HUNTER;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "scavenger_merc"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_COWBOY);
+        temp->name += ", Merc";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_SCAVENGER_MERC;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "arsonist"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_ARSONIST);
+        temp->name = "Makayla Sanchez, Arsonist";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->male = false;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_SHOPKEEP;
+        temp->chatbin.first_topic = TALK_ARSONIST;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return temp->getID();
+        }
+    //Hell's Raiders NPCs, fac_id 4
+    if (type == "thug"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_THUG);
+        temp->name += ", Thug";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "bandit"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_SCAVENGER);
+        temp->name += ", Bandit";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
+        g->load_npcs();
+        return temp->getID();
+        }
+    debugmsg("place_npc: did not recognize npc class");
+    return -1;
+}
+
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
 int map::place_items(items_location loc, int chance, int x1, int y1,
@@ -10901,9 +11144,8 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         return 0;
     }
     if (!item_controller->has_group(loc)) {
-        real_coords rc( this->getabs() );
-        overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
-        oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                  loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return 0;
@@ -10956,8 +11198,10 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
         debugmsg("Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y);
         return;
     }
-    int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    if(!grid[nonant]) {
+    int offset_x, offset_y;
+    submap *place_on_submap = get_submap_at(x, y, offset_x, offset_y);
+
+    if(!place_on_submap) {
         debugmsg("centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
                  type.c_str(), count, x, y);
         return;
@@ -10967,10 +11211,8 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
         // Don't spawn non-classic monsters in classic zombie mode.
         return;
     }
-    x %= SEEX;
-    y %= SEEY;
-    spawn_point tmp(type, count, x, y, faction_id, mission_id, friendly, name);
-    grid[nonant]->spawns.push_back(tmp);
+    spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);
+    place_on_submap->spawns.push_back(tmp);
 }
 
 void map::add_spawn(monster *mon)
@@ -11000,7 +11242,7 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
                           const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
     if(g->vtypes.count(type) == 0) {
-        debugmsg("Nonexistant vehicle type: \"%s\"", type.c_str());
+        debugmsg("Nonexistent vehicle type: \"%s\"", type.c_str());
         return NULL;
     }
     if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
@@ -11018,14 +11260,17 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     veh->smx = smx;
     veh->smy = smy;
     veh->place_spawn_items();
+    veh->face.init( dir );
+    veh->turn_dir = dir;
+    veh->precalc_mounts( 0, dir );
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
 
     vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y, merge_wrecks);
 
     if(placed_vehicle != NULL) {
-        const int nonant = placed_vehicle->smx + placed_vehicle->smy * my_MAPSIZE;
-        grid[nonant]->vehicles.push_back(placed_vehicle);
+        submap *place_on_submap = get_submap_at_grid(placed_vehicle->smx, placed_vehicle->smy);
+        place_on_submap->vehicles.push_back(placed_vehicle);
 
         vehicle_list.insert(placed_vehicle);
         update_vehicle_cache(placed_vehicle, true);
@@ -11153,9 +11398,9 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
 computer *map::add_computer(int x, int y, std::string name, int security)
 {
     ter_set(x, y, t_console); // TODO: Turn this off?
-    int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    grid[nonant]->comp = computer(name, security);
-    return &(grid[nonant]->comp);
+    submap *place_on_submap = get_submap_at(x, y);
+    place_on_submap->comp = computer(name, security);
+    return &(place_on_submap->comp);
 }
 
 /**
@@ -11172,10 +11417,48 @@ void map::rotate(int turns)
         return;
     }
 
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+
+    const int radius = int(MAPSIZE / 2) + 3;
+    // uses submap coordinates
+    std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
+    for (int i = 0; i < npcs.size(); i++) {
+        npc *act_npc = npcs[i];
+        if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
+            act_npc->global_omt_location().y*2 == get_abs_sub().y ){
+                rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
+                int old_x = rc.sub_pos.x;
+                int old_y = rc.sub_pos.y;
+                if ( rc.om_sub.x % 2 != 0 )
+                    old_x += SEEX;
+                if ( rc.om_sub.y % 2 != 0 )
+                    old_y += SEEY;
+                int new_x = old_x;
+                int new_y = old_y;
+                switch(turns) {
+                    case 3:
+                        new_x = old_y;
+                        new_y = SEEX * 2 - 1 - old_x;
+                        break;
+                    case 2:
+                        new_x = SEEX * 2 - 1 - old_x;
+                        new_y = SEEY * 2 - 1 - old_y;
+                        break;
+                    case 1:
+                        new_x = SEEY * 2 - 1 - old_y;
+                        new_y = old_x;
+                        break;
+                    }
+                npcs[i]->posx += (new_x-old_x);
+                npcs[i]->posy += (new_y-old_y);
+            }
+    }
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];
     trap_id traprot [SEEX * 2][SEEY * 2];
     std::vector<item> itrot[SEEX * 2][SEEY * 2];
+    std::string signage_rot[SEEX * 2][SEEY * 2];
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
     computer tmpcomp;
@@ -11203,6 +11486,7 @@ void map::rotate(int turns)
             furnrot[old_x][old_y] = furn(new_x, new_y);
             itrot [old_x][old_y] = i_at(new_x, new_y);
             traprot[old_x][old_y] = tr_at(new_x, new_y);
+            signage_rot[old_x][old_y] = get_signage(new_x, new_y);
             i_clear(new_x, new_y);
         }
     }
@@ -11342,6 +11626,7 @@ void map::rotate(int turns)
             furn_set(i, j, furnrot[i][j]);
             i_at(i, j) = itrot [i][j];
             add_trap(i, j, traprot[i][j]);
+            set_signage(i, j, signage_rot[i][j]);
             if (turns % 2 == 1) { // Rotate things like walls 90 degrees
                 if (ter(i, j) == t_wall_v) {
                     ter_set(i, j, t_wall_h);
@@ -11535,7 +11820,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int y = y1 + 1; y <= y2 - 1; y++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    if (one_in(3)) {
+                        m->place_items("mut_lab", 35, x, y1 + 1, x, y2 - 1, false, 0);
+                    }
+                    else {
+                        m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    }
                 }
             }
         } else {
@@ -11544,7 +11834,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int x = x1 + 1; x <= x2 - 1; x++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    if (one_in(3)) {
+                        m->place_items("mut_lab", 35, x1 + 1, y, x2 - 1, y, false, 0);
+                    }
+                    else {
+                        m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    }
                 }
             }
         }
@@ -12700,80 +12995,83 @@ void map::add_extra(map_extra type)
     break;
 
     case mx_stash: {
-        int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-        if (move_cost(x, y) != 0) {
-            ter_set(x, y, t_dirt);
-        }
-
-        int size = 0;
-        items_location stash;
-        switch (rng(1, 6)) { // What kind of stash?
-        case 1:
-            stash = "stash_food";
-            size = 90;
-            break;
-        case 2:
-            stash = "stash_ammo";
-            size = 80;
-            break;
-        case 3:
-            stash = "rare";
-            size = 70;
-            break;
-        case 4:
-            stash = "stash_wood";
-            size = 90;
-            break;
-        case 5:
-            stash = "stash_drugs";
-            size = 85;
-            break;
-        case 6:
-            stash = "trash";
-            size = 92;
-            break;
-        }
-
-        if (move_cost(x, y) == 0) {
-            ter_set(x, y, t_dirt);
-        }
-        place_items(stash, size, x, y, x, y, true, 0);
-
-        // Now add traps around that stash
-        for (int i = x - 4; i <= x + 4; i++) {
-            for (int j = y - 4; j <= y + 4; j++) {
-                if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
-                    trap_id placed = tr_null;
-                    switch (rng(1, 7)) {
-                    case 1:
-                    case 2:
-                    case 3:
-                        placed = tr_beartrap;
-                        break;
-                    case 4:
-                        placed = tr_caltrops;
-                        break;
-                    case 5:
-                        placed = tr_nailboard;
-                        break;
-                    case 6:
-                        placed = tr_crossbow;
-                        break;
-                    case 7:
-                        placed = tr_shotgun_2;
-                        break;
-                    }
-                    if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
-                        if (one_in(8)) {
-                            placed = tr_landmine_buried;
-                        } else {
-                            placed = tr_beartrap_buried;
-                        }
-                    }
-                    add_trap(i, j,  placed);
-                }
-            }
-        }
+        // 2014 June 21
+        // Disabled stashes here. Allows previous weights to be kept and
+        // stashes, if "created" will be ignored.
+//        int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
+//        if (move_cost(x, y) != 0) {
+//            ter_set(x, y, t_dirt);
+//        }
+//
+//        int size = 0;
+//        items_location stash;
+//        switch (rng(1, 6)) { // What kind of stash?
+//        case 1:
+//            stash = "stash_food";
+//            size = 90;
+//            break;
+//        case 2:
+//            stash = "stash_ammo";
+//            size = 80;
+//            break;
+//        case 3:
+//            stash = "rare";
+//            size = 70;
+//            break;
+//        case 4:
+//            stash = "stash_wood";
+//            size = 90;
+//            break;
+//        case 5:
+//            stash = "stash_drugs";
+//            size = 85;
+//            break;
+//        case 6:
+//            stash = "trash";
+//            size = 92;
+//            break;
+//        }
+//
+//        if (move_cost(x, y) == 0) {
+//            ter_set(x, y, t_dirt);
+//        }
+//        place_items(stash, size, x, y, x, y, true, 0);
+//
+//        // Now add traps around that stash
+//        for (int i = x - 4; i <= x + 4; i++) {
+//            for (int j = y - 4; j <= y + 4; j++) {
+//                if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
+//                    trap_id placed = tr_null;
+//                    switch (rng(1, 7)) {
+//                    case 1:
+//                    case 2:
+//                    case 3:
+//                        placed = tr_beartrap;
+//                        break;
+//                    case 4:
+//                        placed = tr_caltrops;
+//                        break;
+//                    case 5:
+//                        placed = tr_nailboard;
+//                        break;
+//                    case 6:
+//                        placed = tr_crossbow;
+//                        break;
+//                    case 7:
+//                        placed = tr_shotgun_2;
+//                        break;
+//                    }
+//                    if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
+//                        if (one_in(8)) {
+//                            placed = tr_landmine_buried;
+//                        } else {
+//                            placed = tr_beartrap_buried;
+//                        }
+//                    }
+//                    add_trap(i, j,  placed);
+//                }
+//            }
+//        }
     }
     break;
 
@@ -12928,8 +13226,9 @@ void map::add_extra(map_extra type)
                 item_group = "mil_rifles";
                 break;
             }
-            for(int i = 0; i < 140 && i_at(x, y).size() < 2; i++) {
-                place_items(item_group, 80, x, y, x, y, true, 0);
+            int items_created = 0;
+            for(int i = 0; i < 10 && items_created < 2; i++) {
+                items_created += place_items(item_group, 80, x, y, x, y, true, 0);
             }
             if (i_at(x, y).empty()) {
                 destroy(x, y, false);

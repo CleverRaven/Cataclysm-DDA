@@ -66,6 +66,7 @@ enum npc_mission {
  NPC_MISSION_KIDNAPPED, // Special; was kidnapped, to be rescued by player
 
  NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
+ NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
 
  NUM_NPC_MISSIONS
 };
@@ -74,18 +75,24 @@ enum npc_mission {
 
 enum npc_class {
  NC_NONE,
- NC_SHOPKEEP, // Found in towns.  Stays in his shop mostly.
- NC_HACKER, // Weak in combat but has hacking skills and equipment
- NC_DOCTOR, // Found in towns, or roaming.  Stays in the clinic.
- NC_TRADER, // Roaming trader, journeying between towns.
- NC_NINJA, // Specializes in unarmed combat, carries few items
- NC_COWBOY, // Gunslinger and survivalist
- NC_SCIENTIST, // Uses intelligence-based skills and high-tech items
- NC_BOUNTY_HUNTER, // Resourceful and well-armored
+ NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
+ NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
+ NC_HACKER,         // Weak in combat but has hacking skills and equipment
+ NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
+ NC_TRADER,         // Roaming trader, journeying between towns.
+ NC_NINJA,          // Specializes in unarmed combat, carries few items
+ NC_COWBOY,         // Gunslinger and survivalist
+ NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
+ NC_BOUNTY_HUNTER,  // Resourceful and well-armored
+ NC_THUG,           // Moderate melee skills and poor equipment
+ NC_SCAVENGER,      // Good with pistols light weapons
+ NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
+ NC_HUNTER,         // Survivor type good with bow or rifle
  NC_MAX
 };
 
 std::string npc_class_name(npc_class);
+std::string npc_class_name_str(npc_class);
 
 enum npc_action {
  npc_undecided = 0,
@@ -200,8 +207,10 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
   anger = copy.anger;
   owed = copy.owed;
   favors.clear();
-  for (size_t i = 0; i < copy.favors.size(); i++)
-   favors.push_back( copy.favors[i] );
+  for (std::vector<npc_favor>::const_iterator it = copy.favors.begin();
+       it != copy.favors.end(); ++it) {
+        favors.push_back(*it);
+    }
  };
 
  npc_opinion& operator+= (npc_opinion &rhs)
@@ -273,6 +282,7 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
 enum talk_topic {
  TALK_NONE = 0, // Used to go back to last subject
  TALK_DONE, // Used to end the conversation
+ TALK_GUARD, // End conversation, nothing to be said
  TALK_MISSION_LIST, // List available missions. Intentionally placed above START
  TALK_MISSION_LIST_ASSIGNED, // Same, but for assigned missions.
 
@@ -289,6 +299,96 @@ enum talk_topic {
  TALK_MISSION_END, // NOT USED: end of mission topics
 
  TALK_MISSION_REWARD, // Intentionally placed below END
+
+ TALK_EVAC_MERCHANT, //Located in Refugee Center
+ TALK_EVAC_MERCHANT_NEW,
+ TALK_EVAC_MERCHANT_PLANS,
+ TALK_EVAC_MERCHANT_PLANS2,
+ TALK_EVAC_MERCHANT_PLANS3,
+ TALK_EVAC_MERCHANT_WORLD,
+ TALK_EVAC_MERCHANT_HORDES,
+ TALK_EVAC_MERCHANT_PRIME_LOOT,
+ TALK_EVAC_MERCHANT_ASK_JOIN,
+ TALK_EVAC_MERCHANT_NO,
+ TALK_EVAC_MERCHANT_HELL_NO,
+
+ TALK_FREE_MERCHANT_STOCKS,//Located in Refugee Center
+ TALK_FREE_MERCHANT_STOCKS_NEW,
+ TALK_FREE_MERCHANT_STOCKS_WHY,
+ TALK_FREE_MERCHANT_STOCKS_ALL,
+ TALK_FREE_MERCHANT_STOCKS_JERKY,
+ TALK_FREE_MERCHANT_STOCKS_CORNMEAL,
+ TALK_FREE_MERCHANT_STOCKS_FLOUR,
+ TALK_FREE_MERCHANT_STOCKS_SUGAR,
+ TALK_FREE_MERCHANT_STOCKS_WINE,
+ TALK_FREE_MERCHANT_STOCKS_BEER,
+ TALK_FREE_MERCHANT_STOCKS_SMMEAT,
+ TALK_FREE_MERCHANT_STOCKS_SMFISH,
+ TALK_FREE_MERCHANT_STOCKS_OIL,
+ TALK_FREE_MERCHANT_STOCKS_DELIVERED,
+
+ TALK_EVAC_GUARD1,//Located in Refugee Center
+ TALK_EVAC_GUARD1_PLACE,
+ TALK_EVAC_GUARD1_GOVERNMENT,
+ TALK_EVAC_GUARD1_TRADE,
+ TALK_EVAC_GUARD1_JOIN,
+ TALK_EVAC_GUARD1_JOIN2,
+ TALK_EVAC_GUARD1_JOIN3,
+ TALK_EVAC_GUARD1_ATTITUDE,
+ TALK_EVAC_GUARD1_JOB,
+ TALK_EVAC_GUARD1_OLDGUARD,
+ TALK_EVAC_GUARD1_BYE,
+
+ TALK_EVAC_GUARD2,//Located in Refugee Center
+ TALK_EVAC_GUARD2_NEW,
+ TALK_EVAC_GUARD2_RULES,
+ TALK_EVAC_GUARD2_RULES_BASEMENT,
+ TALK_EVAC_GUARD2_WHO,
+ TALK_EVAC_GUARD2_TRADE,
+
+ TALK_EVAC_GUARD3,//Located in Refugee Center
+ TALK_EVAC_GUARD3_NEW,
+ TALK_EVAC_GUARD3_RULES,
+ TALK_EVAC_GUARD3_HIDE1,
+ TALK_EVAC_GUARD3_HIDE2,
+ TALK_EVAC_GUARD3_WASTE,
+ TALK_EVAC_GUARD3_DEAD,
+ TALK_EVAC_GUARD3_HOSTILE,
+ TALK_EVAC_GUARD3_INSULT,
+
+ TALK_EVAC_HUNTER,//Located in Refugee Center
+ TALK_EVAC_HUNTER_SMELL,
+ TALK_EVAC_HUNTER_DO,
+ TALK_EVAC_HUNTER_LIFE,
+ TALK_EVAC_HUNTER_HUNT,
+ TALK_EVAC_HUNTER_SALE,
+ TALK_EVAC_HUNTER_ADVICE,
+ TALK_EVAC_HUNTER_BYE,
+
+ TALK_OLD_GUARD_REP,//Located in Refugee Center
+ TALK_OLD_GUARD_REP_NEW,
+ TALK_OLD_GUARD_REP_NEW_DOING,
+ TALK_OLD_GUARD_REP_NEW_DOWNSIDE,
+ TALK_OLD_GUARD_REP_WORLD,
+ TALK_OLD_GUARD_REP_WORLD_2NDFLEET,
+ TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS,
+ TALK_OLD_GUARD_REP_ASK_JOIN,
+
+ TALK_ARSONIST,//Located in Refugee Center
+ TALK_ARSONIST_NEW,
+ TALK_ARSONIST_DOING,
+ TALK_ARSONIST_DOING_REBAR,
+ TALK_ARSONIST_WORLD,
+ TALK_ARSONIST_WORLD_OPTIMISTIC,
+ TALK_ARSONIST_JOIN,
+ TALK_ARSONIST_MUTATION,
+ TALK_ARSONIST_MUTATION_INSULT,
+
+ TALK_SCAVENGER_MERC,//Located in Refugee Center
+ TALK_SCAVENGER_MERC_NEW,
+ TALK_SCAVENGER_MERC_TIPS,
+ TALK_SCAVENGER_MERC_HIRE,
+ TALK_SCAVENGER_MERC_HIRE_SUCCESS,
 
  TALK_SHELTER,
  TALK_SHELTER_PLANS,
@@ -313,6 +413,11 @@ enum talk_topic {
  TALK_HOW_MUCH_FURTHER,
 
  TALK_FRIEND,
+ TALK_FRIEND_GUARD,
+ TALK_DENY_GUARD,
+ TALK_DENY_TRAIN,
+ TALK_DENY_PERSONAL,
+ TALK_FRIEND_UNCOMFORTABLE,
  TALK_COMBAT_COMMANDS,
  TALK_COMBAT_ENGAGEMENT,
 
@@ -399,7 +504,7 @@ public:
      */
     void place_on_map();
  Skill* best_skill();
- void starting_weapon();
+ void starting_weapon(npc_class type);
 
 // Save & load
  virtual void load_legacy(std::stringstream & dump);// Overloaded from player
@@ -459,8 +564,8 @@ public:
                   std::vector<int> &prices);
 // init_selling() fills <indices> with the indices of items in our inventory
  void init_selling(std::vector<item*> &items, std::vector<int> &prices);
-
-
+// Re-roll the inventory of a shopkeeper
+ void shop_restock();
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
@@ -472,7 +577,7 @@ public:
  bool has_painkiller();
  bool took_painkiller();
  void use_painkiller();
- void activate_item(char invlet);
+ void activate_item(int position);
 
 // Interaction and assessment of the world around us
  int  danger_assessment();
@@ -507,8 +612,8 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
- int  confident_range(char invlet = 0); // >= 50% chance to hit
- bool wont_hit_friend(int tarx, int tary, char invlet = 0);
+ int  confident_range(int position = -1); // >= 50% chance to hit
+ bool wont_hit_friend(int tarx, int tary, int position = -1);
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(int target, item &gun);
@@ -600,12 +705,13 @@ public:
     tripoint global_omt_location() const;
  int plx, ply, plt;// Where we last saw the player, timeout to forgetting
  int itx, ity; // The square containing an item we want
+ int guardx, guardy;  // These are the local coordinates that a guard will return to inside of their goal tripoint
     /**
      * Global overmap terrain coordinate, where we want to get to
      * if no goal exist, this is no_goal_point.
      */
     tripoint goal;
-
+ int restock;
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
  int  worst_item_value; // The value of our least-wanted item

@@ -22,6 +22,7 @@ enum task_reason {
     LACK_TOOLS, //Player doesn't have all the tools they need
     NOT_FREE, //Part is attached to something else and can't be unmounted
     LACK_SKILL, //Player doesn't have high enough mechanics skill
+    MOVING_VEHICLE, // vehicle is moving, no modifications allowed
     LOW_MORALE // Player has too low morale (for operations that require it)
 };
 
@@ -103,7 +104,7 @@ private:
     void display_stats();
     void display_name();
     void display_mode(char mode);
-    void display_list(int pos, std::vector<vpart_info> list);
+    void display_list(size_t pos, std::vector<vpart_info> list);
     size_t display_esc (WINDOW *w);
 
     void countDurability();

@@ -2,8 +2,9 @@
 #include "color.h"
 #include "translations.h"
 #include "rng.h"
-#include "output.h"
+#include "debug.h"
 #include "item_factory.h"
+#include "catacharset.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -189,6 +190,7 @@ void MonsterGenerator::init_attack()
     attack_map["TAZER"] = &mattack::tazer;
     attack_map["SMG"] = &mattack::smg;
     attack_map["LASER"] = &mattack::laser;
+    attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
     attack_map["MULTI_ROBOT"] = &mattack::multi_robot;
@@ -199,6 +201,8 @@ void MonsterGenerator::init_attack()
     attack_map["BITE"] = &mattack::bite;
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
+    attack_map["LUNGE"] = &mattack::lunge;
+    attack_map["LONGSWIPE"] = &mattack::longswipe;
     attack_map["PARROT"] = &mattack::parrot;
     attack_map["DARKMAN"] = &mattack::darkman;
     attack_map["SLIMESPRING"] = &mattack::slimespring;
@@ -316,12 +320,12 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         mtype *newmon = new mtype;
 
         newmon->id = mid;
-        newmon->name = jo.get_string("name","").c_str();
+        newmon->name = jo.get_string("name").c_str();
         if(jo.has_member("name_plural")) {
             newmon->name_plural = jo.get_string("name_plural");
         } else {
             // default behaviour: Assume the regular plural form (appending an “s”)
-            newmon->name_plural = jo.get_string("name") + "s";
+            newmon->name_plural = newmon->name + "s";
         }
         newmon->description = _(jo.get_string("description").c_str());
 
@@ -330,7 +334,10 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");
 
-        newmon->sym = jo.get_string("symbol")[0]; // will fail here if there is no symbol
+        newmon->sym = jo.get_string("symbol");
+        if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
+            jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
+        }
         newmon->color = color_from_string(jo.get_string("color"));
         newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), size_map, MS_MEDIUM);
         newmon->phase = get_from_string(jo.get_string("phase", "SOLID"), phase_map, SOLID);

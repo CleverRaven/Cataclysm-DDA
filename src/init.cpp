@@ -30,7 +30,6 @@
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
-#include "iuse.h"
 #include "start_location.h"
 #include "omdata.h"
 #include "options.h"
@@ -62,8 +61,6 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
-std::map<int, int> reverse_legacy_ter_id;
-std::map<int, int> reverse_legacy_furn_id;
 /*
  * Populate optional ter_id and furn_id variables
  */
@@ -73,31 +70,6 @@ void init_data_mappings()
     set_furn_ids();
     set_oter_ids();
     set_trap_ids();
-    // temporary (reliable) kludge until switch statements are rewritten
-    std::map<std::string, int> legacy_lookup;
-    for(int i = 0; i < num_legacy_ter; i++) {
-        legacy_lookup[ legacy_ter_id[i] ] = i;
-    }
-    reverse_legacy_ter_id.clear();
-    for( size_t i = 0; i < terlist.size(); ++i ) {
-        if ( legacy_lookup.find(terlist[i].id) != legacy_lookup.end() ) {
-            reverse_legacy_ter_id[ i ] = legacy_lookup[ terlist[i].id ];
-        } else {
-            reverse_legacy_ter_id[ i ] = 0;
-        }
-    }
-    legacy_lookup.clear();
-    for(int i = 0; i < num_legacy_furn; i++) {
-        legacy_lookup[ legacy_furn_id[i] ] = i;
-    }
-    reverse_legacy_furn_id.clear();
-    for( size_t i = 0; i < furnlist.size(); ++i ) {
-        if ( legacy_lookup.find(furnlist[i].id) != legacy_lookup.end() ) {
-            reverse_legacy_furn_id[ i ] = legacy_lookup[ furnlist[i].id ];
-        } else {
-            reverse_legacy_furn_id[ i ] = 0;
-        }
-    }
 }
 
 void DynamicDataLoader::load_object(JsonObject &jo)
@@ -194,7 +166,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
-    type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
+    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
@@ -268,7 +240,6 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
             JsonIn jsin(iss);
             load_all_from_json(jsin);
         } catch (std::string e) {
-            DebugLog() << file << ": " << e << "\n";
             throw file + ": " + e;
         }
     }
@@ -321,44 +292,12 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
     }
 }
 
-#if defined LOCALIZE && ! defined __CYGWIN__
-// load names depending on current locale
 void init_names()
 {
-    std::locale loc;
-
-    try {
-        loc = std::locale("");
-    }
-    catch( std::exception ) {
-        loc = std::locale("C");
-    }
-
-    std::string loc_name = loc.name();
-    if (loc_name == "C") {
-        loc_name = "en";
-    }
-    size_t dotpos = loc_name.find('.');
-    if (dotpos != std::string::npos) {
-        loc_name = loc_name.substr(0, dotpos);
-    }
-    // test if a local version exists
-    std::string filename = FILENAMES["namesdir"] + loc_name + ".json";
-    std::ifstream fin(filename.c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!fin.good()) {
-        // if not, use "en.json"
-        filename = FILENAMES["names"];
-    }
-    fin.close();
-
+    const std::string filename = PATH_INFO::find_translated_file( "namesdir",
+                                                                  ".json", "names" );
     load_names_from_file(filename);
 }
-#else
-void init_names()
-{
-    load_names_from_file(FILENAMES["names"]);
-}
-#endif
 
 void DynamicDataLoader::unload_data()
 {
@@ -390,7 +329,7 @@ void DynamicDataLoader::unload_data()
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     reset_recipes();
-    reset_recipes_qualities();
+    quality::reset();
     release_traps();
     reset_constructions();
     reset_overmap_terrain();
@@ -431,4 +370,6 @@ void DynamicDataLoader::check_consistency() {
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();
+    check_martialarts();
+    ammunition_type::check_consistency();
 }

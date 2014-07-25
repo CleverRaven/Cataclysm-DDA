@@ -12,9 +12,9 @@ mod_ui::mod_ui(mod_manager *mman)
         active_manager = mman;
         mm_tree = &active_manager->get_tree();
         set_usable_mods();
-        DebugLog() << "mod_ui initialized\n";
+        DebugLog( D_INFO, DC_ALL ) << "mod_ui initialized";
     } else {
-        DebugLog() << "mod_ui initialized with NULL mod_manager pointer\n";
+        DebugLog( D_ERROR, DC_ALL ) << "mod_ui initialized with NULL mod_manager pointer";
     }
 }
 
@@ -81,22 +81,23 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     }
     std::vector<std::string> dependencies = mod->dependencies;
     std::vector<std::string> authors = mod->authors;
+    std::string description = mod->description;
     std::string dependency_string = "";
     if (!dependencies.empty()) {
-        DebugLog() << mod->name << " Dependencies --";
+        DebugLog( D_PEDANTIC_INFO, DC_ALL ) << mod->name << " Dependencies --";
         for (int i = 0; i < dependencies.size(); ++i) {
             if (i > 0) {
                 //~ delimeter for mod dependency enumeration
                 dependency_string += pgettext("mod manager",", ");
             }
-            DebugLog() << "\t" << dependencies[i];
+            DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\t" << dependencies[i];
             if (active_manager->mod_map.find(dependencies[i]) != active_manager->mod_map.end()) {
                 dependency_string += "[" + active_manager->mod_map[dependencies[i]]->name + "]";
             } else {
                 dependency_string += "[<color_red>" + dependencies[i] + "</color>]";
             }
         }
-        DebugLog() << "\n";
+        DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\n";
     }
     std::string author_string = "";
     if (!authors.empty()) {
@@ -117,6 +118,13 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     } else {
         info << _("Dependencies: [NONE]\n");
     }
+
+    if(!description.empty()) {
+        info << string_format("Description: %s\n", description.c_str());
+    } else {
+        info << _("Description: [NONE]\n");
+    }
+
     if (mod->_type == MT_SUPPLEMENTAL && !note.empty()) {
         info << note;
     }

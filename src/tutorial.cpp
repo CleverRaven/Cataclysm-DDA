@@ -29,6 +29,11 @@ bool tutorial_game::init()
  g->u.per_cur = g->u.per_max;
  g->u.int_cur = g->u.int_max;
  g->u.dex_cur = g->u.dex_max;
+ 
+ for (int i = 0; i < num_hp_parts; i++) {
+        g->u.hp_cur[i] = g->u.hp_max[i];
+    }
+ 
  //~ default name for the tutorial
  g->u.name = _("John Smith");
  g->u.prof = profession::generic();
@@ -46,7 +51,7 @@ bool tutorial_game::init()
   for (int y = 0; y < OMAPY; y++)
    g->cur_om->seen(x, y, 0) = true;
  }
- g->m.load(g->levx, g->levy, 0);
+ g->m.load(g->levx, g->levy, 0, true, g->cur_om);
  g->levz = 0;
  g->u.posx = 2;
  g->u.posy = 4;

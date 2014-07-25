@@ -67,18 +67,19 @@ static void load_available_constructions( std::vector<std::string> &available,
                                           bool hide_unconstructable )
 {
     available.clear();
-    for( unsigned i = 0; i < constructions.size(); ++i ) {
-        construction *c = constructions[i];
-        if( !hide_unconstructable || can_construct(c) ) {
+    for(std::vector<construction *>::iterator it = constructions.begin();
+        it != constructions.end(); ++it ) {
+        if( !hide_unconstructable || can_construct(*it) ) {
             bool already_have_it = false;
-            for( unsigned j = 0; j < available.size(); ++j ) {
-                if (available[j] == c->description) {
+            for(std::vector<std::string>::iterator avail_it = available.begin();
+                avail_it != available.end(); ++avail_it ) {
+                if (*avail_it == (*it)->description) {
                     already_have_it = true;
                     break;
                 }
             }
             if (!already_have_it) {
-                available.push_back(c->description);
+                available.push_back((*it)->description);
             }
         }
     }
@@ -177,11 +178,9 @@ void construction_menu()
             // limit(28) = 30(column len) - 2(letter + ' ').
             // If we run out of hotkeys, just stop assigning them.
             std::string cur_name = available[current].c_str();
-            int edge_pos = cursorx_to_position(cur_name.c_str(), 27, NULL, -1);
-            cur_name.resize(edge_pos);
             mvwprintz(w_con, 1 + i, 1, col, "%c %s",
                       (current < hotkeys.size()) ? hotkeys[current] : ' ',
-                      cur_name.c_str());
+                      utf8_truncate(cur_name, 27).c_str());
         }
 
         if (update_info) {
@@ -201,10 +200,11 @@ void construction_menu()
             mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
             // Print stages and their requirement
-            int posx = 33, posy = 1;
+            int posy = 1;
             std::vector<construction *> options = constructions_by_desc(current_desc);
-            for( unsigned i = 0; i < options.size(); ++i) {
-                construction *current_con = options[i];
+            for(std::vector<construction *>::iterator it = options.begin();
+                it != options.end(); ++it) {
+                construction *current_con = *it;
                 if( hide_unconstructable && !can_construct(current_con) ) {
                     continue;
                 }
@@ -243,92 +243,9 @@ void construction_menu()
                 }
                 // display time needed
                 posy++;
-                mvwprintz(w_con, posy, 31, color_stage, ngettext("Time: %1d minute","Time: %1d minutes",current_con->time), current_con->time);
-                // Print tools
-                std::vector<bool> has_tool;
-                posy++;
-                posx = 33;
-                for (int i = 0; i < current_con->tools.size(); i++) {
-                    has_tool.push_back(false);
-                    mvwprintz(w_con, posy, posx - 2, c_white, ">");
-                    for (unsigned j = 0; j < current_con->tools[i].size(); j++) {
-                        itype_id tool = current_con->tools[i][j].type;
-                        nc_color col = c_red;
-                        if (total_inv.has_tools(tool, 1)) {
-                            has_tool[i] = true;
-                            col = c_green;
-                        }
-                        int length = utf8_width(item_controller->find_template(tool)->nname(1).c_str());
-                        if( posx + length > FULL_SCREEN_WIDTH - 1 ) {
-                            posy++;
-                            posx = 33;
-                        }
-                        mvwprintz(w_con, posy, posx, col,
-                                  item_controller->find_template(tool)->nname(1).c_str());
-                        posx += length + 1; // + 1 for an empty space
-                        if (j < current_con->tools[i].size() - 1) { // "OR" if there's more
-                            if (posx > FULL_SCREEN_WIDTH - 3) {
-                                posy++;
-                                posx = 33;
-                            }
-                            mvwprintz(w_con, posy, posx, c_white, _("OR"));
-                            posx += utf8_width(_("OR")) + 1;
-                        }
-                    }
-                    posy ++;
-                    posx = 33;
-                }
-                // Print components
-                posx = 33;
-                std::vector<bool> has_component;
-                for( size_t i = 0; i < current_con->components.size(); ++i ) {
-                    has_component.push_back(false);
-                    mvwprintz(w_con, posy, posx - 2, c_white, ">");
-                    for( unsigned j = 0; j < current_con->components[i].size(); j++ ) {
-                        nc_color col = c_red;
-                        component comp = current_con->components[i][j];
-                        if( ( item_controller->find_template(comp.type)->is_ammo() &&
-                              total_inv.has_charges(comp.type, comp.count)) ||
-                            (!item_controller->find_template(comp.type)->is_ammo() &&
-                             total_inv.has_components(comp.type, comp.count)) ) {
-                            has_component[i] = true;
-                            col = c_green;
-                        }
-                        if ( ((item_controller->find_template(comp.type)->id == "rope_30") ||
-                          (item_controller->find_template(comp.type)->id == "rope_6")) &&
-                          ((g->u.has_trait("WEB_ROPE")) && (g->u.hunger <= 300)) ) {
-                            has_component[i] = true;
-                            col = c_ltgreen; // Show that WEB_ROPE is on the job!
-                        }
-                        int length = utf8_width(item_controller->find_template(comp.type)->nname(comp.count).c_str());
-                        if (posx + length > FULL_SCREEN_WIDTH - 1) {
-                            posy++;
-                            posx = 33;
-                        }
-                        mvwprintz(w_con, posy, posx, col, "%d %s",
-                                  comp.count, item_controller->find_template(comp.type)->nname(comp.count).c_str());
-                        posx += length + 2; 
-                        // Add more space for the length of the count
-                        if (comp.count < 10) {
-                            posx++;
-                        } else if (comp.count < 100) {
-                            posx += 2;
-                        } else {
-                            posx += 3;
-                        }
-
-                        if (j < current_con->components[i].size() - 1) { // "OR" if there's more
-                            if (posx > FULL_SCREEN_WIDTH - 3) {
-                                posy++;
-                                posx = 33;
-                            }
-                            mvwprintz(w_con, posy, posx, c_white, _("OR"));
-                            posx += utf8_width(_("OR")) + 1;
-                        }
-                    }
-                    posy ++;
-                    posx = 33;
-                }
+                posy += current_con->print_time(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage);
+                posy += current_con->print_tools(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
+                posy += current_con->print_components(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
             }
         } // Finished updating
 
@@ -410,8 +327,9 @@ static bool player_can_build(player &p, const inventory &pinv, const std::string
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
-    for (unsigned i = 0; i < cons.size(); ++i) {
-        if (player_can_build(p, pinv, cons[i])) {
+    for (std::vector<construction *>::iterator it = cons.begin();
+         it != cons.end(); ++it) {
+        if (player_can_build(p, pinv, *it)) {
             return true;
         }
     }
@@ -423,72 +341,16 @@ static bool player_can_build(player &p, const inventory &pinv, construction *con
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
     }
-
-    bool has_tool = false;
-    bool has_component = false;
-    bool tools_required = false;
-    bool components_required = false;
-
-    for (int j = 0; j < con->tools.size(); j++) {
-        if (!con->tools[j].empty()) {
-            tools_required = true;
-            has_tool = false;
-            for (unsigned k = 0; k < con->tools[j].size(); k++) {
-                if (pinv.has_tools(con->tools[j][k].type, 1)) {
-                    has_tool = true;
-                    con->tools[j][k].available = 1;
-                } else {
-                    con->tools[j][k].available = -1;
-                }
-            }
-            if (!has_tool) { // missing one of the tools for this stage
-                break;
-            }
-        }
-    }
-
-    for (int j = 0; j < con->components.size(); ++j) {
-        if (!con->components[j].empty()) {
-            components_required = true;
-            has_component = false;
-            for (unsigned k = 0; k < con->components[j].size(); k++) {
-                if // If you've Rope Webs, you can spin up the webbing to replace any amount of
-                      // rope your projects may require.  But you need to be somewhat nourished:
-                      // Famished or worse stops it.
-                      ( ((item_controller->find_template(con->components[j][k].type)->id == "rope_30") ||
-                      (item_controller->find_template(con->components[j][k].type)->id == "rope_6")) &&
-                      ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
-                      has_component = true;
-                      con->components[j][k].available = 1;
-                } else if (( item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                      pinv.has_charges(con->components[j][k].type,
-                                       con->components[j][k].count)    ) ||
-                    (!item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                     (pinv.has_components (con->components[j][k].type,
-                                      con->components[j][k].count)) )) {
-                    has_component = true;
-                    con->components[j][k].available = 1;
-
-                } else {
-                    con->components[j][k].available = -1;
-                }
-            }
-            if (!has_component) { // missing one of the comps for this stage
-                break;
-            }
-        }
-    }
-
-    return (has_component || !components_required) &&
-           (has_tool || !tools_required);
+    return con->can_make_with_inventory( pinv );
 }
 
 static bool can_construct( const std::string &desc )
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
-    for( unsigned i = 0; i < cons.size(); ++i ) {
-        if( can_construct(cons[i]) ) {
+    for(std::vector<construction *>::iterator it = cons.begin();
+        it != cons.end(); ++it) {
+        if(can_construct(*it)) {
             return true;
         }
     }
@@ -557,10 +419,11 @@ static void place_construction(const std::string &desc)
             if (x == g->u.posx && y == g->u.posy) {
                 y++;
             }
-            for (unsigned i = 0; i < cons.size(); ++i) {
-                if (can_construct(cons[i], x, y)
-                    && player_can_build(g->u, total_inv, cons[i])) {
-                    valid[point(x, y)] = cons[i];
+            for (std::vector<construction *>::iterator it = cons.begin();
+                 it != cons.end(); ++it) {
+                if (can_construct(*it, x, y)
+                    && player_can_build(g->u, total_inv, *it)) {
+                    valid[point(x, y)] = *it;
                 }
             }
         }
@@ -585,7 +448,7 @@ static void place_construction(const std::string &desc)
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(ACT_BUILD, con->time * 1000, con->id);
+    g->u.assign_activity(ACT_BUILD, con->time, con->id);
     g->u.activity.placement = choice;
 }
 
@@ -593,12 +456,13 @@ void complete_construction()
 {
     construction *built = constructions[g->u.activity.index];
 
-    g->u.practice(calendar::turn, built->skill, std::max(built->difficulty, 1) * 10);
-    for (int i = 0; i < built->components.size(); i++) {
+    g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
+                   (int)(built->difficulty * 1.25) );
+    for (auto it = built->components.begin(); it != built->components.end(); ++it) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
-        if (!built->components[i].empty()) {
-            g->consume_items(&(g->u), built->components[i]);
+        if (!it->empty()) {
+            g->consume_items(&(g->u), *it);
         }
     }
 
@@ -680,9 +544,10 @@ void construct::done_tree(point p)
     x = p.x + x * 3 + rng(-1, 1);
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
-    for (unsigned i = 0; i < tree.size(); i++) {
-        g->m.destroy(tree[i].x, tree[i].y, true);
-        g->m.ter_set(tree[i].x, tree[i].y, t_trunk);
+    for (std::vector<point>::iterator it = tree.begin();
+         it != tree.end(); ++it) {
+        g->m.destroy(it->x, it->y, true);
+        g->m.ter_set(it->x, it->y, t_trunk);
     }
 }
 
@@ -747,6 +612,12 @@ void construct::done_deconstruct(point p)
         }
         add_msg(_("You disassemble the %s."), f.name.c_str());
         g->m.spawn_item_list(f.deconstruct.items, p.x, p.y);
+        // Hack alert.
+        // Signs have cosmetics associated with them on the submap since 
+        // furniture can't store dynamic data to disk. To prevent writing
+        // mysteriously appearing for a sign later built here, remove the
+        // writing from the submap.
+        g->m.delete_signage(p.x, p.y);
     } else {
         ter_t &t = g->m.ter_at(p.x, p.y);
         if (!t.deconstruct.can_do) {
@@ -764,7 +635,7 @@ void construct::done_dig_stair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false);
+ tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false, g->cur_om);
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -837,8 +708,7 @@ void construct::done_dig_stair(point p)
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
-                  g->levz - 1); // Save z-1.
+      tmpmap.save();
    }
    else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
@@ -1025,8 +895,7 @@ void construct::done_dig_stair(point p)
       // Again, need to use submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
-                  , g->levz - 1); // Save z-1.
+      tmpmap.save();
    }
 }
 
@@ -1035,7 +904,7 @@ void construct::done_mine_downstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false);
+ tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false, g->cur_om);
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -1109,8 +978,7 @@ void construct::done_mine_downstair(point p)
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
-                  g->levz - 1); // Save z-1.
+      tmpmap.save();
    }
    else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
@@ -1297,8 +1165,7 @@ void construct::done_mine_downstair(point p)
       // Again, need to use submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
-                  , g->levz - 1); // Save z-1.
+      tmpmap.save();
    }
 }
 
@@ -1307,7 +1174,7 @@ void construct::done_mine_upstair(point p)
  tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
- tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz + 1, false);
+ tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz + 1, false, g->cur_om);
  bool danger_lava = false;
  bool danger_open = false;
  bool danger_liquid = false;
@@ -1398,8 +1265,7 @@ void construct::done_mine_upstair(point p)
       g->m.ter_set(p.x, p.y, t_stairs_up); // There's the bottom half
       // We need to write to submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
-                  g->levz + 1); // Save z+1.
+      tmpmap.save();
    }
    else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
@@ -1423,44 +1289,21 @@ void construct::done_mine_upstair(point p)
       // Again, need to use submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
       // And save to the center coordinate of the current active map.
-      tmpmap.save(g->cur_om, calendar::turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
-                  , g->levz + 1); // Save z+1.
+      tmpmap.save();
    }
 }
 
 void load_construction(JsonObject &jo)
 {
     construction *con = new construction;
-    JsonArray temp;
 
     con->description = _(jo.get_string("description").c_str());
     con->skill = jo.get_string("skill", "carpentry");
     con->difficulty = jo.get_int("difficulty");
-    con->time = jo.get_int("time");
-
-    temp = jo.get_array("tools");
-    while (temp.has_more()) {
-        std::vector<component> tool_choices;
-        JsonArray ja = temp.next_array();
-        while (ja.has_more()) {
-            std::string name = ja.next_string();
-            tool_choices.push_back(component(name, 1));
-        }
-        con->tools.push_back(tool_choices);
-    }
-
-    temp = jo.get_array("components");
-    while (temp.has_more()) {
-        std::vector<component> comp_choices;
-        JsonArray ja = temp.next_array();
-        while (ja.has_more()) {
-            JsonArray comp = ja.next_array();
-            std::string name = comp.get_string(0);
-            int quant = comp.get_int(1);
-            comp_choices.push_back(component(name, quant));
-        }
-        con->components.push_back(comp_choices);
-    }
+    con->load(jo);
+    // constructions use different time units in json, this makes it compatible
+    // with recipes/requirements, TODO: should be changed in json
+    con->time *= 1000;
 
     con->pre_terrain = jo.get_string("pre_terrain", "");
     if (con->pre_terrain.size() > 1
@@ -1548,8 +1391,7 @@ void check_constructions()
         if (!c->skill.empty() && Skill::skill(c->skill) == NULL) {
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
-        check_component_list(c->tools, display_name);
-        check_component_list(c->components, display_name);
+        c->check_consistency(display_name);
         if (!c->pre_terrain.empty() && !c->pre_is_furniture && termap.count(c->pre_terrain) == 0) {
             debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
         }

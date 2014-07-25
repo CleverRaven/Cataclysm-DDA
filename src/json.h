@@ -3,6 +3,7 @@
 
 #include <iosfwd>
 #include <map>
+#include <unordered_map>
 #include <set>
 #include <unordered_set>
 #include <string>
@@ -239,6 +240,21 @@ public:
             return true;
         } catch (std::string e) { return false; }
     }
+    // object ~> unordered_map
+    template <typename T> bool read(std::unordered_map<std::string,T> &m) {
+        if (!test_object()) { return false; }
+        try {
+            start_object();
+            m.clear();
+            while (!end_object()) {
+                std::string name = get_member_name();
+                T element;
+                if (read(element)) { m[name] = element; }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
 
     // error messages
     std::string line_number(int offset_modifier=0); // for occasional use only
@@ -310,8 +326,9 @@ public:
     // vector ~> array
     template <typename T> void write(const std::vector<T> &v) {
         start_array();
-        for (size_t i = 0; i < v.size(); ++i) {
-            write(v[i]);
+        for (typename std::vector<T>::const_iterator it = v.begin();
+             it != v.end(); ++it) {
+            write(*it);
         }
         end_array();
     }
@@ -337,6 +354,17 @@ public:
     template <typename T> void write(const std::map<std::string,T> &m) {
         start_object();
         typename std::map<std::string,T>::const_iterator it;
+        for (it = m.begin(); it != m.end(); ++it) {
+            write(it->first);
+            write_member_separator();
+            write(it->second);
+        }
+        end_object();
+    }
+    // unordered_map ~> object
+    template <typename T> void write(const std::unordered_map<std::string,T> &m) {
+        start_object();
+        typename std::unordered_map<std::string,T>::const_iterator it;
         for (it = m.begin(); it != m.end(); ++it) {
             write(it->first);
             write_member_separator();

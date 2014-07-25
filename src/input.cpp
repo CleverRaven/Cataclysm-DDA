@@ -1022,10 +1022,9 @@ long input_manager::get_previously_pressed_key() const
 
 #ifndef TILES
 // If we're using curses, we need to provide get_input_event() here.
-input_event input_manager::get_input_event(WINDOW *win)
+input_event input_manager::get_input_event(WINDOW * /*win*/)
 {
     previously_pressed_key = 0;
-    (void)win; // unused
     long key = getch();
     // Our current tiles and Windows code doesn't have ungetch()
 #if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
@@ -1076,8 +1075,44 @@ input_event input_manager::get_input_event(WINDOW *win)
         }
 #endif
     } else {
+        if( key == 127 ) { // == Unicode DELETE
+            previously_pressed_key = KEY_BACKSPACE;
+            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+        }
         rval.type = CATA_INPUT_KEYBOARD;
-        previously_pressed_key = key;
+        rval.text.append(1, (char) key);
+        // Read the UTF-8 sequence (if any)
+        if( key < 127 ) {
+            // Single byte sequence
+        } else if( 194 <= key && key <= 223 ) {
+            rval.text.append(1, (char) getch() );
+        } else if( 224 <= key && key <= 239 ) {
+            rval.text.append(1, (char) getch() );
+            rval.text.append(1, (char) getch() );
+        } else if( 240 <= key && key <= 244 ) {
+            rval.text.append(1, (char) getch() );
+            rval.text.append(1, (char) getch() );
+            rval.text.append(1, (char) getch() );
+        } else {
+            // Other control character, etc. - no text at all, return an event
+            // without the text property
+            previously_pressed_key = key;
+            return input_event( key, CATA_INPUT_KEYBOARD );
+        }
+        // Now we have loaded an UTF-8 sequence (possbily several bytes)
+        // but we should only return *one* key, so return the code point of it.
+        const char *utf8str = rval.text.c_str();
+        int len = rval.text.length();
+        const unsigned cp = UTF8_getch(&utf8str, &len);
+        if( cp == UNKNOWN_UNICODE ) {
+            // Invalid UTF-8 sequence, this should never happen, what now?
+            // Maybe return any error instead?
+            previously_pressed_key = key;
+            return input_event( key, CATA_INPUT_KEYBOARD );
+        }
+        previously_pressed_key = cp;
+        // for compatibility only add the first byte, not the code point
+        // as it would  conflict with the special keys defined by ncurses
         rval.add_input(key);
     }
 

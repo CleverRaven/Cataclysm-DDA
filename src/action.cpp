@@ -162,6 +162,8 @@ std::string action_ident(action_id act)
         return "peek";
     case ACTION_LIST_ITEMS:
         return "listitems";
+    case ACTION_ZONES:
+        return "zones";
     case ACTION_INVENTORY:
         return "inventory";
     case ACTION_COMPARE:
@@ -408,17 +410,15 @@ bool can_butcher_at(int x, int y)
     std::vector<item> &items = g->m.i_at(x, y);
     bool has_corpse, has_item = false;
     inventory crafting_inv = g->crafting_inventory(&g->u);
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+    for (std::vector<item>::iterator it = items.begin();
+         it != items.end(); ++it) {
+        if (it->type->id == "corpse" && it->corpse != NULL) {
             if (factor != INT_MAX) {
                 has_corpse = true;
             }
-        }
-    }
-    for (size_t i = 0; i < items.size(); i++) {
-        if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
-            recipe *cur_recipe = g->get_disassemble_recipe(items[i].type->id);
-            if (cur_recipe != NULL && g->can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+        } else {
+            recipe *cur_recipe = g->get_disassemble_recipe(it->type->id);
+            if (cur_recipe != NULL && g->can_disassemble(&*it, cur_recipe, crafting_inv, false)) {
                 has_item = true;
             }
         }
@@ -465,7 +465,8 @@ bool can_examine_at(int x, int y)
         return true;
     }
 
-    if(g->m.tr_at(x, y) != tr_null) {
+    const trap_id t = g->m.tr_at( x, y );
+    if( t != tr_null && traplist[t]->can_see( g->u, x, y ) ) {
         return true;
     }
 
@@ -577,7 +578,7 @@ action_id handle_action_menu()
 
         if(category == "back") {
             std::vector<std::pair<action_id, int> >::iterator it;
-            for (it = sorted_pairs.begin(); it != sorted_pairs.end(); it++) {
+            for (it = sorted_pairs.begin(); it != sorted_pairs.end(); ++it) {
                 if(it->second >= 200) {
                     REGISTER_ACTION(it->first);
                 }
@@ -611,6 +612,7 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_LOOK);
             REGISTER_ACTION(ACTION_PEEK);
             REGISTER_ACTION(ACTION_LIST_ITEMS);
+            REGISTER_ACTION(ACTION_ZONES);
             REGISTER_ACTION(ACTION_MAP);
         } else if(category == "inventory") {
             REGISTER_ACTION(ACTION_INVENTORY);
@@ -706,8 +708,8 @@ action_id handle_action_menu()
 
         int width = 0;
         for (std::vector<uimenu_entry>::iterator entry = entries.begin();
-             entry != entries.end(); entry++) {
-            if (width<entry->txt.length()) {
+             entry != entries.end(); ++entry) {
+            if (width < entry->txt.length()) {
                 width = entry->txt.length();
             }
         }
@@ -748,8 +750,8 @@ bool choose_direction(const std::string &message, int &x, int &y)
     ctxt.register_action("HELP_KEYBINDINGS"); // why not?
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(stdscr, 0, VIEW_OFFSET_X, "%s", query_text.c_str());
-    wrefresh(stdscr);
+    mvwprintw(g->w_terrain, 0, 0, "%s", query_text.c_str());
+    wrefresh(g->w_terrain);
     const std::string action = ctxt.handle_input();
     if (input_context::get_direction(x, y, action)) {
         return true;
@@ -784,7 +786,7 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
 
             if(can_interact_at(action_to_highlight, x, y)) {
                 highlighted = true;
-                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos(), g->u.ypos());
+                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos() + g->u.view_offset_x, g->u.ypos() + g->u.view_offset_y);
             }
         }
     }

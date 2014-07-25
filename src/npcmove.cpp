@@ -7,7 +7,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 
-#define dbg(x) dout((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
 
 // A list of items used for escape, in order from least to most valuable
@@ -55,9 +55,19 @@ void npc::move()
         debugmsg("NPC %s: target = %d, danger = %d, range = %d",
                  name.c_str(), target, danger, confident_range(-1));
 
+    //faction opinion determines if it should consider you hostile
+    if (my_fac != NULL && my_fac->likes_u < -10 && this->sees(g->u.posx, g->u.posy)
+        && g->u.is_invisible() == false){
+        if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
+            attitude = NPCATT_FLEE; // We don't want to take u on!
+        else
+            attitude = NPCATT_KILL; // Yeah, we think we could take you!
+    }
+
+
     if (is_enemy()) {
         int pl_danger = player_danger( &(g->u) );
-        if (pl_danger > danger || target == -1) {
+        if ((pl_danger > danger || rl_dist(posx, posy, g->u.posx, g->u.posy) <= 1) || target == -1) {
             target = TARGET_PLAYER;
             danger = pl_danger;
             if (g->debugmon) {
@@ -99,7 +109,8 @@ void npc::move()
             debugmsg("address_player %s", npc_action_name(action).c_str());
         }
         if (action == npc_undecided) {
-            if (mission == NPC_MISSION_SHELTER || has_disease("infection")) {
+            if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
+                    || mission == NPC_MISSION_GUARD || has_disease("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
@@ -357,6 +368,9 @@ void npc::execute_action(npc_action action, int target)
                     // TODO: replace extra hop distance with finding the correct door
                     //       Hop in the last few squares is mostly to avoid player clash
                     if (path.size() <= 2) {
+                        if( in_vehicle ) {
+                            g->m.unboard_vehicle( posx, posy );
+                        }
                         g->m.board_vehicle(px, py, this);
                         move_pause();
                     } else {
@@ -554,7 +568,11 @@ npc_action npc::method_of_attack(int target, int danger)
                 else {
                     return npc_avoid_friendly_fire;
                 }
-            else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
+            else if (target == TARGET_PLAYER && g->u.is_invisible() == true){
+                return npc_pause;//Lost you since you went invisible
+            }else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)){
+                return npc_melee;//Can't see target
+            }else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
                      g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
@@ -644,7 +662,7 @@ npc_action npc::address_player()
 {
     int linet;
     if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
-        g->sees_u(posx, posy, linet)) {
+        this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
         if (g->u.has_disease("sleep")) {
             // Leave sleeping characters alone.
             return npc_undecided;
@@ -659,7 +677,7 @@ npc_action npc::address_player()
         }
     }
 
-    if (attitude == NPCATT_MUG && g->sees_u(posx, posy, linet)) {
+    if (attitude == NPCATT_MUG && this->sees(g->u.posx, g->u.posy) && g->u.is_invisible() == false) {
         if (one_in(3)) {
             say(_("Don't move a <swear> muscle..."));
         }
@@ -795,16 +813,16 @@ void npc::use_escape_item(int position)
 }
 
 // Index defaults to 0, i.e., wielded weapon
-int npc::confident_range(char invlet)
+int npc::confident_range(int position)
 {
 
-    if (invlet == 0 && (!weapon.is_gun() || weapon.charges <= 0)) {
+    if (position == -1 && (!weapon.is_gun() || weapon.charges <= 0)) {
         return 1;
     }
 
     double deviation = 0;
     int max = 0;
-    if (invlet == 0) {
+    if (position == -1) {
         it_gun *firing = dynamic_cast<it_gun *>(weapon.type);
         // We want at least 50% confidence that missed_by will be < .5.
         // missed_by = .00325 * deviation * range <= .5; deviation * range <= 156
@@ -835,8 +853,8 @@ int npc::confident_range(char invlet)
 
     } else { // We aren't firing a gun, we're throwing something!
 
-        item *thrown = &(inv.item_by_letter(invlet));
-        max = throw_range(invlet); // The max distance we can throw
+        item *thrown = &i_at(position);
+        max = throw_range(position); // The max distance we can throw
         deviation = 0;
         if (skillLevel("throw") < 8) {
             deviation += 8 - skillLevel("throw");
@@ -874,10 +892,10 @@ int npc::confident_range(char invlet)
 }
 
 // Index defaults to -1, i.e., wielded weapon
-bool npc::wont_hit_friend(int tarx, int tary, char invlet)
+bool npc::wont_hit_friend(int tarx, int tary, int position)
 {
     int linet = 0, dist = sight_range(g->light_level());
-    int confident = confident_range(invlet);
+    int confident = confident_range(position);
     if (rl_dist(posx, posy, tarx, tary) == 1) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
@@ -1054,6 +1072,17 @@ void npc::move_to(int x, int y)
             posy = y;
             bool diag = trigdist && posx != x && posy != y;
             moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
+            if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
+                trap* tr = traplist[g->m.tr_at(x, y)];
+                if (!this->avoid_trap(tr, x, y)) {
+                    tr->trigger(this, x, y);
+                }
+            }
+            int part;
+            vehicle *veh = g->m.veh_at( posx, posy, part );
+            if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+                g->m.board_vehicle( posx, posy, this );
+            }
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;
         } else if (g->m.has_flag("BASHABLE", x, y)) {
@@ -1469,7 +1498,7 @@ void npc::drop_items(int weight, int volume)
         }
         weight_dropped += slice[index]->front().weight();
         volume_dropped += slice[index]->front().volume();
-        item dropped = i_remn(slice[index]->front().invlet);
+        item dropped = i_rem(index);
         num_items_dropped++;
         if (num_items_dropped == 1) {
             item_name << dropped.tname();
@@ -1599,30 +1628,30 @@ void npc::alt_attack(int target)
         }
     }
 
-    char invlet = 0;
+    int position = INT_MIN;
     item *used = NULL;
     if (weapon.type->id == which) {
         used = &weapon;
-        invlet = 0;
+        position = -1;
     } else {
         invslice slice = inv.slice();
         for (int i = 0; i < inv.size(); i++) {
             if (slice[i]->front().type->id == which) {
                 used = &(slice[i]->front());
-                invlet = used->invlet;
+                position = i;
             }
         }
     }
 
     // Are we going to throw this item?
     if (!thrown_item(used)) {
-        activate_item(invlet);
+        activate_item(position);
     } else { // We are throwing it!
 
         std::vector<point> trajectory;
         int linet, light = g->light_level();
 
-        if (dist <= confident_range(invlet) && wont_hit_friend(tarx, tary, invlet)) {
+        if (dist <= confident_range(position) && wont_hit_friend(tarx, tary, position)) {
 
             if (g->m.sees(posx, posy, tarx, tary, light, linet)) {
                 trajectory = line_to(posx, posy, tarx, tary, linet);
@@ -1643,16 +1672,16 @@ void npc::alt_attack(int target)
             g->throw_item(*this, tarx, tary, *used, trajectory);
             // Throw a single charge of a stacking object.
             if( stack_size == -1 || stack_size == 1 ) {
-                i_remn(invlet);
+                i_rem(position);
             } else {
                 used->charges = stack_size - 1;
             }
-        } else if (!wont_hit_friend(tarx, tary, invlet)) {// Danger of friendly fire
+        } else if (!wont_hit_friend(tarx, tary, position)) {// Danger of friendly fire
 
             if (!used->active || used->charges > 2) { // Safe to hold on to, for now
                 avoid_friendly_fire(target);    // Maneuver around player
             } else { // We need to throw this live (grenade, etc) NOW! Pick another target?
-                int conf = confident_range(invlet);
+                int conf = confident_range(position);
                 for (int dist = 2; dist <= conf; dist++) {
                     for (int x = posx - dist; x <= posx + dist; x++) {
                         for (int y = posy - dist; y <= posy + dist; y++) {
@@ -1661,7 +1690,7 @@ void npc::alt_attack(int target)
                             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
                             // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
                             if (newdist <= conf && newdist >= 2 && newtarget != -1 &&
-                                wont_hit_friend(x, y, invlet)) { // Friendlyfire-safe!
+                                wont_hit_friend(x, y, position)) { // Friendlyfire-safe!
                                 alt_attack(newtarget);
                                 return;
                             }
@@ -1677,7 +1706,7 @@ void npc::alt_attack(int target)
                     for (int x = posx - dist; x <= posx + dist; x++) {
                         for (int y = posy - dist; y <= posy + dist; y++) {
                             int new_dist = rl_dist(posx, posy, x, y);
-                            if (new_dist > best_dist && wont_hit_friend(x, y, invlet)) {
+                            if (new_dist > best_dist && wont_hit_friend(x, y, position)) {
                                 best_dist = new_dist;
                                 tarx = x;
                                 tary = y;
@@ -1709,12 +1738,12 @@ void npc::alt_attack(int target)
 
                 // Throw a single charge of a stacking object.
                 if( stack_size == -1 || stack_size == 1 ) {
-                    i_remn(invlet);
+                    i_rem(position);
                 } else {
                     used->charges = stack_size - 1;
                 }
 
-                i_remn(invlet);
+                i_rem(position);
             }
 
         } else { // Within this block, our chosen target is outside of our range
@@ -1724,15 +1753,15 @@ void npc::alt_attack(int target)
     } // Done with throwing-item block
 }
 
-void npc::activate_item(char invlet)
+void npc::activate_item(int position)
 {
-    item *it = &(inv.item_by_letter(invlet));
+    item *it = &i_at(position);
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
-        tool->use.call(this, it, false);
+        tool->invoke(this, it, false);
     } else if (it->is_food()) {
         it_comest *comest = dynamic_cast<it_comest *>(it->type);
-        comest->use.call(this, it, false);
+        comest->invoke(this, it, false);
     }
 }
 
@@ -1899,7 +1928,7 @@ void npc::use_painkiller()
         move_pause();
     } else {
         if (g->u_see(posx, posy)) {
-            add_msg(_("%s takes some %s."), name.c_str(), it->name.c_str());
+            add_msg(_("%s takes some %s."), name.c_str(), it->tname().c_str());
         }
         consume(inv.position_by_item(it));
         moves = 0;
@@ -1994,17 +2023,17 @@ void npc::mug_player(player &mark)
                 value_mod -= double((8 - op_of_u.value) * .07);
             }
             int best_value = minimum_item_value() * value_mod;
-            char invlet = 0;
+            int position = INT_MIN;
             invslice slice = mark.inv.slice();
             for (int i = 0; i < slice.size(); i++) {
                 if (value(slice[i]->front()) >= best_value &&
                     can_pickVolume(slice[i]->front().volume()) &&
                     can_pickWeight(slice[i]->front().weight())) {
                     best_value = value(slice[i]->front());
-                    invlet = slice[i]->front().invlet;
+                    position = i;
                 }
             }
-            if (invlet == 0) { // Didn't find anything worthwhile!
+            if (position == INT_MIN) { // Didn't find anything worthwhile!
                 attitude = NPCATT_FLEE;
                 if (!one_in(3)) {
                     say("<done_mugging>");
@@ -2013,7 +2042,7 @@ void npc::mug_player(player &mark)
             } else {
                 bool u_see_me   = g->u_see(posx, posy),
                      u_see_mark = g->u_see(mark.posx, mark.posy);
-                item stolen = mark.i_remn(invlet);
+                item stolen = mark.i_rem(position);
                 if (mark.is_npc()) {
                     if (u_see_me) {
                         if (u_see_mark)
@@ -2102,6 +2131,24 @@ bool npc::has_destination()
 
 void npc::reach_destination()
 {
+    //this entire clause is to preserve the guard's home coordinates and permit him/her to return
+    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP){
+        if (guardx == global_square_location().x && guardy == global_square_location().y){
+            return; //Our guard is already at his/her home tile
+        }
+        else {
+            if (path.size() > 1)
+                move_to_next();  //No point recalculating the path to get home
+            else{
+                int pt1 = guardx - ((omx * OMAPX * 2) + mapx) * SEEX;
+                int pt2 = guardy - ((omx * OMAPY * 2) + mapy) * SEEY;
+                update_path(pt1, pt2);
+                move_to_next();
+            }
+        }
+        return;//don't delete our post if we are a guard
+    }
+
     goal = no_goal_point;
 }
 
@@ -2118,6 +2165,14 @@ void npc::set_destination()
      * Also, NPCs should be able to assign themselves missions like "break into that
      *  lab" or "map that river bank."
      */
+    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP){
+        goal.x = global_omt_location().x;
+        goal.y = global_omt_location().y;
+        goal.z = g->levz;
+        guardx = global_square_location().x;
+        guardy = global_square_location().y;
+        return;
+    }
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.

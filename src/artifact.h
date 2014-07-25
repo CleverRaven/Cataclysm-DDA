@@ -149,9 +149,11 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
         it_artifact_tool();
 
         it_artifact_tool(JsonObject &jo) : it_tool() {
-            use = &iuse::artifact;
+            use_methods.push_back( &iuse::artifact );
             deserialize(jo);
         };
+        void create_name(const std::string &type);
+        void create_name(const std::string &property_name, const std::string &shape_name);
 };
 
 class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDeserializer
@@ -177,6 +179,7 @@ class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDes
         it_artifact_armor(JsonObject &jo) : it_armor() {
             deserialize(jo);
         };
+        void create_name(const std::string &type);
 };
 
 

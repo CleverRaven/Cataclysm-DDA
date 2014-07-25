@@ -13,11 +13,9 @@
 #include "messages.h"
 #include <stdlib.h>
 #include <string>
-#include <vector>
-#include <set>
+#include <unordered_map>
 
 class game;
-class effect;
 
 class Creature
 {
@@ -42,9 +40,10 @@ class Creature
         virtual void set_fake (const bool fake_value);
 
         virtual void normalize(); // recreate the Creature from scratch
+        virtual void process_turn(); // handles long-term non-idempotent updates to creature state (e.g. moves += speed, bionics hunger costs)
         virtual void reset(); // handle both reset steps. Call this function instead of reset_stats/bonuses
         virtual void reset_bonuses(); // reset the value of all bonus fields to 0
-        virtual void reset_stats(); // prepare the Creature for the next turn
+        virtual void reset_stats(); // prepare the Creature for the next turn. Should be idempotent
         virtual void die(Creature *killer) = 0;
 
         virtual int hit_roll() = 0;
@@ -123,6 +122,7 @@ class Creature
         virtual bool is_underwater() const = 0;
         virtual bool is_warm(); // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() = 0;
+        virtual bool is_hallucination() const = 0;
         // returns true iff health is zero or otherwise should be dead
         virtual bool is_dead_state() = 0;
 
@@ -139,7 +139,12 @@ class Creature
                             int intensity = 1, bool permanent = false); // gives chance to save via env resist, returns if successful
         void remove_effect(efftype_id eff_id);
         void clear_effects(); // remove all effects
-        bool has_effect(efftype_id eff_id);
+        bool has_effect(efftype_id eff_id) const;
+
+        // Methods for setting/getting misc key/value pairs.
+        void set_value( const std::string key, const std::string value );
+        void remove_value( const std::string key );
+        std::string get_value( const std::string key ) const;
 
         virtual void process_effects(); // runs all the effects on the Creature
 
@@ -191,9 +196,10 @@ class Creature
         virtual int get_hit();
         virtual m_size get_size() = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
+        virtual int get_hp_max( hp_part bp = num_hp_parts ) = 0;
         virtual std::string get_material() { return "flesh"; };
-        virtual field_id bloodType () { debugmsg("creature:bloodType: not a valid monster/npc/player, returned fd_null"); return fd_null; };
-        virtual field_id gibType () { debugmsg("creature:gibType: not a valid monster/npc/player, returned fd_gibs_flesh"); return fd_gibs_flesh; };
+        virtual field_id bloodType () = 0;
+        virtual field_id gibType () = 0;
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const { return false; };
 
@@ -225,6 +231,7 @@ class Creature
         virtual void mod_dex_bonus(int ndex);
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
+        virtual void mod_stat( std::string stat, int modifier );
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
@@ -269,8 +276,6 @@ class Creature
 
         void draw(WINDOW *w, int plx, int ply, bool inv);
 
-        static void init_hit_weights();
-
         // Message related stuff
         virtual void add_msg_if_player(const char *, ...){};
         virtual void add_msg_if_player(game_message_type, const char *, ...){};
@@ -284,7 +289,9 @@ class Creature
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
-        std::vector<effect> effects;
+        std::unordered_map<std::string, effect> effects;
+        // Miscelaneous key/value pairs.
+        std::unordered_map<std::string, std::string> values;
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
@@ -324,21 +331,10 @@ class Creature
 
         virtual nc_color symbol_color();
         virtual nc_color basic_symbol_color();
-        virtual char symbol();
+        virtual const std::string &symbol() const;
         virtual bool is_symbol_highlighted();
 
-
-        //Hit weight work.
-        static std::map<int, std::map<body_part, double> > default_hit_weights;
-
-        typedef std::pair<body_part, double> weight_pair;
-
-        struct weight_compare {
-            bool operator() (const weight_pair &left, const weight_pair &right) { return left.second < right.second;}
-        };
-
-        body_part select_body_part(Creature *source, int hitroll);
-
+        body_part select_body_part(Creature *source, int hit_roll);
 };
 
 #endif

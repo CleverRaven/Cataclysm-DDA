@@ -34,7 +34,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand)
     type = item_controller->find_template( new_type );
     bday = turn;
     corpse = type->corpse;
-    name = type->name;
+    name = type->nname(1);
     if (type->is_gun()) {
         charges = 0;
     } else if (type->is_ammo()) {
@@ -42,6 +42,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand)
         charges = ammo->count;
     } else if (type->is_food()) {
         it_comest* comest = dynamic_cast<it_comest*>(type);
+        active = true;
         if (comest->charges == 1 && !made_of(LIQUID)) {
             charges = -1;
         } else {
@@ -93,6 +94,12 @@ void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
     bday = turn;
 }
 
+void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name)
+{
+    make_corpse(new_type, mt, turn);
+    this->name = name;
+}
+
 itype * item::nullitem_m = new itype();
 itype * item::nullitem()
 {
@@ -133,6 +140,7 @@ void item::init() {
     light = nolight;
     fridge = 0;
     rot = 0;
+    is_rotten = false;
     last_rot_check = 0;
 }
 
@@ -396,7 +404,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (corpse != NULL && ( debug == true || ( g != NULL &&
              ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait("CARNIVORE") ||
                g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) ) ) {
-            dump->push_back(iteminfo("FOOD", _("Smells like: ") + corpse->name));
+            dump->push_back(iteminfo("FOOD", _("Smells like: ") + corpse->nname()));
         }
     } else if (is_food_container()) {
         // added charge display for debugging
@@ -666,52 +674,66 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         it_book* book = dynamic_cast<it_book*>(type);
-        if (!book->type) {
+        // Some things about a book you CAN tell by it's cover.
+        if( !book->type ) {
             dump->push_back(iteminfo("BOOK", _("Just for fun.")));
-        } else {
-            dump->push_back(iteminfo("BOOK", "", string_format(_("Can bring your %s skill to <num>"),
-                                                              book->type->name().c_str()), book->level));
-
-            if (book->req == 0) {
-                dump->push_back(iteminfo("BOOK", _("It can be understood by beginners.")));
-            } else {
+        }
+        if (book->req == 0) {
+            dump->push_back(iteminfo("BOOK", _("It can be understood by beginners.")));
+        }
+        if( g->u.has_identified( type->id ) ) {
+            if( book->type ) {
                 dump->push_back(iteminfo("BOOK", "",
-                                         string_format(_("Requires %s level <num> to understand."),
-                                         book->type->name().c_str()), book->req, true, "", true, true));
-            }
-        }
+                                         string_format(_("Can bring your %s skill to <num>"),
+                                                       book->type->name().c_str()), book->level));
 
-        dump->push_back(iteminfo("BOOK", "", _("Requires intelligence of <num> to easily read."),
-                                 book->intel, true, "", true, true));
-        if (book->fun != 0) {
-            dump->push_back(iteminfo("BOOK", "", _("Reading this book affects your morale by <num>"),
-                                     book->fun, true, (book->fun > 0 ? "+" : "")));
-        }
-        dump->push_back(iteminfo("BOOK", "", ngettext("This book takes <num> minute to read.", "This book takes <num> minutes to read.", book->time),
-                                 book->time, true, "", true, true));
-
-        if (!(book->recipes.empty())) {
-            std::string recipes = "";
-            size_t index = 1;
-            for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
-                 iter != book->recipes.end(); ++iter, ++index) {
-                if(g->u.knows_recipe(iter->first)) {
-                    recipes += "<color_ltgray>";
-                }
-                recipes += item_controller->find_template( iter->first->result )->name;
-                if(g->u.knows_recipe(iter->first)) {
-                    recipes += "</color>";
-                }
-                if(index == book->recipes.size() - 1) {
-                    recipes += _(", and "); // oxford comma 4 lyfe
-                } else if(index != book->recipes.size()) {
-                    recipes += _(", ");
+                if( book->req != 0 ){
+                    dump->push_back(iteminfo("BOOK", "",
+                                             string_format(_("Requires %s level <num> to understand."),
+                                                           book->type->name().c_str()),
+                                             book->req, true, "", true, true));
                 }
             }
-            std::string recipe_line = string_format(ngettext("This book contains %1$d crafting recipe: %2$s", "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
-                                                    book->recipes.size(), recipes.c_str());
-            dump->push_back(iteminfo("DESCRIPTION", "--"));
-            dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
+
+            dump->push_back(iteminfo("BOOK", "", _("Requires intelligence of <num> to easily read."),
+                                     book->intel, true, "", true, true));
+            if (book->fun != 0) {
+                dump->push_back(iteminfo("BOOK", "",
+                                         _("Reading this book affects your morale by <num>"),
+                                         book->fun, true, (book->fun > 0 ? "+" : "")));
+            }
+            dump->push_back(iteminfo("BOOK", "", ngettext("This book takes <num> minute to read.",
+                                                          "This book takes <num> minutes to read.",
+                                                          book->time),
+                                     book->time, true, "", true, true));
+
+            if (!(book->recipes.empty())) {
+                std::string recipes = "";
+                size_t index = 1;
+                for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
+                     iter != book->recipes.end(); ++iter, ++index) {
+                    if(g->u.knows_recipe(iter->first)) {
+                        recipes += "<color_ltgray>";
+                    }
+                    recipes += item_controller->find_template( iter->first->result )->nname(1);
+                    if(g->u.knows_recipe(iter->first)) {
+                        recipes += "</color>";
+                    }
+                    if(index == book->recipes.size() - 1) {
+                        recipes += _(" and "); // Who gives a fuck about an oxford comma?
+                    } else if(index != book->recipes.size()) {
+                        recipes += _(", ");
+                    }
+                }
+                std::string recipe_line = string_format(
+                    ngettext("This book contains %1$d crafting recipe: %2$s",
+                             "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
+                    book->recipes.size(), recipes.c_str());
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
+            }
+        } else {
+            dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));
         }
 
     } else if (is_tool()) {
@@ -754,12 +776,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         typedef std::map<std::string, int> t_count_map;
         t_count_map counts;
         for(t_item_vector::const_iterator a = components.begin(); a != components.end(); ++a) {
-            const std::string name = const_cast<item&>(*a).display_name();
-            if (counts.count(name) > 0) {
-                counts[name]++;
-            } else {
-                counts[name] = 1;
-            }
+            const std::string name = a->display_name();
+            counts[name]++;
         }
         std::ostringstream buffer;
         buffer << _("Made from: ");
@@ -780,7 +798,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
             quality != type->qualities.end(); ++quality){
             dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %1$d %2$s quality."),
-                            quality->second, qualities[quality->first].name.c_str())));
+                            quality->second, quality::get_name(quality->first).c_str())));
         }
     }
 
@@ -821,6 +839,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing lies close to the skin and layers easily.")));
         }
+        if (is_armor() && has_flag("OVERSIZE")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing is large enough to accommodate mutated anatomy.")));
+        }
         if (is_armor() && has_flag("POCKETS")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -835,6 +858,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing is designed to keep you dry in the rain.")));
+        }
+        if (is_armor() && has_flag("SUN_GLASSES")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing keeps the glare out of your eyes.")));
         }
         if (is_armor() && has_flag("WATER_FRIENDLY")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1053,7 +1081,7 @@ nc_color item::color(player *u) const
                 ret = c_green;
             }
         }
-    } else if (is_book()) {
+    } else if (is_book() && u->has_identified( type->id ) ) {
         it_book* tmp = dynamic_cast<it_book*>(type);
         if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
                 (tmp->intel == 0 || !u->has_trait("ILLITERATE")) &&
@@ -1079,7 +1107,7 @@ nc_color item::color_in_inventory()
 * in additional inventory)
 * @return name of item
 */
-std::string item::tname( unsigned int quantity, bool with_prefix )
+std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
 
@@ -1134,11 +1162,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
         if (name != "") {
             maintext = rmp_format(ngettext("<item_name>%s corpse of %s",
                                            "<item_name>%s corpses of %s",
-                                           quantity), corpse->name.c_str(), name.c_str());
+                                           quantity), corpse->nname().c_str(), name.c_str());
         } else {
             maintext = rmp_format(ngettext("<item_name>%s corpse",
                                            "<item_name>%s corpses",
-                                           quantity), corpse->name.c_str());
+                                           quantity), corpse->nname().c_str());
         }
     } else if (typeId() == "blood") {
         if (corpse == NULL || corpse->id == "mon_null")
@@ -1148,7 +1176,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
         else
             maintext = rmp_format(ngettext("<item_name>%s blood",
                                            "<item_name>%s blood",
-                                           quantity), corpse->name.c_str());
+                                           quantity), corpse->nname().c_str());
     }
     else if (iname != item_vars.end()) {
         maintext = iname->second;
@@ -1178,8 +1206,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
         maintext = type->nname(quantity);
     }
 
-    item* food = NULL;
-    it_comest* food_type = NULL;
+    const item* food = NULL;
+    const it_comest* food_type = NULL;
     std::string tagtext = "";
     std::string toolmodtext = "";
     ret.str("");
@@ -1190,7 +1218,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
 
         if (food_type->spoils != 0)
         {
-            if(food->rotten()) {
+            if(const_cast<item*>(food)->rotten()) {
                 ret << _(" (rotten)");
             } else if ( rot < 100 ) {
                 ret << _(" (fresh)");
@@ -1238,13 +1266,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
     }
 }
 
-std::string item::display_name(unsigned int quantity)
+std::string item::display_name(unsigned int quantity) const
 {
     // Show count of contents (e.g. amount of liquid in container)
     // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
     if (contents.size() == 1 && contents[0].charges > 0) {
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
-    } else if (charges >= 0) {
+    } else if (charges >= 0 && !has_flag("NO_AMMO")) {
         return string_format("%s (%d)", tname(quantity).c_str(), charges);
     }
     else {
@@ -1269,6 +1297,36 @@ int item::price() const
     }
 
     int ret = type->price;
+    if( is_rotten ) {
+        // better price here calculation? No value at all?
+        ret = type->price / 10;
+    }
+    if( damage > 0 ) {
+        // maximal damage is 4, maximal reduction is 1/10 of the value.
+        ret -= ret * static_cast<double>( damage ) / 40;
+    }
+    if( curammo != nullptr && charges > 0 ) {
+        item tmp( curammo->id, 0 );
+        tmp.charges = charges;
+        ret += tmp.price();
+    }
+    if( type->is_ammo() ) {
+        const it_ammo* ammo = dynamic_cast<const it_ammo*>( type );
+        ret = ret * charges / static_cast<double>( ammo->count );
+    } else if( type->is_food() ) {
+        const it_comest* comest = dynamic_cast<const it_comest*>( type );
+        if( comest->charges > 1 || made_of( LIQUID ) ) {
+            ret = ret * charges * static_cast<double>( comest->charges );
+        }
+    }
+    if( is_tool() && curammo == nullptr ) {
+        // If the tool uses specific ammo (like gasoline) it is handled above.
+        const it_tool *itt = dynamic_cast<const it_tool*>( type );
+        if( itt->max_charges > 0 && itt->def_charges > 0 ) {
+            const double f = static_cast<double>( itt->def_charges ) / itt->max_charges;
+            ret = f * std::max<long>( 0, charges ) * ret;
+        }
+    }
     for (size_t i = 0; i < contents.size(); i++) {
         ret += contents[i].price();
     }
@@ -1560,20 +1618,15 @@ int item::has_gunmod(itype_id mod_type)
 
 bool item::rotten()
 {
-    if (!is_food() || g == NULL)
-        return false;
-    it_comest* food = dynamic_cast<it_comest*>(type);
-    if (food->spoils != 0) {
-      calc_rot();
-
-      return (rot > (signed int)food->spoils * 600);
-    } else {
-      return false;
-    }
+    return is_rotten;
 }
 
-void item::calc_rot()
+void item::calc_rot(const point &location)
 {
+    if (!is_food() || g == NULL){
+        is_rotten = false;
+        return;
+    }
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
         const int since = ( last_rot_check == 0 ? bday : last_rot_check );
@@ -1581,7 +1634,7 @@ void item::calc_rot()
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             int old = rot;
-            rot += get_rot_since( since, until );
+            rot += get_rot_since( since, until, location );
             if (g->debugmon) {
                 add_msg(m_info, "r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
             }
@@ -1594,6 +1647,13 @@ void item::calc_rot()
             fridge = 0;
         }
     }
+    it_comest* food = dynamic_cast<it_comest*>(type);
+    if (food->spoils != 0 && (rot > (signed int)food->spoils * 600)) {
+      is_rotten = true;
+    } else {
+      is_rotten = false;
+    }
+    if(is_rotten) {active = false;}
 }
 
 int item::brewing_time()
@@ -1769,7 +1829,7 @@ int item::bash_resist() const
             ret = cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist();
         }
     }
-
+    ret = ret * 0.5; //halve armour values for balance reasons
     return ret;
 }
 
@@ -1809,7 +1869,7 @@ int item::cut_resist() const
             ret = cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist();
         }
     }
-
+    ret = ret * 0.5; //halve armour values for balance reasons
     return ret;
 }
 
@@ -2730,7 +2790,7 @@ bool item::reload(player &u, int pos)
 
     // Handle ammo in containers, currently only gasoline and quivers
     if (!ammo_to_use->contents.empty() && (ammo_to_use->is_container() ||
-                                           ammo_to_use->type->use == &iuse::quiver)) {
+                                           ammo_to_use->type->can_use("QUIVER"))) {
         ammo_container = ammo_to_use;
         ammo_to_use = &ammo_to_use->contents[0];
     }
@@ -2882,6 +2942,11 @@ bool item::flammable() const
 {
     const material_type* cur_mat1 = get_material(1);
     const material_type* cur_mat2 = get_material(2);
+    if( cur_mat1->is_null() && cur_mat2->is_null() ) {
+        // All materials null means it could be anything, or nothing (software)
+        // anyway, if it does not have a material, it does not burn.
+        return false;
+    }
 
     return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
 }
@@ -2894,7 +2959,7 @@ std::ostream & operator<<(std::ostream & out, const item * it)
         out << "NULL)";
         return out;
     }
-    out << it->name << ")";
+    out << it->tname() << ")";
     return out;
 }
 
@@ -2950,7 +3015,7 @@ int item::getlight_emit(bool calculate_dimming) const {
     if ( lumint == 0 ) {
         return 0;
     }
-    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool()) {
+    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
         if ( maxcharge > 0 ) {
@@ -3160,9 +3225,6 @@ bool item_matches_locator(const item &it, const itype_id &id, int) {
 bool item_matches_locator(const item &, int locator_pos, int item_pos) {
     return item_pos == locator_pos;
 }
-bool item_matches_locator(const item &it, char invlet, int) {
-    return it.invlet == invlet;
-}
 
 iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double Value, bool _is_int, std::string Plus, bool NewLine, bool LowerIsBetter, bool DrawName) {
     sType = Type;
@@ -3217,7 +3279,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 
         //item is valid quiver to store items in if it satisfies these conditions:
         // a) is a quiver  b) contents are ammo w/ charges  c) quiver isn't full
-        if(worn.type->use == &iuse::quiver) {
+        if(worn.type->can_use("QUIVER")) {
             int maxCharges = worn.max_charges_from_flag("QUIVER");
             if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0)) {
                 quivers.push_back(std::make_pair(&worn, maxCharges));

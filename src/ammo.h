@@ -28,6 +28,7 @@ class ammunition_type
         static ammunition_type *find_ammunition_type(std::string ident);
         // clear ammotype map, every ammotype pointer becames invalid!
         static void reset();
+        static void check_consistency();
 
         std::string name() const;
         std::string default_ammotype() const;

@@ -11,6 +11,7 @@
 
 #include "options.h"
 #include "output.h"
+#include "debug.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -59,7 +60,7 @@ void Skill::load_skill(JsonObject &jsobj)
 
     Skill *sk = new Skill(skills.size(), ident, name, description, tags);
     skills.push_back(sk);
-    //dout(D_INFO) << "Loaded skill: " << name << "\n";
+    DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << name;
 }
 
 Skill* Skill::skill(std::string ident) {
@@ -139,12 +140,12 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
 }
 
 void SkillLevel::train(int amount) {
-  _exercise += amount;
+    _exercise += amount;
 
-  if (_exercise >= 100 * (_level + 1)) {
-    _exercise = 0;
-    ++_level;
-  }
+    if (_exercise >= 100 * (_level + 1)) {
+        _exercise = 0;
+        ++_level;
+    }
 }
 
 static int rustRate(int level)
@@ -153,23 +154,23 @@ static int rustRate(int level)
     return 32768 / int(std::pow(2.0, double(forgetCap - 1)));
 }
 
-bool SkillLevel::isRusting(const calendar& turn) const
+bool SkillLevel::isRusting() const
 {
-    return OPTIONS["SKILL_RUST"] != "off" && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+    return OPTIONS["SKILL_RUST"] != "off" && (_level > 0) &&
+        (calendar::turn - _lastPracticed) > rustRate(_level);
 }
 
-bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
+bool SkillLevel::rust( bool charged_bio_mem )
 {
-    if (_level > 0 && turn > _lastPracticed &&
-       (turn - _lastPracticed) % rustRate(_level) == 0)
-    {
-        if (charged_bio_mem) return one_in(5);
+    if (_level > 0 && calendar::turn > _lastPracticed &&
+        (calendar::turn - _lastPracticed) % rustRate(_level) == 0) {
+        if (charged_bio_mem) {
+            return one_in(5);
+        }
         _exercise -= _level;
 
-        if (_exercise < 0)
-        {
-            if (OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "int")
-            {
+        if (_exercise < 0) {
+            if (OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "int") {
                 _exercise = (100 * _level) - 1;
                 --_level;
             } else {
@@ -180,21 +181,19 @@ bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
     return false;
 }
 
-void SkillLevel::practice(const calendar& turn)
+void SkillLevel::practice()
 {
-    _lastPracticed = turn;
+    _lastPracticed = calendar::turn;
 }
 
-void SkillLevel::readBook(int minimumGain, int maximumGain, const calendar &turn,
-                          int maximumLevel)
+void SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
 {
     int gain = rng(minimumGain, maximumGain);
 
-    if (_level < maximumLevel)
-    {
+    if (_level < maximumLevel) {
         train(gain);
     }
-    practice(turn);
+    practice();
 }
 
 SkillLevel& SkillLevel::operator= (const SkillLevel &rhs)

@@ -21,8 +21,7 @@
 
 #define LONG_RANGE 10
 #define BLINK_SPEED 300
-#define BULLET_SPEED 10000000
-#define EXPLOSION_SPEED 70000000
+#define EXPLOSION_MULTIPLIER 7
 
 #define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
 #define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!

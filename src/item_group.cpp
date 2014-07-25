@@ -2,7 +2,7 @@
 #include "item_group.h"
 #include "monstergenerator.h"
 #include "rng.h"
-#include "output.h"
+#include "debug.h"
 #include <map>
 #include <algorithm>
 #include <cassert>
@@ -287,10 +287,13 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     if (with_ammo && !result.empty()) {
         it_gun *maybe_gun = dynamic_cast<it_gun *>(result.front().type);
         if (maybe_gun != NULL) {
-            item ammo(default_ammo(maybe_gun->ammo), birthday);
-            // TODO: change the spawn lists to contain proper references to containers
-            ammo = ammo.in_its_container();
-            result.push_back(ammo);
+            const std::string ammoid = default_ammo( maybe_gun->ammo );
+            if ( !ammoid.empty() ) {
+                item ammo( ammoid, birthday );
+                // TODO: change the spawn lists to contain proper references to containers
+                ammo = ammo.in_its_container();
+                result.push_back( ammo );
+            }
         }
     }
     return result;

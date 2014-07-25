@@ -78,7 +78,7 @@ void mdeath::boomer(monster *z) {
         }
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) == 1) {
-        g->u.infect("boomered", bp_eyes, 2, 24, false, 1, 1);
+        g->u.add_env_effect("boomered", bp_eyes, 2, 24, 1, false);
     }
 }
 
@@ -550,5 +550,6 @@ void make_mon_corpse(monster* z, int damageLvl) {
     item corpse;
     corpse.make_corpse("corpse", z->type, calendar::turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
+    if (z->has_effect("zlave")) corpse.item_vars["zlave"] = "zlave";
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

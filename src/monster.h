@@ -36,6 +36,7 @@ MATT_FLEE,
 MATT_IGNORE,
 MATT_FOLLOW,
 MATT_ATTACK,
+MATT_ZLAVE,
 NUM_MONSTER_ATTITUDES
 };
 
@@ -64,6 +65,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
  m_size get_size();
  int get_hp( hp_part ) { return hp; };
+ int get_hp_max( hp_part = num_hp_parts ) { return type->hp; };
  std::string get_material() { return type->mat; };
 
  // Access
@@ -79,7 +81,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  // Information on how our symbol should appear
  nc_color basic_symbol_color();
  nc_color symbol_color();
- char symbol();
+ const std::string &symbol() const;
  bool is_symbol_inverted();
  bool is_symbol_highlighted();
 
@@ -88,7 +90,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  bool has_flag(const m_flag f) const; // Returns true if f is set (see mtype.h)
  bool can_see();      // MF_SEES and no ME_BLIND
  bool can_hear();     // MF_HEARS and no ME_DEAF
- bool can_submerge(); // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
+ bool can_submerge() const; // MF_AQUATIC or MF_SWIMS or MF_NO_BREATH, and not MF_ELECTRONIC
  bool can_drown();    // MF_AQUATIC or MF_SWIMS or MF_NO_BREATHE or MF_FLIES
  bool digging();      // MF_DIGS or MF_CAN_DIG and diggable terrain
  int vision_range(const int x, const int y) const; // Returns monster vision range, x and y are the target spot
@@ -236,7 +238,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     void make_friendly();
     void add_item(item it);     // Add an item to inventory
 
-    bool is_hallucination();    // true if the monster isn't actually real
+    bool is_hallucination() const;    // true if the monster isn't actually real
 
     field_id bloodType();
     field_id gibType();

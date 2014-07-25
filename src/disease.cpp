@@ -28,8 +28,7 @@ enum dis_type_enum {
 // Fields - onfire moved to effects
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
- DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_DEAF,
+ DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -38,22 +37,20 @@ enum dis_type_enum {
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
-  DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
+  DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Traps
  DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
-// Martial Arts
- DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
-  DI_SPEED_BOOST, DI_VIPER_COMBO,
 // Other
- DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
+ DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
+// Bite wound infected (dependent on bodypart.h)
+ DI_INFECTED,
 // Inflicted by an NPC
  DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
+ DI_ASKED_TO_TRAIN, DI_ASKED_PERSONAL_INFO,
 // Martial arts-related buffs
  DI_MA_BUFF,
 // NPC-only
  DI_CATCH_UP,
- // Contact lenses
- DI_CONTACTS,
  // Lack/sleep
  DI_LACKSLEEP,
  // Grabbed (from MA or monster)
@@ -97,12 +94,10 @@ void game::init_diseases() {
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
-    disease_type_lookup["boomered"] = DI_BOOMERED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
-    disease_type_lookup["deaf"] = DI_DEAF;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
@@ -121,6 +116,7 @@ void game::init_diseases() {
     disease_type_lookup["pkill3"] = DI_PKILL3;
     disease_type_lookup["pkill_l"] = DI_PKILL_L;
     disease_type_lookup["drunk"] = DI_DRUNK;
+    disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["hallu"] = DI_HALLU;
@@ -140,12 +136,6 @@ void game::init_diseases() {
     disease_type_lookup["in_pit"] = DI_IN_PIT;
     disease_type_lookup["stunned"] = DI_STUNNED;
     disease_type_lookup["downed"] = DI_DOWNED;
-    disease_type_lookup["attack_boost"] = DI_ATTACK_BOOST;
-    disease_type_lookup["damage_boost"] = DI_DAMAGE_BOOST;
-    disease_type_lookup["dodge_boost"] = DI_DODGE_BOOST;
-    disease_type_lookup["armor_boost"] = DI_ARMOR_BOOST;
-    disease_type_lookup["speed_boost"] = DI_SPEED_BOOST;
-    disease_type_lookup["viper_combo"] = DI_VIPER_COMBO;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
@@ -155,15 +145,16 @@ void game::init_diseases() {
     disease_type_lookup["asked_to_follow"] = DI_ASKED_TO_FOLLOW;
     disease_type_lookup["asked_to_lead"] = DI_ASKED_TO_LEAD;
     disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
+    disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
+    disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
-    disease_type_lookup["contacts"] = DI_CONTACTS;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
     disease_type_lookup["grabbed"] = DI_GRABBED;
 }
 
-void dis_msg(dis_type type_string) {
+bool dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
     case DI_COMMON_COLD:
@@ -181,9 +172,6 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_BOULDERING:
         add_msg(m_warning, _("You are slowed by the rubble."));
-        break;
-    case DI_BOOMERED:
-        add_msg(m_bad, _("You're covered in bile!"));
         break;
     case DI_SAP:
         add_msg(m_bad, _("You're coated in sap!"));
@@ -213,9 +201,6 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_ASTHMA:
         add_msg(m_bad, _("You can't breathe... asthma attack!"));
-        break;
-    case DI_DEAF:
-        add_msg(m_bad, _("You're deafened!"));
         break;
     case DI_STUNNED:
         add_msg(m_bad, _("You're stunned!"));
@@ -248,9 +233,6 @@ void dis_msg(dis_type type_string) {
     case DI_HEAVYSNARE:
         add_msg(m_bad, _("You are snared."));
         break;
-    case DI_CONTACTS:
-        add_msg(m_good, _("You can see more clearly."));
-        break;
     case DI_LACKSLEEP:
         add_msg(m_warning, _("You are too tired to function well."));
         break;
@@ -258,8 +240,11 @@ void dis_msg(dis_type type_string) {
         add_msg(m_bad, _("You have been grabbed."));
         break;
     default:
+        return false;
         break;
     }
+
+    return true;
 }
 
 void weed_msg(player *p) {
@@ -388,9 +373,6 @@ void dis_end_msg(player &p, disease &dis)
     switch (disease_type_lookup[dis.type]) {
     case DI_SLEEP:
         p.add_msg_if_player(_("You wake up."));
-        break;
-    case DI_CONTACTS:
-        p.add_msg_if_player(m_bad, _("Your vision starts to blur."));
         break;
     default:
         break;
@@ -546,7 +528,7 @@ void dis_effect(player &p, disease &dis)
                             break;
                     }
                     break;
-                case bp_eyes:// Eyes are not susceptible by this disease.
+                case bp_eyes:// Eyes are not susceptible to this disease.
                 case num_bp: // Suppress compiler warning [-Wswitch]
                     break;
             }
@@ -843,15 +825,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_BOOMERED:
-            p.mod_per_bonus(-5);
-            if (will_vomit(p)) {
-                p.vomit();
-            } else if (one_in(3600)) {
-                p.add_msg_if_player(m_bad, _("You gag and retch."));
-            }
-            break;
-
         case DI_SAP:
             p.mod_dex_bonus(-3);
             break;
@@ -920,11 +893,30 @@ void dis_effect(player &p, disease &dis)
             {
                 if (p.has_disease("sleep")) {
                     if (dis.duration == 1) {
-                        if(!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
-                            // 10 minute automatic snooze
-                            dis.duration += 100;
+                        if(p.has_bionic("bio_watch")) {
+                            // Normal alarm is volume 12, tested against (2/3/6)d15 for
+                            // normal/HEAVYSLEEPER/HEAVYSLEEPER2.
+                            //
+                            // It's much harder to ignore an alarm inside your own skull,
+                            // so this uses an effective volume of 20.
+                            const int volume = 20;
+                            if ((!(p.has_trait("HEAVYSLEEPER") ||
+                                   p.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < volume) ||
+                                (p.has_trait("HEAVYSLEEPER") && dice(3, 15) < volume) ||
+                                (p.has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume)) {
+                                p.rem_disease("sleep");
+                                add_msg(_("Your internal chronometer wakes you up."));
+                            } else {
+                                // 10 minute cyber-snooze
+                                dis.duration += 100;
+                            }
                         } else {
-                            add_msg(_("You turn off your alarm-clock."));
+                            if(!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
+                                // 10 minute automatic snooze
+                                dis.duration += 100;
+                            } else {
+                                add_msg(_("You turn off your alarm-clock."));
+                            }
                         }
                     }
                 } else if (!p.has_disease("lying_down")) {
@@ -993,6 +985,12 @@ void dis_effect(player &p, disease &dis)
 
         case DI_DRUNK:
             handle_alcohol(p, dis);
+            break;
+
+        case DI_VALIUM:
+            if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
+                p.stim--;
+            }
             break;
 
         case DI_CIG:
@@ -1086,6 +1084,7 @@ void dis_effect(player &p, disease &dis)
             if (p.has_trait("INFIMMUNE")) {
                p.rem_disease("tetanus");
             }
+            if (!p.has_disease("valium")) {
             p.mod_dex_bonus(-4);
             if (one_in(512)) {
                 add_msg(m_bad, "Your muscles spasm.");
@@ -1094,6 +1093,7 @@ void dis_effect(player &p, disease &dis)
                 if (one_in(10)) {
                     p.mod_pain(rng(1, 10));
                 }
+            }
             }
             break;
 
@@ -1149,6 +1149,9 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_SHAKES:
+            if (p.has_disease("valium")) {
+               p.rem_disease("shakes");
+            }
             p.mod_dex_bonus(-4);
             p.mod_str_bonus(-1);
             break;
@@ -1303,16 +1306,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_ATTACK_BOOST:
-        case DI_DAMAGE_BOOST:
-        case DI_DODGE_BOOST:
-        case DI_ARMOR_BOOST:
-        case DI_SPEED_BOOST:
-            if (dis.intensity > 1) {
-                dis.intensity--;
-            }
-            break;
-
         case DI_TELEGLOW:
             // Default we get around 300 duration points per teleport (possibly more
             // depending on the source).
@@ -1383,7 +1376,7 @@ void dis_effect(player &p, disease &dis)
                 }
             } if (dis.duration > 2400) {
                 // 8 teleports
-                if (one_in(10000 - dis.duration)) {
+                if (one_in(10000 - dis.duration) && !p.has_disease("valium")) {
                     p.add_disease("shakes", rng(40, 80));
                 }
                 if (one_in(12000 - dis.duration)) {
@@ -1729,7 +1722,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
     case DI_SPORES:
@@ -1768,7 +1760,6 @@ std::string dis_name(disease& dis)
     }
 
     case DI_SLIMED: return _("Slimed");
-    case DI_DEAF: return _("Deaf");
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
     case DI_BLEED:
@@ -1889,16 +1880,6 @@ std::string dis_name(disease& dis)
     case DI_BOULDERING: return _("Clambering Over Rubble");
 
     case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
-    case DI_ATTACK_BOOST: return _("Hit Bonus");
-    case DI_DAMAGE_BOOST: return _("Damage Bonus");
-    case DI_DODGE_BOOST: return _("Dodge Bonus");
-    case DI_ARMOR_BOOST: return _("Armor Bonus");
-    case DI_SPEED_BOOST: return _("Attack Speed Bonus");
-    case DI_VIPER_COMBO:
-        switch (dis.intensity) {
-        case 1: return _("Snakebite Unlocked!");
-        case 2: return _("Viper Strike Unlocked!");
-        default: return "Viper combo bug. (in disease.cpp:dis_name)";}
     case DI_BITE:
     {
         std::string status = "";
@@ -1934,9 +1915,12 @@ std::string dis_name(disease& dis)
     case DI_INFECTED:
     {
         std::string status = "";
-        if (dis.duration > 8401) {status = _("Infected - ");
-        } else if (dis.duration > 3601) {status = _("Badly Infected - ");
-        } else {status = _("Pus Filled - ");
+        if (dis.duration > 8401) {
+            status = _("Infected - ");
+        } else if (dis.duration > 3601) {
+            status = _("Badly Infected - ");
+        } else {
+            status = _("Pus Filled - ");
         }
         switch (dis.bp) {
             case bp_head:
@@ -1966,22 +1950,18 @@ std::string dis_name(disease& dis)
     }
     case DI_RECOVER: return _("Recovering From Infection");
 
-    case DI_CONTACTS: return _("Contact lenses");
-
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
-          std::stringstream buf;
-          if (ma_buffs[dis.buff_id].max_stacks > 1) {
             std::stringstream buf;
-            buf << ma_buffs[dis.buff_id].name
-              << " (" << dis.intensity << ")";
-            return buf.str().c_str();
-          } else {
-             buf << ma_buffs[dis.buff_id].name.c_str();
-             return buf.str().c_str();
-          }
+            if (ma_buffs[dis.buff_id].max_stacks > 1) {
+                buf << ma_buffs[dis.buff_id].name << " (" << dis.intensity << ")";
+                return buf.str();
+            } else {
+                buf << ma_buffs[dis.buff_id].name.c_str();
+                return buf.str();
+            }
         } else
-          return "Invalid martial arts buff";
+            return "Invalid martial arts buff";
 
     case DI_LACKSLEEP: return _("Lacking Sleep");
     case DI_GRABBED: return _("Grabbed");
@@ -2272,11 +2252,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
-    case DI_BOOMERED:
-        return _(
-        "Perception - 5\n"
-        "Range of Sight: 1;   All sight is tinted magenta.");
-
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");
 
@@ -2289,8 +2264,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_SLIMED:
         return _("Speed -25%;   Dexterity - 2");
-
-    case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
 
     case DI_STUNNED: return _("Your movement is randomized.");
 
@@ -2443,36 +2416,9 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_IN_PIT: return _("You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
-    case DI_ATTACK_BOOST:
-        return string_format(_("To-hit bonus + %d"), dis.intensity);
-
-    case DI_DAMAGE_BOOST:
-        return string_format(_("Damage bonus + %d"), dis.intensity);
-
-    case DI_DODGE_BOOST:
-        return string_format(_("Dodge bonus + %d"), dis.intensity);
-
-    case DI_ARMOR_BOOST:
-        return string_format(_("Armor bonus + %d"), dis.intensity);
-
-    case DI_SPEED_BOOST:
-        return string_format(_("Attack speed + %d"), dis.intensity);
-
-    case DI_VIPER_COMBO:
-        switch (dis.intensity) {
-        case 1: return _("\
-Your next strike will be a Snakebite, using your hand in a cone shape.  This\n\
-will deal piercing damage.");
-        case 2: return _("\
-Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
-condition, and deals massive damage.");
-        }
-
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
-
-    case DI_CONTACTS: return _("You are wearing contact lenses.");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
@@ -2559,8 +2505,8 @@ void manage_fungal_infection(player& p, disease& dis)
         }
     // we're fucked
     } else if (one_in(6000 + bonus * 20)) {
-        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_l] <= 0) {
-            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_l] <= 0) {
+        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_r] <= 0) {
+            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_r] <= 0) {
                 p.add_msg_player_or_npc(m_bad, _("The flesh on your broken arms bulges. Fungus stalks burst through!"),
                 _("<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!"));
             } else {
@@ -2692,13 +2638,26 @@ void manage_sleep(player& p, disease& dis)
         p.thirst--;
     }
 
+    if (int(calendar::turn) % 100 == 0 && p.has_trait("CHLOROMORPH") &&
+    g->is_in_sunlight(g->u.posx, g->u.posy) ) {
+        // Hunger and thirst fall before your Chloromorphic physiology!
+        if (p.hunger >= -30) {
+            p.hunger -= 5;
+        }
+        if (p.thirst >= -30) {
+            p.thirst -= 5;
+        }
+    }
+
     // Check mutation category strengths to see if we're mutated enough to get a dream
     std::string highcat = p.get_highest_category();
     int highest = p.mutation_category_level[highcat];
 
     // Determine the strength of effects or dreams based upon category strength
     int strength = 0; // Category too weak for any effect or dream
-    if (highest >= 20 && highest < 35) {
+    if (g->u.crossed_threshold()) {
+        strength = 4; // Post-human.
+    } else if (highest >= 20 && highest < 35) {
         strength = 1; // Low strength
     } else if (highest >= 35 && highest < 50) {
         strength = 2; // Medium strength
@@ -3080,22 +3039,29 @@ static void handle_evil(player& p, disease& dis)
     bool lesserEvil = false;  // Worn or wielded; diminished effects
     if (p.weapon.is_artifact() && p.weapon.is_tool()) {
         it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-        for (size_t i = 0; i < tool->effects_carried.size(); i++) {
-            if (tool->effects_carried[i] == AEP_EVIL) {
+        for (std::vector<art_effect_passive>::iterator it =
+                 tool->effects_carried.begin();
+             it != tool->effects_carried.end(); ++it) {
+            if (*it == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
-        for (size_t i = 0; i < tool->effects_wielded.size(); i++) {
-            if (tool->effects_wielded[i] == AEP_EVIL) {
+        for (std::vector<art_effect_passive>::iterator it =
+                 tool->effects_wielded.begin();
+             it != tool->effects_wielded.end(); ++it) {
+            if (*it == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
     }
-    for (size_t i = 0; !lesserEvil && i < p.worn.size(); i++) {
-        if (p.worn[i].is_artifact()) {
-            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-            for (size_t j = 0; j < armor->effects_worn.size(); j++) {
-                if (armor->effects_worn[j] == AEP_EVIL) {
+    for (std::vector<item>::iterator it = p.worn.begin();
+         !lesserEvil && it != p.worn.end(); ++it) {
+        if (it->is_artifact()) {
+            it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(it->type);
+            for (std::vector<art_effect_passive>::iterator effect =
+                     armor->effects_worn.begin();
+                 effect != armor->effects_worn.end(); ++effect) {
+                if (*effect == AEP_EVIL) {
                     lesserEvil = true;
                 }
             }
