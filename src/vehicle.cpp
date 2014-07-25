@@ -3253,9 +3253,6 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 if (vel2_a > rng (10, 20)) {
                     g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
                 }
-                if (z->hp < 1 || z->is_hallucination()) {
-                    g->kill_mon (mondex, pl_ctrl);
-                }
             } else {
                 ph->hitall (dam, 40);
                 if (vel2_a > rng (10, 20)) {

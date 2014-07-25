@@ -1103,8 +1103,9 @@ int iuse::fungicide(player *p, item *it, bool)
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
                                         g->zombie(zid).name().c_str());
                             }
-                            if (!g->zombie(zid).make_fungus()) {
-                                g->kill_mon(zid);
+                            monster &critter = g->zombie( zid );
+                            if( !critter.make_fungus() ) {
+                                critter.die( p ); // counts as kill by player
                             }
                         } else {
                             spore.spawn(i, j);
@@ -2778,11 +2779,9 @@ int iuse::extinguisher(player *p, item *it, bool)
             if (g->u_see(&(g->zombie(mondex)))) {
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
-            if (g->zombie(mondex).hurt(rng(20, 60))) {
-                g->kill_mon(mondex, (p == &(g->u)));
-            } else {
-                g->zombie(mondex).speed /= 2;
-            }
+            monster &critter = g->zombie( mondex );
+            critter.hurt( rng( 20, 60 ), 0, p );
+            critter.speed /= 2;
         }
     }
 
@@ -5019,7 +5018,7 @@ int iuse::granade_act(player *, item *it, bool t)
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
-                            g->explode_mon(zid);
+                            g->zombie( zid ).hurt( 9999 ); // trigger exploding
                         }
                     }
                 }
@@ -5729,9 +5728,7 @@ int iuse::tazer(player *p, item *it, bool)
         p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
         int shock = rng(5, 25);
         z->moves -= shock * 100;
-        if (z->hurt(shock)) {
-            g->kill_mon(mondex, (p == &(g->u)));
-        }
+        z->hurt( shock, 0, p );
         return it->type->charges_to_use();
     }
 
@@ -5825,10 +5822,7 @@ int iuse::tazer2(player *p, item *it, bool)
             p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
             int shock = rng(5, 25);
             z->moves -= shock * 100;
-
-            if (z->hurt(shock)) {
-                g->kill_mon(mondex, (p == &(g->u)));
-            }
+            z->hurt( shock, 0, p );
 
             return 100;
         }
@@ -8108,8 +8102,8 @@ int iuse::robotcontrol(player *p, item *it, bool)
             } else if (success >= -2) { //A near success
                 p->add_msg_if_player(_("The %s short circuits as you attempt to reprogram it!"),
                                      z->name().c_str());
-                if (z->hurt(rng(1, 10))) { //damage it a little
-                    g->kill_mon(pick_robot.ret, p == &(g->u));
+                z->hurt( rng( 1, 10 ), 0, p ); //damage it a little
+                if( z->dead ) {
                     p->practice("computer", 10);
                     return it->type->charges_to_use(); //dont do the other effects if the robot died
                 }

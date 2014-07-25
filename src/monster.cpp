@@ -946,8 +946,7 @@ void monster::hit_monster(int i)
  if (g->u_see(this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
- if (target->hurt(damage))
-  g->kill_mon(i, (friendly != 0));
+ target->hurt(damage);
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
@@ -1035,22 +1034,27 @@ void monster::apply_damage(Creature* source, body_part bp, int side, int amount)
 }
 
 void monster::hurt(body_part, int, int dam) {
-    hurt(dam);
+    hurt(dam, 0, nullptr);
 }
 
-bool monster::hurt(int dam, int real_dam)
+void monster::hurt(int dam) {
+    hurt(dam, 0, nullptr);
+}
+
+void monster::hurt( int dam, int real_dam, Creature *source )
 {
- hp -= dam;
- if( real_dam > 0 ) {
-     hp = std::max( hp, -real_dam );
- }
- if (hp < 1) {
-     return true;
- }
- if (dam > 0) {
-     process_trigger(MTRIG_HURT, 1 + int(dam / 3));
- }
- return false;
+    if( dead ) {
+        return;
+    }
+    hp -= dam;
+    if( real_dam > 0 ) {
+        hp = std::max( hp, -real_dam );
+    }
+    if( hp < 1 ) {
+        die( source );
+    } else if( dam > 0 ) {
+        process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
+    }
 }
 
 int monster::get_armor_cut(body_part bp)
@@ -1112,20 +1116,104 @@ int monster::fall_damage()
  return 0;
 }
 
+void monster::explode()
+{
+    if( is_hallucination() ) {
+        //Can't gib hallucinations
+        return;
+    }
+    // Send body parts and blood all over!
+    if( type->mat == "flesh" || type->mat == "veggy" || type->mat == "iflesh" ) {
+        // Only create chunks if we know what kind to make.
+        int num_chunks = 0;
+        switch( type->size ) {
+            case MS_TINY:
+                num_chunks = 1;
+                break;
+            case MS_SMALL:
+                num_chunks = 2;
+                break;
+            case MS_MEDIUM:
+                num_chunks = 4;
+                break;
+            case MS_LARGE:
+                num_chunks = 8;
+                break;
+            case MS_HUGE:
+                num_chunks = 16;
+                break;
+        }
+        itype_id meat;
+        if( type->has_flag( MF_POISON ) ) {
+            if( type->mat == "flesh" ) {
+                meat = "meat_tainted";
+            } else {
+                meat = "veggy_tainted";
+            }
+        } else {
+            if( type->mat == "flesh" || type->mat == "iflesh" ) {
+                meat = "meat";
+            } else if( type->mat == "bone" ) {
+                meat = "bone";
+            } else {
+                meat = "veggy";
+            }
+        }
+
+        for( int i = 0; i < num_chunks; i++ ) {
+            int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
+            std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
+
+            bool done = false;
+            field_id type_blood = bloodType();
+            for( size_t j = 0; j < traj.size() && !done; j++ ) {
+                tarx = traj[j].x;
+                tary = traj[j].y;
+                if( type_blood != fd_null ) {
+                    g->m.add_field( tarx, tary, type_blood, 1 );
+                }
+                g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), gibType(), rng( 1, j + 1 ) );
+
+                if( g->m.move_cost( tarx, tary ) == 0 ) {
+                    if( !g->m.bash( tarx, tary, 3 ) ) {
+                        if( j > 0 ) {
+                            tarx = traj[j - 1].x;
+                            tary = traj[j - 1].y;
+                        }
+                        done = true;
+                    }
+                }
+            }
+            g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
+        }
+    }
+}
+
 void monster::die(Creature* nkiller) {
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
-    g->kill_mon(*this, nkiller != NULL && nkiller->is_player());
-}
-
-void monster::die()
-{
- if (!dead)
-  dead = true;
- if (!no_extra_death_drops) {
-  drop_items_on_death();
- }
+    if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
+        explode(); // Explode them if it was big overkill
+    }
+    if (!dead) {
+        dead = true;
+    }
+    if (!no_extra_death_drops) {
+        drop_items_on_death();
+    }
+    // TODO:
+    /*
+    if (killer == &g->u) {
+        if (!is_hallucination()) {
+            g->kills[type->id]++; // Increment our kill counter
+        }
+    }
+    */
+    for (std::vector<item>::iterator it = inv.begin();
+            it != inv.end(); ++it) {
+        g->m.add_item_or_charges(posx(), posy(), *it);
+    }
     if (type->difficulty >= 30 && get_killer() != NULL && get_killer()->is_player()) {
         g->u.add_memorial_log(
             pgettext("memorial_male", "Killed a %s."),

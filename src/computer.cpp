@@ -369,7 +369,7 @@ void computer::activate_function(computer_action action)
                       g->m.ter(x, y + 1) == t_concrete_h) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
                       g->m.ter(x, y - 1) == t_concrete_h))) {
-                    g->kill_mon(mondex, true);
+                    g->zombie( mondex ).die( &g->u );
                 }
             }
         }

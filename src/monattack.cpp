@@ -428,9 +428,7 @@ void mattack::growplants(monster *z)
                         if (rn < 0) {
                             rn = 0;
                         }
-                        if (g->zombie(mondex).hurt(rn)) {
-                            g->kill_mon(mondex, (z->friendly != 0));
-                        }
+                        g->zombie( mondex ).hurt( rn, 0, z );
                     } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                         // Player is hit by a growing tree
                         if (!g->u.uncanny_dodge()) {
@@ -490,9 +488,7 @@ void mattack::growplants(monster *z)
                             if (rn < 0) {
                                 rn = 0;
                             }
-                            if (g->zombie(mondex).hurt(rn)) {
-                                g->kill_mon(mondex, (z->friendly != 0));
-                            }
+                            g->zombie( mondex ).hurt( rn, 0, z );
                         } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                             if (!g->u.uncanny_dodge()) {
                                 body_part hit = bp_legs;
@@ -753,8 +749,9 @@ void mattack::fungus(monster *z)
                         add_msg(_("The %s is covered in tiny spores!"),
                                 g->zombie(mondex).name().c_str());
                     }
-                    if (!g->zombie(mondex).make_fungus()) {
-                        g->kill_mon(mondex, (z->friendly != 0));
+                    monster &critter = g->zombie( mondex );
+                    if( !critter.make_fungus() ) {
+                        critter.die( z ); // counts as kill by monster z
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player--is there any hope?
@@ -1190,9 +1187,7 @@ void mattack::vortex(monster *z)
                         g->m.shoot(traj[i].x, traj[i].y, dam, false, no_effects);
                         int mondex = g->mon_at(traj[i].x, traj[i].y);
                         if (mondex != -1) {
-                            if (g->zombie(mondex).hurt(dam)) {
-                                g->kill_mon(mondex, (z->friendly != 0));
-                            }
+                            g->zombie( mondex ).hurt( dam, 0, z );
                             dam = 0;
                         }
                         if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -1267,9 +1262,7 @@ void mattack::vortex(monster *z)
                             if (g->u_see(traj[i].x, traj[i].y))
                                 add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
                                         g->zombie(monhit).name().c_str());
-                            if (g->zombie(monhit).hurt(damage)) {
-                                g->kill_mon(monhit, (z->friendly != 0));
-                            }
+                            g->zombie( monhit ).hurt( damage, 0, z );
                             hit_wall = true;
                             thrown->setpos(traj[i - 1]);
                         } else if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -1287,9 +1280,7 @@ void mattack::vortex(monster *z)
                     } else {
                         thrown->setpos(traj[traj.size() - 1]);
                     }
-                    if (thrown->hurt(damage)) {
-                        g->kill_mon(g->mon_at(thrown->posx(), thrown->posy()), (z->friendly != 0));
-                    }
+                    thrown->hurt( damage, 0, z );
                 } // if (distance > 0)
             } // if (mondex != -1)
 
@@ -1312,9 +1303,7 @@ void mattack::vortex(monster *z)
                             if (g->u_see(traj[i].x, traj[i].y)) {
                                 add_msg(m_bad, _("You hit a %s!"), g->zombie(monhit).name().c_str());
                             }
-                            if (g->zombie(monhit).hurt(damage)) {
-                                g->kill_mon(monhit, true);    // We get the kill :)
-                            }
+                            g->zombie( monhit ).hurt( damage, 0, &g->u ); // We get the kill :)
                             hit_wall = true;
                             g->u.posx = traj[i - 1].x;
                             g->u.posy = traj[i - 1].y;
