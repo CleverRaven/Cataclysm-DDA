@@ -210,6 +210,8 @@ class game
         npc *find_npc(int id);
         void load_npcs(); //Make any nearby NPCs from the overmap active.
         int kill_count(std::string mon);       // Return the number of kills of a given mon_id
+        // Register one kill of a monster of type mtype_id by the player.
+        void increase_kill_count(const std::string &mtype_id);
         mission *find_mission(int id); // Mission with UID=id; NULL if non-existant
         mission_type *find_mission_type(int id); // Same, but returns its type
         bool mission_complete(int id, int npc_id); // True if we made it

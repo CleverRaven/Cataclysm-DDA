@@ -892,7 +892,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     if (is_hallucination()) {
         if(one_in(7)) {
-            dead = true;
+            die( nullptr );
         }
         return;
     }
@@ -1190,35 +1190,41 @@ void monster::explode()
 }
 
 void monster::die(Creature* nkiller) {
+    if( dead ) {
+        // We are already dead, don't die again, note that monster::dead is
+        // *only* set to true in this function!
+        return;
+    }
+    dead = true;
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
     if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
         explode(); // Explode them if it was big overkill
     }
-    if (!dead) {
-        dead = true;
-    }
     if (!no_extra_death_drops) {
         drop_items_on_death();
     }
-    // TODO:
-    /*
-    if (killer == &g->u) {
-        if (!is_hallucination()) {
-            g->kills[type->id]++; // Increment our kill counter
+    // TODO: should actually be class Character
+    player *ch = dynamic_cast<player*>( get_killer() );
+    if( !is_hallucination() && ch != nullptr ) {
+        if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
+            // has guilt flag or player is pacifist && monster is humanoid
+            mdeath tmpdeath;
+            tmpdeath.guilt( this );
+        }
+        // TODO: add a kill counter to npcs?
+        if( ch->is_player() ) {
+            g->increase_kill_count( type->id );
+        }
+        if( type->difficulty >= 30 ) {
+            ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
+                                  pgettext( "memorial_female", "Killed a %s." ),
+                                  name().c_str() );
         }
     }
-    */
-    for (std::vector<item>::iterator it = inv.begin();
-            it != inv.end(); ++it) {
-        g->m.add_item_or_charges(posx(), posy(), *it);
-    }
-    if (type->difficulty >= 30 && get_killer() != NULL && get_killer()->is_player()) {
-        g->u.add_memorial_log(
-            pgettext("memorial_male", "Killed a %s."),
-            pgettext("memorial_female", "Killed a %s."),
-            name().c_str());
+    for( const auto &it : inv ) {
+        g->m.add_item_or_charges( posx(), posy(), it );
     }
 
 // If we're a queen, make nearby groups of our type start to die out
@@ -1490,4 +1496,9 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
         add_msg(type, processed_npc_string.c_str());
     }
     va_end(ap);
+}
+
+bool monster::is_dead() const
+{
+    return dead || const_cast<monster*>(this)->is_dead_state();
 }

@@ -269,7 +269,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  int mission_id; // If we're related to a mission
  mtype *type;
  bool no_extra_death_drops; // if true, don't spawn loot items as part of death
- bool dead;
+ bool is_dead() const;
  bool made_footstep;
  std::string unique_name; // If we're unique
  bool hallucination;
@@ -298,6 +298,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 private:
  std::vector <point> plans;
  int _posx, _posy;
+ bool dead;
 };
 
 #endif

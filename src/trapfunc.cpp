@@ -587,7 +587,7 @@ void trapfunc::dissector(Creature *c, int x, int y)
             n->hit(NULL, bp_feet,  1, 0, 10);
         } else if (z != NULL) {
             z->hurt( 60 );
-            if( z->dead ) {
+            if( z->is_dead() ) {
                 z->explode();
             }
         }

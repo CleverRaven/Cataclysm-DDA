@@ -2113,6 +2113,11 @@ int game::kill_count(std::string mon)
     return 0;
 }
 
+void game::increase_kill_count(const std::string &mtype_id)
+{
+    kills[mtype_id]++;
+}
+
 mission *game::find_mission(int id)
 {
     for (std::vector<mission>::iterator it = active_missions.begin();
@@ -4724,7 +4729,9 @@ void game::debug()
 
     case 19: {
         for (size_t i = 0; i < num_zombies(); i++) {
-            zombie(i).dead = true;
+            // Use the normal death functions, useful for testing death
+            // and for getting a corpse.
+            zombie(i).die( nullptr );
         }
         cleanup_dead();
     }
@@ -6212,29 +6219,15 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
-    for (int i = 0; i < num_zombies(); i++) {
+    for( int i = 0; i < num_zombies(); ) {
         monster &critter = critter_tracker.find(i);
-        if (critter.dead || critter.hp <= 0) {
+        if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
-                                         i, critter.posx(), critter.posy(), (critter.dead ? '1' : '0'),
+                                         i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
                                          critter.hp, critter.name().c_str());
-            Creature *killer = critter.get_killer();
-            if (killer != NULL && killer->is_player() && // killed by player and
-                (critter.has_flag(MF_GUILT) || // has guilt flag or
-                 (u.has_trait("PACIFIST") && critter.has_flag(MF_HUMAN)))) { // pacifist player && humanoid
-                mdeath tmpdeath;
-                tmpdeath.guilt(&critter);
-            }
-            if( killer != NULL && killer->is_player() ) {
-                kills[critter.type->id]++;
-            }
-            remove_zombie(i);
-            if (last_target == i) {
-                last_target = -1;
-            } else if (last_target > i) {
-                last_target--;
-            }
-            i--;
+            remove_zombie( i );
+        } else {
+            i++;
         }
     }
 
@@ -6268,7 +6261,7 @@ void game::monmove()
 
     for (int i = 0; i < num_zombies(); i++) {
         monster *critter = &critter_tracker.find(i);
-        while (!critter->dead && !critter->can_move_to(critter->posx(), critter->posy())) {
+        while (!critter->is_dead() && !critter->can_move_to(critter->posx(), critter->posy())) {
             // If we can't move to our current position, assign us to a new one
             if (debugmon) {
                 dbg(D_ERROR) << "game:monmove: " << critter->name().c_str()
@@ -6291,21 +6284,19 @@ void game::monmove()
                 }
             }
             if (!okay) {
-                critter->dead = true;
+                // die of "natural" cause (overpopulation is natural)
+                critter->die( nullptr );
             }
         }
 
-        if (!critter->dead) {
+        if (!critter->is_dead()) {
             critter->process_turn();
             critter->reset();
-            critter->hurt( 0 ); // trigger dying on low hp
         }
 
         m.mon_in_field(critter->posx(), critter->posy(), critter);
-        // might have killed the critter and spawned more monsters
-        critter = &critter_tracker.find(i);
 
-        while (critter->moves > 0 && !critter->dead) {
+        while (critter->moves > 0 && !critter->is_dead()) {
             critter->made_footstep = false;
             critter->plan(friendlies); // Formulate a path to follow
             critter->move(); // Move one square, possibly hit u
@@ -6313,7 +6304,7 @@ void game::monmove()
             m.mon_in_field(critter->posx(), critter->posy(), critter);
         }
 
-        if (!critter->dead) {
+        if (!critter->is_dead()) {
             if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
                 rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
                 u.power_level--;
@@ -6342,7 +6333,10 @@ void game::monmove()
                     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter->type->id)),
                                                   levx, levy, levz, 1, 1));
                 }
-                critter->dead = true;
+                // Remove the zombie, but don't let it "die", it still exists, just
+                // not in the reality bubble.
+                remove_zombie( i );
+                i--;
             }
         }
     }
@@ -6864,14 +6858,14 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                 break;
             }
             targ->setpos(traj[i]);
-            if (m.has_flag("LIQUID", targ->posx(), targ->posy()) && !targ->can_drown() && !targ->dead) {
+            if (m.has_flag("LIQUID", targ->posx(), targ->posy()) && !targ->can_drown() && !targ->is_dead()) {
                 targ->die( nullptr );
                 if (u_see(targ)) {
                     add_msg(_("The %s drowns!"), targ->name().c_str());
                 }
             }
             if (!m.has_flag("LIQUID", targ->posx(), targ->posy()) && targ->has_flag(MF_AQUATIC) &&
-                !targ->dead) {
+                !targ->is_dead()) {
                 targ->die( nullptr );
                 if (u_see(targ)) {
                     add_msg(_("The %s flops around and dies!"), targ->name().c_str());
@@ -7248,7 +7242,7 @@ void game::emp_blast(int x, int y)
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
                 critter.hurt( dam );
-                if( !critter.dead && one_in( 6 ) ) {
+                if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
             }
@@ -7333,6 +7327,11 @@ bool game::update_zombie_pos(const monster &critter, const int newx, const int n
 
 void game::remove_zombie(const int idx)
 {
+    if( last_target == idx && !last_target_was_npc ) {
+        last_target = -1;
+    } else if( last_target > idx && !last_target_was_npc ) {
+        last_target--;
+    }
     critter_tracker.remove(idx);
 }
 
@@ -7984,7 +7983,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
         // if the npc was really big?
     }
     const int cindex = mon_at(x, y);
-    if (cindex != -1 && !zombie(cindex).dead) {
+    if (cindex != -1) {
         if (bash_dmg <= 0) {
             return false;
         }
@@ -7997,13 +7996,13 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
         } else {
             critter.hurt( bash_dmg );
         }
-        if( !critter.dead && critter.type->size >= MS_HUGE ) {
+        if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
             // big critters simply prevent the gate from closing
             // TODO: perhaps damage/destroy the gate
             // if the critter was really big?
             return false;
         }
-        if( !critter.dead ) {
+        if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
             knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
             if (mon_at(x, y) != -1) {
@@ -12365,7 +12364,7 @@ bool game::plmove(int dx, int dy)
             if (critter.is_hallucination()) {
                 critter.die( &g->u );
             }
-            draw_hit_mon(x, y, critter, critter.dead);
+            draw_hit_mon(x, y, critter, critter.is_dead());
             return false;
         } else {
             displace = true;
@@ -13283,7 +13282,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             dname = critter.name();
             dam2 = flvel / 3 + rng(0, flvel * 1 / 3);
             critter.hurt( dam2 );
-            if( !critter.dead ) {
+            if( !critter.is_dead() ) {
                 thru = false;
             }
             if (is_player) {

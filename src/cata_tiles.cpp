@@ -1083,15 +1083,13 @@ bool cata_tiles::draw_entity(int x, int y)
     bool entity_here = false;
     // check for monster (most common)
     if (!entity_here && g->mon_at(x, y) >= 0) {
-        monster m = g->zombie(g->mon_at(x, y));
-        if (!m.dead) {
+        monster &m = g->zombie(g->mon_at(x, y));
             ent_name = m.type->id;
             ent_category = C_MONSTER;
             if(!(m.type->species.empty())) {
                 ent_subcategory = *(m.type->species.begin());
             }
             entity_here = true;
-        }
     }
     // check for NPC (next most common)
     if (!entity_here && g->npc_at(x, y) >= 0) {

@@ -8103,7 +8103,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                 p->add_msg_if_player(_("The %s short circuits as you attempt to reprogram it!"),
                                      z->name().c_str());
                 z->hurt( rng( 1, 10 ), 0, p ); //damage it a little
-                if( z->dead ) {
+                if( z->is_dead() ) {
                     p->practice("computer", 10);
                     return it->type->charges_to_use(); //dont do the other effects if the robot died
                 }

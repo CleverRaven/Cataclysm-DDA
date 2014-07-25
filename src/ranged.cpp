@@ -144,11 +144,14 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     if (proj.proj_effects.count("BOUNCE")) {
         for (unsigned long int i = 0; i < g->num_zombies(); i++) {
             monster &z = g->zombie(i);
+            if( z.is_dead() ) {
+                continue;
+            }
             // search for monsters in radius 4 around impact site
             if( rl_dist( z.posx(), z.posy(), tx, ty ) <= 4 &&
                 g->m.sees( z.posx(), z.posy(), tx, ty, -1, tart ) ) {
                 // don't hit targets that have already been hit
-                if (!z.has_effect("bounced") && !z.dead) {
+                if (!z.has_effect("bounced")) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     projectile_attack(proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
                     break;
@@ -397,15 +400,16 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
             for (unsigned long int i = 0; i < g->num_zombies(); i++) {
                 monster &z = g->zombie(i);
+                if( z.is_dead() ) {
+                    continue;
+                }
                 int dummy;
                 // search for monsters in radius
                 if( rl_dist(z.posx(), z.posy(), tarx, tary) <=
                     std::min(2 + skillLevel("gun"), weaponrange) &&
                     rl_dist(xpos(), ypos(), z.xpos(), z.ypos()) <= weaponrange && sees(&z, dummy) ) {
-                    if (!z.is_dead_state()) {
                         // oh you're not dead and I don't like you. Hello!
-                        new_targets.push_back(point(z.xpos(), z.ypos()));
-                    }
+                        new_targets.push_back(z.pos());
                 }
             }
 
