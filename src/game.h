@@ -736,6 +736,7 @@ class game
         void activity_on_finish_firstaid();
         void activity_on_finish_fish();
         void activity_on_finish_vehicle();
+        void activity_on_finish_make_zlave();
 
 };
 

@@ -235,6 +235,10 @@ void monster::get_Attitude(nc_color &color, std::string &text)
             color = c_red;
             text = _("Hostile! ");
             break;
+        case MATT_ZLAVE:
+            color = c_green;
+            text = _("Zlave ");
+            break;
         default:
             color = h_red;
             text = "BUG: Behavior unnamed. (monster.cpp:get_Attitude)";
@@ -266,6 +270,9 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
         wprintz(w, h_white, _("Stunned"));
     } else if (has_effect("beartrap")) {
         wprintz(w, h_white, _("Trapped"));
+    }
+    else if (has_effect("tied")) {
+        wprintz(w, h_white, _("Tied"));
     }
     std::string damage_info;
     nc_color col;
@@ -322,8 +329,10 @@ bool monster::is_symbol_highlighted()
 nc_color monster::color_with_effects()
 {
  nc_color ret = type->color;
- if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed"))
+ if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied"))
   ret = hilite(ret);
+ if (has_effect("zlave"))
+  ret = invert_color(ret);
  if (has_effect("onfire"))
   ret = red_background(ret);
  return ret;
@@ -484,6 +493,8 @@ monster_attitude monster::attitude(player *u)
   return MATT_FPASSIVE;
  if (has_effect("run"))
   return MATT_FLEE;
+ if (has_effect("zlave"))
+  return MATT_ZLAVE;
 
  int effective_anger  = anger;
  int effective_morale = morale;
@@ -1043,7 +1054,7 @@ int monster::get_dodge()
  if (has_effect("downed"))
   return 0;
  int ret = type->sk_dodge;
- if (has_effect("beartrap"))
+ if (has_effect("beartrap") || has_effect("tied"))
   ret /= 2;
  if (moves <= 0 - 100 - type->speed)
   ret = rng(0, ret);

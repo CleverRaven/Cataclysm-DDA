@@ -94,6 +94,7 @@ void game::init_morale()
     _("Killed Innocent"),
     _("Killed Friend"),
     _("Guilty about Killing"),
+    _("Guilty about mutilating corpse"),
     _("Chimerical Mutation"),
     _("Fey Mutation"),
 

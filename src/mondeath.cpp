@@ -550,5 +550,6 @@ void make_mon_corpse(monster* z, int damageLvl) {
     item corpse;
     corpse.make_corpse("corpse", z->type, calendar::turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
+    if (z->has_effect("zlave")) corpse.item_vars["zlave"] = "zlave";
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }
