@@ -2195,7 +2195,12 @@ int vehicle::solar_epower ()
 
 int vehicle::acceleration (bool fueled)
 {
-    return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+    if ((engine_on) || (skidding)) {
+        return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+    }
+    else {
+        return 0;
+    }
 }
 
 int vehicle::max_velocity (bool fueled)
