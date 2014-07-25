@@ -389,6 +389,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
     return result;
 }
 
+extern bool lcmatch(const std::string& text, const std::string& pattern);
 overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern) const
 {
     t_notes_vector result;
@@ -404,7 +405,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
                 if (note.empty()) {
                     continue;
                 }
-                if (pattern != NULL && note.find(*pattern) == std::string::npos) {
+                if (pattern != NULL && lcmatch( note, *pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }
