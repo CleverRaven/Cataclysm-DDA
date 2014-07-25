@@ -6220,13 +6220,13 @@ void make_zlave(player *p)
     if (tolerance) {
 
         if (p->has_trait("PSYCHOPATH")) {
-            add_msg(m_neutral, _("There is nothing to worry."));
+            add_msg(m_neutral, _("Meh. Saves you having to carry stuff."));
         } else {
-            add_msg(m_neutral, _("Ready for anything in order to survive."));
+            add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
         }
     } else {
 
-        add_msg(m_bad, _("You are your own nasty for this action."));
+        add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
         int moraleMalus = -50 * (5.0 / (float) p->skillLevel("survival"));
         int maxMalus = -250 * (5.0 / (float)p->skillLevel("survival"));

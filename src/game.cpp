@@ -1684,7 +1684,7 @@ void game::activity_on_finish_make_zlave()
     }
 
     if (body == NULL) {
-        add_msg(m_info, _("There's no corpse to make zlave!"));
+        add_msg(m_info, _("There's no corpse to make into a zlave!"));
         return;
     }
 
@@ -8427,7 +8427,7 @@ bool zlave_menu(monster *z)
         }
     }
 
-    amenu.addentry(pheromone, true, 't', _("Tear out pheromone"));
+    amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
 
     amenu.query();
     int choice = amenu.ret;
