@@ -11717,39 +11717,12 @@ void game::complete_butcher(int index)
         add_msg(m_bad, _("Your clumsy butchering destroys the meat!"));
     } else {
         add_msg(m_good, _("You butcher the corpse."));
-        itype_id meat;
-        if (corpse->has_flag(MF_POISON)) {
-            if (corpse->mat == "flesh") {
-                meat = "meat_tainted";
-            } else if (corpse->mat == "iflesh") {
-                //In the future, insects could drop insect flesh rather than plain ol' meat.
-                meat = "meat_tainted";
-            } else {
-                meat = "veggy_tainted";
-            }
-        } else {
-            if (corpse->mat == "flesh" || corpse->mat == "hflesh") {
-                if(corpse->has_flag(MF_HUMAN)) {
-                    meat = "human_flesh";
-                } else if (corpse->has_flag(MF_AQUATIC)) {
-                    meat = "fish";
-                } else {
-                    meat = "meat";
-                }
-            } else if(corpse->mat == "bone") {
-                meat = "bone";
-            } else if(corpse->mat == "veggy") {
-                meat = "veggy";
-            } else if(corpse->mat == "iflesh") {
-                //In the future, insects could drop insect flesh rather than plain ol' meat.
-                meat = "meat";
-            } else {
-                //Don't generate anything
-                return;
-            }
+        const itype_id meat = corpse->get_meat_itype();
+        if( meat == "null" ) {
+            return;
         }
         item tmpitem(meat, age);
-        tmpitem.corpse = dynamic_cast<mtype *>(corpse);
+        tmpitem.corpse = corpse;
         while ( pieces > 0 ) {
             pieces--;
             m.add_item_or_charges(u.posx, u.posy, tmpitem);

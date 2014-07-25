@@ -1123,7 +1123,9 @@ void monster::explode()
         return;
     }
     // Send body parts and blood all over!
-    if( type->mat == "flesh" || type->mat == "veggy" || type->mat == "iflesh" ) {
+    const itype_id meat = type->get_meat_itype();
+    const field_id type_blood = bloodType();
+    if( meat != "null" || type_blood != fd_null ) {
         // Only create chunks if we know what kind to make.
         int num_chunks = 0;
         switch( type->size ) {
@@ -1143,29 +1145,12 @@ void monster::explode()
                 num_chunks = 16;
                 break;
         }
-        itype_id meat;
-        if( type->has_flag( MF_POISON ) ) {
-            if( type->mat == "flesh" ) {
-                meat = "meat_tainted";
-            } else {
-                meat = "veggy_tainted";
-            }
-        } else {
-            if( type->mat == "flesh" || type->mat == "iflesh" ) {
-                meat = "meat";
-            } else if( type->mat == "bone" ) {
-                meat = "bone";
-            } else {
-                meat = "veggy";
-            }
-        }
 
         for( int i = 0; i < num_chunks; i++ ) {
             int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
             std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
 
             bool done = false;
-            field_id type_blood = bloodType();
             for( size_t j = 0; j < traj.size() && !done; j++ ) {
                 tarx = traj[j].x;
                 tary = traj[j].y;
@@ -1184,7 +1169,9 @@ void monster::explode()
                     }
                 }
             }
-            g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
+            if( meat != "null" ) {
+                g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
+            }
         }
     }
 }
