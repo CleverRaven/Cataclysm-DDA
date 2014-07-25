@@ -6194,7 +6194,16 @@ void make_zlave(player *p)
         return;
     }
 
-    const bool tolerance = p->has_trait("PSYCHOPATH") || p->skillLevel("survival") > 9;
+    int tolerance_level = 9;
+    if( p->has_trait("PSYCHOPATH") || p->has_trait("SAPIOVORE") ) {
+        tolerance_level = 0;
+    } else if( p->has_trait("PRED4") ) {
+        tolerance_level = 5;
+    } else if( p->has_trait("PRED3") ) {
+        tolerance_level = 7;
+    }
+
+    const bool tolerance = p->skillLevel("survival") > tolerance_level;
 
     if (!tolerance && p->morale_level() <= -150) {
         add_msg(m_neutral, _("It's too awful."));
