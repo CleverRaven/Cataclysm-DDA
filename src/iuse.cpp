@@ -6202,10 +6202,10 @@ void make_zlave(player *p)
         tolerance_level = 7;
     }
 
-    const bool tolerance = p->skillLevel("survival") > tolerance_level;
+    tolerance_level -= p->skillLevel("survival");
 
-    if (!tolerance && p->morale_level() <= -150) {
-        add_msg(m_neutral, _("It's too awful."));
+    if( p->morale_level() <= (15 * tolerance_level) - 150 ) {
+        add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return;
     }
 
@@ -6225,13 +6225,10 @@ void make_zlave(player *p)
         return;
     }
 
-    if (tolerance) {
-
-        if (p->has_trait("PSYCHOPATH")) {
-            add_msg(m_neutral, _("Meh. Saves you having to carry stuff."));
-        } else {
-            add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
-        }
+    if( tolerance_level == 0 ) {
+        // You just don't care, no message.
+    } else if( tolerance_level <= 5 ) {
+        add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
     } else {
 
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
@@ -6260,12 +6257,12 @@ void make_zlave(player *p)
 
     int hard = body->damage * 10 + mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
                (1 + mt->melee_cut) * (1 + mt->melee_sides);
-    int skills = p->skillLevel("survival") * p->int_cur + p->skillLevel("firstaid") * p->int_cur *
-                 p->dex_cur / 3;
+    int skills = p->skillLevel("survival") * p->int_cur +
+        p->skillLevel("firstaid") * p->int_cur * p->dex_cur / 3;
 
     int success = skills - hard - rng(1, 100);
 
-    const int moves = hard * 1200 / p->skillLevel("firstaid");
+    const int moves = (hard * 1200 / p->skillLevel("firstaid")) - p->moves;
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(success);
