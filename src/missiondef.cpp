@@ -1,5 +1,4 @@
 #include "mission.h"
-#include "setvector.h"
 #include "game.h"
 #include "translations.h"
 
@@ -9,7 +8,7 @@ void game::init_missions()
  id++; mission_types.push_back( \
 mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 
- #define ORIGINS(...) setvector(&mission_types[id].origins, __VA_ARGS__, NULL)
+ #define ORIGINS(...) mission_types[id].origins = { __VA_ARGS__ }
  #define ITEM(itid)     mission_types[id].item_id = itid
  #define COUNT(num)     mission_types[id].item_count = num
  #define DESTINATION(dest)     mission_types[id].target_id = dest
@@ -18,8 +17,7 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 // Omitting DEADLINE means the mission never times out
  #define DEADLINE(low, high) mission_types[id].deadline_low  = low  * 600;\
                              mission_types[id].deadline_high = high * 600
- //#define NPCS   (...) setvector(missions[id].npc
-
+ 
 
 // The order of missions should match enum mission_id in mission.h
  int id = -1;

@@ -135,7 +135,7 @@ enum monster_trigger {
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 enum m_flag {
-    MF_NULL = 0,            // Helps with setvector
+    MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
     MF_VIS50,               // Vision -10
     MF_VIS40,               // Vision -20
