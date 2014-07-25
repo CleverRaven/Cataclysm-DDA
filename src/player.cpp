@@ -1246,7 +1246,7 @@ void player::update_bodytemp()
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
                 //~ %s is bodypart
-                add_msg(m_bad, _("Your %s hardens from the frostbite!"),
+                add_msg(m_bad, (i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")),
                         body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
