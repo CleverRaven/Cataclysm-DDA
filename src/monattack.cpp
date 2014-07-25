@@ -441,8 +441,9 @@ void mattack::growplants(monster *z)
                             } else if (one_in(2)) {
                                 hit = bp_feet;
                             }
+                            //~ %s is bodypart name in accusative.
                             add_msg(m_bad, _("A tree bursts forth from the earth and pierces your %s!"),
-                                    body_part_name(hit, side).c_str());
+                                    body_part_name_accusative(hit, side).c_str());
                             g->u.hit(z, hit, side, 0, rng(10, 30));
                         }
                     } else {
@@ -456,9 +457,10 @@ void mattack::growplants(monster *z)
                                 hit = bp_feet;
                             }
                             if (g->u_see(z->posx() + i, z->posy() + j))
-                                add_msg(m_warning, _("A tree bursts forth from the earth and pierces %s's %s!"),
+                                //~ 1$s is NPC name, 2$s is bodypart name in accusative.
+                                add_msg(m_warning, _("A tree bursts forth from the earth and pierces %1$s's %2$s!"),
                                         g->active_npc[npcdex]->name.c_str(),
-                                        body_part_name(hit, side).c_str());
+                                        body_part_name_accusative(hit, side).c_str());
                             g->active_npc[npcdex]->hit(z, hit, side, 0, rng(10, 30));
                         }
                     }
@@ -500,8 +502,9 @@ void mattack::growplants(monster *z)
                                 } else if (one_in(2)) {
                                     hit = bp_feet;
                                 }
+                                //~ %s is bodypart name in accusative.
                                 add_msg(m_bad, _("The underbrush beneath your feet grows and pierces your %s!"),
-                                        body_part_name(hit, side).c_str());
+                                        body_part_name_accusative(hit, side).c_str());
                                 g->u.hit(z, hit, side, 0, rng(10, 30));
                             }
                         } else {
@@ -515,9 +518,10 @@ void mattack::growplants(monster *z)
                                     hit = bp_feet;
                                 }
                                 if (g->u_see(z->posx() + i, z->posy() + j))
-                                    add_msg(m_warning, _("Underbrush grows into a tree, and it pierces %s's %s!"),
+                                    //~ 1$s is NPC name, 2$s is bodypart name in accusative
+                                    add_msg(m_warning, _("Underbrush grows into a tree, and it pierces %1$s's %2$s!"),
                                             g->active_npc[npcdex]->name.c_str(),
-                                            body_part_name(hit, side).c_str());
+                                            body_part_name_accusative(hit, side).c_str());
                                 g->active_npc[npcdex]->hit(z, hit, side, 0, rng(10, 30));
                             }
                         }
@@ -562,8 +566,9 @@ void mattack::vine(monster *z)
                 } else {
                     body_part bphit = random_body_part();
                     int side = random_side(bphit);
-                    add_msg(m_bad, _("The %s lashes your %s!"), z->name().c_str(),
-                            body_part_name(bphit, side).c_str());
+                    //~ 1$s monster name(vine), 2$s bodypart in accusative
+                    add_msg(m_bad, _("The %1$s lashes your %2$s!"), z->name().c_str(),
+                            body_part_name_accusative(bphit, side).c_str());
                     g->u.hit(z, bphit, side, 4, 4);
                     z->sp_timeout = z->type->sp_freq;
                     z->moves -= 100;
@@ -929,16 +934,18 @@ void mattack::dermatik(monster *z)
     body_part targeted = random_body_part();
     int side = random_side(targeted);
     if (4 < g->u.get_armor_cut(targeted) / 3) {
-        add_msg(_("The %s lands on your %s, but can't penetrate your armor."),
-                z->name().c_str(), body_part_name(targeted, side).c_str());
+        //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+        add_msg(_("The %1$s lands on your %2$s, but can't penetrate your armor."),
+                z->name().c_str(), body_part_name_accusative(targeted, side).c_str());
         z->moves -= 150; // Attempted laying takes a while
         return;
     }
 
     // Success!
     z->moves -= 500; // Successful laying takes a long time
-    add_msg(m_bad, _("The %s sinks its ovipositor into your %s!"), z->name().c_str(),
-            body_part_name(targeted, side).c_str());
+    //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
+    add_msg(m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
+            body_part_name_accusative(targeted, side).c_str());
     if (!g->u.has_trait("PARAIMMUNE")) {
         g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
         g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
@@ -1138,7 +1145,9 @@ void mattack::tentacle(monster *z)
 
     body_part hit = random_body_part();
     int dam = rng(10, 20), side = random_side(hit);
-    add_msg(m_bad, _("Your %s is hit for %d damage!"), body_part_name(hit, side).c_str(), dam);
+    //~ 1$s is bodypart name, 2$d is damage value.
+    add_msg(m_bad, _("Your %1$s is hit for %1$d damage!"),
+            body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
     g->u.practice( "dodge", z->type->melee_skill );
 }
@@ -1193,8 +1202,9 @@ void mattack::vortex(monster *z)
                             if (! g->u.uncanny_dodge()) {
                                 body_part hit = random_body_part();
                                 int side = random_side(hit);
-                                add_msg(m_bad, _("A %s hits your %s for %d damage!"), thrown.tname().c_str(),
-                                        body_part_name(hit, side).c_str(), dam);
+                                //~ 1$s is item name, 2$s is bodypart in accusative, 3$d is damage value.
+                                add_msg(m_bad, _("A %1$s hits your %2$s for %3$d damage!"), thrown.tname().c_str(),
+                                        body_part_name_accusative(hit, side).c_str(), dam);
                                 g->u.hit(z, hit, side, dam, 0);
                                 dam = 0;
                             }
@@ -1916,7 +1926,9 @@ void mattack::bite(monster *z)
     dam = g->u.hit(z, hit, side, dam, 0);
 
     if (dam > 0) {
-        add_msg(m_bad, _("The %s bites your %s!"), z->name().c_str(), body_part_name(hit, side).c_str());
+        //~ 1$s is monster name, 2$s bodypart in accusative
+        add_msg(m_bad, _("The %1$s bites your %2$s!"), z->name().c_str(),
+                body_part_name_accusative(hit, side).c_str());
 
         if(one_in(14 - dam)) {
             if (g->u.has_disease("bite", hit, side)) {
@@ -1928,8 +1940,9 @@ void mattack::bite(monster *z)
             }
         }
     } else {
-        add_msg(_("The %s bites your %s, but your armor protects you."), z->name().c_str(),
-                body_part_name(hit, side).c_str());
+        //~ 1$s is monster name, 2$s bodypart in accusative
+        add_msg(_("The %1$s bites your %2$s, but your armor protects you."), z->name().c_str(),
+                body_part_name_accusative(hit, side).c_str());
     }
 
     g->u.practice( "dodge", z->type->melee_skill );
@@ -1979,7 +1992,9 @@ void mattack::flesh_golem(monster *z)
     }
     body_part hit = random_body_part();
     int dam = rng(5, 10), side = random_side(hit);
-    add_msg(m_bad, _("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
+    //~ 1$s is bodypart name, 2$d is damage value.
+    add_msg(m_bad, _("Your %1$s is battered for %2$d damage!"),
+            body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
     if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
                          (g->u.wearing_something_on(bp_feet))) && (!(g->u.is_throw_immune())) ) {
@@ -2019,7 +2034,9 @@ void mattack::lunge(monster *z)
     }
     body_part hit = random_body_part();
     int dam = rng(3, 7), side = random_side(hit);
-    add_msg(m_bad, _("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
+    //~ 1$s is bodypart name, 2$d is damage value.
+    add_msg(m_bad, _("Your %1$s is battered for %2$d damage!"),
+            body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
     if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
     (g->u.wearing_something_on(bp_feet))) && (!(g->u.is_throw_immune())) ) {
@@ -2052,7 +2069,9 @@ void mattack::longswipe(monster *z)
             }
             body_part hit = random_body_part();
             int dam = rng(3, 7), side = random_side(hit);
-            add_msg(m_bad, _("Your %s is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
+            //~ 1$s is bodypart name, 2$d is damage value.
+            add_msg(m_bad, _("Your %1$s is slashed for %2$d damage!"),
+                    body_part_name(hit, side).c_str(), dam);
             g->u.hit(z, hit, side, dam, 0);
             g->u.practice( "dodge", z->type->melee_skill );
         }
@@ -2074,7 +2093,8 @@ void mattack::longswipe(monster *z)
     }
     body_part hit = bp_head;
     int dam = rng(6, 10), side = random_side(hit);
-    add_msg(m_bad, _("Your throat is slashed for %d damage!"), body_part_name(hit, side).c_str(), dam);
+    //~ %d is damage value.
+    add_msg(m_bad, _("Your throat is slashed for %d damage!"), dam);
     g->u.hit(z, hit, side, dam, 0);
     g->u.add_disease("bleed", 100, false, 1, 1, 0, -1, hit, side, true);
     g->u.practice( "dodge", z->type->melee_skill );
@@ -2256,8 +2276,10 @@ void mattack::bio_op_takedown(monster *z)
     body_part hit = bp_legs;
     // Weak kick to start with, knocks you off your footing
     int dam = rng(3, 9), side = random_side(hit);
-    add_msg(m_bad, _("The zombie kicks your %s for %d damage..."), body_part_name(hit, side).c_str(),
-            dam);
+    // Literally "The zombie kicks" vvvvv |  FIXME FIX message or comment why Literally.
+    //~ 1$s is bodypart name in accusative, 2$d is damage value.
+    add_msg(m_bad, _("The zombie kicks your %1$s for %2$d damage..."),
+            body_part_name_accusative(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
     // At this point, Judo or Tentacle Bracing can make this much less painful
     if ( (!(g->u.is_throw_immune())) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) ||

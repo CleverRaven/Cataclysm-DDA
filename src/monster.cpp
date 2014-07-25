@@ -835,7 +835,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         // TODO: characters practice dodge when a hit misses 'em
         if (target.is_player()) {
             if (u_see_me) {
-                add_msg(_("You dodge %1$s."), disp_name().c_str());
+                add_msg(_("You dodge %s."), disp_name().c_str());
             } else {
                 add_msg(_("You dodge an attack from an unseen source."));
             }
@@ -849,33 +849,42 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
         if (target.is_player()) {
             if (u_see_me) {
+                //~ 1$s is attaker name, 2$s is bodypart name in accusative.
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
             } else {
+                //~ %s is is bodypart name in accusative.
                 add_msg(m_bad, _("Something hits your %s."),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
             }
         } else {
             if (u_see_me) {
+                //~ 1$s is attaker name, 2$s is target name, 3$s is bodypart name in accusative.
                 add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
-                            target.disp_name(true).c_str(),
-                            body_part_name(bp_hit, random_side(bp_hit)).c_str());
+                        target.disp_name(true).c_str(),
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
             }
         }
     } else {
         if (target.is_player()) {
             if (u_see_me) {
-                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
+                //~ 1$s is attaker name, 2$s is bodypart name in accusative, 3$s is armor name
+                add_msg(("The %1$s hits your %2$s, but your %3$s protects you."),name().c_str(),
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
+                        target.skin_name().c_str());
             } else {
-                add_msg(_("Something hits your %1$s, but your %2$s protects you."),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
+                //~ 1$s is bodypart name in accusative, 2$s is armor name.
+                add_msg(("Something hits your %1$s, but your %2$s protects you."),
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
+                        target.skin_name().c_str());
             }
         } else {
             if (u_see_me) {
+                //~ $1s is monster name, %2$s is that monster target name,
+                //~ $3s is target bodypart name in accusative, 4$s is target armor name.
                 add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
                             target.disp_name(true).c_str(),
-                            body_part_name(bp_hit, random_side(bp_hit)).c_str(),
+                            body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
                             target.skin_name().c_str());
             }
         }

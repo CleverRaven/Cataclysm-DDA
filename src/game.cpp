@@ -6694,7 +6694,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
                 int side = random_side(hit);
-                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
+                //~ %s is bodypart name in accusative.
+                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit, side).c_str());
                 u.hit(NULL, hit, random_side(hit), 0, dam);
             } else {
                 std::set<std::string> shrapnel_effects;
@@ -12959,8 +12960,10 @@ bool game::plmove(int dx, int dy)
                 body_part bp = random_body_part();
                 int side = random_side(bp);
                 if(u.hit(NULL, bp, side, 0, rng(1, 4)) > 0) {
-                    add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x,
-                            y).c_str());
+                    //~ 1$s - bodypart name in accusative, 2$s is terrain name.
+                    add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
+                            body_part_name_accusative(bp, side).c_str(),
+                            m.tername(x,y).c_str());
                 }
                 if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
                     u.add_disease("tetanus", 1, true);

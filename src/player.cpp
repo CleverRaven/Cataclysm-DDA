@@ -1245,6 +1245,7 @@ void player::update_bodytemp()
             if (disease_intensity("frostbite", false, (body_part)i) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
+                //~ %s is bodypart
                 add_msg(m_bad, (i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
@@ -1253,6 +1254,7 @@ void player::update_bodytemp()
                 // Warning message for the player
                 if (!has_disease("frostbite", (body_part)i))
                 {
+                    //~ %s is bodypart
                     add_msg(m_bad, _("You lose sensation in your %s."),
                         body_part_name(body_part(i), -1).c_str());
                 }
@@ -1261,31 +1263,37 @@ void player::update_bodytemp()
         // Warn the player if condition worsens
         if  (temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s beginning to go numb from the cold!"),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s getting very cold."),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s getting chilly."),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING)
         {
+            //~ %s is bodypart
             add_msg(m_bad, _("You feel your %s getting red hot from the heat!"),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s getting very hot."),
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s getting warm."),
                 body_part_name(body_part(i), -1).c_str());
         }
@@ -6069,8 +6077,9 @@ void player::mend()
     add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
                      pgettext("memorial_female", "Broken %s began to mend."),
                      body_part_name(part, side).c_str());
+    //~ %s is bodypart
     add_msg(m_good, _("Your %s has started to mend!"),
-      body_part_name(part, side).c_str());
+            body_part_name(part, side).c_str());
    }
   }
  }

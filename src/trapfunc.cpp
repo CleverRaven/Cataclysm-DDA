@@ -213,6 +213,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                         break;
                 }
                 int side = random_side(hit);
+                //~ %s is bodypart
                 n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit, side).c_str());
                 n->hit(NULL, hit, side, 0, rng(20, 30));
                 add_bolt = !one_in(10);
@@ -299,6 +300,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                         break;
                 }
                 int side = random_side(hit);
+                //~ %s is bodypart
                 n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit, side).c_str());
                 n->hit(NULL, hit, side, 0, rng(40 * shots, 60 * shots));
             } else {
@@ -422,8 +424,10 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
     }
     int side = one_in(2) ? 0 : 1;
     body_part hit = bp_legs;
+    //~ %s is bodypart name in accusative.
     c->add_msg_player_or_npc(m_bad, _("A snare closes on your %s."),
-                             _("A snare closes on <npcname>s %s."), body_part_name(hit, side).c_str());
+                             _("A snare closes on <npcname>s %s."),
+                             body_part_name_accusative(hit, side).c_str());
     c->add_memorial_log(pgettext("memorial_male", "Triggered a heavy snare."),
                         pgettext("memorial_female", "Triggered a heavy snare."));
     monster *z = dynamic_cast<monster *>(c);
@@ -666,7 +670,9 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                         break;
                 }
                 int side = random_side(hit);
-                n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name(hit, side).c_str());
+                //~ %s is bodypart name in accusative
+                n->add_msg_if_player(m_bad, _("The spikes impale your %s!"),
+                                     body_part_name_accusative(hit, side).c_str());
                 n->hit(NULL, hit, side, 0, damage);
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
                   n->add_disease("tetanus",1,true);
