@@ -8,8 +8,6 @@
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
-bool vector_has(std::vector <item> vec, itype_id type);
-
 field_t fieldlist[num_fields];
 
 void game::init_fields()
@@ -1793,17 +1791,6 @@ void map::mon_in_field(int x, int y, monster *z)
     if (dam > 0) {
         z->hurt(dam);
     }
-}
-
-bool vector_has(std::vector <item> vec, itype_id type)
-{
-    for (std::vector<item>::iterator it = vec.begin();
-         it != vec.end(); ++it) {
-        if (it->type->id == type) {
-            return true;
-        }
-    }
-    return false;
 }
 
 // TODO FIXME XXX: oh god the horror

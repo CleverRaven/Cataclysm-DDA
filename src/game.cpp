@@ -5893,28 +5893,6 @@ void game::remove_item(item *it)
     }
 }
 
-bool vector_has(std::vector<std::string> vec, std::string test)
-{
-    for (std::vector<std::string>::iterator it = vec.begin();
-         it != vec.end(); ++it) {
-        if (*it == test) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool vector_has(std::vector<int> vec, int test)
-{
-    for (std::vector<int>::iterator it = vec.begin();
-         it != vec.end(); ++it) {
-        if (*it == test) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool game::is_hostile_nearby()
 {
     int distance = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
@@ -6028,7 +6006,8 @@ int game::mon_info(WINDOW *w)
                 }
             }
 
-            if (!vector_has(unique_mons[dir_to_mon], critter.type->id)) {
+            const auto &vec = unique_mons[dir_to_mon];
+            if( std::find( vec.begin(), vec.end(), critter.type->id ) == vec.end() ) {
                 unique_mons[index].push_back(critter.type->id);
             }
         }
