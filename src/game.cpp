@@ -3056,6 +3056,11 @@ bool game::handle_action()
     bool continue_auto_move = false;
 
     switch (act) {
+    case ACTION_NULL:
+    case NUM_ACTIONS:
+        break; // dummy entries
+    case ACTION_ACTIONMENU:
+        break; // handled above
 
     case ACTION_PAUSE:
         if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) ||
@@ -14650,6 +14655,9 @@ void game::process_artifact(item *it, player *p, bool wielded)
         // Recharge it if necessary
         if (it->charges < tool->max_charges) {
             switch (tool->charge_type) {
+            case ARTC_NULL:
+            case NUM_ARTCS:
+                break; // dummy entries
             case ARTC_TIME:
                 // Once per hour
                 if (calendar::turn.seconds() == 0 && calendar::turn.minutes() == 0) {

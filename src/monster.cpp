@@ -1025,6 +1025,7 @@ int monster::dodge_roll()
   case MS_SMALL: numdice += 3; break;
   case MS_LARGE: numdice -= 2; break;
   case MS_HUGE:  numdice -= 4; break;
+  case MS_MEDIUM: break; // keep default
  }
 
  numdice += int(speed / 80);

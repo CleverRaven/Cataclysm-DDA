@@ -411,6 +411,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 switch (curtype) {
 
                     case fd_null:
+                    case num_fields:
                         break;  // Do nothing, obviously.  OBVIOUSLY.
 
                     case fd_blood:
@@ -461,10 +462,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
 
+                        // Use the normal aging logic below this switch
+                    case fd_web:
+                        break;
                     case fd_sap:
                         break;
-
                     case fd_sludge:
+                        break;
+                    case fd_slime:
+                        break;
+                    case fd_rubble:
+                        break;
+                    case fd_plasma:
+                        break;
+                    case fd_laser:
                         break;
 
                         // TODO-MATERIALS: use fire resistance
