@@ -10913,8 +10913,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_OLD_GUARD_REP;
-        temp->fac_id = 2;
-        temp->my_fac = g->faction_by_id(2);
+        temp->set_fac("old_guard");
         int mission_index = g->reserve_mission(MISSION_OLD_GUARD_REP_1, temp->getID());
         if (mission_index != -1)
             temp->chatbin.missions.push_back(mission_index);
@@ -10933,8 +10932,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude = NPCATT_NULL;
         temp->mission = NPC_MISSION_SHOPKEEP;
         temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->set_fac("free_merchants");
         int mission_index = g->reserve_mission(MISSION_FREE_MERCHANTS_EVAC_1, temp->getID());
         if (mission_index != -1)
             temp->chatbin.missions.push_back(mission_index);
@@ -10953,8 +10951,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_FREE_MERCHANT_STOCKS;
         temp->personality.aggression -= 1;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->set_fac("free_merchants");
         g->load_npcs();
         return temp->getID();
         }
@@ -10970,8 +10967,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_EVAC_GUARD1;
         temp->personality.aggression += 1;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->set_fac("free_merchants");
         g->load_npcs();
         return temp->getID();
         }
@@ -10987,8 +10983,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_EVAC_GUARD2;
         temp->personality.aggression += 1;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->set_fac("free_merchants");
         g->load_npcs();
         return temp->getID();
         }
@@ -11004,8 +10999,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_EVAC_GUARD3;
         temp->personality.aggression += 1;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->set_fac("free_merchants");
         g->load_npcs();
         return temp->getID();
         }
@@ -11021,8 +11015,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_GUARD;
         temp->personality.aggression += 1;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->set_fac("free_merchants");
         g->load_npcs();
         return temp->getID();
         }
@@ -11038,8 +11031,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_DONE;
         temp->personality.aggression = 10;
-        temp->fac_id = 3;
-        temp->my_fac = g->faction_by_id(3);
+        temp->set_fac("free_merchants");
         g->load_npcs();
         return temp->getID();
         }
@@ -11055,8 +11047,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_EVAC_HUNTER;
-        temp->fac_id = 4;
-        temp->my_fac = g->faction_by_id(4);
+        temp->set_fac("wasteland_scavengers");
         g->load_npcs();
         return temp->getID();
         }
@@ -11071,8 +11062,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_SCAVENGER_MERC;
-        temp->fac_id = 4;
-        temp->my_fac = g->faction_by_id(4);
+        temp->set_fac("wasteland_scavengers");
         g->load_npcs();
         return temp->getID();
         }
@@ -11088,8 +11078,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->attitude =  NPCATT_NULL;
         temp->mission = NPC_MISSION_SHOPKEEP;
         temp->chatbin.first_topic = TALK_ARSONIST;
-        temp->fac_id = 4;
-        temp->my_fac = g->faction_by_id(4);
+        temp->set_fac("wasteland_scavengers");
         g->load_npcs();
         return temp->getID();
         }
@@ -11106,8 +11095,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_DONE;
         temp->personality.aggression = 10;
-        temp->fac_id = 5;
-        temp->my_fac = g->faction_by_id(5);
+        temp->set_fac("hells_raiders");
         g->load_npcs();
         return temp->getID();
         }
@@ -11123,8 +11111,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->mission = NPC_MISSION_GUARD;
         temp->chatbin.first_topic = TALK_DONE;
         temp->personality.aggression = 10;
-        temp->fac_id = 5;
-        temp->my_fac = g->faction_by_id(5);
+        temp->set_fac("hells_raiders");
         g->load_npcs();
         return temp->getID();
         }
