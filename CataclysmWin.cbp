@@ -405,8 +405,6 @@
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
 		<Unit filename="src/sdltiles.cpp" />
-		<Unit filename="src/setvector.cpp" />
-		<Unit filename="src/setvector.h" />
 		<Unit filename="src/simplexnoise.cpp" />
 		<Unit filename="src/simplexnoise.h" />
 		<Unit filename="src/skill.cpp" />
