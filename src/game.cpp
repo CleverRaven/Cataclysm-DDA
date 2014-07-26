@@ -8454,8 +8454,8 @@ bool zlave_menu(monster *z)
 
     if (pheromone == choice && query_yn(_("Really kill the zlave?"))) {
 
-        z->hurt(100);
-        z->die(z);
+        z->hurt(100, 0, &g->u); // damage the monster (and its corpse)
+        z->die(&g->u); // and make sure it's really dead
 
         g->u.moves -= 150;
 
