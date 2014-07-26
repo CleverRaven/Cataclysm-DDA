@@ -6262,12 +6262,11 @@ void make_zlave(player *p)
 
     int success = skills - hard - rng(1, 100);
 
-    const int moves = (hard * 1200 / p->skillLevel("firstaid")) - p->moves;
+    const int moves = hard * 1200 / p->skillLevel("firstaid");
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(success);
     p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
-    p->moves = 0;
 }
 
 int iuse::knife(player *p, item *it, bool t)
