@@ -657,10 +657,10 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
-    faction tmp(0);
+    faction tmp;
     std::vector<std::string> faction_vector = tmp.all_json_factions();
     for(std::vector<std::string>::reverse_iterator it = faction_vector.rbegin(); it != faction_vector.rend(); ++it) {
-        tmp = faction(assign_faction_id());
+        tmp = faction(it[0].c_str());
         tmp.randomize();
         tmp.load_faction_template(it[0].c_str());
         factions.push_back(tmp);
@@ -5607,7 +5607,17 @@ faction *game::faction_by_id(int id)
     return NULL;
 }
 
-faction *game::random_good_faction()
+faction *game::faction_by_ident(std::string id)
+{
+    for( auto it = factions.begin(); it != factions.end(); ++it) {
+        if (it->id == id) {
+            return &*it;
+        }
+    }
+    return NULL;
+}
+
+/*faction *game::random_good_faction()
 {
     std::vector<std::vector<faction>::iterator> valid;
     for (std::vector<faction>::iterator it = factions.begin(); it != factions.end(); ++it) {
@@ -5649,7 +5659,7 @@ faction *game::random_evil_faction()
     newfac.id = factions.size();
     factions.push_back(newfac);
     return &(factions[factions.size() - 1]);
-}
+}*/
 
 bool game::sees_u(int x, int y, int &t)
 {
