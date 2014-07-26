@@ -650,6 +650,7 @@ void npc::deserialize(JsonIn &jsin)
     json_load_common_variables(data);
 
     int misstmp, classtmp, flagstmp, atttmp, tmpid;
+    std::string facID;
 
     data.read("id",tmpid);  setID(tmpid);
     data.read("name",name);
@@ -685,6 +686,11 @@ void npc::deserialize(JsonIn &jsin)
     if ( data.read( "flags", flagstmp) ) {
         flags = flagstmp;
     }
+
+    if ( data.read( "my_fac", facID) ) {
+        fac_id = facID;
+    }
+
     if ( data.read( "attitude", atttmp) ) {
         attitude = npc_attitude(atttmp);
     }
@@ -740,8 +746,8 @@ void npc::serialize(JsonOut &json, bool save_contents) const
 
     json.member( "mission", mission ); // todo: stringid
     json.member( "flags", flags );
-    if ( my_fac != NULL ) { // set in constructor
-        json.member( "my_fac", my_fac->id );
+    if ( fac_id != "" ) { // set in constructor
+        json.member( "my_fac", my_fac->id.c_str() );
     }
     json.member( "attitude", (int)attitude );
     json.member("op_of_u", op_of_u);
