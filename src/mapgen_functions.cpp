@@ -511,7 +511,6 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
                 if (one_in(250)) {
                     m->ter_set(i, j, t_tree_apple);
-                    m->spawn_item(i, j, "apple", 1, 0, turn);
                 } else {
                     m->ter_set(i, j, t_tree);
                 }

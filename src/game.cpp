@@ -11907,8 +11907,9 @@ void game::forage()
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
         found_something = true;
     }
-    if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5)) {
-        if (!one_in(6)) {
+    if (veggy_chance < ((u.skillLevel("survival") / 2) + ((u.per_cur - 8) / 2))) {
+        found_something = true;
+        if (!one_in(6) && (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == AUTUMN)) {
             if (!one_in(3)) {
                 add_msg(m_good, _("You found some wild veggies!"));
                 m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, calendar::turn);
@@ -11919,7 +11920,7 @@ void game::forage()
                                  calendar::turn, 0, 0, 0);
                 m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
             }
-        } else {
+        } else if (calendar::turn.get_season() != WINTER) {
             add_msg(m_good, _("You found a nest with some eggs!"));
             if (!one_in(4)) {
                 m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
@@ -11928,9 +11929,10 @@ void game::forage()
                 // So maybe we can give more than 1.
                 m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
             }
+        } else {
+        found_something = false;
         }
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-        found_something = true;
     } else {
         if (one_in(2)) {
             m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
