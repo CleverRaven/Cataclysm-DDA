@@ -22,7 +22,7 @@ SDL2, SDL2\_image, and SDL2\_ttf are needed for the tiles build.
 Copy `SDL2.framework`, `SDL2_image.framework`, and `SDL2_ttf.framework`
 to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
 
-### Option 2: Homebrew package manager
+### Option 2: Using package manager
 
 Alternately, shared libraries (libSDL2, libSDL2\_image, libSDL2\_ttf) can be used
 instead of frameworks. Install with a package manager (Fink, MacPorts,
@@ -31,6 +31,10 @@ Homebrew, pkgsrc) or build and install from source.
 For Homebrew (can also install lua):
 
     brew install sdl2 sdl2_image sdl2_ttf
+
+For Macports:
+
+    sudo port install libsdl2 libsdl2_image libsdl2_ttf
 
 
 
@@ -51,6 +55,21 @@ For Homebrew:
     brew unlink gettext ncurses 
     
 Reason: if you build other software, these versions might conflict with what the other software expects.  
+
+
+For Macports:
+
+    ## Step 1
+    # gettext depends on ncurses, so you don't need to specify ncurses explicitly
+    # gettext also includes libintl
+    sudo port install gettext ncurses
+    hash -r
+    
+    ## Step 2
+    # Edit Makefile
+    # Replace this line: https://github.com/CleverRaven/Cataclysm-DDA/blob/6f20afa7e50d29e59f268f28c56a85e614b899a5/Makefile#L169
+    # with: LDFLAGS += -lintl -L$(shell ncursesw5-config --libdir)
+    # so that it can find libintl
 
 
 
