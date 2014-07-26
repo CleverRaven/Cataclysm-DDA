@@ -101,7 +101,7 @@ public:
     static faction_value_datum facval_data[NUM_FACVALS];
 
     faction();
-    faction(int uid);
+    faction(std::string uid);
 
     static void load_faction(JsonObject &jsobj);
     faction* find_faction(std::string ident);
@@ -135,7 +135,7 @@ public:
  int likes_u;
  int respects_u;
  bool known_by_u;
- int id;
+ std::string id;
  std::string desc;
  int strength, sneak, crime, cult, good; // Defining values
  int omx, omy; // Which overmap are we based in?
