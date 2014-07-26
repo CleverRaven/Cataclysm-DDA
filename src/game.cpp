@@ -700,13 +700,13 @@ void game::create_starting_npcs()
     if (!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return; //Do not generate a starting npc.
     }
-    
+
     //We don't want more than one starting npc per shelter
     const int radius = 1;
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
     if (npcs.size() >= 1)
         return; //There is already an NPC in this shelter
-    
+
     npc *tmp = new npc();
     tmp->normalize();
     tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
@@ -5597,16 +5597,6 @@ int game::assign_faction_id()
     return ret;
 }
 
-faction *game::faction_by_id(int id)
-{
-    for( auto it = factions.begin(); it != factions.end(); ++it) {
-        if (it->id == id) {
-            return &*it;
-        }
-    }
-    return NULL;
-}
-
 faction *game::faction_by_ident(std::string id)
 {
     for( auto it = factions.begin(); it != factions.end(); ++it) {
@@ -5616,50 +5606,6 @@ faction *game::faction_by_ident(std::string id)
     }
     return NULL;
 }
-
-/*faction *game::random_good_faction()
-{
-    std::vector<std::vector<faction>::iterator> valid;
-    for (std::vector<faction>::iterator it = factions.begin(); it != factions.end(); ++it) {
-        if (it->good >= 5) {
-            valid.push_back(it);
-        }
-    }
-    if (!valid.empty()) {
-        std::vector<faction>::iterator it = valid[rng(0, valid.size() - 1)];
-        return &*it;
-    }
-    // No good factions exist!  So create one!
-    faction newfac(assign_faction_id());
-    do {
-        newfac.randomize();
-    } while (newfac.good < 5);
-    newfac.id = factions.size();
-    factions.push_back(newfac);
-    return &(factions[factions.size() - 1]);
-}
-
-faction *game::random_evil_faction()
-{
-    std::vector<std::vector<faction>::iterator> valid;
-    for (std::vector<faction>::iterator it = factions.begin(); it != factions.end(); ++it) {
-        if (it->good <= -5) {
-            valid.push_back(it);
-        }
-    }
-    if (!valid.empty()) {
-        std::vector<faction>::iterator it = valid[rng(0, valid.size() - 1)];
-        return &*it;
-    }
-    // No evil factions exist!  So create one!
-    faction newfac(assign_faction_id());
-    do {
-        newfac.randomize();
-    } while (newfac.good > -5);
-    newfac.id = factions.size();
-    factions.push_back(newfac);
-    return &(factions[factions.size() - 1]);
-}*/
 
 bool game::sees_u(int x, int y, int &t)
 {
