@@ -3814,6 +3814,8 @@ void game::load(std::string worldname, std::string name)
         debugmsg("No save game exists!");
         return;
     }
+    // Now load up the master game data; factions (and more?)
+    load_master(worldname);
     u = player();
     u.name = base64_decode(name);
     u.ret_null = item("null", 0);
@@ -3855,8 +3857,7 @@ void game::load(std::string worldname, std::string name)
     load_auto_pickup(true); // Load character auto pickup rules
     u.load_zones(); // Load character world zones
     load_uistate(worldname);
-    // Now load up the master game data; factions (and more?)
-    load_master(worldname);
+
     update_map(u.posx, u.posy);
 
     u.reset();
