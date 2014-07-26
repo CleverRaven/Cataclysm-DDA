@@ -213,6 +213,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                         break;
                 }
                 int side = random_side(hit);
+                //~ %s is bodypart
                 n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit, side).c_str());
                 n->hit(NULL, hit, side, 0, rng(20, 30));
                 add_bolt = !one_in(10);
@@ -299,6 +300,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                         break;
                 }
                 int side = random_side(hit);
+                //~ %s is bodypart
                 n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit, side).c_str());
                 n->hit(NULL, hit, side, 0, rng(40 * shots, 60 * shots));
             } else {
@@ -422,8 +424,10 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
     }
     int side = one_in(2) ? 0 : 1;
     body_part hit = bp_legs;
+    //~ %s is bodypart name in accusative.
     c->add_msg_player_or_npc(m_bad, _("A snare closes on your %s."),
-                             _("A snare closes on <npcname>s %s."), body_part_name(hit, side).c_str());
+                             _("A snare closes on <npcname>s %s."),
+                             body_part_name_accusative(hit, side).c_str());
     c->add_memorial_log(pgettext("memorial_male", "Triggered a heavy snare."),
                         pgettext("memorial_female", "Triggered a heavy snare."));
     monster *z = dynamic_cast<monster *>(c);
@@ -512,7 +516,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
             } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
 
             if (tries == 10) {
-                g->explode_mon(g->mon_at(z->posx(), z->posy()));
+                z->hurt( 9999 ); // trigger exploding
             } else {
                 int mon_hit = g->mon_at(newposx, newposy);
                 if (mon_hit != -1) {
@@ -520,7 +524,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
                         add_msg(m_good, _("The %s teleports into a %s, killing them both!"),
                                 z->name().c_str(), g->zombie(mon_hit).name().c_str());
                     }
-                    g->explode_mon(mon_hit);
+                    g->zombie( mon_hit ).hurt( 9999 ); // trigger exploding
                 } else {
                     z->setpos(newposx, newposy);
                 }
@@ -582,8 +586,9 @@ void trapfunc::dissector(Creature *c, int x, int y)
             n->hit(NULL, bp_feet,  0, 0, 10);
             n->hit(NULL, bp_feet,  1, 0, 10);
         } else if (z != NULL) {
-            if (z->hurt(60)) {
-                g->explode_mon(g->mon_at(x, y));
+            z->hurt( 60 );
+            if( z->is_dead() ) {
+                z->explode();
             }
         }
     }
@@ -666,7 +671,9 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                         break;
                 }
                 int side = random_side(hit);
-                n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name(hit, side).c_str());
+                //~ %s is bodypart name in accusative
+                n->add_msg_if_player(m_bad, _("The spikes impale your %s!"),
+                                     body_part_name_accusative(hit, side).c_str());
                 n->hit(NULL, hit, side, 0, damage);
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
                   n->add_disease("tetanus",1,true);

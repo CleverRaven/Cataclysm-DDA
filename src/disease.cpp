@@ -1197,12 +1197,14 @@ void dis_effect(player &p, disease &dis)
             p.mod_str_bonus(-(int(dis.intensity / 3)));
             if (x_in_y(dis.intensity, 100 + 50 * p.get_int())) {
                 if (!p.is_npc()) {
-                     add_msg(m_warning, _("You start scratching your %s!"),
-                                              body_part_name(dis.bp, dis.side).c_str());
-                     g->cancel_activity();
+                    //~ %s is bodypart in accusative.
+                    add_msg(m_warning, _("You start scratching your %s!"),
+                            body_part_name_accusative(dis.bp, dis.side).c_str());
+                    g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
-                    add_msg(_("%s starts scratching their %s!"), p.name.c_str(),
-                                       body_part_name(dis.bp, dis.side).c_str());
+                    //~ 1$s is NPC name, 2$s is bodypart in accusative. 
+                    add_msg(_("%1$s starts scratching their %2$s!"), p.name.c_str(),
+                            body_part_name_accusative(dis.bp, dis.side).c_str());
                 }
                 p.moves -= 150;
                 p.hurt(dis.bp, dis.side, 1);
@@ -2493,8 +2495,9 @@ void manage_fungal_infection(player& p, disease& dis)
                             add_msg(_("The %s is covered in tiny spores!"),
                                        g->zombie(zid).name().c_str());
                         }
-                        if (!g->zombie(zid).make_fungus()) {
-                            g->kill_mon(zid);
+                        monster &critter = g->zombie( zid );
+                        if( !critter.make_fungus() ) {
+                            critter.die( &p ); // counts as kill by player
                         }
                     } else if (one_in(4) && g->num_zombies() <= 1000){
                         spore.spawn(sporex, sporey);
@@ -2761,8 +2764,9 @@ static void handle_bite_wound(player& p, disease& dis)
         recover_factor = std::max(recover_factor, 0); // but can't hurt
 
         if ((x_in_y(recover_factor, 108000)) || (p.has_trait("INFIMMUNE"))) {
+            //~ %s is bodypart name.
             p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
-                                 body_part_name(dis.bp, dis.side).c_str());
+                                body_part_name(dis.bp, dis.side).c_str());
              //No recovery time threshold
             if (((3601 - dis.duration) > 2400) && (!(p.has_trait("INFIMMUNE")))) {
                 p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
@@ -2775,6 +2779,7 @@ static void handle_bite_wound(player& p, disease& dis)
     if (dis.duration > 2401) {
         // No real symptoms for 2 hours
         if ((one_in(300)) && (!(p.has_trait("NOPAIN")))) {
+            //~ %s is bodypart name.
             p.add_msg_if_player(m_bad, _("Your %s wound really hurts."),
                                  body_part_name(dis.bp, dis.side).c_str());
         }
@@ -2784,6 +2789,7 @@ static void handle_bite_wound(player& p, disease& dis)
             if (p.has_disease("sleep")) {
                 p.wake_up();
             }
+            //~ %s is bodypart name.
             p.add_msg_if_player(m_bad, _("Your %s wound feels swollen and painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if (p.pain < 10) {
@@ -2804,6 +2810,7 @@ static void handle_infected_wound(player& p, disease& dis)
     // Recovery chance
     if(int(calendar::turn) % 10 == 1) {
         if(x_in_y(100 + p.health, 864000)) {
+            //~ %s is bodypart name.
             p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if (dis.duration > 8401) {
@@ -2821,6 +2828,7 @@ static void handle_infected_wound(player& p, disease& dis)
             if (p.has_disease("sleep")) {
                 p.wake_up();
             }
+            //~ %s is bodypart name.
             p.add_msg_if_player(m_bad, _("Your %s wound is incredibly painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if(p.pain < 30) {
@@ -2835,6 +2843,7 @@ static void handle_infected_wound(player& p, disease& dis)
             if (p.has_disease("sleep")) {
                 p.wake_up();
             }
+            //~ %s is bodypart name.
             p.add_msg_if_player(m_bad, _("You feel feverish and nauseous, your %s wound has begun to turn green."),
                   body_part_name(dis.bp, dis.side).c_str());
             p.vomit();

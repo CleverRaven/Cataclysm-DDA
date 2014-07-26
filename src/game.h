@@ -183,11 +183,6 @@ class game
         bool isBetween(int test, int down, int up);
         bool is_in_sunlight(int x, int y); // Checks outdoors + sunny
         bool is_in_ice_lab(point location);
-        // Kill that monster; fixes any pointers etc
-        void kill_mon(int index, bool player_did_it = false);
-        void kill_mon(monster &critter,
-                      bool player_did_it = false); // new kill_mon that just takes monster reference
-        void explode_mon(int index); // Explode a monster; like kill_mon but messier
         bool revive_corpse(int x, int y, int n); // revives a corpse from an item pile
         bool revive_corpse(int x, int y,
                            item *it); // revives a corpse by item pointer, caller handles item deletion
@@ -215,6 +210,8 @@ class game
         npc *find_npc(int id);
         void load_npcs(); //Make any nearby NPCs from the overmap active.
         int kill_count(std::string mon);       // Return the number of kills of a given mon_id
+        // Register one kill of a monster of type mtype_id by the player.
+        void increase_kill_count(const std::string &mtype_id);
         mission *find_mission(int id); // Mission with UID=id; NULL if non-existant
         mission_type *find_mission_type(int id); // Same, but returns its type
         bool mission_complete(int id, int npc_id); // True if we made it

@@ -437,9 +437,10 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
             } else if(this->is_player()) {
                 //monster hits player ranged
-                add_msg_if_player( m_bad, _( "You were hit in the %s for %d damage." ),
-                                          body_part_name( bp_hit, side ).c_str( ),
-                                          dealt_dam.total_damage( ) );
+                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+                add_msg_if_player(m_bad, _("You were hit in the %1$s for %2$d damage."),
+                                  body_part_name_accusative(bp_hit, side).c_str(),
+                                  dealt_dam.total_damage());
             } else if( u_see_this ) {
                 add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());

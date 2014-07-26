@@ -2113,6 +2113,11 @@ int game::kill_count(std::string mon)
     return 0;
 }
 
+void game::increase_kill_count(const std::string &mtype_id)
+{
+    kills[mtype_id]++;
+}
+
 mission *game::find_mission(int id)
 {
     for (std::vector<mission>::iterator it = active_missions.begin();
@@ -4724,7 +4729,9 @@ void game::debug()
 
     case 19: {
         for (size_t i = 0; i < num_zombies(); i++) {
-            zombie(i).dead = true;
+            // Use the normal death functions, useful for testing death
+            // and for getting a corpse.
+            zombie(i).die( nullptr );
         }
         cleanup_dead();
     }
@@ -6191,27 +6198,15 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
-    for (int i = 0; i < num_zombies(); i++) {
+    for( int i = 0; i < num_zombies(); ) {
         monster &critter = critter_tracker.find(i);
-        if (critter.dead || critter.hp <= 0) {
+        if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
-                                         i, critter.posx(), critter.posy(), (critter.dead ? '1' : '0'),
+                                         i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
                                          critter.hp, critter.name().c_str());
-            critter.die(); // dies at the very end
-            Creature *killer = critter.get_killer();
-            if (killer != NULL && killer->is_player() && // killed by player and
-                (critter.has_flag(MF_GUILT) || // has guilt flag or
-                 (u.has_trait("PACIFIST") && critter.has_flag(MF_HUMAN)))) { // pacifist player && humanoid
-                mdeath tmpdeath;
-                tmpdeath.guilt(&critter);
-            }
-            remove_zombie(i);
-            if (last_target == i) {
-                last_target = -1;
-            } else if (last_target > i) {
-                last_target--;
-            }
-            i--;
+            remove_zombie( i );
+        } else {
+            i++;
         }
     }
 
@@ -6245,7 +6240,7 @@ void game::monmove()
 
     for (int i = 0; i < num_zombies(); i++) {
         monster *critter = &critter_tracker.find(i);
-        while (!critter->dead && !critter->can_move_to(critter->posx(), critter->posy())) {
+        while (!critter->is_dead() && !critter->can_move_to(critter->posx(), critter->posy())) {
             // If we can't move to our current position, assign us to a new one
             if (debugmon) {
                 dbg(D_ERROR) << "game:monmove: " << critter->name().c_str()
@@ -6268,38 +6263,27 @@ void game::monmove()
                 }
             }
             if (!okay) {
-                critter->dead = true;
+                // die of "natural" cause (overpopulation is natural)
+                critter->die( nullptr );
             }
         }
 
-        if (!critter->dead) {
+        if (!critter->is_dead()) {
             critter->process_turn();
             critter->reset();
-            if (critter->hurt(0)) {
-                kill_mon(i, false);
-                // might have spaned more monsters on death,
-            }
         }
 
         m.mon_in_field(critter->posx(), critter->posy(), critter);
-        // might have killed the critter and spawned more monsters
-        critter = &critter_tracker.find(i);
 
-        while (critter->moves > 0 && !critter->dead) {
+        while (critter->moves > 0 && !critter->is_dead()) {
             critter->made_footstep = false;
             critter->plan(friendlies); // Formulate a path to follow
             critter->move(); // Move one square, possibly hit u
             critter->process_triggers();
             m.mon_in_field(critter->posx(), critter->posy(), critter);
-            critter = &critter_tracker.find(i);
-            if (critter->hurt(0)) { // Maybe we died...
-                kill_mon(i, false);
-                critter = &critter_tracker.find(i);
-                critter->dead = true;
-            }
         }
 
-        if (!critter->dead) {
+        if (!critter->is_dead()) {
             if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
                 rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
                 u.power_level--;
@@ -6328,7 +6312,10 @@ void game::monmove()
                     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter->type->id)),
                                                   levx, levy, levz, 1, 1));
                 }
-                critter->dead = true;
+                // Remove the zombie, but don't let it "die", it still exists, just
+                // not in the reality bubble.
+                remove_zombie( i );
+                i--;
             }
         }
     }
@@ -6568,13 +6555,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
             if (mon_hit != -1) {
                 monster &critter = critter_tracker.find(mon_hit);
-                if (!critter.dead && critter.hurt(rng(dam / 2, long(dam * 1.5)))) {
-                    if (critter.hp < 0 - (critter.type->size < 2 ? 1.5 : 3) * critter.type->hp) {
-                        explode_mon(mon_hit); // Explode them if it was big overkill
-                    } else {
-                        kill_mon(mon_hit); // TODO: player's fault?
-                    }
-                }
+                critter.hurt( rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
             }
 
             int vpart;
@@ -6654,9 +6635,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             if (zid != -1) {
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
-                if (critter.hurt(dam)) {
-                    kill_mon(zid);
-                }
+                critter.hurt( dam );
             } else if (npc_at(tx, ty) != -1) {
                 body_part hit = random_body_part();
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
@@ -6673,7 +6652,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
                 int side = random_side(hit);
-                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name(hit, side).c_str());
+                //~ %s is bodypart name in accusative.
+                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit, side).c_str());
                 u.hit(NULL, hit, random_side(hit), 0, dam);
             } else {
                 std::set<std::string> shrapnel_effects;
@@ -6857,15 +6837,15 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                 break;
             }
             targ->setpos(traj[i]);
-            if (m.has_flag("LIQUID", targ->posx(), targ->posy()) && !targ->can_drown() && !targ->dead) {
-                targ->hurt(9999);
+            if (m.has_flag("LIQUID", targ->posx(), targ->posy()) && !targ->can_drown() && !targ->is_dead()) {
+                targ->die( nullptr );
                 if (u_see(targ)) {
                     add_msg(_("The %s drowns!"), targ->name().c_str());
                 }
             }
             if (!m.has_flag("LIQUID", targ->posx(), targ->posy()) && targ->has_flag(MF_AQUATIC) &&
-                !targ->dead) {
-                targ->hurt(9999);
+                !targ->is_dead()) {
+                targ->die( nullptr );
                 if (u_see(targ)) {
                     add_msg(_("The %s flops around and dies!"), targ->name().c_str());
                 }
@@ -7240,9 +7220,8 @@ void game::emp_blast(int x, int y)
             } else {
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
-                if (critter.hurt(dam)) {
-                    kill_mon(mondex);    // TODO: Player's fault?
-                } else if (one_in(6)) {
+                critter.hurt( dam );
+                if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
             }
@@ -7327,6 +7306,11 @@ bool game::update_zombie_pos(const monster &critter, const int newx, const int n
 
 void game::remove_zombie(const int idx)
 {
+    if( last_target == idx && !last_target_was_npc ) {
+        last_target = -1;
+    } else if( last_target > idx && !last_target_was_npc ) {
+        last_target--;
+    }
     critter_tracker.remove(idx);
 }
 
@@ -7394,132 +7378,6 @@ bool game::is_in_ice_lab(point location)
     }
 
     return is_in_ice_lab;
-}
-
-void game::kill_mon(int index, bool u_did_it)
-{
-    if (index < 0 || index >= num_zombies()) {
-        dbg(D_ERROR) << "game:kill_mon: Tried to kill monster " << index
-                     << "! (" << num_zombies() << " in play)";
-        if (debugmon) {
-            debugmsg("Tried to kill monster %d! (%d in play)", index, num_zombies());
-        }
-        return;
-    }
-    monster &critter = critter_tracker.find(index);
-    kill_mon(critter, u_did_it);
-}
-
-void game::kill_mon(monster &critter, bool u_did_it)
-{
-    if (!critter.dead) {
-        critter.dead = true;
-        if (u_did_it) {
-            if (!critter.is_hallucination()) {
-                kills[critter.type->id]++; // Increment our kill counter
-            }
-        }
-        for (std::vector<item>::iterator it = critter.inv.begin();
-             it != critter.inv.end(); ++it) {
-            m.add_item_or_charges(critter.posx(), critter.posy(), *it);
-        }
-    }
-}
-
-void game::explode_mon(int index)
-{
-    if (index < 0 || index >= num_zombies()) {
-        dbg(D_ERROR) << "game:explode_mon: Tried to explode monster " << index
-                     << "! (" << num_zombies() << " in play)";
-        debugmsg("Tried to explode monster %d! (%d in play)", index, num_zombies());
-        return;
-    }
-    monster &critter = critter_tracker.find(index);
-    if (critter.is_hallucination()) {
-        //Can't gib hallucinations
-        return;
-    }
-    if (!critter.dead) {
-        critter.dead = true;
-        kills[critter.type->id]++; // Increment our kill counter
-        // Send body parts and blood all over!
-        mtype *corpse = critter.type;
-        if (corpse->mat == "flesh" || corpse->mat == "veggy" || corpse->mat == "iflesh") {
-            // Only create chunks if we know what kind to make.
-            int num_chunks = 0;
-            switch (corpse->size) {
-            case MS_TINY:
-                num_chunks = 1;
-                break;
-            case MS_SMALL:
-                num_chunks = 2;
-                break;
-            case MS_MEDIUM:
-                num_chunks = 4;
-                break;
-            case MS_LARGE:
-                num_chunks = 8;
-                break;
-            case MS_HUGE:
-                num_chunks = 16;
-                break;
-            }
-            itype_id meat;
-            if (corpse->has_flag(MF_POISON)) {
-                if (corpse->mat == "flesh") {
-                    meat = "meat_tainted";
-                } else {
-                    meat = "veggy_tainted";
-                }
-            } else {
-                if (corpse->mat == "flesh" || corpse->mat == "iflesh") {
-                    meat = "meat";
-                } else if (corpse->mat == "bone") {
-                    meat = "bone";
-                } else {
-                    meat = "veggy";
-                }
-            }
-
-            int posx = critter.posx(), posy = critter.posy();
-            for (int i = 0; i < num_chunks; i++) {
-                int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
-                std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
-
-                bool done = false;
-                field_id type_blood = critter.bloodType();
-                for (int j = 0; j < traj.size() && !done; j++) {
-                    tarx = traj[j].x;
-                    tary = traj[j].y;
-                    if (type_blood != fd_null) {
-                        m.add_field(tarx, tary, type_blood, 1);
-                    }
-                    m.add_field(tarx + rng(-1, 1), tary + rng(-1, 1), critter.gibType(), rng(1, j + 1));
-
-                    if (m.move_cost(tarx, tary) == 0) {
-                        if (!m.bash(tarx, tary, 3)) {
-                            if (j > 0) {
-                                tarx = traj[j - 1].x;
-                                tary = traj[j - 1].y;
-                            }
-                            done = true;
-                        }
-                    }
-                }
-                m.spawn_item(tarx, tary, meat, 1, 0, calendar::turn);
-            }
-        }
-    }
-
-    // there WAS an erasure of the monster here, but it caused issues with loops
-    // we should structure things so that critter.erase is only called in specified cleanup
-    // functions
-
-    if (last_target == index) {
-        last_target = -1;
-    } else if (last_target > index) {
-        last_target--;
-    }
 }
 
 bool game::revive_corpse(int x, int y, int n)
@@ -8104,23 +7962,26 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
         // if the npc was really big?
     }
     const int cindex = mon_at(x, y);
-    if (cindex != -1 && !zombie(cindex).dead) {
+    if (cindex != -1) {
         if (bash_dmg <= 0) {
             return false;
         }
         if (can_see) {
             add_msg(_("The %s hits the %s."), door_name.c_str(), zombie(cindex).name().c_str());
         }
-        if (zombie(cindex).type->size <= MS_SMALL || zombie(cindex).has_flag(MF_VERMIN)) {
-            explode_mon(cindex);
-        } else if (zombie(cindex).hurt(bash_dmg)) {
-            kill_mon(cindex, true);
-        } else if (zombie(cindex).type->size >= MS_HUGE) {
+        monster &critter = zombie( cindex );
+        if (critter.type->size <= MS_SMALL || critter.has_flag(MF_VERMIN)) {
+            critter.hurt( 9999 ); // big damage to make it explode
+        } else {
+            critter.hurt( bash_dmg );
+        }
+        if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
             // big critters simply prevent the gate from closing
             // TODO: perhaps damage/destroy the gate
             // if the critter was really big?
             return false;
-        } else {
+        }
+        if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
             knockback(kbx, kby, x, y, std::max(1, bash_dmg / 10), -1, 1);
             if (mon_at(x, y) != -1) {
@@ -8572,8 +8433,8 @@ bool zlave_menu(monster *z)
 
     if (pheromone == choice && query_yn(_("Really kill the zlave?"))) {
 
-        z->hurt(100);
-        z->die(z);
+        z->hurt(100, 0, &g->u); // damage the monster (and its corpse)
+        z->die(&g->u); // and make sure it's really dead
 
         g->u.moves -= 150;
 
@@ -11835,39 +11696,12 @@ void game::complete_butcher(int index)
         add_msg(m_bad, _("Your clumsy butchering destroys the meat!"));
     } else {
         add_msg(m_good, _("You butcher the corpse."));
-        itype_id meat;
-        if (corpse->has_flag(MF_POISON)) {
-            if (corpse->mat == "flesh") {
-                meat = "meat_tainted";
-            } else if (corpse->mat == "iflesh") {
-                //In the future, insects could drop insect flesh rather than plain ol' meat.
-                meat = "meat_tainted";
-            } else {
-                meat = "veggy_tainted";
-            }
-        } else {
-            if (corpse->mat == "flesh" || corpse->mat == "hflesh") {
-                if(corpse->has_flag(MF_HUMAN)) {
-                    meat = "human_flesh";
-                } else if (corpse->has_flag(MF_AQUATIC)) {
-                    meat = "fish";
-                } else {
-                    meat = "meat";
-                }
-            } else if(corpse->mat == "bone") {
-                meat = "bone";
-            } else if(corpse->mat == "veggy") {
-                meat = "veggy";
-            } else if(corpse->mat == "iflesh") {
-                //In the future, insects could drop insect flesh rather than plain ol' meat.
-                meat = "meat";
-            } else {
-                //Don't generate anything
-                return;
-            }
+        const itype_id meat = corpse->get_meat_itype();
+        if( meat == "null" ) {
+            return;
         }
         item tmpitem(meat, age);
-        tmpitem.corpse = dynamic_cast<mtype *>(corpse);
+        tmpitem.corpse = corpse;
         while ( pieces > 0 ) {
             pieces--;
             m.add_item_or_charges(u.posx, u.posy, tmpitem);
@@ -12480,9 +12314,9 @@ bool game::plmove(int dx, int dy)
             }
             u.melee_attack(critter, true);
             if (critter.is_hallucination()) {
-                kill_mon(mondex, true);
+                critter.die( &g->u );
             }
-            draw_hit_mon(x, y, critter, critter.dead);
+            draw_hit_mon(x, y, critter, critter.is_dead());
             return false;
         } else {
             displace = true;
@@ -12938,8 +12772,10 @@ bool game::plmove(int dx, int dy)
                 body_part bp = random_body_part();
                 int side = random_side(bp);
                 if(u.hit(NULL, bp, side, 0, rng(1, 4)) > 0) {
-                    add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x,
-                            y).c_str());
+                    //~ 1$s - bodypart name in accusative, 2$s is terrain name.
+                    add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
+                            body_part_name_accusative(bp, side).c_str(),
+                            m.tername(x,y).c_str());
                 }
                 if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
                     u.add_disease("tetanus", 1, true);
@@ -13397,9 +13233,8 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             slam = true;
             dname = critter.name();
             dam2 = flvel / 3 + rng(0, flvel * 1 / 3);
-            if (critter.hurt(dam2)) {
-                kill_mon(mondex, false);
-            } else {
+            critter.hurt( dam2 );
+            if( !critter.is_dead() ) {
                 thru = false;
             }
             if (is_player) {
@@ -14520,7 +14355,7 @@ void game::teleport(player *p, bool add_teleglow)
                 add_msg(_("%s teleports into the middle of a %s!"),
                         p->name.c_str(), critter.name().c_str());
             }
-            explode_mon(i);
+            critter.hurt( 9999 ); // trigger exploding
         }
     }
     if (is_u) {

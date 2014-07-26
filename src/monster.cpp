@@ -835,7 +835,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         // TODO: characters practice dodge when a hit misses 'em
         if (target.is_player()) {
             if (u_see_me) {
-                add_msg(_("You dodge %1$s."), disp_name().c_str());
+                add_msg(_("You dodge %s."), disp_name().c_str());
             } else {
                 add_msg(_("You dodge an attack from an unseen source."));
             }
@@ -849,33 +849,42 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
         if (target.is_player()) {
             if (u_see_me) {
+                //~ 1$s is attaker name, 2$s is bodypart name in accusative.
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
             } else {
+                //~ %s is is bodypart name in accusative.
                 add_msg(m_bad, _("Something hits your %s."),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
             }
         } else {
             if (u_see_me) {
+                //~ 1$s is attaker name, 2$s is target name, 3$s is bodypart name in accusative.
                 add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
-                            target.disp_name(true).c_str(),
-                            body_part_name(bp_hit, random_side(bp_hit)).c_str());
+                        target.disp_name(true).c_str(),
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
             }
         }
     } else {
         if (target.is_player()) {
             if (u_see_me) {
-                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
+                //~ 1$s is attaker name, 2$s is bodypart name in accusative, 3$s is armor name
+                add_msg(("The %1$s hits your %2$s, but your %3$s protects you."),name().c_str(),
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
+                        target.skin_name().c_str());
             } else {
-                add_msg(_("Something hits your %1$s, but your %2$s protects you."),
-                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
+                //~ 1$s is bodypart name in accusative, 2$s is armor name.
+                add_msg(("Something hits your %1$s, but your %2$s protects you."),
+                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
+                        target.skin_name().c_str());
             }
         } else {
             if (u_see_me) {
+                //~ $1s is monster name, %2$s is that monster target name,
+                //~ $3s is target bodypart name in accusative, 4$s is target armor name.
                 add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
                             target.disp_name(true).c_str(),
-                            body_part_name(bp_hit, random_side(bp_hit)).c_str(),
+                            body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
                             target.skin_name().c_str());
             }
         }
@@ -883,7 +892,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     if (is_hallucination()) {
         if(one_in(7)) {
-            dead = true;
+            die( nullptr );
         }
         return;
     }
@@ -937,8 +946,7 @@ void monster::hit_monster(int i)
  if (g->u_see(this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
- if (target->hurt(damage))
-  g->kill_mon(i, (friendly != 0));
+ target->hurt(damage);
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
@@ -1026,22 +1034,27 @@ void monster::apply_damage(Creature* source, body_part bp, int side, int amount)
 }
 
 void monster::hurt(body_part, int, int dam) {
-    hurt(dam);
+    hurt(dam, 0, nullptr);
 }
 
-bool monster::hurt(int dam, int real_dam)
+void monster::hurt(int dam) {
+    hurt(dam, 0, nullptr);
+}
+
+void monster::hurt( int dam, int real_dam, Creature *source )
 {
- hp -= dam;
- if( real_dam > 0 ) {
-     hp = std::max( hp, -real_dam );
- }
- if (hp < 1) {
-     return true;
- }
- if (dam > 0) {
-     process_trigger(MTRIG_HURT, 1 + int(dam / 3));
- }
- return false;
+    if( dead ) {
+        return;
+    }
+    hp -= dam;
+    if( real_dam > 0 ) {
+        hp = std::max( hp, -real_dam );
+    }
+    if( hp < 1 ) {
+        die( source );
+    } else if( dam > 0 ) {
+        process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
+    }
 }
 
 int monster::get_armor_cut(body_part bp)
@@ -1103,25 +1116,102 @@ int monster::fall_damage()
  return 0;
 }
 
+void monster::explode()
+{
+    if( is_hallucination() ) {
+        //Can't gib hallucinations
+        return;
+    }
+    // Send body parts and blood all over!
+    const itype_id meat = type->get_meat_itype();
+    const field_id type_blood = bloodType();
+    if( meat != "null" || type_blood != fd_null ) {
+        // Only create chunks if we know what kind to make.
+        int num_chunks = 0;
+        switch( type->size ) {
+            case MS_TINY:
+                num_chunks = 1;
+                break;
+            case MS_SMALL:
+                num_chunks = 2;
+                break;
+            case MS_MEDIUM:
+                num_chunks = 4;
+                break;
+            case MS_LARGE:
+                num_chunks = 8;
+                break;
+            case MS_HUGE:
+                num_chunks = 16;
+                break;
+        }
+
+        for( int i = 0; i < num_chunks; i++ ) {
+            int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
+            std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
+
+            bool done = false;
+            for( size_t j = 0; j < traj.size() && !done; j++ ) {
+                tarx = traj[j].x;
+                tary = traj[j].y;
+                if( type_blood != fd_null ) {
+                    g->m.add_field( tarx, tary, type_blood, 1 );
+                }
+                g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), gibType(), rng( 1, j + 1 ) );
+
+                if( g->m.move_cost( tarx, tary ) == 0 ) {
+                    if( !g->m.bash( tarx, tary, 3 ) ) {
+                        if( j > 0 ) {
+                            tarx = traj[j - 1].x;
+                            tary = traj[j - 1].y;
+                        }
+                        done = true;
+                    }
+                }
+            }
+            if( meat != "null" ) {
+                g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
+            }
+        }
+    }
+}
+
 void monster::die(Creature* nkiller) {
+    if( dead ) {
+        // We are already dead, don't die again, note that monster::dead is
+        // *only* set to true in this function!
+        return;
+    }
+    dead = true;
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
-    g->kill_mon(*this, nkiller != NULL && nkiller->is_player());
-}
-
-void monster::die()
-{
- if (!dead)
-  dead = true;
- if (!no_extra_death_drops) {
-  drop_items_on_death();
- }
-    if (type->difficulty >= 30 && get_killer() != NULL && get_killer()->is_player()) {
-        g->u.add_memorial_log(
-            pgettext("memorial_male", "Killed a %s."),
-            pgettext("memorial_female", "Killed a %s."),
-            name().c_str());
+    if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
+        explode(); // Explode them if it was big overkill
+    }
+    if (!no_extra_death_drops) {
+        drop_items_on_death();
+    }
+    // TODO: should actually be class Character
+    player *ch = dynamic_cast<player*>( get_killer() );
+    if( !is_hallucination() && ch != nullptr ) {
+        if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
+            // has guilt flag or player is pacifist && monster is humanoid
+            mdeath tmpdeath;
+            tmpdeath.guilt( this );
+        }
+        // TODO: add a kill counter to npcs?
+        if( ch->is_player() ) {
+            g->increase_kill_count( type->id );
+        }
+        if( type->difficulty >= 30 ) {
+            ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
+                                  pgettext( "memorial_female", "Killed a %s." ),
+                                  name().c_str() );
+        }
+    }
+    for( const auto &it : inv ) {
+        g->m.add_item_or_charges( posx(), posy(), it );
     }
 
 // If we're a queen, make nearby groups of our type start to die out
@@ -1393,4 +1483,9 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
         add_msg(type, processed_npc_string.c_str());
     }
     va_end(ap);
+}
+
+bool monster::is_dead() const
+{
+    return dead || const_cast<monster*>(this)->is_dead_state();
 }

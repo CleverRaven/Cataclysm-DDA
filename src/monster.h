@@ -215,9 +215,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     // TODO: fully replace hurt with apply/deal_damage
     virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
     void apply_damage(Creature* source, body_part bp, int side, int amount);
-    // Deals this dam damage; returns true if we dead
+    // Deals this dam damage;
     // If real_dam is provided, caps overkill at real_dam.
-    bool hurt(int dam, int real_dam = 0);
+    void hurt(int dam, int real_dam, Creature *source);
+    void hurt(int dam);
+    // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
+    void explode();
     // TODO: make this not a shim (possibly need to redo prototype)
     void hurt(body_part bp, int side, int dam);
     int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
@@ -228,7 +231,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     int  fall_damage(); // How much a fall hurts us
 
     void die(Creature* killer); //this is the die from Creature, it calls kill_mon
-    void die(); // this is the "original" die, called by kill_mon
     void drop_items_on_death();
 
     // Other
@@ -267,7 +269,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  int mission_id; // If we're related to a mission
  mtype *type;
  bool no_extra_death_drops; // if true, don't spawn loot items as part of death
- bool dead;
+ bool is_dead() const;
  bool made_footstep;
  std::string unique_name; // If we're unique
  bool hallucination;
@@ -296,6 +298,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 private:
  std::vector <point> plans;
  int _posx, _posy;
+ bool dead;
 };
 
 #endif
