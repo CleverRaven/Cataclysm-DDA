@@ -703,6 +703,12 @@ void npc::randomize_from_faction(faction *fac)
  }
 }
 
+void npc::set_fac(std::string fac_name)
+{
+    fac_id = 0;
+    my_fac = g->faction_by_ident(fac_name);
+}
+
 std::vector<item> starting_clothes(npc_class type, bool male)
 {
  std::vector<item> ret;
