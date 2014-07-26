@@ -720,7 +720,7 @@ public:
  std::vector<point> path; // Our movement plans
 
 // Personality & other defining characteristics
- int fac_id; // A temp variable used to inform the game which faction to link
+ std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
  npc_mission mission;
  npc_personality personality;
