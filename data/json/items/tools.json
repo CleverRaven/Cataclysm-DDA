@@ -7657,5 +7657,27 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "ECIG"
+  },
+  {
+    "type": "TOOL",
+    "id": "multi_cooker",
+    "symbol": "M",
+    "color": "red",
+    "name": "multi cooker",
+    "description": "An expensive multi cooker professional level.  Has a lot of buttons with different settings and programs.  The dream of every housewife and inveterate bachelor.  With its help you can prepare anything from the boiled potatoes, to exquisite dishes.  Unfortunately, user manual and a examples list of recipes lost, so the recipes you must know himself.",
+    "price": 20000,
+    "material": ["steel", "plastic"],
+    "weight": 11339,
+    "volume": 15,
+    "bashing": -1,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 300,
+    "initial_charges": 300,
+    "charges_per_use": 0,
+    "turns_per_charge": 50,
+    "ammo": "battery",
+    "revert_to": "multi_cooker",
+    "use_action": "MULTICOOKER"
   }
 ]

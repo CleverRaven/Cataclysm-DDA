@@ -19,6 +19,7 @@
 #include "messages.h"
 #include <sstream>
 #include <algorithm>
+#include "crafting.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -8399,4 +8400,180 @@ int iuse::radiocontrol(player *p, item *it, bool t)
     }
 
     return it->type->charges_to_use();
+}
+
+int iuse::multicooker(player *p, item *it, bool t)
+{
+
+    if (t) {
+
+        it_tool *tmp = dynamic_cast<it_tool *>(it->type);
+
+        int cooktime = atoi(it->item_vars["COOKTIME"].c_str());
+        cooktime -= tmp->turns_per_charge;
+
+        if (cooktime <= 0) {
+
+            it->active = false;
+
+            item meal(it->item_vars["DISH"], calendar::turn);
+            meal.active = true;
+
+            if (meal.has_flag("EATEN_HOT")) {
+                meal.item_tags.insert("HOT");
+                meal.item_counter = 600;
+            }
+
+            it->put_in(meal);
+            it->item_vars["DISH"] = "";
+
+            point pos = g->find_item(it);
+            g->sound(pos.x, pos.y, 8, "Ring of bells");
+
+            return 0;
+
+        } else {
+            it->item_vars["COOKTIME"] = string_format("%d", cooktime);
+
+            return 0;
+        }
+
+    } else {
+
+        enum {
+            mc_cancel, mc_start, mc_stop, mc_take
+        };
+
+        uimenu menu;
+        menu.selected = 0;
+        menu.text = _("Welcome to the RobotWife3000. What would you like to do?");
+
+        menu.addentry(mc_cancel, true, 'q', _("Cancel"));
+
+        if (it->active) {
+            menu.addentry(mc_stop, true, 's', _("Stop cooking"));
+        } else {
+
+            if (it->contents.empty()) {
+                if (it->charges < 50) {
+                    p->add_msg_if_player(_("Discharged batteries."));
+                    return 0;
+                }
+
+                menu.addentry(mc_start, true, 's', _("Start cooking"));
+            } else {
+                menu.addentry(mc_take, true, 't', _("Take out dish"));
+            }
+        }
+
+        menu.query();
+
+        int choice = menu.ret;
+
+        if (mc_cancel == choice) {
+            return 0;
+        }
+
+
+        if (mc_stop == choice) {
+
+            if (query_yn(_("Really stop cooking?"))) {
+                it->active = false;
+                it->item_vars["DISH"] = "";
+                return 0;
+            }
+
+            return 0;
+
+        }
+
+        if (mc_take == choice) {
+            item &dish = it->contents[0];
+
+            if (dish.has_flag("HOT")) {
+                p->add_msg_if_player(m_good, _("You pull out the %s, it is still hot and smell good."),
+                                     dish.display_name().c_str());
+            } else {
+                p->add_msg_if_player(m_good, _("You pull out the %s."), dish.tname().c_str());
+            }
+
+            p->inv.assign_empty_invlet(dish, true);
+            p->i_add(dish);
+            it->contents.clear();
+
+            return 0;
+        }
+
+        if (mc_start == choice) {
+
+            enum {
+                d_cancel
+            };
+
+            uimenu dmenu;
+            dmenu.selected = 0;
+            dmenu.text = _("Choose desired meal:");
+
+            dmenu.addentry(d_cancel, true, 'q', _("Cancel"));
+
+            std::vector<recipe *> dishes;
+
+            inventory crafting_inv = g->crafting_inventory(&g->u);
+            //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
+            crafting_inv.push_back(item("hotplate", 0)); //hotplate inside
+            crafting_inv.push_back(item("tongs", 0)); //some recipes requires tongs
+            crafting_inv.push_back(item("toolset", 0)); //toolset with CUT and other qualities inside
+            crafting_inv.push_back(item("pot", 0)); //good COOK, BOIL, CONTAIN qualities inside
+
+            int counter = 1;
+
+            for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
+                for (recipe_list::iterator list_iter = map_iter->second.begin();
+                     list_iter != map_iter->second.end(); ++list_iter) {
+                    if ((*list_iter)->cat == "CC_FOOD" && ((*list_iter)->subcat == "CSC_FOOD_MEAT" ||
+                                                           (*list_iter)->subcat == "CSC_FOOD_VEGGI" || (*list_iter)->subcat == "CSC_FOOD_PASTA")) {
+
+
+                        if (g->u.knows_recipe((*list_iter))) {
+
+                            dishes.push_back(*list_iter);
+
+                            const bool can_make = (*list_iter)->can_make_with_inventory(crafting_inv);
+
+                            item dummy((*list_iter)->result, 0);
+
+                            dmenu.addentry(counter++, can_make, -1, dummy.display_name());
+
+                        }
+
+                    }
+                }
+            }
+
+            dmenu.query();
+
+            int choice = dmenu.ret;
+
+            if (d_cancel == choice) {
+                return 0;
+            } else {
+
+                recipe *meal = dishes[choice - 1];
+
+                for (auto it = meal->components.begin(); it != meal->components.end(); ++it) {
+                    g->consume_items(p, *it);
+                }
+
+                it->item_vars["DISH"] = meal->result;
+                it->item_vars["COOKTIME"] = string_format("%d", meal->time * 2);
+
+                p->add_msg_if_player(m_good ,
+                                     _("The screen flashes blue symbols and scales, multi cooker begins to shake."));
+
+                it->active = true;
+                it->charges -= 50;
+                return 0;
+            }
+        }
+    }
 }
