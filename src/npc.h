@@ -483,6 +483,7 @@ public:
 // Generating our stats, etc.
  void randomize(npc_class type = NC_NONE);
  void randomize_from_faction(faction *fac);
+ void set_fac(std::string fac_name);
     /**
      * Set omx, omy, omz, mapx and mapx.
      * mx and my are submap coordinates relative to the overmap o.
