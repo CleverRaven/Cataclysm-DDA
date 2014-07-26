@@ -11,18 +11,10 @@
 
 import os
 
-base_path = 'C:\\building-utility\\'
 
 def main():
-    global base_path
-
-    #This should auto-detect the correct directory.
-    full_path = os.path.realpath(__file__)
-    path, filename = os.path.split(full_path)
-    base_path = path + "\\"
-
     mapCount = 1
-    file_path = base_path + 'drawing.txt'
+    file_path = os.path.join(os.getcwd(), 'drawing.txt')
     filename = open(file_path,"r")
     data = '[\n'
     mapList = ["","","","","","","","",""]
@@ -51,7 +43,7 @@ def main():
 #Takes the mapNum and 'text' is the 24x24 map
 def writeJSON(mapNum, text, data):
     entry = ''
-    file_path = base_path + 'json_header.txt'
+    file_path = os.path.join(os.getcwd(), 'json_header.txt')
     filename = open(file_path,"r")
     for line in filename:
         entry = entry + line
@@ -59,7 +51,7 @@ def writeJSON(mapNum, text, data):
 
     entry = entry + str(mapNum)
 
-    file_path = base_path + 'json_middle.txt'
+    file_path = os.path.join(os.getcwd(), 'json_middle.txt')
     filename = open(file_path,"r")
     for line in filename:
         entry = entry + line
@@ -67,7 +59,7 @@ def writeJSON(mapNum, text, data):
 
     entry = entry + text
 
-    file_path = base_path + 'json_footer.txt'
+    file_path = os.path.join(os.getcwd(), 'json_footer.txt')
     filename = open(file_path,"r")
     for line in filename:
         entry = entry + line
@@ -77,14 +69,14 @@ def writeJSON(mapNum, text, data):
     return data
 
 def finalizeEntry(data):
-    file_path = base_path + 'output\\office_tower.json'
+    file_path = os.path.join(os.getcwd(), 'output', 'office_tower.json')
     filename = open(file_path,"w")
     filename.write(data)
     filename.close()
 
 def writeTerrain(mapNum):
     entry = ''
-    file_path = base_path + 'terrain_header.txt'
+    file_path = os.path.join(os.getcwd(), 'terrain_header.txt')
     filename = open(file_path,"r")
     for line in filename:
         entry = entry + line
@@ -92,13 +84,14 @@ def writeTerrain(mapNum):
 
     entry = entry + str(mapNum)
 
-    file_path = base_path + 'terrain_footer.txt'
+    file_path = os.path.join(os.getcwd(), 'terrain_footer.txt')
     filename = open(file_path,"r")
     for line in filename:
         entry = entry + line
     filename.close()
 
-    file_path = base_path + 'output\\overmap_terrain_entry.json'
+    file_path = os.path.join(os.getcwd(), 'output',
+                             'overmap_terrain_entry.json')
     filename = open(file_path,"a")
     filename.write(entry)
     filename.close()
