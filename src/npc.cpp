@@ -50,6 +50,7 @@ npc::npc()
  int_max = 0;
  per_max = 0;
  my_fac = NULL;
+ fac_id = "";
  marked_for_death = false;
  dead = false;
  hit_by_player = false;
@@ -169,6 +170,9 @@ void npc::load_info(std::string data)
         } catch (std::string jsonerr) {
             debugmsg("Bad npc json\n%s", jsonerr.c_str() );
         }
+        if (fac_id != ""){
+            set_fac(fac_id);
+        }
         return;
     } else {
         load_legacy(dump);
@@ -233,7 +237,7 @@ void npc::randomize(npc_class type)
   boost_skill_level("mechanics", rng(0, 1));
   boost_skill_level("electronics", rng(1, 2));
   boost_skill_level("speech", rng(1, 3));
-  boost_skill_level("barter", rng(8, 11));
+  boost_skill_level("barter", rng(3, 5));
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
@@ -253,7 +257,7 @@ void npc::randomize(npc_class type)
   boost_skill_level("gun", rng(1, 3));
   boost_skill_level("pistol", rng(1, 3));
   boost_skill_level("throw", rng(0, 2));
-  boost_skill_level("barter", rng(5, 7));
+  boost_skill_level("barter", rng(2, 4));
   int_max -= rng(0, 2);
   dex_max -= rng(0, 2);
   per_max += rng(0, 2);
@@ -481,6 +485,7 @@ void npc::randomize_from_faction(faction *fac)
 {
 // Personality = aggression, bravery, altruism, collector
  my_fac = fac;
+ fac_id = fac->id;
  randomize();
 
  switch (fac->goal) {
@@ -705,8 +710,8 @@ void npc::randomize_from_faction(faction *fac)
 
 void npc::set_fac(std::string fac_name)
 {
-    fac_id = 0;
     my_fac = g->faction_by_ident(fac_name);
+    fac_id = my_fac->id;
 }
 
 std::vector<item> starting_clothes(npc_class type, bool male)
