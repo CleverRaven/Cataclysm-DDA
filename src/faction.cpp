@@ -37,11 +37,11 @@ faction::faction()
     mapy = 0;
     size = 0;
     power = 0;
-    id = -1;
+    id = "";
     desc = "";
 }
 
-faction::faction(int uid)
+faction::faction(std::string uid)
 {
     name = "";
     values = 0;
@@ -71,7 +71,7 @@ faction_map faction::_all_faction;
 void faction::load_faction(JsonObject &jsobj)
 {
     faction fac;
-    //fac.id = jsobj.get_string("id");
+    fac.id = jsobj.get_string("id");
     fac.name = jsobj.get_string("name");
     fac.likes_u = jsobj.get_int("likes_u");
     fac.respects_u = jsobj.get_int("respects_u");
@@ -103,7 +103,7 @@ void faction::load_faction_template(std::string ident)
 {
     faction_map::iterator found = _all_faction.find(ident);
     if (found != _all_faction.end()){
-
+        id = found->second.id;
         name = found->second.name;
         likes_u = found->second.likes_u;
         respects_u = found->second.respects_u;
@@ -499,7 +499,7 @@ void faction::make_army()
     if (one_in(8)) {
         values |= mfb(FACVAL_CRUELTY);
     }
-    id = 0;
+    id = "army";
 }
 
 bool faction::has_job(faction_job j)
