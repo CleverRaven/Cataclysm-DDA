@@ -1729,7 +1729,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
  case TALK_EVAC_GUARD3_HOSTILE:
   p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
   p->my_fac->respects_u -= 15;
-  p->my_fac = g->faction_by_id(4);
+  p->my_fac = g->faction_by_ident("hells_raiders");
   RESPONSE(_("I didn't mean it!"));
    SUCCESS(TALK_DONE);
   RESPONSE(_("..."));
@@ -1744,7 +1744,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
 
  case TALK_EVAC_GUARD3_DEAD:
-  p->my_fac = g->faction_by_id(4);
+  p->my_fac = g->faction_by_ident("hells_raiders");
   RESPONSE(_("I didn't mean it!"));
    SUCCESS(TALK_DONE);
   RESPONSE(_("..."));
