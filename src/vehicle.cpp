@@ -1355,6 +1355,21 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
+void vehicle::detach_part(int p)
+{
+    parts[p].slot = true;
+    parts[p].hp = 0;
+    parts[p].amount = 0;
+    refresh();
+}
+
+void vehicle::attach_part(int p, int dx, int dy, item &used_item)
+{
+    vehicle_part new_part(parts[p].id, dx, dy, &used_item);
+    parts[p] = new_part;
+    refresh();
+}
+
 /**
  * Mark a part as removed from the vehicle.
  * @return bool true if the vehicle's 0,0 point shifted.
@@ -1854,6 +1869,9 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
                                      part_info(pl[i]).name.c_str());
         } else {
             partname = part_info(pl[i]).name;
+        }
+        if (parts[pl[i]].slot) {
+            partname += " (slot)";
         }
 
         bool armor = part_flag(pl[i], "ARMOR");

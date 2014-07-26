@@ -1155,6 +1155,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
     data.read("items", items);
+    data.read("slot", slot);
 }
 
 void vehicle_part::serialize(JsonOut &json) const
@@ -1170,6 +1171,7 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("flags", flags);
     json.member("passenger_id", passenger_id);
     json.member("items", items);
+    json.member("slot", slot);
     json.end_object();
 }
 

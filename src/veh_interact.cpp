@@ -46,6 +46,7 @@ veh_interact::veh_interact ()
     main_context.register_action("SIPHON");
     main_context.register_action("TIRE_CHANGE");
     main_context.register_action("DRAIN");
+    main_context.register_action("ATTACH");
     main_context.register_action("PREV_TAB");
     main_context.register_action("NEXT_TAB");
     main_context.register_action("CONFIRM");
@@ -253,6 +254,8 @@ void veh_interact::do_main_loop()
             do_tirechange();
         } else if (action == "DRAIN") {
             do_drain();
+        } else if (action == "ATTACH") {
+            do_attach();
         }
         if (sel_cmd != ' ') {
             finish = true;
@@ -382,6 +385,11 @@ task_reason veh_interact::cant_do (char mode)
         has_tools = (has_wrench && has_hacksaw) || can_remove_wheel;
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
         has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
+        break;
+    case 't': // attach/detach
+        enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
+        valid_target = cpart >= 0;
+        has_tools = has_wrench || can_remove_wheel;
         break;
     case 's': // siphon mode
         valid_target = veh->fuel_left("gasoline") > 0;
@@ -783,6 +791,107 @@ void veh_interact::do_remove()
     }
 }
 
+void veh_interact::do_attach()
+{
+    const task_reason reason = cant_do('t');
+    display_mode('t');
+    werase (w_msg);
+    int msg_width = getmaxx(w_msg);
+    switch (reason) {
+    case LOW_MORALE:
+        mvwprintz(w_msg, 0, 1, c_ltred, _("Your morale is too low to construct..."));
+        wrefresh (w_msg);
+        return;
+    case INVALID_TARGET:
+        mvwprintz(w_msg, 0, 1, c_ltred, _("No parts here."));
+        wrefresh (w_msg);
+        return;
+    case LACK_TOOLS:
+        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                       _("You need a <color_%1$s>wrench</color> to attach/detach parts."),
+                       has_wrench ? "ltgreen" : "red");
+        if(wheel) {
+            fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
+                           _("To remove a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>."),
+                           has_wrench ? "ltgreen" : "red",
+                           has_jack ? "ltgreen" : "red");
+        }
+        wrefresh (w_msg);
+        return;
+    case MOVING_VEHICLE:
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "Better not remove something will driving." ) );
+        wrefresh (w_msg);
+        return;
+    default: break; // no reason, all is well
+    }
+    mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to attach/detach:"));
+    wrefresh (w_mode);
+    int first = 0;
+    int pos = first;
+    while (true) {
+        sel_vehicle_part = &veh->parts[parts_here[pos]];
+        sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
+        bool is_wheel = sel_vpart_info->has_flag("WHEEL");
+        bool is_attachable = sel_vpart_info->has_flag("ATTACH");
+        bool has_comps = false;
+        werase (w_parts);
+        werase (w_msg);
+        veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
+        if (sel_vehicle_part->slot) {
+            itype_id itm = sel_vpart_info->item;
+            has_comps = crafting_inv.has_components(itm, 1);
+            fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
+                           _("You need <color_%1$s>%2$s</color> to attach it."),
+                           has_comps ? "ltgreen" : "red",
+                           itypes[itm]->nname(1).c_str());
+        }
+        wrefresh (w_parts);
+        wrefresh (w_msg);
+        const std::string action = main_context.handle_input();
+        if (action == "REMOVE" || action == "CONFIRM") {
+            if (veh->can_unmount(parts_here[pos])) {
+                if ( ((has_wrench && is_attachable) || (is_wheel && has_jack && has_wrench)) &&
+                    (sel_vehicle_part->slot == has_comps)) {
+                    sel_cmd = 't';
+                    return;
+                } else if (is_attachable) {
+                    fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                                   _("You need a <color_%1$s>wrench</color> attach/detach parts or a <color_%2$s>wrench</color> and a <color_%3$s>jack</color> to attach/detach wheel"),
+                                   has_wrench ? "ltgreen" : "red",
+                                   has_wrench ? "ltgreen" : "red",
+                                   has_jack ? "ltgreen" : "red");
+                    wrefresh (w_msg);
+                    return;
+                } else if (is_wheel) {
+                    fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                                   _("You need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color> to attach/detach wheel"),
+                                     has_wrench ? "ltgreen" : "red",
+                                     has_jack ? "ltgreen" : "red");
+                    wrefresh (w_msg);
+                    return;
+                } else {
+                    fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
+                                   _("This part isn't attachable."));
+                    wrefresh (w_msg);
+                    return;
+                }
+            } else {
+                mvwprintz(w_msg, 0, 1, c_ltred,
+                          _("You cannot remove that part while something is attached to it."));
+                wrefresh (w_msg);
+                return;
+            }
+        } else if (action == "QUIT") {
+            werase (w_parts);
+            veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
+            wrefresh (w_parts);
+            werase (w_msg);
+            break;
+        } else {
+            move_in_list(pos, action, parts_here.size());
+        }
+    }
+}
 /**
  * Handles siphoning gas.
  * @param reason INVALID_TARGET if the vehicle has no gas,
@@ -1311,9 +1420,10 @@ void veh_interact::display_mode(char mode)
         actions.push_back(_("<s>iphon"));
         actions.push_back(_("<d>rain water"));
         actions.push_back(_("<c>hange tire"));
+        actions.push_back(_("at<t>ach"));
         actions.push_back(_("r<e>name"));
 
-        bool enabled[8];
+        bool enabled[9];
         enabled[0] = !cant_do('i');
         enabled[1] = !cant_do('r');
         enabled[2] = !cant_do('f');
@@ -1321,9 +1431,10 @@ void veh_interact::display_mode(char mode)
         enabled[4] = !cant_do('s');
         enabled[5] = !cant_do('d');
         enabled[6] = !cant_do('c');
-        enabled[7] = true;          // 'rename' is always available
+        enabled[7] = true;
+        enabled[8] = true;          // 'rename' is always available
 
-        int pos[9];
+        int pos[10];
         pos[0] = 1;
         for (size_t i = 0; i < actions.size(); i++) {
             pos[i+1] = pos[i] + utf8_width(actions[i].c_str()) - 2;
@@ -1536,6 +1647,7 @@ void complete_vehicle ()
     int partnum;
     item used_item;
     bool broken;
+    bool slot;
     int replaced_wheel;
     std::vector<int> parts;
     int dd = 2;
@@ -1672,6 +1784,37 @@ void complete_vehicle ()
             }
             veh->remove_part (vehicle_part);
             veh->part_removal_cleanup();
+        }
+        break;
+    case 't':
+        // Dump contents of part at player's feet, if any.
+        for (size_t i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
+            g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);
+        }
+        veh->parts[vehicle_part].items.clear();
+
+        broken = veh->parts[vehicle_part].hp <= 0;
+        slot = broken && veh->parts[vehicle_part].slot;
+
+        if (!broken && !slot) { //detach
+            used_item = veh->parts[vehicle_part].properties_to_item();
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
+            veh->detach_part(vehicle_part);
+            add_msg(_("You detach the %s from the %s."),
+                           veh->part_info(vehicle_part).name.c_str(),
+                           veh->name.c_str());
+        } else if (broken && !slot) { //detach broken
+            veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
+            veh->detach_part(vehicle_part);
+            add_msg(_("You detach the broken %s from the %s."),
+                           veh->part_info(vehicle_part).name.c_str(),
+                           veh->name.c_str());
+        } else if (slot) { //attach
+            used_item = consume_vpart_item (veh->parts[vehicle_part].id);
+            veh->attach_part(vehicle_part, dx, dy, used_item);
+            add_msg(_("You attach the %s into the %s."),
+                       veh->part_info(vehicle_part).name.c_str(),
+                       veh->name.c_str());
         }
         break;
     case 's':
