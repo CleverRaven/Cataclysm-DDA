@@ -869,12 +869,12 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         if (target.is_player()) {
             if (u_see_me) {
                 //~ 1$s is attaker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg(("The %1$s hits your %2$s, but your %3$s protects you."),name().c_str(),
+                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."),name().c_str(),
                         body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
                         target.skin_name().c_str());
             } else {
                 //~ 1$s is bodypart name in accusative, 2$s is armor name.
-                add_msg(("Something hits your %1$s, but your %2$s protects you."),
+                add_msg(_("Something hits your %1$s, but your %2$s protects you."),
                         body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
                         target.skin_name().c_str());
             }
