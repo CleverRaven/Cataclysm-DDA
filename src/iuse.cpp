@@ -2626,11 +2626,8 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("You can't fish there!"));
         return 0;
     }
-    // can't use g->om_global_location, because that gives the position
-    // of the player, not of (dirx, diry)
-    const int cursx = (g->levx + dirx / SEEX) / 2 + g->cur_om->pos().x * OMAPX;
-    const int cursy = (g->levy + diry / SEEY) / 2 + g->cur_om->pos().y * OMAPY;
-    if (!otermap[overmap_buffer.ter(cursx, cursy, g->levz)].is_river) {
+    point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( dirx, diry ) );
+    if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
         return 0;
     }
@@ -3238,7 +3235,7 @@ int iuse::two_way_radio(player *p, item *it, bool)
             g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
                                   pgettext("memorial_female", "Called for help from %s."),
                                   fac->name.c_str());
-            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id, -1, -1);
+            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id);
             fac->respects_u -= rng(0, 8);
             fac->likes_u -= rng(3, 5);
         } else if (bonus >= -5) {
@@ -3713,7 +3710,7 @@ int iuse::picklock(player *p, item *it, bool)
         it->damage < 100) {
         g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
         if (!g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
     }
     // Special handling, normally the item isn't used up, but it is if broken.
@@ -3831,7 +3828,7 @@ int iuse::crowbar(player *p, item *it, bool)
                                   pgettext("memorial_female", "Set off an alarm."));
             g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
             if (!g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
             }
         }
     } else {

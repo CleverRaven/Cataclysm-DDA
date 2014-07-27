@@ -4431,7 +4431,7 @@ void game::debug()
         s += ngettext("%d event planned.", "%d events planned", events.size());
         popup_top(
             s.c_str(),
-            u.posx, u.posy, levx, levy,
+            u.posx, u.posy, get_abs_levx(), get_abs_levy(),
             otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
             int(calendar::turn), int(nextspawn),
             (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
@@ -13622,25 +13622,8 @@ void game::update_map(int &x, int &y)
     levx += shiftx;
     levy += shifty;
 
-    if (levx < 0) {
-        levx += OMAPX * 2;
-        olevx = -1;
-    } else if (levx > OMAPX * 2 - 1) {
-        levx -= OMAPX * 2;
-        olevx = 1;
-    }
-
-    if (levy < 0) {
-        levy += OMAPY * 2;
-        olevy = -1;
-    } else if (levy > OMAPY * 2 - 1) {
-        levy -= OMAPY * 2;
-        olevy = 1;
-    }
-
-    if (olevx != 0 || olevy != 0) {
-        cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
-    }
+    real_coords rc( m.getabs( 0, 0 ) );
+    cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
 
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
@@ -14570,8 +14553,7 @@ std::vector<faction *> game::factions_at(int x, int y)
 {
     std::vector<faction *> ret;
     for (size_t i = 0; i < factions.size(); i++) {
-        if (factions[i].omx == cur_om->pos().x && factions[i].omy == cur_om->pos().y &&
-            trig_dist(x, y, factions[i].mapx, factions[i].mapy) <= factions[i].size) {
+        if (trig_dist(x, y, factions[i].mapx, factions[i].mapy) <= factions[i].size) {
             ret.push_back(&(factions[i]));
         }
     }
@@ -15038,4 +15020,19 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
     if (net_speed != 0) {
         add_msg(m_info, _("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
     }
+}
+
+int game::get_abs_levx() const
+{
+    return levx + cur_om->pos().x * OMAPX * 2;
+}
+
+int game::get_abs_levy() const
+{
+    return levy + cur_om->pos().y * OMAPY * 2;
+}
+
+int game::get_abs_levz() const
+{
+    return levx;
 }

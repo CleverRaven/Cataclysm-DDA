@@ -124,8 +124,8 @@ public:
  bool known_by_u;
  int id;
  int strength, sneak, crime, cult, good; // Defining values
- int omx, omy; // Which overmap are we based in?
- int mapx, mapy;// Where in that overmap are we?
+ /** Global submap coordinates where the center of influence is */
+ int mapx, mapy;
  int size; // How big is our sphere of influence?
  int power; // General measure of our power
 };

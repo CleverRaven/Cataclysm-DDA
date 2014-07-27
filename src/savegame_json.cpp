@@ -1356,10 +1356,16 @@ void faction::deserialize(JsonIn &jsin)
     jo.read("crime", crime);
     jo.read("cult", cult);
     jo.read("good", good);
-    jo.read("omx", omx);
-    jo.read("omy", omy);
     jo.read("mapx", mapx);
     jo.read("mapy", mapy);
+    // omx,omy are obsolete, use them (if present) to make mapx,mapy global coordinates
+    int o;
+    if(jo.read("omx", o)) {
+        mapx += o * OMAPX * 2;
+    }
+    if(jo.read("omy", o)) {
+        mapy += o * OMAPY * 2;
+    }
     jo.read("size", size);
     jo.read("power", power);
     if (jo.has_array("opinion_of")) {
@@ -1385,8 +1391,6 @@ void faction::serialize(JsonOut &json) const
     json.member("crime", crime);
     json.member("cult", cult);
     json.member("good", good);
-    json.member("omx", omx);
-    json.member("omy", omy);
     json.member("mapx", mapx);
     json.member("mapy", mapy);
     json.member("size", size);

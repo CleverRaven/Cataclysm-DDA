@@ -6,6 +6,25 @@
 #include "translations.h"
 #include "monstergenerator.h"
 #include "messages.h"
+#include <climits>
+
+event::event()
+{
+    type = EVENT_NULL;
+    turn = 0;
+    faction_id = -1;
+    map_point.x = INT_MIN;
+    map_point.y = INT_MIN;
+}
+
+event::event( event_type e_t, int t, int f_id, int x, int y )
+{
+    type = e_t;
+    turn = t;
+    faction_id = f_id;
+    map_point.x = x;
+    map_point.y = y;
+}
 
 void event::actualize()
 {
@@ -33,7 +52,7 @@ void event::actualize()
   } break;
 
   case EVENT_ROBOT_ATTACK: {
-   if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4) {
+   if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
     mtype *robot_type = GetMType("mon_tripod");
     if (faction_id == 0) { // The cops!
      robot_type = GetMType("mon_copbot");
@@ -41,8 +60,8 @@ void event::actualize()
                            pgettext("memorial_female", "Became wanted by the police!"));
     }
     monster robot(robot_type);
-    int robx = (g->levx > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
-        roby = (g->levy > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
+    int robx = (g->get_abs_levx() > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
+        roby = (g->get_abs_levy() > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
     robot.spawn(robx, roby);
     g->add_zombie(robot);
    }
