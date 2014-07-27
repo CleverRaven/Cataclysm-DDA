@@ -8407,6 +8407,78 @@ int iuse::radiocontrol(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+bool multicooker_hallu(player *p, item *it)
+{
+
+    p->moves -= 200;
+
+    const int random_hallu = rng(1, 7);
+
+    std::vector<point> points;
+
+    switch (random_hallu) {
+
+        case 1:
+            add_msg(m_info, _("And when you gaze long into an screen the screen also gazes into you."));
+            return true;
+
+        case 2:
+            add_msg(m_bad, _("The multi cooker boiled your head!"));
+            return true;
+
+        case 3:
+            add_msg(m_info, _("The characters on the screen are added in obscene joke. Strange humor."));
+            return true;
+
+        case 4:
+            add_msg(m_warning, _("Are you sure that the multi cooker wants to poison your food!"));
+            return true;
+
+        case 5:
+            add_msg(m_info,
+                    _("The multi cooker argue with you about the taste preferences.  You don't want to deal with it."));
+            return true;
+
+        case 6:
+
+            for (int x = p->posx - 1; x <= p->posx + 1; x++)
+                for (int y = p->posy - 1; y <= p->posy + 1; y++) {
+                    if (g->m.move_cost(x, y) > 0) {
+                        points.push_back(point(x, y));
+                    }
+                }
+
+            if (!one_in(5)) {
+                add_msg(m_warning, _("The multi cooker runs away!"));
+
+                const point random_point = points[rng(0, points.size() - 1)];
+
+                monster m(GetMType("mon_hallu_multicooker"));
+                m.hallucination = true;
+                m.add_effect("run", 1, 1, true);
+                m.spawn(random_point.x, random_point.y);
+                g->add_zombie(m);
+
+            } else {
+
+                add_msg(m_bad, _("You surrounded by agressive multi cookers!"));
+
+                for (auto pp = points.begin(); pp != points.end(); ++pp) {
+
+                    monster m(GetMType("mon_hallu_multicooker"));
+                    m.hallucination = true;
+                    m.spawn(pp->x, pp->y);
+                    g->add_zombie(m);
+                }
+            }
+            return true;
+
+        default:
+            return false;
+    }
+
+}
+
 int iuse::multicooker(player *p, item *it, bool t)
 {
     if (t) {
@@ -8457,31 +8529,8 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (p->has_disease("hallu") || p->has_disease("visuals")) {
-
-            p->moves -= 200;
-
-            const int random_hallu = rng(1, 5);
-
-            switch (random_hallu) {
-
-                case 1:
-                    add_msg(m_info, _("And when you gaze long into an screen the screen also gazes into you."));
-                    return 0;
-
-                case 2:
-                    add_msg(m_bad, _("The multi cooker boiled your head!"));
-                    return 0;
-
-                case 3:
-                    add_msg(m_info, _("The characters on the screen are added in obscene joke. Strange humor."));
-                    return 0;
-
-                case 4:
-                    add_msg(m_warning, _("Are you sure that the multi cooker wants to poison your food!"));
-                    return 0;
-
-                default:
-                    break;
+            if (multicooker_hallu(p, it)) {
+                return 0;
             }
         }
 
