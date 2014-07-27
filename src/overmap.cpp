@@ -1602,7 +1602,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
                 // Display player pos, should always be visible
-                ter_color = g->u.color();
+                ter_color = g->u.symbol_color();
                 ter_sym = '@';
             } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
                 // TODO: mission targets currently have no z-component, are assumed to be on z=0

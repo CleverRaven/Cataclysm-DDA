@@ -1620,7 +1620,7 @@ void player::set_underwater(bool u)
 }
 
 
-nc_color player::color() const
+nc_color player::basic_symbol_color() const
 {
  if (has_effect("onfire"))
   return c_red;

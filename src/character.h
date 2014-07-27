@@ -15,6 +15,8 @@ class Character : public Creature
 
         field_id bloodType() const;
         field_id gibType() const;
+        virtual bool is_warm() const override;
+        virtual const std::string &symbol() const override;
 };
 
 #endif

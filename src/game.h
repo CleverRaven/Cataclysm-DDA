@@ -442,6 +442,10 @@ class game
         void draw_weather(weather_printable wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        // Draw critter (if visible!) on its current position into w_terrain,
+        // also update mapRain to protect it from been overdrawn by rain.
+        // @param center the center of view, same as when calling map::draw
+        void draw_critter(const Creature &critter, const point &center);
 
         // Vehicle related JSON loaders and variables
         void load_vehiclepart(JsonObject &jo);

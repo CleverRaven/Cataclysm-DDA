@@ -380,11 +380,15 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
             long sym = ( game_map ? '%' : ' ' );
             if ( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if ( game_map ) {
-                    int mon_idx = g->mon_at(x, y);
-                    int npc_idx = g->npc_at(x, y);
-                    if ( mon_idx >= 0 ) {
-                        g->zombie(mon_idx).draw(w, center.x, center.y, false);
-                        monster & mon=g->zombie(mon_idx);
+                    Creature *critter = g->critter_at( x, y );
+                    if( critter != nullptr ) {
+                        critter->draw( w, center.x, center.y, false );
+                    } else {
+                        m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
+                    }
+                    monster *m = dynamic_cast<monster*>( critter );
+                    if( m != nullptr ) {
+                        monster &mon = *m;
                         if ( refresh_mplans == true ) {
                             for(std::vector<point>::iterator it =
                                     mon.plans.begin();
@@ -392,10 +396,6 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                                 hilights["mplan"].points[*it] = 1;
                             }
                         }
-                    } else if ( npc_idx >= 0 ) {
-                        g->active_npc[npc_idx]->draw(w, center.x, center.y, false);
-                    } else {
-                        m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
                     }
                 } else {
                     m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);

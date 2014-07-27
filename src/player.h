@@ -113,8 +113,8 @@ public:
     void process_effects(); // Process long-term effects
 
  virtual bool is_npc() const { return false; } // Overloaded for NPCs in npc.h
- /** Returns what color the player should be drawn as */
- nc_color color() const;
+    /** Returns what color the player should be drawn as */
+    virtual nc_color basic_symbol_color() const override;
 
  /** Stringstream loader for old player data files */
  virtual void load_legacy(std::stringstream & dump);

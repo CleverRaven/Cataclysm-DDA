@@ -893,24 +893,15 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         m.draw(w_terrain, center); // embedded in SDL drawing code
         // Draw the Monsters
         for (int i = 0; i < num_zombies(); i++) {
-            if (u_see(&(zombie(i)))) {
-                zombie(i).draw(w_terrain, center.x, center.y, false);
-            }
+            draw_critter( zombie( i ), center );
         }
         // Draw the NPCs
         for (int i = 0; i < active_npc.size(); i++) {
-            if (u_see(active_npc[i]->posx, active_npc[i]->posy)) {
-                active_npc[i]->draw(w_terrain, center.x, center.y, false);
-            }
+            draw_critter( *active_npc[i], center );
         }
+        // Draw the player
+        draw_critter( g->u, center );
         if (x != u.posx || y != u.posy) {
-
-            // Draw the player
-            int atx = POSX + u.posx - center.x, aty = POSY + u.posy - center.y;
-            if (is_valid_in_w_terrain(atx, aty)) {
-                mvwputch(w_terrain, aty, atx, u.color(), '@');
-            }
-
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information about tiles they can't see.
             draw_line(x, y, center, ret);
@@ -1023,11 +1014,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
         /* More drawing to terrain */
         if (tarx != 0 || tary != 0) {
-            int mondex = mon_at(x, y), npcdex = npc_at(x, y);
-            if (mondex != -1 && u_see(&(zombie(mondex)))) {
-                zombie(mondex).draw(w_terrain, center.x, center.y, false);
-            } else if (npcdex != -1) {
-                active_npc[npcdex]->draw(w_terrain, center.x, center.y, false);
+            const Creature *critter = critter_at( x, y );
+            if( critter != nullptr ) {
+                draw_critter( *critter, center );
             } else if (m.sees(u.posx, u.posy, x, y, -1, junk)) {
                 m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
             } else {

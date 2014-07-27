@@ -5230,6 +5230,30 @@ bool game::isBetween(int test, int down, int up)
     }
 }
 
+void game::draw_critter(const Creature &critter, const point &center)
+{
+    const int my = POSY + ( critter.ypos() - center.y );
+    const int mx = POSX + ( critter.xpos() - center.x );
+    if( !is_valid_in_w_terrain( mx, my ) ) {
+        return;
+    }
+    if( u.sees( &critter ) || &critter == &u ) {
+        critter.draw( w_terrain, center.x, center.y, false );
+        mapRain[my][mx] = false;
+        return;
+    }
+    const bool has_ir = u.has_active_bionic( "bio_infrared" ) ||
+                        u.has_trait( "INFRARED" ) ||
+                        u.has_trait( "LIZ_IR" ) ||
+                        u.worn_with_flag( "IR_EFFECT" );
+    const bool can_see = m.pl_sees( u.posx, u.posy, critter.xpos(), critter.ypos(),
+                                    u.sight_range( DAYLIGHT_LEVEL ) );
+    if( critter.is_warm() && has_ir && can_see ) {
+        mvwputch( w_terrain, my, mx, c_red, '?' );
+        mapRain[my][mx] = false;
+    }
+}
+
 void game::draw_ter(int posx, int posy)
 {
     mapRain.clear();
@@ -5240,42 +5264,22 @@ void game::draw_ter(int posx, int posy)
     if (posy == -999) {
         posy = u.posy + u.view_offset_y;
     }
+    const point center( posx, posy );
 
     ter_view_x = posx;
     ter_view_y = posy;
 
     m.build_map_cache();
-    m.draw(w_terrain, point(posx, posy));
+    m.draw( w_terrain, center );
 
     // Draw monsters
-    int mx, my;
     for (int i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        my = POSY + (critter.posy() - posy);
-        mx = POSX + (critter.posx() - posx);
-        if (is_valid_in_w_terrain(mx, my) && u_see(&critter)) {
-            critter.draw(w_terrain, posx, posy, false);
-            mapRain[my][mx] = false;
-        } else if (critter.has_flag(MF_WARM)
-                   && is_valid_in_w_terrain(mx, my)
-                   && (u.has_active_bionic("bio_infrared")
-                       || u.has_trait("INFRARED")
-                       || u.has_trait("LIZ_IR")
-                       || u.worn_with_flag("IR_EFFECT"))
-                   && m.pl_sees(u.posx, u.posy, critter.posx(), critter.posy(),
-                                u.sight_range(DAYLIGHT_LEVEL))) {
-            mvwputch(w_terrain, my, mx, c_red, '?');
-        }
+        draw_critter( critter_tracker.find( i ), center );
     }
 
     // Draw NPCs
-    for( std::vector<npc *>::iterator it = active_npc.begin(); it != active_npc.end(); ++it ) {
-        my = POSY + ((*it)->posy - posy);
-        mx = POSX + ((*it)->posx - posx);
-        if (is_valid_in_w_terrain(mx, my) && u_see((*it)->posx, (*it)->posy)) {
-            (*it)->draw(w_terrain, posx, posy, false);
-            mapRain[my][mx] = false;
-        }
+    for( const npc* n : active_npc ) {
+        draw_critter( *n, center );
     }
 
     if (u.has_active_bionic("bio_scent_vision")) {
