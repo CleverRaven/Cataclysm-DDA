@@ -482,6 +482,9 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int 
     }
 
     apply_damage(source, bp, side, total_damage);
+    if( is_dead_state() ) {
+        die( source );
+    }
     return dealt_damage_instance(dealt_dams);
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)

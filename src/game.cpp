@@ -713,7 +713,7 @@ void game::load_npcs()
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
         if (temp->marked_for_death) {
-            temp->die(false);
+            temp->die( nullptr );
         } else {
             active_npc.push_back(temp);
         }
@@ -6213,12 +6213,13 @@ void game::cleanup_dead()
     //Cleanup any dead npcs.
     //This will remove the npc object, it is assumed that they have been transformed into
     //dead bodies before this.
-    for (std::vector<npc *>::iterator it = active_npc.begin();
-         it != active_npc.end();) {
-        if ((*it)->dead) {
-            int npc_id = (*it)->getID();
-            it = active_npc.erase(it);
-            overmap_buffer.remove_npc(npc_id);
+    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
+        npc *n = *it;
+        if( n->is_dead() ) {
+            n->die( nullptr ); // make sure this has been called to create corpses etc.
+            const int npc_id = n->getID();
+            it = active_npc.erase( it );
+            overmap_buffer.remove_npc( npc_id );
         } else {
             it++;
         }
@@ -6327,11 +6328,11 @@ void game::monmove()
          it != active_npc.end(); ++it) {
         int turns = 0;
         if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
-            (*it)->die();
+            (*it)->die( nullptr );
         } else {
             (*it)->process_turn();
             (*it)->reset();
-            while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
+            while (!(*it)->is_dead() && (*it)->moves > 0 && turns < 10) {
                 int moves = (*it)->moves;
                 (*it)->move();
                 if( moves == (*it)->moves ) {
@@ -6343,7 +6344,7 @@ void game::monmove()
             // Invoke cranial detonation to prevent an infinite loop.
             if (turns == 10) {
                 add_msg(_("%s's brain explodes!"), (*it)->name.c_str());
-                (*it)->die();
+                (*it)->die( nullptr );
             }
         }
     }
@@ -6573,7 +6574,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
                 active_npc[npc_hit]->hit(NULL, bp_arms, 1, rng(dam / 3, dam), 0);
                 if (active_npc[npc_hit]->hp_cur[hp_head] <= 0 ||
                     active_npc[npc_hit]->hp_cur[hp_torso] <= 0) {
-                    active_npc[npc_hit]->die(true);
+                    active_npc[npc_hit]->die( nullptr ); // TODO: player's fault?
                 }
             }
             if (u.posx == i && u.posy == j) {
@@ -6647,7 +6648,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 active_npc[npcdex]->hit(NULL, hit, rng(0, 1), 0, dam);
                 if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
                     active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
-                    active_npc[npcdex]->die();
+                    active_npc[npcdex]->die( nullptr );
                 }
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
@@ -7251,7 +7252,7 @@ void game::emp_blast(int x, int y)
 int game::npc_at(const int x, const int y) const
 {
     for (int i = 0; i < active_npc.size(); i++) {
-        if (active_npc[i]->posx == x && active_npc[i]->posy == y && !active_npc[i]->dead) {
+        if (active_npc[i]->posx == x && active_npc[i]->posy == y && !active_npc[i]->is_dead()) {
             return i;
         }
     }
@@ -10274,7 +10275,7 @@ int game::list_monsters(const int iLastState)
                 werase(w_monster_info);
 
                 //print monster info
-                zombie(iMonDex).print_info(w_monster_info, 1, 11);
+                zombie(iMonDex).print_info(w_monster_info, 1, 11, 1);
 
                 mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", press_x(ACTION_LOOK).c_str());
                 wprintz(w_monsters, c_ltgray, " %s", _("to look around"));

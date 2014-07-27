@@ -588,7 +588,7 @@ public:
  void say(std::string line, ...) const;
  void decide_needs();
  void die(Creature* killer);
- void die(bool your_fault = false);
+ bool is_dead() const;
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
  * 12 tiles), as well as our plans.
@@ -728,7 +728,6 @@ public:
  int patience; // Used when we expect the player to leave the area
  npc_combat_rules combat_rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
- bool dead;  // If true, we need to be cleaned up
  bool hit_by_player;
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
@@ -741,6 +740,7 @@ private:
     // if needed. If mapx,mapy are still inside the overmap,
     // nothing will be done.
     void update_overmap_pos();
+    bool dead;  // If true, we need to be cleaned up
 };
 
 #endif

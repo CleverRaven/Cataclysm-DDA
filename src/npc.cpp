@@ -2054,18 +2054,21 @@ void npc::shift(int sx, int sy)
     path.clear();
 }
 
-void npc::die(Creature* nkiller) {
-    killer = nkiller;
-    die(nkiller != NULL && nkiller->is_player());
+bool npc::is_dead() const
+{
+    return dead || is_dead_state();
 }
 
-void npc::die(bool your_fault)
-{
-    if (dead) {
+void npc::die(Creature* nkiller) {
+    if( dead ) {
+        // We are already dead, don't die again, note that npc::dead is
+        // *only* set to true in this function!
         return;
     }
     dead = true;
-
+    if( nkiller != NULL && !nkiller->is_fake() ) {
+        killer = nkiller;
+    }
     if (in_vehicle) {
         g->m.unboard_vehicle(posx, posy);
     }
@@ -2073,7 +2076,7 @@ void npc::die(bool your_fault)
     if (g->u_see(posx, posy)) {
         add_msg(_("%s dies!"), name.c_str());
     }
-    if (your_fault){
+    if( killer == &g->u ){
         if (is_friend()) {
             if (g->u.has_trait("SAPIOVORE")) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Killed a friendly ape, %s.  Better eaten than eating."),

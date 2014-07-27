@@ -5751,7 +5751,7 @@ int iuse::tazer(player *p, item *it, bool)
         foe->moves -= shock * 100;
         foe->hurtall(shock);
         if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-            foe->die(true);
+            foe->die( p );
             g->active_npc.erase(g->active_npc.begin() + npcdex);
         }
     }
@@ -5851,7 +5851,7 @@ int iuse::tazer2(player *p, item *it, bool)
             foe->hurtall(shock);
 
             if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-                foe->die(true);
+                foe->die( p );
                 g->active_npc.erase(g->active_npc.begin() + npcdex);
             }
         }
