@@ -5627,8 +5627,8 @@
     "fear_triggers":["FIRE"]
     },
 {
-        "type" : "MONSTER",
-        "id" : "mon_hallu_multicooker",
+    "type" : "MONSTER",
+    "id" : "mon_hallu_multicooker",
     "name": "multi cooker",
     "species":"HALLUCINATION",
     "symbol":"M",
@@ -5636,8 +5636,8 @@
     "size":"SMALL",
     "material":"steel",
     "diff":0,
-    "aggression":1,
-    "morale":10,
+    "aggression":100,
+    "morale":100,
     "speed":50,
     "melee_skill":1,
     "melee_dice":0,
