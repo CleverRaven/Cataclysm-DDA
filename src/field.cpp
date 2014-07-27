@@ -1064,7 +1064,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                     if (mondex != -1) {
                                         monster *mon = &(g->zombie(mondex));
-                                        mon->hurt(6 - mon->get_armor_bash(bp_torso));
+                                        mon->hurt( nullptr, bp_torso, 6 - mon->get_armor_bash(bp_torso));
                                         if (g->u_see(newp.x, newp.y))
                                             add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
                                                        mon->name().c_str());
@@ -1780,7 +1780,7 @@ void map::mon_in_field(int x, int y, monster *z)
                 } while (move_cost(newposx, newposy) == 0 && tries != 10);
 
                 if (tries == 10) {
-                    z->hurt( 9999 ); // trigger exploding
+                    z->die_in_explosion( nullptr );
                 } else {
                     int mon_hit = g->mon_at(newposx, newposy);
                     if (mon_hit != -1) {
@@ -1788,7 +1788,7 @@ void map::mon_in_field(int x, int y, monster *z)
                             add_msg(_("The %s teleports into a %s, killing them both!"),
                                        z->name().c_str(), g->zombie(mon_hit).name().c_str());
                         }
-                        g->zombie( mon_hit ).hurt( 9999 ); // trigger exploding
+                        g->zombie( mon_hit ).die_in_explosion( z );
                     } else {
                         z->setpos(newposx, newposy);
                     }
@@ -1834,7 +1834,7 @@ void map::mon_in_field(int x, int y, monster *z)
         ++field_list_it;
     }
     if (dam > 0) {
-        z->hurt(dam);
+        z->hurt( nullptr, bp_torso, dam);
     }
 }
 
@@ -1894,7 +1894,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
    if (fdmon != -1 && fdmon < g->num_zombies()) {  //If there's a monster at (x,y)...
     monster* monhit = &(g->zombie(fdmon));
     int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
-    monhit->hurt( dam );                      //Ideally an external disease-like system would handle this to make it easier to modify later
+    monhit->hurt( nullptr, bp_torso, dam ); //Ideally an external disease-like system would handle this to make it easier to modify later
    }
    if (fdnpc != -1) {
     if (fdnpc < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...

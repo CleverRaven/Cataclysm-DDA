@@ -950,7 +950,7 @@ void mattack::dermatik(monster *z)
     if (player_swat > dodge_roll) {
         add_msg(_("The %s lands on you, but you swat it off."), z->name().c_str());
         if (z->hp >= z->type->hp / 2) {
-            z->hurt(1);
+            z->hurt( &g->u, bp_torso, 1 );
         }
         if (player_swat > dodge_roll * 1.5) {
             z->stumble(false);
@@ -1300,7 +1300,7 @@ void mattack::vortex(monster *z)
                         int damage_copy = damage;
                         g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
                         if (damage_copy < damage) {
-                            thrown->hurt(damage - damage_copy);
+                            thrown->hurt( nullptr, bp_torso, damage - damage_copy );
                         }
                     }
                     if (hit_wall) {

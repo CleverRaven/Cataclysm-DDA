@@ -5016,7 +5016,7 @@ int iuse::granade_act(player *, item *it, bool t)
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
-                            g->zombie( zid ).hurt( 9999 ); // trigger exploding
+                            g->zombie( zid ).die_in_explosion( nullptr );
                         }
                     }
                 }
@@ -7102,7 +7102,7 @@ int iuse::artifact(player *p, item *it, bool)
 
             case AEA_HURTALL:
                 for (size_t j = 0; j < g->num_zombies(); j++) {
-                    g->zombie(j).hurt(rng(0, 5));
+                    g->zombie(j).hurt( nullptr, bp_torso, rng( 0, 5 ) );
                 }
                 break;
 

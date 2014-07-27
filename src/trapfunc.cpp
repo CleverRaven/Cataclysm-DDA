@@ -65,7 +65,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
             z->add_effect("beartrap", rng(8, 15));
             item beartrap("beartrap", 0);
             z->add_item(beartrap);
-            z->hurt(35);
+            z->hurt( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 35);
         } else if (n != NULL) {
             if(one_in(2)) {
                 n->hit(NULL, bp_leg_l, 10, 16);
@@ -102,7 +102,8 @@ void trapfunc::board(Creature *c, int, int)
         player *n = dynamic_cast<player *>(c);
         if (z != NULL) {
             z->moves -= 80;
-            z->hurt(rng(6, 10));
+            z->hurt( nullptr, bp_foot_l, rng( 3, 5 ) );
+            z->hurt( nullptr, bp_foot_r, rng( 3, 5 ) );
         } else {
             c->hit(NULL, bp_foot_l, 0, rng(6, 10));
             c->hit(NULL, bp_foot_r, 0, rng(6, 10));
@@ -130,7 +131,8 @@ void trapfunc::caltrops(Creature *c, int, int)
         monster *z = dynamic_cast<monster *>(c);
         if (z != NULL) {
             z->moves -= 80;
-            z->hurt(rng(18, 30));
+            c->hurt( nullptr, bp_foot_l, rng( 9, 15 ) );
+            c->hurt( nullptr, bp_foot_r, rng( 9, 15 ) );
         } else {
             c->hit(NULL, bp_foot_l, 0, rng(9, 30));
             c->hit(NULL, bp_foot_r, 0, rng(9, 30));
@@ -154,7 +156,7 @@ void trapfunc::tripwire(Creature *c, int x, int y)
         if (z != NULL) {
             z->stumble(false);
             if (rng(0, 10) > z->get_dodge()) {
-                z->hurt(rng(1, 4));
+                z->hurt( nullptr, bp_torso, rng(1, 4));
             }
         } else if (n != NULL) {
             std::vector<point> valid;
@@ -257,7 +259,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                 if (seen) {
                     add_msg(m_bad, _("A bolt shoots out and hits the %s!"), z->name().c_str());
                 }
-                z->hurt(rng(20, 30));
+                z->hurt( nullptr, bp_torso, rng(20, 30));
                 add_bolt = !one_in(10);
             } else if (seen) {
                 add_msg(m_neutral, _("A bolt shoots out, but misses the %s."), z->name().c_str());
@@ -352,7 +354,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
             if (seen) {
                 add_msg(m_bad, _("A shotgun fires and hits the %s!"), z->name().c_str());
             }
-            z->hurt(rng(40 * shots, 60 * shots));
+            z->hurt( nullptr, bp_torso, rng(40 * shots, 60 * shots));
         }
     }
     if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
@@ -379,7 +381,7 @@ void trapfunc::blade(Creature *c, int, int)
         } else if (z != NULL) {
             int cutdam = std::max(0, 30 - z->get_armor_cut(bp_torso));
             int bashdam = std::max(0, 12 - z->get_armor_bash(bp_torso));
-            z->hurt(bashdam + cutdam);
+            z->hurt( nullptr, bp_torso, bashdam + cutdam);
         }
     }
 }
@@ -410,7 +412,7 @@ void trapfunc::snare_light(Creature *c, int x, int y)
         switch (z->type->size) {
             case MS_TINY:
                 z->add_effect("beartrap", 1, 1, true);
-                z->hurt(10);
+                z->hurt( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 10);
                 break;
             case MS_SMALL:
                 z->moves = 0;
@@ -479,7 +481,7 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
                 damage = 0;
         }
         z->moves = 0;
-        z->hurt(damage);
+        z->hurt( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, damage);
     }
 }
 
@@ -537,7 +539,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
             } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
 
             if (tries == 10) {
-                z->hurt( 9999 ); // trigger exploding
+                z->die_in_explosion( nullptr );
             } else {
                 int mon_hit = g->mon_at(newposx, newposy);
                 if (mon_hit != -1) {
@@ -545,7 +547,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
                         add_msg(m_good, _("The %s teleports into a %s, killing them both!"),
                                 z->name().c_str(), g->zombie(mon_hit).name().c_str());
                     }
-                    g->zombie( mon_hit ).hurt( 9999 ); // trigger exploding
+                    g->zombie( mon_hit ).die_in_explosion( z );
                 } else {
                     z->setpos(newposx, newposy);
                 }
@@ -608,7 +610,7 @@ void trapfunc::dissector(Creature *c, int x, int y)
             n->hit(NULL, bp_foot_l, 0, 10);
             n->hit(NULL, bp_foot_r, 0, 10);
         } else if (z != NULL) {
-            z->hurt( 60 );
+            z->hurt( nullptr, bp_torso, 60 );
             if( z->is_dead() ) {
                 z->explode();
             }
@@ -647,7 +649,7 @@ void trapfunc::pit(Creature *c, int x, int y)
             n->add_disease("in_pit", 1, true);
         } else if (z != NULL) {
             z->moves = -1000;
-            z->hurt(eff * rng(10, 20));
+            z->hurt( nullptr, bp_torso, eff * rng(10, 20));
         }
     }
 }
@@ -708,7 +710,7 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
             n->add_disease("in_pit", 1, true);
         } else if (z != NULL) {
             z->moves = -1000;
-            z->hurt(rng(20, 50));
+            z->hurt( nullptr, bp_torso, rng(20, 50));
         }
     }
     if (one_in(4)) {
@@ -758,7 +760,7 @@ void trapfunc::lava(Creature *c, int x, int y)
             if (z->made_of("kevlar") || z->made_of("steel")) {
                 dam = 5;
             }
-            z->hurt(dam);
+            z->hurt( nullptr, bp_torso, dam);
         }
     }
 }
@@ -1007,7 +1009,7 @@ void trapfunc::glow(Creature *c, int x, int y)
                 c->add_msg_if_player(_("Small flashes surround you."));
             }
         } else if (z != NULL && one_in(3)) {
-            z->hurt( rng(5, 10) );
+            z->hurt( nullptr, bp_torso, rng(5, 10) );
             z->speed *= .9;
         }
     }
@@ -1074,7 +1076,7 @@ void trapfunc::drain(Creature *c, int, int)
         if (n != NULL) {
             n->hurtall(1);
         } else if (z != NULL) {
-            z->hurt(1);
+            z->hurt( nullptr, bp_torso, 1);
         }
     }
 }
