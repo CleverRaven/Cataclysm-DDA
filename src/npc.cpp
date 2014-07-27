@@ -14,13 +14,16 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "json.h"
 #include <algorithm>
+#include <string>
 
 std::vector<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
 {
+ idz = "";
  omx = 0;
  omy = 0;
  omz = 0;
@@ -51,6 +54,7 @@ npc::npc()
  per_max = 0;
  my_fac = NULL;
  fac_id = "";
+ miss_id = 0;
  marked_for_death = false;
  dead = false;
  hit_by_player = false;
@@ -67,6 +71,65 @@ npc::npc()
 }
 
 npc::npc(const npc &rhs):player() { *this = rhs; }
+
+npc_map npc::_all_npc;
+
+void npc::load_npc(JsonObject &jsobj)
+{
+    npc guy;
+    guy.idz = jsobj.get_string("id");
+    if (jsobj.has_string("name+"))
+        guy.name = jsobj.get_string("name+");
+    if (jsobj.has_string("faction"))
+        guy.fac_id = jsobj.get_string("faction");
+    guy.myclass = npc_class(jsobj.get_int("class"));
+    guy.attitude = npc_attitude(jsobj.get_int("attitude"));
+    guy.mission = npc_mission(jsobj.get_int("mission"));
+    guy.chatbin.first_topic = talk_topic(jsobj.get_int("chat"));
+    if (jsobj.has_int("mission_offered")){
+        guy.miss_id = jsobj.get_int("mission_offered");
+    } else {
+        guy.miss_id = 0;
+    }
+    _all_npc[guy.idz] = guy;
+}
+
+npc* npc::find_npc(std::string ident)
+{
+    npc_map::iterator found = _all_npc.find(ident);
+    if (found != _all_npc.end()){
+        return &(found->second);
+    } else {
+        debugmsg("Tried to get invalid npc template: %s", ident.c_str());
+        static npc null_npc;
+    return &null_npc;
+    }
+}
+
+void npc::load_npc_template(std::string ident)
+{
+    npc_map::iterator found = _all_npc.find(ident);
+    if (found != _all_npc.end()){
+        idz = found->second.idz;
+        myclass = found->second.myclass;
+        randomize(myclass);
+        name = name + found->second.name;
+        fac_id = found->second.fac_id;
+        set_fac(fac_id);
+        attitude = found->second.attitude;
+        mission = found->second.mission;
+        chatbin.first_topic = found->second.chatbin.first_topic;
+        if (mission_id(found->second.miss_id) != MISSION_NULL){
+            int mission_index = g->reserve_mission(mission_id(found->second.miss_id), getID());
+            if (mission_index != -1)
+                chatbin.missions.push_back(mission_index);
+        }
+        return;
+    } else {
+        debugmsg("Tried to get invalid npc: %s", ident.c_str());
+        return;
+    }
+}
 
 npc::~npc() { }
 
@@ -101,6 +164,8 @@ npc& npc::operator= (const npc & rhs)
  has_new_items = rhs.has_new_items;
  worst_item_value = rhs.worst_item_value;
 
+ idz = rhs.idz;
+ miss_id = rhs.miss_id;
  fac_id = rhs.fac_id;
  my_fac = rhs.my_fac;
  mission = rhs.mission;
