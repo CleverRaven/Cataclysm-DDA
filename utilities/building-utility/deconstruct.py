@@ -14,87 +14,74 @@ import os
 
 def main():
     mapCount = 1
-    file_path = os.path.join(os.getcwd(), 'drawing.txt')
-    infile = open(file_path,"r")
-    data = '[\n'
-    mapList = [""] * 9
-    for line in infile:
-        lineCT = 0
-        while len(line) > 23:
-            mapList[lineCT] += '\t\t\t\t' + line[:24] + '"'
+    with open(os.path.join(os.getcwd(), 'drawing.txt'),"r") as infile:
+        data = '[\n'
+        mapList = [""] * 9
+        for line in infile:
+            lineCT = 0
+            while len(line) > 23:
+                mapList[lineCT] += '\t\t\t\t"' + line[:24] + '"'
 
-            if len(mapList[lineCT]) < 725:
-                mapList[lineCT] += ','
-            mapList[lineCT] += '\n'
+                if len(mapList[lineCT]) < 725:
+                    mapList[lineCT] += ','
+                mapList[lineCT] += '\n'
 
-            line = line[24:]
-            lineCT += 1
-        if len(mapList[0]) >= 760:
-            for x in range(len(mapList)):
-                if len(mapList[x]) > 20:
-                    data = writeJSON(mapCount, mapList[x], data)
-                    writeTerrain(mapCount)
-                    mapCount += 1
-            mapList = [""] * 9
-    infile.close()
+                line = line[24:]
+                lineCT += 1
+            if len(mapList[0]) >= 760:
+                for x in range(len(mapList)):
+                    if len(mapList[x]) > 20:
+                        data = writeJSON(mapCount, mapList[x], data)
+                        writeTerrain(mapCount)
+                        mapCount += 1
+                mapList = [""] * 9
+
     data = data[:-1] + "\n]"
     finalizeEntry(data)
 
 #Takes the mapNum and 'text' is the 24x24 map
 def writeJSON(mapNum, text, data):
     entry = ''
-    file_path = os.path.join(os.getcwd(), 'json_header.txt')
-    json_header_file = open(file_path,"r")
-    for line in json_header_file:
-        entry = entry + line
-    json_header_file.close()
+    with open(os.path.join(os.getcwd(), 'json_header.txt'),
+              "r") as json_header_file:
+        entry += ''.join(json_header_file)
 
-    entry = entry + str(mapNum)
+    entry += str(mapNum)
 
-    file_path = os.path.join(os.getcwd(), 'json_middle.txt')
-    json_middle_file = open(file_path,"r")
-    for line in json_middle_file:
-        entry = entry + line
-    json_middle_file.close()
+    with open(os.path.join(os.getcwd(), 'json_middle.txt'),
+              "r") as json_middle_file:
+        entry += ''.join(json_middle_file)
 
-    entry = entry + text
+    entry += text
 
-    file_path = os.path.join(os.getcwd(), 'json_footer.txt')
-    json_footer_file = open(file_path,"r")
-    for line in json_footer_file:
-        entry = entry + line
-    json_footer_file.close()
+    with open(os.path.join(os.getcwd(), 'json_footer.txt'),
+              "r") as json_footer_file:
+        entry += ''.join(json_footer_file)
 
     data = data + entry
     return data
 
 def finalizeEntry(data):
-    file_path = os.path.join(os.getcwd(), 'output', 'office_tower.json')
-    outfile = open(file_path,"w")
-    outfile.write(data)
-    outfile.close()
+    with open(os.path.join(os.getcwd(), 'output', 'office_tower.json'),
+              "w") as outfile:
+        outfile.write(data)
 
 def writeTerrain(mapNum):
     entry = ''
-    file_path = os.path.join(os.getcwd(), 'terrain_header.txt')
-    terrain_header_file = open(file_path,"r")
-    for line in terrain_header_file:
-        entry = entry + line
-    terrain_header_file.close()
+    with open(os.path.join(os.getcwd(), 'terrain_header.txt'),
+              "r") as terrain_header_file:
+        entry += ''.join(terrain_header_file)
 
-    entry = entry + str(mapNum)
+    entry += str(mapNum)
 
-    file_path = os.path.join(os.getcwd(), 'terrain_footer.txt')
-    terrain_footer_file = open(file_path,"r")
-    for line in terrain_footer_file:
-        entry = entry + line
-    terrain_footer_file.close()
+    with open(os.path.join(os.getcwd(), 'terrain_footer.txt'),
+              "r") as terrain_footer_file:
+        entry += ''.join(terrain_footer_file)
 
-    file_path = os.path.join(os.getcwd(), 'output',
-                             'overmap_terrain_entry.json')
-    outfile = open(file_path,"a")
-    outfile.write(entry)
-    outfile.close()
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "a") as outfile:
+        outfile.write(entry)
 
 if __name__ == "__main__":
     main()
