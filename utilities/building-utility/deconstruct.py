@@ -13,6 +13,13 @@ import os
 
 
 def main():
+    # initally clear overmap_terrain_entry.json
+    # this is a hack, file operations in general need to be refactored a lot
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "w") as outfile:
+        pass
+
     with open(os.path.join(os.getcwd(), 'drawing.txt'),"r") as infile:
         data = '[\n'
         mapCount = 1
@@ -23,7 +30,7 @@ def main():
 
             # magic numbers: what are these actually?
             magic_1 = 24
-            magic_2 = 725
+            magic_2 = 735
 
             while len(line) >= magic_1:
                 mapList[lineCT] += '\t\t\t\t"' + line[:magic_1] + '"'
@@ -43,7 +50,8 @@ def main():
                         mapCount += 1
                 mapList = [""] * 9
 
-    data = data[:-1] + "\n]"
+    # remove last comma
+    data = data[:-1] + "\n]\n"
     finalizeEntry(data)
 
 #Takes the mapNum and 'text' is the 24x24 map
@@ -51,19 +59,19 @@ def writeJSON(mapNum, text, data):
     entry = ''
     with open(os.path.join(os.getcwd(), 'json_header.txt'),
               "r") as json_header_file:
-        entry += ''.join(json_header_file)
+        entry += json_header_file.read().rstrip()
 
     entry += str(mapNum)
 
     with open(os.path.join(os.getcwd(), 'json_middle.txt'),
               "r") as json_middle_file:
-        entry += ''.join(json_middle_file)
+        entry += json_middle_file.read()
 
     entry += text
 
     with open(os.path.join(os.getcwd(), 'json_footer.txt'),
               "r") as json_footer_file:
-        entry += ''.join(json_footer_file)
+        entry += json_footer_file.read().rstrip()
 
     return data + entry
 
@@ -71,18 +79,22 @@ def finalizeEntry(data):
     with open(os.path.join(os.getcwd(), 'output', 'office_tower.json'),
               "w") as outfile:
         outfile.write(data)
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "a") as out_terrain_file:
+        out_terrain_file.write("\n")
 
 def writeTerrain(mapNum):
     entry = ''
     with open(os.path.join(os.getcwd(), 'terrain_header.txt'),
               "r") as terrain_header_file:
-        entry += ''.join(terrain_header_file)
+        entry += terrain_header_file.read().rstrip()
 
     entry += str(mapNum)
 
     with open(os.path.join(os.getcwd(), 'terrain_footer.txt'),
               "r") as terrain_footer_file:
-        entry += ''.join(terrain_footer_file)
+        entry += terrain_footer_file.read().rstrip()
 
     with open(os.path.join(os.getcwd(), 'output',
                            'overmap_terrain_entry.json'),
