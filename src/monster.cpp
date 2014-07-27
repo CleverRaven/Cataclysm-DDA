@@ -1028,9 +1028,10 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
 }
 
 void monster::apply_damage(Creature* source, body_part bp, int side, int amount) {
-    if (is_dead_state()) return; // don't do any more damage if we're already dead
-    hurt(bp, side, amount);
-    if (is_dead_state()) die(source);
+    // monsters don't have bodyparts
+    (void) bp;
+    (void) side;
+    hurt(amount, 0, source);
 }
 
 void monster::hurt(body_part, int, int dam) {
