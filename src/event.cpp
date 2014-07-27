@@ -5,6 +5,7 @@
 #include "options.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "overmapbuffer.h"
 #include "messages.h"
 #include <climits>
 
@@ -28,28 +29,44 @@ event::event( event_type e_t, int t, int f_id, int x, int y )
 
 void event::actualize()
 {
- switch (type) {
-
-  case EVENT_HELP: {
-   npc tmp;
-   int num = 1;
-   if (faction_id >= 0)
-    num = rng(1, 6);
-   for (int i = 0; i < num; i++) {
-    if (faction_id != -1) {
-     faction* fac = g->faction_by_id(faction_id);
-     if (fac)
-      tmp.randomize_from_faction(fac);
-     else
-      debugmsg("EVENT_HELP run with invalid faction_id");
-    } else
-     tmp.randomize();
-    tmp.attitude = NPCATT_DEFEND;
-    tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
-    tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
-    g->active_npc.push_back(&tmp);
-   }
-  } break;
+    switch( type ) {
+        case EVENT_HELP: {
+            int num = 1;
+            if( faction_id >= 0 ) {
+                num = rng( 1, 6 );
+            }
+            for( int i = 0; i < num; i++ ) {
+                npc *temp = new npc();
+                temp->normalize();
+                if( faction_id != -1 ) {
+                    faction *fac = g->faction_by_id( faction_id );
+                    if( fac ) {
+                        temp->randomize_from_faction( fac );
+                    } else {
+                        debugmsg( "EVENT_HELP run with invalid faction_id" );
+                        temp->randomize();
+                    }
+                } else {
+                    temp->randomize();
+                }
+                temp->attitude = NPCATT_DEFEND;
+                // important: npc::spawn_at must be called to put the npc into the overmap
+                temp->spawn_at( g->cur_om, g->levx, g->levy, g->levz );
+                // spawn at the border of the reality bubble, outside of the players view
+                if( one_in( 2 ) ) {
+                    temp->posx = rng( 0, SEEX * MAPSIZE - 1 );
+                    temp->posy = rng( 0, 1 ) * SEEY * MAPSIZE;
+                } else {
+                    temp->posx = rng( 0, 1 ) * SEEX * MAPSIZE;
+                    temp->posy = rng( 0, SEEY * MAPSIZE - 1 );
+                }
+                // And tell the npc to go to the player.
+                temp->goal.x = g->om_global_location().x;
+                temp->goal.y = g->om_global_location().y;
+                // The npcs will be loaded later by game::load_npcs()
+            }
+        }
+        break;
 
   case EVENT_ROBOT_ATTACK: {
    if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
