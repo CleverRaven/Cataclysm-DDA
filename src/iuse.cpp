@@ -8409,15 +8409,12 @@ int iuse::radiocontrol(player *p, item *it, bool t)
 
 int iuse::multicooker(player *p, item *it, bool t)
 {
-    if (t)
-    {
+    if (t) {
 
         if (it->charges == 0) {
             it->active = false;
             return 0;
         }
-
-        it_tool *tmp = dynamic_cast<it_tool *>(it->type);
 
         int cooktime = atoi(it->item_vars["COOKTIME"].c_str());
         cooktime -= 100;
@@ -8454,14 +8451,12 @@ int iuse::multicooker(player *p, item *it, bool t)
             mc_cancel, mc_start, mc_stop, mc_take, mc_upgrade
         };
 
-        if (p->has_trait("ILLITERATE"))
-        {
+        if (p->has_trait("ILLITERATE")) {
             add_msg(m_info, _("You can not read and don't understand symbols on screen and buttons!"));
             return 0;
         }
 
-        if (p->has_disease("hallu") || p->has_disease("visuals"))
-        {
+        if (p->has_disease("hallu") || p->has_disease("visuals")) {
 
             p->moves -= 200;
 
@@ -8491,8 +8486,7 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
-            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts"))
-        {
+            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts")) {
             add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
             return 0;
         }
@@ -8503,13 +8497,11 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         menu.addentry(mc_cancel, true, 'q', _("Cancel"));
 
-        if (it->active)
-        {
+        if (it->active) {
             menu.addentry(mc_stop, true, 's', _("Stop cooking"));
         } else {
 
-            if (it->contents.empty())
-            {
+            if (it->contents.empty()) {
                 if (it->charges < 50) {
                     p->add_msg_if_player(_("Discharged batteries."));
                     return 0;
@@ -8540,13 +8532,11 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         int choice = menu.ret;
 
-        if (mc_cancel == choice)
-        {
+        if (mc_cancel == choice) {
             return 0;
         }
 
-        if (mc_stop == choice)
-        {
+        if (mc_stop == choice) {
 
             if (query_yn(_("Really stop cooking?"))) {
                 it->active = false;
@@ -8558,8 +8548,7 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         }
 
-        if (mc_take == choice)
-        {
+        if (mc_take == choice) {
             item &dish = it->contents[0];
 
             if (dish.has_flag("HOT")) {
@@ -8576,8 +8565,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             return 0;
         }
 
-        if (mc_start == choice)
-        {
+        if (mc_start == choice) {
 
             enum {
                 d_cancel
@@ -8672,8 +8660,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             }
         }
 
-        if (mc_upgrade == choice)
-        {
+        if (mc_upgrade == choice) {
 
             if (p->morale_level() < MIN_MORALE_CRAFT) { // See morale.h
                 add_msg(m_info, _("Your morale is too low to craft..."));
