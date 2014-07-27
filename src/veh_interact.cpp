@@ -500,10 +500,16 @@ void veh_interact::do_install()
                        engine_string.c_str());
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
-        if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill && has_skill2 &&
-             !(has_muscle_engine && eng) && !((engines > 0) && install_muscle_engine)) {
-            sel_cmd = 'i';
-            return;
+        if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill && has_skill2) {
+            if (!(has_muscle_engine && eng) && !((engines > 0) && install_muscle_engine)) {
+                sel_cmd = 'i';
+                return;
+            } else {
+                werase (w_msg);
+                fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred, _("That install would conflict with the existing drive system."));
+                wrefresh (w_msg);
+                return;
+            }
         } else if (action == "QUIT") {
             werase (w_list);
             wrefresh (w_list);
