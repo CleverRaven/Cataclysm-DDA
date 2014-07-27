@@ -8468,7 +8468,7 @@ int iuse::multicooker(player *p, item *it, bool t)
                     return 0;
 
                 case 2:
-                    add_msg(m_bad, _("The multi cooker boiled your head!."));
+                    add_msg(m_bad, _("The multi cooker boiled your head!"));
                     return 0;
 
                 case 3:
