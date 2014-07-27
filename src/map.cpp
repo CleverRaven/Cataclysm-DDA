@@ -4207,9 +4207,7 @@ void map::load_abs(const int wx, const int wy, const int wz, const bool update_v
     traplocs.clear();
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-            if (!loadn(wx, wy, wz, gridx, gridy, update_vehicle)) {
-                loadn(wx, wy, wz, gridx, gridy, update_vehicle);
-            }
+            loadn(wx, wy, wz, gridx, gridy, update_vehicle);
         }
     }
 }
@@ -4287,8 +4285,9 @@ void map::shift(const int sx, const int sy)
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                    } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                    }
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -4296,8 +4295,9 @@ void map::shift(const int sx, const int sy)
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                    } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                    }
                 }
             }
         }
@@ -4309,8 +4309,9 @@ void map::shift(const int sx, const int sy)
                         copy_grid(gridx + gridy * my_MAPSIZE,
                         gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                    } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                    }
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -4318,8 +4319,9 @@ void map::shift(const int sx, const int sy)
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                    } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                    }
                 }
             }
         }
@@ -4358,7 +4360,7 @@ void map::saven( const int worldx, const int worldy, const int worldz,
 // 0,2  1,2  2,2 etc
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
-bool map::loadn(const int worldx, const int worldy, const int worldz,
+void map::loadn(const int worldx, const int worldy, const int worldz,
                 const int gridx, const int gridy, const bool update_vehicles) {
 
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
@@ -4508,19 +4510,24 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
         }
     }
   }
-
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   tinymap tmp_map;
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
-  int newmapx = worldx + gridx - abs((worldx + gridx) % 2);
-  int newmapy = worldy + gridy - abs((worldy + gridy) % 2);
+  int newmapx = worldx + gridx - (abs(worldx + gridx) % 2);
+  int newmapy = worldy + gridy - (abs(worldy + gridy) % 2);
   tmp_map.generate(newmapx, newmapy, worldz, calendar::turn);
-  return false;
+  // This function is called again, but if mapgen failed (and did not create a submap),
+  // this would lead to a infinite loop, this must be avoided.
+  // This is the same call to MAPBUFFER as above!
+  if( MAPBUFFER.lookup_submap( absx, absy, worldz ) == nullptr ) {
+      dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << worldz;
+      return;
+  }
+  loadn( worldx, worldy, worldz, gridx, gridy, update_vehicles );
  }
- return true;
 }
 
 void map::copy_grid(const int to, const int from)
