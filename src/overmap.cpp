@@ -1428,18 +1428,6 @@ bool overmap::generate_sub(int const z)
     return requires_sub;
 }
 
-void overmap::make_tutorial()
-{
-    for (int i = 0; i < OMAPX; i++) {
-        for (int j = 0; j < OMAPY; j++) {
-            ter(i, j, -1) = "rock";
-        }
-    }
-    ter(50, 50, 0) = "tutorial";
-    ter(50, 50, -1) = "tutorial";
-    zg.clear();
-}
-
 extern bool lcmatch(const std::string& text, const std::string& pattern);
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
