@@ -8460,6 +8460,32 @@ int iuse::multicooker(player *p, item *it, bool t)
             return 0;
         }
 
+        if (p->has_disease("hallu") || p->has_disease("visuals"))
+        {
+
+            p->moves -= 200;
+
+            const int random_hallu = rng(1, 5);
+
+            switch (random_hallu) {
+
+                case 1:
+                    add_msg(m_info, _("And when you gaze long into an screen the screen also gazes into you."));
+                    return 0;
+
+                case 2:
+                    add_msg(m_bad, _("The multi cooker boiled your head!."));
+                    return 0;
+
+                case 3:
+                    add_msg(m_info, _("The characters on the screen are added in obscene joke. Strange humor."));
+                    return 0;
+
+                default:
+                    break;
+            }
+        }
+
         if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
             && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts"))
         {
