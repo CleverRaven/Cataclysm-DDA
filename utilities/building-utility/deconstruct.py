@@ -20,10 +20,15 @@ def main():
 
         for line in infile:
             lineCT = 0
-            while len(line) > 23:
-                mapList[lineCT] += '\t\t\t\t"' + line[:24] + '"'
 
-                if len(mapList[lineCT]) < 725:
+            # magic numbers: what are these actually?
+            magic_1 = 24
+            magic_2 = 725
+
+            while len(line) >= magic_1:
+                mapList[lineCT] += '\t\t\t\t"' + line[:magic_1] + '"'
+
+                if len(mapList[lineCT]) < magic_2:
                     mapList[lineCT] += ','
                 mapList[lineCT] += '\n'
 
