@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "overmapbuffer.h"
 #include "messages.h"
 
 #include "debug.h"
@@ -190,10 +191,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     if (init_veh_fuel > 100) {
         veh_fuel_mult = 100;
     }
-
-    // im assuming vehicles only spawn in active maps
-    levx = g->levx;
-    levy = g->levy;
 
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
@@ -789,12 +786,12 @@ void vehicle::use_controls()
     case toggle_tracker:
         if (tracking_on)
         {
-            g->cur_om->remove_vehicle(om_id);
+            overmap_buffer.remove_vehicle( this );
             tracking_on = false;
             add_msg(_("tracking device disabled"));
         } else if (fuel_left(fuel_type_battery))
         {
-            om_id = g->cur_om->add_vehicle(this);
+            overmap_buffer.add_vehicle( this );
             tracking_on = true;
             add_msg(_("tracking device enabled"));
         } else {
@@ -1382,7 +1379,7 @@ bool vehicle::remove_part (int p)
                 }
             }
             if (!has_tracker){ // disable tracking
-                g->cur_om->remove_vehicle(om_id);
+                overmap_buffer.remove_vehicle( this );
                 tracking_on = false;
             }
         }
@@ -1988,34 +1985,30 @@ player *vehicle::get_passenger (int p)
     return 0;
 }
 
-int vehicle::global_x ()
+int vehicle::global_x() const
 {
     return smx * SEEX + posx;
 }
 
-int vehicle::global_y ()
+int vehicle::global_y() const
 {
     return smy * SEEY + posy;
 }
 
-int vehicle::omap_x() {
-    return levx + (global_x() / SEEX);
+point vehicle::real_global_pos() const
+{
+    return g->m.getabs( global_x(), global_y() );
 }
 
-int vehicle::omap_y() {
-    return levy + (global_y() / SEEY);
-}
-
-void vehicle::update_map_x(int x) {
-    levx = x;
-    if (tracking_on)
-        g->cur_om->vehicles[om_id].x = omap_x()/2;
-}
-
-void vehicle::update_map_y(int y) {
-    levy = y;
-    if (tracking_on)
-        g->cur_om->vehicles[om_id].y = omap_y()/2;
+void vehicle::set_submap_moved( int x, int y )
+{
+    const point old_msp = real_global_pos();
+    smx = x;
+    smy = y;
+    if( !tracking_on ) {
+        return;
+    }
+    overmap_buffer.move_vehicle( this, old_msp );
 }
 
 int vehicle::total_mass()

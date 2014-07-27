@@ -332,9 +332,6 @@ class overmap
      */
     static tripoint draw_overmap(int z);
 
-  void remove_vehicle(int id);
-  int add_vehicle(vehicle *veh);
-
   /** Get the x coordinate of the left border of this overmap. */
   int get_left_border();
 

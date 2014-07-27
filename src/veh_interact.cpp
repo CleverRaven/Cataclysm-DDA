@@ -1,6 +1,7 @@
 #include <string>
 #include "veh_interact.h"
 #include "vehicle.h"
+#include "overmapbuffer.h"
 #include "game.h"
 #include "output.h"
 #include "catacharset.h"
@@ -910,7 +911,9 @@ void veh_interact::do_rename()
     if(name.length() > 0) {
         (veh->name = name);
         if (veh->tracking_on) {
-            g->cur_om->vehicles[veh->om_id].name = name;
+            overmap_buffer.remove_vehicle( veh );
+            // Add the vehicle again, this time with the new name
+            overmap_buffer.add_vehicle( veh );
         }
     }
     display_grid();

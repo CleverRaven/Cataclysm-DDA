@@ -92,6 +92,24 @@ public:
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
 
     /**
+     * Move the tracking mark of the given vehicle.
+     * @param veh The vehicle whose tracking device is active and
+     * that has been moved.
+     * @param old_msp The previous position (before the movement) of the
+     * vehicle. In map square coordinates (see vehicle::real_global_pos), it's
+     * used to remove the vehicle from the old overmap if the new position is
+     * on another overmap.
+     */
+    void move_vehicle(vehicle *veh, const point &old_msp);
+    /**
+     * Add the vehicle to be tracked in the overmap.
+     */
+    void add_vehicle(vehicle *veh);
+    /**
+     * Remove the vehicle from being tracked in the overmap.
+     */
+    void remove_vehicle(const vehicle *veh);
+    /**
      * Get all npcs in a area with given radius around (x, y).
      * Only npcs on the given z-level are considered.
      * Uses square_dist for distance calculation.

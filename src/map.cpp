@@ -395,11 +395,9 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
  veh->posx = dst_offset_x;
  veh->posy = dst_offset_y;
  if (src_submap != dst_submap) {
-  vehicle * veh1 = veh;
-  veh1->smx = int(x2 / SEEX);
-  veh1->smy = int(y2 / SEEY);
-  dst_submap->vehicles.push_back (veh1);
-  src_submap->vehicles.erase (src_submap->vehicles.begin() + our_i);
+        veh->set_submap_moved( int( x2 / SEEX ), int( y2 / SEEY ) );
+        dst_submap->vehicles.push_back( veh );
+        src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
  }
 
  x += dx;
@@ -4270,16 +4268,9 @@ void map::shift(const int sx, const int sy)
         }
     }
 
-    // update vehicles own overmap location
-    int wx = absx;
-    int wy = absy;
-    // TODO: make this absolute, even in vehicle.cpp
-    overmapbuffer::sm_to_omt_remain(wx, wy); // crop wx,wy to be valid in the overmap
-    std::set<vehicle *>::iterator veh;
-    for (veh = vehicle_list.begin(); veh != vehicle_list.end(); ++veh)
-    {
-        (*veh)->update_map_x(wx);
-        (*veh)->update_map_y(wy);
+    for( vehicle *veh : vehicle_list ) {
+        veh->smx += sx;
+        veh->smy += sy;
     }
 
 // Clear vehicle list and rebuild after shift

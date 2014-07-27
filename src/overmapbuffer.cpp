@@ -198,6 +198,46 @@ std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
     return const_cast<overmap*>(om)->monsters_at(p.x, p.y, z);
 }
 
+void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
+{
+    const point new_msp = veh->real_global_pos();
+    point old_omt = ms_to_omt_copy( old_msp );
+    point new_omt = ms_to_omt_copy( new_msp );
+    overmap &old_om = get_om_global( old_omt.x, old_omt.y );
+    overmap &new_om = get_om_global( new_omt.x, new_omt.y );
+    // *_omt is now local to the overmap, and it's in overmap terrain system
+    if( &old_om == &new_om ) {
+        new_om.vehicles[veh->om_id].x = new_omt.x;
+        new_om.vehicles[veh->om_id].y = new_omt.y;
+    } else {
+        old_om.vehicles.erase( veh->om_id );
+        add_vehicle( veh );
+    }
+}
+
+void overmapbuffer::remove_vehicle( const vehicle *veh )
+{
+    const point omt = ms_to_omt_copy( veh->real_global_pos() );
+    overmap &om = get_om_global( omt );
+    om.vehicles.erase( veh->om_id );
+}
+
+void overmapbuffer::add_vehicle( vehicle *veh )
+{
+    point omt = ms_to_omt_copy( veh->real_global_pos() );
+    overmap &om = get_om_global( omt.x, omt.y );
+    int id = om.vehicles.size() + 1;
+    // this *should* be unique but just in case
+    while( om.vehicles.count( id ) > 0 ) {
+        id++;
+    }
+    om_vehicle &tracked_veh = om.vehicles[id];
+    tracked_veh.x = omt.x;
+    tracked_veh.y = omt.y;
+    tracked_veh.name = veh->name;
+    veh->om_id = id;
+}
+
 bool overmapbuffer::seen(int x, int y, int z) const
 {
     const overmap *om = get_existing_om_global(x, y);

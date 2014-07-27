@@ -1185,8 +1185,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("type", type);
     data.read("posx", posx);
     data.read("posy", posy);
-    data.read("levx", levx);
-    data.read("levy", levy);
     data.read("om_id", om_id);
     data.read("faceDir", fdir);
     data.read("moveDir", mdir);
@@ -1250,8 +1248,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "type", type );
     json.member( "posx", posx );
     json.member( "posy", posy );
-    json.member( "levx", levx );
-    json.member( "levy", levy );
     json.member( "om_id", om_id );
     json.member( "faceDir", face.dir() );
     json.member( "moveDir", move.dir() );
