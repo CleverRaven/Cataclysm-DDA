@@ -240,6 +240,15 @@ public:
     static void sm_to_omt(tripoint& p) { sm_to_omt(p.x, p.y); }
     static point sm_to_omt_remain(int &x, int &y);
     static point sm_to_omt_remain(point& p) { return sm_to_omt_remain(p.x, p.y); }
+    // submap to overmap, basically: x / (OMAPX * 2)
+    static point sm_to_om_copy(int x, int y);
+    static point sm_to_om_copy(const point& p) { return sm_to_om_copy(p.x, p.y); }
+    static tripoint sm_to_om_copy(const tripoint& p);
+    static void sm_to_om(int &x, int &y);
+    static void sm_to_om(point& p) { sm_to_om(p.x, p.y); }
+    static void sm_to_om(tripoint& p) { sm_to_om(p.x, p.y); }
+    static point sm_to_om_remain(int &x, int &y);
+    static point sm_to_om_remain(point& p) { return sm_to_om_remain(p.x, p.y); }
     // overmap terrain to submap, basically: x *= 2
     static point omt_to_sm_copy(int x, int y);
     static point omt_to_sm_copy(const point& p) { return omt_to_sm_copy(p.x, p.y); }

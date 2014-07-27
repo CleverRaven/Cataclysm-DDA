@@ -10899,15 +10899,13 @@ int map::place_npc(int x, int y, std::string type)
     if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return -1; //Do not generate an npc.
     }
-    real_coords rc;
-    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
     //Old Guard NPCs, fac_id 1
     if (type == "old_guard_rep"){
         npc *temp = new npc();
         temp->normalize();
         temp->randomize(NC_COWBOY);
         temp->name += ", Representative";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
@@ -10927,7 +10925,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_EVAC_SHOPKEEP);
         temp->name += ", Merchant";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude = NPCATT_NULL;
@@ -10946,7 +10944,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
         temp->name += ", Broker";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
@@ -10963,7 +10961,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
         temp->name += ", Guard";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
@@ -10980,7 +10978,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
         temp->name += ", Guard";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
@@ -10997,7 +10995,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
         temp->name += ", Guard";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
@@ -11014,7 +11012,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
         temp->name += ", Guard";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
@@ -11031,7 +11029,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_BOUNTY_HUNTER);
         temp->name += ", Guard";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_KILL;
@@ -11049,7 +11047,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_HUNTER);
         temp->name += ", Hunter";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
@@ -11065,7 +11063,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_COWBOY);
         temp->name += ", Merc";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude =  NPCATT_NULL;
@@ -11081,7 +11079,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_ARSONIST);
         temp->name = "Makayla Sanchez, Arsonist";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->male = false;
@@ -11099,7 +11097,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_THUG);
         temp->name += ", Thug";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude = NPCATT_NULL;
@@ -11116,7 +11114,7 @@ int map::place_npc(int x, int y, std::string type)
         temp->normalize();
         temp->randomize(NC_SCAVENGER);
         temp->name += ", Bandit";
-        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
         temp->posx = x;
         temp->posy = y;
         temp->attitude = NPCATT_NULL;

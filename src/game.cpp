@@ -736,7 +736,7 @@ void game::create_starting_npcs()
     tmp->normalize();
     tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
     // spawn the npc in the overmap, sets its overmap and submap coordinates
-    tmp->spawn_at(cur_om, levx, levy, levz);
+    tmp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
     tmp->posx = SEEX * int(MAPSIZE / 2) + SEEX;
     tmp->posy = SEEY * int(MAPSIZE / 2) + 6;
     tmp->form_opinion(&u);
@@ -4404,7 +4404,7 @@ void game::debug()
         npc *temp = new npc();
         temp->normalize();
         temp->randomize();
-        temp->spawn_at(cur_om, levx, levy, levz);
+        temp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
         temp->posx = u.posx - 4;
         temp->posy = u.posy - 4;
         temp->form_opinion(&u);
@@ -14027,8 +14027,8 @@ void game::spawn_mon(int shiftx, int shifty)
         // to prevent NPCs appearing out of thin air.
         // This can be changed to let the NPC spawn further away,
         // so it does not became active immediately.
-        int msx = levx;
-        int msy = levy;
+        int msx = get_abs_levx();
+        int msy = get_abs_levy();
         switch (rng(0, 4)) { // on which side of the map to spawn
         case 0:
             msy += rng(0, MAPSIZE - 1);
@@ -14046,7 +14046,7 @@ void game::spawn_mon(int shiftx, int shifty)
             break;
         }
         // adds the npc to the correct overmap.
-        tmp->spawn_at(cur_om, msx, msy, levz);
+        tmp->spawn_at( msx, msy, levz );
         tmp->form_opinion(&u);
         tmp->mission = NPC_MISSION_NULL;
         int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, om_location(), tmp->getID());

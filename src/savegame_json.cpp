@@ -664,12 +664,19 @@ void npc::deserialize(JsonIn &jsin)
     data.read("wandx",wandx);
     data.read("wandy",wandy);
     data.read("wandf",wandf);
-    data.read("omx",omx);
-    data.read("omy",omy);
-    data.read("omz",omz);
 
     data.read("mapx",mapx);
     data.read("mapy",mapy);
+    if(!data.read("mapz",mapz)) {
+        data.read("omz",mapz); // was renamed to match mapx,mapy
+    }
+    int o;
+    if(data.read("omx",o)) {
+        mapx += o * OMAPX * 2;
+    }
+    if(data.read("omy",o)) {
+        mapy += o * OMAPY * 2;
+    }
 
     data.read("plx",plx);
     data.read("ply",ply);
@@ -726,12 +733,10 @@ void npc::serialize(JsonOut &json, bool save_contents) const
     json.member( "wandx", wandx );
     json.member( "wandy", wandy );
     json.member( "wandf", wandf );
-    json.member( "omx", omx );
-    json.member( "omy", omy );
-    json.member( "omz", omz );
 
     json.member( "mapx", mapx );
     json.member( "mapy", mapy );
+    json.member( "mapz", mapz );
     json.member( "plx", plx );
     json.member( "ply", ply );
     json.member( "goalx", goal.x );

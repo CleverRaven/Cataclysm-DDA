@@ -4,7 +4,6 @@
 #include "messages.h"
 #include "player.h"
 #include "monster.h"
-#include "overmap.h"
 #include "faction.h"
 #include "json.h"
 
@@ -484,12 +483,11 @@ public:
  void randomize(npc_class type = NC_NONE);
  void randomize_from_faction(faction *fac);
     /**
-     * Set omx, omy, omz, mapx and mapx.
-     * mx and my are submap coordinates relative to the overmap o.
-     * Both may out of the normal range of submap coordinates
-     * (< 0 or >= OMAPX*2), that's fine.
+     * Set @ref mapx and @ref mapx and @ref mapz.
+     * @param mx,my,mz are global submap coordinates.
+     * This function also adds the npc object to the overmap.
      */
-    void spawn_at(overmap *o, int mx, int my, int omz);
+    void spawn_at(int mx, int my, int mz);
     /**
      * Calls @ref spawn_at, spawns in a random city in
      * the given overmap on z-level 0.
@@ -673,9 +671,15 @@ public:
  int wandx, wandy, wandf; // Location of heard sound, etc.
 
 private:
-// Location:
- int omx, omy, omz; // Which overmap (e.g., o.0.0.0)
- int mapx, mapy;// Which square in that overmap (e.g., m.0.0)
+    /**
+     * Global submap coordinates of the npc (minus the position on the map:
+     * posx,posy). Use global_*_location to get the global position.
+     * You should not change mapx,mapy directly, use posx,posy instead,
+     * @ref shift will update mapx,mapy and move the npc to a different
+     * overmap if needed.
+     * (mapx,mapy) defines the overmap the npc is stored on.
+     */
+    int mapx, mapy, mapz;
 public:
     /**
      * Global position, expressed in map square coordinate system
@@ -683,9 +687,9 @@ public:
      *
      * The (global) position of an NPC is always:
      * point(
-     *  ((omx * OMAPX * 2) + mapx) * SEEX + posx,
-     *  ((omy * OMAPY * 2) + mapy) * SEEY + posy,
-     *  omz)
+     *     mapx * SEEX + posx,
+     *     mapy * SEEY + posy,
+     *     mapz)
      * (Expressed in map squares, the system that @ref map uses.)
      * Any of om, map, pos can be in any range.
      * For active NPCs pos would be in the valid range required by
@@ -736,11 +740,6 @@ public:
  static const tripoint no_goal_point;
 private:
     void setID (int id);
-    // Called after shifting or when mapx,mapy changed to
-    // update omx,omy and move the npc to another overmap,
-    // if needed. If mapx,mapy are still inside the overmap,
-    // nothing will be done.
-    void update_overmap_pos();
 };
 
 #endif

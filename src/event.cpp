@@ -51,7 +51,7 @@ void event::actualize()
                 }
                 temp->attitude = NPCATT_DEFEND;
                 // important: npc::spawn_at must be called to put the npc into the overmap
-                temp->spawn_at( g->cur_om, g->levx, g->levy, g->levz );
+                temp->spawn_at( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz() );
                 // spawn at the border of the reality bubble, outside of the players view
                 if( one_in( 2 ) ) {
                     temp->posx = rng( 0, SEEX * MAPSIZE - 1 );
