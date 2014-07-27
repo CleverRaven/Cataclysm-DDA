@@ -17,16 +17,16 @@ def main():
     file_path = os.path.join(os.getcwd(), 'drawing.txt')
     filename = open(file_path,"r")
     data = '[\n'
-    mapList = ["","","","","","","","",""]
+    mapList = [""] * 9
     for line in filename:
         lineCT = 0
         while len(line) > 23:
-            if len(mapList[lineCT]) >= 725:
-                mapList[lineCT] = (mapList[lineCT]
-                                  + '\t\t\t\t"' + line[:24] + '"\n')
-            else:
-                mapList[lineCT] = (mapList[lineCT]
-                                  + '\t\t\t\t"' + line[:24] + '",\n')
+            mapList[lineCT] += '\t\t\t\t' + line[:24] + '"'
+
+            if len(mapList[lineCT]) < 725:
+                mapList[lineCT] += ','
+            mapList[lineCT] += '\n'
+
             line = line[24:]
             lineCT += 1
         if len(mapList[0]) >= 760:
@@ -35,7 +35,7 @@ def main():
                     data = writeJSON(mapCount, mapList[x], data)
                     writeTerrain(mapCount)
                     mapCount += 1
-            mapList = ["","","","","","","","",""]
+            mapList = [""] * 9
     filename.close()
     data = data[:-1] + "\n]"
     finalizeEntry(data)
@@ -96,5 +96,6 @@ def writeTerrain(mapNum):
     filename.write(entry)
     filename.close()
 
-main()
+if __name__ == "__main__":
+    main()
 
