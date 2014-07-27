@@ -6508,7 +6508,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
             if (mon_hit != -1) {
                 monster &critter = critter_tracker.find(mon_hit);
-                critter.hurt( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
+                critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
             }
 
             int vpart;
@@ -6588,7 +6588,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             if (zid != -1) {
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
-                critter.hurt( nullptr, bp_torso, dam );
+                critter.apply_damage( nullptr, bp_torso, dam );
             } else if (npc_at(tx, ty) != -1) {
                 body_part hit = random_body_part();
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
@@ -6747,7 +6747,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                                 targ->name().c_str(), force_remaining);
                     }
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str());
-                    targ->hurt( nullptr, bp_torso, dam_mult * force_remaining);
+                    targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
@@ -7178,7 +7178,7 @@ void game::emp_blast(int x, int y)
             } else {
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
-                critter.hurt( nullptr, bp_torso, dam );
+                critter.apply_damage( nullptr, bp_torso, dam );
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
@@ -7931,7 +7931,7 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
         if (critter.type->size <= MS_SMALL || critter.has_flag(MF_VERMIN)) {
             critter.die_in_explosion( nullptr );
         } else {
-            critter.hurt( nullptr, bp_torso, bash_dmg );
+            critter.apply_damage( nullptr, bp_torso, bash_dmg );
         }
         if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
             // big critters simply prevent the gate from closing
@@ -8391,7 +8391,7 @@ bool zlave_menu(monster *z)
 
     if (pheromone == choice && query_yn(_("Really kill the zombie slave?"))) {
 
-        z->hurt( &g->u, bp_torso, 100 ); // damage the monster (and its corpse)
+        z->apply_damage( &g->u, bp_torso, 100 ); // damage the monster (and its corpse)
         z->die(&g->u); // and make sure it's really dead
 
         g->u.moves -= 150;
@@ -13171,14 +13171,14 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             slam = true;
             dname = critter.name();
             dam2 = flvel / 3 + rng(0, flvel * 1 / 3);
-            critter.hurt( is_player ? static_cast<Creature*>( p ) : zz, bp_torso, dam2 );
+            critter.apply_damage( is_player ? static_cast<Creature*>( p ) : zz, bp_torso, dam2 );
             if( !critter.is_dead() ) {
                 thru = false;
             }
             if (is_player) {
                 p->hitall(dam1, 40);
             } else {
-                zz->hurt( &critter, bp_torso, dam1);
+                zz->apply_damage( &critter, bp_torso, dam1 );
             }
         } else if (m.move_cost(x, y) == 0) {
             slam = true;
@@ -13193,7 +13193,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             if (is_player) {
                 p->hitall(dam1, 40);
             } else {
-                zz->hurt( nullptr, bp_torso, dam1);
+                zz->apply_damage( nullptr, bp_torso, dam1 );
             }
             flvel = flvel / 2;
         }
@@ -13230,7 +13230,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
                 p->hitall(dam1, 40);
             }
         } else {
-            zz->hurt( nullptr, bp_torso, dam1);
+            zz->apply_damage( nullptr, bp_torso, dam1 );
         }
         if (is_u) {
             if (dam1 > 0) {

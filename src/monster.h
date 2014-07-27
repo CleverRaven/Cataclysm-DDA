@@ -208,8 +208,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     // TODO: fully replace hurt with apply/deal_damage
     virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
     void apply_damage(Creature* source, body_part bp, int amount);
-    // TODO: make this not a shim (possibly need to redo prototype)
-    void hurt(Creature* source, body_part bp, int amount);
     // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
     void explode();
     // Let the monster die and let its body explode into gibs

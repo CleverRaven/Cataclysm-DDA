@@ -4933,10 +4933,10 @@ void player::knock_back_from(int x, int y)
   add_effect("stunned", 1);
   if ((str_max - 6) / 4 > critter->type->size) {
    critter->knock_back_from(posx, posy); // Chain reaction!
-   critter->hurt( this, bp_torso, (str_max - 6) / 4);
+   critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
    critter->add_effect("stunned", 1);
   } else if ((str_max - 6) / 4 == critter->type->size) {
-   critter->hurt( this, bp_torso, (str_max - 6) / 4);
+   critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
    critter->add_effect("stunned", 1);
   }
 

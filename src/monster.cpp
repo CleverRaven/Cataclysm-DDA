@@ -815,7 +815,7 @@ void monster::hit_monster(monster &other)
  if (g->u_see(this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
- target->hurt( this, bp_torso, damage );
+ target->apply_damage( this, bp_torso, damage );
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
@@ -896,12 +896,7 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
-void monster::apply_damage(Creature* source, body_part bp, int amount) {
-    hurt( source, bp, amount );
-}
-
-void monster::hurt(Creature *source, body_part, int dam)
-{
+void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
     if( dead ) {
         return;
     }
@@ -1162,20 +1157,20 @@ void monster::process_effects()
         std::string id = effect_it->second.get_id();
         if (id == "nasty_poisoned") {
             speed -= rng(3, 5);
-            hurt( nullptr, bp_torso, rng(3, 6));
+            apply_damage( nullptr, bp_torso, rng( 3, 6 ) );
         } if (id == "poisoned") {
             speed -= rng(0, 3);
-            hurt( nullptr, bp_torso, rng(1, 3));
+            apply_damage( nullptr, bp_torso, rng( 1, 3 ) );
 
         // MATERIALS-TODO: use fire resistance
         } else if (id == "onfire") {
             if (made_of("flesh") || made_of("iflesh"))
-                hurt( nullptr, bp_torso, rng(3, 8));
+                apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
             if (made_of("veggy"))
-                hurt( nullptr, bp_torso, rng(10, 20));
+                apply_damage( nullptr, bp_torso, rng( 10, 20 ) );
             if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
                 made_of("wool"))
-                hurt( nullptr, bp_torso, rng(15, 40));
+                apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
         }
     }
 

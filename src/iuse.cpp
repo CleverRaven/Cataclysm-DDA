@@ -2773,7 +2773,7 @@ int iuse::extinguisher(player *p, item *it, bool)
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
             monster &critter = g->zombie( mondex );
-            critter.hurt( p, bp_torso, rng( 20, 60 ) );
+            critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
             critter.speed /= 2;
         }
     }
@@ -5728,7 +5728,7 @@ int iuse::tazer(player *p, item *it, bool)
         p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
         int shock = rng(5, 25);
         z->moves -= shock * 100;
-        z->hurt( p, bp_torso, shock );
+        z->apply_damage( p, bp_torso, shock );
         return it->type->charges_to_use();
     }
 
@@ -5822,7 +5822,7 @@ int iuse::tazer2(player *p, item *it, bool)
             p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
             int shock = rng(5, 25);
             z->moves -= shock * 100;
-            z->hurt( p, bp_torso, shock );
+            z->apply_damage( p, bp_torso, shock );
 
             return 100;
         }
@@ -7104,7 +7104,7 @@ int iuse::artifact(player *p, item *it, bool)
 
             case AEA_HURTALL:
                 for (size_t j = 0; j < g->num_zombies(); j++) {
-                    g->zombie(j).hurt( nullptr, bp_torso, rng( 0, 5 ) );
+                    g->zombie(j).apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
                 }
                 break;
 
@@ -8146,7 +8146,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
             } else if (success >= -2) { //A near success
                 p->add_msg_if_player(_("The %s short circuits as you attempt to reprogram it!"),
                                      z->name().c_str());
-                z->hurt( p, bp_torso, rng( 1, 10 ) ); //damage it a little
+                z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
                 if( z->is_dead() ) {
                     p->practice("computer", 10);
                     return it->type->charges_to_use(); //dont do the other effects if the robot died
