@@ -535,6 +535,11 @@ void npc::randomize(npc_class type)
   break;
 
  }
+  //A universal barter boost to keep NPCs competitive with players
+ //The int boost from trade wasn't active... now that it is, most
+ //players will vastly outclass npcs in trade without a little help.
+ boost_skill_level("barter", rng(2, 4));
+ 
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
