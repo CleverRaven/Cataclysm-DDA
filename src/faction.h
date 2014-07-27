@@ -98,7 +98,6 @@ public:
     faction();
     faction(int uid);
     ~faction();
-    std::string save_info();
     void load_info(std::string data);
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin);

@@ -112,7 +112,6 @@ public:
         deserialize(jo);
     }
 
- std::string save_info() const; // Formatted for save files
  //
  void load_legacy(std::stringstream & dump);
  void load_info(std::string data);

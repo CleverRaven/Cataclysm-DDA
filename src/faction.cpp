@@ -222,24 +222,6 @@ void game::init_faction_data()
      */
 }
 
-std::string faction::save_info()
-{
-    std::stringstream dump;
-    // " 0 0 " is the overmap coordinate, now obsolete but for compatibility
-    dump << id << " " << values << " " << goal << " " << job1 << " " << job2 <<
-         " " << likes_u << " " << respects_u << " " << known_by_u << " " <<
-         strength << " " << sneak << " " << crime << " " << cult << " " <<
-         good << " 0 0 " << mapx << " " << mapy <<
-         " " << size << " " << power << " ";
-    dump << opinion_of.size() << " ";
-    for (std::vector<int>::iterator it = opinion_of.begin();
-         it != opinion_of.end(); ++it) {
-        dump << *it << " ";
-    }
-    dump << name;
-    return dump.str();
-}
-
 void faction::load_info(std::string data)
 {
     std::stringstream dump;

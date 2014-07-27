@@ -438,16 +438,6 @@ void monster::load_info(std::string data)
     }
 }
 
-/*
- * save serialized monster data to a line.
- * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt
- */
-std::string monster::save_info()
-{
-    // saves contents
-    return serialize();
-}
-
 void monster::debug(player &u)
 {
  debugmsg("monster::debug %s has %d steps planned.", name().c_str(), plans.size());
