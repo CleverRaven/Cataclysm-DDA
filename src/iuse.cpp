@@ -8475,6 +8475,10 @@ int iuse::multicooker(player *p, item *it, bool t)
                     add_msg(m_info, _("The characters on the screen are added in obscene joke. Strange humor."));
                     return 0;
 
+                case 4:
+                    add_msg(m_warning, _("Are you sure that the multi cooker wants to poison your food!"));
+                    return 0;
+
                 default:
                     break;
             }
@@ -8627,9 +8631,9 @@ int iuse::multicooker(player *p, item *it, bool t)
 
                 int mealtime;
                 if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
-                    mealtime = meal->time * 2;
-                } else {
                     mealtime = meal->time;
+                } else {
+                    mealtime = meal->time * 2 ;
                 }
 
                 it_tool *tmp = dynamic_cast<it_tool *>(it->type);
