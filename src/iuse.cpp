@@ -8491,6 +8491,14 @@ int iuse::multicooker(player *p, item *it, bool t)
         int cooktime = atoi(it->item_vars["COOKTIME"].c_str());
         cooktime -= 100;
 
+        if (cooktime >= 300 && cooktime < 400) {
+            //Smart or good cook or careful
+            if (p->int_cur + p->skillLevel("cooking") + p->skillLevel("survival") > 16) {
+                item dummy(it->item_vars["DISH"], 0);
+                add_msg(m_info, _("Do you feel that your %s will soon be ready."), dummy.display_name(1).c_str());
+            }
+        }
+
         if (cooktime <= 0) {
 
             it->active = false;
