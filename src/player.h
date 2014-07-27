@@ -123,6 +123,8 @@ public:
  /** Outputs a serialized json string for saving */
  virtual std::string save_info();
 
+    int print_info(WINDOW* w, int vStart, int vLines, int column) const;
+
     // populate variables, inventory items, and misc from json object
     void json_load_common_variables(JsonObject &jsout);
     using JsonDeserializer::deserialize;

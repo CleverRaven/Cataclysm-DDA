@@ -1888,8 +1888,9 @@ void npc::draw(WINDOW* w, int ux, int uy, bool inv) const
   mvwputch    (w, y, x, col, '@');
 }
 
-int npc::print_info(WINDOW* w, int column /*= 1*/, int line /*= 6*/) const
+int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 {
+    const int last_line = line + vLines;
 // First line of w is the border; the next 4 are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
 // because it's a border as well; so we have lines 6 through 11.
@@ -1910,7 +1911,6 @@ int npc::print_info(WINDOW* w, int column /*= 1*/, int line /*= 6*/) const
  }
  wearing = wstr.str();
  size_t split;
- int last_line = line + 3;
  do {
   split = (wearing.length() <= 46) ? std::string::npos :
                                      wearing.find_last_of(' ', 46);

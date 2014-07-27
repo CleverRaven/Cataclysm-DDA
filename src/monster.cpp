@@ -248,13 +248,6 @@ void monster::get_Attitude(nc_color &color, std::string &text) const
 
 int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
 {
-    // First line of w is the border; the next two are terrain info, and after that
-    // is a blank line. w is 13 characters tall, and we can't use the last one
-    // because it's a border as well; so we have lines 4 through 11.
-    // w is also 48 characters wide - 2 characters for border = 46 characters for us
-    // vStart added because 'help' text in targeting win makes helpful info hard to find
-    // at a glance.
-
     const int vEnd = vStart + vLines;
 
     mvwprintz(w, vStart++, column, c_white, "%s ", name().c_str());

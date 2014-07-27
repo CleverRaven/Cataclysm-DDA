@@ -961,16 +961,16 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                           rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
             }
 
-            const int zid = mon_at(x, y);
-            if (zid == -1) {
+            const Creature *critter = critter_at( x, y );
+            if( critter == nullptr ) {
                 if (snap_to_target) {
                     mvwputch(w_terrain, POSY, POSX, c_red, '*');
                 } else {
                     mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
                 }
             } else {
-                if (u_see(&(zombie(zid)))) {
-                    zombie(zid).print_info(w_target, 2);
+                if( u_see( critter ) ) {
+                    critter->print_info( w_target, 2, 5, 1);
                 }
             }
         } else {

@@ -518,7 +518,7 @@ public:
 
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv) const;
- int print_info(WINDOW* w, int column = 1, int line = 6) const;
+ int print_info(WINDOW* w, int vStart, int vLines, int column) const;
  std::string short_description() const;
  std::string opinion_text() const;
 

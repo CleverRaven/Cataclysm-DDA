@@ -429,8 +429,7 @@ void editmap::update_view(bool update_info)
 
     cur_field = &g->m.field_at(target.x, target.y);
     cur_trap = g->m.tr_at(target.x, target.y);
-    int mon_index = g->mon_at(target.x, target.y);
-    int npc_index = g->npc_at(target.x, target.y);
+    const Creature *critter = g->critter_at( target.x, target.y );
 
     // update map always
     werase(g->w_terrain);
@@ -442,10 +441,8 @@ void editmap::update_view(bool update_info)
     }
 
     // update target point
-    if (mon_index != -1) {
-        g->zombie(mon_index).draw(g->w_terrain, target.x, target.y, true);
-    } else if (npc_index != -1) {
-        g->active_npc[npc_index]->draw(g->w_terrain, target.x, target.y, true);
+    if( critter != nullptr ) {
+        critter->draw( g->w_terrain, target.x, target.y, true );
     } else {
         g->m.drawsq(g->w_terrain, g->u, target.x, target.y, true, true, target.x, target.y);
     }
@@ -565,12 +562,8 @@ void editmap::update_view(bool update_info)
             off++; // 6
         }
 
-        if (mon_index != -1) {
-            g->zombie(mon_index).print_info(w_info);
-            off += 6;
-        } else if (npc_index != -1) {
-            g->active_npc[npc_index]->print_info(w_info);
-            off += 6;
+        if( critter != nullptr ) {
+            off = critter->print_info( w_info, off, 5, 1 );
         } else if (veh) {
             mvwprintw(w_info, off, 1, _("There is a %s there. Parts:"), veh->name.c_str());
             off++;

@@ -76,7 +76,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  std::string skin_name() const;
  void get_HP_Bar(nc_color &color, std::string &text) const;
  void get_Attitude(nc_color &color, std::string &text) const;
- int print_info(WINDOW* w, int vStart = 6, int vLines = 5, int column = 1) const; // Prints information to w.
+ int print_info(WINDOW* w, int vStart, int vLines, int column) const;
 
  // Information on how our symbol should appear
  nc_color basic_symbol_color() const;

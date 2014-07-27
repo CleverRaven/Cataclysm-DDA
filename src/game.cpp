@@ -8693,42 +8693,17 @@ void game::print_object_info(int lx, int ly, WINDOW *w_look, const int column, i
 {
     int veh_part = 0;
     vehicle *veh = m.veh_at(lx, ly, veh_part);
-    int dex = mon_at(lx, ly);
-    if (dex != -1 && u_see(&zombie(dex))) {
-        if (!mouse_hover) {
-            zombie(dex).draw(w_terrain, lx, ly, true);
+    const Creature *critter = critter_at( lx, ly );
+    if( critter != nullptr && ( u.sees( critter ) || critter == &u ) ) {
+        if( !mouse_hover ) {
+            critter->draw( w_terrain, lx, ly, true );
         }
-        line = zombie(dex).print_info(w_look, line, 6, column);
-    } else if (npc_at(lx, ly) != -1) {
-        if (!mouse_hover) {
-            active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
-        }
-        line = active_npc[npc_at(lx, ly)]->print_info(w_look, column, line);
+        line = critter->print_info( w_look, line, 6, column );
     } else if (veh) {
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-        }
-    }
-    // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
-    // Should not be putting the "You (name)" at this location
-    // Changing it to reflect actual position not view-center position
-    else if (lx == u.posx && ly == u.posy) {
-        int x, y;
-        x = getmaxx(w_terrain) / 2 - u.view_offset_x;
-        y = getmaxy(w_terrain) / 2 - u.view_offset_y;
-        if (!mouse_hover) {
-            mvwputch_inv(w_terrain, y, x, u.color(), '@');
-        }
-
-        mvwprintw(w_look, line++, column, _("You (%s)"), u.name.c_str());
-        if (veh) {
-            mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
-            line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
-            if (!mouse_hover) {
-                m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-            }
         }
     } else if (!mouse_hover) {
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
