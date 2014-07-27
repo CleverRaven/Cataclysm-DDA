@@ -8403,14 +8403,18 @@ int iuse::radiocontrol(player *p, item *it, bool t)
 
 int iuse::multicooker(player *p, item *it, bool t)
 {
-
     if (t)
     {
+
+        if (it->charges == 0) {
+            it->active = false;
+            return 0;
+        }
 
         it_tool *tmp = dynamic_cast<it_tool *>(it->type);
 
         int cooktime = atoi(it->item_vars["COOKTIME"].c_str());
-        cooktime -= tmp->turns_per_charge;
+        cooktime -= 100;
 
         if (cooktime <= 0) {
 
@@ -8595,19 +8599,29 @@ int iuse::multicooker(player *p, item *it, bool t)
 
                 recipe *meal = dishes[choice - 1];
 
+                int mealtime;
+                if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
+                    mealtime = meal->time * 2;
+                } else {
+                    mealtime = meal->time;
+                }
+
+                it_tool *tmp = dynamic_cast<it_tool *>(it->type);
+                const int all_charges = 50 + mealtime / (tmp->turns_per_charge * 100);
+
+                if (it->charges < all_charges) {
+
+                    p->add_msg_if_player(m_warning, _("The multi cooker need %d charges for cooking this dish."),
+                                         all_charges);
+
+                    return 0;
+                }
+
                 for (auto it = meal->components.begin(); it != meal->components.end(); ++it) {
                     g->consume_items(p, *it);
                 }
 
                 it->item_vars["DISH"] = meal->result;
-
-                int mealtime;
-                if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
-                    mealtime = meal->time;
-                } else {
-                    mealtime = meal->time * 2;
-                }
-
                 it->item_vars["COOKTIME"] = string_format("%d", mealtime);
 
                 p->add_msg_if_player(m_good ,
@@ -8615,6 +8629,9 @@ int iuse::multicooker(player *p, item *it, bool t)
 
                 it->active = true;
                 it->charges -= 50;
+
+                p->practice("cooking", meal->difficulty * 3); //little bonus
+
                 return 0;
             }
         }
