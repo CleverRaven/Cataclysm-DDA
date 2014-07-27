@@ -8401,7 +8401,7 @@ int iuse::radiocontrol(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
-bool multicooker_hallu(player *p, item *it)
+bool multicooker_hallu(player *p)
 {
 
     p->moves -= 200;
@@ -8523,7 +8523,7 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (p->has_disease("hallu") || p->has_disease("visuals")) {
-            if (multicooker_hallu(p, it)) {
+            if (multicooker_hallu(p)) {
                 return 0;
             }
         }
