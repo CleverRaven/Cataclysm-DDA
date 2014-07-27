@@ -716,7 +716,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                                         _("%s <npcname> hits the %s for %d damage."),
                                         message.c_str(), z.name().c_str(), dam);
             }
-            z.hurt( dam, real_dam, &p );
+            z.hurt( &p, bp_torso, dam );
             return;
 
         } else if (npcID != -1 && (!missed || one_in(4))) {

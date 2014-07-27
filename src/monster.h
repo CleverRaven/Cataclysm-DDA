@@ -214,8 +214,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     void apply_damage(Creature* source, body_part bp, int amount);
     void hurt(Creature* source, body_part bp, int amount);
     // Deals this dam damage;
-    // If real_dam is provided, caps overkill at real_dam.
-    void hurt(int dam, int real_dam, Creature *source);
     void hurt(int dam);
     // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
     void explode();

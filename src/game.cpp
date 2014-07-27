@@ -8391,7 +8391,7 @@ bool zlave_menu(monster *z)
 
     if (pheromone == choice && query_yn(_("Really kill the zombie slave?"))) {
 
-        z->hurt(100, 0, &g->u); // damage the monster (and its corpse)
+        z->hurt( &g->u, bp_torso, 100 ); // damage the monster (and its corpse)
         z->die(&g->u); // and make sure it's really dead
 
         g->u.moves -= 150;

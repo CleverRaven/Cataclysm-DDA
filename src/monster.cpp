@@ -958,28 +958,19 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
 }
 
 void monster::apply_damage(Creature* source, body_part bp, int amount) {
-    // monsters don't have bodyparts
-    (void) bp;
-    hurt(amount, 0, source);
-}
-
-void monster::hurt(Creature *source, body_part, int dam) {
-    hurt(dam, 0, source);
+    hurt( source, bp, amount );
 }
 
 void monster::hurt(int dam) {
-    hurt(dam, 0, nullptr);
+    hurt( nullptr, bp_torso, dam );
 }
 
-void monster::hurt( int dam, int real_dam, Creature *source )
+void monster::hurt(Creature *source, body_part, int dam)
 {
     if( dead ) {
         return;
     }
     hp -= dam;
-    if( real_dam > 0 ) {
-        hp = std::max( hp, -real_dam );
-    }
     if( hp < 1 ) {
         die( source );
     } else if( dam > 0 ) {
