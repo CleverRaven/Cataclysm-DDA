@@ -1095,7 +1095,7 @@ nc_color item::color(player *u) const
     return ret;
 }
 
-nc_color item::color_in_inventory()
+nc_color item::color_in_inventory() const
 {
     // This should be relevant only for the player,
     // npcs don't care about the color

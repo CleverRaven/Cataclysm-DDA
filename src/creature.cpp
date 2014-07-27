@@ -178,7 +178,7 @@ void Creature::process_turn()
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
-bool Creature::digging()
+bool Creature::digging() const
 {
     return false;
 }
@@ -527,12 +527,12 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
  * State check functions
  */
 
-bool Creature::is_warm()
+bool Creature::is_warm() const
 {
     return true;
 }
 
-bool Creature::is_fake()
+bool Creature::is_fake() const
 {
     return fake;
 }
@@ -1014,7 +1014,7 @@ void Creature::on_gethit(Creature *, body_part, damage_instance &)
 /*
  * Drawing-related functions
  */
-void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted)
+void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
 {
     int draw_x = getmaxx(w) / 2 + xpos() - player_x;
     int draw_y = getmaxy(w) / 2 + ypos() - player_y;
@@ -1027,17 +1027,17 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted)
     }
 }
 
-nc_color Creature::basic_symbol_color()
+nc_color Creature::basic_symbol_color() const
 {
     return c_ltred;
 }
 
-nc_color Creature::symbol_color()
+nc_color Creature::symbol_color() const
 {
     return basic_symbol_color();
 }
 
-bool Creature::is_symbol_highlighted()
+bool Creature::is_symbol_highlighted() const
 {
     return false;
 }

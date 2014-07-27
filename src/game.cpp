@@ -5787,17 +5787,17 @@ bool game::u_see(int x, int y)
     return u.sees(x, y);
 }
 
-bool game::u_see(Creature *t)
+bool game::u_see(const Creature *t)
 {
     return u_see(t->xpos(), t->ypos());
 }
 
-bool game::u_see(Creature &t)
+bool game::u_see(const Creature &t)
 {
     return u_see(t.xpos(), t.ypos());
 }
 
-bool game::u_see(monster *critter)
+bool game::u_see(const monster *critter)
 {
     return u.sees(critter);
 }

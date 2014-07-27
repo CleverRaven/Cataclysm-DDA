@@ -21,7 +21,7 @@ class item;
 class overmap;
 class player;
 
-void parse_tags(std::string &phrase, player *u, npc *me);
+void parse_tags(std::string &phrase, const player *u, const npc *me);
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -475,8 +475,8 @@ public:
  //npc(npc& rhs);
  npc(const npc &rhs);
  virtual ~npc();
- virtual bool is_player() { return false; }
- virtual bool is_npc() { return true; }
+ virtual bool is_player() const { return false; }
+ virtual bool is_npc() const { return true; }
 
  npc& operator= (const npc &rhs);
 
@@ -517,42 +517,42 @@ public:
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
 
 // Display
- void draw(WINDOW* w, int plx, int ply, bool inv);
- int print_info(WINDOW* w, int column = 1, int line = 6);
- std::string short_description();
- std::string opinion_text();
+ void draw(WINDOW* w, int plx, int ply, bool inv) const;
+ int print_info(WINDOW* w, int column = 1, int line = 6) const;
+ std::string short_description() const;
+ std::string opinion_text() const;
 
 // Goal / mission functions
  void pick_long_term_goal();
  void perform_mission();
- int  minutes_to_u(); // Time in minutes it takes to reach player
+ int  minutes_to_u() const; // Time in minutes it takes to reach player
  bool fac_has_value(faction_value value);
  bool fac_has_job(faction_job job);
 
 // Interaction with the player
  void form_opinion(player *u);
  talk_topic pick_talk_topic(player *u);
- int  player_danger(player *u); // Comparable to monsters
- int vehicle_danger(int radius);
- bool turned_hostile(); // True if our anger is at least equal to...
- int hostile_anger_level(); // ... this value!
+ int  player_danger(player *u) const; // Comparable to monsters
+ int vehicle_danger(int radius) const;
+ bool turned_hostile() const; // True if our anger is at least equal to...
+ int hostile_anger_level() const; // ... this value!
  void make_angry(); // Called if the player attacks us
- bool wants_to_travel_with(player *p);
+ bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
  std::vector<Skill*> skills_offered_to(player *p); // Skills that're higher
  std::vector<itype_id> styles_offered_to(player *p); // Martial Arts
 // State checks
- bool is_enemy(); // We want to kill/mug/etc the player
- bool is_following(); // Traveling w/ player (whether as a friend or a slave)
- bool is_friend(); // Allies with the player
- bool is_leader(); // Leading the player
- bool is_defending(); // Putting the player's safety ahead of ours
+ bool is_enemy() const; // We want to kill/mug/etc the player
+ bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
+ bool is_friend() const; // Allies with the player
+ bool is_leader() const; // Leading the player
+ bool is_defending() const; // Putting the player's safety ahead of ours
 // What happens when the player makes a request
  void told_to_help();
  void told_to_wait();
  void told_to_leave();
- int  follow_distance(); // How closely do we follow the player?
- int  speed_estimate(int speed); // Estimate of a target's speed, usually player
+ int  follow_distance() const; // How closely do we follow the player?
+ int  speed_estimate(int speed) const; // Estimate of a target's speed, usually player
 
 
 // Dialogue and bartering--see npctalk.cpp
@@ -575,7 +575,7 @@ public:
  virtual bool wield(item* it);
  bool has_healing_item();
  bool has_painkiller();
- bool took_painkiller();
+ bool took_painkiller() const;
  void use_painkiller();
  void activate_item(int position);
 
@@ -584,8 +584,8 @@ public:
  int  average_damage_dealt(); // Our guess at how much damage we can deal
  bool bravery_check(int diff);
  bool emergency(int danger);
- bool is_active();
- void say(std::string line, ...);
+ bool is_active() const;
+ void say(std::string line, ...) const;
  void decide_needs();
  void die(Creature* killer);
  void die(bool your_fault = false);
@@ -620,7 +620,7 @@ public:
 
 // Physical movement from one tile to the next
  void update_path (int x, int y);
- bool can_move_to (int x, int y);
+ bool can_move_to (int x, int y) const;
  void move_to  (int x, int y);
  void move_to_next (); // Next in <path>
  void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
@@ -645,21 +645,21 @@ public:
  void pick_and_eat ();
  void mug_player (player &mark);
  void look_for_player (player &sought);
- bool saw_player_recently();// Do we have an idea of where u are?
+ bool saw_player_recently() const;// Do we have an idea of where u are?
 
 // Movement on the overmap scale
- bool has_destination(); // Do we have a long-term destination?
+ bool has_destination() const; // Do we have a long-term destination?
  void set_destination(); // Pick a place to go
  void go_to_destination(); // Move there; on the micro scale
  void reach_destination(); // We made it!
 
  //message related stuff
- virtual void add_msg_if_npc(const char* msg, ...);
- virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
- virtual void add_msg_if_npc(game_message_type type, const char* msg, ...);
- virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...);
- virtual void add_msg_if_player(const char *, ...){};
- virtual void add_msg_if_player(game_message_type, const char *, ...){};
+ virtual void add_msg_if_npc(const char* msg, ...) const;
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const;
+ virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const;
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const;
+ virtual void add_msg_if_player(const char *, ...) const{};
+ virtual void add_msg_if_player(game_message_type, const char *, ...) const{};
  virtual void add_memorial_log(const char*, const char*, ...) {};
 
 // The preceding are in npcmove.cpp

@@ -76,7 +76,7 @@ public:
  item in_its_container();
 
     nc_color color(player *u) const;
-    nc_color color_in_inventory();
+    nc_color color_in_inventory() const;
     std::string tname(unsigned int quantity = 1, bool with_prefix = true) const; // item name (includes damage, freshness, etc)
     std::string display_name(unsigned int quantity = 1) const; // name for display (includes charges, etc)
     void use();

@@ -242,9 +242,9 @@ class game
         faction *faction_by_id(int it);
         bool sees_u(int x, int y, int &t);
         bool u_see (int x, int y);
-        bool u_see (monster *critter);
-        bool u_see (Creature *t); // for backwards compatibility
-        bool u_see (Creature &t);
+        bool u_see (const monster *critter);
+        bool u_see (const Creature *t); // for backwards compatibility
+        bool u_see (const Creature &t);
         bool is_hostile_nearby();
         bool is_hostile_very_close();
         void refresh_all();

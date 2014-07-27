@@ -3179,7 +3179,7 @@ void talk_function::start_training(npc *p)
  p->add_disease("asked_to_train", 3600);
 }
 
-void parse_tags(std::string &phrase, player *u, npc *me)
+void parse_tags(std::string &phrase, const player *u, const npc *me)
 {
  if (u == NULL || me == NULL) {
   debugmsg("Called parse_tags() with NULL pointers!");

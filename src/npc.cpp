@@ -1267,7 +1267,7 @@ talk_topic npc::pick_talk_topic(player *u)
  return TALK_STRANGER_NEUTRAL;
 }
 
-int npc::player_danger(player *u)
+int npc::player_danger(player *u) const
 {
  int ret = 0;
  if (u->weapon.is_gun()) {
@@ -1310,7 +1310,7 @@ int npc::player_danger(player *u)
  return ret;
 }
 
-int npc::vehicle_danger(int radius)
+int npc::vehicle_danger(int radius) const
 {
     VehicleList vehicles = g->m.get_vehicles(posx - radius, posy - radius, posx + radius, posy + radius);
 
@@ -1344,12 +1344,12 @@ int npc::vehicle_danger(int radius)
  return danger;
 }
 
-bool npc::turned_hostile()
+bool npc::turned_hostile() const
 {
  return (op_of_u.anger >= hostile_anger_level());
 }
 
-int npc::hostile_anger_level()
+int npc::hostile_anger_level() const
 {
  return (20 + op_of_u.fear - personality.aggression);
 }
@@ -1372,7 +1372,7 @@ void npc::make_angry()
 }
 
 // STUB
-bool npc::wants_to_travel_with(player *p)
+bool npc::wants_to_travel_with(player *p) const
 {
     (void)p; // TODO: implement
     return true;
@@ -1418,7 +1418,7 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
 }
 
 
-int npc::minutes_to_u()
+int npc::minutes_to_u() const
 {
  int ret = abs(mapx - g->levx);
  if (abs(mapy - g->levy) < ret)
@@ -1502,7 +1502,7 @@ void npc::decide_needs()
  }
 }
 
-void npc::say(std::string line, ...)
+void npc::say(std::string line, ...) const
 {
  va_list ap;
  va_start(ap, line);
@@ -1681,13 +1681,13 @@ bool npc::has_painkiller()
     return inv.has_enough_painkiller(pain);
 }
 
-bool npc::took_painkiller()
+bool npc::took_painkiller() const
 {
  return (has_disease("pkill1") || has_disease("pkill2") ||
          has_disease("pkill3") || has_disease("pkill_l"));
 }
 
-bool npc::is_friend()
+bool npc::is_friend() const
 {
  if (attitude == NPCATT_FOLLOW || attitude == NPCATT_DEFEND ||
      attitude == NPCATT_LEAD)
@@ -1695,7 +1695,7 @@ bool npc::is_friend()
  return false;
 }
 
-bool npc::is_following()
+bool npc::is_following() const
 {
  switch (attitude) {
  case NPCATT_FOLLOW:
@@ -1709,12 +1709,12 @@ bool npc::is_following()
  }
 }
 
-bool npc::is_leader()
+bool npc::is_leader() const
 {
  return (attitude == NPCATT_LEAD);
 }
 
-bool npc::is_enemy()
+bool npc::is_enemy() const
 {
  if (attitude == NPCATT_KILL || attitude == NPCATT_MUG ||
      attitude == NPCATT_FLEE)
@@ -1722,7 +1722,7 @@ bool npc::is_enemy()
  return  false;
 }
 
-bool npc::is_defending()
+bool npc::is_defending() const
 {
  return (attitude == NPCATT_DEFEND);
 }
@@ -1793,7 +1793,7 @@ bool npc::emergency(int danger)
 
 //Check if this npc is currently in the list of active npcs.
 //Active npcs are the npcs near the player that are actively simulated.
-bool npc::is_active()
+bool npc::is_active() const
 {
     return std::find(g->active_npc.begin(), g->active_npc.end(), this) != g->active_npc.end();
 }
@@ -1854,12 +1854,12 @@ void npc::told_to_leave()
  }
 }
 
-int npc::follow_distance()
+int npc::follow_distance() const
 {
  return 4; // TODO: Modify based on bravery, weapon wielded, etc.
 }
 
-int npc::speed_estimate(int speed)
+int npc::speed_estimate(int speed) const
 {
  if (per_cur == 0)
   return rng(0, speed * 2);
@@ -1871,7 +1871,7 @@ int npc::speed_estimate(int speed)
  return rng(low, high);
 }
 
-void npc::draw(WINDOW* w, int ux, int uy, bool inv)
+void npc::draw(WINDOW* w, int ux, int uy, bool inv) const
 {
  int x = getmaxx(w)/2 + posx - ux;
  int y = getmaxy(w)/2 + posy - uy;
@@ -1888,7 +1888,7 @@ void npc::draw(WINDOW* w, int ux, int uy, bool inv)
   mvwputch    (w, y, x, col, '@');
 }
 
-int npc::print_info(WINDOW* w, int column /*= 1*/, int line /*= 6*/)
+int npc::print_info(WINDOW* w, int column /*= 1*/, int line /*= 6*/) const
 {
 // First line of w is the border; the next 4 are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
@@ -1925,7 +1925,7 @@ int npc::print_info(WINDOW* w, int column /*= 1*/, int line /*= 6*/)
  return line;
 }
 
-std::string npc::short_description()
+std::string npc::short_description() const
 {
  std::stringstream ret;
  ret << _("Wielding: ") << weapon.tname() << ";   " << _("Wearing: ");
@@ -1938,7 +1938,7 @@ std::string npc::short_description()
  return ret.str();
 }
 
-std::string npc::opinion_text()
+std::string npc::opinion_text() const
 {
  std::stringstream ret;
  if (op_of_u.trust <= -10)
@@ -2258,7 +2258,7 @@ void npc::setID (int i)
 }
 
 //message related stuff
-void npc::add_msg_if_npc(const char *msg, ...)
+void npc::add_msg_if_npc(const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
@@ -2273,7 +2273,7 @@ void npc::add_msg_if_npc(const char *msg, ...)
 
     va_end(ap);
 };
-void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...)
+void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...) const
 {
     va_list ap;
 
@@ -2292,7 +2292,7 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...)
 
     va_end(ap);
 };
-void npc::add_msg_if_npc(game_message_type type, const char *msg, ...)
+void npc::add_msg_if_npc(game_message_type type, const char *msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
@@ -2307,7 +2307,7 @@ void npc::add_msg_if_npc(game_message_type type, const char *msg, ...)
 
     va_end(ap);
 };
-void npc::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...)
+void npc::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...) const
 {
     va_list ap;
 
