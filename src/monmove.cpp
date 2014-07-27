@@ -746,7 +746,7 @@ int monster::attack_at(int x, int y) {
         is_enemy = is_enemy || has_flag(MF_ATTACKMON); // I guess the flag means all monsters are enemies?
 
         if(is_enemy) {
-            hit_monster(mondex);
+            hit_monster(mon);
             return 1;
         }
     } else if(npcdex != -1  && type->melee_dice > 0) {

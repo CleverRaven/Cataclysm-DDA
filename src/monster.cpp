@@ -666,67 +666,6 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-int monster::hit(Creature &p, body_part &bp_hit) {
- int ret = 0;
- int highest_hit = 0;
-
-    //If the player is knocked down or the monster can fly, any body part is a valid target
-    if(p.is_on_ground() || has_flag(MF_FLIES)){
-        highest_hit = 20;
-    } else {
-        switch (type->size) {
-        case MS_TINY:
-            highest_hit = 3;
-            break;
-        case MS_SMALL:
-            highest_hit = 12;
-            break;
-        case MS_MEDIUM:
-            highest_hit = 20;
-            break;
-        case MS_LARGE:
-            highest_hit = 28;
-            break;
-        case MS_HUGE:
-            highest_hit = 35;
-            break;
-        }
-        if (digging()){
-            highest_hit -= 8;
-        }
-        if (highest_hit <= 1){
-            highest_hit = 2;
-        }
-    }
-
-    if (highest_hit > 20){
-        highest_hit = 20;
-    }
-
-
-    int bp_rand = rng(0, highest_hit - 1);
-    if (bp_rand <=  1){
-        bp_hit = bp_leg_l;
-    } else if (bp_rand <= 2){
-        bp_hit = bp_leg_r;
-    } else if (bp_rand <= 10){
-        bp_hit = bp_torso;
-    } else if (bp_rand <= 12){
-        bp_hit = bp_arm_l;
-    } else if (bp_rand <= 14){
-        bp_hit = bp_arm_r;
-    } else if (bp_rand <= 16){
-        bp_hit = bp_mouth;
-    } else if (bp_rand == 17){
-        bp_hit = bp_eyes;
-    } else{
-        bp_hit = bp_head;
-    }
-    ret += dice(type->melee_dice, type->melee_sides);
-    return ret;
-}
-
-
 void monster::melee_attack(Creature &target, bool, matec_id) {
     mod_moves(-100);
     if (type->melee_dice == 0) { // We don't attack, so just return
@@ -849,9 +788,9 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     }
 }
 
-void monster::hit_monster(int i)
+void monster::hit_monster(monster &other)
 {
- monster* target = &(g->zombie(i));
+ monster* target = &other;
  moves -= 100;
 
  if (this == target) {

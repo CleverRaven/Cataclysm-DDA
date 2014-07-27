@@ -205,10 +205,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     virtual int deal_melee_attack(Creature* source, int hitroll);
     virtual int deal_projectile_attack(Creature* source, double missed_by,
             const projectile& proj, dealt_damage_instance &dealt_dam);
-    // TODO: this hit is not the same as the one from Creature, it hits other
-    // things. Need to phase out
-    int  hit(Creature &t, body_part &bp_hit); // Returns a damage
-    void hit_monster(int i);
     // TODO: fully replace hurt with apply/deal_damage
     virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
     void apply_damage(Creature* source, body_part bp, int amount);
@@ -294,6 +290,8 @@ private:
  std::vector <point> plans;
  int _posx, _posy;
  bool dead;
+    /** Attack another monster */
+    void hit_monster(monster &other);
 };
 
 #endif
