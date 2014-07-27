@@ -116,12 +116,25 @@ void load_recipe(JsonObject &jsobj)
         }
     }
 
+    std::vector<itype_id> bps;
+    // could be a single byproduct, or multiple
+    if (jsobj.has_string("byproducts")) {
+        bps.push_back(jsobj.get_string("byproducts"));
+    }
+    else if (jsobj.has_array("byproducts")) {
+        jsarr = jsobj.get_array("byproducts");
+        while (jsarr.has_more()) {
+            JsonArray ja = jsarr.next_array();
+            bps.push_back(ja.get_string(0));
+        }
+    }
+
     std::string rec_name = result + id_suffix;
     int id = check_recipe_ident(rec_name, jsobj);
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, reversible,
-                             autolearn, learn_by_disassembly, result_mult);
+                             autolearn, learn_by_disassembly, result_mult, bps);
     rec->load(jsobj);
 
     jsarr = jsobj.get_array("book_learn");
@@ -220,6 +233,15 @@ bool game::making_would_work(recipe *making)
     if (!u.has_container_for(making->create_result())) {
         popup(_("You don't have anything to store that liquid in!"));
         return false;
+    }
+
+    if (making->has_byproducts()) {
+        for(auto& val : making->create_byproducts()) {
+            if (!u.has_container_for(val)) {
+                popup(_("You don't have anything to store byproduct in!"));
+                return false;
+            }
+        }
     }
 
     return true;
@@ -932,6 +954,24 @@ item recipe::create_result() const
     return newit;
 }
 
+std::vector<item> recipe::create_byproducts() const
+{
+    std::vector<item> bps;
+    for(auto& val : byproducts) {
+        item newit(val, calendar::turn, false);
+        if (!newit.craft_has_charges()) {
+            newit.charges = 0;
+        }
+        bps.push_back(newit);
+    }
+    return bps;
+}
+
+bool recipe::has_byproducts() const
+{
+    return byproducts.size() != 0;
+}
+
 void game::complete_craft()
 {
     recipe *making = recipe_by_index(u.activity.index); // Which recipe is it?
@@ -1068,43 +1108,75 @@ void game::complete_craft()
         }
     }
     if (used_age_count > 0 && newit.goes_bad()) {
-        const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest *>
-                                         (newit.type)->spoils);
-        newit.bday = newit.bday - average_used_age;
+        set_item_spoilage(newit, used_age_tally, used_age_count);
     }
     // for food items
     if (newit.is_food()) {
-        int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
-        newit.bday = int(newit.bday) + 3600 - bday_tmp;
-        newit.active = true;
+        set_item_food(newit);
+    }
 
-        if (newit.has_flag("EATEN_HOT")) { // hot foods generated
-            newit.item_tags.insert("HOT");
-            newit.item_counter = 600;
+    set_item_inventory(this, newit);
+
+    if (making->has_byproducts()) {
+        std::vector<item> bps = making->create_byproducts();
+        for(auto& bp : bps) {
+            if (bp.is_armor() && bp.has_flag("VARSIZE")) {
+                bp.item_tags.insert("FIT");
+            }
+            if (used_age_count > 0 && bp.goes_bad()) {
+                set_item_spoilage(bp, used_age_tally, used_age_count);
+            }
+            if (bp.is_food()) {
+                set_item_food(bp);
+            }
+            set_item_inventory(this, bp);
         }
     }
 
-    u.inv.assign_empty_invlet(newit);
+    u.inv.restack(&u);
+}
+
+void set_item_spoilage(item &newit, float used_age_tally, int used_age_count)
+{
+    const int average_used_age = int((used_age_tally / used_age_count) * dynamic_cast<it_comest *>
+                                     (newit.type)->spoils);
+    newit.bday = newit.bday - average_used_age;
+}
+
+void set_item_food(item &newit)
+{
+    int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
+    newit.bday = int(newit.bday) + 3600 - bday_tmp;
+    newit.active = true;
+
+    if (newit.has_flag("EATEN_HOT")) { // hot foods generated
+        newit.item_tags.insert("HOT");
+        newit.item_counter = 600;
+    }
+}
+
+void set_item_inventory(game *g, item &newit)
+{
+    g->u.inv.assign_empty_invlet(newit);
     if (newit.made_of(LIQUID)) {
-        while(!handle_liquid(newit, false, false)) {
+        while(!g->handle_liquid(newit, false, false)) {
             ;
         }
     } else {
         // We might not have space for the item
-        if (!u.can_pickVolume(newit.volume())) { //Accounts for result_mult
+        if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
-            m.add_item_or_charges(u.posx, u.posy, newit);
-        } else if (!u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
+        } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
             add_msg(_("The %s is too heavy to carry, so you drop it."),
                     newit.tname().c_str());
-            m.add_item_or_charges(u.posx, u.posy, newit);
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, newit);
         } else {
-            newit = u.i_add(newit);
+            newit = g->u.i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
         }
     }
-    u.inv.restack(&u);
 }
 
 std::list<item> game::consume_items(player *p, const std::vector<item_comp> &components)
