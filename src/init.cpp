@@ -35,6 +35,7 @@
 #include "options.h"
 #include "game.h"
 #include "faction.h"
+#include "npc.h"
 
 #include <string>
 #include <vector>
@@ -198,6 +199,8 @@ void DynamicDataLoader::initialize()
     
     type_function_map["faction"] = new StaticFunctionAccessor(
         &faction::load_faction);
+    type_function_map["npc"] = new StaticFunctionAccessor(
+        &npc::load_npc);
 }
 
 void DynamicDataLoader::reset()
