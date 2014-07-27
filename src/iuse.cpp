@@ -8443,7 +8443,7 @@ bool multicooker_hallu(player *p)
 
             for (int x = p->posx - 1; x <= p->posx + 1; x++)
                 for (int y = p->posy - 1; y <= p->posy + 1; y++) {
-                    if (g->m.move_cost(x, y) > 0) {
+                    if (g->is_empty(x, y)) {
                         points.push_back(point(x, y));
                     }
                 }
