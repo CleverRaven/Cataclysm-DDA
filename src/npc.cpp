@@ -1605,8 +1605,7 @@ void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
    int val = value(slice[i]->front()) - (slice[i]->front().price() / 50);
    if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
     items.push_back(&slice[i]->front());
-    int price = slice[i]->front().price() / (price_adjustment(skillLevel("barter")));
-    prices.push_back(price);
+    prices.push_back(slice[i]->front().price());
    }
   }
  }
@@ -1620,11 +1619,7 @@ void npc::init_buying(inventory& you, std::vector<item*> &items,
   int val = value(slice[i]->front());
   if (val >= NPC_HI_VALUE) {
    items.push_back(&slice[i]->front());
-   int price = slice[i]->front().price();
-   if (val >= NPC_VERY_HI_VALUE)
-    price *= 2;
-   price *= price_adjustment(skillLevel("barter"));
-   prices.push_back(price);
+   prices.push_back(slice[i]->front().price());
   }
  }
 }
