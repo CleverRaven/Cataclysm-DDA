@@ -3466,13 +3466,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
 // Adjust the prices based on your barter skill.
     for (size_t i = 0; i < their_price.size(); i++) {
-        their_price[i] *= (price_adjustment(g->u.skillLevel("barter")) +
-                     (p->int_cur - g->u.int_cur) / 15);
+        their_price[i] *= (price_adjustment(p->skillLevel("barter") - g->u.skillLevel("barter")) +
+                     (p->int_cur - g->u.int_cur) / 20.0);
         getting_theirs[i] = false;
     }
     for (size_t i = 0; i < your_price.size(); i++) {
-        your_price[i] /= (price_adjustment(g->u.skillLevel("barter")) +
-                    (p->int_cur - g->u.int_cur) / 15);
+        your_price[i] *= (price_adjustment(g->u.skillLevel("barter") - p->skillLevel("barter")) +
+                    (g->u.int_cur - p->int_cur) / 20.0);
         getting_yours[i] = false;
     }
 
