@@ -905,26 +905,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information about tiles they can't see.
             draw_line(x, y, center, ret);
-            /*
-               if (u_see( x, y)) {
-                for (int i = 0; i < ret.size(); i++) {
-                  int mondex = mon_at(ret[i].x, ret[i].y),
-                      npcdex = npc_at(ret[i].x, ret[i].y);
-                  // NPCs and monsters get drawn with inverted colors
-                  if (mondex != -1 && u_see(&(zombie(mondex))))
-                   zombie(mondex).draw(w_terrain, center.x, center.y, true);
-                  else if (npcdex != -1)
-                   active_npc[npcdex]->draw(w_terrain, center.x, center.y, true);
-                  else
-                   m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
-                }
-               }
-            //*/
             // Print to target window
             if (!relevent) {
                 // currently targetting vehicle to refill with fuel
                 vehicle *veh = m.veh_at(x, y);
-                if (veh) {
+                if( veh != nullptr && u.sees( x, y ) ) {
                     mvwprintw(w_target, 1, 1, _("There is a %s"),
                               veh->name.c_str());
                 }
@@ -953,16 +938,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
 
             const Creature *critter = critter_at( x, y );
-            if( critter == nullptr ) {
-                if (snap_to_target) {
-                    mvwputch(w_terrain, POSY, POSX, c_red, '*');
-                } else {
-                    mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
-                }
+            if( critter != nullptr && u.sees( critter ) ) {
+                critter->print_info( w_target, 2, 5, 1);
             } else {
-                if( u_see( critter ) ) {
-                    critter->print_info( w_target, 2, 5, 1);
-                }
+                mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
             }
         } else {
             mvwprintw(w_target, 1, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());

@@ -5793,12 +5793,12 @@ bool game::u_see(int x, int y)
 
 bool game::u_see(const Creature *t)
 {
-    return u_see(t->xpos(), t->ypos());
+    return u.sees(t);
 }
 
 bool game::u_see(const Creature &t)
 {
-    return u_see(t.xpos(), t.ypos());
+    return u.sees(&t);
 }
 
 bool game::u_see(const monster *critter)
