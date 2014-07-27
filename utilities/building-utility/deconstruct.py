@@ -13,10 +13,11 @@ import os
 
 
 def main():
-    mapCount = 1
     with open(os.path.join(os.getcwd(), 'drawing.txt'),"r") as infile:
         data = '[\n'
+        mapCount = 1
         mapList = [""] * 9
+
         for line in infile:
             lineCT = 0
             while len(line) > 23:
@@ -28,10 +29,11 @@ def main():
 
                 line = line[24:]
                 lineCT += 1
+
             if len(mapList[0]) >= 760:
-                for x in range(len(mapList)):
-                    if len(mapList[x]) > 20:
-                        data = writeJSON(mapCount, mapList[x], data)
+                for line in mapList:
+                    if len(line) > 20:
+                        data = writeJSON(mapCount, line, data)
                         writeTerrain(mapCount)
                         mapCount += 1
                 mapList = [""] * 9
@@ -58,8 +60,7 @@ def writeJSON(mapNum, text, data):
               "r") as json_footer_file:
         entry += ''.join(json_footer_file)
 
-    data = data + entry
-    return data
+    return data + entry
 
 def finalizeEntry(data):
     with open(os.path.join(os.getcwd(), 'output', 'office_tower.json'),
