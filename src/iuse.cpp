@@ -19,7 +19,6 @@
 #include "messages.h"
 #include <sstream>
 #include <algorithm>
-#include "crafting.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -8411,7 +8410,8 @@ int iuse::radiocontrol(player *p, item *it, bool t)
 int iuse::multicooker(player *p, item *it, bool t)
 {
 
-    if (t) {
+    if (t)
+    {
 
         it_tool *tmp = dynamic_cast<it_tool *>(it->type);
 
@@ -8447,8 +8447,21 @@ int iuse::multicooker(player *p, item *it, bool t)
     } else {
 
         enum {
-            mc_cancel, mc_start, mc_stop, mc_take
+            mc_cancel, mc_start, mc_stop, mc_take, mc_upgrade
         };
+
+        if (p->has_trait("ILLITERATE"))
+        {
+            add_msg(m_info, _("You can not read and don't understand symbols on screen and buttons!"));
+            return 0;
+        }
+
+        if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
+            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts"))
+        {
+            add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
+            return 0;
+        }
 
         uimenu menu;
         menu.selected = 0;
@@ -8456,17 +8469,34 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         menu.addentry(mc_cancel, true, 'q', _("Cancel"));
 
-        if (it->active) {
+        if (it->active)
+        {
             menu.addentry(mc_stop, true, 's', _("Stop cooking"));
         } else {
 
-            if (it->contents.empty()) {
+            if (it->contents.empty())
+            {
                 if (it->charges < 50) {
                     p->add_msg_if_player(_("Discharged batteries."));
                     return 0;
                 }
 
                 menu.addentry(mc_start, true, 's', _("Start cooking"));
+
+                if (p->skillLevel("electronics") > 3 && p->skillLevel("fabrication") > 3) {
+
+                    if (it->item_vars["MULTI_COOK_UPGRADE"] == "") {
+                        menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi cooker"));
+                    } else {
+
+                        if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
+                            menu.addentry(mc_upgrade, false, 'u', _("Multi cooker already upgraded"));
+                        } else {
+                            menu.addentry(mc_upgrade, false, 'u', _("Multi cooker unable to upgrade"));
+                        }
+                    }
+                }
+
             } else {
                 menu.addentry(mc_take, true, 't', _("Take out dish"));
             }
@@ -8476,12 +8506,13 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         int choice = menu.ret;
 
-        if (mc_cancel == choice) {
+        if (mc_cancel == choice)
+        {
             return 0;
         }
 
-
-        if (mc_stop == choice) {
+        if (mc_stop == choice)
+        {
 
             if (query_yn(_("Really stop cooking?"))) {
                 it->active = false;
@@ -8493,24 +8524,26 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         }
 
-        if (mc_take == choice) {
+        if (mc_take == choice)
+        {
             item &dish = it->contents[0];
 
             if (dish.has_flag("HOT")) {
-                p->add_msg_if_player(m_good, _("You pull out the %s, it is still hot and smell good."),
-                                     dish.display_name().c_str());
+                p->add_msg_if_player(m_good, _("You got the dish from the multi cooker.  The %s smells delicious."),
+                                     dish.tname(dish.charges, false).c_str());
             } else {
-                p->add_msg_if_player(m_good, _("You pull out the %s."), dish.tname().c_str());
+                p->add_msg_if_player(m_good, _("You got the %s from the multi cooker."), dish.tname(dish.charges,
+                                     false).c_str());
             }
 
-            p->inv.assign_empty_invlet(dish, true);
             p->i_add(dish);
             it->contents.clear();
 
             return 0;
         }
 
-        if (mc_start == choice) {
+        if (mc_start == choice)
+        {
 
             enum {
                 d_cancel
@@ -8532,6 +8565,8 @@ int iuse::multicooker(player *p, item *it, bool t)
             crafting_inv.push_back(item("pot", 0)); //good COOK, BOIL, CONTAIN qualities inside
 
             int counter = 1;
+
+            recipe_map recipes = g->list_recipes();
 
             for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
                 for (recipe_list::iterator list_iter = map_iter->second.begin();
@@ -8571,7 +8606,15 @@ int iuse::multicooker(player *p, item *it, bool t)
                 }
 
                 it->item_vars["DISH"] = meal->result;
-                it->item_vars["COOKTIME"] = string_format("%d", meal->time * 2);
+
+                int mealtime;
+                if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
+                    mealtime = meal->time;
+                } else {
+                    mealtime = meal->time * 2;
+                }
+
+                it->item_vars["COOKTIME"] = string_format("%d", mealtime);
 
                 p->add_msg_if_player(m_good ,
                                      _("The screen flashes blue symbols and scales, multi cooker begins to shake."));
@@ -8581,5 +8624,73 @@ int iuse::multicooker(player *p, item *it, bool t)
                 return 0;
             }
         }
+
+        if (mc_upgrade == choice)
+        {
+
+            if (p->morale_level() < MIN_MORALE_CRAFT) { // See morale.h
+                add_msg(m_info, _("Your morale is too low to craft..."));
+                return false;
+            }
+
+            bool has_tools = true;
+
+            inventory cinv = g->crafting_inventory(&g->u);
+
+            if (!cinv.has_amount("soldering_iron", 1)) {
+                item tmp("soldering_iron", 0);
+
+                p->add_msg_if_player(m_warning, _("You need a %s."), tmp.type->nname(1).c_str());
+                has_tools = false;
+            }
+
+            if (!cinv.has_tools("screwdriver", 1)) {
+
+                item tmp("screwdriver", 0);
+
+                p->add_msg_if_player(m_warning, _("You need a %s."), tmp.type->nname(1).c_str());
+                has_tools = false;
+            }
+
+            if (!has_tools) {
+                return 0;
+            }
+
+            p->practice("electronics", rng(5, 10));
+            p->practice("fabrication", rng(5, 10));
+
+            p->moves -= 700;
+
+            if (p->skillLevel("electronics") + p->skillLevel("fabrication") + p->int_cur > rng(20, 35)) {
+
+                p->practice("electronics", rng(5, 20));
+                p->practice("fabrication", rng(5, 20));
+
+                p->add_msg_if_player(m_good,
+                                     _("You are the master of all trades, successfully upgraded the multi cooker, now it cooks faster!"));
+
+                it->item_vars["MULTI_COOK_UPGRADE"] = "UPGRADE";
+
+                return 0;
+
+            } else {
+
+                if (!one_in(5)) {
+                    p->add_msg_if_player(m_neutral,
+                                         _("You sagely examine and analyze the multi cooker, but nothing really to do, bring it back."));
+                } else {
+                    p->add_msg_if_player(m_bad,
+                                         _("You have disfigured the multi cooker, fortunately, it can still work as before, but better it is no longer try to upgrade it."));
+                    it->item_vars["MULTI_COOK_UPGRADE"] = "DAMAGED";
+                }
+
+                return 0;
+
+            }
+
+        }
+
     }
+
+    return 0;
 }
