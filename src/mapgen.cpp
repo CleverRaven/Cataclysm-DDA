@@ -9291,7 +9291,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 add_spawn("mon_zombie", 1, x, y);
             }
         }
-        // Finally, figure out where the road is; contruct our entrance facing that.
+        // Finally, figure out where the road is; construct our entrance facing that.
         std::vector<direction> faces_road;
         if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east)) {
             rotate(1);
