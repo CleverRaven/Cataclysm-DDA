@@ -8515,7 +8515,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             it->item_vars["DISH"] = "";
 
             point pos = g->find_item(it);
-            g->sound(pos.x, pos.y, 8, "ding!");
+            g->sound(pos.x, pos.y, 8, _("ding!"));
 
             return 0;
 
