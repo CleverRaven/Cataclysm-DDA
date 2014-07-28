@@ -275,7 +275,7 @@ std::string action_ident(action_id act)
 
 action_id look_up_action(std::string ident)
 {
-    // Temporarly for the interface with the input manager!
+    // Temporarily for the interface with the input manager!
     if (ident == "move_nw") {
         return ACTION_MOVE_NW;
     } else if (ident == "move_sw") {
