@@ -108,9 +108,7 @@ void mapbuffer::save( bool delete_after_save )
 
     point map_origin;
     if( g->cur_om != NULL ) {
-        map_origin = overmapbuffer::sm_to_omt_copy( g->levx, g->levy );
-        map_origin.x += g->cur_om->pos().x * OMAPX;
-        map_origin.y += g->cur_om->pos().y * OMAPY;
+        map_origin = overmapbuffer::sm_to_omt_copy( g->get_abs_levx(), g->get_abs_levy() );
     } else {
         map_origin.x = INT_MIN;
         map_origin.y = INT_MIN;

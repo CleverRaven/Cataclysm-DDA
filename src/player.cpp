@@ -11534,17 +11534,15 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
 
 bool player::knows_trap(int x, int y) const
 {
-    x += g->levx * SEEX;
-    y += g->levy * SEEY;
-    tripoint p(x, y, g->levz);
+    const point a = g->m.getabs( x, y );
+    const tripoint p( a.x, a.y, g->get_abs_levz() );
     return known_traps.count(p) > 0;
 }
 
 void player::add_known_trap(int x, int y, const std::string &t)
 {
-    x += g->levx * SEEX;
-    y += g->levy * SEEY;
-    tripoint p(x, y, g->levz);
+    const point a = g->m.getabs( x, y );
+    const tripoint p( a.x, a.y, g->get_abs_levz() );
     if (t == "tr_null") {
         known_traps.erase(p);
     } else {

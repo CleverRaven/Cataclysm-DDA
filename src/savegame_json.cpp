@@ -665,12 +665,19 @@ void npc::deserialize(JsonIn &jsin)
     data.read("wandx",wandx);
     data.read("wandy",wandy);
     data.read("wandf",wandf);
-    data.read("omx",omx);
-    data.read("omy",omy);
-    data.read("omz",omz);
 
     data.read("mapx",mapx);
     data.read("mapy",mapy);
+    if(!data.read("mapz",mapz)) {
+        data.read("omz",mapz); // was renamed to match mapx,mapy
+    }
+    int o;
+    if(data.read("omx",o)) {
+        mapx += o * OMAPX * 2;
+    }
+    if(data.read("omy",o)) {
+        mapy += o * OMAPY * 2;
+    }
 
     data.read("plx",plx);
     data.read("ply",ply);
@@ -732,12 +739,10 @@ void npc::serialize(JsonOut &json, bool save_contents) const
     json.member( "wandx", wandx );
     json.member( "wandy", wandy );
     json.member( "wandf", wandf );
-    json.member( "omx", omx );
-    json.member( "omy", omy );
-    json.member( "omz", omz );
 
     json.member( "mapx", mapx );
     json.member( "mapy", mapy );
+    json.member( "mapz", mapz );
     json.member( "plx", plx );
     json.member( "ply", ply );
     json.member( "goalx", goal.x );
@@ -1191,8 +1196,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("type", type);
     data.read("posx", posx);
     data.read("posy", posy);
-    data.read("levx", levx);
-    data.read("levy", levy);
     data.read("om_id", om_id);
     data.read("faceDir", fdir);
     data.read("moveDir", mdir);
@@ -1256,8 +1259,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "type", type );
     json.member( "posx", posx );
     json.member( "posy", posy );
-    json.member( "levx", levx );
-    json.member( "levy", levy );
     json.member( "om_id", om_id );
     json.member( "faceDir", face.dir() );
     json.member( "moveDir", move.dir() );
@@ -1367,10 +1368,16 @@ void faction::deserialize(JsonIn &jsin)
     jo.read("crime", crime);
     jo.read("cult", cult);
     jo.read("good", good);
-    jo.read("omx", omx);
-    jo.read("omy", omy);
     jo.read("mapx", mapx);
     jo.read("mapy", mapy);
+    // omx,omy are obsolete, use them (if present) to make mapx,mapy global coordinates
+    int o;
+    if(jo.read("omx", o)) {
+        mapx += o * OMAPX * 2;
+    }
+    if(jo.read("omy", o)) {
+        mapy += o * OMAPY * 2;
+    }
     jo.read("size", size);
     jo.read("power", power);
     if (jo.has_array("opinion_of")) {
@@ -1397,8 +1404,6 @@ void faction::serialize(JsonOut &json) const
     json.member("crime", crime);
     json.member("cult", cult);
     json.member("good", good);
-    json.member("omx", omx);
-    json.member("omy", omy);
     json.member("mapx", mapx);
     json.member("mapy", mapy);
     json.member("size", size);

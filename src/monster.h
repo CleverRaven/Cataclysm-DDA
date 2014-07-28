@@ -107,7 +107,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     using JsonDeserializer::deserialize;
     virtual void deserialize(JsonIn &jsin);
 
- std::string save_info();    // String of all data, for save files
  void debug(player &u);      // Gives debug info
 
  point move_target(); // Returns point at the end of the monster's current plans

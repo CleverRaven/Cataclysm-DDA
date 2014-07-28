@@ -109,7 +109,6 @@ public:
     std::vector<std::string> all_json_factions();
 
     ~faction();
-    std::string save_info();
     void load_info(std::string data);
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin);
@@ -138,8 +137,8 @@ public:
  std::string id;
  std::string desc;
  int strength, sneak, crime, cult, good; // Defining values
- int omx, omy; // Which overmap are we based in?
- int mapx, mapy;// Where in that overmap are we?
+ /** Global submap coordinates where the center of influence is */
+ int mapx, mapy;
  int size; // How big is our sphere of influence?
  int power; // General measure of our power
 };

@@ -1428,7 +1428,7 @@ void mattack::photograph(monster *z)
     add_msg(m_warning, _("The %s takes your picture!"), z->name().c_str());
     // TODO: Make the player known to the faction
     g->add_event(EVENT_ROBOT_ATTACK, int(calendar::turn) + rng(15, 30), z->faction_id,
-                 g->levx, g->levy);
+                 g->get_abs_levx(), g->get_abs_levy());
 }
 
 void mattack::tazer(monster *z)

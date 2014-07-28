@@ -10899,12 +10899,10 @@ int map::place_npc(int x, int y, std::string type)
     if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return -1; //Do not generate an npc.
     }
-    real_coords rc;
-    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
     npc *temp = new npc();
     temp->normalize();
     temp->load_npc_template(type);
-    temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+    temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
     temp->posx = x;
     temp->posy = y;
     g->load_npcs();

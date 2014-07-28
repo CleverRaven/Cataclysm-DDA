@@ -206,7 +206,6 @@ public:
     mission_id follow_up;   // What mission do we get after this succeeds?
 
     std::string name();
-    std::string save_info();
     void load_info(std::ifstream &info);
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
