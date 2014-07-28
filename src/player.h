@@ -103,18 +103,18 @@ public:
     /** Returns a random name from NAMES_* */
     void pick_name();
     /** Returns either "you" or the player's name */
-    std::string disp_name(bool possessive = false);
+    std::string disp_name(bool possessive = false) const;
     /** Returns the name of the player's outer layer, e.g. "armor plates" */
-    std::string skin_name();
+    std::string skin_name() const;
 
-    virtual bool is_player() { return true; }
+    virtual bool is_player() const { return true; }
 
     /** Processes long-term effects */
     void process_effects(); // Process long-term effects
 
- virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
- /** Returns what color the player should be drawn as */
- nc_color color();
+ virtual bool is_npc() const { return false; } // Overloaded for NPCs in npc.h
+    /** Returns what color the player should be drawn as */
+    virtual nc_color basic_symbol_color() const override;
 
  /** Stringstream loader for old player data files */
  virtual void load_legacy(std::stringstream & dump);
@@ -122,6 +122,8 @@ public:
  virtual void load_info(std::string data);
  /** Outputs a serialized json string for saving */
  virtual std::string save_info();
+
+    int print_info(WINDOW* w, int vStart, int vLines, int column) const;
 
     // populate variables, inventory items, and misc from json object
     void json_load_common_variables(JsonObject &jsout);
@@ -252,7 +254,7 @@ public:
  /** Removes the mutation's child flag from the player's list */
  void remove_child_flag(std::string mut);
 
- point pos();
+ point pos() const;
  /** Returns the player's sight range */
  int  sight_range(int light_level) const;
  /** Modifies the player's sight values
@@ -272,17 +274,17 @@ public:
  /** Returns the distance the player can see on the overmap */
  int  overmap_sight_range(int light_level);
  /** Returns the distance the player can see through walls */
- int  clairvoyance();
+ int  clairvoyance() const;
  /** Returns true if the player has some form of impaired sight */
  bool sight_impaired();
  /** Returns true if the player has two functioning arms */
  bool has_two_arms() const;
  /** Returns true if the player is wielding something, including bionic weapons */
- bool is_armed();
+ bool is_armed() const;
  /** Calculates melee weapon wear-and-tear through use, returns true */
  bool handle_melee_wear();
  /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
- bool unarmed_attack();
+ bool unarmed_attack() const;
  /** Check if the item is suitable for auto-wielding, based on skill/style/item type */
  bool is_suitable_weapon(const item &it) const;
  /** Called when a player triggers a trap, returns true if they don't set it off */
@@ -298,8 +300,8 @@ public:
   * Includes checks for line-of-sight and light.
   * @param t The t output of map::sees.
   */
- bool sees(int x, int y);
- bool sees(int x, int y, int &t);
+ bool sees(int x, int y) const;
+ bool sees(int x, int y, int &t) const;
  /**
   * Check if this creature can see the critter.
   * Includes checks for simple critter visibility
@@ -309,8 +311,8 @@ public:
   * hallucinations.
   * @param t The t output of map::sees.
   */
- bool sees(Creature *critter);
- bool sees(Creature *critter, int &t);
+ bool sees(const Creature *critter) const;
+ bool sees(const Creature *critter, int &t) const;
  /**
   * For fake-players (turrets, mounted turrets) this functions
   * chooses a target. This is for creatures that are friendly towards
@@ -377,11 +379,11 @@ public:
  /** Returns true if the current martial art works with the player's current weapon */
  bool can_melee();
  /** Always returns false, since players can't dig currently */
- bool digging();
+ bool digging() const;
  /** Returns true if the player is knocked over or has broken legs */
- bool is_on_ground();
+ bool is_on_ground() const;
  /** Returns true if the player should be dead */
- bool is_dead_state();
+ bool is_dead_state() const;
 
  /** Returns true if the player has technique-based miss recovery */
  bool has_miss_recovery_tec();
@@ -457,6 +459,13 @@ public:
  int get_dodge();
  /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
  int dodge_roll();
+ /**
+  * Returns an explanation for why the player would miss a melee attack
+  *
+  * Builds a list of melee accuracy penalties weighted by magnitude and selects
+  * a random message from the list.
+  */
+ const char* get_reason_for_miss();
 
  /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
  bool uncanny_dodge(bool is_u = true);
@@ -513,9 +522,9 @@ public:
  void knock_back_from(int x, int y);
 
  /** Converts a body_part to an hp_part */
- void bp_convert(hp_part &hpart, body_part bp);
+ static void bp_convert(hp_part &hpart, body_part bp);
  /** Converts an hp_part to a body_part */
- void hp_convert(hp_part hpart, body_part &bp);
+ static void hp_convert(hp_part hpart, body_part &bp);
 
  /** Returns overall % of HP remaining */
  int hp_percentage();
@@ -574,8 +583,6 @@ public:
  /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
  void drench_mut_calc();
 
- /** Returns -1 if the weapon is in the let invlet, -2 if NULL, or just returns let */
- char lookup_item(char let);
  /** used for drinking from hands, returns how many charges were consumed */
  int drink_from_hands(item& water);
  /** Used for eating object at pos, returns true if object is successfully eaten */
@@ -642,11 +649,11 @@ public:
  hint_rating rate_action_disassemble(item *it);
 
  /** Returns warmth provided by armor, etc. */
- int warmth(body_part bp);
+ int warmth(body_part bp) const;
  /** Returns ENC provided by armor, etc. */
- int encumb(body_part bp);
+ int encumb(body_part bp) const;
  /** Returns warmth provided by armor, etc., factoring in layering */
- int encumb(body_part bp, double &layers, int &armorenc);
+ int encumb(body_part bp, double &layers, int &armorenc) const;
  /** Returns overall bashing resistance for the body_part */
  int get_armor_bash(body_part bp);
  /** Returns overall cutting resistance for the body_part */
@@ -673,17 +680,17 @@ public:
  void practice( std::string s, int amount, int cap = 99 );
 
  void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
- bool has_activity(const activity_type type);
+ bool has_activity(const activity_type type) const;
  void cancel_activity();
 
- int weight_carried();
- int volume_carried();
- int weight_capacity(bool real_life = true);
- int volume_capacity();
+ int weight_carried() const;
+ int volume_carried() const;
+ int weight_capacity(bool real_life = true) const;
+ int volume_capacity() const;
  double convert_weight(int weight);
  bool can_eat(const item i);
- bool can_pickVolume(int volume);
- bool can_pickWeight(int weight, bool safe = true);
+ bool can_pickVolume(int volume) const;
+ bool can_pickWeight(int weight, bool safe = true) const;
  int net_morale(morale_point effect);
  int morale_level(); // Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
@@ -702,20 +709,18 @@ public:
  long active_item_charges(itype_id id);
  void process_active_items();
  bool process_single_active_item(item *it); // returns false if it needs to be removed
- item i_rem(char let); // Remove item from inventory; returns ret_null on fail
- item i_rem(signed char ch) { return i_rem((char) ch); }  // prevent signed char->int conversion
  item i_rem(int pos); // Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item i_rem(item *it);// Remove specific item.
  item remove_weapon();
  void remove_mission_items(int mission_id);
  item reduce_charges(int position, long quantity);
- item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
- item &i_at(char let); // Returns the item with inventory letter let
  item &i_at(int position);  // Returns the item with a given inventory position.
  item &i_of_type(itype_id type); // Returns the first item with this type
- char position_to_invlet(int position);
- int invlet_to_position(char invlet);
+ /** Return the item position of the item with given invlet, return INT_MIN if
+  * the player does not have such an item with that invlet. Don't use this on npcs.
+  * Only use the invelt in the user interface, otherwise always use the item position. */
+ int invlet_to_position(char invlet) const;
  int get_item_position(item* it);  // looks up an item (via pointer comparison)
  const martialart &get_combat_style() const; // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
@@ -739,26 +744,26 @@ public:
  std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
  bool use_charges_if_avail(itype_id it, long quantity);// Uses up charges
  std::list<item> use_charges(itype_id it, long quantity);// Uses up charges
- bool has_amount(itype_id it, int quantity);
- bool has_charges(itype_id it, long quantity);
- int  amount_of(itype_id it);
- long  charges_of(itype_id it);
+ bool has_amount(const itype_id &it, int quantity) const;
+ bool has_charges(const itype_id &it, long quantity) const;
+ int  amount_of(const itype_id &it) const;
+ long charges_of(const itype_id &it) const;
 
  int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
  // Check for free container space for the whole liquid item
  bool has_container_for(const item &liquid);
  bool has_drink();
- bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
- bool has_item(char let);  // Has an item with invlet let
  bool has_item(int position);
  bool has_item(item *it);  // Has a specific item
- std::set<char> allocated_invlets();
+ /** Only use for UI things. Returns all invelts that are currently used in
+  * the player inventory, the weapon slot and the worn items. */
+ std::set<char> allocated_invlets() const;
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
- bool has_weapon();
+ bool has_weapon() const;
  // Check if the player can pickup stuff (fails if wielding
  // certain bionic weapons).
  // Print a message if print_msg is true and this isn't a NPC
@@ -787,8 +792,8 @@ public:
 
 // ---------------VALUES-----------------
  int posx, posy;
- inline int xpos() { return posx; }
- inline int ypos() { return posy; }
+ inline int xpos() const { return posx; }
+ inline int ypos() const { return posy; }
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle
@@ -898,17 +903,17 @@ public:
      return -2 - position;
  }
 
- m_size get_size();
- int get_hp( hp_part bp );
- int get_hp_max( hp_part bp );
+ m_size get_size() const;
+ int get_hp( hp_part bp ) const;
+ int get_hp_max( hp_part bp ) const;
 
- field_id playerBloodType();
+ field_id playerBloodType() const;
 
  //message related stuff
- virtual void add_msg_if_player(const char* msg, ...);
- virtual void add_msg_if_player(game_message_type type, const char* msg, ...);
- virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
- virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...);
+ virtual void add_msg_if_player(const char* msg, ...) const;
+ virtual void add_msg_if_player(game_message_type type, const char* msg, ...) const;
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const;
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const;
 
     typedef std::map<tripoint, std::string> trap_map;
     bool knows_trap(int x, int y) const;
@@ -945,8 +950,14 @@ private:
     bool valid_aoe_technique( Creature &t, ma_technique &technique,
                               std::vector<int> &mon_targets, std::vector<int> &npc_targets );
 
-    bool has_fire(const int quantity);
+    bool has_fire(const int quantity) const;
     void use_fire(const int quantity);
+    /**
+     * Has the item enough charges to invoke its use function?
+     * Also checks if UPS from this player is used instead of item charges.
+     */
+    bool has_enough_charges(const item &it, bool show_msg) const;
+    bool has_active_UPS() const;
 
     bool can_study_recipe(it_book *book);
     bool try_study_recipe(it_book *book);

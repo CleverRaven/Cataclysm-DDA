@@ -23790,7 +23790,7 @@ msgstr "Schaft"
 msgid "crossbow"
 msgid_plural "crossbows"
 msgstr[0] "Armbrust"
-msgstr[1] "Armbruste"
+msgstr[1] "Armbrüste"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -23803,10 +23803,10 @@ msgstr ""
 "eine gute Chance, für die Wiederverwendung intakt zu bleiben."
 
 #: lang/json/GUN_from_json.py
-msgid "Ganz-Rustung"
-msgid_plural "Ganz-Rustungen"
-msgstr[0] "Ganz-Rustung"
-msgstr[1] "Ganz-Rustungen"
+msgid "heavy crossbow"
+msgid_plural "heavy crossbows"
+msgstr[0] "Schwere Armbrust"
+msgstr[1] "Schwere Armbrüste"
 
 #: lang/json/GUN_from_json.py
 msgid ""

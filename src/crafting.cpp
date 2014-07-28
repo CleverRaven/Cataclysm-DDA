@@ -212,7 +212,7 @@ bool game::making_would_work(recipe *making)
 
     if(!can_make(making)) {
         std::ostringstream buffer;
-        buffer << _("You can no longer make that craft!");
+        buffer << _("You can no longer make that craft!") << "\n";
         buffer << making->list_missing();
         popup(buffer.str(), PF_NONE);
         return false;
@@ -807,6 +807,27 @@ inventory game::crafting_inventory(player *p)
     return crafting_inv;
 }
 
+std::string item_name(const itype_id &type)
+{
+    return item_controller->find_template(type)->nname(1);
+}
+
+// ui.cpp
+extern bool lcmatch(const std::string &str, const std::string &findstr);
+
+template<typename T>
+bool lcmatch_any(const std::vector< std::vector<T> > &list_of_list, const std::string &filter)
+{
+    for( auto &list : list_of_list ) {
+        for( auto &comp : list ) {
+            if( lcmatch( item_name( comp.type ), filter ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
                         std::vector<bool> &available, craft_cat tab,
                         craft_subcat subtab, std::string filter)
@@ -834,6 +855,8 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     if (filter == "") {
         available_recipes = recipes[tab];
     } else {
+        // lcmatch needs an all lowercase string to match case-insensitive
+        std::transform( filter.begin(), filter.end(), filter.begin(), tolower );
 
         for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter) {
             available_recipes.insert(available_recipes.begin(),
@@ -846,65 +869,39 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
 
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
-        if( subtab == "CSC_ALL" || (*iter)->subcat == subtab ||
-            ((*iter)->subcat == "" && last_craft_subcat( tab ) == subtab) ||
+        recipe *rec = *iter;
+        if( subtab == "CSC_ALL" || rec->subcat == subtab ||
+            (rec->subcat == "" && last_craft_subcat( tab ) == subtab) ||
             filter != "") {
-            if( !u.knows_recipe( *iter ) && -1 == u.has_recipe(*iter, crafting_inv) ) {
+            if( !u.knows_recipe( rec ) && -1 == u.has_recipe(rec, crafting_inv) ) {
                 continue;
             }
 
-            if ((*iter)->difficulty < 0 ) {
+            if (rec->difficulty < 0 ) {
                 continue;
             }
             if(filter != "") {
                 if(search_name) {
-                    if(item_controller->find_template((*iter)->result)->nname(1).find(filter) ==
-                       std::string::npos) {
+                    if( !lcmatch( item_name( rec->result ), filter ) ) {
                         continue;
                     }
                 }
                 if(search_tool) {
-                    bool found = false;
-                    for( auto it = (*iter)->tools.begin(); it != (*iter)->tools.end(); ++it) {
-                        for( auto it2 = (*it).begin(); it2 != (*it).end() ; ++it2 ) {
-                            if(item_controller->find_template((*it2).type)->nname(1).find(filter) !=
-                               std::string::npos) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if(found) {
-                            break;
-                        }
-                    }
-                    if(!found) {
+                    if( !lcmatch_any( rec->tools, filter ) ) {
                         continue;
                     }
                 }
                 if(search_component) {
-                    bool found = false;
-                    for( auto it = (*iter)->components.begin(); it != (*iter)->components.end(); ++it ) {
-                        for( auto it2 = (*it).begin() ; it2 != (*it).end() ; ++it2) {
-                            if( item_controller->find_template((*it2).type)->nname(1).find(filter) !=
-                                std::string::npos ) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        if(found) {
-                            break;
-                        }
-                    }
-                    if(!found) {
+                    if( !lcmatch_any( rec->components, filter ) ) {
                         continue;
                     }
                 }
             }
-            if ((*iter)->can_make_with_inventory(crafting_inv)) {
-                current.insert(current.begin(), *iter);
+            if (rec->can_make_with_inventory(crafting_inv)) {
+                current.insert(current.begin(), rec);
                 available.insert(available.begin(), true);
             } else {
-                current.push_back(*iter);
+                current.push_back(rec);
                 available.push_back(false);
             }
         }
@@ -965,7 +962,7 @@ void game::complete_craft()
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
     if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-            && !u.is_wearing("glasses_bifocal") && !u.has_disease("contacts")) {
+            && !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts")) {
         int main_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
             main_rank_penalty = 2;
@@ -1742,7 +1739,7 @@ std::string recipe::required_skills_string()
             }
         }
     } else {
-        skills_as_stream << "N/A";
+        skills_as_stream << _("N/A");
     }
     return skills_as_stream.str();
 }

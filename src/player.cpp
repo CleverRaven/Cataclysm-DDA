@@ -40,8 +40,10 @@
 
 #include <fstream>
 
+/* Utility functions in process_effects */
 static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void handle_cough(player& p, int intensity = 1, int volume = 4);
+static bool will_vomit(player& p, int chance = 1000);
 
 std::map<std::string, trait> traits;
 extern std::map<std::string, martialart> ma_styles;
@@ -92,6 +94,7 @@ void game::init_morale()
     _("Killed Innocent"),
     _("Killed Friend"),
     _("Guilty about Killing"),
+    _("Guilty about Mutilating Corpse"),
     _("Chimerical Mutation"),
     _("Fey Mutation"),
 
@@ -345,7 +348,7 @@ void player::pick_name()
     name = Name::generate(male);
 }
 
-std::string player::disp_name(bool possessive)
+std::string player::disp_name(bool possessive) const
 {
     if (!possessive) {
         if (is_player()) {
@@ -360,7 +363,7 @@ std::string player::disp_name(bool possessive)
     }
 }
 
-std::string player::skin_name()
+std::string player::skin_name() const
 {
     //TODO: Return actual deflecting layer name
     return _("armor");
@@ -1278,6 +1281,7 @@ void player::update_bodytemp()
                 &&  (i == bp_mouth || i == bp_hand_l || i == bp_hand_r || i == bp_foot_l ||
                       i == bp_foot_r))
             {
+                //~ %s is bodypart
                 add_msg(m_bad, _("Your %s hardens from the frostbite!"),
                                 body_part_name(body_part(i)).c_str());
             }
@@ -1287,6 +1291,7 @@ void player::update_bodytemp()
                 // Warning message for the player
                 if (!has_disease("frostbite", (body_part)i))
                 {
+                    //~ %s is bodypart
                     add_msg(m_bad, _("You lose sensation in your %s."),
                         body_part_name(body_part(i)).c_str());
                 }
@@ -1295,31 +1300,37 @@ void player::update_bodytemp()
         // Warn the player if condition worsens
         if  (temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s beginning to go numb from the cold!"),
                 body_part_name(body_part(i)).c_str());
         }
         else if (temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s getting very cold."),
                 body_part_name(body_part(i)).c_str());
         }
         else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s getting chilly."),
                 body_part_name(body_part(i)).c_str());
         }
         else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING)
         {
+            //~ %s is bodypart
             add_msg(m_bad, _("You feel your %s getting red hot from the heat!"),
                 body_part_name(body_part(i)).c_str());
         }
         else if (temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s getting very hot."),
                 body_part_name(body_part(i)).c_str());
         }
         else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT)
         {
+            //~ %s is bodypart
             add_msg(m_warning, _("You feel your %s getting warm."),
                 body_part_name(body_part(i)).c_str());
         }
@@ -1535,7 +1546,7 @@ int player::run_cost(int base_cost, bool diag)
     if (is_wearing("swim_fins")) {
             movecost *= 1.0f + (0.25f * shoe_type_count("swim_fins"));
     }
-    if (is_wearing("roller_blades")) {
+    if ( (is_wearing("roller_blades")) && !(is_on_ground())) {
         if (offroading) {
             movecost *= 1.0f + (0.25f * shoe_type_count("roller_blades"));
         } else if (flatground) {
@@ -1617,11 +1628,11 @@ int player::swim_speed()
  return ret;
 }
 
-bool player::digging() {
+bool player::digging() const {
     return false;
 }
 
-bool player::is_on_ground()
+bool player::is_on_ground() const
 {
     bool on_ground = false;
     if(has_effect("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
@@ -1649,19 +1660,18 @@ void player::set_underwater(bool u)
 }
 
 
-nc_color player::color()
+nc_color player::basic_symbol_color() const
 {
  if (has_effect("onfire"))
   return c_red;
  if (has_effect("stunned"))
   return c_ltblue;
- if (has_disease("boomered"))
+ if (has_effect("boomered"))
   return c_pink;
  if (underwater)
   return c_blue;
  if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-    (is_wearing("optical_cloak") && (has_active_item("UPS_on") ||
-    has_active_item("adv_UPS_on"))) || has_trait("DEBUG_CLOAK"))
+    has_active_optcloak() || has_trait("DEBUG_CLOAK"))
   return c_dkgray;
  return c_white;
 }
@@ -2104,7 +2114,7 @@ void player::disp_info()
         std::stringstream pain_text;
         // Cenobites aren't markedly physically impaired by pain.
         if ((pain - pkill >= 15) && (!(has_trait("CENOBITE")))) {
-            pain_text << "Strength" << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
+            pain_text << _("Strength") << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
                 int((pain - pkill) / 15) << "   ";
         }
         // They do find the sensations distracting though.
@@ -2144,7 +2154,7 @@ void player::disp_info()
         int intpen = int(stim /  6);
         // Since dexpen etc. are always less than 0, no need for + signs
         stim_text << _("Speed") << " " << stim << "   " << _("Intelligence") << " " << intpen <<
-            "   " << _("Perception") << " " << perpen << "   " << "Dexterity" << " " << dexpen;
+            "   " << _("Perception") << " " << perpen << "   " << _("Dexterity") << " " << dexpen;
         effect_text.push_back(stim_text.str());
     }
 
@@ -3713,7 +3723,7 @@ bool player::in_climate_control()
     // Check
     if(has_active_bionic("bio_climate")) { return true; }
     if ((is_wearing("rm13_armor_on")) || (is_wearing_power_armor() &&
-        (has_active_item("UPS_on") || has_active_item("adv_UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII"))))
+        (has_active_UPS() || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII"))))
     {
         return true;
     }
@@ -3778,12 +3788,9 @@ bool player::has_bionic(const bionic_id & b) const
 }
 
 bool player::has_active_optcloak() const {
-  static const std::string str_UPS_on("UPS_on");
-  static const std::string str_adv_UPS_on("adv_UPS_on");
   static const std::string str_optical_cloak("optical_cloak");
 
-  if ((has_active_item(str_UPS_on) || has_active_item(str_adv_UPS_on))
-      && is_wearing(str_optical_cloak)) {
+  if (has_active_UPS() && is_wearing(str_optical_cloak)) {
     return true;
   } else {
     return false;
@@ -3919,7 +3926,7 @@ float player::active_light()
     return lumination;
 }
 
-point player::pos()
+point player::pos() const
 {
     return point(posx, posy);
 }
@@ -3955,14 +3962,14 @@ void player::recalc_sight_limits()
     if (has_effect("blind")) {
         sight_max = 0;
     } else if (has_disease("in_pit") ||
-            (has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 (!(has_trait("PER_SLIME_OK"))))) {
         sight_max = 1;
     } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
-            !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
+            !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
         sight_max = 4;
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
@@ -4072,7 +4079,7 @@ int player::overmap_sight_range(int light_level)
     return 10;
 }
 
-int player::clairvoyance()
+int player::clairvoyance() const
 {
  if (has_artifact_with(AEP_CLAIRVOYANCE))
   return 3;
@@ -4083,14 +4090,14 @@ int player::clairvoyance()
 
 bool player::sight_impaired()
 {
- return ((has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+ return ((has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
               && !worn_with_flag("SWIM_GOGGLES") && !(has_trait("PER_SLIME_OK"))) ||
   ((has_trait("MYOPIC") || has_trait("URSINE_EYE") ) &&
                         !is_wearing("glasses_eye") &&
                         !is_wearing("glasses_monocle") &&
                         !is_wearing("glasses_bifocal") &&
-                        !has_disease("contacts")) ||
+                        !has_effect("contacts")) ||
    has_trait("PER_SLIME"));
 }
 
@@ -4158,7 +4165,7 @@ void player::pause()
     //Web Weavers...weave web
     if (has_trait("WEB_WEAVER") && !in_vehicle) {
       g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
-      add_msg("You spin some webbing.");
+      add_msg(_("You spin some webbing."));
      }
 
     // Meditation boost for Toad Style, obsolete
@@ -4398,7 +4405,7 @@ int player::intimidation()
     return ret;
 }
 
-bool player::is_dead_state() {
+bool player::is_dead_state() const {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
@@ -4715,6 +4722,14 @@ void player::mod_pain(int npain) {
     if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
         npain = npain * 4 / rng(6,9);
     }
+    if (!is_npc() && ((npain >= 1) && (rng(0, pain) >= 10))) {
+        g->cancel_activity_query(_("Ouch, you were hurt!"));
+        if (has_disease("sleep")) {
+            wake_up(_("You wake up!"));
+        } else if (has_disease("lying_down")) {
+            rem_disease("lying_down");
+        }
+    }
     Creature::mod_pain(npain);
 }
 
@@ -4986,7 +5001,7 @@ void player::knock_back_from(int x, int y)
  }
 }
 
-void player::bp_convert(hp_part &hpart, body_part bp)
+static void player::bp_convert(hp_part &hpart, body_part bp)
 {
     hpart =  num_hp_parts;
     switch(bp) {
@@ -5011,7 +5026,7 @@ void player::bp_convert(hp_part &hpart, body_part bp)
     }
 }
 
-void player::hp_convert(hp_part hpart, body_part &bp)
+static void player::hp_convert(hp_part hpart, body_part &bp)
 {
     bp =  num_bp;
     switch(hpart) {
@@ -5428,6 +5443,16 @@ static void handle_cough(player &p, int intensity, int loudness) {
         p.wake_up(_("You wake up coughing."));
     }
 }
+bool will_vomit(player& p, int chance)
+{
+    bool drunk = p.has_disease("drunk");
+    bool antiEmetics = p.has_disease("weed_high");
+    bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
+    bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
+    bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) ||
+        (antiEmetics && !drunk && !one_in(chance));
+    return ((stomachUpset || hasNausea) && !suppressed);
+}
 void player::process_effects() {
     int psnChance;
     for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it ) {
@@ -5484,6 +5509,13 @@ void player::process_effects() {
             }
         } else if ( id == "stung" ) {
             mod_pain(1);
+        } else if ( id == "boomered" ) {
+            mod_per_bonus(-5);
+            if (will_vomit(*this)) {
+                vomit();
+            } else if (one_in(3600)) {
+                add_msg_if_player(m_bad, _("You gag and retch."));
+            }
         }
     }
 
@@ -6124,6 +6156,7 @@ void player::mend()
     add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
                      pgettext("memorial_female", "Broken %s began to mend."),
                      body_part_name(part).c_str());
+    //~ %s is bodypart
     add_msg(m_good, _("Your %s has started to mend!"),
       body_part_name(part).c_str());
    }
@@ -6269,7 +6302,7 @@ void player::drench_mut_calc()
     }
 }
 
-int player::weight_carried()
+int player::weight_carried() const
 {
     int ret = 0;
     ret += weapon.weight();
@@ -6280,12 +6313,12 @@ int player::weight_carried()
     return ret;
 }
 
-int player::volume_carried()
+int player::volume_carried() const
 {
     return inv.volume();
 }
 
-int player::weight_capacity(bool /* return_stat_effect */)
+int player::weight_capacity(bool /* return_stat_effect */) const
 {
     // return_stat_effect is effectively pointless
     // player info window shows current stat effects
@@ -6314,12 +6347,12 @@ int player::weight_capacity(bool /* return_stat_effect */)
     return ret;
 }
 
-int player::volume_capacity()
+int player::volume_capacity() const
 {
     int ret = 2; // A small bonus (the overflow)
-    it_armor *armor = NULL;
+    const it_armor *armor = NULL;
     for (int i = 0; i < worn.size(); i++) {
-        armor = dynamic_cast<it_armor*>(worn[i].type);
+        armor = dynamic_cast<const it_armor*>(worn[i].type);
         ret += armor->storage;
     }
     if (has_bionic("bio_storage")) {
@@ -6352,11 +6385,11 @@ double player::convert_weight(int weight)
     return ret;
 }
 
-bool player::can_pickVolume(int volume)
+bool player::can_pickVolume(int volume) const
 {
     return (volume_carried() + volume <= volume_capacity());
 }
-bool player::can_pickWeight(int weight, bool safe)
+bool player::can_pickWeight(int weight, bool safe) const
 {
     if (!safe)
     {
@@ -6586,7 +6619,7 @@ void player::process_active_items()
     } else if (weapon.active) {
         if (weapon.has_flag("CHARGE")) {
             if (weapon.charges == 8) { // Maintaining charge takes less power.
-                if( use_charges_if_avail("adv_UPS_on", 2) || use_charges_if_avail("UPS_on", 4) ) {
+                if( use_charges_if_avail("UPS_on", 4) ) {
                     weapon.poison++;
                 } else {
                     weapon.poison--;
@@ -6604,8 +6637,7 @@ void player::process_active_items()
                     add_msg(m_warning, _("Your %s beeps alarmingly."), weapon.tname().c_str());
                 }
             } else { // We're chargin it up!
-                if ( use_charges_if_avail("adv_UPS_on", ceil(static_cast<float>(1 + weapon.charges) / 2)) ||
-                     use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
+                if ( use_charges_if_avail("UPS_on", 1 + weapon.charges) ) {
                     weapon.poison++;
                 } else {
                     weapon.poison--;
@@ -6652,29 +6684,51 @@ void player::process_active_items()
         }
     }
 
-  // Drain UPS if using optical cloak.
-  // TODO: Move somewhere else.
-  if ((has_active_item("UPS_on") || has_active_item("adv_UPS_on"))
-      && is_wearing("optical_cloak")) {
-    // Drain UPS.
-    if (has_charges("adv_UPS_on", 24)) {
-      use_charges("adv_UPS_on", 24);
-      if (charges_of("adv_UPS_on") < 120 && one_in(3))
-        add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
-    } else if (has_charges("UPS_on", 40)) {
-      use_charges("UPS_on", 40);
-      if (charges_of("UPS_on") < 200 && one_in(3))
-        add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
-    } else {
-      if (has_charges("adv_UPS_on", charges_of("adv_UPS_on"))) {
-          // Drain last power.
-          use_charges("adv_UPS_on", charges_of("adv_UPS_on"));
-      }
-      else {
-        use_charges("UPS_on", charges_of("UPS_on"));
-      }
+    // Drain UPS if using optical cloak.
+    // TODO: Move somewhere else.
+    long ch_UPS = charges_of("UPS_on");
+    if (ch_UPS > 0 && is_wearing("optical_cloak")) {
+        // Drain UPS.
+        if ( ch_UPS >= 40 ) {
+            use_charges("UPS_on", 40);
+            if (ch_UPS < 200 && one_in(3))
+                add_msg_if_player( m_warning, _("Your optical cloak flickers for a moment!"));
+        } else {
+            // Drain last power.
+            use_charges("UPS_on", ch_UPS);
+        }
     }
-  }
+    // Load all items that use the UPS to their minimal functional charge,
+    // The tool is not really useful if its charges are below charges_to_use
+    ch_UPS = charges_of( "UPS_on" ); // might have been changed by cloak
+    long ch_UPS_used = 0;
+    for( int i = 0; i < inv.size() && ch_UPS_used < ch_UPS; i++ ) { // inventory::size returns int!
+        item &it = inv.find_item(i);
+        if( !it.has_flag( "USE_UPS" ) ) {
+            continue;
+        }
+        if( it.charges < it.type->charges_to_use() ) {
+            ch_UPS_used++;
+            it.charges++;
+        }
+    }
+    if( weapon.has_flag( "USE_UPS" ) &&  ch_UPS_used < ch_UPS &&
+        weapon.charges < weapon.type->charges_to_use() ) {
+        ch_UPS_used++;
+        weapon.charges++;
+    }
+    for( auto worn_item : worn ) {
+        if( !worn_item.has_flag( "USE_UPS" ) ) {
+            continue;
+        }
+        if( worn_item.charges < worn_item.type->charges_to_use() ) {
+            ch_UPS_used++;
+            worn_item.charges++;
+        }
+    }
+    if( ch_UPS_used > 0 ) {
+        use_charges( "UPS_on", ch_UPS_used );
+    }
 }
 
 // returns false if the item needs to be removed
@@ -6773,24 +6827,37 @@ bool player::process_single_active_item(item *it)
             }
         } else if (it->is_tool()) {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            tmp->invoke(this, it, true);
+            long charges_used = 0;
             if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
-                it->charges--;
+                charges_used = 1;
             }
-            if (it->charges <= 0 && !(it->has_flag("USE_UPS") &&
-                                      (has_charges("adv_UPS_on", 1) || has_charges("UPS_on", 1) ||
-                                       has_active_bionic("bio_ups")))) {
-                if (it->has_flag("USE_UPS")){
-                    add_msg_if_player(_("You need an active UPS to run that!"));
-                    tmp->invoke(this, it, false);
-                } else {
-                    tmp->invoke(this, it, false);
-                    if (tmp->revert_to == "null") {
-                        return false;
-                    } else {
-                        it->type = itypes[tmp->revert_to];
-                        it->active = false;
+            if( charges_used > 0 ) {
+                if( it->has_flag( "USE_UPS" ) ) {
+                    if( use_charges_if_avail( "UPS_on", charges_used ) ) {
+                        charges_used = 0;
                     }
+                } else if( it->charges > 0 ) {
+                    it->charges -= charges_used;
+                    charges_used = 0;
+                }
+            }
+            // charges_used is 0 when the tool did not require charges at
+            // this turn or the required charges have been consumed.
+            // Otherwise the required charges are not available, shut the
+            // tool down.
+            if( charges_used == 0 ) {
+                tmp->invoke(this, it, true);
+            } else {
+                if( it->has_flag( "USE_UPS" ) ) {
+                    add_msg_if_player( _( "You need an active UPS to run %s!" ), it->tname().c_str() );
+                }
+                // deactivate
+                tmp->invoke( this, it, false );
+                if( tmp->revert_to == "null" ) {
+                    return false; // delete it.
+                } else {
+                    it->type = itypes[tmp->revert_to];
+                    it->active = false;
                 }
             }
         } else if (it->type->id == "corpse") {
@@ -6817,13 +6884,6 @@ item player::remove_weapon()
  }
  item tmp = weapon;
  weapon = ret_null;
-// We need to remove any boosts related to our style
- rem_disease("attack_boost");
- rem_disease("dodge_boost");
- rem_disease("damage_boost");
- rem_disease("speed_boost");
- rem_disease("armor_boost");
- rem_disease("viper_combo");
  return tmp;
 }
 
@@ -6868,27 +6928,6 @@ item player::reduce_charges(int position, long quantity) {
     } else {
         return inv.reduce_charges(position, quantity);
     }
-}
-
-
-item player::i_rem(char let)
-{
- item tmp;
- if (weapon.invlet == let) {
-  tmp = weapon;
-  weapon = ret_null;
-  return tmp;
- }
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].invlet == let) {
-   tmp = worn[i];
-   worn.erase(worn.begin() + i);
-   return tmp;
-  }
- }
- if (!inv.item_by_letter(let).is_null())
-  return inv.remove_item(let);
- return ret_null;
 }
 
 item player::i_rem(int pos)
@@ -6938,19 +6977,6 @@ item& player::i_at(int position)
  return inv.find_item(position);
 }
 
-item& player::i_at(char let)
-{
- if (let == KEY_ESCAPE)
-  return ret_null;
- if (weapon.invlet == let)
-  return weapon;
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].invlet == let)
-   return worn[i];
- }
- return inv.item_by_letter(let);
-}
-
 item& player::i_of_type(itype_id type)
 {
  if (weapon.type->id == type)
@@ -6962,18 +6988,20 @@ item& player::i_of_type(itype_id type)
  return inv.item_by_type(type);
 }
 
-char player::position_to_invlet(int position) {
-    return i_at(position).invlet;
-}
-
-int player::invlet_to_position(char invlet) {
-    if (weapon.invlet == invlet)
-     return -1;
-    for (int i = 0; i < worn.size(); i++) {
-     if (worn[i].invlet == invlet)
-      return worn_position_to_index(i);
+int player::invlet_to_position( char invlet ) const
+{
+    if( is_npc() ) {
+        DebugLog( D_WARNING,  D_GAME ) << "Why do you need to call player::invlet_to_position on npc " << name;
     }
-    return inv.position_by_letter(invlet);
+    if( weapon.invlet == invlet ) {
+        return -1;
+    }
+    for( size_t i = 0; i < worn.size(); i++ ) {
+        if( worn[i].invlet == invlet ) {
+            return worn_position_to_index( i );
+        }
+    }
+    return inv.invlet_to_position( invlet );
 }
 
 int player::get_item_position(item* it) {
@@ -7010,11 +7038,6 @@ std::vector<item *> player::inv_dump()
  return ret;
 }
 
-item player::i_remn(char invlet)
-{
- return inv.remove_item(invlet);
-}
-
 std::list<item> player::use_amount(itype_id it, int quantity, bool use_container)
 {
     std::list<item> ret;
@@ -7048,7 +7071,7 @@ bool player::use_charges_if_avail(itype_id it, long quantity)
     return false;
 }
 
-bool player::has_fire(const int quantity)
+bool player::has_fire(const int quantity) const
 {
 // TODO: Replace this with a "tool produces fire" flag.
 
@@ -7190,6 +7213,27 @@ std::list<item> player::use_charges(itype_id it, long quantity)
         use_fire(quantity);
         return ret;
     }
+    if ( it == "UPS" ) {
+        const long charges_off = std::min( quantity, charges_of( "UPS_off" ) );
+        if ( charges_off > 0 ) {
+            std::list<item> tmp = use_charges( "UPS_off", charges_off );
+            ret.splice(ret.end(), tmp);
+            quantity -= charges_off;
+            if (quantity <= 0) {
+                return ret;
+            }
+        }
+        const long charges_on = std::min( quantity, charges_of( "UPS_on" ) );
+        if ( charges_on > 0 ) {
+            std::list<item> tmp = use_charges( "UPS_on", charges_on );
+            ret.splice(ret.end(), tmp);
+            quantity -= charges_on;
+            if (quantity <= 0) {
+                return ret;
+            }
+        }
+        return ret;
+    }
     if (weapon.use_charges(it, quantity, ret)) {
         remove_weapon();
     }
@@ -7207,6 +7251,56 @@ std::list<item> player::use_charges(itype_id it, long quantity)
     }
     std::list<item> tmp = inv.use_charges(it, quantity);
     ret.splice(ret.end(), tmp);
+    if (quantity <= 0) {
+        return ret;
+    }
+    // Threat requests for UPS charges as request for adv. UPS charges
+    // and as request for bionic UPS charges, both with their own modificators
+    // If we reach this, the regular UPS could not provide all the requested
+    // charges, so we *have* to remove as many as charges as we can (but not
+    // more than requested) to not let any charges un-consumed.
+    if ( it == "UPS_off" ) {
+        // Request for 8 UPS charges:
+        // 8 UPS = 8 * 6 / 10 == 48/10 == 4.8 adv. UPS
+        // consume 5 adv. UPS charges, see player::charges_of, if the adv. UPS
+        // had only 4 charges, it would report as floor(4/0.6)==6 normal UPS
+        // charges
+        long quantity_adv = ceil(quantity * 0.6);
+        long avail_adv = charges_of("adv_UPS_off");
+        long adv_charges_to_use = std::min(avail_adv, quantity_adv);
+        if (adv_charges_to_use > 0) {
+            std::list<item> tmp = use_charges("adv_UPS_off", adv_charges_to_use);
+            ret.splice(ret.end(), tmp);
+            quantity -= static_cast<long>(adv_charges_to_use / 0.6);
+            if (quantity <= 0) {
+                return ret;
+            }
+        }
+    }
+    if ( it == "UPS_on" ) {
+        long quantity_adv = ceil(quantity * 0.6);
+        long avail_adv = charges_of("adv_UPS_on");
+        long adv_charges_to_use = std::min(avail_adv, quantity_adv);
+        if (adv_charges_to_use > 0) {
+            std::list<item> tmp = use_charges("adv_UPS_on", adv_charges_to_use);
+            ret.splice(ret.end(), tmp);
+            quantity -= static_cast<long>(adv_charges_to_use / 0.6);
+            if (quantity <= 0) {
+                return ret;
+            }
+        }
+    }
+    if ( power_level > 0 && (
+        (it == "UPS_off" && has_bionic( "bio_ups" )) ||
+        (it == "UPS_on" && has_active_bionic( "bio_ups" )))) {
+        // Need always at least 1 power unit, to prevent exploits
+        // and make sure power_level does not get negative
+        long ch = std::max(1l, quantity / 10);
+        ch = std::min<long>(power_level, ch);
+        power_level -= ch;
+        quantity -= ch * 10;
+        // TODO: add some(pseudo?) item to resulting list?
+    }
     return ret;
 }
 
@@ -7338,7 +7432,7 @@ bool player::has_artifact_with(const art_effect_passive effect) const
  return false;
 }
 
-bool player::has_amount(itype_id it, int quantity)
+bool player::has_amount(const itype_id &it, int quantity) const
 {
     if (it == "toolset")
     {
@@ -7347,7 +7441,8 @@ bool player::has_amount(itype_id it, int quantity)
     return (amount_of(it) >= quantity);
 }
 
-int player::amount_of(itype_id it) {
+int player::amount_of(const itype_id &it) const
+{
     if (it == "toolset" && has_bionic("bio_tools")) {
         return 1;
     }
@@ -7360,14 +7455,14 @@ int player::amount_of(itype_id it) {
         }
     }
     int quantity = weapon.amount_of(it, true);
-    for (std::vector<item>::iterator a = worn.begin(); a != worn.end(); ++a) {
+    for (std::vector<item>::const_iterator a = worn.begin(); a != worn.end(); ++a) {
         quantity += a->amount_of(it, true);
     }
     quantity += inv.amount_of(it);
     return quantity;
 }
 
-bool player::has_charges(itype_id it, long quantity)
+bool player::has_charges(const itype_id &it, long quantity) const
 {
     if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
@@ -7375,7 +7470,7 @@ bool player::has_charges(itype_id it, long quantity)
     return (charges_of(it) >= quantity);
 }
 
-long player::charges_of(itype_id it)
+long player::charges_of(const itype_id &it) const
 {
     if (it == "toolset") {
         if (has_bionic("bio_tools")) {
@@ -7384,11 +7479,41 @@ long player::charges_of(itype_id it)
             return 0;
         }
     }
+    // Handle requests for UPS charges as request for adv. UPS charges
+    // and as request for bionic UPS charges, both with their own multiplier
+    if ( it == "UPS" ) {
+        // This includes the UPS bionic (regardless of active state)
+        long quantity = charges_of( "UPS_off" );
+        // When the bionic is active, it is counted again as "UPS_on"
+        quantity += charges_of( "UPS_on" );
+        // therefor we have to remove it again:
+        if ( has_active_bionic( "bio_ups" ) ) {
+            quantity -= power_level * 10;
+        }
+        return quantity;
+    }
+    // Now regular charges from all items (weapone,worn,inventory)
     long quantity = weapon.charges_of(it);
-    for (std::vector<item>::iterator a = worn.begin(); a != worn.end(); ++a) {
-        quantity += a->charges_of(it);
+    for( const auto &armor : worn ) {
+        quantity += armor.charges_of(it);
     }
     quantity += inv.charges_of(it);
+    // Now include charges from advanced UPS if the request was UPS
+    if ( it == "UPS_off" ) {
+        // Round charges from adv. UPS down, if this reports there are N
+        // charges available, we must be able to remove at least N charges.
+        quantity += static_cast<long>( floor( charges_of( "adv_UPS_off" ) / 0.6 ) );
+    }
+    if ( it == "UPS_on" ) {
+        quantity += static_cast<long>( floor( charges_of( "adv_UPS_on" ) / 0.6 ) );
+    }
+    if ( power_level > 0 ) {
+        if ( it == "UPS_off" && has_bionic( "bio_ups" ) ) {
+            quantity += power_level * 10;
+        } else if ( it == "UPS_on" && has_active_bionic( "bio_ups" ) ) {
+            quantity += power_level * 10;
+        }
+    }
     return quantity;
 }
 
@@ -7408,17 +7533,6 @@ bool player::has_drink()
         return weapon.contents[0].is_drink();
     }
     return false;
-}
-
-bool player::has_weapon_or_armor(char let) const
-{
- if (weapon.invlet == let)
-  return true;
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].invlet == let)
-   return true;
- }
- return false;
 }
 
 bool player::has_item_with_flag( std::string flag ) const
@@ -7444,19 +7558,16 @@ bool player::has_item_with_flag( std::string flag ) const
     return false;
 }
 
-bool player::has_item(char let)
-{
- return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
-}
-
-std::set<char> player::allocated_invlets() {
+std::set<char> player::allocated_invlets() const {
     std::set<char> invlets = inv.allocated_invlets();
 
     if (weapon.invlet != 0) {
         invlets.insert(weapon.invlet);
     }
-    for (int i = 0; i < worn.size(); i++) {
-        invlets.insert(worn[i].invlet);
+    for( const auto &w : worn ) {
+        if( w.invlet != 0 ) {
+            invlets.insert( w.invlet );
+        }
     }
 
     return invlets;
@@ -7515,17 +7626,6 @@ bool player::i_add_or_drop(item& it, int qty) {
         }
     }
     return retval;
-}
-
-char player::lookup_item(char let)
-{
- if (weapon.invlet == let)
-  return -1;
-
- if (inv.item_by_letter(let).is_null())
-  return -2; // -2 is for "item not found"
-
- return let;
 }
 
 hint_rating player::rate_action_eat(item *it)
@@ -8279,8 +8379,7 @@ bool player::wield(item* it, bool autodrop)
  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                      weapon.tname().c_str())) {
   g->m.add_item_or_charges(posx, posy, remove_weapon());
-  weapon = *it;
-  inv.remove_item(weapon.invlet);
+  weapon = inv.remove_item(it);
   inv.unsort();
   moves -= 30;
   if (weapon.is_artifact() && weapon.is_tool()) {
@@ -9147,6 +9246,43 @@ hint_rating player::rate_action_use(const item *it) const
     return HINT_CANT;
 }
 
+bool player::has_enough_charges( const item &it, bool show_msg ) const
+{
+    const it_tool *tool = dynamic_cast<const it_tool *>( it.type );
+    if( tool == NULL || tool->charges_per_use <= 0 ) {
+        // If the item is not a tool, it can always be invoked as it does not consume charges.
+        return true;
+    }
+    if( it.has_flag( "USE_UPS" ) ) {
+        if( has_charges( "UPS", tool->charges_per_use ) ) {
+            return true;
+        }
+        if( show_msg ) {
+            add_msg_if_player( m_info,
+                    ngettext( "Your %s needs %d charge from some UPS.",
+                              "Your %s needs %d charges from some UPS.",
+                              tool->charges_per_use ),
+                    it.tname().c_str(), tool->charges_per_use );
+        }
+        return false;
+    } else if( it.charges < tool->charges_per_use ) {
+        if( show_msg ) {
+            add_msg_if_player( m_info,
+                    ngettext( "Your %s has %d charge but needs %d.",
+                              "Your %s has %d charges but needs %d.",
+                              it.charges ),
+                    it.tname().c_str(), it.charges, tool->charges_per_use );
+        }
+        return false;
+    }
+    return true;
+}
+
+bool player::has_active_UPS() const
+{
+    return has_active_bionic("bio_ups") || has_amount("UPS_on", 1) || has_amount("adv_UPS_on", 1);
+}
+
 void player::use(int pos)
 {
     item* used = &i_at(pos);
@@ -9161,50 +9297,33 @@ void player::use(int pos)
 
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        int charges_used = tool->invoke(this, used, false);
-        if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use ||
-            (used->has_flag("USE_UPS") &&
-             (has_charges("adv_UPS_on", charges_used * (.6)) || has_charges("UPS_on", charges_used) ||
-              has_charges("adv_UPS_off", charges_used * (.6)) ||
-              has_charges("UPS_off", charges_used) ||
-              (has_bionic("bio_ups") && power_level >= (charges_used / 10))))) {
-            if ( charges_used >= 1 ) {
-                if( tool->charges_per_use > 0 ) {
-                    if (used->has_flag("USE_UPS")){
-                        //If the device has been modded to run off ups,
-                        // we want to reduce ups charges instead of item charges.
-                        if (has_charges("adv_UPS_off", charges_used * (.6))) {
-                            use_charges("adv_UPS_off", charges_used * (.6));
-                        } else if (has_charges("adv_UPS_on", charges_used * (.6))) {
-                            use_charges("adv_UPS_on", charges_used * (.6));
-                        } else if (has_charges("UPS_off", charges_used)) {
-                            use_charges("UPS_off", charges_used);
-                        } else if (has_charges("UPS_on", charges_used)) {
-                            use_charges("UPS_on", charges_used);
-                        } else if (has_bionic("bio_ups")) {
-                            charge_power(-1 * (charges_used/10));
-                        }
-                    } else {
-                        used->charges -= std::min(used->charges, long(charges_used));
-                    }
-                } else {
-                    // An item that doesn't normally expend charges is destroyed instead.
-                    /* We can't be certain the item is still in the same position,
-                     * as other items may have been consumed as well, so remove
-                     * the item directly instead of by its position. */
-                    i_rem(used);
-                }
-            }
-            // We may have fiddled with the state of the item in the iuse method,
-            // so restack to sort things out.
-            inv.restack();
-        } else {
-            add_msg(m_info, ngettext("Your %s has %d charge but needs %d.",
-                                "Your %s has %d charges but needs %d.",
-                                used->charges),
-                       used->tname().c_str(),
-                       used->charges, tool->charges_per_use);
+        if (!has_enough_charges(*used, true)) {
+            return;
         }
+        const long charges_used = tool->invoke( this, used, false );
+        if (charges_used <= 0) {
+            // Canceled or not used up or whatever
+            return;
+        }
+        if( tool->charges_per_use <= 0 ) {
+            // An item that doesn't normally expend charges is destroyed instead.
+            /* We can't be certain the item is still in the same position,
+             * as other items may have been consumed as well, so remove
+             * the item directly instead of by its position. */
+            i_rem(used);
+            return;
+        }
+        if( used->has_flag( "USE_UPS" ) ) {
+            use_charges( "UPS", charges_used );
+            if( used->active && !has_active_UPS() ) {
+                add_msg_if_player( m_info, _( "You need an active UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
+            }
+        } else {
+            used->charges -= std::min( used->charges, charges_used );
+        }
+        // We may have fiddled with the state of the item in the iuse method,
+        // so restack to sort things out.
+        inv.restack();
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
             add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you\
@@ -9418,7 +9537,7 @@ hint_rating player::rate_action_read(item *it)
  } else if (book->intel > 0 && has_trait("ILLITERATE")) {
   return HINT_IFFY;
  } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-            && !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
+            && !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
   return HINT_IFFY;
  }
 
@@ -9442,7 +9561,7 @@ void player::read(int pos)
 
     // check for traits
     if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
-        !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
+        !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
         add_msg(m_info, _("Your eyes won't focus without reading glasses."));
         return;
     }
@@ -9976,7 +10095,7 @@ float player::fine_detail_vision_mod()
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if (has_effect("blind") || ((has_disease("boomered")) &&
+    if (has_effect("blind") || ((has_effect("boomered")) &&
     !(has_trait("PER_SLIME_OK"))))
     {
         return 5;
@@ -10014,11 +10133,11 @@ float player::fine_detail_vision_mod()
     return vision_ii;
 }
 
-int player::warmth(body_part bp)
+int player::warmth(body_part bp) const
 {
     int bodywetness = 0;
     int ret = 0, warmth = 0;
-    it_armor* armor = NULL;
+    const it_armor* armor = NULL;
 
     // Fetch the morale value of wetness for bodywetness
     for (int i = 0; bodywetness == 0 && i < morale.size(); i++)
@@ -10045,7 +10164,7 @@ int player::warmth(body_part bp)
 
     for (int i = 0; i < worn.size(); i++)
     {
-        armor = dynamic_cast<it_armor*>(worn[i].type);
+        armor = dynamic_cast<const it_armor*>(worn[i].type);
 
         if (worn[i].covers & mfb(bp))
         {
@@ -10061,7 +10180,7 @@ int player::warmth(body_part bp)
     return ret;
 }
 
-int player::encumb(body_part bp)
+int player::encumb(body_part bp) const
 {
     int iArmorEnc = 0;
     double iLayers = 0;
@@ -10086,19 +10205,19 @@ int player::encumb(body_part bp)
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-int player::encumb(body_part bp, double &layers, int &armorenc)
+int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
     int ret = 0;
     double layer[MAX_CLOTHING_LAYER] = { };
     int level = 0;
 
-    it_armor* armor = NULL;
+    const it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
         if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
                      i, worn[i].tname().c_str());
         }
-        armor = dynamic_cast<it_armor*>(worn[i].type);
+        armor = dynamic_cast<const it_armor*>(worn[i].type);
 
         if( worn[i].covers & mfb(bp) ) {
             if( worn[i].has_flag( "SKINTIGHT" ) ) {
@@ -10113,7 +10232,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
 
             layer[level]++;
             if( armor->is_power_armor() &&
-                (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
+                (has_active_UPS() ||
                  has_active_bionic("bio_power_armor_interface") ||
                  has_active_bionic("bio_power_armor_interface_mkII")) ) {
                 armorenc += std::max( 0, armor->encumber - 4);
@@ -10925,7 +11044,7 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
     activity.warned_of_proximity = false;
 }
 
-bool player::has_activity(const activity_type type)
+bool player::has_activity(const activity_type type) const
 {
     if (activity.type == type) {
         return true;
@@ -11294,15 +11413,15 @@ void player::shift_destination(int shiftx, int shifty)
     }
 }
 
-bool player::has_weapon() {
+bool player::has_weapon() const {
     return !unarmed_attack();
 }
 
-m_size player::get_size() {
+m_size player::get_size() const {
     return MS_MEDIUM;
 }
 
-int player::get_hp( hp_part bp )
+int player::get_hp( hp_part bp ) const
 {
     if( bp < num_hp_parts ) {
         return hp_cur[bp];
@@ -11314,7 +11433,7 @@ int player::get_hp( hp_part bp )
     return hp_total;
 }
 
-int player::get_hp_max( hp_part bp )
+int player::get_hp_max( hp_part bp ) const
 {
     if( bp < num_hp_parts ) {
         return hp_max[bp];
@@ -11326,7 +11445,7 @@ int player::get_hp_max( hp_part bp )
     return hp_total;
 }
 
-field_id player::playerBloodType() {
+field_id player::playerBloodType() const {
     if (player::has_trait("THRESH_PLANT"))
         return fd_blood_veggy;
     if (player::has_trait("THRESH_INSECT") || player::has_trait("THRESH_SPIDER"))
@@ -11389,13 +11508,13 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
     return target;
 }
 
-bool player::sees(int x, int y)
+bool player::sees(int x, int y) const
 {
     int dummy = 0;
     return sees(x, y, dummy);
 }
 
-bool player::sees(int x, int y, int &t)
+bool player::sees(int x, int y, int &t) const
 {
     const int s_range = sight_range(g->light_level());
     static const std::string str_bio_night("bio_night");
@@ -11423,13 +11542,13 @@ bool player::sees(int x, int y, int &t)
     return can_see;
 }
 
-bool player::sees(Creature *critter)
+bool player::sees(const Creature *critter) const
 {
     int dummy = 0;
     return sees(critter, dummy);
 }
 
-bool player::sees(Creature *critter, int &t)
+bool player::sees(const Creature *critter, int &t) const
 {
     if (!is_player() && critter->is_hallucination()) {
         // hallucinations are only visible for the player
@@ -11454,7 +11573,7 @@ bool player::sees(Creature *critter, int &t)
 bool player::can_pickup(bool print_msg) const
 {
     if (weapon.has_flag("NO_PICKUP")) {
-        if (print_msg && const_cast<player*>(this)->is_player()) {
+        if( print_msg && is_player() ) {
             add_msg(m_info, _("You cannot pick up items with your %s!"), weapon.tname().c_str());
         }
         return false;
@@ -11509,28 +11628,28 @@ nc_color player::bodytemp_color(int bp)
 }
 
 //message related stuff
-void player::add_msg_if_player(const char* msg, ...)
+void player::add_msg_if_player(const char* msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     Messages::vadd_msg(msg, ap);
     va_end(ap);
 };
-void player::add_msg_player_or_npc(const char* player_str, const char* npc_str, ...)
+void player::add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const
 {
     va_list ap;
     va_start(ap, npc_str);
     Messages::vadd_msg(player_str, ap);
     va_end(ap);
 };
-void player::add_msg_if_player(game_message_type type, const char* msg, ...)
+void player::add_msg_if_player(game_message_type type, const char* msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     Messages::vadd_msg(type, msg, ap);
     va_end(ap);
 };
-void player::add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...)
+void player::add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const
 {
     va_list ap;
     va_start(ap, npc_str);
@@ -11540,17 +11659,15 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
 
 bool player::knows_trap(int x, int y) const
 {
-    x += g->levx * SEEX;
-    y += g->levy * SEEY;
-    tripoint p(x, y, g->levz);
+    const point a = g->m.getabs( x, y );
+    const tripoint p( a.x, a.y, g->get_abs_levz() );
     return known_traps.count(p) > 0;
 }
 
 void player::add_known_trap(int x, int y, const std::string &t)
 {
-    x += g->levx * SEEX;
-    y += g->levy * SEEY;
-    tripoint p(x, y, g->levz);
+    const point a = g->m.getabs( x, y );
+    const tripoint p( a.x, a.y, g->get_abs_levz() );
     if (t == "tr_null") {
         known_traps.erase(p);
     } else {
@@ -11575,6 +11692,12 @@ bool player::is_suitable_weapon( const item &it ) const
         return it.has_flag( "UNARMED_WEAPON" );
     }
     return false;
+}
+
+int player::print_info(WINDOW* w, int vStart, int, int column) const
+{
+    mvwprintw( w, vStart++, column, _( "You (%s)" ), name.c_str() );
+    return vStart;
 }
 
 void player::place_corpse()

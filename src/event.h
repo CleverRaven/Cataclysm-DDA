@@ -26,23 +26,11 @@ struct event {
  event_type type;
  int turn;
  int faction_id;
+ /** Where the event happens, in global submap coordinates */
  point map_point;
 
- event() {
-  type = EVENT_NULL;
-  turn = 0;
-  faction_id = -1;
-  map_point.x = -1;
-  map_point.y = -1;
- }
-
- event(event_type e_t, int t, int f_id, int x, int y) {
-  type = e_t;
-  turn = t;
-  faction_id = f_id;
-  map_point.x = x;
-  map_point.y = y;
- }
+ event();
+ event(event_type e_t, int t, int f_id, int x, int y);
 
  void actualize(); // When the time runs out
  void per_turn();  // Every turn

@@ -3,6 +3,8 @@
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
+#include "item_factory.h"
+#include "debug.h"
 
 #include <string>
 
@@ -57,4 +59,21 @@ std::string ammunition_type::name() const
 std::string ammunition_type::default_ammotype() const
 {
     return _default_ammotype;
+}
+
+void ammunition_type::check_consistency()
+{
+    for( const auto & ammo : _all_ammunition_type ) {
+        // TODO: these ammo types should probably not have default ammo at all.
+        if( ammo.second._default_ammotype == "UPS" ||
+            ammo.second._default_ammotype == "components" ||
+            ammo.second._default_ammotype == "thrown" ) {
+            continue;
+        }
+        if( !ammo.second._default_ammotype.empty() &&
+            !item_controller->has_template( ammo.second._default_ammotype ) ) {
+            debugmsg( "ammo type %s has invalid default ammo %s", ammo.second._ident.c_str(),
+                      ammo.second._default_ammotype.c_str() );
+        }
+    }
 }

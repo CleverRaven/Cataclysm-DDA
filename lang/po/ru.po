@@ -22646,8 +22646,8 @@ msgid ""
 msgstr "Ручное оружие для стрельбы болтами. Заряжается долго, но люди посильнее смогут зарядить его быстрее. Болты, выпущенные из этого оружия, обладают хорошим шансом уцелеть для повторной стрельбы."
 
 #: lang/json/GUN_from_json.py
-msgid "Ganz-Rustung"
-msgid_plural "Ganz-Rustungen"
+msgid "heavy crossbow"
+msgid_plural "heavy crossbows"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""

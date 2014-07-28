@@ -22,6 +22,7 @@ enum body_part {
 };
 
 std::string body_part_name(body_part bp);
+std::string body_part_name_accusative(body_part bp);
 std::string encumb_text(body_part bp);
 
 body_part random_body_part(bool main_parts_only = false);

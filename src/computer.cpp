@@ -369,7 +369,7 @@ void computer::activate_function(computer_action action)
                       g->m.ter(x, y + 1) == t_concrete_h) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
                       g->m.ter(x, y - 1) == t_concrete_h))) {
-                    g->kill_mon(mondex, true);
+                    g->zombie( mondex ).die( &g->u );
                 }
             }
         }
@@ -428,7 +428,7 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[(g->levx + g->levy + g->levz + (alerts)) % lab_notes.size()];
+            log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) % lab_notes.size()];
         }
 
         print_text("%s", log.c_str());
@@ -594,7 +594,7 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 47:\n\
 Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
@@ -611,7 +611,7 @@ themselves.\n"));
             return;
         }
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 49:\n\
 We've stopped mining operations in this area, obviously, until archaeologists\n\
@@ -629,7 +629,7 @@ for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
             return;
         }
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 54:\n\
 I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
@@ -663,9 +663,9 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n"));
         }
         reset_terminal();
         print_line(_("\
-SITE %d%d%d%d%d\n\
+SITE %d%d%d\n\
 PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES"),
-                   g->cur_om->pos().x, g->cur_om->pos().y, g->levx, g->levy, abs(g->levz));
+                   g->get_abs_levx(), g->get_abs_levy(), abs(g->get_abs_levz()));
         print_line(_("\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
    IMPERATIVE 2:07B\n\
@@ -684,7 +684,7 @@ INITIATING STANDARD TREMOR TEST..."));
         break;
 
     case COMPACT_AMIGARA_START:
-        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10, 0, 0, 0);
+        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10);
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
             g->u.add_disease("amigara", 20);
         }
@@ -1111,7 +1111,7 @@ void computer::activate_failure(computer_failure fail)
                               pgettext("memorial_female", "Set off an alarm."));
         g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
         break;
 
@@ -1212,7 +1212,7 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_AMIGARA:
-        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5, 0, 0, 0);
+        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
         g->u.add_disease("amigara", 20);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);

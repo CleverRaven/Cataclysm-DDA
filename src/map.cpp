@@ -395,11 +395,9 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
  veh->posx = dst_offset_x;
  veh->posy = dst_offset_y;
  if (src_submap != dst_submap) {
-  vehicle * veh1 = veh;
-  veh1->smx = int(x2 / SEEX);
-  veh1->smy = int(y2 / SEEY);
-  dst_submap->vehicles.push_back (veh1);
-  src_submap->vehicles.erase (src_submap->vehicles.begin() + our_i);
+        veh->set_submap_moved( int( x2 / SEEX ), int( y2 / SEEY ) );
+        dst_submap->vehicles.push_back( veh );
+        src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
  }
 
  x += dx;
@@ -1486,19 +1484,25 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
         remove_field(x, y, fd_web);
     }
 
-    for (int i = 0; i < i_at(x, y).size(); i++) { // Destroy glass items (maybe)
+    // Destroy glass items, spilling their contents.
+    std::vector<item> smashed_contents;
+    std::vector<item> &bashed_items = i_at(x, y);
+    for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active supresses molotovs smashing themselves with their own explosion
-        if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
+        if (bashed_item->made_of("glass") && !bashed_item->active && one_in(2)) {
             sound = _("glass shattering");
             sound_volume = 12;
             smashed_something = true;
-            for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
-                i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            for( auto bashed_content : bashed_item->contents ) {
+                smashed_contents.push_back( bashed_content );
             }
-            i_rem(x, y, i);
-            i--;
+            bashed_item = bashed_items.erase( bashed_item );
+        } else {
+            ++bashed_item;
         }
     }
+    // Now plunk in the contents of the smashed items.
+    bashed_items.insert( bashed_items.end(), smashed_contents.begin(), smashed_contents.end() );
 
     // Smash vehicle if present
     int result = -1;
@@ -1526,7 +1530,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
             g->sound(x, y, 40, _("An alarm sounds!"));
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                   pgettext("memorial_female", "Set off an alarm."));
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
 
         if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
@@ -1849,7 +1853,7 @@ void map::shoot(const int x, const int y, int &dam,
     if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED))
     {
         g->sound(x, y, 30, _("An alarm sounds!"));
-        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
     }
 
     int vpart;
@@ -3664,7 +3668,7 @@ void map::draw(WINDOW* w, const point center)
  const int light_sight_range = g->u.sight_range(g_light_level);
  const int lowlight_sight_range = std::max(g_light_level / 2, natural_sight_range);
  const int max_sight_range = g->u.unimpaired_range();
- const bool u_is_boomered = g->u.has_disease("boomered");
+ const bool u_is_boomered = g->u.has_effect("boomered");
  const int u_clairvoyance = g->u.clairvoyance();
  const bool u_sight_impaired = g->u.sight_impaired();
  const bool bio_night_active = g->u.has_active_bionic("bio_night");
@@ -3744,11 +3748,7 @@ void map::draw(WINDOW* w, const point center)
    }
   }
  }
- int atx = getmaxx(w)/2 + g->u.posx - center.x, aty = getmaxy(w)/2 + g->u.posy - center.y;
- if (is_valid_in_w_terrain(atx, aty)) {
-  mvwputch(w, aty, atx, g->u.color(), '@');
-  g->mapRain[aty][atx] = false;
- }
+    g->draw_critter( g->u, center );
 }
 
 void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert_arg,
@@ -3879,7 +3879,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         sym = determine_wall_corner(x, y, sym);
     }
 
-    if (u.has_disease("boomered")) {
+    if (u.has_effect("boomered")) {
         tercol = c_magenta;
     } else if ( u.has_nv() ) {
         tercol = (bright_light) ? c_white : c_ltgreen;
@@ -4237,9 +4237,7 @@ void map::load_abs(const int wx, const int wy, const int wz, const bool update_v
     traplocs.clear();
     for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
         for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
-            if (!loadn(wx, wy, wz, gridx, gridy, update_vehicle)) {
-                loadn(wx, wy, wz, gridx, gridy, update_vehicle);
-            }
+            loadn(wx, wy, wz, gridx, gridy, update_vehicle);
         }
     }
 }
@@ -4298,16 +4296,9 @@ void map::shift(const int sx, const int sy)
         }
     }
 
-    // update vehicles own overmap location
-    int wx = absx;
-    int wy = absy;
-    // TODO: make this absolute, even in vehicle.cpp
-    overmapbuffer::sm_to_omt_remain(wx, wy); // crop wx,wy to be valid in the overmap
-    std::set<vehicle *>::iterator veh;
-    for (veh = vehicle_list.begin(); veh != vehicle_list.end(); ++veh)
-    {
-        (*veh)->update_map_x(wx);
-        (*veh)->update_map_y(wy);
+    for( vehicle *veh : vehicle_list ) {
+        veh->smx += sx;
+        veh->smy += sy;
     }
 
 // Clear vehicle list and rebuild after shift
@@ -4324,8 +4315,9 @@ void map::shift(const int sx, const int sy)
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                    } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                    }
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -4333,8 +4325,9 @@ void map::shift(const int sx, const int sy)
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                    } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                    }
                 }
             }
         }
@@ -4346,8 +4339,9 @@ void map::shift(const int sx, const int sy)
                         copy_grid(gridx + gridy * my_MAPSIZE,
                         gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                    } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                    }
                 }
             } else { // sy < 0; work through it backwards
                 for (int gridy = my_MAPSIZE - 1; gridy >= 0; gridy--) {
@@ -4355,8 +4349,9 @@ void map::shift(const int sx, const int sy)
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
                         update_vehicle_list(get_submap_at_grid(gridx, gridy));
-                    } else if (!loadn(absx + sx, absy + sy, wz, gridx, gridy))
+                    } else {
                         loadn(absx + sx, absy + sy, wz, gridx, gridy);
+                    }
                 }
             }
         }
@@ -4395,7 +4390,7 @@ void map::saven( const int worldx, const int worldy, const int worldz,
 // 0,2  1,2  2,2 etc
 // (worldx,worldy,worldz) denotes the absolute coordinate of the submap
 // in grid[0].
-bool map::loadn(const int worldx, const int worldy, const int worldz,
+void map::loadn(const int worldx, const int worldy, const int worldz,
                 const int gridx, const int gridy, const bool update_vehicles) {
 
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
@@ -4545,19 +4540,24 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
         }
     }
   }
-
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   tinymap tmp_map;
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
-  int newmapx = worldx + gridx - abs((worldx + gridx) % 2);
-  int newmapy = worldy + gridy - abs((worldy + gridy) % 2);
+  int newmapx = worldx + gridx - (abs(worldx + gridx) % 2);
+  int newmapy = worldy + gridy - (abs(worldy + gridy) % 2);
   tmp_map.generate(newmapx, newmapy, worldz, calendar::turn);
-  return false;
+  // This function is called again, but if mapgen failed (and did not create a submap),
+  // this would lead to a infinite loop, this must be avoided.
+  // This is the same call to MAPBUFFER as above!
+  if( MAPBUFFER.lookup_submap( absx, absy, worldz ) == nullptr ) {
+      dbg( D_ERROR ) << "failed to generate a submap at " << absx << absy << worldz;
+      return;
+  }
+  loadn( worldx, worldy, worldz, gridx, gridy, update_vehicles );
  }
- return true;
 }
 
 void map::copy_grid(const int to, const int from)

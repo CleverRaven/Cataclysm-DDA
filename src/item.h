@@ -76,7 +76,7 @@ public:
  item in_its_container();
 
     nc_color color(player *u) const;
-    nc_color color_in_inventory();
+    nc_color color_in_inventory() const;
     std::string tname(unsigned int quantity = 1, bool with_prefix = true) const; // item name (includes damage, freshness, etc)
     std::string display_name(unsigned int quantity = 1) const; // name for display (includes charges, etc)
     void use();
@@ -112,7 +112,6 @@ public:
         deserialize(jo);
     }
 
- std::string save_info() const; // Formatted for save files
  //
  void load_legacy(std::stringstream & dump);
  void load_info(std::string data);
@@ -395,7 +394,6 @@ class map_item_stack
 // The item's position is optional, if not passed in we expect the item to fail position match.
 bool item_matches_locator(const item& it, const itype_id& id, int item_pos = INT_MIN);
 bool item_matches_locator(const item& it, int locator_pos, int item_pos = INT_MIN);
-bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);
