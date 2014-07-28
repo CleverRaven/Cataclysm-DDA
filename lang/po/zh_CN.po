@@ -19202,9 +19202,9 @@ msgid ""
 msgstr "发射弩矢的武器，也称十字弓，装填缓慢。力量大的人装填较快。用它射出去的弩矢比较不容易坏。"
 
 #: lang/json/GUN_from_json.py
-msgid "Ganz-Rustung"
-msgid_plural "Ganz-Rustungen"
-msgstr[0] "加兹拉斯汀弩"
+msgid "heavy crossbow"
+msgid_plural "heavy crossbows"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""

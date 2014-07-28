@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 // TODO: Redefine?
 #define MAX_FAC_NAME_SIZE 40
@@ -78,6 +79,10 @@ struct faction_value_datum {
  int cult;
 };
 
+class faction;
+
+typedef std::map<std::string, faction> faction_map;
+
 class faction : public JsonSerializer, public JsonDeserializer
 {
 public:
@@ -96,7 +101,13 @@ public:
     static faction_value_datum facval_data[NUM_FACVALS];
 
     faction();
-    faction(int uid);
+    faction(std::string uid);
+
+    static void load_faction(JsonObject &jsobj);
+    faction* find_faction(std::string ident);
+    void load_faction_template(std::string ident);
+    std::vector<std::string> all_json_factions();
+
     ~faction();
     std::string save_info();
     void load_info(std::string data);
@@ -104,6 +115,8 @@ public:
     void deserialize(JsonIn &jsin);
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
+
+    static faction_map _all_faction;
 
  void randomize();
  void make_army();
@@ -122,7 +135,8 @@ public:
  int likes_u;
  int respects_u;
  bool known_by_u;
- int id;
+ std::string id;
+ std::string desc;
  int strength, sneak, crime, cult, good; // Defining values
  int omx, omy; // Which overmap are we based in?
  int mapx, mapy;// Where in that overmap are we?

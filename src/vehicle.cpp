@@ -601,11 +601,12 @@ void vehicle::use_controls()
             std::vector<std::string> music_names;
             add_msg((stereo_on) ? _("Loading...") : _("Ejecting..."));
             if (!g->u.has_item_with_flag("CD")&& stereo_on == true) {
-                add_msg("You don't have anything to play!");
+                add_msg(_("You don't have anything to play!"));
                 stereo_on = false;
             } else if (stereo_on == false) {
-                add_msg(_("Ejected the %s"), itypes[music_id]->nname(1).c_str());
-                g->u.inv.add_item_by_type(music_id);
+                item cd( music_id, 0 );
+                add_msg(_("Ejected the %s"), cd.tname().c_str());
+                g->u.i_add(cd);
             } else {
             for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
                 if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
@@ -614,7 +615,7 @@ void vehicle::use_controls()
                 }
             }
             if (music_types.size() > 1) {
-                music_names.push_back("Cancel");
+                music_names.push_back(_("Cancel"));
                 music_index = menu_vec(false, _("Use which item?"), music_names) - 1;
             if (music_index == music_names.size() - 1)
             music_index = -1;
@@ -3251,9 +3252,6 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
                 if (vel2_a > rng (10, 20)) {
                     g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
-                }
-                if (z->hp < 1 || z->is_hallucination()) {
-                    g->kill_mon (mondex, pl_ctrl);
                 }
             } else {
                 ph->hitall (dam, 40);

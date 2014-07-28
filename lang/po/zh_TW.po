@@ -20889,8 +20889,8 @@ msgid ""
 msgstr "一具裝填緩慢的十字弓。夠強壯的人能以更快的速度重新裝填。由此武器射出的十字弓箭矢多數可以重複使用。"
 
 #: lang/json/GUN_from_json.py
-msgid "Ganz-Rustung"
-msgid_plural "Ganz-Rustungen"
+msgid "heavy crossbow"
+msgid_plural "heavy crossbows"
 msgstr[0] ""
 msgstr[1] ""
 

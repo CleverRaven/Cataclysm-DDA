@@ -1083,15 +1083,13 @@ bool cata_tiles::draw_entity(int x, int y)
     bool entity_here = false;
     // check for monster (most common)
     if (!entity_here && g->mon_at(x, y) >= 0) {
-        monster m = g->zombie(g->mon_at(x, y));
-        if (!m.dead) {
+        monster &m = g->zombie(g->mon_at(x, y));
             ent_name = m.type->id;
             ent_category = C_MONSTER;
             if(!(m.type->species.empty())) {
                 ent_subcategory = *(m.type->species.begin());
             }
             entity_here = true;
-        }
     }
     // check for NPC (next most common)
     if (!entity_here && g->npc_at(x, y) >= 0) {
@@ -1394,7 +1392,7 @@ void cata_tiles::init_light()
     sightrange_max = g->u.unimpaired_range();
     u_clairvoyance = g->u.clairvoyance();
 
-    boomered = g->u.has_disease("boomered");
+    boomered = g->u.has_effect("boomered");
     sight_impaired = g->u.sight_impaired();
     bionight_bionic_active = g->u.has_active_bionic("bio_night");
 }

@@ -1097,8 +1097,9 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
                         add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
                     }
-                    if (!g->zombie(mondex).make_fungus()) {
-                        g->kill_mon(mondex, false);
+                    monster &critter = g->zombie( mondex );
+                    if( !critter.make_fungus() ) {
+                        critter.die( p ); // counts as kill by player
                     }
                 } else if (g->u.posx == i && g->u.posy == j) {
                     // Spores hit the player
@@ -1882,7 +1883,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     itype *type = f.crafting_pseudo_item_type();
     itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {
-        add_msg(m_info, "This %s can not be reloaded!", f.name.c_str());
+        add_msg(m_info, _("This %s can not be reloaded!"), f.name.c_str());
         return;
     }
     const int pos = p->inv.position_by_type(ammo->id);
@@ -1890,10 +1891,10 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
         if (amount > 0) {
             //~ The <piece of furniture> contains <number> <items>.
-            add_msg("The %s contains %d %s.", f.name.c_str(), amount, ammo->nname(amount).c_str());
+            add_msg(_("The %s contains %d %s."), f.name.c_str(), amount, ammo->nname(amount).c_str());
         }
         //~ Reloading or restocking a piece of furniture, for example a forge.
-        add_msg(m_info, "You need some %s to reload this %s.", ammo->nname(2).c_str(), f.name.c_str());
+        add_msg(m_info, _("You need some %s to reload this %s."), ammo->nname(2).c_str(), f.name.c_str());
         return;
     }
     const long max_amount = p->inv.find_item(pos).charges;
@@ -1920,7 +1921,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         it.charges = amount;
         items.push_back(it);
     }
-    add_msg("You reload the %s.", m->furnname(examx, examy).c_str());
+    add_msg(_("You reload the %s."), m->furnname(examx, examy).c_str());
     p->moves -= 100;
 }
 
@@ -2082,10 +2083,17 @@ static int findBestGasDiscount(player *p)
 static std::string str_to_illiterate_str(std::string s)
 {
     if (!g->u.has_trait("ILLITERATE")) {
-        return _(s.c_str());
+        return s;
     } else {
         for (int i = 0; i < s.size(); i++) {
             s[i] = s[i] + rng(0, 5) - rng(0, 5);
+            if( s[i] < ' ' ) {
+                // some control character, most likely not handled correctly be the print functions
+                s[i] = ' ';
+            } else if( s[i] == '%' ) {
+                // avoid characters that trigger formatting in the various print functions
+                s[i]++;
+            }
         }
         return s;
     }
@@ -2094,13 +2102,13 @@ static std::string str_to_illiterate_str(std::string s)
 static std::string getGasDiscountName(int discount)
 {
     if (discount == 3) {
-        return str_to_illiterate_str("Platinum member");
+        return str_to_illiterate_str(_("Platinum member"));
     } else if (discount == 2) {
-        return str_to_illiterate_str("Gold member");
+        return str_to_illiterate_str(_("Gold member"));
     } else if (discount == 1) {
-        return str_to_illiterate_str("Silver member");
+        return str_to_illiterate_str(_("Silver member"));
     } else {
-        return str_to_illiterate_str("Beloved customer");
+        return str_to_illiterate_str(_("Beloved customer"));
     }
 }
 
@@ -2207,19 +2215,19 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
 
     int pumpCount = getNearPumpCount(m, examx, examy);
     if (pumpCount == 0) {
-        popup(str_to_illiterate_str("Failure! No gas pumps found!").c_str());
+        popup(str_to_illiterate_str(_("Failure! No gas pumps found!")).c_str());
         return;
     }
 
     long tankGasUnits;
     point pTank = getNearFilledGasTank(m, examx, examy, tankGasUnits);
     if (pTank.x == -999) {
-        popup(str_to_illiterate_str("Failure! No gas tank found!").c_str());
+        popup(str_to_illiterate_str(_("Failure! No gas tank found!")).c_str());
         return;
     }
 
     if (tankGasUnits == 0) {
-        popup(str_to_illiterate_str("This station is out of fuel.  We apologize for the inconvenience.").c_str());
+        popup(str_to_illiterate_str(_("This station is out of fuel.  We apologize for the inconvenience.")).c_str());
         return;
     }
 
@@ -2231,32 +2239,32 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     std::string discountName = getGasDiscountName(discount);
 
     int pricePerUnit = getPricePerGasUnit(discount);
-    std::string unitPriceStr = string_format(str_to_illiterate_str("$%0.2f"), pricePerUnit / 100.0);
+    std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
 
     bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
                      (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
 
     uimenu amenu;
     amenu.selected = 1;
-    amenu.text = str_to_illiterate_str("Welcome to AutoGas!");
-    amenu.addentry(0, false, -1, str_to_illiterate_str("What would you like to do?"));
+    amenu.text = str_to_illiterate_str(_("Welcome to AutoGas!"));
+    amenu.addentry(0, false, -1, str_to_illiterate_str(_("What would you like to do?")));
 
-    amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str("Buy gas."));
+    amenu.addentry(buy_gas, true, 'b', str_to_illiterate_str(_("Buy gas.")));
 
-    std::string gaspumpselected = str_to_illiterate_str("Current gas pump: ") +
+    std::string gaspumpselected = str_to_illiterate_str(_("Current gas pump: ")) +
         helper::to_string_int( uistate.ags_pay_gas_selected_pump + 1 );
     amenu.addentry(0, false, -1, gaspumpselected);
-    amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str("Choose a gas pump."));
+    amenu.addentry(choose_pump, true, 'p', str_to_illiterate_str(_("Choose a gas pump.")));
 
-    amenu.addentry(0, false, -1, str_to_illiterate_str("Your discount: ") + discountName);
-    amenu.addentry(0, false, -1, str_to_illiterate_str("Your price per gasoline unit: ") +
+    amenu.addentry(0, false, -1, str_to_illiterate_str(_("Your discount: ")) + discountName);
+    amenu.addentry(0, false, -1, str_to_illiterate_str(_("Your price per gasoline unit: ")) +
                    unitPriceStr);
 
     if (can_hack) {
         amenu.addentry(hack, true, 'h', _("Hack console."));
     }
 
-    amenu.addentry(cancel, true, 'q', str_to_illiterate_str("Cancel"));
+    amenu.addentry(cancel, true, 'q', str_to_illiterate_str(_("Cancel")));
 
     amenu.query();
     choice = amenu.ret;
@@ -2264,13 +2272,13 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
     if (choose_pump == choice) {
         uimenu amenu;
         amenu.selected = uistate.ags_pay_gas_selected_pump + 1;
-        amenu.text = str_to_illiterate_str("Please choose gas pump:");
+        amenu.text = str_to_illiterate_str(_("Please choose gas pump:"));
 
-        amenu.addentry(0, true, 'q', str_to_illiterate_str("Cancel"));
+        amenu.addentry(0, true, 'q', str_to_illiterate_str(_("Cancel")));
 
         for (int i = 0; i < pumpCount; i++) {
             amenu.addentry( i + 1, true, -1,
-                            str_to_illiterate_str("Pump ") + helper::to_string_int(i + 1) );
+                            str_to_illiterate_str(_("Pump ")) + helper::to_string_int(i + 1) );
         }
         amenu.query();
         choice = amenu.ret;
@@ -2304,7 +2312,7 @@ void iexamine::pay_gas(player *p, map *m, const int examx, const int examy)
             return;
         }
         if (cashcard->charges < pricePerUnit) {
-            popup(str_to_illiterate_str("Not enough money, please refill your cash card.").c_str()); //or ride on a solar car, ha ha ha
+            popup(str_to_illiterate_str(_("Not enough money, please refill your cash card.")).c_str()); //or ride on a solar car, ha ha ha
             return;
         }
 

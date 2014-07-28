@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 #define NPC_LOW_VALUE       5
 #define NPC_HI_VALUE        8
@@ -300,7 +301,7 @@ enum talk_topic {
 
  TALK_MISSION_REWARD, // Intentionally placed below END
 
- TALK_EVAC_MERCHANT, //Located in Refugee Center
+ TALK_EVAC_MERCHANT, //17, Located in Refugee Center
  TALK_EVAC_MERCHANT_NEW,
  TALK_EVAC_MERCHANT_PLANS,
  TALK_EVAC_MERCHANT_PLANS2,
@@ -312,7 +313,7 @@ enum talk_topic {
  TALK_EVAC_MERCHANT_NO,
  TALK_EVAC_MERCHANT_HELL_NO,
 
- TALK_FREE_MERCHANT_STOCKS,//Located in Refugee Center
+ TALK_FREE_MERCHANT_STOCKS,//28, Located in Refugee Center
  TALK_FREE_MERCHANT_STOCKS_NEW,
  TALK_FREE_MERCHANT_STOCKS_WHY,
  TALK_FREE_MERCHANT_STOCKS_ALL,
@@ -327,7 +328,7 @@ enum talk_topic {
  TALK_FREE_MERCHANT_STOCKS_OIL,
  TALK_FREE_MERCHANT_STOCKS_DELIVERED,
 
- TALK_EVAC_GUARD1,//Located in Refugee Center
+ TALK_EVAC_GUARD1,//42, Located in Refugee Center
  TALK_EVAC_GUARD1_PLACE,
  TALK_EVAC_GUARD1_GOVERNMENT,
  TALK_EVAC_GUARD1_TRADE,
@@ -339,14 +340,14 @@ enum talk_topic {
  TALK_EVAC_GUARD1_OLDGUARD,
  TALK_EVAC_GUARD1_BYE,
 
- TALK_EVAC_GUARD2,//Located in Refugee Center
+ TALK_EVAC_GUARD2,//53, Located in Refugee Center
  TALK_EVAC_GUARD2_NEW,
  TALK_EVAC_GUARD2_RULES,
  TALK_EVAC_GUARD2_RULES_BASEMENT,
  TALK_EVAC_GUARD2_WHO,
  TALK_EVAC_GUARD2_TRADE,
 
- TALK_EVAC_GUARD3,//Located in Refugee Center
+ TALK_EVAC_GUARD3,//59, Located in Refugee Center
  TALK_EVAC_GUARD3_NEW,
  TALK_EVAC_GUARD3_RULES,
  TALK_EVAC_GUARD3_HIDE1,
@@ -356,7 +357,7 @@ enum talk_topic {
  TALK_EVAC_GUARD3_HOSTILE,
  TALK_EVAC_GUARD3_INSULT,
 
- TALK_EVAC_HUNTER,//Located in Refugee Center
+ TALK_EVAC_HUNTER,//68, Located in Refugee Center
  TALK_EVAC_HUNTER_SMELL,
  TALK_EVAC_HUNTER_DO,
  TALK_EVAC_HUNTER_LIFE,
@@ -365,7 +366,7 @@ enum talk_topic {
  TALK_EVAC_HUNTER_ADVICE,
  TALK_EVAC_HUNTER_BYE,
 
- TALK_OLD_GUARD_REP,//Located in Refugee Center
+ TALK_OLD_GUARD_REP,//76, Located in Refugee Center
  TALK_OLD_GUARD_REP_NEW,
  TALK_OLD_GUARD_REP_NEW_DOING,
  TALK_OLD_GUARD_REP_NEW_DOWNSIDE,
@@ -374,7 +375,7 @@ enum talk_topic {
  TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS,
  TALK_OLD_GUARD_REP_ASK_JOIN,
 
- TALK_ARSONIST,//Located in Refugee Center
+ TALK_ARSONIST,//84, Located in Refugee Center
  TALK_ARSONIST_NEW,
  TALK_ARSONIST_DOING,
  TALK_ARSONIST_DOING_REBAR,
@@ -384,7 +385,7 @@ enum talk_topic {
  TALK_ARSONIST_MUTATION,
  TALK_ARSONIST_MUTATION_INSULT,
 
- TALK_SCAVENGER_MERC,//Located in Refugee Center
+ TALK_SCAVENGER_MERC,//93, Located in Refugee Center
  TALK_SCAVENGER_MERC_NEW,
  TALK_SCAVENGER_MERC_TIPS,
  TALK_SCAVENGER_MERC_HIRE,
@@ -467,6 +468,10 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
  void load_legacy(std::stringstream &info);
 };
 
+class npc;
+
+typedef std::map<std::string, npc> npc_map;
+
 class npc : public player
 {
 public:
@@ -478,11 +483,16 @@ public:
  virtual bool is_player() { return false; }
  virtual bool is_npc() { return true; }
 
+ static void load_npc(JsonObject &jsobj);
+ npc* find_npc(std::string ident);
+ void load_npc_template(std::string ident);
+
  npc& operator= (const npc &rhs);
 
 // Generating our stats, etc.
  void randomize(npc_class type = NC_NONE);
  void randomize_from_faction(faction *fac);
+ void set_fac(std::string fac_name);
     /**
      * Set omx, omy, omz, mapx and mapx.
      * mx and my are submap coordinates relative to the overmap o.
@@ -577,7 +587,7 @@ public:
  bool has_painkiller();
  bool took_painkiller();
  void use_painkiller();
- void activate_item(char invlet);
+ void activate_item(int position);
 
 // Interaction and assessment of the world around us
  int  danger_assessment();
@@ -612,8 +622,8 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
- int  confident_range(char invlet = 0); // >= 50% chance to hit
- bool wont_hit_friend(int tarx, int tary, char invlet = 0);
+ int  confident_range(int position = -1); // >= 50% chance to hit
+ bool wont_hit_friend(int tarx, int tary, int position = -1);
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(int target, item &gun);
@@ -671,12 +681,18 @@ public:
  npc_attitude attitude; // What we want to do to the player
  npc_class myclass; // What's our archetype?
  int wandx, wandy, wandf; // Location of heard sound, etc.
+ std::string idz; // A temp variable used to inform the game which npc json to use as a template
+ int miss_id; // A temp variable used to link to the correct mission
 
 private:
+
 // Location:
  int omx, omy, omz; // Which overmap (e.g., o.0.0.0)
  int mapx, mapy;// Which square in that overmap (e.g., m.0.0)
+
 public:
+
+    static npc_map _all_npc;
     /**
      * Global position, expressed in map square coordinate system
      * (the most detailed coordinate system), used by the @ref map.
@@ -719,7 +735,7 @@ public:
  std::vector<point> path; // Our movement plans
 
 // Personality & other defining characteristics
- int fac_id; // A temp variable used to inform the game which faction to link
+ std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
  npc_mission mission;
  npc_personality personality;

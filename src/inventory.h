@@ -23,7 +23,6 @@ class inventory
  public:
   invslice slice();
   const_invslice const_slice() const;
-  std::list<item>& stack_by_letter(char ch);
   const std::list<item>& const_stack(int i) const;
   int size() const;
   int num_items() const;
@@ -55,9 +54,7 @@ class inventory
   void add_stack(std::list<item> newits);
   void clone_stack(const std::list<item> &rhs);
   void push_back(std::list<item> newits);
-  char get_invlet_for_item( std::string item_type );
   item& add_item (item newit, bool keep_invlet = false, bool assign_invlet = true); //returns a ref to the added item
-  void add_item_by_type(itype_id type, int count = 1, long charges = -1, bool rand = true);
   void add_item_keep_invlet(item newit);
   void push_back(item newit);
 
@@ -71,13 +68,10 @@ class inventory
 
   item remove_item(item *it);
   item remove_item(int position);
-  item remove_item(char ch);
   item remove_item(const itype_id& type);
   std::list<item> reduce_stack(int position, int quantity);
-  std::list<item> reduce_stack(char ch, int quantity);
   std::list<item> reduce_stack(const itype_id& type, int quantity);
   item reduce_charges(int position, long quantity);
-  item reduce_charges(char ch, long quantity);
   item reduce_charges(const itype_id& type, long quantity);
 
   // amount of -1 removes the entire stack.
@@ -86,13 +80,14 @@ class inventory
 
   std::vector<item>  remove_mission_items(int mission_id);
   item& find_item(int position);
-  item& item_by_letter(char ch);
   item& item_by_type(itype_id type);
   item& item_or_container(itype_id type); // returns an item, or a container of it
 
   int position_by_item(item* it);  // looks up an item (via pointer comparison)
   int position_by_type(itype_id type);
-  int position_by_letter(char ch);
+  /** Return the item position of the item with given invlet, return INT_MIN if
+   * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
+  int invlet_to_position(char invlet) const;
 
   std::vector<std::pair<item*, int> > all_items_by_type(itype_id type);
   std::vector<item*> all_ammo(const ammotype &type);
@@ -161,7 +156,7 @@ class inventory
   // true, empty (invlet = 0) otherwise.
   void assign_empty_invlet(item &it, bool force = false);
 
-  std::set<char> allocated_invlets();
+  std::set<char> allocated_invlets() const;
  private:
   // For each item ID, store a set of "favorite" inventory letters.
   std::map<std::string, std::vector<char> > invlet_cache;
@@ -175,6 +170,7 @@ class inventory
 
   invstack items;
   bool sorted;
+  char get_invlet_for_item( std::string item_type );
 };
 
 #endif

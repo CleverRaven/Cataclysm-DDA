@@ -673,7 +673,7 @@ void veh_interact::do_refill()
                                  ammo_name(vehicle_part_types[ptanks[entry_num]->id].fuel_type).c_str(),
                                  vehicle_part_types[ptanks[entry_num]->id].name.c_str());
         }
-        fuel_choose.addentry(entry_num, true, 'q', "Cancel");
+        fuel_choose.addentry(entry_num, true, 'q', _("Cancel"));
         fuel_choose.query();
         pt_choise = fuel_choose.ret;
         if(pt_choise == entry_num) { // Select canceled
@@ -1691,9 +1691,9 @@ void complete_vehicle ()
         if ( ! foundv.empty() ) {
             uimenu fmenu;
             fmenu.text = _("Fill what?");
-            fmenu.addentry("Nearby vehicle (%d)",foundv.size());
-            fmenu.addentry("Container");
-            fmenu.addentry("Never mind");
+            fmenu.addentry(_("Nearby vehicle (%d)"),foundv.size());
+            fmenu.addentry(_("Container"));
+            fmenu.addentry(_("Never mind"));
             fmenu.query();
             if ( fmenu.ret == 0 ) {
                 if ( foundv.size() > 1 ) {

@@ -16,6 +16,12 @@ typedef std::string itype_id;
 // Denotes the id of an item quality
 typedef std::string quality_id;
 
+enum available_status {
+    a_true = +1, // yes, it's available
+    a_false = -1, // no, it's not available
+    a_insufficent = 0, // neraly, bt not enough for tool+component
+};
+
 struct quality {
     quality_id id;
     // Translated name
@@ -34,11 +40,11 @@ struct component {
     int count;
     // -1 means the player doesn't have the item, 1 means they do,
     // 0 means they have item but not enough for both tool and component
-    mutable int available;
+    mutable available_status available;
 
-    component() : type("null") , count(0) , available(-1) {
+    component() : type("null") , count(0) , available(a_false) {
     }
-    component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {
+    component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(a_false) {
     }
     void check_consistency(const std::string &display_name) const;
 };
@@ -67,11 +73,11 @@ struct quality_requirement {
     quality_id type;
     int count;
     int level;
-    mutable int available;
+    mutable available_status available;
 
-    quality_requirement() : type("UNKNOWN"), count(0), level(0), available(-1) {
+    quality_requirement() : type("UNKNOWN"), count(0), level(0), available(a_false) {
     }
-    quality_requirement(const quality_id &TYPE, int COUNT, int LEVEL) : type(TYPE), count(COUNT), level(LEVEL), available(-1) {
+    quality_requirement(const quality_id &TYPE, int COUNT, int LEVEL) : type(TYPE), count(COUNT), level(LEVEL), available(a_false) {
     }
 
     void load(JsonArray &jarr);
@@ -156,6 +162,7 @@ struct requirements {
 
 private:
     bool check_enough_materials(const inventory& crafting_inv) const;
+    bool check_enough_materials(const item_comp& comp, const inventory& crafting_inv) const;
 
     template<typename T>
     static void check_consistency(const std::vector< std::vector<T> > &vec, const std::string &display_name);
@@ -171,6 +178,8 @@ private:
     static bool any_marked_available(const std::vector<T> &comps);
     template<typename T>
     static void load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> > &objs);
+    template<typename T>
+    static const T *find_by_type(const std::vector< std::vector<T> > &vec, const std::string &type);
 };
 
 #endif

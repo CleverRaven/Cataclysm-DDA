@@ -181,7 +181,7 @@ bool cOpt::is_hidden()
 
         case COPT_POSIX_CURSES_HIDE:
 // Check if we on windows and using wincuses.
-#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
+#if ((defined TILES && defined SDLTILES) || defined _WIN32 || defined WINDOWS)
         return false;
 #else
         return true;
@@ -692,7 +692,7 @@ void initOptions()
     mOptionsSort["interface"]++;
 
     OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
-                                      _("SDL ONLY: Enable input from joystick."),
+                                      _("Enable input from joystick."),
                                       true, COPT_CURSES_HIDE
                                      );
 
@@ -1134,20 +1134,25 @@ void show_options(bool ingame)
         const std::string action = ctxt.handle_input();
 
         bool bChangedSomething = false;
+        int was_skipped = hidden_counter + blanklines_counter;
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
-                if (iCurrentLine >= mPageItems[iCurrentPage].size()) {
+                if (iCurrentLine >= mPageItems[iCurrentPage].size() - was_skipped) {
                     iCurrentLine = 0;
                 }
-            } while(cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "");
+            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "") ||
+                     (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].is_hidden())
+                   );
         } else if (action == "UP") {
             do {
                 iCurrentLine--;
                 if (iCurrentLine < 0) {
-                    iCurrentLine = mPageItems[iCurrentPage].size() - 1;
+                    iCurrentLine = mPageItems[iCurrentPage].size() - 1 - was_skipped;
                 }
-            } while(cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "");
+            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "") ||
+                     (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].is_hidden())
+                   );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
             bChangedSomething = true;
@@ -1302,7 +1307,7 @@ void load_options()
 std::string options_header()
 {
     return "\
-# This is the options file.  It works similarly to keymap.txt: the format is\n\
+# This is the options file.  The format is\n\
 # <option name> <option value>\n\
 # <option value> may be any number, positive or negative.  If you use a\n\
 # negative sign, do not put a space between it and the number.\n\

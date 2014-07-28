@@ -8,17 +8,21 @@
 #include "game.h"
 #include "catacharset.h"
 
+#include "json.h"
+#include "translations.h"
+#include <string>
+
 std::string invent_name();
 std::string invent_adj();
 
 faction::faction()
 {
     // debugmsg("Warning: Faction created without UID!");
-    name = "";
+    name = "null";
     values = 0;
     likes_u = 0;
     respects_u = 0;
-    known_by_u = false;
+    known_by_u = true;
     goal = FACGOAL_NULL;
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
@@ -33,16 +37,17 @@ faction::faction()
     mapy = 0;
     size = 0;
     power = 0;
-    id = -1;
+    id = "";
+    desc = "";
 }
 
-faction::faction(int uid)
+faction::faction(std::string uid)
 {
     name = "";
     values = 0;
     likes_u = 0;
     respects_u = 0;
-    known_by_u = false;
+    known_by_u = true;
     goal = FACGOAL_NULL;
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
@@ -58,8 +63,76 @@ faction::faction(int uid)
     size = 0;
     power = 0;
     id = uid;
+    desc = "";
 }
 
+faction_map faction::_all_faction;
+
+void faction::load_faction(JsonObject &jsobj)
+{
+    faction fac;
+    fac.id = jsobj.get_string("id");
+    fac.name = jsobj.get_string("name");
+    fac.likes_u = jsobj.get_int("likes_u");
+    fac.respects_u = jsobj.get_int("respects_u");
+    fac.known_by_u = jsobj.get_bool("known_by_u");
+    fac.size = jsobj.get_int("size");
+    fac.power = jsobj.get_int("power");
+    fac.good = jsobj.get_int("good");
+    fac.strength = jsobj.get_int("strength");
+    fac.sneak = jsobj.get_int("sneak");
+    fac.crime = jsobj.get_int("crime");
+    fac.cult = jsobj.get_int("cult");
+    fac.desc = jsobj.get_string("desc");
+    _all_faction[jsobj.get_string("id")] = fac;
+}
+
+faction* faction::find_faction(std::string ident)
+{
+    faction_map::iterator found = _all_faction.find(ident);
+    if (found != _all_faction.end()){
+        return &(found->second);
+    } else {
+        debugmsg("Tried to get invalid faction: %s", ident.c_str());
+        static faction null_faction;
+        return &null_faction;
+    }
+}
+
+void faction::load_faction_template(std::string ident)
+{
+    faction_map::iterator found = _all_faction.find(ident);
+    if (found != _all_faction.end()){
+        id = found->second.id;
+        name = found->second.name;
+        likes_u = found->second.likes_u;
+        respects_u = found->second.respects_u;
+        known_by_u = found->second.known_by_u;
+        size = found->second.size;
+        power = found->second.power;
+        good = found->second.good;
+        strength = found->second.strength;
+        sneak = found->second.sneak;
+        crime = found->second.crime;
+        cult = found->second.cult;
+        desc = found->second.desc;
+
+        return;
+    } else {
+        debugmsg("Tried to get invalid faction: %s", ident.c_str());
+        return;
+    }
+}
+
+std::vector<std::string> faction::all_json_factions()
+{
+    std::vector<std::string> v;
+    for(std::map<std::string, faction>::const_iterator it = _all_faction.begin(); it != _all_faction.end(); it++)
+    {
+        v.push_back(it -> first.c_str());
+    }
+    return v;
+}
 
 faction::~faction()
 {
@@ -239,6 +312,7 @@ std::string faction::save_info()
          it != opinion_of.end(); ++it) {
         dump << *it << " ";
     }
+    dump << desc;
     dump << name;
     return dump.str();
 }
@@ -261,6 +335,11 @@ void faction::load_info(std::string data)
         dump >> tmpop;
         opinion_of.push_back(tmpop);
     }
+    std::string subdesc;
+    while (dump >> subdesc) {
+        desc += " " + subdesc;
+    }
+
     std::string subname;
     while (dump >> subname) {
         name += " " + subname;
@@ -420,7 +499,7 @@ void faction::make_army()
     if (one_in(8)) {
         values |= mfb(FACVAL_CRUELTY);
     }
-    id = 0;
+    id = "army";
 }
 
 bool faction::has_job(faction_job j)
@@ -482,7 +561,7 @@ bool faction::matches_us(faction_value v)
 std::string faction::describe()
 {
     std::string ret;
-    ret = string_format( _("%s have the ultimate goal of %s."), name.c_str(), facgoal_data[goal].name.c_str());
+    ret = desc + "\n \n" +string_format( _("%s have the ultimate goal of %s."), name.c_str(), facgoal_data[goal].name.c_str());
     if (job2 == FACJOB_NULL) {
         ret += string_format( _(" Their primary concern is %s."), facjob_data[job1].name.c_str());
     } else {

@@ -19346,9 +19346,9 @@ msgstr ""
 "矢を撃つには筋力８を必要とします。"
 
 #: lang/json/GUN_from_json.py
-msgid "Ganz-Rustung"
-msgid_plural "Ganz-Rustungen"
-msgstr[0] "ガンズリュストゥング"
+msgid "heavy crossbow"
+msgid_plural "heavy crossbows"
+msgstr[0] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""

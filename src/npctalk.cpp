@@ -594,7 +594,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Sure, here you go!");
 
         case TALK_EVAC_MERCHANT:
-             return _("Welcome...");
+            if (g->u.is_wearing("badge_marshal"))
+                return _("Welcome marshal...");
+            return _("Welcome...");
 
         case TALK_EVAC_MERCHANT_NEW:
             return _("Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees."
@@ -644,6 +646,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                      "strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.");
 
         case TALK_EVAC_GUARD1:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("Hello marshal.");
             return _("Hello there.");
 
         case TALK_EVAC_GUARD1_PLACE:
@@ -682,6 +686,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Stay safe out there. Hate to have to kill you after you've already died.");
 
         case TALK_EVAC_GUARD2:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("Hello marshal.");
             return _("Hello.");
 
         case TALK_EVAC_GUARD2_NEW:
@@ -743,6 +749,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                      "get the hell out.");
 
         case TALK_EVAC_HUNTER:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("I thought I smelled a pig.  I jest... please don't arrest me.");
             return _("Huh, thought I smelled someone new. Can I help you?");
 
         case TALK_EVAC_HUNTER_SMELL:
@@ -794,6 +802,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Watch your back out there.");
 
         case TALK_OLD_GUARD_REP:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("Marshal...");
             return _("Citizen...");
 
         case TALK_OLD_GUARD_REP_NEW:
@@ -832,6 +842,8 @@ std::string dynamic_line(talk_topic topic, npc *p)
                       "the most powerful men left in the world.");
 
         case TALK_ARSONIST:
+            if (g->u.is_wearing("badge_marshal"))
+                return _("That sure is a shiney badge you got there!");
             return _("Heh, you look important.");
 
         case TALK_ARSONIST_NEW:
@@ -870,7 +882,9 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Screw You!");
 
         case TALK_SCAVENGER_MERC:
-             return _("...");
+            if (g->u.is_wearing("badge_marshal"))
+                return _("I haven't done anything wrong...");
+            return _("...");
 
         case TALK_SCAVENGER_MERC_NEW:
              return _("I'm just a hired hand.  Someone pays me and I do what needs to be done.");
@@ -1715,7 +1729,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
  case TALK_EVAC_GUARD3_HOSTILE:
   p->my_fac->likes_u -= 15;//The Free Merchants are insulted by your actions!
   p->my_fac->respects_u -= 15;
-  p->my_fac = g->faction_by_id(4);
+  p->my_fac = g->faction_by_ident("hells_raiders");
   RESPONSE(_("I didn't mean it!"));
    SUCCESS(TALK_DONE);
   RESPONSE(_("..."));
@@ -1730,7 +1744,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
 
  case TALK_EVAC_GUARD3_DEAD:
-  p->my_fac = g->faction_by_id(4);
+  p->my_fac = g->faction_by_ident("hells_raiders");
   RESPONSE(_("I didn't mean it!"));
    SUCCESS(TALK_DONE);
   RESPONSE(_("..."));
@@ -2514,7 +2528,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    RESPONSE(_("What are you doing?"));
     SUCCESS(TALK_DESCRIBE_MISSION);
    RESPONSE(_("Care to trade?"));
-    SUCCESS(TALK_NONE);
+    SUCCESS(TALK_DONE);
     SUCCESS_ACTION(&talk_function::start_trade);
    RESPONSE(_("Bye."));
     SUCCESS(TALK_DONE);
@@ -3003,7 +3017,7 @@ void talk_function::give_equipment(npc *p)
  }
  if (chosen == -1)
   chosen = 0;
- item it = p->i_remn(giving[chosen]->invlet);
+ item it = p->i_rem(giving[chosen]);
  popup(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str());
 
  g->u.i_add( it );
@@ -3452,13 +3466,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
 // Adjust the prices based on your barter skill.
     for (size_t i = 0; i < their_price.size(); i++) {
-        their_price[i] *= (price_adjustment(g->u.skillLevel("barter")) +
-                     (p->int_cur - g->u.int_cur) / 15);
+        their_price[i] *= (price_adjustment(p->skillLevel("barter") - g->u.skillLevel("barter")) +
+                     (p->int_cur - g->u.int_cur) / 20.0);
         getting_theirs[i] = false;
     }
     for (size_t i = 0; i < your_price.size(); i++) {
-        your_price[i] /= (price_adjustment(g->u.skillLevel("barter")) +
-                    (p->int_cur - g->u.int_cur) / 15);
+        your_price[i] *= (price_adjustment(g->u.skillLevel("barter") - p->skillLevel("barter")) +
+                    (g->u.int_cur - p->int_cur) / 20.0);
         getting_yours[i] = false;
     }
 
@@ -3617,12 +3631,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
  if (ch == '\n' || ch == 'T') {
   inventory newinv;
   int practice = 0;
-  std::vector<char> removing;
+  std::vector<item*> removing;
   for (size_t i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
     newinv.push_back(*yours[i]);
     practice++;
-    removing.push_back(yours[i]->invlet);
+    removing.push_back(yours[i]);
    }
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
@@ -3633,15 +3647,6 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    item tmp = *theirs[i];
    if (getting_theirs[i]) {
     practice += 2;
-    tmp.invlet = 'a';
-    while (g->u.has_item(tmp.invlet)) {
-     if (tmp.invlet == 'z')
-      tmp.invlet = 'A';
-     else if (tmp.invlet == 'Z')
-      return false; // TODO: Do something else with these.
-     else
-      tmp.invlet++;
-    }
     g->u.inv.push_back(tmp);
    } else
     newinv.push_back(tmp);

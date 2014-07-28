@@ -1440,13 +1440,14 @@ void overmap::make_tutorial()
     zg.clear();
 }
 
+extern bool lcmatch(const std::string& text, const std::string& pattern);
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
-                otermap[ter(x, y, zlevel)].name.find(term) != std::string::npos) {
+                lcmatch( otermap[ter(x, y, zlevel)].name, term ) ) {
                 found.push_back( point(x, y) );
             }
         }
@@ -1967,10 +1968,11 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                 curs.y = p.y;
             }
         } else if (action == "SEARCH") {
-            const std::string term = string_input_popup(_("Search term:"));
+            std::string term = string_input_popup(_("Search term:"));
             if(term.empty()) {
                 continue;
             }
+            std::transform( term.begin(), term.end(), term.begin(), tolower );
             const point p = find_note(curs.x, curs.y, curs.z, term);
             if (p != invalid_point) {
                 // found a note, center on it, re-display
