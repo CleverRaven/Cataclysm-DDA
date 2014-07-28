@@ -704,8 +704,9 @@ void game::create_starting_npcs()
     //We don't want more than one starting npc per shelter
     const int radius = 1;
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
-    if (npcs.size() >= 1)
+    if (npcs.size() >= 1) {
         return; //There is already an NPC in this shelter
+    }
 
     npc *tmp = new npc();
     tmp->normalize();

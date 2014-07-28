@@ -11571,7 +11571,7 @@ bool player::is_suitable_weapon( const item &it ) const
     return false;
 }
 
-int player::print_info(WINDOW* w, int vStart, int vLines, int column) const
+int player::print_info(WINDOW* w, int vStart, int, int column) const
 {
     mvwprintw( w, vStart++, column, _( "You (%s)" ), name.c_str() );
     return vStart;
