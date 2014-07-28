@@ -242,9 +242,9 @@ class game
         faction *faction_by_ident(std::string ident);
         bool sees_u(int x, int y, int &t);
         bool u_see (int x, int y);
-        bool u_see (monster *critter);
-        bool u_see (Creature *t); // for backwards compatibility
-        bool u_see (Creature &t);
+        bool u_see (const monster *critter);
+        bool u_see (const Creature *t); // for backwards compatibility
+        bool u_see (const Creature &t);
         bool is_hostile_nearby();
         bool is_hostile_very_close();
         void refresh_all();
@@ -439,6 +439,10 @@ class game
         void draw_weather(weather_printable wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        // Draw critter (if visible!) on its current position into w_terrain,
+        // also update mapRain to protect it from been overdrawn by rain.
+        // @param center the center of view, same as when calling map::draw
+        void draw_critter(const Creature &critter, const point &center);
 
         // Vehicle related JSON loaders and variables
         void load_vehiclepart(JsonObject &jo);

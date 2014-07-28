@@ -688,7 +688,7 @@ void game::load_npcs()
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
         if (temp->marked_for_death) {
-            temp->die(false);
+            temp->die( nullptr );
         } else {
             active_npc.push_back(temp);
         }
@@ -5206,6 +5206,30 @@ bool game::isBetween(int test, int down, int up)
     }
 }
 
+void game::draw_critter(const Creature &critter, const point &center)
+{
+    const int my = POSY + ( critter.ypos() - center.y );
+    const int mx = POSX + ( critter.xpos() - center.x );
+    if( !is_valid_in_w_terrain( mx, my ) ) {
+        return;
+    }
+    if( u.sees( &critter ) || &critter == &u ) {
+        critter.draw( w_terrain, center.x, center.y, false );
+        mapRain[my][mx] = false;
+        return;
+    }
+    const bool has_ir = u.has_active_bionic( "bio_infrared" ) ||
+                        u.has_trait( "INFRARED" ) ||
+                        u.has_trait( "LIZ_IR" ) ||
+                        u.worn_with_flag( "IR_EFFECT" );
+    const bool can_see = m.pl_sees( u.posx, u.posy, critter.xpos(), critter.ypos(),
+                                    u.sight_range( DAYLIGHT_LEVEL ) );
+    if( critter.is_warm() && has_ir && can_see ) {
+        mvwputch( w_terrain, my, mx, c_red, '?' );
+        mapRain[my][mx] = false;
+    }
+}
+
 void game::draw_ter(int posx, int posy)
 {
     mapRain.clear();
@@ -5216,42 +5240,22 @@ void game::draw_ter(int posx, int posy)
     if (posy == -999) {
         posy = u.posy + u.view_offset_y;
     }
+    const point center( posx, posy );
 
     ter_view_x = posx;
     ter_view_y = posy;
 
     m.build_map_cache();
-    m.draw(w_terrain, point(posx, posy));
+    m.draw( w_terrain, center );
 
     // Draw monsters
-    int mx, my;
     for (int i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        my = POSY + (critter.posy() - posy);
-        mx = POSX + (critter.posx() - posx);
-        if (is_valid_in_w_terrain(mx, my) && u_see(&critter)) {
-            critter.draw(w_terrain, posx, posy, false);
-            mapRain[my][mx] = false;
-        } else if (critter.has_flag(MF_WARM)
-                   && is_valid_in_w_terrain(mx, my)
-                   && (u.has_active_bionic("bio_infrared")
-                       || u.has_trait("INFRARED")
-                       || u.has_trait("LIZ_IR")
-                       || u.worn_with_flag("IR_EFFECT"))
-                   && m.pl_sees(u.posx, u.posy, critter.posx(), critter.posy(),
-                                u.sight_range(DAYLIGHT_LEVEL))) {
-            mvwputch(w_terrain, my, mx, c_red, '?');
-        }
+        draw_critter( critter_tracker.find( i ), center );
     }
 
     // Draw NPCs
-    for( std::vector<npc *>::iterator it = active_npc.begin(); it != active_npc.end(); ++it ) {
-        my = POSY + ((*it)->posy - posy);
-        mx = POSX + ((*it)->posx - posx);
-        if (is_valid_in_w_terrain(mx, my) && u_see((*it)->posx, (*it)->posy)) {
-            (*it)->draw(w_terrain, posx, posy, false);
-            mapRain[my][mx] = false;
-        }
+    for( const npc* n : active_npc ) {
+        draw_critter( *n, center );
     }
 
     if (u.has_active_bionic("bio_scent_vision")) {
@@ -5719,17 +5723,17 @@ bool game::u_see(int x, int y)
     return u.sees(x, y);
 }
 
-bool game::u_see(Creature *t)
+bool game::u_see(const Creature *t)
 {
-    return u_see(t->xpos(), t->ypos());
+    return u.sees(t);
 }
 
-bool game::u_see(Creature &t)
+bool game::u_see(const Creature &t)
 {
-    return u_see(t.xpos(), t.ypos());
+    return u.sees(&t);
 }
 
-bool game::u_see(monster *critter)
+bool game::u_see(const monster *critter)
 {
     return u.sees(critter);
 }
@@ -6145,12 +6149,13 @@ void game::cleanup_dead()
     //Cleanup any dead npcs.
     //This will remove the npc object, it is assumed that they have been transformed into
     //dead bodies before this.
-    for (std::vector<npc *>::iterator it = active_npc.begin();
-         it != active_npc.end();) {
-        if ((*it)->dead) {
-            int npc_id = (*it)->getID();
-            it = active_npc.erase(it);
-            overmap_buffer.remove_npc(npc_id);
+    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
+        npc *n = *it;
+        if( n->is_dead() ) {
+            n->die( nullptr ); // make sure this has been called to create corpses etc.
+            const int npc_id = n->getID();
+            it = active_npc.erase( it );
+            overmap_buffer.remove_npc( npc_id );
         } else {
             it++;
         }
@@ -6259,11 +6264,11 @@ void game::monmove()
          it != active_npc.end(); ++it) {
         int turns = 0;
         if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
-            (*it)->die();
+            (*it)->die( nullptr );
         } else {
             (*it)->process_turn();
             (*it)->reset();
-            while (!(*it)->dead && (*it)->moves > 0 && turns < 10) {
+            while (!(*it)->is_dead() && (*it)->moves > 0 && turns < 10) {
                 int moves = (*it)->moves;
                 (*it)->move();
                 if( moves == (*it)->moves ) {
@@ -6275,7 +6280,7 @@ void game::monmove()
             // Invoke cranial detonation to prevent an infinite loop.
             if (turns == 10) {
                 add_msg(_("%s's brain explodes!"), (*it)->name.c_str());
-                (*it)->die();
+                (*it)->die( nullptr );
             }
         }
     }
@@ -6505,7 +6510,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
                 active_npc[npc_hit]->hit(NULL, bp_arms, 1, rng(dam / 3, dam), 0);
                 if (active_npc[npc_hit]->hp_cur[hp_head] <= 0 ||
                     active_npc[npc_hit]->hp_cur[hp_torso] <= 0) {
-                    active_npc[npc_hit]->die(true);
+                    active_npc[npc_hit]->die( nullptr ); // TODO: player's fault?
                 }
             }
             if (u.posx == i && u.posy == j) {
@@ -6579,7 +6584,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                 active_npc[npcdex]->hit(NULL, hit, rng(0, 1), 0, dam);
                 if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
                     active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
-                    active_npc[npcdex]->die();
+                    active_npc[npcdex]->die( nullptr );
                 }
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
@@ -7183,7 +7188,7 @@ void game::emp_blast(int x, int y)
 int game::npc_at(const int x, const int y) const
 {
     for (int i = 0; i < active_npc.size(); i++) {
-        if (active_npc[i]->posx == x && active_npc[i]->posy == y && !active_npc[i]->dead) {
+        if (active_npc[i]->posx == x && active_npc[i]->posy == y && !active_npc[i]->is_dead()) {
             return i;
         }
     }
@@ -8624,42 +8629,17 @@ void game::print_object_info(int lx, int ly, WINDOW *w_look, const int column, i
 {
     int veh_part = 0;
     vehicle *veh = m.veh_at(lx, ly, veh_part);
-    int dex = mon_at(lx, ly);
-    if (dex != -1 && u_see(&zombie(dex))) {
-        if (!mouse_hover) {
-            zombie(dex).draw(w_terrain, lx, ly, true);
+    const Creature *critter = critter_at( lx, ly );
+    if( critter != nullptr && ( u.sees( critter ) || critter == &u ) ) {
+        if( !mouse_hover ) {
+            critter->draw( w_terrain, lx, ly, true );
         }
-        line = zombie(dex).print_info(w_look, line, 6, column);
-    } else if (npc_at(lx, ly) != -1) {
-        if (!mouse_hover) {
-            active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
-        }
-        line = active_npc[npc_at(lx, ly)]->print_info(w_look, column, line);
+        line = critter->print_info( w_look, line, 6, column );
     } else if (veh) {
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
             m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-        }
-    }
-    // The player is not at <u.posx + u.view_offset_x, u.posy + u.view_offset_y>
-    // Should not be putting the "You (name)" at this location
-    // Changing it to reflect actual position not view-center position
-    else if (lx == u.posx && ly == u.posy) {
-        int x, y;
-        x = getmaxx(w_terrain) / 2 - u.view_offset_x;
-        y = getmaxy(w_terrain) / 2 - u.view_offset_y;
-        if (!mouse_hover) {
-            mvwputch_inv(w_terrain, y, x, u.color(), '@');
-        }
-
-        mvwprintw(w_look, line++, column, _("You (%s)"), u.name.c_str());
-        if (veh) {
-            mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
-            line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
-            if (!mouse_hover) {
-                m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-            }
         }
     } else if (!mouse_hover) {
         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
@@ -10206,7 +10186,7 @@ int game::list_monsters(const int iLastState)
                 werase(w_monster_info);
 
                 //print monster info
-                zombie(iMonDex).print_info(w_monster_info, 1, 11);
+                zombie(iMonDex).print_info(w_monster_info, 1, 11, 1);
 
                 mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", press_x(ACTION_LOOK).c_str());
                 wprintz(w_monsters, c_ltgray, " %s", _("to look around"));

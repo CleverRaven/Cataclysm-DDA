@@ -29,7 +29,7 @@ bool monster::wander()
  return (plans.empty());
 }
 
-bool monster::can_move_to(int x, int y)
+bool monster::can_move_to(int x, int y) const
 {
     if (g->m.move_cost(x, y) == 0 &&
      (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y))) {
@@ -579,7 +579,7 @@ point monster::wander_next()
  return next;
 }
 
-int monster::calc_movecost(int x1, int y1, int x2, int y2)
+int monster::calc_movecost(int x1, int y1, int x2, int y2) const
 {
     int movecost = 0;
     float diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;

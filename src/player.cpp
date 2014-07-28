@@ -344,7 +344,7 @@ void player::pick_name()
     name = Name::generate(male);
 }
 
-std::string player::disp_name(bool possessive)
+std::string player::disp_name(bool possessive) const
 {
     if (!possessive) {
         if (is_player()) {
@@ -359,7 +359,7 @@ std::string player::disp_name(bool possessive)
     }
 }
 
-std::string player::skin_name()
+std::string player::skin_name() const
 {
     //TODO: Return actual deflecting layer name
     return _("armor");
@@ -1588,11 +1588,11 @@ int player::swim_speed()
  return ret;
 }
 
-bool player::digging() {
+bool player::digging() const {
     return false;
 }
 
-bool player::is_on_ground()
+bool player::is_on_ground() const
 {
     bool on_ground = false;
     if(has_effect("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
@@ -1620,7 +1620,7 @@ void player::set_underwater(bool u)
 }
 
 
-nc_color player::color()
+nc_color player::basic_symbol_color() const
 {
  if (has_effect("onfire"))
   return c_red;
@@ -3841,7 +3841,7 @@ float player::active_light()
     return lumination;
 }
 
-point player::pos()
+point player::pos() const
 {
     return point(posx, posy);
 }
@@ -3994,7 +3994,7 @@ int player::overmap_sight_range(int light_level)
     return 10;
 }
 
-int player::clairvoyance()
+int player::clairvoyance() const
 {
  if (has_artifact_with(AEP_CLAIRVOYANCE))
   return 3;
@@ -4319,7 +4319,7 @@ int player::intimidation()
     return ret;
 }
 
-bool player::is_dead_state() {
+bool player::is_dead_state() const {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
@@ -6224,7 +6224,7 @@ void player::drench_mut_calc()
     }
 }
 
-int player::weight_carried()
+int player::weight_carried() const
 {
     int ret = 0;
     ret += weapon.weight();
@@ -6235,12 +6235,12 @@ int player::weight_carried()
     return ret;
 }
 
-int player::volume_carried()
+int player::volume_carried() const
 {
     return inv.volume();
 }
 
-int player::weight_capacity(bool /* return_stat_effect */)
+int player::weight_capacity(bool /* return_stat_effect */) const
 {
     // return_stat_effect is effectively pointless
     // player info window shows current stat effects
@@ -6269,12 +6269,12 @@ int player::weight_capacity(bool /* return_stat_effect */)
     return ret;
 }
 
-int player::volume_capacity()
+int player::volume_capacity() const
 {
     int ret = 2; // A small bonus (the overflow)
-    it_armor *armor = NULL;
+    const it_armor *armor = NULL;
     for (int i = 0; i < worn.size(); i++) {
-        armor = dynamic_cast<it_armor*>(worn[i].type);
+        armor = dynamic_cast<const it_armor*>(worn[i].type);
         ret += armor->storage;
     }
     if (has_bionic("bio_storage")) {
@@ -6307,11 +6307,11 @@ double player::convert_weight(int weight)
     return ret;
 }
 
-bool player::can_pickVolume(int volume)
+bool player::can_pickVolume(int volume) const
 {
     return (volume_carried() + volume <= volume_capacity());
 }
-bool player::can_pickWeight(int weight, bool safe)
+bool player::can_pickWeight(int weight, bool safe) const
 {
     if (!safe)
     {
@@ -6912,7 +6912,7 @@ item& player::i_of_type(itype_id type)
 
 int player::invlet_to_position( char invlet ) const
 {
-    if( const_cast<player *>( this )->is_npc() ) {
+    if( is_npc() ) {
         DebugLog( D_WARNING,  D_GAME ) << "Why do you need to call player::invlet_to_position on npc " << name;
     }
     if( weapon.invlet == invlet ) {
@@ -9168,7 +9168,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
             return true;
         }
         if( show_msg ) {
-            const_cast<player *>( this )->add_msg_if_player( m_info,
+            add_msg_if_player( m_info,
                     ngettext( "Your %s needs %d charge from some UPS.",
                               "Your %s needs %d charges from some UPS.",
                               tool->charges_per_use ),
@@ -9177,7 +9177,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
         return false;
     } else if( it.charges < tool->charges_per_use ) {
         if( show_msg ) {
-            const_cast<player *>( this )->add_msg_if_player( m_info,
+            add_msg_if_player( m_info,
                     ngettext( "Your %s has %d charge but needs %d.",
                               "Your %s has %d charges but needs %d.",
                               it.charges ),
@@ -10043,11 +10043,11 @@ float player::fine_detail_vision_mod()
     return vision_ii;
 }
 
-int player::warmth(body_part bp)
+int player::warmth(body_part bp) const
 {
     int bodywetness = 0;
     int ret = 0, warmth = 0;
-    it_armor* armor = NULL;
+    const it_armor* armor = NULL;
 
     // Fetch the morale value of wetness for bodywetness
     for (int i = 0; bodywetness == 0 && i < morale.size(); i++)
@@ -10073,7 +10073,7 @@ int player::warmth(body_part bp)
 
     for (int i = 0; i < worn.size(); i++)
     {
-        armor = dynamic_cast<it_armor*>(worn[i].type);
+        armor = dynamic_cast<const it_armor*>(worn[i].type);
 
         if (armor->covers & mfb(bp))
         {
@@ -10089,7 +10089,7 @@ int player::warmth(body_part bp)
     return ret;
 }
 
-int player::encumb(body_part bp)
+int player::encumb(body_part bp) const
 {
     int iArmorEnc = 0;
     double iLayers = 0;
@@ -10114,19 +10114,19 @@ int player::encumb(body_part bp)
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-int player::encumb(body_part bp, double &layers, int &armorenc)
+int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
     int ret = 0;
     double layer[MAX_CLOTHING_LAYER] = { };
     int level = 0;
 
-    it_armor* armor = NULL;
+    const it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
         if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
                      i, worn[i].tname().c_str());
         }
-        armor = dynamic_cast<it_armor*>(worn[i].type);
+        armor = dynamic_cast<const it_armor*>(worn[i].type);
 
         if( armor->covers & mfb(bp) ) {
             if( worn[i].has_flag( "SKINTIGHT" ) ) {
@@ -10919,7 +10919,7 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
     activity.warned_of_proximity = false;
 }
 
-bool player::has_activity(const activity_type type)
+bool player::has_activity(const activity_type type) const
 {
     if (activity.type == type) {
         return true;
@@ -11288,15 +11288,15 @@ void player::shift_destination(int shiftx, int shifty)
     }
 }
 
-bool player::has_weapon() {
+bool player::has_weapon() const {
     return !unarmed_attack();
 }
 
-m_size player::get_size() {
+m_size player::get_size() const {
     return MS_MEDIUM;
 }
 
-int player::get_hp( hp_part bp )
+int player::get_hp( hp_part bp ) const
 {
     if( bp < num_hp_parts ) {
         return hp_cur[bp];
@@ -11308,7 +11308,7 @@ int player::get_hp( hp_part bp )
     return hp_total;
 }
 
-int player::get_hp_max( hp_part bp )
+int player::get_hp_max( hp_part bp ) const
 {
     if( bp < num_hp_parts ) {
         return hp_max[bp];
@@ -11320,7 +11320,7 @@ int player::get_hp_max( hp_part bp )
     return hp_total;
 }
 
-field_id player::playerBloodType() {
+field_id player::playerBloodType() const {
     if (player::has_trait("THRESH_PLANT"))
         return fd_blood_veggy;
     if (player::has_trait("THRESH_INSECT") || player::has_trait("THRESH_SPIDER"))
@@ -11383,13 +11383,13 @@ Creature *player::auto_find_hostile_target(int range, int &boo_hoo, int &fire_t)
     return target;
 }
 
-bool player::sees(int x, int y)
+bool player::sees(int x, int y) const
 {
     int dummy = 0;
     return sees(x, y, dummy);
 }
 
-bool player::sees(int x, int y, int &t)
+bool player::sees(int x, int y, int &t) const
 {
     const int s_range = sight_range(g->light_level());
     static const std::string str_bio_night("bio_night");
@@ -11417,13 +11417,13 @@ bool player::sees(int x, int y, int &t)
     return can_see;
 }
 
-bool player::sees(Creature *critter)
+bool player::sees(const Creature *critter) const
 {
     int dummy = 0;
     return sees(critter, dummy);
 }
 
-bool player::sees(Creature *critter, int &t)
+bool player::sees(const Creature *critter, int &t) const
 {
     if (!is_player() && critter->is_hallucination()) {
         // hallucinations are only visible for the player
@@ -11448,7 +11448,7 @@ bool player::sees(Creature *critter, int &t)
 bool player::can_pickup(bool print_msg) const
 {
     if (weapon.has_flag("NO_PICKUP")) {
-        if (print_msg && const_cast<player*>(this)->is_player()) {
+        if( print_msg && is_player() ) {
             add_msg(m_info, _("You cannot pick up items with your %s!"), weapon.tname().c_str());
         }
         return false;
@@ -11503,28 +11503,28 @@ nc_color player::bodytemp_color(int bp)
 }
 
 //message related stuff
-void player::add_msg_if_player(const char* msg, ...)
+void player::add_msg_if_player(const char* msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     Messages::vadd_msg(msg, ap);
     va_end(ap);
 };
-void player::add_msg_player_or_npc(const char* player_str, const char* npc_str, ...)
+void player::add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const
 {
     va_list ap;
     va_start(ap, npc_str);
     Messages::vadd_msg(player_str, ap);
     va_end(ap);
 };
-void player::add_msg_if_player(game_message_type type, const char* msg, ...)
+void player::add_msg_if_player(game_message_type type, const char* msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
     Messages::vadd_msg(type, msg, ap);
     va_end(ap);
 };
-void player::add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...)
+void player::add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const
 {
     va_list ap;
     va_start(ap, npc_str);
@@ -11569,6 +11569,12 @@ bool player::is_suitable_weapon( const item &it ) const
         return it.has_flag( "UNARMED_WEAPON" );
     }
     return false;
+}
+
+int player::print_info(WINDOW* w, int vStart, int vLines, int column) const
+{
+    mvwprintw( w, vStart++, column, _( "You (%s)" ), name.c_str() );
+    return vStart;
 }
 
 void player::place_corpse()

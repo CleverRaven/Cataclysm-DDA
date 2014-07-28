@@ -327,7 +327,7 @@ void overmapbuffer::remove_npc(int id)
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             if (p->getID() == id) {
-                if(!p->dead) {
+                if( !p->is_dead() ) {
                     debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
                 }
                 it->npcs.erase(it->npcs.begin() + i);
