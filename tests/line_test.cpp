@@ -150,7 +150,7 @@ int main(int, char *[])
      struct timespec end2;
      clock_gettime( CLOCK_REALTIME, &start2 );
      while( count2 < PERFORMANCE_TEST_ITERATIONS ) {
-         line_to( x1, y1, x2, y2, t2 );
+         canonical_line_to( x1, y1, x2, y2, t2 );
          count2++;
      }
      clock_gettime( CLOCK_REALTIME, &end2 );
