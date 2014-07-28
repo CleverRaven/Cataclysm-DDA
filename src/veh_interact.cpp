@@ -388,7 +388,11 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 't': // attach/detach
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
-        valid_target = cpart >= 0;
+        for (size_t i = 0; i < parts_here.size() && !valid_target; i++) {
+            if (vehicle_part_types[veh->parts[parts_here[i]].id].has_flag("ATTACH")) {
+                valid_target = true;
+            }
+        }
         has_tools = has_wrench || can_remove_wheel;
         break;
     case 's': // siphon mode
@@ -803,7 +807,7 @@ void veh_interact::do_attach()
         wrefresh (w_msg);
         return;
     case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("No parts here."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("No attachable parts here."));
         wrefresh (w_msg);
         return;
     case LACK_TOOLS:
@@ -1431,7 +1435,7 @@ void veh_interact::display_mode(char mode)
         enabled[4] = !cant_do('s');
         enabled[5] = !cant_do('d');
         enabled[6] = !cant_do('c');
-        enabled[7] = true;
+        enabled[7] = !cant_do('t');
         enabled[8] = true;          // 'rename' is always available
 
         int pos[10];
