@@ -6202,9 +6202,9 @@ void make_zlave(player *p)
         tolerance_level = 7;
     }
 
-    tolerance_level -= p->skillLevel("survival");
-
-    if( p->morale_level() <= (15 * tolerance_level) - 150 ) {
+    // Survival skill increases your willingness to get things done,
+    // but it doesn't make you feel any less bad about it.
+    if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel("survival") )) - 150 ) {
         add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return;
     }
@@ -6230,7 +6230,6 @@ void make_zlave(player *p)
     } else if( tolerance_level <= 5 ) {
         add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
     } else {
-
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
         int moraleMalus = -50 * (5.0 / (float) p->skillLevel("survival"));
