@@ -24,19 +24,19 @@ class Creature
         Creature();
         Creature(const Creature &rhs);
 
-        virtual std::string disp_name(bool possessive = false) const = 0; // displayname for Creature
-        virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
+        virtual std::string disp_name(bool possessive = false) = 0; // displayname for Creature
+        virtual std::string skin_name() = 0; // name of outer layer, e.g. "armor plates"
 
-        virtual bool is_player() const {
+        virtual bool is_player() {
             return false;
         }
-        virtual bool is_npc () const {
+        virtual bool is_npc () {
             return false;
         }
 
         // Fake is used to mark non-real creatures used temporarally,
         // such as fake NPCs that fire weapons to simulate turrets.
-        virtual bool is_fake () const;
+        virtual bool is_fake ();
         virtual void set_fake (const bool fake_value);
 
         virtual void normalize(); // recreate the Creature from scratch
@@ -117,20 +117,19 @@ class Creature
         virtual void apply_damage(Creature *source,
                                   body_part bp, int side, int amount) = 0;
 
-        virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
-        virtual bool is_on_ground() const = 0;
+        virtual bool digging();      // MF_DIGS or MF_CAN_DIG and diggable terrain
+        virtual bool is_on_ground() = 0;
         virtual bool is_underwater() const = 0;
-        virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
-        virtual bool has_weapon() const = 0;
+        virtual bool is_warm(); // is this creature warm, for IR vision, heat drain, etc
+        virtual bool has_weapon() = 0;
         virtual bool is_hallucination() const = 0;
         // returns true iff health is zero or otherwise should be dead
-        virtual bool is_dead_state() const = 0;
+        virtual bool is_dead_state() = 0;
 
         // xpos and ypos, because posx/posy are used as public variables in
         // player.cpp and therefore referenced everywhere
-        virtual int xpos() const = 0;
-        virtual int ypos() const = 0;
-        virtual point pos() const = 0;
+        virtual int xpos() = 0;
+        virtual int ypos() = 0;
 
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with
@@ -195,12 +194,12 @@ class Creature
         virtual int get_speed() const;
         virtual int get_dodge();
         virtual int get_hit();
-        virtual m_size get_size() const = 0;
-        virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
-        virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
-        virtual std::string get_material() const { return "flesh"; }
-        virtual field_id bloodType () const = 0;
-        virtual field_id gibType () const = 0;
+        virtual m_size get_size() = 0;
+        virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
+        virtual int get_hp_max( hp_part bp = num_hp_parts ) = 0;
+        virtual std::string get_material() { return "flesh"; };
+        virtual field_id bloodType () = 0;
+        virtual field_id gibType () = 0;
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const { return false; };
 
@@ -275,34 +274,17 @@ class Creature
 
         int moves, pain;
 
-        void draw(WINDOW *w, int plx, int ply, bool inv) const;
-        /**
-         * Write information about this creature.
-         * @param w the window to print the text into.
-         * @param vStart vertical start to print, that means the first line to print.
-         * @param vLines number of lines to print at most (printing less is fine).
-         * @param column horizontal start to print (column), horizontal end is
-         * one character before  the right border of the window (to keep the border).
-         * @return The line just behind the last printed line, that means multiple calls
-         * to this can be stacked, the return value is acceptable as vStart for the next
-         * call without creating empty lines or overwriting lines.
-         */
-        virtual int print_info(WINDOW* w, int vStart, int vLines, int column) const = 0;
+        void draw(WINDOW *w, int plx, int ply, bool inv);
 
         // Message related stuff
-        virtual void add_msg_if_player(const char *, ...) const {};
-        virtual void add_msg_if_player(game_message_type, const char *, ...) const {};
-        virtual void add_msg_if_npc(const char *, ...) const {};
-        virtual void add_msg_if_npc(game_message_type, const char *, ...) const {};
-        virtual void add_msg_player_or_npc(const char *, const char *, ...) const {};
-        virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...) const {};
+        virtual void add_msg_if_player(const char *, ...){};
+        virtual void add_msg_if_player(game_message_type, const char *, ...){};
+        virtual void add_msg_if_npc(const char *, ...){};
+        virtual void add_msg_if_npc(game_message_type, const char *, ...){};
+        virtual void add_msg_player_or_npc(const char *, const char *, ...){};
+        virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...){};
 
         virtual void add_memorial_log(const char*, const char*, ...) {};
-
-        virtual nc_color symbol_color() const;
-        virtual nc_color basic_symbol_color() const;
-        virtual const std::string &symbol() const;
-        virtual bool is_symbol_highlighted() const;
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
@@ -346,6 +328,11 @@ class Creature
         bool fake;
 
         Creature& operator= (const Creature& rhs);
+
+        virtual nc_color symbol_color();
+        virtual nc_color basic_symbol_color();
+        virtual const std::string &symbol() const;
+        virtual bool is_symbol_highlighted();
 
         body_part select_body_part(Creature *source, int hit_roll);
 };

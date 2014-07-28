@@ -543,12 +543,14 @@ void mission_start::recruit_tracker(mission *miss)
 
  point site = target_om_ter("cabin", 2, miss, false);
  miss->recruit_class = NC_COWBOY;
+ // get  the overmap of the new npc, crop site to valid values inside that overmap
+ overmap &om = overmap_buffer.get_om_global(site.x, site.y);
 
  npc * temp = new npc();
  temp->normalize();
  temp->randomize(NC_COWBOY);
  // NPCs spawn with submap coordinates, site is in overmap terrain coords
- temp->spawn_at( site.x * 2, site.y * 2, g->levz );
+ temp->spawn_at(&om, site.x * 2, site.y * 2, g->levz);
  temp->posx = 11;
  temp->posy = 11;
  temp->attitude = NPCATT_TALK;

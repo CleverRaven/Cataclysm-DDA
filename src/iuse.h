@@ -166,6 +166,7 @@ public:
     int lumber              (player *, item *, bool);
     int hacksaw             (player *, item *, bool);
     int tent                (player *, item *, bool);
+    int large_tent          (player *, item *, bool);
     int shelter             (player *, item *, bool);
     int torch_lit           (player *, item *, bool);
     int battletorch_lit     (player *, item *, bool);

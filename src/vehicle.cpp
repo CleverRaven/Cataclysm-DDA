@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "overmapbuffer.h"
 #include "messages.h"
 
 #include "debug.h"
@@ -191,6 +190,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     if (init_veh_fuel > 100) {
         veh_fuel_mult = 100;
     }
+
+    // im assuming vehicles only spawn in active maps
+    levx = g->levx;
+    levy = g->levy;
 
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
@@ -598,12 +601,11 @@ void vehicle::use_controls()
             std::vector<std::string> music_names;
             add_msg((stereo_on) ? _("Loading...") : _("Ejecting..."));
             if (!g->u.has_item_with_flag("CD")&& stereo_on == true) {
-                add_msg(_("You don't have anything to play!"));
+                add_msg("You don't have anything to play!");
                 stereo_on = false;
             } else if (stereo_on == false) {
-                item cd( music_id, 0 );
-                add_msg(_("Ejected the %s"), cd.tname().c_str());
-                g->u.i_add(cd);
+                add_msg(_("Ejected the %s"), itypes[music_id]->nname(1).c_str());
+                g->u.inv.add_item_by_type(music_id);
             } else {
             for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
                 if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
@@ -612,7 +614,7 @@ void vehicle::use_controls()
                 }
             }
             if (music_types.size() > 1) {
-                music_names.push_back(_("Cancel"));
+                music_names.push_back("Cancel");
                 music_index = menu_vec(false, _("Use which item?"), music_names) - 1;
             if (music_index == music_names.size() - 1)
             music_index = -1;
@@ -786,12 +788,12 @@ void vehicle::use_controls()
     case toggle_tracker:
         if (tracking_on)
         {
-            overmap_buffer.remove_vehicle( this );
+            g->cur_om->remove_vehicle(om_id);
             tracking_on = false;
             add_msg(_("tracking device disabled"));
         } else if (fuel_left(fuel_type_battery))
         {
-            overmap_buffer.add_vehicle( this );
+            om_id = g->cur_om->add_vehicle(this);
             tracking_on = true;
             add_msg(_("tracking device enabled"));
         } else {
@@ -1379,7 +1381,7 @@ bool vehicle::remove_part (int p)
                 }
             }
             if (!has_tracker){ // disable tracking
-                overmap_buffer.remove_vehicle( this );
+                g->cur_om->remove_vehicle(om_id);
                 tracking_on = false;
             }
         }
@@ -1985,30 +1987,34 @@ player *vehicle::get_passenger (int p)
     return 0;
 }
 
-int vehicle::global_x() const
+int vehicle::global_x ()
 {
     return smx * SEEX + posx;
 }
 
-int vehicle::global_y() const
+int vehicle::global_y ()
 {
     return smy * SEEY + posy;
 }
 
-point vehicle::real_global_pos() const
-{
-    return g->m.getabs( global_x(), global_y() );
+int vehicle::omap_x() {
+    return levx + (global_x() / SEEX);
 }
 
-void vehicle::set_submap_moved( int x, int y )
-{
-    const point old_msp = real_global_pos();
-    smx = x;
-    smy = y;
-    if( !tracking_on ) {
-        return;
-    }
-    overmap_buffer.move_vehicle( this, old_msp );
+int vehicle::omap_y() {
+    return levy + (global_y() / SEEY);
+}
+
+void vehicle::update_map_x(int x) {
+    levx = x;
+    if (tracking_on)
+        g->cur_om->vehicles[om_id].x = omap_x()/2;
+}
+
+void vehicle::update_map_y(int y) {
+    levy = y;
+    if (tracking_on)
+        g->cur_om->vehicles[om_id].y = omap_y()/2;
 }
 
 int vehicle::total_mass()
@@ -2188,12 +2194,7 @@ int vehicle::solar_epower ()
 
 int vehicle::acceleration (bool fueled)
 {
-    if ( (engine_on || skidding) || (has_pedals || has_paddles || has_hand_rims)) {
-        return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
-    }
-    else {
-        return 0;
-    }
+    return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
 }
 
 int vehicle::max_velocity (bool fueled)
@@ -2317,7 +2318,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
             if( part_info(p).fuel_type == fuel_type_gasoline ) {
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
-                if( (exhaust_part == -1) && engine_on ) {
+                if( exhaust_part == -1 ) {
                     spew_smoke( j, p );
                 } else {
                     mufflesmoke += j;
@@ -2334,7 +2335,7 @@ void vehicle::noise_and_smoke( double load, double time )
         }
     }
 
-    if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
+    if( exhaust_part != -1 ) {
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a car with engines off will make noise traveling at high speeds
@@ -3250,6 +3251,9 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
                 if (vel2_a > rng (10, 20)) {
                     g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
+                }
+                if (z->hp < 1 || z->is_hallucination()) {
+                    g->kill_mon (mondex, pl_ctrl);
                 }
             } else {
                 ph->hitall (dam, 40);

@@ -133,7 +133,7 @@ bool monster::setpos(const point &p, const bool level_change)
     return setpos(p.x, p.y, level_change);
 }
 
-point monster::pos() const
+point monster::pos()
 {
     return point(_posx, _posy);
 }
@@ -158,7 +158,7 @@ void monster::spawn(int x, int y)
     _posy = y;
 }
 
-std::string monster::name(unsigned int quantity) const
+std::string monster::name(unsigned int quantity)
 {
  if (!type) {
   debugmsg ("monster::name empty type!");
@@ -171,7 +171,7 @@ std::string monster::name(unsigned int quantity) const
 }
 
 // MATERIALS-TODO: put description in materials.json?
-std::string monster::name_with_armor() const
+std::string monster::name_with_armor()
 {
  std::string ret;
  if (type->in_species("INSECT")) {
@@ -191,7 +191,7 @@ std::string monster::name_with_armor() const
  return ret;
 }
 
-std::string monster::disp_name(bool possessive) const {
+std::string monster::disp_name(bool possessive) {
     if (!possessive) {
         return string_format(_("the %s"), name().c_str());
     } else {
@@ -199,16 +199,16 @@ std::string monster::disp_name(bool possessive) const {
     }
 }
 
-std::string monster::skin_name() const {
+std::string monster::skin_name() {
     return name_with_armor();
 }
 
-void monster::get_HP_Bar(nc_color &color, std::string &text) const
+void monster::get_HP_Bar(nc_color &color, std::string &text)
 {
     ::get_HP_Bar(hp, type->hp, color, text, true);
 }
 
-void monster::get_Attitude(nc_color &color, std::string &text) const
+void monster::get_Attitude(nc_color &color, std::string &text)
 {
     switch (attitude(&(g->u))) {
         case MATT_FRIEND:
@@ -235,10 +235,6 @@ void monster::get_Attitude(nc_color &color, std::string &text) const
             color = c_red;
             text = _("Hostile! ");
             break;
-        case MATT_ZLAVE:
-            color = c_green;
-            text = _("Zlave ");
-            break;
         default:
             color = h_red;
             text = "BUG: Behavior unnamed. (monster.cpp:get_Attitude)";
@@ -246,8 +242,15 @@ void monster::get_Attitude(nc_color &color, std::string &text) const
     }
 }
 
-int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
+int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
 {
+    // First line of w is the border; the next two are terrain info, and after that
+    // is a blank line. w is 13 characters tall, and we can't use the last one
+    // because it's a border as well; so we have lines 4 through 11.
+    // w is also 48 characters wide - 2 characters for border = 46 characters for us
+    // vStart added because 'help' text in targeting win makes helpful info hard to find
+    // at a glance.
+
     const int vEnd = vStart + vLines;
 
     mvwprintz(w, vStart++, column, c_white, "%s ", name().c_str());
@@ -263,8 +266,6 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
         wprintz(w, h_white, _("Stunned"));
     } else if (has_effect("beartrap")) {
         wprintz(w, h_white, _("Trapped"));
-    } else if (has_effect("tied")) {
-        wprintz(w, h_white, _("Tied"));
     }
     std::string damage_info;
     nc_color col;
@@ -303,34 +304,29 @@ const std::string &monster::symbol() const
     return type->sym;
 }
 
-nc_color monster::basic_symbol_color() const
+nc_color monster::basic_symbol_color()
 {
     return type->color;
 }
 
-nc_color monster::symbol_color() const
+nc_color monster::symbol_color()
 {
     return color_with_effects();
 }
 
-bool monster::is_symbol_highlighted() const
+bool monster::is_symbol_highlighted()
 {
     return (friendly != 0);
 }
 
-nc_color monster::color_with_effects() const
+nc_color monster::color_with_effects()
 {
-    nc_color ret = type->color;
-    if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied")) {
-        ret = hilite(ret);
-    }
-    if (has_effect("zlave")) {
-        ret = invert_color(ret);
-    }
-    if (has_effect("onfire")) {
-        ret = red_background(ret);
-    }
-    return ret;
+ nc_color ret = type->color;
+ if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed"))
+  ret = hilite(ret);
+ if (has_effect("onfire"))
+  ret = red_background(ret);
+ return ret;
 }
 
 bool monster::has_flag(const m_flag f) const
@@ -338,12 +334,12 @@ bool monster::has_flag(const m_flag f) const
  return type->has_flag(f);
 }
 
-bool monster::can_see() const
+bool monster::can_see()
 {
  return has_flag(MF_SEES) && !has_effect("blind");
 }
 
-bool monster::can_hear() const
+bool monster::can_hear()
 {
  return has_flag(MF_HEARS) && !has_effect("deaf");
 }
@@ -354,13 +350,13 @@ bool monster::can_submerge() const
           && !has_flag(MF_ELECTRONIC);
 }
 
-bool monster::can_drown() const
+bool monster::can_drown()
 {
  return !has_flag(MF_SWIMS) && !has_flag(MF_AQUATIC)
          && !has_flag(MF_NO_BREATHE) && !has_flag(MF_FLIES);
 }
 
-bool monster::digging() const
+bool monster::digging()
 {
     return has_flag(MF_DIGS) || (has_flag(MF_CAN_DIG) && g->m.has_flag("DIGGABLE", posx(), posy()));
 }
@@ -400,14 +396,18 @@ bool monster::sees_player(int & tc, player * p) const {
     );
 }
 
-bool monster::made_of(std::string m) const
+bool monster::made_of(std::string m)
 {
-    return type->mat == m;
+ if (type->mat == m)
+  return true;
+ return false;
 }
 
-bool monster::made_of(phase_id p) const
+bool monster::made_of(phase_id p)
 {
-    return type->phase == p;
+ if (type->phase == p)
+  return true;
+ return false;
 }
 
 void monster::load_info(std::string data)
@@ -425,6 +425,16 @@ void monster::load_info(std::string data)
     } else {
         load_legacy(dump);
     }
+}
+
+/*
+ * save serialized monster data to a line.
+ * This is useful after player.sav is fully jsonized, to save full static spawns in maps.txt
+ */
+std::string monster::save_info()
+{
+    // saves contents
+    return serialize();
 }
 
 void monster::debug(player &u)
@@ -457,7 +467,7 @@ point monster::move_target()
     return point(plans.back().x, plans.back().y);
 }
 
-bool monster::is_fleeing(player &u) const
+bool monster::is_fleeing(player &u)
 {
  if (has_effect("run"))
   return true;
@@ -466,73 +476,61 @@ bool monster::is_fleeing(player &u) const
          (att == MATT_FOLLOW && rl_dist(_posx, _posy, u.posx, u.posy) <= 4));
 }
 
-monster_attitude monster::attitude(player *u) const
+monster_attitude monster::attitude(player *u)
 {
-    if (friendly != 0 && !(has_effect("docile"))) {
-        return MATT_FRIEND;
-    }
-    if (friendly != 0 ) {
-        return MATT_FPASSIVE;
-    }
-    if (has_effect("run")) {
-        return MATT_FLEE;
-    }
-    if (has_effect("zlave")) {
-        return MATT_ZLAVE;
-    }
+ if (friendly != 0 && !(has_effect("docile")))
+  return MATT_FRIEND;
+ if (friendly != 0 )
+  return MATT_FPASSIVE;
+ if (has_effect("run"))
+  return MATT_FLEE;
 
-    int effective_anger  = anger;
-    int effective_morale = morale;
+ int effective_anger  = anger;
+ int effective_morale = morale;
 
-    if (u != NULL) {
-        if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
-             (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT"))) &&
-            effective_anger >= 10) {
-            effective_anger -= 20;
-        }
+ if (u != NULL) {
 
-        if ( (type->id == "mon_bee") && (u->has_trait("FLOWERS"))) {
-            effective_anger -= 10;
-        }
+  if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
+       (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT"))) &&
+      effective_anger >= 10) {
+      effective_anger -= 20;
+  }
+  
+  if ( (type->id == "mon_bee") && (u->has_trait("FLOWERS"))) {
+      effective_anger -= 10;
+  }
 
-        if (u->has_trait("TERRIFYING")) {
-            effective_morale -= 10;
-        }
+  if (u->has_trait("TERRIFYING"))
+   effective_morale -= 10;
 
-        if (u->has_trait("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
-            if (effective_anger >= 10) {
-                effective_anger -= 10;
-            }
-            if (effective_anger < 10) {
-                effective_morale += 5;
-            }
-        }
-        if (u->has_trait("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
-            if (effective_anger >= 10) {
-                effective_anger += 10;
-            }
-            if (effective_anger < 10) {
-                effective_morale -= 5;
-            }
-        }
-    }
+  if (u->has_trait("ANIMALEMPATH") && has_flag(MF_ANIMAL)) {
+   if (effective_anger >= 10)
+    effective_anger -= 10;
+   if (effective_anger < 10)
+    effective_morale += 5;
+  }
+  if (u->has_trait("ANIMALDISCORD") && has_flag(MF_ANIMAL)) {
+   if (effective_anger >= 10)
+    effective_anger += 10;
+   if (effective_anger < 10)
+    effective_morale -= 5;
+  }
 
-    if (effective_morale < 0) {
-        if (effective_morale + effective_anger > 0) {
-            return MATT_FOLLOW;
-        }
-        return MATT_FLEE;
-    }
+ }
 
-    if (effective_anger <= 0) {
-        return MATT_IGNORE;
-    }
+ if (effective_morale < 0) {
+  if (effective_morale + effective_anger > 0)
+   return MATT_FOLLOW;
+  return MATT_FLEE;
+ }
 
-    if (effective_anger < 10) {
-        return MATT_FOLLOW;
-    }
+ if (effective_anger <= 0)
+  return MATT_IGNORE;
 
-    return MATT_ATTACK;
+ if (effective_anger < 10)
+  return MATT_FOLLOW;
+
+ return MATT_ATTACK;
 }
 
 void monster::process_triggers()
@@ -561,11 +559,11 @@ void monster::process_trigger(monster_trigger trig, int amount)
 }
 
 
-int monster::trigger_sum(std::set<monster_trigger> *triggers) const
+int monster::trigger_sum(std::set<monster_trigger> *triggers)
 {
  int ret = 0;
  bool check_terrain = false, check_meat = false, check_fire = false;
- for (auto trig = triggers->begin(); trig != triggers->end(); ++trig)
+ for (std::set<monster_trigger>::iterator trig = triggers->begin(); trig != triggers->end(); ++trig)
  {
      switch (*trig){
       case MTRIG_STALK:
@@ -635,19 +633,19 @@ bool monster::is_underwater() const {
     return can_submerge();
 }
 
-bool monster::is_on_ground() const {
+bool monster::is_on_ground() {
     return false; //TODO: actually make this work
 }
 
-bool monster::has_weapon() const {
+bool monster::has_weapon() {
     return false; // monsters will never have weapons, silly
 }
 
-bool monster::is_warm() const {
+bool monster::is_warm() {
     return has_flag(MF_WARM);
 }
 
-bool monster::is_dead_state() const {
+bool monster::is_dead_state() {
     return hp <= 0;
 }
 
@@ -814,7 +812,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         // TODO: characters practice dodge when a hit misses 'em
         if (target.is_player()) {
             if (u_see_me) {
-                add_msg(_("You dodge %s."), disp_name().c_str());
+                add_msg(_("You dodge %1$s."), disp_name().c_str());
             } else {
                 add_msg(_("You dodge an attack from an unseen source."));
             }
@@ -828,42 +826,33 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
         if (target.is_player()) {
             if (u_see_me) {
-                //~ 1$s is attaker name, 2$s is bodypart name in accusative.
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
             } else {
-                //~ %s is is bodypart name in accusative.
                 add_msg(m_bad, _("Something hits your %s."),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str());
             }
         } else {
             if (u_see_me) {
-                //~ 1$s is attaker name, 2$s is target name, 3$s is bodypart name in accusative.
                 add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
-                        target.disp_name(true).c_str(),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
+                            target.disp_name(true).c_str(),
+                            body_part_name(bp_hit, random_side(bp_hit)).c_str());
             }
         }
     } else {
         if (target.is_player()) {
             if (u_see_me) {
-                //~ 1$s is attaker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."),name().c_str(),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
-                        target.skin_name().c_str());
+                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
             } else {
-                //~ 1$s is bodypart name in accusative, 2$s is armor name.
                 add_msg(_("Something hits your %1$s, but your %2$s protects you."),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
-                        target.skin_name().c_str());
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
             }
         } else {
             if (u_see_me) {
-                //~ $1s is monster name, %2$s is that monster target name,
-                //~ $3s is target bodypart name in accusative, 4$s is target armor name.
                 add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
                             target.disp_name(true).c_str(),
-                            body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
+                            body_part_name(bp_hit, random_side(bp_hit)).c_str(),
                             target.skin_name().c_str());
             }
         }
@@ -871,7 +860,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     if (is_hallucination()) {
         if(one_in(7)) {
-            die( nullptr );
+            dead = true;
         }
         return;
     }
@@ -925,7 +914,8 @@ void monster::hit_monster(int i)
  if (g->u_see(this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
- target->hurt(damage);
+ if (target->hurt(damage))
+  g->kill_mon(i, (friendly != 0));
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
@@ -1007,34 +997,28 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
 }
 
 void monster::apply_damage(Creature* source, body_part bp, int side, int amount) {
-    // monsters don't have bodyparts
-    (void) bp;
-    (void) side;
-    hurt(amount, 0, source);
+    if (is_dead_state()) return; // don't do any more damage if we're already dead
+    hurt(bp, side, amount);
+    if (is_dead_state()) die(source);
 }
 
 void monster::hurt(body_part, int, int dam) {
-    hurt(dam, 0, nullptr);
+    hurt(dam);
 }
 
-void monster::hurt(int dam) {
-    hurt(dam, 0, nullptr);
-}
-
-void monster::hurt( int dam, int real_dam, Creature *source )
+bool monster::hurt(int dam, int real_dam)
 {
-    if( dead ) {
-        return;
-    }
-    hp -= dam;
-    if( real_dam > 0 ) {
-        hp = std::max( hp, -real_dam );
-    }
-    if( hp < 1 ) {
-        die( source );
-    } else if( dam > 0 ) {
-        process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
-    }
+ hp -= dam;
+ if( real_dam > 0 ) {
+     hp = std::max( hp, -real_dam );
+ }
+ if (hp < 1) {
+     return true;
+ }
+ if (dam > 0) {
+     process_trigger(MTRIG_HURT, 1 + int(dam / 3));
+ }
+ return false;
 }
 
 int monster::get_armor_cut(body_part bp)
@@ -1059,7 +1043,7 @@ int monster::get_dodge()
  if (has_effect("downed"))
   return 0;
  int ret = type->sk_dodge;
- if (has_effect("beartrap") || has_effect("tied"))
+ if (has_effect("beartrap"))
   ret /= 2;
  if (moves <= 0 - 100 - type->speed)
   ret = rng(0, ret);
@@ -1096,102 +1080,25 @@ int monster::fall_damage()
  return 0;
 }
 
-void monster::explode()
-{
-    if( is_hallucination() ) {
-        //Can't gib hallucinations
-        return;
-    }
-    // Send body parts and blood all over!
-    const itype_id meat = type->get_meat_itype();
-    const field_id type_blood = bloodType();
-    if( meat != "null" || type_blood != fd_null ) {
-        // Only create chunks if we know what kind to make.
-        int num_chunks = 0;
-        switch( type->size ) {
-            case MS_TINY:
-                num_chunks = 1;
-                break;
-            case MS_SMALL:
-                num_chunks = 2;
-                break;
-            case MS_MEDIUM:
-                num_chunks = 4;
-                break;
-            case MS_LARGE:
-                num_chunks = 8;
-                break;
-            case MS_HUGE:
-                num_chunks = 16;
-                break;
-        }
-
-        for( int i = 0; i < num_chunks; i++ ) {
-            int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
-            std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
-
-            bool done = false;
-            for( size_t j = 0; j < traj.size() && !done; j++ ) {
-                tarx = traj[j].x;
-                tary = traj[j].y;
-                if( type_blood != fd_null ) {
-                    g->m.add_field( tarx, tary, type_blood, 1 );
-                }
-                g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), gibType(), rng( 1, j + 1 ) );
-
-                if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tarx, tary, 3 ) ) {
-                        if( j > 0 ) {
-                            tarx = traj[j - 1].x;
-                            tary = traj[j - 1].y;
-                        }
-                        done = true;
-                    }
-                }
-            }
-            if( meat != "null" ) {
-                g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
-            }
-        }
-    }
-}
-
 void monster::die(Creature* nkiller) {
-    if( dead ) {
-        // We are already dead, don't die again, note that monster::dead is
-        // *only* set to true in this function!
-        return;
-    }
-    dead = true;
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
-    if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
-        explode(); // Explode them if it was big overkill
-    }
-    if (!no_extra_death_drops) {
-        drop_items_on_death();
-    }
-    // TODO: should actually be class Character
-    player *ch = dynamic_cast<player*>( get_killer() );
-    if( !is_hallucination() && ch != nullptr ) {
-        if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
-            // has guilt flag or player is pacifist && monster is humanoid
-            mdeath tmpdeath;
-            tmpdeath.guilt( this );
-        }
-        // TODO: add a kill counter to npcs?
-        if( ch->is_player() ) {
-            g->increase_kill_count( type->id );
-        }
-        if( type->difficulty >= 30 ) {
-            ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
-                                  pgettext( "memorial_female", "Killed a %s." ),
-                                  name().c_str() );
-        }
-    }
-    for( const auto &it : inv ) {
-        g->m.add_item_or_charges( posx(), posy(), it );
+    g->kill_mon(*this, nkiller != NULL && nkiller->is_player());
+}
+
+void monster::die()
+{
+ if (!dead)
+  dead = true;
+ if (!no_extra_death_drops) {
+  drop_items_on_death();
+ }
+    if (type->difficulty >= 30 && get_killer() != NULL && get_killer()->is_player()) {
+        g->u.add_memorial_log(
+            pgettext("memorial_male", "Killed a %s."),
+            pgettext("memorial_female", "Killed a %s."),
+            name().c_str());
     }
 
 // If we're a queen, make nearby groups of our type start to die out
@@ -1349,7 +1256,7 @@ bool monster::is_hallucination() const
   return hallucination;
 }
 
-field_id monster::bloodType() const {
+field_id monster::bloodType() {
     if (has_flag(MF_ACID_BLOOD))
         //A monster that has the death effect "ACID" does not need to have acid blood.
         return fd_acid;
@@ -1365,7 +1272,7 @@ field_id monster::bloodType() const {
         return fd_blood;
     return fd_null; //Please update the corpse blood type code at mtypedef.cpp modifying these rules!
 }
-field_id monster::gibType() const {
+field_id monster::gibType() {
     if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))
         return fd_gibs_invertebrate;
     if (made_of("veggy"))
@@ -1375,7 +1282,7 @@ field_id monster::gibType() const {
     return fd_gibs_flesh; //Please update the corpse gib type code at mtypedef.cpp modifying these rules!
 }
 
-bool monster::getkeep() const
+bool monster::getkeep()
 {
     return keep;
 }
@@ -1385,11 +1292,11 @@ void monster::setkeep(bool r)
     keep = r;
 }
 
-m_size monster::get_size() const {
+m_size monster::get_size() {
     return type->size;
 }
 
-void monster::add_msg_if_npc(const char *msg, ...) const
+void monster::add_msg_if_npc(const char *msg, ...)
 {
     va_list ap;
     va_start(ap, msg);
@@ -1407,7 +1314,7 @@ void monster::add_msg_if_npc(const char *msg, ...) const
     va_end(ap);
 }
 
-void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...) const
+void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...)
 {
     va_list ap;
     va_start(ap, npc_str);
@@ -1427,7 +1334,7 @@ void monster::add_msg_player_or_npc(const char *, const char* npc_str, ...) cons
     va_end(ap);
 }
 
-void monster::add_msg_if_npc(game_message_type type, const char *msg, ...) const
+void monster::add_msg_if_npc(game_message_type type, const char *msg, ...)
 {
     va_list ap;
     va_start(ap, msg);
@@ -1445,7 +1352,7 @@ void monster::add_msg_if_npc(game_message_type type, const char *msg, ...) const
     va_end(ap);
 }
 
-void monster::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...) const
+void monster::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...)
 {
     va_list ap;
     va_start(ap, npc_str);
@@ -1463,9 +1370,4 @@ void monster::add_msg_player_or_npc(game_message_type type, const char *, const 
         add_msg(type, processed_npc_string.c_str());
     }
     va_end(ap);
-}
-
-bool monster::is_dead() const
-{
-    return dead || is_dead_state();
 }

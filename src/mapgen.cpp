@@ -9291,7 +9291,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 add_spawn("mon_zombie", 1, x, y);
             }
         }
-        // Finally, figure out where the road is; construct our entrance facing that.
+        // Finally, figure out where the road is; contruct our entrance facing that.
         std::vector<direction> faces_road;
         if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east)) {
             rotate(1);
@@ -10899,14 +10899,237 @@ int map::place_npc(int x, int y, std::string type)
     if(!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return -1; //Do not generate an npc.
     }
-    npc *temp = new npc();
-    temp->normalize();
-    temp->load_npc_template(type);
-    temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
-    temp->posx = x;
-    temp->posy = y;
-    g->load_npcs();
-    return temp->getID();
+    real_coords rc;
+    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+    //Old Guard NPCs, fac_id 1
+    if (type == "old_guard_rep"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_COWBOY);
+        temp->name += ", Representative";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_OLD_GUARD_REP;
+        temp->fac_id = 1;
+        temp->my_fac = g->faction_by_id(1);
+        int mission_index = g->reserve_mission(MISSION_OLD_GUARD_REP_1, temp->getID());
+        if (mission_index != -1)
+            temp->chatbin.missions.push_back(mission_index);
+        g->load_npcs();
+        return temp->getID();
+        }
+    //Free Merchant NPCs, fac_id 2
+    if (type == "evac_merchant"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_EVAC_SHOPKEEP);
+        temp->name += ", Merchant";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_SHOPKEEP;
+        temp->chatbin.first_topic = TALK_EVAC_MERCHANT;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        int mission_index = g->reserve_mission(MISSION_FREE_MERCHANTS_EVAC_1, temp->getID());
+        if (mission_index != -1)
+            temp->chatbin.missions.push_back(mission_index);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "evac_broker"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Broker";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_FREE_MERCHANT_STOCKS;
+        temp->personality.aggression -= 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "evac_guard1"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD1;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "evac_guard2"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD2;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "evac_guard3"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_GUARD3;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_GUARD;
+        temp->personality.aggression += 1;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "hostile_guard"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_BOUNTY_HUNTER);
+        temp->name += ", Guard";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_KILL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 2;
+        temp->my_fac = g->faction_by_id(2);
+        g->load_npcs();
+        return temp->getID();
+        }
+    //Wasteland Scavengers NPCs, fac_id 3
+    if (type == "scavenger_hunter"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_HUNTER);
+        temp->name += ", Hunter";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_EVAC_HUNTER;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "scavenger_merc"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_COWBOY);
+        temp->name += ", Merc";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_SCAVENGER_MERC;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "arsonist"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_ARSONIST);
+        temp->name = "Makayla Sanchez, Arsonist";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->male = false;
+        temp->attitude =  NPCATT_NULL;
+        temp->mission = NPC_MISSION_SHOPKEEP;
+        temp->chatbin.first_topic = TALK_ARSONIST;
+        temp->fac_id = 3;
+        temp->my_fac = g->faction_by_id(3);
+        g->load_npcs();
+        return temp->getID();
+        }
+    //Hell's Raiders NPCs, fac_id 4
+    if (type == "thug"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_THUG);
+        temp->name += ", Thug";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
+        g->load_npcs();
+        return temp->getID();
+        }
+    if (type == "bandit"){
+        npc *temp = new npc();
+        temp->normalize();
+        temp->randomize(NC_SCAVENGER);
+        temp->name += ", Bandit";
+        temp->spawn_at(g->cur_om, rc.om_sub.x, rc.om_sub.y, get_abs_sub().z);
+        temp->posx = x;
+        temp->posy = y;
+        temp->attitude = NPCATT_NULL;
+        temp->mission = NPC_MISSION_GUARD;
+        temp->chatbin.first_topic = TALK_DONE;
+        temp->personality.aggression = 10;
+        temp->fac_id = 4;
+        temp->my_fac = g->faction_by_id(4);
+        g->load_npcs();
+        return temp->getID();
+        }
+    debugmsg("place_npc: did not recognize npc class");
+    return -1;
 }
 
 // A chance of 100 indicates that items should always spawn,
@@ -10975,10 +11198,8 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
         debugmsg("Bad add_spawn(%s, %d, %d, %d)", type.c_str(), count, x, y);
         return;
     }
-    int offset_x, offset_y;
-    submap *place_on_submap = get_submap_at(x, y, offset_x, offset_y);
-
-    if(!place_on_submap) {
+    int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    if(!grid[nonant]) {
         debugmsg("centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d)",
                  type.c_str(), count, x, y);
         return;
@@ -10988,8 +11209,10 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
         // Don't spawn non-classic monsters in classic zombie mode.
         return;
     }
-    spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);
-    place_on_submap->spawns.push_back(tmp);
+    x %= SEEX;
+    y %= SEEY;
+    spawn_point tmp(type, count, x, y, faction_id, mission_id, friendly, name);
+    grid[nonant]->spawns.push_back(tmp);
 }
 
 void map::add_spawn(monster *mon)
@@ -11046,8 +11269,8 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     vehicle *placed_vehicle = add_vehicle_to_map(veh, x, y, merge_wrecks);
 
     if(placed_vehicle != NULL) {
-        submap *place_on_submap = get_submap_at_grid(placed_vehicle->smx, placed_vehicle->smy);
-        place_on_submap->vehicles.push_back(placed_vehicle);
+        const int nonant = placed_vehicle->smx + placed_vehicle->smy * my_MAPSIZE;
+        grid[nonant]->vehicles.push_back(placed_vehicle);
 
         vehicle_list.insert(placed_vehicle);
         update_vehicle_cache(placed_vehicle, true);
@@ -11175,9 +11398,9 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
 computer *map::add_computer(int x, int y, std::string name, int security)
 {
     ter_set(x, y, t_console); // TODO: Turn this off?
-    submap *place_on_submap = get_submap_at(x, y);
-    place_on_submap->comp = computer(name, security);
-    return &(place_on_submap->comp);
+    int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    grid[nonant]->comp = computer(name, security);
+    return &(grid[nonant]->comp);
 }
 
 /**

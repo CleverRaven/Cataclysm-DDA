@@ -131,7 +131,7 @@ template<typename T>
 bool requirements::any_marked_available( const std::vector<T> &comps )
 {
     for( const auto & comp : comps ) {
-        if( comp.available == a_true ) {
+        if( comp.available == 1 ) {
             return true;
         }
     }
@@ -297,11 +297,11 @@ bool requirements::has_comps( const inventory &crafting_inv,
         bool has_tool_in_set = false;
         for( const auto & tool : set_of_tools ) {
             if( tool.has( crafting_inv ) ) {
-                tool.available = a_true;
+                tool.available = 1;
             } else {
-                tool.available = a_false;
+                tool.available = -1;
             }
-            has_tool_in_set = has_tool_in_set || tool.available == a_true;
+            has_tool_in_set = has_tool_in_set || tool.available == 1;
         }
         if( !has_tool_in_set ) {
             retval = false;
@@ -317,7 +317,7 @@ bool quality_requirement::has( const inventory &crafting_inv ) const
 
 std::string quality_requirement::get_color( bool, const inventory & ) const
 {
-    return available == a_true ? "green" : "red";
+    return available == 1 ? "green" : "red";
 }
 
 bool tool_comp::has( const inventory &crafting_inv ) const
@@ -341,7 +341,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv ) 
             return "cyan";
         }
     }
-    if( available == a_insufficent ) {
+    if( available == 0 ) {
         return "brown";
     } else if( count < 0 && crafting_inv.has_tools( type, 1 ) ) {
         return "green";
@@ -379,7 +379,7 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv ) 
         }
     }
     const itype *it = item_controller->find_template( type );
-    if( available == a_insufficent ) {
+    if( available == 0 ) {
         return "brown";
     } else if( it->count_by_charges() && count > 0 ) {
         if( crafting_inv.has_charges( type, count ) ) {
@@ -391,82 +391,121 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv ) 
     return has_one ? "dkgray" : "red";
 }
 
-template<typename T>
-const T *requirements::find_by_type(const std::vector< std::vector<T> > &vec, const std::string &type)
-{
-    for( const auto & list : vec) {
-        for( const auto & comp : list) {
-            if( comp.type == type ) {
-                return &comp;
-            }
-        }
-    }
-    return nullptr;
-}
-
 bool requirements::check_enough_materials( const inventory &crafting_inv ) const
 {
     bool retval = true;
     for( const auto & component_choices : components ) {
         bool atleast_one_available = false;
         for( const auto & comp : component_choices ) {
-            if( check_enough_materials( comp, crafting_inv ) ) {
+            if( comp.available == 1 ) {
+                bool have_enough_in_set = true;
+                for( const auto & set_of_tools : tools ) {
+                    bool have_enough = false;
+                    bool found_same_type = false;
+                    for( const auto & tool : set_of_tools ) {
+                        if( tool.available == 1 ) {
+                            if( comp.type == tool.type ) {
+                                found_same_type = true;
+                                bool count_by_charges =
+                                    item_controller->find_template( comp.type )->count_by_charges();
+                                if( count_by_charges ) {
+                                    int req = comp.count;
+                                    if( tool.count > 0 ) {
+                                        req += tool.count;
+                                    } else  {
+                                        ++req;
+                                    }
+                                    if( crafting_inv.has_charges( comp.type, req ) ) {
+                                        have_enough = true;
+                                    }
+                                } else {
+                                    int req = comp.count + 1;
+                                    if( crafting_inv.has_components( comp.type, req ) ) {
+                                        have_enough = true;
+                                    }
+                                }
+                            } else {
+                                have_enough = true;
+                            }
+                        }
+                    }
+                    if( found_same_type ) {
+                        have_enough_in_set &= have_enough;
+                    }
+                }
+                if( !have_enough_in_set ) {
+                    // This component can't be used with any tools
+                    // from one of the sets of tools, which means
+                    // its availability should be set to 0 (in inventory,
+                    // but not enough for both tool and components).
+                    comp.available = 0;
+                }
+            }
+            //Flag that at least one of the components in the set is available
+            if( comp.available == 1 ) {
                 atleast_one_available = true;
             }
         }
+
         if( !atleast_one_available ) {
+            // this set doesn't have any components available,
+            // so the recipe can't be crafted
             retval = false;
         }
     }
-    return retval;
-}
 
-bool requirements::check_enough_materials( const item_comp& comp, const inventory& crafting_inv ) const
-{
-    if( comp.available != a_true ) {
-        return false;
+    for( const auto & set_of_tools : tools ) {
+        bool atleast_one_available = false;
+        for( const auto & tool : set_of_tools ) {
+            if( tool.available == 1 ) {
+                bool have_enough_in_set = true;
+                for( const auto & component_choices : components ) {
+                    bool have_enough = false, conflict = false;
+                    for( const auto & comp : component_choices ) {
+                        if( tool.type == comp.type ) {
+                            if( tool.count > 0 ) {
+                                int req = comp.count + tool.count;
+                                if( !crafting_inv.has_charges( comp.type, req ) ) {
+                                    conflict = true;
+                                    have_enough = have_enough || false;
+                                }
+                            } else {
+                                int req = comp.count + 1;
+                                if( !crafting_inv.has_components( comp.type, req ) ) {
+                                    conflict = true;
+                                    have_enough = have_enough || false;
+                                }
+                            }
+                        } else if( comp.available == 1 ) {
+                            have_enough = true;
+                        }
+                    }
+                    if( conflict ) {
+                        have_enough_in_set = have_enough_in_set && have_enough;
+                    }
+                }
+                if( !have_enough_in_set ) {
+                    // This component can't be used with any components
+                    // from one of the sets of components, which means
+                    // its availability should be set to 0 (in inventory,
+                    // but not enough for both tool and components).
+                    tool.available = 0;
+                }
+            }
+            //Flag that at least one of the tools in the set is available
+            if( tool.available == 1 ) {
+                atleast_one_available = true;
+            }
+        }
+
+        if( !atleast_one_available ) {
+            // this set doesn't have any tools available,
+            // so the recipe can't be crafted
+            retval = false;
+        }
     }
-    const itype *it = item_controller->find_template( comp.type );
-    const tool_comp *tq = find_by_type( tools, comp.type );
-    if( tq != nullptr ) {
-        // The very same item type is also needed as tool!
-        // Use charges of it, or use it by count?
-        const int tc = tq->count < 0 ? 1 : tq->count;
-        // Check for components + tool count. Check item amount (excludes
-        // pseudo items) and tool amount (includes pseudo items)
-        // Imagine: required = 1 welder (component) + 1 welder (tool),
-        // available = 1 welder (real item), 1 welding rig (creates
-        // a pseudo welder item). has_components(welder,2) returns false
-        // as there is only one real welder available, but has_tools(welder,2)
-        // returns true.
-        // Keep in mind that both requirements (tool+component) are checked
-        // before this. That assures that one real item is actually available,
-        // two welding rigs (and no real welder) would make this component
-        // non-available even before this function is called.
-        // Only ammo and (some) food is counted by charges, both are unlikely
-        // to appear as tool, but it's possible /-:
-        bool has_comps;
-        if( it->count_by_charges() && comp.count > 0 ) {
-            has_comps = crafting_inv.has_charges( comp.type, comp.count + tc );
-        } else {
-            has_comps = crafting_inv.has_components( comp.type, abs( comp.count ) + tc );
-        }
-        if( !has_comps && !crafting_inv.has_tools( comp.type, comp.count + tc ) ) {
-            comp.available = a_insufficent;
-        }
-    }
-    for( const auto &ql : it->qualities ) {
-        const quality_requirement *qr = find_by_type( qualities, ql.first );
-        if( qr == nullptr || qr->level > ql.second ) {
-            continue;
-        }
-        // This item can be used for the quality requirement, same as above for specific
-        // tools applies.
-        if( !crafting_inv.has_items_with_quality( qr->type, qr->level, qr->count + abs(comp.count) ) ) {
-            comp.available = a_insufficent;
-        }
-    }
-    return comp.available == a_true;
+
+    return retval;
 }
 
 template<typename T>

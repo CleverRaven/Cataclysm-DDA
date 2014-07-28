@@ -633,7 +633,7 @@
         "id" : "ANTIWHEAT",
         "name" : "Wheat Allergy",
         "points" : -2,
-        "description" : "You have a rare allergy that prevents you from eating wheat. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
+        "description" : "You have a rare allergen that prevents you from eating wheat. It's possible for you to eat them, but you will suffer morale penalties due to nausea.",
         "starting_trait" : true
     },{
         "type" : "mutation",

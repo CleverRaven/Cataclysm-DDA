@@ -178,7 +178,7 @@ void Creature::process_turn()
 }
 
 // MF_DIGS or MF_CAN_DIG and diggable terrain
-bool Creature::digging() const
+bool Creature::digging()
 {
     return false;
 }
@@ -437,10 +437,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
             } else if(this->is_player()) {
                 //monster hits player ranged
-                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-                add_msg_if_player(m_bad, _("You were hit in the %1$s for %2$d damage."),
-                                  body_part_name_accusative(bp_hit, side).c_str(),
-                                  dealt_dam.total_damage());
+                add_msg_if_player( m_bad, _( "You were hit in the %s for %d damage." ),
+                                          body_part_name( bp_hit, side ).c_str( ),
+                                          dealt_dam.total_damage( ) );
             } else if( u_see_this ) {
                 add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());
@@ -482,9 +481,6 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int 
     }
 
     apply_damage(source, bp, side, total_damage);
-    if( is_dead_state() ) {
-        die( source );
-    }
     return dealt_damage_instance(dealt_dams);
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
@@ -530,12 +526,12 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
  * State check functions
  */
 
-bool Creature::is_warm() const
+bool Creature::is_warm()
 {
     return true;
 }
 
-bool Creature::is_fake() const
+bool Creature::is_fake()
 {
     return fake;
 }
@@ -1017,7 +1013,7 @@ void Creature::on_gethit(Creature *, body_part, damage_instance &)
 /*
  * Drawing-related functions
  */
-void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
+void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted)
 {
     int draw_x = getmaxx(w) / 2 + xpos() - player_x;
     int draw_y = getmaxy(w) / 2 + ypos() - player_y;
@@ -1030,17 +1026,17 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
     }
 }
 
-nc_color Creature::basic_symbol_color() const
+nc_color Creature::basic_symbol_color()
 {
     return c_ltred;
 }
 
-nc_color Creature::symbol_color() const
+nc_color Creature::symbol_color()
 {
     return basic_symbol_color();
 }
 
-bool Creature::is_symbol_highlighted() const
+bool Creature::is_symbol_highlighted()
 {
     return false;
 }

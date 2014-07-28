@@ -42,8 +42,7 @@ const std::string &player_activity::get_stop_phrase() const {
         _(" Stop pumping gas?"), _(" Stop training?"),
         _(" Stop waiting?"), _(" Stop using first aid?"),
         _(" Stop fishing?"), _(" Stop mining?"),
-        _(" Stop smashing?"), _(" Stop de-stressing?"),
-        _(" Stop cutting tissues?")
+        _(" Stop smashing?")
     };
     return stop_phrase[type];
 }
@@ -59,7 +58,6 @@ bool player_activity::is_abortable() const {
         case ACT_FIRSTAID:
         case ACT_PICKAXE:
         case ACT_PULP:
-        case ACT_MAKE_ZLAVE:
             return true;
         default:
             return false;

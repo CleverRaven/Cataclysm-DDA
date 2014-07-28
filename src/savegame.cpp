@@ -356,17 +356,11 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
                             fin >> tmp_ter >> count;
-                            if( otermap.count( tmp_ter ) > 0 ) {
-                                tmp_otid = tmp_ter;
-                            } else if( tmp_ter.compare( 0, 7, "mall_a_" ) == 0 &&
-                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
-                                tmp_otid = tmp_ter + "_north";
-                            } else if( tmp_ter.compare( 0, 13, "necropolis_a_" ) == 0 &&
-                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
-                                tmp_otid = tmp_ter + "_north";
-                            } else {
+                            if (otermap.find(tmp_ter) == otermap.end()) {
                                 debugmsg("Loaded bad ter!  %s; ter %s", terfilename.c_str(), tmp_ter.c_str());
                                 tmp_otid = 0;
+                            } else {
+                                tmp_otid = tmp_ter;
                             }
                         }
                         count--;

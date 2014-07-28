@@ -563,20 +563,19 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                               c_red, _("No save games found!"));
                 } else {
-                    for( std::vector<std::string>::iterator it = savegames.begin();
-                         it != savegames.end(); ) {
+                    for (std::vector<std::string>::iterator it = savegames.begin(); it != savegames.end(); ++it) {
                         std::string savename = base64_decode(*it);
-                        if( MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername() ) {
+                        if(MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername()) {
                             it = savegames.erase(it);
+                            it--; // it-- because it will get incremented in the for loop
+                            continue;
                         } else {
-                            // calculates the index from distance between it and savegames.begin()
-                            int i = it - savegames.begin();
-                            available = true;
-                            int line = iMenuOffsetY - 2 - i;
-                            mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                                      (sel3 == i ? h_white : c_white),
-                                      base64_decode(*it).c_str());
-                            ++it;
+                        int i = it - savegames.begin(); // calculates the index from distance between it and savegames.begin()
+                        available = true;
+                        int line = iMenuOffsetY - 2 - i;
+                        mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                                  (sel3 == i ? h_white : c_white),
+                                  base64_decode(*it).c_str());
                         }
                     }
                     if (!available) {

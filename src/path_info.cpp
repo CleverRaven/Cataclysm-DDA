@@ -2,7 +2,6 @@
 #include "path_info.h"
 #include "options.h"
 #include "file_wrapper.h"
-#include <locale.h>
 
 // create map where we will store the FILENAMES
 std::map<std::string, std::string> FILENAMES;

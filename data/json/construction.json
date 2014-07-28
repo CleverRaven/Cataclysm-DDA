@@ -4,7 +4,9 @@
         "description" : "Dig Pit",
         "difficulty" : 0,
         "time" : 10,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel", "digging_stick" ]
+        ],
         "pre_flags" : "DIGGABLE",
         "post_terrain" : "t_pit_shallow"
     },{
@@ -12,7 +14,9 @@
         "description" : "Dig Pit",
         "difficulty" : 0,
         "time" : 10,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "t_pit"
     },{
@@ -30,7 +34,9 @@
         "description" : "Fill Pit",
         "difficulty" : 0,
         "time" : 5,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_pit_shallow"
     },{
@@ -38,7 +44,9 @@
         "description" : "Fill Pit",
         "difficulty" : 0,
         "time" : 5,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "pre_terrain" : "t_pit_spiked",
         "post_terrain" : "t_pit_shallow"
     },{
@@ -46,7 +54,9 @@
         "description" : "Fill Pit",
         "difficulty" : 0,
         "time" : 5,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "t_dirt"
     },{
@@ -54,7 +64,9 @@
         "description" : "Till Soil",
         "difficulty" : 0,
         "time" : 10,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "tools" : [
+            [ "hoe", "shovel", "e_tool", "primitive_shovel", "digging_stick" ]
+        ],
         "pre_flags" : "DIGGABLE",
         "post_terrain" : "t_dirtmound"
     },{
@@ -62,7 +74,9 @@
         "description" : "Tamp ground",
         "difficulty" : 0,
         "time" : 5,
-        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel", "digging_stick" ]
+        ],
         "pre_terrain": "t_dirtmound",
         "post_terrain" : "t_dirt"
     },{
@@ -70,7 +84,16 @@
         "description" : "Chop Down Tree",
         "difficulty" : 0,
         "time" : 10,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
+        "tools" : [
+            [
+                "ax",
+                "fire_ax",
+                "primitive_axe",
+                "battleaxe",
+                "chainsaw_on",
+                "combatsaw_on"
+            ]
+        ],
         "pre_terrain" : "t_tree",
         "post_terrain" : "t_dirt",
         "post_special" : "done_tree"
@@ -79,7 +102,16 @@
         "description" : "Chop Tree trunk into logs",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
+        "tools" : [
+            [
+                "ax",
+                "fire_ax",
+                "primitive_axe",
+                "battleaxe",
+                "chainsaw_on",
+                "combatsaw_on"
+            ]
+        ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
         "post_special" : "done_trunk_log"
@@ -88,9 +120,9 @@
         "description" : "Chop Tree trunk into planks",
         "difficulty" : 0,
         "time" : 23,
-        "qualities": [ [
-            { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "ax", "fire_ax", "primitive_axe", "chainsaw_on", "saw", "battleaxe" ]
+        ],
         "pre_terrain" : "t_trunk",
         "post_terrain" : "t_dirt",
         "post_special" : "done_trunk_plank"
@@ -262,7 +294,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Up Window",
-        "difficulty" : 4,
+        "difficulty" : 5,
         "time" : 10,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
@@ -277,7 +309,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Up Empty Window",
-        "difficulty" : 4,
+        "difficulty" : 5,
         "time" : 10,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset" ]
@@ -380,7 +412,9 @@
         "description" : "Build Log Wall",
         "difficulty" : 2,
         "time" : 20,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "components" : [
             [ [ "log", 2 ] ],
             [ [ "stick", 3 ], [ "2x4", 6 ] ]
@@ -392,7 +426,9 @@
         "description" : "Build Log Wall",
         "difficulty" : 2,
         "time" : 20,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "components" : [
             [ [ "log", 2 ] ],
             [ [ "stick", 3 ], [ "2x4", 6 ] ]
@@ -404,7 +440,9 @@
         "description" : "Build Palisade Wall",
         "difficulty" : 2,
         "time" : 20,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "components" : [
             [ [ "log", 3 ] ],
             [ [ "wire", 6 ], [ "wire_barbed", 4 ], [ "rope_6", 2 ], [ "chain", 1 ] ]
@@ -453,7 +491,9 @@
         "description" : "Build Palisade Gate",
         "difficulty" : 2,
         "time" : 20,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ]
+        ],
         "components" : [
             [ [ "log", 2 ] ],
             [ [ "2x4", 3 ] ],
@@ -671,9 +711,9 @@
         "description" : "Build Log & Sod Roof",
         "difficulty" : 3,
         "time" : 40,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "tools" : [
-            ["hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ]
+            ["hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ],
+            ["shovel", "e_tool", "primitive_shovel"]
         ],
         "components" : [
             [ [ "log", 2 ] ],
@@ -1253,9 +1293,9 @@
         "description" : "Dig Downstair",
         "difficulty" : 5,
         "time" : 420,
-        "qualities": [ [ { "id": "DIG", "level": 3 } ] ],
         "tools" : [
             [ "pickaxe" ],
+            [ "shovel", "e_tool" ],
             [ "hatchet", "ax", "primitive_axe" ],
             [ "hatchet", "hammer", "hammer_sledge", "toolbox" ]
         ],
@@ -1270,9 +1310,9 @@
         "description" : "Mine Downstair",
         "difficulty" : 6,
         "time" : 480,
-        "qualities": [ [ { "id": "DIG", "level": 3 } ] ],
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
+            [ "shovel", "e_tool" ],
             [ "crowbar", "halligan"],
             [ "hatchet", "ax" ],
             [ "hammer", "hammer_sledge", "toolbox" ]
@@ -1290,9 +1330,9 @@
         "description" : "Mine Upstair",
         "difficulty" : 6,
         "time" : 480,
-        "qualities": [ [ { "id": "DIG", "level": 3 } ] ],
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
+            [ "shovel", "e_tool" ],
             [ "crowbar", "halligan"],
             [ "hatchet", "ax" ],
             [ "hammer", "hammer_sledge", "toolbox" ],

@@ -29,7 +29,7 @@ bool monster::wander()
  return (plans.empty());
 }
 
-bool monster::can_move_to(int x, int y) const
+bool monster::can_move_to(int x, int y)
 {
     if (g->m.move_cost(x, y) == 0 &&
      (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y))) {
@@ -218,7 +218,7 @@ void monster::move()
 
     //Hallucinations have a chance of disappearing each turn
     if (is_hallucination() && one_in(25)) {
-        die( nullptr );
+        dead = true;
         return;
     }
 
@@ -289,7 +289,7 @@ void monster::move()
         }
     }
 
-    if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL)) && !has_effect("zlave")) {
+    if (sp_timeout == 0 && (friendly == 0 || has_flag(MF_FRIENDLY_SPECIAL))) {
         mattack ma;
         if(!is_hallucination()) {
             (ma.*type->sp_attack)(this);
@@ -579,7 +579,7 @@ point monster::wander_next()
  return next;
 }
 
-int monster::calc_movecost(int x1, int y1, int x2, int y2) const
+int monster::calc_movecost(int x1, int y1, int x2, int y2)
 {
     int movecost = 0;
     float diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
@@ -656,9 +656,6 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
 }
 
 int monster::bash_at(int x, int y) {
-
-    if (has_effect("zlave")) return 0;
-
     //Hallucinations can't bash stuff.
     if(is_hallucination()) {
         return 0;
@@ -706,9 +703,6 @@ int monster::bash_at(int x, int y) {
 }
 
 int monster::attack_at(int x, int y) {
-
-    if (has_effect("zlave")) return 0;
-
     int mondex = g->mon_at(x, y);
     int npcdex = g->npc_at(x, y);
 
@@ -729,7 +723,7 @@ int monster::attack_at(int x, int y) {
 
         // Special case: Target is hallucination
         if(mon.is_hallucination()) {
-            mon.die( nullptr );
+            mon.dead = true;
 
             // We haven't actually attacked anything, i.e. we can still do things.
             // Hallucinations(obviously) shouldn't affect the way real monsters act.
@@ -768,7 +762,7 @@ int monster::move_to(int x, int y, bool force)
         return 0;
     }
 
-    if (has_effect("beartrap") || has_effect("tied")) {
+    if (has_effect("beartrap")) {
         moves = 0;
         return 0;
     }
@@ -1018,7 +1012,7 @@ void monster::knock_back_from(int x, int y)
 bool monster::will_reach(int x, int y)
 {
  monster_attitude att = attitude(&(g->u));
- if (att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE)
+ if (att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND)
   return false;
 
  if (has_flag(MF_DIGS))

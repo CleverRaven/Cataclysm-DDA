@@ -259,7 +259,7 @@ void show_auto_pickup()
                                    "wooden ar*      matches items beginning with wood ar\n"
                                    "*rrow           matches items ending with rrow\n"
                                    "*avy fle*fi*arrow     multiple * are allowed\n"
-                                   "heAVY*woOD*arrOW      case insensitive search\n"
+                                   "heAVY*woOD*arrOW      case insesitive search\n"
                                    "")
                               );
 
