@@ -1313,6 +1313,7 @@
 },{
         "type" : "recipe",
   "result": "water",
+  "id_suffix": "BPS_TEST",
   "byproducts" : "towel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
