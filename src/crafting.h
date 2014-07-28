@@ -16,11 +16,30 @@
 typedef std::string craft_cat;
 typedef std::string craft_subcat;
 
+struct byproduct
+{
+    itype_id result;
+    int charges_mult;
+    int amount;
+
+    byproduct()
+    {
+        result = "null";
+        charges_mult = 1;
+        amount = 1;
+    }
+
+    byproduct(itype_id res, int mult = 1, int amnt = 1)
+    : result(res), charges_mult(mult), amount(amnt)
+    {
+    }
+};
+
 struct recipe : public requirements {
     std::string ident;
     int id;
     itype_id result;
-    std::vector<itype_id> byproducts;
+    std::vector<byproduct> byproducts;
     craft_cat cat;
     craft_subcat subcat;
     Skill *skill_used;
@@ -54,7 +73,7 @@ struct recipe : public requirements {
     recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat,
            std::string &to_use,
            std::map<std::string, int> &to_require, int pdiff, bool preversible, bool pautolearn,
-           int plearn_dis, int pmult, std::vector<itype_id> &bps) :
+           int plearn_dis, int pmult, std::vector<byproduct> &bps) :
         ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff),
         reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis),
         result_mult(pmult)
@@ -78,8 +97,6 @@ struct recipe : public requirements {
     item create_result() const;
 
     // Create byproduct instances as if the recipe was just finished
-    // No charges for byproducts (for now)
-    // Not reversible
     std::vector<item> create_byproducts() const;
 
     bool has_byproducts() const;

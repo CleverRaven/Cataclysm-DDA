@@ -116,16 +116,26 @@ void load_recipe(JsonObject &jsobj)
         }
     }
 
-    std::vector<itype_id> bps;
-    // could be a single byproduct, or multiple
+    std::vector<byproduct> bps;
+    // could be a single byproduct - either id or byproduct, or array of ids and byproducts
     if (jsobj.has_string("byproducts")) {
-        bps.push_back(jsobj.get_string("byproducts"));
+        bps.push_back(byproduct(jsobj.get_string("byproducts")));
+    }
+    else if (jsobj.has_object("byproducts")) {
+        JsonObject jsbp = jsobj.get_object("byproducts");
+        bps.push_back(byproduct(jsbp.get_string("id"), jsbp.get_int("charges_mult", 1), jsbp.get_int("amount", 1)));
     }
     else if (jsobj.has_array("byproducts")) {
         jsarr = jsobj.get_array("byproducts");
         while (jsarr.has_more()) {
             JsonArray ja = jsarr.next_array();
-            bps.push_back(ja.get_string(0));
+            if (ja.has_string(0)) {
+                bps.push_back(byproduct(ja.get_string(0)));
+            }
+            else if (ja.has_object(0)) {
+                JsonObject jsbp = ja.get_object(0);
+                bps.push_back(byproduct(jsbp.get_string("id"), jsbp.get_int("charges_mult", 1), jsbp.get_int("amount", 1)));
+            }
         }
     }
 
@@ -958,11 +968,16 @@ std::vector<item> recipe::create_byproducts() const
 {
     std::vector<item> bps;
     for(auto& val : byproducts) {
-        item newit(val, calendar::turn, false);
-        if (!newit.craft_has_charges()) {
-            newit.charges = 0;
+        for (int i = 0; i < val.amount; i++) {
+            item newit(val.result, calendar::turn, false);
+            if (val.charges_mult != 1) {
+                newit.charges *= val.charges_mult;
+            }
+            if (!newit.craft_has_charges()) {
+                newit.charges = 0;
+            }
+            bps.push_back(newit);
         }
-        bps.push_back(newit);
     }
     return bps;
 }
