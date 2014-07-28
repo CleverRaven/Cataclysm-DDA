@@ -8550,7 +8550,7 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         uimenu menu;
         menu.selected = 0;
-        menu.text = _("Welcome to the RobotChef KA101-model. Choose option:");
+        menu.text = _("Welcome to the RobotChef3000. Choose option:");
 
         menu.addentry(mc_cancel, true, 'q', _("Cancel"));
 
