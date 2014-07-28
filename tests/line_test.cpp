@@ -102,7 +102,7 @@ std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, 
 #define RANDOM_TEST_NUM 1000
 #define COORDINATE_RANGE 99
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
     (void)argc;
     (void)argv;

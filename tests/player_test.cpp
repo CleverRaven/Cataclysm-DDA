@@ -64,7 +64,7 @@ void test_temperature_spread( player *p, int ambient_temps[], std::string clothi
     temperature_check( p, ambient_temps[6], BODYTEMP_SCORCHING, clothing );
 }
 
-int main(int argc, char *argv[])
+int main(int, char *[])
 {
     (void)argc;
     (void)argv;
