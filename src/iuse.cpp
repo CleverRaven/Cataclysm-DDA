@@ -516,7 +516,7 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     } else if ((p->hp_cur[healed] >= 1) && (dam < 0)) {
         body_part bp;
         p->hp_convert( healed, bp );
-        p->hurt( nullptr, bp, -dam ); //hurt takes + damage
+        p->apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
     body_part bp_healed = bp_torso;

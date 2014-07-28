@@ -497,12 +497,9 @@ public:
   *  absorb() reduces dam and cut by your armor (and bionics, traits, etc)
   */
  void absorb(body_part bp, int &dam, int &cut);
- /** Hurts a body_part directly, no armor reduction */
- void hurt (Creature *source, body_part bphurt, int  dam);
-
  /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
  dealt_damage_instance deal_damage(Creature* source, body_part bp, const damage_instance& d);
- /** Actually hurt the player */
+ /** Actually hurt the player, hurts a body_part directly, no armor reduction */
  void apply_damage(Creature* source, body_part bp, int amount);
  /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
  void mod_pain(int npain);

@@ -792,7 +792,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                                         message.c_str(), guy->name.c_str(), dam);
             }
 
-            guy->hurt( &p, bp, dam );
+            guy->apply_damage( &p, bp, dam );
             if (guy->is_dead_state())
                 guy->die(&p);
             return;

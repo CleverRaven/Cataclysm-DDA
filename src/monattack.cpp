@@ -1481,7 +1481,7 @@ void mattack::tazer(monster *z)
     }
     add_msg(m_bad, _("The %s shocks you!"), z->name().c_str());
     int shock = rng(1, 5);
-    g->u.hurt(z, bp_torso, shock * rng(1, 3));
+    g->u.apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
     g->u.moves -= shock * 20;
 }
 

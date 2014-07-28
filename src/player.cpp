@@ -4644,71 +4644,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
     return dealt_damage_instance(dealt_dams);
 }
-/*
-    Where damage to player is actually applied to hit body parts
-    Might be where to put bleed stuff rather than in player::deal_damage()
- */
-void player::apply_damage(Creature *, body_part bp, int dam) {
-    if (is_dead_state()) {
-        // don't do any more damage if we're already dead
-        return;
-    }
-
-    switch (bp) {
-    case bp_eyes: // Fall through to head damage
-    case bp_mouth: // Fall through to head damage
-    case bp_head:
-        hp_cur[hp_head] -= dam;
-        if (hp_cur[hp_head] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_head];
-            hp_cur[hp_head] = 0;
-        }
-        break;
-    case bp_torso:
-        hp_cur[hp_torso] -= dam;
-        if (hp_cur[hp_torso] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_torso];
-            hp_cur[hp_torso] = 0;
-        }
-        break;
-    case bp_hand_l: // Fall through to arms
-    case bp_arm_l:
-        hp_cur[hp_arm_l] -= dam;
-        if (hp_cur[hp_arm_l] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
-            hp_cur[hp_arm_l] = 0;
-        }
-        break;
-    case bp_hand_r: // Fall through to arms
-    case bp_arm_r:
-        hp_cur[hp_arm_r] -= dam;
-        if (hp_cur[hp_arm_r] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
-            hp_cur[hp_arm_r] = 0;
-        }
-        break;
-    case bp_foot_l: // Fall through to legs
-    case bp_leg_l:
-        hp_cur[hp_leg_l] -= dam;
-        if (hp_cur[hp_leg_l] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
-            hp_cur[hp_leg_l] = 0;
-        }
-        break;
-    case bp_foot_r: // Fall through to legs
-    case bp_leg_r:
-        hp_cur[hp_leg_r] -= dam;
-        if (hp_cur[hp_leg_r] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
-            hp_cur[hp_leg_r] = 0;
-        }
-        break;
-    default:
-        debugmsg("Wacky body part hurt!");
-    }
-    lifetime_stats()->damage_taken+=dam;
-
-}
 
 void player::mod_pain(int npain) {
     if ((has_trait("NOPAIN"))) {
@@ -4733,9 +4668,16 @@ void player::mod_pain(int npain) {
     Creature::mod_pain(npain);
 }
 
-void player::hurt(Creature *source, body_part hurt, int dam)
+/*
+    Where damage to player is actually applied to hit body parts
+    Might be where to put bleed stuff rather than in player::deal_damage()
+ */
+void player::apply_damage(Creature *source, body_part hurt, int dam)
 {
-    (void) source;
+    if( is_dead_state() ) {
+        // don't do any more damage if we're already dead
+        return;
+    }
     hp_part hurtpart;
     switch (hurt) {
         case bp_eyes: // Fall through to head damage
@@ -4800,6 +4742,9 @@ void player::hurt(Creature *source, body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
     lifetime_stats()->damage_taken += dam;
+    if( is_dead_state() ) {
+        die( source );
+    }
 }
 
 void player::heal(body_part healed, int dam)
@@ -4965,7 +4910,7 @@ void player::knock_back_from(int x, int y)
  } else if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
 
   // It's some kind of wall.
-  hurt(nullptr, bp_torso, 3); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
+  apply_damage( nullptr, bp_torso, 3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
   add_effect("stunned", 2);
   add_msg_player_or_npc( _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
@@ -5455,7 +5400,7 @@ void player::process_effects() {
             if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
                 add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
                 mod_pain(1);
-                hurt(nullptr, bp_torso, rng(0, 2) * rng(0, 1));
+                apply_damage( nullptr, bp_torso, rng( 0, 2 ) * rng( 0, 1 ) );
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
@@ -5517,7 +5462,7 @@ void player::suffer()
                 power_level--;
             } else {
                 add_msg(m_bad, _("You're drowning!"));
-                hurt(nullptr, bp_torso, rng(1, 4));
+                apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
     }
