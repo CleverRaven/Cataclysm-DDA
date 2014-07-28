@@ -1103,8 +1103,9 @@ int iuse::fungicide(player *p, item *it, bool)
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
                                         g->zombie(zid).name().c_str());
                             }
-                            if (!g->zombie(zid).make_fungus()) {
-                                g->kill_mon(zid);
+                            monster &critter = g->zombie( zid );
+                            if( !critter.make_fungus() ) {
+                                critter.die( p ); // counts as kill by player
                             }
                         } else {
                             spore.spawn(i, j);
@@ -2778,11 +2779,9 @@ int iuse::extinguisher(player *p, item *it, bool)
             if (g->u_see(&(g->zombie(mondex)))) {
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
-            if (g->zombie(mondex).hurt(rng(20, 60))) {
-                g->kill_mon(mondex, (p == &(g->u)));
-            } else {
-                g->zombie(mondex).speed /= 2;
-            }
+            monster &critter = g->zombie( mondex );
+            critter.hurt( rng( 20, 60 ), 0, p );
+            critter.speed /= 2;
         }
     }
 
@@ -3239,7 +3238,8 @@ int iuse::two_way_radio(player *p, item *it, bool)
             g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
                                   pgettext("memorial_female", "Called for help from %s."),
                                   fac->name.c_str());
-            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id, -1, -1);
+            //The below is disabled and 0 is passed instead of the faction id
+            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), 0, -1, -1);
             fac->respects_u -= rng(0, 8);
             fac->likes_u -= rng(3, 5);
         } else if (bonus >= -5) {
@@ -5019,7 +5019,7 @@ int iuse::granade_act(player *, item *it, bool t)
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
-                            g->explode_mon(zid);
+                            g->zombie( zid ).hurt( 9999 ); // trigger exploding
                         }
                     }
                 }
@@ -5729,9 +5729,7 @@ int iuse::tazer(player *p, item *it, bool)
         p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
         int shock = rng(5, 25);
         z->moves -= shock * 100;
-        if (z->hurt(shock)) {
-            g->kill_mon(mondex, (p == &(g->u)));
-        }
+        z->hurt( shock, 0, p );
         return it->type->charges_to_use();
     }
 
@@ -5825,10 +5823,7 @@ int iuse::tazer2(player *p, item *it, bool)
             p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
             int shock = rng(5, 25);
             z->moves -= shock * 100;
-
-            if (z->hurt(shock)) {
-                g->kill_mon(mondex, (p == &(g->u)));
-            }
+            z->hurt( shock, 0, p );
 
             return 100;
         }
@@ -6173,12 +6168,114 @@ int iuse::vacutainer(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+void make_zlave(player *p)
+{
+    std::vector<item> &items = g->m.i_at(p->posx, p->posy);
+    std::vector<item *> corpses;
+
+    const int cancel = 0;
+
+    for (int i = 0; i < items.size(); i++) {
+        item &it = items[i];
+
+        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
+            it.corpse->sym == "Z" && it.active && it.item_vars["zlave"] == "") {
+            corpses.push_back(&it);
+        }
+    }
+
+    if (corpses.empty()) {
+        p->add_msg_if_player(_("No suitable corpses"));
+        return;
+    }
+
+    int tolerance_level = 9;
+    if( p->has_trait("PSYCHOPATH") || p->has_trait("SAPIOVORE") ) {
+        tolerance_level = 0;
+    } else if( p->has_trait("PRED4") ) {
+        tolerance_level = 5;
+    } else if( p->has_trait("PRED3") ) {
+        tolerance_level = 7;
+    }
+
+    const bool tolerance = p->skillLevel("survival") > tolerance_level;
+
+    if (!tolerance && p->morale_level() <= -150) {
+        add_msg(m_neutral, _("It's too awful."));
+        return;
+    }
+
+    uimenu amenu;
+
+    amenu.selected = 0;
+    amenu.text = _("Selectively butcher the downed zombie into a zlave?");
+    amenu.addentry(cancel, true, 'q', _("Cancel"));
+    for (int i = 0; i < corpses.size(); i++) {
+        amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
+    }
+
+    amenu.query();
+
+    if (cancel == amenu.ret) {
+        p->add_msg_if_player(_("Make love, not zlave."));
+        return;
+    }
+
+    if (tolerance) {
+
+        if (p->has_trait("PSYCHOPATH")) {
+            add_msg(m_neutral, _("Meh. Saves you having to carry stuff."));
+        } else {
+            add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
+        }
+    } else {
+
+        add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
+
+        int moraleMalus = -50 * (5.0 / (float) p->skillLevel("survival"));
+        int maxMalus = -250 * (5.0 / (float)p->skillLevel("survival"));
+        int duration = 300 * (5.0 / (float)p->skillLevel("survival"));
+        int decayDelay = 30 * (5.0 / (float)p->skillLevel("survival"));
+
+        if (g->u.has_trait("PACIFIST")) {
+            moraleMalus *= 5;
+            maxMalus *= 3;
+        } else if (g->u.has_trait("PRED1")) {
+            moraleMalus /= 4;
+        } else if (g->u.has_trait("PRED2")) {
+            moraleMalus /= 5;
+        }
+
+        g->u.add_morale(MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay);
+    }
+
+    const int selected_corpse = amenu.ret - 1;
+
+    item *body = corpses[selected_corpse];
+    mtype *mt = body->corpse;
+
+    int hard = body->damage * 10 + mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
+               (1 + mt->melee_cut) * (1 + mt->melee_sides);
+    int skills = p->skillLevel("survival") * p->int_cur + p->skillLevel("firstaid") * p->int_cur *
+                 p->dex_cur / 3;
+
+    int success = skills - hard - rng(1, 100);
+
+    const int moves = hard * 1200 / p->skillLevel("firstaid");
+
+    p->assign_activity(ACT_MAKE_ZLAVE, moves);
+    p->activity.values.push_back(success);
+    p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
+    p->moves = 0;
+}
+
 int iuse::knife(player *p, item *it, bool t)
 {
     int choice = -1;
     const int cut_fabric = 0;
     const int carve_writing = 1;
     const int cauterize = 2;
+    const int make_slave = 3;
     const int cancel = 4;
     int pos;
 
@@ -6198,6 +6295,11 @@ int iuse::knife(player *p, item *it, bool t)
                             !p->is_underwater()) ? _("Cauterize") : _("Cauterize...for FUN!"));
         }
     }
+
+    if( p->skillLevel("survival") > 4 && p->skillLevel("firstaid") > 3 ) {
+        kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
+    }
+
     kmenu.addentry(cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;
@@ -6215,6 +6317,9 @@ int iuse::knife(player *p, item *it, bool t)
         pos = g->inv(_("Chop up what?"));
     } else if (choice == carve_writing) {
         pos = g->inv(_("Carve writing on what?"));
+    } else if (choice == make_slave) {
+        make_zlave(p);
+        return 0;
     } else {
         return 0;
     }
@@ -7998,8 +8103,8 @@ int iuse::robotcontrol(player *p, item *it, bool)
             } else if (success >= -2) { //A near success
                 p->add_msg_if_player(_("The %s short circuits as you attempt to reprogram it!"),
                                      z->name().c_str());
-                if (z->hurt(rng(1, 10))) { //damage it a little
-                    g->kill_mon(pick_robot.ret, p == &(g->u));
+                z->hurt( rng( 1, 10 ), 0, p ); //damage it a little
+                if( z->is_dead() ) {
                     p->practice("computer", 10);
                     return it->type->charges_to_use(); //dont do the other effects if the robot died
                 }

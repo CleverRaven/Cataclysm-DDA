@@ -175,8 +175,9 @@ void mdeath::fungus(monster *z) {
                         add_msg(_("The %s is covered in tiny spores!"),
                                    g->zombie(mondex).name().c_str());
                     }
-                    if (!g->zombie(mondex).make_fungus()) {
-                        g->kill_mon(mondex, (z->friendly != 0));
+                    monster &critter = g->zombie( mondex );
+                    if( !critter.make_fungus() ) {
+                        critter.die( z ); // counts as kill by monster z
                     }
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player
@@ -511,7 +512,7 @@ void mdeath::kill_breathers(monster *z)
     for (int i = 0; i < g->num_zombies(); i++) {
         const std::string monID = g->zombie(i).type->id;
         if (monID == "mon_breather_hub " || monID == "mon_breather") {
-            g->zombie(i).dead = true;
+            g->zombie(i).die( nullptr );
         }
     }
 }
@@ -550,5 +551,6 @@ void make_mon_corpse(monster* z, int damageLvl) {
     item corpse;
     corpse.make_corpse("corpse", z->type, calendar::turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
+    if (z->has_effect("zlave")) corpse.item_vars["zlave"] = "zlave";
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

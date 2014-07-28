@@ -34,6 +34,8 @@
 #include "omdata.h"
 #include "options.h"
 #include "game.h"
+#include "faction.h"
+#include "npc.h"
 
 #include <string>
 #include <vector>
@@ -194,6 +196,11 @@ void DynamicDataLoader::initialize()
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
     type_function_map["BULLET_PULLING"] = new StaticFunctionAccessor(&iuse::load_bullet_pulling);
+    
+    type_function_map["faction"] = new StaticFunctionAccessor(
+        &faction::load_faction);
+    type_function_map["npc"] = new StaticFunctionAccessor(
+        &npc::load_npc);
 }
 
 void DynamicDataLoader::reset()

@@ -12,7 +12,8 @@ void event::actualize()
  switch (type) {
 
   case EVENT_HELP: {
-   npc tmp;
+    debugmsg("Currently disabled while NPC and monster factions are being rewritten.");
+   /*npc tmp;
    int num = 1;
    if (faction_id >= 0)
     num = rng(1, 6);
@@ -29,7 +30,7 @@ void event::actualize()
     tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
     tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
     g->active_npc.push_back(&tmp);
-   }
+   }*/
   } break;
 
   case EVENT_ROBOT_ATTACK: {

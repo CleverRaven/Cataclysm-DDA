@@ -1,0 +1,8 @@
+",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },
