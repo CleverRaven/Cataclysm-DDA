@@ -212,6 +212,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     // TODO: fully replace hurt with apply/deal_damage
     virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
     void apply_damage(Creature* source, body_part bp, int amount);
+    void hurt(Creature* source, body_part bp, int amount);
     // Deals this dam damage;
     // If real_dam is provided, caps overkill at real_dam.
     void hurt(int dam, int real_dam, Creature *source);

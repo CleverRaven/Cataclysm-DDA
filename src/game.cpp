@@ -4581,7 +4581,7 @@ void game::debug()
                 wishitem(p);
                 break;
             case 2:
-                p->hurt(bp_torso, 20);
+                p->hurt(nullptr, bp_torso, 20);
                 break;
             case 3:
                 p->mod_pain(20);
@@ -13386,7 +13386,7 @@ void game::vertical_move(int movez, bool force)
                                 rope_ladder = true;
                                 add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
                                 u.mod_pain(5);
-                                u.hurt(bp_torso, 5);
+                                u.hurt(nullptr, bp_torso, 5);
                                 u.hunger += 5;
                                 u.thirst += 5;
                             } else {
@@ -14258,7 +14258,7 @@ void game::teleport(player *p, bool add_teleglow)
                         p->name.c_str(), m.name(newx, newy).c_str());
             }
         }
-        p->hurt(bp_torso, 500);
+        p->hurt(nullptr, bp_torso, 500);
     } else if (can_see) {
         const int i = mon_at(newx, newy);
         if (i != -1) {

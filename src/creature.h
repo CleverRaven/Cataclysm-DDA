@@ -83,7 +83,7 @@ class Creature
         virtual void knock_back_from(int posx, int posy) = 0;
 
         // TODO: remove this function in favor of deal/apply_damage
-        virtual void hurt(body_part bp, int dam) = 0;
+        virtual void hurt(Creature *source, body_part bp, int dam) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)

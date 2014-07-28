@@ -4733,8 +4733,9 @@ void player::mod_pain(int npain) {
     Creature::mod_pain(npain);
 }
 
-void player::hurt(body_part hurt, int dam)
+void player::hurt(Creature *source, body_part hurt, int dam)
 {
+    (void) source;
     hp_part hurtpart;
     switch (hurt) {
         case bp_eyes: // Fall through to head damage
@@ -4801,8 +4802,9 @@ void player::hurt(body_part hurt, int dam)
     lifetime_stats()->damage_taken += dam;
 }
 
-void player::hurt(hp_part hurt, int dam)
+void player::hurt(Creature *source, hp_part hurt, int dam)
 {
+    (void) source;
     if (has_disease("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
     } else if (has_disease("lying_down")) {
@@ -4990,7 +4992,7 @@ void player::knock_back_from(int x, int y)
  } else if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
 
   // It's some kind of wall.
-  hurt(bp_torso, 3);
+  hurt(nullptr, bp_torso, 3); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
   add_effect("stunned", 2);
   add_msg_player_or_npc( _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
@@ -5480,7 +5482,7 @@ void player::process_effects() {
             if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
                 add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
                 mod_pain(1);
-                hurt(bp_torso, rng(0, 2) * rng(0, 1));
+                hurt(nullptr, bp_torso, rng(0, 2) * rng(0, 1));
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
@@ -5542,7 +5544,7 @@ void player::suffer()
                 power_level--;
             } else {
                 add_msg(m_bad, _("You're drowning!"));
-                hurt(bp_torso, rng(1, 4));
+                hurt(nullptr, bp_torso, rng(1, 4));
             }
         }
     }

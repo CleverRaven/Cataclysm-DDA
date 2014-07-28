@@ -963,8 +963,8 @@ void monster::apply_damage(Creature* source, body_part bp, int amount) {
     hurt(amount, 0, source);
 }
 
-void monster::hurt(body_part, int dam) {
-    hurt(dam, 0, nullptr);
+void monster::hurt(Creature *source, body_part, int dam) {
+    hurt(dam, 0, source);
 }
 
 void monster::hurt(int dam) {

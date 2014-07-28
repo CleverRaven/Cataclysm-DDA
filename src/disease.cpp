@@ -1227,7 +1227,7 @@ void dis_effect(player &p, disease &dis)
                 p.add_msg_player_or_npc(m_bad, _("You lose some blood."),
                                                _("<npcname> loses some blood.") );
                 p.mod_pain(1);
-                p.hurt(dis.bp, 1);
+                p.hurt(nullptr, dis.bp, 1);
                 p.mod_per_bonus(-1);
                 p.mod_str_bonus(-1);
                 g->m.add_field(p.posx, p.posy, p.playerBloodType(), 1);
@@ -1238,7 +1238,7 @@ void dis_effect(player &p, disease &dis)
             if( inflictBadPsnPain && !p.has_trait("NOPAIN") ) {
                 p.add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
                 p.mod_pain( 2 );
-                p.hurt(bp_torso, rng(0, 2));
+                p.hurt(nullptr, bp_torso, rng(0, 2));
             }
             p.mod_per_bonus(-2);
             p.mod_dex_bonus(-2);
@@ -1264,7 +1264,7 @@ void dis_effect(player &p, disease &dis)
             }
             if ((one_in(300 + bonus)) && (!(p.has_trait("NOPAIN")))) {
                 p.add_msg_if_player(m_bad, _("You're suddenly wracked with pain and nausea!"));
-                p.hurt(bp_torso, 1);
+                p.hurt(nullptr, bp_torso, 1);
             }
             if (will_vomit(p, 100+bonus) || one_in(600 + bonus)) {
                 p.vomit();
@@ -1318,7 +1318,7 @@ void dis_effect(player &p, disease &dis)
                 }
                 if(one_in(1024)) {
                     p.health--;
-                    p.hurt(bp_head, rng(0, 1));
+                    p.hurt(nullptr, bp_head, rng(0, 1));
                     if (!p.has_disease("visuals")) {
                     add_msg(m_bad, _("Your vision is getting fuzzy."));
                     p.add_disease("visuals", rng(10, 600));
@@ -1326,7 +1326,7 @@ void dis_effect(player &p, disease &dis)
                 }
                 if(one_in(4096)) {
                     p.health--;
-                    p.hurt(bp_head, rng(1, 2));
+                    p.hurt(nullptr, bp_head, rng(1, 2));
                     if (!p.has_effect("blind")) {
                     p.add_msg_if_player(m_bad, _("You can't see!"));
                     p.add_effect("blind", rng(5, 20));
@@ -1408,7 +1408,7 @@ void dis_effect(player &p, disease &dis)
                                        body_part_name_accusative(dis.bp).c_str());
                 }
                 p.moves -= 150;
-                p.hurt(dis.bp, 1);
+                p.hurt(nullptr, dis.bp, 1);
             }
             break;
 
@@ -2782,7 +2782,7 @@ void manage_fungal_infection(player& p, disease& dis)
             if (one_in(600 + bonus * 3)) {
                 p.add_msg_if_player(m_bad,  _("You spasm suddenly!"));
                 p.moves -= 100;
-                p.hurt(bp_torso, 5);
+                p.hurt(nullptr, bp_torso, 5);
             }
             if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
                 p.add_msg_player_or_npc(m_bad, _("You vomit a thick, gray goop."),
@@ -2792,7 +2792,7 @@ void manage_fungal_infection(player& p, disease& dis)
                 p.moves = -200;
                 p.hunger += awfulness;
                 p.thirst += awfulness;
-                p.hurt(bp_torso, awfulness / std::max(p.str_cur, 1)); // can't be healthy
+                p.hurt(nullptr, bp_torso, awfulness / std::max(p.str_cur, 1)); // can't be healthy
             }
         } else {
             p.add_disease("fungus", 1, true, 1, 1, 0, -1);
@@ -2844,8 +2844,8 @@ void manage_fungal_infection(player& p, disease& dis)
             p.add_msg_player_or_npc(m_bad, _("Your hands bulge. Fungus stalks burst through the bulge!"),
                 _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
         }
-        p.hurt(bp_arm_l, 999);
-        p.hurt(bp_arm_r, 999);
+        p.hurt(nullptr, bp_arm_l, 999);
+        p.hurt(nullptr, bp_arm_r, 999);
     }
 }
 
@@ -3279,7 +3279,7 @@ static void handle_cough(player &p, int, int loudness, bool harmful)
     }
     p.moves -= 80;
     if (harmful && !one_in(4)) {
-        p.hurt(bp_torso, 1);
+        p.hurt(nullptr, bp_torso, 1);
     }
     if (p.has_disease("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
         p.wake_up(_("You wake up coughing."));
@@ -3435,7 +3435,7 @@ static void handle_insect_parasites(player& p, disease& dis)
         // Spawn some larvae!
         // Choose how many insects; more for large characters
         int num_insects = rng(1, std::min(3, p.str_max / 3));
-        p.hurt(dis.bp, rng(2, 4) * num_insects);
+        p.hurt(nullptr, dis.bp, rng(2, 4) * num_insects);
         // Figure out where they may be placed
         p.add_msg_player_or_npc( m_bad, _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
             _("Insects begin to emerge from <npcname>'s skin!") );

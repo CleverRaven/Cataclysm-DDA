@@ -514,7 +514,7 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     if ((p->hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
         p->heal(healed, dam);
     } else if ((p->hp_cur[healed] >= 1) && (dam < 0)) {
-        p->hurt(healed, -dam); //hurt takes + damage
+        p->hurt(nullptr, healed, -dam); //hurt takes + damage
     }
 
     body_part bp_healed = bp_torso;

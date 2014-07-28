@@ -498,9 +498,9 @@ public:
   */
  void absorb(body_part bp, int &dam, int &cut);
  /** Hurts a body_part directly, no armor reduction */
- void hurt (body_part bphurt, int  dam);
+ void hurt (Creature *source, body_part bphurt, int  dam);
  /** Hurts a hp_part directly, no armor reduction */
- void hurt (hp_part hurt, int dam);
+ void hurt (Creature *source, hp_part hurt, int dam);
 
  /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
  dealt_damage_instance deal_damage(Creature* source, body_part bp, const damage_instance& d);
