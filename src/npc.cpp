@@ -2274,35 +2274,35 @@ std::string npc_class_name_str(npc_class classtype)
 {
     switch(classtype) {
     case NC_NONE:
-        return _("NC_NONE");
+        return "NC_NONE";
     case NC_EVAC_SHOPKEEP: // Found in the evacuation center.
-        return _("NC_EVAC_SHOPKEEP");
+        return "NC_EVAC_SHOPKEEP";
     case NC_ARSONIST: // Found in the evacuation center.
-        return _("NC_ARSONIST");
+        return "NC_ARSONIST";
     case NC_SHOPKEEP: // Found in towns.  Stays in his shop mostly.
-        return _("NC_SHOPKEEP");
+        return "NC_SHOPKEEP";
     case NC_HACKER: // Weak in combat but has hacking skills and equipment
-        return _("NC_HACKER");
+        return "NC_HACKER";
     case NC_DOCTOR: // Found in towns, or roaming.  Stays in the clinic.
-        return _("NC_DOCTOR");
+        return "NC_DOCTOR";
     case NC_TRADER: // Roaming trader, journeying between towns.
-        return _("NC_TRADER");
+        return "NC_TRADER";
     case NC_NINJA: // Specializes in unarmed combat, carries few items
-        return _("NC_NINJA");
+        return "NC_NINJA";
     case NC_COWBOY: // Gunslinger and survivalist
-        return _("NC_COWBOY");
+        return "NC_COWBOY";
     case NC_SCIENTIST: // Uses intelligence-based skills and high-tech items
-        return _("NC_SCIENTIST");
+        return "NC_SCIENTIST";
     case NC_BOUNTY_HUNTER: // Resourceful and well-armored
-        return _("NC_BOUNTY_HUNTER");
+        return "NC_BOUNTY_HUNTER";
     case NC_THUG:   // Moderate melee skills and poor equipment
-        return _("NC_THUG");
+        return "NC_THUG";
     case NC_SCAVENGER: // Good with pistols light weapons
-        return _("NC_SCAVENGER");
+        return "NC_SCAVENGER";
     case NC_HUNTER: // Good with bows and rifles
-        return _("NC_HUNTER");
+        return "NC_HUNTER";
     }
-    return _("Unknown class");
+    return "Unknown class";
 }
 
 std::string npc_class_name(npc_class classtype)

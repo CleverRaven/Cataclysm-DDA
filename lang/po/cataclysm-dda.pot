@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-28 12:56+0400\n"
+"POT-Creation-Date: 2014-07-28 13:15+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69661,66 +69661,6 @@ msgid "Kidnapped"
 msgstr ""
 
 #: src/npc.cpp
-msgid "NC_NONE"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_EVAC_SHOPKEEP"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_ARSONIST"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_SHOPKEEP"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_HACKER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_DOCTOR"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_TRADER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_NINJA"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_COWBOY"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_SCIENTIST"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_BOUNTY_HUNTER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_THUG"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_SCAVENGER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_HUNTER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "Unknown class"
-msgstr ""
-
-#: src/npc.cpp
 msgid "No class"
 msgstr ""
 
@@ -69766,6 +69706,10 @@ msgstr ""
 
 #: src/npc.cpp
 msgid "Scavenger"
+msgstr ""
+
+#: src/npc.cpp
+msgid "Unknown class"
 msgstr ""
 
 #: src/npcmove.cpp
