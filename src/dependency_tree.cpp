@@ -193,7 +193,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
 
         // make sure that the one we are checking is not THIS one
         if (found.find(check->key) != found.end()) {
-            continue; // just keep going, we aren't really caring about availiability right now
+            continue; // just keep going, we aren't really caring about availability right now
         }
 
         // add check to dependencies
