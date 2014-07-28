@@ -5629,9 +5629,9 @@
 {
     "type" : "MONSTER",
     "id" : "mon_hallu_multicooker",
-    "name": "multi cooker",
+    "name": "Evil Multi-Cooker",
     "species":"HALLUCINATION",
-    "symbol":"M",
+    "symbol":";",
     "color":"red",
     "size":"SMALL",
     "material":"steel",
