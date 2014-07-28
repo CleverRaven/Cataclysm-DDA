@@ -8531,6 +8531,11 @@ int iuse::multicooker(player *p, item *it, bool t)
             mc_cancel, mc_start, mc_stop, mc_take, mc_upgrade
         };
 
+        if (p->is_underwater()) {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return false;
+        }
+
         if (p->has_trait("ILLITERATE")) {
             add_msg(m_info, _("You can not read and don't understand symbols on screen and buttons!"));
             return 0;
