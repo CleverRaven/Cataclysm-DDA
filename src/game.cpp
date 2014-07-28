@@ -13855,14 +13855,16 @@ void game::update_stair_monsters()
 
 void game::force_save_monster(monster &critter)
 {
-    real_coords rc(m.getabs(critter.posx(), critter.posy()));
-    critter.spawnmapx = rc.om_sub.x;
-    critter.spawnmapy = rc.om_sub.y;
-    critter.spawnposx = rc.sub_pos.x;
-    critter.spawnposy = rc.sub_pos.y;
+    point ms = m.getabs( critter.posx(), critter.posy() );
+    point sm = overmapbuffer::ms_to_sm_remain( ms );
+
+    critter.spawnmapx = 0; // only needs to be != -1, see map::add_spawn
+    critter.spawnmapy = 0;
+    critter.spawnposx = ms.x; // this value is really used, not spawnmapy
+    critter.spawnposy = ms.y;
 
     tinymap tmp;
-    tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false, cur_om);
+    tmp.load_abs( sm.x, sm.y, levz, false );
     tmp.add_spawn(&critter);
     tmp.save();
 }
@@ -13881,21 +13883,10 @@ void game::despawn_monsters(const int shiftx, const int shifty)
             } else {
                 if ((critter.spawnmapx != -1) || critter.getkeep() ||
                     ((shiftx != 0 || shifty != 0) && critter.friendly != 0)) {
-                    // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
-                    real_coords rc(m.getabs(critter.posx(),
-                                            critter.posy())); // still madness, bud handles straddling omap and -/+
-                    critter.spawnmapx = rc.om_sub.x;
-                    critter.spawnmapy = rc.om_sub.y;
-                    critter.spawnposx = rc.sub_pos.x;
-                    critter.spawnposy = rc.sub_pos.y;
+                    force_save_monster( critter );
 
                     // We're saving him, so there's no need to keep anymore.
                     critter.setkeep(false);
-
-                    tinymap tmp;
-                    tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false, cur_om);
-                    tmp.add_spawn(&critter);
-                    tmp.save();
                 } else {
                     // No spawn site, so absorb them back into a group.
                     int group = valid_group((critter.type->id), levx + shiftx, levy + shifty, levz);
