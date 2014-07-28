@@ -6254,14 +6254,18 @@ void make_zlave(player *p)
     item *body = corpses[selected_corpse];
     mtype *mt = body->corpse;
 
-    int hard = body->damage * 10 + mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
-               (1 + mt->melee_cut) * (1 + mt->melee_sides);
-    int skills = p->skillLevel("survival") * p->int_cur +
-        p->skillLevel("firstaid") * p->int_cur * p->dex_cur / 3;
+    // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
+    // Speed range is 20 - 120 (for humanoids, dogs get way faster)
+    // This gives us a difficulty ranging rougly from 10 - 40, with up to +25 for corpse damage.
+    // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
+    int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
+    // 0 - 30
+    int skills = p->skillLevel("survival") + p->skillLevel("firstaid") + (p->dex_cur / 2);
+    skills *= 2;
 
-    int success = skills - hard - rng(1, 100);
+    int success = rng(0, skills) - rng(0, difficulty);
 
-    const int moves = hard * 1200 / p->skillLevel("firstaid");
+    const int moves = difficulty * 1200 / p->skillLevel("firstaid");
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(success);
