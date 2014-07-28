@@ -13512,7 +13512,6 @@ void game::vertical_move(int movez, bool force)
 void game::update_map(int &x, int &y)
 {
     int shiftx = 0, shifty = 0;
-    int olevx = 0, olevy = 0;
 
     while (x < SEEX * int(MAPSIZE / 2)) {
         x += SEEX;
