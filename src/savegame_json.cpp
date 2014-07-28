@@ -109,6 +109,7 @@ void SkillLevel::deserialize(JsonIn & jsin)
 void player::json_load_common_variables(JsonObject & data)
 {
     JsonArray parray;
+    int tmpid = 0;
 
 // todo/maybe:
 // std::map<std::string, int*> strmap_common_variables;
@@ -142,6 +143,9 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("cash",cash);
     data.read("recoil",recoil);
     data.read("in_vehicle",in_vehicle);
+    if( data.read( "id", tmpid ) ) {
+        setID( tmpid );
+    }
 
     parray = data.get_array("hp_cur");
     if ( parray.size() == num_hp_parts ) {
@@ -247,6 +251,7 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "cash", cash );
     json.member( "recoil", int(recoil) );
     json.member( "in_vehicle", in_vehicle );
+    json.member( "id", getID() );
 
     // potential incompatibility with future expansion
     // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
@@ -652,7 +657,6 @@ void npc::deserialize(JsonIn &jsin)
     int misstmp, classtmp, flagstmp, atttmp, tmpid;
     std::string facID;
 
-    data.read("id",tmpid);  setID(tmpid);
     data.read("name",name);
     data.read("marked_for_death", marked_for_death);
     data.read("dead", dead);
@@ -729,7 +733,6 @@ void npc::serialize(JsonOut &json, bool save_contents) const
     json_save_common_variables( json );
 
     json.member( "name", name );
-    json.member( "id", getID() );
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );

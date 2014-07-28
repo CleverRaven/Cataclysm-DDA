@@ -587,6 +587,7 @@ void game::start_game(std::string worldname)
 
     init_autosave();
 
+    u.setID( assign_npc_id() ); // should be as soon as possible
     clear();
     refresh();
     popup_nowait(_("Please wait as we build your world"));
@@ -3950,6 +3951,23 @@ void game::load(std::string worldname, std::string name)
     load_uistate(worldname);
 
     update_map(u.posx, u.posy);
+
+    // legacy, needs to be here as we access the map.
+    if( u.getID() == 0 || u.getID() == -1 ) {
+        // player does not have a real id, so assign a new one,
+        u.setID( assign_npc_id() );
+        // The vehicle stores the IDs of the boarded players, so update it, too.
+        if( u.in_vehicle ) {
+            int vpart;
+            vehicle *veh = m.veh_at( u.posx, u.posy, vpart );
+            if( veh != nullptr ) {
+                vpart = veh->part_with_feature( vpart, "BOARDABLE" );
+                if( vpart >= 0 ) {
+                    veh->parts[vpart].passenger_id = u.getID();
+                }
+            }
+        }
+    }
 
     u.reset();
     draw();
