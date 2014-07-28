@@ -2127,6 +2127,19 @@ bool item::is_watertight_container() const
     return ( is_container() != false && has_flag("WATERTIGHT") && has_flag("SEALS") );
 }
 
+bool item::is_container_empty() const
+{
+    return contents.empty();
+}
+
+bool item::is_container_full() const
+{
+    if (is_container_empty())
+        return false;
+
+    return get_remaining_capacity() == 0;
+}
+
 bool item::is_funnel_container(unsigned int &bigger_than) const
 {
     if ( ! is_watertight_container() ) {
@@ -3059,6 +3072,28 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     if (remaining_capacity <= 0) {
         error = L_ERR_FULL;
         return 0;
+    }
+
+    return remaining_capacity;
+}
+
+// Remaining capacity for currently stored liquid in container - do not call for empty container
+int item::get_remaining_capacity() const
+{
+    it_container *container = dynamic_cast<it_container *>(type);
+    int total_capacity = container->contains;
+
+    if (contents[0].is_food()) {
+        it_comest *tmp_comest = dynamic_cast<it_comest *>(contents[0].type);
+        total_capacity = container->contains * tmp_comest->charges;
+    } else if (contents[0].is_ammo()) {
+        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(contents[0].type);
+        total_capacity = container->contains * tmp_ammo->count;
+    }
+
+    int remaining_capacity = total_capacity;
+    if (!contents.empty()) {
+        remaining_capacity -= contents[0].charges;
     }
 
     return remaining_capacity;
