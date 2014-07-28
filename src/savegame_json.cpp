@@ -1351,7 +1351,6 @@ void faction::deserialize(JsonIn &jsin)
     jo.read("id", id);
     jo.read("name", name);
     if ( !jo.read( "desc", desc )){
-        debugmsg( "No existing faction description!");
         desc = "";
     } else {
         jo.read("desc", desc);
