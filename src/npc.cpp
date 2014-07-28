@@ -14,13 +14,16 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "json.h"
 #include <algorithm>
+#include <string>
 
 std::vector<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
 {
+ idz = "";
  omx = 0;
  omy = 0;
  omz = 0;
@@ -50,6 +53,8 @@ npc::npc()
  int_max = 0;
  per_max = 0;
  my_fac = NULL;
+ fac_id = "";
+ miss_id = 0;
  marked_for_death = false;
  dead = false;
  hit_by_player = false;
@@ -66,6 +71,65 @@ npc::npc()
 }
 
 npc::npc(const npc &rhs):player() { *this = rhs; }
+
+npc_map npc::_all_npc;
+
+void npc::load_npc(JsonObject &jsobj)
+{
+    npc guy;
+    guy.idz = jsobj.get_string("id");
+    if (jsobj.has_string("name+"))
+        guy.name = jsobj.get_string("name+");
+    if (jsobj.has_string("faction"))
+        guy.fac_id = jsobj.get_string("faction");
+    guy.myclass = npc_class(jsobj.get_int("class"));
+    guy.attitude = npc_attitude(jsobj.get_int("attitude"));
+    guy.mission = npc_mission(jsobj.get_int("mission"));
+    guy.chatbin.first_topic = talk_topic(jsobj.get_int("chat"));
+    if (jsobj.has_int("mission_offered")){
+        guy.miss_id = jsobj.get_int("mission_offered");
+    } else {
+        guy.miss_id = 0;
+    }
+    _all_npc[guy.idz] = guy;
+}
+
+npc* npc::find_npc(std::string ident)
+{
+    npc_map::iterator found = _all_npc.find(ident);
+    if (found != _all_npc.end()){
+        return &(found->second);
+    } else {
+        debugmsg("Tried to get invalid npc template: %s", ident.c_str());
+        static npc null_npc;
+    return &null_npc;
+    }
+}
+
+void npc::load_npc_template(std::string ident)
+{
+    npc_map::iterator found = _all_npc.find(ident);
+    if (found != _all_npc.end()){
+        idz = found->second.idz;
+        myclass = found->second.myclass;
+        randomize(myclass);
+        name = name + found->second.name;
+        fac_id = found->second.fac_id;
+        set_fac(fac_id);
+        attitude = found->second.attitude;
+        mission = found->second.mission;
+        chatbin.first_topic = found->second.chatbin.first_topic;
+        if (mission_id(found->second.miss_id) != MISSION_NULL){
+            int mission_index = g->reserve_mission(mission_id(found->second.miss_id), getID());
+            if (mission_index != -1)
+                chatbin.missions.push_back(mission_index);
+        }
+        return;
+    } else {
+        debugmsg("Tried to get invalid npc: %s", ident.c_str());
+        return;
+    }
+}
 
 npc::~npc() { }
 
@@ -100,6 +164,8 @@ npc& npc::operator= (const npc & rhs)
  has_new_items = rhs.has_new_items;
  worst_item_value = rhs.worst_item_value;
 
+ idz = rhs.idz;
+ miss_id = rhs.miss_id;
  fac_id = rhs.fac_id;
  my_fac = rhs.my_fac;
  mission = rhs.mission;
@@ -169,6 +235,9 @@ void npc::load_info(std::string data)
         } catch (std::string jsonerr) {
             debugmsg("Bad npc json\n%s", jsonerr.c_str() );
         }
+        if (fac_id != ""){
+            set_fac(fac_id);
+        }
         return;
     } else {
         load_legacy(dump);
@@ -233,7 +302,7 @@ void npc::randomize(npc_class type)
   boost_skill_level("mechanics", rng(0, 1));
   boost_skill_level("electronics", rng(1, 2));
   boost_skill_level("speech", rng(1, 3));
-  boost_skill_level("barter", rng(8, 11));
+  boost_skill_level("barter", rng(3, 5));
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
@@ -253,7 +322,7 @@ void npc::randomize(npc_class type)
   boost_skill_level("gun", rng(1, 3));
   boost_skill_level("pistol", rng(1, 3));
   boost_skill_level("throw", rng(0, 2));
-  boost_skill_level("barter", rng(5, 7));
+  boost_skill_level("barter", rng(2, 4));
   int_max -= rng(0, 2);
   dex_max -= rng(0, 2);
   per_max += rng(0, 2);
@@ -466,6 +535,11 @@ void npc::randomize(npc_class type)
   break;
 
  }
+  //A universal barter boost to keep NPCs competitive with players
+ //The int boost from trade wasn't active... now that it is, most
+ //players will vastly outclass npcs in trade without a little help.
+ boost_skill_level("barter", rng(2, 4));
+ 
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
@@ -481,6 +555,7 @@ void npc::randomize_from_faction(faction *fac)
 {
 // Personality = aggression, bravery, altruism, collector
  my_fac = fac;
+ fac_id = fac->id;
  randomize();
 
  switch (fac->goal) {
@@ -701,6 +776,12 @@ void npc::randomize_from_faction(faction *fac)
   personality.bravery -= rng(1, 4);
   personality.altruism -= rng(2, 5);
  }
+}
+
+void npc::set_fac(std::string fac_name)
+{
+    my_fac = g->faction_by_ident(fac_name);
+    fac_id = my_fac->id;
 }
 
 std::vector<item> starting_clothes(npc_class type, bool male)
@@ -1529,8 +1610,7 @@ void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
    int val = value(slice[i]->front()) - (slice[i]->front().price() / 50);
    if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
     items.push_back(&slice[i]->front());
-    int price = slice[i]->front().price() / (price_adjustment(skillLevel("barter")));
-    prices.push_back(price);
+    prices.push_back(slice[i]->front().price());
    }
   }
  }
@@ -1544,11 +1624,7 @@ void npc::init_buying(inventory& you, std::vector<item*> &items,
   int val = value(slice[i]->front());
   if (val >= NPC_HI_VALUE) {
    items.push_back(&slice[i]->front());
-   int price = slice[i]->front().price();
-   if (val >= NPC_VERY_HI_VALUE)
-    price *= 2;
-   price *= price_adjustment(skillLevel("barter"));
-   prices.push_back(price);
+   prices.push_back(slice[i]->front().price());
   }
  }
 }

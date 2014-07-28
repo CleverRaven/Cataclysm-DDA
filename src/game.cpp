@@ -657,37 +657,12 @@ void game::start_game(std::string worldname)
 
 void game::create_factions()
 {
-    int num = 4+dice(3, 3);
-    faction tmp(0);
-    tmp.make_army();
-    factions.push_back(tmp);
-    for (int i = 0; i < num; i++) {
-        tmp = faction(assign_faction_id());
+    faction tmp;
+    std::vector<std::string> faction_vector = tmp.all_json_factions();
+    for(std::vector<std::string>::reverse_iterator it = faction_vector.rbegin(); it != faction_vector.rend(); ++it) {
+        tmp = faction(it[0].c_str());
         tmp.randomize();
-        tmp.likes_u = 100;
-        tmp.respects_u = 100;
-        tmp.known_by_u = true;
-        //Test faction
-        if (i == 0){
-            tmp.name = "The Old Guard";
-            tmp.likes_u = 15;
-            tmp.respects_u = 15;
-        }
-        if (i == 1){
-            tmp.name = "The Free Merchants";
-            tmp.likes_u = 30;
-            tmp.respects_u = 30;
-        }
-        if (i == 2){
-            tmp.name = "The Wasteland Scavengers";
-            tmp.likes_u = 0;
-            tmp.respects_u = 0;
-        }
-        if (i == 3){
-            tmp.name = "Hell's Raiders";
-            tmp.likes_u = -25;
-            tmp.respects_u = -25;
-        }
+        tmp.load_faction_template(it[0].c_str());
         factions.push_back(tmp);
     }
 }
@@ -725,13 +700,13 @@ void game::create_starting_npcs()
     if (!ACTIVE_WORLD_OPTIONS["STATIC_NPC"]) {
         return; //Do not generate a starting npc.
     }
-    
+
     //We don't want more than one starting npc per shelter
     const int radius = 1;
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
     if (npcs.size() >= 1)
         return; //There is already an NPC in this shelter
-    
+
     npc *tmp = new npc();
     tmp->normalize();
     tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
@@ -3929,6 +3904,8 @@ void game::load(std::string worldname, std::string name)
         debugmsg("No save game exists!");
         return;
     }
+    // Now load up the master game data; factions (and more?)
+    load_master(worldname);
     u = player();
     u.name = base64_decode(name);
     u.ret_null = item("null", 0);
@@ -3970,8 +3947,7 @@ void game::load(std::string worldname, std::string name)
     load_auto_pickup(true); // Load character auto pickup rules
     u.load_zones(); // Load character world zones
     load_uistate(worldname);
-    // Now load up the master game data; factions (and more?)
-    load_master(worldname);
+
     update_map(u.posx, u.posy);
 
     u.reset();
@@ -5714,7 +5690,7 @@ int game::assign_faction_id()
     return ret;
 }
 
-faction *game::faction_by_id(int id)
+faction *game::faction_by_ident(std::string id)
 {
     for( auto it = factions.begin(); it != factions.end(); ++it) {
         if (it->id == id) {
@@ -5722,50 +5698,6 @@ faction *game::faction_by_id(int id)
         }
     }
     return NULL;
-}
-
-faction *game::random_good_faction()
-{
-    std::vector<std::vector<faction>::iterator> valid;
-    for (std::vector<faction>::iterator it = factions.begin(); it != factions.end(); ++it) {
-        if (it->good >= 5) {
-            valid.push_back(it);
-        }
-    }
-    if (!valid.empty()) {
-        std::vector<faction>::iterator it = valid[rng(0, valid.size() - 1)];
-        return &*it;
-    }
-    // No good factions exist!  So create one!
-    faction newfac(assign_faction_id());
-    do {
-        newfac.randomize();
-    } while (newfac.good < 5);
-    newfac.id = factions.size();
-    factions.push_back(newfac);
-    return &(factions[factions.size() - 1]);
-}
-
-faction *game::random_evil_faction()
-{
-    std::vector<std::vector<faction>::iterator> valid;
-    for (std::vector<faction>::iterator it = factions.begin(); it != factions.end(); ++it) {
-        if (it->good <= -5) {
-            valid.push_back(it);
-        }
-    }
-    if (!valid.empty()) {
-        std::vector<faction>::iterator it = valid[rng(0, valid.size() - 1)];
-        return &*it;
-    }
-    // No evil factions exist!  So create one!
-    faction newfac(assign_faction_id());
-    do {
-        newfac.randomize();
-    } while (newfac.good > -5);
-    newfac.id = factions.size();
-    factions.push_back(newfac);
-    return &(factions[factions.size() - 1]);
 }
 
 bool game::sees_u(int x, int y, int &t)

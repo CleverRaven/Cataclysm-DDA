@@ -239,7 +239,7 @@ class game
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
-        faction *faction_by_id(int it);
+        faction *faction_by_ident(std::string ident);
         bool sees_u(int x, int y, int &t);
         bool u_see (int x, int y);
         bool u_see (monster *critter);
@@ -256,9 +256,6 @@ class game
         // Position of the player in overmap terrain coordinates,
         // in global overmap terrain coordinates.
         tripoint om_global_location() const;
-
-        faction *random_good_faction();
-        faction *random_evil_faction();
 
         void process_artifact(item *it, player *p, bool wielded = false);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
