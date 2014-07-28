@@ -8,8 +8,6 @@
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
-bool vector_has(std::vector <item> vec, itype_id type);
-
 field_t fieldlist[num_fields];
 
 void game::init_fields()
@@ -1737,7 +1735,7 @@ void map::mon_in_field(int x, int y, monster *z)
                 } while (move_cost(newposx, newposy) == 0 && tries != 10);
 
                 if (tries == 10) {
-                    g->explode_mon(g->mon_at(z->posx(), z->posy()));
+                    z->hurt( 9999 ); // trigger exploding
                 } else {
                     int mon_hit = g->mon_at(newposx, newposy);
                     if (mon_hit != -1) {
@@ -1745,7 +1743,7 @@ void map::mon_in_field(int x, int y, monster *z)
                             add_msg(_("The %s teleports into a %s, killing them both!"),
                                        z->name().c_str(), g->zombie(mon_hit).name().c_str());
                         }
-                        g->explode_mon(mon_hit);
+                        g->zombie( mon_hit ).hurt( 9999 ); // trigger exploding
                     } else {
                         z->setpos(newposx, newposy);
                     }
@@ -1793,17 +1791,6 @@ void map::mon_in_field(int x, int y, monster *z)
     if (dam > 0) {
         z->hurt(dam);
     }
-}
-
-bool vector_has(std::vector <item> vec, itype_id type)
-{
-    for (std::vector<item>::iterator it = vec.begin();
-         it != vec.end(); ++it) {
-        if (it->type->id == type) {
-            return true;
-        }
-    }
-    return false;
 }
 
 // TODO FIXME XXX: oh god the horror
@@ -1860,8 +1847,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
    if (fdmon != -1 && fdmon < g->num_zombies()) {  //If there's a monster at (x,y)...
     monster* monhit = &(g->zombie(fdmon));
     int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
-    if (monhit->hurt(dam))                    //Ideally an external disease-like system would handle this to make it easier to modify later
-     g->kill_mon(fdmon, false);
+    monhit->hurt( dam );                      //Ideally an external disease-like system would handle this to make it easier to modify later
    }
    if (fdnpc != -1) {
     if (fdnpc < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
@@ -1883,7 +1869,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
      }
     }
     if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
-     me->die(false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
+     me->die( nullptr );        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
      g->active_npc.erase(g->active_npc.begin() + fdnpc);
     }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
    }

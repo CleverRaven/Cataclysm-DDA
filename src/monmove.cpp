@@ -29,7 +29,7 @@ bool monster::wander()
  return (plans.empty());
 }
 
-bool monster::can_move_to(int x, int y)
+bool monster::can_move_to(int x, int y) const
 {
     if (g->m.move_cost(x, y) == 0 &&
      (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y))) {
@@ -218,7 +218,7 @@ void monster::move()
 
     //Hallucinations have a chance of disappearing each turn
     if (is_hallucination() && one_in(25)) {
-        dead = true;
+        die( nullptr );
         return;
     }
 
@@ -579,7 +579,7 @@ point monster::wander_next()
  return next;
 }
 
-int monster::calc_movecost(int x1, int y1, int x2, int y2)
+int monster::calc_movecost(int x1, int y1, int x2, int y2) const
 {
     int movecost = 0;
     float diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
@@ -729,7 +729,7 @@ int monster::attack_at(int x, int y) {
 
         // Special case: Target is hallucination
         if(mon.is_hallucination()) {
-            mon.dead = true;
+            mon.die( nullptr );
 
             // We haven't actually attacked anything, i.e. we can still do things.
             // Hallucinations(obviously) shouldn't affect the way real monsters act.

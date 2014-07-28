@@ -242,19 +242,6 @@ void item::put_in(item payload)
 }
 const char ivaresc=001;
 
-
-/*
- * Old 1 line string output retained for mapbuffer
- */
-std::string item::save_info() const
-{
-    // doing this manually so as not to recurse
-    std::stringstream s;
-    JsonOut jsout(s);
-    serialize(jsout, false);
-    return s.str();
-}
-
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
     size_t pos = item_tag.find('=');
     if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
@@ -1095,7 +1082,7 @@ nc_color item::color(player *u) const
     return ret;
 }
 
-nc_color item::color_in_inventory()
+nc_color item::color_in_inventory() const
 {
     // This should be relevant only for the player,
     // npcs don't care about the color

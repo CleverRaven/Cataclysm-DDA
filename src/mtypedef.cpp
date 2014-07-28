@@ -98,3 +98,35 @@ field_id mtype::gibType() {
         return fd_gibs_insect;
     return fd_gibs_flesh; //Please update the monster blood type code at gibType() in monster.cpp when modifying these rules!
 }
+
+itype_id mtype::get_meat_itype() const
+{
+    if( has_flag( MF_POISON ) ) {
+        if( mat == "flesh" || mat == "hflesh" ) {
+            return "meat_tainted";
+        } else if( mat == "iflesh" ) {
+            //In the future, insects could drop insect flesh rather than plain ol' meat.
+            return "meat_tainted";
+        } else if( mat == "veggy" ) {
+            return "veggy_tainted";
+        }
+    } else {
+        if( mat == "flesh" || mat == "hflesh" ) {
+            if( has_flag( MF_HUMAN ) ) {
+                return "human_flesh";
+            } else if( has_flag( MF_AQUATIC ) ) {
+                return "fish";
+            } else {
+                return "meat";
+            }
+        } else if( mat == "bone" ) {
+            return "bone";
+        } else if( mat == "iflesh" ) {
+            //In the future, insects could drop insect flesh rather than plain ol' meat.
+            return "meat";
+        } else if( mat == "veggy" ) {
+            return "veggy";
+        }
+    }
+    return "null";
+}

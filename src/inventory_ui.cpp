@@ -310,7 +310,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
                 item_name = string_format("%d %s", count, it.display_name(count).c_str());
             }
         }
-        nc_color name_color = const_cast<item&>(it).color_in_inventory();
+        nc_color name_color = it.color_in_inventory();
         nc_color invlet_color = c_white;
         if (a + current_page_offset == selected) {
             name_color = selected_line_color;
@@ -363,7 +363,7 @@ void inventory_selector::print_right_column() const
         const item &it = stack.front();
         const char invlet = invlet_or_space(it);
         const int count = a->second;
-        const nc_color col = const_cast<item&>(it).color_in_inventory();
+        const nc_color col = it.color_in_inventory();
         std::string item_name = it.display_name(count);
         if (stack.size() > 1) {
             item_name = string_format("%d %s", stack.size(), item_name.c_str());

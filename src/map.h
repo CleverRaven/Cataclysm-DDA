@@ -563,7 +563,7 @@ void add_corpse(int x, int y);
 protected:
  void saven(const int x, const int y, const int z,
             const int gridx, const int gridy);
- bool loadn(const int x, const int y, const int z, const int gridx, const int gridy,
+ void loadn(const int x, const int y, const int z, const int gridx, const int gridy,
             const  bool update_vehicles = true);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
