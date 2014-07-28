@@ -128,12 +128,11 @@ void load_recipe(JsonObject &jsobj)
     else if (jsobj.has_array("byproducts")) {
         jsarr = jsobj.get_array("byproducts");
         while (jsarr.has_more()) {
-            JsonArray ja = jsarr.next_array();
-            if (ja.has_string(0)) {
-                bps.push_back(byproduct(ja.get_string(0)));
+            if (jsarr.has_string(0)) {
+                bps.push_back(byproduct(jsarr.next_string()));
             }
-            else if (ja.has_object(0)) {
-                JsonObject jsbp = ja.get_object(0);
+            else if (jsarr.has_object(0)) {
+                JsonObject jsbp = jsarr.next_object();
                 bps.push_back(byproduct(jsbp.get_string("id"), jsbp.get_int("charges_mult", 1), jsbp.get_int("amount", 1)));
             }
         }
@@ -240,21 +239,86 @@ bool game::making_would_work(recipe *making)
         return false;
     }
 
-    if (!u.has_container_for(making->create_result())) {
-        popup(_("You don't have anything to store that liquid in!"));
-        return false;
-    }
+    return check_eligible_containers_for_crafting(making);
+}
 
-    if (making->has_byproducts()) {
-        for(auto& val : making->create_byproducts()) {
-            if (!u.has_container_for(val)) {
-                popup(_("You don't have anything to store byproduct in!"));
+bool game::check_eligible_containers_for_crafting(recipe *making)
+{
+    //u.has_container_for(val)
+
+    std::vector<item> conts = get_eligible_containers_for_crafting();
+    std::vector<item> bps = making->create_byproducts();
+    bps.push_back(making->create_result());
+
+    for(item& prod : bps) {
+        if (prod.made_of(LIQUID)) {
+            long charges_to_store = prod.charges;
+            // we go trough half-filled containers first
+            for(item& cont : conts) {
+                if (!cont.is_container_empty()) {
+                    if (cont.contents[0].type->id ==  prod.type->id) {
+                        charges_to_store -= cont.get_remaining_capacity();
+                        if (charges_to_store <= 0) break;
+                    }
+                }
+            }
+            // we go trough empty containers if we need
+            if (charges_to_store > 0) {
+                std::vector<item>::iterator iter;
+                for(iter = conts.begin(); iter != conts.end(); ++iter) {
+                    if (iter->is_container_empty()) {
+                        LIQUID_FILL_ERROR tmperr;
+                        charges_to_store -= iter->get_remaining_capacity_for_liquid(prod, tmperr);
+                        iter = conts.erase(iter);
+                        if (charges_to_store <= 0) break;
+                    }
+                }
+            }
+            if (charges_to_store > 0) {
+                popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
                 return false;
             }
         }
     }
 
     return true;
+}
+
+std::vector<item> game::get_eligible_containers_for_crafting()
+{
+    std::vector<item> conts;
+
+    if (is_container_eligible_for_crafting(u.weapon)) {
+        conts.push_back(u.weapon);
+    }
+    for (item& i : u.worn) {
+        if (is_container_eligible_for_crafting(i)) {
+            conts.push_back(i);
+        }
+    }
+    for (int i = 0; i < u.inv.size(); i++) {
+        for (item it : u.inv.const_stack(i)) {
+            if (is_container_eligible_for_crafting(it)) {
+                conts.push_back(it);
+            }
+        }
+    }
+    for (item& i : m.i_at(u.posx, u.posy)) {
+        if (is_container_eligible_for_crafting(i)) {
+            conts.push_back(i);
+        }
+    }
+
+    return conts;
+}
+
+bool game::is_container_eligible_for_crafting(item &cont)
+{
+    if (cont.is_watertight_container()) {
+        return !cont.is_container_full();
+    }
+
+    return false;
 }
 
 bool game::can_make(recipe *r)
@@ -600,8 +664,8 @@ recipe *game::select_crafting_recipe()
         } else if (action == "CONFIRM") {
             if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
-            } else if (!u.has_container_for(current[line]->create_result())) {
-                popup(_("You don't have anything to store that liquid in!"));
+            } else if (!check_eligible_containers_for_crafting(current[line])) {
+                ; // popup is already inside check
             } else {
                 chosen = current[line];
                 done = true;
