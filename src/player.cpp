@@ -109,7 +109,8 @@ void game::init_morale()
     _("Bad Tempered"),
     //~ You really don't like wearing the Uncomfy Gear
     _("Uncomfy Gear"),
-    _("Found kitten <3")
+    _("Found kitten <3"),
+    _("Scared")
     };
     for (int i = 0; i < NUM_MORALE_TYPES; ++i) {
         morale_data[i]=tmp_morale_data[i];
@@ -4150,6 +4151,11 @@ void player::search_surroundings()
                 const std::string direction = direction_name(direction_from(posx, posy, x, y));
                 add_msg_if_player(_("You've spotted a %s to the %s!"),
                                   tr->name.c_str(), direction.c_str());
+                const trap_id trap_at_pos = g->m.tr_at(x, y);
+                if(trap_at_pos == tr_notice)
+                {
+                    tr->trigger(&g->u, x, y);
+                }
             }
             add_known_trap(x, y, tr->id);
         }
