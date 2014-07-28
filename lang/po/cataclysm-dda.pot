@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-28 10:50+0400\n"
+"POT-Creation-Date: 2014-07-28 12:56+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68073,7 +68073,8 @@ msgstr ""
 
 #. ~ 1$s is bodypart name, 2$d is damage value.
 #: src/monattack.cpp
-msgid "Your %1$s is hit for %1$d damage!"
+#, c-format
+msgid "Your %1$s is hit for %2$d damage!"
 msgstr ""
 
 #: src/monattack.cpp

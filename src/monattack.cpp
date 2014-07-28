@@ -1143,7 +1143,7 @@ void mattack::tentacle(monster *z)
     body_part hit = random_body_part();
     int dam = rng(10, 20), side = random_side(hit);
     //~ 1$s is bodypart name, 2$d is damage value.
-    add_msg(m_bad, _("Your %1$s is hit for %1$d damage!"),
+    add_msg(m_bad, _("Your %1$s is hit for %2$d damage!"),
             body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
     g->u.practice( "dodge", z->type->melee_skill );
