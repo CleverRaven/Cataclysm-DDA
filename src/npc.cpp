@@ -80,6 +80,13 @@ void npc::load_npc(JsonObject &jsobj)
     guy.idz = jsobj.get_string("id");
     if (jsobj.has_string("name+"))
         guy.name = jsobj.get_string("name+");
+    if (jsobj.has_string("gender")){
+        if (jsobj.get_string("gender") == "male"){
+            guy.male = true;
+        }else{
+            guy.male = false;
+        }
+    }
     if (jsobj.has_string("faction"))
         guy.fac_id = jsobj.get_string("faction");
     guy.myclass = npc_class(jsobj.get_int("class"));
@@ -113,7 +120,14 @@ void npc::load_npc_template(std::string ident)
         idz = found->second.idz;
         myclass = found->second.myclass;
         randomize(myclass);
-        name = name + found->second.name;
+        std::string tmpname = found->second.name.c_str();
+        if (tmpname[0] == ','){
+            name = name + found->second.name;
+        } else {
+            name = found->second.name;
+            //Assume if the name is unique, the gender might also be.
+            male = found->second.male;
+        }
         fac_id = found->second.fac_id;
         set_fac(fac_id);
         attitude = found->second.attitude;
