@@ -33,7 +33,7 @@ std::string melee_message(matec_id tech, player &p, int bash_dam, int cut_dam, i
  *   skills, torso encumbrance penalties and drunken master bonuses.
  */
 
-bool player::is_armed()
+bool player::is_armed() const
 {
  return (weapon.typeId() != "null");
 }
@@ -105,7 +105,7 @@ bool player::handle_melee_wear() {
   return true;
 }
 
-bool player::unarmed_attack() {
+bool player::unarmed_attack() const {
  return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
 }
 

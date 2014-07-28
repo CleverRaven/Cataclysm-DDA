@@ -2195,7 +2195,12 @@ int vehicle::solar_epower ()
 
 int vehicle::acceleration (bool fueled)
 {
-    return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+    if ( (engine_on || skidding) || (has_pedals || has_paddles || has_hand_rims)) {
+        return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+    }
+    else {
+        return 0;
+    }
 }
 
 int vehicle::max_velocity (bool fueled)
@@ -2319,7 +2324,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
             if( part_info(p).fuel_type == fuel_type_gasoline ) {
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
-                if( exhaust_part == -1 ) {
+                if( (exhaust_part == -1) && engine_on ) {
                     spew_smoke( j, p );
                 } else {
                     mufflesmoke += j;
@@ -2336,7 +2341,7 @@ void vehicle::noise_and_smoke( double load, double time )
         }
     }
 
-    if( exhaust_part != -1 ) {
+    if( (exhaust_part != -1) && engine_on ) { // No engine, no smoke
         spew_smoke( mufflesmoke, exhaust_part );
     }
     // Even a car with engines off will make noise traveling at high speeds

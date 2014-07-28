@@ -103,18 +103,18 @@ public:
     /** Returns a random name from NAMES_* */
     void pick_name();
     /** Returns either "you" or the player's name */
-    std::string disp_name(bool possessive = false);
+    std::string disp_name(bool possessive = false) const;
     /** Returns the name of the player's outer layer, e.g. "armor plates" */
-    std::string skin_name();
+    std::string skin_name() const;
 
-    virtual bool is_player() { return true; }
+    virtual bool is_player() const { return true; }
 
     /** Processes long-term effects */
     void process_effects(); // Process long-term effects
 
- virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
- /** Returns what color the player should be drawn as */
- nc_color color();
+ virtual bool is_npc() const { return false; } // Overloaded for NPCs in npc.h
+    /** Returns what color the player should be drawn as */
+    virtual nc_color basic_symbol_color() const override;
 
  /** Stringstream loader for old player data files */
  virtual void load_legacy(std::stringstream & dump);
@@ -122,6 +122,8 @@ public:
  virtual void load_info(std::string data);
  /** Outputs a serialized json string for saving */
  virtual std::string save_info();
+
+    int print_info(WINDOW* w, int vStart, int vLines, int column) const;
 
     // populate variables, inventory items, and misc from json object
     void json_load_common_variables(JsonObject &jsout);
@@ -252,7 +254,7 @@ public:
  /** Removes the mutation's child flag from the player's list */
  void remove_child_flag(std::string mut);
 
- point pos();
+ point pos() const;
  /** Returns the player's sight range */
  int  sight_range(int light_level) const;
  /** Modifies the player's sight values
@@ -272,17 +274,17 @@ public:
  /** Returns the distance the player can see on the overmap */
  int  overmap_sight_range(int light_level);
  /** Returns the distance the player can see through walls */
- int  clairvoyance();
+ int  clairvoyance() const;
  /** Returns true if the player has some form of impaired sight */
  bool sight_impaired();
  /** Returns true if the player has two functioning arms */
  bool has_two_arms() const;
  /** Returns true if the player is wielding something, including bionic weapons */
- bool is_armed();
+ bool is_armed() const;
  /** Calculates melee weapon wear-and-tear through use, returns true */
  bool handle_melee_wear();
  /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
- bool unarmed_attack();
+ bool unarmed_attack() const;
  /** Check if the item is suitable for auto-wielding, based on skill/style/item type */
  bool is_suitable_weapon(const item &it) const;
  /** Called when a player triggers a trap, returns true if they don't set it off */
@@ -298,8 +300,8 @@ public:
   * Includes checks for line-of-sight and light.
   * @param t The t output of map::sees.
   */
- bool sees(int x, int y);
- bool sees(int x, int y, int &t);
+ bool sees(int x, int y) const;
+ bool sees(int x, int y, int &t) const;
  /**
   * Check if this creature can see the critter.
   * Includes checks for simple critter visibility
@@ -309,8 +311,8 @@ public:
   * hallucinations.
   * @param t The t output of map::sees.
   */
- bool sees(Creature *critter);
- bool sees(Creature *critter, int &t);
+ bool sees(const Creature *critter) const;
+ bool sees(const Creature *critter, int &t) const;
  /**
   * For fake-players (turrets, mounted turrets) this functions
   * chooses a target. This is for creatures that are friendly towards
@@ -377,11 +379,11 @@ public:
  /** Returns true if the current martial art works with the player's current weapon */
  bool can_melee();
  /** Always returns false, since players can't dig currently */
- bool digging();
+ bool digging() const;
  /** Returns true if the player is knocked over or has broken legs */
- bool is_on_ground();
+ bool is_on_ground() const;
  /** Returns true if the player should be dead */
- bool is_dead_state();
+ bool is_dead_state() const;
 
  /** Returns true if the player has technique-based miss recovery */
  bool has_miss_recovery_tec();
@@ -523,9 +525,9 @@ public:
  void knock_back_from(int x, int y);
 
  /** Converts a body_part and side to an hp_part */
- void bp_convert(hp_part &hpart, body_part bp, int side);
+ static void bp_convert(hp_part &hpart, body_part bp, int side);
  /** Converts an hp_part to a body_part and side */
- void hp_convert(hp_part hpart, body_part &bp, int &side);
+ static void hp_convert(hp_part hpart, body_part &bp, int &side);
 
  /** Returns overall % of HP remaining */
  int hp_percentage();
@@ -652,11 +654,11 @@ public:
  hint_rating rate_action_disassemble(item *it);
 
  /** Returns warmth provided by armor, etc. */
- int warmth(body_part bp);
+ int warmth(body_part bp) const;
  /** Returns ENC provided by armor, etc. */
- int encumb(body_part bp);
+ int encumb(body_part bp) const;
  /** Returns warmth provided by armor, etc., factoring in layering */
- int encumb(body_part bp, double &layers, int &armorenc);
+ int encumb(body_part bp, double &layers, int &armorenc) const;
  /** Returns overall bashing resistance for the body_part */
  int get_armor_bash(body_part bp);
  /** Returns overall cutting resistance for the body_part */
@@ -679,17 +681,17 @@ public:
  void practice( std::string s, int amount, int cap = 99 );
 
  void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
- bool has_activity(const activity_type type);
+ bool has_activity(const activity_type type) const;
  void cancel_activity();
 
- int weight_carried();
- int volume_carried();
- int weight_capacity(bool real_life = true);
- int volume_capacity();
+ int weight_carried() const;
+ int volume_carried() const;
+ int weight_capacity(bool real_life = true) const;
+ int volume_capacity() const;
  double convert_weight(int weight);
  bool can_eat(const item i);
- bool can_pickVolume(int volume);
- bool can_pickWeight(int weight, bool safe = true);
+ bool can_pickVolume(int volume) const;
+ bool can_pickWeight(int weight, bool safe = true) const;
  int net_morale(morale_point effect);
  int morale_level(); // Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
@@ -759,7 +761,7 @@ public:
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
- bool has_weapon();
+ bool has_weapon() const;
  // Check if the player can pickup stuff (fails if wielding
  // certain bionic weapons).
  // Print a message if print_msg is true and this isn't a NPC
@@ -788,8 +790,8 @@ public:
 
 // ---------------VALUES-----------------
  int posx, posy;
- inline int xpos() { return posx; }
- inline int ypos() { return posy; }
+ inline int xpos() const { return posx; }
+ inline int ypos() const { return posy; }
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle
@@ -899,17 +901,17 @@ public:
      return -2 - position;
  }
 
- m_size get_size();
- int get_hp( hp_part bp );
- int get_hp_max( hp_part bp );
+ m_size get_size() const;
+ int get_hp( hp_part bp ) const;
+ int get_hp_max( hp_part bp ) const;
 
- field_id playerBloodType();
+ field_id playerBloodType() const;
 
  //message related stuff
- virtual void add_msg_if_player(const char* msg, ...);
- virtual void add_msg_if_player(game_message_type type, const char* msg, ...);
- virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
- virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...);
+ virtual void add_msg_if_player(const char* msg, ...) const;
+ virtual void add_msg_if_player(game_message_type type, const char* msg, ...) const;
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const;
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const;
 
     typedef std::map<tripoint, std::string> trap_map;
     bool knows_trap(int x, int y) const;
