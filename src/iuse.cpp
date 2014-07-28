@@ -3235,7 +3235,10 @@ int iuse::two_way_radio(player *p, item *it, bool)
             g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
                                   pgettext("memorial_female", "Called for help from %s."),
                                   fac->name.c_str());
+            /* Disabled until event::faction_id and associated code
+             * is updated to accept a std::string.
             g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id);
+            */
             fac->respects_u -= rng(0, 8);
             fac->likes_u -= rng(3, 5);
         } else if (bonus >= -5) {

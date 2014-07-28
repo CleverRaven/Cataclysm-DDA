@@ -30,7 +30,10 @@ event::event( event_type e_t, int t, int f_id, int x, int y )
 void event::actualize()
 {
     switch( type ) {
-        case EVENT_HELP: {
+        case EVENT_HELP:
+            debugmsg("Currently disabled while NPC and monster factions are being rewritten.");
+        /*
+        {
             int num = 1;
             if( faction_id >= 0 ) {
                 num = rng( 1, 6 );
@@ -66,6 +69,7 @@ void event::actualize()
                 // The npcs will be loaded later by game::load_npcs()
             }
         }
+        */
         break;
 
   case EVENT_ROBOT_ATTACK: {
