@@ -164,7 +164,7 @@ public:
     {
         return false;
     }
-    virtual bool is_power_armor()
+    virtual bool is_power_armor() const
     {
         return false;
     }
@@ -438,7 +438,7 @@ struct it_armor : public virtual itype {
     {
         return true;
     }
-    virtual bool is_power_armor()
+    virtual bool is_power_armor() const
     {
         return power_armor;
     }
@@ -547,7 +547,7 @@ struct it_tool_armor : public virtual it_tool, public virtual it_armor {
     {
         return true;
     }
-    virtual bool is_power_armor()
+    virtual bool is_power_armor() const
     {
         return it_armor::is_power_armor();
     }

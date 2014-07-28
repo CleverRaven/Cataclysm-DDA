@@ -65,9 +65,10 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
 void game::draw_hit_player(player *p, const int iDam, bool dead)
 {
     (void)dead; //unused
+    const std::string &sMonSym = p->symbol();
     hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                   POSY + (p->posy - (u.posy + u.view_offset_y)),
-                  (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), "@");
+                  (iDam == 0) ? yellow_background(p->symbol_color()) : red_background(p->symbol_color()), sMonSym);
 }
 /* Line drawing code, not really an animation but should be separated anyway */
 
@@ -76,14 +77,10 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
     if (u_see( x, y)) {
         for (std::vector<point>::iterator it = ret.begin();
              it != ret.end(); ++it) {
-            int mondex = mon_at(it->x, it->y),
-                npcdex = npc_at(it->x, it->y);
-
+            const Creature *critter = critter_at( it->x, it->y );
             // NPCs and monsters get drawn with inverted colors
-            if (mondex != -1 && u_see(&(critter_tracker.find(mondex)))) {
-                critter_tracker.find(mondex).draw(w_terrain, center_point.x, center_point.y, true);
-            } else if (npcdex != -1) {
-                active_npc[npcdex]->draw(w_terrain, center_point.x, center_point.y, true);
+            if( critter != nullptr && u.sees( critter ) ) {
+                critter->draw( w_terrain, center_point.x, center_point.y, true );
             } else {
                 m.drawsq(w_terrain, u, it->x, it->y, true, true, center_point.x, center_point.y);
             }

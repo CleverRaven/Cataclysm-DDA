@@ -1,6 +1,5 @@
 #include "gamemode.h"
 #include "game.h"
-#include "setvector.h"
 #include "itype.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
@@ -1214,51 +1213,45 @@ std::vector<itype_id> caravan_items(caravan_category cat)
         return ret;
 
     case CARAVAN_MELEE:
-        setvector(&ret,
-                  "hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
+        ret = {   "hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
                   "knife_combat", "rapier", "machete", "katana", "spear_knife",
-                  "pike", "chainsaw_off", NULL);
+                  "pike", "chainsaw_off" };
         break;
 
     case CARAVAN_GUNS:
-        setvector(&ret,
-                  "crossbow", "bolt_steel", "compbow", "arrow_cf", "marlin_9a",
+        ret = {   "crossbow", "bolt_steel", "compbow", "arrow_cf", "marlin_9a",
                   "22_lr", "hk_mp5", "9mm", "taurus_38", "38_special", "deagle_44",
                   "44magnum", "m1911", "hk_ump45", "45_acp", "fn_p90", "57mm",
                   "remington_870", "shot_00", "shot_slug", "browning_blr", "3006",
                   "ak47", "762_m87", "m4a1", "556", "savage_111f", "hk_g3",
-                  "762_51", "hk_g80", "12mm", "plasma_rifle", "plasma", NULL);
+                  "762_51", "hk_g80", "12mm", "plasma_rifle", "plasma" };
         break;
 
     case CARAVAN_COMPONENTS:
-        setvector(&ret,
-                  "rag", "fur", "leather", "superglue", "string_36", "chain",
+        ret = {   "rag", "fur", "leather", "superglue", "string_36", "chain",
                   "processor", "RAM", "power_supply", "motor", "hose", "pot",
-                  "2x4", "battery", "nail", "gasoline", NULL);
+                  "2x4", "battery", "nail", "gasoline" };
         break;
 
     case CARAVAN_FOOD:
-        setvector(&ret,
-                  "1st_aid", "water", "energy_drink", "whiskey", "can_beans",
+        ret = {   "1st_aid", "water", "energy_drink", "whiskey", "can_beans",
                   "mre_beef", "flour", "inhaler", "codeine", "oxycodone", "adderall",
-                  "cig", "meth", "royal_jelly", "mutagen", "purifier", NULL);
+                  "cig", "meth", "royal_jelly", "mutagen", "purifier" };
         break;
 
     case CARAVAN_CLOTHES:
-        setvector(&ret,
-                  "backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
+        ret = {   "backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
                   "gloves_fingerless", "mask_filter", "mask_gas", "glasses_eye",
                   "glasses_safety", "goggles_ski", "goggles_nv", "helmet_ball",
-                  "helmet_riot", NULL);
+                  "helmet_riot" };
         break;
 
     case CARAVAN_TOOLS:
-        setvector(&ret,
-                  "screwdriver", "wrench", "saw", "hacksaw", "lighter", "sewing_kit",
+        ret = {   "screwdriver", "wrench", "saw", "hacksaw", "lighter", "sewing_kit",
                   "scissors", "extinguisher", "flashlight", "hotplate",
                   "soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",
                   "grenade", "flashbang", "EMPbomb", "smokebomb", "bot_manhack",
-                  "bot_turret", "UPS_off", "mininuke", NULL);
+                  "bot_turret", "UPS_off", "mininuke" };
         break;
     }
 

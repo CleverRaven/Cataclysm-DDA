@@ -92,7 +92,7 @@ IF(SDL)
     # Look for SDL2 using pkgconfig
     PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 
-    # Harcode these for now since they don't seem to be included in pkg-config
+    # Hardcode these for now since they don't seem to be included in pkg-config
     # CMake is bound to get SDL2 finders eventually.
     #PKG_SEARCH_MODULE(SDL2_TTF REQUIRED sdl2_ttf)
     #PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED sdl2_image)

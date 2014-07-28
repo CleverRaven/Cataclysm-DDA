@@ -298,7 +298,7 @@ class wish_monster_callback: public uimenu_callback
             }
 
             werase(w_info);
-            tmp.print_info(w_info);
+            tmp.print_info( w_info, 6, 5, 1 );
 
             std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->nname().c_str());
             mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",

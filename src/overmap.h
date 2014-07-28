@@ -267,7 +267,6 @@ class overmap
   point const& pos() const { return loc; }
 
   void save();
-  void make_tutorial();
   void first_house(int &x, int &y, const std::string start_location);
 
   void process_mongroups(); // Makes them die out, maybe more
@@ -332,9 +331,6 @@ class overmap
      * current z-level, x and y are taken from the players position.
      */
     static tripoint draw_overmap(int z);
-
-  void remove_vehicle(int id);
-  int add_vehicle(vehicle *veh);
 
   /** Get the x coordinate of the left border of this overmap. */
   int get_left_border();

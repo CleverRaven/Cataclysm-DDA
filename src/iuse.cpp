@@ -1103,8 +1103,9 @@ int iuse::fungicide(player *p, item *it, bool)
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
                                         g->zombie(zid).name().c_str());
                             }
-                            if (!g->zombie(zid).make_fungus()) {
-                                g->kill_mon(zid);
+                            monster &critter = g->zombie( zid );
+                            if( !critter.make_fungus() ) {
+                                critter.die( p ); // counts as kill by player
                             }
                         } else {
                             spore.spawn(i, j);
@@ -2625,11 +2626,8 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("You can't fish there!"));
         return 0;
     }
-    // can't use g->om_global_location, because that gives the position
-    // of the player, not of (dirx, diry)
-    const int cursx = (g->levx + dirx / SEEX) / 2 + g->cur_om->pos().x * OMAPX;
-    const int cursy = (g->levy + diry / SEEY) / 2 + g->cur_om->pos().y * OMAPY;
-    if (!otermap[overmap_buffer.ter(cursx, cursy, g->levz)].is_river) {
+    point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( dirx, diry ) );
+    if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
         return 0;
     }
@@ -2778,11 +2776,9 @@ int iuse::extinguisher(player *p, item *it, bool)
             if (g->u_see(&(g->zombie(mondex)))) {
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
-            if (g->zombie(mondex).hurt(rng(20, 60))) {
-                g->kill_mon(mondex, (p == &(g->u)));
-            } else {
-                g->zombie(mondex).speed /= 2;
-            }
+            monster &critter = g->zombie( mondex );
+            critter.hurt( rng( 20, 60 ), 0, p );
+            critter.speed /= 2;
         }
     }
 
@@ -3239,7 +3235,10 @@ int iuse::two_way_radio(player *p, item *it, bool)
             g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
                                   pgettext("memorial_female", "Called for help from %s."),
                                   fac->name.c_str());
-            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id, -1, -1);
+            /* Disabled until event::faction_id and associated code
+             * is updated to accept a std::string.
+            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id);
+            */
             fac->respects_u -= rng(0, 8);
             fac->likes_u -= rng(3, 5);
         } else if (bonus >= -5) {
@@ -3714,7 +3713,7 @@ int iuse::picklock(player *p, item *it, bool)
         it->damage < 100) {
         g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
         if (!g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
     }
     // Special handling, normally the item isn't used up, but it is if broken.
@@ -3832,7 +3831,7 @@ int iuse::crowbar(player *p, item *it, bool)
                                   pgettext("memorial_female", "Set off an alarm."));
             g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
             if (!g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
             }
         }
     } else {
@@ -5019,7 +5018,7 @@ int iuse::granade_act(player *, item *it, bool t)
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
-                            g->explode_mon(zid);
+                            g->zombie( zid ).hurt( 9999 ); // trigger exploding
                         }
                     }
                 }
@@ -5729,9 +5728,7 @@ int iuse::tazer(player *p, item *it, bool)
         p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
         int shock = rng(5, 25);
         z->moves -= shock * 100;
-        if (z->hurt(shock)) {
-            g->kill_mon(mondex, (p == &(g->u)));
-        }
+        z->hurt( shock, 0, p );
         return it->type->charges_to_use();
     }
 
@@ -5754,7 +5751,7 @@ int iuse::tazer(player *p, item *it, bool)
         foe->moves -= shock * 100;
         foe->hurtall(shock);
         if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-            foe->die(true);
+            foe->die( p );
             g->active_npc.erase(g->active_npc.begin() + npcdex);
         }
     }
@@ -5825,10 +5822,7 @@ int iuse::tazer2(player *p, item *it, bool)
             p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
             int shock = rng(5, 25);
             z->moves -= shock * 100;
-
-            if (z->hurt(shock)) {
-                g->kill_mon(mondex, (p == &(g->u)));
-            }
+            z->hurt( shock, 0, p );
 
             return 100;
         }
@@ -5857,7 +5851,7 @@ int iuse::tazer2(player *p, item *it, bool)
             foe->hurtall(shock);
 
             if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-                foe->die(true);
+                foe->die( p );
                 g->active_npc.erase(g->active_npc.begin() + npcdex);
             }
         }
@@ -8108,8 +8102,8 @@ int iuse::robotcontrol(player *p, item *it, bool)
             } else if (success >= -2) { //A near success
                 p->add_msg_if_player(_("The %s short circuits as you attempt to reprogram it!"),
                                      z->name().c_str());
-                if (z->hurt(rng(1, 10))) { //damage it a little
-                    g->kill_mon(pick_robot.ret, p == &(g->u));
+                z->hurt( rng( 1, 10 ), 0, p ); //damage it a little
+                if( z->is_dead() ) {
                     p->practice("computer", 10);
                     return it->type->charges_to_use(); //dont do the other effects if the robot died
                 }

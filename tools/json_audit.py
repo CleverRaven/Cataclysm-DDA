@@ -18,8 +18,6 @@ JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "../data/json"))
 FILE_MATCH = "*.json"
 SEARCH_KEY = "material"
 
-# Single list of all JSON blobs found in each file.
-JSON_DATA = []
 
 def get_json_files(fmatch):
     """Use a UNIX like file match expression to weed out the JSON files.
@@ -50,7 +48,8 @@ print "If the above directory is wrong, ctrl-c out and fix the script."
 userin = raw_input("Which files should be read? [default: %s]:\n" % FILE_MATCH)
 FILE_MATCH = userin.strip() or FILE_MATCH
 
-print "Finding elligible JSON files."
+print "Finding eligible JSON files."
+# Single list of all JSON blobs found in each file.
 JSON_DATA = get_json_files(FILE_MATCH)
 if not JSON_DATA:
     print "We could not find any JSON data in"

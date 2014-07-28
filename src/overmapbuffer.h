@@ -92,6 +92,24 @@ public:
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
 
     /**
+     * Move the tracking mark of the given vehicle.
+     * @param veh The vehicle whose tracking device is active and
+     * that has been moved.
+     * @param old_msp The previous position (before the movement) of the
+     * vehicle. In map square coordinates (see vehicle::real_global_pos), it's
+     * used to remove the vehicle from the old overmap if the new position is
+     * on another overmap.
+     */
+    void move_vehicle(vehicle *veh, const point &old_msp);
+    /**
+     * Add the vehicle to be tracked in the overmap.
+     */
+    void add_vehicle(vehicle *veh);
+    /**
+     * Remove the vehicle from being tracked in the overmap.
+     */
+    void remove_vehicle(const vehicle *veh);
+    /**
      * Get all npcs in a area with given radius around (x, y).
      * Only npcs on the given z-level are considered.
      * Uses square_dist for distance calculation.
@@ -222,6 +240,15 @@ public:
     static void sm_to_omt(tripoint& p) { sm_to_omt(p.x, p.y); }
     static point sm_to_omt_remain(int &x, int &y);
     static point sm_to_omt_remain(point& p) { return sm_to_omt_remain(p.x, p.y); }
+    // submap to overmap, basically: x / (OMAPX * 2)
+    static point sm_to_om_copy(int x, int y);
+    static point sm_to_om_copy(const point& p) { return sm_to_om_copy(p.x, p.y); }
+    static tripoint sm_to_om_copy(const tripoint& p);
+    static void sm_to_om(int &x, int &y);
+    static void sm_to_om(point& p) { sm_to_om(p.x, p.y); }
+    static void sm_to_om(tripoint& p) { sm_to_om(p.x, p.y); }
+    static point sm_to_om_remain(int &x, int &y);
+    static point sm_to_om_remain(point& p) { return sm_to_om_remain(p.x, p.y); }
     // overmap terrain to submap, basically: x *= 2
     static point omt_to_sm_copy(int x, int y);
     static point omt_to_sm_copy(const point& p) { return omt_to_sm_copy(p.x, p.y); }

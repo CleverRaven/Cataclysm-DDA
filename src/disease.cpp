@@ -2495,8 +2495,9 @@ void manage_fungal_infection(player& p, disease& dis)
                             add_msg(_("The %s is covered in tiny spores!"),
                                        g->zombie(zid).name().c_str());
                         }
-                        if (!g->zombie(zid).make_fungus()) {
-                            g->kill_mon(zid);
+                        monster &critter = g->zombie( zid );
+                        if( !critter.make_fungus() ) {
+                            critter.die( &p ); // counts as kill by player
                         }
                     } else if (one_in(4) && g->num_zombies() <= 1000){
                         spore.spawn(sporex, sporey);
