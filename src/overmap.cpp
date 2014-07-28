@@ -854,32 +854,6 @@ point overmap::find_note(int const x, int const y, int const z, std::string cons
     return ret;
 }
 
-void overmap::remove_vehicle(int id)
-{
-    std::map<int, om_vehicle>::iterator om_veh = vehicles.find(id);
-    if (om_veh != vehicles.end()) {
-        vehicles.erase(om_veh);
-    }
-
-}
-
-int overmap::add_vehicle(vehicle *veh)
-{
-    int id = vehicles.size() + 1;
-    // this *should* be unique but just in case
-    while ( vehicles.count(id) > 0 ) {
-        id++;
-    }
-
-    om_vehicle tracked_veh;
-    tracked_veh.x = veh->omap_x() / 2;
-    tracked_veh.y = veh->omap_y() / 2;
-    tracked_veh.name = veh->name;
-    vehicles[id] = tracked_veh;
-
-    return id;
-}
-
 point overmap::display_notes(int z)
 {
     const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes(z);
@@ -1428,18 +1402,6 @@ bool overmap::generate_sub(int const z)
     return requires_sub;
 }
 
-void overmap::make_tutorial()
-{
-    for (int i = 0; i < OMAPX; i++) {
-        for (int j = 0; j < OMAPY; j++) {
-            ter(i, j, -1) = "rock";
-        }
-    }
-    ter(50, 50, 0) = "tutorial";
-    ter(50, 50, -1) = "tutorial";
-    zg.clear();
-}
-
 extern bool lcmatch(const std::string& text, const std::string& pattern);
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
@@ -1602,7 +1564,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
                 // Display player pos, should always be visible
-                ter_color = g->u.color();
+                ter_color = g->u.symbol_color();
                 ter_sym = '@';
             } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
                 // TODO: mission targets currently have no z-component, are assumed to be on z=0

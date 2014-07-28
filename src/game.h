@@ -124,8 +124,12 @@ class game
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
         void draw_veh_dir_indicator(void);
+        /**
+         * Add an entry to @ref events. For further information see event.h
+         * @param x,y global submap coordinates.
+         */
         void add_event(event_type type, int on_turn, int faction_id = -1,
-                       int x = -1, int y = -1);
+                       int x = INT_MIN, int y = INT_MIN);
         bool event_queued(event_type type);
         /**
          * Sound at (x, y) of intensity (vol)
@@ -239,12 +243,12 @@ class game
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
-        faction *faction_by_id(int it);
+        faction *faction_by_ident(std::string ident);
         bool sees_u(int x, int y, int &t);
         bool u_see (int x, int y);
-        bool u_see (monster *critter);
-        bool u_see (Creature *t); // for backwards compatibility
-        bool u_see (Creature &t);
+        bool u_see (const monster *critter);
+        bool u_see (const Creature *t); // for backwards compatibility
+        bool u_see (const Creature &t);
         bool is_hostile_nearby();
         bool is_hostile_very_close();
         void refresh_all();
@@ -256,9 +260,6 @@ class game
         // Position of the player in overmap terrain coordinates,
         // in global overmap terrain coordinates.
         tripoint om_global_location() const;
-
-        faction *random_good_faction();
-        faction *random_evil_faction();
 
         void process_artifact(item *it, player *p, bool wielded = false);
         void add_artifact_messages(std::vector<art_effect_passive> effects);
@@ -366,6 +367,10 @@ class game
         overmap *cur_om;
         map m;
         int levx, levy, levz; // Placement inside the overmap
+        /** Absolute values of lev[xyz] (includes the offset of cur_om) */
+        int get_abs_levx() const;
+        int get_abs_levy() const;
+        int get_abs_levz() const;
         player u;
         std::vector<monster> coming_to_stairs;
         int monstairx, monstairy, monstairz;
@@ -442,6 +447,10 @@ class game
         void draw_weather(weather_printable wPrint);
         void draw_sct();
         void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        // Draw critter (if visible!) on its current position into w_terrain,
+        // also update mapRain to protect it from been overdrawn by rain.
+        // @param center the center of view, same as when calling map::draw
+        void draw_critter(const Creature &critter, const point &center);
 
         // Vehicle related JSON loaders and variables
         void load_vehiclepart(JsonObject &jo);

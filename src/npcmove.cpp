@@ -997,7 +997,7 @@ void npc::update_path(int x, int y)
     }
 }
 
-bool npc::can_move_to(int x, int y)
+bool npc::can_move_to(int x, int y) const
 {
     return ((g->m.move_cost(x, y) > 0 || g->m.has_flag("BASHABLE", x, y)) &&
             rl_dist(posx, posy, x, y) <= 1);
@@ -2118,13 +2118,13 @@ void npc::look_for_player(player &sought)
     }
 }
 
-bool npc::saw_player_recently()
+bool npc::saw_player_recently() const
 {
     return (plx >= 0 && plx < SEEX * MAPSIZE && ply >= 0 && ply < SEEY * MAPSIZE &&
             plt > 0);
 }
 
-bool npc::has_destination()
+bool npc::has_destination() const
 {
     return goal != no_goal_point;
 }
@@ -2140,8 +2140,8 @@ void npc::reach_destination()
             if (path.size() > 1)
                 move_to_next();  //No point recalculating the path to get home
             else{
-                int pt1 = guardx - ((omx * OMAPX * 2) + mapx) * SEEX;
-                int pt2 = guardy - ((omx * OMAPY * 2) + mapy) * SEEY;
+                int pt1 = guardx - mapx * SEEX;
+                int pt2 = guardy - mapy * SEEY;
                 update_path(pt1, pt2);
                 move_to_next();
             }

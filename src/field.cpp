@@ -1869,7 +1869,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
      }
     }
     if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
-     me->die(false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
+     me->die( nullptr );        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
      g->active_npc.erase(g->active_npc.begin() + fdnpc);
     }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
    }

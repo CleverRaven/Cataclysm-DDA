@@ -1,104 +1,106 @@
 # This program runs well with PYTHON 2.5 but may not
 # run without an error with PYTHON 2.2
 #
-# I (acidia) just made this as a quick utility to change a character map in drawing.txt
-#into a json that the game can process.  You'll have to modify the paths in this
-#folder unless you decide to put all the files in 'c:\building-utility' and create
-#a folder called 'output' for it to drop the finished result in.  This is in no
-#way polished, it just saved me a huge amount of time creating 9x9 buildings so
-#I figured someone else might be able to use it.
-#
+# I (acidia) just made this as a quick utility to change a character map in
+# drawing.txt into a json that the game can process.  You'll have to modify the
+# paths in this folder unless you decide to put all the files in
+# 'c:\building-utility' and create a folder called 'output' for it to drop the
+# finished result in.  This is in no way polished, it just saved me a huge
+# amount of time creating 9x9 buildings so I figured someone else might be able
+# to use it.
+
 import os
 
-base_path = 'C:\\building-utility\\'
 
 def main():
-    global base_path
-    
-    #This should auto-detect the correct directory.
-    full_path = os.path.realpath(__file__)
-    path, file = os.path.split(full_path)
-    base_path = path + "\\"
-    
-    mapCount = 1
-    file_path = base_path + 'drawing.txt'
-    file = open(file_path,"r")
-    data = '[\n'
-    mapList = ["","","","","","","","",""]
-    for line in file:
-        lineCT = 0
-        while len(line) > 23:
-            if len(mapList[lineCT]) >= 725:
-                mapList[lineCT] = mapList[lineCT] + '				"' + line[:24] + '"\n'
-            else:
-                mapList[lineCT] = mapList[lineCT] + '				"' + line[:24] + '",\n'
-            line = line[24:]
-            lineCT += 1
-        if len(mapList[0]) >= 760:
-            for x in range(len(mapList)):
-                if len(mapList[x]) > 20:
-                    data = writeJSON(mapCount, mapList[x], data)
-                    writeTerrain(mapCount)
-                    mapCount += 1
-            mapList = ["","","","","","","","",""]
-    file.close()
-    data = data[:-1] + "\n]"
+    # initally clear overmap_terrain_entry.json
+    # this is a hack, file operations in general need to be refactored a lot
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "w") as outfile:
+        pass
+
+    with open(os.path.join(os.getcwd(), 'drawing.txt'),"r") as infile:
+        data = '[\n'
+        mapCount = 1
+        mapList = [""] * 9
+
+        for line in infile:
+            lineCT = 0
+
+            # magic numbers: what are these actually?
+            magic_1 = 24
+            magic_2 = 735
+
+            while len(line) >= magic_1:
+                mapList[lineCT] += '\t\t\t\t"' + line[:magic_1] + '"'
+
+                if len(mapList[lineCT]) < magic_2:
+                    mapList[lineCT] += ','
+                mapList[lineCT] += '\n'
+
+                line = line[24:]
+                lineCT += 1
+
+            if len(mapList[0]) >= 760:
+                for line in mapList:
+                    if len(line) > 20:
+                        data = writeJSON(mapCount, line, data)
+                        writeTerrain(mapCount)
+                        mapCount += 1
+                mapList = [""] * 9
+
+    # remove last comma
+    data = data[:-1] + "\n]\n"
     finalizeEntry(data)
 
 #Takes the mapNum and 'text' is the 24x24 map
 def writeJSON(mapNum, text, data):
     entry = ''
-    file_path = base_path + 'json_header.txt'
-    file = open(file_path,"r")
-    for line in file:
-        entry = entry + line
-    file.close
+    with open(os.path.join(os.getcwd(), 'json_header.txt'),
+              "r") as json_header_file:
+        entry += json_header_file.read().rstrip()
 
-    entry = entry + str(mapNum)
+    entry += str(mapNum)
 
-    file_path = base_path + 'json_middle.txt'
-    file = open(file_path,"r")
-    for line in file:
-        entry = entry + line
-    file.close
+    with open(os.path.join(os.getcwd(), 'json_middle.txt'),
+              "r") as json_middle_file:
+        entry += json_middle_file.read()
 
-    entry = entry + text
+    entry += text
 
-    file_path = base_path + 'json_footer.txt'
-    file = open(file_path,"r")
-    for line in file:
-        entry = entry + line
-    file.close
+    with open(os.path.join(os.getcwd(), 'json_footer.txt'),
+              "r") as json_footer_file:
+        entry += json_footer_file.read().rstrip()
 
-    data = data + entry
-    return data
+    return data + entry
 
 def finalizeEntry(data):
-    file_path = base_path + 'output\\office_tower.json'
-    file = open(file_path,"w")
-    file.write(data)
-    file.close()
+    with open(os.path.join(os.getcwd(), 'output', 'office_tower.json'),
+              "w") as outfile:
+        outfile.write(data)
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "a") as out_terrain_file:
+        out_terrain_file.write("\n")
 
 def writeTerrain(mapNum):
     entry = ''
-    file_path = base_path + 'terrain_header.txt'
-    file = open(file_path,"r")
-    for line in file:
-        entry = entry + line
-    file.close
+    with open(os.path.join(os.getcwd(), 'terrain_header.txt'),
+              "r") as terrain_header_file:
+        entry += terrain_header_file.read().rstrip()
 
-    entry = entry + str(mapNum)
+    entry += str(mapNum)
 
-    file_path = base_path + 'terrain_footer.txt'
-    file = open(file_path,"r")
-    for line in file:
-        entry = entry + line
-    file.close
+    with open(os.path.join(os.getcwd(), 'terrain_footer.txt'),
+              "r") as terrain_footer_file:
+        entry += terrain_footer_file.read().rstrip()
 
-    file_path = base_path + 'output\\overmap_terrain_entry.json'
-    file = open(file_path,"a")
-    file.write(entry)
-    file.close()
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "a") as outfile:
+        outfile.write(entry)
 
-main()
+if __name__ == "__main__":
+    main()
 
