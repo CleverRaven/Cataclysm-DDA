@@ -52,7 +52,7 @@ def writeJSON(mapNum, text, data):
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
-    file.close
+    file.close()
 
     entry = entry + str(mapNum)
 
@@ -60,7 +60,7 @@ def writeJSON(mapNum, text, data):
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
-    file.close
+    file.close()
 
     entry = entry + text
 
@@ -68,7 +68,7 @@ def writeJSON(mapNum, text, data):
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
-    file.close
+    file.close()
 
     data = data + entry
     return data
@@ -85,7 +85,7 @@ def writeTerrain(mapNum):
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
-    file.close
+    file.close()
 
     entry = entry + str(mapNum)
 
@@ -93,7 +93,7 @@ def writeTerrain(mapNum):
     file = open(file_path,"r")
     for line in file:
         entry = entry + line
-    file.close
+    file.close()
 
     file_path = base_path + 'output\\overmap_terrain_entry.json'
     file = open(file_path,"a")
