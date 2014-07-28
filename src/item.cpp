@@ -3382,3 +3382,28 @@ int item::butcher_factor() const
     }
     return butcher_factor;
 }
+
+static const std::string USED_BY_IDS( "USED_BY_IDS" );
+bool item::already_used_by_player(const player &p) const
+{
+    const auto it = item_vars.find( USED_BY_IDS );
+    if( it == item_vars.end() ) {
+        return false;
+    }
+    // USED_BY_IDS always starts *and* ends with a ';', the search string
+    // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
+    // id has been added.
+    const std::string needle = string_format( ";%d;", p.getID() );
+    return it->second.find( needle ) != std::string::npos;
+}
+
+void item::mark_as_used_by_player(const player &p)
+{
+    std::string &used_by_ids = item_vars[ USED_BY_IDS ];
+    if( used_by_ids.empty() ) {
+        // *always* start with a ';'
+        used_by_ids = ";";
+    }
+    // and always end with a ';'
+    used_by_ids = string_format( "%d;", p.getID() );
+}
