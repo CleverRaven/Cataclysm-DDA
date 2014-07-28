@@ -5001,7 +5001,7 @@ void player::knock_back_from(int x, int y)
  }
 }
 
-static void player::bp_convert(hp_part &hpart, body_part bp)
+void player::bp_convert(hp_part &hpart, body_part bp)
 {
     hpart =  num_hp_parts;
     switch(bp) {
@@ -5026,7 +5026,7 @@ static void player::bp_convert(hp_part &hpart, body_part bp)
     }
 }
 
-static void player::hp_convert(hp_part hpart, body_part &bp)
+void player::hp_convert(hp_part hpart, body_part &bp)
 {
     bp =  num_bp;
     switch(hpart) {

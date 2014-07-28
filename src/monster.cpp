@@ -959,15 +959,15 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
 void monster::apply_damage(Creature* source, body_part bp, int amount) {
     // monsters don't have bodyparts
     (void) bp;
-    hurt(amount, source);
+    hurt(amount, 0, source);
 }
 
 void monster::hurt(body_part, int dam) {
-    hurt(dam, nullptr);
+    hurt(dam, 0, nullptr);
 }
 
 void monster::hurt(int dam) {
-    hurt(dam, nullptr);
+    hurt(dam, 0, nullptr);
 }
 
 void monster::hurt( int dam, int real_dam, Creature *source )
