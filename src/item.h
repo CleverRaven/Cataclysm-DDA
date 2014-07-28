@@ -266,6 +266,8 @@ public:
  bool is_book() const;
  bool is_container() const;
  bool is_watertight_container() const;
+ bool is_container_empty() const;
+ bool is_container_full() const;
  bool is_funnel_container(unsigned int &bigger_than) const;
 
  bool is_tool() const;
@@ -277,6 +279,7 @@ public:
  bool is_artifact() const;
 
  int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
+ int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
 
