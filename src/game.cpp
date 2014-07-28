@@ -13535,7 +13535,12 @@ void game::update_map(int &x, int &y)
     levy += shifty;
 
     real_coords rc( m.getabs( 0, 0 ) );
-    cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
+    if( cur_om->pos() != rc.abs_om ) {
+        // lev[xy] must stay relative to cur_om, if we change cur_om, we have to change lev[xy]
+        levx += ( cur_om->pos().x - rc.abs_om.x ) * OMAPX * 2;
+        levy += ( cur_om->pos().y - rc.abs_om.y ) * OMAPY * 2;
+        cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
+    }
 
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
