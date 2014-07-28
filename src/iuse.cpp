@@ -8489,7 +8489,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             //Smart or good cook or careful
             if (p->int_cur + p->skillLevel("cooking") + p->skillLevel("survival") > 16) {
                 item dummy(it->item_vars["DISH"], 0);
-                add_msg(m_info, _("Do you feel that your %s will soon be ready."), dummy.display_name(1).c_str());
+                add_msg(m_info, _("The multi-cooker should be finishing shortly..."));
             }
         }
 
@@ -8509,7 +8509,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             it->item_vars["DISH"] = "";
 
             point pos = g->find_item(it);
-            g->sound(pos.x, pos.y, 8, "Ring of bells");
+            g->sound(pos.x, pos.y, 8, "ding!");
 
             return 0;
 
@@ -8544,7 +8544,7 @@ int iuse::multicooker(player *p, item *it, bool t)
 
         uimenu menu;
         menu.selected = 0;
-        menu.text = _("Welcome to the RobotWife3000. What would you like to do?");
+        menu.text = _("Welcome to the RobotChef KA101-model. Choose option:");
 
         menu.addentry(mc_cancel, true, 'q', _("Cancel"));
 

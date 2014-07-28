@@ -7661,10 +7661,10 @@
   {
     "type": "TOOL",
     "id": "multi_cooker",
-    "symbol": "M",
+    "symbol": ";",
     "color": "red",
     "name": "multi cooker",
-    "description": "An expensive multi cooker professional level.  Has a lot of buttons with different settings and programs.  The dream of every housewife and inveterate bachelor.  With its help you can prepare anything from the boiled potatoes, to exquisite dishes.  Unfortunately, user manual and a examples list of recipes lost, so the recipes you must know himself.",
+    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
     "price": 20000,
     "material": ["steel", "plastic"],
     "weight": 11339,
