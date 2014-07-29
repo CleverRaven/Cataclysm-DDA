@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "item_factory.h"
 #include "catacharset.h"
+#include "game.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -386,6 +387,10 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->fear = get_set_from_tags(fear_trig, trigger_map, MTRIG_NULL);
         newmon->placate = get_set_from_tags(placate_trig, trigger_map, MTRIG_NULL);
 
+        if (jo.has_string("faction")) {
+            newmon->fac_id = jo.get_string("faction");
+            newmon->my_fac = g->faction_by_ident(newmon->fac_id);
+        }
         mon_templates[mid] = newmon;
     }
 }
