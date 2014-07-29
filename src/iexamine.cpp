@@ -617,8 +617,8 @@ void iexamine::large_tent(player *p, map *m, int examx, int examy) {
   return;
  }
  p->moves -= 200;
- for (int i = -1; i <= 1; i++)
-  for (int j = -1; j <= 1; j++)
+ for (int i = -2; i <= 2; i++)
+  for (int j = -2; j <= 2; j++)
    m->furn_set(examx + i, examy + j, f_null);
  add_msg(_("You take down the tent"));
  item dropped("large_tent_kit", calendar::turn);
