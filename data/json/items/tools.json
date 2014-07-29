@@ -4655,7 +4655,28 @@
     "revert_to": "null",
     "use_action": "TENT"
   },
-
+  {
+    "id": "large_tent_kit",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "green",
+    "name": "large tent",
+    "description": "This is a family sized tent. It provides a large amount of space, but is very bulky.",
+    "price": 10000,
+    "material": ["plastic", "aluminum"],
+    "weight": 2266,
+    "volume": 40,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "LARGE_TENT"
+  },
   {
     "id": "torch",
     "type": "TOOL",
