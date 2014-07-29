@@ -6570,6 +6570,47 @@ int iuse::tent(player *p, item *, bool)
     return 1;
 }
 
+int iuse::large_tent(player *p, item *, bool)
+{
+    int dirx, diry;
+    if(!choose_adjacent(_("Pitch the tent towards where (5x5 clear area)?"), dirx, diry)) {
+        return 0;
+    }
+
+    //must place the center of the tent three spaces away from player
+    //dirx and diry will be integratined with the player's position
+    int posx = dirx - p->posx;
+    int posy = diry - p->posy;
+    if(posx == 0 && posy == 0) {
+        p->add_msg_if_player(m_info, _("Invalid Direction"));
+        return 0;
+    }
+    posx = posx * 3 + p->posx;
+    posy = posy * 3 + p->posy;
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
+                g->m.has_furn(posx + i, posy + j)) {
+                add_msg(m_info, _("You need a 5x5 flat space to place a tent."));
+                return 0;
+            }
+        }
+    }
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            g->m.furn_set(posx + i, posy + j, f_canvas_wall);
+        }
+    }
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            g->m.furn_set(posx, posy, f_large_groundsheet);
+        }
+    }
+    g->m.furn_set((posx - (dirx - p->posx)) * 2, (posy - (diry - p->posy)) * 2, f_canvas_door);
+    add_msg(m_info, _("You set up the tent on the ground."));
+    return 1;
+}
+
 int iuse::shelter(player *p, item *, bool)
 {
     int dirx, diry;

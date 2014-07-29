@@ -611,6 +611,20 @@ void iexamine::tent(player *p, map *m, int examx, int examy) {
  m->add_item_or_charges(examx, examy, dropped);
 }
 
+void iexamine::large_tent(player *p, map *m, int examx, int examy) {
+ if (!query_yn(_("Take down your tent?"))) {
+  none(p, m, examx, examy);
+  return;
+ }
+ p->moves -= 200;
+ for (int i = -1; i <= 1; i++)
+  for (int j = -1; j <= 1; j++)
+   m->furn_set(examx + i, examy + j, f_null);
+ add_msg(_("You take down the tent"));
+ item dropped("large_tent_kit", calendar::turn);
+ m->add_item_or_charges(examx, examy, dropped);
+}
+
 void iexamine::shelter(player *p, map *m, int examx, int examy) {
  if (!query_yn(_("Take down %s?"),m->furnname(examx, examy).c_str())) {
   none(p, m, examx, examy);

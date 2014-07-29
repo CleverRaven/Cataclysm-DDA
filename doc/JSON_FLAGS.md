@@ -806,6 +806,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```LUMBER``` Cut logs into planks.
 - ```HACKSAW``` Cut metal into chunks.
 - ```TENT``` Pitch a tent.
+- ```LARGE_TENT``` Pitch a large tent.
 - ```TORCH``` Light a torch.
 - ```TORCH_LIT``` Extinguish the torch.
 - ```BATTLETORCH``` Light the battle torch.
