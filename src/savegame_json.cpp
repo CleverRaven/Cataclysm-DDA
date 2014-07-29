@@ -28,6 +28,7 @@
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
+#include <bitset>
 
 #include "json.h"
 
@@ -1082,36 +1083,36 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( covers != 0 ) {
         json.member( "covers", covers );
     } else if (is_armor()) {
-        it_armor *legacy_armor = dynamic_cast<it_armor *>(type);
-        long unsigned int tmp_covers = legacy_armor->covers;
-        if (legacy_armor->sided != 0) {
-            bool side = rng(0,1);
-            if (legacy_armor->sided & mfb(bp_arm_l)) {
-                if (side == 0) {
-                    tmp_covers |= mfb(bp_arm_l);
+        it_armor* armor = dynamic_cast<it_armor*>(type);
+        std::bitset<13> tmp_covers = armor->covers;
+        if (armor->sided.any()) {
+            bool left = one_in(2);
+            if (armor->sided.test(bp_arm_l)) {
+                if (left == true) {
+                    tmp_covers.set(bp_arm_l);
                 } else {
-                    tmp_covers |= mfb(bp_arm_r);
+                    tmp_covers.set(bp_arm_r);
                 }
             }
-            if (legacy_armor->sided & mfb(bp_hand_l)) {
-                if (side == 0) {
-                    tmp_covers |= mfb(bp_hand_l);
+            if (armor->sided.test(bp_hand_l)) {
+                if (left == true) {
+                    tmp_covers.set(bp_hand_l);
                 } else {
-                    tmp_covers |= mfb(bp_hand_r);
+                    tmp_covers.set(bp_hand_r);
                 }
             }
-            if (legacy_armor->sided & mfb(bp_leg_l)) {
-                if (side == 0) {
-                    tmp_covers |= mfb(bp_leg_l);
+            if (armor->sided.test(bp_leg_l)) {
+                if (left == true) {
+                    tmp_covers.set(bp_leg_l);
                 } else {
-                    tmp_covers |= mfb(bp_leg_r);
+                    tmp_covers.set(bp_leg_r);
                 }
             }
-            if (legacy_armor->sided & mfb(bp_foot_l)) {
-                if (side == 0) {
-                    tmp_covers |= mfb(bp_foot_l);
+            if (armor->sided.test(bp_foot_l)) {
+                if (left == true) {
+                    tmp_covers.set(bp_foot_l);
                 } else {
-                    tmp_covers |= mfb(bp_foot_r);
+                    tmp_covers.set(bp_foot_r);
                 }
             }
         }

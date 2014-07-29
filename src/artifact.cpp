@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <fstream>
+#include <bitset>
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
@@ -197,7 +198,7 @@ struct artifact_armor_form_datum {
     int warmth;
     int storage;
     int melee_bash, melee_cut, melee_hit;
-    long unsigned int covers;
+    std::bitset<13> covers;
     bool plural;
     artifact_armor_mod available_mods[5];
 };

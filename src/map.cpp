@@ -2562,21 +2562,21 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
             //Add new sides to both items
             new_item.item_tags.insert("LEFT");
             new_item2.item_tags.insert("RIGHT");
-            if (armor->sided & mfb(bp_arm_l)) {
-                new_item.covers |= mfb(bp_arm_l);
-                new_item2.covers |= mfb(bp_arm_r);
+            if (new_item.type->is_sided(bp_arm_l)) {
+                new_item.covers.set(bp_arm_l);
+                new_item2.covers.set(bp_arm_r);
             }
-            if (armor->sided & mfb(bp_hand_l)) {
-                new_item.covers |= mfb(bp_hand_l);
-                new_item2.covers |= mfb(bp_hand_r);
+            if (new_item.type->is_sided(bp_hand_l)) {
+                new_item.covers.set(bp_hand_l);
+                new_item2.covers.set(bp_hand_r);
             }
-            if (armor->sided & mfb(bp_leg_l)) {
-                new_item.covers |= mfb(bp_leg_l);
-                new_item2.covers |= mfb(bp_leg_r);
+            if (new_item.type->is_sided(bp_leg_l)) {
+                new_item.covers.set(bp_leg_l);
+                new_item2.covers.set(bp_leg_r);
             }
-            if (armor->sided & mfb(bp_foot_l)) {
-                new_item.covers |= mfb(bp_foot_l);
-                new_item2.covers |= mfb(bp_foot_r);
+            if (new_item.type->is_sided(bp_foot_l)) {
+                new_item.covers.set(bp_foot_l);
+                new_item2.covers.set(bp_foot_r);
             }
             add_item_or_charges(x, y, new_item2);
         }

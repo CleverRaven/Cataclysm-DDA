@@ -16,11 +16,6 @@
 #include <sstream>
 #include <algorithm>
 
-// mfb(n) converts a flag to its appropriate position in covers's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
-
 light_emission nolight = {0, 0, 0};
 
 item::item()
@@ -79,44 +74,44 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
     if (type->is_armor()) {
         it_armor* armor = dynamic_cast<it_armor*>(type);
         covers = armor->covers;
-        if (armor->sided != 0) {
-            bool side = rng(0,1);
+        if (armor->sided.any()) {
+            bool right = one_in(2);
             if (handed == RIGHT) {
-                side = 1;
+                right = true;
             } else if (handed == LEFT) {
-                side = 0;
+                right = false;
             }
-            if (side) {
+            if (right) {
                 item_tags.insert("RIGHT");
             } else {
                 item_tags.insert("LEFT");
             }
-            if (armor->sided & mfb(bp_arm_l)) {
-                if (side == 0) {
-                    covers |= mfb(bp_arm_l);
+            if (type->is_sided(bp_arm_l)) {
+                if (right == true) {
+                    covers.set(bp_arm_r);
                 } else {
-                    covers |= mfb(bp_arm_r);
+                    covers.set(bp_arm_l);
                 }
             }
-            if (armor->sided & mfb(bp_hand_l)) {
-                if (side == 0) {
-                    covers |= mfb(bp_hand_l);
+            if (type->is_sided(bp_hand_l)) {
+                if (right == true) {
+                    covers.set(bp_hand_r);
                 } else {
-                    covers |= mfb(bp_hand_r);
+                    covers.set(bp_hand_l);
                 }
             }
-            if (armor->sided & mfb(bp_leg_l)) {
-                if (side == 0) {
-                    covers |= mfb(bp_leg_l);
+            if (type->is_sided(bp_leg_l)) {
+                if (right == true) {
+                    covers.set(bp_leg_r);
                 } else {
-                    covers |= mfb(bp_leg_r);
+                    covers.set(bp_leg_l);
                 }
             }
-            if (armor->sided & mfb(bp_foot_l)) {
-                if (side == 0) {
-                    covers |= mfb(bp_foot_l);
+            if (type->is_sided(bp_foot_l)) {
+                if (right == true) {
+                    covers.set(bp_foot_r);
                 } else {
-                    covers |= mfb(bp_foot_r);
+                    covers.set(bp_foot_l);
                 }
             }
         }
@@ -663,40 +658,40 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         temp1.str("");
         temp1 << _("Covers: ");
-        if (covers & mfb(bp_head)) {
+        if (covers.test(bp_head)) {
             temp1 << _("The head. ");
         }
-        if (covers & mfb(bp_eyes)) {
+        if (covers.test(bp_eyes)) {
             temp1 << _("The eyes. ");
         }
-        if (covers & mfb(bp_mouth)) {
+        if (covers.test(bp_mouth)) {
             temp1 << _("The mouth. ");
         }
-        if (covers & mfb(bp_torso)) {
+        if (covers.test(bp_torso)) {
             temp1 << _("The torso. ");
         }
-        if (covers & mfb(bp_arm_l)) {
+        if (covers.test(bp_arm_l)) {
             temp1 << _("The left arm. ");
         }
-        if (covers & mfb(bp_arm_r)) {
+        if (covers.test(bp_arm_r)) {
             temp1 << _("The right arm. ");
         }
-        if (covers & mfb(bp_hand_l)) {
+        if (covers.test(bp_hand_l)) {
             temp1 << _("The left hand. ");
         }
-        if (covers & mfb(bp_hand_r)) {
+        if (covers.test(bp_hand_r)) {
             temp1 << _("The right hand. ");
         }
-        if (covers & mfb(bp_leg_l)) {
+        if (covers.test(bp_leg_l)) {
             temp1 << _("The left leg. ");
         }
-        if (covers & mfb(bp_leg_r)) {
+        if (covers.test(bp_leg_r)) {
             temp1 << _("The right leg. ");
         }
-        if (covers & mfb(bp_foot_l)) {
+        if (covers.test(bp_foot_l)) {
             temp1 << _("The left foot. ");
         }
-        if (covers & mfb(bp_foot_r)) {
+        if (covers.test(bp_foot_r)) {
             temp1 << _("The right foot. ");
         }
 

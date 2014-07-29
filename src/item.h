@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <bitset>
 #include "itype.h"
 #include "mtype.h"
 
@@ -298,7 +299,7 @@ public:
  int last_rot_check;      // last turn we calculated rot
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
- long unsigned int covers;// What body parts it covers
+ std::bitset<13> covers;  // What body parts it covers
  int bday;                // The turn on which it was created
  int owned;               // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;

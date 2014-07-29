@@ -37,6 +37,7 @@
 #include <string>
 #include <memory>
 #include <array>
+#include <bitset>
 
 #include <fstream>
 
@@ -648,42 +649,41 @@ void player::apply_persistent_morale()
         std::string basic_flag = "FANCY";
         std::string bonus_flag = "SUPER_FANCY";
 
-        unsigned char covered = 0; // body parts covered
+        std::bitset<13> covered; // body parts covered
         for( size_t i = 0; i < worn.size(); ++i ) {
             if(worn[i].has_flag(basic_flag) || worn[i].has_flag(bonus_flag) ) {
                 covered |= worn[i].covers;
             }
             if(worn[i].has_flag(bonus_flag)) {
               bonus+=2;
-            }
-            if ((!(worn[i].has_flag(bonus_flag))) && (worn[i].has_flag(basic_flag))) {
-                if (!covered) {
+            } else if (worn[i].has_flag(basic_flag)) {
+                if ((covered & worn[i].covers).none()) {
                     bonus += 1;
                 }
             }
         }
-        if(covered & mfb(bp_torso)) {
+        if(covered.test(bp_torso)) {
             bonus += 6;
         }
-        if(covered & (mfb(bp_leg_l) | mfb(bp_leg_r))) {
+        if(covered.test(bp_leg_l) || covered.test(bp_leg_r)) {
             bonus += 2;
         }
-        if(covered & (mfb(bp_foot_l) | mfb(bp_foot_r))) {
+        if(covered.test(bp_foot_l) || covered.test(bp_foot_r)) {
             bonus += 1;
         }
-        if(covered & (mfb(bp_hand_l) | mfb(bp_hand_r))) {
+        if(covered.test(bp_hand_l) || covered.test(bp_hand_r)) {
             bonus += 1;
         }
-        if(covered & mfb(bp_head)) {
+        if(covered.test(bp_head)) {
             bonus += 3;
         }
-        if(covered & mfb(bp_eyes)) {
+        if(covered.test(bp_eyes)) {
             bonus += 2;
         }
-        if(covered & (mfb(bp_arm_l) | mfb(bp_arm_r))) {
+        if(covered.test(bp_arm_l) || covered.test(bp_arm_r)) {
             bonus += 1;
         }
-        if(covered & mfb(bp_mouth)) {
+        if(covered.test(bp_mouth)) {
             bonus += 2;
         }
 
@@ -886,8 +886,8 @@ void player::update_bodytemp()
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
             // Items that are big enough and covers the torso are used to keep warm.
             // Smaller items don't do as good a job
-            if ( floor_armor->volume > 1 && (afloor_item->covers & mfb(bp_torso) ||
-             (afloor_item->covers & (mfb(bp_leg_l) | mfb(bp_leg_r)))) ) {
+            if (floor_armor->volume > 1 && (afloor_item->covers.test(bp_torso) ||
+                  afloor_item->covers.test(bp_leg_l) || afloor_item->covers.test(bp_leg_r))) {
                 floor_item_warmth += 60 * floor_armor->warmth * floor_armor->volume / 10;
             }
         }
@@ -7350,7 +7350,7 @@ bool player::is_wearing(const itype_id & it) const
 bool player::is_wearing_on_bp(const itype_id & it, body_part bp) const
 {
     for (int i = 0; i < worn.size(); i++) {
-        if (worn[i].type->id == it && worn[i].covers & mfb(bp)) {
+        if (worn[i].type->id == it && worn[i].covers.test(bp)) {
             return true;
         }
     }
@@ -7367,41 +7367,49 @@ bool player::worn_with_flag( std::string flag ) const
     return false;
 }
 
-bool player::covered_with_flag(const std::string flag, int parts) const {
-  int covered = 0;
+bool player::covered_with_flag(const std::string flag, std::bitset<13> parts) const
+{
+    std::bitset<13> covered = 0;
 
-  for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
-    int cover = armorPiece->covers & parts;
+    for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
+        std::bitset<13> cover = armorPiece->covers & parts;
 
-    if (!cover) continue; // For our purposes, this piece covers nothing.
-    if (cover & covered) continue; // the body part(s) is already covered.
+        if (cover.none()) {
+            continue; // For our purposes, this piece covers nothing.
+        }
+        if ((cover & covered).any()) {
+            continue; // the body part(s) is already covered.
+        }
 
-    bool hasFlag = armorPiece->has_flag(flag);
+        bool hasFlag = armorPiece->has_flag(flag);
+        if (!hasFlag) {
+            return false; // The item is the top layer on a relevant body part, and isn't tagged, so we fail.
+        } else {
+            covered |= cover; // The item is the top layer on a relevant body part, and is tagged.
+        }
+    }
 
-    if (!hasFlag)
-      return false; // The item is the top layer on a relevant body part, and isn't tagged, so we fail.
-    else
-      covered |= cover; // The item is the top layer on a relevant body part, and is tagged.
-  }
-
-  return (covered == parts);
+    return (covered == parts);
 }
 
-bool player::covered_with_flag_exclusively(const std::string flag, int flags) const {
-  for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
-    if (armorPiece->covers & flags && !armorPiece->has_flag(flag))
-      return false;
-  }
-
-  return true;
+bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<13> parts) const
+{
+    for (std::vector<item>::const_iterator armorPiece = worn.begin(); armorPiece != worn.end(); ++armorPiece) {
+        if ((armorPiece->covers & parts).any() && !armorPiece->has_flag(flag)) {
+            return false;
+        }
+    }
+    return true;
 }
 
-bool player::is_water_friendly(int flags) const {
-  return covered_with_flag_exclusively("WATER_FRIENDLY", flags);
+bool player::is_water_friendly(std::bitset<13> parts) const
+{
+    return covered_with_flag_exclusively("WATER_FRIENDLY", parts);
 }
 
-bool player::is_waterproof(int flags) const {
-  return covered_with_flag("WATERPROOF", flags);
+bool player::is_waterproof(std::bitset<13> parts) const
+{
+    return covered_with_flag("WATERPROOF", parts);
 }
 
 bool player::has_artifact_with(const art_effect_passive effect) const
@@ -8533,15 +8541,15 @@ hint_rating player::rate_action_wear(item *it)
 
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
  if (armor->is_power_armor() && worn.size()) {
-  if (it->covers & mfb(bp_torso)) {
+  if (it->covers.test(bp_torso)) {
    return HINT_IFFY;
-  } else if (it->covers & mfb(bp_head) && !worn[0].type->is_power_armor()) {
+  } else if (it->covers.test(bp_head) && !worn[0].type->is_power_armor()) {
    return HINT_IFFY;
   }
  }
  // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
- if (worn.size() && worn[0].type->is_power_armor() && !(it->covers & mfb(bp_head))) {
-  if (!(it->covers & mfb(bp_torso) && armor->color == c_green)) {
+ if (worn.size() && worn[0].type->is_power_armor() && !(it->covers.test(bp_head))) {
+  if (!(it->covers.test(bp_torso) && armor->color == c_green)) {
    return HINT_IFFY;
   }
  }
@@ -8558,43 +8566,43 @@ hint_rating player::rate_action_wear(item *it)
  if (has_trait("WOOLALLERGY") && it->made_of("wool")) {
   return HINT_IFFY; //should this be HINT_CANT? I kinda think not, because HINT_CANT is more for things that can NEVER happen
  }
- if (it->covers & mfb(bp_head) && encumb(bp_head) != 0) {
+ if (it->covers.test(bp_head) && encumb(bp_head) != 0) {
   return HINT_IFFY;
  }
- if (it->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && has_trait("WEBBED")) {
+ if ((it->covers.test(bp_hand_l) || it->covers.test(bp_hand_r)) && has_trait("WEBBED")) {
   return HINT_IFFY;
  }
- if (it->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && has_trait("TALONS")) {
+ if ((it->covers.test(bp_hand_l) || it->covers.test(bp_hand_r)) && has_trait("TALONS")) {
   return HINT_IFFY;
  }
- if ( it->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && (has_trait("ARM_TENTACLES") ||
+ if ((it->covers.test(bp_hand_l) || it->covers.test(bp_hand_r)) && (has_trait("ARM_TENTACLES") ||
         has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) ) {
   return HINT_IFFY;
  }
- if (it->covers & mfb(bp_mouth) && (has_trait("BEAK") ||
+ if (it->covers.test(bp_mouth) && (has_trait("BEAK") ||
     has_trait("BEAK_PECK") || has_trait("BEAK_HUM")) ) {
   return HINT_IFFY;
  }
- if (it->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("HOOVES")) {
+ if ((it->covers.test(bp_foot_l) || it->covers.test(bp_foot_r)) && has_trait("HOOVES")) {
   return HINT_IFFY;
  }
- if (it->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("LEG_TENTACLES")) {
+ if ((it->covers.test(bp_foot_l) || it->covers.test(bp_foot_r)) && has_trait("LEG_TENTACLES")) {
   return HINT_IFFY;
  }
- if (it->covers & mfb(bp_head) && has_trait("HORNS_CURLED")) {
+ if (it->covers.test(bp_head) && has_trait("HORNS_CURLED")) {
   return HINT_IFFY;
  }
- if (it->covers & mfb(bp_torso) && has_trait("SHELL")) {
+ if (it->covers.test(bp_torso) && has_trait("SHELL")) {
   return HINT_IFFY;
  }
- if (it->covers & mfb(bp_head) && !it->made_of("wool") &&
+ if (it->covers.test(bp_head) && !it->made_of("wool") &&
      !it->made_of("cotton") && !it->made_of("leather") && !it->made_of("nomex") &&
      (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
   return HINT_IFFY;
  }
  // Checks to see if the player is wearing shoes
- if (((it->covers & mfb(bp_foot_l) && is_wearing_shoes("left")) || 
-      (it->covers & mfb(bp_foot_r) && is_wearing_shoes("right"))) &&
+ if (((it->covers.test(bp_foot_l) && is_wearing_shoes("left")) || 
+      (it->covers.test(bp_foot_r) && is_wearing_shoes("right"))) &&
       !it->has_flag("BELTED") && !it->has_flag("SKINTIGHT")) {
   return HINT_IFFY;
  }
@@ -8670,7 +8678,7 @@ bool player::wear_item(item *to_wear, bool interactive)
     {
         for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it)
         {
-            if (it->covers & to_wear->covers)
+            if ((it->covers & to_wear->covers).any())
             {
                 if(interactive)
                 {
@@ -8680,7 +8688,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
         }
 
-        if (!(to_wear->covers & mfb(bp_torso)))
+        if (!(to_wear->covers.test(bp_torso)))
         {
             bool power_armor = false;
 
@@ -8721,7 +8729,8 @@ bool player::wear_item(item *to_wear, bool interactive)
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if( to_wear->covers & ~(mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) ) ) {
+        if(!to_wear->covers.test(bp_head) && !to_wear->covers.test(bp_eyes) &&
+             !to_wear->covers.test(bp_head)) {
             for (int i = 0; i < worn.size(); i++)
             {
                 if( worn[i].type->is_power_armor() )
@@ -8761,7 +8770,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_head) && encumb(bp_head) != 0 && armor->encumber > 0) {
+        if (to_wear->covers.test(bp_head) && encumb(bp_head) != 0 && armor->encumber > 0) {
             if(interactive) {
                 add_msg(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));
@@ -8769,9 +8778,11 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ((to_wear->covers & (mfb(bp_hand_l) | mfb(bp_hand_r) | mfb(bp_arm_l) | mfb(bp_arm_r) |
-                              mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_foot_l) |
-                              mfb(bp_foot_r) | mfb(bp_head))) &&
+        if ((to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r) ||
+              to_wear->covers.test(bp_arm_l) || to_wear->covers.test(bp_arm_r) ||
+              to_wear->covers.test(bp_leg_l) || to_wear->covers.test(bp_leg_r) ||
+              to_wear->covers.test(bp_foot_l) || to_wear->covers.test(bp_foot_r) ||
+              to_wear->covers.test(bp_torso) || to_wear->covers.test(bp_head)) &&
             (has_trait("HUGE") || has_trait("HUGE_OK"))) {
             if(interactive) {
                 add_msg(m_info, _("The %s is much too small to fit your huge body!"),
@@ -8780,7 +8791,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && has_trait("WEBBED"))
+        if ((to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r)) && has_trait("WEBBED"))
         {
             if(interactive)
             {
@@ -8789,7 +8800,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ( to_wear->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) &&
+        if ( (to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r)) &&
              (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
               has_trait("ARM_TENTACLES_8")) )
         {
@@ -8800,7 +8811,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && has_trait("TALONS"))
+        if ((to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r)) && has_trait("TALONS"))
         {
             if(interactive)
             {
@@ -8809,7 +8820,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & (mfb(bp_hand_l) | mfb(bp_hand_r)) && (has_trait("PAWS") || has_trait("PAWS_LARGE")) )
+        if ((to_wear->covers.test(bp_hand_l) || to_wear->covers.test(bp_hand_r)) && (has_trait("PAWS") || has_trait("PAWS_LARGE")) )
         {
             if(interactive)
             {
@@ -8818,7 +8829,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
+        if (to_wear->covers.test(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
         has_trait("BEAK_HUM")) )
         {
             if(interactive)
@@ -8828,7 +8839,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_mouth) &&
+        if (to_wear->covers.test(bp_mouth) &&
             (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG")))
         {
             if(interactive)
@@ -8838,7 +8849,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_mouth) && has_trait("MINOTAUR"))
+        if (to_wear->covers.test(bp_mouth) && has_trait("MINOTAUR"))
         {
             if(interactive)
             {
@@ -8847,7 +8858,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_mouth) && has_trait("SABER_TEETH"))
+        if (to_wear->covers.test(bp_mouth) && has_trait("SABER_TEETH"))
         {
             if(interactive)
             {
@@ -8856,7 +8867,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_mouth) && has_trait("MANDIBLES"))
+        if (to_wear->covers.test(bp_mouth) && has_trait("MANDIBLES"))
         {
             if(interactive)
             {
@@ -8865,7 +8876,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_mouth) && has_trait("PROBOSCIS"))
+        if (to_wear->covers.test(bp_mouth) && has_trait("PROBOSCIS"))
         {
             if(interactive)
             {
@@ -8874,7 +8885,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("HOOVES"))
+        if ((to_wear->covers.test(bp_foot_l) || to_wear->covers.test(bp_foot_r)) && has_trait("HOOVES"))
         {
             if(interactive)
             {
@@ -8883,7 +8894,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("LEG_TENTACLES"))
+        if ((to_wear->covers.test(bp_foot_l) || to_wear->covers.test(bp_foot_r)) && has_trait("LEG_TENTACLES"))
         {
             if(interactive)
             {
@@ -8892,7 +8903,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & (mfb(bp_foot_l) | mfb(bp_foot_r)) && has_trait("RAP_TALONS"))
+        if ((to_wear->covers.test(bp_foot_l) || to_wear->covers.test(bp_foot_r)) && has_trait("RAP_TALONS"))
         {
             if(interactive)
             {
@@ -8901,7 +8912,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_head) && has_trait("HORNS_CURLED"))
+        if (to_wear->covers.test(bp_head) && has_trait("HORNS_CURLED"))
         {
             if(interactive)
             {
@@ -8910,7 +8921,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_torso) && has_trait("SHELL"))
+        if (to_wear->covers.test(bp_torso) && has_trait("SHELL"))
         {
             if(interactive)
             {
@@ -8919,7 +8930,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_torso) && ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) )
+        if (to_wear->covers.test(bp_torso) && ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) )
         {
             if(interactive)
             {
@@ -8928,7 +8939,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (to_wear->covers & mfb(bp_head) &&
+        if (to_wear->covers.test(bp_head) &&
             !to_wear->made_of("wool") && !to_wear->made_of("cotton") &&
             !to_wear->made_of("nomex") && !to_wear->made_of("leather") &&
             (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS")))
@@ -8942,8 +8953,8 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (((to_wear->covers & mfb(bp_foot_l) && is_wearing_shoes("left")) || 
-              (to_wear->covers & mfb(bp_foot_r) && is_wearing_shoes("right"))) &&
+        if (((to_wear->covers.test(bp_foot_l) && is_wearing_shoes("left")) || 
+              (to_wear->covers.test(bp_foot_r) && is_wearing_shoes("right"))) &&
               !to_wear->has_flag("BELTED") && !to_wear->has_flag("SKINTIGHT")) {
             // Checks to see if the player is wearing shoes
             if(interactive){
@@ -8974,7 +8985,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {
-            if (to_wear->covers & mfb(i) && encumb(i) >= 4)
+            if (to_wear->covers.test(i) && encumb(i) >= 4)
             {
                 add_msg(m_warning,
                     !(i == bp_eyes) ?
@@ -9017,7 +9028,7 @@ bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
             item &w = worn[worn_index];
 
             // Handle power armor.
-            if (w.type->is_power_armor() && w.covers & mfb(bp_torso)) {
+            if (w.type->is_power_armor() && w.covers.test(bp_torso)) {
                 // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                 for (int j = worn.size() - 1; j >= 0; j--) {
                     if (worn[j].type->is_power_armor() &&
@@ -10069,7 +10080,8 @@ std::string player::is_snuggling()
             continue;
         }
         else if ( afloor_item->volume() > 1 &&
-        (afloor_item->covers & mfb(bp_torso) || afloor_item->covers & (mfb(bp_leg_l) | mfb(bp_leg_r)) )){
+              (afloor_item->covers.test(bp_torso) || afloor_item->covers.test(bp_leg_l) ||
+              afloor_item->covers.test(bp_leg_r)) ){
             floor_armor = dynamic_cast<it_armor*>(afloor_item->type);
             ticker++;
         }
@@ -10166,7 +10178,7 @@ int player::warmth(body_part bp) const
     {
         armor = dynamic_cast<const it_armor*>(worn[i].type);
 
-        if (worn[i].covers & mfb(bp))
+        if (worn[i].covers.test(bp))
         {
             warmth = armor->warmth;
             // Wool items do not lose their warmth in the rain
@@ -10219,7 +10231,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
         }
         armor = dynamic_cast<const it_armor*>(worn[i].type);
 
-        if( worn[i].covers & mfb(bp) ) {
+        if( worn[i].covers.test(bp) ) {
             if( worn[i].has_flag( "SKINTIGHT" ) ) {
                 level = UNDERWEAR;
             } else if ( worn[i].has_flag( "OUTER" ) ) {
@@ -10338,7 +10350,7 @@ int player::get_armor_bash_base(body_part bp)
 {
  int ret = 0;
  for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].covers & mfb(bp))
+  if (worn[i].covers.test(bp))
    ret += worn[i].bash_resist();
  }
  if (has_bionic("bio_carbon")) {
@@ -10382,7 +10394,7 @@ int player::get_armor_cut_base(body_part bp)
 {
  int ret = 0;
  for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].covers & mfb(bp))
+  if (worn[i].covers.test(bp))
    ret += worn[i].cut_resist();
  }
  if (has_bionic("bio_carbon"))
@@ -10421,7 +10433,7 @@ int player::get_armor_cut_base(body_part bp)
 
 void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
     for (int i=0; i<p->worn.size(); i++) {
-        if (p->worn[i].covers & mfb(bp)) {
+        if (p->worn[i].covers.test(bp)) {
             armor_indices.push_back(i);
         }
     }
@@ -10558,7 +10570,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
     for (int i = worn.size() - 1; i >= 0; i--)
     {
         tmp = dynamic_cast<it_armor*>(worn[i].type);
-        if (worn[i].covers & mfb(bp))
+        if (worn[i].covers.test(bp))
         {
             // first determine if damage is at a covered part of the body
             // probability given by coverage
@@ -10747,9 +10759,9 @@ int player::get_env_resist(body_part bp)
 {
     int ret = 0;
     for (int i = 0; i < worn.size(); i++) {
-        if (worn[i].covers & mfb(bp) ||
+        if (worn[i].covers.test(bp) ||
              (bp == bp_eyes && // Head protection works on eyes too (e.g. baseball cap)
-             worn[i].covers & mfb(bp_head))) {
+             worn[i].covers.test(bp_head))) {
             ret += (dynamic_cast<it_armor*>(worn[i].type))->env_resist;
         }
     }
@@ -10773,7 +10785,7 @@ int player::get_env_resist(body_part bp)
 bool player::wearing_something_on(body_part bp) const
 {
     for (int i = 0; i < worn.size(); i++) {
-        if (worn[i].covers & mfb(bp))
+        if (worn[i].covers.test(bp))
             return true;
     }
     return false;
@@ -10787,9 +10799,9 @@ bool player::is_wearing_shoes(std::string side) const
         left = false;
         for (int i = 0; i < worn.size(); i++) {
             const item *worn_item = &worn[i];
-            if (worn[i].covers & (mfb(bp_foot_l)) &&
-                (!worn_item->has_flag("BELTED")) &&
-                (!worn_item->has_flag("SKINTIGHT"))) {
+            if (worn[i].covers.test(bp_foot_l) &&
+                !worn_item->has_flag("BELTED") &&
+                !worn_item->has_flag("SKINTIGHT")) {
                 left = true;
                 break;
             }
@@ -10799,9 +10811,9 @@ bool player::is_wearing_shoes(std::string side) const
         right = false;
         for (int i = 0; i < worn.size(); i++) {
             const item *worn_item = &worn[i];
-            if (worn[i].covers & (mfb(bp_foot_r)) &&
-                (!worn_item->has_flag("BELTED")) &&
-                (!worn_item->has_flag("SKINTIGHT"))) {
+            if (worn[i].covers.test(bp_foot_r) &&
+                !worn_item->has_flag("BELTED") &&
+                !worn_item->has_flag("SKINTIGHT")) {
                 right = true;
                 break;
             }
@@ -10847,7 +10859,7 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
         }
         // found power armor, continue search for helmet
         result = true;
-        if (worn[i].covers & mfb(bp_head)) {
+        if (worn[i].covers.test(bp_head)) {
             *hasHelmet = true;
             return true;
         }

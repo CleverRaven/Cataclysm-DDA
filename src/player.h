@@ -16,6 +16,7 @@
 #include "clzones.h"
 
 #include <unordered_set>
+#include <bitset>
 
 class monster;
 class game;
@@ -734,10 +735,10 @@ public:
  bool has_artifact_with(const art_effect_passive effect) const;
  bool worn_with_flag( std::string flag ) const;
 
- bool covered_with_flag( const std::string flag, int parts ) const;
- bool covered_with_flag_exclusively( const std::string flag, int parts = -1 ) const;
- bool is_water_friendly( int flags = -1 ) const;
- bool is_waterproof( int flags ) const;
+ bool covered_with_flag(const std::string flag, std::bitset<13> parts) const;
+ bool covered_with_flag_exclusively(const std::string flag, std::bitset<13> parts) const;
+ bool is_water_friendly(std::bitset<13> parts) const;
+ bool is_waterproof(std::bitset<13> parts) const;
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.

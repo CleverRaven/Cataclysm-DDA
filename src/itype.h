@@ -15,11 +15,7 @@
 #include <string>
 #include <vector>
 #include <set>
-
-// mfb(n) converts a flag to its appropriate position in covers's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
+#include <bitset>
 
 // for use in category specific inventory lists
 enum item_cat {
@@ -219,6 +215,10 @@ public:
 
     bool has_use();
     bool can_use( std::string iuse_name );
+    /** Returns true if is_armor() and covers bp */
+    bool is_covering(body_part bp);
+    /** Returns true if is_armor() and is sided on bp */
+    bool is_sided(body_part bp);
     int invoke( player *p, item *it, bool active );
 
     std::string dmg_adj(int dam)
@@ -419,8 +419,8 @@ struct it_gunmod : public virtual itype {
 };
 
 struct it_armor : public virtual itype {
-    long unsigned int covers; // Bitfield of enum body_part
-    long unsigned int sided; // Bitfield of enum body_part
+    std::bitset<13> covers; // Bitfield of enum body_part
+    std::bitset<13> sided;  // Bitfield of enum body_part
     signed char encumber;
     unsigned char coverage;
     unsigned char thickness;

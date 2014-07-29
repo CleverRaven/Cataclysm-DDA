@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <string>
 #include <vector>
+#include <bitset>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -169,6 +170,7 @@ public:
     bool test_int() { return test_number(); };
     bool test_float() { return test_number(); };
     bool test_string();
+    bool test_bitset();
     bool test_array();
     bool test_object();
 
@@ -182,6 +184,7 @@ public:
     bool read(float &f);
     bool read(double &d);
     bool read(std::string &s);
+    bool read(std::bitset<13> &b);
     bool read(JsonDeserializer &j);
     // array ~> vector
     template <typename T> bool read(std::vector<T> &v) {
@@ -321,6 +324,7 @@ public:
     void write(const unsigned long &ul);
     void write(const double &f);
     void write(const std::string &s);
+    void write(const std::bitset<13> &b);
     void write(const char *cstr) { write(std::string(cstr)); }
     void write(const JsonSerializer &thing);
     // vector ~> array
@@ -642,6 +646,7 @@ public:
     bool test_int() { return test_number(); };
     bool test_float() { return test_number(); };
     bool test_string();
+    bool test_bitset();
     bool test_array();
     bool test_object();
 

@@ -22,11 +22,6 @@
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
-// mfb(n) converts a flag to its appropriate position in covers's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
-
 #include "iuse_software.h"
 
 void remove_double_ammo_mod( item &it, player &p )

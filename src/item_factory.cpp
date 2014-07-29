@@ -19,11 +19,7 @@
 #include <sstream>
 #include <memory>
 #include <stdio.h>
-
-// mfb(n) converts a flag to its appropriate position in covers's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
+#include <bitset>
 
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
@@ -1050,11 +1046,11 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
     }
 }
 
-unsigned Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
+std::bitset<13> Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
                                        std::string flag_type)
 {
     //If none is found, just use the standard none action
-    unsigned flag = 0;
+    std::bitset<13> flag = 0;
     //Otherwise, grab the right label to look for
     if (jo.has_array(member)) {
         JsonArray jarr = jo.get_array(member);
@@ -1445,7 +1441,7 @@ use_function Item_factory::use_from_string(std::string function_name)
     }
 }
 
-void Item_factory::set_flag_by_string(unsigned &cur_flags, const std::string &new_flag,
+void Item_factory::set_flag_by_string(std::bitset<13> &cur_flags, const std::string &new_flag,
                                       const std::string &flag_type)
 {
     if (flag_type == "bodyparts") {
@@ -1470,7 +1466,7 @@ void Item_factory::set_flag_by_string(unsigned &cur_flags, const std::string &ne
             for (auto it = parts.begin(); it != parts.end(); ++it) {
                 std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(*it);
                 if (found_flag_iter != body_parts.end()) {
-                    cur_flags = cur_flags | mfb((unsigned)found_flag_iter->second);
+                    cur_flags.set(found_flag_iter->second);
                 } else {
                     debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
                 }
@@ -1478,7 +1474,7 @@ void Item_factory::set_flag_by_string(unsigned &cur_flags, const std::string &ne
         } else {
             std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
             if (found_flag_iter != body_parts.end()) {
-                cur_flags = cur_flags | mfb((unsigned)found_flag_iter->second);
+                cur_flags.set(found_flag_iter->second);
             } else {
                 debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
             }
@@ -1503,7 +1499,7 @@ void Item_factory::set_flag_by_string(unsigned &cur_flags, const std::string &ne
             for (auto it = parts.begin(); it != parts.end(); ++it) {
                 std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(*it);
                 if (found_flag_iter != body_parts.end()) {
-                    cur_flags = cur_flags | mfb((unsigned)found_flag_iter->second);
+                    cur_flags.set(found_flag_iter->second);
                 } else {
                     debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
                 }
