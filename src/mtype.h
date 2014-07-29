@@ -18,9 +18,6 @@
 
 typedef std::string itype_id;
 
-/*
-  On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
-*/
 enum mon_id {
     mon_null = 0,
     // Wildlife
