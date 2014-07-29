@@ -13479,7 +13479,6 @@ void game::vertical_move(int movez, bool force)
         int turns = critter.turns_to_reach(u.posx, u.posy);
         if (turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach(u.posx, u.posy)
             && !slippedpast) {
-            critter.onstairs = true;
             critter.staircount = 10 + turns;
             coming_to_stairs.push_back(critter);
             //remove_zombie(i);
@@ -13704,7 +13703,6 @@ void game::replace_stair_monsters()
 {
     for (std::vector<monster>::iterator it = coming_to_stairs.begin();
          it != coming_to_stairs.end(); ++it) {
-        it->onstairs = false;
         it->staircount = 0;
         add_zombie(*it);
     }
@@ -13795,7 +13793,6 @@ void game::update_stair_monsters()
 
                 if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
                     critter.setpos(mposx, mposy, true);
-                    critter.onstairs = false;
                     critter.staircount = 0;
                     add_zombie(critter);
                     if (u_see(mposx, mposy)) {

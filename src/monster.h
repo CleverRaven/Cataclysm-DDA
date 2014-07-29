@@ -279,7 +279,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  short ignoring;
 
  // Stair data.
- bool onstairs;
  int staircount;
 
  // Ammunition if we use a gun.
