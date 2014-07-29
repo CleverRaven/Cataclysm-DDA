@@ -8413,24 +8413,25 @@ bool multicooker_hallu(player *p)
     switch (random_hallu) {
 
         case 1:
-            add_msg(m_info, _("And when you gaze long into an screen the screen also gazes into you."));
+            add_msg(m_info, _("And when you gaze long into a screen, the screen also gazes into you."));
             return true;
 
         case 2:
-            add_msg(m_bad, _("The multi cooker boiled your head!"));
+            add_msg(m_bad, _("The multi-cooker boiled your head!"));
             return true;
 
         case 3:
-            add_msg(m_info, _("The characters on the screen are added in obscene joke. Strange humor."));
+            add_msg(m_info, _("The characters on the screen display an obscene joke.  Strange humor."));
             return true;
 
         case 4:
-            add_msg(m_warning, _("Are you sure that the multi cooker wants to poison your food!"));
+            //~ Single-spaced & lowercase are intentional, conveying hurried speech-KA101
+            add_msg(m_warning, _("Are you sure?! the multi-cooker wants to poison your food!"));
             return true;
 
         case 5:
             add_msg(m_info,
-                    _("The multi cooker argue with you about the taste preferences.  You don't want to deal with it."));
+                    _("The multi-cooker argues with you about the taste preferences.  You don't want to deal with it."));
             return true;
 
         case 6:
@@ -8443,7 +8444,7 @@ bool multicooker_hallu(player *p)
                 }
 
             if (!one_in(5)) {
-                add_msg(m_warning, _("The multi cooker runs away!"));
+                add_msg(m_warning, _("The multi-cooker runs away!"));
 
                 const point random_point = points[rng(0, points.size() - 1)];
 
@@ -8455,7 +8456,7 @@ bool multicooker_hallu(player *p)
 
             } else {
 
-                add_msg(m_bad, _("You surrounded by agressive multi cookers!"));
+                add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
                 for (auto pp = points.begin(); pp != points.end(); ++pp) {
 
@@ -8509,6 +8510,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             it->item_vars["DISH"] = "";
 
             point pos = g->find_item(it);
+            //~ sound of a multi-cooker finishing its cycle!
             g->sound(pos.x, pos.y, 8, _("ding!"));
 
             return 0;
@@ -8531,7 +8533,7 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (p->has_trait("ILLITERATE")) {
-            add_msg(m_info, _("You can not read and don't understand symbols on screen and buttons!"));
+            add_msg(m_info, _("You cannot read, and don't understand the screen or the buttons!"));
             return 0;
         }
 
@@ -8559,7 +8561,7 @@ int iuse::multicooker(player *p, item *it, bool t)
 
             if (it->contents.empty()) {
                 if (it->charges < 50) {
-                    p->add_msg_if_player(_("Discharged batteries."));
+                    p->add_msg_if_player(_("Batteries are low."));
                     return 0;
                 }
 
@@ -8568,13 +8570,13 @@ int iuse::multicooker(player *p, item *it, bool t)
                 if (p->skillLevel("electronics") > 3 && p->skillLevel("fabrication") > 3) {
 
                     if (it->item_vars["MULTI_COOK_UPGRADE"] == "") {
-                        menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi cooker"));
+                        menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi-cooker"));
                     } else {
 
                         if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
-                            menu.addentry(mc_upgrade, false, 'u', _("Multi cooker already upgraded"));
+                            menu.addentry(mc_upgrade, false, 'u', _("Multi-cooker already upgraded"));
                         } else {
-                            menu.addentry(mc_upgrade, false, 'u', _("Multi cooker unable to upgrade"));
+                            menu.addentry(mc_upgrade, false, 'u', _("Multi-cooker unable to upgrade"));
                         }
                     }
                 }
@@ -8608,10 +8610,10 @@ int iuse::multicooker(player *p, item *it, bool t)
             item &dish = it->contents[0];
 
             if (dish.has_flag("HOT")) {
-                p->add_msg_if_player(m_good, _("You got the dish from the multi cooker.  The %s smells delicious."),
+                p->add_msg_if_player(m_good, _("You got the dish from the multi-cooker.  The %s smells delicious."),
                                      dish.tname(dish.charges, false).c_str());
             } else {
-                p->add_msg_if_player(m_good, _("You got the %s from the multi cooker."), dish.tname(dish.charges,
+                p->add_msg_if_player(m_good, _("You got the %s from the multi-cooker."), dish.tname(dish.charges,
                                      false).c_str());
             }
 
@@ -8691,7 +8693,7 @@ int iuse::multicooker(player *p, item *it, bool t)
 
                 if (it->charges < all_charges) {
 
-                    p->add_msg_if_player(m_warning, _("The multi cooker need %d charges for cooking this dish."),
+                    p->add_msg_if_player(m_warning, _("The multi-cooker needs %d charges to cook this dish."),
                                          all_charges);
 
                     return 0;
@@ -8705,7 +8707,7 @@ int iuse::multicooker(player *p, item *it, bool t)
                 it->item_vars["COOKTIME"] = string_format("%d", mealtime);
 
                 p->add_msg_if_player(m_good ,
-                                     _("The screen flashes blue symbols and scales, multi cooker begins to shake."));
+                                     _("The screen flashes blue symbols and scales as the multi-cooker begins to shake."));
 
                 it->active = true;
                 it->charges -= 50;
@@ -8757,7 +8759,7 @@ int iuse::multicooker(player *p, item *it, bool t)
                 p->practice("fabrication", rng(5, 20));
 
                 p->add_msg_if_player(m_good,
-                                     _("You are the master of all trades, successfully upgraded the multi cooker, now it cooks faster!"));
+                                     _("You've successfully upgraded the multi-cooker, master tinkerer!  Now it cooks faster!"));
 
                 it->item_vars["MULTI_COOK_UPGRADE"] = "UPGRADE";
 
@@ -8767,10 +8769,10 @@ int iuse::multicooker(player *p, item *it, bool t)
 
                 if (!one_in(5)) {
                     p->add_msg_if_player(m_neutral,
-                                         _("You sagely examine and analyze the multi cooker, but nothing really to do, bring it back."));
+                                         _("You sagely examine and analyze the multi-cooker, but don't manage to accomplish anything."));
                 } else {
                     p->add_msg_if_player(m_bad,
-                                         _("You have disfigured the multi cooker, fortunately, it can still work as before, but better it is no longer try to upgrade it."));
+                                         _("Your tinkering nearly breaks the multi-cooker!  Fortunately, it still works, but best to stop messing with it."));
                     it->item_vars["MULTI_COOK_UPGRADE"] = "DAMAGED";
                 }
 
