@@ -6606,6 +6606,8 @@ int iuse::large_tent(player *p, item *, bool)
             g->m.furn_set(posx + i, posy + j, f_large_groundsheet);
         }
     }
+    // f_center_groundsheet instead of f_large_groundsheet so the
+    // iexamine function for the tent works properly
     g->m.furn_set(posx, posy, f_center_groundsheet);
     g->m.furn_set(posx - ((dirx - p->posx) * 2), posy - ((diry - p->posy) * 2), f_canvas_door);
     add_msg(m_info, _("You set up the tent on the ground."));
