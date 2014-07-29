@@ -380,15 +380,11 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
             long sym = ( game_map ? '%' : ' ' );
             if ( x >= 0 && x < msize && y >= 0 && y < msize ) {
                 if ( game_map ) {
-                    Creature *critter = g->critter_at( x, y );
-                    if( critter != nullptr ) {
-                        critter->draw( w, center.x, center.y, false );
-                    } else {
-                        m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
-                    }
-                    monster *m = dynamic_cast<monster*>( critter );
-                    if( m != nullptr ) {
-                        monster &mon = *m;
+                    int mon_idx = g->mon_at(x, y);
+                    int npc_idx = g->npc_at(x, y);
+                    if ( mon_idx >= 0 ) {
+                        g->zombie(mon_idx).draw(w, center.x, center.y, false);
+                        monster & mon=g->zombie(mon_idx);
                         if ( refresh_mplans == true ) {
                             for(std::vector<point>::iterator it =
                                     mon.plans.begin();
@@ -396,6 +392,10 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                                 hilights["mplan"].points[*it] = 1;
                             }
                         }
+                    } else if ( npc_idx >= 0 ) {
+                        g->active_npc[npc_idx]->draw(w, center.x, center.y, false);
+                    } else {
+                        m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
                     }
                 } else {
                     m->drawsq(w, g->u, x, y, false, draw_itm, center.x, center.y, false, true);
@@ -429,7 +429,8 @@ void editmap::update_view(bool update_info)
 
     cur_field = &g->m.field_at(target.x, target.y);
     cur_trap = g->m.tr_at(target.x, target.y);
-    const Creature *critter = g->critter_at( target.x, target.y );
+    int mon_index = g->mon_at(target.x, target.y);
+    int npc_index = g->npc_at(target.x, target.y);
 
     // update map always
     werase(g->w_terrain);
@@ -441,8 +442,10 @@ void editmap::update_view(bool update_info)
     }
 
     // update target point
-    if( critter != nullptr ) {
-        critter->draw( g->w_terrain, target.x, target.y, true );
+    if (mon_index != -1) {
+        g->zombie(mon_index).draw(g->w_terrain, target.x, target.y, true);
+    } else if (npc_index != -1) {
+        g->active_npc[npc_index]->draw(g->w_terrain, target.x, target.y, true);
     } else {
         g->m.drawsq(g->w_terrain, g->u, target.x, target.y, true, true, target.x, target.y);
     }
@@ -562,8 +565,12 @@ void editmap::update_view(bool update_info)
             off++; // 6
         }
 
-        if( critter != nullptr ) {
-            off = critter->print_info( w_info, off, 5, 1 );
+        if (mon_index != -1) {
+            g->zombie(mon_index).print_info(w_info);
+            off += 6;
+        } else if (npc_index != -1) {
+            g->active_npc[npc_index]->print_info(w_info);
+            off += 6;
         } else if (veh) {
             mvwprintw(w_info, off, 1, _("There is a %s there. Parts:"), veh->name.c_str());
             off++;

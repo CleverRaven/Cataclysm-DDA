@@ -854,6 +854,32 @@ point overmap::find_note(int const x, int const y, int const z, std::string cons
     return ret;
 }
 
+void overmap::remove_vehicle(int id)
+{
+    std::map<int, om_vehicle>::iterator om_veh = vehicles.find(id);
+    if (om_veh != vehicles.end()) {
+        vehicles.erase(om_veh);
+    }
+
+}
+
+int overmap::add_vehicle(vehicle *veh)
+{
+    int id = vehicles.size() + 1;
+    // this *should* be unique but just in case
+    while ( vehicles.count(id) > 0 ) {
+        id++;
+    }
+
+    om_vehicle tracked_veh;
+    tracked_veh.x = veh->omap_x() / 2;
+    tracked_veh.y = veh->omap_y() / 2;
+    tracked_veh.name = veh->name;
+    vehicles[id] = tracked_veh;
+
+    return id;
+}
+
 point overmap::display_notes(int z)
 {
     const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes(z);
@@ -1402,14 +1428,25 @@ bool overmap::generate_sub(int const z)
     return requires_sub;
 }
 
-extern bool lcmatch(const std::string& text, const std::string& pattern);
+void overmap::make_tutorial()
+{
+    for (int i = 0; i < OMAPX; i++) {
+        for (int j = 0; j < OMAPY; j++) {
+            ter(i, j, -1) = "rock";
+        }
+    }
+    ter(50, 50, 0) = "tutorial";
+    ter(50, 50, -1) = "tutorial";
+    zg.clear();
+}
+
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
-                lcmatch( otermap[ter(x, y, zlevel)].name, term ) ) {
+                otermap[ter(x, y, zlevel)].name.find(term) != std::string::npos) {
                 found.push_back( point(x, y) );
             }
         }
@@ -1504,8 +1541,8 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     tripoint tripointZone = tripoint(-1, -1, -1);
 
     if (iZoneIndex != -1) {
-        sZoneName = g->u.Zones.vZones[iZoneIndex].getName();
-        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[iZoneIndex].getCenterPoint());
+        sZoneName = g->m.Zones.vZones[iZoneIndex].getName();
+        point pOMZone = overmapbuffer::ms_to_omt_copy(g->m.Zones.vZones[iZoneIndex].getCenterPoint());
         tripointZone = tripoint(pOMZone.x, pOMZone.y);
     }
 
@@ -1564,7 +1601,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
                 // Display player pos, should always be visible
-                ter_color = g->u.symbol_color();
+                ter_color = g->u.color();
                 ter_sym = '@';
             } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
                 // TODO: mission targets currently have no z-component, are assumed to be on z=0
@@ -1930,11 +1967,10 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                 curs.y = p.y;
             }
         } else if (action == "SEARCH") {
-            std::string term = string_input_popup(_("Search term:"));
+            const std::string term = string_input_popup(_("Search term:"));
             if(term.empty()) {
                 continue;
             }
-            std::transform( term.begin(), term.end(), term.begin(), tolower );
             const point p = find_note(curs.x, curs.y, curs.z, term);
             if (p != invalid_point) {
                 // found a note, center on it, re-display

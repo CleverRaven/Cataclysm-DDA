@@ -28,7 +28,8 @@ enum dis_type_enum {
 // Fields - onfire moved to effects
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
- DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
+ DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
+ DI_DEAF,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -40,17 +41,19 @@ enum dis_type_enum {
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Traps
  DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
+// Martial Arts
+ DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
+  DI_SPEED_BOOST, DI_VIPER_COMBO,
 // Other
- DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
-// Bite wound infected (dependent on bodypart.h)
- DI_INFECTED,
+ DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
 // Inflicted by an NPC
  DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
- DI_ASKED_TO_TRAIN, DI_ASKED_PERSONAL_INFO,
 // Martial arts-related buffs
  DI_MA_BUFF,
 // NPC-only
  DI_CATCH_UP,
+ // Contact lenses
+ DI_CONTACTS,
  // Lack/sleep
  DI_LACKSLEEP,
  // Grabbed (from MA or monster)
@@ -94,10 +97,12 @@ void game::init_diseases() {
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
+    disease_type_lookup["boomered"] = DI_BOOMERED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
+    disease_type_lookup["deaf"] = DI_DEAF;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
@@ -136,6 +141,12 @@ void game::init_diseases() {
     disease_type_lookup["in_pit"] = DI_IN_PIT;
     disease_type_lookup["stunned"] = DI_STUNNED;
     disease_type_lookup["downed"] = DI_DOWNED;
+    disease_type_lookup["attack_boost"] = DI_ATTACK_BOOST;
+    disease_type_lookup["damage_boost"] = DI_DAMAGE_BOOST;
+    disease_type_lookup["dodge_boost"] = DI_DODGE_BOOST;
+    disease_type_lookup["armor_boost"] = DI_ARMOR_BOOST;
+    disease_type_lookup["speed_boost"] = DI_SPEED_BOOST;
+    disease_type_lookup["viper_combo"] = DI_VIPER_COMBO;
     disease_type_lookup["amigara"] = DI_AMIGARA;
     disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
@@ -145,11 +156,10 @@ void game::init_diseases() {
     disease_type_lookup["asked_to_follow"] = DI_ASKED_TO_FOLLOW;
     disease_type_lookup["asked_to_lead"] = DI_ASKED_TO_LEAD;
     disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
-    disease_type_lookup["asked_to_train"] = DI_ASKED_TO_TRAIN;
-    disease_type_lookup["asked_personal_info"] = DI_ASKED_PERSONAL_INFO;
     disease_type_lookup["catch_up"] = DI_CATCH_UP;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
+    disease_type_lookup["contacts"] = DI_CONTACTS;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
     disease_type_lookup["grabbed"] = DI_GRABBED;
 }
@@ -172,6 +182,9 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_BOULDERING:
         add_msg(m_warning, _("You are slowed by the rubble."));
+        break;
+    case DI_BOOMERED:
+        add_msg(m_bad, _("You're covered in bile!"));
         break;
     case DI_SAP:
         add_msg(m_bad, _("You're coated in sap!"));
@@ -201,6 +214,9 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_ASTHMA:
         add_msg(m_bad, _("You can't breathe... asthma attack!"));
+        break;
+    case DI_DEAF:
+        add_msg(m_bad, _("You're deafened!"));
         break;
     case DI_STUNNED:
         add_msg(m_bad, _("You're stunned!"));
@@ -232,6 +248,9 @@ bool dis_msg(dis_type type_string) {
         break;
     case DI_HEAVYSNARE:
         add_msg(m_bad, _("You are snared."));
+        break;
+    case DI_CONTACTS:
+        add_msg(m_good, _("You can see more clearly."));
         break;
     case DI_LACKSLEEP:
         add_msg(m_warning, _("You are too tired to function well."));
@@ -373,6 +392,9 @@ void dis_end_msg(player &p, disease &dis)
     switch (disease_type_lookup[dis.type]) {
     case DI_SLEEP:
         p.add_msg_if_player(_("You wake up."));
+        break;
+    case DI_CONTACTS:
+        p.add_msg_if_player(m_bad, _("Your vision starts to blur."));
         break;
     default:
         break;
@@ -825,6 +847,15 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
+        case DI_BOOMERED:
+            p.mod_per_bonus(-5);
+            if (will_vomit(p)) {
+                p.vomit();
+            } else if (one_in(3600)) {
+                p.add_msg_if_player(m_bad, _("You gag and retch."));
+            }
+            break;
+
         case DI_SAP:
             p.mod_dex_bonus(-3);
             break;
@@ -986,7 +1017,7 @@ void dis_effect(player &p, disease &dis)
         case DI_DRUNK:
             handle_alcohol(p, dis);
             break;
-
+            
         case DI_VALIUM:
             if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
                 p.stim--;
@@ -1197,14 +1228,12 @@ void dis_effect(player &p, disease &dis)
             p.mod_str_bonus(-(int(dis.intensity / 3)));
             if (x_in_y(dis.intensity, 100 + 50 * p.get_int())) {
                 if (!p.is_npc()) {
-                    //~ %s is bodypart in accusative.
-                    add_msg(m_warning, _("You start scratching your %s!"),
-                            body_part_name_accusative(dis.bp, dis.side).c_str());
-                    g->cancel_activity();
+                     add_msg(m_warning, _("You start scratching your %s!"),
+                                              body_part_name(dis.bp, dis.side).c_str());
+                     g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
-                    //~ 1$s is NPC name, 2$s is bodypart in accusative. 
-                    add_msg(_("%1$s starts scratching their %2$s!"), p.name.c_str(),
-                            body_part_name_accusative(dis.bp, dis.side).c_str());
+                    add_msg(_("%s starts scratching their %s!"), p.name.c_str(),
+                                       body_part_name(dis.bp, dis.side).c_str());
                 }
                 p.moves -= 150;
                 p.hurt(dis.bp, dis.side, 1);
@@ -1305,6 +1334,16 @@ void dis_effect(player &p, disease &dis)
             }
             if (will_vomit(p, 2000)) {
                 p.vomit();
+            }
+            break;
+
+        case DI_ATTACK_BOOST:
+        case DI_DAMAGE_BOOST:
+        case DI_DODGE_BOOST:
+        case DI_ARMOR_BOOST:
+        case DI_SPEED_BOOST:
+            if (dis.intensity > 1) {
+                dis.intensity--;
             }
             break;
 
@@ -1724,6 +1763,7 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
+    case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
     case DI_SPORES:
@@ -1762,6 +1802,7 @@ std::string dis_name(disease& dis)
     }
 
     case DI_SLIMED: return _("Slimed");
+    case DI_DEAF: return _("Deaf");
     case DI_STUNNED: return _("Stunned");
     case DI_DOWNED: return _("Downed");
     case DI_BLEED:
@@ -1882,6 +1923,16 @@ std::string dis_name(disease& dis)
     case DI_BOULDERING: return _("Clambering Over Rubble");
 
     case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
+    case DI_ATTACK_BOOST: return _("Hit Bonus");
+    case DI_DAMAGE_BOOST: return _("Damage Bonus");
+    case DI_DODGE_BOOST: return _("Dodge Bonus");
+    case DI_ARMOR_BOOST: return _("Armor Bonus");
+    case DI_SPEED_BOOST: return _("Attack Speed Bonus");
+    case DI_VIPER_COMBO:
+        switch (dis.intensity) {
+        case 1: return _("Snakebite Unlocked!");
+        case 2: return _("Viper Strike Unlocked!");
+        default: return "Viper combo bug. (in disease.cpp:dis_name)";}
     case DI_BITE:
     {
         std::string status = "";
@@ -1951,6 +2002,8 @@ std::string dis_name(disease& dis)
         return status;
     }
     case DI_RECOVER: return _("Recovering From Infection");
+
+    case DI_CONTACTS: return _("Contact lenses");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
@@ -2254,6 +2307,11 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
+    case DI_BOOMERED:
+        return _(
+        "Perception - 5\n"
+        "Range of Sight: 1;   All sight is tinted magenta.");
+
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");
 
@@ -2266,6 +2324,8 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_SLIMED:
         return _("Speed -25%;   Dexterity - 2");
+
+    case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
 
     case DI_STUNNED: return _("Your movement is randomized.");
 
@@ -2418,9 +2478,36 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_IN_PIT: return _("You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
+    case DI_ATTACK_BOOST:
+        return string_format(_("To-hit bonus + %d"), dis.intensity);
+
+    case DI_DAMAGE_BOOST:
+        return string_format(_("Damage bonus + %d"), dis.intensity);
+
+    case DI_DODGE_BOOST:
+        return string_format(_("Dodge bonus + %d"), dis.intensity);
+
+    case DI_ARMOR_BOOST:
+        return string_format(_("Armor bonus + %d"), dis.intensity);
+
+    case DI_SPEED_BOOST:
+        return string_format(_("Attack speed + %d"), dis.intensity);
+
+    case DI_VIPER_COMBO:
+        switch (dis.intensity) {
+        case 1: return _("\
+Your next strike will be a Snakebite, using your hand in a cone shape.  This\n\
+will deal piercing damage.");
+        case 2: return _("\
+Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
+condition, and deals massive damage.");
+        }
+
     case DI_BITE: return _("You have a nasty bite wound.");
     case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
+
+    case DI_CONTACTS: return _("You are wearing contact lenses.");
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end())
@@ -2495,9 +2582,8 @@ void manage_fungal_infection(player& p, disease& dis)
                             add_msg(_("The %s is covered in tiny spores!"),
                                        g->zombie(zid).name().c_str());
                         }
-                        monster &critter = g->zombie( zid );
-                        if( !critter.make_fungus() ) {
-                            critter.die( &p ); // counts as kill by player
+                        if (!g->zombie(zid).make_fungus()) {
+                            g->kill_mon(zid);
                         }
                     } else if (one_in(4) && g->num_zombies() <= 1000){
                         spore.spawn(sporex, sporey);
@@ -2640,7 +2726,7 @@ void manage_sleep(player& p, disease& dis)
         p.hunger--;
         p.thirst--;
     }
-
+    
     if (int(calendar::turn) % 100 == 0 && p.has_trait("CHLOROMORPH") &&
     g->is_in_sunlight(g->u.posx, g->u.posy) ) {
         // Hunger and thirst fall before your Chloromorphic physiology!
@@ -2764,9 +2850,8 @@ static void handle_bite_wound(player& p, disease& dis)
         recover_factor = std::max(recover_factor, 0); // but can't hurt
 
         if ((x_in_y(recover_factor, 108000)) || (p.has_trait("INFIMMUNE"))) {
-            //~ %s is bodypart name.
             p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
-                                body_part_name(dis.bp, dis.side).c_str());
+                                 body_part_name(dis.bp, dis.side).c_str());
              //No recovery time threshold
             if (((3601 - dis.duration) > 2400) && (!(p.has_trait("INFIMMUNE")))) {
                 p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
@@ -2779,7 +2864,6 @@ static void handle_bite_wound(player& p, disease& dis)
     if (dis.duration > 2401) {
         // No real symptoms for 2 hours
         if ((one_in(300)) && (!(p.has_trait("NOPAIN")))) {
-            //~ %s is bodypart name.
             p.add_msg_if_player(m_bad, _("Your %s wound really hurts."),
                                  body_part_name(dis.bp, dis.side).c_str());
         }
@@ -2789,7 +2873,6 @@ static void handle_bite_wound(player& p, disease& dis)
             if (p.has_disease("sleep")) {
                 p.wake_up();
             }
-            //~ %s is bodypart name.
             p.add_msg_if_player(m_bad, _("Your %s wound feels swollen and painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if (p.pain < 10) {
@@ -2810,7 +2893,6 @@ static void handle_infected_wound(player& p, disease& dis)
     // Recovery chance
     if(int(calendar::turn) % 10 == 1) {
         if(x_in_y(100 + p.health, 864000)) {
-            //~ %s is bodypart name.
             p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if (dis.duration > 8401) {
@@ -2828,7 +2910,6 @@ static void handle_infected_wound(player& p, disease& dis)
             if (p.has_disease("sleep")) {
                 p.wake_up();
             }
-            //~ %s is bodypart name.
             p.add_msg_if_player(m_bad, _("Your %s wound is incredibly painful."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if(p.pain < 30) {
@@ -2843,7 +2924,6 @@ static void handle_infected_wound(player& p, disease& dis)
             if (p.has_disease("sleep")) {
                 p.wake_up();
             }
-            //~ %s is bodypart name.
             p.add_msg_if_player(m_bad, _("You feel feverish and nauseous, your %s wound has begun to turn green."),
                   body_part_name(dis.bp, dis.side).c_str());
             p.vomit();

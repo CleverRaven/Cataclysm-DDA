@@ -52,54 +52,6 @@ std::string body_part_name (body_part bp, int side)
     }
 }
 
-std::string body_part_name_accusative (body_part bp, int side)
-{
-    switch (bp) {
-    case bp_head:
-        return pgettext("bodypart_accusative", "head");
-    case bp_eyes:
-        return pgettext("bodypart_accusative", "eyes");
-    case bp_mouth:
-        return pgettext("bodypart_accusative", "mouth");
-    case bp_torso:
-        return pgettext("bodypart_accusative", "torso");
-    case bp_arms:
-        if (side == 0) {
-            return pgettext("bodypart_accusative", "left arm");
-        }
-        if (side == 1) {
-            return pgettext("bodypart_accusative", "right arm");
-        }
-        return pgettext("bodypart_accusative", "arms");
-    case bp_hands:
-        if (side == 0) {
-            return pgettext("bodypart_accusative", "left hand");
-        }
-        if (side == 1) {
-            return pgettext("bodypart_accusative", "right hand");
-        }
-        return pgettext("bodypart_accusative", "hands");
-    case bp_legs:
-        if (side == 0) {
-            return pgettext("bodypart_accusative", "left leg");
-        }
-        if (side == 1) {
-            return pgettext("bodypart_accusative", "right leg");
-        }
-        return pgettext("bodypart_accusative", "legs");
-    case bp_feet:
-        if (side == 0) {
-            return pgettext("bodypart_accusative", "left foot");
-        }
-        if (side == 1) {
-            return pgettext("bodypart_accusative", "right foot");
-        }
-        return pgettext("bodypart_accusative", "feet");
-    default:
-        return pgettext("bodypart_accusative", "appendix");
-    }
-}
-
 std::string encumb_text(body_part bp)
 {
     switch (bp) {

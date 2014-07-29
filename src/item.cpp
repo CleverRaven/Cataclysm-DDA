@@ -242,6 +242,19 @@ void item::put_in(item payload)
 }
 const char ivaresc=001;
 
+
+/*
+ * Old 1 line string output retained for mapbuffer
+ */
+std::string item::save_info() const
+{
+    // doing this manually so as not to recurse
+    std::stringstream s;
+    JsonOut jsout(s);
+    serialize(jsout, false);
+    return s.str();
+}
+
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
     size_t pos = item_tag.find('=');
     if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
@@ -1082,7 +1095,7 @@ nc_color item::color(player *u) const
     return ret;
 }
 
-nc_color item::color_in_inventory() const
+nc_color item::color_in_inventory()
 {
     // This should be relevant only for the player,
     // npcs don't care about the color
@@ -2968,7 +2981,7 @@ int item::getlight_emit(bool calculate_dimming) const {
     if ( lumint == 0 ) {
         return 0;
     }
-    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
+    if ( calculate_dimming && has_flag("CHARGEDIM") && is_tool()) {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
         if ( maxcharge > 0 ) {
@@ -3177,6 +3190,9 @@ bool item_matches_locator(const item &it, const itype_id &id, int) {
 }
 bool item_matches_locator(const item &, int locator_pos, int item_pos) {
     return item_pos == locator_pos;
+}
+bool item_matches_locator(const item &it, char invlet, int) {
+    return it.invlet == invlet;
 }
 
 iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double Value, bool _is_int, std::string Plus, bool NewLine, bool LowerIsBetter, bool DrawName) {

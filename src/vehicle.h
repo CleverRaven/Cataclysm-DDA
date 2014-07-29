@@ -376,20 +376,17 @@ public:
 // get passenger at part p
     player *get_passenger (int p);
 
-    /**
-     * Get the coordinates (in map squares) of this vehicle, it's the same
-     * coordinate system that player::posx uses.
-     * Global apparently means relative to the currently loaded map (game::m).
-     * This implies:
-     * <code>g->m.veh_at(this->global_x(), this->global_y()) == this;</code>
-     */
-    int global_x() const;
-    int global_y() const;
-    /**
-     * Really global absolute coordinates in map squares.
-     * This includes the overmap, the submap, and the map square.
-     */
-    point real_global_pos() const;
+// get global coords for vehicle
+    int global_x ();
+    int global_y ();
+
+// get omap coordinate for vehicle
+    int omap_x ();
+    int omap_y ();
+
+// update map coordinates of the vehicle
+    void update_map_x(int x);
+    void update_map_y(int y);
 
 // Checks how much certain fuel left in tanks.
     int fuel_left (const ammotype & ftype);
@@ -593,26 +590,8 @@ public:
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
-    /**
-     * Submap coordinates of the currently loaded submap (see game::m)
-     * that contains this vehicle. These values are changed when the map
-     * shifts (but the vehicle is not actually moved than, it also stays on
-     * the same submap, only the relative coordinates in map::grid have changed).
-     * These coordinates must always refer to the submap in map::grid that contains
-     * this vehicle.
-     * When the vehicle is really moved (by map::displace_vehicle), set_submap_moved
-     * is called and updates these values, when the map is only shifted or when a submap
-     * is loaded into the map the values are directly set. The vehicles position does
-     * not change therefor no call to set_submap_moved is required.
-     */
-    int smx, smy;
-    /**
-     * Update the submap coordinates smx, smy, and update the tracker info in the overmap
-     * (if enabled).
-     * This should be called only when the vehicle has actually been moved, not when
-     * the map is just shifted (in the later case simply set smx/smy directly).
-     */
-    void set_submap_moved(int x, int y);
+    // temp values
+    int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
     int init_veh_fuel;
     int init_veh_status;
@@ -620,13 +599,8 @@ public:
     int last_repair_turn; // Turn it was last repaired, used to make consecutive repairs faster.
 
     // save values
-    /**
-     * Position of the vehicle *inside* the submap that contains the vehicle.
-     * This will (nearly) always be in the range (0...SEEX-1).
-     * Note that vehicles are "moved" by map::displace_vehicle. You should not
-     * set them directly, except when initializing the vehicle or during mapgen.
-     */
     int posx, posy;
+    int levx,levy;       // vehicle map coordinates.
     tileray face;       // frame direction
     tileray move;       // direction we are moving
     int velocity;       // vehicle current velocity, mph * 100

@@ -217,18 +217,15 @@ std::string skill_description(int sk) {
   return Skill::skill(sk)->description();
 }
 
-//Actually take the difference in barter skill between the two parties involved
-//Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
 double price_adjustment(int barter_skill) {
- if (barter_skill <= 0)
-    return 1.0;
- if (barter_skill >= 5)
-    return 2.0;
  switch (barter_skill) {
-  case 1:   return 1.05;
-  case 2:   return 1.15;
-  case 3:   return 1.30;
-  case 4:   return 1.65;
-  default:  return 1.0;//should never occur
+  case 0:  return 1.5;
+  case 1:  return 1.4;
+  case 2:  return 1.2;
+  case 3:  return 1.0;
+  case 4:  return 0.8;
+  case 5:  return 0.6;
+  case 6:  return 0.5;
+  default: return 0.3 + 1.0 / barter_skill;
  }
 }

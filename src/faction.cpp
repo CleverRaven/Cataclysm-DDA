@@ -8,21 +8,17 @@
 #include "game.h"
 #include "catacharset.h"
 
-#include "json.h"
-#include "translations.h"
-#include <string>
-
 std::string invent_name();
 std::string invent_adj();
 
 faction::faction()
 {
     // debugmsg("Warning: Faction created without UID!");
-    name = "null";
+    name = "";
     values = 0;
     likes_u = 0;
     respects_u = 0;
-    known_by_u = true;
+    known_by_u = false;
     goal = FACGOAL_NULL;
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
@@ -31,21 +27,22 @@ faction::faction()
     crime = 0;
     cult = 0;
     good = 0;
+    omx = 0;
+    omy = 0;
     mapx = 0;
     mapy = 0;
     size = 0;
     power = 0;
-    id = "";
-    desc = "";
+    id = -1;
 }
 
-faction::faction(std::string uid)
+faction::faction(int uid)
 {
     name = "";
     values = 0;
     likes_u = 0;
     respects_u = 0;
-    known_by_u = true;
+    known_by_u = false;
     goal = FACGOAL_NULL;
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
@@ -54,81 +51,15 @@ faction::faction(std::string uid)
     crime = 0;
     cult = 0;
     good = 0;
+    omx = 0;
+    omy = 0;
     mapx = 0;
     mapy = 0;
     size = 0;
     power = 0;
     id = uid;
-    desc = "";
 }
 
-faction_map faction::_all_faction;
-
-void faction::load_faction(JsonObject &jsobj)
-{
-    faction fac;
-    fac.id = jsobj.get_string("id");
-    fac.name = jsobj.get_string("name");
-    fac.likes_u = jsobj.get_int("likes_u");
-    fac.respects_u = jsobj.get_int("respects_u");
-    fac.known_by_u = jsobj.get_bool("known_by_u");
-    fac.size = jsobj.get_int("size");
-    fac.power = jsobj.get_int("power");
-    fac.good = jsobj.get_int("good");
-    fac.strength = jsobj.get_int("strength");
-    fac.sneak = jsobj.get_int("sneak");
-    fac.crime = jsobj.get_int("crime");
-    fac.cult = jsobj.get_int("cult");
-    fac.desc = jsobj.get_string("desc");
-    _all_faction[jsobj.get_string("id")] = fac;
-}
-
-faction* faction::find_faction(std::string ident)
-{
-    faction_map::iterator found = _all_faction.find(ident);
-    if (found != _all_faction.end()){
-        return &(found->second);
-    } else {
-        debugmsg("Tried to get invalid faction: %s", ident.c_str());
-        static faction null_faction;
-        return &null_faction;
-    }
-}
-
-void faction::load_faction_template(std::string ident)
-{
-    faction_map::iterator found = _all_faction.find(ident);
-    if (found != _all_faction.end()){
-        id = found->second.id;
-        name = found->second.name;
-        likes_u = found->second.likes_u;
-        respects_u = found->second.respects_u;
-        known_by_u = found->second.known_by_u;
-        size = found->second.size;
-        power = found->second.power;
-        good = found->second.good;
-        strength = found->second.strength;
-        sneak = found->second.sneak;
-        crime = found->second.crime;
-        cult = found->second.cult;
-        desc = found->second.desc;
-
-        return;
-    } else {
-        debugmsg("Tried to get invalid faction: %s", ident.c_str());
-        return;
-    }
-}
-
-std::vector<std::string> faction::all_json_factions()
-{
-    std::vector<std::string> v;
-    for(std::map<std::string, faction>::const_iterator it = _all_faction.begin(); it != _all_faction.end(); it++)
-    {
-        v.push_back(it -> first.c_str());
-    }
-    return v;
-}
 
 faction::~faction()
 {
@@ -295,18 +226,31 @@ void game::init_faction_data()
      */
 }
 
+std::string faction::save_info()
+{
+    std::stringstream dump;
+    dump << id << " " << values << " " << goal << " " << job1 << " " << job2 <<
+         " " << likes_u << " " << respects_u << " " << known_by_u << " " <<
+         strength << " " << sneak << " " << crime << " " << cult << " " <<
+         good << " " << omx << " " << omy << " " << mapx << " " << mapy <<
+         " " << size << " " << power << " ";
+    dump << opinion_of.size() << " ";
+    for (std::vector<int>::iterator it = opinion_of.begin();
+         it != opinion_of.end(); ++it) {
+        dump << *it << " ";
+    }
+    dump << name;
+    return dump.str();
+}
+
 void faction::load_info(std::string data)
 {
     std::stringstream dump;
     int valuetmp, goaltmp, jobtmp1, jobtmp2;
-    int omx, omy;
     dump << data;
     dump >> id >> valuetmp >> goaltmp >> jobtmp1 >> jobtmp2 >> likes_u >>
          respects_u >> known_by_u >> strength >> sneak >> crime >> cult >>
          good >> omx >> omy >> mapx >> mapy >> size >> power;
-    // Make mapx/mapy global coordinate
-    mapx += omx * OMAPX * 2;
-    mapy += omy * OMAPY * 2;
     values = valuetmp;
     goal = faction_goal(goaltmp);
     job1 = faction_job(jobtmp1);
@@ -317,11 +261,6 @@ void faction::load_info(std::string data)
         dump >> tmpop;
         opinion_of.push_back(tmpop);
     }
-    std::string subdesc;
-    while (dump >> subdesc) {
-        desc += " " + subdesc;
-    }
-
     std::string subname;
     while (dump >> subname) {
         name += " " + subname;
@@ -332,6 +271,8 @@ void faction::randomize()
 {
     // Set up values
     // TODO: Not always in overmap 0,0
+    omx = 0;
+    omy = 0;
     mapx = rng(OMAPX / 10, OMAPX - OMAPX / 10);
     mapy = rng(OMAPY / 10, OMAPY - OMAPY / 10);
     // Pick an overall goal.
@@ -446,6 +387,8 @@ void faction::randomize()
 void faction::make_army()
 {
     name = _("The army");
+    omx = 0;
+    omy = 0;
     mapx = OMAPX / 2;
     mapy = OMAPY / 2;
     size = OMAPX * 2;
@@ -477,7 +420,7 @@ void faction::make_army()
     if (one_in(8)) {
         values |= mfb(FACVAL_CRUELTY);
     }
-    id = "army";
+    id = 0;
 }
 
 bool faction::has_job(faction_job j)
@@ -539,7 +482,7 @@ bool faction::matches_us(faction_value v)
 std::string faction::describe()
 {
     std::string ret;
-    ret = desc + "\n \n" +string_format( _("%s have the ultimate goal of %s."), name.c_str(), facgoal_data[goal].name.c_str());
+    ret = string_format( _("%s have the ultimate goal of %s."), name.c_str(), facgoal_data[goal].name.c_str());
     if (job2 == FACJOB_NULL) {
         ret += string_format( _(" Their primary concern is %s."), facjob_data[job1].name.c_str());
     } else {
@@ -568,9 +511,9 @@ std::string faction::describe()
 
 int faction::response_time()
 {
-    int base = abs(mapx - g->get_abs_levx());
-    if (abs(mapy - g->get_abs_levy()) > base) {
-        base = abs(mapy - g->get_abs_levy());
+    int base = abs(mapx - g->levx);
+    if (abs(mapy - g->levy) > base) {
+        base = abs(mapy - g->levy);
     }
     if (base > size) { // Out of our sphere of influence
         base *= 2.5;

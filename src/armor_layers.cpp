@@ -336,7 +336,7 @@ void player::sort_armor()
                 item &w = worn[worn_index];
                 if (invlet == w.invlet) {
                     worn_index--;
-                } else if (invlet_to_position(invlet) != INT_MIN) {
+                } else if (has_item(invlet)) {
                     invlet_index--;
                 } else {
                     w.invlet = invlet;

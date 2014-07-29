@@ -144,14 +144,11 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     if (proj.proj_effects.count("BOUNCE")) {
         for (unsigned long int i = 0; i < g->num_zombies(); i++) {
             monster &z = g->zombie(i);
-            if( z.is_dead() ) {
-                continue;
-            }
             // search for monsters in radius 4 around impact site
             if( rl_dist( z.posx(), z.posy(), tx, ty ) <= 4 &&
                 g->m.sees( z.posx(), z.posy(), tx, ty, -1, tart ) ) {
                 // don't hit targets that have already been hit
-                if (!z.has_effect("bounced")) {
+                if (!z.has_effect("bounced") && !z.dead) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     projectile_attack(proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
                     break;
@@ -384,7 +381,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
             npc *p = g->active_npc[npcdex];
             if(!p->weapon.is_null()) {
                 item weap = p->remove_weapon();
-                add_msg_if_player(m_good, _("You disarm %s's %s using your whip!"), p->name.c_str(),
+                add_msg_if_player(m_good, "You disarm %s's %s using your whip!", p->name.c_str(),
                                   weap.tname().c_str());
                 g->m.add_item_or_charges(tarx + rng(-1, 1), tary + rng(-1, 1), weap);
             }
@@ -400,16 +397,15 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
             for (unsigned long int i = 0; i < g->num_zombies(); i++) {
                 monster &z = g->zombie(i);
-                if( z.is_dead() ) {
-                    continue;
-                }
                 int dummy;
                 // search for monsters in radius
                 if( rl_dist(z.posx(), z.posy(), tarx, tary) <=
                     std::min(2 + skillLevel("gun"), weaponrange) &&
                     rl_dist(xpos(), ypos(), z.xpos(), z.ypos()) <= weaponrange && sees(&z, dummy) ) {
+                    if (!z.is_dead_state()) {
                         // oh you're not dead and I don't like you. Hello!
-                        new_targets.push_back(z.pos());
+                        new_targets.push_back(point(z.xpos(), z.ypos()));
+                    }
                 }
             }
 
@@ -643,7 +639,6 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         ty = trajectory[i].y;
 
         const int zid = mon_at(tx, ty);
-        const int npcID = npc_at(tx, ty);
 
         // If there's a monster in the path of our item, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
@@ -716,87 +711,13 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                                         _("%s <npcname> hits the %s for %d damage."),
                                         message.c_str(), z.name().c_str(), dam);
             }
-            z.hurt( dam, real_dam, &p );
+            if (z.hurt(dam, real_dam)) {
+                z.die(&p);
+            }
+            if (z.is_dead_state()) {
+                z.die(&p);
+            }
             return;
-
-        } else if (npcID != -1 && (!missed || one_in(4))) {
-            npc *guy = g->active_npc[npcID];
-
-            if (rng(0, 100) < 20 + skillLevel * 12 && thrown.type->melee_cut > 0) {
-                if (!p.is_npc()) {
-                    if (npcID != -1)
-                        message += string_format(_(" You cut %s!"), guy->name.c_str());
-                }
-                if (npcID != -1 && thrown.type->melee_cut > guy->get_armor_cut(bp_torso)) {
-                    dam += (thrown.type->melee_cut - guy->get_armor_cut(bp_torso));
-                }
-            }
-            if (thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
-                rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
-                if (u_see(tx, ty)) {
-                    add_msg(_("The %s shatters!"), thrown.tname().c_str());
-                }
-
-                for (int i = 0; i < thrown.contents.size(); i++) {
-                    m.add_item_or_charges(tx, ty, thrown.contents[i]);
-                }
-
-                sound(tx, ty, 16, _("glass breaking!"));
-                int glassdam = rng(0, thrown.volume() * 2);
-                if (npcID != -1 && glassdam > guy->get_armor_cut(bp_torso)) {
-                    dam += (glassdam - guy->get_armor_cut(bp_torso));
-                }
-            } else {
-                m.add_item_or_charges(tx, ty, thrown);
-            }
-
-            if (i < trajectory.size() - 1) {
-                goodhit = double(double(rand() / RAND_MAX) / 2);
-            }
-
-            game_message_type gmtSCTcolor = m_good;
-            body_part bp = bp_torso;
-            if (goodhit < .1) {
-                    message = _("Headshot!");
-                    gmtSCTcolor = m_headshot;
-                    bp = bp_head;
-                    dam = rng(dam, dam * 3);
-                    p.practice( "throw", 5 );
-                    p.lifetime_stats()->headshots++;
-            } else if (goodhit < .2) {
-                message = _("Critical!");
-                gmtSCTcolor = m_critical;
-                dam = rng(dam, dam * 2);
-                p.practice( "throw", 2 );
-            } else if (goodhit < .4) {
-                dam = rng(int(dam / 2), int(dam * 1.5));
-            } else if (goodhit < .5) {
-                message = _("Grazing hit.");
-                gmtSCTcolor = m_grazing;
-                dam = rng(0, dam);
-            }
-
-            if (u_see(tx, ty)) {
-                //player hits monster thrown
-                nc_color color;
-                std::string health_bar = "";
-                get_HP_Bar(dam, guy->get_hp_max(bodypart_to_hp_part(bp)), color, health_bar, true);
-                SCT.add(guy->xpos(),
-                        guy->ypos(),
-                        direction_from(0, 0, guy->xpos() - p.posx, guy->ypos() - p.posy),
-                        health_bar.c_str(), m_good,
-                        message, gmtSCTcolor);
-
-                p.add_msg_player_or_npc(m_good, _("%s You hit %s for %d damage."),
-                                        _("%s <npcname> hits %s for %d damage."),
-                                        message.c_str(), guy->name.c_str(), dam);
-            }
-
-            guy->hurt(bodypart_to_hp_part(bp), dam);
-            if (guy->is_dead_state())
-                guy->die(&p);
-            return;
-            
         } else { // No monster hit, but the terrain might be.
             m.shoot(tx, ty, dam, false, no_effects);
         }
@@ -973,23 +894,47 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         m.draw(w_terrain, center); // embedded in SDL drawing code
         // Draw the Monsters
         for (int i = 0; i < num_zombies(); i++) {
-            draw_critter( zombie( i ), center );
+            if (u_see(&(zombie(i)))) {
+                zombie(i).draw(w_terrain, center.x, center.y, false);
+            }
         }
         // Draw the NPCs
         for (int i = 0; i < active_npc.size(); i++) {
-            draw_critter( *active_npc[i], center );
+            if (u_see(active_npc[i]->posx, active_npc[i]->posy)) {
+                active_npc[i]->draw(w_terrain, center.x, center.y, false);
+            }
         }
-        // Draw the player
-        draw_critter( g->u, center );
         if (x != u.posx || y != u.posy) {
+
+            // Draw the player
+            int atx = POSX + u.posx - center.x, aty = POSY + u.posy - center.y;
+            if (is_valid_in_w_terrain(atx, aty)) {
+                mvwputch(w_terrain, aty, atx, u.color(), '@');
+            }
+
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information about tiles they can't see.
             draw_line(x, y, center, ret);
+            /*
+               if (u_see( x, y)) {
+                for (int i = 0; i < ret.size(); i++) {
+                  int mondex = mon_at(ret[i].x, ret[i].y),
+                      npcdex = npc_at(ret[i].x, ret[i].y);
+                  // NPCs and monsters get drawn with inverted colors
+                  if (mondex != -1 && u_see(&(zombie(mondex))))
+                   zombie(mondex).draw(w_terrain, center.x, center.y, true);
+                  else if (npcdex != -1)
+                   active_npc[npcdex]->draw(w_terrain, center.x, center.y, true);
+                  else
+                   m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
+                }
+               }
+            //*/
             // Print to target window
             if (!relevent) {
                 // currently targetting vehicle to refill with fuel
                 vehicle *veh = m.veh_at(x, y);
-                if( veh != nullptr && u.sees( x, y ) ) {
+                if (veh) {
                     mvwprintw(w_target, 1, 1, _("There is a %s"),
                               veh->name.c_str());
                 }
@@ -1017,11 +962,17 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                           rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
             }
 
-            const Creature *critter = critter_at( x, y );
-            if( critter != nullptr && u.sees( critter ) ) {
-                critter->print_info( w_target, 2, 5, 1);
+            const int zid = mon_at(x, y);
+            if (zid == -1) {
+                if (snap_to_target) {
+                    mvwputch(w_terrain, POSY, POSX, c_red, '*');
+                } else {
+                    mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
+                }
             } else {
-                mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
+                if (u_see(&(zombie(zid)))) {
+                    zombie(zid).print_info(w_target, 2);
+                }
             }
         } else {
             mvwprintw(w_target, 1, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
@@ -1073,9 +1024,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
         /* More drawing to terrain */
         if (tarx != 0 || tary != 0) {
-            const Creature *critter = critter_at( x, y );
-            if( critter != nullptr ) {
-                draw_critter( *critter, center );
+            int mondex = mon_at(x, y), npcdex = npc_at(x, y);
+            if (mondex != -1 && u_see(&(zombie(mondex)))) {
+                zombie(mondex).draw(w_terrain, center.x, center.y, false);
+            } else if (npcdex != -1) {
+                active_npc[npcdex]->draw(w_terrain, center.x, center.y, false);
             } else if (m.sees(u.posx, u.posy, x, y, -1, junk)) {
                 m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
             } else {
