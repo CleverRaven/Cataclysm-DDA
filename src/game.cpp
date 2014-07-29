@@ -587,7 +587,6 @@ void game::start_game(std::string worldname)
 
     init_autosave();
 
-    u.setID( assign_npc_id() ); // should be as soon as possible
     clear();
     refresh();
     popup_nowait(_("Please wait as we build your world"));
@@ -595,6 +594,7 @@ void game::start_game(std::string worldname)
     if (!load_master(worldname)) { // Master data record contains factions.
         create_factions();
     }
+    u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
     cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
     // Find a random house on the map, and set us there.

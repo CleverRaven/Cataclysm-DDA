@@ -3405,5 +3405,5 @@ void item::mark_as_used_by_player(const player &p)
         used_by_ids = ";";
     }
     // and always end with a ';'
-    used_by_ids = string_format( "%d;", p.getID() );
+    used_by_ids += string_format( "%d;", p.getID() );
 }
