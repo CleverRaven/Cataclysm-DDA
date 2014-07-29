@@ -5625,5 +5625,33 @@
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"],
     "fear_triggers":["FIRE"]
+    },
+{
+    "type" : "MONSTER",
+    "id" : "mon_hallu_multicooker",
+    "name": "Evil Multi-Cooker",
+    "species":"HALLUCINATION",
+    "symbol":";",
+    "color":"red",
+    "size":"SMALL",
+    "material":"steel",
+    "diff":0,
+    "aggression":100,
+    "morale":100,
+    "speed":50,
+    "melee_skill":1,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":0,
+    "armor_cut":0,
+    "luminance":0,
+    "hp":5,
+    "special_freq":20,
+    "death_function":"DISAPPEAR",
+    "special_attack":"DISAPPEAR",
+    "description":"Multi cooker",
+    "flags":["SEES", "HEARS", "NO_BREATHE"]
     }
 ]
