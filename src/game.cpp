@@ -4565,7 +4565,7 @@ void game::debug()
                 wishitem(p);
                 break;
             case 2:
-                p->hurt(bp_torso, -1, 20);
+                p->hurt(bp_torso, 20);
                 break;
             case 3:
                 p->mod_pain(20);
@@ -5360,20 +5360,19 @@ void game::draw_HP()
     static const char *body_parts[] = { _("HEAD"), _("TORSO"), _("L ARM"),
                                         _("R ARM"), _("L LEG"), _("R LEG"), _("POWER")
                                       };
-    static body_part part[] = { bp_head, bp_torso, bp_arms,
-                                bp_arms, bp_legs, bp_legs, num_bp
+    static body_part part[] = { bp_head, bp_torso, bp_arm_l,
+                                bp_arm_r, bp_leg_l, bp_leg_r, num_bp
                               };
-    static int side[] = { -1, -1, 0, 1, 0, 1, -1 };
     int num_parts = sizeof(body_parts) / sizeof(body_parts[0]);
     for (int i = 0; i < num_parts; i++) {
         const char *str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide) {
-            wprintz(w_HP, limb_color(&u, part[i], side[i]), " ");
+            wprintz(w_HP, limb_color(&u, part[i]), " ");
         }
-        wprintz(w_HP, limb_color(&u, part[i], side[i]), str);
+        wprintz(w_HP, limb_color(&u, part[i]), str);
         if (!wide) {
-            wprintz(w_HP, limb_color(&u, part[i], side[i]), ":");
+            wprintz(w_HP, limb_color(&u, part[i]), ":");
         }
     }
 
@@ -5403,7 +5402,7 @@ void game::draw_HP()
     wrefresh(w_HP);
 }
 
-nc_color game::limb_color(player *p, body_part bp, int side, bool bleed, bool bite, bool infect)
+nc_color game::limb_color(player *p, body_part bp, bool bleed, bool bite, bool infect)
 {
     if (bp == num_bp) {
         return c_ltgray;
@@ -5411,13 +5410,13 @@ nc_color game::limb_color(player *p, body_part bp, int side, bool bleed, bool bi
 
     int color_bit = 0;
     nc_color i_color = c_ltgray;
-    if (bleed && p->has_disease("bleed", bp, side)) {
+    if (bleed && p->has_disease("bleed", bp)) {
         color_bit += 1;
     }
-    if (bite && p->has_disease("bite", bp, side)) {
+    if (bite && p->has_disease("bite", bp)) {
         color_bit += 10;
     }
-    if (infect && p->has_disease("infected", bp, side)) {
+    if (infect && p->has_disease("infected", bp)) {
         color_bit += 100;
     }
     switch (color_bit) {
@@ -6503,12 +6502,12 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             }
 
             if (npc_hit != -1) {
-                active_npc[npc_hit]->hit(NULL, bp_torso, -1, rng(dam / 2, long(dam * 1.5)), 0);
-                active_npc[npc_hit]->hit(NULL, bp_head, -1, rng(dam / 3, dam), 0);
-                active_npc[npc_hit]->hit(NULL, bp_legs, 0, rng(dam / 3, dam), 0);
-                active_npc[npc_hit]->hit(NULL, bp_legs, 1, rng(dam / 3, dam), 0);
-                active_npc[npc_hit]->hit(NULL, bp_arms, 0, rng(dam / 3, dam), 0);
-                active_npc[npc_hit]->hit(NULL, bp_arms, 1, rng(dam / 3, dam), 0);
+                active_npc[npc_hit]->hit(NULL, bp_torso, rng(dam / 2, long(dam * 1.5)), 0);
+                active_npc[npc_hit]->hit(NULL, bp_head, rng(dam / 3, dam), 0);
+                active_npc[npc_hit]->hit(NULL, bp_leg_l, rng(dam / 3, dam), 0);
+                active_npc[npc_hit]->hit(NULL, bp_leg_r, rng(dam / 3, dam), 0);
+                active_npc[npc_hit]->hit(NULL, bp_arm_l, rng(dam / 3, dam), 0);
+                active_npc[npc_hit]->hit(NULL, bp_arm_r, rng(dam / 3, dam), 0);
                 if (active_npc[npc_hit]->hp_cur[hp_head] <= 0 ||
                     active_npc[npc_hit]->hp_cur[hp_torso] <= 0) {
                     active_npc[npc_hit]->die( nullptr ); // TODO: player's fault?
@@ -6516,12 +6515,12 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             }
             if (u.posx == i && u.posy == j) {
                 add_msg(m_bad, _("You're caught in the explosion!"));
-                u.hit(NULL, bp_torso, -1, rng(dam / 2, dam * 1.5), 0);
-                u.hit(NULL, bp_head, -1, rng(dam / 3, dam), 0);
-                u.hit(NULL, bp_legs, 0, rng(dam / 3, dam), 0);
-                u.hit(NULL, bp_legs, 1, rng(dam / 3, dam), 0);
-                u.hit(NULL, bp_arms, 0, rng(dam / 3, dam), 0);
-                u.hit(NULL, bp_arms, 1, rng(dam / 3, dam), 0);
+                u.hit(NULL, bp_torso, rng(dam / 2, dam * 1.5), 0);
+                u.hit(NULL, bp_head, rng(dam / 3, dam), 0);
+                u.hit(NULL, bp_leg_l, rng(dam / 3, dam), 0);
+                u.hit(NULL, bp_leg_r, rng(dam / 3, dam), 0);
+                u.hit(NULL, bp_arm_l, rng(dam / 3, dam), 0);
+                u.hit(NULL, bp_arm_r, rng(dam / 3, dam), 0);
             }
             if (fire) {
                 m.add_field(i, j, fd_fire, dam / 10);
@@ -6582,17 +6581,16 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
                 int npcdex = npc_at(tx, ty);
-                active_npc[npcdex]->hit(NULL, hit, rng(0, 1), 0, dam);
+                active_npc[npcdex]->hit(NULL, hit, 0, dam);
                 if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
                     active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
                     active_npc[npcdex]->die( nullptr );
                 }
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
-                int side = random_side(hit);
                 //~ %s is bodypart name in accusative.
-                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit, side).c_str());
-                u.hit(NULL, hit, random_side(hit), 0, dam);
+                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
+                u.hit(NULL, hit, 0, dam);
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects);
@@ -6662,8 +6660,8 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player &&
-        ((!(u.has_trait("LEG_TENT_BRACE"))) ||
-         (u.wearing_something_on(bp_feet)))) {
+          (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+          (g->u.footwear_factor() == .5 && one_in(2)))) {
         add_msg(m_bad, _("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
     }
@@ -6820,25 +6818,28 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     }
                     add_msg(_("%s took %d damage! (before armor)"), targ->name.c_str(), dam_mult * force_remaining);
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_arms, 0, force_remaining * dam_mult, 0);
+                        targ->hit(NULL, bp_arm_l, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_arms, 1, force_remaining * dam_mult, 0);
+                        targ->hit(NULL, bp_arm_r, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_legs, 0, force_remaining * dam_mult, 0);
+                        targ->hit(NULL, bp_leg_l, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_legs, 1, force_remaining * dam_mult, 0);
+                        targ->hit(NULL, bp_leg_r, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_torso, -1, force_remaining * dam_mult, 0);
+                        targ->hit(NULL, bp_torso, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_head, -1, force_remaining * dam_mult, 0);
+                        targ->hit(NULL, bp_head, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_hands, 0, force_remaining * dam_mult, 0);
+                        targ->hit(NULL, bp_hand_l, force_remaining * dam_mult, 0);
+                    }
+                    if (one_in(2)) {
+                        targ->hit(NULL, bp_hand_r, force_remaining * dam_mult, 0);
                     }
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
@@ -6874,13 +6875,13 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                         add_msg(_("%s collided with someone else and sent her flying!"),
                                 targ->name.c_str());
                     }
-                } else if ((u.posx == traj.front().x && u.posy == traj.front().y) &&
-                           ((!(u.has_trait("LEG_TENT_BRACE"))) || (u.wearing_something_on(bp_feet)))) {
-                    add_msg(m_bad, _("%s collided with you and sent you flying!"), targ->name.c_str());
-                } else if ((u.posx == traj.front().x && u.posy == traj.front().y) &&
-                           ((u.has_trait("LEG_TENT_BRACE")) && (!(u.wearing_something_on(bp_feet))))) {
+                } else if (u.posx == traj.front().x && u.posy == traj.front().y &&
+                           (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
+                            (g->u.footwear_factor() == .5 && one_in(2))))) {
                     add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
                     force_remaining = 1;
+                } else if (u.posx == traj.front().x && u.posy == traj.front().y) {
+                    add_msg(m_bad, _("%s collided with you and sent you flying!"), targ->name.c_str());
                 }
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
@@ -6915,25 +6916,28 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     }
                     u.add_effect("stunned", force_remaining);
                     if (one_in(2)) {
-                        u.hit(NULL, bp_arms, 0, force_remaining * dam_mult, 0);
+                        u.hit(NULL, bp_arm_l, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_arms, 1, force_remaining * dam_mult, 0);
+                        u.hit(NULL, bp_arm_r, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_legs, 0, force_remaining * dam_mult, 0);
+                        u.hit(NULL, bp_leg_l, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_legs, 1, force_remaining * dam_mult, 0);
+                        u.hit(NULL, bp_leg_r, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_torso, -1, force_remaining * dam_mult, 0);
+                        u.hit(NULL, bp_torso, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_head, -1, force_remaining * dam_mult, 0);
+                        u.hit(NULL, bp_head, force_remaining * dam_mult, 0);
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_hands, 0, force_remaining * dam_mult, 0);
+                        u.hit(NULL, bp_hand_l, force_remaining * dam_mult, 0);
+                    }
+                    if (one_in(2)) {
+                        u.hit(NULL, bp_hand_r, force_remaining * dam_mult, 0);
                     }
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
@@ -7575,10 +7579,10 @@ void game::smash()
                 m.add_item_or_charges(u.posx, u.posy, *it);
             }
             sound(u.posx, u.posy, 24, "");
-            u.hit(NULL, bp_hands, 1, 0, rng(0, u.weapon.volume()));
+            u.hit(NULL, bp_hand_r, 0, rng(0, u.weapon.volume()));
             if (u.weapon.volume() > 20) {
                 // Hurt left arm too, if it was big
-                u.hit(NULL, bp_hands, 0, 0, rng(0, long(u.weapon.volume() * .5)));
+                u.hit(NULL, bp_hand_l, 0, rng(0, long(u.weapon.volume() * .5)));
             }
             u.remove_weapon();
         }
@@ -12673,22 +12677,24 @@ bool game::plmove(int dx, int dy)
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
-            if (one_in(5) && u.get_armor_bash(bp_feet) < rng(2, 5)) {
-                add_msg(m_bad, _("You hurt your feet on the %s!"), m.tername(x, y).c_str());
-                u.hit(NULL, bp_feet, 0, 0, 1);
-                u.hit(NULL, bp_feet, 1, 0, 1);
+            if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
+                add_msg(m_bad, _("You hurt your left foot on the %s!"), m.tername(x, y).c_str());
+                u.hit(NULL, bp_foot_l, 0, 1);
+            }
+            if (one_in(5) && u.get_armor_bash(bp_foot_r) < rng(2, 5)) {
+                add_msg(m_bad, _("You hurt your right foot on the %s!"), m.tername(x, y).c_str());
+                u.hit(NULL, bp_foot_l, 0, 1);
             }
         }
         if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2))
             && (!u.in_vehicle)) {
             if (!u.has_trait("PARKOUR") || one_in(4)) {
                 body_part bp = random_body_part();
-                int side = random_side(bp);
-                if(u.hit(NULL, bp, side, 0, rng(1, 4)) > 0) {
+                if(u.hit(NULL, bp, 0, rng(1, 4)) > 0) {
                     //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                     add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
-                            body_part_name_accusative(bp, side).c_str(),
-                            m.tername(x,y).c_str());
+                                body_part_name_accusative(bp).c_str(),
+                                m.tername(x, y).c_str());
                 }
                 if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
                     u.add_disease("tetanus", 1, true);
@@ -12697,7 +12703,8 @@ bool game::plmove(int dx, int dy)
                 }
             }
         }
-        if (u.has_trait("LEG_TENT_BRACE") && (!(u.wearing_something_on(bp_feet))) ) {
+        if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
+              (g->u.footwear_factor() == .5 && one_in(2)))) {
             // DX and IN are long suits for Cephalopods,
             // so this shouldn't cause too much hardship
             // Presumed that if it's swimmable, they're
@@ -12890,7 +12897,7 @@ bool game::plmove(int dx, int dy)
 
         // Drench the player if swimmable
         if (m.has_flag("SWIMMABLE", x, y)) {
-            u.drench(40, mfb(bp_feet) | mfb(bp_legs));
+            u.drench(40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r));
         }
 
         // List items here
@@ -13064,7 +13071,8 @@ void game::plswim(int x, int y)
     int movecost = u.swim_speed();
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
-        if (!u.is_underwater() || !u.is_wearing("swim_fins")) {
+        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 || 
+            (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
             u.oxygen = 30 + 2 * u.str_cur;
@@ -13082,14 +13090,15 @@ void game::plswim(int x, int y)
     u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1);
     u.inv.rust_iron_items();
 
-    int drenchFlags = mfb(bp_legs) | mfb(bp_torso) | mfb(bp_arms) | mfb(bp_feet);
+    int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
+                        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
 
     if (get_temperature() <= 50) {
-        drenchFlags |= mfb(bp_hands);
+        drenchFlags |= mfb(bp_hand_l) | mfb(bp_hand_r);
     }
 
     if (u.is_underwater()) {
-        drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hands);
+        drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);
     }
     u.drench(100, drenchFlags);
 }
@@ -13273,13 +13282,15 @@ void game::vertical_move(int movez, bool force)
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
-            if (u.swim_speed() < 500 || u.is_wearing("swim_fins")) {
+            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 || 
+                  (g->u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));
             } else {
-                add_msg(m_info, _("You can't surface!"));
+                add_msg(m_info, _("You try to surface but can't!"));
             }
         }
+        u.moves -= 100;
         return;
     }
     // Force means we're going down, even if there's no staircase, etc.
@@ -13359,7 +13370,7 @@ void game::vertical_move(int movez, bool force)
                                 rope_ladder = true;
                                 add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
                                 u.mod_pain(5);
-                                u.hurt(bp_torso, 1, 5);
+                                u.hurt(bp_torso, 5);
                                 u.hunger += 5;
                                 u.thirst += 5;
                             } else {
@@ -14235,7 +14246,7 @@ void game::teleport(player *p, bool add_teleglow)
                         p->name.c_str(), m.name(newx, newy).c_str());
             }
         }
-        p->hurt(bp_torso, 0, 500);
+        p->hurt(bp_torso, 500);
     } else if (can_see) {
         const int i = mon_at(newx, newy);
         if (i != -1) {

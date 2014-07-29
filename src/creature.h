@@ -66,26 +66,24 @@ class Creature
                 std::set<std::string>& proj_effects);
                 */
 
-        virtual int hit(Creature *source, body_part bphurt, int side,
-                        int dam, int cut);
+        virtual int hit(Creature *source, body_part bphurt, int dam, int cut);
 
         // handles dodges and misses, allowing triggering of martial arts counter
         virtual void dodge_hit(Creature *source, int hit_spread) = 0;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit(Creature *source, body_part &bp_hit, int &side,
+        virtual bool block_hit(Creature *source, body_part &bp_hit,
                                damage_instance &dam) = 0;
 
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
-        virtual void absorb_hit(body_part bp, int side,
-                                damage_instance &dam) = 0;
+        virtual void absorb_hit(body_part bp, damage_instance &dam) = 0;
 
         // TODO: this is just a shim so knockbacks work
         virtual void knock_back_from(int posx, int posy) = 0;
 
         // TODO: remove this function in favor of deal/apply_damage
-        virtual void hurt(body_part bp, int side, int dam) = 0;
+        virtual void hurt(body_part bp, int dam) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
@@ -106,7 +104,7 @@ class Creature
         // Most sources of external damage should use deal_damage
         // Mutates the damage_instance& object passed in to reflect the
         // post-mitigation object
-        virtual dealt_damage_instance deal_damage(Creature *source, body_part bp, int side,
+        virtual dealt_damage_instance deal_damage(Creature *source, body_part bp,
                                                   const damage_instance &d);
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
@@ -114,8 +112,7 @@ class Creature
                                              body_part bp, int &damage, int &pain);
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage(Creature *source,
-                                  body_part bp, int side, int amount) = 0;
+        virtual void apply_damage(Creature *source, body_part bp, int amount) = 0;
 
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;

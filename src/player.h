@@ -16,6 +16,7 @@
 #include "clzones.h"
 
 #include <unordered_set>
+#include <bitset>
 
 class monster;
 class game;
@@ -411,13 +412,11 @@ public:
  /** Activates any on-dodge effects and checks for dodge counter techniques */
  void dodge_hit(Creature *source, int hit_spread);
  /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
- bool block_hit(Creature *source, body_part &bp_hit, int &side,
-    damage_instance &dam);
+ bool block_hit(Creature *source, body_part &bp_hit, damage_instance &dam);
  /** Reduces and mutates du, returns true if armor is damaged */
  bool armor_absorb(damage_unit& du, item& armor);
  /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
- void absorb_hit(body_part bp, int side,
-    damage_instance &dam);
+ void absorb_hit(body_part bp, damage_instance &dam);
  /** Handles return on-hit effects (spines, electric shields, etc.) */
  void on_gethit(Creature *source, body_part bp_hit, damage_instance &dam);
 
@@ -494,25 +493,24 @@ public:
  /** Returns a value used when attempting to intimidate NPC's */
  int intimidation();
 
- /** Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
+ /** Converts bphurt to a hp_part, then does/heals dam
   *  absorb() reduces dam and cut by your armor (and bionics, traits, etc)
   */
  void absorb(body_part bp, int &dam, int &cut);
  /** Hurts a body_part directly, no armor reduction */
- void hurt (body_part bphurt, int side, int  dam);
+ void hurt (body_part bphurt, int  dam);
  /** Hurts a hp_part directly, no armor reduction */
  void hurt (hp_part hurt, int dam);
 
  /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
- dealt_damage_instance deal_damage(Creature* source, body_part bp,
-                                   int side, const damage_instance& d);
+ dealt_damage_instance deal_damage(Creature* source, body_part bp, const damage_instance& d);
  /** Actually hurt the player */
- void apply_damage(Creature* source, body_part bp, int side, int amount);
+ void apply_damage(Creature* source, body_part bp, int amount);
  /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
  void mod_pain(int npain);
 
  /** Heals a body_part for dam */
- void heal(body_part healed, int side, int dam);
+ void heal(body_part healed, int dam);
  /** Heals an hp_part for dam */
  void heal(hp_part healed, int dam);
  /** Heals all body parts for dam */
@@ -524,10 +522,10 @@ public:
  /** Knocks the player back one square from a tile */
  void knock_back_from(int x, int y);
 
- /** Converts a body_part and side to an hp_part */
- static void bp_convert(hp_part &hpart, body_part bp, int side);
- /** Converts an hp_part to a body_part and side */
- static void hp_convert(hp_part hpart, body_part &bp, int &side);
+ /** Converts a body_part to an hp_part */
+ static void bp_convert(hp_part &hpart, body_part bp);
+ /** Converts an hp_part to a body_part */
+ static void hp_convert(hp_part hpart, body_part &bp);
 
  /** Returns overall % of HP remaining */
  int hp_percentage();
@@ -540,30 +538,28 @@ public:
  bool infect(dis_type type, body_part vector, int strength,
               int duration, bool permanent = false, int intensity = 1,
               int max_intensity = 1, int decay = 0, int additive = 1,
-              bool targeted = false, int side = -1,
-              bool main_parts_only = false);
+              bool targeted = false, bool main_parts_only = false);
  /** Adds a disease without save chance
   *  body_part = num_bp indicates that the disease is body part independant
-  *  side = -1 indicates that the side of the body is irrelevant
   *  intensity = -1 indicates that the disease is infinitely stacking */
  void add_disease(dis_type type, int duration, bool permanent = false,
                    int intensity = 1, int max_intensity = 1, int decay = 0,
-                   int additive = 1, body_part part = num_bp, int side = -1,
+                   int additive = 1, body_part part = num_bp,
                    bool main_parts_only = false);
  /** Removes a disease from a player */
- void rem_disease(dis_type type, body_part part = num_bp, int side = -1);
+ void rem_disease(dis_type type, body_part part = num_bp);
  /** Returns list of rc items in player inventory. **/
  std::list<item *> get_radio_items();
  /** Returns true if the player has the entered disease */
- bool has_disease(dis_type type, body_part part = num_bp, int side = -1) const;
+ bool has_disease(dis_type type, body_part part = num_bp) const;
  /** Pauses a disease, making it permanent until unpaused */
- bool pause_disease(dis_type type, body_part part = num_bp, int side = -1);
+ bool pause_disease(dis_type type, body_part part = num_bp);
  /** Unpauses a permanent disease, making it wear off when it's timer expires */
- bool unpause_disease(dis_type type, body_part part = num_bp, int side = -1);
+ bool unpause_disease(dis_type type, body_part part = num_bp);
  /** Returns the duration of the entered disease's timer */
- int  disease_duration(dis_type type, bool all = false, body_part part = num_bp, int side = -1);
+ int  disease_duration(dis_type type, bool all = false, body_part part = num_bp);
  /** Returns the intensity level of the entered disease */
- int  disease_intensity(dis_type type, bool all = false, body_part part = num_bp, int side = -1);
+ int  disease_intensity(dis_type type, bool all = false, body_part part = num_bp);
 
  /** Adds an addiction to the player */
  void add_addiction(add_type type, int strength);
@@ -672,7 +668,11 @@ public:
  /** Returns true if the player is wearing something on the entered body_part */
  bool wearing_something_on(body_part bp) const;
  /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
- bool is_wearing_shoes() const;
+ bool is_wearing_shoes(std::string side = "both") const;
+ /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
+ double footwear_factor() const;
+ /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
+ int shoe_type_count(const itype_id & it) const;
  /** Returns true if the player is wearing power armor */
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
@@ -728,14 +728,17 @@ public:
  void place_corpse(); // put corpse+inventory on map at the place where this is.
  int butcher_factor() const; // Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
- bool is_wearing(const itype_id & it) const; // Are we wearing a specific itype?
+ /** Returns true if the player is wearing the item */
+ bool is_wearing(const itype_id & it) const;
+ /** Returns true if the player is wearing the item on the given body_part */
+ bool is_wearing_on_bp(const itype_id & it, body_part bp) const;
  bool has_artifact_with(const art_effect_passive effect) const;
  bool worn_with_flag( std::string flag ) const;
 
- bool covered_with_flag( const std::string flag, int parts ) const;
- bool covered_with_flag_exclusively( const std::string flag, int parts = -1 ) const;
- bool is_water_friendly( int flags = -1 ) const;
- bool is_waterproof( int flags ) const;
+ bool covered_with_flag(const std::string flag, std::bitset<13> parts) const;
+ bool covered_with_flag_exclusively(const std::string flag, std::bitset<13> parts) const;
+ bool is_water_friendly(std::bitset<13> parts) const;
+ bool is_waterproof(std::bitset<13> parts) const;
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.

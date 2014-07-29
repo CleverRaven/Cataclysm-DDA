@@ -462,7 +462,7 @@ class game
 
         std::queue<vehicle_prototype *> vehprototypes;
 
-        nc_color limb_color(player *p, body_part bp, int side, bool bleed = true,
+        nc_color limb_color(player *p, body_part bp, bool bleed = true,
                             bool bite = true, bool infect = true);
 
         bool opening_screen();// Warn about screen size, then present the main menu

@@ -29,6 +29,7 @@ struct recipe : public requirements {
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
     int result_mult; // used by certain batch recipes that create more than one stack of the result
+    bool paired;
 
     // only used during loading json data: books and the skill needed
     // to learn this recipe from.
@@ -48,15 +49,15 @@ struct recipe : public requirements {
         autolearn = false;
         learn_by_disassembly = -1;
         result_mult = 1;
+        paired = false;
     }
 
     recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat,
-           std::string &to_use,
-           std::map<std::string, int> &to_require, int pdiff, bool preversible, bool pautolearn,
-           int plearn_dis, int pmult) :
+           std::string &to_use, std::map<std::string, int> &to_require, int pdiff,
+           bool preversible, bool pautolearn, int plearn_dis, int pmult, bool ppaired) :
         ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff),
         reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis),
-        result_mult(pmult)
+        result_mult(pmult), paired(ppaired)
     {
         skill_used = to_use.size() ? Skill::skill(to_use) : NULL;
         if(!to_require.empty()) {
@@ -69,7 +70,7 @@ struct recipe : public requirements {
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
-    item create_result() const;
+    item create_result(int handed = NONE) const;
 
     bool can_make_with_inventory(const inventory& crafting_inv) const;
 };

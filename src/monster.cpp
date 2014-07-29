@@ -654,11 +654,11 @@ bool monster::is_dead_state() const {
 void monster::dodge_hit(Creature *, int) {
 }
 
-bool monster::block_hit(Creature *, body_part &, int &, damage_instance &) {
+bool monster::block_hit(Creature *, body_part &, damage_instance &) {
     return false;
 }
 
-void monster::absorb_hit(body_part, int, damage_instance &dam) {
+void monster::absorb_hit(body_part, damage_instance &dam) {
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
         it->amount -= std::min(resistances(*this).get_effective_resist(*it),
@@ -705,12 +705,16 @@ int monster::hit(Creature &p, body_part &bp_hit) {
 
 
     int bp_rand = rng(0, highest_hit - 1);
-    if (bp_rand <=  2){
-        bp_hit = bp_legs;
+    if (bp_rand <=  1){
+        bp_hit = bp_leg_l;
+    } else if (bp_rand <= 2){
+        bp_hit = bp_leg_r;
     } else if (bp_rand <= 10){
         bp_hit = bp_torso;
+    } else if (bp_rand <= 12){
+        bp_hit = bp_arm_l;
     } else if (bp_rand <= 14){
-        bp_hit = bp_arms;
+        bp_hit = bp_arm_r;
     } else if (bp_rand <= 16){
         bp_hit = bp_mouth;
     } else if (bp_rand == 17){
@@ -752,57 +756,6 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         }
     }
 
-    /* TODO: height-related bodypart selection
-    //If the player is knocked down or the monster can fly, any body part is a valid target
-    if(target.is_on_ground() || has_flag(MF_FLIES)){
-        highest_hit = 20;
-    }
-    else {
-        switch (type->size) {
-        case MS_TINY:
-            highest_hit = 3;
-        break;
-        case MS_SMALL:
-            highest_hit = 12;
-        break;
-        case MS_MEDIUM:
-            highest_hit = 20;
-        break;
-        case MS_LARGE:
-            highest_hit = 28;
-        break;
-        case MS_HUGE:
-            highest_hit = 35;
-        break;
-        }
-        if (digging()){
-            highest_hit -= 8;
-        }
-        if (highest_hit <= 1){
-            highest_hit = 2;
-        }
-    }
-
-    if (highest_hit > 20){
-        highest_hit = 20;
-    }
-
-    int bp_rand = rng(0, highest_hit - 1);
-    if (bp_rand <=  2){
-        bp_hit = bp_legs;
-    } else if (bp_rand <= 10){
-        bp_hit = bp_torso;
-    } else if (bp_rand <= 14){
-        bp_hit = bp_arms;
-    } else if (bp_rand <= 16){
-        bp_hit = bp_mouth;
-    } else if (bp_rand == 18){
-        bp_hit = bp_eyes;
-    } else{
-        bp_hit = bp_head;
-    }
-    */
-
     dealt_damage_instance dealt_dam;
     int hitspread = target.deal_melee_attack(this, hitroll);
     if (hitspread >= 0) {
@@ -830,32 +783,29 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
             if (u_see_me) {
                 //~ 1$s is attaker name, 2$s is bodypart name in accusative.
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
+                        body_part_name_accusative(bp_hit).c_str());
             } else {
                 //~ %s is is bodypart name in accusative.
                 add_msg(m_bad, _("Something hits your %s."),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
+                        body_part_name_accusative(bp_hit).c_str());
             }
         } else {
             if (u_see_me) {
                 //~ 1$s is attaker name, 2$s is target name, 3$s is bodypart name in accusative.
                 add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
-                        target.disp_name(true).c_str(),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str());
+                            target.disp_name(true).c_str(),
+                            body_part_name_accusative(bp_hit).c_str());
             }
         }
     } else {
         if (target.is_player()) {
             if (u_see_me) {
-                //~ 1$s is attaker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."),name().c_str(),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
-                        target.skin_name().c_str());
+                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
+                        body_part_name_accusative(bp_hit).c_str(), target.skin_name().c_str());
             } else {
                 //~ 1$s is bodypart name in accusative, 2$s is armor name.
                 add_msg(_("Something hits your %1$s, but your %2$s protects you."),
-                        body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
-                        target.skin_name().c_str());
+                        body_part_name_accusative(bp_hit).c_str(), target.skin_name().c_str());
             }
         } else {
             if (u_see_me) {
@@ -863,7 +813,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
                 //~ $3s is target bodypart name in accusative, 4$s is target armor name.
                 add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
                             target.disp_name(true).c_str(),
-                            body_part_name_accusative(bp_hit, random_side(bp_hit)).c_str(),
+                            body_part_name_accusative(bp_hit).c_str(),
                             target.skin_name().c_str());
             }
         }
@@ -1006,14 +956,13 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
-void monster::apply_damage(Creature* source, body_part bp, int side, int amount) {
+void monster::apply_damage(Creature* source, body_part bp, int amount) {
     // monsters don't have bodyparts
     (void) bp;
-    (void) side;
     hurt(amount, 0, source);
 }
 
-void monster::hurt(body_part, int, int dam) {
+void monster::hurt(body_part, int dam) {
     hurt(dam, 0, nullptr);
 }
 

@@ -101,6 +101,7 @@ void load_recipe(JsonObject &jsobj)
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
     int result_mult = jsobj.get_int("result_mult", 1);
+    bool paired = jsobj.get_bool("paired", false);
 
     std::map<std::string, int> requires_skills;
     jsarr = jsobj.get_array("skills_required");
@@ -120,8 +121,8 @@ void load_recipe(JsonObject &jsobj)
     int id = check_recipe_ident(rec_name, jsobj);
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
-                             requires_skills, difficulty, reversible,
-                             autolearn, learn_by_disassembly, result_mult);
+                             requires_skills, difficulty, reversible, autolearn,
+                             learn_by_disassembly, result_mult, paired);
     rec->load(jsobj);
 
     jsarr = jsobj.get_array("book_learn");
@@ -920,9 +921,9 @@ void game::make_all_craft(recipe *making)
     u.lastrecipe = making;
 }
 
-item recipe::create_result() const
+item recipe::create_result(int handed) const
 {
-    item newit(result, calendar::turn, false);
+    item newit(result, calendar::turn, false, handed);
     if (result_mult != 1) {
         newit.charges *= result_mult;
     }
@@ -942,6 +943,11 @@ void game::complete_craft()
     }
     if( u.lastrecipe == nullptr ) {
         u.lastrecipe = making; // has been lost due to save & load
+    }
+    
+    int handed = 0;
+    if (making->paired) {
+        handed = menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL);
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
@@ -1026,7 +1032,7 @@ void game::complete_craft()
     }
 
     // Set up the new item, and assign an inventory letter if available
-    item newit = making->create_result();
+    item newit = making->create_result(handed);
     if (!newit.count_by_charges() && making->reversible) {
         // Setting this for items counted by charges gives only problems:
         // those items are automatically merged everywhere (map/vehicle/inventory),

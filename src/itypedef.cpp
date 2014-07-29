@@ -31,6 +31,23 @@ bool itype::can_use( std::string iuse_name ) {
                       *func ) != use_methods.cend();
 }
 
+bool itype::is_covering(body_part bp) {
+    if (!is_armor()) {
+        return false;
+    }
+    it_armor* armor = dynamic_cast<it_armor*>(this);
+    return armor->covers.test(bp);
+}
+
+
+bool itype::is_sided(body_part bp) {
+    if (!is_armor()) {
+        return false;
+    }
+    it_armor* armor = dynamic_cast<it_armor*>(this);
+    return armor->sided.test(bp);
+}
+
 int itype::invoke( player *p, item *it, bool active ) {
     int charges_to_use = 0;
     for( auto method = use_methods.begin();

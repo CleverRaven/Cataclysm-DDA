@@ -13,20 +13,26 @@ static std::map<int, std::map<body_part, double> > default_hit_weights = {
       { { bp_eyes, 0.f },
         { bp_head, 0.f },
         { bp_torso, 55.f },
-        { bp_arms, 35.f },
-        { bp_legs, 55.f } } },
+        { bp_arm_l, 18.f },
+        { bp_arm_r, 18.f },
+        { bp_leg_l, 28.f },
+        { bp_leg_r, 28.f } } },
     { 0, /* attacker equal size */
       { { bp_eyes, 10.f },
         { bp_head, 20.f },
         { bp_torso, 55.f },
-        { bp_arms, 55.f },
-        { bp_legs, 35.f } } },
+        { bp_arm_l, 28.f },
+        { bp_arm_r, 28.f },
+        { bp_leg_l, 18.f },
+        { bp_leg_r, 18.f } } },
     { 1, /* attacker larger */
       { { bp_eyes, 5.f },
         { bp_head, 25.f },
         { bp_torso, 55.f },
-        { bp_arms, 55.f },
-        { bp_legs, 20.f } } } };
+        { bp_arm_l, 28.f },
+        { bp_arm_r, 28.f },
+        { bp_leg_l, 10.f },
+        { bp_leg_r, 10.f } } } };
 
 struct weight_compare {
     bool operator() (const std::pair<body_part, double> &left,
@@ -190,13 +196,12 @@ bool Creature::digging() const
 
 // TODO: this is a shim for the currently existing calls to Creature::hit,
 // start phasing them out
-int Creature::hit(Creature *source, body_part bphurt, int side,
-                  int dam, int cut)
+int Creature::hit(Creature *source, body_part bphurt, int dam, int cut)
 {
     damage_instance d;
     d.add_damage(DT_BASH, dam);
     d.add_damage(DT_CUT, cut);
-    dealt_damage_instance dealt_dams = deal_damage(source, bphurt, side, d);
+    dealt_damage_instance dealt_dams = deal_damage(source, bphurt, d);
 
     return dealt_dams.total_damage();
 }
@@ -221,8 +226,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part(source, hit_spread);
-    int side = rng(0, 1);
-    block_hit(source, bp_hit, side, d);
+    block_hit(source, bp_hit, d);
 
     // Bashing crit
     if (critical_hit) {
@@ -241,7 +245,8 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
         stab_moves *= 1.5;
     }
     if (stab_moves >= 150) {
-        if ((is_player()) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet))) ) {
+        if (is_player() && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+              (g->u.footwear_factor() == .5 && one_in(2))) ) {
             // can the player force their self to the ground? probably not.
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
@@ -249,7 +254,8 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
                                                    _("<npcname> forces %s to the ground!"),
                                                    disp_name().c_str() );
         }
-        if ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet)) ) {
+        if (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+              (g->u.footwear_factor() == .5 && one_in(2))) {
             add_effect("downed", 1);
             mod_moves(-stab_moves / 2);
         }
@@ -258,7 +264,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     }
 
     on_gethit(source, bp_hit, d); // trigger on-gethit events
-    dealt_dam = deal_damage(source, bp_hit, side, d);
+    dealt_dam = deal_damage(source, bp_hit, d);
     dealt_dam.bp_hit = bp_hit;
 }
 
@@ -267,7 +273,6 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 {
     bool u_see_this = g->u_see(this);
     body_part bp_hit;
-    int side = rng(0, 1);
 
     // do 10,speed because speed could potentially be > 10000
     if (dodge_roll() >= dice(10, proj.speed)) {
@@ -290,9 +295,17 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     if (hit_value <= 0.4) {
         bp_hit = bp_torso;
     } else if (one_in(4)) {
-        bp_hit = bp_legs;
+        if( one_in(2)) {
+            bp_hit = bp_leg_l;
+        } else {
+            bp_hit = bp_leg_r;
+        }
     } else {
-        bp_hit = bp_arms;
+        if( one_in(2)) {
+            bp_hit = bp_arm_l;
+        } else {
+            bp_hit = bp_arm_r;
+        }
     }
 
     double monster_speed_penalty = std::max(double(get_speed()) / 80., 1.0);
@@ -336,7 +349,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     }
     impact.mult_damage(damage_mult);
 
-    dealt_dam = deal_damage(source, bp_hit, side, impact);
+    dealt_dam = deal_damage(source, bp_hit, impact);
     dealt_dam.bp_hit = bp_hit;
 
     // Apply ammo effects to target.
@@ -438,9 +451,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             } else if(this->is_player()) {
                 //monster hits player ranged
                 //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-                add_msg_if_player(m_bad, _("You were hit in the %1$s for %2$d damage."),
-                                  body_part_name_accusative(bp_hit, side).c_str(),
-                                  dealt_dam.total_damage());
+                add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                          body_part_name_accusative(bp_hit).c_str( ),
+                                          dealt_dam.total_damage());
             } else if( u_see_this ) {
                 add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());
@@ -453,7 +466,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     return 0;
 }
 
-dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int side,
+dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
                                             const damage_instance &dam)
 {
     int total_damage = 0;
@@ -462,7 +475,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int 
 
     std::vector<int> dealt_dams(NUM_DT, 0);
 
-    absorb_hit(bp, side, d);
+    absorb_hit(bp, d);
 
     // add up all the damage units dealt
     int cur_damage;
@@ -481,7 +494,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp, int 
         total_damage = std::min( total_damage, get_hp() + 1 );
     }
 
-    apply_damage(source, bp, side, total_damage);
+    apply_damage(source, bp, total_damage);
     if( is_dead_state() ) {
         die( source );
     }
@@ -1082,8 +1095,10 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * std::pow(hit_roll, 1.15) * 10);
     hit_weights[bp_head] = floor(hit_weights[bp_head] * std::pow(hit_roll, 1.15) * 10);
     hit_weights[bp_torso] = floor(hit_weights[bp_torso] * std::pow(hit_roll, 1) * 10);
-    hit_weights[bp_arms] = floor(hit_weights[bp_arms] * std::pow(hit_roll, 0.95) * 10);
-    hit_weights[bp_legs] = floor(hit_weights[bp_legs] * std::pow(hit_roll, 0.975) * 10);
+    hit_weights[bp_arm_l] = floor(hit_weights[bp_arm_l] * std::pow(hit_roll, 0.95) * 10);
+    hit_weights[bp_arm_r] = floor(hit_weights[bp_arm_r] * std::pow(hit_roll, 0.95) * 10);
+    hit_weights[bp_leg_l] = floor(hit_weights[bp_leg_l] * std::pow(hit_roll, 0.975) * 10);
+    hit_weights[bp_leg_r] = floor(hit_weights[bp_leg_r] * std::pow(hit_roll, 0.975) * 10);
 
 
     // Debug for seeing weights.
@@ -1091,8 +1106,10 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
         add_msg(m_info, "eyes = %f", hit_weights.at(bp_eyes));
         add_msg(m_info, "head = %f", hit_weights.at(bp_head));
         add_msg(m_info, "torso = %f", hit_weights.at(bp_torso));
-        add_msg(m_info, "arms = %f", hit_weights.at(bp_arms));
-        add_msg(m_info, "legs = %f", hit_weights.at(bp_legs));
+        add_msg(m_info, "arm_l = %f", hit_weights.at(bp_arm_l));
+        add_msg(m_info, "arm_r = %f", hit_weights.at(bp_arm_r));
+        add_msg(m_info, "leg_l = %f", hit_weights.at(bp_leg_l));
+        add_msg(m_info, "leg_r = %f", hit_weights.at(bp_leg_r));
     }
 
     double totalWeight = 0;

@@ -583,7 +583,7 @@ void iexamine::bars(player *p, map *m, int examx, int examy) {
     return;
  }
  if ( ((p->encumb(bp_torso)) >= 1) && ((p->encumb(bp_head)) >= 1) &&
-    ((p->encumb(bp_feet)) >= 1) ) { // Most likely places for rigid gear that would catch on the bars.
+    (p->encumb(bp_foot_l) >= 1 || p->encumb(bp_foot_r) >= 1) ) { // Most likely places for rigid gear that would catch on the bars.
     add_msg(m_info, _("Your amorphous body could slip though the %s, but your cumbersome gear can't."),m->tername(examx, examy).c_str());
     return;
  }
@@ -1002,7 +1002,8 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
     add_msg(m_bad, _("You fall asleep..."));
     p->fall_asleep(1200);
     add_msg(m_bad, _("Your legs are covered in the poppy's roots!"));
-    p->hurt(bp_legs, 0, 4);
+    p->hurt(bp_leg_l, 4);
+    p->hurt(bp_leg_r, 4);
     p->moves -=50;
   }
 
@@ -1110,16 +1111,16 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
                     if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_arms, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 1)) {
+                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
-                    if (one_in(4) && g->u.infect("spores", bp_legs, 3, 90, false, 1, 3, 120, 1, true, 0)) {
+                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
                         hit = true;
                     }
                     if (hit) {
