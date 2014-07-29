@@ -5629,7 +5629,7 @@
 {
     "type" : "MONSTER",
     "id" : "mon_hallu_multicooker",
-    "name": "Evil Multi-Cooker",
+    "name": "evil multi-cooker",
     "species":"HALLUCINATION",
     "symbol":";",
     "color":"red",
@@ -5651,7 +5651,7 @@
     "special_freq":20,
     "death_function":"DISAPPEAR",
     "special_attack":"DISAPPEAR",
-    "description":"Multi cooker",
+    "description":"The multi-cooker's got a mind of its own!  Look out!!",
     "flags":["SEES", "HEARS", "NO_BREATHE"]
     }
 ]
