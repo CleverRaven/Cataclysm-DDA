@@ -238,7 +238,6 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                 if ( kk < 126 ) { // see legacy_mon_id
                     // load->int->str->int (possibly shifted)
-                    //kk = monster_ints[ legacy_mon_id[ kk ] ];
                     linein >> kills[legacy_mon_id[kk]];
                 } else {
                     linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
@@ -356,7 +355,6 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                 if ( kk < 126 ) { // see legacy_mon_id
                     // load->int->str->int (possibly shifted)
-                    //kk = monster_ints[ legacy_mon_id[ kk ] ];
                     linein >> kills[legacy_mon_id[kk]];
                 } else {
                     linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.

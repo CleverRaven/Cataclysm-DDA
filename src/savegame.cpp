@@ -47,15 +47,10 @@ const int savegame_minver_game = 11;
 int savegame_loading_version = savegame_version;
 
 ////////////////////////////////////////////////////////////////////////////////////////
-///// on runtime populate lookup tables. This is temporary: monster_ints
-std::map<std::string, int> monster_ints;
+///// on runtime populate lookup tables.
 std::map<std::string, int> obj_type_id;
 
 void game::init_savedata_translation_tables() {
-    monster_ints.clear();
-    for(int i=0; i < num_monsters; i++) {
-        monster_ints[ monster_names[i] ] = i;
-    }
     obj_type_id.clear();
     for(int i = 0; i < NUM_OBJECTS; i++) {
         obj_type_id[ obj_type_name[i] ] = i;
