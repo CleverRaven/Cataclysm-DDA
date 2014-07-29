@@ -1684,7 +1684,7 @@ bool item::ready_to_revive()
             point p = g->find_item(this);
 
             const int distance = sqrt((p.x - g->u.posx) * (p.x - g->u.posx) + (p.y - g->u.posy) * (p.y - g->u.posy));
-            if (distance > 5) {
+            if (distance > 3) {
                 return false;
             }
             if (!one_in(distance + 1)) {
