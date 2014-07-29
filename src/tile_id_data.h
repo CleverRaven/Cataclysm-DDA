@@ -4,10 +4,8 @@
 #define toString(x) #x
 /*
 *********************************************************************************
-* Whenever the ter_id, trap_id, field_id, mon_id, furn_id, and/or vpart_id enum *
-* values are changed a corresponding change MUST be made in here or the tileset *
-* support will become offset (screws up later tiles), or if the id is added to  *
-* the end it will just not be shown                                             *
+* Whenever the field_id enum values are changed a corresponding change MUST be  *
+* made in here or tileset can not use that field.                               *
 *********************************************************************************
 */
 
