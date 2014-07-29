@@ -16,7 +16,7 @@
 enum dis_type_enum {
  DI_NULL,
 // Weather
-// Temperature, the order is important (dependant on bodypart.h)
+// Temperature, the order is important (dependent on bodypart.h)
  DI_COLD,
  DI_FROSTBITE,
  DI_HOT,
@@ -1512,7 +1512,7 @@ void dis_effect(player &p, disease &dis)
             // Default we get around 300 duration points per teleport (possibly more
             // depending on the source).
             // TODO: Include a chance to teleport to the nether realm.
-            // TODO: This this with regards to NPCS
+            // TODO: This with regards to NPCS
             if(&p != &(g->u)) {
                 // NO, no teleporting around the player because an NPC has teleglow!
                 return;
@@ -1847,7 +1847,7 @@ std::string dis_name(disease& dis)
                 case 2: return _("Cold foot!");
                 case 3: return _("Freezing foot!!");}
             case bp_eyes: // Eyes are not susceptible by this disease.
-            case num_bp: // Suppress compiler warninig [-Wswitch]
+            case num_bp: // Suppress compiler warning [-Wswitch]
                 break; // function return "" in this case
         }
 
@@ -1914,7 +1914,7 @@ std::string dis_name(disease& dis)
                 case 2: return _("Hot foot!");
                 case 3: return _("Scorching foot!!");}
             case bp_eyes: // Eyes are not susceptible by this disease.
-            case num_bp: // Suppress compiler warninig [-Wswitch]
+            case num_bp: // Suppress compiler warning [-Wswitch]
                 break; // function return "" in this case
         }
 

@@ -465,7 +465,7 @@ std::string calendar::day_of_week() const
         WEDNESDAY = 6
     };
 
-    // calendar::day gets mangled by season transitions, so reclaculate days since start.
+    // calendar::day gets mangled by season transitions, so recalculate days since start.
     int current_day = day % 7;
 
     std::string day_string;
@@ -481,7 +481,7 @@ std::string calendar::day_of_week() const
         day_string = _("Tuesday");
         break;
     case WEDNESDAY:
-        day_string = _("Wendsday");
+        day_string = _("Wednesday");
         break;
     case THURSDAY:
         day_string = _("Thursday");
