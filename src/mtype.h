@@ -75,7 +75,7 @@ enum mon_id {
     mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_hazmatbot, mon_copbot, mon_molebot,
     mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
     // Hallucinations
-    mon_hallu_mom,
+    mon_hallu_mom, mon_hallu_multicooker,
     // Special monsters
     mon_generator, mon_player_blob,
     // 0.8 -> 0.9

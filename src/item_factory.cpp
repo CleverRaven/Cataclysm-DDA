@@ -361,7 +361,7 @@ void Item_factory::init()
     iuse_function_list["RADIOCARON"] = &iuse::radiocaron;
     iuse_function_list["RADIOCONTROL"] = &iuse::radiocontrol;
 
-
+    iuse_function_list["MULTICOOKER"] = &iuse::multicooker;	
 
     create_inital_categories();
 }

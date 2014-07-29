@@ -7694,5 +7694,27 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "ECIG"
+  },
+  {
+    "type": "TOOL",
+    "id": "multi_cooker",
+    "symbol": ";",
+    "color": "red",
+    "name": "multi cooker",
+    "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
+    "price": 20000,
+    "material": ["steel", "plastic"],
+    "weight": 11339,
+    "volume": 15,
+    "bashing": -1,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 300,
+    "initial_charges": 300,
+    "charges_per_use": 0,
+    "turns_per_charge": 10,
+    "ammo": "battery",
+    "revert_to": "multi_cooker",
+    "use_action": "MULTICOOKER"
   }
 ]

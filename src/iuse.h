@@ -209,9 +209,11 @@ public:
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 
-	int radiocar(player *, item *, bool);
-	int radiocaron(player *, item *, bool);
-	int radiocontrol(player *, item *, bool);
+    int radiocar(player *, item *, bool);
+    int radiocaron(player *, item *, bool);
+    int radiocontrol(player *, item *, bool);
+
+    int multicooker(player *, item *, bool);
 
 
 // ARTIFACTS
