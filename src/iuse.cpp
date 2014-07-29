@@ -6603,10 +6603,11 @@ int iuse::large_tent(player *p, item *, bool)
     }
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-            g->m.furn_set(posx, posy, f_large_groundsheet);
+            g->m.furn_set(posx + i, posy + j, f_large_groundsheet);
         }
     }
-    g->m.furn_set((posx - (dirx - p->posx)) * 2, (posy - (diry - p->posy)) * 2, f_canvas_door);
+    g->m.furn_set(posx, posy, f_center_groundsheet);
+    g->m.furn_set(posx - ((dirx - p->posx) * 2), posy - ((diry - p->posy) * 2), f_canvas_door);
     add_msg(m_info, _("You set up the tent on the ground."));
     return 1;
 }

@@ -680,7 +680,7 @@ furn_id f_null,
     f_washer, f_dryer,
     f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
-    f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet, f_large_groundsheet,
+    f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet, f_center_groundsheet, f_large_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
     f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_bluebell,
     f_safe_c, f_safe_l, f_safe_o,
@@ -737,6 +737,7 @@ void set_furn_ids() {
     f_canvas_door=furnfind("f_canvas_door");
     f_canvas_door_o=furnfind("f_canvas_door_o");
     f_groundsheet=furnfind("f_groundsheet");
+    f_center_groundsheet=furnfind("f_center_groundsheet");
     f_large_groundsheet=furnfind("f_large_groundsheet");
     f_fema_groundsheet=furnfind("f_fema_groundsheet");
     f_skin_wall=furnfind("f_skin_wall");

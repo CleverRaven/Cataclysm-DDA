@@ -2460,6 +2460,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   if ("tent" == function_name) {
     return &iexamine::tent;
   }
+  if ("large_tent" == function_name) {
+    return &iexamine::large_tent;
+  }
   if ("shelter" == function_name) {
     return &iexamine::shelter;
   }
