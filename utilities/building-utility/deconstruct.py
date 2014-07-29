@@ -11,6 +11,8 @@
 
 import os
 
+_MAP_CELL_SIZE = 24
+
 
 def main():
     # initally clear overmap_terrain_entry.json
@@ -28,20 +30,18 @@ def main():
         for line in infile:
             lineCT = 0
 
-            # magic numbers: what are these actually?
-            magic_1 = 24
-            magic_2 = 735
+            while len(line) >= _MAP_CELL_SIZE:
+                mapList[lineCT] += '\t\t\t\t"' + line[:_MAP_CELL_SIZE] + '"'
 
-            while len(line) >= magic_1:
-                mapList[lineCT] += '\t\t\t\t"' + line[:magic_1] + '"'
-
-                if len(mapList[lineCT]) < magic_2:
+                # magic # of chars to know when to stop adding commas
+                if len(mapList[lineCT]) < 735:
                     mapList[lineCT] += ','
                 mapList[lineCT] += '\n'
 
-                line = line[24:]
+                line = line[_MAP_CELL_SIZE:]
                 lineCT += 1
 
+            # magic # of chars that shows no errors occured
             if len(mapList[0]) >= 760:
                 for line in mapList:
                     if len(line) > 20:
