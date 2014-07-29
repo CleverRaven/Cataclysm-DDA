@@ -899,7 +899,7 @@ int recipe::print_items(WINDOW *w, int ypos, int xpos, int width, nc_color col)
     return ypos - oldy;
 }
 
-int recipe::print_item(WINDOW *w, int ypos, int xpos, int width, nc_color col, const byproduct &bp)
+void recipe::print_item(WINDOW *w, int ypos, int xpos, int width, nc_color col, const byproduct &bp)
 {
     item it(bp.result, calendar::turn, false);
     std::string str = string_format(_("> %d %s"), bp.amount, it.tname().c_str());
