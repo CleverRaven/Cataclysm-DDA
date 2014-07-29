@@ -38,6 +38,8 @@ monster::monster()
  anger = 0;
  morale = 2;
  faction_id = -1;
+ my_fac = NULL;
+ fac_id = "";
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -71,6 +73,12 @@ monster::monster(mtype *t)
  anger = t->agro;
  morale = t->morale;
  faction_id = -1;
+ fac_id = type->fac_id;
+ if (fac_id != ""){
+    my_fac = g->faction_by_ident(fac_id);
+ } else {
+    my_fac = NULL;
+ }
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -103,6 +111,12 @@ monster::monster(mtype *t, int x, int y)
  anger = type->agro;
  morale = type->morale;
  faction_id = -1;
+ fac_id = type->fac_id;
+ if (fac_id != ""){
+    my_fac = g->faction_by_ident(fac_id);
+ } else {
+    my_fac = NULL;
+ }
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
