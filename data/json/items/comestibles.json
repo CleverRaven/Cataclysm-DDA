@@ -12377,7 +12377,7 @@
             "activation_message" : "You smoke your crack rocks.  Mother would be proud.",
             "diseases" : { "high": 15 },
             "stat_adjustments": {"hunger" : -10},
-            "fields_produced" : {"cracksmoke" : 2},
+            "fields_produced" : {"fd_cracksmoke" : 2},
             "charges_needed" : { "fire" : 1 },
             "tools_needed" : { "apparatus" : -1 }
         },

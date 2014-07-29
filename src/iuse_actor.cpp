@@ -281,8 +281,9 @@ long consume_drug_iuse::use(player *p, item *it, bool) const
         p->mod_stat( stat->first, stat->second );
     }
     for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
+        const field_id fid = field_from_ident( field->first );
         for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cracksmoke, 2);
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fid, field->second);
         }
     }
     // Output message.
