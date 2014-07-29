@@ -124,8 +124,12 @@ class game
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
         void draw_veh_dir_indicator(void);
+        /**
+         * Add an entry to @ref events. For further information see event.h
+         * @param x,y global submap coordinates.
+         */
         void add_event(event_type type, int on_turn, int faction_id = -1,
-                       int x = -1, int y = -1);
+                       int x = INT_MIN, int y = INT_MIN);
         bool event_queued(event_type type);
         /**
          * Sound at (x, y) of intensity (vol)
@@ -315,6 +319,7 @@ class game
         point find_item(item *it);
         void remove_item(item *it);
 
+        recipe_map list_recipes(){ return recipes; };
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
         std::list<item> consume_items(player *p, const std::vector<item_comp> &components);
         void consume_tools(player *p, const std::vector<tool_comp> &tools);
@@ -363,6 +368,10 @@ class game
         overmap *cur_om;
         map m;
         int levx, levy, levz; // Placement inside the overmap
+        /** Absolute values of lev[xyz] (includes the offset of cur_om) */
+        int get_abs_levx() const;
+        int get_abs_levy() const;
+        int get_abs_levz() const;
         player u;
         std::vector<monster> coming_to_stairs;
         int monstairx, monstairy, monstairz;

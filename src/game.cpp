@@ -712,7 +712,7 @@ void game::create_starting_npcs()
     tmp->normalize();
     tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
     // spawn the npc in the overmap, sets its overmap and submap coordinates
-    tmp->spawn_at(cur_om, levx, levy, levz);
+    tmp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
     tmp->posx = SEEX * int(MAPSIZE / 2) + SEEX;
     tmp->posy = SEEY * int(MAPSIZE / 2) + 6;
     tmp->form_opinion(&u);
@@ -4381,7 +4381,7 @@ void game::debug()
         npc *temp = new npc();
         temp->normalize();
         temp->randomize();
-        temp->spawn_at(cur_om, levx, levy, levz);
+        temp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
         temp->posx = u.posx - 4;
         temp->posy = u.posy - 4;
         temp->form_opinion(&u);
@@ -4408,7 +4408,7 @@ void game::debug()
         s += ngettext("%d event planned.", "%d events planned", events.size());
         popup_top(
             s.c_str(),
-            u.posx, u.posy, levx, levy,
+            u.posx, u.posy, get_abs_levx(), get_abs_levy(),
             otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
             int(calendar::turn), int(nextspawn),
             (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
@@ -13512,7 +13512,6 @@ void game::vertical_move(int movez, bool force)
 void game::update_map(int &x, int &y)
 {
     int shiftx = 0, shifty = 0;
-    int olevx = 0, olevy = 0;
 
     while (x < SEEX * int(MAPSIZE / 2)) {
         x += SEEX;
@@ -13535,25 +13534,8 @@ void game::update_map(int &x, int &y)
     levx += shiftx;
     levy += shifty;
 
-    if (levx < 0) {
-        levx += OMAPX * 2;
-        olevx = -1;
-    } else if (levx > OMAPX * 2 - 1) {
-        levx -= OMAPX * 2;
-        olevx = 1;
-    }
-
-    if (levy < 0) {
-        levy += OMAPY * 2;
-        olevy = -1;
-    } else if (levy > OMAPY * 2 - 1) {
-        levy -= OMAPY * 2;
-        olevy = 1;
-    }
-
-    if (olevx != 0 || olevy != 0) {
-        cur_om = &overmap_buffer.get(cur_om->pos().x + olevx, cur_om->pos().y + olevy);
-    }
+    real_coords rc( m.getabs( 0, 0 ) );
+    cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
 
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
@@ -13957,8 +13939,8 @@ void game::spawn_mon(int shiftx, int shifty)
         // to prevent NPCs appearing out of thin air.
         // This can be changed to let the NPC spawn further away,
         // so it does not became active immediately.
-        int msx = levx;
-        int msy = levy;
+        int msx = get_abs_levx();
+        int msy = get_abs_levy();
         switch (rng(0, 4)) { // on which side of the map to spawn
         case 0:
             msy += rng(0, MAPSIZE - 1);
@@ -13976,7 +13958,7 @@ void game::spawn_mon(int shiftx, int shifty)
             break;
         }
         // adds the npc to the correct overmap.
-        tmp->spawn_at(cur_om, msx, msy, levz);
+        tmp->spawn_at( msx, msy, levz );
         tmp->form_opinion(&u);
         tmp->mission = NPC_MISSION_NULL;
         int mission_index = reserve_random_mission(ORIGIN_ANY_NPC, om_location(), tmp->getID());
@@ -14483,8 +14465,7 @@ std::vector<faction *> game::factions_at(int x, int y)
 {
     std::vector<faction *> ret;
     for (size_t i = 0; i < factions.size(); i++) {
-        if (factions[i].omx == cur_om->pos().x && factions[i].omy == cur_om->pos().y &&
-            trig_dist(x, y, factions[i].mapx, factions[i].mapy) <= factions[i].size) {
+        if (trig_dist(x, y, factions[i].mapx, factions[i].mapy) <= factions[i].size) {
             ret.push_back(&(factions[i]));
         }
     }
@@ -14951,4 +14932,19 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
     if (net_speed != 0) {
         add_msg(m_info, _("Speed %s%d! "), (net_speed > 0 ? "+" : ""), net_speed);
     }
+}
+
+int game::get_abs_levx() const
+{
+    return levx + cur_om->pos().x * OMAPX * 2;
+}
+
+int game::get_abs_levy() const
+{
+    return levy + cur_om->pos().y * OMAPY * 2;
+}
+
+int game::get_abs_levz() const
+{
+    return levx;
 }

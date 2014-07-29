@@ -23,12 +23,9 @@ std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
 {
- idz = "";
- omx = 0;
- omy = 0;
- omz = 0;
  mapx = 0;
  mapy = 0;
+ mapz = 0;
  posx = -1;
  posy = -1;
  wandx = 0;
@@ -158,11 +155,9 @@ npc& npc::operator= (const npc & rhs)
  wandf = rhs.wandf;
 
  // Location:
- omx = rhs.omx;
- omy = rhs.omy;
- omz = rhs.omz;
  mapx = rhs.mapx;
  mapy = rhs.mapy;
+ mapz = rhs.mapz;
  plx = rhs.plx;
  ply = rhs.ply;
  plt = rhs.plt;
@@ -956,16 +951,16 @@ std::list<item> starting_inv(npc *me, npc_class type)
  return ret;
 }
 
-void npc::spawn_at(overmap *o, int x, int y, int z)
+void npc::spawn_at(int x, int y, int z)
 {
-    omx = o->pos().x;
-    omy = o->pos().y;
-    omz = z;
     mapx = x;
     mapy = y;
+    mapz = z;
     posx = rng(0, SEEX - 1);
     posy = rng(0, SEEY - 1);
-    o->npcs.push_back(this);
+    const point pos_om = overmapbuffer::sm_to_om_copy( mapx, mapy );
+    overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
+    om.npcs.push_back(this);
 }
 
 void npc::spawn_at_random_city(overmap *o)
@@ -980,7 +975,9 @@ void npc::spawn_at_random_city(overmap *o)
         x = o->cities[city_index].x + rng(-s, +s);
         y = o->cities[city_index].y + rng(-s, +s);
     }
-    spawn_at(o, x, y, 0);
+    x += o->pos().x * OMAPX * 2;
+    y += o->pos().y * OMAPY * 2;
+    spawn_at(x, y, 0);
 }
 
 tripoint npc::global_sm_location() const
@@ -999,30 +996,22 @@ tripoint npc::global_omt_location() const
 
 tripoint npc::global_square_location() const
 {
-    return tripoint(
-        ((omx * OMAPX * 2) + mapx) * SEEX + posx,
-        ((omy * OMAPY * 2) + mapy) * SEEY + posy,
-        omz
-    );
+    return tripoint( mapx * SEEX + posx, mapy * SEEY + posy, mapz );
 }
 
 void npc::place_on_map()
 {
-    point pos_sm(
-        mapx + omx * OMAPX * 2,
-        mapy + omy * OMAPY * 2);
-    point pos_lev(
-        g->levx + g->cur_om->pos().x * OMAPX * 2,
-        g->levy + g->cur_om->pos().y * OMAPY * 2);
-    // posx is used by the map, which assumes that it's relative
-    // to g->levx, therefore this makes pos_sm equal to pos_lev
-    // And because posx is relative to mapx (and pos_sm),
-    // posx is now relative to g->levx (pos_lev), too.
-    const int dmx = pos_sm.x - pos_lev.x;
-    const int dmy = pos_sm.y - pos_lev.y;
-    mapx -= dmx;
+    // The global absolute position (in map squares) of the npc is *always*
+    // "mapx * SEEX + posx" (analog for y).
+    // The main map assumes that pos[xy] is in its own (local to the main map)
+    // coordinate system. We have to change pos[xy] to match that assumption,
+    // but also have to change map[xy] to keep the global position of the npc
+    // unchanged.
+    const int dmx = mapx - g->get_abs_levx();
+    const int dmy = mapy - g->get_abs_levy();
+    mapx -= dmx; // == g->get_abs_levx()
     mapy -= dmy;
-    posx += dmx * SEEX;
+    posx += dmx * SEEX; // value of "mapx * SEEX + posx" is unchanged
     posy += dmy * SEEY;
 
     //places the npc at the nearest empty spot near (posx, posy). Searches in a spiral pattern for a suitable location.
@@ -1203,13 +1192,13 @@ void npc::perform_mission()
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
   if (int(calendar::turn) % 24 == 0) {
-   if (mapx > g->levx)
+   if (mapx > g->get_abs_levx())
     mapx--;
-   else if (mapx < g->levx)
+   else if (mapx < g->get_abs_levx())
     mapx++;
-   if (mapy > g->levy)
+   if (mapy > g->get_abs_levy())
     mapy--;
-   else if (mapy < g->levy)
+   else if (mapy < g->get_abs_levy())
     mapy++;
    attitude = NPCATT_DEFEND;
   }
@@ -1515,9 +1504,9 @@ std::vector<itype_id> npc::styles_offered_to(player *p)
 
 int npc::minutes_to_u() const
 {
- int ret = abs(mapx - g->levx);
- if (abs(mapy - g->levy) < ret)
-  ret = abs(mapy - g->levy);
+    // TODO: what about different z-levels?
+    int ret = square_dist( mapx, mapy, g->get_abs_levx(), g->get_abs_levy() );
+    // TODO: someone should explain this calculation. Is 24 supposed to be SEEX*2?
  ret *= 24;
  ret /= 10;
  while (ret % 5 != 0) // Round up to nearest five-minute interval
@@ -2097,41 +2086,27 @@ std::string npc::opinion_text() const
  return ret.str();
 }
 
-void npc::update_overmap_pos()
-{
-    tripoint pos_omt = global_omt_location();
-    // coordinate of the overmap the NPC should be on
-    point pos_om = overmapbuffer::omt_to_om_copy(pos_omt.x, pos_omt.y);
-    const int odx = pos_om.x - omx;
-    const int ody = pos_om.y - omy;
-    if (odx == 0 && ody == 0) {
-        // still one the same overmap, nothing to change
-        return;
-    }
-    overmap &new_om = overmap_buffer.get(pos_om.x, pos_om.y);
-    // remove this from old overmap
-    overmap &old_om = overmap_buffer.get(omx, omy);
-    std::vector<npc*>::iterator a = std::find(old_om.npcs.begin(), old_om.npcs.end(), this);
-    if (a != old_om.npcs.end()) {
-        old_om.npcs.erase(a);
-    }
-    // add this to new overmap
-    new_om.npcs.push_back(this);
-    // adjust omx, omy and mapx,mapy
-    // remember omx*OMAPX*2 + mapx must stay the same
-    mapx -= odx * OMAPX * 2;
-    mapy -= ody * OMAPY * 2;
-    omx += odx;
-    omy += ody;
-}
-
 void npc::shift(int sx, int sy)
 {
     posx -= sx * SEEX;
     posy -= sy * SEEY;
+    const point pos_om_old = overmapbuffer::sm_to_om_copy( mapx, mapy );
     mapx += sx;
     mapy += sy;
-    update_overmap_pos();
+    const point pos_om_new = overmapbuffer::sm_to_om_copy( mapx, mapy );
+    if( pos_om_old != pos_om_new ) {
+        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
+        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        auto a = std::find(om_old.npcs.begin(), om_old.npcs.end(), this);
+        if (a != om_old.npcs.end()) {
+            om_old.npcs.erase( a );
+            om_new.npcs.push_back( this );
+        } else {
+            // Don't move the npc pointer around to avoid having two overmaps
+            // with the same npc pointer
+            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+        }
+    }
     itx -= sx * SEEX;
     ity -= sy * SEEY;
     plx -= sx * SEEX;

@@ -206,6 +206,7 @@ const std::string monster_names[num_monsters] =
     toString(mon_exploder),
 
     toString(mon_hallu_mom),
+    toString(mon_hallu_multicooker),
 
     toString(mon_generator),
     toString(mon_player_blob),

@@ -31,8 +31,6 @@ faction::faction()
     crime = 0;
     cult = 0;
     good = 0;
-    omx = 0;
-    omy = 0;
     mapx = 0;
     mapy = 0;
     size = 0;
@@ -56,8 +54,6 @@ faction::faction(std::string uid)
     crime = 0;
     cult = 0;
     good = 0;
-    omx = 0;
-    omy = 0;
     mapx = 0;
     mapy = 0;
     size = 0;
@@ -299,32 +295,18 @@ void game::init_faction_data()
      */
 }
 
-std::string faction::save_info()
-{
-    std::stringstream dump;
-    dump << id << " " << values << " " << goal << " " << job1 << " " << job2 <<
-         " " << likes_u << " " << respects_u << " " << known_by_u << " " <<
-         strength << " " << sneak << " " << crime << " " << cult << " " <<
-         good << " " << omx << " " << omy << " " << mapx << " " << mapy <<
-         " " << size << " " << power << " ";
-    dump << opinion_of.size() << " ";
-    for (std::vector<int>::iterator it = opinion_of.begin();
-         it != opinion_of.end(); ++it) {
-        dump << *it << " ";
-    }
-    dump << desc;
-    dump << name;
-    return dump.str();
-}
-
 void faction::load_info(std::string data)
 {
     std::stringstream dump;
     int valuetmp, goaltmp, jobtmp1, jobtmp2;
+    int omx, omy;
     dump << data;
     dump >> id >> valuetmp >> goaltmp >> jobtmp1 >> jobtmp2 >> likes_u >>
          respects_u >> known_by_u >> strength >> sneak >> crime >> cult >>
          good >> omx >> omy >> mapx >> mapy >> size >> power;
+    // Make mapx/mapy global coordinate
+    mapx += omx * OMAPX * 2;
+    mapy += omy * OMAPY * 2;
     values = valuetmp;
     goal = faction_goal(goaltmp);
     job1 = faction_job(jobtmp1);
@@ -350,8 +332,6 @@ void faction::randomize()
 {
     // Set up values
     // TODO: Not always in overmap 0,0
-    omx = 0;
-    omy = 0;
     mapx = rng(OMAPX / 10, OMAPX - OMAPX / 10);
     mapy = rng(OMAPY / 10, OMAPY - OMAPY / 10);
     // Pick an overall goal.
@@ -466,8 +446,6 @@ void faction::randomize()
 void faction::make_army()
 {
     name = _("The army");
-    omx = 0;
-    omy = 0;
     mapx = OMAPX / 2;
     mapy = OMAPY / 2;
     size = OMAPX * 2;
@@ -590,9 +568,9 @@ std::string faction::describe()
 
 int faction::response_time()
 {
-    int base = abs(mapx - g->levx);
-    if (abs(mapy - g->levy) > base) {
-        base = abs(mapy - g->levy);
+    int base = abs(mapx - g->get_abs_levx());
+    if (abs(mapy - g->get_abs_levy()) > base) {
+        base = abs(mapy - g->get_abs_levy());
     }
     if (base > size) { // Out of our sphere of influence
         base *= 2.5;

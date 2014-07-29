@@ -2140,8 +2140,8 @@ void npc::reach_destination()
             if (path.size() > 1)
                 move_to_next();  //No point recalculating the path to get home
             else{
-                int pt1 = guardx - ((omx * OMAPX * 2) + mapx) * SEEX;
-                int pt2 = guardy - ((omx * OMAPY * 2) + mapy) * SEEY;
+                int pt1 = guardx - mapx * SEEX;
+                int pt2 = guardy - mapy * SEEY;
                 update_path(pt1, pt2);
                 move_to_next();
             }
