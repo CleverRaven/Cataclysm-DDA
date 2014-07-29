@@ -244,8 +244,6 @@ bool game::making_would_work(recipe *making)
 
 bool game::check_eligible_containers_for_crafting(recipe *making)
 {
-    //u.has_container_for(val)
-
     std::vector<item> conts = get_eligible_containers_for_crafting();
     std::vector<item> bps = making->create_byproducts();
     bps.push_back(making->create_result());
@@ -608,6 +606,7 @@ recipe *game::select_crafting_recipe()
                               (int)u.skillLevel(current[line]->skill_used));
                 }
                 ypos += current[line]->print_time(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col);
+                ypos += current[line]->print_items(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col);
             }
             if(display_mode == 0 || display_mode == 1) {
                 ypos += current[line]->print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv);
@@ -882,6 +881,32 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
     }
 
     wrefresh(w);
+}
+
+int recipe::print_items(WINDOW *w, int ypos, int xpos, int width, nc_color col)
+{
+    if(!has_byproducts()) {
+        return 0;
+    }
+
+    const int oldy = ypos;
+
+    mvwprintz(w, ypos++, xpos, col, _( "Byproducts:" ));
+    for (auto& bp : byproducts) {
+        print_item(w, ypos++, xpos, width, col, bp);
+    }
+
+    return ypos - oldy;
+}
+
+int recipe::print_item(WINDOW *w, int ypos, int xpos, int width, nc_color col, const byproduct &bp)
+{
+    item it(bp.result, calendar::turn, false);
+    std::string str = string_format(_("> %d %s"), bp.amount, it.tname().c_str());
+    if (it.charges > 0) {
+        str = string_format(_("%s (%d)"), str.c_str(), it.charges * bp.charges_mult);
+    }
+    mvwprintz(w, ypos, xpos, col, str.c_str());
 }
 
 inventory game::crafting_inventory(player *p)
