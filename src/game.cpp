@@ -7342,6 +7342,14 @@ bool game::revive_corpse(int x, int y, item *it)
         // Someone is in the way, try again later
         return false;
     }
+
+    const bool isReviveSpecial = it->has_flag("REVIVE_SPECIAL");
+    if (isReviveSpecial){
+        const int distance = sqrt((x - u.posx)*(x - u.posx) + (y - u.posy)*(y - posy));
+        if (distance > 5) return false;
+        if (!one_in(distance + 1)) return false;
+    }
+
     int burnt_penalty = it->burnt;
     monster critter(it->corpse, x, y);
     critter.speed = int(critter.speed * .8) - burnt_penalty / 2;

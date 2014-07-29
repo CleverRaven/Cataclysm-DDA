@@ -89,6 +89,7 @@ void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
 {
     init();
     active = mt->has_flag(MF_REVIVES)? true : false;
+    if (active && one_in(20)) item_tags.insert("REVIVE_SPECIAL");
     type = item_controller->find_template( new_type );
     corpse = mt;
     bday = turn;
