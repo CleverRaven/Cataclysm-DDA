@@ -196,7 +196,7 @@ void construction_menu()
             // Print instructions for toggling recipe hiding.
             mvwprintz(w_con, iMaxY - 2, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
 
-            // Print consruction name
+            // Print construction name
             mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
             // Print stages and their requirement
@@ -882,7 +882,7 @@ void construct::done_dig_stair(point p)
           g->u.mod_pain(4);
       }
       else {
-          add_msg(_("You dig into a preexsting space, and improvise a ladder."));
+          add_msg(_("You dig into a preexisting space, and improvise a ladder."));
           g->u.hunger += 20;
           g->u.fatigue += 30;
           g->u.thirst += 20;
@@ -1152,7 +1152,7 @@ void construct::done_mine_downstair(point p)
           g->u.mod_pain(4);
       }
       else {
-          add_msg(_("You mine into a preexsting space, and improvise a ladder."));
+          add_msg(_("You mine into a preexisting space, and improvise a ladder."));
           g->u.hunger += 30;
           g->u.fatigue += 40;
           g->u.thirst += 30;
@@ -1276,7 +1276,7 @@ void construct::done_mine_upstair(point p)
           g->u.mod_pain(5);
       }
       else {
-          add_msg(_("You drill up into a preexsting space."));
+          add_msg(_("You drill up into a preexisting space."));
           g->u.hunger += 40;
           g->u.fatigue += 50;
           g->u.thirst += 40;
