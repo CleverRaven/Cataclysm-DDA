@@ -29,73 +29,6 @@
 
 #include "iuse_software.h"
 
-void remove_double_ammo_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the double battery capacity mod of your %s!" ),
-                         it.tname().c_str() );
-    item mod( "battery_compartment", calendar::turn );
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "DOUBLE_AMMO" );
-    // Easier to remove all batteries than to check for the actual real maximum
-    if( it.charges > 0 ) {
-        item batteries( "battery", calendar::turn );
-        batteries.charges = it.charges;
-        it.charges = 0;
-        p.i_add_or_drop( batteries, 1 );
-    }
-}
-
-void remove_recharge_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "RECHARGE" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the rechargeable powerpack in your %s!" ),
-                         it.tname().c_str() );
-    item mod( "rechargeable_battery", calendar::turn );
-    mod.charges = it.charges;
-    it.charges = 0;
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "RECHARGE" );
-    it.item_tags.erase( "NO_UNLOAD" );
-}
-
-void remove_atomic_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "ATOMIC_AMMO" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the plutonium cells of your %s!" ), it.tname().c_str() );
-    item mod( "battery_atomic", calendar::turn );
-    p.i_add_or_drop( mod, 1 );
-    if( it.charges >= 2500 ) {
-        item plutonium( "plut_cell", calendar::turn );
-        plutonium.charges = it.charges / 2500;
-        p.i_add_or_drop( plutonium, 1 );
-        it.charges %= 2500;
-    }
-    it.item_tags.erase( "ATOMIC_AMMO" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "RADIOACTIVE" );
-    it.item_tags.erase( "LEAK_DAM" );
-}
-
-void remove_ups_mod( item &it, player &p )
-{
-    if( !it.has_flag( "USE_UPS" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the UPS Conversion Pack of your %s!" ), it.tname().c_str() );
-    item mod( "battery_ups", calendar::turn );
-    p.i_add_or_drop( mod, 1 );
-    it.charges = 0;
-    it.item_tags.erase( "USE_UPS" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "NO_RELOAD" );
-}
 
 static bool item_inscription(player *p, item *cut, std::string verb, std::string gerund,
                              bool carveable)
@@ -347,7 +280,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
                     mvwprintz(hp_window, i + 2, 15, color, health_bar.c_str());
                 }
             } else {
-                // curhp is 0; requires surgical attention
+                // curhp is 0; requires surgical action
                 mvwprintz(hp_window, i + 2, 15, c_dkgray, "-----");
             }
             mvwprintz(hp_window, i + 2, 20, c_dkgray, " -> ");
@@ -1059,8 +992,8 @@ int iuse::eyedrops(player *p, item *it, bool)
     } 
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
-    if (p->has_effect("boomered")) {
-        p->remove_effect("boomered");
+    if (p->has_disease("boomered")) {
+        p->rem_disease("boomered");
         p->add_msg_if_player(m_good, _("You wash the slime from your eyes."));
     }
     return it->type->charges_to_use();
@@ -1103,9 +1036,8 @@ int iuse::fungicide(player *p, item *it, bool)
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
                                         g->zombie(zid).name().c_str());
                             }
-                            monster &critter = g->zombie( zid );
-                            if( !critter.make_fungus() ) {
-                                critter.die( p ); // counts as kill by player
+                            if (!g->zombie(zid).make_fungus()) {
+                                g->kill_mon(zid);
                             }
                         } else {
                             spore.spawn(i, j);
@@ -1271,7 +1203,7 @@ int iuse::meth(player *p, item *it, bool)
     int duration = 10 * (60 - p->str_cur);
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         p->add_msg_if_player(m_neutral, _("You smoke your meth."));
-        p->add_msg_if_player(m_good, _("The world seems to sharpen."));
+        p->add_msg_if_player(m_good, ("The world seems to sharpen."));
         if (p->has_trait("TOLERANCE")) {
             duration *= 1.2;
         } else {
@@ -2380,6 +2312,7 @@ int iuse::sew(player *p, item *it, bool)
 
     std::vector<item_comp> comps;
     comps.push_back(item_comp(repair_item, items_needed));
+    comps.back().available = true;
 
     if (fix->damage > 0) {
         p->moves -= 500 * p->fine_detail_vision_mod();
@@ -2486,11 +2419,41 @@ int iuse::extra_battery(player *p, item *, bool)
         return 0;
     }
 
-    remove_atomic_mod(*modded, *p);
-    remove_recharge_mod(*modded, *p);
-    remove_ups_mod(*modded, *p);
+    if (modded->has_flag("ATOMIC_AMMO")) {
+        p->add_msg_if_player(
+            _("You replace the plutonium cells in your %s with a double capacity battery compartment!"),
+            tool->nname(1).c_str());
+        if (modded->charges >= 2500) {
+            g->m.spawn_item(p->posx, p->posy, "plut_cell", modded->charges / 2500);
+            modded->charges %= 2500;
+        }
+        g->m.spawn_item(p->posx, p->posy, "battery_atomic", 1, modded->charges);
+        modded->item_tags.erase("ATOMIC_AMMO");
+        modded->item_tags.erase("RADIOACTIVE");
+        modded->item_tags.erase("LEAK_DAM");
+        modded->item_tags.erase("NO_UNLOAD");
+        modded->charges = 0;
+    } else if (modded->has_flag("RECHARGE")) {
+        p->add_msg_if_player(
+            _("You replace the rechargeable battery pack of your %s with a double-capacity battery compartment!"),
+            tool->nname(1).c_str());
+        g->m.spawn_item(p->posx, p->posy, "rechargeable_battery", 1, modded->charges);
+        modded->charges = 0;
+        modded->item_tags.erase("RECHARGE");
+        modded->item_tags.erase("NO_UNLOAD");
+    } else if (modded->has_flag("USE_UPS")) {
+        p->add_msg_if_player(
+            _("You replace the UPS Conversion Pack of your %s with a double-capacity battery compartment!"),
+            tool->nname(1).c_str());
 
-    p->add_msg_if_player( _( "You double the battery capacity of your %s!" ), modded->tname().c_str() );
+        g->m.spawn_item(p->posx, p->posy, "battery_ups", 1, modded->charges);
+        modded->charges = -1;
+        modded->item_tags.erase("USE_UPS");
+        modded->item_tags.erase("NO_UNLOAD");
+        modded->item_tags.erase("NO_RELOAD");
+    } else {
+        p->add_msg_if_player(_("You double the battery capacity of your %s!"), tool->nname(1).c_str());
+    }
     modded->item_tags.insert("DOUBLE_AMMO");
     return 1;
 }
@@ -2520,13 +2483,43 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
         return 0;
     }
 
-    remove_atomic_mod(*modded, *p);
-    remove_ups_mod(*modded, *p);
-    remove_double_ammo_mod(*modded, *p);
-    remove_ammo( modded, *p ); // remove batteries, replaced by charges from mod
+    if (modded->has_flag("ATOMIC_AMMO")) {
+        p->add_msg_if_player(
+            _("You replace the plutonium cells in your %s with a rechargeable battery pack!"),
+            tool->nname(1).c_str());
+        if (modded->charges >= 2500) {
+            g->m.spawn_item(p->posx, p->posy, "plut_cell", modded->charges / 2500);
+            modded->charges %= 2500;
+        }
+        g->m.spawn_item(p->posx, p->posy, "battery_atomic", 1, modded->charges);
+        modded->item_tags.erase("ATOMIC_AMMO");
+        modded->item_tags.erase("RADIOACTIVE");
+        modded->item_tags.erase("LEAK_DAM");
+        modded->item_tags.erase("NO_UNLOAD");
+    } else if (modded->has_flag("USE_UPS")) {
+        p->add_msg_if_player(
+            _("You replace the UPS Conversion Pack of your %s with a rechargeable battery pack!"),
+            tool->nname(1).c_str());
 
-    p->add_msg_if_player( _( "You replace the battery compartment of your %s with a rechargeable battery pack!" ), modded->tname().c_str() );
+        g->m.spawn_item(p->posx, p->posy, "battery_ups", 1, modded->charges);
+        modded->charges = 0;
+        modded->item_tags.erase("USE_UPS");
+        modded->item_tags.erase("NO_UNLOAD");
+        modded->item_tags.erase("NO_RELOAD");
+    } else {
+        p->add_msg_if_player(
+            _("You replace the battery compartment of your %s with a rechargeable battery pack!"),
+            tool->nname(1).c_str());
+        if (modded->has_flag("DOUBLE_AMMO")) {
+            g->m.spawn_item(p->posx, p->posy, "battery_compartment", 1);
+            modded->item_tags.erase("DOUBLE_AMMO");
+        }
+        if (modded->charges > 0) {
+            g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+        }
+    }
     modded->charges = it->charges;
+
     modded->item_tags.insert("RECHARGE");
     modded->item_tags.insert("NO_UNLOAD");
     return 1;
@@ -2558,12 +2551,41 @@ int iuse::atomic_battery(player *p, item *it, bool)
         return 0;
     }
 
-    remove_double_ammo_mod( *modded, *p );
-    remove_recharge_mod( *modded, *p );
-    remove_ups_mod( *modded, *p );
-    remove_ammo( modded, *p ); // remove batteries, item::charges is now plutonium
+    // remove any existing battery mods
+    if (modded->has_flag("DOUBLE_AMMO") || modded->has_flag("RECHARGE")) {
+        if (modded->has_flag("DOUBLE_AMMO")) {
+            p->add_msg_if_player(_("You replace the conventional batteries in your %s with plutonium cells!"),
+                                 tool->nname(1).c_str());
+            g->m.spawn_item(p->posx, p->posy, "battery_compartment", 1);
+            modded->item_tags.erase("DOUBLE_AMMO");
+            if (modded->charges > 0) {
+                g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+            }
+        }
+        if (modded->has_flag("RECHARGE")) {
+            p->add_msg_if_player(_("You replace the rechargeable powerpack in your %s with plutonium cells!"),
+                                 tool->nname(1).c_str());
+            g->m.spawn_item(p->posx, p->posy, "rechargeable_battery", 1, modded->charges);
+            modded->item_tags.erase("RECHARGE");
+            modded->item_tags.erase("NO_UNLOAD");
+        }
+    } else if (modded->has_flag("USE_UPS")) {
+        p->add_msg_if_player(_("You replace the UPS Conversion Pack of your %s with plutonium cells!"),
+                             tool->nname(1).c_str());
 
-    p->add_msg_if_player( _( "You modify your %s to run off plutonium cells!" ), modded->tname().c_str() );
+        g->m.spawn_item(p->posx, p->posy, "battery_ups", 1, modded->charges);
+        modded->charges = 0;
+        modded->item_tags.erase("USE_UPS");
+        modded->item_tags.erase("NO_UNLOAD");
+        modded->item_tags.erase("NO_RELOAD");
+    } else {
+        p->add_msg_if_player(_("You modify your %s to run off plutonium cells!"),
+                             tool->nname(1).c_str());
+        if (modded->charges > 0) {
+            g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+        }
+    }
+
     modded->item_tags.insert("ATOMIC_AMMO");
     modded->item_tags.insert("RADIOACTIVE");
     modded->item_tags.insert("LEAK_DAM");
@@ -2595,18 +2617,45 @@ int iuse::ups_battery(player *p, item *, bool)
         p->add_msg_if_player(_("That item has already had its battery modded to use a UPS!"));
         return 0;
     }
-    if( modded->typeId() == "UPS_on" || modded->typeId() == "UPS_off" ||
-        modded->typeId() == "adv_UPS_on" || modded->typeId() == "adv_UPS_off" ) {
-        p->add_msg_if_player( _( "You want to power a UPS with another UPS?  Very clever." ) );
-        return 0;
+
+    // remove any existing battery mods
+    if (modded->has_flag("DOUBLE_AMMO") || modded->has_flag("RECHARGE")) {
+        if (modded->has_flag("DOUBLE_AMMO")) {
+            p->add_msg_if_player(
+                _("You replace the conventional batteries in your %s with a UPS conversion pack!"),
+                tool->nname(1).c_str());
+            g->m.spawn_item(p->posx, p->posy, "battery_compartment", 1);
+            modded->item_tags.erase("DOUBLE_AMMO");
+            if (modded->charges > 0) {
+                g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+            }
+        }
+        if (modded->has_flag("RECHARGE")) {
+            p->add_msg_if_player(
+                _("You replace the rechargeable powerpack in your %s with a UPS conversion pack!"),
+                tool->nname(1).c_str());
+            g->m.spawn_item(p->posx, p->posy, "rechargeable_battery", 1, modded->charges);
+            modded->item_tags.erase("RECHARGE");
+            modded->item_tags.erase("NO_UNLOAD");
+        }
+    } else if (modded->has_flag("ATOMIC_AMMO")) {
+        p->add_msg_if_player(_("You replace the plutonium cells of your %s with a UPS conversion pack!"),
+                             tool->nname(1).c_str());
+
+        g->m.spawn_item(p->posx, p->posy, "battery_atomic", 1, modded->charges);
+        modded->charges = 0;
+        modded->item_tags.erase("ATOMIC_AMMO");
+        modded->item_tags.erase("NO_UNLOAD");
+        modded->item_tags.erase("RADIOACTIVE");
+        modded->item_tags.erase("LEAK_DAM");
+    } else {
+        p->add_msg_if_player(_("You modify your %s to run off a UPS!"),
+                             tool->nname(1).c_str());
+        if (modded->charges > 0) {
+            g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+        }
     }
 
-    remove_double_ammo_mod(*modded, *p);
-    remove_recharge_mod(*modded, *p);
-    remove_atomic_mod(*modded, *p);
-    remove_ammo(modded, *p);
-
-    p->add_msg_if_player( _( "You modify your %s to run off a UPS!" ), modded->tname().c_str() );
     modded->item_tags.insert("USE_UPS");
     modded->item_tags.insert("NO_UNLOAD");
     modded->item_tags.insert("NO_RELOAD");
@@ -2626,8 +2675,11 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("You can't fish there!"));
         return 0;
     }
-    point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( dirx, diry ) );
-    if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+    // can't use g->om_global_location, because that gives the position
+    // of the player, not of (dirx, diry)
+    const int cursx = (g->levx + dirx / SEEX) / 2 + g->cur_om->pos().x * OMAPX;
+    const int cursy = (g->levy + diry / SEEY) / 2 + g->cur_om->pos().y * OMAPY;
+    if (!otermap[overmap_buffer.ter(cursx, cursy, g->levz)].is_river) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
         return 0;
     }
@@ -2776,9 +2828,11 @@ int iuse::extinguisher(player *p, item *it, bool)
             if (g->u_see(&(g->zombie(mondex)))) {
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
-            monster &critter = g->zombie( mondex );
-            critter.hurt( rng( 20, 60 ), 0, p );
-            critter.speed /= 2;
+            if (g->zombie(mondex).hurt(rng(20, 60))) {
+                g->kill_mon(mondex, (p == &(g->u)));
+            } else {
+                g->zombie(mondex).speed /= 2;
+            }
         }
     }
 
@@ -2984,12 +3038,12 @@ int iuse::solder_weld(player *p, item *it, bool)
     // Option for cauterization only if player has the incentive to do so
     // One does not check for open wounds with a soldering iron.
     if ((p->has_disease("bite") || p->has_disease("bleed")) && !p->is_underwater()) {
-        choice = menu(true, _("Using soldering item:"), _("Cauterize wound"),
+        choice = menu(true, ("Using soldering item:"), _("Cauterize wound"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     } else if (p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") ||
                p->has_trait("CENOBITE")) {
         // Masochists might be wounded too, let's not ask twice.
-        choice = menu(true, _("Using soldering item:"), _("Cauterize yourself for fun"),
+        choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"),
                       _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     }
 
@@ -3069,6 +3123,7 @@ int iuse::solder_weld(player *p, item *it, bool)
 
             std::vector<item_comp> comps;
             comps.push_back(item_comp(repair_item, items_needed));
+            comps.back().available = true;
 
             if (fix->damage > 0) {
                 p->moves -= 500 * p->fine_detail_vision_mod();
@@ -3235,10 +3290,7 @@ int iuse::two_way_radio(player *p, item *it, bool)
             g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
                                   pgettext("memorial_female", "Called for help from %s."),
                                   fac->name.c_str());
-            /* Disabled until event::faction_id and associated code
-             * is updated to accept a std::string.
-            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id);
-            */
+            g->add_event(EVENT_HELP, int(calendar::turn) + fac->response_time(), fac->id, -1, -1);
             fac->respects_u -= rng(0, 8);
             fac->likes_u -= rng(3, 5);
         } else if (bonus >= -5) {
@@ -3704,7 +3756,7 @@ int iuse::picklock(player *p, item *it, bool)
         if (it->damage >= 5) {
             sStatus = rm_prefix(_("<door_status>destroy"));
         }
-        p->add_msg_if_player(m_bad, _("The lock stumps your efforts to pick it, and you %s your tool."),
+        p->add_msg_if_player(m_bad, "The lock stumps your efforts to pick it, and you %s your tool.",
                              sStatus.c_str());
     } else {
         p->add_msg_if_player(m_bad, _("The lock stumps your efforts to pick it."));
@@ -3713,7 +3765,7 @@ int iuse::picklock(player *p, item *it, bool)
         it->damage < 100) {
         g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
         if (!g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
         }
     }
     // Special handling, normally the item isn't used up, but it is if broken.
@@ -3831,7 +3883,7 @@ int iuse::crowbar(player *p, item *it, bool)
                                   pgettext("memorial_female", "Set off an alarm."));
             g->sound(p->posx, p->posy, 40, _("An alarm sounds!"));
             if (!g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
+                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
             }
         }
     } else {
@@ -3906,9 +3958,9 @@ int iuse::siphon(player *p, item *it, bool)
     if (!foundv.empty()) {
         uimenu fmenu;
         fmenu.text = _("Fill what?");
-        fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
-        fmenu.addentry(_("Container"));
-        fmenu.addentry(_("Never mind"));
+        fmenu.addentry("Nearby vehicle (%d)", foundv.size());
+        fmenu.addentry("Container");
+        fmenu.addentry("Never mind");
         fmenu.query();
         if (fmenu.ret == 0) {
             if (foundv.size() > 1) {
@@ -3932,7 +3984,7 @@ int iuse::siphon(player *p, item *it, bool)
         add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s",
                          "Siphoned %d units of %s from the %s into the %s%s", got), got,
                 "gasoline", veh->name.c_str(), fillv->name.c_str(),
-                (got < want ? _(", draining the tank completely.") : _(", receiving tank is full.")));
+                (got < want ? ", draining the tank completely." : ", receiving tank is full."));
         p->moves -= 200;
     } else {
         if (p->siphon(veh, "gasoline")) {
@@ -5018,7 +5070,7 @@ int iuse::granade_act(player *, item *it, bool t)
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
-                            g->zombie( zid ).hurt( 9999 ); // trigger exploding
+                            g->explode_mon(zid);
                         }
                     }
                 }
@@ -5386,7 +5438,7 @@ int iuse::mininuke(player *p, item *it, bool)
 {
     int time = query_int(_("Set the timer to (0 to cancel)?"));
     if (time <= 0) {
-        p->add_msg_if_player(_("Never mind."));
+        p->add_msg_if_player("Never mind.");
         return 0;
     }
     p->add_msg_if_player(_("You set the timer to %d."), time);
@@ -5728,7 +5780,9 @@ int iuse::tazer(player *p, item *it, bool)
         p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
         int shock = rng(5, 25);
         z->moves -= shock * 100;
-        z->hurt( shock, 0, p );
+        if (z->hurt(shock)) {
+            g->kill_mon(mondex, (p == &(g->u)));
+        }
         return it->type->charges_to_use();
     }
 
@@ -5751,7 +5805,7 @@ int iuse::tazer(player *p, item *it, bool)
         foe->moves -= shock * 100;
         foe->hurtall(shock);
         if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-            foe->die( p );
+            foe->die(true);
             g->active_npc.erase(g->active_npc.begin() + npcdex);
         }
     }
@@ -5822,7 +5876,10 @@ int iuse::tazer2(player *p, item *it, bool)
             p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
             int shock = rng(5, 25);
             z->moves -= shock * 100;
-            z->hurt( shock, 0, p );
+
+            if (z->hurt(shock)) {
+                g->kill_mon(mondex, (p == &(g->u)));
+            }
 
             return 100;
         }
@@ -5851,7 +5908,7 @@ int iuse::tazer2(player *p, item *it, bool)
             foe->hurtall(shock);
 
             if (foe->hp_cur[hp_head] <= 0 || foe->hp_cur[hp_torso] <= 0) {
-                foe->die( p );
+                foe->die(true);
                 g->active_npc.erase(g->active_npc.begin() + npcdex);
             }
         }
@@ -6167,114 +6224,12 @@ int iuse::vacutainer(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-void make_zlave(player *p)
-{
-    std::vector<item> &items = g->m.i_at(p->posx, p->posy);
-    std::vector<item *> corpses;
-
-    const int cancel = 0;
-
-    for (int i = 0; i < items.size(); i++) {
-        item &it = items[i];
-
-        if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
-            it.corpse->sym == "Z" && it.active && it.item_vars["zlave"] == "") {
-            corpses.push_back(&it);
-        }
-    }
-
-    if (corpses.empty()) {
-        p->add_msg_if_player(_("No suitable corpses"));
-        return;
-    }
-
-    int tolerance_level = 9;
-    if( p->has_trait("PSYCHOPATH") || p->has_trait("SAPIOVORE") ) {
-        tolerance_level = 0;
-    } else if( p->has_trait("PRED4") ) {
-        tolerance_level = 5;
-    } else if( p->has_trait("PRED3") ) {
-        tolerance_level = 7;
-    }
-
-    const bool tolerance = p->skillLevel("survival") > tolerance_level;
-
-    if (!tolerance && p->morale_level() <= -150) {
-        add_msg(m_neutral, _("It's too awful."));
-        return;
-    }
-
-    uimenu amenu;
-
-    amenu.selected = 0;
-    amenu.text = _("Selectively butcher the downed zombie into a zlave?");
-    amenu.addentry(cancel, true, 'q', _("Cancel"));
-    for (int i = 0; i < corpses.size(); i++) {
-        amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
-    }
-
-    amenu.query();
-
-    if (cancel == amenu.ret) {
-        p->add_msg_if_player(_("Make love, not zlave."));
-        return;
-    }
-
-    if (tolerance) {
-
-        if (p->has_trait("PSYCHOPATH")) {
-            add_msg(m_neutral, _("Meh. Saves you having to carry stuff."));
-        } else {
-            add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
-        }
-    } else {
-
-        add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
-
-        int moraleMalus = -50 * (5.0 / (float) p->skillLevel("survival"));
-        int maxMalus = -250 * (5.0 / (float)p->skillLevel("survival"));
-        int duration = 300 * (5.0 / (float)p->skillLevel("survival"));
-        int decayDelay = 30 * (5.0 / (float)p->skillLevel("survival"));
-
-        if (g->u.has_trait("PACIFIST")) {
-            moraleMalus *= 5;
-            maxMalus *= 3;
-        } else if (g->u.has_trait("PRED1")) {
-            moraleMalus /= 4;
-        } else if (g->u.has_trait("PRED2")) {
-            moraleMalus /= 5;
-        }
-
-        g->u.add_morale(MORALE_MUTILATE_CORPSE, moraleMalus, maxMalus, duration, decayDelay);
-    }
-
-    const int selected_corpse = amenu.ret - 1;
-
-    item *body = corpses[selected_corpse];
-    mtype *mt = body->corpse;
-
-    int hard = body->damage * 10 + mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
-               (1 + mt->melee_cut) * (1 + mt->melee_sides);
-    int skills = p->skillLevel("survival") * p->int_cur + p->skillLevel("firstaid") * p->int_cur *
-                 p->dex_cur / 3;
-
-    int success = skills - hard - rng(1, 100);
-
-    const int moves = hard * 1200 / p->skillLevel("firstaid");
-
-    p->assign_activity(ACT_MAKE_ZLAVE, moves);
-    p->activity.values.push_back(success);
-    p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
-    p->moves = 0;
-}
-
 int iuse::knife(player *p, item *it, bool t)
 {
     int choice = -1;
     const int cut_fabric = 0;
     const int carve_writing = 1;
     const int cauterize = 2;
-    const int make_slave = 3;
     const int cancel = 4;
     int pos;
 
@@ -6294,11 +6249,6 @@ int iuse::knife(player *p, item *it, bool t)
                             !p->is_underwater()) ? _("Cauterize") : _("Cauterize...for FUN!"));
         }
     }
-
-    if( p->skillLevel("survival") > 4 && p->skillLevel("firstaid") > 3 ) {
-        kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
-    }
-
     kmenu.addentry(cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;
@@ -6316,9 +6266,6 @@ int iuse::knife(player *p, item *it, bool t)
         pos = g->inv(_("Chop up what?"));
     } else if (choice == carve_writing) {
         pos = g->inv(_("Carve writing on what?"));
-    } else if (choice == make_slave) {
-        make_zlave(p);
-        return 0;
     } else {
         return 0;
     }
@@ -6414,7 +6361,7 @@ int iuse::knife(player *p, item *it, bool t)
                              "You carve the %1$s into %2$i %3$ss.", count),
                     cut->tname().c_str(), count, result->tname().c_str());
         } else {
-            add_msg(m_bad, _("You clumsily carve the %s into useless pieces."),
+            add_msg(m_bad, "You clumsily carve the %s into useless pieces.",
                     cut->tname().c_str());
         }
     } else {
@@ -6423,7 +6370,7 @@ int iuse::knife(player *p, item *it, bool t)
                                      "You cut the %1$s into %2$i %3$ss.", count),
                     cut->tname().c_str(), count, result->tname().c_str());
         } else {
-            add_msg(m_bad, _("You clumsily cut the %s into useless pieces."),
+            add_msg(m_bad, "You clumsily cut the %s into useless pieces.",
                     cut->tname().c_str());
         }
     }
@@ -6501,8 +6448,7 @@ int iuse::hacksaw(player *p, item *it, bool)
     }
 
     const ter_id ter = g->m.ter( dirx, diry );
-    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-        ter == t_chaingate_l) {
+    if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ) {
             p->moves -= 500;
             g->m.ter_set(dirx, diry, t_dirt);
             g->sound(dirx, diry, 15, _("grnd grnd grnd"));
@@ -6566,6 +6512,51 @@ int iuse::tent(player *p, item *, bool)
     }
     g->m.furn_set(posx, posy, f_groundsheet);
     g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
+    add_msg(m_info, _("You set up the tent on the ground."));
+    return 1;
+}
+
+int iuse::large_tent(player *p, item *, bool)
+{
+    int dirx, diry;
+    if(!choose_adjacent(_("Pitch the tent towards where (5x5 clear area)?"), dirx, diry)) {
+        return 0;
+    }
+
+    //must place the center of the tent three spaces away from player
+    //dirx and diry will be integratined with the player's position
+    int posx = dirx - p->posx;
+    int posy = diry - p->posy;
+    if(posx == 0 && posy == 0) {
+        p->add_msg_if_player(m_info, _("Invalid Direction"));
+        return 0;
+    }
+    posx = posx * 3 + p->posx;
+    posy = posy * 3 + p->posy;
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
+                g->m.has_furn(posx + i, posy + j)) {
+                add_msg(m_info, _("You need a 5x5 flat space to place a tent."));
+                return 0;
+            }
+        }
+    }
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            g->m.furn_set(posx + i, posy + j, f_canvas_wall);
+        }
+    }
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            g->m.furn_set(posx + i, posy + j, f_large_groundsheet);
+        }
+    }
+    // f_center_groundsheet instead of f_large_groundsheet so the
+    // iexamine function for the tent works properly
+    g->m.furn_set(posx, posy, f_center_groundsheet);
+    g->m.furn_set(posx - ((dirx - p->posx) * 2), posy - ((diry - p->posy) * 2), f_canvas_door);
+    g->m.furn_set((posx - (dirx - p->posx) * 2), (posy - (diry - p->posy) * 2), f_canvas_door);
     add_msg(m_info, _("You set up the tent on the ground."));
     return 1;
 }
@@ -7271,7 +7262,7 @@ int iuse::hotplate(player *p, item *it, bool)
     if ((p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ||
          p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) && !p->is_underwater()) {
         //Might want to cauterize
-        choice = menu(true, _("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
+        choice = menu(true, ("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
     }
 
     if (choice == 1) {
@@ -7792,10 +7783,9 @@ int iuse::unfold_generic(player *p, item *it, bool)
 int iuse::adrenaline_injector(player *p, item *it, bool)
 {
     p->moves -= 100;
-    p->add_msg_if_player(_("You inject yourself with adrenaline."));
+    p->add_msg_if_player("You inject yourself with adrenaline.");
 
-    item syringe( "syringe", it->bday );
-    p->i_add( syringe );
+    p->inv.add_item_by_type("syringe");
     if (p->has_disease("adrenaline")) {
         //Increase current surge by 3 minutes (if not on comedown)
         p->add_disease("adrenaline", 30);
@@ -7869,12 +7859,12 @@ int iuse::contacts(player *p, item *it, bool)
         return 0;
     }
     int duration = rng(80640, 120960); // Around 7 days.
-    if (p->has_effect("contacts")) {
+    if (p->has_disease("contacts")) {
         if (query_yn(_("Replace your current lenses?"))) {
             p->moves -= 200;
             p->add_msg_if_player(_("You replace your current %s."), it->tname().c_str());
-            p->remove_effect("contacts");
-            p->add_effect("contacts", duration);
+            p->rem_disease("contacts");
+            p->add_disease("contacts", duration);
             return it->type->charges_to_use();
         } else {
             p->add_msg_if_player(_("You don't do anything with your %s."), it->tname().c_str());
@@ -7883,7 +7873,7 @@ int iuse::contacts(player *p, item *it, bool)
     } else if (p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC") || p->has_trait("URSINE_EYE")) {
         p->moves -= 200;
         p->add_msg_if_player(_("You put the %s in your eyes."), it->tname().c_str());
-        p->add_effect("contacts", duration);
+        p->add_disease("contacts", duration);
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player(m_info, _("Your vision is fine already."));
@@ -8102,8 +8092,8 @@ int iuse::robotcontrol(player *p, item *it, bool)
             } else if (success >= -2) { //A near success
                 p->add_msg_if_player(_("The %s short circuits as you attempt to reprogram it!"),
                                      z->name().c_str());
-                z->hurt( rng( 1, 10 ), 0, p ); //damage it a little
-                if( z->is_dead() ) {
+                if (z->hurt(rng(1, 10))) { //damage it a little
+                    g->kill_mon(pick_robot.ret, p == &(g->u));
                     p->practice("computer", 10);
                     return it->type->charges_to_use(); //dont do the other effects if the robot died
                 }
@@ -8343,7 +8333,7 @@ int iuse::radiocontrol(player *p, item *it, bool t)
     }
 
     choice = menu(true, _("What do with radiocontrol:"), _("Nothing"), car_action,
-                  _("Press red button"), _("Press blue button"), _("Press green button"), NULL);
+                  "Press red button", "Press blue button", "Press green button", NULL);
 
     if (choice == 1) {
         return 0;

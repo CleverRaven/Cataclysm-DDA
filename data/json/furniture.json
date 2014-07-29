@@ -946,6 +946,25 @@
         "examine_action": "tent"
     },{
         "type" : "furniture",
+        "id" : "f_large_groundsheet",
+        "name": "groundsheet",
+        "symbol": ";",
+        "color": "green",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "INDOORS"]
+    },{
+        "type" : "furniture",
+        "id" : "f_center_groundsheet",
+        "name": "groundsheet",
+        "symbol": ";",
+        "color": "green",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "INDOORS"],
+        "examine_action": "large_tent"
+    },{
+        "type" : "furniture",
         "id" : "f_fema_groundsheet",
         "name": "groundsheet",
         "symbol": ";",
