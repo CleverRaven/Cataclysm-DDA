@@ -121,8 +121,8 @@ void game::load_static_data()
     was_fullscreen = false;
 
     // These functions do not load stuff from json.
-    // The content they load/initalize is hardcoded into the program.
-    // Therfor they can be loaded here.
+    // The content they load/initialize is hardcoded into the program.
+    // Therefore they can be loaded here.
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
     init_body_parts();
@@ -729,7 +729,7 @@ void game::cleanup_at_end()
 {
     write_msg();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
-        // Save the factions's, missions and set the NPC's overmap coords
+        // Save the factions', missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
         save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
 
@@ -989,15 +989,15 @@ void game::calc_driving_offset(vehicle *veh)
     // velocity at or above this results in maximal offset
     static const float max_offset_vel = 70 * 100;
     // The maximal offset will leave at least this many tiles
-    // beetween the PC and the edge of the main window.
+    // between the PC and the edge of the main window.
     static const int border_range = 2;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
     if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
         veh->player_in_control(&u)) {
         // Use the cruise controlled velocity, but only if
-        // it is not too different from the actuall velocity.
-        // The actuall velocity changes too often (see above slowdown).
+        // it is not too different from the actual velocity.
+        // The actual velocity changes too often (see above slowdown).
         // Using it makes would make the offset change far too often.
         offset = veh->face_vec();
         velocity = veh->cruise_velocity;
@@ -1900,7 +1900,7 @@ void game::activity_on_finish_vehicle()
     //Grab this now, in case the vehicle gets shifted
     vehicle *veh = m.veh_at(u.activity.values[0], u.activity.values[1]);
     complete_vehicle();
-    // complete_vehicle set activity tpye to NULL if the vehicle
+    // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
     if (u.activity.type == ACT_NULL) {
@@ -5651,7 +5651,7 @@ unsigned char game::light_level()
     for (std::vector<event>::iterator it = events.begin();
          it != events.end(); ++it) {
         // The EVENT_DIM event slowly dims the sky, then relights it
-        // EVENT_DIM has an occurance date of turn + 50, so the first 25 dim it
+        // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it
         if (it->type == EVENT_DIM) {
             int turns_left = it->turn - int(calendar::turn);
             if (turns_left > 25) {
@@ -8377,7 +8377,7 @@ bool zlave_menu(monster *z)
         g->u.moves -= 150;
 
         if (!one_in(3)) {
-            g->u.add_msg_if_player(_("You tear out the pheremone ball from the zlave."));
+            g->u.add_msg_if_player(_("You tear out the pheromone ball from the zlave."));
 
             item ball("pheromone", 0);
             iuse pheromone;
@@ -8510,7 +8510,7 @@ void game::advanced_inv()
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
-//represents carfully peeking around a corner, hence the large move cost.
+//represents carefully peeking around a corner, hence the large move cost.
 void game::peek(int peekx, int peeky)
 {
     int prevx, prevy;
@@ -9579,7 +9579,7 @@ void game::reset_item_list_state(WINDOW *window, int height)
     refresh_all();
 }
 
-//returns the first non prority items.
+//returns the first non priority items.
 int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities)
 {
     //TODO:optimize if necessary
@@ -11852,7 +11852,7 @@ void game::reload()
     }
 }
 
-// Unload a containter, gun, or tool
+// Unload a container, gun, or tool
 // If it's a gun, some gunmods can also be loaded
 void game::unload(int pos)
 {
