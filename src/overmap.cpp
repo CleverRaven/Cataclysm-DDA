@@ -854,32 +854,6 @@ point overmap::find_note(int const x, int const y, int const z, std::string cons
     return ret;
 }
 
-void overmap::remove_vehicle(int id)
-{
-    std::map<int, om_vehicle>::iterator om_veh = vehicles.find(id);
-    if (om_veh != vehicles.end()) {
-        vehicles.erase(om_veh);
-    }
-
-}
-
-int overmap::add_vehicle(vehicle *veh)
-{
-    int id = vehicles.size() + 1;
-    // this *should* be unique but just in case
-    while ( vehicles.count(id) > 0 ) {
-        id++;
-    }
-
-    om_vehicle tracked_veh;
-    tracked_veh.x = veh->omap_x() / 2;
-    tracked_veh.y = veh->omap_y() / 2;
-    tracked_veh.name = veh->name;
-    vehicles[id] = tracked_veh;
-
-    return id;
-}
-
 point overmap::display_notes(int z)
 {
     const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes(z);
@@ -1426,18 +1400,6 @@ bool overmap::generate_sub(int const z)
         requires_sub = true;
     }
     return requires_sub;
-}
-
-void overmap::make_tutorial()
-{
-    for (int i = 0; i < OMAPX; i++) {
-        for (int j = 0; j < OMAPY; j++) {
-            ter(i, j, -1) = "rock";
-        }
-    }
-    ter(50, 50, 0) = "tutorial";
-    ter(50, 50, -1) = "tutorial";
-    zg.clear();
 }
 
 extern bool lcmatch(const std::string& text, const std::string& pattern);

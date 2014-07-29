@@ -262,7 +262,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Up Window",
-        "difficulty" : 5,
+        "difficulty" : 4,
         "time" : 10,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
@@ -277,7 +277,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Up Empty Window",
-        "difficulty" : 5,
+        "difficulty" : 4,
         "time" : 10,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset" ]
