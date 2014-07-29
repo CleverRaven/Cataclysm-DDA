@@ -70,7 +70,7 @@ struct recipe : public requirements {
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
-    item create_result(int handed = 0) const;
+    item create_result(int handed = NONE) const;
 
     bool can_make_with_inventory(const inventory& crafting_inv) const;
 };

@@ -28,7 +28,7 @@ item::item()
     init();
 }
 
-item::item(const std::string new_type, unsigned int turn, bool rand, std::string handed)
+item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
 {
     init();
     type = item_controller->find_template( new_type );
@@ -81,9 +81,9 @@ item::item(const std::string new_type, unsigned int turn, bool rand, std::string
         covers = armor->covers;
         if (armor->sided != 0) {
             bool side = rng(0,1);
-            if (handed == "RIGHT") {
+            if (handed == RIGHT) {
                 side = 1;
-            } else if (handed == "LEFT") {
+            } else if (handed == LEFT) {
                 side = 0;
             }
             if (side) {
@@ -1306,7 +1306,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str("");
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”. %2$s: burn adjectives (eg. “burnt”). %3$s: tool modifier text (eg. “atomic”). %4$s: vehicle part text (eg. “3.8-Liter”. $5$s: main item text (eg. “apple”), %6$s: tags (eg. “ (wet) (fits)”).
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”. %2$s: burn adjectives (eg. “burnt”). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. “atomic”). %5$s: vehicle part text (eg. “3.8-Liter”. $6$s: main item text (eg. “apple”), %7$s: tags (eg. “ (wet) (fits)”).
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
                          sidedtext.c_str(), toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(),
                          tagtext.c_str());

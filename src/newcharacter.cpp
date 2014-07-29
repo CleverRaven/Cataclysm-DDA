@@ -445,7 +445,7 @@ bool player::create(character_type type, std::string tempname)
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
-        tmp = item(*iter, 0, false, "LEFT");
+        tmp = item(*iter, 0, false, LEFT);
         tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
@@ -456,7 +456,7 @@ bool player::create(character_type type, std::string tempname)
             
             // If item is part of a pair give a second one for the other side
             if (tmp.has_flag("PAIRED")) {
-                tmp2 = item(*iter, 0, false, "RIGHT");
+                tmp2 = item(*iter, 0, false, RIGHT);
                 if(tmp2.has_flag("VARSIZE")) {
                     tmp2.item_tags.insert("FIT");
                 }

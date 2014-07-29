@@ -21,6 +21,12 @@ enum body_part {
     num_bp
 };
 
+enum handedness {
+    NONE,
+    LEFT,
+    RIGHT
+};
+
 std::string body_part_name(body_part bp);
 std::string body_part_name_accusative(body_part bp);
 std::string encumb_text(body_part bp);

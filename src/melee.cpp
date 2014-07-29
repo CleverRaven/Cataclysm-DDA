@@ -1300,7 +1300,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         thing_blocked_with = weapon.tname();
         handle_melee_wear();
     } else if (can_limb_block()) {
-        //Choose which body part to block with, use left side as a place holder
+        //Choose which body part to block with, assume left side first
         if (can_leg_block() && can_arm_block()) {
             bp_hit = one_in(2) ? bp_leg_l : bp_arm_l;
         } else if (can_leg_block()) {

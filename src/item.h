@@ -62,7 +62,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true, std::string handed = "");
+ item(const std::string new_type, unsigned int turn, bool rand = true, int handed = 0);
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
  item(std::string itemdata);

@@ -923,13 +923,7 @@ void game::make_all_craft(recipe *making)
 
 item recipe::create_result(int handed) const
 {
-    std::string handed_str = "";
-    if (handed == 1) {
-        handed_str = "LEFT";
-    } else if (handed == 2) {
-        handed_str = "RIGHT";
-    }
-    item newit(result, calendar::turn, false, handed_str);
+    item newit(result, calendar::turn, false, handed);
     if (result_mult != 1) {
         newit.charges *= result_mult;
     }
