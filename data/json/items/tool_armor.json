@@ -149,7 +149,7 @@
         "need_charges": 1,
         "need_charges_msg": "The %s's batteries are dead."
     },
-    "covers" : ["FOOT"],
+    "covers" : ["FEET"],
     "storage" : 0,
     "warmth" : 10,
     "environmental_protection" : 0,
@@ -186,7 +186,7 @@
         "msg": "Your %s deactivates.",
         "target": "thermal_socks"
     },
-    "covers" : ["FOOT"],
+    "covers" : ["FEET"],
     "storage" : 0,
     "warmth" : 60,
     "environmental_protection" : 0,
@@ -302,7 +302,7 @@
         "need_charges": 1,
         "need_charges_msg": "The %s's batteries are dead."
     },
-    "covers" : ["HAND"],
+    "covers" : ["HANDS"],
     "storage" : 0,
     "warmth" : 10,
     "environmental_protection" : 0,
@@ -339,7 +339,7 @@
         "msg": "Your %s deactivates.",
         "target": "thermal_gloves"
     },
-    "covers" : ["HAND"],
+    "covers" : ["HANDS"],
     "storage" : 0,
     "warmth" : 60,
     "environmental_protection" : 0,
