@@ -654,7 +654,7 @@ void npc::deserialize(JsonIn &jsin)
 
     json_load_common_variables(data);
 
-    int misstmp, classtmp, flagstmp, atttmp, tmpid;
+    int misstmp, classtmp, flagstmp, atttmp;
     std::string facID;
 
     data.read("name",name);
@@ -947,7 +947,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     if ( save_contents ) {
         json.member("inv");
         json.start_array();
-        for(int i=0;i<inv.size();i++) {
+        for(size_t i=0;i<inv.size();i++) {
             inv[i].serialize(json, true);
         }
         json.end_array();
@@ -1120,7 +1120,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( save_contents && !contents.empty() ) {
         json.member("contents");
         json.start_array();
-        for (int k = 0; k < contents.size(); k++) {
+        for (size_t k = 0; k < contents.size(); k++) {
             if(!(contents[k].contents.empty()) && contents[k].contents[0].is_gunmod()) {
                 contents[k].serialize(json, true); // save gun mods of holstered pistol
             } else {
