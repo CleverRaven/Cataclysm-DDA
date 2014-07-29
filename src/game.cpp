@@ -7342,7 +7342,6 @@ bool game::revive_corpse(int x, int y, item *it)
         // Someone is in the way, try again later
         return false;
     }
-
     int burnt_penalty = it->burnt;
     monster critter(it->corpse, x, y);
     critter.speed = int(critter.speed * .8) - burnt_penalty / 2;
