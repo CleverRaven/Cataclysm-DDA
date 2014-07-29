@@ -1676,6 +1676,21 @@ bool item::ready_to_revive()
     int rez_factor = 48 - age_in_hours;
     if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
     {
+        const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
+        if (isReviveSpecial)
+        {
+
+            point p = g->find_item(this);
+
+            const int distance = sqrt((p.x - g->u.posx) * (p.x - g->u.posx) + (p.y - g->u.posy) * (p.y - g->u.posy));
+		    if (distance > 5) {
+                return false;
+            }
+		    if (!one_in(distance + 1)) {
+		        return false;
+            }
+        }
+
         return true;
     }
     return false;
