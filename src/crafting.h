@@ -103,8 +103,8 @@ struct recipe : public requirements {
 
     bool can_make_with_inventory(const inventory& crafting_inv) const;
 
-    int print_items(WINDOW *w, int ypos, int xpos, int width, nc_color col);
-    void print_item(WINDOW *w, int ypos, int xpos, int width, nc_color col, const byproduct &bp);
+    int print_items(WINDOW *w, int ypos, int xpos, nc_color col);
+    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp);
 };
 
 typedef std::vector<recipe *> recipe_list;

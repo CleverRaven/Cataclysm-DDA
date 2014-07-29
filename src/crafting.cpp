@@ -606,7 +606,7 @@ recipe *game::select_crafting_recipe()
                               (int)u.skillLevel(current[line]->skill_used));
                 }
                 ypos += current[line]->print_time(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col);
-                ypos += current[line]->print_items(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col);
+                ypos += current[line]->print_items(w_data, ypos, 30, col);
             }
             if(display_mode == 0 || display_mode == 1) {
                 ypos += current[line]->print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv);
@@ -883,7 +883,7 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
     wrefresh(w);
 }
 
-int recipe::print_items(WINDOW *w, int ypos, int xpos, int width, nc_color col)
+int recipe::print_items(WINDOW *w, int ypos, int xpos, nc_color col)
 {
     if(!has_byproducts()) {
         return 0;
@@ -893,13 +893,13 @@ int recipe::print_items(WINDOW *w, int ypos, int xpos, int width, nc_color col)
 
     mvwprintz(w, ypos++, xpos, col, _( "Byproducts:" ));
     for (auto& bp : byproducts) {
-        print_item(w, ypos++, xpos, width, col, bp);
+        print_item(w, ypos++, xpos, col, bp);
     }
 
     return ypos - oldy;
 }
 
-void recipe::print_item(WINDOW *w, int ypos, int xpos, int width, nc_color col, const byproduct &bp)
+void recipe::print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp)
 {
     item it(bp.result, calendar::turn, false);
     std::string str = string_format(_("> %d %s"), bp.amount, it.tname().c_str());
