@@ -26,11 +26,16 @@ faction::faction()
     goal = FACGOAL_NULL;
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
+    good = 0;
     strength = 0;
     sneak = 0;
     crime = 0;
     cult = 0;
-    good = 0;
+    food_chain = 0;
+    robot_affinity = 0;
+    fungus_affinity = 0;
+    plant_affinity = 0;
+    undead_affinity = 0;
     mapx = 0;
     mapy = 0;
     size = 0;
@@ -49,11 +54,16 @@ faction::faction(std::string uid)
     goal = FACGOAL_NULL;
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
+    good = 0;
     strength = 0;
     sneak = 0;
     crime = 0;
     cult = 0;
-    good = 0;
+    food_chain = 0;
+    robot_affinity = 0;
+    fungus_affinity = 0;
+    plant_affinity = 0;
+    undead_affinity = 0;
     mapx = 0;
     mapy = 0;
     size = 0;
@@ -79,7 +89,12 @@ void faction::load_faction(JsonObject &jsobj)
     fac.sneak = jsobj.get_int("sneak");
     fac.crime = jsobj.get_int("crime");
     fac.cult = jsobj.get_int("cult");
-    fac.desc = jsobj.get_string("desc");
+    fac.food_chain = jsobj.get_int("food_chain");
+    fac.robot_affinity = jsobj.get_int("robot_affinity");
+    fac.fungus_affinity = jsobj.get_int("fungus_affinity");
+    fac.plant_affinity = jsobj.get_int("plant_affinity");
+    fac.undead_affinity = jsobj.get_int("undead_affinity");
+    fac.desc = jsobj.get_string("description");
     _all_faction[jsobj.get_string("id")] = fac;
 }
 
@@ -111,6 +126,11 @@ void faction::load_faction_template(std::string ident)
         sneak = found->second.sneak;
         crime = found->second.crime;
         cult = found->second.cult;
+        food_chain = found->second.food_chain;
+        robot_affinity = found->second.robot_affinity;
+        fungus_affinity = found->second.fungus_affinity;
+        plant_affinity = found->second.plant_affinity;
+        undead_affinity = found->second.undead_affinity;
         desc = found->second.desc;
 
         return;
@@ -303,7 +323,9 @@ void faction::load_info(std::string data)
     dump << data;
     dump >> id >> valuetmp >> goaltmp >> jobtmp1 >> jobtmp2 >> likes_u >>
          respects_u >> known_by_u >> strength >> sneak >> crime >> cult >>
-         good >> omx >> omy >> mapx >> mapy >> size >> power;
+         good >> omx >> omy >> mapx >> mapy >> size >> power >>
+         food_chain >> robot_affinity >> fungus_affinity >> plant_affinity >>
+         undead_affinity;
     // Make mapx/mapy global coordinate
     mapx += omx * OMAPX * 2;
     mapy += omy * OMAPY * 2;
@@ -533,6 +555,32 @@ bool faction::matches_us(faction_value v)
          (avgcult <= -5 && facval_data[v].cult <= -1))) {
         return true;
     }
+    return false;
+}
+
+bool faction::faction_hostile(faction *&fac)
+{
+    if ((good == 1 && fac->good == -1) || (good == -1 && fac->good == 1))
+        return true;
+    if ((crime == 1 && fac->crime == -1) || (crime == -1 && fac->crime == 1))
+        return true;
+    if ((cult == 1 && fac->cult != 1) || (fac->cult == 1))
+        return true;
+    if (food_chain != fac->food_chain)
+        if (food_chain > 0 || fac->food_chain > 0)
+            return true;
+    if (robot_affinity == 2 || fac->robot_affinity == 2)
+        if (robot_affinity == 0 || fac->robot_affinity == 0)
+            return true;
+    if (fungus_affinity == 2 || fac->fungus_affinity == 2)
+        if (fungus_affinity == 0 || fac->fungus_affinity == 0)
+            return true;
+    if (plant_affinity == 2 || fac->plant_affinity == 2)
+        if (plant_affinity == 0 || fac->plant_affinity == 0)
+            return true;
+    if (undead_affinity == 2 || fac->undead_affinity == 2)
+        if (undead_affinity == 0 || fac->undead_affinity == 0)
+            return true;
     return false;
 }
 
