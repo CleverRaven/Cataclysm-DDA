@@ -1357,10 +1357,8 @@ void faction::deserialize(JsonIn &jsin)
 
     jo.read("id", id);
     jo.read("name", name);
-    if ( !jo.read( "desc", desc )){
+    if ( !jo.read( "description", desc )){
         desc = "";
-    } else {
-        jo.read("desc", desc);
     }
     goal = faction_goal(jo.get_int("goal", goal));
     values = jo.get_int("values", values);
@@ -1374,6 +1372,36 @@ void faction::deserialize(JsonIn &jsin)
     jo.read("crime", crime);
     jo.read("cult", cult);
     jo.read("good", good);
+    if ( !jo.read( "food_chain", food_chain )){
+        food_chain = 0;
+    }else{
+        jo.read("food_chain", food_chain);
+    }
+
+    if ( !jo.read( "robot_affinity", robot_affinity )){
+        robot_affinity = 0;
+    }else{
+        jo.read("robot_affinity", robot_affinity);
+    }
+
+    if ( !jo.read( "fungus_affinity", fungus_affinity )){
+        fungus_affinity = 0;
+    }else{
+        jo.read("fungus_affinity", fungus_affinity);
+    }
+
+    if ( !jo.read( "plant_affinity", plant_affinity )){
+        plant_affinity = 0;
+    }else{
+        jo.read("plant_affinity", plant_affinity);
+    }
+
+    if ( !jo.read( "undead_affinity", undead_affinity )){
+        undead_affinity = 0;
+    }else{
+        jo.read("undead_affinity", undead_affinity);
+    }
+
     jo.read("mapx", mapx);
     jo.read("mapy", mapy);
     // omx,omy are obsolete, use them (if present) to make mapx,mapy global coordinates
@@ -1397,7 +1425,7 @@ void faction::serialize(JsonOut &json) const
 
     json.member("id", id);
     json.member("name", name);
-    json.member("desc", desc);
+    json.member("description", desc);
     json.member("values", values);
     json.member("goal", goal);
     json.member("job1", job1);
@@ -1410,6 +1438,11 @@ void faction::serialize(JsonOut &json) const
     json.member("crime", crime);
     json.member("cult", cult);
     json.member("good", good);
+    json.member("food_chain", food_chain);
+    json.member("robot_affinity", robot_affinity);
+    json.member("fungus_affinity", fungus_affinity);
+    json.member("plant_affinity", plant_affinity);
+    json.member("undead_affinity", undead_affinity);
     json.member("mapx", mapx);
     json.member("mapy", mapy);
     json.member("size", size);
