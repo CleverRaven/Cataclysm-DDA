@@ -240,6 +240,17 @@ public:
  bool conductive() const; // Electricity
  bool flammable() const;
 
+    /**
+     * Check whether the item has been marked (by calling mark_as_used_by_player)
+     * as used by this specific player.
+     */
+    bool already_used_by_player(const player &p) const;
+    /**
+     * Marks the item as being used by this specific player, it remains unmarked
+     * for other players. The player is identified by its id.
+     */
+    void mark_as_used_by_player(const player &p);
+
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
  int get_free_mod_locations(const std::string &location) const;
