@@ -885,7 +885,9 @@ public:
     stats get_stats() const; // for serialization
     void mod_stat( std::string stat, int modifier );
 
- int getID () const;
+    int getID () const;
+    // sets the ID, will *only* succeed when the current id is 0 (=not initialized)
+    void setID (int i);
 
  bool is_underwater() const;
  void set_underwater(bool);
@@ -937,8 +939,6 @@ protected:
     int sight_max;
     int sight_boost;
     int sight_boost_cap;
-
-    void setID (int i);
     
 private:
     // Items the player has identified.

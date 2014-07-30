@@ -240,6 +240,17 @@ public:
  bool conductive() const; // Electricity
  bool flammable() const;
 
+    /**
+     * Check whether the item has been marked (by calling mark_as_used_by_player)
+     * as used by this specific player.
+     */
+    bool already_used_by_player(const player &p) const;
+    /**
+     * Marks the item as being used by this specific player, it remains unmarked
+     * for other players. The player is identified by its id.
+     */
+    void mark_as_used_by_player(const player &p);
+
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
  int get_free_mod_locations(const std::string &location) const;
@@ -266,6 +277,8 @@ public:
  bool is_book() const;
  bool is_container() const;
  bool is_watertight_container() const;
+ bool is_container_empty() const;
+ bool is_container_full() const;
  bool is_funnel_container(unsigned int &bigger_than) const;
 
  bool is_tool() const;
@@ -277,6 +290,7 @@ public:
  bool is_artifact() const;
 
  int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
+ int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
 

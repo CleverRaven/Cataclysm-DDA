@@ -64,7 +64,6 @@ npc::npc()
       aSkill != Skill::skills.end(); ++aSkill) {
    set_skill_level(*aSkill, 0);
  }
-    setID(-1);
 }
 
 npc::npc(const npc &rhs):player() { *this = rhs; }

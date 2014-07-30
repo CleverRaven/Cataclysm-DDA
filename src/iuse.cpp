@@ -3468,7 +3468,7 @@ static void roadmap_targets(player *, item *, bool,
 
 int iuse::roadmap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3495,12 +3495,13 @@ int iuse::roadmap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and points of interest to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::survivormap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3525,12 +3526,13 @@ int iuse::survivormap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and possible supply points to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::militarymap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3557,12 +3559,13 @@ int iuse::militarymap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and facilities to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::restaurantmap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3587,12 +3590,13 @@ int iuse::restaurantmap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and restaurants to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::touristmap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3617,7 +3621,8 @@ int iuse::touristmap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and tourist attractions to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::ma_manual(player *p, item *it, bool)

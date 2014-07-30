@@ -108,6 +108,34 @@
   ]
 },{
         "type" : "recipe",
+  "result": "lard",
+  "byproducts": { "id" : "cracklins", "charges_mult" : 2 },
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "cooking_oil",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -471,7 +499,8 @@
     ],
     [
       [ "cooking_oil", -1 ],
-      [ "tallow", -1 ]
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
     ]
   ],
   "components": [
@@ -654,7 +683,8 @@
     ],
     [
       [ "fat", 3 ],
-      [ "tallow", 3 ]
+      [ "tallow", 3 ],
+      [ "lard", 3 ]
     ],
     [
       [ "salt", 1 ],
@@ -806,7 +836,8 @@
     ],
     [
       [ "fat", 3 ],
-      [ "tallow", 3 ]
+      [ "tallow", 3 ],
+      [ "lard", 3 ]
     ],
     [
       [ "salt", 1 ],
@@ -2154,7 +2185,8 @@
   ],
   "components": [
     [
-      [ "tallow", 2 ]
+      [ "tallow", 2 ],
+      [ "lard", 2 ]
     ],
     [
       [ "jerky", 6 ],
@@ -2718,7 +2750,8 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ]
   ]
 },{
@@ -2745,7 +2778,8 @@
   "components": [
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "cornmeal", 1 ],
@@ -2946,7 +2980,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ]
   ]
 },{
@@ -2987,7 +3022,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ]
   ]
 },{
@@ -3379,7 +3415,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3424,7 +3461,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3485,7 +3523,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3537,7 +3576,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3585,7 +3625,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3647,7 +3688,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "sugar", 1 ]
@@ -6819,7 +6861,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],

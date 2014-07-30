@@ -594,6 +594,7 @@ void game::start_game(std::string worldname)
     if (!load_master(worldname)) { // Master data record contains factions.
         create_factions();
     }
+    u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
     cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
     // Find a random house on the map, and set us there.
@@ -3950,6 +3951,23 @@ void game::load(std::string worldname, std::string name)
     load_uistate(worldname);
 
     update_map(u.posx, u.posy);
+
+    // legacy, needs to be here as we access the map.
+    if( u.getID() == 0 || u.getID() == -1 ) {
+        // player does not have a real id, so assign a new one,
+        u.setID( assign_npc_id() );
+        // The vehicle stores the IDs of the boarded players, so update it, too.
+        if( u.in_vehicle ) {
+            int vpart;
+            vehicle *veh = m.veh_at( u.posx, u.posy, vpart );
+            if( veh != nullptr ) {
+                vpart = veh->part_with_feature( vpart, "BOARDABLE" );
+                if( vpart >= 0 ) {
+                    veh->parts[vpart].passenger_id = u.getID();
+                }
+            }
+        }
+    }
 
     u.reset();
     draw();
@@ -13535,7 +13553,12 @@ void game::update_map(int &x, int &y)
     levy += shifty;
 
     real_coords rc( m.getabs( 0, 0 ) );
-    cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
+    if( cur_om->pos() != rc.abs_om ) {
+        // lev[xy] must stay relative to cur_om, if we change cur_om, we have to change lev[xy]
+        levx += ( cur_om->pos().x - rc.abs_om.x ) * OMAPX * 2;
+        levy += ( cur_om->pos().y - rc.abs_om.y ) * OMAPY * 2;
+        cur_om = &overmap_buffer.get( rc.abs_om.x, rc.abs_om.y );
+    }
 
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
@@ -13850,14 +13873,16 @@ void game::update_stair_monsters()
 
 void game::force_save_monster(monster &critter)
 {
-    real_coords rc(m.getabs(critter.posx(), critter.posy()));
-    critter.spawnmapx = rc.om_sub.x;
-    critter.spawnmapy = rc.om_sub.y;
-    critter.spawnposx = rc.sub_pos.x;
-    critter.spawnposy = rc.sub_pos.y;
+    point ms = m.getabs( critter.posx(), critter.posy() );
+    point sm = overmapbuffer::ms_to_sm_remain( ms );
+
+    critter.spawnmapx = 0; // only needs to be != -1, see map::add_spawn
+    critter.spawnmapy = 0;
+    critter.spawnposx = ms.x; // this value is really used, not spawnmapy
+    critter.spawnposy = ms.y;
 
     tinymap tmp;
-    tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false, cur_om);
+    tmp.load_abs( sm.x, sm.y, levz, false );
     tmp.add_spawn(&critter);
     tmp.save();
 }
@@ -13876,21 +13901,10 @@ void game::despawn_monsters(const int shiftx, const int shifty)
             } else {
                 if ((critter.spawnmapx != -1) || critter.getkeep() ||
                     ((shiftx != 0 || shifty != 0) && critter.friendly != 0)) {
-                    // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
-                    real_coords rc(m.getabs(critter.posx(),
-                                            critter.posy())); // still madness, bud handles straddling omap and -/+
-                    critter.spawnmapx = rc.om_sub.x;
-                    critter.spawnmapy = rc.om_sub.y;
-                    critter.spawnposx = rc.sub_pos.x;
-                    critter.spawnposy = rc.sub_pos.y;
+                    force_save_monster( critter );
 
                     // We're saving him, so there's no need to keep anymore.
                     critter.setkeep(false);
-
-                    tinymap tmp;
-                    tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false, cur_om);
-                    tmp.add_spawn(&critter);
-                    tmp.save();
                 } else {
                     // No spawn site, so absorb them back into a group.
                     int group = valid_group((critter.type->id), levx + shiftx, levy + shifty, levz);
