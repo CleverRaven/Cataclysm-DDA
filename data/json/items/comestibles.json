@@ -6982,7 +6982,7 @@
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 10,
-        "description" : "Left-over from juicing the fruit. Not very tasty, but contains lot of healthy fiber.",
+        "description" : "Left-over from juicing the fruit. Not very tasty, but contains a lot of healthy fiber.",
         "price" : 1000,
         "material" : "fruit",
         "tool" : "null",
