@@ -1677,13 +1677,14 @@ bool item::ready_to_revive()
     int rez_factor = 48 - age_in_hours;
     if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
     {
+        // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
         if (isReviveSpecial)
         {
 
             point p = g->find_item(this);
 
-            const int distance = sqrt((p.x - g->u.posx) * (p.x - g->u.posx) + (p.y - g->u.posy) * (p.y - g->u.posy));
+            const int distance = rl_dist(p.x, p.y, g->u.posx, g->u.posy);
             if (distance > 3) {
                 return false;
             }
