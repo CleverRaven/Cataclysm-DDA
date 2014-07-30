@@ -1220,6 +1220,22 @@
     "to_hit": -3
   },
 
+  { 
+    "type":"GENERIC",
+    "id": "largebroketent",
+    "symbol": ";",
+    "color": "green",
+    "name": "large damaged tent",
+    "description": "A family sized tent, very bulky but with plenty of space. This tent is broken and can not be deployed.",
+    "price": 10000,
+    "material": ["plastic", "aluminum"],
+    "weight": 2266,
+    "volume": 40,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -3
+  },
+
   {
     "type":"GENERIC",
     "id": "element",
