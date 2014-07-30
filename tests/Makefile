@@ -14,9 +14,10 @@ SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
 
 ODIR := obj
 
-LDFLAGS += -L. -ltap++ -lboost_regex -lpthread
+LDFLAGS += -L.
 
-CXXFLAGS += -I../src
+# Catch sections throw unused variable warnings
+CXXFLAGS += -I../src -Wno-unused-variable
 
 LD := $(CROSS)g++
 
