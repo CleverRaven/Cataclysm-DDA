@@ -1665,5 +1665,48 @@
     ],
 	  [[ "char_kiln", 1 ]]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "multi_cooker",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 90000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      ["processor", 1]
+    ],
+    [
+      ["RAM", 1]
+    ],
+    [
+      ["cable", 8]
+    ],
+    [
+      [ "element", 4 ]
+    ],
+    [
+      ["amplifier", 1]
+    ],
+    [
+      [ "power_supply", 4 ]
+    ],
+    [
+      ["plastic_chunk", 12]
+    ],
+    [
+      ["e_scrap", 4]
+    ],
+    [
+      ["scrap", 10]
+    ]
+  ]
 }
 ]
