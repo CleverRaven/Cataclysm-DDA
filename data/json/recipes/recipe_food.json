@@ -592,7 +592,8 @@
       [ "irradiated_apple", 1 ],
       [ "apple", 1 ],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ]
   ]
 },{
@@ -1805,6 +1806,7 @@
 },{
         "type" : "recipe",
   "result": "oj",
+  "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -1827,6 +1829,7 @@
 },{
         "type" : "recipe",
   "result": "apple_cider",
+  "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2199,6 +2202,7 @@
     [
       [ "dry_veggy", 2 ],
       [ "dry_fruit", 2 ],
+      [ "juice_pulp", 4 ],
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
       [ "cherries", 1 ],
@@ -3235,7 +3239,8 @@
       [ "blackberries", 1 ],
       [ "irradiated_pomegranate", 1],
       [ "pomegranate", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -3274,6 +3279,7 @@
     ],
     [
       [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
@@ -3482,7 +3488,8 @@
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ]
   ]
 },{
@@ -3646,7 +3653,8 @@
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ]
   ]
 },{
@@ -3855,7 +3863,8 @@
       [ "irradiated_apricot", 1],
       [ "apricot", 1 ],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ]
   ]
 },{
@@ -3887,7 +3896,8 @@
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ],
     [
       [ "seasoning_italian", 20 ],
@@ -3965,7 +3975,8 @@
       [ "irradiated_papaya", 2 ],
       [ "irradiated_apricot", 2 ],
       [ "irradiated_kiwi", 2 ],
-      [ "dry_fruit", 2 ]
+      [ "dry_fruit", 2 ],
+      [ "juice_pulp", 4 ]
     ],
     [
       [ "sugar", 2 ]
@@ -6765,6 +6776,7 @@
 },{
         "type" : "recipe",
   "result": "juice",
+  "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
