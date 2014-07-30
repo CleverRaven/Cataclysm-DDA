@@ -4922,7 +4922,8 @@
       ["canister_goo", 8],
       ["recipe_labchem", 2],
       ["recipe_creepy", 2],
-      ["recipe_chimera", 2]
+      ["recipe_animal", 1],
+      ["recipe_chimera", 1]
     ]
   },{
     "type" : "item_group",
