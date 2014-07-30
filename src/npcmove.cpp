@@ -431,7 +431,8 @@ void npc::choose_monster_target(int &enemy, int &danger,
 
     for (int i = 0; i < g->num_zombies(); i++) {
         monster *mon = &(g->zombie(i));
-        if (this->sees(mon, linet)) {
+        if (this->sees(mon, linet) &&
+            (mon->my_fac != NULL && this->my_fac != NULL && this->my_fac->faction_hostile(mon->my_fac))) {
             int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) /
                            mon->speed;
             double hp_percent = (mon->type->hp - mon->hp) / mon->type->hp;
