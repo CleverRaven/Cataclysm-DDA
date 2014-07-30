@@ -7697,9 +7697,9 @@
     "max_charges": 5,
     "initial_charges": 0,
     "charges_per_use": 0,
-    "turns_per_charge": 1000,
+    "turns_per_charge": 5000,
     "ammo": "fish_bait",
-    "revert_to": "null",
+    "revert_to": "fish_trap",
     "use_action": "FISH_TRAP"
   }
 ]
