@@ -6591,7 +6591,7 @@ int iuse::large_tent(player *p, item *, bool)
         for (int j = -2; j <= 2; j++) {
             if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
                 g->m.has_furn(posx + i, posy + j)) {
-                add_msg(m_info, _("You need a 5x5 flat space to place a tent."));
+                add_msg(m_info, _("You need a 5x5 flat space to place this tent."));
                 return 0;
             }
         }
