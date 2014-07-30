@@ -5,22 +5,56 @@
     "name" : "Your Followers",
     "likes_u" : 60,
     "respects_u" : 60,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
+    "comment" : "Good is a measure of general hospitality towards strangers and traditional morals.",
+    "comment" : "-1 is a group that preys on others while +1 represents one that seeks to protect others.",
     "good" : 0,
+    "comment" : "Strength is a measure of how aggression is viewed in the group.",
+    "comment" : "-1 is a group that disapproves of you killing anyone, +1 represents one that is overjoyed when ",
+    "comment" : "you kill someone they don't like.",
     "strength" : 1,
+    "comment" : "Sneak is not implemented, ability to perform certain faction missions more successfully.",
     "sneak" : 0,
+    "comment" : "Crime is a measue of the OVERT unlawfullness of the group.",
+    "comment" : "+1 is a group that targets others and approves of you killing lawfull NPCs",
+    "comment" : "-1 is a group that detests crime and approves of you killing unlawfull NPCs",
     "crime" : -1,
+    "comment" : "Cult refers to the specific newage group that seeks a kind of immortality in harmony",
+    "comment" : "with some of the otherworld monsters.",
+    "comment" : "+1 is a group that has embraced the cataclysm",
+    "comment" : "-1 is a group that is dedicated to removing the cult",
     "cult" : -1,
-    "desc" : "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
+    "comment" : "food_chain is where a monster sits... in the food chain",
+    "comment" : "+2 is a top teir predator that targets everything lower",
+    "comment" : "+1 is a low teir predator that targets everything lower",
+    "comment" : "-1 is a herbivore that doesn't hunt, flees from above",
+    "food_chain" : 0,
+    "comment" : "robotic_security is for turrets and security bots",
+    "comment" : "+2 targets anything with a zero value",
+    "comment" : "+1 is friendly to everyone",
+    "robot_affinity" : 0,
+    "comment" : "fungus_affinity is for fungal monsters",
+    "comment" : "+2 targets anything with a zero value",
+    "comment" : "+1 is friendly to everyone",
+    "fungus_affinity" : 0,
+    "comment" : "plant_affinity is for triffid/plant monsters",
+    "comment" : "+2 targets anything with a zero value",
+    "comment" : "+1 is friendly to everyone",
+    "plant_affinity" : 0,
+    "comment" : "undead_affinity is for zombie monsters",
+    "comment" : "+2 targets anything with a zero value",
+    "comment" : "+1 is friendly to everyone",
+    "undead_affinity" : 0,
+    "description" : "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },{
     "type" : "faction",
     "id" : "old_guard",
     "name" : "The Old Guard",
     "likes_u" : 15,
     "respects_u" : 15,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : 1,
@@ -28,14 +62,19 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : -1,
-    "desc" : "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
   },{
     "type" : "faction",
     "id" : "free_merchants",
     "name" : "The Free Merchants",
     "likes_u" : 30,
     "respects_u" : 30,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : 1,
@@ -43,14 +82,19 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : 0,
-    "desc" : "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },{
     "type" : "faction",
     "id" : "wasteland_scavengers",
     "name" : "The Wasteland Scavengers",
     "likes_u" : 0,
     "respects_u" : 0,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : 0,
@@ -58,14 +102,19 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : 0,
-    "desc" : "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions. "
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions. "
   },{
     "type" : "faction",
     "id" : "hells_raiders",
     "name" : "Hell's Raiders",
     "likes_u" : -25,
     "respects_u" : -25,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : -1,
@@ -73,14 +122,19 @@
     "sneak" : 0,
     "crime" : 1,
     "cult" : -1,
-    "desc" : "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat. "
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat. "
   },{
     "type" : "faction",
     "id" : "arcadias_guides",
     "name" : "Arcadia's Guides",
     "likes_u" : -10,
     "respects_u" : -10,
-    "known_by_u" : true,
+    "known_by_u" : false,
     "size" : 999,
     "power" : 100,
     "good" : 0,
@@ -88,7 +142,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 1,
-    "desc" : "A mysterious cult that combines elements of contemporary religions with delusions of the cataclysm."
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "A mysterious cult that combines elements of contemporary religions with delusions of the cataclysm."
   },{
     "type" : "faction",
     "id" : "wildlife_docile",
@@ -103,7 +162,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 0,
-    "desc" : "Hidden, used for non-predatory animals."
+    "food_chain" : -1,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "Hidden, used for non-predatory animals."
   },{
     "type" : "faction",
     "id" : "wildlife_small_predator",
@@ -118,7 +182,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 0,
-    "desc" : "Hidden, used for small predatory animals that can be targeted by larger animals."
+    "food_chain" : 1,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "Hidden, used for small predatory animals that can be targeted by larger animals."
   },{
     "type" : "faction",
     "id" : "wildlife_large_predator",
@@ -133,7 +202,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 0,
-    "desc" : "Hidden, used for large predatory animals that are the top of the natural foodchain."
+    "food_chain" : 2,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "Hidden, used for large predatory animals that are the top of the natural foodchain."
   },{
     "type" : "faction",
     "id" : "undead",
@@ -148,7 +222,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 0,
-    "desc" : "Hidden, most zombies fall in this group."
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 2,
+    "description" : "Hidden, most zombies fall in this group."
   },{
     "type" : "faction",
     "id" : "robot_defense",
@@ -163,7 +242,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 0,
-    "desc" : "Hidden, robots that are hostile to most everything excepts animals."
+    "food_chain" : 0,
+    "robot_affinity" : 2,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "Hidden, robots that are hostile to most everything excepts animals."
   },{
     "type" : "faction",
     "id" : "fungus",
@@ -178,7 +262,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 0,
-    "desc" : "Hidden, fungus creatures fall in this group."
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 2,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "Hidden, fungus creatures fall in this group."
   },{
     "type" : "faction",
     "id" : "plant",
@@ -193,7 +282,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 0,
-    "desc" : "Hidden, plant/triffid creatures fall in this group."
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 2,
+    "undead_affinity" : 0,
+    "description" : "Hidden, plant/triffid creatures fall in this group."
   },{
     "type" : "faction",
     "id" : "blob",
@@ -208,7 +302,12 @@
     "sneak" : 0,
     "crime" : 0,
     "cult" : 0,
-    "desc" : "Hidden, blob creatures fall in this group."
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 2,
+    "description" : "Hidden, blob creatures fall in this group."
   },{
     "type" : "faction",
     "id" : "otherworld",
@@ -222,8 +321,13 @@
     "strength" : 0,
     "sneak" : 0,
     "crime" : 0,
-    "cult" : 0,
-    "desc" : "Hidden, otherworld creatures fall in this group."
+    "cult" : 1,
+    "food_chain" : 0,
+    "robot_affinity" : 0,
+    "fungus_affinity" : 0,
+    "plant_affinity" : 0,
+    "undead_affinity" : 0,
+    "description" : "Hidden, otherworld creatures fall in this group."
   }
 ]
 
