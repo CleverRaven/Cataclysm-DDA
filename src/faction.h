@@ -122,6 +122,9 @@ public:
  bool has_job(faction_job j);
  bool has_value(faction_value v);
  bool matches_us(faction_value v);
+
+ bool faction_hostile(faction *&fac);
+
  std::string describe();
 
  int response_time(); // Time it takes for them to get to u
@@ -137,6 +140,7 @@ public:
  std::string id;
  std::string desc;
  int strength, sneak, crime, cult, good; // Defining values
+ int food_chain, robot_affinity, fungus_affinity, plant_affinity, undead_affinity; // Defining values
  /** Global submap coordinates where the center of influence is */
  int mapx, mapy;
  int size; // How big is our sphere of influence?
