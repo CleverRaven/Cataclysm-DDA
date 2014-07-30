@@ -7679,5 +7679,27 @@
     "ammo": "battery",
     "revert_to": "multi_cooker",
     "use_action": "MULTICOOKER"
+  },
+  {
+    "id": "fish_trap",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "green",
+    "name": "fish trap",
+    "description": "This is a fish trap made from plastic bottles.  Simple, even primitive trap, but easy to use.  The principle of action: the fish swims inside for bait, but can't get out.  Not humane, prohibited by law, but there are no living cops who cares it.",
+    "price": 500,
+    "material": "plastic",
+    "weight": 85,
+    "volume": 8,
+    "bashing": -3,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 5,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 1000,
+    "ammo": "fish_bait",
+    "revert_to": "null",
+    "use_action": "FISH_TRAP"
   }
 ]

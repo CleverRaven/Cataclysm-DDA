@@ -376,5 +376,11 @@
         "id" : "fishspear",
         "name" : "speargun spear",
         "default" : "fishspear"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "fish_bait",
+        "name" : "fish bait",
+        "default" : "fish_bait_meat"
     }
 ]
