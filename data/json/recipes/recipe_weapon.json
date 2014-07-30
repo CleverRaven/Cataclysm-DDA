@@ -111,23 +111,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "toothpick",
-  "id_suffix": "BPS_TEST",
-  "byproducts" : { "id" : "splinter", "amount" : 5 },
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": false,
-  "autolearn": true,
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "cudgel",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
