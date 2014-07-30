@@ -1312,6 +1312,42 @@
   ]
 },{
         "type" : "recipe",
+  "result": "water",
+  "id_suffix": "BPS_TEST",
+  "byproducts" : "towel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "towel_wet", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "juice",
+  "id_suffix": "BPS_TEST",
+  "byproducts" : [
+      { "id" : "cranberry_juice", "charges_mult" : 2 },
+      { "id" : "acid", "charges_mult" : 4 },
+      { "id" : "lamp_oil", "charges_mult" : 2 }
+    ],
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "apple", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "sheet",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
