@@ -375,6 +375,7 @@ void player::die(Creature* nkiller)
 
 void player::reset_stats()
 {
+    clear_miss_reasons();
 
     // Bionic buffs
     if (has_active_bionic("bio_hydraulics"))
@@ -391,9 +392,11 @@ void player::reset_stats()
     // Trait / mutation buffs
     if (has_trait("THICK_SCALES")) {
         mod_dex_bonus(-2);
+        add_miss_reason(_("Your thick scales get in the way."), 2);
     }
     if (has_trait("CHITIN2") || has_trait("CHITIN3")) {
         mod_dex_bonus(-1);
+        add_miss_reason(_("Your chitin gets in the way."), 1);
     }
     if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes)) {
         mod_per_bonus(1);
@@ -403,6 +406,7 @@ void player::reset_stats()
     }
     if (has_trait("INSECT_ARMS")) {
         mod_dex_bonus(-2);
+        add_miss_reason(_("Your insect limbs get in the way."), 2);
     }
     if (has_trait("INSECT_ARMS_OK")) {
         if (!wearing_something_on(bp_torso)) {
@@ -410,13 +414,16 @@ void player::reset_stats()
         }
         else {
             mod_dex_bonus(-1);
+            add_miss_reason(_("Your clothing restricts your insect arms."), 1);
         }
     }
     if (has_trait("WEBBED")) {
         mod_dex_bonus(-1);
+        add_miss_reason(_("Your webbed hands get in the way."), 1);
     }
     if (has_trait("ARACHNID_ARMS")) {
         mod_dex_bonus(-4);
+        add_miss_reason(_("Your arachnid limbs get in the way."), 4);
     }
     if (has_trait("ARACHNID_ARMS_OK")) {
         if (!wearing_something_on(bp_torso)) {
@@ -424,6 +431,7 @@ void player::reset_stats()
         }
         else {
             mod_dex_bonus(-2);
+            add_miss_reason(_("Your clothing constricts your arachnid limbs."), 2);
         }
     }
     if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
@@ -436,6 +444,10 @@ void player::reset_stats()
         if (!(has_trait("CENOBITE"))) {
             mod_str_bonus(-int((pain - pkill) / 15));
             mod_dex_bonus(-int((pain - pkill) / 15));
+            if (pain - pkill > 0) {
+                add_miss_reason(_("Your pain distracts you!"),
+                                int(pain - pkill) / 15);
+            }
         }
         mod_per_bonus(-int((pain - pkill) / 20));
         if (!(has_trait("INT_SLIME"))) {
@@ -449,14 +461,22 @@ void player::reset_stats()
     // Morale
     if (abs(morale_level()) >= 100) {
         mod_str_bonus(int(morale_level() / 180));
-        mod_dex_bonus(int(morale_level() / 200));
+        int dex_mod = int(morale_level() / 200);
+        mod_dex_bonus(dex_mod);
+        if (dex_mod < 0) {
+            add_miss_reason(_("What's the point of fighting?"), -dex_mod);
+        }
         mod_per_bonus(int(morale_level() / 125));
         mod_int_bonus(int(morale_level() / 100));
     }
     // Radiation
     if (radiation > 0) {
         mod_str_bonus(-int(radiation / 80));
-        mod_dex_bonus(-int(radiation / 110));
+        int dex_mod = -int(radiation / 110);
+        mod_dex_bonus(dex_mod);
+        if (dex_mod < 0) {
+            add_miss_reason(_("Radiation weakens you."), -dex_mod);
+        }
         mod_per_bonus(-int(radiation / 100));
         mod_int_bonus(-int(radiation / 120));
     }
@@ -465,9 +485,13 @@ void player::reset_stats()
     mod_per_bonus(int(stim /  7));
     mod_int_bonus(int(stim /  6));
     if (stim >= 30) {
-        mod_dex_bonus(-int(abs(stim - 15) /  8));
+        int dex_mod = -int(abs(stim - 15) / 8);
+        mod_dex_bonus(dex_mod);
+        add_miss_reason(_("You shake with the excess stimulation."), -dex_mod);
         mod_per_bonus(-int(abs(stim - 15) / 12));
         mod_int_bonus(-int(abs(stim - 15) / 14));
+    } else if (stim <= 10) {
+        add_miss_reason(_("You feel woozy."), -int(stim / 10));
     }
 
     // Dodge-related effects
@@ -5405,6 +5429,7 @@ void player::process_effects() {
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
+            add_miss_reason(_("The poison bothers you."), 1);
         } else if (id == "glare") {
             mod_per_bonus(-1);
             if (one_in(200)) {
@@ -5417,6 +5442,7 @@ void player::process_effects() {
             }
             mod_str_bonus(-1);
             mod_dex_bonus(-1);
+            add_miss_reason(_("The smoke bothers you."), 1);
             effect_it->second.set_intensity((effect_it->second.get_duration()+190)/200);
             if( effect_it->second.get_intensity() >= 10 && one_in(6)) {
                 handle_cough(*this, effect_it->second.get_intensity());
@@ -5424,6 +5450,7 @@ void player::process_effects() {
         } else if (id == "teargas") {
             mod_str_bonus(-2);
             mod_dex_bonus(-2);
+            add_miss_reason(_("The tear gas bothers you."), 2);
             mod_per_bonus(-5);
             if (one_in(3)) {
                 handle_cough(*this, 4);
@@ -5779,18 +5806,21 @@ void player::suffer()
         g->is_in_sunlight(posx, posy) && g->weather == WEATHER_SUNNY) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
+        add_miss_reason(_("The sunlight distracts you."), 1);
         mod_int_bonus(-1);
         mod_per_bonus(-1);
     }
     if (has_trait("TROGLO2") && g->is_in_sunlight(posx, posy)) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
+        add_miss_reason(_("The sunlight distracts you."), 1);
         mod_int_bonus(-1);
         mod_per_bonus(-1);
     }
     if (has_trait("TROGLO3") && g->is_in_sunlight(posx, posy)) {
         mod_str_bonus(-4);
         mod_dex_bonus(-4);
+        add_miss_reason(_("You can't stand the sunlight!"), 4);
         mod_int_bonus(-4);
         mod_per_bonus(-4);
     }
