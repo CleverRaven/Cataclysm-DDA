@@ -30,6 +30,8 @@ mtype::mtype () {
     sp_attack = NULL;
     sp_defense = NULL;
     luminance = 0;
+    my_fac = NULL;
+    fac_id = "";
     flags.insert(MF_HUMAN);
 }
 

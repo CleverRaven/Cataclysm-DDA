@@ -890,6 +890,10 @@ void monster::deserialize(JsonIn &jsin)
     data.read("onstairs", onstairs);
     data.read("stairscount", staircount); // really?
 
+    if( data.has_string( "fac_id" ) ) {
+        data.read("fac_id", fac_id);
+    }
+
     data.read("plans", plans);
 
     if( data.has_array( "effects" ) ) {
@@ -939,6 +943,8 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("stairscount",staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
+
+    json.member("fac_id", fac_id);
 
     // creature::effects
     json.member( "effects", effects );

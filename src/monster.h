@@ -3,6 +3,7 @@
 
 #include "creature.h"
 #include "player.h"
+#include "faction.h"
 #include "enums.h"
 #include <vector>
 
@@ -265,6 +266,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  int friendly;
  int anger, morale;
  int faction_id; // If we belong to a faction
+ std::string fac_id; // A temp variable used to inform the game which faction to link
+ faction *my_fac;
  int mission_id; // If we're related to a mission
  mtype *type;
  bool no_extra_death_drops; // if true, don't spawn loot items as part of death

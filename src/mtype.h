@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include <math.h>
+#include "faction.h"
 #include "mondeath.h"
 #include "monattack.h"
 #include "mondefense.h"
@@ -235,6 +236,9 @@ public:
     int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
     int agro;       // How likely to attack; -100 to 100
     int morale;     // Default morale level
+
+    std::string fac_id; // A temp variable used to inform the game which faction to link
+    faction *my_fac;
 
     unsigned int  speed;       // Speed; human = 100
     unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
