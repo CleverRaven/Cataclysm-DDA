@@ -690,6 +690,8 @@ void game::load_npcs()
         if (temp->marked_for_death) {
             temp->die( nullptr );
         } else {
+            if (temp->my_fac != NULL)
+                temp->my_fac->known_by_u = true;
             active_npc.push_back(temp);
         }
     }
