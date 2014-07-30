@@ -13,7 +13,7 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : -1,
-    "desc" : "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
+    "description" : "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },{
     "type" : "faction",
     "id" : "old_guard",
@@ -28,7 +28,7 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : -1,
-    "desc" : "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
+    "description" : "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
   },{
     "type" : "faction",
     "id" : "free_merchants",
@@ -43,7 +43,7 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : 0,
-    "desc" : "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
+    "description" : "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },{
     "type" : "faction",
     "id" : "wasteland_scavengers",
@@ -58,7 +58,7 @@
     "sneak" : 0,
     "crime" : -1,
     "cult" : 0,
-    "desc" : "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions. "
+    "description" : "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions. "
   },{
     "type" : "faction",
     "id" : "hells_raiders",
@@ -73,7 +73,7 @@
     "sneak" : 0,
     "crime" : 1,
     "cult" : -1,
-    "desc" : "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat. "
+    "description" : "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat. "
   }
 ]
 

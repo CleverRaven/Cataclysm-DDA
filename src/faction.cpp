@@ -79,7 +79,7 @@ void faction::load_faction(JsonObject &jsobj)
     fac.sneak = jsobj.get_int("sneak");
     fac.crime = jsobj.get_int("crime");
     fac.cult = jsobj.get_int("cult");
-    fac.desc = jsobj.get_string("desc");
+    fac.desc = jsobj.get_string("description");
     _all_faction[jsobj.get_string("id")] = fac;
 }
 

@@ -24,6 +24,7 @@ ignorable = {
     "mapgen",
     "monstergroup",
     "monitems",
+    "npc", # FIXME right now this object is unextractable
     "overmap_special",
     "recipe_category",
     "recipe_subcategory",
@@ -53,6 +54,7 @@ automatically_convertible = {
     "construction",
     "CONTAINER",
     "dream",
+    "faction",
     "furniture",
     "GENERIC",
     "GUNMOD",
