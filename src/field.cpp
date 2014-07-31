@@ -474,7 +474,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_nanobot:
-                        spread_gas( this, cur, x, y, curtype, 80, 50 );
+                        spread_gas( this, cur, x, y, curtype, 180, 8 );
                         break;
 
                         // TODO-MATERIALS: use fire resistance
@@ -1634,7 +1634,7 @@ void map::mon_in_field(int x, int y, monster *z)
             break;
 
         case fd_nanobot:
-            dam += rng(2, cur->getFieldDensity()/2);
+            dam += rng(2, cur->getFieldDensity()/1.25);
             break;
 
  // TODO: Use acid resistance
