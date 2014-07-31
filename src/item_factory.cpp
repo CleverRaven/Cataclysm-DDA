@@ -305,6 +305,7 @@ void Item_factory::init()
     iuse_function_list["LUMBER"] = &iuse::lumber;
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
     iuse_function_list["TENT"] = &iuse::tent;
+    iuse_function_list["LARGE_TENT"] = &iuse::large_tent;
     iuse_function_list["SHELTER"] = &iuse::shelter;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
@@ -1383,17 +1384,8 @@ use_function Item_factory::use_from_object(JsonObject obj)
         obj.read("do_flashbang", actor->do_flashbang);
         obj.read("flashbang_player_immune", actor->flashbang_player_immune);
         obj.read("fields_radius", actor->fields_radius);
-        if (obj.has_member("fields_type")) {
-            const std::string ft = obj.get_string("fields_type");
-            for (int i = 0; i < num_fields; i++) {
-                if (field_names[i] == ft) {
-                    actor->fields_type = static_cast<field_id>(i);
-                    break;
-                }
-            }
-            if (actor->fields_type == fd_null) {
-                debugmsg("Unknown field type %s", ft.c_str());
-            }
+        if( obj.has_member( "fields_type" ) || actor->fields_radius > 0 ) {
+            actor->fields_type = field_from_ident( obj.get_string( "fields_type" ) );
         }
         obj.read("fields_min_density", actor->fields_min_density);
         obj.read("fields_max_density", actor->fields_max_density);

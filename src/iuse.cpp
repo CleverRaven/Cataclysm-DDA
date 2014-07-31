@@ -3461,7 +3461,7 @@ static void roadmap_targets(player *, item *, bool,
 
 int iuse::roadmap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3488,12 +3488,13 @@ int iuse::roadmap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and points of interest to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::survivormap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3518,12 +3519,13 @@ int iuse::survivormap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and possible supply points to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::militarymap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3550,12 +3552,13 @@ int iuse::militarymap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and facilities to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::restaurantmap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3580,12 +3583,13 @@ int iuse::restaurantmap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and restaurants to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::touristmap(player *p, item *it, bool t)
 {
-    if (it->charges < 1) {
+    if( it->already_used_by_player( *p ) ) {
         p->add_msg_if_player(_("There isn't anything new on the map."));
         return 0;
     } else if (g->levz < 0) {
@@ -3610,7 +3614,8 @@ int iuse::touristmap(player *p, item *it, bool t)
 
     p->add_msg_if_player(m_good, _("You add roads and tourist attractions to your map."));
 
-    return 1;
+    it->mark_as_used_by_player( *p );
+    return 0;
 }
 
 int iuse::ma_manual(player *p, item *it, bool)
@@ -6559,6 +6564,51 @@ int iuse::tent(player *p, item *, bool)
     }
     g->m.furn_set(posx, posy, f_groundsheet);
     g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
+    add_msg(m_info, _("You set up the tent on the ground."));
+    return 1;
+}
+
+int iuse::large_tent(player *p, item *, bool)
+{
+    int dirx, diry;
+    if(!choose_adjacent(_("Pitch the tent towards where (5x5 clear area)?"), dirx, diry)) {
+        return 0;
+    }
+
+    //must place the center of the tent three spaces away from player
+    //dirx and diry will be integratined with the player's position
+    int posx = dirx - p->posx;
+    int posy = diry - p->posy;
+    if(posx == 0 && posy == 0) {
+        p->add_msg_if_player(m_info, _("Invalid Direction"));
+        return 0;
+    }
+    posx = posx * 3 + p->posx;
+    posy = posy * 3 + p->posy;
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
+                g->m.has_furn(posx + i, posy + j)) {
+                add_msg(m_info, _("You need a 5x5 flat space to place this tent."));
+                return 0;
+            }
+        }
+    }
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            g->m.furn_set(posx + i, posy + j, f_large_canvas_wall);
+        }
+    }
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            g->m.furn_set(posx + i, posy + j, f_large_groundsheet);
+        }
+    }
+    // f_center_groundsheet instead of f_large_groundsheet so the
+    // iexamine function for the tent works properly
+    g->m.furn_set(posx, posy, f_center_groundsheet);
+    g->m.furn_set(posx - ((dirx - p->posx) * 2), posy - ((diry - p->posy) * 2), f_large_canvas_door);
+//    g->m.furn_set((posx - (dirx - p->posx) * 2), (posy - (diry - p->posy) * 2), f_large_canvas_door);
     add_msg(m_info, _("You set up the tent on the ground."));
     return 1;
 }

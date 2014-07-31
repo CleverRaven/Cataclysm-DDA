@@ -916,6 +916,15 @@
         "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"]
     },{
         "type" : "furniture",
+        "id" : "f_large_canvas_wall",
+        "name": "canvas wall",
+        "symbol": "#",
+        "color": "blue",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"]
+    },{
+        "type" : "furniture",
         "id" : "f_canvas_door",
         "name": "canvas flap",
         "symbol": "+",
@@ -936,6 +945,26 @@
         "close": "f_canvas_door"
     },{
         "type" : "furniture",
+        "id" : "f_large_canvas_door",
+        "name": "canvas flap",
+        "symbol": "+",
+        "color": "blue",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "open": "f_canvas_door_o"
+    },{
+        "type" : "furniture",
+        "id" : "f_large_canvas_door_o",
+        "name": "open canvas flap",
+        "symbol": ".",
+        "color": "blue",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "close": "f_canvas_door"
+    },{
+        "type" : "furniture",
         "id" : "f_groundsheet",
         "name": "groundsheet",
         "symbol": ";",
@@ -944,6 +973,25 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS"],
         "examine_action": "tent"
+    },{
+        "type" : "furniture",
+        "id" : "f_large_groundsheet",
+        "name": "groundsheet",
+        "symbol": ";",
+        "color": "green",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "INDOORS"]
+    },{
+        "type" : "furniture",
+        "id" : "f_center_groundsheet",
+        "name": "groundsheet",
+        "symbol": ";",
+        "color": "green",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "INDOORS"],
+        "examine_action": "large_tent"
     },{
         "type" : "furniture",
         "id" : "f_fema_groundsheet",

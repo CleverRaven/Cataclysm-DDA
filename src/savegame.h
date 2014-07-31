@@ -8,7 +8,6 @@ extern const int savegame_version;
 extern int save_loading_version;
 
 void init_savedata_translation_tables();
-extern std::map<std::string, int> monster_ints;
 #include "enums.h"
 const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit", "mon_deer",
     "mon_moose", "mon_wolf", "mon_coyote", "mon_bear", "mon_cougar", "mon_crow", "mon_dog",

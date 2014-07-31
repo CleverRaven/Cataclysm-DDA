@@ -108,6 +108,34 @@
   ]
 },{
         "type" : "recipe",
+  "result": "lard",
+  "byproducts": { "id" : "cracklins", "charges_mult" : 2 },
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fat", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "cooking_oil",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -471,7 +499,8 @@
     ],
     [
       [ "cooking_oil", -1 ],
-      [ "tallow", -1 ]
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
     ]
   ],
   "components": [
@@ -563,7 +592,8 @@
       [ "irradiated_apple", 1 ],
       [ "apple", 1 ],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ]
   ]
 },{
@@ -654,7 +684,8 @@
     ],
     [
       [ "fat", 3 ],
-      [ "tallow", 3 ]
+      [ "tallow", 3 ],
+      [ "lard", 3 ]
     ],
     [
       [ "salt", 1 ],
@@ -806,7 +837,8 @@
     ],
     [
       [ "fat", 3 ],
-      [ "tallow", 3 ]
+      [ "tallow", 3 ],
+      [ "lard", 3 ]
     ],
     [
       [ "salt", 1 ],
@@ -1774,6 +1806,7 @@
 },{
         "type" : "recipe",
   "result": "oj",
+  "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -1796,6 +1829,7 @@
 },{
         "type" : "recipe",
   "result": "apple_cider",
+  "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2154,7 +2188,8 @@
   ],
   "components": [
     [
-      [ "tallow", 2 ]
+      [ "tallow", 2 ],
+      [ "lard", 2 ]
     ],
     [
       [ "jerky", 6 ],
@@ -2167,6 +2202,7 @@
     [
       [ "dry_veggy", 2 ],
       [ "dry_fruit", 2 ],
+      [ "juice_pulp", 4 ],
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
       [ "cherries", 1 ],
@@ -2718,7 +2754,8 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ]
   ]
 },{
@@ -2745,7 +2782,8 @@
   "components": [
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "cornmeal", 1 ],
@@ -2946,7 +2984,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ]
   ]
 },{
@@ -2987,7 +3026,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ]
   ]
 },{
@@ -3199,7 +3239,8 @@
       [ "blackberries", 1 ],
       [ "irradiated_pomegranate", 1],
       [ "pomegranate", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -3238,6 +3279,7 @@
     ],
     [
       [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
@@ -3379,7 +3421,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3424,7 +3467,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3444,7 +3488,8 @@
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ]
   ]
 },{
@@ -3485,7 +3530,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3537,7 +3583,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3585,7 +3632,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3605,7 +3653,8 @@
       [ "raspberries", 1 ],
       [ "blackberries", 1 ],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ]
   ]
 },{
@@ -3647,7 +3696,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "sugar", 1 ]
@@ -3813,7 +3863,8 @@
       [ "irradiated_apricot", 1],
       [ "apricot", 1 ],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ]
   ]
 },{
@@ -3845,7 +3896,8 @@
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
       [ "rehydrated_fruit", 1 ],
-      [ "dry_fruit", 1 ]
+      [ "dry_fruit", 1 ],
+      [ "juice_pulp", 2 ]
     ],
     [
       [ "seasoning_italian", 20 ],
@@ -3923,7 +3975,8 @@
       [ "irradiated_papaya", 2 ],
       [ "irradiated_apricot", 2 ],
       [ "irradiated_kiwi", 2 ],
-      [ "dry_fruit", 2 ]
+      [ "dry_fruit", 2 ],
+      [ "juice_pulp", 4 ]
     ],
     [
       [ "sugar", 2 ]
@@ -6723,6 +6776,7 @@
 },{
         "type" : "recipe",
   "result": "juice",
+  "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -6819,7 +6873,8 @@
     ],
     [
       [ "cooking_oil", 1 ],
-      [ "tallow", 1 ]
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "water", 1 ],

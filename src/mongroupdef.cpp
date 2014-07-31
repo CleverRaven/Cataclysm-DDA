@@ -121,7 +121,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
                 } else {
                   spawn_details = MonsterGroupResult(it->name, 1);
                 }
-                //And if a quantity pointer with remaining value was passed, will will modify the external value as a side effect
+                //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
                 //We will reduce it by the spawn rule's cost multiplier
                 if(quantity){
                     *quantity -= it->cost_multiplier * spawn_details.pack_size;

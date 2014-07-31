@@ -47,15 +47,10 @@ const int savegame_minver_game = 11;
 int savegame_loading_version = savegame_version;
 
 ////////////////////////////////////////////////////////////////////////////////////////
-///// on runtime populate lookup tables. This is temporary: monster_ints
-std::map<std::string, int> monster_ints;
+///// on runtime populate lookup tables.
 std::map<std::string, int> obj_type_id;
 
 void game::init_savedata_translation_tables() {
-    monster_ints.clear();
-    for(int i=0; i < num_monsters; i++) {
-        monster_ints[ monster_names[i] ] = i;
-    }
     obj_type_id.clear();
     for(int i = 0; i < NUM_OBJECTS; i++) {
         obj_type_id[ obj_type_name[i] ] = i;
@@ -83,9 +78,6 @@ void game::serialize(std::ofstream & fout) {
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)run_mode );
         json.member( "mostseen", mostseen );
-        json.member( "next_npc_id", next_npc_id );
-        json.member( "next_faction_id", next_faction_id );
-        json.member( "next_mission_id", next_mission_id );
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
         json.member( "levx", levx );
@@ -202,10 +194,6 @@ void game::unserialize(std::ifstream & fin)
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
-        // In case of changing how this works, need to handle a legacy "nextinv" field.
-        data.read("next_npc_id", next_npc_id);
-        data.read("next_faction_id", next_faction_id);
-        data.read("next_mission_id", next_mission_id);
         data.read("nextspawn",tmpspawn);
         data.read("levx",levx);
         data.read("levy",levy);

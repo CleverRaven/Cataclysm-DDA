@@ -110,6 +110,7 @@ void SkillLevel::deserialize(JsonIn & jsin)
 void player::json_load_common_variables(JsonObject & data)
 {
     JsonArray parray;
+    int tmpid = 0;
 
 // todo/maybe:
 // std::map<std::string, int*> strmap_common_variables;
@@ -143,6 +144,9 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("cash",cash);
     data.read("recoil",recoil);
     data.read("in_vehicle",in_vehicle);
+    if( data.read( "id", tmpid ) ) {
+        setID( tmpid );
+    }
 
     parray = data.get_array("hp_cur");
     if ( parray.size() == num_hp_parts ) {
@@ -248,6 +252,7 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "cash", cash );
     json.member( "recoil", int(recoil) );
     json.member( "in_vehicle", in_vehicle );
+    json.member( "id", getID() );
 
     // potential incompatibility with future expansion
     // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
@@ -648,10 +653,9 @@ void npc::deserialize(JsonIn &jsin)
 
     json_load_common_variables(data);
 
-    int misstmp, classtmp, flagstmp, atttmp, tmpid;
+    int misstmp, classtmp, flagstmp, atttmp;
     std::string facID;
 
-    data.read("id",tmpid);  setID(tmpid);
     data.read("name",name);
     data.read("marked_for_death", marked_for_death);
     data.read("dead", dead);
@@ -728,7 +732,6 @@ void npc::serialize(JsonOut &json, bool save_contents) const
     json_save_common_variables( json );
 
     json.member( "name", name );
-    json.member( "id", getID() );
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );
@@ -943,7 +946,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     if ( save_contents ) {
         json.member("inv");
         json.start_array();
-        for(int i=0;i<inv.size();i++) {
+        for(size_t i=0; i < inv.size(); i++) {
             inv[i].serialize(json, true);
         }
         json.end_array();
@@ -1158,7 +1161,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( save_contents && !contents.empty() ) {
         json.member("contents");
         json.start_array();
-        for (int k = 0; k < contents.size(); k++) {
+        for (size_t k = 0; k < contents.size(); k++) {
             if(!(contents[k].contents.empty()) && contents[k].contents[0].is_gunmod()) {
                 contents[k].serialize(json, true); // save gun mods of holstered pistol
             } else {
@@ -1392,10 +1395,8 @@ void faction::deserialize(JsonIn &jsin)
 
     jo.read("id", id);
     jo.read("name", name);
-    if ( !jo.read( "desc", desc )){
+    if ( !jo.read( "description", desc )){
         desc = "";
-    } else {
-        jo.read("desc", desc);
     }
     goal = faction_goal(jo.get_int("goal", goal));
     values = jo.get_int("values", values);

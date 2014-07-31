@@ -121,7 +121,7 @@ player::player() : Character(), name("")
 {
  posx = 0;
  posy = 0;
- id = 0; // Player is 0. NPCs are different.
+ id = -1; // -1 is invalid
  view_offset_x = 0;
  view_offset_y = 0;
  str_cur = 8;
@@ -11206,7 +11206,13 @@ void player::boost_skill_level(std::string ident, int level)
 
 void player::setID (int i)
 {
-    this->id = i;
+    if( id >= 0 ) {
+        debugmsg( "tried to set id of a npc/player, but has already a id: %d", id );
+    } else if( i < -1 ) {
+        debugmsg( "tried to set invalid id of a npc/player: %d", i );
+    } else {
+        id = i;
+    }
 }
 
 int player::getID () const

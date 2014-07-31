@@ -611,6 +611,20 @@ void iexamine::tent(player *p, map *m, int examx, int examy) {
  m->add_item_or_charges(examx, examy, dropped);
 }
 
+void iexamine::large_tent(player *p, map *m, int examx, int examy) {
+ if (!query_yn(_("Take down your tent?"))) {
+  none(p, m, examx, examy);
+  return;
+ }
+ p->moves -= 200;
+ for (int i = -2; i <= 2; i++)
+  for (int j = -2; j <= 2; j++)
+   m->furn_set(examx + i, examy + j, f_null);
+ add_msg(_("You take down the tent"));
+ item dropped("large_tent_kit", calendar::turn);
+ m->add_item_or_charges(examx, examy, dropped);
+}
+
 void iexamine::shelter(player *p, map *m, int examx, int examy) {
  if (!query_yn(_("Take down %s?"),m->furnname(examx, examy).c_str())) {
   none(p, m, examx, examy);
@@ -2446,6 +2460,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("tent" == function_name) {
     return &iexamine::tent;
+  }
+  if ("large_tent" == function_name) {
+    return &iexamine::large_tent;
   }
   if ("shelter" == function_name) {
     return &iexamine::shelter;

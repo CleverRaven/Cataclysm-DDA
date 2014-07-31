@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-25 14:38+0400\n"
+"POT-Creation-Date: 2014-07-28 13:15+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18973,8 +18973,8 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A filled fish bowl, the tag says to Ed and the fish's name Hoss.  It appears "
-"the fish has tiny antlers"
+"A filled fish bowl, the tag says 'to Ed' and the fish's name, 'Hoss'.  The "
+"fish appears to have tiny antlers."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -32455,6 +32455,56 @@ msgstr ""
 
 #: lang/json/effects_from_json.py src/disease.cpp
 msgid "You feel lightheaded."
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid "Your Followers"
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid ""
+"The survivors who have entrusted you with their well-being.  If morale "
+"drops, poor performance and mutiny may become issues."
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid "The Old Guard"
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid ""
+"The remains of the federal government.  The extent of their strength is "
+"unknown but squads of patrolling soldiers have been seen under their banner."
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid "The Free Merchants"
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid ""
+"A conglomeration of entrepreneurs and businessmen that stand together to "
+"hammer-out an existence through trade and industry."
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid "The Wasteland Scavengers"
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid ""
+"Autonomous bands or individuals who make their living raiding the ruins of "
+"the old-world for gear and provisions. "
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid "Hell's Raiders"
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid ""
+"The largest gang of hooligans and bandits that preys upon other survivors.  "
+"Even if you have no gear, there is always a need for slaves and fresh meat. "
 msgstr ""
 
 #: lang/json/faketypes.py
@@ -49844,6 +49894,7 @@ msgid "Headshot!"
 msgstr ""
 
 #: src/creature.cpp src/melee.cpp src/ranged.cpp
+#: src/ranged.cpp
 msgid "Critical!"
 msgstr ""
 
@@ -55600,11 +55651,6 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "Sign: %s..."
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You (%s)"
 msgstr ""
 
 #: src/game.cpp
@@ -68027,7 +68073,8 @@ msgstr ""
 
 #. ~ 1$s is bodypart name, 2$d is damage value.
 #: src/monattack.cpp
-msgid "Your %1$s is hit for %1$d damage!"
+#, c-format
+msgid "Your %1$s is hit for %2$d damage!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -68041,6 +68088,7 @@ msgid "A %1$s hits your %2$s for %3$d damage!"
 msgstr ""
 
 #: src/monattack.cpp src/ranged.cpp
+#: src/ranged.cpp
 #, c-format
 msgid "The %s shatters!"
 msgstr ""
@@ -68705,6 +68753,18 @@ msgstr ""
 #: src/monster.cpp
 #, c-format
 msgid "The %1$s hits %2$s %3$s."
+msgstr ""
+
+#. ~ 1$s is attaker name, 2$s is bodypart name in accusative, 3$s is armor name
+#: src/monster.cpp
+#, c-format
+msgid "The %1$s hits your %2$s, but your %3$s protects you."
+msgstr ""
+
+#. ~ 1$s is bodypart name in accusative, 2$s is armor name.
+#: src/monster.cpp
+#, c-format
+msgid "Something hits your %1$s, but your %2$s protects you."
 msgstr ""
 
 #. ~ $1s is monster name, %2$s is that monster target name,
@@ -69601,66 +69661,6 @@ msgid "Kidnapped"
 msgstr ""
 
 #: src/npc.cpp
-msgid "NC_NONE"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_EVAC_SHOPKEEP"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_ARSONIST"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_SHOPKEEP"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_HACKER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_DOCTOR"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_TRADER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_NINJA"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_COWBOY"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_SCIENTIST"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_BOUNTY_HUNTER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_THUG"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_SCAVENGER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "NC_HUNTER"
-msgstr ""
-
-#: src/npc.cpp
-msgid "Unknown class"
-msgstr ""
-
-#: src/npc.cpp
 msgid "No class"
 msgstr ""
 
@@ -69706,6 +69706,10 @@ msgstr ""
 
 #: src/npc.cpp
 msgid "Scavenger"
+msgstr ""
+
+#: src/npc.cpp
+msgid "Unknown class"
 msgstr ""
 
 #: src/npcmove.cpp
@@ -71099,6 +71103,10 @@ msgid "Sure, here you go!"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "Welcome marshal..."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Welcome..."
 msgstr ""
 
@@ -71184,6 +71192,10 @@ msgid ""
 "all over his body... well I guess that isn't all that strange but I'm pretty "
 "sure whatever toxic waste is still out there is bound to mutate more than "
 "just his hair."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Hello marshal."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -71318,6 +71330,10 @@ msgid ""
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "I thought I smelled a pig.  I jest... please don't arrest me."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Huh, thought I smelled someone new. Can I help you?"
 msgstr ""
 
@@ -71392,6 +71408,10 @@ msgid "Watch your back out there."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "Marshal..."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Citizen..."
 msgstr ""
 
@@ -71458,6 +71478,10 @@ msgid ""
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "That sure is a shiney badge you got there!"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Heh, you look important."
 msgstr ""
 
@@ -71514,6 +71538,10 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Screw You!"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I haven't done anything wrong..."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -74423,6 +74451,11 @@ msgstr ""
 msgid "%s's"
 msgstr ""
 
+#: src/player.cpp
+#, c-format
+msgid "Your %s harden from the frostbite!"
+msgstr ""
+
 #. ~ %s is bodypart
 #: src/player.cpp
 #, c-format
@@ -76498,6 +76531,11 @@ msgstr ""
 msgid "You cannot pick up items with your %s!"
 msgstr ""
 
+#: src/player.cpp
+#, c-format
+msgid "You (%s)"
+msgstr ""
+
 #: src/player_activity.cpp
 msgid " Stop reloading?"
 msgstr ""
@@ -76661,6 +76699,21 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "%s <npcname> hits the %s for %d damage."
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid " You cut %s!"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "%s You hit %s for %d damage."
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "%s <npcname> hits %s for %d damage."
 msgstr ""
 
 #: src/ranged.cpp
@@ -77544,6 +77597,10 @@ msgid ""
 "Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a "
 "<color_%4$s>powered welder</color> or <color_%5$s>duct tape</color>, and "
 "level <color_%6$s>%7$d</color> skill in mechanics.%8$s"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "That install would conflict with the existing drive system."
 msgstr ""
 
 #: src/veh_interact.cpp

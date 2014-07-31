@@ -128,8 +128,10 @@ item::item(const std::string new_type, unsigned int turn, bool rand, int handed)
 
 void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
 {
+    bool isReviveSpecial = one_in(20);
     init();
     active = mt->has_flag(MF_REVIVES)? true : false;
+    if (active && isReviveSpecial) item_tags.insert("REVIVE_SPECIAL");
     type = item_controller->find_template( new_type );
     corpse = mt;
     bday = turn;
@@ -1737,6 +1739,22 @@ bool item::ready_to_revive()
     int rez_factor = 48 - age_in_hours;
     if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
     {
+        // If we're a special revival zombie, wait to get up until the player is nearby.
+        const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
+        if (isReviveSpecial)
+        {
+
+            point p = g->find_item(this);
+
+            const int distance = rl_dist(p.x, p.y, g->u.posx, g->u.posy);
+            if (distance > 3) {
+                return false;
+            }
+            if (!one_in(distance + 1)) {
+                return false;
+            }
+        }
+
         return true;
     }
     return false;
@@ -2187,6 +2205,19 @@ bool item::is_container() const
 bool item::is_watertight_container() const
 {
     return ( is_container() != false && has_flag("WATERTIGHT") && has_flag("SEALS") );
+}
+
+bool item::is_container_empty() const
+{
+    return contents.empty();
+}
+
+bool item::is_container_full() const
+{
+    if (is_container_empty())
+        return false;
+
+    return get_remaining_capacity() == 0;
 }
 
 bool item::is_funnel_container(unsigned int &bigger_than) const
@@ -3127,6 +3158,28 @@ int item::get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERRO
     return remaining_capacity;
 }
 
+// Remaining capacity for currently stored liquid in container - do not call for empty container
+int item::get_remaining_capacity() const
+{
+    it_container *container = dynamic_cast<it_container *>(type);
+    int total_capacity = container->contains;
+
+    if (contents[0].is_food()) {
+        it_comest *tmp_comest = dynamic_cast<it_comest *>(contents[0].type);
+        total_capacity = container->contains * tmp_comest->charges;
+    } else if (contents[0].is_ammo()) {
+        it_ammo *tmp_ammo = dynamic_cast<it_ammo *>(contents[0].type);
+        total_capacity = container->contains * tmp_ammo->count;
+    }
+
+    int remaining_capacity = total_capacity;
+    if (!contents.empty()) {
+        remaining_capacity -= contents[0].charges;
+    }
+
+    return remaining_capacity;
+}
+
 int item::amount_of(const itype_id &it, bool used_as_tool) const
 {
     int count = 0;
@@ -3444,4 +3497,29 @@ int item::butcher_factor() const
         }
     }
     return butcher_factor;
+}
+
+static const std::string USED_BY_IDS( "USED_BY_IDS" );
+bool item::already_used_by_player(const player &p) const
+{
+    const auto it = item_vars.find( USED_BY_IDS );
+    if( it == item_vars.end() ) {
+        return false;
+    }
+    // USED_BY_IDS always starts *and* ends with a ';', the search string
+    // ';<id>;' matches at most one part of USED_BY_IDS, and only when exactly that
+    // id has been added.
+    const std::string needle = string_format( ";%d;", p.getID() );
+    return it->second.find( needle ) != std::string::npos;
+}
+
+void item::mark_as_used_by_player(const player &p)
+{
+    std::string &used_by_ids = item_vars[ USED_BY_IDS ];
+    if( used_by_ids.empty() ) {
+        // *always* start with a ';'
+        used_by_ids = ";";
+    }
+    // and always end with a ';'
+    used_by_ids += string_format( "%d;", p.getID() );
 }
