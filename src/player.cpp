@@ -9702,7 +9702,7 @@ void player::read(int pos)
         add_msg(m_warning, _("It's difficult to see fine details right now. Reading will take longer than usual."));
     }
 
-    if (tmp->intel > int_cur) {
+    if (tmp->intel > int_cur && !continuous) {
         add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
         // Lower int characters can read, at a speed penalty
         time += (tmp->time * (tmp->intel - int_cur) * 100);
