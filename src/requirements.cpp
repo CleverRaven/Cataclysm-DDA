@@ -328,7 +328,7 @@ bool tool_comp::has( const inventory &crafting_inv ) const
         }
     }
     if( count <= 0 ) {
-        return crafting_inv.has_tools( type, 1 );
+        return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
         return crafting_inv.has_charges( type, count );
     }
@@ -343,7 +343,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv ) 
     }
     if( available == a_insufficent ) {
         return "brown";
-    } else if( count < 0 && crafting_inv.has_tools( type, 1 ) ) {
+    } else if( count < 0 && crafting_inv.has_tools( type, std::abs( count ) ) ) {
         return "green";
     } else if( count > 0 && crafting_inv.has_charges( type, count ) ) {
         return "green";
@@ -431,7 +431,7 @@ bool requirements::check_enough_materials( const item_comp& comp, const inventor
     if( tq != nullptr ) {
         // The very same item type is also needed as tool!
         // Use charges of it, or use it by count?
-        const int tc = tq->count < 0 ? 1 : tq->count;
+        const int tc = tq->count < 0 ? std::abs( tq->count ) : 1;
         // Check for components + tool count. Check item amount (excludes
         // pseudo items) and tool amount (includes pseudo items)
         // Imagine: required = 1 welder (component) + 1 welder (tool),
