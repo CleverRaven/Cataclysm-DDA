@@ -2250,8 +2250,7 @@ bool prep_nanobot_use(player *p, item *it, int &posx, int &posy)
         return false;
     }
     if (posx == p->posx && posy == p->posy) {
-        p->add_msg_if_player(m_info,
-                             _("This cannister contains highly concentrated amounts of nanobots. It may not be wise to allow them near your skin."));
+        p->add_msg_if_player(m_info, _("This cannister contains highly concentrated amounts of nanobots. It may not be wise to allow them near your skin."));
         p->add_msg_if_player(_("Let's not find out what happens..."));
         return false;
     }
@@ -2564,9 +2563,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
     remove_double_ammo_mod(*modded, *p);
     remove_ammo( modded, *p ); // remove batteries, replaced by charges from mod
 
-    p->add_msg_if_player(
-        _( "You replace the battery compartment of your %s with a rechargeable battery pack!" ),
-        modded->tname().c_str() );
+    p->add_msg_if_player( _( "You replace the battery compartment of your %s with a rechargeable battery pack!" ), modded->tname().c_str() );
     modded->charges = it->charges;
     modded->item_tags.insert("RECHARGE");
     modded->item_tags.insert("NO_UNLOAD");
@@ -2604,8 +2601,7 @@ int iuse::atomic_battery(player *p, item *it, bool)
     remove_ups_mod( *modded, *p );
     remove_ammo( modded, *p ); // remove batteries, item::charges is now plutonium
 
-    p->add_msg_if_player( _( "You modify your %s to run off plutonium cells!" ),
-                          modded->tname().c_str() );
+    p->add_msg_if_player( _( "You modify your %s to run off plutonium cells!" ), modded->tname().c_str() );
     modded->item_tags.insert("ATOMIC_AMMO");
     modded->item_tags.insert("RADIOACTIVE");
     modded->item_tags.insert("LEAK_DAM");
@@ -5213,11 +5209,11 @@ int iuse::grenade_inc_act(player *p, item *it, bool t)
         p->add_msg_if_player(m_info, _("You've already released the handle, try throwing it instead."));
         return 0;
     } else {  // blow up
-        int num_flames = rng(3, 5);
-        for (int current_flame = 0; current_flame < num_flames; current_flame++) {
-            std::vector<point> flames = line_to(pos.x, pos.y, pos.x + rng(-5, 5), pos.y + rng(-5, 5), 0);
-            for (size_t i = 0; i < flames.size(); i++) {
-                g->m.add_field(flames[i].x, flames[i].y, fd_fire, rng(0, 2));
+        int num_flames= rng(3,5);
+        for (int current_flame = 0; current_flame < num_flames; current_flame++){
+            std::vector<point> flames = line_to(pos.x, pos.y, pos.x + rng(-5,5), pos.y + rng(-5,5), 0);
+            for (size_t i = 0; i <flames.size(); i++) {
+                g->m.add_field(flames[i].x, flames[i].y, fd_fire, rng(0,2));
             }
         }
         g->explosion(pos.x, pos.y, 8, 0, true);
@@ -6246,8 +6242,7 @@ void make_zlave(player *p)
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
     if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel("survival") )) - 150 ) {
-        add_msg(m_neutral,
-                _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
+        add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return;
     }
 
@@ -6549,32 +6544,32 @@ int iuse::hacksaw(player *p, item *it, bool)
     const ter_id ter = g->m.ter( dirx, diry );
     if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
         ter == t_chaingate_l) {
-        p->moves -= 500;
-        g->m.ter_set(dirx, diry, t_dirt);
-        g->sound(dirx, diry, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(dirx, diry, "pipe", 6);
-        g->m.spawn_item(dirx, diry, "wire", 20);
-    } else if( ter == t_chainfence_posts ) {
-        p->moves -= 500;
-        g->m.ter_set(dirx, diry, t_dirt);
-        g->sound(dirx, diry, 15, _("grnd grnd grnd"));
-        g->m.spawn_item(dirx, diry, "pipe", 6);
-    } else if( ter == t_bars ) {
-        if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
-            g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
-            g->m.ter_set(dirx, diry, t_sewage);
-            p->moves -= 1000;
-            g->sound(dirx, diry, 15, _("grnd grnd grnd"));
-            g->m.spawn_item(p->posx, p->posy, "pipe", 3);
-        } else {
-            g->m.ter_set(dirx, diry, t_floor);
             p->moves -= 500;
+            g->m.ter_set(dirx, diry, t_dirt);
             g->sound(dirx, diry, 15, _("grnd grnd grnd"));
-            g->m.spawn_item(p->posx, p->posy, "pipe", 3);
-        }
+            g->m.spawn_item(dirx, diry, "pipe", 6);
+            g->m.spawn_item(dirx, diry, "wire", 20);
+    } else if( ter == t_chainfence_posts ) {
+            p->moves -= 500;
+            g->m.ter_set(dirx, diry, t_dirt);
+            g->sound(dirx, diry, 15, _("grnd grnd grnd"));
+            g->m.spawn_item(dirx, diry, "pipe", 6);
+    } else if( ter == t_bars ) {
+            if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
+                g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
+                g->m.ter_set(dirx, diry, t_sewage);
+                p->moves -= 1000;
+                g->sound(dirx, diry, 15, _("grnd grnd grnd"));
+                g->m.spawn_item(p->posx, p->posy, "pipe", 3);
+            } else {
+                g->m.ter_set(dirx, diry, t_floor);
+                p->moves -= 500;
+                g->sound(dirx, diry, 15, _("grnd grnd grnd"));
+                g->m.spawn_item(p->posx, p->posy, "pipe", 3);
+            }
     } else {
-        add_msg(m_info, _("You can't cut that."));
-        return 0;
+            add_msg(m_info, _("You can't cut that."));
+            return 0;
     }
     return it->type->charges_to_use();
 }
@@ -6656,7 +6651,7 @@ int iuse::large_tent(player *p, item *, bool)
     // iexamine function for the tent works properly
     g->m.furn_set(posx, posy, f_center_groundsheet);
     g->m.furn_set(posx - ((dirx - p->posx) * 2), posy - ((diry - p->posy) * 2), f_large_canvas_door);
-    //    g->m.furn_set((posx - (dirx - p->posx) * 2), (posy - (diry - p->posy) * 2), f_large_canvas_door);
+//    g->m.furn_set((posx - (dirx - p->posx) * 2), (posy - (diry - p->posy) * 2), f_large_canvas_door);
     add_msg(m_info, _("You set up the tent on the ground."));
     return 1;
 }
@@ -6676,8 +6671,8 @@ int iuse::shelter(player *p, item *, bool)
         p->add_msg_if_player(m_info, _("Invalid Direction"));
         return 0;
     }
-    posx = posx * 2 + p->posx;
-    posy = posy * 2 + p->posy;
+    posx = posx*2 + p->posx;
+    posy = posy*2 + p->posy;
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
@@ -6815,8 +6810,7 @@ int iuse::bullet_puller(player *p, item *it, bool)
         return 0;
     }
     if (p->skillLevel("gun") < 2) {
-        add_msg(m_info,
-                _("You need to be at least level 2 in the firearms skill before you can disassemble ammunition."));
+        add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you can disassemble ammunition."));
         return 0;
     }
     const long multiply = std::min<long>(20, pull->charges);
@@ -8159,20 +8153,20 @@ int iuse::robotcontrol(player *p, item *it, bool)
                   _("Set friendly robots to passive mode"),
                   _("Set friendly robots to combat mode"), _("Cancel"), NULL);
     switch( choice ) {
-        case 1: { // attempt to make a robot friendly
-            uimenu pick_robot;
-            pick_robot.text = _("Choose an endpoint to hack.");
-            // Build a list of all unfriendly robots in range.
-            for( size_t i = 0; i < g->num_zombies(); ++i ) {
-                monster &candidate = g->zombie( i );
-                if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
-                    rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() <= 10 ) ) {
-                    pick_robot.entries.push_back( uimenu_entry( i, true, -1,
-                                                  candidate.name().c_str() ) );
-                }
+    case 1: { // attempt to make a robot friendly
+        uimenu pick_robot;
+        pick_robot.text = _("Choose an endpoint to hack.");
+        // Build a list of all unfriendly robots in range.
+        for( size_t i = 0; i < g->num_zombies(); ++i ) {
+            monster &candidate = g->zombie( i );
+            if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
+                rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() <= 10 ) ) {
+                pick_robot.entries.push_back( uimenu_entry( i, true, -1,
+                                                            candidate.name().c_str() ) );
             }
-            if( pick_robot.entries.empty() ) {
-                p->add_msg_if_player( m_info, _("No enemy robots in range.") );
+        }
+        if( pick_robot.entries.empty() ) {
+            p->add_msg_if_player( m_info, _("No enemy robots in range.") );
                 return it->type->charges_to_use();
             }
             pick_robot.entries.push_back(uimenu_entry(-1, true, -1, _("Cancel")));
@@ -8459,7 +8453,7 @@ int iuse::radiocontrol(player *p, item *it, bool t)
                 std::stringstream car_location_string;
                 // Populate with the point and stash it.
                 car_location_string << rc_item_location.x << ' ' <<
-                                    rc_item_location.y << ' ' << rc_item_location.z;
+                    rc_item_location.y << ' ' << rc_item_location.z;
                 p->add_msg_if_player(m_good, _("You take control of the RC car."));
 
                 p->set_value( "remote_controlling", car_location_string.str() );
@@ -8475,7 +8469,7 @@ int iuse::radiocontrol(player *p, item *it, bool t)
                  candidate_item != item_list.end(); ++candidate_item ) {
                 if( (*candidate_item)->has_flag("BOMB") ) {
                     p->add_msg_if_player( m_warning,
-                                          _("You might want to place that radio bomb somewhere before detonating it.") );
+                        _("You might want to place that radio bomb somewhere before detonating it.") );
                     return 0;
                 }
             }
