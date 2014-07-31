@@ -2601,7 +2601,7 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
             }
             //Clone unsided item
             item new_item2 = new_item;
-            
+
             //Add new sides to both items
             new_item.item_tags.insert("LEFT");
             new_item2.item_tags.insert("RIGHT");

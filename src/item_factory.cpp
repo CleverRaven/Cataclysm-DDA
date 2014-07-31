@@ -208,7 +208,9 @@ void Item_factory::init()
     iuse_function_list["CATFOOD"] = &iuse::catfood;
 
     // TOOLS
-    iuse_function_list["ANTIVIRAL"] = &iuse::antiviral;
+    iuse_function_list["ANTIVIRAL0"] = &iuse::antiviral0;
+    iuse_function_list["ANTIVIRAL1"] = &iuse::antiviral1;
+    iuse_function_list["ANTIVIRAL2"] = &iuse::antiviral2;
     iuse_function_list["LIGHTER"] = &iuse::lighter;
     iuse_function_list["PRIMITIVE_FIRE"] = &iuse::primitive_fire;
     iuse_function_list["REF_LIT"] = &iuse::ref_lit;

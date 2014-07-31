@@ -263,7 +263,7 @@ void game::init_fields()
         {
             "fd_antiviral",
             {_("light antiviral vapor"), _("antiviral vapor"), _("cloud of antiviral")}, '%', 4,
-            {c_white, c_ltblue, c_blue}, {true, true, true}, {true, true, true}, 10,
+            {c_white, c_ltblue, c_blue}, {true, true, true}, {true, true, true}, 1000,
             {0,0,0}
         }
 
@@ -474,7 +474,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_antiviral:
-                        spread_gas( this, cur, x, y, curtype, 1, 100 );
+                        spread_gas( this, cur, x, y, curtype, 75, 45 );
                         break;
 
                         // TODO-MATERIALS: use fire resistance
@@ -1308,46 +1308,59 @@ void map::step_in_field(int x, int y)
             break;
 
         case fd_antiviral: {
-            if (cur->getFieldDensity() == 3 && !inside) {
+            if (cur->getFieldDensity() == 1000 && !inside) {
                 add_msg(m_bad, _("The antiviral burns your body!"));
-                g->u.hit(NULL, bp_eyes, 0, rng(2,   4));
-                g->u.hit(NULL, bp_head, 0, rng(2,   4));
-                g->u.hit(NULL, bp_mouth, 0, rng(2,  4));
-                g->u.hit(NULL, bp_torso, 0, rng(2,  3));
-                g->u.hit(NULL, bp_arm_l, 0, rng(2,  3));
-                g->u.hit(NULL, bp_arm_r, 0, rng(2,  3));
-                g->u.hit(NULL, bp_hand_l, 0, rng(2, 3));
-                g->u.hit(NULL, bp_hand_r, 0, rng(2, 3));
-                g->u.hit(NULL, bp_leg_l, 0, rng(2,  2));
-                g->u.hit(NULL, bp_leg_r, 0, rng(2,  2));
-                g->u.hit(NULL, bp_foot_l, 0, rng(2, 2));
-                g->u.hit(NULL, bp_foot_r, 0, rng(2, 2));
-            } else if (cur->getFieldDensity() == 2 && !inside) {
-                g->u.hit(NULL, bp_eyes, 0, rng(2,   3));
-                g->u.hit(NULL, bp_head, 0, rng(2,   3));
-                g->u.hit(NULL, bp_mouth, 0, rng(2,  3));
-                g->u.hit(NULL, bp_torso, 0, rng(2,  2));
-                g->u.hit(NULL, bp_arm_l, 0, rng(2,  2));
-                g->u.hit(NULL, bp_arm_r, 0, rng(2,  2));
+                g->u.hit(NULL, bp_eyes, 0, rng(2,   5));
+                g->u.hit(NULL, bp_head, 0, rng(2,   5));
+                g->u.hit(NULL, bp_mouth, 0, rng(2,  5));
+                g->u.hit(NULL, bp_torso, 0, rng(2,  4));
+                g->u.hit(NULL, bp_arm_l, 0, rng(2,  4));
+                g->u.hit(NULL, bp_arm_r, 0, rng(2,  4));
+                g->u.hit(NULL, bp_hand_l, 0, rng(2, 4));
+                g->u.hit(NULL, bp_hand_r, 0, rng(2, 4));
+                g->u.hit(NULL, bp_leg_l, 0, rng(2,  3));
+                g->u.hit(NULL, bp_leg_r, 0, rng(2,  3));
+                g->u.hit(NULL, bp_foot_l, 0, rng(2, 3));
+                g->u.hit(NULL, bp_foot_r, 0, rng(2, 3));
+            } else if (cur->getFieldDensity() == 600 && !inside) {
+                g->u.hit(NULL, bp_eyes, 0, rng(2,   5));
+                g->u.hit(NULL, bp_head, 0, rng(2,   5));
+                g->u.hit(NULL, bp_mouth, 0, rng(2,  5));
+                g->u.hit(NULL, bp_torso, 0, rng(2,  4));
+                g->u.hit(NULL, bp_arm_l, 0, rng(2,  4));
+                g->u.hit(NULL, bp_arm_r, 0, rng(2,  4));
+                g->u.hit(NULL, bp_hand_l, 0, rng(1, 4));
+                g->u.hit(NULL, bp_hand_r, 0, rng(1, 4));
+                g->u.hit(NULL, bp_leg_l, 0, rng(1,  4));
+                g->u.hit(NULL, bp_leg_r, 0, rng(1,  4));
+                g->u.hit(NULL, bp_foot_l, 0, rng(1, 4));
+                g->u.hit(NULL, bp_foot_r, 0, rng(1, 4));
+            } else if (cur->getFieldDensity() == 300 && !inside) {
+                g->u.hit(NULL, bp_eyes, 0, rng(1,   4));
+                g->u.hit(NULL, bp_head, 0, rng(1,   4));
+                g->u.hit(NULL, bp_mouth, 0, rng(1,  4));
+                g->u.hit(NULL, bp_torso, 0, rng(1,  4));
+                g->u.hit(NULL, bp_arm_l, 0, rng(1,  4));
+                g->u.hit(NULL, bp_arm_r, 0, rng(1,  4));
+                g->u.hit(NULL, bp_hand_l, 0, rng(1, 3));
+                g->u.hit(NULL, bp_hand_r, 0, rng(1, 3));
+                g->u.hit(NULL, bp_leg_l, 0, rng(1,  3));
+                g->u.hit(NULL, bp_leg_r, 0, rng(1,  3));
+                g->u.hit(NULL, bp_foot_l, 0, rng(1, 3));
+                g->u.hit(NULL, bp_foot_r, 0, rng(1, 3));
+            } else if (!inside) {
+                g->u.hit(NULL, bp_eyes, 0, rng(1,   3));
+                g->u.hit(NULL, bp_head, 0, rng(1,   3));
+                g->u.hit(NULL, bp_mouth, 0, rng(1,  3));
+                g->u.hit(NULL, bp_torso, 0, rng(1,  3));
+                g->u.hit(NULL, bp_arm_l, 0, rng(1,  3));
+                g->u.hit(NULL, bp_arm_r, 0, rng(1,  3));
                 g->u.hit(NULL, bp_hand_l, 0, rng(1, 2));
                 g->u.hit(NULL, bp_hand_r, 0, rng(1, 2));
                 g->u.hit(NULL, bp_leg_l, 0, rng(1,  2));
                 g->u.hit(NULL, bp_leg_r, 0, rng(1,  2));
                 g->u.hit(NULL, bp_foot_l, 0, rng(1, 2));
                 g->u.hit(NULL, bp_foot_r, 0, rng(1, 2));
-            } else if (!inside) {
-                g->u.hit(NULL, bp_eyes, 0, rng(1,   2));
-                g->u.hit(NULL, bp_head, 0, rng(1,   2));
-                g->u.hit(NULL, bp_mouth, 0, rng(1,  2));
-                g->u.hit(NULL, bp_torso, 0, rng(1,  2));
-                g->u.hit(NULL, bp_arm_l, 0, rng(1,  2));
-                g->u.hit(NULL, bp_arm_r, 0, rng(1,  2));
-                g->u.hit(NULL, bp_hand_l, 0, rng(1, 1));
-                g->u.hit(NULL, bp_hand_r, 0, rng(1, 1));
-                g->u.hit(NULL, bp_leg_l, 0, rng(1,  1));
-                g->u.hit(NULL, bp_leg_r, 0, rng(1,  1));
-                g->u.hit(NULL, bp_foot_l, 0, rng(1, 1));
-                g->u.hit(NULL, bp_foot_r, 0, rng(1, 1));
             }
             break;
         }
