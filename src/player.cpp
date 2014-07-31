@@ -4802,33 +4802,6 @@ void player::hurt(Creature *source, body_part hurt, int dam)
     lifetime_stats()->damage_taken += dam;
 }
 
-void player::hurt(Creature *source, hp_part hurt, int dam)
-{
-    (void) source;
-    if (has_disease("sleep") && rng(0, dam) > 2) {
-        wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
-    }
-
-    if (dam <= 0) {
-        return;
-    }
-
-    if (!is_npc()) {
-        g->cancel_activity_query(_("You were hurt!"));
-    }
-
-    mod_pain( dam / 2 );
-
-    hp_cur[hurt] -= dam;
-    if (hp_cur[hurt] < 0) {
-        lifetime_stats()->damage_taken += hp_cur[hurt];
-        hp_cur[hurt] = 0;
-    }
-    lifetime_stats()->damage_taken += dam;
-}
-
 void player::heal(body_part healed, int dam)
 {
     hp_part healpart;
