@@ -535,7 +535,7 @@ public:
  /** Handles the chance to be infected by random diseases */
  void get_sick();
  /** Handles health fluctuations over time, redirects into Creature::update_health */
- void update_health();
+ void update_health(int base_threshold = 0);
  /** Checks against env_resist of the players armor, if they fail then they become infected with the disease */
  bool infect(dis_type type, body_part vector, int strength,
               int duration, bool permanent = false, int intensity = 1,

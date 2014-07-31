@@ -5129,9 +5129,8 @@ void player::get_sick()
     }
 }
 
-void player::update_health()
+void player::update_health(int base_threshold)
 {
-    int base_threshold = 0;
     if (has_artifact_with(AEP_SICK)) {
         base_threshold += 50;
     }
