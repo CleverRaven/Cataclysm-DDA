@@ -2360,7 +2360,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                 house_room(m, room_bathroom, lw, cw, rn, bw, dat);
 
                 if (one_in(5)) {
-                    // Put door between batroom and kitchen with low chance
+                    // Put door between bathroom and kitchen with low chance
                     m->ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
                 } else {
                     // ...Otherwise, between bathroom and bedroom
@@ -3596,7 +3596,7 @@ void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
         // Make the whole area rock, then plop an open area in the center.
         square(m, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
         square(m, t_rock_floor, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8);
-        // Create an anteroom with hte stairs and some locked doors.
+        // Create an anteroom with the stairs and some locked doors.
         m->ter_set(SEEX - 1, SEEY * 2 - 7, t_door_locked);
         m->ter_set(SEEX    , SEEY * 2 - 7, t_door_locked);
         m->ter_set(SEEX - 1, SEEY * 2 - 6, t_rock_floor);
@@ -3946,7 +3946,7 @@ void mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
                                                     t_rock_floor, t_rock_floor),
                                   mapf::basic_bind(". # < + p t c s a r f & i", f_null, f_null, f_null, f_null, f_pool_table,
                                                     f_table, f_counter, f_sofa,f_armchair, f_rack, f_fridge, f_sink, f_toilet));
-        //place diferent furniture sets
+        // Place different furniture sets
         if (one_in(2)){
             line_furn(m, f_bookcase, 1, 22, 9, 22);
             line_furn(m, f_bookcase, 1, 19, 1, 22);
@@ -4373,7 +4373,7 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
 
 }
 
-// _b is basement. obviously!
+// _b is basement, obviously!
 void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
 {
 
@@ -4449,7 +4449,7 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
         //Cabin design 1 Quad
         if (one_in(2)) {
             square(m, t_wall_log, 2, 3, 21, 20);
-            square(m, t_floor, 2, 17, 21, 20);//Front porch
+            square(m, t_floor, 2, 17, 21, 20); //Front porch
             line(m, t_fence_v, 2, 17, 2, 20);
             line(m, t_fence_v, 21, 17, 21, 20);
             line(m, t_fence_h, 2, 20, 21, 20);
@@ -4464,7 +4464,7 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             square(m, t_rubble, 19, 18, 20, 19);
             m->ter_set(20, 17, t_rubble);
             m->ter_set(18, 19, t_rubble); //Porch done
-            line(m, t_door_c, 11, 16, 12, 16);//Interior
+            line(m, t_door_c, 11, 16, 12, 16); //Interior
             square(m, t_floor, 3, 4, 9, 9);
             square(m, t_floor, 3, 11, 9, 15);
             square(m, t_floor, 11, 4, 12, 15);
@@ -4479,8 +4479,8 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             line(m, t_window_domestic, 17, 16, 18, 16);
             line(m, t_curtains, 21, 12, 21, 13);
             line(m, t_window_empty, 21, 6, 21, 7);
-            m->ter_set(8, 3, t_curtains);//Windows End
-            line(m, t_door_c, 11, 3, 12, 3);//Rear Doors
+            m->ter_set(8, 3, t_curtains); //Windows End
+            line(m, t_door_c, 11, 3, 12, 3); //Rear Doors
             square(m, t_rubble, 20, 3, 21, 4);
             m->ter_set(19, 3, t_rubble);
             m->ter_set(21, 5, t_rubble);
@@ -4869,7 +4869,7 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
         line(m, t_bars, 8, 18, 11, 18);
         line(m, t_door_metal_locked, 9, 18, 10, 18);
     }
-    computer * tmpcomp = m->add_computer(8, 21, _("Consolated Computerized Bank of the Treasury"), 3);
+    computer * tmpcomp = m->add_computer(8, 21, _("Consolidated Computerized Bank of the Treasury"), 3);
     tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);

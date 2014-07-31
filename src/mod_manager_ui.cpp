@@ -87,7 +87,7 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
         DebugLog( D_PEDANTIC_INFO, DC_ALL ) << mod->name << " Dependencies --";
         for (int i = 0; i < dependencies.size(); ++i) {
             if (i > 0) {
-                //~ delimeter for mod dependency enumeration
+                //~ delimiter for mod dependency enumeration
                 dependency_string += pgettext("mod manager",", ");
             }
             DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\t" << dependencies[i];
@@ -103,7 +103,7 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     if (!authors.empty()) {
         for (int i = 0; i < authors.size(); ++i) {
             if (i > 0) {
-                //~ delimeter for mod author enumeration
+                //~ delimiter for mod author enumeration
                 author_string += pgettext("mod manager",", ");
             }
             author_string += authors[i];
