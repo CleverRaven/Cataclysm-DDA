@@ -1661,7 +1661,7 @@ void game::activity_on_finish_make_zlave()
     }
 
     if (body == NULL) {
-        add_msg(m_info, _("There's no corpse to make into a zlave!"));
+        add_msg(m_info, _("There's no corpse to make into a zombie slave!"));
         return;
     }
 
@@ -8198,11 +8198,11 @@ bool zlave_menu(monster *z)
     uimenu amenu;
 
     amenu.selected = 0;
-    amenu.text = _("What to do with zlave?");
+    amenu.text = _("What to do with zombie slave?");
     amenu.addentry(cancel, true, 'q', _("Cancel"));
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
-    amenu.addentry(push_zlave, true, 'p', _("Push zlave"));
+    amenu.addentry(push_zlave, true, 'p', _("Push zombie slave"));
 
     if (z->has_effect("has_bag")) {
         amenu.addentry(give_items, true, 'g', _("Place items into bag"));
@@ -8249,11 +8249,11 @@ bool zlave_menu(monster *z)
                 z->add_effect("tied", 1, 1, true);
             }
 
-            add_msg(_("You swap positions with your zlave."));
+            add_msg(_("You swap positions with your zombie slave."));
 
             return true;
         } else {
-            add_msg(_("You fail to budge the zlave!"));
+            add_msg(_("You fail to budge the zombie slave!"));
 
             return true;
         }
@@ -8264,9 +8264,9 @@ bool zlave_menu(monster *z)
         g->u.moves -= 30;
 
         if (!one_in(g->u.str_cur)) {
-            add_msg(_("You pushed the zlave."));
+            add_msg(_("You pushed the zombie slave."));
         } else {
-            add_msg(_("You pushed the zlave, but it resisted."));
+            add_msg(_("You pushed the zombie slave, but it resisted."));
             return true;
         }
 
@@ -8299,7 +8299,7 @@ bool zlave_menu(monster *z)
 
         z->add_item(*it);
 
-        add_msg(_("You mount the %s on your zlave, ready to store gear."), it->display_name().c_str());
+        add_msg(_("You mount the %s on your zombie slave, ready to store gear."), it->display_name().c_str());
 
         g->u.i_rem(pos);
 
@@ -8320,7 +8320,7 @@ bool zlave_menu(monster *z)
 
         z->remove_effect("has_bag");
 
-        add_msg(_("You dump the contents of the zlave's bag on the ground."));
+        add_msg(_("You dump the contents of the zombie slave's bag on the ground."));
 
         g->u.moves -= 200;
         return true;
@@ -8331,14 +8331,14 @@ bool zlave_menu(monster *z)
         int max_cap = 0;
 
         if (z->inv.empty()) {
-            add_msg(_("Your zlave has nothing to carry that in!"));
+            add_msg(_("Your zombie slave has nothing to carry that in!"));
             return true;
         }
 
         item *it = &z->inv[0];
 
         if (!it->is_armor()) {
-            add_msg(_("Your zlave has nothing to carry that in!"));
+            add_msg(_("Your zombie slave has nothing to carry that in!"));
             return true;
         }
 
@@ -8353,7 +8353,7 @@ bool zlave_menu(monster *z)
         }
 
         if (max_cap <= 0) {
-            add_msg(_("Your zlave's doesn't have space for that, it's too bulky!"));
+            add_msg(_("Your zombie slave's doesn't have space for that, it's too bulky!"));
             return true;
         }
 
@@ -8365,7 +8365,7 @@ bool zlave_menu(monster *z)
         if (result.size() == 0) {
             add_msg(_("Never mind."));
         } else {
-            add_msg(_("You stash some gear on your zlave."));
+            add_msg(_("You stash some gear on your zombie slave."));
 
             for (int i = 0; i < result.size(); i++) {
 
@@ -8385,7 +8385,7 @@ bool zlave_menu(monster *z)
         return true;
     }
 
-    if (pheromone == choice && query_yn(_("Really kill the zlave?"))) {
+    if (pheromone == choice && query_yn(_("Really kill the zombie slave?"))) {
 
         z->hurt(100, 0, &g->u); // damage the monster (and its corpse)
         z->die(&g->u); // and make sure it's really dead
@@ -8393,7 +8393,7 @@ bool zlave_menu(monster *z)
         g->u.moves -= 150;
 
         if (!one_in(3)) {
-            g->u.add_msg_if_player(_("You tear out the pheromone ball from the zlave."));
+            g->u.add_msg_if_player(_("You tear out the pheromone ball from the zombie slave."));
 
             item ball("pheromone", 0);
             iuse pheromone;

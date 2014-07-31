@@ -237,7 +237,7 @@ void monster::get_Attitude(nc_color &color, std::string &text) const
             break;
         case MATT_ZLAVE:
             color = c_green;
-            text = _("Zlave ");
+            text = _("Zombie slave ");
             break;
         default:
             color = h_red;
