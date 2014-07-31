@@ -4,8 +4,12 @@
 #
 #     python json_audit.py
 #
-# Should work with vanilla Python 2.7+.
-# Although unfortunately won't work as is with Python 3+.
+# Updated by mafagafogigante @ 29/07/2014
+# I did NOT thoroughly tested this script. Seems to be A-okay, though.
+# PEP-8 compliant: 100%.
+# Apart from the 2 to 3 'migration' and PEP-8 fixes, some (really) small modifications were made.
+
+from __future__ import print_function
 
 import sys
 import os
@@ -18,6 +22,13 @@ JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "../data/json"))
 FILE_MATCH = "*.json"
 SEARCH_KEY = "material"
 
+# What can I say? I am sorry, I just do not like the idea of having 2 different scripts. Again, I am sorry.
+try:
+    input = raw_input
+except NameError:
+    pass
+# Sorry for making you read those 4 lines. It will surely pass.
+
 
 def get_json_files(fmatch):
     """Use a UNIX like file match expression to weed out the JSON files.
@@ -28,50 +39,49 @@ def get_json_files(fmatch):
         for f in d_descriptor[2]:
             if fnmatch(f, fmatch):
                 json_file = os.path.join(d, f)
-                with open(json_file, "r") as f:
+                with open(json_file, "r") as file:
                     try:
-                        candidates = json.load(f)
+                        candidates = json.load(file)
                     except Exception as err:
-                        print "Problem reading file %s, reason: %s" % (json_file, err)
+                        print("Problem reading file %s, reason: %s" % (json_file, err))
                     if type(candidates) != list:
-                        print "Problem reading file %s, reason: expected a list." % json_file
+                        print("Problem reading file %s, reason: expected a list." % json_file)
                     else:
                         data += candidates
     return data
 
 #print "Script running in", SCRIPT_DIR
-print "I'm a Cataclysm DDA JSON parser."
-print "I read a clump of JSON files, count occurrences, and print them out."
-print "\nAssuming the Cataclysm DDA JSON directory is:", JSON_DIR
-print "If the above directory is wrong, ctrl-c out and fix the script."
+print("I'm a Cataclysm DDA JSON parser.")
+print("I read a clump of JSON files, count occurrences, and print them out.")
+print("\nAssuming the Cataclysm DDA JSON directory is:", JSON_DIR)
+print("If the above directory is wrong, ctrl-c out and fix the script.")
 
-userin = raw_input("Which files should be read? [default: %s]:\n" % FILE_MATCH)
+userin = input("Which files should be read? [default: %s]:\n" % FILE_MATCH)
 FILE_MATCH = userin.strip() or FILE_MATCH
 
-print "Finding eligible JSON files."
+print("Finding eligible JSON files.")
 # Single list of all JSON blobs found in each file.
 JSON_DATA = get_json_files(FILE_MATCH)
 if not JSON_DATA:
-    print "We could not find any JSON data in"
-    print "\t", JSON_DIR
-    print "that matched:"
-    print "\t", FILE_MATCH
-    print "good bye."
+    print("We could not find any JSON data in")
+    print("\t", JSON_DIR)
+    print("that matched:")
+    print("\t", FILE_MATCH)
+    print("good bye.")
     sys.exit()
 
-print "Found %s blobs of JSON data." % len(JSON_DATA)
+print("Found %s blobs of JSON data." % len(JSON_DATA))
 
-userin = raw_input("Which JSON key should we aggregate and count?\n[default: '%s', or 'list-keys' to list keys on blobs]\n" % SEARCH_KEY)
+print("Which JSON key should we aggregate and count?")
+userin = input("[default: '%s', or 'list-keys' to list keys on blobs]\n" % SEARCH_KEY)
 SEARCH_KEY = userin.strip() or SEARCH_KEY
-
-
 
 if SEARCH_KEY == "list-keys":
     # special case, handle and exit
     all_keys = set()
     for b in JSON_DATA:
-        all_keys.update(b.keys())
-    print "%s keys found in all the blobs:\n" % len(all_keys)
+        all_keys.update(list(b.keys()))
+    print("%s keys found in all the blobs:\n" % len(all_keys))
     key_field_len = len(max(all_keys, key=len))+1
     # Make small screen friendly.
     cols = 80/key_field_len
@@ -79,12 +89,11 @@ if SEARCH_KEY == "list-keys":
     all_keys = sorted(all_keys)
     while all_keys:
         key = all_keys.pop(0)
-        print key.ljust(key_field_len),
+        print(key.ljust(key_field_len), end=' ')
         iters += 1
         if iters % cols == 0:
-            print ""
+            print("")
     sys.exit()
-
 
 
 def value_counter(search_key, data):
@@ -114,10 +123,8 @@ def value_counter(search_key, data):
 
 title, stats, matches = value_counter(SEARCH_KEY, JSON_DATA)
 if not stats:
-    print "Sorry, didn't find any stats for '%s' in the JSON." % SEARCH_KEY
+    print("Sorry, didn't find any stats for '%s' in the JSON." % SEARCH_KEY)
     sys.exit()
-
-
 
 # Display....
 if hasattr(stats, "most_common"):
@@ -125,14 +132,13 @@ if hasattr(stats, "most_common"):
     key_vals = stats.most_common()
 else:
     # we're an unsorted dict
-    key_vals = stats.items()
+    key_vals = list(stats.items())
 
-print "\n\n%s" % title
-print "(Data from %s out of %s blobs)" % (matches, len(JSON_DATA))
-print "-" * len(title)
+print("\n\n%s" % title)
+print("(Data from %s out of %s blobs)" % (matches, len(JSON_DATA)))
+print("-" * len(title))
 # Values in left column, counts in right, left column as wide as longest string length.
-key_field_len = len(max(stats.keys(), key=len))+1
+key_field_len = len(max(list(stats.keys()), key=len))+1
 output_template = "%%-%ds: %%s" % key_field_len
 for k_v in key_vals:
-    print output_template % k_v
-
+    print(output_template % k_v)
