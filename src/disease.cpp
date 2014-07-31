@@ -2872,7 +2872,7 @@ void manage_sleep(player& p, disease& dis)
         if (p.fatigue > 0) {
             p.fatigue -= 1 + one_in(recovery_chance);
         }
-        int heal_chance = p.get_healthy() / 25;
+        int heal_chance = p.get_healthy() / 4;
         if ((p.has_trait("FLIMSY") && x_in_y(3, 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
               (p.has_trait("FLIMSY3") && one_in(4)) ||
               (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
@@ -2929,7 +2929,7 @@ void manage_sleep(player& p, disease& dis)
                 p.fatigue -=(2 + one_in(recovery_chance) / 2);
             }
         }
-        int heal_chance = p.get_healthy() / 25;
+        int heal_chance = p.get_healthy() / 4;
         if ((p.has_trait("FLIMSY") && x_in_y(3, 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
               (p.has_trait("FLIMSY3") && one_in(4)) ||
               (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&

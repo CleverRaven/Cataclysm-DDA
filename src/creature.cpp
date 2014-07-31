@@ -653,6 +653,8 @@ void Creature::update_health(int base_threshold)
 {
     if (get_healthy_mod() > 200) {
         set_healthy_mod(200);
+    } else if (get_healthy_mod() < -200) {
+        set_healthy_mod(-200);
     }
     int roll = rng(-100, 100);
     base_threshold += get_healthy() - get_healthy_mod();
