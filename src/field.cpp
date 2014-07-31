@@ -474,7 +474,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_nanobot:
-                        spread_gas( this, cur, x, y, curtype, 180, 8 );
+                        spread_gas( this, cur, x, y, curtype, 210, 2 );
                         break;
 
                         // TODO-MATERIALS: use fire resistance
