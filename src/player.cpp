@@ -8184,17 +8184,28 @@ bool player::eat(item *eaten, it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
-    if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
+    if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
             mod_healthy_mod(-30);
         }
     } else if (has_trait("GIZZARD")) {
+        // Carrion-eating Birds might have Saprovore; Saprophage is unlikely,
+        // but best to code defensively.
+        // Thanks for the warning, i2amroy.
+        if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
+            hunger -= (rng(0, comest->nutr) * 0.66 );
+            thirst -= ((comest->quench) * 0.66 );
+            if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
+                mod_healthy_mod(-30);
+            }
+        } else {
         // Shorter GI tract, so less nutrients captured.
-        hunger -= (comest->nutr * 0.66);
-        thirst -= (comest->quench * 0.66);
-        mod_healthy_mod(comest->healthy * 0.66);
+            hunger -= ((comest->nutr) * 0.66);
+            thirst -= ((comest->quench) * 0.66);
+            mod_healthy_mod(comest->healthy * 0.66);
+        }
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
