@@ -75,7 +75,7 @@ bool monster::can_move_to(int x, int y) const
 }
 
 // Resets plans (list of squares to visit) and builds it as a straight line
-// to the destination (x,y). t is used to choose which eligable line to use.
+// to the destination (x,y). t is used to choose which eligible line to use.
 // Currently, this assumes we can see (x,y), so shouldn't be used in any other
 // circumstance (or else the monster will "phase" through solid terrain!)
 void monster::set_dest(int x, int y, int &t)
@@ -263,8 +263,8 @@ void monster::move()
         }
     }
 
-    //Monster will regen morale and agression if it is on max HP
-    //It regens more morale and agression if is currently fleeing.
+    //Monster will regen morale and aggression if it is on max HP
+    //It regens more morale and aggression if is currently fleeing.
     if(has_flag(MF_REGENMORALE) && hp >= type->hp){
         if(is_fleeing(g->u)){
             morale = type->morale;
@@ -442,7 +442,7 @@ void monster::friendly_move()
 {
     point next;
     bool moved = false;
-    //If we sucessfully calculated a plan in the generic monster movement function, begin executing it.
+    //If we successfully calculated a plan in the generic monster movement function, begin executing it.
     if (!plans.empty() && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
             (can_move_to(plans[0].x, plans[0].y) ||
              (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))) {
