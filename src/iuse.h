@@ -67,9 +67,7 @@ public:
     int catfood             (player*, item*, bool);
 
 // TOOLS
-    int antiviral0          (player *, item *, bool);
-    int antiviral1          (player *, item *, bool);
-    int antiviral2          (player *, item *, bool);
+    int nanobot             (player *, item *, bool);
     int lighter             (player *, item *, bool);
     int primitive_fire      (player *, item *, bool);
 	int ref_lit             (player *, item *, bool);

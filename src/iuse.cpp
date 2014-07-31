@@ -2236,131 +2236,46 @@ int iuse::lighter(player *p, item *it, bool)
     return 0;
 }
 
-bool prep_antiviral0_use(player *p, item *it, int &posx, int &posy)
+bool prep_nanobot_use(player *p, item *it, int &posx, int &posy)
 {
     if (it->charges == 0) {
+        p->add_msg_if_player(m_info, _("The cannister is empty."));
         return false;
     }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
-    if (!choose_adjacent(_("Spray antiviral where?"), posx, posy)) {
+    if (!choose_adjacent(_("Spray nanobots where?"), posx, posy)) {
         return false;
     }
     if (posx == p->posx && posy == p->posy) {
-        p->add_msg_if_player(m_info, _("This antiviral may interact strangely with your skin."));
+        p->add_msg_if_player(m_info, _("This cannister contains highly concentrated amounts of nanobots. It may not be wise to allow them near your skin."));
         p->add_msg_if_player(_("Let's not find out what happens..."));
         return false;
     }
-    if (g->m.get_field(point(posx, posy), fd_antiviral)) {
-        // check if there's already antiviral on the map
-        p->add_msg_if_player(m_info, _("There is already enough antiviral in the air here."));
+    if (g->m.get_field(point(posx, posy), fd_nanobot)) {
+        // check if there's already nanobots on the map
+        p->add_msg_if_player(m_info, _("There is a fair amount of nanobots in the air already."));
         return false;
     } else {
         return true;
     }
 }
 
-void resolve_antiviral0_use(player *p, item *, int posx, int posy)
+void resolve_nanobot_use(player *p, item *, int posx, int posy)
 {
-    if (g->m.add_field(point(posx, posy), fd_antiviral, 1, 300)) {
-        p->add_msg_if_player(_("You spray some antiviral vapor into the air."));
+    if (g->m.add_field(point(posx, posy), fd_nanobot, 1, 10)) {
+        p->add_msg_if_player(_("You spray a massive cloud of nanobot vapor into the air."));
     }
 }
 
-int iuse::antiviral0(player *p, item *it, bool)
+int iuse::nanobot(player *p, item *it, bool)
 {
     int dirx, diry;
-    if (prep_antiviral0_use(p, it, dirx, diry)) {
+    if (prep_nanobot_use(p, it, dirx, diry)) {
         p->moves -= 10;
-        resolve_antiviral0_use(p, it, dirx, diry);
-        return it->type->charges_to_use();
-    }
-}
-
-bool prep_antiviral1_use(player *p, item *it, int &posx, int &posy)
-{
-    if (it->charges == 0) {
-        return false;
-    }
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return false;
-    }
-    if (!choose_adjacent(_("Spray antiviral where?"), posx, posy)) {
-        return false;
-    }
-    if (posx == p->posx && posy == p->posy) {
-        p->add_msg_if_player(m_info, _("This antiviral is of higher concentration than normal. It may interact violently with your skin."));
-        p->add_msg_if_player(_("Let's not find out what happens..."));
-        return false;
-    }
-    if (g->m.get_field(point(posx, posy), fd_antiviral)) {
-        // check if there's already antiviral on the map
-        p->add_msg_if_player(m_info, _("There is more than enough antiviral in the air here."));
-        return false;
-    } else {
-        return true;
-    }
-}
-
-void resolve_antiviral1_use(player *p, item *, int posx, int posy)
-{
-    if (g->m.add_field(point(posx, posy), fd_antiviral, 1, 600)) {
-        p->add_msg_if_player(_("You spray a large jet of antiviral vapor into the air."));
-    }
-}
-
-int iuse::antiviral1(player *p, item *it, bool)
-{
-    int dirx, diry;
-    if (prep_antiviral1_use(p, it, dirx, diry)) {
-        p->moves -= 10;
-        resolve_antiviral1_use(p, it, dirx, diry);
-        return it->type->charges_to_use();
-    }
-}
-
-bool prep_antiviral2_use(player *p, item *it, int &posx, int &posy)
-{
-    if (it->charges == 0) {
-        return false;
-    }
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return false;
-    }
-    if (!choose_adjacent(_("Spray antiviral where?"), posx, posy)) {
-        return false;
-    }
-    if (posx == p->posx && posy == p->posy) {
-        p->add_msg_if_player(m_info, _("This antiviral is of insane concentration. This would not be healthy in any context."));
-        p->add_msg_if_player(_("Let's not find out what happens..."));
-        return false;
-    }
-    if (g->m.get_field(point(posx, posy), fd_antiviral)) {
-        // check if there's already antiviral on the map
-        p->add_msg_if_player(m_info, _("There is far more antiviral in the air than the recommended usage amount."));
-        return false;
-    } else {
-        return true;
-    }
-}
-
-void resolve_antiviral2_use(player *p, item *, int posx, int posy)
-{
-    if (g->m.add_field(point(posx, posy), fd_antiviral, 1, 1000)) {
-        p->add_msg_if_player(_("You spray a massive cloud of antiviral vapor into the air."));
-    }
-}
-
-int iuse::antiviral2(player *p, item *it, bool)
-{
-    int dirx, diry;
-    if (prep_antiviral2_use(p, it, dirx, diry)) {
-        p->moves -= 10;
-        resolve_antiviral2_use(p, it, dirx, diry);
+        resolve_nanobot_use(p, it, dirx, diry);
         return it->type->charges_to_use();
     }
 }
