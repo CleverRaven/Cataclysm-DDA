@@ -87,8 +87,10 @@ item::item(const std::string new_type, unsigned int turn, bool rand)
 
 void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
 {
+    bool isReviveSpecial = one_in(20);
     init();
     active = mt->has_flag(MF_REVIVES)? true : false;
+    if (active && isReviveSpecial) item_tags.insert("REVIVE_SPECIAL");
     type = item_controller->find_template( new_type );
     corpse = mt;
     bday = turn;
@@ -1675,6 +1677,22 @@ bool item::ready_to_revive()
     int rez_factor = 48 - age_in_hours;
     if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
     {
+        // If we're a special revival zombie, wait to get up until the player is nearby.
+        const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
+        if (isReviveSpecial)
+        {
+
+            point p = g->find_item(this);
+
+            const int distance = rl_dist(p.x, p.y, g->u.posx, g->u.posy);
+            if (distance > 3) {
+                return false;
+            }
+            if (!one_in(distance + 1)) {
+                return false;
+            }
+        }
+
         return true;
     }
     return false;

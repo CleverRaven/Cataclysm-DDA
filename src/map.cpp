@@ -5057,7 +5057,17 @@ void map::draw_rough_circle(std::string type, int x, int y, int rad) {
 
 void map::add_corpse(int x, int y) {
     item body;
-    body.make_corpse("corpse", GetMType("mon_null"), 0);
+
+    const bool isReviveSpecial = one_in(10);
+
+    if (!isReviveSpecial){
+        body.make_corpse("corpse", GetMType("mon_null"), 0);
+    } else {
+        body.make_corpse("corpse", GetMType("mon_zombie"), 0);
+        body.item_tags.insert("REVIVE_SPECIAL");
+        body.active = true;
+    }
+
     add_item_or_charges(x, y, body);
     put_items_from("shoes",  1, x, y, 0, 0, 0);
     put_items_from("pants",  1, x, y, 0, 0, 0);
