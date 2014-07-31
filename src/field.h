@@ -11,6 +11,9 @@ Used to store the master field effects list metadata. Not used to store a field,
 of an existing field.
 */
 struct field_t {
+    // internal ident, used for tileset and for serializing,
+    // should be the same as the entry in field_id below (e.g. "fd_fire").
+    std::string id;
  std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
  char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
  int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground" (rubble), 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
@@ -33,9 +36,6 @@ struct field_t {
  int move_cost[3];
 };
 
-/*
-  On altering any entries in this enum please add or remove the appropriate entry to the field_names array in tile_id_data.h
-*/
 //The master list of id's for a field, corresponding to the fieldlist array.
 enum field_id {
  fd_null = 0,
@@ -82,6 +82,12 @@ enum field_id {
 Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
 */
 extern field_t fieldlist[num_fields];
+/**
+ * Returns the field_id of the field whose ident (field::id) matches the given ident.
+ * Returns fd_null (and prints a debug message!) if the field ident is unknown.
+ * Never returns num_fields.
+ */
+extern field_id field_from_ident(const std::string &field_ident);
 
 /*
 Class: field_entry

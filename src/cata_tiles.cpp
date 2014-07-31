@@ -658,13 +658,10 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
                 col = v.color;
             }
         } else if (category == C_FIELD) {
-            for(int i = 0; i < num_fields; i++) {
-                if(field_names[i] == id) {
-                    sym = fieldlist[i].sym;
-                    // TODO: field density?
-                    col = fieldlist[i].color[0];
-                }
-            }
+            const field_id fid = field_from_ident( id );
+            sym = fieldlist[fid].sym;
+            // TODO: field density?
+            col = fieldlist[fid].color[0];
         } else if (category == C_TRAP) {
             if (trapmap.count(id) > 0) {
                 const trap *t = traplist[trapmap[id]];
@@ -998,7 +995,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     bool ret_draw_field = true;
     bool ret_draw_item = true;
     if (is_draw_field) {
-        std::string fd_name = field_names[f.fieldSymbol()];
+        const std::string fd_name = fieldlist[f.fieldSymbol()].id;
 
         // for rotation inforomation
         const int neighborhood[4] = {

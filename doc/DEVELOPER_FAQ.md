@@ -1,19 +1,14 @@
 #ADDING STUFF
 ##Adding a monster
-1. Edit mtype.h.  Change the enum mon_id and insert a unique identifier for
-    your new monster type.  Be sure to put it among similar monsters.
-	Add or remove the appropriate entry to the monster_names array in tile_id_data.h
-	Add the monster to init_translation in mongroupdef.cpp.
-2. Edit monsters.json  It is pretty straightforward (Any of this ring a bell?).
-    Be ABSOLUTELY sure that you insert the macro at the same point in the list as 
-    your inserted the identifier in mon_id!
+1. Edit data/json/monsters.json or create a new json file, insert the definition of
+    your new monster their (propably copy an existing entry). Make sure the id value
+    is unique among all other monster types.
 3. Your monster type is now valid, but won't be spawned.  If you want it to be
     spawned among similar monsters, edit monstergroups.json.  Find the appropriate
-    array, and insert the identifier for your monster (e.g, mon_zombie).  Make
-    sure it comes in before the NULL at the end of the list.
+    array, and insert the identifier for your monster (e.g, mon_zombie).
     Cost_multiplier, makes it more expensive to spawn. The higher the cost, the 
     more 'slots' it takes up, and freq is how frequent they spawn.
-    See mongroupdef.cpp:line:116 and up.
+    See mongroupdef.cpp
 4. If you want your monster to drop items, edit monster_drops.json.  Make a new
     array for your monster type with all the map item groups it may carry, and a
     chance value for each.
