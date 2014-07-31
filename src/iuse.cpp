@@ -1292,12 +1292,12 @@ int iuse::meth(player *p, item *it, bool)
 int iuse::vitamins(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You take some vitamins."));
-    if (p->health >= 10) {
+    if (p->get_healthy() >= 10) {
         return it->type->charges_to_use();
-    } else if (p->health >= 0) {
-        p->health = 10;
+    } else if (p->get_healthy() >= 0) {
+        p->set_healthy(10);
     } else {
-        p->health += 10;
+        p->mod_healthy(10);
     }
     return it->type->charges_to_use();
 }
@@ -1306,12 +1306,12 @@ int iuse::vaccine(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You inject the vaccine."));
     p->add_msg_if_player(m_good, _("You feel tough."));
-    if (p->health >= 100) {
+    if (p->get_healthy() >= 100) {
         return it->type->charges_to_use();
-    } else if (p->health >= 0) {
-        p->health = 100;
+    } else if (p->get_healthy() >= 0) {
+        p->set_healthy(100);
     } else {
-        p->health += 100;
+        p->mod_healthy(100);
     }
     p->mod_pain(3);
     return it->type->charges_to_use();

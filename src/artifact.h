@@ -48,7 +48,7 @@ enum art_effect_passive {
     AEP_FORCE_TELEPORT, // Occasionally force a teleport
     AEP_MOVEMENT_NOISE, // Makes noise when you move
     AEP_BAD_WEATHER, // More likely to experience bad weather
-    AEP_SICK, // Decreases health
+    AEP_SICK, // Decreases health over time
 
     NUM_AEPS
 };

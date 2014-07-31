@@ -145,6 +145,9 @@ class Creature
         std::string get_value( const std::string key ) const;
 
         virtual void process_effects(); // runs all the effects on the Creature
+        
+        /** Handles health fluctuations over time */
+        virtual void update_health(int base_threshold = 0);
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
@@ -174,6 +177,9 @@ class Creature
         virtual int get_dex_bonus() const;
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
+        
+        virtual int get_healthy() const;
+        virtual int get_healthy_mod() const;
 
         virtual int get_num_blocks() const;
         virtual int get_num_dodges() const;
@@ -230,6 +236,11 @@ class Creature
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
         virtual void mod_stat( std::string stat, int modifier );
+        
+        virtual void set_healthy(int nhealthy);
+        virtual void set_healthy_mod(int nhealthy_mod);
+        virtual void mod_healthy(int nhealthy);
+        virtual void mod_healthy_mod(int nhealthy_mod);
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
@@ -315,6 +326,9 @@ class Creature
         int dex_bonus;
         int per_bonus;
         int int_bonus;
+        
+        int healthy; //How healthy the creature is, currently only used by players
+        int healthy_mod;
 
         int num_blocks; // base number of blocks/dodges per turn
         int num_dodges;
