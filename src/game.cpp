@@ -660,7 +660,8 @@ void game::create_factions()
 {
     faction tmp;
     std::vector<std::string> faction_vector = tmp.all_json_factions();
-    for(std::vector<std::string>::reverse_iterator it = faction_vector.rbegin(); it != faction_vector.rend(); ++it) {
+    for(std::vector<std::string>::reverse_iterator it = faction_vector.rbegin();
+        it != faction_vector.rend(); ++it) {
         tmp = faction(it[0].c_str());
         tmp.randomize();
         tmp.load_faction_template(it[0].c_str());
@@ -1503,50 +1504,50 @@ void on_finish_activity_pickaxe(player *p);
 void game::activity_on_turn()
 {
     switch (u.activity.type) {
-    case ACT_WAIT:
-    case ACT_WAIT_WEATHER:
-        // Based on time, not speed
-        u.activity.moves_left -= 100;
-        u.rooted();
-        u.pause();
-        break;
-    case ACT_PICKAXE:
-        // Based on speed, not time
-        u.activity.moves_left -= u.moves;
-        u.moves = 0;
-        on_turn_activity_pickaxe(&u);
-        break;
-    case ACT_GAME:
-        // Takes care of u.activity.moves_left
-        activity_on_turn_game();
-        break;
-    case ACT_VIBE:
-        // Takes care of u.activity.moves_left
-        activity_on_turn_vibe();
-        break;
-    case ACT_REFILL_VEHICLE:
-        // Takes care of u.activity.moves_left
-        activity_on_turn_refill_vehicle();
-        break;
-    case ACT_PULP:
-        // does not really use u.activity.moves_left, stops itself when finished
-        activity_on_turn_pulp();
-        break;
-    case ACT_FISH:
-        // Based on time, not speed--or it should be
-        // (Being faster doesn't make the fish bite quicker)
-        u.activity.moves_left -= 100;
-        u.rooted();
-        u.pause();
-        break;
-    case ACT_MAKE_ZLAVE:
-        u.activity.moves_left -= u.moves;
-        u.moves = 0;
-        break;
-    default:
-        // Based on speed, not time
-        u.activity.moves_left -= u.moves;
-        u.moves = 0;
+        case ACT_WAIT:
+        case ACT_WAIT_WEATHER:
+            // Based on time, not speed
+            u.activity.moves_left -= 100;
+            u.rooted();
+            u.pause();
+            break;
+        case ACT_PICKAXE:
+            // Based on speed, not time
+            u.activity.moves_left -= u.moves;
+            u.moves = 0;
+            on_turn_activity_pickaxe(&u);
+            break;
+        case ACT_GAME:
+            // Takes care of u.activity.moves_left
+            activity_on_turn_game();
+            break;
+        case ACT_VIBE:
+            // Takes care of u.activity.moves_left
+            activity_on_turn_vibe();
+            break;
+        case ACT_REFILL_VEHICLE:
+            // Takes care of u.activity.moves_left
+            activity_on_turn_refill_vehicle();
+            break;
+        case ACT_PULP:
+            // does not really use u.activity.moves_left, stops itself when finished
+            activity_on_turn_pulp();
+            break;
+        case ACT_FISH:
+            // Based on time, not speed--or it should be
+            // (Being faster doesn't make the fish bite quicker)
+            u.activity.moves_left -= 100;
+            u.rooted();
+            u.pause();
+            break;
+        case ACT_MAKE_ZLAVE:
+            u.activity.moves_left -= u.moves;
+            u.moves = 0;
+            break;
+        default:
+            // Based on speed, not time
+            u.activity.moves_left -= u.moves;
+            u.moves = 0;
     }
 }
 
@@ -1714,7 +1715,8 @@ void game::activity_on_finish_make_zlave()
 
                 u.add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
-                u.add_msg_if_player(m_warning, _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
+                u.add_msg_if_player(m_warning,
+                                    _("You cut into the corpse trying to make it unable to attack, but you don't think you have it right."));
             }
         }
     }
@@ -1724,70 +1726,70 @@ void game::activity_on_finish_make_zlave()
 void game::activity_on_finish()
 {
     switch (u.activity.type) {
-    case ACT_RELOAD:
-        activity_on_finish_reload();
-        break;
-    case ACT_READ:
-        u.do_read(&(u.i_at(u.activity.position)));
-        break;
-    case ACT_WAIT:
-    case ACT_WAIT_WEATHER:
-        add_msg(_("You finish waiting."));
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_CRAFT:
-        complete_craft();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_LONGCRAFT:
-        complete_craft();
-        u.activity.type = ACT_NULL;
-        if (making_would_work(u.lastrecipe)) {
-            make_all_craft(u.lastrecipe);
-        }
-        break;
-    case ACT_FORAGE:
-        forage();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_DISASSEMBLE:
-        complete_disassemble();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_BUTCHER:
-        complete_butcher(u.activity.index);
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_VEHICLE:
-        activity_on_finish_vehicle();
-        break;
-    case ACT_BUILD:
-        complete_construction();
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_TRAIN:
-        activity_on_finish_train();
-        break;
-    case ACT_FIRSTAID:
-        activity_on_finish_firstaid();
-        break;
-    case ACT_FISH:
-        activity_on_finish_fish();
-        break;
-    case ACT_PICKAXE:
-        on_finish_activity_pickaxe(&u);
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_VIBE:
-        add_msg(m_good, _("You feel much better."));
-        u.activity.type = ACT_NULL;
-        break;
-    case ACT_MAKE_ZLAVE:
-        activity_on_finish_make_zlave();
-        u.activity.type = ACT_NULL;
-        break;
-    default:
-        u.activity.type = ACT_NULL;
+        case ACT_RELOAD:
+            activity_on_finish_reload();
+            break;
+        case ACT_READ:
+            u.do_read(&(u.i_at(u.activity.position)));
+            break;
+        case ACT_WAIT:
+        case ACT_WAIT_WEATHER:
+            add_msg(_("You finish waiting."));
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_CRAFT:
+            complete_craft();
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_LONGCRAFT:
+            complete_craft();
+            u.activity.type = ACT_NULL;
+            if (making_would_work(u.lastrecipe)) {
+                make_all_craft(u.lastrecipe);
+            }
+            break;
+        case ACT_FORAGE:
+            forage();
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_DISASSEMBLE:
+            complete_disassemble();
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_BUTCHER:
+            complete_butcher(u.activity.index);
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_VEHICLE:
+            activity_on_finish_vehicle();
+            break;
+        case ACT_BUILD:
+            complete_construction();
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_TRAIN:
+            activity_on_finish_train();
+            break;
+        case ACT_FIRSTAID:
+            activity_on_finish_firstaid();
+            break;
+        case ACT_FISH:
+            activity_on_finish_fish();
+            break;
+        case ACT_PICKAXE:
+            on_finish_activity_pickaxe(&u);
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_VIBE:
+            add_msg(m_good, _("You feel much better."));
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_MAKE_ZLAVE:
+            activity_on_finish_make_zlave();
+            u.activity.type = ACT_NULL;
+            break;
+        default:
+            u.activity.type = ACT_NULL;
     }
     if (u.activity.type == ACT_NULL) {
         // Make sure data of previous activity is cleared
@@ -1987,7 +1989,7 @@ void game::update_weather()
             weather_generator weatherGen(weatherSeed);
             has_generator = true;
         }
-//        debugmsg("Generating weather for turn %d", int(calendar::turn));
+        //        debugmsg("Generating weather for turn %d", int(calendar::turn));
         w_point w = weatherGen.get_weather(u.pos(), calendar(calendar::turn));
         weather_type old_weather = weather;
         weather = weatherGen.get_weather_conditions(w);
@@ -2125,86 +2127,87 @@ bool game::mission_complete(int id, int npc_id)
     }
     mission_type *type = miss->type;
     switch (type->goal) {
-    case MGOAL_GO_TO: {
-        // TODO: target does not contain a z-component, targets are assume to be on z=0
-        const tripoint cur_pos = om_global_location();
-        return (rl_dist(cur_pos.x, cur_pos.y, miss->target.x, miss->target.y) <= 1);
-    }
-    break;
-
-    case MGOAL_GO_TO_TYPE: {
-        oter_id cur_ter = overmap_buffer.ter(om_global_location());
-        if (cur_ter == miss->type->target_id) {
-            return true;
+        case MGOAL_GO_TO: {
+            // TODO: target does not contain a z-component, targets are assume to be on z=0
+            const tripoint cur_pos = om_global_location();
+            return (rl_dist(cur_pos.x, cur_pos.y, miss->target.x, miss->target.y) <= 1);
         }
-        return false;
-    }
-    break;
+        break;
 
-    case MGOAL_FIND_ITEM:
-        if (!u.has_amount(type->item_id, miss->item_count)) {
-            if (u.has_amount(type->item_id, 1) && u.has_charges(type->item_id, miss->item_count))
-                return true;
-            else
-                return false;
-        }
-        if (miss->npc_id != -1 && miss->npc_id != npc_id) {
-            return false;
-        }
-        return true;
-
-    case MGOAL_FIND_ANY_ITEM:
-        return (u.has_mission_item(miss->uid) &&
-                (miss->npc_id == -1 || miss->npc_id == npc_id));
-
-    case MGOAL_FIND_MONSTER:
-        if (miss->npc_id != -1 && miss->npc_id != npc_id) {
-            return false;
-        }
-        for (int i = 0; i < num_zombies(); i++) {
-            if (zombie(i).mission_id == miss->uid) {
+        case MGOAL_GO_TO_TYPE: {
+            oter_id cur_ter = overmap_buffer.ter(om_global_location());
+            if (cur_ter == miss->type->target_id) {
                 return true;
             }
+            return false;
         }
-        return false;
+        break;
 
-    case MGOAL_RECRUIT_NPC: {
-        npc *p = find_npc(miss->target_npc_id);
-        return (p != NULL && p->attitude == NPCATT_FOLLOW);
-    }
+        case MGOAL_FIND_ITEM:
+            if (!u.has_amount(type->item_id, miss->item_count)) {
+                if (u.has_amount(type->item_id, 1) && u.has_charges(type->item_id, miss->item_count)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            if (miss->npc_id != -1 && miss->npc_id != npc_id) {
+                return false;
+            }
+            return true;
 
-    case MGOAL_RECRUIT_NPC_CLASS: {
-        std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
-        for (std::vector<npc *>::iterator it = npcs.begin();
-             it != npcs.end(); ++it) {
-            if ((*it)->myclass == miss->recruit_class) {
-                if ((*it)->attitude == NPCATT_FOLLOW) {
+        case MGOAL_FIND_ANY_ITEM:
+            return (u.has_mission_item(miss->uid) &&
+                    (miss->npc_id == -1 || miss->npc_id == npc_id));
+
+        case MGOAL_FIND_MONSTER:
+            if (miss->npc_id != -1 && miss->npc_id != npc_id) {
+                return false;
+            }
+            for (int i = 0; i < num_zombies(); i++) {
+                if (zombie(i).mission_id == miss->uid) {
                     return true;
                 }
             }
+            return false;
+
+        case MGOAL_RECRUIT_NPC: {
+            npc *p = find_npc(miss->target_npc_id);
+            return (p != NULL && p->attitude == NPCATT_FOLLOW);
         }
-        return false;
-    }
 
-    case MGOAL_FIND_NPC:
-        return (miss->npc_id == npc_id);
-
-    case MGOAL_ASSASSINATE:
-        return (miss->step >= 1);
-
-    case MGOAL_KILL_MONSTER:
-        return (miss->step >= 1);
-
-    case MGOAL_KILL_MONSTER_TYPE:
-        debugmsg("%d kill count", kill_count(miss->monster_type));
-        debugmsg("%d goal", miss->monster_kill_goal);
-        if (kill_count(miss->monster_type) >= miss->monster_kill_goal) {
-            return true;
+        case MGOAL_RECRUIT_NPC_CLASS: {
+            std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
+            for (std::vector<npc *>::iterator it = npcs.begin();
+                 it != npcs.end(); ++it) {
+                if ((*it)->myclass == miss->recruit_class) {
+                    if ((*it)->attitude == NPCATT_FOLLOW) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
-        return false;
 
-    default:
-        return false;
+        case MGOAL_FIND_NPC:
+            return (miss->npc_id == npc_id);
+
+        case MGOAL_ASSASSINATE:
+            return (miss->step >= 1);
+
+        case MGOAL_KILL_MONSTER:
+            return (miss->step >= 1);
+
+        case MGOAL_KILL_MONSTER_TYPE:
+            debugmsg("%d kill count", kill_count(miss->monster_type));
+            debugmsg("%d goal", miss->monster_kill_goal);
+            if (kill_count(miss->monster_type) >= miss->monster_kill_goal) {
+                return true;
+            }
+            return false;
+
+        default:
+            return false;
     }
     return false;
 }
@@ -2233,18 +2236,17 @@ void game::wrap_up_mission(int id)
         }
     }
     switch (miss->type->goal) {
-    case MGOAL_FIND_ITEM:
-        if (u.has_charges(miss->type->item_id, miss->item_count)){
-            u.use_charges(miss->type->item_id, miss->item_count);
+        case MGOAL_FIND_ITEM:
+            if (u.has_charges(miss->type->item_id, miss->item_count)) {
+                u.use_charges(miss->type->item_id, miss->item_count);
+                break;
+            } else {
+                u.use_amount(miss->type->item_id, miss->item_count);
+                break;
+            }
+        case MGOAL_FIND_ANY_ITEM:
+            u.remove_mission_items(miss->uid);
             break;
-        }
-        else{
-            u.use_amount(miss->type->item_id, miss->item_count);
-            break;
-        }
-    case MGOAL_FIND_ANY_ITEM:
-        u.remove_mission_items(miss->uid);
-        break;
     }
     mission_end endfunc;
     (endfunc.*miss->type->end)(miss);
@@ -2278,20 +2280,20 @@ void game::mission_step_complete(int id, int step)
     }
     miss->step = step;
     switch (miss->type->goal) {
-    case MGOAL_FIND_ITEM:
-    case MGOAL_FIND_MONSTER:
-    case MGOAL_ASSASSINATE:
-    case MGOAL_KILL_MONSTER: {
-        npc *p = find_npc(miss->npc_id);
-        if (p != NULL) {
-            tripoint t = p->global_omt_location();
-            miss->target.x = t.x;
-            miss->target.y = t.y;
-        } else {
-            miss->target = overmap::invalid_point;
+        case MGOAL_FIND_ITEM:
+        case MGOAL_FIND_MONSTER:
+        case MGOAL_ASSASSINATE:
+        case MGOAL_KILL_MONSTER: {
+            npc *p = find_npc(miss->npc_id);
+            if (p != NULL) {
+                tripoint t = p->global_omt_location();
+                miss->target.x = t.x;
+                miss->target.y = t.y;
+            } else {
+                miss->target = overmap::invalid_point;
+            }
+            break;
         }
-        break;
-    }
     }
 }
 
@@ -2467,18 +2469,18 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         int popup_width = max_text_length + 2;
         int popup_x = 0;
         switch (position) {
-        case -2:
-            popup_x = 0;
-            break; //near the right edge of the terminal window
-        case -1:
-            popup_x = iStartX - popup_width;
-            break; //left before item info window
-        case 0:
-            popup_x = iStartX + iWidth;
-            break; //right after item info window
-        case 1:
-            popup_x = TERMX - popup_width;
-            break; //near the left edge of the terminal window
+            case -2:
+                popup_x = 0;
+                break; //near the right edge of the terminal window
+            case -1:
+                popup_x = iStartX - popup_width;
+                break; //left before item info window
+            case 0:
+                popup_x = iStartX + iWidth;
+                break; //right after item info window
+            case 1:
+                popup_x = TERMX - popup_width;
+                break; //near the left edge of the terminal window
         }
 
         do {
@@ -2487,72 +2489,72 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                                    iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1);
 
             switch (cMenu) {
-            case 'a':
-                use_item(pos);
-                break;
-            case 'E':
-                eat(pos);
-                break;
-            case 'W':
-                wear(pos);
-                break;
-            case 'w':
-                wield(pos);
-                break;
-            case 't':
-                plthrow(pos);
-                break;
-            case 'T':
-                takeoff(pos);
-                break;
-            case 'd':
-                drop(pos);
-                break;
-            case 'U':
-                unload(pos);
-                break;
-            case 'r':
-                reload(pos);
-                break;
-            case 'R':
-                u.read(pos);
-                break;
-            case 'D':
-                disassemble(pos);
-                break;
-            case '=':
-                reassign_item(pos);
-                break;
-            case KEY_UP:
-                iSelected--;
-                break;
-            case KEY_DOWN:
-                iSelected++;
-                break;
-            case '>':
-                if (offset_line + (TERMY - VIEW_OFFSET_Y * 2) - 5 < max_line) {
-                    offset_line++;
-                }
-                break;
-            case '<':
-                if (offset_line > 0) {
-                    offset_line--;
-                }
-                break;
-            case '+':
-                if (!bHPR) {
-                    addPickupRule(oThisItem.tname());
-                    add_msg(m_info, _("'%s' added to character pickup rules."), oThisItem.tname().c_str());
-                }
-                break;
-            case '-':
-                if (bHPR) {
-                    removePickupRule(oThisItem.tname());
-                    add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname().c_str());
-                }
-                break;
-            default:
-                break;
+                case 'a':
+                    use_item(pos);
+                    break;
+                case 'E':
+                    eat(pos);
+                    break;
+                case 'W':
+                    wear(pos);
+                    break;
+                case 'w':
+                    wield(pos);
+                    break;
+                case 't':
+                    plthrow(pos);
+                    break;
+                case 'T':
+                    takeoff(pos);
+                    break;
+                case 'd':
+                    drop(pos);
+                    break;
+                case 'U':
+                    unload(pos);
+                    break;
+                case 'r':
+                    reload(pos);
+                    break;
+                case 'R':
+                    u.read(pos);
+                    break;
+                case 'D':
+                    disassemble(pos);
+                    break;
+                case '=':
+                    reassign_item(pos);
+                    break;
+                case KEY_UP:
+                    iSelected--;
+                    break;
+                case KEY_DOWN:
+                    iSelected++;
+                    break;
+                case '>':
+                    if (offset_line + (TERMY - VIEW_OFFSET_Y * 2) - 5 < max_line) {
+                        offset_line++;
+                    }
+                    break;
+                case '<':
+                    if (offset_line > 0) {
+                        offset_line--;
+                    }
+                    break;
+                case '+':
+                    if (!bHPR) {
+                        addPickupRule(oThisItem.tname());
+                        add_msg(m_info, _("'%s' added to character pickup rules."), oThisItem.tname().c_str());
+                    }
+                    break;
+                case '-':
+                    if (bHPR) {
+                        removePickupRule(oThisItem.tname());
+                        add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname().c_str());
+                    }
+                    break;
+                default:
+                    break;
             }
             if (iSelected < iMenuStart - 1) { // wraparound, but can be hidden
                 iSelected = iMenuItems;
@@ -3055,584 +3057,584 @@ bool game::handle_action()
 
     switch (act) {
 
-    case ACTION_PAUSE:
-        if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) ||
-                              !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
-            add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off.)"),
-                    press_x(ACTION_TOGGLE_SAFEMODE).c_str());
-        } else {
-            u.pause();
-        }
-        break;
-
-    case ACTION_MOVE_N:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(0, -1);
-        } else if (veh_ctrl) {
-            pldrive(0, -1);
-        } else {
-            continue_auto_move = plmove(0, -1);
-        }
-        break;
-
-    case ACTION_MOVE_NE:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(1, -1);
-        } else if (veh_ctrl) {
-            pldrive(1, -1);
-        } else {
-            continue_auto_move = plmove(1, -1);
-        }
-        break;
-
-    case ACTION_MOVE_E:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(1, 0);
-        } else if (veh_ctrl) {
-            pldrive(1, 0);
-        } else {
-            continue_auto_move = plmove(1, 0);
-        }
-        break;
-
-    case ACTION_MOVE_SE:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(1, 1);
-        } else if (veh_ctrl) {
-            pldrive(1, 1);
-        } else {
-            continue_auto_move = plmove(1, 1);
-        }
-        break;
-
-    case ACTION_MOVE_S:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(0, 1);
-        } else if (veh_ctrl) {
-            pldrive(0, 1);
-        } else {
-            continue_auto_move = plmove(0, 1);
-        }
-        break;
-
-    case ACTION_MOVE_SW:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(-1, 1);
-        } else if (veh_ctrl) {
-            pldrive(-1, 1);
-        } else {
-            continue_auto_move = plmove(-1, 1);
-        }
-        break;
-
-    case ACTION_MOVE_W:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(-1, 0);
-        } else if (veh_ctrl) {
-            pldrive(-1, 0);
-        } else {
-            continue_auto_move = plmove(-1, 0);
-        }
-        break;
-
-    case ACTION_MOVE_NW:
-        moveCount++;
-
-        if( u.get_value( "remote_controlling" ) != "" ) {
-            rcdrive(-1, -1);
-        } else if (veh_ctrl) {
-            pldrive(-1, -1);
-        } else {
-            continue_auto_move = plmove(-1, -1);
-        }
-        break;
-
-    case ACTION_MOVE_DOWN:
-        if (!u.in_vehicle) {
-            vertical_move(-1, false);
-        }
-        break;
-
-    case ACTION_MOVE_UP:
-        if (!u.in_vehicle) {
-            vertical_move(1, false);
-        }
-        break;
-
-    case ACTION_CENTER:
-        u.view_offset_x = driving_view_offset.x;
-        u.view_offset_y = driving_view_offset.y;
-        break;
-
-    case ACTION_SHIFT_N:
-        u.view_offset_y += soffsetr;
-        break;
-
-    case ACTION_SHIFT_NE:
-        u.view_offset_x += soffset;
-        u.view_offset_y += soffsetr;
-        break;
-
-    case ACTION_SHIFT_E:
-        u.view_offset_x += soffset;
-        break;
-
-    case ACTION_SHIFT_SE:
-        u.view_offset_x += soffset;
-        u.view_offset_y += soffset;
-        break;
-
-    case ACTION_SHIFT_S:
-        u.view_offset_y += soffset;
-        break;
-
-    case ACTION_SHIFT_SW:
-        u.view_offset_x += soffsetr;
-        u.view_offset_y += soffset;
-        break;
-
-    case ACTION_SHIFT_W:
-        u.view_offset_x += soffsetr;
-        break;
-
-    case ACTION_SHIFT_NW:
-        u.view_offset_x += soffsetr;
-        u.view_offset_y += soffsetr;
-        break;
-
-    case ACTION_OPEN:
-        open();
-        break;
-
-    case ACTION_CLOSE:
-        close(mouse_action_x, mouse_action_y);
-        break;
-
-    case ACTION_SMASH:
-        if (veh_ctrl) {
-            handbrake();
-        } else {
-            smash();
-        }
-        break;
-
-    case ACTION_EXAMINE:
-        examine(mouse_action_x, mouse_action_y);
-        break;
-
-    case ACTION_ADVANCEDINV:
-        advanced_inv();
-        break;
-
-    case ACTION_PICKUP:
-        Pickup::pick_up(u.posx, u.posy, 1);
-        break;
-
-    case ACTION_GRAB:
-        grab();
-        break;
-
-    case ACTION_BUTCHER:
-        butcher();
-        break;
-
-    case ACTION_CHAT:
-        chat();
-        break;
-
-    case ACTION_LOOK:
-        look_around();
-        break;
-
-    case ACTION_PEEK:
-        peek();
-        break;
-
-    case ACTION_LIST_ITEMS: {
-        int iRetItems = -1;
-        int iRetMonsters = -1;
-        int startas = uistate.list_item_mon;
-        temp_exit_fullscreen();
-        do {
-            if (startas != 2) { // last mode 2 = list_monster
-                startas = 0;      // but only for the first bit of the loop
-                iRetItems = list_items(iRetMonsters);
+        case ACTION_PAUSE:
+            if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) ||
+                                  !(u.controlling_vehicle))) { // Monsters around and we don't wanna pause
+                add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off.)"),
+                        press_x(ACTION_TOGGLE_SAFEMODE).c_str());
             } else {
-                iRetItems = -2;   // so we'll try list_items if list_monsters found 0
+                u.pause();
             }
-            if (iRetItems != -1 || startas == 2) {
-                startas = 0;
-                iRetMonsters = list_monsters(iRetItems);
-                if (iRetMonsters == 2) {
-                    iRetItems = -1; // will fire, exit loop
-                } else if (iRetMonsters == -1 && iRetItems == -2) {
-                    iRetItems = -1; // exit if requested on list_monsters firstrun
+            break;
+
+        case ACTION_MOVE_N:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(0, -1);
+            } else if (veh_ctrl) {
+                pldrive(0, -1);
+            } else {
+                continue_auto_move = plmove(0, -1);
+            }
+            break;
+
+        case ACTION_MOVE_NE:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(1, -1);
+            } else if (veh_ctrl) {
+                pldrive(1, -1);
+            } else {
+                continue_auto_move = plmove(1, -1);
+            }
+            break;
+
+        case ACTION_MOVE_E:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(1, 0);
+            } else if (veh_ctrl) {
+                pldrive(1, 0);
+            } else {
+                continue_auto_move = plmove(1, 0);
+            }
+            break;
+
+        case ACTION_MOVE_SE:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(1, 1);
+            } else if (veh_ctrl) {
+                pldrive(1, 1);
+            } else {
+                continue_auto_move = plmove(1, 1);
+            }
+            break;
+
+        case ACTION_MOVE_S:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(0, 1);
+            } else if (veh_ctrl) {
+                pldrive(0, 1);
+            } else {
+                continue_auto_move = plmove(0, 1);
+            }
+            break;
+
+        case ACTION_MOVE_SW:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(-1, 1);
+            } else if (veh_ctrl) {
+                pldrive(-1, 1);
+            } else {
+                continue_auto_move = plmove(-1, 1);
+            }
+            break;
+
+        case ACTION_MOVE_W:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(-1, 0);
+            } else if (veh_ctrl) {
+                pldrive(-1, 0);
+            } else {
+                continue_auto_move = plmove(-1, 0);
+            }
+            break;
+
+        case ACTION_MOVE_NW:
+            moveCount++;
+
+            if( u.get_value( "remote_controlling" ) != "" ) {
+                rcdrive(-1, -1);
+            } else if (veh_ctrl) {
+                pldrive(-1, -1);
+            } else {
+                continue_auto_move = plmove(-1, -1);
+            }
+            break;
+
+        case ACTION_MOVE_DOWN:
+            if (!u.in_vehicle) {
+                vertical_move(-1, false);
+            }
+            break;
+
+        case ACTION_MOVE_UP:
+            if (!u.in_vehicle) {
+                vertical_move(1, false);
+            }
+            break;
+
+        case ACTION_CENTER:
+            u.view_offset_x = driving_view_offset.x;
+            u.view_offset_y = driving_view_offset.y;
+            break;
+
+        case ACTION_SHIFT_N:
+            u.view_offset_y += soffsetr;
+            break;
+
+        case ACTION_SHIFT_NE:
+            u.view_offset_x += soffset;
+            u.view_offset_y += soffsetr;
+            break;
+
+        case ACTION_SHIFT_E:
+            u.view_offset_x += soffset;
+            break;
+
+        case ACTION_SHIFT_SE:
+            u.view_offset_x += soffset;
+            u.view_offset_y += soffset;
+            break;
+
+        case ACTION_SHIFT_S:
+            u.view_offset_y += soffset;
+            break;
+
+        case ACTION_SHIFT_SW:
+            u.view_offset_x += soffsetr;
+            u.view_offset_y += soffset;
+            break;
+
+        case ACTION_SHIFT_W:
+            u.view_offset_x += soffsetr;
+            break;
+
+        case ACTION_SHIFT_NW:
+            u.view_offset_x += soffsetr;
+            u.view_offset_y += soffsetr;
+            break;
+
+        case ACTION_OPEN:
+            open();
+            break;
+
+        case ACTION_CLOSE:
+            close(mouse_action_x, mouse_action_y);
+            break;
+
+        case ACTION_SMASH:
+            if (veh_ctrl) {
+                handbrake();
+            } else {
+                smash();
+            }
+            break;
+
+        case ACTION_EXAMINE:
+            examine(mouse_action_x, mouse_action_y);
+            break;
+
+        case ACTION_ADVANCEDINV:
+            advanced_inv();
+            break;
+
+        case ACTION_PICKUP:
+            Pickup::pick_up(u.posx, u.posy, 1);
+            break;
+
+        case ACTION_GRAB:
+            grab();
+            break;
+
+        case ACTION_BUTCHER:
+            butcher();
+            break;
+
+        case ACTION_CHAT:
+            chat();
+            break;
+
+        case ACTION_LOOK:
+            look_around();
+            break;
+
+        case ACTION_PEEK:
+            peek();
+            break;
+
+        case ACTION_LIST_ITEMS: {
+            int iRetItems = -1;
+            int iRetMonsters = -1;
+            int startas = uistate.list_item_mon;
+            temp_exit_fullscreen();
+            do {
+                if (startas != 2) { // last mode 2 = list_monster
+                    startas = 0;      // but only for the first bit of the loop
+                    iRetItems = list_items(iRetMonsters);
+                } else {
+                    iRetItems = -2;   // so we'll try list_items if list_monsters found 0
+                }
+                if (iRetItems != -1 || startas == 2) {
+                    startas = 0;
+                    iRetMonsters = list_monsters(iRetItems);
+                    if (iRetMonsters == 2) {
+                        iRetItems = -1; // will fire, exit loop
+                    } else if (iRetMonsters == -1 && iRetItems == -2) {
+                        iRetItems = -1; // exit if requested on list_monsters firstrun
+                    }
+                }
+            } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
+
+            if (iRetItems == 0 && iRetMonsters == 0) {
+                add_msg(m_info, _("You don't see any items or monsters around you!"));
+            } else if (iRetMonsters == 2) {
+                refresh_all();
+                plfire(false);
+            }
+            refresh_all();
+            reenter_fullscreen();
+        }
+        break;
+
+        case ACTION_ZONES:
+            zones_manager();
+            break;
+
+        case ACTION_INVENTORY: {
+            int cMenu = ' ';
+            int position = INT_MIN;
+            do {
+                position = inv(_("Inventory:"), position);
+                cMenu = inventory_item_menu(position);
+            } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
+                     cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
+            refresh_all();
+        }
+        break;
+
+        case ACTION_COMPARE:
+            compare();
+            break;
+
+        case ACTION_ORGANIZE:
+            reassign_item();
+            break;
+
+        case ACTION_USE:
+            use_item();
+            break;
+
+        case ACTION_USE_WIELDED:
+            use_wielded_item();
+            break;
+
+        case ACTION_WEAR:
+            wear();
+            break;
+
+        case ACTION_TAKE_OFF:
+            takeoff();
+            break;
+
+        case ACTION_EAT:
+            eat();
+            break;
+
+        case ACTION_READ:
+            read();
+            break;
+
+        case ACTION_WIELD:
+            wield();
+            break;
+
+        case ACTION_PICK_STYLE:
+            u.pick_style();
+            break;
+
+        case ACTION_RELOAD:
+            reload();
+            break;
+
+        case ACTION_UNLOAD:
+            unload(u.weapon);
+            break;
+
+        case ACTION_THROW:
+            plthrow();
+            break;
+
+        case ACTION_FIRE:
+            plfire(false, mouse_action_x, mouse_action_y);
+            break;
+
+        case ACTION_FIRE_BURST:
+            plfire(true, mouse_action_x, mouse_action_y);
+            break;
+
+        case ACTION_SELECT_FIRE_MODE:
+            u.weapon.next_mode();
+            break;
+
+        case ACTION_DROP:
+            drop();
+            break;
+
+        case ACTION_DIR_DROP:
+            drop_in_direction();
+            break;
+
+        case ACTION_BIONICS:
+            u.power_bionics();
+            refresh_all();
+            break;
+
+        case ACTION_SORT_ARMOR:
+            u.sort_armor();
+            refresh_all();
+            break;
+
+        case ACTION_WAIT:
+            wait();
+            break;
+
+        case ACTION_CRAFT:
+            craft();
+            break;
+
+        case ACTION_RECRAFT:
+            recraft();
+            break;
+
+        case ACTION_LONGCRAFT:
+            long_craft();
+            break;
+
+        case ACTION_DISASSEMBLE:
+            if (u.controlling_vehicle) {
+                add_msg(m_info, _("You can't disassemble items while driving."));
+            } else {
+                disassemble();
+                refresh_all();
+            }
+            break;
+
+        case ACTION_CONSTRUCT:
+            if (u.in_vehicle) {
+                add_msg(m_info, _("You can't construct while in vehicle."));
+            } else {
+                construction_menu();
+            }
+            break;
+
+        case ACTION_SLEEP:
+            if (veh_ctrl) {
+                add_msg(m_info, _("Vehicle control has moved, %s"),
+                        press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
+                                _("new default binding is '^'.")).c_str());
+            } else {
+                uimenu as_m;
+                as_m.text = _("Are you sure you want to sleep?");
+                as_m.entries.push_back(uimenu_entry(0, true,
+                                                    (OPTIONS["FORCE_CAPITAL_YN"] ? 'Y' : 'y'),
+                                                    _("Yes.")));
+
+                if (OPTIONS["SAVE_SLEEP"]) {
+                    as_m.entries.push_back(uimenu_entry(1, (moves_since_last_save),
+                                                        (OPTIONS["FORCE_CAPITAL_YN"] ? 'S' : 's'),
+                                                        _("Yes, and save game before sleeping.")));
+                }
+                as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"] ?
+                                                    'N' : 'n'), _("No.")));
+
+                if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
+                    as_m.text =
+                        _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
+                }
+                if( (u.has_item_with_flag("ALARMCLOCK") || u.has_bionic("bio_watch")) &&
+                    !(u.hunger < -60) ) {
+                    as_m.entries.push_back(uimenu_entry(3, true, '3',
+                                                        _("Set alarm to wake up in 3 hours.")));
+                    as_m.entries.push_back(uimenu_entry(4, true, '4',
+                                                        _("Set alarm to wake up in 4 hours.")));
+                    as_m.entries.push_back(uimenu_entry(5, true, '5',
+                                                        _("Set alarm to wake up in 5 hours.")));
+                    as_m.entries.push_back(uimenu_entry(6, true, '6',
+                                                        _("Set alarm to wake up in 6 hours.")));
+                    as_m.entries.push_back(uimenu_entry(7, true, '7',
+                                                        _("Set alarm to wake up in 7 hours.")));
+                    as_m.entries.push_back(uimenu_entry(8, true, '8',
+                                                        _("Set alarm to wake up in 8 hours.")));
+                    as_m.entries.push_back(uimenu_entry(9, true, '9',
+                                                        _("Set alarm to wake up in 9 hours.")));
+                }
+                /* Calculate key and window variables, generate window,
+                   and loop until we get a valid answer. */
+                as_m.query();
+
+                bool bSleep = false;
+                if (as_m.ret == 0) {
+                    bSleep = true;
+                } else if (as_m.ret == 1) {
+                    quicksave();
+                    bSleep = true;
+                } else if (as_m.ret >= 3 && as_m.ret <= 9) {
+                    u.add_disease("alarm_clock", 600 * as_m.ret);
+                    bSleep = true;
+                }
+
+                if (bSleep) {
+                    u.moves = 0;
+                    u.try_to_sleep();
                 }
             }
-        } while (iRetItems != -1 && iRetMonsters != -1 && !(iRetItems == 0 && iRetMonsters == 0));
+            break;
 
-        if (iRetItems == 0 && iRetMonsters == 0) {
-            add_msg(m_info, _("You don't see any items or monsters around you!"));
-        } else if (iRetMonsters == 2) {
-            refresh_all();
-            plfire(false);
-        }
-        refresh_all();
-        reenter_fullscreen();
-    }
-    break;
+        case ACTION_CONTROL_VEHICLE:
+            control_vehicle();
+            break;
 
-    case ACTION_ZONES:
-        zones_manager();
-        break;
-
-    case ACTION_INVENTORY: {
-        int cMenu = ' ';
-        int position = INT_MIN;
-        do {
-            position = inv(_("Inventory:"), position);
-            cMenu = inventory_item_menu(position);
-        } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
-                 cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
-        refresh_all();
-    }
-    break;
-
-    case ACTION_COMPARE:
-        compare();
-        break;
-
-    case ACTION_ORGANIZE:
-        reassign_item();
-        break;
-
-    case ACTION_USE:
-        use_item();
-        break;
-
-    case ACTION_USE_WIELDED:
-        use_wielded_item();
-        break;
-
-    case ACTION_WEAR:
-        wear();
-        break;
-
-    case ACTION_TAKE_OFF:
-        takeoff();
-        break;
-
-    case ACTION_EAT:
-        eat();
-        break;
-
-    case ACTION_READ:
-        read();
-        break;
-
-    case ACTION_WIELD:
-        wield();
-        break;
-
-    case ACTION_PICK_STYLE:
-        u.pick_style();
-        break;
-
-    case ACTION_RELOAD:
-        reload();
-        break;
-
-    case ACTION_UNLOAD:
-        unload(u.weapon);
-        break;
-
-    case ACTION_THROW:
-        plthrow();
-        break;
-
-    case ACTION_FIRE:
-        plfire(false, mouse_action_x, mouse_action_y);
-        break;
-
-    case ACTION_FIRE_BURST:
-        plfire(true, mouse_action_x, mouse_action_y);
-        break;
-
-    case ACTION_SELECT_FIRE_MODE:
-        u.weapon.next_mode();
-        break;
-
-    case ACTION_DROP:
-        drop();
-        break;
-
-    case ACTION_DIR_DROP:
-        drop_in_direction();
-        break;
-
-    case ACTION_BIONICS:
-        u.power_bionics();
-        refresh_all();
-        break;
-
-    case ACTION_SORT_ARMOR:
-        u.sort_armor();
-        refresh_all();
-        break;
-
-    case ACTION_WAIT:
-        wait();
-        break;
-
-    case ACTION_CRAFT:
-        craft();
-        break;
-
-    case ACTION_RECRAFT:
-        recraft();
-        break;
-
-    case ACTION_LONGCRAFT:
-        long_craft();
-        break;
-
-    case ACTION_DISASSEMBLE:
-        if (u.controlling_vehicle) {
-            add_msg(m_info, _("You can't disassemble items while driving."));
-        } else {
-            disassemble();
-            refresh_all();
-        }
-        break;
-
-    case ACTION_CONSTRUCT:
-        if (u.in_vehicle) {
-            add_msg(m_info, _("You can't construct while in vehicle."));
-        } else {
-            construction_menu();
-        }
-        break;
-
-    case ACTION_SLEEP:
-        if (veh_ctrl) {
-            add_msg(m_info, _("Vehicle control has moved, %s"),
-                    press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
-                            _("new default binding is '^'.")).c_str());
-        } else {
-            uimenu as_m;
-            as_m.text = _("Are you sure you want to sleep?");
-            as_m.entries.push_back(uimenu_entry(0, true,
-                                                (OPTIONS["FORCE_CAPITAL_YN"] ? 'Y' : 'y'),
-                                                _("Yes.")));
-
-            if (OPTIONS["SAVE_SLEEP"]) {
-                as_m.entries.push_back(uimenu_entry(1, (moves_since_last_save),
-                                                    (OPTIONS["FORCE_CAPITAL_YN"] ? 'S' : 's'),
-                                                    _("Yes, and save game before sleeping.")));
-            }
-            as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"] ?
-                                                'N' : 'n'), _("No.")));
-
-            if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
-                as_m.text =
-                    _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
-            }
-            if( (u.has_item_with_flag("ALARMCLOCK") || u.has_bionic("bio_watch")) &&
-                !(u.hunger < -60) ) {
-                as_m.entries.push_back(uimenu_entry(3, true, '3',
-                                                    _("Set alarm to wake up in 3 hours.")));
-                as_m.entries.push_back(uimenu_entry(4, true, '4',
-                                                    _("Set alarm to wake up in 4 hours.")));
-                as_m.entries.push_back(uimenu_entry(5, true, '5',
-                                                    _("Set alarm to wake up in 5 hours.")));
-                as_m.entries.push_back(uimenu_entry(6, true, '6',
-                                                    _("Set alarm to wake up in 6 hours.")));
-                as_m.entries.push_back(uimenu_entry(7, true, '7',
-                                                    _("Set alarm to wake up in 7 hours.")));
-                as_m.entries.push_back(uimenu_entry(8, true, '8',
-                                                    _("Set alarm to wake up in 8 hours.")));
-                as_m.entries.push_back(uimenu_entry(9, true, '9',
-                                                    _("Set alarm to wake up in 9 hours.")));
-            }
-            /* Calculate key and window variables, generate window,
-               and loop until we get a valid answer. */
-            as_m.query();
-
-            bool bSleep = false;
-            if (as_m.ret == 0) {
-                bSleep = true;
-            } else if (as_m.ret == 1) {
-                quicksave();
-                bSleep = true;
-            } else if (as_m.ret >= 3 && as_m.ret <= 9) {
-                u.add_disease("alarm_clock", 600 * as_m.ret);
-                bSleep = true;
-            }
-
-            if (bSleep) {
-                u.moves = 0;
-                u.try_to_sleep();
-            }
-        }
-        break;
-
-    case ACTION_CONTROL_VEHICLE:
-        control_vehicle();
-        break;
-
-    case ACTION_TOGGLE_SAFEMODE:
-        if (run_mode == 0 ) {
-            run_mode = 1;
-            mostseen = 0;
-            add_msg(m_info, _("Safe mode ON!"));
-        } else {
-            turnssincelastmon = 0;
-            run_mode = 0;
-            if (autosafemode) {
-                add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
+        case ACTION_TOGGLE_SAFEMODE:
+            if (run_mode == 0 ) {
+                run_mode = 1;
+                mostseen = 0;
+                add_msg(m_info, _("Safe mode ON!"));
             } else {
-                add_msg(m_info, _("Safe mode OFF!"));
+                turnssincelastmon = 0;
+                run_mode = 0;
+                if (autosafemode) {
+                    add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
+                } else {
+                    add_msg(m_info, _("Safe mode OFF!"));
+                }
             }
-        }
-        break;
+            break;
 
-    case ACTION_TOGGLE_AUTOSAFE:
-        if (autosafemode) {
-            add_msg(m_info, _("Auto safe mode OFF!"));
-            autosafemode = false;
-        } else {
-            add_msg(m_info, _("Auto safe mode ON"));
-            autosafemode = true;
-        }
-        break;
-
-    case ACTION_IGNORE_ENEMY:
-        if (run_mode == 2) {
-            add_msg(m_info, _("Ignoring enemy!"));
-            for(std::vector<int>::iterator it = new_seen_mon.begin();
-                it != new_seen_mon.end(); ++it) {
-                monster &critter = critter_tracker.find(*it);
-                critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
+        case ACTION_TOGGLE_AUTOSAFE:
+            if (autosafemode) {
+                add_msg(m_info, _("Auto safe mode OFF!"));
+                autosafemode = false;
+            } else {
+                add_msg(m_info, _("Auto safe mode ON"));
+                autosafemode = true;
             }
-            run_mode = 1;
-        }
-        break;
+            break;
 
-    case ACTION_SAVE:
-        if (query_yn(_("Save and quit?"))) {
-            if(save()) {
-                u.moves = 0;
-                uquit = QUIT_SAVED;
+        case ACTION_IGNORE_ENEMY:
+            if (run_mode == 2) {
+                add_msg(m_info, _("Ignoring enemy!"));
+                for(std::vector<int>::iterator it = new_seen_mon.begin();
+                    it != new_seen_mon.end(); ++it) {
+                    monster &critter = critter_tracker.find(*it);
+                    critter.ignoring = rl_dist(point(u.posx, u.posy), critter.pos());
+                }
+                run_mode = 1;
             }
-        }
-        break;
+            break;
 
-    case ACTION_QUICKSAVE:
-        quicksave();
-        return false;
-
-    case ACTION_QUIT:
-        if (query_yn(_("Commit suicide?"))) {
-            if (query_yn(_("REALLY commit suicide?"))) {
-                u.moves = 0;
-                u.place_corpse();
-                uquit = QUIT_SUICIDE;
+        case ACTION_SAVE:
+            if (query_yn(_("Save and quit?"))) {
+                if(save()) {
+                    u.moves = 0;
+                    uquit = QUIT_SAVED;
+                }
             }
-        }
-        break;
+            break;
 
-    case ACTION_PL_INFO:
-        u.disp_info();
-        refresh_all();
-        break;
+        case ACTION_QUICKSAVE:
+            quicksave();
+            return false;
 
-    case ACTION_MAP:
-        draw_overmap();
-        break;
+        case ACTION_QUIT:
+            if (query_yn(_("Commit suicide?"))) {
+                if (query_yn(_("REALLY commit suicide?"))) {
+                    u.moves = 0;
+                    u.place_corpse();
+                    uquit = QUIT_SUICIDE;
+                }
+            }
+            break;
 
-    case ACTION_MISSIONS:
-        list_missions();
-        break;
+        case ACTION_PL_INFO:
+            u.disp_info();
+            refresh_all();
+            break;
 
-    case ACTION_KILLS:
-        disp_kills();
-        break;
+        case ACTION_MAP:
+            draw_overmap();
+            break;
 
-    case ACTION_FACTIONS:
-        list_factions(_("FACTIONS:"));
-        break;
+        case ACTION_MISSIONS:
+            list_missions();
+            break;
 
-    case ACTION_MORALE:
-        u.disp_morale();
-        refresh_all();
-        break;
+        case ACTION_KILLS:
+            disp_kills();
+            break;
 
-    case ACTION_MESSAGES:
-        Messages::display_messages();
-        refresh_all();
-        break;
+        case ACTION_FACTIONS:
+            list_factions(_("FACTIONS:"));
+            break;
 
-    case ACTION_HELP:
-        display_help();
-        refresh_all();
-        break;
+        case ACTION_MORALE:
+            u.disp_morale();
+            refresh_all();
+            break;
 
-    case ACTION_DEBUG:
-        if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
-            break;    //don't do anything when sharing and not debugger
-        }
-        debug();
-        refresh_all();
-        break;
+        case ACTION_MESSAGES:
+            Messages::display_messages();
+            refresh_all();
+            break;
 
-    case ACTION_TOGGLE_SIDEBAR_STYLE:
-        toggle_sidebar_style();
-        break;
+        case ACTION_HELP:
+            display_help();
+            refresh_all();
+            break;
 
-    case ACTION_TOGGLE_FULLSCREEN:
-        toggle_fullscreen();
-        break;
+        case ACTION_DEBUG:
+            if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
+                break;    //don't do anything when sharing and not debugger
+            }
+            debug();
+            refresh_all();
+            break;
 
-    case ACTION_DISPLAY_SCENT:
-        if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
-            break;    //don't do anything when sharing and not debugger
-        }
-        display_scent();
-        break;
+        case ACTION_TOGGLE_SIDEBAR_STYLE:
+            toggle_sidebar_style();
+            break;
 
-    case ACTION_TOGGLE_DEBUGMON:
-        if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
-            break;    //don't do anything when sharing and not debugger
-        }
-        debugmon = !debugmon;
-        if (debugmon) {
-            add_msg(m_info, _("Debug messages ON!"));
-        } else {
-            add_msg(m_info, _("Debug messages OFF!"));
-        }
-        break;
+        case ACTION_TOGGLE_FULLSCREEN:
+            toggle_fullscreen();
+            break;
 
-    case ACTION_ZOOM_IN:
-        zoom_in();
-        break;
+        case ACTION_DISPLAY_SCENT:
+            if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
+                break;    //don't do anything when sharing and not debugger
+            }
+            display_scent();
+            break;
 
-    case ACTION_ZOOM_OUT:
-        zoom_out();
-        break;
+        case ACTION_TOGGLE_DEBUGMON:
+            if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
+                break;    //don't do anything when sharing and not debugger
+            }
+            debugmon = !debugmon;
+            if (debugmon) {
+                add_msg(m_info, _("Debug messages ON!"));
+            } else {
+                add_msg(m_info, _("Debug messages OFF!"));
+            }
+            break;
+
+        case ACTION_ZOOM_IN:
+            zoom_in();
+            break;
+
+        case ACTION_ZOOM_OUT:
+            zoom_out();
+            break;
     }
 
     if (!continue_auto_move) {
@@ -4348,403 +4350,403 @@ void game::debug()
     int veh_num;
     std::vector<std::string> opts;
     switch (action) {
-    case 1:
-        wishitem(&u);
-        break;
+        case 1:
+            wishitem(&u);
+            break;
 
-    case 2:
-        teleport(&u, false);
-        break;
+        case 2:
+            teleport(&u, false);
+            break;
 
-    case 3: {
-        tripoint tmp = overmap::draw_overmap();
-        if (tmp != overmap::invalid_tripoint) {
-            //First offload the active npcs.
-            active_npc.clear();
-            m.clear_vehicle_cache();
-            m.vehicle_list.clear();
-            // Save monsters.
-            for (unsigned int i = 0; i < num_zombies(); i++) {
-                force_save_monster(zombie(i));
+        case 3: {
+            tripoint tmp = overmap::draw_overmap();
+            if (tmp != overmap::invalid_tripoint) {
+                //First offload the active npcs.
+                active_npc.clear();
+                m.clear_vehicle_cache();
+                m.vehicle_list.clear();
+                // Save monsters.
+                for (unsigned int i = 0; i < num_zombies(); i++) {
+                    force_save_monster(zombie(i));
+                }
+                clear_zombies();
+                cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
+                levx = tmp.x * 2 - int(MAPSIZE / 2);
+                levy = tmp.y * 2 - int(MAPSIZE / 2);
+                levz = tmp.z;
+                m.load(levx, levy, levz, true, cur_om);
+                load_npcs();
+                m.spawn_monsters(); // Static monsters
+                update_overmap_seen();
+                draw_minimap();
             }
-            clear_zombies();
-            cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
-            levx = tmp.x * 2 - int(MAPSIZE / 2);
-            levy = tmp.y * 2 - int(MAPSIZE / 2);
-            levz = tmp.z;
-            m.load(levx, levy, levz, true, cur_om);
+        }
+        break;
+        case 4:
+            debugmsg(ngettext("%d radio tower", "%d radio towers", cur_om->radios.size()),
+                     cur_om->radios.size());
+            for (int i = 0; i < OMAPX; i++) {
+                for (int j = 0; j < OMAPY; j++) {
+                    for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++) {
+                        cur_om->seen(i, j, k) = true;
+                    }
+                }
+            }
+            add_msg(m_good, _("Current overmap revealed."));
+            break;
+
+        case 5: {
+            npc *temp = new npc();
+            temp->normalize();
+            temp->randomize();
+            temp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
+            temp->posx = u.posx - 4;
+            temp->posy = u.posy - 4;
+            temp->form_opinion(&u);
+            temp->mission = NPC_MISSION_NULL;
+            int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
+                                om_location(), temp->getID());
+            if (mission_index != -1) {
+                temp->chatbin.missions.push_back(mission_index);
+            }
             load_npcs();
-            m.spawn_monsters(); // Static monsters
-            update_overmap_seen();
-            draw_minimap();
         }
-    }
-    break;
-    case 4:
-        debugmsg(ngettext("%d radio tower", "%d radio towers", cur_om->radios.size()),
-                 cur_om->radios.size());
-        for (int i = 0; i < OMAPX; i++) {
-            for (int j = 0; j < OMAPY; j++) {
-                for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++) {
-                    cur_om->seen(i, j, k) = true;
+        break;
+
+        case 6:
+            wishmonster();
+            break;
+
+        case 7: {
+            std::string s;
+            s = _("Location %d:%d in %d:%d, %s\n");
+            s += _("Current turn: %d; Next spawn %d.\n%s\n");
+            s += ngettext("%d monster exists.\n", "%d monsters exist.\n", num_zombies());
+            s += ngettext("%d currently active NPC.\n", "%d currently active NPCs.\n", active_npc.size());
+            s += ngettext("%d event planned.", "%d events planned", events.size());
+            popup_top(
+                s.c_str(),
+                u.posx, u.posy, get_abs_levx(), get_abs_levy(),
+                otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
+                int(calendar::turn), int(nextspawn),
+                (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
+                 _("NPCs are NOT going to spawn.")),
+                num_zombies(), active_npc.size(), events.size());
+            if (!active_npc.empty()) {
+                for( auto it = active_npc.begin(); it != active_npc.end(); ++it ) {
+                    tripoint t = (*it)->global_sm_location();
+                    add_msg(m_info, _("%s: map (%d:%d) pos (%d:%d)"),
+                            (*it)->name.c_str(), t.x, t.y,
+                            (*it)->posx, (*it)->posy);
                 }
+
+                add_msg(m_info, _("(you: %d:%d)"), u.posx, u.posy);
             }
+            disp_NPCs();
+            break;
         }
-        add_msg(m_good, _("Current overmap revealed."));
-        break;
-
-    case 5: {
-        npc *temp = new npc();
-        temp->normalize();
-        temp->randomize();
-        temp->spawn_at( get_abs_levx(), get_abs_levy(), levz );
-        temp->posx = u.posx - 4;
-        temp->posy = u.posy - 4;
-        temp->form_opinion(&u);
-        temp->mission = NPC_MISSION_NULL;
-        int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
-                            om_location(), temp->getID());
-        if (mission_index != -1) {
-            temp->chatbin.missions.push_back(mission_index);
-        }
-        load_npcs();
-    }
-    break;
-
-    case 6:
-        wishmonster();
-        break;
-
-    case 7: {
-        std::string s;
-        s = _("Location %d:%d in %d:%d, %s\n");
-        s += _("Current turn: %d; Next spawn %d.\n%s\n");
-        s += ngettext("%d monster exists.\n", "%d monsters exist.\n", num_zombies());
-        s += ngettext("%d currently active NPC.\n", "%d currently active NPCs.\n", active_npc.size());
-        s += ngettext("%d event planned.", "%d events planned", events.size());
-        popup_top(
-            s.c_str(),
-            u.posx, u.posy, get_abs_levx(), get_abs_levy(),
-            otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
-            int(calendar::turn), int(nextspawn),
-            (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
-             _("NPCs are NOT going to spawn.")),
-            num_zombies(), active_npc.size(), events.size());
-        if (!active_npc.empty()) {
+        case 8:
             for( auto it = active_npc.begin(); it != active_npc.end(); ++it ) {
-                tripoint t = (*it)->global_sm_location();
-                add_msg(m_info, _("%s: map (%d:%d) pos (%d:%d)"),
-                        (*it)->name.c_str(), t.x, t.y,
-                        (*it)->posx, (*it)->posy);
+                add_msg(_("%s's head implodes!"), (*it)->name.c_str());
+                (*it)->hp_cur[bp_head] = 0;
             }
+            break;
 
-            add_msg(m_info, _("(you: %d:%d)"), u.posx, u.posy);
-        }
-        disp_NPCs();
-        break;
-    }
-    case 8:
-        for( auto it = active_npc.begin(); it != active_npc.end(); ++it ) {
-            add_msg(_("%s's head implodes!"), (*it)->name.c_str());
-            (*it)->hp_cur[bp_head] = 0;
-        }
-        break;
+        case 9:
+            wishmutate(&u);
+            break;
 
-    case 9:
-        wishmutate(&u);
-        break;
-
-    case 10:
-        if (m.veh_at(u.posx, u.posy)) {
-            dbg(D_ERROR) << "game:load: There's already vehicle here";
-            debugmsg("There's already vehicle here");
-        } else {
-            std::vector<std::string> veh_strings;
-            for (std::map<std::string, vehicle *>::iterator it = vtypes.begin();
-                 it != vtypes.end(); ++it) {
-                if (it->first != "custom") {
-                    veh_strings.push_back(it->second->type);
-                    //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                    opts.push_back(string_format(_("%s (%s)"),
-                                                 it->second->name.c_str(), it->second->type.c_str()));
-                }
-            }
-            opts.push_back(std::string(_("Cancel")));
-            veh_num = menu_vec(false, _("Choose vehicle to spawn"), opts) + 1;
-            veh_num -= 2;
-            if (veh_num < opts.size() - 1) {
-                //Didn't pick Cancel
-                std::string selected_opt = veh_strings[veh_num];
-                vehicle *veh = m.add_vehicle(selected_opt, u.posx, u.posy, -90, 100, 0);
-                if (veh != NULL) {
-                    m.board_vehicle(u.posx, u.posy, &u);
-                }
-            }
-        }
-        break;
-
-    case 11: {
-        wishskill(&u);
-    }
-    break;
-
-    case 12:
-        add_msg(m_info, _("Martial arts debug."));
-        add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        u.add_martialart("style_brawling");
-        u.add_martialart("style_karate");
-        u.add_martialart("style_judo");
-        u.add_martialart("style_aikido");
-        u.add_martialart("style_tai_chi");
-        u.add_martialart("style_taekwondo");
-        u.add_martialart("style_krav_maga");
-        u.add_martialart("style_muay_thai");
-        u.add_martialart("style_ninjutsu");
-        u.add_martialart("style_capoeira");
-        u.add_martialart("style_zui_quan");
-        u.add_martialart("style_tiger");
-        u.add_martialart("style_crane");
-        u.add_martialart("style_leopard");
-        u.add_martialart("style_snake");
-        u.add_martialart("style_dragon");
-        u.add_martialart("style_centipede");
-        u.add_martialart("style_venom_snake");
-        u.add_martialart("style_scorpion");
-        u.add_martialart("style_lizard");
-        u.add_martialart("style_toad");
-        u.add_martialart("style_eskrima");
-        u.add_martialart("style_fencing");
-        u.add_martialart("style_biojutsu");
-        u.add_martialart("style_silat");
-        add_msg(m_good, _("You now know a lot more than just 10 styles of kung fu."));
-        break;
-
-    case 13: {
-        add_msg(_("Recipe debug."));
-        add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        for( recipe_map::iterator cat_iter = recipes.begin();
-             cat_iter != recipes.end(); ++cat_iter ) {
-            for( recipe_list::iterator list_iter = cat_iter->second.begin();
-                 list_iter != cat_iter->second.end(); ++list_iter ) {
-                recipe *cur_recipe = *list_iter;
-                if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
-                    u.learn_recipe(cur_recipe);
-                }
-            }
-        }
-        add_msg(m_good, _("You know how to craft that now."));
-    }
-    break;
-
-    case 14: {
-        point pos = look_around();
-        int npcdex = npc_at(pos.x, pos.y);
-        if (npcdex == -1) {
-            popup(_("No NPC there."));
-        } else {
-            std::stringstream data;
-            npc *p = active_npc[npcdex];
-            uimenu nmenu;
-            nmenu.return_invalid = true;
-            data << p->name << " " << (p->male ? _("Male") : _("Female")) << std::endl;
-
-            data << npc_class_name(p->myclass) << "; " <<
-                 npc_attitude_name(p->attitude) << std::endl;
-            if (p->has_destination()) {
-                data << _("Destination: ") << p->goal.x << ":" << p->goal.y << "(" <<
-                     otermap[overmap_buffer.ter(p->goal)].name << ")" << std::endl;
+        case 10:
+            if (m.veh_at(u.posx, u.posy)) {
+                dbg(D_ERROR) << "game:load: There's already vehicle here";
+                debugmsg("There's already vehicle here");
             } else {
-                data << _("No destination.") << std::endl;
+                std::vector<std::string> veh_strings;
+                for (std::map<std::string, vehicle *>::iterator it = vtypes.begin();
+                     it != vtypes.end(); ++it) {
+                    if (it->first != "custom") {
+                        veh_strings.push_back(it->second->type);
+                        //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
+                        opts.push_back(string_format(_("%s (%s)"),
+                                                     it->second->name.c_str(), it->second->type.c_str()));
+                    }
+                }
+                opts.push_back(std::string(_("Cancel")));
+                veh_num = menu_vec(false, _("Choose vehicle to spawn"), opts) + 1;
+                veh_num -= 2;
+                if (veh_num < opts.size() - 1) {
+                    //Didn't pick Cancel
+                    std::string selected_opt = veh_strings[veh_num];
+                    vehicle *veh = m.add_vehicle(selected_opt, u.posx, u.posy, -90, 100, 0);
+                    if (veh != NULL) {
+                        m.board_vehicle(u.posx, u.posy, &u);
+                    }
+                }
             }
-            data << _("Trust: ") << p->op_of_u.trust << _(" Fear: ") << p->op_of_u.fear <<
-                 _(" Value: ") << p->op_of_u.value << _(" Anger: ") << p->op_of_u.anger <<
-                 _(" Owed: ") << p->op_of_u.owed << std::endl;
+            break;
 
-            data << _("Aggression: ") << int(p->personality.aggression) << _(" Bravery: ") <<
-                 int(p->personality.bravery) << _(" Collector: ") <<
-                 int(p->personality.collector) << _(" Altruism: ") <<
-                 int(p->personality.altruism) << std::endl << " " << std::endl;
-            nmenu.text = data.str();
-            nmenu.addentry(0, true, 's', "%s", _("Edit [s]kills"));
-            nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
-            nmenu.addentry(2, true, 'h', "%s", _("Cause [h]urt (to torso)"));
-            nmenu.addentry(3, true, 'p', "%s", _("Cause [p]ain"));
-            nmenu.addentry(4, true, '@', "%s", _("Status Window [@]"));
-            nmenu.addentry(5, true, 'q', "%s", _("[q]uit"));
-            nmenu.selected = 0;
-            nmenu.query();
-            switch (nmenu.ret) {
-            case 0:
-                wishskill(p);
-                break;
-            case 1:
-                wishitem(p);
-                break;
-            case 2:
-                p->hurt(bp_torso, 20);
-                break;
-            case 3:
-                p->mod_pain(20);
-                break;
-            case 4:
-                p->disp_info();
-                break;
-            default:
-                break;
-            }
+        case 11: {
+            wishskill(&u);
         }
-    }
-    break;
-
-    case 15: {
-        point center = look_around();
-        artifact_natural_property prop =
-            artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
-        m.create_anomaly(center.x, center.y, prop);
-        m.spawn_natural_artifact(center.x, center.y, prop);
-    }
-    break;
-
-    case 16:
-        u.i_add(item(architects_cube(), calendar::turn));
         break;
 
-    case 17: {
-        point coord = look_debug();
-    }
-    break;
+        case 12:
+            add_msg(m_info, _("Martial arts debug."));
+            add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
+            u.add_martialart("style_brawling");
+            u.add_martialart("style_karate");
+            u.add_martialart("style_judo");
+            u.add_martialart("style_aikido");
+            u.add_martialart("style_tai_chi");
+            u.add_martialart("style_taekwondo");
+            u.add_martialart("style_krav_maga");
+            u.add_martialart("style_muay_thai");
+            u.add_martialart("style_ninjutsu");
+            u.add_martialart("style_capoeira");
+            u.add_martialart("style_zui_quan");
+            u.add_martialart("style_tiger");
+            u.add_martialart("style_crane");
+            u.add_martialart("style_leopard");
+            u.add_martialart("style_snake");
+            u.add_martialart("style_dragon");
+            u.add_martialart("style_centipede");
+            u.add_martialart("style_venom_snake");
+            u.add_martialart("style_scorpion");
+            u.add_martialart("style_lizard");
+            u.add_martialart("style_toad");
+            u.add_martialart("style_eskrima");
+            u.add_martialart("style_fencing");
+            u.add_martialart("style_biojutsu");
+            u.add_martialart("style_silat");
+            add_msg(m_good, _("You now know a lot more than just 10 styles of kung fu."));
+            break;
 
-    case 18: {
-        debugmsg("This menu is disabled in this version. Sorry!");
-        break;
-        const int weather_offset = 1;
-        uimenu weather_menu;
-        weather_menu.text = _("Select new weather pattern:");
-        weather_menu.return_invalid = true;
-        for (int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
-            weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
-        }
-        weather_menu.addentry(-10, true, 'v', _("View weather log"));
-        weather_menu.addentry(-11, true, 'd', _("View last 800 hours of decay"));
-        weather_menu.query();
-
-        if (weather_menu.ret > 0 && weather_menu.ret <= NUM_WEATHER_TYPES) {
-            add_msg(m_info, "%d", weather_menu.selected);
-
-            int selected_weather = weather_menu.selected + 1;
-            weather = (weather_type)selected_weather;
-        } else if (weather_menu.ret == -10) {
-            uimenu weather_log_menu;
-            int pweather = 0;
-            int cweather = 0;
-            std::map<int, weather_segment>::iterator pit = weather_log.lower_bound(int(calendar::turn));
-            --pit;
-            if (pit != weather_log.end()) {
-                cweather = pit->first;
+        case 13: {
+            add_msg(_("Recipe debug."));
+            add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
+            for( recipe_map::iterator cat_iter = recipes.begin();
+                 cat_iter != recipes.end(); ++cat_iter ) {
+                for( recipe_list::iterator list_iter = cat_iter->second.begin();
+                     list_iter != cat_iter->second.end(); ++list_iter ) {
+                    recipe *cur_recipe = *list_iter;
+                    if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
+                        u.learn_recipe(cur_recipe);
+                    }
+                }
             }
-            if (cweather > 5) {
+            add_msg(m_good, _("You know how to craft that now."));
+        }
+        break;
+
+        case 14: {
+            point pos = look_around();
+            int npcdex = npc_at(pos.x, pos.y);
+            if (npcdex == -1) {
+                popup(_("No NPC there."));
+            } else {
+                std::stringstream data;
+                npc *p = active_npc[npcdex];
+                uimenu nmenu;
+                nmenu.return_invalid = true;
+                data << p->name << " " << (p->male ? _("Male") : _("Female")) << std::endl;
+
+                data << npc_class_name(p->myclass) << "; " <<
+                     npc_attitude_name(p->attitude) << std::endl;
+                if (p->has_destination()) {
+                    data << _("Destination: ") << p->goal.x << ":" << p->goal.y << "(" <<
+                         otermap[overmap_buffer.ter(p->goal)].name << ")" << std::endl;
+                } else {
+                    data << _("No destination.") << std::endl;
+                }
+                data << _("Trust: ") << p->op_of_u.trust << _(" Fear: ") << p->op_of_u.fear <<
+                     _(" Value: ") << p->op_of_u.value << _(" Anger: ") << p->op_of_u.anger <<
+                     _(" Owed: ") << p->op_of_u.owed << std::endl;
+
+                data << _("Aggression: ") << int(p->personality.aggression) << _(" Bravery: ") <<
+                     int(p->personality.bravery) << _(" Collector: ") <<
+                     int(p->personality.collector) << _(" Altruism: ") <<
+                     int(p->personality.altruism) << std::endl << " " << std::endl;
+                nmenu.text = data.str();
+                nmenu.addentry(0, true, 's', "%s", _("Edit [s]kills"));
+                nmenu.addentry(1, true, 'i', "%s", _("Grant [i]tems"));
+                nmenu.addentry(2, true, 'h', "%s", _("Cause [h]urt (to torso)"));
+                nmenu.addentry(3, true, 'p', "%s", _("Cause [p]ain"));
+                nmenu.addentry(4, true, '@', "%s", _("Status Window [@]"));
+                nmenu.addentry(5, true, 'q', "%s", _("[q]uit"));
+                nmenu.selected = 0;
+                nmenu.query();
+                switch (nmenu.ret) {
+                    case 0:
+                        wishskill(p);
+                        break;
+                    case 1:
+                        wishitem(p);
+                        break;
+                    case 2:
+                        p->hurt(bp_torso, 20);
+                        break;
+                    case 3:
+                        p->mod_pain(20);
+                        break;
+                    case 4:
+                        p->disp_info();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        break;
+
+        case 15: {
+            point center = look_around();
+            artifact_natural_property prop =
+                artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
+            m.create_anomaly(center.x, center.y, prop);
+            m.spawn_natural_artifact(center.x, center.y, prop);
+        }
+        break;
+
+        case 16:
+            u.i_add(item(architects_cube(), calendar::turn));
+            break;
+
+        case 17: {
+            point coord = look_debug();
+        }
+        break;
+
+        case 18: {
+            debugmsg("This menu is disabled in this version. Sorry!");
+            break;
+            const int weather_offset = 1;
+            uimenu weather_menu;
+            weather_menu.text = _("Select new weather pattern:");
+            weather_menu.return_invalid = true;
+            for (int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
+                weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
+            }
+            weather_menu.addentry(-10, true, 'v', _("View weather log"));
+            weather_menu.addentry(-11, true, 'd', _("View last 800 hours of decay"));
+            weather_menu.query();
+
+            if (weather_menu.ret > 0 && weather_menu.ret <= NUM_WEATHER_TYPES) {
+                add_msg(m_info, "%d", weather_menu.selected);
+
+                int selected_weather = weather_menu.selected + 1;
+                weather = (weather_type)selected_weather;
+            } else if (weather_menu.ret == -10) {
+                uimenu weather_log_menu;
+                int pweather = 0;
+                int cweather = 0;
+                std::map<int, weather_segment>::iterator pit = weather_log.lower_bound(int(calendar::turn));
                 --pit;
                 if (pit != weather_log.end()) {
-                    pweather = pit->first;
+                    cweather = pit->first;
                 }
-            }
-            weather_log_menu.text = string_format(_("turn: %d, next: %d, current: %d, prev: %d"),
-                                                  int(calendar::turn), int(nextweather),
-                                                  cweather, pweather );
-            for (std::map<int, weather_segment>::const_iterator it = weather_log.begin();
-                 it != weather_log.end(); ++it) {
-                weather_log_menu.addentry(-1, true, -1, "%dd%dh %6d %15s[%d] %2d",
-                                          it->second.deadline.days(), it->second.deadline.hours(),
-                                          it->first,
-                                          weather_data[int(it->second.weather)].name.c_str(),
-                                          it->second.weather,
-                                          (int)it->second.temperature
-                                         );
-                if (it->first == cweather) {
-                    weather_log_menu.entries.back().text_color = c_yellow;
+                if (cweather > 5) {
+                    --pit;
+                    if (pit != weather_log.end()) {
+                        pweather = pit->first;
+                    }
                 }
-            }
-            weather_log_menu.query();
-
-        } else if (weather_menu.ret == -11) {
-            uimenu decay_test_menu;
-
-
-
-            std::map<int, weather_segment>::iterator pit = weather_log.lower_bound(int(calendar::turn));
-            --pit;
-
-            calendar diffturn;
-
-            decay_test_menu.text = string_format("turn: %d, next: %d",
-                                                 int(calendar::turn), int(nextweather) );
-
-            const int ne = 3;
-            std::string examples[ne] = { "milk", "meat", "bread", };
-            int esz[ne];
-            int exsp[ne];
-            std::string spstr = "";
-            for (int i = 0; i < ne; i++) {
-                itype *ity = item_controller->find_template(examples[i]);
-                exsp[i] = dynamic_cast<it_comest *>(ity)->spoils * 600;
-                esz[i] = examples[i].size();
-                spstr = string_format("%s | %s", spstr.c_str(), examples[i].c_str());
-            }
-
-            decay_test_menu.addentry(-1, true, -1,
-                                     "  age  day hour   turn |   w-end  temp |    rot  hr %% %s",
-                                     spstr.c_str());
-
-            for (int i = 0; i < 800; i++) {
-                spstr = "";
-                diffturn = int(calendar::turn) - (i * 600);
-                pit = weather_log.lower_bound(int(diffturn));
-                int prt = get_rot_since(int(diffturn), int(calendar::turn), u.pos());
-                int perc = (get_rot_since(int(diffturn), int(diffturn) + 600, u.pos()) * 100) / 600;
-                int frt = int(calendar::turn) - int(diffturn);
-                for (int e = 0; e < ne; e++) {
-                    spstr = string_format("%s | %c %c%s", spstr.c_str(),
-                                          exsp[e] > prt ? 'Y' : ' ',
-                                          exsp[e] > frt ? 'Y' : ' ',
-                                          std::string(esz[e] - 3, ' ').c_str()
-                                         );
+                weather_log_menu.text = string_format(_("turn: %d, next: %d, current: %d, prev: %d"),
+                                                      int(calendar::turn), int(nextweather),
+                                                      cweather, pweather );
+                for (std::map<int, weather_segment>::const_iterator it = weather_log.begin();
+                     it != weather_log.end(); ++it) {
+                    weather_log_menu.addentry(-1, true, -1, "%dd%dh %6d %15s[%d] %2d",
+                                              it->second.deadline.days(), it->second.deadline.hours(),
+                                              it->first,
+                                              weather_data[int(it->second.weather)].name.c_str(),
+                                              it->second.weather,
+                                              (int)it->second.temperature
+                                             );
+                    if (it->first == cweather) {
+                        weather_log_menu.entries.back().text_color = c_yellow;
+                    }
                 }
-                decay_test_menu.addentry( -1, true, -1,
-                                          "%4dh %3dd%3dh %7d | %7d: %3df | %7d %3d%% %s", 0 - i,
-                                          diffturn.days(), diffturn.hours(), int(diffturn),
-                                          int(pit->second.deadline), pit->second.temperature,
-                                          prt, perc, spstr.c_str() );
+                weather_log_menu.query();
+
+            } else if (weather_menu.ret == -11) {
+                uimenu decay_test_menu;
+
+
+
+                std::map<int, weather_segment>::iterator pit = weather_log.lower_bound(int(calendar::turn));
+                --pit;
+
+                calendar diffturn;
+
+                decay_test_menu.text = string_format("turn: %d, next: %d",
+                                                     int(calendar::turn), int(nextweather) );
+
+                const int ne = 3;
+                std::string examples[ne] = { "milk", "meat", "bread", };
+                int esz[ne];
+                int exsp[ne];
+                std::string spstr = "";
+                for (int i = 0; i < ne; i++) {
+                    itype *ity = item_controller->find_template(examples[i]);
+                    exsp[i] = dynamic_cast<it_comest *>(ity)->spoils * 600;
+                    esz[i] = examples[i].size();
+                    spstr = string_format("%s | %s", spstr.c_str(), examples[i].c_str());
+                }
+
+                decay_test_menu.addentry(-1, true, -1,
+                                         "  age  day hour   turn |   w-end  temp |    rot  hr %% %s",
+                                         spstr.c_str());
+
+                for (int i = 0; i < 800; i++) {
+                    spstr = "";
+                    diffturn = int(calendar::turn) - (i * 600);
+                    pit = weather_log.lower_bound(int(diffturn));
+                    int prt = get_rot_since(int(diffturn), int(calendar::turn), u.pos());
+                    int perc = (get_rot_since(int(diffturn), int(diffturn) + 600, u.pos()) * 100) / 600;
+                    int frt = int(calendar::turn) - int(diffturn);
+                    for (int e = 0; e < ne; e++) {
+                        spstr = string_format("%s | %c %c%s", spstr.c_str(),
+                                              exsp[e] > prt ? 'Y' : ' ',
+                                              exsp[e] > frt ? 'Y' : ' ',
+                                              std::string(esz[e] - 3, ' ').c_str()
+                                             );
+                    }
+                    decay_test_menu.addentry( -1, true, -1,
+                                              "%4dh %3dd%3dh %7d | %7d: %3df | %7d %3d%% %s", 0 - i,
+                                              diffturn.days(), diffturn.hours(), int(diffturn),
+                                              int(pit->second.deadline), pit->second.temperature,
+                                              prt, perc, spstr.c_str() );
+                }
+                decay_test_menu.query();
             }
-            decay_test_menu.query();
         }
-    }
-    break;
+        break;
 
-    case 19: {
-        for (size_t i = 0; i < num_zombies(); i++) {
-            // Use the normal death functions, useful for testing death
-            // and for getting a corpse.
-            zombie(i).die( nullptr );
+        case 19: {
+            for (size_t i = 0; i < num_zombies(); i++) {
+                // Use the normal death functions, useful for testing death
+                // and for getting a corpse.
+                zombie(i).die( nullptr );
+            }
+            cleanup_dead();
         }
-        cleanup_dead();
-    }
-    break;
-    case 20: {
-        // display hordes on the map
-        overmap::draw_overmap(g->om_global_location(), true);
-    }
-    break;
-    case 21: {
-        item_controller->debug_spawn();
-    }
-    break;
+        break;
+        case 20: {
+            // display hordes on the map
+            overmap::draw_overmap(g->om_global_location(), true);
+        }
+        break;
+        case 21: {
+            item_controller->debug_spawn();
+        }
+        break;
 
 #ifdef LUA
-    case 22: {
-        std::string luacode = string_input_popup(_("Lua:"), 60, "");
-        call_lua(luacode);
-    }
-    break;
+        case 22: {
+            std::string luacode = string_input_popup(_("Lua:"), 60, "");
+            call_lua(luacode);
+        }
+        break;
 #endif
     }
     erase();
@@ -4942,15 +4944,15 @@ void game::list_missions()
         werase(w_missions);
         std::vector<int> umissions;
         switch (tab) {
-        case 0:
-            umissions = u.active_missions;
-            break;
-        case 1:
-            umissions = u.completed_missions;
-            break;
-        case 2:
-            umissions = u.failed_missions;
-            break;
+            case 0:
+                umissions = u.active_missions;
+                break;
+            case 1:
+                umissions = u.completed_missions;
+                break;
+            case 2:
+                umissions = u.failed_missions;
+                break;
         }
 
         for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
@@ -5005,15 +5007,15 @@ void game::list_missions()
         } else {
             std::string nope;
             switch (tab) {
-            case 0:
-                nope = _("You have no active missions!");
-                break;
-            case 1:
-                nope = _("You haven't completed any missions!");
-                break;
-            case 2:
-                nope = _("You haven't failed any missions!");
-                break;
+                case 0:
+                    nope = _("You have no active missions!");
+                    break;
+                case 1:
+                    nope = _("You haven't completed any missions!");
+                    break;
+                case 2:
+                    nope = _("You haven't failed any missions!");
+                    break;
             }
             mvwprintz(w_missions, 4, 31, c_ltred, "%s", nope.c_str());
         }
@@ -5271,7 +5273,7 @@ void game::draw_ter(int posx, int posy)
     }
 
     // Draw NPCs
-    for( const npc* n : active_npc ) {
+    for( const npc *n : active_npc ) {
         draw_critter( *n, center );
     }
 
@@ -5436,21 +5438,21 @@ nc_color game::limb_color(player *p, body_part bp, bool bleed, bool bite, bool i
         color_bit += 100;
     }
     switch (color_bit) {
-    case 1:
-        i_color = c_red;
-        break;
-    case 10:
-        i_color = c_blue;
-        break;
-    case 100:
-        i_color = c_green;
-        break;
-    case 11:
-        i_color = c_magenta;
-        break;
-    case 101:
-        i_color = c_yellow;
-        break;
+        case 1:
+            i_color = c_red;
+            break;
+        case 10:
+            i_color = c_blue;
+            break;
+        case 100:
+            i_color = c_green;
+            break;
+        case 11:
+            i_color = c_magenta;
+            break;
+        case 101:
+            i_color = c_yellow;
+            break;
     }
     return i_color;
 }
@@ -6070,18 +6072,18 @@ int game::mon_info(WINDOW *w)
             } else if (j < typeshere_npc) {
                 buff = unique_types[i][j];
                 switch (active_npc[(buff + 1) * -1]->attitude) {
-                case NPCATT_KILL:
-                    c = c_red;
-                    break;
-                case NPCATT_FOLLOW:
-                    c = c_ltgreen;
-                    break;
-                case NPCATT_DEFEND:
-                    c = c_green;
-                    break;
-                default:
-                    c = c_pink;
-                    break;
+                    case NPCATT_KILL:
+                        c = c_red;
+                        break;
+                    case NPCATT_FOLLOW:
+                        c = c_ltgreen;
+                        break;
+                    case NPCATT_DEFEND:
+                        c = c_green;
+                        break;
+                    default:
+                        c = c_pink;
+                        break;
                 }
                 sym = "@";
             } else {
@@ -6676,8 +6678,8 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player &&
-          (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-          (g->u.footwear_factor() == .5 && one_in(2)))) {
+        (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
+         (g->u.footwear_factor() == .5 && one_in(2)))) {
         add_msg(m_bad, _("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
     }
@@ -6893,7 +6895,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     }
                 } else if (u.posx == traj.front().x && u.posy == traj.front().y &&
                            (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-                            (g->u.footwear_factor() == .5 && one_in(2))))) {
+                                   (g->u.footwear_factor() == .5 && one_in(2))))) {
                     add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
                     force_remaining = 1;
                 } else if (u.posx == traj.front().x && u.posy == traj.front().y) {
@@ -7044,67 +7046,67 @@ void game::resonance_cascade(int x, int y)
     for (int i = startx; i <= endx; i++) {
         for (int j = starty; j <= endy; j++) {
             switch (rng(1, 80)) {
-            case 1:
-            case 2:
-                emp_blast(i, j);
-                break;
-            case 3:
-            case 4:
-            case 5:
-                for (int k = i - 1; k <= i + 1; k++) {
-                    for (int l = j - 1; l <= j + 1; l++) {
-                        field_id type = fd_null;
-                        switch (rng(1, 7)) {
-                        case 1:
-                            type = fd_blood;
-                            break;
-                        case 2:
-                            type = fd_bile;
-                            break;
-                        case 3:
-                        case 4:
-                            type = fd_slime;
-                            break;
-                        case 5:
-                            type = fd_fire;
-                            break;
-                        case 6:
-                        case 7:
-                            type = fd_nuke_gas;
-                            break;
-                        }
-                        if (!one_in(3)) {
-                            m.add_field(k, l, type, 3);
+                case 1:
+                case 2:
+                    emp_blast(i, j);
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                    for (int k = i - 1; k <= i + 1; k++) {
+                        for (int l = j - 1; l <= j + 1; l++) {
+                            field_id type = fd_null;
+                            switch (rng(1, 7)) {
+                                case 1:
+                                    type = fd_blood;
+                                    break;
+                                case 2:
+                                    type = fd_bile;
+                                    break;
+                                case 3:
+                                case 4:
+                                    type = fd_slime;
+                                    break;
+                                case 5:
+                                    type = fd_fire;
+                                    break;
+                                case 6:
+                                case 7:
+                                    type = fd_nuke_gas;
+                                    break;
+                            }
+                            if (!one_in(3)) {
+                                m.add_field(k, l, type, 3);
+                            }
                         }
                     }
-                }
-                break;
-            case  6:
-            case  7:
-            case  8:
-            case  9:
-            case 10:
-                m.add_trap(i, j, tr_portal);
-                break;
-            case 11:
-            case 12:
-                m.add_trap(i, j, tr_goo);
-                break;
-            case 13:
-            case 14:
-            case 15:
-                spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
-                invader = monster(GetMType(spawn_details.name), i, j);
-                add_zombie(invader);
-                break;
-            case 16:
-            case 17:
-            case 18:
-                m.destroy(i, j, true);
-                break;
-            case 19:
-                explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));
-                break;
+                    break;
+                case  6:
+                case  7:
+                case  8:
+                case  9:
+                case 10:
+                    m.add_trap(i, j, tr_portal);
+                    break;
+                case 11:
+                case 12:
+                    m.add_trap(i, j, tr_goo);
+                    break;
+                case 13:
+                case 14:
+                case 15:
+                    spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                    invader = monster(GetMType(spawn_details.name), i, j);
+                    add_zombie(invader);
+                    break;
+                case 16:
+                case 17:
+                case 18:
+                    m.destroy(i, j, true);
+                    break;
+                case 19:
+                    explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));
+                    break;
             }
         }
     }
@@ -7372,7 +7374,7 @@ bool game::revive_corpse(int x, int y, item *it)
     }
     critter.no_extra_death_drops = true;
 
-    if (it->item_vars["zlave"] == "zlave"){
+    if (it->item_vars["zlave"] == "zlave") {
         critter.add_effect("zlave", 1, 1, true);
     }
 
@@ -7849,14 +7851,14 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
         // Stored in activity.index and used in the complete_vehicle() callback to finish task.
         switch (vehint.sel_cmd) {
-        case 'i':
-            time = setuptime + std::max(mintime, 5000 * diff - skill * 2500);;
-        case 'r':
-            time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);;
-        case 'o':
-            time = setuptime + std::max(mintime, 4000 * diff - skill * 2000);;
-        case 'c':
-            time = setuptime + std::max(mintime, 6000 * diff - skill * 4000);;
+            case 'i':
+                time = setuptime + std::max(mintime, 5000 * diff - skill * 2500);;
+            case 'r':
+                time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);;
+            case 'o':
+                time = setuptime + std::max(mintime, 4000 * diff - skill * 2000);;
+            case 'c':
+                time = setuptime + std::max(mintime, 6000 * diff - skill * 4000);;
         }
         u.activity = player_activity(ACT_VEHICLE, time, (int)vehint.sel_cmd, INT_MIN, "");
         u.activity.values.push_back(veh.global_x());    // values[0]
@@ -8303,7 +8305,8 @@ bool zlave_menu(monster *z)
 
         z->add_item(*it);
 
-        add_msg(_("You mount the %s on your zombie slave, ready to store gear."), it->display_name().c_str());
+        add_msg(_("You mount the %s on your zombie slave, ready to store gear."),
+                it->display_name().c_str());
 
         g->u.i_rem(pos);
 
@@ -8488,8 +8491,7 @@ void game::examine(int examx, int examy)
         none = false;
     }
 
-    if (critter_at(examx, examy) != NULL)
-    {
+    if (critter_at(examx, examy) != NULL) {
         Creature *c = critter_at(examx, examy);
         monster *mon = dynamic_cast<monster *>(c);
 
@@ -8897,22 +8899,22 @@ void game::zones_manager()
                 as_m.query();
 
                 switch (as_m.ret) {
-                case 1:
-                    u.Zones.vZones[iActive].setName();
-                    bStuffChanged = true;
-                    break;
-                case 2:
-                    u.Zones.vZones[iActive].setZoneType(u.Zones.getZoneTypes());
-                    bStuffChanged = true;
-                    break;
-                case 3:
-                    //pos lt
-                    break;
-                case 4:
-                    //pos rb
-                    break;
-                default:
-                    break;
+                    case 1:
+                        u.Zones.vZones[iActive].setName();
+                        bStuffChanged = true;
+                        break;
+                    case 2:
+                        u.Zones.vZones[iActive].setZoneType(u.Zones.getZoneTypes());
+                        bStuffChanged = true;
+                        break;
+                    case 3:
+                        //pos lt
+                        break;
+                    case 4:
+                        //pos rb
+                        break;
+                    default:
+                        break;
                 }
 
                 as_m.reset();
@@ -10463,24 +10465,24 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         int remaining_capacity = cont->get_remaining_capacity_for_liquid(liquid, error);
         if (remaining_capacity <= 0) {
             switch (error) {
-            case L_ERR_NO_MIX:
-                add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
-                break;
-            case L_ERR_NOT_CONTAINER:
-                add_msg(m_info, _("That %s won't hold %s."), cont->tname().c_str(), liquid.tname().c_str());
-                break;
-            case L_ERR_NOT_WATERTIGHT:
-                add_msg(m_info, _("That %s isn't water-tight."), cont->tname().c_str());
-                break;
-            case L_ERR_NOT_SEALED:
-                add_msg(m_info, _("You can't seal that %s!"), cont->tname().c_str());
-                break;
-            case L_ERR_FULL:
-                add_msg(m_info, _("Your %s can't hold any more %s."), cont->tname().c_str(),
-                        liquid.tname().c_str());
-                break;
-            default:
-                break;
+                case L_ERR_NO_MIX:
+                    add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
+                    break;
+                case L_ERR_NOT_CONTAINER:
+                    add_msg(m_info, _("That %s won't hold %s."), cont->tname().c_str(), liquid.tname().c_str());
+                    break;
+                case L_ERR_NOT_WATERTIGHT:
+                    add_msg(m_info, _("That %s isn't water-tight."), cont->tname().c_str());
+                    break;
+                case L_ERR_NOT_SEALED:
+                    add_msg(m_info, _("You can't seal that %s!"), cont->tname().c_str());
+                    break;
+                case L_ERR_FULL:
+                    add_msg(m_info, _("Your %s can't hold any more %s."), cont->tname().c_str(),
+                            liquid.tname().c_str());
+                    break;
+                default:
+                    break;
             }
             return false;
         }
@@ -11003,7 +11005,7 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
         if (id >= 0) {
             last_target = id;
             last_target_was_npc = true;
-            if(!active_npc[id]->is_enemy()){
+            if(!active_npc[id]->is_enemy()) {
                 if (!query_yn(_("Really attack %s?"), active_npc[id]->name.c_str())) {
                     std::vector <point> trajectory_blank;
                     return trajectory_blank; // Cancel the attack
@@ -11349,21 +11351,21 @@ void game::butcher()
     mtype *corpse = dis_item.corpse;
     int time_to_cut = 0;
     switch (corpse->size) { // Time in turns to cut up te corpse
-    case MS_TINY:
-        time_to_cut = 2;
-        break;
-    case MS_SMALL:
-        time_to_cut = 5;
-        break;
-    case MS_MEDIUM:
-        time_to_cut = 10;
-        break;
-    case MS_LARGE:
-        time_to_cut = 18;
-        break;
-    case MS_HUGE:
-        time_to_cut = 40;
-        break;
+        case MS_TINY:
+            time_to_cut = 2;
+            break;
+        case MS_SMALL:
+            time_to_cut = 5;
+            break;
+        case MS_MEDIUM:
+            time_to_cut = 10;
+            break;
+        case MS_LARGE:
+            time_to_cut = 18;
+            break;
+        case MS_HUGE:
+            time_to_cut = 40;
+            break;
     }
     time_to_cut *= 100; // Convert to movement points
     time_to_cut += factor * 5; // Penalty for poor tool
@@ -11392,46 +11394,46 @@ void game::complete_butcher(int index)
     int sSkillLevel = u.skillLevel("survival");
 
     switch (corpse->size) {
-    case MS_TINY:
-        pieces = 1;
-        skins = 1;
-        bones = 1;
-        fats = 1;
-        sinews = 1;
-        feathers = 2;
-        break;
-    case MS_SMALL:
-        pieces = 2;
-        skins = 3;
-        bones = 4;
-        fats = 2;
-        sinews = 4;
-        feathers = 6;
-        break;
-    case MS_MEDIUM:
-        pieces = 4;
-        skins = 6;
-        bones = 9;
-        fats = 4;
-        sinews = 9;
-        feathers = 11;
-        break;
-    case MS_LARGE:
-        pieces = 8;
-        skins = 10;
-        bones = 14;
-        fats = 8;
-        sinews = 14;
-        feathers = 17;
-        break;
-    case MS_HUGE:
-        pieces = 16;
-        skins = 18;
-        bones = 21;
-        fats = 16;
-        sinews = 21;
-        feathers = 24;
-        break;
+        case MS_TINY:
+            pieces = 1;
+            skins = 1;
+            bones = 1;
+            fats = 1;
+            sinews = 1;
+            feathers = 2;
+            break;
+        case MS_SMALL:
+            pieces = 2;
+            skins = 3;
+            bones = 4;
+            fats = 2;
+            sinews = 4;
+            feathers = 6;
+            break;
+        case MS_MEDIUM:
+            pieces = 4;
+            skins = 6;
+            bones = 9;
+            fats = 4;
+            sinews = 9;
+            feathers = 11;
+            break;
+        case MS_LARGE:
+            pieces = 8;
+            skins = 10;
+            bones = 14;
+            fats = 8;
+            sinews = 14;
+            feathers = 17;
+            break;
+        case MS_HUGE:
+            pieces = 16;
+            skins = 18;
+            bones = 21;
+            fats = 16;
+            sinews = 21;
+            feathers = 24;
+            break;
     }
 
     skill_shift += rng(0, sSkillLevel - 3);
@@ -12208,7 +12210,8 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(m_warning, _("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
+        add_msg(m_warning,
+                _("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
@@ -12387,14 +12390,14 @@ bool game::plmove(int dx, int dy)
         }
     }
 
-	bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
-	bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
-	bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
-	bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
-	bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
-	bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+    bool toSwimmable = m.has_flag("SWIMMABLE", x, y);
+    bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, x, y);
+    bool fromSwimmable = m.has_flag("SWIMMABLE", u.posx, u.posy);
+    bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.posx, u.posy);
+    bool fromBoat = veh0 && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+    bool toBoat = veh1 && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
 
-	if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
+    if (toSwimmable && toDeepWater && !toBoat) { // Dive into water!
         // Requires confirmation if we were on dry land previously
         if ((fromSwimmable && fromDeepWater && !fromBoat) || query_yn(_("Dive into the water?"))) {
             if ((!fromDeepWater || fromBoat) && u.swim_speed() < 500) {
@@ -12421,17 +12424,17 @@ bool game::plmove(int dx, int dy)
             bool dangerous = false;
 
             switch (curType) {
-            case fd_smoke:
-                dangerous = !(u.get_env_resist(bp_mouth) >= 7);
-                break;
-            case fd_tear_gas:
-            case fd_toxic_gas:
-            case fd_gas_vent:
-                dangerous = !(u.get_env_resist(bp_mouth) >= 15);
-                break;
-            default:
-                dangerous = cur->is_dangerous();
-                break;
+                case fd_smoke:
+                    dangerous = !(u.get_env_resist(bp_mouth) >= 7);
+                    break;
+                case fd_tear_gas:
+                case fd_toxic_gas:
+                case fd_gas_vent:
+                    dangerous = !(u.get_env_resist(bp_mouth) >= 15);
+                    break;
+                default:
+                    dangerous = cur->is_dangerous();
+                    break;
             }
             if ((dangerous) && !query_yn(_("Really step into that %s?"), cur->name().c_str())) {
                 return false;
@@ -12709,8 +12712,8 @@ bool game::plmove(int dx, int dy)
                 if(u.hit(NULL, bp, 0, rng(1, 4)) > 0) {
                     //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                     add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
-                                body_part_name_accusative(bp).c_str(),
-                                m.tername(x, y).c_str());
+                            body_part_name_accusative(bp).c_str(),
+                            m.tername(x, y).c_str());
                 }
                 if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
                     u.add_disease("tetanus", 1, true);
@@ -12720,7 +12723,7 @@ bool game::plmove(int dx, int dy)
             }
         }
         if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-              (g->u.footwear_factor() == .5 && one_in(2)))) {
+                (g->u.footwear_factor() == .5 && one_in(2)))) {
             // DX and IN are long suits for Cephalopods,
             // so this shouldn't cause too much hardship
             // Presumed that if it's swimmable, they're
@@ -12796,31 +12799,31 @@ bool game::plmove(int dx, int dy)
                         choice = menu(true, _("Do what?"), _("Follow me."), _("Deactivate."), NULL);
                     }
                     switch (choice) {
-                    case 1: {
-                        if (critter.has_effect("docile")) {
-                            critter.remove_effect("docile");
-                            if (one_in(3)) {
-                                add_msg(_("The %s hovers momentarily as it surveys the area."),
-                                        critter.name().c_str());
+                        case 1: {
+                            if (critter.has_effect("docile")) {
+                                critter.remove_effect("docile");
+                                if (one_in(3)) {
+                                    add_msg(_("The %s hovers momentarily as it surveys the area."),
+                                            critter.name().c_str());
+                                }
+                            } else {
+                                critter.add_effect("docile", 1, 1, true);
+                                add_msg(_("The %s ."), critter.name().c_str());
+                                if (one_in(3)) {
+                                    add_msg(_("The %s lets out a whirring noise and starts to follow you."),
+                                            critter.name().c_str());
+                                }
                             }
-                        } else {
-                            critter.add_effect("docile", 1, 1, true);
-                            add_msg(_("The %s ."), critter.name().c_str());
-                            if (one_in(3)) {
-                                add_msg(_("The %s lets out a whirring noise and starts to follow you."),
-                                        critter.name().c_str());
-                            }
+                            break;
                         }
-                        break;
-                    }
-                    case 2: {
-                        remove_zombie(mondex);
-                        m.spawn_item(x, y, "bot_manhack", 1, 0, calendar::turn);
-                        break;
-                    }
-                    default: {
-                        return false;
-                    }
+                        case 2: {
+                            remove_zombie(mondex);
+                            m.spawn_item(x, y, "bot_manhack", 1, 0, calendar::turn);
+                            break;
+                        }
+                        default: {
+                            return false;
+                        }
                     }
                     u.moves -= 100;
                 }
@@ -13088,7 +13091,7 @@ void game::plswim(int x, int y)
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
         if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 ||
-            (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
+                                    (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
             u.oxygen = 30 + 2 * u.str_cur;
@@ -13107,7 +13110,7 @@ void game::plswim(int x, int y)
     u.inv.rust_iron_items();
 
     int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
-                        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
+                      mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
 
     if (get_temperature() <= 50) {
         drenchFlags |= mfb(bp_hand_l) | mfb(bp_hand_r);
@@ -13299,7 +13302,7 @@ void game::vertical_move(int movez, bool force)
             add_msg(_("You dive underwater!"));
         } else {
             if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 ||
-                  (g->u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
+                (g->u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));
             } else {
@@ -13337,7 +13340,7 @@ void game::vertical_move(int movez, bool force)
     int stairx = -1, stairy = -1;
     bool rope_ladder = false;
 
-    const int omtilesz=SEEX * 2;
+    const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs(u.posx, u.posy) );
 
     point omtile_align_start(
@@ -13965,20 +13968,20 @@ void game::spawn_mon(int shiftx, int shifty)
         int msx = get_abs_levx();
         int msy = get_abs_levy();
         switch (rng(0, 4)) { // on which side of the map to spawn
-        case 0:
-            msy += rng(0, MAPSIZE - 1);
-            break;
-        case 1:
-            msx += MAPSIZE - 1;
-            msy += rng(0, MAPSIZE - 1);
-            break;
-        case 2:
-            msx += rng(0, MAPSIZE - 1);
-            break;
-        case 3:
-            msy += MAPSIZE - 1;
-            msx += rng(0, MAPSIZE - 1);
-            break;
+            case 0:
+                msy += rng(0, MAPSIZE - 1);
+                break;
+            case 1:
+                msx += MAPSIZE - 1;
+                msy += rng(0, MAPSIZE - 1);
+                break;
+            case 2:
+                msx += rng(0, MAPSIZE - 1);
+                break;
+            case 3:
+                msy += MAPSIZE - 1;
+                msx += rng(0, MAPSIZE - 1);
+                break;
         }
         // adds the npc to the correct overmap.
         tmp->spawn_at( msx, msy, levz );
@@ -14146,42 +14149,42 @@ void game::wait()
     activity_type actType = ACT_WAIT;
 
     switch (as_m.ret) {
-    case 1:
-        time = 5000;
-        break;
-    case 2:
-        time = 30000;
-        break;
-    case 3:
-        time = 60000;
-        break;
-    case 4:
-        time = 120000;
-        break;
-    case 5:
-        time = 180000;
-        break;
-    case 6:
-        time = 360000;
-        break;
-    case 7:
-        time = 60000 * ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6);
-        break;
-    case 8:
-        time = 60000 * ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6);
-        break;
-    case 9:
-        time = 60000 * ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6);
-        break;
-    case 10:
-        time = 60000 * ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6);
-        break;
-    case 11:
-        time = 999999999;
-        actType = ACT_WAIT_WEATHER;
-        break;
-    default:
-        return;
+        case 1:
+            time = 5000;
+            break;
+        case 2:
+            time = 30000;
+            break;
+        case 3:
+            time = 60000;
+            break;
+        case 4:
+            time = 120000;
+            break;
+        case 5:
+            time = 180000;
+            break;
+        case 6:
+            time = 360000;
+            break;
+        case 7:
+            time = 60000 * ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6);
+            break;
+        case 8:
+            time = 60000 * ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6);
+            break;
+        case 9:
+            time = 60000 * ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6);
+            break;
+        case 10:
+            time = 60000 * ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6);
+            break;
+        case 11:
+            time = 999999999;
+            actType = ACT_WAIT_WEATHER;
+            break;
+        default:
+            return;
     }
 
     u.assign_activity(actType, time, 0);
@@ -14498,50 +14501,50 @@ std::vector<faction *> game::factions_at(int x, int y)
 nc_color sev(int a)
 {
     switch (a) {
-    case 0:
-        return c_cyan;
-    case 1:
-        return c_ltcyan;
-    case 2:
-        return c_ltblue;
-    case 3:
-        return c_blue;
-    case 4:
-        return c_ltgreen;
-    case 5:
-        return c_green;
-    case 6:
-        return c_yellow;
-    case 7:
-        return c_pink;
-    case 8:
-        return c_ltred;
-    case 9:
-        return c_red;
-    case 10:
-        return c_magenta;
-    case 11:
-        return c_brown;
-    case 12:
-        return c_cyan_red;
-    case 13:
-        return c_ltcyan_red;
-    case 14:
-        return c_ltblue_red;
-    case 15:
-        return c_blue_red;
-    case 16:
-        return c_ltgreen_red;
-    case 17:
-        return c_green_red;
-    case 18:
-        return c_yellow_red;
-    case 19:
-        return c_pink_red;
-    case 20:
-        return c_magenta_red;
-    case 21:
-        return c_brown_red;
+        case 0:
+            return c_cyan;
+        case 1:
+            return c_ltcyan;
+        case 2:
+            return c_ltblue;
+        case 3:
+            return c_blue;
+        case 4:
+            return c_ltgreen;
+        case 5:
+            return c_green;
+        case 6:
+            return c_yellow;
+        case 7:
+            return c_pink;
+        case 8:
+            return c_ltred;
+        case 9:
+            return c_red;
+        case 10:
+            return c_magenta;
+        case 11:
+            return c_brown;
+        case 12:
+            return c_cyan_red;
+        case 13:
+            return c_ltcyan_red;
+        case 14:
+            return c_ltblue_red;
+        case 15:
+            return c_blue_red;
+        case 16:
+            return c_ltgreen_red;
+        case 17:
+            return c_green_red;
+        case 18:
+            return c_yellow_red;
+        case 19:
+            return c_pink_red;
+        case 20:
+            return c_magenta_red;
+        case 21:
+            return c_brown_red;
     }
     return c_dkgray;
 }
@@ -14608,18 +14611,21 @@ void intro()
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);
         if (maxy < minHeight && maxx < minWidth) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("Whoa! Your terminal is tiny! This game requires a minimum terminal size of "
-                                                       "%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white,
+                           _("Whoa! Your terminal is tiny! This game requires a minimum terminal size of "
+                             "%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?"),
                            minWidth, minHeight, maxx, maxy);
         } else if (maxx < minWidth) {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("Oh! Hey, look at that. Your terminal is just a little too narrow. This game "
-                                                       "requires a minimum terminal size of %dx%d to function. It just won't work "
-                                                       "with only %dx%d. Can you stretch it out sideways a bit?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white,
+                           _("Oh! Hey, look at that. Your terminal is just a little too narrow. This game "
+                             "requires a minimum terminal size of %dx%d to function. It just won't work "
+                             "with only %dx%d. Can you stretch it out sideways a bit?"),
                            minWidth, minHeight, maxx, maxy);
         } else {
-            fold_and_print(tmp, 0, 0, maxx, c_white, _("Woah, woah, we're just a little short on space here. The game requires a "
-                                                       "minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you "
-                                                       "make the terminal just a smidgen taller?"),
+            fold_and_print(tmp, 0, 0, maxx, c_white,
+                           _("Woah, woah, we're just a little short on space here. The game requires a "
+                             "minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you "
+                             "make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
         wgetch(tmp);
@@ -14648,147 +14654,147 @@ void game::process_artifact(item *it, player *p, bool wielded)
         // Recharge it if necessary
         if (it->charges < tool->max_charges) {
             switch (tool->charge_type) {
-            case ARTC_TIME:
-                // Once per hour
-                if (calendar::turn.seconds() == 0 && calendar::turn.minutes() == 0) {
-                    it->charges++;
-                }
-                break;
-            case ARTC_SOLAR:
-                if (calendar::turn.seconds() == 0 && calendar::turn.minutes() % 10 == 0 &&
-                    is_in_sunlight(p->posx, p->posy)) {
-                    it->charges++;
-                }
-                break;
-            // Artifacts can inflict pain even on Deadened folks.
-            // Some weird Lovecraftian thing.  ;P
-            // (So DON'T route them through mod_pain!)
-            case ARTC_PAIN:
-                if (calendar::turn.seconds() == 0) {
-                    add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
-                    p->pain += 3 * rng(1, 3);
-                    it->charges++;
-                }
-                break;
-            case ARTC_HP:
-                if (calendar::turn.seconds() == 0) {
-                    add_msg(m_bad, _("You feel your body decaying."));
-                    p->hurtall(1);
-                    it->charges++;
-                }
-                break;
+                case ARTC_TIME:
+                    // Once per hour
+                    if (calendar::turn.seconds() == 0 && calendar::turn.minutes() == 0) {
+                        it->charges++;
+                    }
+                    break;
+                case ARTC_SOLAR:
+                    if (calendar::turn.seconds() == 0 && calendar::turn.minutes() % 10 == 0 &&
+                        is_in_sunlight(p->posx, p->posy)) {
+                        it->charges++;
+                    }
+                    break;
+                // Artifacts can inflict pain even on Deadened folks.
+                // Some weird Lovecraftian thing.  ;P
+                // (So DON'T route them through mod_pain!)
+                case ARTC_PAIN:
+                    if (calendar::turn.seconds() == 0) {
+                        add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
+                        p->pain += 3 * rng(1, 3);
+                        it->charges++;
+                    }
+                    break;
+                case ARTC_HP:
+                    if (calendar::turn.seconds() == 0) {
+                        add_msg(m_bad, _("You feel your body decaying."));
+                        p->hurtall(1);
+                        it->charges++;
+                    }
+                    break;
             }
         }
     }
 
     for (int i = 0; i < effects.size(); i++) {
         switch (effects[i]) {
-        case AEP_STR_UP:
-            p->mod_str_bonus(+4);
-            break;
-        case AEP_DEX_UP:
-            p->mod_dex_bonus(+4);
-            break;
-        case AEP_PER_UP:
-            p->mod_per_bonus(+4);
-            break;
-        case AEP_INT_UP:
-            p->mod_int_bonus(+4);
-            break;
-        case AEP_ALL_UP:
-            p->mod_str_bonus(+2);
-            p->mod_dex_bonus(+2);
-            p->mod_per_bonus(+2);
-            p->mod_int_bonus(+2);
-            break;
-        case AEP_SPEED_UP: // Handled in player::current_speed()
-            break;
+            case AEP_STR_UP:
+                p->mod_str_bonus(+4);
+                break;
+            case AEP_DEX_UP:
+                p->mod_dex_bonus(+4);
+                break;
+            case AEP_PER_UP:
+                p->mod_per_bonus(+4);
+                break;
+            case AEP_INT_UP:
+                p->mod_int_bonus(+4);
+                break;
+            case AEP_ALL_UP:
+                p->mod_str_bonus(+2);
+                p->mod_dex_bonus(+2);
+                p->mod_per_bonus(+2);
+                p->mod_int_bonus(+2);
+                break;
+            case AEP_SPEED_UP: // Handled in player::current_speed()
+                break;
 
-        case AEP_IODINE:
-            if (p->radiation > 0) {
-                p->radiation--;
-            }
-            break;
-
-        case AEP_SMOKE:
-            if (one_in(10)) {
-                int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
-                if (m.add_field(x, y, fd_smoke, rng(1, 3))) {
-                    add_msg(_("The %s emits some smoke."),
-                            it->tname().c_str());
+            case AEP_IODINE:
+                if (p->radiation > 0) {
+                    p->radiation--;
                 }
-            }
-            break;
+                break;
 
-        case AEP_SNAKES:
-            break; // Handled in player::hit()
-
-        case AEP_EXTINGUISH:
-            for (int x = p->posx - 1; x <= p->posx + 1; x++) {
-                for (int y = p->posy - 1; y <= p->posy + 1; y++) {
-                    m.adjust_field_age(point(x, y), fd_fire, -1);
+            case AEP_SMOKE:
+                if (one_in(10)) {
+                    int x = p->posx + rng(-1, 1), y = p->posy + rng(-1, 1);
+                    if (m.add_field(x, y, fd_smoke, rng(1, 3))) {
+                        add_msg(_("The %s emits some smoke."),
+                                it->tname().c_str());
+                    }
                 }
-            }
+                break;
 
-        case AEP_HUNGER:
-            if (one_in(100)) {
-                p->hunger++;
-            }
-            break;
+            case AEP_SNAKES:
+                break; // Handled in player::hit()
 
-        case AEP_THIRST:
-            if (one_in(120)) {
-                p->thirst++;
-            }
-            break;
-
-        case AEP_EVIL:
-            if (one_in(150)) { // Once every 15 minutes, on average
-                p->add_disease("evil", 300);
-                if (it->is_armor()) {
-                    add_msg(_("You have an urge to wear the %s."),
-                            it->tname().c_str());
-                } else if (!wielded) {
-                    add_msg(_("You have an urge to wield the %s."),
-                            it->tname().c_str());
+            case AEP_EXTINGUISH:
+                for (int x = p->posx - 1; x <= p->posx + 1; x++) {
+                    for (int y = p->posy - 1; y <= p->posy + 1; y++) {
+                        m.adjust_field_age(point(x, y), fd_fire, -1);
+                    }
                 }
-            }
-            break;
 
-        case AEP_SCHIZO:
-            break; // Handled in player::suffer()
+            case AEP_HUNGER:
+                if (one_in(100)) {
+                    p->hunger++;
+                }
+                break;
 
-        case AEP_RADIOACTIVE:
-            if (one_in(4)) {
-                p->radiation++;
-            }
-            break;
+            case AEP_THIRST:
+                if (one_in(120)) {
+                    p->thirst++;
+                }
+                break;
 
-        case AEP_STR_DOWN:
-            p->mod_str_bonus(-3);
-            break;
+            case AEP_EVIL:
+                if (one_in(150)) { // Once every 15 minutes, on average
+                    p->add_disease("evil", 300);
+                    if (it->is_armor()) {
+                        add_msg(_("You have an urge to wear the %s."),
+                                it->tname().c_str());
+                    } else if (!wielded) {
+                        add_msg(_("You have an urge to wield the %s."),
+                                it->tname().c_str());
+                    }
+                }
+                break;
 
-        case AEP_DEX_DOWN:
-            p->mod_dex_bonus(-3);
-            break;
+            case AEP_SCHIZO:
+                break; // Handled in player::suffer()
 
-        case AEP_PER_DOWN:
-            p->mod_per_bonus(-3);
-            break;
+            case AEP_RADIOACTIVE:
+                if (one_in(4)) {
+                    p->radiation++;
+                }
+                break;
 
-        case AEP_INT_DOWN:
-            p->mod_int_bonus(-3);
-            break;
+            case AEP_STR_DOWN:
+                p->mod_str_bonus(-3);
+                break;
 
-        case AEP_ALL_DOWN:
-            p->mod_str_bonus(-2);
-            p->mod_dex_bonus(-2);
-            p->mod_per_bonus(-2);
-            p->mod_int_bonus(-2);
-            break;
+            case AEP_DEX_DOWN:
+                p->mod_dex_bonus(-3);
+                break;
 
-        case AEP_SPEED_DOWN:
-            break; // Handled in player::current_speed()
+            case AEP_PER_DOWN:
+                p->mod_per_bonus(-3);
+                break;
+
+            case AEP_INT_DOWN:
+                p->mod_int_bonus(-3);
+                break;
+
+            case AEP_ALL_DOWN:
+                p->mod_str_bonus(-2);
+                p->mod_dex_bonus(-2);
+                p->mod_per_bonus(-2);
+                p->mod_int_bonus(-2);
+                break;
+
+            case AEP_SPEED_DOWN:
+                break; // Handled in player::current_speed()
         }
     }
     // Recalculate, as it might have changed (by mod_*_bonus above)
@@ -14804,128 +14810,128 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
     for (size_t i = 0; i < effects.size(); i++) {
         switch (effects[i]) {
-        case AEP_STR_UP:
-            net_str += 4;
-            break;
-        case AEP_DEX_UP:
-            net_dex += 4;
-            break;
-        case AEP_PER_UP:
-            net_per += 4;
-            break;
-        case AEP_INT_UP:
-            net_int += 4;
-            break;
-        case AEP_ALL_UP:
-            net_str += 2;
-            net_dex += 2;
-            net_per += 2;
-            net_int += 2;
-            break;
-        case AEP_STR_DOWN:
-            net_str -= 3;
-            break;
-        case AEP_DEX_DOWN:
-            net_dex -= 3;
-            break;
-        case AEP_PER_DOWN:
-            net_per -= 3;
-            break;
-        case AEP_INT_DOWN:
-            net_int -= 3;
-            break;
-        case AEP_ALL_DOWN:
-            net_str -= 2;
-            net_dex -= 2;
-            net_per -= 2;
-            net_int -= 2;
-            break;
+            case AEP_STR_UP:
+                net_str += 4;
+                break;
+            case AEP_DEX_UP:
+                net_dex += 4;
+                break;
+            case AEP_PER_UP:
+                net_per += 4;
+                break;
+            case AEP_INT_UP:
+                net_int += 4;
+                break;
+            case AEP_ALL_UP:
+                net_str += 2;
+                net_dex += 2;
+                net_per += 2;
+                net_int += 2;
+                break;
+            case AEP_STR_DOWN:
+                net_str -= 3;
+                break;
+            case AEP_DEX_DOWN:
+                net_dex -= 3;
+                break;
+            case AEP_PER_DOWN:
+                net_per -= 3;
+                break;
+            case AEP_INT_DOWN:
+                net_int -= 3;
+                break;
+            case AEP_ALL_DOWN:
+                net_str -= 2;
+                net_dex -= 2;
+                net_per -= 2;
+                net_int -= 2;
+                break;
 
-        case AEP_SPEED_UP:
-            net_speed += 20;
-            break;
-        case AEP_SPEED_DOWN:
-            net_speed -= 20;
-            break;
+            case AEP_SPEED_UP:
+                net_speed += 20;
+                break;
+            case AEP_SPEED_DOWN:
+                net_speed -= 20;
+                break;
 
-        case AEP_IODINE:
-            break; // No message
+            case AEP_IODINE:
+                break; // No message
 
-        case AEP_SNAKES:
-            add_msg(m_warning, _("Your skin feels slithery."));
-            break;
+            case AEP_SNAKES:
+                add_msg(m_warning, _("Your skin feels slithery."));
+                break;
 
-        case AEP_INVISIBLE:
-            add_msg(m_good, _("You fade into invisibility!"));
-            break;
+            case AEP_INVISIBLE:
+                add_msg(m_good, _("You fade into invisibility!"));
+                break;
 
-        case AEP_CLAIRVOYANCE:
-            add_msg(m_good, _("You can see through walls!"));
-            break;
+            case AEP_CLAIRVOYANCE:
+                add_msg(m_good, _("You can see through walls!"));
+                break;
 
-        case AEP_SUPER_CLAIRVOYANCE:
-            add_msg(m_good, _("You can see through everything!"));
-            break;
+            case AEP_SUPER_CLAIRVOYANCE:
+                add_msg(m_good, _("You can see through everything!"));
+                break;
 
-        case AEP_STEALTH:
-            add_msg(m_good, _("Your steps stop making noise."));
-            break;
+            case AEP_STEALTH:
+                add_msg(m_good, _("Your steps stop making noise."));
+                break;
 
-        case AEP_GLOW:
-            add_msg(_("A glow of light forms around you."));
-            break;
+            case AEP_GLOW:
+                add_msg(_("A glow of light forms around you."));
+                break;
 
-        case AEP_PSYSHIELD:
-            add_msg(m_good, _("Your mental state feels protected."));
-            break;
+            case AEP_PSYSHIELD:
+                add_msg(m_good, _("Your mental state feels protected."));
+                break;
 
-        case AEP_RESIST_ELECTRICITY:
-            add_msg(m_good, _("You feel insulated."));
-            break;
+            case AEP_RESIST_ELECTRICITY:
+                add_msg(m_good, _("You feel insulated."));
+                break;
 
-        case AEP_CARRY_MORE:
-            add_msg(m_good, _("Your back feels strengthened."));
-            break;
+            case AEP_CARRY_MORE:
+                add_msg(m_good, _("Your back feels strengthened."));
+                break;
 
-        case AEP_HUNGER:
-            add_msg(m_warning, _("You feel hungry."));
-            break;
+            case AEP_HUNGER:
+                add_msg(m_warning, _("You feel hungry."));
+                break;
 
-        case AEP_THIRST:
-            add_msg(m_warning, _("You feel thirsty."));
-            break;
+            case AEP_THIRST:
+                add_msg(m_warning, _("You feel thirsty."));
+                break;
 
-        case AEP_EVIL:
-            add_msg(m_warning, _("You feel an evil presence..."));
-            break;
+            case AEP_EVIL:
+                add_msg(m_warning, _("You feel an evil presence..."));
+                break;
 
-        case AEP_SCHIZO:
-            add_msg(m_bad, _("You feel a tickle of insanity."));
-            break;
+            case AEP_SCHIZO:
+                add_msg(m_bad, _("You feel a tickle of insanity."));
+                break;
 
-        case AEP_RADIOACTIVE:
-            add_msg(m_warning, _("Your skin prickles with radiation."));
-            break;
+            case AEP_RADIOACTIVE:
+                add_msg(m_warning, _("Your skin prickles with radiation."));
+                break;
 
-        case AEP_MUTAGENIC:
-            add_msg(m_bad, _("You feel your genetic makeup degrading."));
-            break;
+            case AEP_MUTAGENIC:
+                add_msg(m_bad, _("You feel your genetic makeup degrading."));
+                break;
 
-        case AEP_ATTENTION:
-            add_msg(m_warning, _("You feel an otherworldly attention upon you..."));
-            break;
+            case AEP_ATTENTION:
+                add_msg(m_warning, _("You feel an otherworldly attention upon you..."));
+                break;
 
-        case AEP_FORCE_TELEPORT:
-            add_msg(m_bad, _("You feel a force pulling you inwards."));
-            break;
+            case AEP_FORCE_TELEPORT:
+                add_msg(m_bad, _("You feel a force pulling you inwards."));
+                break;
 
-        case AEP_MOVEMENT_NOISE:
-            add_msg(m_warning, _("You hear a rattling noise coming from inside yourself."));
-            break;
+            case AEP_MOVEMENT_NOISE:
+                add_msg(m_warning, _("You hear a rattling noise coming from inside yourself."));
+                break;
 
-        case AEP_BAD_WEATHER:
-            add_msg(m_warning, _("You feel storms coming."));
-            break;
+            case AEP_BAD_WEATHER:
+                add_msg(m_warning, _("You feel storms coming."));
+                break;
         }
     }
 

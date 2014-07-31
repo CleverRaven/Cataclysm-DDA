@@ -710,7 +710,7 @@ void Item_factory::load_armor(JsonObject &jo)
     armor_template->covers = jo.has_member("covers") ?
                              flags_from_json(jo, "covers", "bodyparts") : 0;
     armor_template->sided = jo.has_member("covers") ?
-                             flags_from_json(jo, "covers", "sided") : 0;
+                            flags_from_json(jo, "covers", "sided") : 0;
 
     itype *new_item_template = armor_template;
     load_basic_info(jo, new_item_template);
@@ -771,7 +771,7 @@ void Item_factory::load_tool_armor(JsonObject &jo)
     armor_template->covers = jo.has_member("covers") ?
                              flags_from_json(jo, "covers", "bodyparts") : 0;
     armor_template->sided = jo.has_member("covers") ?
-                             flags_from_json(jo, "covers", "sided") : 0;
+                            flags_from_json(jo, "covers", "sided") : 0;
 
     load_basic_info(jo, tool_armor_template);
 }
@@ -1049,7 +1049,7 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
 }
 
 std::bitset<13> Item_factory::flags_from_json(JsonObject &jo, const std::string &member,
-                                       std::string flag_type)
+        std::string flag_type)
 {
     //If none is found, just use the standard none action
     std::bitset<13> flag = 0;
@@ -1658,12 +1658,12 @@ void Item_factory::debug_spawn()
         }
         // Invert the map to get sorting!
         std::multimap<int, std::string> itemnames2;
-        for (const auto &e: itemnames) {
+        for (const auto &e : itemnames) {
             itemnames2.insert(std::pair<int, std::string>(e.second, e.first));
         }
         uimenu menu2;
         menu2.text = "result of 100 spawns:";
-        for (const auto &e: itemnames2) {
+        for (const auto &e : itemnames2) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
             menu2.entries.push_back(uimenu_entry(menu2.entries.size(), true, -2, buffer.str()));
