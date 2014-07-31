@@ -4590,5 +4590,32 @@
         [ "nail", 1 ]
       ]
     ]
-  }
+  },
+{
+  "type" : "recipe",
+  "result": "fish_trap",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["mag_survival", 2], ["textbook_survival", 2], ["survival_book", 1], ["pocket_survival", 1]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "jug_plastic", 2 ],
+      [ "bottle_plastic", 10 ]
+    ],
+    [
+      [ "string_6", 6 ],
+      [ "string_36", 1 ],
+      [ "duct_tape", 50 ],
+      [ "medical_tape", 25 ]
+    ]
+  ]
+}
 ]
