@@ -101,6 +101,29 @@
   },
 
   {
+    "id":"antiviral",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_blue",
+    "name": "antiviral spray",
+    "description": "This is a small cannister of an antiviral agent developed in a lab. May be effective to fight off zombies and other things. Don't try it on yourself though, it may be harmful to the uninfected as well.",
+    "price": 100,
+    "material": ["glass","aluminum"],
+    "weight": 2564,
+    "volume": 3,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 30,
+    "initial_charges": 30,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "ANTIVIRAL"
+  },
+
+  {
     "id": "matches",
     "type": "TOOL",
     "symbol": ",",
@@ -3374,7 +3397,7 @@
      "use_action": "PORTABLE_GAME",
      "flags": ["SHEATH_KNIFE"]
   },
-  
+
   {
     "id": "vibrator",
     "type": "TOOL",
@@ -6799,7 +6822,7 @@
         "need_charges_msg": "Nothing happens."
     }
   },
-  
+
 {
 	"id": "ref_lighter_on",
     "type": "TOOL",
@@ -6890,7 +6913,7 @@
     "revert_to": "null",
     "use_action": "WATER_PURIFIER"
   },
-  
+
   {
     "id": "kiln_full",
     "type": "TOOL",
