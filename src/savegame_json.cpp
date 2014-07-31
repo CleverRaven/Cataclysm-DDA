@@ -439,30 +439,28 @@ void player::deserialize(JsonIn &jsin)
     drench_mut_calc();
 
     parray = data.get_array("temp_cur");
-    if ( parray.size() == num_bp ) {
-        for(int i=0; i < num_bp; i++) {
-            temp_cur[i]=parray.get_int(i);
-        }
-    } else {
-        debugmsg("Error, incompatible temp_cur in save file %s",parray.str().c_str());
+    for(int i = 0; i < num_bp; i++) {
+        temp_cur[i] = 5000;
+    }
+    for(int i = 0; i < parray.size(); i++) {
+        temp_cur[i]=parray.get_int(i);
     }
 
+
     parray = data.get_array("temp_conv");
-    if ( parray.size() == num_bp ) {
-        for(int i=0; i < num_bp; i++) {
-            temp_conv[i]=parray.get_int(i);
-        }
-    } else {
-        debugmsg("Error, incompatible temp_conv in save file %s",parray.str().c_str());
+    for(int i = 0; i < num_bp; i++) {
+        temp_conv[i] = 5000;
+    }
+    for(int i = 0; i < parray.size(); i++) {
+        temp_conv[i]=parray.get_int(i);
     }
 
     parray = data.get_array("frostbite_timer");
-    if ( parray.size() == num_bp ) {
-        for(int i=0; i < num_bp; i++) {
-            frostbite_timer[i]=parray.get_int(i);
-        }
-    } else {
-        debugmsg("Error, incompatible frostbite_timer in save file %s",parray.str().c_str());
+    for(int i = 0; i < num_bp; i++) {
+        frostbite_timer[i] = 0;
+    }
+    for(int i = 0; i < parray.size(); i++) {
+        frostbite_timer[i]=parray.get_int(i);
     }
 
     parray = data.get_array("learned_recipes");
