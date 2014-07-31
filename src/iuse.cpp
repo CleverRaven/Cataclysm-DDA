@@ -159,7 +159,7 @@ static bool inscribe_item(player *p, std::string verb, std::string gerund, bool 
     return item_inscription(p, cut, verb, gerund, carveable);
 }
 
-// For an explosion (which releases some kind of gas), this functions
+// For an explosion (which releases some kind of gas), this function
 // calculates the points around that explosion where to create those
 // gas fields.
 // Those points must have a clear line of sight and a clear path to
@@ -745,13 +745,11 @@ int iuse::alcohol(player *p, item *it, bool)
     it_comest *food = dynamic_cast<it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
         duration = 180 - (10 * p->str_max);
-        // Metabolizing the booze improves the nutritional
-        // value; might not be healthy, and still
-        // causes Thirst problems, though
+        // Metabolizing the booze improves the nutritional value; 
+        // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out depressant
-        // effects, but doesn't make it any more
-        // stimulating
+        // effects, but doesn't make it any more stimulating
         if ((food->stim) < 0) {
             p->stim += (abs(food->stim));
         }
@@ -774,7 +772,7 @@ int iuse::alcohol_weak(player *p, item *it, bool)
     if (p->has_trait("ALCMET")) {
         duration = 90 - (6 * p->str_max);
         // Metabolizing the booze improves the nutritional value; 
-		// might not be healthy, and still causes Thirst problems, though
+        // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out the depressant
         p->stim += (abs(food->stim));
