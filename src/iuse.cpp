@@ -6195,10 +6195,10 @@ void make_zlave(player *p)
         tolerance_level = 7;
     }
 
-    const bool tolerance = p->skillLevel("survival") > tolerance_level;
-
-    if (!tolerance && p->morale_level() <= -150) {
-        add_msg(m_neutral, _("It's too awful."));
+    // Survival skill increases your willingness to get things done,
+    // but it doesn't make you feel any less bad about it.
+    if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel("survival") )) - 150 ) {
+        add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return;
     }
 
@@ -6218,15 +6218,11 @@ void make_zlave(player *p)
         return;
     }
 
-    if (tolerance) {
-
-        if (p->has_trait("PSYCHOPATH")) {
-            add_msg(m_neutral, _("Meh. Saves you having to carry stuff."));
-        } else {
-            add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
-        }
+    if( tolerance_level == 0 ) {
+        // You just don't care, no message.
+    } else if( tolerance_level <= 5 ) {
+        add_msg(m_neutral, _("Well, it's more constructive than just chopping 'em into gooey meat..."));
     } else {
-
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
         int moraleMalus = -50 * (5.0 / (float) p->skillLevel("survival"));
@@ -6251,19 +6247,22 @@ void make_zlave(player *p)
     item *body = corpses[selected_corpse];
     mtype *mt = body->corpse;
 
-    int hard = body->damage * 10 + mt->hp / 2 + mt->speed / 2 + (1 + mt->melee_skill) *
-               (1 + mt->melee_cut) * (1 + mt->melee_sides);
-    int skills = p->skillLevel("survival") * p->int_cur + p->skillLevel("firstaid") * p->int_cur *
-                 p->dex_cur / 3;
+    // HP range for zombies is roughly 36 to 120, with the really big ones having 180 and 480 hp.
+    // Speed range is 20 - 120 (for humanoids, dogs get way faster)
+    // This gives us a difficulty ranging rougly from 10 - 40, with up to +25 for corpse damage.
+    // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
+    int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
+    // 0 - 30
+    int skills = p->skillLevel("survival") + p->skillLevel("firstaid") + (p->dex_cur / 2);
+    skills *= 2;
 
-    int success = skills - hard - rng(1, 100);
+    int success = rng(0, skills) - rng(0, difficulty);
 
-    const int moves = hard * 1200 / p->skillLevel("firstaid");
+    const int moves = difficulty * 1200 / p->skillLevel("firstaid");
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(success);
     p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
-    p->moves = 0;
 }
 
 int iuse::knife(player *p, item *it, bool t)
@@ -6293,7 +6292,7 @@ int iuse::knife(player *p, item *it, bool t)
         }
     }
 
-    if( p->skillLevel("survival") > 4 && p->skillLevel("firstaid") > 3 ) {
+    if( p->skillLevel("survival") > 1 && p->skillLevel("firstaid") > 1 ) {
         kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
     }
 
