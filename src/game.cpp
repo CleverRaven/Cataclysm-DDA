@@ -8142,13 +8142,13 @@ void game::moving_vehicle_dismount(int tox, int toy)
     m.unboard_vehicle(u.posx, u.posy);
     u.moves -= 200;
     // Dive three tiles in the direction of tox and toy
-    fling_player_or_monster(&u, 0, d, 30, true);
+    fling_creature( &u, d, 30, true );
     // Hit the ground according to vehicle speed
     if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
         if (veh->velocity > 0) {
-            fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
+            fling_creature(&u, veh->face.dir(), veh->velocity / (float)100);
         } else {
-            fling_player_or_monster(&u, 0, veh->face.dir() + 180, -(veh->velocity) / (float)100);
+            fling_creature(&u, veh->face.dir() + 180, -(veh->velocity) / (float)100);
         }
     }
     return;
@@ -13119,45 +13119,30 @@ void game::plswim(int x, int y)
     u.drench(100, drenchFlags);
 }
 
-void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float flvel,
-                                   bool controlled)
+void game::fling_creature(Creature *c, const int &dir, float flvel, bool controlled)
 {
     int steps = 0;
-    bool is_u = p && (p == &u);
+    const bool is_u = (c == &u);
     int dam1, dam2;
 
-    bool is_player;
-    if (p) {
-        is_player = true;
-    } else {
-        if (zz) {
-            is_player = false;
-        } else {
-            dbg(D_ERROR) << "game:fling_player_or_monster: "
-                         "neither player nor monster";
-            debugmsg("game::fling neither player nor monster");
-            return;
-        }
-    }
+    player *p = dynamic_cast<player*>(c);
+    monster *zz = dynamic_cast<monster*>(c);
 
     tileray tdir(dir);
     std::string sname;
-    if (is_player) {
-        if (is_u) {
-            sname = std::string(_("You are"));
-        } else {
-            sname = p->name + _(" is");
-        }
+    if( is_u ) {
+        sname = std::string(_("You are"));
     } else {
-        sname = zz->name() + _(" is");
+        //~ %s is the monster name ("the zombie") or a npc name.
+        sname = string_format( "%s is", c->disp_name().c_str() );
     }
     int range = flvel / 10;
-    int x = (is_player ? p->posx : zz->posx());
-    int y = (is_player ? p->posy : zz->posy());
+    int x = c->xpos();
+    int y = c->ypos();
     while (range > 0) {
         tdir.advance();
-        x = (is_player ? p->posx : zz->posx()) + tdir.dx();
-        y = (is_player ? p->posy : zz->posy()) + tdir.dy();
+        x = c->xpos() + tdir.dx();
+        y = c->ypos() + tdir.dy();
         std::string dname;
         bool thru = true;
         bool slam = false;
@@ -13171,11 +13156,11 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             slam = true;
             dname = critter.name();
             dam2 = flvel / 3 + rng(0, flvel * 1 / 3);
-            critter.apply_damage( is_player ? static_cast<Creature*>( p ) : zz, bp_torso, dam2 );
+            critter.apply_damage( c, bp_torso, dam2 );
             if( !critter.is_dead() ) {
                 thru = false;
             }
-            if (is_player) {
+            if( p != nullptr ) {
                 p->hitall(dam1, 40);
             } else {
                 zz->apply_damage( &critter, bp_torso, dam1 );
@@ -13190,7 +13175,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             } else {
                 thru = false;
             }
-            if (is_player) {
+            if( p != nullptr ) {
                 p->hitall(dam1, 40);
             } else {
                 zz->apply_damage( nullptr, bp_torso, dam1 );
@@ -13201,7 +13186,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             add_msg(_("%s slammed against the %s!"), sname.c_str(), dname.c_str());
         }
         if (thru) {
-            if (is_player) {
+            if( p != nullptr ) {
                 p->posx = x;
                 p->posy = y;
             } else {
@@ -13220,7 +13205,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
         if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
         }
-        if (is_player) {
+        if( p != nullptr ) {
             int dex_reduce = p->dex_cur < 4 ? 4 : p->dex_cur;
             dam1 = dam1 * 8 / dex_reduce;
             if (p->has_trait("PARKOUR")) {
