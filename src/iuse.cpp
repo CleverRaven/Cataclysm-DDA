@@ -2677,7 +2677,8 @@ int iuse::fish_trap(player *p, item *it, bool t)
 
             int success = -50;
             const int surv = p->skillLevel("survival");
-            for (int i = 0; i < rng(it->charges, it->charges * it->charges); i++ ) {
+            const int attempts = rng(it->charges, it->charges * it->charges);
+            for (int i = 0; i < attempts; i++) {
                 success += rng(surv, surv * surv);
             }
 
