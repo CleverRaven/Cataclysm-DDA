@@ -2140,6 +2140,7 @@ int iuse::dogfood(player *p, item *, bool)
         if (g->zombie(mon_dex).type->id == "mon_dog") {
             p->add_msg_if_player(m_good, _("The dog seems to like you!"));
             g->zombie(mon_dex).friendly = -1;
+            g->zombie(mon_dex).add_effect("pet", 1, 1, true);
         } else {
             p->add_msg_if_player(_("The %s seems quite unimpressed!"),
                                  g->zombie(mon_dex).name().c_str());
