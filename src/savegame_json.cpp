@@ -965,6 +965,7 @@ void item::deserialize(JsonObject &data)
     int lettmp = 0;
     std::string corptmp = "null";
     int damtmp = 0;
+    std::bitset<13> tmp_covers;
 
     if ( ! data.read( "typeid", idtmp) ) {
         debugmsg("Invalid item type: %s ", data.str().c_str() );
@@ -973,7 +974,7 @@ void item::deserialize(JsonObject &data)
 
     data.read( "charges", charges );
     data.read( "burnt", burnt );
-    data.read( "covers", covers );
+    
     data.read( "poison", poison );
     data.read( "owned", owned );
 
@@ -1030,6 +1031,45 @@ void item::deserialize(JsonObject &data)
     } else {
         curammo = NULL;
     }
+    
+    data.read( "covers", tmp_covers );
+    if (is_armor() && tmp_covers.none()) {
+        it_armor* armor = dynamic_cast<it_armor*>(itypes[idtmp]);
+        covers = armor->covers;
+        if (armor->sided.any()) {
+            bool left = one_in(2);
+            if (armor->sided.test(bp_arm_l)) {
+                if (left == true) {
+                    covers.set(bp_arm_l);
+                } else {
+                    covers.set(bp_arm_r);
+                }
+            }
+            if (armor->sided.test(bp_hand_l)) {
+                if (left == true) {
+                    covers.set(bp_hand_l);
+                } else {
+                    covers.set(bp_hand_r);
+                }
+            }
+            if (armor->sided.test(bp_leg_l)) {
+                if (left == true) {
+                    covers.set(bp_leg_l);
+                } else {
+                    covers.set(bp_leg_r);
+                }
+            }
+            if (armor->sided.test(bp_foot_l)) {
+                if (left == true) {
+                    covers.set(bp_foot_l);
+                } else {
+                    covers.set(bp_foot_r);
+                }
+            }
+        }
+    } else {
+        covers = tmp_covers;
+    }
 
     data.read("item_tags", item_tags);
 
@@ -1078,45 +1118,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( charges != -1 )     json.member( "charges", long(charges) );
     if ( damage != 0 )       json.member( "damage", int(damage) );
     if ( burnt != 0 )        json.member( "burnt", burnt );
-    if ( covers != 0 ) {
-        json.member( "covers", covers );
-    } else if (is_armor()) {
-        it_armor* armor = dynamic_cast<it_armor*>(type);
-        std::bitset<13> tmp_covers = armor->covers;
-        if (armor->sided.any()) {
-            bool left = one_in(2);
-            if (armor->sided.test(bp_arm_l)) {
-                if (left == true) {
-                    tmp_covers.set(bp_arm_l);
-                } else {
-                    tmp_covers.set(bp_arm_r);
-                }
-            }
-            if (armor->sided.test(bp_hand_l)) {
-                if (left == true) {
-                    tmp_covers.set(bp_hand_l);
-                } else {
-                    tmp_covers.set(bp_hand_r);
-                }
-            }
-            if (armor->sided.test(bp_leg_l)) {
-                if (left == true) {
-                    tmp_covers.set(bp_leg_l);
-                } else {
-                    tmp_covers.set(bp_leg_r);
-                }
-            }
-            if (armor->sided.test(bp_foot_l)) {
-                if (left == true) {
-                    tmp_covers.set(bp_foot_l);
-                } else {
-                    tmp_covers.set(bp_foot_r);
-                }
-            }
-        }
-        json.member( "covers", tmp_covers);
-    }
-    
+    if ( covers != 0 )       json.member( "covers", covers );    
     if ( poison != 0 )       json.member( "poison", poison );
     if ( ammotmp != "null" ) json.member( "curammo", ammotmp );
     if ( mode != "NULL" )    json.member( "mode", mode );
