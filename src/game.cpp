@@ -13129,13 +13129,6 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     monster *zz = dynamic_cast<monster*>(c);
 
     tileray tdir(dir);
-    std::string sname;
-    if( is_u ) {
-        sname = std::string(_("You are"));
-    } else {
-        //~ %s is the monster name ("the zombie") or a npc name.
-        sname = string_format( "%s is", c->disp_name().c_str() );
-    }
     int range = flvel / 10;
     int x = c->xpos();
     int y = c->ypos();
@@ -13183,7 +13176,12 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             flvel = flvel / 2;
         }
         if (slam && dam1) {
-            add_msg(_("%s slammed against the %s!"), sname.c_str(), dname.c_str());
+            if( is_u ) {
+                add_msg(_("You are slammed against the %s!"), dname.c_str());
+            } else {
+                //~ first %s is the monster name ("the zombie") or a npc name.
+                add_msg(_("%s is slammed against the %s!"), c->disp_name().c_str(), dname.c_str());
+            }
         }
         if (thru) {
             if( p != nullptr ) {
