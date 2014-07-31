@@ -2681,7 +2681,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
                 success += rng(surv, surv * surv);
             }
 
-            it->charges -= rng(0, it->charges);
+            it->charges = rng(-1, it->charges);
             if (it->charges == 0) {
                 it->charges = -1;
             }
