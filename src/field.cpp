@@ -1324,11 +1324,13 @@ void map::step_in_field(int x, int y)
                 g->u.hit(NULL, bp_leg_l, 0, rng(2,  8));
                 g->u.hit(NULL, bp_leg_r, 0, rng(2,  8));
             } else if (cur->getFieldDensity() == 2 && !inside) {
+                add_msg(m_bad, _("The acid burns your legs and feet!"));
                 g->u.hit(NULL, bp_foot_l, 0, rng(2, 5));
                 g->u.hit(NULL, bp_foot_r, 0, rng(2, 5));
                 g->u.hit(NULL, bp_leg_l, 0, rng(1,  4));
                 g->u.hit(NULL, bp_leg_r, 0, rng(1,  4));
             } else if (!inside) {
+                add_msg(m_bad, _("The acid burns your legs and feet!"));
                 g->u.hit(NULL, bp_foot_l, 0, rng(1, 3));
                 g->u.hit(NULL, bp_foot_r, 0, rng(1, 3));
                 g->u.hit(NULL, bp_leg_l, 0, rng(0,  2));
