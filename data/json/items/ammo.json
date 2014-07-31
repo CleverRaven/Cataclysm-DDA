@@ -3868,7 +3868,7 @@
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
-        "count" : 10,
+        "count" : 20,
         "stack_size" : 50
     }
 ]

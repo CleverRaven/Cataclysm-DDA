@@ -2659,7 +2659,6 @@ int iuse::fish_trap(player *p, item *it, bool t)
 
         //after 30 min.
         if (calendar::turn - it->bday > 300) {
-
             it->active = false;
 
             point pos = g->find_item(it);
@@ -2683,6 +2682,9 @@ int iuse::fish_trap(player *p, item *it, bool t)
             }
 
             it->charges -= rng(0, it->charges);
+            if (it->charges == 0) {
+                it->charges = -1;
+            }
 
             int fishes;
 
@@ -2697,7 +2699,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
             }
 
             if (fishes == 0) {
-                it->charges = 0;
+                it->charges = -1;
                 if (p->sees(pos.x, pos.y)) {
                     p->add_msg_if_player(_("Clever fish ate the whole bait and not get caught!"));
                 }
@@ -2713,7 +2715,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
                 item fish;
                 std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
                 std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
+                fish.make_corpse("corpse", GetMType(fish_mon), it->bday + 300);
                 //Yes, we can put fishes in the trap like knives in the boot,
                 //and then get fishes via activation of the item,
                 //but it's not as comfortable as if you just put fishes in the same tile with the trap.
@@ -2738,12 +2740,20 @@ int iuse::fish_trap(player *p, item *it, bool t)
         if (it->active)
         {
             it->active = false;
+            return 0;
         }
 
-		if (p->is_underwater()) {
-			p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-			return false;
-		}
+        if (it->charges < 0)
+        {
+            it->charges = 0;
+            return 0;
+        }
+
+        if (p->is_underwater())
+        {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return 0;
+        }
 
         if (it->charges == 0)
         {
