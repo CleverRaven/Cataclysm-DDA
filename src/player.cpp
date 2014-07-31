@@ -5497,7 +5497,7 @@ void player::process_effects() {
             mod_str_bonus(-1);
             mod_dex_bonus(-1);
             effect_it->second.set_intensity((effect_it->second.get_duration()+190)/200);
-            if( effect_it->second.get_intensity() >= 10 && one_in(6)) {
+            if( effect_it->second.get_duration() >= 10 && one_in(6)) {
                 handle_cough(*this, effect_it->second.get_intensity());
             }
         } else if (id == "teargas") {
