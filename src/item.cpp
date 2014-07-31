@@ -2229,6 +2229,40 @@ bool item::is_artifact() const
     return type->is_artifact();
 }
 
+int item::clothing_lvl() const
+{
+    int level;
+    if( has_flag( "SKINTIGHT" ) ) {
+        level = UNDERWEAR;
+    } else if ( has_flag( "OUTER" ) ) {
+        level = OUTER_LAYER;
+    } else if ( has_flag( "BELTED") ) {
+        level = BELTED_LAYER;
+    } else {
+        level = REGULAR_LAYER;
+    }
+    return level;
+}
+
+ std::string item::clothing_lvl_description(bool short_desc) const
+ {
+     std::string description = "";
+     switch (clothing_lvl()) {
+     case UNDERWEAR:
+         description = short_desc ? _("underwear") : _("This is worn next to the skin.");
+         break;
+     case REGULAR_LAYER:
+         break;
+     case OUTER_LAYER:
+         description = short_desc ? _("outerwear") : _("This is worn over your other clothes.");
+         break;
+     case BELTED_LAYER:
+         description = short_desc ? _("belted layer") : _("It is the belted layer.");
+         break;
+     }
+     return description;
+ }
+
 bool item::operator<(const item& other) const
 {
     const item_category &cat_a = get_category();

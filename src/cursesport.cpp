@@ -188,39 +188,39 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     return 1;
 }
 
-int hline(chtype ch, int n)
+int hline(chtype ch, int n, int clr)
 {
-    return whline(mainwin, ch, n);
+    return whline(mainwin, ch, n, clr);
 }
 
-int vline(chtype ch, int n)
+int vline(chtype ch, int n, int clr)
 {
-    return wvline(mainwin, ch, n);
+    return wvline(mainwin, ch, n, clr);
 }
 
-int whline(WINDOW *win, chtype ch, int n)
+int whline(WINDOW *win, chtype ch, int n, int clr)
 {
-    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
+    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n, clr);
 }
 
-int wvline(WINDOW *win, chtype ch, int n)
+int wvline(WINDOW *win, chtype ch, int n, int clr)
 {
-    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n);
+    return mvwvline(mainwin, win->cursory, win->cursorx, ch, n, clr);
 }
 
-int mvhline(int y, int x, chtype ch, int n)
+int mvhline(int y, int x, chtype ch, int n, int clr)
 {
-    return mvwhline(mainwin, y, x, ch, n);
+    return mvwhline(mainwin, y, x, ch, n, clr);
 }
 
-int mvvline(int y, int x, chtype ch, int n)
+int mvvline(int y, int x, chtype ch, int n, int clr)
 {
-    return mvwvline(mainwin, y, x, ch, n);
+    return mvwvline(mainwin, y, x, ch, n, clr);
 }
 
-int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
+int mvwhline(WINDOW *win, int y, int x, chtype ch, int n, int clr)
 {
-    wattron(win, BORDER_COLOR);
+    wattron(win, clr);
     if (ch) {
         for (int i = 0; i < n; i++) {
             mvwaddch(win, y, x + i, ch);
@@ -230,13 +230,13 @@ int mvwhline(WINDOW *win, int y, int x, chtype ch, int n)
             mvwaddch(win, y, x + i, LINE_OXOX);
         }
     }
-    wattroff(win, BORDER_COLOR);
+    wattroff(win, clr);
     return 0;
 }
 
-int mvwvline(WINDOW *win, int y, int x, chtype ch, int n)
+int mvwvline(WINDOW *win, int y, int x, chtype ch, int n, int clr)
 {
-    wattron(win, BORDER_COLOR);
+    wattron(win, clr);
     if (ch) {
         for (int j = 0; j < n; j++) {
             mvwaddch(win, y + j, x, ch);
@@ -246,7 +246,7 @@ int mvwvline(WINDOW *win, int y, int x, chtype ch, int n)
             mvwaddch(win, y + j, x, LINE_XOXO);
         }
     }
-    wattroff(win, BORDER_COLOR);
+    wattroff(win, clr);
     return 0;
 }
 

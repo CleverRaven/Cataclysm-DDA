@@ -288,7 +288,8 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
-
+ int clothing_lvl() const;
+ std::string clothing_lvl_description(bool short_desc = false) const;
  int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
  int get_remaining_capacity() const;
 
