@@ -2272,9 +2272,9 @@ void resolve_antiviral0_use(player *p, item *, int posx, int posy)
 int iuse::antiviral0(player *p, item *it, bool)
 {
     int dirx, diry;
-    if (prep_antiviral_use(p, it, dirx, diry)) {
+    if (prep_antiviral0_use(p, it, dirx, diry)) {
         p->moves -= 10;
-        resolve_antiviral_use(p, it, dirx, diry);
+        resolve_antiviral0_use(p, it, dirx, diry);
         return it->type->charges_to_use();
     }
 }
@@ -2315,9 +2315,9 @@ void resolve_antiviral1_use(player *p, item *, int posx, int posy)
 int iuse::antiviral1(player *p, item *it, bool)
 {
     int dirx, diry;
-    if (prep_antiviral_use(p, it, dirx, diry)) {
+    if (prep_antiviral1_use(p, it, dirx, diry)) {
         p->moves -= 10;
-        resolve_antiviral_use(p, it, dirx, diry);
+        resolve_antiviral1_use(p, it, dirx, diry);
         return it->type->charges_to_use();
     }
 }
@@ -2358,9 +2358,9 @@ void resolve_antiviral2_use(player *p, item *, int posx, int posy)
 int iuse::antiviral2(player *p, item *it, bool)
 {
     int dirx, diry;
-    if (prep_antiviral_use(p, it, dirx, diry)) {
+    if (prep_antiviral2_use(p, it, dirx, diry)) {
         p->moves -= 10;
-        resolve_antiviral_use(p, it, dirx, diry);
+        resolve_antiviral2_use(p, it, dirx, diry);
         return it->type->charges_to_use();
     }
 }
