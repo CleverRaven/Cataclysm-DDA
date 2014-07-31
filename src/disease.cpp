@@ -1022,7 +1022,7 @@ void dis_effect(player &p, disease &dis)
                 p.mod_str_bonus(-1);
                 p.mod_dex_bonus(-1);
                 p.add_miss_reason(
-                    _("The effects of your smoking distract you."), 1);
+                    _("You're winded from smoking."), 1);
                 if (dis.duration >= 1200 && (one_in(50) || will_vomit(p, 10))) {
                     p.vomit();
                 }
@@ -1041,7 +1041,7 @@ void dis_effect(player &p, disease &dis)
         case DI_WEED_HIGH:
             p.mod_str_bonus(-1);
             p.mod_dex_bonus(-1);
-            p.add_miss_reason(_("Your high distracts you."), 1);
+            p.add_miss_reason(_("That critter's jumping around like a jitterbug! It needs to mellow out."), 1);
             p.mod_per_bonus(-1);
             break;
 
@@ -1199,7 +1199,7 @@ void dis_effect(player &p, disease &dis)
         case DI_WEBBED:
             p.mod_str_bonus(-2);
             p.mod_dex_bonus(-4);
-            p.add_miss_reason(_("The webs throw you off-balance."), 4);
+            p.add_miss_reason(_("The webs constrict your movement."), 4);
             break;
 
         case DI_RAT:
@@ -1261,7 +1261,7 @@ void dis_effect(player &p, disease &dis)
             } else {
                 p.mod_str_bonus(-2);
                 p.mod_dex_bonus(-1);
-                p.add_miss_reason(_("The aftereffects of your rush throw you off."), 1);
+                p.add_miss_reason(_("Your comedown throws you off."), 1);
                 p.mod_int_bonus(-1);
                 p.mod_per_bonus(-1);
             }
@@ -1279,7 +1279,7 @@ void dis_effect(player &p, disease &dis)
             } else {
                 p.mod_str_bonus(-1);
                 p.mod_dex_bonus(-2);
-                p.add_miss_reason(_("The aftereffects of your rush throw you off."), 2);
+                p.add_miss_reason(_("Your body longs for more chemicals."), 2);
                 p.mod_int_bonus(-1);
                 p.mod_per_bonus(-2);
             }
@@ -1298,7 +1298,7 @@ void dis_effect(player &p, disease &dis)
             }
             p.mod_str_bonus(-2);
             p.mod_dex_bonus(-3);
-            p.add_miss_reason(_("Your asthma distracts you."), 3);
+            p.add_miss_reason(_("You're winded."), 3);
             break;
 
         case DI_GRACK:
@@ -1317,7 +1317,7 @@ void dis_effect(player &p, disease &dis)
             } else {
                 p.mod_str_bonus(-3);
                 p.mod_dex_bonus(-2);
-                p.add_miss_reason(_("Your comedown throws you off."), 2);
+                p.add_miss_reason(_("The bees have started escaping your teeth."), 2);
                 p.mod_int_bonus(-1);
                 p.mod_per_bonus(-2);
                 if (one_in(150)) {
@@ -2481,7 +2481,7 @@ void manage_fungal_infection(player& p, disease& dis)
     p.moves -= 10;
     p.mod_str_bonus(-1);
     p.mod_dex_bonus(-1);
-    p.add_miss_reason(_("Your nausea throws you off."), 1);
+    p.add_miss_reason(_("You feel sick inside."), 1);
     if (!dis.permanent) {
         if (dis.duration > 3001) { // First hour symptoms
             if (one_in(160 + bonus)) {
@@ -2772,7 +2772,7 @@ static void handle_alcohol(player& p, disease& dis)
     */
     p.mod_per_bonus( - int(dis.duration / 1000));
     p.mod_dex_bonus( - int(dis.duration / 1000));
-    p.add_miss_reason(_("Your drunkenness throws you off."), int(dis.duration / 1000));
+    p.add_miss_reason(_("You feel woozy."), int(dis.duration / 1000));
     p.mod_int_bonus( - int(dis.duration /  700));
     p.mod_str_bonus( - int(dis.duration / 1500));
     if (dis.duration <= 600) {
@@ -3133,7 +3133,7 @@ static void handle_evil(player& p, disease& dis)
         } else {
             int dex_mod = -(dis.duration > 3600 ? 10 : int((dis.duration - 600) / 300));
             p.mod_dex_bonus(dex_mod);
-            p.add_miss_reason(_("The evil distracts you."), -dex_mod);
+            p.add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
         }
         p.mod_int_bonus(-(dis.duration > 3000 ? 10 : int((dis.duration - 500) / 250)));
         p.mod_per_bonus(-(dis.duration > 4800 ? 10 : int((dis.duration - 800) / 400)));
@@ -3142,7 +3142,7 @@ static void handle_evil(player& p, disease& dis)
         p.mod_str_bonus(-(dis.duration > 5000 ? 10 : int(dis.duration / 500)));
         int dex_mod = -(dis.duration > 6000 ? 10 : int(dis.duration / 600));
         p.mod_dex_bonus(dex_mod);
-        p.add_miss_reason(_("The evil distracts you."), -dex_mod);
+        p.add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
         p.mod_int_bonus(-(dis.duration > 4500 ? 10 : int(dis.duration / 450)));
         p.mod_per_bonus(-(dis.duration > 4000 ? 10 : int(dis.duration / 400)));
     }
