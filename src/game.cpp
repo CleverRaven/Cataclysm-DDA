@@ -7379,7 +7379,8 @@ bool game::revive_corpse(int x, int y, item *it)
     critter.no_extra_death_drops = true;
 
     if (it->item_vars["zlave"] == "zlave"){
-        critter.add_effect("zlave", 1, 1, true);
+        critter.add_effect("pacified", 1, 1, true);
+        critter.add_effect("pet", 1, 1, true);
     }
 
     add_zombie(critter);
@@ -8192,7 +8193,7 @@ void game::control_vehicle()
     }
 }
 
-bool zlave_menu(monster *z)
+bool pet_menu(monster *z)
 {
     enum choices {
         cancel,
@@ -8494,13 +8495,12 @@ void game::examine(int examx, int examy)
         none = false;
     }
 
-    if (critter_at(examx, examy) != NULL)
-    {
+    if (critter_at(examx, examy) != NULL) {
         Creature *c = critter_at(examx, examy);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if (mon != NULL && mon->has_effect("zlave")) {
-            if (zlave_menu(mon)) {
+        if (mon != NULL && mon->has_effect("pet")) {
+            if (pet_menu(mon)) {
                 return;
             }
         }
@@ -8526,7 +8526,7 @@ void game::examine(int examx, int examy)
         if(m.tr_at(examx, examy) == tr_null) {
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
-    };
+    }
 }
 
 void game::advanced_inv()
