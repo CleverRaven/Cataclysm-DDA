@@ -628,6 +628,7 @@ void game::start_game(std::string worldname)
         u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
         u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
     }
+    u.moves = 0;
     u.reset();
     u.process_turn(); // process_turn adds the initial move points
     nextspawn = int(calendar::turn);
@@ -1390,8 +1391,8 @@ bool game::do_turn()
 
     monmove();
     update_stair_monsters();
-    u.process_turn();
     u.reset();
+    u.process_turn();
     u.process_active_items();
 
     if (levz >= 0 && !u.is_underwater()) {
@@ -6222,8 +6223,8 @@ void game::monmove()
         }
 
         if (!critter->is_dead()) {
-            critter->process_turn();
             critter->reset();
+            critter->process_turn();
         }
 
         m.mon_in_field(critter->posx(), critter->posy(), critter);
@@ -6282,8 +6283,8 @@ void game::monmove()
         if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
             (*it)->die( nullptr );
         } else {
-            (*it)->process_turn();
             (*it)->reset();
+            (*it)->process_turn();
             while (!(*it)->is_dead() && (*it)->moves > 0 && turns < 10) {
                 int moves = (*it)->moves;
                 (*it)->move();
