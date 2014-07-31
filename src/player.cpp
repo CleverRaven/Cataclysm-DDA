@@ -4688,27 +4688,19 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         case bp_torso:
             hurtpart = hp_torso;
             break;
-        case bp_hand_l:
-            // Shouldn't happen, but fall through to arms
-            debugmsg("Hurt against hands!");
+        case bp_hand_l: // fall through to arms
         case bp_arm_l:
             hurtpart = hp_arm_l;
             break;
-        case bp_hand_r:
-            // Shouldn't happen, but fall through to arms
-            debugmsg("Hurt against hands!");
+        case bp_hand_r: // but fall through to arms
         case bp_arm_r:
             hurtpart = hp_arm_r;
             break;
-        case bp_foot_l:
-            // Shouldn't happen, but fall through to legs
-            debugmsg("Hurt against feet!");
+        case bp_foot_l: // but fall through to legs
         case bp_leg_l:
             hurtpart = hp_leg_l;
             break;
-        case bp_foot_r:
-            // Shouldn't happen, but fall through to legs
-            debugmsg("Hurt against feet!");
+        case bp_foot_r: // but fall through to legs
         case bp_leg_r:
             hurtpart = hp_leg_r;
             break;
@@ -4966,7 +4958,7 @@ void player::hp_convert(hp_part hpart, body_part &bp)
             bp = bp_leg_l;
             break;
         case hp_leg_r:
-            bp = bp_leg_l;
+            bp = bp_leg_r;
             break;
     }
 }
