@@ -1673,7 +1673,7 @@ void game::activity_on_finish_make_zlave()
         u.practice("survival", rng(2, 5));
 
         u.add_msg_if_player(m_good,
-                            _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
+                            _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reanimates."));
 
         body->item_vars["zlave"] = "zlave";
         //take into account the chance that the body yet can regenerate not as we need.
@@ -13087,7 +13087,7 @@ void game::plswim(int x, int y)
     int movecost = u.swim_speed();
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
-        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 || 
+        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 ||
             (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
@@ -13298,7 +13298,7 @@ void game::vertical_move(int movez, bool force)
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
-            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 || 
+            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 ||
                   (g->u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));
