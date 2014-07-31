@@ -1050,7 +1050,7 @@ int iuse::eyedrops(player *p, item *it, bool)
     if (it->charges < 1) {
         p->add_msg_if_player(_("You're out of %s."), it->tname().c_str());
         return false;
-    } 
+    }
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
     if (p->has_effect("boomered")) {
@@ -2234,6 +2234,49 @@ int iuse::lighter(player *p, item *it, bool)
         return it->type->charges_to_use();
     }
     return 0;
+}
+
+bool prep_antiviral_use(player *p, item *it, int &posx, int &posy)
+{
+    if (it->charges == 0) {
+        return false;
+    }
+    if (p->is_underwater()) {
+        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+        return false;
+    }
+    if (!choose_adjacent(_("Spray antiviral where?"), posx, posy)) {
+        return false;
+    }
+    if (posx == p->posx && posy == p->posy) {
+        p->add_msg_if_player(m_info, _("This antiviral may interact strangely with your skin."));
+        p->add_msg_if_player(_("Let's not find out what happens..."));
+        return false;
+    }
+    if (g->m.get_field(point(posx, posy), fd_antiviral)) {
+        // check if there's already antiviral on the map
+        p->add_msg_if_player(m_info, _("There is already enough antiviral in the air here."));
+        return false;
+    } else {
+        return true;
+    }
+}
+
+void resolve_antiviral_use(player *p, item *, int posx, int posy)
+{
+    if (g->m.add_field(point(posx, posy), fd_antiviral, 1, 3)) {
+        p->add_msg_if_player(_("You spray some antiviral vapor into the air."));
+    }
+}
+
+int iuse::antiviral(player *p, item *it, bool)
+{
+    int dirx, diry;
+    if (prep_antiviral_use(p, it, dirx, diry)) {
+        p->moves -= 10;
+        resolve_antiviral_use(p, it, dirx, diry);
+        return it->type->charges_to_use();
+    }
 }
 
 int iuse::primitive_fire(player *p, item *it, bool)

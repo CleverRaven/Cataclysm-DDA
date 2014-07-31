@@ -208,6 +208,7 @@ void Item_factory::init()
     iuse_function_list["CATFOOD"] = &iuse::catfood;
 
     // TOOLS
+    iuse_function_list["ANTIVIRAL"] = &iuse::antiviral;
     iuse_function_list["LIGHTER"] = &iuse::lighter;
     iuse_function_list["PRIMITIVE_FIRE"] = &iuse::primitive_fire;
     iuse_function_list["REF_LIT"] = &iuse::ref_lit;
@@ -357,7 +358,7 @@ void Item_factory::init()
     iuse_function_list["RADIOCARON"] = &iuse::radiocaron;
     iuse_function_list["RADIOCONTROL"] = &iuse::radiocontrol;
 
-    iuse_function_list["MULTICOOKER"] = &iuse::multicooker;	
+    iuse_function_list["MULTICOOKER"] = &iuse::multicooker;
 
     create_inital_categories();
 }
