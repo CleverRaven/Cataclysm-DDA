@@ -385,7 +385,6 @@ void draw_rough_circle(std::string type, int x, int y, int rad);
 
 void add_corpse(int x, int y);
 
-
 //
  void translate(const std::string terfrom, const std::string terto); // Change all instances of $from->$to
  void translate_radius(const std::string terfrom, const std::string terto, const float radi, const int uX, const int uY);

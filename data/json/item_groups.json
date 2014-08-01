@@ -4811,6 +4811,7 @@
     "type" : "item_group",
     "id" : "chem_lab",
     "items":[
+      ["nanobot", 4],
       ["iodine", 5],
       ["adv_chemistry", 4],
       ["decoy_elfa", 6],
@@ -4852,6 +4853,7 @@
     "type" : "item_group",
     "id" : "mut_lab",
     "items":[
+      ["nanobot", 4],
       ["recipe_elfa", 1],
       ["recipe_raptor", 1],
       ["recipe_alpha", 1],

@@ -67,6 +67,7 @@ public:
     int catfood             (player*, item*, bool);
 
 // TOOLS
+    int nanobot             (player *, item *, bool);
     int lighter             (player *, item *, bool);
     int primitive_fire      (player *, item *, bool);
 	int ref_lit             (player *, item *, bool);

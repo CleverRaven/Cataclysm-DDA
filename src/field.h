@@ -75,6 +75,7 @@ enum field_id {
  fd_methsmoke,
  fd_bees,
  fd_incendiary,
+ fd_nanobot,
  num_fields
 };
 

@@ -1046,7 +1046,7 @@ int iuse::eyedrops(player *p, item *it, bool)
     if (it->charges < 1) {
         p->add_msg_if_player(_("You're out of %s."), it->tname().c_str());
         return false;
-    } 
+    }
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
     if (p->has_effect("boomered")) {
@@ -2227,6 +2227,51 @@ int iuse::lighter(player *p, item *it, bool)
     if (prep_firestarter_use(p, it, dirx, diry)) {
         p->moves -= 15;
         resolve_firestarter_use(p, it, dirx, diry);
+        return it->type->charges_to_use();
+    }
+    return 0;
+}
+
+bool prep_nanobot_use(player *p, item *it, int &posx, int &posy)
+{
+    if (it->charges == 0) {
+        p->add_msg_if_player(m_info, _("The canister is empty."));
+        return false;
+    }
+    if (p->is_underwater()) {
+        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+        return false;
+    }
+    if (!choose_adjacent(_("Spray nanobots where?"), posx, posy)) {
+        return false;
+    }
+    if (posx == p->posx && posy == p->posy) {
+        p->add_msg_if_player(m_info, _("This canister contains highly concentrated amounts of nanobots. It may not be wise to allow them near your skin."));
+        p->add_msg_if_player(_("Let's not find out what happens..."));
+        return false;
+    }
+    if (g->m.get_field(point(posx, posy), fd_nanobot)) {
+        // check if there's already nanobots on the map
+        p->add_msg_if_player(m_info, _("There is a fair amount of nanobots in the air already."));
+        return false;
+    } else {
+        return true;
+    }
+}
+
+void resolve_nanobot_use(player *p, item *, int posx, int posy)
+{
+    if (g->m.add_field(point(posx, posy), fd_nanobot, 1, 10)) {
+        p->add_msg_if_player(_("You spray a massive cloud of nanobot vapor into the air."));
+    }
+}
+
+int iuse::nanobot(player *p, item *it, bool)
+{
+    int dirx, diry;
+    if (prep_nanobot_use(p, it, dirx, diry)) {
+        p->moves -= 10;
+        resolve_nanobot_use(p, it, dirx, diry);
         return it->type->charges_to_use();
     }
     return 0;

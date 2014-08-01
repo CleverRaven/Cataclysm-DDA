@@ -259,6 +259,12 @@ void game::init_fields()
             {_("smoke"),_("airborne incendiary"), _("airborne incendiary")}, '8', 8,
             {c_white, c_ltred, c_ltred_red}, {true, true, false}, {true, true, true},  500,
             {0,0,0}
+        },
+        {
+            "fd_nanobot",
+            {_("light nanobot vapor"), _("nanobot vapor"), _("cloud of nanobots")}, '%', 8,
+            {c_white, c_ltblue, c_blue}, {true, true, true}, {true, true, true}, 100,
+            {0,0,0}
         }
 
     };
@@ -465,6 +471,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_sludge:
+                        break;
+
+                    case fd_nanobot:
+                        spread_gas( this, cur, x, y, curtype, 210, 2 );
                         break;
 
                         // TODO-MATERIALS: use fire resistance
@@ -1297,6 +1307,25 @@ void map::step_in_field(int x, int y)
             // also we're in a loop now!
             break;
 
+        case fd_nanobot: {
+            if (!inside) {
+                add_msg(m_bad, _("The nanobots sting your skin as they attack your body!"));
+                g->u.hit(NULL, bp_eyes, 0, rng(1,   cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_head, 0, rng(1,   cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_mouth, 0, rng(1,  cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_torso, 0, rng(1,  cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_arm_l, 0, rng(1,  cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_arm_r, 0, rng(1,  cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_hand_l, 0, rng(1, cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_hand_r, 0, rng(1, cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_leg_l, 0, rng(1, cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_leg_r, 0, rng(1, cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_foot_l, 0, rng(1, cur->getFieldDensity()/2));
+                g->u.hit(NULL, bp_foot_r, 0, rng(1, cur->getFieldDensity()/2));
+            }
+            break;
+        }
+
         case fd_web: {
             //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
             //Moving through multiple webs stacks the effect.
@@ -1604,6 +1633,10 @@ void map::mon_in_field(int x, int y, monster *z)
                 field_list_it = curfield.removeField( fd_web );
                 continue;
             }
+            break;
+
+        case fd_nanobot:
+            dam += rng(2, cur->getFieldDensity()/1.25);
             break;
 
  // TODO: Use acid resistance
