@@ -5429,7 +5429,7 @@ void player::process_effects() {
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
-            add_miss_reason(_("The poison bothers you."), 1);
+            add_miss_reason(_("You feel bad inside."), 1);
         } else if (id == "glare") {
             mod_per_bonus(-1);
             if (one_in(200)) {

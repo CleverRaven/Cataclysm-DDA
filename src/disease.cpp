@@ -464,24 +464,24 @@ void dis_effect(player &p, disease &dis)
                         case 3:
                             // Speed -20
                             p.mod_dex_bonus(-2);
-                            p.add_miss_reason(_("The cold distracts you."), 2);
+                            p.add_miss_reason(_("You quiver from the cold."), 2);
                             if (!sleeping && tempMsgTrigger) {
                                 add_msg(m_bad, _("Your torso is freezing cold. \
                                      You should put on a few more layers."));
                             }
                         case 2:
                             p.mod_dex_bonus(-2);
-                            p.add_miss_reason(_("The cold distracts you."), 2);
+                            p.add_miss_reason(_("Your shivering makes you unsteady."), 2);
                     }
                     break;
                 case bp_arms:
                     switch(dis.intensity) {
                         case 3:
                             p.mod_dex_bonus(-2);
-                            p.add_miss_reason(_("The cold distracts you."), 2);
+                            p.add_miss_reason(_("Your arms tremble from the cold."), 2);
                         case 2:
                             p.mod_dex_bonus(-1);
-                            p.add_miss_reason(_("The cold distracts you."), 1);
+                            p.add_miss_reason(_("Your arms shiver."), 1);
                             if (!sleeping && tempMsgTrigger) {
                                 add_msg(m_bad, _("Your arms are shivering."));
                             }
@@ -493,10 +493,10 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 3:
                             p.mod_dex_bonus(-2);
-                            p.add_miss_reason(_("The cold distracts you."), 2);
+                            p.add_miss_reason(_("Your hands tremble from the cold."), 2);
                         case 2:
                             p.mod_dex_bonus(-1);
-                            p.add_miss_reason(_("The cold distracts you."), 1);
+                            p.add_miss_reason(_("Your hands quiver."), 1);
                             if (!sleeping && tempMsgTrigger) {
                                 add_msg(m_bad, _("Your hands feel like ice."));
                             }
@@ -508,14 +508,14 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 3:
                             p.mod_dex_bonus(-1);
-                            p.add_miss_reason(_("The cold distracts you."), 1);
+                            p.add_miss_reason(_("Your legs uncontrollably shake from the cold."), 1);
                             p.mod_str_bonus(-1);
                             if (!sleeping && tempMsgTrigger) {
                                 add_msg(m_bad, _("Your legs tremble against the relentless cold."));
                             }
                         case 2:
                             p.mod_dex_bonus(-1);
-                            p.add_miss_reason(_("The cold distracts you."), 1);
+                            p.add_miss_reason(_("Your legs unsteadily shiver against the cold."), 1);
                             p.mod_str_bonus(-1);
                         default:
                             break;
@@ -525,12 +525,12 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 3:
                             p.mod_dex_bonus(-1);
-                            p.add_miss_reason(_("The cold distracts you."), 1);
+                            p.add_miss_reason(_("Your feet feel as nimble as blocks of ice."), 1);
                             p.mod_str_bonus(-1);
                             break;
                         case 2:
                             p.mod_dex_bonus(-1);
-                            p.add_miss_reason(_("The cold distracts you."), 1);
+                            p.add_miss_reason(_("You attack unsteadily with your freezing feet."), 1);
                             if (!sleeping && tempMsgTrigger) {
                                 add_msg(m_bad, _("Your feet feel frigid."));
                             }
@@ -550,7 +550,7 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 2:
                             p.mod_dex_bonus(-3);
-                            p.add_miss_reason(_("Your frostbite distracts you."), 3);
+                            p.add_miss_reason(_("You have trouble grasping with your numb fingers."), 3);
                         case 1:
                             if ((p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40)) {
                                 p.mod_pain(1);
@@ -774,7 +774,7 @@ void dis_effect(player &p, disease &dis)
             } else {
                 p.mod_str_bonus(-3);
                 p.mod_dex_bonus(-1);
-                p.add_miss_reason(_("Your cold distracts you."), 1);
+                p.add_miss_reason(_("You're too stuffed up to fight effectively."), 1);
                 p.mod_int_bonus(-2);
                 p.mod_per_bonus(-1);
             }
@@ -797,7 +797,7 @@ void dis_effect(player &p, disease &dis)
                 } else {
                     p.mod_str_bonus(-4);
                     p.mod_dex_bonus(-2);
-                    p.add_miss_reason(_("The flu distracts you."), 2);
+                    p.add_miss_reason(_("You can barely keep your balance with this flu, let alone swing accurately."), 2);
                     p.mod_int_bonus(-2);
                     p.mod_per_bonus(-1);
                     if (p.pain < 15) {
@@ -827,11 +827,11 @@ void dis_effect(player &p, disease &dis)
                 case 3:
                     p.mod_dex_bonus(-2);
                     p.add_miss_reason(
-                        _("It's hard to fight on this rubble."), 2);
+                        _("You get off-balance from your unsteady footing."), 2);
                 case 2:
                     p.mod_dex_bonus(-2);
                     p.add_miss_reason(
-                        _("It's hard to fight on this rubble."), 2);
+                        _("You waver over your unsteady footing."), 2);
                 case 1:
                     p.mod_dex_bonus(-1);
                     p.add_miss_reason(
@@ -849,7 +849,7 @@ void dis_effect(player &p, disease &dis)
 
         case DI_SAP:
             p.mod_dex_bonus(-3);
-            p.add_miss_reason(_("It's hard to fight while coated in sap."), 3);
+            p.add_miss_reason(_("The sap's too sticky for you to fight effectively."), 3);
             break;
 
         case DI_SPORES:
@@ -867,7 +867,7 @@ void dis_effect(player &p, disease &dis)
 
         case DI_SLIMED:
             p.mod_dex_bonus(-2);
-            p.add_miss_reason(_("It's hard to fight while covered in goo."), 2);
+            p.add_miss_reason(_("This goo makes you slip."), 2);
             if (will_vomit(p, 2100)) {
                 p.vomit();
             } else if (one_in(4800)) {
@@ -1068,7 +1068,7 @@ void dis_effect(player &p, disease &dis)
             }
             p.mod_per_bonus(-2);
             p.mod_dex_bonus(-2);
-            p.add_miss_reason(_("The poison distracts you."), 2);
+            p.add_miss_reason(_("You feel bad inside."), 2);
             if (!p.has_trait("POISRESIST")) {
                 p.mod_str_bonus(-3);
             } else {
@@ -1085,7 +1085,7 @@ void dis_effect(player &p, disease &dis)
             bonus = 0;
             p.mod_str_bonus(-3);
             p.mod_dex_bonus(-1);
-            p.add_miss_reason(_("Food poisoning distracts you."), 1);
+            p.add_miss_reason(_("Your stomach bothers you."), 1);
             p.mod_per_bonus(-1);
             if (p.has_trait("POISRESIST")) {
                 bonus += 600;
@@ -1116,7 +1116,7 @@ void dis_effect(player &p, disease &dis)
             }
             if (!p.has_disease("valium")) {
             p.mod_dex_bonus(-4);
-            p.add_miss_reason(_("Tetanus weakens you."), 4);
+            p.add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
             if (one_in(512)) {
                 add_msg(m_bad, "Your muscles spasm.");
                 p.add_effect("downed",rng(1,4));
@@ -1516,7 +1516,7 @@ void dis_effect(player &p, disease &dis)
         case DI_LACKSLEEP:
             p.mod_str_bonus(-1);
             p.mod_dex_bonus(-1);
-            p.add_miss_reason(_("You need to sleep."), 1);
+            p.add_miss_reason(_("You don't have energy to fight."), 1);
             p.mod_int_bonus(-2);
             p.mod_per_bonus(-2);
             break;
