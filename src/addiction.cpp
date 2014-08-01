@@ -161,12 +161,12 @@ void addict_effect(addiction &add)
         if (g->u.has_trait("MUT_JUNKIE")) {
             if (one_in(600 - 50 * in)) {
                 add_msg(m_warning, rng(0, 6) < in ? _("You so miss the exquisite rainbow of post-humanity.") :
-                           _("Your body is SOO booorrrring. Just a little sip to liven things up?"));
+                           _("Your body is SOO booorrrring.  Just a little sip to liven things up?"));
                 g->u.add_morale(MORALE_CRAVING_MUTAGEN, -20, -200);
             }
             if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
                 g->u.focus_pool -= (in);
-                add_msg(m_warning, _("You daydream what it'd be like if you were *different*. Different is good."));
+                add_msg(m_warning, _("You daydream what it'd be like if you were *different*.  Different is good."));
             }
         } else if (in > 5 || one_in((500 - 15 * in))) {
             add_msg(m_warning, rng(0, 6) < in ? _("You haven't had any mutagen lately.") :
@@ -314,7 +314,7 @@ add_type addiction_type(std::string name)
         return ADD_DIAZEPAM;
     } else {
         if (name != "none") {
-            debugmsg("unknown addiction type: %s. For no addictive potential, use \"none\"", name.c_str());
+            debugmsg("unknown addiction type: %s.  For no addictive potential, use \"none\"", name.c_str());
         }
         return ADD_NULL;
     }
@@ -361,7 +361,7 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.")
         return _("Perception - 2;   Intelligence - 2;  Frequent cravings.");
         
     case ADD_MUTAGEN:
-        return _("You've gotten a taste for mutating and the chemicals that cause it. But you can stop, yeah, any time you want.");
+        return _("You've gotten a taste for mutating and the chemicals that cause it.  But you can stop, yeah, any time you want.");
         
     case ADD_DIAZEPAM:
         return _("Perception - 1;   Intelligence - 1;\n\

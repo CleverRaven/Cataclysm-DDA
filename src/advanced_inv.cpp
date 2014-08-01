@@ -901,13 +901,13 @@ bool advanced_inventory::move_all_items()
                                 if (panes[dest].vstor >= 0) {
                                     if (veh->add_item(part, *iter) == false) {
                                         u.i_add(*iter);
-                                        add_msg(m_info, _("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
+                                        add_msg(m_info, _("Destination full.  %d / %d moved.  Please report a bug if items have vanished."), moved, amount);
                                         chargeback = true;
                                     }
                                 } else {
                                     if (m.add_item_or_charges(d_x, d_y, *iter, 0) == false) {
                                         u.i_add(*iter);
-                                        add_msg(m_info, _("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
+                                        add_msg(m_info, _("Destination full.  %d / %d moved.  Please report a bug if items have vanished."), moved, amount);
                                         chargeback = true;
                                     }
                                 }
@@ -931,12 +931,12 @@ bool advanced_inventory::move_all_items()
                         if (panes[dest].vstor >= 0) {
                             if (veh->add_item(part, moving_item) == false) {
                                 u.i_add(moving_item);
-                                add_msg(m_info, _("Destination full. Please report a bug if items have vanished."));
+                                add_msg(m_info, _("Destination full.  Please report a bug if items have vanished."));
                             }
                         } else {
                             if (m.add_item_or_charges(d_x, d_y, moving_item, 0) == false) {
                                 u.i_add(moving_item);
-                                add_msg(m_info, _("Destination full. Please report a bug if items have vanished."));
+                                add_msg(m_info, _("Destination full.  Please report a bug if items have vanished."));
                             }
                         }
 
@@ -948,13 +948,13 @@ bool advanced_inventory::move_all_items()
                     if (panes[dest].vstor >= 0) {
                         if (veh->add_item(part, moving_item) == false) {
                             u.i_add(moving_item);
-                            add_msg(m_info, _("Destination full. Please report a bug if items have vanished."));
+                            add_msg(m_info, _("Destination full.  Please report a bug if items have vanished."));
                             chargeback = true;
                         }
                     } else {
                         if (m.add_item_or_charges(d_x, d_y, moving_item) == false) {
                             u.i_add(moving_item);
-                            add_msg(m_info, _("Destination full. Please report a bug if items have vanished."));
+                            add_msg(m_info, _("Destination full.  Please report a bug if items have vanished."));
                             chargeback = true;
                         }
                     }
@@ -1310,7 +1310,7 @@ void advanced_inventory::display(player *pp)
                     if ( m.ret == panes[src].area ) { // should never happen, but sanity checks keep developers sane.
                         popup(_("Can't move stuff to the same place."));
                     } else if ( ! squares[m.ret].canputitems ) { // this was also disabled in it's uimenu_entry
-                        popup(_("Invalid. Like the menu said."));
+                        popup(_("Invalid.  Like the menu said."));
                     } else {
                         destarea = m.ret;
                         valid = true;
@@ -1349,7 +1349,7 @@ void advanced_inventory::display(player *pp)
                 if ( volume > 0 && volume * amount > free_volume ) {
                     int volmax = int( free_volume / volume );
                     if ( volmax == 0 ) {
-                        popup(_("Destination area is full. Remove some items first."));
+                        popup(_("Destination area is full.  Remove some items first."));
                         continue;
                     }
                     if ( stack.size() > 1) {
@@ -1361,7 +1361,7 @@ void advanced_inventory::display(player *pp)
                     max = amount;
                 }
                 if ( max == 0 ) {
-                    popup(_("Destination area has too many items. Remove some first."));
+                    popup(_("Destination area has too many items.  Remove some first."));
                     continue;
                 }
                 if ( askamount && ( amount > max || !moveall ) ) {
@@ -1390,7 +1390,7 @@ void advanced_inventory::display(player *pp)
                                     if(squares[destarea].veh->add_item(squares[destarea].vstor, *iter) == false) {
                                         // testme
                                         u.i_add(*iter);
-                                        popup(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved,
+                                        popup(_("Destination full.  %d / %d moved.  Please report a bug if items have vanished."), moved,
                                               amount);
                                         chargeback = true;
                                     }
@@ -1398,7 +1398,7 @@ void advanced_inventory::display(player *pp)
                                     if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, *iter, 0) == false) {
                                         // testme
                                         u.i_add(*iter);
-                                        popup(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved,
+                                        popup(_("Destination full.  %d / %d moved.  Please report a bug if items have vanished."), moved,
                                               amount);
                                         chargeback = true;
                                     }
@@ -1417,14 +1417,14 @@ void advanced_inventory::display(player *pp)
                             if(squares[destarea].veh->add_item(squares[destarea].vstor, moving_item) == false) {
                                 // fixme add item back
                                 u.i_add(moving_item);
-                                popup(_("Destination full. Please report a bug if items have vanished."));
+                                popup(_("Destination full.  Please report a bug if items have vanished."));
                                 continue;
                             }
                         } else {
                             if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, moving_item, 0) == false ) {
                                 // fixme add item back
                                 u.i_add(moving_item);
-                                popup(_("Destination full. Please report a bug if items have vanished."));
+                                popup(_("Destination full.  Please report a bug if items have vanished."));
                                 continue;
                             }
                         }
@@ -1436,14 +1436,14 @@ void advanced_inventory::display(player *pp)
                         if(squares[destarea].veh->add_item(squares[destarea].vstor, moving_item) == false) {
                             // fixme add item back (test)
                             u.i_add(moving_item);
-                            popup(_("Destination full. Please report a bug if items have vanished."));
+                            popup(_("Destination full.  Please report a bug if items have vanished."));
                             continue;
                         }
                     } else {
                         if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, moving_item) == false) {
                             // fixme add item back (test)
                             u.i_add(moving_item);
-                            popup(_("Destination full. Please report a bug if items have vanished."));
+                            popup(_("Destination full.  Please report a bug if items have vanished."));
                             continue;
                         }
                     }
@@ -1560,12 +1560,12 @@ void advanced_inventory::display(player *pp)
                         u.moves -= 100;
                     } else if (squares[destarea].vstor >= 0) {
                         if( squares[destarea].veh->add_item( squares[destarea].vstor, new_item ) == false) {
-                            popup(_("Destination area is full. Remove some items first"));
+                            popup(_("Destination area is full.  Remove some items first"));
                             continue;
                         }
                     } else {
                         if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, new_item, 0 ) == false ) {
-                            popup(_("Destination area is full. Remove some items first"));
+                            popup(_("Destination area is full.  Remove some items first"));
                             continue;
                         }
                     }
