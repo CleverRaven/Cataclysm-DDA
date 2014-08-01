@@ -357,7 +357,7 @@ void Item_factory::init()
     iuse_function_list["RADIOCARON"] = &iuse::radiocaron;
     iuse_function_list["RADIOCONTROL"] = &iuse::radiocontrol;
 
-    iuse_function_list["MULTICOOKER"] = &iuse::multicooker;	
+    iuse_function_list["MULTICOOKER"] = &iuse::multicooker;
 
     create_inital_categories();
 }
@@ -734,6 +734,7 @@ void Item_factory::load_tool(JsonObject &jo)
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
     tool_template->revert_to = jo.get_string("revert_to");
+    tool_template->subtype = jo.get_string("sub", "");
 
     itype *new_item_template = tool_template;
     load_basic_info(jo, new_item_template);
