@@ -154,8 +154,8 @@ static bool inscribe_item(player *p, std::string verb, std::string gerund, bool 
     return item_inscription(p, cut, verb, gerund, carveable);
 }
 
-// For an exxplosion (which releases some kind of gas), this functions
-// calculates the points around that explosin where to create those
+// For an explosion (which releases some kind of gas), this function
+// calculates the points around that explosion where to create those
 // gas fields.
 // Those points must have a clear line of sight and a clear path to
 // the center of the explosion.
@@ -739,13 +739,11 @@ int iuse::alcohol(player *p, item *it, bool)
     it_comest *food = dynamic_cast<it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
         duration = 180 - (10 * p->str_max);
-        // Metabolizing the booze improves the nutritional
-        // value; might not be healthy, and still
-        // causes Thirst problems, though
+        // Metabolizing the booze improves the nutritional value; 
+        // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out depressant
-        // effects, but doesn't make it any more
-        // stimulating
+        // effects, but doesn't make it any more stimulating
         if ((food->stim) < 0) {
             p->stim += (abs(food->stim));
         }
@@ -767,9 +765,8 @@ int iuse::alcohol_weak(player *p, item *it, bool)
     it_comest *food = dynamic_cast<it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
         duration = 90 - (6 * p->str_max);
-        // Metabolizing the booze improves the nutritional
-        // value; might not be healthy, and still
-        // cuses Thirst problems, though
+        // Metabolizing the booze improves the nutritional value; 
+        // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out the depressant
         p->stim += (abs(food->stim));
@@ -909,7 +906,6 @@ int iuse::smoking_pipe(player *p, item *it, bool)
             weed_msg(p);
         }
     }
-
     return 0;
 }
 
@@ -1664,7 +1660,7 @@ int iuse::mut_iv(player *p, item *it, bool)
         p->add_msg_if_player(_("You took that shot like a champ!"));
         p->mutate_category("MUTCAT_ALPHA");
         p->mod_pain(3 * rng(1, 5));
-        //Alpha doesn't make a lot of massive morphologial changes, so less nutrients needed.
+        // Alpha doesn't make a lot of massive morphological changes, so less nutrients needed.
         p->hunger += 3;
         p->fatigue += 5;
         p->thirst += 3;
@@ -6891,7 +6887,7 @@ int iuse::artifact(player *p, item *it, bool)
         return 0;
     }
     if (!p->is_npc()) {
-        //~ %s is atrifact name
+        //~ %s is artifact name
         p->add_memorial_log(pgettext("memorial_male", "Activated the %s."),
                             pgettext("memorial_female", "Activated the %s."),
                             it->tname().c_str());
@@ -7107,7 +7103,7 @@ int iuse::artifact(player *p, item *it, bool)
                 break;
 
             case AEA_RADIATION:
-                add_msg(m_warning, _("Horrible gasses are emitted!"));
+                add_msg(m_warning, _("Horrible gases are emitted!"));
                 for (int x = p->posx - 1; x <= p->posx + 1; x++) {
                     for (int y = p->posy - 1; y <= p->posy + 1; y++) {
                         g->m.add_field(x, y, fd_nuke_gas, rng(2, 3));
@@ -8133,7 +8129,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                 return it->type->charges_to_use();
             }
             monster *z = &(g->zombie(pick_robot.ret));
-            p->add_msg_if_player(_("You start reprograming the %s into an ally."), z->name().c_str());
+            p->add_msg_if_player(_("You start reprogramming the %s into an ally."), z->name().c_str());
             p->moves -= 1000 - p->int_cur * 10 - p->skillLevel("computer") * 10;
             float success = p->skillLevel("computer") - 1.5 * (z->type->difficulty) /
                             ((rng(2, p->int_cur) / 2) + (p->skillLevel("computer") / 2));
@@ -8147,7 +8143,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                 z->hurt( rng( 1, 10 ), 0, p ); //damage it a little
                 if( z->is_dead() ) {
                     p->practice("computer", 10);
-                    return it->type->charges_to_use(); //dont do the other effects if the robot died
+                    return it->type->charges_to_use(); // Do not do the other effects if the robot died
                 }
                 if (one_in(3)) {
                     p->add_msg_if_player(_("...and turns friendly!"));

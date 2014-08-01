@@ -196,7 +196,7 @@ void player::power_bionics()
                     }
                     mvwputch(wBio, list_start_y + i, second_column, type, active[i]->invlet);
                     mvwprintz(wBio, list_start_y + i, second_column + 2, type,
-                              (active[i]->powered ? _("%s - ON") : _("%s - %d PU / %d trns")),
+                              (active[i]->powered ? _("%s - ON") : _("%s - %d PU / %d turns")),
                               bionics[active[i]->id]->name.c_str(),
                               bionics[active[i]->id]->power_cost,
                               bionics[active[i]->id]->charge_time);
@@ -293,8 +293,7 @@ void player::power_bionics()
                                (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon") ||
                                (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
 
-
-                        //this will clear the bionics menu for targeting purposes
+                        // this will clear the bionics menu for targeting purposes
                         werase(wBio);
                         wrefresh(wBio);
                         delwin(w_title);
@@ -699,7 +698,7 @@ void player::activate_bionic(int b)
                     item water = item("water_clean", 0);
                     if (g->handle_liquid(water, true, true)) {
                         moves -= 100;
-                    } else if (query_yn(_("Drink directly from the condensor?"))) {
+                    } else if (query_yn(_("Drink directly from the condenser?"))) {
                         inv.push_back(water);
                         consume(inv.position_by_type(water.typeId()));
                         moves -= 350;

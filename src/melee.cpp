@@ -203,7 +203,7 @@ int player::hit_roll()
  return dice(numdice, sides);
 }
 
-// Likelyhood to pick a reason
+// Likelihood to pick a reason
 struct reason_weight {
     const char *reason;
     unsigned int weight;
@@ -474,7 +474,7 @@ bool player::scored_crit(int target_dodge)
   num_crits++;
 
 // Dexterity to-hit roll
-// ... except sometimes we don't use dexteiry!
+// ... except sometimes we don't use dexterity!
  int stat = dex_cur;
 
  chance = 25;
@@ -1294,7 +1294,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
     ma_onblock_effects(); // fire martial arts block-triggered effects
 
-    //weapon blocks are prefered to arm blocks
+    // weapon blocks are preferred to arm blocks
     std::string thing_blocked_with;
     if (can_weapon_block()) {
         thing_blocked_with = weapon.tname();
@@ -1328,25 +1328,25 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // none, hardly any, a little, some, most, all
     float blocked_ratio = (total_damage - damage_blocked) / total_damage;
     if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
-        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("all");
     } else if( blocked_ratio < 0.2 ) {
-        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("nearly all");
     } else if( blocked_ratio < 0.4 ) {
-        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("most");
     } else if( blocked_ratio < 0.6 ) {
-        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("a lot");
     } else if( blocked_ratio < 0.8 ) {
-        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("some");
     } else if( blocked_ratio > std::numeric_limits<float>::epsilon() ){
-        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("a little");
     } else {
-        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("none");
     }
     add_msg_player_or_npc( _("You block %s of the damage with your %s!"),
@@ -1602,7 +1602,8 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         ret.push_back(tmp);
     }
 
-    //Having lupine or croc jaws makes it much easier to sink your fangs into people; Ursine/Feline, not so much
+    // Having lupine or croc jaws makes it much easier to sink your fangs into people;
+    // Ursine/Feline, not so much
     if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
         ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") &&
           one_in(20 - dex_cur - skillLevel("unarmed"))) ||
