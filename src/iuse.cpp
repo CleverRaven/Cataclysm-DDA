@@ -2278,6 +2278,7 @@ int iuse::nanobot(player *p, item *it, bool)
         resolve_nanobot_use(p, it, dirx, diry);
         return it->type->charges_to_use();
     }
+    return 0;
 }
 
 int iuse::primitive_fire(player *p, item *it, bool)
