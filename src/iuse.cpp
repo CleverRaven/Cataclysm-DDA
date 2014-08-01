@@ -2239,7 +2239,7 @@ int iuse::lighter(player *p, item *it, bool)
 bool prep_nanobot_use(player *p, item *it, int &posx, int &posy)
 {
     if (it->charges == 0) {
-        p->add_msg_if_player(m_info, _("The cannister is empty."));
+        p->add_msg_if_player(m_info, _("The canister is empty."));
         return false;
     }
     if (p->is_underwater()) {
@@ -2250,7 +2250,7 @@ bool prep_nanobot_use(player *p, item *it, int &posx, int &posy)
         return false;
     }
     if (posx == p->posx && posy == p->posy) {
-        p->add_msg_if_player(m_info, _("This cannister contains highly concentrated amounts of nanobots. It may not be wise to allow them near your skin."));
+        p->add_msg_if_player(m_info, _("This canister contains highly concentrated amounts of nanobots. It may not be wise to allow them near your skin."));
         p->add_msg_if_player(_("Let's not find out what happens..."));
         return false;
     }
