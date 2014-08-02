@@ -12,6 +12,11 @@
 import os
 
 _MAP_CELL_SIZE = 24
+_TEMPLATE_JSON_SECTION = "_Building_Utility"
+_TEMPLATE_TYPE_CELL_MAP = "CELL_MAP"
+_TEMPLATE_TYPE_CELL_NUM = "CELL_NUM"
+_TEMPLATE_FUNC_OBJ_REPLACE = "object_replace"
+_TEMPLATE_FUNC_STR_FORMAT = "string_format"
 
 
 def main():
