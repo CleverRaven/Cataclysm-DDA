@@ -2442,7 +2442,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                              _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
                              _("R. Foot")};
     body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
-                             bp_hand_r, bp_leg_l, bp_hand_r, bp_foot_l, bp_foot_r};
+                             bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
     int iEnc, iArmorEnc, iWarmth;
     double iLayers;
 
