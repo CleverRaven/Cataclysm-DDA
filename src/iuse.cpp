@@ -8162,6 +8162,217 @@ int iuse::robotcontrol(player *p, item *it, bool)
     return 0;
 }
 
+void init_memory_cards_with_random_stuff(player *p)
+{
+
+    bool initialized;
+
+    do{
+
+		p->inv.restack(p);
+        initialized = false;
+
+        for (int i = 0; i < p->inv.size(); i++)
+        {
+            item *it = &p->i_at(i);
+
+            if (it->has_flag("MC_MOBILE") && it->has_flag("MC_RANDOM_STUFF") && !(it->has_flag("MC_USED") ||
+            it->has_flag("MC_HAS_DATA"))) {
+
+                initialized = true;
+                it->item_tags.insert("MC_HAS_DATA");
+
+                int data_chance = 2;
+
+                //just empty memory card
+                if (!one_in(data_chance)) {
+                    continue;
+                }
+
+                //add someone's personal photos
+                if (one_in(data_chance)) {
+
+                    //decrease chance to more data
+                    data_chance++;
+
+                    const int duckfaces_count = rng(5, 30);
+                    it->item_vars["MC_PHOTOS"] = string_format("%d", duckfaces_count);
+                }
+                //decrease chance to music and other useful data
+                data_chance++;
+
+                if (one_in(data_chance)) {
+                    data_chance++;
+
+                    const int new_songs_count = rng(5, 15);
+                    it->item_vars["MC_MUSIC"] = string_format("%d", new_songs_count);
+                }
+                data_chance++;
+
+                if (one_in(data_chance)) {
+                    it->item_vars["MC_RANDOM_RECIPE"] = string_format("%d", 1);
+                }
+
+            }
+        }
+    } while (initialized);
+}
+
+int iuse::einktabletpc(player *p, item *it, bool t)
+{
+
+    if (t)
+    {
+
+    } else{
+
+        init_memory_cards_with_random_stuff(p);
+
+        enum {
+            ei_cancel, ei_photo, ei_music, ei_recipe, ei_docs, ei_download, ei_upload
+        };
+
+        uimenu amenu;
+
+        amenu.selected = 0;
+        amenu.text = _("Choose menu option:");
+        amenu.addentry(ei_cancel, true, 'q', _("Cancel"));
+
+        bool has_something_uploadable = false;
+
+        if (it->item_vars["EIPC_PHOTOS"] != "")
+        {
+            has_something_uploadable = true;
+            amenu.addentry(ei_photo, true, 'p', _("Photos"));
+        } else{
+            amenu.addentry(ei_photo, false, 'p', _("No photos on device"));
+        }
+
+        if (it->item_vars["EIPC_MUSIC"] != "")
+        {
+            if (it->active) {
+                has_something_uploadable = true;
+                amenu.addentry(ei_music, true, 'm', _("Turn music off"));
+            } else {
+                amenu.addentry(ei_music, true, 'm', _("Turn music on"));
+            }
+        } else{
+            amenu.addentry(ei_music, false, 'm', _("No music on device"));
+        }
+
+        if (it->item_vars["EIPC_SELECTED_RECIPE"] != "")
+        {
+            amenu.addentry(0, false, -1, _("Recipe: %s"), it->item_vars["EIPC_SELECTED_RECIPE"].c_str());
+        }
+
+        if (it->item_vars["EIPC_RECIPES"] != "")
+        {
+            has_something_uploadable = true;
+            amenu.addentry(ei_recipe, true, 'r', _("View recipe on screen"));
+        }
+
+        if (it->item_vars["EIPC_DOCS"] != "")
+        {
+            has_something_uploadable = true;
+            amenu.addentry(ei_docs, true, 'd', _("Your documents"));
+        } else{
+            amenu.addentry(ei_docs, false, 'd', _("No documents on device"));
+        }
+
+        amenu.addentry(ei_download, true, 'w', _("Download data from memory card"));
+
+        if (has_something_uploadable)
+        {
+            amenu.addentry(ei_upload, true, 'u', _("Upload data to memory card"));
+        }
+
+        amenu.query();
+
+        const int choice = amenu.ret;
+
+        if (ei_cancel == choice)
+        {
+            return it->type->charges_to_use();;
+        }
+
+        if (ei_download == choice)
+        {
+            const int pos = g->inv_for_flag("MC_HAS_DATA", _("Insert memory card"), false);
+            item *mc = &(p->i_at(pos));
+            if (mc == NULL || mc->is_null()) {
+                p->add_msg_if_player(m_info, _("You do not have that item!"));
+                return it->type->charges_to_use();;
+            }
+
+            if (!mc->has_flag("MC_MOBILE")) {
+                p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
+                return it->type->charges_to_use();;
+            }
+
+            if (!(mc->has_flag("MC_HAS_DATA") || mc->has_flag("MC_DOCUMENTS"))) {
+                p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
+                return it->type->charges_to_use();;
+            }
+
+            if (!mc->has_flag("MC_USED")) {
+                mc->item_tags.insert("MC_USED");
+                //todo: ïðîâåðèòü íà ÄÎÊÓÌÅÍÒÛ è ñíÿòü ôëàã MC_HAS_DATA
+            }
+
+            bool something_downloaded = false;
+            if (mc->item_vars["MC_PHOTOS"] != "") {
+                something_downloaded = true;
+
+                int new_photos = atoi(mc->item_vars["MC_PHOTOS"].c_str());
+                mc->item_vars["MC_PHOTOS"] = "";
+
+                p->add_msg_if_player(m_good, string_format(
+                                         ngettext("You download %d new photo into internal memory.",
+                                                  "You download %d new photos into internal memory.", new_photos)).c_str());
+
+                int old_photos = 0;
+                if (it->item_vars["EIPC_PHOTOS"] != "") {
+                    old_photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
+                }
+
+                it->item_vars["EIPC_PHOTOS"] = string_format("%d", old_photos + new_photos);
+            }
+
+            if (mc->item_vars["MC_MUSIC"] != "") {
+                something_downloaded = true;
+
+                int new_songs = atoi(mc->item_vars["MC_MUSIC"].c_str());
+                mc->item_vars["MC_MUSIC"] = "";
+
+                p->add_msg_if_player(m_good, string_format(
+                                         ngettext("You download %d new song into internal memory.",
+                                                  "You download %d new songs into internal memory.", new_songs)).c_str());
+
+                int old_songs = 0;
+                if (it->item_vars["EIPC_MUSIC"] != "") {
+                    old_songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
+                }
+
+                it->item_vars["EIPC_MUSIC"] = string_format("%d", old_songs + new_songs);
+            }
+
+            //recipes todo:
+
+            //documents todo:
+
+            if (!something_downloaded) {
+                p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
+                return it->type->charges_to_use();
+            }
+
+
+            return it->type->charges_to_use();
+        }
+
+    }
+
+}
+
 int iuse::radiocar(player *p, item *it, bool)
 {
     int choice = -1;
