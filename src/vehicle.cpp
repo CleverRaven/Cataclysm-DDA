@@ -1521,6 +1521,29 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
     return -1;
 }
 
+/**
+ * Returns the label at the coordinates given (mount coordinates)
+ */
+const std::string vehicle::get_label(int x, int y) {
+    if (labels.find(point(x, y)) != labels.end()) {
+    	return labels.at(point(x, y));
+    }
+    return "";
+}
+
+/**
+ * Sets the label at the coordinates given (mount coordinates)
+ */
+void vehicle::set_label(int x, int y, const std::string text) {
+	point pos = point(x, y);
+	std::map<point, std::string>::const_iterator label = labels.find(pos);
+    if (label == labels.end()) {
+    	labels.insert(std::pair<point, std::string>(pos, text));
+    } else {
+    	labels[pos] = text;
+    }
+}
+
 int vehicle::next_part_to_close(int p, bool outside)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
@@ -1875,8 +1898,12 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
             //~ indicates that a vehicle part is outside
             mvwprintz(win, y, width-2-utf8_width(_("Out")), c_ltgray, _("Out"));
         }
-        y++;
+    	y++;
     }
+
+    // print the label for this location
+    const std::string label = get_label(parts[p].mount_dx, parts[p].mount_dy);
+    mvwprintz(win, y + 1, 1, c_ltred, _("Label: %s"), label.c_str());
 
     return y;
 }

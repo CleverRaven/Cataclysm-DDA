@@ -47,6 +47,7 @@ veh_interact::veh_interact ()
     main_context.register_action("SIPHON");
     main_context.register_action("TIRE_CHANGE");
     main_context.register_action("DRAIN");
+    main_context.register_action("RELABEL");
     main_context.register_action("PREV_TAB");
     main_context.register_action("NEXT_TAB");
     main_context.register_action("CONFIRM");
@@ -254,6 +255,8 @@ void veh_interact::do_main_loop()
             do_tirechange();
         } else if (action == "DRAIN") {
             do_drain();
+        } else if (action == "RELABEL") {
+            do_relabel();
         }
         if (sel_cmd != ' ') {
             finish = true;
@@ -395,6 +398,10 @@ task_reason veh_interact::cant_do (char mode)
     case 'd': // drain tank
         valid_target = veh->fuel_left("water") > 0;
         has_tools = has_siphon;
+        break;
+    case 'a': // relabel
+        valid_target = cpart >= 0;
+        has_tools = true;
         break;
     default:
         return UNKNOWN_TASK;
@@ -930,6 +937,23 @@ void veh_interact::do_rename()
 }
 
 /**
+ * Relabels the currently selected square.
+ */
+void veh_interact::do_relabel()
+{
+    display_mode('e');
+    std::string text = string_input_popup(_("New label:"), 20);
+    if(text.length() > 0) {
+        veh->set_label(-ddx, -ddy, text);
+    }
+    display_grid();
+    display_name();
+    display_stats();
+    // refresh w_disp & w_part windows:
+    move_cursor(0, 0);
+}
+
+/**
  * Returns the first part on the vehicle at the given position.
  * @param dx The x-coordinate, relative to the viewport's 0-point (?)
  * @param dy The y-coordinate, relative to the viewport's 0-point (?)
@@ -1321,8 +1345,9 @@ void veh_interact::display_mode(char mode)
         actions.push_back(_("<d>rain water"));
         actions.push_back(_("<c>hange tire"));
         actions.push_back(_("r<e>name"));
+        actions.push_back(_("rel<a>bel"));
 
-        bool enabled[8];
+        bool enabled[9];
         enabled[0] = !cant_do('i');
         enabled[1] = !cant_do('r');
         enabled[2] = !cant_do('f');
@@ -1331,8 +1356,9 @@ void veh_interact::display_mode(char mode)
         enabled[5] = !cant_do('d');
         enabled[6] = !cant_do('c');
         enabled[7] = true;          // 'rename' is always available
+        enabled[8] = !cant_do('a');
 
-        int pos[9];
+        int pos[10];
         pos[0] = 1;
         for (size_t i = 0; i < actions.size(); i++) {
             pos[i+1] = pos[i] + utf8_width(actions[i].c_str()) - 2;
@@ -1556,7 +1582,7 @@ void complete_vehicle ()
     std::map<point, vehicle*> foundv;
     vehicle * fillv = NULL;
 
-    // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
+    // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName relAbel
     switch (cmd) {
     case 'i':
         if (has_goggles) {
