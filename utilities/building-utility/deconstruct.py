@@ -5,7 +5,6 @@ from __future__ import division
 import argparse
 import copy
 import json
-import os
 
 _MAP_CELL_SIZE = 24
 _TEMPLATE_JSON_SECTION = "_Building_Utility"
@@ -33,12 +32,13 @@ def internal_append(list_of_lists, appends):
     "corresponding list in list_of_lists (Corresponding by index).  Stops when"
     " shortest list is exhausted."
 
-    return [l + [a] for l,a in zip(list_of_lists, appends)]
+    return [l + [a] for l, a in zip(list_of_lists, appends)]
 
 
 def get_map_cells(infile, cell_size):
     cell_line_no = 1
     cells_per_line = None
+    line_no = None
 
     # all_cells holds completed cells.  cell_list holds incompleted cells.
     all_cells = []
@@ -78,11 +78,12 @@ def get_map_cells(infile, cell_size):
             all_cells.extend(cell_list)
             cell_list = [[]]
 
-    assert line_no % cell_size == 0, \
-        "Map {infile} reaches EOF before the completion of cells " \
-        "{cell_begin} to {cell_end}.".format(infile=infile.name,
-            cell_begin=len(all_cells) + 1,
-            cell_end=len(all_cells) + cells_per_line)
+    if line_no is not None:
+        assert line_no % cell_size == 0, \
+            "Map {infile} reaches EOF before the completion of cells " \
+            "{cell_begin} to {cell_end}.".format(infile=infile.name,
+                cell_begin=len(all_cells) + 1,
+                cell_end=len(all_cells) + cells_per_line)
 
     return all_cells
 
@@ -96,7 +97,7 @@ def recursive_dict_update(info_dict, list_path, data):
         return data
     else:
         info_dict[list_path[0]] = \
-            recursive_dict_update(info_dict.get(list_path[0],{}),
+            recursive_dict_update(info_dict.get(list_path[0], {}),
                                   list_path[1:], data)
         return info_dict
 
@@ -149,7 +150,7 @@ def complete_json_file(template_file, all_cells, remove_template=True):
 
 if __name__ == "__main__":
     # TODO: epilog needs actual formatting. see argparse formatterclass
-    parser = argparse.ArgumentParser(description=
+    main_parser = argparse.ArgumentParser(description=
         "A script for combining multi-cell maps with their json data.",
         epilog="To format the json template, add the key '{section}' to the "
         "root dictionary.  In that section, create a dictionary with one or "
@@ -170,19 +171,19 @@ if __name__ == "__main__":
             obj_repl=_TEMPLATE_FUNC_OBJ_REPLACE,
             str_form=_TEMPLATE_FUNC_STR_FORMAT))
 
-    parser.add_argument("map_file", metavar="map-file",
+    main_parser.add_argument("map_file", metavar="map-file",
                         type=argparse.FileType("r"),
                         help="A file that contains an ascii representation "
                         "of one or more map cells.")
 
-    parser.add_argument("json_templates", metavar="json-file",
+    main_parser.add_argument("json_templates", metavar="json-file",
                         nargs="+",
                         type=argparse.FileType("r"),
                         help="A json template that will be combined with the "
                         "map cells to a properly formatted json map file.  "
                         "See below for templating format.")
 
-    args = parser.parse_args()
+    args = main_parser.parse_args()
 
     with args.map_file:
         all_cells = get_map_cells(args.map_file, _MAP_CELL_SIZE)
@@ -191,8 +192,8 @@ if __name__ == "__main__":
         with json_template:
             try:
                 complete_json_file(json_template, all_cells)
-            except ValueError as e:
-                parser.exit(1, "Could not parse json in file {file_name}\n"
-                "{json_err}\n".format(file_name=json_template.name,
-                                      json_err=str(e)))
+            except ValueError as val_err:
+                main_parser.exit(1, "Could not parse json in file {file_name}"
+                "\n{json_err}\n".format(file_name=json_template.name,
+                                        json_err=str(val_err)))
 
