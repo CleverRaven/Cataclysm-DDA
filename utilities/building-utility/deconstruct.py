@@ -208,6 +208,30 @@ def template_update(full_dict, settings, data):
             recursive_dict_update(full_dict, paths, string % data)
 
 
+def complete_json_file(template_file, all_cells, remove_template=True):
+    json_list = []
+    json_template = json.load(template_file)
+
+    template_settings = json_template.get(_TEMPLATE_JSON_SECTION)
+    if remove_template:
+        json_template.pop(_TEMPLATE_JSON_SECTION, None)
+
+    for cell_no, cell in enumerate(all_cells, 1):
+        copy_of_template = copy.deepcopy(json_template)
+        template_update(copy_of_template,
+                        template_settings.get(_TEMPLATE_TYPE_CELL_MAP, {}),
+                        cell)
+        template_update(copy_of_template,
+                        template_settings.get(_TEMPLATE_TYPE_CELL_NUM, {}),
+                        cell_no)
+
+        json_list.append(copy_of_template)
+
+    # TODO: better output file names
+    with open("updated_" + template_file.name, "w") as outfile:
+        json.dump(json_list, outfile, indent=4, separators=(",", ": "),
+                  sort_keys=True)
+
 
 if __name__ == "__main__":
     main()
