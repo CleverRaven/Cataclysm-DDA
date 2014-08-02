@@ -114,6 +114,14 @@ def division_split(div, single_list):
     return ret_list
 
 
+def internal_append(list_of_lists, appends):
+    "Returns the list created when each element of appends is put into its "
+    "corresponding list in list_of_lists (Corresponding by index).  Stops when"
+    " shortest list is exhausted."
+
+    return [l + [a] for l,a in zip(list_of_lists, appends)]
+
+
 
 if __name__ == "__main__":
     main()
