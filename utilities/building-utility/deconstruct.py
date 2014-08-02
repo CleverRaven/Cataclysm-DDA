@@ -187,6 +187,27 @@ def recursive_dict_update(info_dict, list_path, data):
         return info_dict
 
 
+def template_update(full_dict, settings, data):
+    # OBJ_REPLACE completely replaces the old value with the new value
+    paths = settings.get(_TEMPLATE_FUNC_OBJ_REPLACE, [])
+    if paths != []:
+        # TODO: this is ugly, find a better way
+        if isinstance(paths[0], list):
+            for path in paths:
+                recursive_dict_update(full_dict, path, data)
+        else:
+            recursive_dict_update(full_dict, paths, data)
+
+    # STR_FORMAT uses printf formatting to change the string in the dict
+    for string, paths in settings.get(_TEMPLATE_FUNC_STR_FORMAT, {}).items():
+        # TODO: this is ugly, find a better way
+        if isinstance(paths[0], list):
+            for path in paths:
+                recursive_dict_update(full_dict, path, string % data)
+        else:
+            recursive_dict_update(full_dict, paths, string % data)
+
+
 
 if __name__ == "__main__":
     main()
