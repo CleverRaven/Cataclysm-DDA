@@ -2,7 +2,8 @@
 
 #include <string>
 #ifdef LOCALIZE
-#include <stdlib.h> // for getenv()/setenv()
+#undef __STRICT_ANSI__ // _putenv in minGW need that
+#include <stdlib.h> // for getenv()/setenv()/putenv()
 #include "options.h"
 #include "path_info.h"
 #include "debug.h"
@@ -38,10 +39,26 @@ void set_language()
     std::string lang_opt = OPTIONS["USE_LANG"].getValue();
     if (lang_opt != "") { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
+#if (defined _WIN32 || defined WINDOWS)
+        std::string lang_env = "LANGUAGE=" + lang_opt;
+        if (_putenv(lang_env.c_str()) != 0){
+            DebugLog(D_WARNING, D_MAIN) << "Can't set 'LANGUAGE' environment variable";
+        }
+#else
         if (setenv("LANGUAGE", lang_opt.c_str(), true) != 0) {
             DebugLog(D_WARNING, D_MAIN) << "Can't set 'LANGUAGE' environment variable";
         }
+#endif
+        else {
+            auto env = getenv("LANGUAGE");
+            if (env != NULL) {
+                DebugLog(D_INFO, D_MAIN) << "Language is set to: '" << env << '\'';
+            } else {
+                DebugLog(D_WARNING, D_MAIN) << "Can't get 'LANGUAGE' environment variable";
+            }
+        }
     }
+
     if (setlocale(LC_ALL, "") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
     }
@@ -57,6 +74,7 @@ void set_language()
 #else
     locale_dir = "lang/mo";
 #endif // __linux__
+
     bindtextdomain("cataclysm-dda", locale_dir);
     bind_textdomain_codeset("cataclysm-dda", "UTF-8");
     textdomain("cataclysm-dda");
