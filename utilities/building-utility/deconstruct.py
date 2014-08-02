@@ -105,6 +105,19 @@ def writeTerrain(mapNum):
                            'overmap_terrain_entry.json'),
               "a") as outfile:
         outfile.write(entry)
+def division_split(div, single_list):
+    "Divides a list into a list of lists each containing div amount of "
+    "elements.  The last list will contain less than the div amount if the "
+    "list has a non-divisable amount of elements."
+
+    ret_list = []
+    while single_list:
+        ret_list.append(single_list[:div])
+        single_list = single_list[div:]
+
+    return ret_list
+
+
 
 if __name__ == "__main__":
     main()
