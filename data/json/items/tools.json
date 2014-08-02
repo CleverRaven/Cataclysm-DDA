@@ -813,7 +813,7 @@
     "symbol": ";",
     "color": "green",
     "name": "mess kit",
-    "description": "Camping mess kit containing everything you may need for cooking in the wilderness. This one comes with integrated hotplate, instead of more traditional Esbit stove.",
+    "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking. This model relies on a battery-operated hotplate, rather than the more commonplace chemical-fueled Esbit stove.",
     "price": 50000,
     "material": ["aluminum", "plastic"],
     "weight": 1500,
