@@ -74,6 +74,25 @@ struct stats : public JsonSerializer, public JsonDeserializer
     }
 };
 
+// Likelyhood to pick a reason
+struct reason_weight {
+    const char *reason;
+    unsigned int weight;
+};
+
+// Class for picking a reason for a melee miss from a weighted list.
+struct reason_weight_list {
+        reason_weight_list() : total_weight(0) { };
+        void add_item(const char *reason, unsigned int weight);
+        unsigned int pick_ent();
+        const char *pick();
+        void clear();
+
+    private:
+        unsigned int total_weight;
+        std::vector<reason_weight> items;
+};
+
 class player : public Character, public JsonSerializer, public JsonDeserializer
 {
   std::map<Skill*,SkillLevel> _skills;
@@ -461,12 +480,20 @@ public:
  /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
  int dodge_roll();
  /**
-  * Returns an explanation for why the player would miss a melee attack
+  * Adds a reason for why the player would miss a melee attack.
   *
-  * Builds a list of melee accuracy penalties weighted by magnitude and selects
-  * a random message from the list.
+  * To possibly be messaged to the player when he misses a melee attack.
+  * @param reason A message for the player that gives a reason for him missing.
+  * @param weight The weight used when choosing what reason to pick when the
+  * player misses.
   */
- const char* get_reason_for_miss();
+ void add_miss_reason(const char *reason, unsigned int weight);
+ /** Clears the list of reasons for why the player would miss a melee attack. */
+ void clear_miss_reasons();
+ /**
+  * Returns an explanation for why the player would miss a melee attack.
+  */
+ const char *get_miss_reason();
 
  /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
  bool uncanny_dodge(bool is_u = true);
@@ -966,6 +993,8 @@ private:
     std::vector<point> auto_move_route;
     // Used to make sure auto move is canceled if we stumble off course
     point next_expected_position;
+
+    struct reason_weight_list melee_miss_reasons;
 
     int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
     //NPCs also use this ID value. Values should never be reused.
