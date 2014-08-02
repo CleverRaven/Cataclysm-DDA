@@ -122,6 +122,57 @@ def internal_append(list_of_lists, appends):
     return [l + [a] for l,a in zip(list_of_lists, appends)]
 
 
+def get_map_cells(infile, cell_size):
+    cell_line_no = 1
+    cells_per_line = None
+
+    # all_cells holds completed cells.  cell_list holds incompleted cells.
+    all_cells = []
+    cell_list = [[]]
+
+    for line_no, line in enumerate(infile, 1):
+        # -1 to remove newline char
+        line = line[:-1]
+
+        assert len(line) % cell_size == 0, \
+            "Map {infile} does not have colums equal to a multiple of the " \
+            "map cell size. Error occured on line {line_no}.".format(
+                infile=infile.name,
+                line_no=line_no)
+
+        if cells_per_line is None:
+            cells_per_line = len(line) // cell_size
+            # setting up for internal_append
+            cell_list *= cells_per_line
+        else:
+            assert cells_per_line == len(line) // cell_size, \
+                "Map {infile} starts new cells before finishing cells " \
+                "{cell_begin} to {cell_end}. Error occured on line " \
+                "{line_no}.".format(infile=infile.name,
+                    cell_begin=len(all_cells) + 1,
+                    cell_end=len(all_cells) + cells_per_line,
+                    line_no=line_no)
+
+        cell_list = internal_append(cell_list, division_split(cell_size, line))
+
+        cell_line_no += 1
+
+        if cell_line_no > cell_size:
+            cell_line_no = 1
+            cells_per_line = None
+
+            all_cells.extend(cell_list)
+            cell_list = [[]]
+
+    assert line_no % cell_size == 0, \
+        "Map {infile} reaches EOF before the completion of cells " \
+        "{cell_begin} to {cell_end}.".format(infile=infile.name,
+            cell_begin=len(all_cells) + 1,
+            cell_end=len(all_cells) + cells_per_line)
+
+    return all_cells
+
+
 def recursive_dict_update(info_dict, list_path, data):
     "Recurses through the info_dict using the sequence in list_path until "
     "reaching the end, where data replaces whatever is currently in that part "
