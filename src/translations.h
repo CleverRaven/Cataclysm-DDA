@@ -32,5 +32,6 @@ const char* strip_positional_formatting(const char* msgid);
 #define pgettext(STRING1, STRING2) _(STRING2)
 
 #endif // LOCALIZE
+void set_language();
 
 #endif // _TRANSLATIONS_H_

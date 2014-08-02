@@ -2,6 +2,10 @@
 
 #include <string>
 #ifdef LOCALIZE
+#include <stdlib.h> // for getenv()/setenv()
+#include "options.h"
+#include "path_info.h"
+#include "debug.h"
 #else // !LOCALIZE
 #include <cstring> // strcmp
 #include <map>
@@ -28,7 +32,43 @@ const char * pgettext(const char *context, const char *msgid)
     }
 }
 
+void set_language()
+{
+    // Step 1. Setup locale settings.
+    std::string lang_opt = OPTIONS["USE_LANG"].getValue();
+    if (lang_opt != "") { // Not 'System Language'
+        // Overwrite all system locale settings. Use CDDA settings. User wants this.
+        if (setenv("LANGUAGE", lang_opt.c_str(), true) != 0) {
+            DebugLog(D_WARNING, D_MAIN) << "Can't set 'LANGUAGE' environment variable";
+        }
+    }
+    if (setlocale(LC_ALL, "") == NULL) {
+        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
+    }
+
+    // Step 2. Bind to gettext domain.
+    const char *locale_dir;
+#ifdef __linux__
+    if (!FILENAMES["base_path"].empty()) {
+        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
+    } else {
+        locale_dir = "lang/mo";
+    }
+#else
+    locale_dir = "lang/mo";
+#endif // __linux__
+    bindtextdomain("cataclysm-dda", locale_dir);
+    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
+    textdomain("cataclysm-dda");
+
+    // Step 3. Reload options strings with right language
+    initOptions();
+    load_options();
+}
 #else // !LOCALIZE
+void set_language()
+{
+}
 
 // sanitized message cache
 std::map<const char *, std::string> &sanitized_messages()
