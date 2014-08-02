@@ -59,18 +59,10 @@ Reason: if you build other software, these versions might conflict with what the
 
 For Macports:
 
-    ## Step 1
     # gettext depends on ncurses, so you don't need to specify ncurses explicitly
     # gettext also includes libintl
     sudo port install gettext ncurses
     hash -r
-
-    ## Step 2
-    # Edit Makefile
-    # Replace this line: https://github.com/CleverRaven/Cataclysm-DDA/blob/6f20afa7e50d29e59f268f28c56a85e614b899a5/Makefile#L169
-    # with: LDFLAGS += -lintl -L$(shell ncursesw5-config --libdir)
-    # so that it can find libintl
-
 
 
 ## Step 3: Compile
@@ -87,6 +79,10 @@ build a release version, use `SDL` + graphical tiles, link to libraries in the O
 
     $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
 
+build a release version, use curses and gettext supplied by Macports:
+
+    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 LOCALIZE=1 MACPORTS=1
+
 ### Make Options
 
 Description of the options used above. Tweak until things work. More notes are in the `Makefile`.
@@ -98,7 +94,8 @@ Description of the options used above. Tweak until things work. More notes are i
 * `RELEASE=1` build an optimized 'release' version; omit for debug build.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/) to get the necessary support for c++11 without needing to reinstall gcc/g++ (which seems like it might cause havoc with certain compilations of things).
-
+* `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
+* `MACPORTS` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
 
 
 ## Step 4: Run
