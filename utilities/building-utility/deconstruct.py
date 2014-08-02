@@ -1,14 +1,10 @@
-# This program runs well with PYTHON 2.5 but may not
-# run without an error with PYTHON 2.2
-#
-# I (acidia) just made this as a quick utility to change a character map in
-# drawing.txt into a json that the game can process.  You'll have to modify the
-# paths in this folder unless you decide to put all the files in
-# 'c:\building-utility' and create a folder called 'output' for it to drop the
-# finished result in.  This is in no way polished, it just saved me a huge
-# amount of time creating 9x9 buildings so I figured someone else might be able
-# to use it.
+#! /usr/bin/env python
 
+from __future__ import division
+
+import argparse
+import copy
+import json
 import os
 
 _MAP_CELL_SIZE = 24
