@@ -213,7 +213,7 @@ int main(int argc, char *argv[])
     initOptions();
     load_options();
 
-    set_language();
+    set_language(true);
 
     if (initscr() == NULL) { // Initialize ncurses
         DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";

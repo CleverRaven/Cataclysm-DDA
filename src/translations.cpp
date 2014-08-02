@@ -33,7 +33,7 @@ const char * pgettext(const char *context, const char *msgid)
     }
 }
 
-void set_language()
+void set_language(bool reload_options)
 {
     // Step 1. Setup locale settings.
     std::string lang_opt = OPTIONS["USE_LANG"].getValue();
@@ -80,8 +80,10 @@ void set_language()
     textdomain("cataclysm-dda");
 
     // Step 3. Reload options strings with right language
-    initOptions();
-    load_options();
+    if (reload_options) {
+        initOptions();
+        load_options();
+    }
 }
 #else // !LOCALIZE
 void set_language()
