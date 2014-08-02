@@ -178,6 +178,9 @@ void Creature::reset_stats()
 void Creature::process_turn()
 {
     process_effects();
+    
+    // Call this in case any effects have changed our stats
+    reset_stats();
 
     // add an appropriate number of moves
     moves += get_speed();
