@@ -557,6 +557,7 @@ void initOptions()
     optionNames["fr_FR"] = _("French");
     optionNames["de_DE"] = _("German");
     optionNames["it"] = _("Italian");
+    optionNames["es_ES"] = _("Spanish");
     optionNames["ja"] = _("Japanese");
     optionNames["ko"] = _("Korean");
     optionNames["pl"] = _("Polish");
@@ -568,7 +569,7 @@ void initOptions()
     optionNames["zh_CN"] = _("Simplified Chinese");
     optionNames["zh_TW"] = _("Traditional Chinese");
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
