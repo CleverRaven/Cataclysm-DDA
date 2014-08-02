@@ -2951,6 +2951,12 @@ void manage_sleep(player& p, disease& dis)
                 p.healall(1);
             }
         }
+        
+        if (p.fatigue <= 0 && p.fatigue > -20) {
+            p.fatigue = -25;
+            add_msg(m_good, _("You feel well rested."));
+            dis.duration = dice(3, 100);
+        }
     }
 
     if (int(calendar::turn) % 100 == 0 && !p.has_bionic("bio_recycler") && !(p.hunger < -60)) {
