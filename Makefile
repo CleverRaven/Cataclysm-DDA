@@ -245,7 +245,7 @@ ifdef LUA
   BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
-ifdef SDL 
+ifdef SDL
   TILES = 1
 endif
 

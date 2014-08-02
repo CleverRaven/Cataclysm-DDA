@@ -50,11 +50,11 @@ For Homebrew:
     brew install gettext ncurses
     brew link --force gettext ncurses
 
-**After you build Cataclysm** you might want to to unlink gettext and ncurses with: 
+**After you build Cataclysm** you might want to to unlink gettext and ncurses with:
 
-    brew unlink gettext ncurses 
-    
-Reason: if you build other software, these versions might conflict with what the other software expects.  
+    brew unlink gettext ncurses
+
+Reason: if you build other software, these versions might conflict with what the other software expects.
 
 
 For Macports:
@@ -64,7 +64,7 @@ For Macports:
     # gettext also includes libintl
     sudo port install gettext ncurses
     hash -r
-    
+
     ## Step 2
     # Edit Makefile
     # Replace this line: https://github.com/CleverRaven/Cataclysm-DDA/blob/6f20afa7e50d29e59f268f28c56a85e614b899a5/Makefile#L169
@@ -81,8 +81,8 @@ One of the following commands will likely work for you. Tweak flags to suit your
 
 build a release version, use `SDL` + graphical tiles, don't use `gettext`, and use `Clang` for compilation:
 
-    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1 
-    
+    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1
+
 build a release version, use `SDL` + graphical tiles, link to libraries in the OS X `Frameworks` folders, don't use `gettext`, and use `Clang` for compilation:
 
     $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
@@ -92,7 +92,7 @@ build a release version, use `SDL` + graphical tiles, link to libraries in the O
 Description of the options used above. Tweak until things work. More notes are in the `Makefile`.
 
 * `FRAMEWORK=1` attempt to link to libraries under the OS X `Frameworks` folders; omit to use the usual libsdl, libsdl\_image, libsdl\_ttf (e.g. leave out when you `brew install` the packages).
-* `LOCALIZED=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`. 
+* `LOCALIZED=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
 * `NATIVE=osx` build for OS X.
 * `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5.
 * `RELEASE=1` build an optimized 'release' version; omit for debug build.
