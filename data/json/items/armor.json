@@ -3781,7 +3781,7 @@
     },
     {
         "type" : "ARMOR",
-        "id" : sleeveless_trenchcoat_leather",
+        "id" : "sleeveless_trenchcoat_leather",
         "name" : "sleeveless leather trenchcoat",
         "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
         "weight" : 1672,
