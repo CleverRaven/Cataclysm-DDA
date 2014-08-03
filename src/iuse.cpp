@@ -8183,14 +8183,14 @@ void init_memory_card_with_random_stuff(player *p, item * it)
 
         bool encrypted = false;
         if (it->has_flag("MC_MAY_BE_ENCRYPTED") && one_in(8)) {
-			it->make(it->type->id+ "_encrypted");
+            it->make(it->type->id + "_encrypted");
             encrypted = true;
         }
 
         int data_chance = 2;
 
         //encrypted memory cards often contain data
-        if (encrypted && one_in(2)) {
+        if (encrypted && !one_in(3)) {
             data_chance--;
         }
 
@@ -8205,6 +8205,10 @@ void init_memory_card_with_random_stuff(player *p, item * it)
             //decrease chance to more data
             data_chance++;
 
+            if (encrypted && one_in(3)) {
+                data_chance--;
+            }
+
             const int duckfaces_count = rng(5, 30);
             it->item_vars["MC_PHOTOS"] = string_format("%d", duckfaces_count);
         }
@@ -8216,6 +8220,10 @@ void init_memory_card_with_random_stuff(player *p, item * it)
 
         if (one_in(data_chance)) {
             data_chance++;
+
+            if (encrypted && one_in(3)) {
+                data_chance--;
+            }
 
             const int new_songs_count = rng(5, 15);
             it->item_vars["MC_MUSIC"] = string_format("%d", new_songs_count);
@@ -8229,6 +8237,64 @@ void init_memory_card_with_random_stuff(player *p, item * it)
             it->item_vars["MC_RANDOM_RECIPE"] = string_format("%d", 1);
         }
     }
+}
+
+bool einkpc_download_memory_card(player *p, item *eink, item *mc)
+{
+    bool something_downloaded = false;
+    if (mc->item_vars["MC_PHOTOS"] != "") {
+        something_downloaded = true;
+
+        int new_photos = atoi(mc->item_vars["MC_PHOTOS"].c_str());
+        mc->item_vars["MC_PHOTOS"] = "";
+
+        p->add_msg_if_player(m_good, string_format(
+                                 ngettext("You download %d new photo into internal memory.",
+                                          "You download %d new photos into internal memory.", new_photos)).c_str());
+
+        int old_photos = 0;
+        if (eink->item_vars["EIPC_PHOTOS"] != "") {
+            old_photos = atoi(eink->item_vars["EIPC_PHOTOS"].c_str());
+        }
+
+        eink->item_vars["EIPC_PHOTOS"] = string_format("%d", old_photos + new_photos);
+    }
+
+    if (mc->item_vars["MC_MUSIC"] != "") {
+        something_downloaded = true;
+
+        int new_songs = atoi(mc->item_vars["MC_MUSIC"].c_str());
+        mc->item_vars["MC_MUSIC"] = "";
+
+        p->add_msg_if_player(m_good, string_format(
+                                 ngettext("You download %d new song into internal memory.",
+                                          "You download %d new songs into internal memory.", new_songs)).c_str());
+
+        int old_songs = 0;
+        if (eink->item_vars["EIPC_MUSIC"] != "") {
+            old_songs = atoi(eink->item_vars["EIPC_MUSIC"].c_str());
+        }
+
+        eink->item_vars["EIPC_MUSIC"] = string_format("%d", old_songs + new_songs);
+    }
+
+    //recipes todo:
+
+    //documents todo:
+
+    if (mc->has_flag("MC_TURN_USED")) {
+        mc->item_tags.clear();
+        mc->item_vars.clear();
+        mc->make(mc->type->id + "_used");
+    }
+
+    if (!something_downloaded) {
+        p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
+        return false;
+    }
+
+    return true;
+
 }
 
 int iuse::einktabletpc(player *p, item *it, bool t)
@@ -8246,11 +8312,11 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
             //the more varied music, the better max mood.
             const int songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
-			
+
             //if user can hear this music and not already hear music
             if (g->sound(pos.x, pos.y, 8, "") && !p->has_effect("music")) {
 
-				p->add_effect("music", 1);
+                p->add_effect("music", 1);
                 p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
 
                 if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
@@ -8443,72 +8509,74 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
                 return it->type->charges_to_use();
             }
+            if (!mc->has_flag("MC_MOBILE")) {
+                p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
+                return it->type->charges_to_use();
+            }
+            if (mc->has_flag("MC_ENCRYPTED")) {
+                p->add_msg_if_player(m_info, _("This memory card is encrypted."));
+                return it->type->charges_to_use();
+            }
+            if (!(mc->has_flag("MC_HAS_DATA") || mc->has_flag("MC_DOCUMENTS"))) {
+                p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
+                return it->type->charges_to_use();
+            }
+
+            einkpc_download_memory_card(p, it, mc);
+
+            return it->type->charges_to_use();
+        }
+
+        if (ei_decrypt == choice)
+        {
+
+            const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            item *mc = &(p->i_at(pos));
+
+            init_memory_card_with_random_stuff(p, mc);
+
+            if (mc == NULL || mc->is_null()) {
+                p->add_msg_if_player(m_info, _("You do not have that item!"));
+                return it->type->charges_to_use();
+            }
 
             if (!mc->has_flag("MC_MOBILE")) {
                 p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
                 return it->type->charges_to_use();
             }
 
-            if (mc->has_flag("MC_ENCRYPTED")) {
-                p->add_msg_if_player(m_info, _("This memory card is encrypted."));
+            if (!mc->has_flag("MC_ENCRYPTED")) {
+                p->add_msg_if_player(m_info, _("This memory card is not encrypted."));
                 return it->type->charges_to_use();
             }
 
-            if (!(mc->has_flag("MC_HAS_DATA") || mc->has_flag("MC_DOCUMENTS"))) {
-                p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
-                return it->type->charges_to_use();
-            }
+			p->practice("computer", rng(2,5));
 
-            bool something_downloaded = false;
-            if (mc->item_vars["MC_PHOTOS"] != "") {
-                something_downloaded = true;
+            const int success = p->skillLevel("computer") * rng(1, p->skillLevel("computer")) * rng(1,
+                                p->int_cur) - rng(30, 80);
+            if (success > 0) {
+				p->practice("computer", rng(5, 10));
 
-                int new_photos = atoi(mc->item_vars["MC_PHOTOS"].c_str());
-                mc->item_vars["MC_PHOTOS"] = "";
+                p->add_msg_if_player(m_good, _("You successfully decrypted content on %s!"), mc->tname().c_str());
 
-                p->add_msg_if_player(m_good, string_format(
-                                         ngettext("You download %d new photo into internal memory.",
-                                                  "You download %d new photos into internal memory.", new_photos)).c_str());
+                mc->make(mc->type->id.substr(0, mc->type->id.find("_encrypted")).c_str());
 
-                int old_photos = 0;
-                if (it->item_vars["EIPC_PHOTOS"] != "") {
-                    old_photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
-                }
+                einkpc_download_memory_card(p, it, mc);
+            } else {
 
-                it->item_vars["EIPC_PHOTOS"] = string_format("%d", old_photos + new_photos);
-            }
+				if (success > -10 || one_in(5)){
+					p->add_msg_if_player(m_neutral, _("You failed to decrypt content of %s!"), mc->tname().c_str());
+				}
+				else{
+					p->add_msg_if_player(m_bad, _("Firmware protection tripped on and the data is lost!"));
 
-            if (mc->item_vars["MC_MUSIC"] != "") {
-                something_downloaded = true;
+					mc->item_tags.clear();
+					mc->item_vars.clear();
+					mc->make(mc->type->id.substr(0, mc->type->id.find("_encrypted")).c_str());
+					mc->make(mc->type->id + "_used");
 
-                int new_songs = atoi(mc->item_vars["MC_MUSIC"].c_str());
-                mc->item_vars["MC_MUSIC"] = "";
+				}
 
-                p->add_msg_if_player(m_good, string_format(
-                                         ngettext("You download %d new song into internal memory.",
-                                                  "You download %d new songs into internal memory.", new_songs)).c_str());
-
-                int old_songs = 0;
-                if (it->item_vars["EIPC_MUSIC"] != "") {
-                    old_songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
-                }
-
-                it->item_vars["EIPC_MUSIC"] = string_format("%d", old_songs + new_songs);
-            }
-
-            //recipes todo:
-
-            //documents todo:
-
-            if (mc->has_flag("MC_TURN_USED")) {
-                mc->item_tags.clear();
-                mc->item_vars.clear();
-                mc->make(mc->type->id + "_used");
-            }
-
-            if (!something_downloaded) {
-                p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
-                return it->type->charges_to_use();
             }
 
             return it->type->charges_to_use();
