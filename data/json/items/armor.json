@@ -2480,7 +2480,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
         "coverage" : 20,
         "material_thickness" : 2
     },

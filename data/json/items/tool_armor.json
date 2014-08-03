@@ -1275,6 +1275,31 @@
     "coverage" : 0,
     "material_thickness" : 1
   },
+    {
+        "type" : "ARMOR",
+        "id" : "survivor_belt",
+        "name" : "survivor utility belt",
+        "name_plural" : "survivor utility belts",
+        "weight" : 360,
+        "color" : "green",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 2,
+        "symbol" : "[",
+        "description" : "A custom-built light harness covered with pockets and pouches.  Durable and carefully crafted to be comfortable to wear.",
+        "price" : 20000,
+        "material" : ["leather", "cotton"],
+        "volume" : 7,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -3,
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
+        "coverage" : 20,
+        "material_thickness" : 2
+    },
 
   {
     "id": "hairpin",
