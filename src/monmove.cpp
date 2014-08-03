@@ -746,7 +746,7 @@ int monster::attack_at(int x, int y) {
         is_enemy = is_enemy || has_flag(MF_ATTACKMON); // I guess the flag means all monsters are enemies?
 
         if(is_enemy) {
-            hit_monster(mondex);
+            hit_monster(mon);
             return 1;
         }
     } else if(npcdex != -1  && type->melee_dice > 0) {
@@ -803,10 +803,10 @@ int monster::move_to(int x, int y, bool force)
         return 1;
     }
     if (type->size != MS_TINY && g->m.has_flag("SHARP", posx(), posy()) && !one_in(4)) {
-        hurt(rng(2, 3));
+        apply_damage( nullptr, bp_torso, rng( 2, 3 ) );
     }
     if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6)) {
-        hurt(rng(1, 2));
+        apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
     }
     if (!digging() && !has_flag(MF_FLIES) &&
           g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
@@ -948,14 +948,14 @@ void monster::knock_back_from(int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *z = &(g->zombie(mondex));
-  hurt(z->type->size);
+  apply_damage( z, bp_torso, z->type->size );
   add_effect("stunned", 1);
   if (type->size > 1 + z->type->size) {
    z->knock_back_from(posx(), posy()); // Chain reaction!
-   z->hurt(type->size);
+   z->apply_damage( this, bp_torso, type->size );
    z->add_effect("stunned", 1);
   } else if (type->size > z->type->size) {
-   z->hurt(type->size);
+   z->apply_damage( this, bp_torso, type->size );
    z->add_effect("stunned", 1);
   }
 
@@ -968,7 +968,7 @@ void monster::knock_back_from(int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hurt(3);
+  apply_damage( p, bp_torso, 3 );
   add_effect("stunned", 1);
   p->hit(this, bp_torso, type->size, 0);
   if (u_see)
@@ -980,13 +980,13 @@ void monster::knock_back_from(int x, int y)
 // If we're still in the function at this point, we're actually moving a tile!
  if (g->m.ter_at(to.x, to.y).has_flag(TFLAG_DEEP_WATER)) {
   if (g->m.has_flag("LIQUID", to.x, to.y) && can_drown()) {
-   hurt(9999);
+   die( nullptr );
    if (u_see) {
     add_msg(_("The %s drowns!"), name().c_str());
    }
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
-   hurt(9999);
+   die( nullptr );
    if (u_see) {
     add_msg(_("The %s flops around and dies!"), name().c_str());
    }
@@ -996,7 +996,7 @@ void monster::knock_back_from(int x, int y)
  if (g->m.move_cost(to.x, to.y) == 0) {
 
    // It's some kind of wall.
-   hurt(type->size);
+   apply_damage( nullptr, bp_torso, type->size );
    add_effect("stunned", 2);
    if (u_see) {
     add_msg(_("The %s bounces off a %s."), name().c_str(),
