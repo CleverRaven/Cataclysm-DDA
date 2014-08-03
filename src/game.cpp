@@ -1291,6 +1291,15 @@ bool game::do_turn()
             u.pain += 2 * rng(2, 3);
             u.focus_pool -= 1;
         }
+
+        int dec_stom_food = u.stomach_food * 0.8;
+        int dec_stom_water = u.stomach_water * 0.8;
+        dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
+        dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
+        u.stomach_food -= dec_stom_food;
+        u.stomach_water -= dec_stom_water;
+        u.stomach_food = u.stomach_food < 0 ? 0 : u.stomach_food;
+        u.stomach_water = u.stomach_water < 0 ? 0 : u.stomach_water;
     }
 
     if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes

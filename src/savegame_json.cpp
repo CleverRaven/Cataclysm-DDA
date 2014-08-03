@@ -337,6 +337,9 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
 
+    json.member( "stomach_food", stomach_food );
+    json.member( "stomach_water", stomach_water );
+
     // possibly related to illness[] ?
     json.member( "health", health );
 
@@ -431,6 +434,9 @@ void player::deserialize(JsonIn &jsin)
     if ( obj_type_id.find(grab_typestr) != obj_type_id.end() ) {
         grab_type = (object_type)obj_type_id[grab_typestr];
     }
+
+    data.read( "stomach_food", stomach_food);
+    data.read( "stomach_water", stomach_water);
 
     data.read( "blocks_left", num_blocks);
     data.read( "focus_pool", focus_pool);

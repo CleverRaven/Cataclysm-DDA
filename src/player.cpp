@@ -139,6 +139,8 @@ player::player() : Character(), name("")
  max_power_level = 0;
  hunger = 0;
  thirst = 0;
+ stomach_food = 0;
+ stomach_water = 0;
  fatigue = 0;
  stim = 0;
  pain = 0;
@@ -261,6 +263,8 @@ player& player::operator= (const player & rhs)
 
  hunger = rhs.hunger;
  thirst = rhs.thirst;
+ stomach_food = rsh.stomach_food;
+ stomach_water = rsh.stomach_water;
  fatigue = rhs.fatigue;
  health = rhs.health;
 
@@ -6198,11 +6202,18 @@ void player::vomit()
 {
     add_memorial_log(pgettext("memorial_male", "Threw up."),
                      pgettext("memorial_female", "Threw up."));
-    add_msg(m_bad, _("You throw up heavily!"));
-    int nut_loss = 100 / (1 + exp(.15 * (hunger / 100)));
-    int quench_loss = 100 / (1 + exp(.025 * (thirst / 10)));
-    hunger += rng(nut_loss / 2, nut_loss);
-    thirst += rng(quench_loss / 2, quench_loss);
+
+    if (stomach_food != 0 || stomach_water != 0) {
+        add_msg(m_bad, _("You throw up heavily!"));
+    } else {
+        add_msg(m_warning, _("You feel nauseous, but your stomach is empty."));
+    }
+    int nut_loss = stomach_food;
+    int quench_loss = stomach_water;
+    stomach_food = 0;
+    stomach_water = 0;
+    hunger += nut_loss;
+    thirst += quench_loss;
     moves -= 100;
     for (int i = 0; i < illness.size(); i++) {
         if (illness[i].type == "foodpoison") {
@@ -8232,8 +8243,11 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         // but best to code defensively.
         // Thanks for the warning, i2amroy.
         if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
-            hunger -= (rng(0, comest->nutr) * 0.66 );
+            int nut = rng(0, comest->nutr);
+            hunger -= nut;
             thirst -= ((comest->quench) * 0.66 );
+            stomach_food += nut;
+            stomach_water += comest->quench;
             if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
                 health -= 3;
             }
@@ -8242,12 +8256,16 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             hunger -= ((comest->nutr) * 0.66);
             thirst -= ((comest->quench) * 0.66);
             health += ((comest->healthy) * 0.66);
+            stomach_food -= ((comest->nutr) *= 0.66);
+            stomach_water -= ((comest->quench) *= 0.66);
         }
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
         thirst -= comest->quench;
         health += comest->healthy;
+        stomach_food -= comest->nutr;
+        stomach_water -= comest->quench;
     }
 
     if (has_bionic("bio_digestion")) {
