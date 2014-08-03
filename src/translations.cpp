@@ -86,7 +86,7 @@ void set_language(bool reload_options)
     }
 }
 #else // !LOCALIZE
-void set_language()
+void set_language(bool reload_options)
 {
 }
 
