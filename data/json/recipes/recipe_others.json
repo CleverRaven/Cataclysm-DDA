@@ -3858,6 +3858,43 @@
   ]
 },{
         "type" : "recipe",
+  "result": "bfipowder",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MEDICAL",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
+  "difficulty": 6,
+  "time": 1200,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_firstaid", 8] , ["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["emergency_book", 8]],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 18 ],
+      [ "chemistry_set", 18 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "iodine", 2 ]
+    ],
+    [
+      [ "aspirin", 4 ]
+    ],
+    [
+      [ "oxy_powder", 50 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "char_forge",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",

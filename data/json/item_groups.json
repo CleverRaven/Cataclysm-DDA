@@ -2167,6 +2167,7 @@
       ["signal_flare", 15],
       ["airhorn", 30],
       ["quikclot", 10],
+      ["bfipowder", 15],
       ["speargun", 10],
       ["minispeargun", 10],
       ["doublespeargun", 8],
@@ -3759,6 +3760,7 @@
       ["jar_3l_glass", 15],
       ["oxygen_tank", 50],
       ["smoxygen_tank", 25],
+      ["bfipowder", 15],
       ["quikclot", 10]
     ]
   },{
@@ -4568,6 +4570,7 @@
       ["grapnel", 10],
       ["folding_poncho", 5],
       ["quikclot", 20],
+      ["bfipowder", 20],
       ["sheath", 10],
       ["survnote", 1]
     ]
@@ -5676,6 +5679,7 @@
       ["ampoule", 12],
       ["oxygen_tank", 10],
       ["smoxygen_tank", 20],
+      ["bfipowder", 15],
       ["quikclot", 10]
     ]
   },{
@@ -5964,6 +5968,7 @@
       ["pocketwatch", 2],
       ["pur_tablets", 10],
       ["quikclot", 10],
+      ["bfipowder", 15],
       ["e_tool", 15],
       ["dehydrator", 10],
       ["sm_extinguisher", 10],
@@ -6847,6 +6852,7 @@
       ["signal_flare", 25],
       ["militarymap", 4],
       ["quikclot", 20],
+      ["bfipowder", 20],
       ["rx12_injector", 5],
       ["ampoule", 10],
       ["optical_cloak", 1],
