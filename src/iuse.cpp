@@ -8683,7 +8683,66 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
 }
 
-int iuse::camera(player *p, item *it, bool t){
+int iuse::camera(player *p, item *it, bool){
+
+	enum{c_cancel, c_shot, c_photos};
+
+	uimenu amenu;
+
+	amenu.selected = 0;
+	amenu.text = _("What to do with camera?");
+	amenu.addentry(c_cancel, true, 'q', _("Cancel"));
+	amenu.addentry(c_shot, true, 's', _("Take a photo"));
+	amenu.addentry(c_photos, true, 'p', _("Photos"));
+
+	const int choice = amenu.ret;
+
+	if (c_cancel == choice){
+		return 0;
+	}
+
+	if (c_shot == choice){
+
+		int x = p->posx;
+		int y = p->posy;
+
+		std::vector <point> trajectory = g->pl_target_ui(x, y, 20, &(*it));
+		if (trajectory.empty()) {
+			return;
+		}
+
+		/*
+		
+		tx = trajectory[i].x;
+		ty = trajectory[i].y;
+
+		const int zid = mon_at(tx, ty);
+		const int npcID = npc_at(tx, ty);
+
+
+
+
+
+		if (zid != -1 && (!missed || one_in(7 - int(zombie(zid).type->size)))) {
+		monster &z = zombie(zid);
+
+
+
+
+		lse if (npcID != -1 && (!missed || one_in(4))) {
+		npc *guy = g->active_npc[npcID];
+
+
+
+		dist = rl_dist
+
+		*/
+
+
+		return it->type->charges_to_use;
+	}
+
+	return it->type->charges_to_use;
 
 }
 
