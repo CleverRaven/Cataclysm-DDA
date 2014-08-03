@@ -102,6 +102,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed;           // TRUE if this part is removed. The part won't disappear until the end of the turn
                             // so our indices can remain consistent.
+    bool slot = false;
     int flags;
     int passenger_id;       // carrying passenger
     union
@@ -295,6 +296,10 @@ public:
 
     bool remove_part (int p);
     void part_removal_cleanup ();
+
+// Attach/detach
+    void attach_part(int p, int dx, int dy, item &used_item);
+    void detach_part (int p);
 
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 

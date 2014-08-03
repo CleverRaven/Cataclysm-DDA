@@ -27,7 +27,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : [
-            "SEAT", "BOARDABLE", "CARGO", "BELTABLE"
+            "SEAT", "BOARDABLE", "CARGO", "BELTABLE", "ATTACH"
         ],
         "breaks_into" : [
             {"item": "leather", "min": 1, "max": 5},
@@ -68,7 +68,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : [
-            "SEAT", "BOARDABLE"
+            "SEAT", "BOARDABLE", "ATTACH"
         ],
         "breaks_into" : [
             {"item": "leather", "min": 0, "max": 1},
@@ -88,7 +88,7 @@
         "difficulty" : 3,
         "location" : "anywhere",
         "flags" : [
-            "SEAT", "BOARDABLE", "FOLDABLE"
+            "SEAT", "BOARDABLE", "FOLDABLE", "ATTACH"
         ],
         "breaks_into" : [
             {"item": "rag", "min": 1, "max": 6}
@@ -1664,7 +1664,7 @@
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF", "FOLDABLE"],
+        "flags" : ["ROOF", "FOLDABLE", "ATTACH"],
         "breaks_into" : [
             {"item": "rag", "min": 3, "max": 6}
         ]
@@ -1814,7 +1814,7 @@
         "item" : "glass_sheet",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["OVER", "OBSTACLE", "WINDOW"],
+        "flags" : ["OVER", "OBSTACLE", "WINDOW", "ATTACH"],
         "breaks_into" : [
             {"item": "glass_shard", "min": 3, "max": 6}
         ]
@@ -1937,7 +1937,7 @@
         "item" : "wheel_bicycle",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -1957,7 +1957,7 @@
         "item" : "wheel_wheelchair",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -1977,7 +1977,7 @@
         "item" : "wheel_bicycle",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -1997,7 +1997,7 @@
         "item" : "wheel_motorbike",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 3},
             {"item": "steel_chunk", "min": 1, "max": 3},
@@ -2017,7 +2017,7 @@
         "item" : "wheel_small",
         "difficulty" : 2,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
@@ -2037,7 +2037,7 @@
         "item" : "wheel_caster",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2248,7 +2248,7 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["PEDALS", "ENGINE", "FOLDABLE"],
+        "flags" : ["PEDALS", "ENGINE", "FOLDABLE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2268,7 +2268,7 @@
         "item" : "hand_rims",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE"],
+        "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2346,7 +2346,7 @@
         "item" : "small_storage_battery",
         "difficulty" : 1,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "ATTACH"],
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 2}
         ]
@@ -2365,7 +2365,7 @@
         "item" : "storage_battery",
         "difficulty" : 2,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 5, "max": 10},
             {"item": "steel_chunk", "min": 5, "max": 10},
@@ -2408,7 +2408,7 @@
         "item" : "metal_tank",
         "difficulty" : 1,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2450,7 +2450,7 @@
         "item" : "minifridge",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "FRIDGE"],
+        "flags" : ["CARGO", "OBSTACLE", "FRIDGE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 13},
             {"item": "steel_chunk", "min": 8, "max": 13},
@@ -2491,7 +2491,7 @@
         "item" : "frame",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE"],
+        "flags" : ["CARGO", "BOARDABLE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -2511,7 +2511,7 @@
         "item" : "wire",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "FOLDABLE"]
+        "flags" : ["CARGO", "BOARDABLE", "FOLDABLE", "ATTACH"]
     },{
         "type" : "vehicle_part",
         "id" : "basketlg",
@@ -2526,7 +2526,7 @@
         "item" : "basket",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE"]
+        "flags" : ["CARGO", "BOARDABLE", "ATTACH"]
     },{
         "type" : "vehicle_part",
         "id" : "veh_table",
@@ -2578,7 +2578,7 @@
         "bonus" : 40,
         "item" : "muffler",
         "difficulty" : 2,
-        "flags" : ["MUFFLER"],
+        "flags" : ["MUFFLER", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},
@@ -2598,7 +2598,7 @@
         "item" : "rope_6",
         "difficulty" : 1,
         "location" : "on_seat",
-        "flags" : ["SEATBELT"],
+        "flags" : ["SEATBELT", "ATTACH"],
         "breaks_into" : [
             {"item": "string_36", "min": 0, "max": 3}
         ]
@@ -2616,7 +2616,7 @@
         "item" : "rope_30",
         "difficulty" : 2,
         "location" : "on_seat",
-        "flags" : ["SEATBELT"],
+        "flags" : ["SEATBELT", "ATTACH"],
         "breaks_into" : [
             {"item": "string_36", "min": 0, "max": 3}
         ]
@@ -2650,7 +2650,7 @@
         "item" : "solar_panel",
         "difficulty" : 6,
         "location" : "on_roof",
-        "flags" : ["SOLAR_PANEL"],
+        "flags" : ["SOLAR_PANEL", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 4},
             {"item": "steel_chunk", "min": 2, "max": 4},
@@ -2671,7 +2671,7 @@
         "item" : "reinforced_solar_panel",
         "difficulty" : 6,
         "location" : "on_roof",
-        "flags" : ["SOLAR_PANEL"],
+        "flags" : ["SOLAR_PANEL", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -2692,7 +2692,7 @@
         "item" : "solar_panel_v2",
         "difficulty" : 8,
         "location" : "on_roof",
-        "flags" : ["SOLAR_PANEL"],
+        "flags" : ["SOLAR_PANEL", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 4},
             {"item": "steel_chunk", "min": 2, "max": 4},
@@ -2713,7 +2713,7 @@
         "item" : "reinforced_solar_panel_v2",
         "difficulty" : 9,
         "location" : "on_roof",
-        "flags" : ["SOLAR_PANEL"],
+        "flags" : ["SOLAR_PANEL", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -2734,7 +2734,7 @@
         "item" : "solar_panel_v3",
         "difficulty" : 12,
         "location" : "on_roof",
-        "flags" : ["SOLAR_PANEL"],
+        "flags" : ["SOLAR_PANEL", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 4},
             {"item": "steel_chunk", "min": 4, "max": 4},
@@ -3120,7 +3120,7 @@
         "bonus" : 480,
         "item" : "flashlight",
         "difficulty" : 1,
-        "flags" : ["CONE_LIGHT"],
+        "flags" : ["CONE_LIGHT", "ATTACH"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -3138,7 +3138,7 @@
         "bonus" : 480,
         "item" : "headlight_reinforced",
         "difficulty" : 1,
-        "flags" : ["CONE_LIGHT"],
+        "flags" : ["CONE_LIGHT", "ATTACH"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -3155,7 +3155,7 @@
         "item" : "reinforced_glass_sheet",
         "difficulty" : 6,
         "location" : "center",
-        "flags" : ["OBSTACLE", "WINDOW"],
+        "flags" : ["OBSTACLE", "WINDOW", "ATTACH"],
         "breaks_into" : [
             {"item": "glass_shard", "min": 3, "max": 6},
             {"item": "wire", "min": 4, "max": 8}
@@ -3173,7 +3173,7 @@
         "bonus" : 15,
         "item" : "horn_bicycle",
         "difficulty" : 1,
-        "flags" : ["HORN"],
+        "flags" : ["HORN", "ATTACH"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 1}
         ]
@@ -3190,7 +3190,7 @@
         "bonus" : 30,
         "item" : "horn_car",
         "difficulty" : 3,
-        "flags" : ["HORN"],
+        "flags" : ["HORN", "ATTACH"],
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 2}
         ]
@@ -3207,7 +3207,7 @@
         "bonus" : 45,
         "item" : "horn_big",
         "difficulty" : 3,
-        "flags" : ["HORN"],
+        "flags" : ["HORN", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1}
         ]
@@ -3225,7 +3225,7 @@
         "fuel_type" : "battery",
         "item" : "battery_motorbike",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3245,7 +3245,7 @@
         "fuel_type" : "battery",
         "item" : "battery_car",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 9},
             {"item": "steel_chunk", "min": 6, "max": 9},
@@ -3265,7 +3265,7 @@
         "fuel_type" : "battery",
         "item" : "battery_truck",
         "difficulty" : 2,
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 8, "max": 12},
             {"item": "steel_chunk", "min": 8, "max": 12},
@@ -3286,7 +3286,7 @@
         "fuel_type" : "battery",
         "item" : "alternator_motorbike",
         "difficulty" : 3,
-        "flags" : ["ALTERNATOR"],
+        "flags" : ["ALTERNATOR", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 2, "max": 5},
             {"item": "steel_chunk", "min": 2, "max": 5},
@@ -3306,7 +3306,7 @@
         "epower" : 1492,
         "item" : "alternator_car",
         "difficulty" : 3,
-        "flags" : ["ALTERNATOR"],
+        "flags" : ["ALTERNATOR", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 6},
             {"item": "steel_chunk", "min": 3, "max": 6},
@@ -3326,7 +3326,7 @@
         "epower" : 2238,
         "item" : "alternator_truck",
         "difficulty" : 3,
-        "flags" : ["ALTERNATOR"],
+        "flags" : ["ALTERNATOR", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 7},
             {"item": "steel_chunk", "min": 4, "max": 7},
@@ -3404,7 +3404,7 @@
         "item" : "light_emergency_red",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "ODDTURN"],
+        "flags" : ["CIRCLE_LIGHT", "ODDTURN", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 1}
@@ -3424,7 +3424,7 @@
         "item" : "light_emergency_blue",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "EVENTURN"],
+        "flags" : ["CIRCLE_LIGHT", "EVENTURN", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 1},
             {"item": "scrap", "min": 1, "max": 1}
@@ -3463,7 +3463,7 @@
         "item" : "floodlight",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT"],
+        "flags" : ["CIRCLE_LIGHT", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
@@ -3483,7 +3483,7 @@
         "item" : "recharge_station",
         "difficulty" : 3,
         "location" : "on_cargo",
-        "flags" : ["INTERNAL", "RECHARGE"],
+        "flags" : ["INTERNAL", "RECHARGE", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2},
@@ -3519,7 +3519,7 @@
         "bonus" : 40,
         "item" : "stereo",
         "difficulty" : 2,
-        "flags" : ["STEREO"],
+        "flags" : ["STEREO", "ATTACH"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},
