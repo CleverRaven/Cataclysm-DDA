@@ -8242,15 +8242,16 @@ void init_memory_card_with_random_stuff(player *p, item * it)
 bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 {
     bool something_downloaded = false;
-    if (mc->item_vars["MC_PHOTOS"] != "") {
+    if (mc->item_vars["MC_PHOTOS"] != "")
+    {
         something_downloaded = true;
 
         int new_photos = atoi(mc->item_vars["MC_PHOTOS"].c_str());
         mc->item_vars["MC_PHOTOS"] = "";
 
         p->add_msg_if_player(m_good, string_format(
-                                 ngettext("You download %d new photo into internal memory.",
-                                          "You download %d new photos into internal memory.", new_photos)).c_str());
+            ngettext("You download %d new photo into internal memory.",
+        "You download %d new photos into internal memory.", new_photos)).c_str());
 
         int old_photos = 0;
         if (eink->item_vars["EIPC_PHOTOS"] != "") {
@@ -8260,7 +8261,8 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         eink->item_vars["EIPC_PHOTOS"] = string_format("%d", old_photos + new_photos);
     }
 
-    if (mc->item_vars["MC_MUSIC"] != "") {
+    if (mc->item_vars["MC_MUSIC"] != "")
+    {
         something_downloaded = true;
 
         int new_songs = atoi(mc->item_vars["MC_MUSIC"].c_str());
@@ -8278,53 +8280,65 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         eink->item_vars["EIPC_MUSIC"] = string_format("%d", old_songs + new_songs);
     }
 
-	if (mc->item_vars["MC_RECIPE"] != ""){
+    //TODO: DELETE IT. DEBUG!!!
+    mc->item_vars["MC_RECIPE"] = "1";
 
-		std::vector<recipe *> candidates;
-		recipe_map recipes = g->list_recipes();
+    if (mc->item_vars["MC_RECIPE"] != "")
+    {
 
-		for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
-			for (recipe_list::iterator list_iter = map_iter->second.begin();
-				list_iter != map_iter->second.end(); ++list_iter) {
-				if ((*list_iter)->cat == "CC_FOOD") {
-					
-					const int dif = (*list_iter)->difficulty;
+        std::vector<recipe *> candidates;
+        recipe_map recipes = g->list_recipes();
 
-					if (dif <= 3 && one_in(dif)){
-						candidates.push_back(*list_iter);
-					}
-				}
-			}
-		}
+        for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
+            for (recipe_list::iterator list_iter = map_iter->second.begin();
+                 list_iter != map_iter->second.end(); ++list_iter) {
+                if ((*list_iter)->cat == "CC_FOOD") {
 
-		if (candidates.size() > 0){
+                    const int dif = (*list_iter)->difficulty;
 
-			recipe *r = candidates[rng(0, candidates.size() - 1)];
-			const std::string rident = r->ident;
-			
-			if (eink->item_vars["EIPC_RECIPES"] == ""){
-				eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
-			}
-			else{
-				if (eink->item_vars["EIPC_RECIPES"].find(rident) != std::string::npos){
-					eink->item_vars["EIPC_RECIPES"] += rident + ",";
-				}
-			}			
+                    if (dif <= 3 && one_in(dif)) {
+                        candidates.push_back(*list_iter);
+                    }
+                }
+            }
+        }
 
-		}
+        if (candidates.size() > 0) {
 
+            recipe *r = candidates[rng(0, candidates.size() - 1)];
+            const std::string rident = r->ident;
 
-	}
+            const item dummy(r->ident, 0);
+
+            if (eink->item_vars["EIPC_RECIPES"] == "") {
+                something_downloaded = true;
+                eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
+
+                p->add_msg_if_player(m_good, _("You download recipe of %s into internal memory"),
+                                     dummy.tname().c_str());
+            } else {
+                if (eink->item_vars["EIPC_RECIPES"].find(rident) == std::string::npos) {
+                    something_downloaded = true;
+                    eink->item_vars["EIPC_RECIPES"] += rident + ",";
+
+                    p->add_msg_if_player(m_good, _("You download recipe of %s into internal memory"),
+                                         dummy.tname().c_str());
+                }
+            }
+        }
+    }
 
     //documents todo:
 
-    if (mc->has_flag("MC_TURN_USED")) {
+    if (mc->has_flag("MC_TURN_USED"))
+    {
         mc->item_tags.clear();
         mc->item_vars.clear();
         mc->make(mc->type->id + "_used");
     }
 
-    if (!something_downloaded) {
+    if (!something_downloaded)
+    {
         p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
         return false;
     }
@@ -8367,7 +8381,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
         return 0;
 
-    } else{
+    } else {
 
         enum {
             ei_cancel, ei_photo, ei_music, ei_recipe, ei_docs, ei_download, ei_upload, ei_decrypt
@@ -8403,7 +8417,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             has_something_uploadable = true;
             const int photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
             amenu.addentry(ei_photo, true, 'p', _("Photos [%d]"), photos);
-        } else{
+        } else {
             amenu.addentry(ei_photo, false, 'p', _("No photos on device"));
         }
 
@@ -8416,26 +8430,27 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 const int songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
                 amenu.addentry(ei_music, true, 'm', _("Turn music on [%d]"), songs);
             }
-        } else{
+        } else {
             amenu.addentry(ei_music, false, 'm', _("No music on device"));
         }
 
-        if (it->item_vars["EIPC_SELECTED_RECIPE"] != "")
+        if (it->item_vars["RECIPE"] != "")
         {
-            amenu.addentry(0, false, -1, _("Recipe: %s"), it->item_vars["EIPC_SELECTED_RECIPE"].c_str());
+            const item dummy(it->item_vars["RECIPE"], 0);
+            amenu.addentry(0, false, -1, _("Recipe: %s"), dummy.tname().c_str());
         }
 
         if (it->item_vars["EIPC_RECIPES"] != "")
         {
             has_something_uploadable = true;
-            amenu.addentry(ei_recipe, true, 'r', _("View recipe on screen"));
+            amenu.addentry(ei_recipe, true, 'r', _("View recipe on E-ink screen"));
         }
 
         if (it->item_vars["EIPC_DOCS"] != "")
         {
             has_something_uploadable = true;
             amenu.addentry(ei_docs, true, 'y', _("Your documents"));
-        } else{
+        } else {
             amenu.addentry(ei_docs, false, 'y', _("No documents on device"));
         }
 
@@ -8444,14 +8459,14 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         if (has_something_uploadable)
         {
             amenu.addentry(ei_upload, true, 'u', _("Upload data to memory card"));
-        } else{
+        } else {
             amenu.addentry(ei_upload, false, 'u', _("No internal data to upload"));
         }
 
         if (p->skillLevel("computer") > 2)
         {
             amenu.addentry(ei_decrypt, true, 'd', _("Decrypt memory card"));
-        } else{
+        } else {
             amenu.addentry(ei_decrypt, false, 'd', _("Decrypt memory card (low skill)"));
         }
 
@@ -8518,7 +8533,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         if (ei_music == choice)
         {
 
-			p->moves -= 100;
+            p->moves -= 100;
 
             if (it->active) {
                 it->active = false;
@@ -8536,10 +8551,48 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
+        if (ei_recipe == choice)
+        {
+
+            uimenu rmenu;
+
+            rmenu.selected = 0;
+            rmenu.text = _("Choose recipe to view:");
+            rmenu.addentry(0, true, 'q', _("Cancel"));
+
+            std::vector<std::string> recipes;
+            std::istringstream f(it->item_vars["EIPC_RECIPES"]);
+            std::string s;
+            int k = 1;
+            while (getline(f, s, ',')) {
+
+                if (s.size() == 0) {
+                    continue;
+                }
+
+                recipes.push_back(s);
+
+                const item dummy(s, 0);
+
+                rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+            }
+
+            rmenu.query();
+
+            const int rchoice = rmenu.ret;
+            if (0 == rchoice) {
+                return it->type->charges_to_use();
+            } else {
+                it->item_vars["RECIPE"] = recipes[rchoice - 1];
+            }
+
+            return it->type->charges_to_use();
+        }
+
         if (ei_download == choice)
         {
 
-			p->moves -= 200;
+            p->moves -= 200;
 
             const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
             item *mc = &(p->i_at(pos));
@@ -8571,7 +8624,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         if (ei_decrypt == choice)
         {
 
-			p->moves -= 200;
+            p->moves -= 200;
 
             const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
             item *mc = &(p->i_at(pos));
@@ -8593,12 +8646,12 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             }
 
-			p->practice("computer", rng(2,5));
+            p->practice("computer", rng(2, 5));
 
             const int success = p->skillLevel("computer") * rng(1, p->skillLevel("computer")) * rng(1,
                                 p->int_cur) - rng(30, 80);
             if (success > 0) {
-				p->practice("computer", rng(5, 10));
+                p->practice("computer", rng(5, 10));
 
                 p->add_msg_if_player(m_good, _("You successfully decrypted content on %s!"), mc->tname().c_str());
 
@@ -8607,18 +8660,17 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 einkpc_download_memory_card(p, it, mc);
             } else {
 
-				if (success > -10 || one_in(5)){
-					p->add_msg_if_player(m_neutral, _("You failed to decrypt content of %s!"), mc->tname().c_str());
-				}
-				else{
-					p->add_msg_if_player(m_bad, _("Firmware protection tripped on and the data is lost!"));
+                if (success > -10 || one_in(5)) {
+                    p->add_msg_if_player(m_neutral, _("You failed to decrypt content of %s!"), mc->tname().c_str());
+                } else {
+                    p->add_msg_if_player(m_bad, _("Firmware protection tripped on and the data is lost!"));
 
-					mc->item_tags.clear();
-					mc->item_vars.clear();
-					mc->make(mc->type->id.substr(0, mc->type->id.find("_encrypted")).c_str());
-					mc->make(mc->type->id + "_used");
+                    mc->item_tags.clear();
+                    mc->item_vars.clear();
+                    mc->make(mc->type->id.substr(0, mc->type->id.find("_encrypted")).c_str());
+                    mc->make(mc->type->id + "_used");
 
-				}
+                }
 
             }
 
