@@ -562,7 +562,7 @@ int iuse::bandage(player *p, item *it, bool)
         return false;
     }
     if (num_hp_parts != use_healing_item(p, it, 3, 1, 4, 90, 0, 0, false)) {
-        if (it->type->id != "quikclot" && it->type->id != "bfipowder") {
+        if (it->type->id != "quikclot" || "bfipowder") {
             // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
             p->moves -= 100;
         }
