@@ -26,10 +26,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            health = {
-                type = "int",
-                writable = false
-            },
 
             name = {
                 type = "string",

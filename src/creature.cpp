@@ -51,6 +51,8 @@ Creature::Creature()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    healthy = 0;
+    healthy_mod = 0;
     moves = 0;
     pain = 0;
     killer = NULL;
@@ -80,6 +82,9 @@ Creature::Creature(const Creature &rhs)
     dex_bonus = rhs.dex_bonus;
     per_bonus = rhs.per_bonus;
     int_bonus = rhs.int_bonus;
+    
+    healthy = rhs.healthy;
+    healthy_mod = rhs.healthy_mod;
 
     num_blocks = rhs.num_blocks;
     num_dodges = rhs.num_dodges;
@@ -178,6 +183,9 @@ void Creature::reset_stats()
 void Creature::process_turn()
 {
     process_effects();
+    
+    // Call this in case any effects have changed our stats
+    reset_stats();
 
     // add an appropriate number of moves
     moves += get_speed();
@@ -644,6 +652,27 @@ void Creature::process_effects()
     }
 }
 
+void Creature::update_health(int base_threshold)
+{
+    if (get_healthy_mod() > 200) {
+        set_healthy_mod(200);
+    } else if (get_healthy_mod() < -200) {
+        set_healthy_mod(-200);
+    }
+    int roll = rng(-100, 100);
+    base_threshold += get_healthy() - get_healthy_mod();
+    if (roll > base_threshold) {
+        mod_healthy(1);
+    } else if (roll < base_threshold) {
+        mod_healthy(-1);
+    }
+    set_healthy_mod(get_healthy_mod() * 3 / 4);
+
+    if (g->debugmon) {
+        debugmsg("Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
+    }
+}
+
 // Methods for setting/getting misc key/value pairs.
 void Creature::set_value( const std::string key, const std::string value )
 {
@@ -735,6 +764,15 @@ int Creature::get_per_bonus() const
 int Creature::get_int_bonus() const
 {
     return int_bonus;
+}
+
+int Creature::get_healthy() const
+{
+    return healthy;
+}
+int Creature::get_healthy_mod() const
+{
+    return healthy_mod;
 }
 
 int Creature::get_num_blocks() const
@@ -893,6 +931,23 @@ void Creature::mod_int_bonus(int nint)
     int_bonus += nint;
 }
 
+void Creature::set_healthy(int nhealthy)
+{
+    healthy = nhealthy;
+}
+void Creature::mod_healthy(int nhealthy)
+{
+    healthy += nhealthy;
+}
+void Creature::set_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod = nhealthy_mod;
+}
+void Creature::mod_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod += nhealthy_mod;
+}
+
 void Creature::mod_stat( std::string stat, int modifier )
 {
     if( stat == "str" ) {
@@ -903,6 +958,10 @@ void Creature::mod_stat( std::string stat, int modifier )
         mod_per_bonus( modifier );
     } else if( stat == "int" ) {
         mod_int_bonus( modifier );
+    } else if( stat == "healthy" ) {
+        mod_healthy( modifier );
+    } else if( stat == "healthy_mod" ) {
+        mod_healthy_mod( modifier );
     } else if( stat == "speed" ) {
         mod_speed_bonus( modifier );
     } else if( stat == "dodge" ) {

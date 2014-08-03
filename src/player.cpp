@@ -148,7 +148,6 @@ player::player() : Character(), name("")
  recoil = 0;
  driving_recoil = 0;
  scent = 500;
- health = 0;
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  start_location = "shelter";
@@ -262,7 +261,6 @@ player& player::operator= (const player & rhs)
  hunger = rhs.hunger;
  thirst = rhs.thirst;
  fatigue = rhs.fatigue;
- health = rhs.health;
 
  underwater = rhs.underwater;
  oxygen = rhs.oxygen;
@@ -2081,8 +2079,6 @@ void player::mod_stat( std::string stat, int modifier )
         thirst += modifier;
     } else if( stat == "fatigue" ) {
         fatigue += modifier;
-    } else if( stat == "health" ) {
-        health += modifier;
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else {
@@ -5143,26 +5139,26 @@ void player::recalc_hp()
 
 void player::get_sick()
 {
- if (health > 0 && rng(0, health + 10) < health)
-  health--;
- if (health < 0 && rng(0, 10 - health) < (0 - health))
-  health++;
- if (one_in(12))
-  health -= 1;
+    if (has_trait("DISIMMUNE")) {
+        return;
+    }
 
- if (g->debugmon)
-  debugmsg("Health: %d", health);
+    if (!has_disease("flu") && !has_disease("common_cold") &&
+        one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
+        if (one_in(6)) {
+            infect("flu", bp_mouth, 3, rng(40000, 80000));
+        } else {
+            infect("common_cold", bp_mouth, 3, rng(20000, 60000));
+        }
+    }
+}
 
- if (has_trait("DISIMMUNE"))
-  return;
-
- if (!has_disease("flu") && !has_disease("common_cold") &&
-     one_in(900 + 10 * health + (has_trait("DISRESISTANT") ? 300 : 0))) {
-  if (one_in(6))
-   infect("flu", bp_mouth, 3, rng(40000, 80000));
-  else
-   infect("common_cold", bp_mouth, 3, rng(20000, 60000));
- }
+void player::update_health(int base_threshold)
+{
+    if (has_artifact_with(AEP_SICK)) {
+        base_threshold += 50;
+    }
+    Creature::update_health(base_threshold);
 }
 
 bool player::infect(dis_type type, body_part vector, int strength,
@@ -5580,17 +5576,13 @@ void player::suffer()
             add_msg(m_good, _("This soil is delicious!"));
             hunger -= 2;
             thirst -= 2;
-            if (health <= 10) {
-                health++;
-            }
+            mod_healthy_mod(10);
             // Mmm, dat soil...
             focus_pool--;
         } else if (one_in(20 / shoe_factor)){
             hunger--;
             thirst--;
-            if (health <= 5) {
-                health++;
-            }
+            mod_healthy_mod(5);
         }
     }
 
@@ -6084,7 +6076,7 @@ void player::suffer()
         add_disease("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
-        health--;
+        mod_healthy_mod(-50);
     }
     if (has_bionic("bio_sleepy") && one_in(500)) {
         fatigue++;
@@ -6108,90 +6100,90 @@ void player::suffer()
 
 void player::mend()
 {
- // Wearing splints can slowly mend a broken limb back to 1 hp.
- // 2 weeks is faster than a fracture would heal IRL,
- // but 3 weeks average (a generous estimate) was tedious and no fun.
- for(int i = 0; i < num_hp_parts; i++) {
-  int broken = (hp_cur[i] <= 0);
-  if(broken) {
-   double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
-   double healing_factor = 1.0;
-   // Studies have shown that alcohol and tobacco use delay fracture healing time
-   if(has_disease("cig") | addiction_level(ADD_CIG)) {
-    healing_factor *= 0.5;
-   }
-   if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
-    healing_factor *= 0.5;
-   }
+    // Wearing splints can slowly mend a broken limb back to 1 hp.
+    // 2 weeks is faster than a fracture would heal IRL,
+    // but 3 weeks average (a generous estimate) was tedious and no fun.
+    for(int i = 0; i < num_hp_parts; i++) {
+        int broken = (hp_cur[i] <= 0);
+        if(broken) {
+            double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
+            double healing_factor = 1.0;
+            // Studies have shown that alcohol and tobacco use delay fracture healing time
+            if(has_disease("cig") | addiction_level(ADD_CIG)) {
+                healing_factor *= 0.5;
+            }
+            if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
+                healing_factor *= 0.5;
+            }
 
-   // Bed rest speeds up mending
-   if(has_disease("sleep")) {
-    healing_factor *= 4.0;
-   } else if(fatigue > 383) {
-    // but being dead tired does not...
-    healing_factor *= 0.75;
-   }
+            // Bed rest speeds up mending
+            if(has_disease("sleep")) {
+                healing_factor *= 4.0;
+            } else if(fatigue > 383) {
+            // but being dead tired does not...
+                healing_factor *= 0.75;
+            }
 
-   // Being healthy helps.
-   if(health > 0) {
-    healing_factor *= 2.0;
-   }
+            // Being healthy helps.
+            if(get_healthy() > 0) {
+                healing_factor *= 2.0;
+            }
 
-   // And being well fed...
-   if(hunger < 0) {
-    healing_factor *= 2.0;
-   }
+            // And being well fed...
+            if(hunger < 0) {
+                healing_factor *= 2.0;
+            }
 
-   if(thirst < 0) {
-    healing_factor *= 2.0;
-   }
+            if(thirst < 0) {
+                healing_factor *= 2.0;
+            }
 
-   // Mutagenic healing factor!
-   if(has_trait("REGEN")) {
-    healing_factor *= 16.0;
-   } else if (has_trait("FASTHEALER2")) {
-    healing_factor *= 4.0;
-   } else if (has_trait("FASTHEALER")) {
-    healing_factor *= 2.0;
-   } else if (has_trait("SLOWHEALER")) {
-    healing_factor *= 0.5;
-   }
+            // Mutagenic healing factor!
+            if(has_trait("REGEN")) {
+                healing_factor *= 16.0;
+            } else if (has_trait("FASTHEALER2")) {
+                healing_factor *= 4.0;
+            } else if (has_trait("FASTHEALER")) {
+                healing_factor *= 2.0;
+            } else if (has_trait("SLOWHEALER")) {
+                healing_factor *= 0.5;
+            }
 
-   bool mended = false;
-   body_part part;
-   switch(i) {
-    case hp_arm_r:
-     part = bp_arm_r;
-     mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
-     break;
-    case hp_arm_l:
-     part = bp_arm_l;
-     mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
-     break;
-    case hp_leg_r:
-     part = bp_leg_r;
-     mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
-     break;
-    case hp_leg_l:
-     part = bp_leg_l;
-     mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
-     break;
-    default:
-     // No mending for you!
-     break;
-   }
-   if(mended) {
-    hp_cur[i] = 1;
-    //~ %s is bodypart
-    add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
-                     pgettext("memorial_female", "Broken %s began to mend."),
-                     body_part_name(part).c_str());
-    //~ %s is bodypart
-    add_msg(m_good, _("Your %s has started to mend!"),
-      body_part_name(part).c_str());
-   }
-  }
- }
+            bool mended = false;
+            body_part part;
+            switch(i) {
+                case hp_arm_r:
+                    part = bp_arm_r;
+                    mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
+                    break;
+                case hp_arm_l:
+                    part = bp_arm_l;
+                    mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
+                    break;
+                case hp_leg_r:
+                    part = bp_leg_r;
+                    mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
+                    break;
+                case hp_leg_l:
+                    part = bp_leg_l;
+                    mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
+                    break;
+                default:
+                    // No mending for you!
+                    break;
+            }
+            if(mended) {
+                hp_cur[i] = 1;
+                //~ %s is bodypart
+                add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
+                                  pgettext("memorial_female", "Broken %s began to mend."),
+                                  body_part_name(part).c_str());
+                //~ %s is bodypart
+                add_msg(m_good, _("Your %s has started to mend!"),
+                body_part_name(part).c_str());
+            }
+        }
+    }
 }
 
 void player::vomit()
@@ -8225,7 +8217,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            health -= 3;
+            mod_healthy_mod(-30);
         }
     } else if (has_trait("GIZZARD")) {
         // Carrion-eating Birds might have Saprovore; Saprophage is unlikely,
@@ -8235,19 +8227,19 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             hunger -= (rng(0, comest->nutr) * 0.66 );
             thirst -= ((comest->quench) * 0.66 );
             if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-                health -= 3;
+                mod_healthy_mod(-30);
             }
         } else {
         // Shorter GI tract, so less nutrients captured.
             hunger -= ((comest->nutr) * 0.66);
             thirst -= ((comest->quench) * 0.66);
-            health += ((comest->healthy) * 0.66);
+            mod_healthy_mod(comest->healthy * 0.66);
         }
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
         thirst -= comest->quench;
-        health += comest->healthy;
+        mod_healthy_mod(comest->healthy);
     }
 
     if (has_bionic("bio_digestion")) {
@@ -8358,9 +8350,7 @@ void player::rooted()
         if( one_in(20 / shoe_factor) ) {
             hunger--;
             thirst--;
-            if (health <= 5) {
-                health++;
-            }
+            mod_healthy_mod(10);
         }
     }
 }
@@ -9886,8 +9876,7 @@ void player::do_read( item *book )
                 !foot_factor ) {
                 hunger -= root_factor * foot_factor;
                 thirst -= root_factor * foot_factor;
-                health += root_factor * foot_factor;
-                health = std::min( int(5  * foot_factor), health );
+                mod_healthy_mod(root_factor * foot_factor);
             }
             if (activity.type != ACT_NULL) {
                 return;
@@ -11380,7 +11369,8 @@ void player::environmental_revert_effect()
     hunger = 0;
     thirst = 0;
     fatigue = 0;
-    health = 0;
+    set_healthy(0);
+    set_healthy_mod(0);
     stim = 0;
     pain = 0;
     pkill = 0;

@@ -559,8 +559,10 @@ public:
  /** Recalculates HP after a change to max strength */
  void recalc_hp();
 
- /** Handles helath fluctuations over time and the chance to be infected by random diseases */
+ /** Handles the chance to be infected by random diseases */
  void get_sick();
+ /** Handles health fluctuations over time, redirects into Creature::update_health */
+ void update_health(int base_threshold = 0);
  /** Checks against env_resist of the players armor, if they fail then they become infected with the disease */
  bool infect(dis_type type, body_part vector, int strength,
               int duration, bool permanent = false, int intensity = 1,
@@ -847,7 +849,7 @@ public:
  int next_climate_control_check;
  bool last_climate_control_ret;
  int power_level, max_power_level;
- int hunger, thirst, fatigue, health;
+ int hunger, thirst, fatigue;
  int oxygen;
  unsigned int recoil;
  unsigned int driving_recoil;

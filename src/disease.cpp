@@ -1058,8 +1058,8 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_SPORES:
-            // Equivalent to X in 150000 + health * 1000
-            if (one_in(100) && x_in_y(dis.intensity, 150 + p.health)) {
+            // Equivalent to X in 150000 + health * 100
+            if (one_in(100) && x_in_y(dis.intensity, 150 + p.get_healthy() / 10)) {
                 p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
                 g->u.add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
                                       pgettext("memorial_female", "Contracted a fungal infection."));
@@ -1338,7 +1338,7 @@ void dis_effect(player &p, disease &dis)
                p.rem_disease("bloodworms");
             } else {
                 if(one_in(512)) {
-                    p.health--;
+                    p.mod_healthy_mod(-10);
                 }
             }
             break;
@@ -1352,7 +1352,7 @@ void dis_effect(player &p, disease &dis)
                     p.mod_pain(rng(2, 8));
                 }
                 if(one_in(1024)) {
-                    p.health--;
+                    p.mod_healthy_mod(-10);
                     p.hurt(bp_head, rng(0, 1));
                     if (!p.has_disease("visuals")) {
                     add_msg(m_bad, _("Your vision is getting fuzzy."));
@@ -1360,7 +1360,7 @@ void dis_effect(player &p, disease &dis)
                   }
                 }
                 if(one_in(4096)) {
-                    p.health--;
+                    p.mod_healthy_mod(-10);
                     p.hurt(bp_head, rng(1, 2));
                     if (!p.has_effect("blind")) {
                     p.add_msg_if_player(m_bad, _("You can't see!"));
@@ -2805,7 +2805,7 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
 
 void manage_fungal_infection(player& p, disease& dis)
 {
-    int bonus = p.health + (p.has_trait("POISRESIST") ? 100 : 0);
+    int bonus = p.get_healthy() / 10 + (p.has_trait("POISRESIST") ? 100 : 0);
     p.moves -= 10;
     p.mod_str_bonus(-1);
     p.mod_dex_bonus(-1);
@@ -2915,20 +2915,26 @@ void manage_sleep(player& p, disease& dis)
         if (p.fatigue > 0) {
             p.fatigue -= 1 + one_in(recovery_chance);
         }
-        if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
+        int heal_chance = p.get_healthy() / 4;
+        if ((p.has_trait("FLIMSY") && x_in_y(3, 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
               (p.has_trait("FLIMSY3") && one_in(4)) ||
               (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
                (!(p.has_trait("FLIMSY3"))))) {
             if (p.has_trait("FASTHEALER")) {
-                p.healall(1);
+                heal_chance += 100;
             } else if (p.has_trait("FASTHEALER2")) {
-                p.healall(1 + one_in(2));
+                heal_chance += 150;
             } else if (p.has_trait("REGEN")) {
-                p.healall(2);
+                heal_chance += 200;
             } else if (p.has_trait("SLOWHEALER")) {
-                p.healall(one_in(8));
+                heal_chance += 13;
             } else {
-                p.healall(one_in(4));
+                heal_chance += 25;
+            }
+            p.healall(heal_chance / 100);
+            heal_chance %= 100;
+            if (x_in_y(heal_chance, 100)) {
+                p.healall(1);
             }
         }
 
@@ -2939,11 +2945,10 @@ void manage_sleep(player& p, disease& dis)
             p.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
                                pgettext("memorial_female", "Awoke from hibernation."));
         }
-    }
 
     // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
     // See above.  No log note for you. :-/
-    if((int(calendar::turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
+    } else if(int(calendar::turn) % 50 == 0) {
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -2967,27 +2972,33 @@ void manage_sleep(player& p, disease& dis)
                 p.fatigue -=(2 + one_in(recovery_chance) / 2);
             }
         }
-        if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
+        int heal_chance = p.get_healthy() / 4;
+        if ((p.has_trait("FLIMSY") && x_in_y(3, 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
               (p.has_trait("FLIMSY3") && one_in(4)) ||
               (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
                (!(p.has_trait("FLIMSY3"))))) {
             if (p.has_trait("FASTHEALER")) {
-                p.healall(1);
+                heal_chance += 100;
             } else if (p.has_trait("FASTHEALER2")) {
-                p.healall(1 + one_in(2));
+                heal_chance += 150;
             } else if (p.has_trait("REGEN")) {
-                p.healall(2);
+                heal_chance += 200;
             } else if (p.has_trait("SLOWHEALER")) {
-                p.healall(one_in(8));
+                heal_chance += 13;
             } else {
-                p.healall(one_in(4));
+                heal_chance += 25;
             }
-
-            if (p.fatigue <= 0 && p.fatigue > -20) {
-                p.fatigue = -25;
-                add_msg(m_good, _("You feel well rested."));
-                dis.duration = dice(3, 100);
+            p.healall(heal_chance / 100);
+            heal_chance %= 100;
+            if (x_in_y(heal_chance, 100)) {
+                p.healall(1);
             }
+        }
+        
+        if (p.fatigue <= 0 && p.fatigue > -20) {
+            p.fatigue = -25;
+            add_msg(m_good, _("You feel well rested."));
+            dis.duration = dice(3, 100);
         }
     }
 
@@ -3128,7 +3139,7 @@ static void handle_bite_wound(player& p, disease& dis)
         // Infection Resist is exactly that: doesn't make the Deep Bites go away
         // but it does make it much more likely they won't progress
         if (p.has_trait("INFRESIST")) { recover_factor += 1000; }
-        recover_factor += p.health; // Health still helps if factor is zero
+        recover_factor += p.get_healthy() / 10; // Health still helps if factor is zero
         recover_factor = std::max(recover_factor, 0); // but can't hurt
 
         if ((x_in_y(recover_factor, 108000)) || (p.has_trait("INFIMMUNE"))) {
@@ -3178,7 +3189,7 @@ static void handle_infected_wound(player& p, disease& dis)
 {
     // Recovery chance
     if(int(calendar::turn) % 10 == 1) {
-        if(x_in_y(100 + p.health, 864000)) {
+        if(x_in_y(100 + p.get_healthy() / 10, 864000)) {
             //~ %s is bodypart name.
             p.add_msg_if_player(m_good, _("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp).c_str());

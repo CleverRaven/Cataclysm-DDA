@@ -1520,7 +1520,7 @@ void player::load_legacy(std::stringstream & dump)
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
          underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
-         focus_pool >> male >> prof_ident >> health >> styletmp;
+         focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
