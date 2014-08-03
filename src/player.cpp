@@ -8256,16 +8256,16 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             hunger -= ((comest->nutr) * 0.66);
             thirst -= ((comest->quench) * 0.66);
             health += ((comest->healthy) * 0.66);
-            stomach_food -= ((comest->nutr) *= 0.66);
-            stomach_water -= ((comest->quench) *= 0.66);
+            stomach_food += ((comest->nutr) *= 0.66);
+            stomach_water += ((comest->quench) *= 0.66);
         }
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
         thirst -= comest->quench;
         health += comest->healthy;
-        stomach_food -= comest->nutr;
-        stomach_water -= comest->quench;
+        stomach_food += comest->nutr;
+        stomach_water += comest->quench;
     }
 
     if (has_bionic("bio_digestion")) {
