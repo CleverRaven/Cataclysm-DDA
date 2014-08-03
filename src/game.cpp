@@ -11653,7 +11653,7 @@ void game::forage()
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
         found_something = true;
     }
-    if (veggy_chance < ((u.skillLevel("survival") / 2) + ((u.per_cur - 8) / 3))) {
+    if (veggy_chance < ((u.skillLevel("survival") / 2) + ((u.per_cur - 8) + 5))) {
         found_something = true;
         if (!one_in(6) && (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == AUTUMN)) {
             if (!one_in(3)) {
