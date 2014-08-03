@@ -313,7 +313,7 @@
     },{
         "type" : "mutation",
         "id" : "SELFAWARE",
-        "name" : "Self-aware",
+        "name" : "Self-Aware",
         "points" : 1,
         "description" : "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
         "starting_trait" : true,
