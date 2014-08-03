@@ -1613,8 +1613,7 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
 void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
   if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
       ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
-      (calendar::turn.get_season() == SUMMER && calendar::turn.get_season() == SPRING)
-      ) {
+      (calendar::turn.get_season() == SUMMER && calendar::turn.get_season() == SPRING) ) {
       p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
       add_msg(_("You find a flower and drink some nectar."));
       p->hunger -= 15;

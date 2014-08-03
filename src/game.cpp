@@ -11653,7 +11653,7 @@ void game::forage()
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
         found_something = true;
     }
-    if (veggy_chance < ((u.skillLevel("survival") / 2) + ((u.per_cur - 8) / 2))) {
+    if (veggy_chance < ((u.skillLevel("survival") / 2) + ((u.per_cur - 8) / 3))) {
         found_something = true;
         if (!one_in(6) && (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == AUTUMN)) {
             if (!one_in(3)) {
@@ -11669,11 +11669,11 @@ void game::forage()
         } else if (calendar::turn.get_season() != WINTER) {
             add_msg(m_good, _("You found a nest with some eggs!"));
             if (!one_in(4)) {
-                m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
+                m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 2), 0, calendar::turn);
             } else {
                 // ~15% & 3.8% chance to find these, assuming you make your veggy roll
                 // So maybe we can give more than 1.
-                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
+                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 2), 0, calendar::turn);
             }
         } else {
         found_something = false;
