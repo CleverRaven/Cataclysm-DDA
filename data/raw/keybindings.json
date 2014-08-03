@@ -953,6 +953,15 @@
     },
     {
         "type" : "keybinding",
+        "id": "RELABEL",
+        "category": "VEH_INTERACT",
+        "name": "Relabel a portion of a vehicle",
+        "bindings":[
+            { "input_method":"keyboard", "key":"a" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "TOGGLE_UNAVAILABLE_CONSTRUCTIONS",
         "category": "CONSTRUCTION",
         "name": "Toggle unavailable constructions",

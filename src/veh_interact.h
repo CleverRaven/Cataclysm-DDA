@@ -98,6 +98,7 @@ private:
     void do_siphon();
     void do_tirechange();
     void do_drain();
+    void do_relabel();
 
     void display_grid();
     void display_veh();

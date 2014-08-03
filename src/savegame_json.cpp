@@ -1229,6 +1229,26 @@ void vehicle_part::serialize(JsonOut &json) const
 }
 
 /*
+ * label
+ */
+void label::deserialize(JsonIn &jsin)
+{
+    JsonObject data = jsin.get_object();
+    data.read("x", x);
+    data.read("y", y);
+    data.read("text", text);
+}
+
+void label::serialize(JsonOut &json) const
+{
+    json.start_object();
+    json.member("x", x);
+    json.member("y", y);
+    json.member("text", text);
+    json.end_object();
+}
+
+/*
  * Load vehicle from a json blob that might just exceed player in size.
  */
 void vehicle::deserialize(JsonIn &jsin)
@@ -1280,6 +1300,7 @@ void vehicle::deserialize(JsonIn &jsin)
     refresh();
 
     data.read("tags",tags);
+    data.read("labels", labels);
 
     // Note that it's possible for a vehicle to be loaded midway
     // through a turn if the player is driving REALLY fast and their
@@ -1327,6 +1348,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "name", name );
     json.member( "parts", parts );
     json.member( "tags", tags );
+    json.member( "labels", labels );
     json.end_object();
 }
 

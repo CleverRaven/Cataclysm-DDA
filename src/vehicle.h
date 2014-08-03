@@ -65,7 +65,6 @@ struct vehicle_prototype
     std::vector<vehicle_item_spawn> item_spawns;
 };
 
-
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
  */
@@ -139,6 +138,39 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      * It includes hp, fuel, bigness, ...
      */
     void properties_from_item( const item &used_item );
+};
+
+/**
+ * Struct used for storing labels
+ * (easier to json opposed to a std::map<point, std::string>)
+ */
+struct label : public JsonSerializer, public JsonDeserializer {
+    label(const int x = 0, const int y = 0) {
+    	this->x = x;
+    	this->y = y;
+    }
+    label(const int x, const int y, const std::string text) {
+    	this->x = x;
+    	this->y = y;
+    	this->text = text;
+    }
+
+    int x;
+    int y;
+    std::string text;
+
+	// these are stored in a set
+    bool operator< (const label &other) const {
+    	if (x != other.x)
+    		return x < other.x;
+    	return y < other.y;
+    }
+
+    // json saving/loading
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin);
 };
 
 /**
@@ -295,6 +327,9 @@ public:
 
     bool remove_part (int p);
     void part_removal_cleanup ();
+
+    const std::string get_label(int x, int y);
+    void set_label(int x, int y, const std::string text);
 
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
@@ -583,6 +618,7 @@ public:
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
+    std::set<label> labels;            // stores labels
     std::vector<int> lights;           // List of light part indices
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices
