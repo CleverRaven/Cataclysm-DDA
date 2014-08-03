@@ -98,9 +98,10 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
         menu_length += utf8_width(vMenuItems[pos].c_str()) +
                        (vMenuItems[pos].find_first_of("<") == std::string::npos ? 2 : 0);
     }
-    int spacing = (window_width - menu_length) / vMenuItems.size() - 1;
-    spacing = (spacing < 1 ? 1 : spacing);
-    const int adj_offset = (window_width - menu_length - spacing * vMenuItems.size() ) / 2 - 1;
+    const int free_space = std::max(0, window_width - menu_length);
+    const int spacing = free_space / ((int)vMenuItems.size() - 1);
+    const int width_of_spacing = spacing * (vMenuItems.size() - 1);
+    const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
     print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX + adj_offset, spacing);
 
     refresh();
