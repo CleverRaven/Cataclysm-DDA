@@ -11669,11 +11669,11 @@ void game::forage()
         } else if (calendar::turn.get_season() != WINTER) {
             add_msg(m_good, _("You found a nest with some eggs!"));
             if (!one_in(4)) {
-                m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 2), 0, calendar::turn);
+                m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
             } else {
                 // ~15% & 3.8% chance to find these, assuming you make your veggy roll
                 // So maybe we can give more than 1.
-                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 2), 0, calendar::turn);
+                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
             }
         } else {
         found_something = false;
