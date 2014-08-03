@@ -12689,6 +12689,14 @@ bool game::plmove(int dx, int dy)
                 add_msg(m_warning, _("Moving past this %s is slow!"), m.name(x, y).c_str());
             }
         }
+        if (veh1) {
+            vehicle_part *part = &(veh1->parts[vpart1]);
+            std::string label = veh1->get_label(part->mount_dx, part->mount_dy);
+            if (label != "") {
+            	add_msg(m_info, _("Label here: %s"), label.c_str());
+            }
+    	}
+
         std::string signage = m.get_signage(x, y);
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());

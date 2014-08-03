@@ -1537,7 +1537,8 @@ const std::string vehicle::get_label(int x, int y) {
  */
 void vehicle::set_label(int x, int y, std::string text) {
     labels.erase(label(x, y));
-	labels.insert(label(x, y, text));
+    if (text != "")
+    	labels.insert(label(x, y, text));
 }
 
 int vehicle::next_part_to_close(int p, bool outside)
@@ -1899,7 +1900,8 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
 
     // print the label for this location
     const std::string label = get_label(parts[p].mount_dx, parts[p].mount_dy);
-    mvwprintz(win, y + 1, 1, c_ltred, _("Label: %s"), label.c_str());
+    if (label != "")
+    	mvwprintz(win, y + 1, 1, c_ltred, _("Label: %s"), label.c_str());
 
     return y;
 }

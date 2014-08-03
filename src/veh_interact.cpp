@@ -942,10 +942,8 @@ void veh_interact::do_rename()
 void veh_interact::do_relabel()
 {
     display_mode('e');
-    std::string text = string_input_popup(_("New label:"), 20);
-    if(text.length() > 0) {
-        veh->set_label(-ddx, -ddy, text);
-    }
+    std::string text = string_input_popup(_("New label:"), 20, veh->get_label(-ddx, -ddy));
+    veh->set_label(-ddx, -ddy, text); // empty input removes the label
     display_grid();
     display_name();
     display_stats();
