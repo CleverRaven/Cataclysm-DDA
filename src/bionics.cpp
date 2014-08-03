@@ -428,11 +428,11 @@ void player::activate_bionic(int b)
         add_msg(m_good, _("Your speed suddenly increases!"));
         if (one_in(3)) {
             add_msg(m_bad, _("Your muscles tear with the strain."));
-            hurt(bp_arm_l, rng(5, 10));
-            hurt(bp_arm_r, rng(5, 10));
-            hurt(bp_leg_l, rng(7, 12));
-            hurt(bp_leg_r, rng(7, 12));
-            hurt(bp_torso, rng(5, 15));
+            apply_damage( nullptr, bp_arm_l, rng( 5, 10 ) );
+            apply_damage( nullptr, bp_arm_r, rng( 5, 10 ) );
+            apply_damage( nullptr, bp_leg_l, rng( 7, 12 ) );
+            apply_damage( nullptr, bp_leg_r, rng( 7, 12 ) );
+            apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if (one_in(5)) {
             add_disease("teleglow", rng(50, 400));
@@ -730,7 +730,7 @@ void player::activate_bionic(int b)
                         for (it = traj.begin(); it != traj.end(); ++it) {
                             int index = g->mon_at(it->x, it->y);
                             if (index != -1) {
-                                g->zombie(index).hurt(tmp_item.weight() / 225, 0, this);
+                                g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
                             } else if (it != traj.begin() && g->m.move_cost(it->x, it->y) == 0) {

@@ -4587,7 +4587,7 @@ void game::debug()
                 wishitem(p);
                 break;
             case 2:
-                p->hurt(bp_torso, 20);
+                p->apply_damage( nullptr, bp_torso, 20 );
                 break;
             case 3:
                 p->mod_pain(20);
@@ -6514,7 +6514,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
             if (mon_hit != -1) {
                 monster &critter = critter_tracker.find(mon_hit);
-                critter.hurt( rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
+                critter.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
             }
 
             int vpart;
@@ -6594,7 +6594,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             if (zid != -1) {
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
-                critter.hurt( dam );
+                critter.apply_damage( nullptr, bp_torso, dam );
             } else if (npc_at(tx, ty) != -1) {
                 body_part hit = random_body_part();
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
@@ -6753,7 +6753,7 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                                 targ->name().c_str(), force_remaining);
                     }
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str());
-                    targ->hurt(dam_mult * force_remaining);
+                    targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
                 break;
@@ -7184,7 +7184,7 @@ void game::emp_blast(int x, int y)
             } else {
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
-                critter.hurt( dam );
+                critter.apply_damage( nullptr, bp_torso, dam );
                 if( !critter.is_dead() && one_in( 6 ) ) {
                     critter.make_friendly();
                 }
@@ -7935,9 +7935,9 @@ bool game::forced_gate_closing(int x, int y, ter_id door_type, int bash_dmg)
         }
         monster &critter = zombie( cindex );
         if (critter.type->size <= MS_SMALL || critter.has_flag(MF_VERMIN)) {
-            critter.hurt( 9999 ); // big damage to make it explode
+            critter.die_in_explosion( nullptr );
         } else {
-            critter.hurt( bash_dmg );
+            critter.apply_damage( nullptr, bp_torso, bash_dmg );
         }
         if( !critter.is_dead() && critter.type->size >= MS_HUGE ) {
             // big critters simply prevent the gate from closing
@@ -8148,13 +8148,13 @@ void game::moving_vehicle_dismount(int tox, int toy)
     m.unboard_vehicle(u.posx, u.posy);
     u.moves -= 200;
     // Dive three tiles in the direction of tox and toy
-    fling_player_or_monster(&u, 0, d, 30, true);
+    fling_creature( &u, d, 30, true );
     // Hit the ground according to vehicle speed
     if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
         if (veh->velocity > 0) {
-            fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
+            fling_creature(&u, veh->face.dir(), veh->velocity / (float)100);
         } else {
-            fling_player_or_monster(&u, 0, veh->face.dir() + 180, -(veh->velocity) / (float)100);
+            fling_creature(&u, veh->face.dir() + 180, -(veh->velocity) / (float)100);
         }
     }
     return;
@@ -8397,7 +8397,7 @@ bool zlave_menu(monster *z)
 
     if (pheromone == choice && query_yn(_("Really kill the zombie slave?"))) {
 
-        z->hurt(100, 0, &g->u); // damage the monster (and its corpse)
+        z->apply_damage( &g->u, bp_torso, 100 ); // damage the monster (and its corpse)
         z->die(&g->u); // and make sure it's really dead
 
         g->u.moves -= 150;
@@ -13133,45 +13133,23 @@ void game::plswim(int x, int y)
     u.drench(100, drenchFlags);
 }
 
-void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float flvel,
-                                   bool controlled)
+void game::fling_creature(Creature *c, const int &dir, float flvel, bool controlled)
 {
     int steps = 0;
-    bool is_u = p && (p == &u);
+    const bool is_u = (c == &u);
     int dam1, dam2;
 
-    bool is_player;
-    if (p) {
-        is_player = true;
-    } else {
-        if (zz) {
-            is_player = false;
-        } else {
-            dbg(D_ERROR) << "game:fling_player_or_monster: "
-                         "neither player nor monster";
-            debugmsg("game::fling neither player nor monster");
-            return;
-        }
-    }
+    player *p = dynamic_cast<player*>(c);
+    monster *zz = dynamic_cast<monster*>(c);
 
     tileray tdir(dir);
-    std::string sname;
-    if (is_player) {
-        if (is_u) {
-            sname = std::string(_("You are"));
-        } else {
-            sname = p->name + _(" is");
-        }
-    } else {
-        sname = zz->name() + _(" is");
-    }
     int range = flvel / 10;
-    int x = (is_player ? p->posx : zz->posx());
-    int y = (is_player ? p->posy : zz->posy());
+    int x = c->xpos();
+    int y = c->ypos();
     while (range > 0) {
         tdir.advance();
-        x = (is_player ? p->posx : zz->posx()) + tdir.dx();
-        y = (is_player ? p->posy : zz->posy()) + tdir.dy();
+        x = c->xpos() + tdir.dx();
+        y = c->ypos() + tdir.dy();
         std::string dname;
         bool thru = true;
         bool slam = false;
@@ -13185,14 +13163,14 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             slam = true;
             dname = critter.name();
             dam2 = flvel / 3 + rng(0, flvel * 1 / 3);
-            critter.hurt( dam2 );
+            critter.apply_damage( c, bp_torso, dam2 );
             if( !critter.is_dead() ) {
                 thru = false;
             }
-            if (is_player) {
+            if( p != nullptr ) {
                 p->hitall(dam1, 40);
             } else {
-                zz->hurt(dam1);
+                zz->apply_damage( &critter, bp_torso, dam1 );
             }
         } else if (m.move_cost(x, y) == 0) {
             slam = true;
@@ -13204,18 +13182,23 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
             } else {
                 thru = false;
             }
-            if (is_player) {
+            if( p != nullptr ) {
                 p->hitall(dam1, 40);
             } else {
-                zz->hurt(dam1);
+                zz->apply_damage( nullptr, bp_torso, dam1 );
             }
             flvel = flvel / 2;
         }
         if (slam && dam1) {
-            add_msg(_("%s slammed against the %s!"), sname.c_str(), dname.c_str());
+            if( is_u ) {
+                add_msg(_("You are slammed against the %s!"), dname.c_str());
+            } else {
+                //~ first %s is the monster name ("the zombie") or a npc name.
+                add_msg(_("%s is slammed against the %s!"), c->disp_name().c_str(), dname.c_str());
+            }
         }
         if (thru) {
-            if (is_player) {
+            if( p != nullptr ) {
                 p->posx = x;
                 p->posy = y;
             } else {
@@ -13234,7 +13217,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
         if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
         }
-        if (is_player) {
+        if( p != nullptr ) {
             int dex_reduce = p->dex_cur < 4 ? 4 : p->dex_cur;
             dam1 = dam1 * 8 / dex_reduce;
             if (p->has_trait("PARKOUR")) {
@@ -13244,7 +13227,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int &dir, float
                 p->hitall(dam1, 40);
             }
         } else {
-            zz->hurt(dam1);
+            zz->apply_damage( nullptr, bp_torso, dam1 );
         }
         if (is_u) {
             if (dam1 > 0) {
@@ -13400,7 +13383,7 @@ void game::vertical_move(int movez, bool force)
                                 rope_ladder = true;
                                 add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
                                 u.mod_pain(5);
-                                u.hurt(bp_torso, 5);
+                                u.apply_damage( nullptr, bp_torso, 5 );
                                 u.hunger += 5;
                                 u.thirst += 5;
                             } else {
@@ -14272,7 +14255,7 @@ void game::teleport(player *p, bool add_teleglow)
                         p->name.c_str(), m.name(newx, newy).c_str());
             }
         }
-        p->hurt(bp_torso, 500);
+        p->apply_damage( nullptr, bp_torso, 500 );
     } else if (can_see) {
         const int i = mon_at(newx, newy);
         if (i != -1) {
@@ -14287,7 +14270,7 @@ void game::teleport(player *p, bool add_teleglow)
                 add_msg(_("%s teleports into the middle of a %s!"),
                         p->name.c_str(), critter.name().c_str());
             }
-            critter.hurt( 9999 ); // trigger exploding
+            critter.die_in_explosion( p );
         }
     }
     if (is_u) {

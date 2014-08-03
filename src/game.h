@@ -228,7 +228,7 @@ class game
         void teleport(player *p = NULL, bool add_teleglow = true);
         void plswim(int x, int y); // Called by plmove.  Handles swimming
         // when player is thrown (by impact or something)
-        void fling_player_or_monster(player *p, monster *zz, const int &dir, float flvel,
+        void fling_creature(Creature *c, const int &dir, float flvel,
                                      bool controlled = false);
 
         /**

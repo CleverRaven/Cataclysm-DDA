@@ -82,9 +82,6 @@ class Creature
         // TODO: this is just a shim so knockbacks work
         virtual void knock_back_from(int posx, int posy) = 0;
 
-        // TODO: remove this function in favor of deal/apply_damage
-        virtual void hurt(body_part bp, int dam) = 0;
-
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack(Creature *source, int hitroll);

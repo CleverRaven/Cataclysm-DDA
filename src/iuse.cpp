@@ -514,7 +514,9 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     if ((p->hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
         p->heal(healed, dam);
     } else if ((p->hp_cur[healed] >= 1) && (dam < 0)) {
-        p->hurt(healed, -dam); //hurt takes + damage
+        body_part bp;
+        p->hp_convert( healed, bp );
+        p->apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
     body_part bp_healed = bp_torso;
@@ -2755,7 +2757,7 @@ int iuse::extinguisher(player *p, item *it, bool)
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
             monster &critter = g->zombie( mondex );
-            critter.hurt( rng( 20, 60 ), 0, p );
+            critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
             critter.speed /= 2;
         }
     }
@@ -5000,7 +5002,7 @@ int iuse::granade_act(player *, item *it, bool t)
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
-                            g->zombie( zid ).hurt( 9999 ); // trigger exploding
+                            g->zombie( zid ).die_in_explosion( nullptr );
                         }
                     }
                 }
@@ -5710,7 +5712,7 @@ int iuse::tazer(player *p, item *it, bool)
         p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
         int shock = rng(5, 25);
         z->moves -= shock * 100;
-        z->hurt( shock, 0, p );
+        z->apply_damage( p, bp_torso, shock );
         return it->type->charges_to_use();
     }
 
@@ -5804,7 +5806,7 @@ int iuse::tazer2(player *p, item *it, bool)
             p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
             int shock = rng(5, 25);
             z->moves -= shock * 100;
-            z->hurt( shock, 0, p );
+            z->apply_damage( p, bp_torso, shock );
 
             return 100;
         }
@@ -7086,7 +7088,7 @@ int iuse::artifact(player *p, item *it, bool)
 
             case AEA_HURTALL:
                 for (size_t j = 0; j < g->num_zombies(); j++) {
-                    g->zombie(j).hurt(rng(0, 5));
+                    g->zombie(j).apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
                 }
                 break;
 
@@ -8128,7 +8130,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
             } else if (success >= -2) { //A near success
                 p->add_msg_if_player(_("The %s short circuits as you attempt to reprogram it!"),
                                      z->name().c_str());
-                z->hurt( rng( 1, 10 ), 0, p ); //damage it a little
+                z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
                 if( z->is_dead() ) {
                     p->practice("computer", 10);
                     return it->type->charges_to_use(); // Do not do the other effects if the robot died

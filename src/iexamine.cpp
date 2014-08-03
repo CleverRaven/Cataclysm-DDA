@@ -1016,8 +1016,8 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
     add_msg(m_bad, _("You fall asleep..."));
     p->fall_asleep(1200);
     add_msg(m_bad, _("Your legs are covered in the poppy's roots!"));
-    p->hurt(bp_leg_l, 4);
-    p->hurt(bp_leg_r, 4);
+    p->apply_damage(nullptr, bp_leg_l, 4);
+    p->apply_damage(nullptr, bp_leg_r, 4);
     p->moves -=50;
   }
 

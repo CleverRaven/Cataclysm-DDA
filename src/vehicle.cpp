@@ -3271,16 +3271,14 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
 
             int angle = (100 - degree) * 2 * (one_in(2)? 1 : -1);
             if (z) {
-                z->hurt(dam);
+                z->apply_damage( nullptr, bp_torso, dam); // TODO: get the driver and make them responsible.
 
-                if (vel2_a > rng (10, 20)) {
-                    g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
-                }
             } else {
                 ph->hitall (dam, 40);
-                if (vel2_a > rng (10, 20)) {
-                    g->fling_player_or_monster (ph, 0, move.dir() + angle, vel2_a);
-                }
+            }
+            if (vel2_a > rng (10, 20)) {
+                g->fling_creature( z != nullptr ? static_cast<Creature*>( z)  : ph,
+                                   move.dir() + angle, vel2_a );
             }
         }
 
