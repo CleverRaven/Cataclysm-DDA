@@ -5934,6 +5934,38 @@ int iuse::mp3(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+std::string get_random_music_description(player *p)
+{
+    std::string sound = "";
+
+    if (one_in(50)) {
+        sound = _("some bass-heavy post-glam speed polka");
+    }
+    switch (rng(1, 10)) {
+        case 1:
+            sound = _("a sweet guitar solo!");
+            p->stim++;
+            break;
+        case 2:
+            sound = _("a funky bassline.");
+            break;
+        case 3:
+            sound = _("some amazing vocals.");
+            break;
+        case 4:
+            sound = _("some pumping bass.");
+            break;
+        case 5:
+            sound = _("dramatic classical music.");
+            if (p->int_cur >= 10) {
+                p->add_morale(MORALE_MUSIC, 1, 100, 5, 2);
+            }
+            break;
+    }
+
+    return sound;
+}
+
 int iuse::mp3_on(player *p, item *it, bool t)
 {
     if (t) { // Normal use
@@ -5943,31 +5975,7 @@ int iuse::mp3_on(player *p, item *it, bool t)
         p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
 
         if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
-            std::string sound = "";
-            if (one_in(50)) {
-                sound = _("some bass-heavy post-glam speed polka");
-            }
-            switch (rng(1, 10)) {
-                case 1:
-                    sound = _("a sweet guitar solo!");
-                    p->stim++;
-                    break;
-                case 2:
-                    sound = _("a funky bassline.");
-                    break;
-                case 3:
-                    sound = _("some amazing vocals.");
-                    break;
-                case 4:
-                    sound = _("some pumping bass.");
-                    break;
-                case 5:
-                    sound = _("dramatic classical music.");
-                    if (p->int_cur >= 10) {
-                        p->add_morale(MORALE_MUSIC, 1, 100, 5, 2);
-                    }
-                    break;
-            }
+            std::string sound = get_random_music_description(p);
             if (sound.length() > 0) {
                 p->add_msg_if_player(_("You listen to %s"), sound.c_str());
             }
@@ -8162,75 +8170,122 @@ int iuse::robotcontrol(player *p, item *it, bool)
     return 0;
 }
 
-void init_memory_cards_with_random_stuff(player *p)
+void init_memory_card_with_random_stuff(player *p, item * it)
 {
 
-    bool initialized;
+    if (it->has_flag("MC_MOBILE") && it->has_flag("MC_RANDOM_STUFF") && !(it->has_flag("MC_USED") ||
+    it->has_flag("MC_HAS_DATA")))
+    {
 
-    do{
+        it->item_tags.insert("MC_HAS_DATA");
 
-		p->inv.restack(p);
-        initialized = false;
-
-        for (int i = 0; i < p->inv.size(); i++)
-        {
-            item *it = &p->i_at(i);
-
-            if (it->has_flag("MC_MOBILE") && it->has_flag("MC_RANDOM_STUFF") && !(it->has_flag("MC_USED") ||
-            it->has_flag("MC_HAS_DATA"))) {
-
-                initialized = true;
-                it->item_tags.insert("MC_HAS_DATA");
-
-                int data_chance = 2;
-
-                //just empty memory card
-                if (!one_in(data_chance)) {
-                    continue;
-                }
-
-                //add someone's personal photos
-                if (one_in(data_chance)) {
-
-                    //decrease chance to more data
-                    data_chance++;
-
-                    const int duckfaces_count = rng(5, 30);
-                    it->item_vars["MC_PHOTOS"] = string_format("%d", duckfaces_count);
-                }
-                //decrease chance to music and other useful data
-                data_chance++;
-
-                if (one_in(data_chance)) {
-                    data_chance++;
-
-                    const int new_songs_count = rng(5, 15);
-                    it->item_vars["MC_MUSIC"] = string_format("%d", new_songs_count);
-                }
-                data_chance++;
-
-                if (one_in(data_chance)) {
-                    it->item_vars["MC_RANDOM_RECIPE"] = string_format("%d", 1);
-                }
-
-            }
+        bool encrypted = false;
+        if (it->has_flag("MC_MAY_BE_ENCRYPTED") && one_in(8)) {
+			it->make(it->type->id+ "_encrypted");
+            encrypted = true;
         }
-    } while (initialized);
+
+        int data_chance = 2;
+
+        //encrypted memory cards often contain data
+        if (encrypted && one_in(2)) {
+            data_chance--;
+        }
+
+        //just empty memory card
+        if (!one_in(data_chance)) {
+            return;
+        }
+
+        //add someone's personal photos
+        if (one_in(data_chance)) {
+
+            //decrease chance to more data
+            data_chance++;
+
+            const int duckfaces_count = rng(5, 30);
+            it->item_vars["MC_PHOTOS"] = string_format("%d", duckfaces_count);
+        }
+        //decrease chance to music and other useful data
+        data_chance++;
+        if (encrypted && one_in(2)) {
+            data_chance--;
+        }
+
+        if (one_in(data_chance)) {
+            data_chance++;
+
+            const int new_songs_count = rng(5, 15);
+            it->item_vars["MC_MUSIC"] = string_format("%d", new_songs_count);
+        }
+        data_chance++;
+        if (encrypted && one_in(2)) {
+            data_chance--;
+        }
+
+        if (one_in(data_chance)) {
+            it->item_vars["MC_RANDOM_RECIPE"] = string_format("%d", 1);
+        }
+    }
 }
 
 int iuse::einktabletpc(player *p, item *it, bool t)
 {
-
     if (t)
     {
 
+        if (it->item_vars["EIPC_MUSIC_ON"] != "") {
+
+            if (calendar::turn % 50 == 0) {
+                it->charges--;
+            }
+
+            const point pos = g->find_item(it);
+
+            //the more varied music, the better max mood.
+            const int songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
+
+            //if user can hear music
+            if (g->sound(pos.x, pos.y, 8, "")) {
+
+				if (!p->has_amount("mp3_on", 1)){
+					p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
+				}
+
+                if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
+                    const std::string sound = get_random_music_description(p);
+                    g->sound(pos.x, pos.y, 8, sound);
+                }
+
+            }
+
+
+        }
+
+        return 0;
+
     } else{
 
-        init_memory_cards_with_random_stuff(p);
-
         enum {
-            ei_cancel, ei_photo, ei_music, ei_recipe, ei_docs, ei_download, ei_upload
+            ei_cancel, ei_photo, ei_music, ei_recipe, ei_docs, ei_download, ei_upload, ei_decrypt
         };
+
+        if (p->is_underwater())
+        {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return 0;
+        }
+        if (p->has_trait("ILLITERATE"))
+        {
+            add_msg(m_info, _("You cannot read a computer screen."));
+            return 0;
+        }
+        if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
+            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts"))
+        {
+            add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
+            return 0;
+        }
 
         uimenu amenu;
 
@@ -8243,7 +8298,8 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         if (it->item_vars["EIPC_PHOTOS"] != "")
         {
             has_something_uploadable = true;
-            amenu.addentry(ei_photo, true, 'p', _("Photos"));
+            const int photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
+            amenu.addentry(ei_photo, true, 'p', _("Photos [%d]"), photos);
         } else{
             amenu.addentry(ei_photo, false, 'p', _("No photos on device"));
         }
@@ -8254,7 +8310,8 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 has_something_uploadable = true;
                 amenu.addentry(ei_music, true, 'm', _("Turn music off"));
             } else {
-                amenu.addentry(ei_music, true, 'm', _("Turn music on"));
+                const int songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
+                amenu.addentry(ei_music, true, 'm', _("Turn music on [%d]"), songs);
             }
         } else{
             amenu.addentry(ei_music, false, 'm', _("No music on device"));
@@ -8274,9 +8331,9 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         if (it->item_vars["EIPC_DOCS"] != "")
         {
             has_something_uploadable = true;
-            amenu.addentry(ei_docs, true, 'd', _("Your documents"));
+            amenu.addentry(ei_docs, true, 'y', _("Your documents"));
         } else{
-            amenu.addentry(ei_docs, false, 'd', _("No documents on device"));
+            amenu.addentry(ei_docs, false, 'y', _("No documents on device"));
         }
 
         amenu.addentry(ei_download, true, 'w', _("Download data from memory card"));
@@ -8284,6 +8341,15 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         if (has_something_uploadable)
         {
             amenu.addentry(ei_upload, true, 'u', _("Upload data to memory card"));
+        } else{
+            amenu.addentry(ei_upload, false, 'u', _("No internal data to upload"));
+        }
+
+        if (p->skillLevel("computer") > 2)
+        {
+            amenu.addentry(ei_decrypt, true, 'd', _("Decrypt memory card"));
+        } else{
+            amenu.addentry(ei_decrypt, false, 'd', _("Decrypt memory card (low skill)"));
         }
 
         amenu.query();
@@ -8292,31 +8358,104 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
         if (ei_cancel == choice)
         {
-            return it->type->charges_to_use();;
+            return it->type->charges_to_use();
+        }
+
+        if (ei_photo == choice)
+        {
+
+            const int photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
+            const int viewed = std::min(photos, int(rng(10, 30)));
+            const int count = photos - viewed;
+            if (count == 0) {
+                it->item_vars["EIPC_PHOTOS"] = "";
+            } else {
+                it->item_vars["EIPC_PHOTOS"] = string_format("%d", count);
+            }
+
+            p->moves -= rng(3, 7) * 100;
+
+            if (p->has_trait("PSYCHOPATH")) {
+                p->add_msg_if_player(m_info, _("Wasted time, these pictures do not provoke your senses."));
+            } else {
+                p->add_morale(MORALE_PHOTOS, rng(15, 30), 100);
+
+                const int random_photo = rng(1, 20);
+                switch (random_photo) {
+                    case 1:
+                        p->add_msg_if_player(m_good, _("This dog reminds yours..."));
+                        break;
+                    case 2:
+                        p->add_msg_if_player(m_good, _("Funny stupid cat! Ha-ha-ha!"));
+                        break;
+                    case 3:
+                        p->add_msg_if_player(m_good, _("Excellent pictures of nature."));
+                        break;
+                    case 4:
+                        p->add_msg_if_player(m_good, _("Photo meal, photo of food, photo..."));
+                        break;
+                    case 5:
+                        p->add_msg_if_player(m_good, _("Pictures of something to travel very interesting."));
+                        break;
+                    case 6:
+                        p->add_msg_if_player(m_good, _("Pictures of a concert of popular band."));
+                        break;
+                    case 7:
+                        p->add_msg_if_player(m_good, _("Pictures of someone's house, luxuriously."));
+                        break;
+                    default:
+                        p->add_msg_if_player(m_good, _("You nostalgiques staring at the photo."));
+                        break;
+                }
+            }
+
+            return it->type->charges_to_use();
+        }
+
+        if (ei_music == choice)
+        {
+
+            if (it->active) {
+                it->active = false;
+                it->item_vars["EIPC_MUSIC_ON"] = "";
+
+                p->add_msg_if_player(m_info, _("You turned off music on your %s."), it->tname().c_str());
+            } else {
+                it->active = true;
+                it->item_vars["EIPC_MUSIC_ON"] = "1";
+
+                p->add_msg_if_player(m_info, _("You turned on music on your %s."), it->tname().c_str());
+
+            }
+
+            return it->type->charges_to_use();
         }
 
         if (ei_download == choice)
         {
-            const int pos = g->inv_for_flag("MC_HAS_DATA", _("Insert memory card"), false);
+            const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
             item *mc = &(p->i_at(pos));
+
+            init_memory_card_with_random_stuff(p, mc);
+
             if (mc == NULL || mc->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
-                return it->type->charges_to_use();;
+                return it->type->charges_to_use();
             }
 
             if (!mc->has_flag("MC_MOBILE")) {
                 p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
-                return it->type->charges_to_use();;
+                return it->type->charges_to_use();
+            }
+
+            if (mc->has_flag("MC_ENCRYPTED")) {
+                p->add_msg_if_player(m_info, _("This memory card is encrypted."));
+                return it->type->charges_to_use();
             }
 
             if (!(mc->has_flag("MC_HAS_DATA") || mc->has_flag("MC_DOCUMENTS"))) {
                 p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
-                return it->type->charges_to_use();;
-            }
-
-            if (!mc->has_flag("MC_USED")) {
-                mc->item_tags.insert("MC_USED");
-                //todo: ïðîâåðèòü íà ÄÎÊÓÌÅÍÒÛ è ñíÿòü ôëàã MC_HAS_DATA
+                return it->type->charges_to_use();
             }
 
             bool something_downloaded = false;
@@ -8360,11 +8499,16 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
             //documents todo:
 
+            if (mc->has_flag("MC_TURN_USED")) {
+                mc->item_tags.clear();
+                mc->item_vars.clear();
+                mc->make(mc->type->id + "_used");
+            }
+
             if (!something_downloaded) {
                 p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
                 return it->type->charges_to_use();
             }
-
 
             return it->type->charges_to_use();
         }
