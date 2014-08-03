@@ -486,8 +486,8 @@
    {
       "type":"effect_type",
       "id":"music",
-      "name": "Hear music",
-      "desc": "You hear music.",
+      "name": "Enjoy music",
+      "desc": "You enjoy music.",
       "rating": "good"
    }
 ]

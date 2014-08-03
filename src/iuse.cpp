@@ -8234,7 +8234,7 @@ void init_memory_card_with_random_stuff(player *p, item * it)
         }
 
         if (one_in(data_chance)) {
-            it->item_vars["MC_RANDOM_RECIPE"] = string_format("%d", 1);
+            it->item_vars["MC_RECIPE"] = string_format("%d", 1);
         }
     }
 }
@@ -8278,7 +8278,43 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         eink->item_vars["EIPC_MUSIC"] = string_format("%d", old_songs + new_songs);
     }
 
-    //recipes todo:
+	if (mc->item_vars["MC_RECIPE"] != ""){
+
+		std::vector<recipe *> candidates;
+		recipe_map recipes = g->list_recipes();
+
+		for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
+			for (recipe_list::iterator list_iter = map_iter->second.begin();
+				list_iter != map_iter->second.end(); ++list_iter) {
+				if ((*list_iter)->cat == "CC_FOOD") {
+					
+					const int dif = (*list_iter)->difficulty;
+
+					if (dif <= 3 && one_in(dif)){
+						candidates.push_back(*list_iter);
+					}
+				}
+			}
+		}
+
+		if (candidates.size() > 0){
+
+			recipe *r = candidates[rng(0, candidates.size() - 1)];
+			const std::string rident = r->ident;
+			
+			if (eink->item_vars["EIPC_RECIPES"] == ""){
+				eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
+			}
+			else{
+				if (eink->item_vars["EIPC_RECIPES"].find(rident) != std::string::npos){
+					eink->item_vars["EIPC_RECIPES"] += rident + ",";
+				}
+			}			
+
+		}
+
+
+	}
 
     //documents todo:
 
@@ -8482,6 +8518,8 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         if (ei_music == choice)
         {
 
+			p->moves -= 100;
+
             if (it->active) {
                 it->active = false;
                 it->item_vars["EIPC_MUSIC_ON"] = "";
@@ -8500,6 +8538,9 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
         if (ei_download == choice)
         {
+
+			p->moves -= 200;
+
             const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
             item *mc = &(p->i_at(pos));
 
@@ -8529,6 +8570,8 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
         if (ei_decrypt == choice)
         {
+
+			p->moves -= 200;
 
             const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
             item *mc = &(p->i_at(pos));

@@ -10893,7 +10893,14 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
                     difficulty = book_recipe->second;
                 }
             }
-        }
+		} else {
+			if (candidate.has_flag("HAS_RECIPE")){
+				item dummy = candidate;
+				if (dummy.item_vars["RECIPE"] == r->ident){
+					if (difficulty == -1) difficulty = r->difficulty;
+				}
+			}
+		}
     }
     return difficulty;
 }
