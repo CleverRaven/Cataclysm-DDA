@@ -43,8 +43,7 @@
     "type" : "item_group",
     "id" : "field",
     "items":[
-      ["rock", 40],
-      ["strawberries", 2]
+      ["rock", 40]
     ]
   },{
     "type" : "item_group",
@@ -52,12 +51,10 @@
     "items":[
       ["rock", 40],
       ["stick", 95],
-      ["mushroom", 4],
-      ["mushroom_poison", 3],
-      ["mushroom_magic", 1],
-      ["blueberries", 3],
-      ["blackberries", 3],
-      ["cranberries", 3]
+      ["bottle_plastic", 1],
+      ["bottle_glass", 1],
+      ["syringe", 1],
+      ["cig_butt", 1]
     ]
   },{
     "type" : "item_group",
