@@ -1525,8 +1525,9 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
  * Returns the label at the coordinates given (mount coordinates)
  */
 const std::string vehicle::get_label(int x, int y) {
-    if (labels.find(point(x, y)) != labels.end()) {
-    	return labels.at(point(x, y));
+	std::set<label>::const_iterator it = labels.find(label(x, y));
+    if (it != labels.end()) {
+    	return it->text;
     }
     return "";
 }
@@ -1534,14 +1535,9 @@ const std::string vehicle::get_label(int x, int y) {
 /**
  * Sets the label at the coordinates given (mount coordinates)
  */
-void vehicle::set_label(int x, int y, const std::string text) {
-	point pos = point(x, y);
-	std::map<point, std::string>::const_iterator label = labels.find(pos);
-    if (label == labels.end()) {
-    	labels.insert(std::pair<point, std::string>(pos, text));
-    } else {
-    	labels[pos] = text;
-    }
+void vehicle::set_label(int x, int y, std::string text) {
+    labels.erase(label(x, y));
+	labels.insert(label(x, y, text));
 }
 
 int vehicle::next_part_to_close(int p, bool outside)
