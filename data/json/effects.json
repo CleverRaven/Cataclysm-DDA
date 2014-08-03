@@ -482,5 +482,12 @@
    {
       "type":"effect_type",
       "id":"tied"
+   },
+   {
+      "type":"effect_type",
+      "id":"music",
+      "name": "Hear music",
+      "desc": "You hear music.",
+      "rating": "good"
    }
 ]

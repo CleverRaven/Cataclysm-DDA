@@ -5972,8 +5972,10 @@ int iuse::mp3_on(player *p, item *it, bool t)
         if (!p->has_item(it) || p->is_deaf()) {
             return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
         }
-        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
-
+        if (!p->has_effect("music")){
+            p->add_effect("music", 1);
+            p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
+        }
         if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
             std::string sound = get_random_music_description(p);
             if (sound.length() > 0) {
@@ -8244,13 +8246,12 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
             //the more varied music, the better max mood.
             const int songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
+			
+            //if user can hear this music and not already hear music
+            if (g->sound(pos.x, pos.y, 8, "") && !p->has_effect("music")) {
 
-            //if user can hear music
-            if (g->sound(pos.x, pos.y, 8, "")) {
-
-				if (!p->has_amount("mp3_on", 1)){
-					p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
-				}
+				p->add_effect("music", 1);
+                p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
 
                 if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
                     const std::string sound = get_random_music_description(p);
