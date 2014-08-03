@@ -8573,7 +8573,6 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 recipes.push_back(s);
 
                 const item dummy(s, 0);
-
                 rmenu.addentry(k++, true, -1, dummy.tname().c_str());
             }
 
@@ -8584,6 +8583,9 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             } else {
                 it->item_vars["RECIPE"] = recipes[rchoice - 1];
+
+                const item dummy(it->item_vars["RECIPE"], 0);
+                p->add_msg_if_player(m_info, _("Now e-ink screen contains recipe of %s."), dummy.tname().c_str());
             }
 
             return it->type->charges_to_use();
@@ -8678,6 +8680,10 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         }
 
     }
+
+}
+
+int iuse::camera(player *p, item *it, bool t){
 
 }
 
