@@ -464,12 +464,14 @@ void dis_effect(player &p, disease &dis)
                         case 3:
                             // Speed -20
                             p.mod_dex_bonus(-2);
+                            p.add_miss_reason(_("You quiver from the cold."), 2);
                             if (!sleeping && tempMsgTrigger) {
                                 add_msg(m_bad, _("Your torso is freezing cold. \
                                      You should put on a few more layers."));
                             }
                         case 2:
                             p.mod_dex_bonus(-2);
+                            p.add_miss_reason(_("Your shivering makes you unsteady."), 2);
                     }
                     break;
                 case bp_arm_l:
@@ -478,6 +480,7 @@ void dis_effect(player &p, disease &dis)
                             p.mod_dex_bonus(-1);
                         case 2:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your left arm trembles from the cold."), 1);
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
                                 add_msg(m_bad, _("Your left arm is shivering."));
                             }
@@ -491,6 +494,7 @@ void dis_effect(player &p, disease &dis)
                             p.mod_dex_bonus(-1);
                         case 2:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your right arm trembles from the cold."), 1);
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
                                 add_msg(m_bad, _("Your right arm is shivering."));
                             }
@@ -504,6 +508,7 @@ void dis_effect(player &p, disease &dis)
                             p.mod_dex_bonus(-1);
                         case 2:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your left hand quivers in the cold."), 1);
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
                                 add_msg(m_bad, _("Your left hand feels like ice."));
                             }
@@ -517,6 +522,7 @@ void dis_effect(player &p, disease &dis)
                             p.mod_dex_bonus(-1);
                         case 2:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your right hand trembles in the cold."), 1);
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
                                 add_msg(m_bad, _("Your right hand feels like ice."));
                             }
@@ -528,12 +534,14 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 3:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your legs uncontrollably shake from the cold."), 1);
                             p.mod_str_bonus(-1);
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
                                 add_msg(m_bad, _("Your left leg trembles against the relentless cold."));
                             }
                         case 2:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your legs unsteadily shiver against the cold."), 1);
                             p.mod_str_bonus(-1);
                         default:
                             break;
@@ -558,10 +566,12 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 3:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your left foot is as nimble as a block of ice."), 1);
                             p.mod_str_bonus(-1);
                             break;
                         case 2:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your freezing left foot messes up your balance."), 1);
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
                                 add_msg(m_bad, _("Your left foot feels frigid."));
                             }
@@ -573,10 +583,12 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 3:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your right foot is as nimble as a block of ice."), 1);
                             p.mod_str_bonus(-1);
                             break;
                         case 2:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your freezing right foot messes up your balance."), 1);
                             if (!sleeping && tempMsgTrigger && one_in(2)) {
                                 add_msg(m_bad, _("Your right foot feels frigid."));
                             }
@@ -596,6 +608,7 @@ void dis_effect(player &p, disease &dis)
                     switch(dis.intensity) {
                         case 2:
                             p.mod_dex_bonus(-2);
+                            p.add_miss_reason(_("You have trouble grasping with your numb fingers."), 2);
                         case 1:
                             if (one_in(2)) {
                                 if ((p.temp_cur[bp_hand_l] > BODYTEMP_COLD ||
@@ -613,6 +626,7 @@ void dis_effect(player &p, disease &dis)
                 case bp_hand_r:
                     switch(dis.intensity) {
                         case 2:
+                            p.add_miss_reason(_("You have trouble grasping with your numb fingers."), 2);
                             p.mod_dex_bonus(-2);
                         case 1:
                             if (one_in(2)) {
@@ -687,6 +701,7 @@ void dis_effect(player &p, disease &dis)
             switch(dis.bp) {
                 case bp_hand_l:
                     p.mod_dex_bonus(-1);
+                    p.add_miss_reason(_("Your blistered left hand distracts you."), 1);
                     if ( p.pain < 35 && one_in(2)) {
                         p.mod_pain(1);
                     }
@@ -698,6 +713,7 @@ void dis_effect(player &p, disease &dis)
                     break;
                 case bp_hand_r:
                     p.mod_dex_bonus(-1);
+                    p.add_miss_reason(_("Your blistered right hand distracts you."), 1);
                     if ( p.pain < 35 && one_in(2)) {
                         p.mod_pain(1);
                     }
@@ -855,6 +871,7 @@ void dis_effect(player &p, disease &dis)
                             p.mod_dex_bonus(-1);
                             // Fall-through
                         case 2:
+                            p.add_miss_reason(_("Your left hand's too sweaty to grip well."), 1);
                             p.mod_dex_bonus(-1);
                         default:
                             break;
@@ -867,6 +884,7 @@ void dis_effect(player &p, disease &dis)
                             // Fall-through
                         case 2:
                             p.mod_dex_bonus(-1);
+                            p.add_miss_reason(_("Your right hand's too sweaty to grip well."), 1);
                         default:
                             break;
                     }
@@ -943,7 +961,7 @@ void dis_effect(player &p, disease &dis)
                             }
                     }
                     break;
-                case bp_eyes:// Eyes are not susceptible by this disease.
+                case bp_eyes:// Eyes are not susceptible to this disease.
                 case num_bp: // Suppress compiler warning [-Wswitch]
                     break;
             }
@@ -961,6 +979,7 @@ void dis_effect(player &p, disease &dis)
             } else {
                 p.mod_str_bonus(-3);
                 p.mod_dex_bonus(-1);
+                p.add_miss_reason(_("You're too stuffed up to fight effectively."), 1);
                 p.mod_int_bonus(-2);
                 p.mod_per_bonus(-1);
             }
@@ -983,6 +1002,7 @@ void dis_effect(player &p, disease &dis)
                 } else {
                     p.mod_str_bonus(-4);
                     p.mod_dex_bonus(-2);
+                    p.add_miss_reason(_("You can barely keep your balance with this flu, let alone swing accurately."), 2);
                     p.mod_int_bonus(-2);
                     p.mod_per_bonus(-1);
                     if (p.pain < 15) {
@@ -1011,10 +1031,16 @@ void dis_effect(player &p, disease &dis)
             switch(dis.intensity) {
                 case 3:
                     p.mod_dex_bonus(-2);
+                    p.add_miss_reason(
+                        _("You get off-balance from your unsteady footing."), 2);
                 case 2:
                     p.mod_dex_bonus(-2);
+                    p.add_miss_reason(
+                        _("You waver over your unsteady footing."), 2);
                 case 1:
                     p.mod_dex_bonus(-1);
+                    p.add_miss_reason(
+                        _("It's hard to fight on this rubble."), 1);
                     break;
                 default:
                     debugmsg("Something went wrong with DI_BOULDERING.");
@@ -1028,6 +1054,7 @@ void dis_effect(player &p, disease &dis)
 
         case DI_SAP:
             p.mod_dex_bonus(-3);
+            p.add_miss_reason(_("The sap's too sticky for you to fight effectively."), 3);
             break;
 
         case DI_SPORES:
@@ -1045,6 +1072,7 @@ void dis_effect(player &p, disease &dis)
 
         case DI_SLIMED:
             p.mod_dex_bonus(-2);
+            p.add_miss_reason(_("This goo makes you slip."), 2);
             if (will_vomit(p, 2100)) {
                 p.vomit();
             } else if (one_in(4800)) {
@@ -1198,6 +1226,8 @@ void dis_effect(player &p, disease &dis)
             if (dis.duration >= 600) { // Smoked too much
                 p.mod_str_bonus(-1);
                 p.mod_dex_bonus(-1);
+                p.add_miss_reason(
+                    _("You're winded from smoking."), 1);
                 if (dis.duration >= 1200 && (one_in(50) || will_vomit(p, 10))) {
                     p.vomit();
                 }
@@ -1216,6 +1246,7 @@ void dis_effect(player &p, disease &dis)
         case DI_WEED_HIGH:
             p.mod_str_bonus(-1);
             p.mod_dex_bonus(-1);
+            p.add_miss_reason(_("That critter's jumping around like a jitterbug! It needs to mellow out."), 1);
             p.mod_per_bonus(-1);
             break;
 
@@ -1242,6 +1273,7 @@ void dis_effect(player &p, disease &dis)
             }
             p.mod_per_bonus(-2);
             p.mod_dex_bonus(-2);
+            p.add_miss_reason(_("You feel bad inside."), 2);
             if (!p.has_trait("POISRESIST")) {
                 p.mod_str_bonus(-3);
             } else {
@@ -1251,12 +1283,14 @@ void dis_effect(player &p, disease &dis)
 
         case DI_PARALYZEPOISON:
             p.mod_dex_bonus(-(dis.intensity / 3));
+            p.add_miss_reason(_("You feel stiff."), dis.intensity / 3);
             break;
 
         case DI_FOODPOISON:
             bonus = 0;
             p.mod_str_bonus(-3);
             p.mod_dex_bonus(-1);
+            p.add_miss_reason(_("Your stomach bothers you."), 1);
             p.mod_per_bonus(-1);
             if (p.has_trait("POISRESIST")) {
                 bonus += 600;
@@ -1287,6 +1321,7 @@ void dis_effect(player &p, disease &dis)
             }
             if (!p.has_disease("valium")) {
             p.mod_dex_bonus(-4);
+            p.add_miss_reason(_("Your muscles are locking up and you can't fight effectively."), 4);
             if (one_in(512)) {
                 add_msg(m_bad, "Your muscles spasm.");
                 p.add_effect("downed",rng(1,4));
@@ -1354,6 +1389,7 @@ void dis_effect(player &p, disease &dis)
                p.rem_disease("shakes");
             }
             p.mod_dex_bonus(-4);
+            p.add_miss_reason(_("You tremble."), 4);
             p.mod_str_bonus(-1);
             break;
 
@@ -1368,6 +1404,7 @@ void dis_effect(player &p, disease &dis)
         case DI_WEBBED:
             p.mod_str_bonus(-2);
             p.mod_dex_bonus(-4);
+            p.add_miss_reason(_("The webs constrict your movement."), 4);
             break;
 
         case DI_RAT:
@@ -1429,6 +1466,7 @@ void dis_effect(player &p, disease &dis)
             } else {
                 p.mod_str_bonus(-2);
                 p.mod_dex_bonus(-1);
+                p.add_miss_reason(_("Your comedown throws you off."), 1);
                 p.mod_int_bonus(-1);
                 p.mod_per_bonus(-1);
             }
@@ -1446,6 +1484,7 @@ void dis_effect(player &p, disease &dis)
             } else {
                 p.mod_str_bonus(-1);
                 p.mod_dex_bonus(-2);
+                p.add_miss_reason(_("Your body longs for more chemicals."), 2);
                 p.mod_int_bonus(-1);
                 p.mod_per_bonus(-2);
             }
@@ -1464,6 +1503,7 @@ void dis_effect(player &p, disease &dis)
             }
             p.mod_str_bonus(-2);
             p.mod_dex_bonus(-3);
+            p.add_miss_reason(_("You're winded."), 3);
             break;
 
         case DI_GRACK:
@@ -1482,6 +1522,7 @@ void dis_effect(player &p, disease &dis)
             } else {
                 p.mod_str_bonus(-3);
                 p.mod_dex_bonus(-2);
+                p.add_miss_reason(_("The bees have started escaping your teeth."), 2);
                 p.mod_int_bonus(-1);
                 p.mod_per_bonus(-2);
                 if (one_in(150)) {
@@ -1679,6 +1720,7 @@ void dis_effect(player &p, disease &dis)
         case DI_LACKSLEEP:
             p.mod_str_bonus(-1);
             p.mod_dex_bonus(-1);
+            p.add_miss_reason(_("You don't have energy to fight."), 1);
             p.mod_int_bonus(-2);
             p.mod_per_bonus(-2);
             break;
@@ -2767,6 +2809,7 @@ void manage_fungal_infection(player& p, disease& dis)
     p.moves -= 10;
     p.mod_str_bonus(-1);
     p.mod_dex_bonus(-1);
+    p.add_miss_reason(_("You feel sick inside."), 1);
     if (!dis.permanent) {
         if (dis.duration > 3001) { // First hour symptoms
             if (one_in(160 + bonus)) {
@@ -3057,6 +3100,7 @@ static void handle_alcohol(player& p, disease& dis)
     */
     p.mod_per_bonus( - int(dis.duration / 1000));
     p.mod_dex_bonus( - int(dis.duration / 1000));
+    p.add_miss_reason(_("You feel woozy."), int(dis.duration / 1000));
     p.mod_int_bonus( - int(dis.duration /  700));
     p.mod_str_bonus( - int(dis.duration / 1500));
     if (dis.duration <= 600) {
@@ -3121,6 +3165,7 @@ static void handle_bite_wound(player& p, disease& dis)
             }
         }
         p.mod_dex_bonus(-1);
+        p.add_miss_reason(_("Your wound distracts you."), 1);
     } else {
         // Infection starts
          // 1 day of timer + 1 tick
@@ -3161,6 +3206,7 @@ static void handle_infected_wound(player& p, disease& dis)
         }
         p.mod_str_bonus(-1);
         p.mod_dex_bonus(-1);
+        p.add_miss_reason(_("Your wound distracts you."), 1);
     } else if (dis.duration > 3601) {
         // 8 hours of vomiting + pain
         if (one_in(100)) {
@@ -3177,6 +3223,7 @@ static void handle_infected_wound(player& p, disease& dis)
         }
         p.mod_str_bonus(-2);
         p.mod_dex_bonus(-2);
+        p.add_miss_reason(_("Your wound distracts you."), 2);
     } else if (dis.duration > 1) {
         // 6 hours extreme symptoms
         if (one_in(100)) {
@@ -3193,6 +3240,7 @@ static void handle_infected_wound(player& p, disease& dis)
         }
         p.mod_str_bonus(-3);
         p.mod_dex_bonus(-3);
+        p.add_miss_reason(_("You can barely keep fighting."), 3);
         if (!p.has_disease("sleep") && one_in(100)) {
             add_msg(m_bad, _("You pass out."));
             p.fall_asleep(60);
@@ -3226,6 +3274,7 @@ static void handle_recovery(player& p, disease& dis)
         }
         p.mod_str_bonus(-3);
         p.mod_dex_bonus(-3);
+        p.add_miss_reason(_("You can barely keep fighting."), 3);
         if (!p.has_disease("sleep") && one_in(100)) {
             add_msg(m_bad, _("You pass out."));
             p.fall_asleep(60);
@@ -3243,6 +3292,7 @@ static void handle_recovery(player& p, disease& dis)
         }
         p.mod_str_bonus(-2);
         p.mod_dex_bonus(-2);
+        p.add_miss_reason(_("Your wound distracts you."), 2);
     } else if (dis.duration > 9600) {
         if ((one_in(100)) && (!(p.has_trait("NOPAIN")))) {
             if (p.has_disease("sleep")) {
@@ -3255,6 +3305,7 @@ static void handle_recovery(player& p, disease& dis)
         }
         p.mod_str_bonus(-1);
         p.mod_dex_bonus(-1);
+        p.add_miss_reason(_("Your wound distracts you."), 1);
     } else {
         if ((one_in(100)) && (!(p.has_trait("NOPAIN")))) {
             if (p.has_disease("sleep")) {
@@ -3266,6 +3317,7 @@ static void handle_recovery(player& p, disease& dis)
             }
         }
         p.mod_dex_bonus(-1);
+        p.add_miss_reason(_("Your wound distracts you."), 1);
     }
 }
 
@@ -3353,6 +3405,7 @@ static void handle_deliriant(player& p, disease& dis)
         p.mod_per_bonus(-2);
         p.mod_int_bonus(-1);
         p.mod_dex_bonus(-2);
+        p.add_miss_reason(_("Dancing fractals distract you."), 2);
         p.mod_str_bonus(-1);
         if (one_in(50)) {
             g->spawn_hallucination();
@@ -3406,14 +3459,18 @@ static void handle_evil(player& p, disease& dis)
         if (dis.duration < 600) {
             p.mod_dex_bonus(1);
         } else {
-            p.mod_dex_bonus(-(dis.duration > 3600 ? 10 : int((dis.duration - 600) / 300)));
+            int dex_mod = -(dis.duration > 3600 ? 10 : int((dis.duration - 600) / 300));
+            p.mod_dex_bonus(dex_mod);
+            p.add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
         }
         p.mod_int_bonus(-(dis.duration > 3000 ? 10 : int((dis.duration - 500) / 250)));
         p.mod_per_bonus(-(dis.duration > 4800 ? 10 : int((dis.duration - 800) / 400)));
     } else {
         // Major effects, all bad.
         p.mod_str_bonus(-(dis.duration > 5000 ? 10 : int(dis.duration / 500)));
-        p.mod_dex_bonus(-(dis.duration > 6000 ? 10 : int(dis.duration / 600)));
+        int dex_mod = -(dis.duration > 6000 ? 10 : int(dis.duration / 600));
+        p.mod_dex_bonus(dex_mod);
+        p.add_miss_reason(_("Why waste your time on that insignificant speck?"), -dex_mod);
         p.mod_int_bonus(-(dis.duration > 4500 ? 10 : int(dis.duration / 450)));
         p.mod_per_bonus(-(dis.duration > 4000 ? 10 : int(dis.duration / 400)));
     }

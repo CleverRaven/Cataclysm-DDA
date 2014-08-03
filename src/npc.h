@@ -669,6 +669,7 @@ public:
  virtual void add_msg_if_player(const char *, ...) const{};
  virtual void add_msg_if_player(game_message_type, const char *, ...) const{};
  virtual void add_memorial_log(const char*, const char*, ...) {};
+ virtual void add_miss_reason(const char *, unsigned int) {};
 
 // The preceding are in npcmove.cpp
 

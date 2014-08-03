@@ -54,11 +54,12 @@ cOpt::cOpt()
 {
     sType = "VOID";
     sPage = "";
+    hide = COPT_NO_HIDE;
 }
 
 //string constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
+           const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -85,7 +86,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //bool constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const bool bDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
+           const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -102,7 +103,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //int constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide=COPT_NO_HIDE)
+           const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -130,7 +131,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //float constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide=COPT_NO_HIDE)
+           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -194,8 +195,13 @@ bool cOpt::is_hidden()
 
 void cOpt::setSortPos(const std::string sPageIn)
 {
-    mOptionsSort[sPageIn]++;
-    iSortPos = mOptionsSort[sPageIn] - 1;
+    if (!is_hidden()) {
+        mOptionsSort[sPageIn]++;
+        iSortPos = mOptionsSort[sPageIn] - 1;
+
+    } else {
+        iSortPos = -1;
+    }
 }
 
 int cOpt::getSortPos()
@@ -551,6 +557,7 @@ void initOptions()
     optionNames["fr_FR"] = _("French");
     optionNames["de_DE"] = _("German");
     optionNames["it"] = _("Italian");
+    optionNames["es_ES"] = _("Spanish");
     optionNames["ja"] = _("Japanese");
     optionNames["ko"] = _("Korean");
     optionNames["pl"] = _("Polish");
@@ -562,7 +569,7 @@ void initOptions()
     optionNames["zh_CN"] = _("Simplified Chinese");
     optionNames["zh_TW"] = _("Traditional Chinese");
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
@@ -912,13 +919,37 @@ void initOptions()
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
 
-    std::map<std::string, cOpt> OPTIONS_ORDERED(OPTIONS.begin(), OPTIONS.end());
-    for( auto iter = OPTIONS_ORDERED.begin(); iter != OPTIONS_ORDERED.end(); ++iter ) {
+    for( auto iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
-            if (vPages[i].first == (iter->second).getPage()) {
+            if (vPages[i].first == (iter->second).getPage() && (iter->second).getSortPos() > -1) {
                 mPageItems[i][(iter->second).getSortPos()] = iter->first;
                 break;
             }
+        }
+    }
+
+    //Sort out possible double empty lines after options are hidden
+    for (unsigned i = 0; i < vPages.size(); ++i) {
+    bool bLastLineEmpty = false;
+        while (mPageItems[i][0] == "") {
+            //delete empty lines at the beginning
+            mPageItems[i].erase(mPageItems[i].begin());
+        }
+
+        while (mPageItems[i][mPageItems[i].size()-1] == "") {
+            //delete empty lines at the end
+            mPageItems[i].erase(mPageItems[i].end()-1);
+        }
+
+        for (unsigned j = mPageItems[i].size()-1; j > 0; --j) {
+            bool bThisLineEmpty = (mPageItems[i][j] == "");
+
+            if (bLastLineEmpty == true && bThisLineEmpty == true) {
+                //delete empty lines in between
+                mPageItems[i].erase(mPageItems[i].begin() + j);
+            }
+
+            bLastLineEmpty = bThisLineEmpty;
         }
     }
 }
@@ -1011,9 +1042,6 @@ void show_options(bool ingame)
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
         //Draw options
-        bool was_blank_line = false; // Is prev. line was blank linei?.
-        size_t hidden_counter = 0; // Counter of hidden options.
-        size_t blanklines_counter = 0; // Counter of double blank lines.
         size_t iBlankOffset = 0; // Offset when blank line is printed.
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ?
                 mPageItems[iCurrentPage].size() : iContentHeight); i++) {
@@ -1022,25 +1050,10 @@ void show_options(bool ingame)
             nc_color cLineColor = c_ltgreen;
             cOpt *current_opt = &(cOPTIONS[mPageItems[iCurrentPage][i]]);
 
-            if(current_opt->is_hidden()) {
-                ++hidden_counter;
-                continue;
-            }
-
-            if (current_opt->getMenuText() == "") {
-                if (was_blank_line) {
-                    blanklines_counter++;
-                }
-                iBlankOffset++;
-                was_blank_line = true;
-                continue;
-            }
-            was_blank_line = false;
-
-            line_pos = i - iStartPos - hidden_counter - blanklines_counter;
+            line_pos = i - iStartPos;
 
             sTemp.str("");
-            sTemp << i + 1 - iBlankOffset - hidden_counter;
+            sTemp << i + 1 - iBlankOffset;
             mvwprintz(w_options, line_pos, 1, c_white, sTemp.str().c_str());
             mvwprintz(w_options, line_pos, 5, c_white, "");
 
@@ -1134,24 +1147,20 @@ void show_options(bool ingame)
         const std::string action = ctxt.handle_input();
 
         bool bChangedSomething = false;
-        int was_skipped = hidden_counter + blanklines_counter;
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
-                if (iCurrentLine >= mPageItems[iCurrentPage].size() - was_skipped) {
+                if (iCurrentLine >= mPageItems[iCurrentPage].size()) {
                     iCurrentLine = 0;
                 }
-            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "") ||
-                     (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].is_hidden())
-                   );
+            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == ""));
         } else if (action == "UP") {
             do {
                 iCurrentLine--;
                 if (iCurrentLine < 0) {
-                    iCurrentLine = mPageItems[iCurrentPage].size() - 1 - was_skipped;
+                    iCurrentLine = mPageItems[iCurrentPage].size() - 1;
                 }
-            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "") ||
-                     (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].is_hidden())
+            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "")
                    );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
