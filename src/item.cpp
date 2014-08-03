@@ -1283,7 +1283,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
     }
-    
+
     if (has_flag("LEFT")) {
         sidedtext = _("left ");
     } else if (has_flag("RIGHT")) {
@@ -3224,7 +3224,8 @@ bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std
 long item::charges_of(const itype_id &it) const
 {
     long count = 0;
-    if (type->id == it && contents.empty()) {
+
+    if (((type->id == it) || (is_tool() && (dynamic_cast<it_tool *>(type))->subtype == it)) && contents.empty()) {
         // If we're specifically looking for a container, only say we have it if it's empty.
         if (charges < 0) {
             count++;
@@ -3250,7 +3251,7 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
         }
     }
     // Now check the item itself
-    if (type->id != it || quantity <= 0 || !contents.empty()) {
+    if (!((type->id == it) || (is_tool() && (dynamic_cast<it_tool *>(type))->subtype == it)) || quantity <= 0 || !contents.empty()) {
         return false;
     }
     if (charges <= quantity) {

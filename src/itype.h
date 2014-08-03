@@ -515,6 +515,7 @@ struct it_tool : public virtual itype {
     unsigned char charges_per_use;
     unsigned char turns_per_charge;
     itype_id revert_to;
+    itype_id subtype;
 
     virtual bool is_tool()
     {
@@ -534,7 +535,7 @@ struct it_tool : public virtual itype {
     }
 
     it_tool() : itype(), ammo(), max_charges(0), def_charges(0), rand_charges(), charges_per_use(0),
-        turns_per_charge(0), revert_to()
+        turns_per_charge(0), revert_to(), subtype()
     {
     }
 };
