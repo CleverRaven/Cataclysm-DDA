@@ -11676,8 +11676,8 @@ void game::forage()
             if (!one_in(4)) {
                 m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
             } else {
-                // 75% & 25% chance to find these at spring, assuming you make your veggy roll
-                // 12.5% & ~4.2% chance to find these at summer / autumn, assuming you make your veggy roll
+                // 50% & ~16.7% chance to find these at spring, assuming you make your forage roll
+                // ~8.3% & ~2.8% chance to find these at summer / autumn, assuming you make your forage roll
                 // So maybe we can give more than 1.
                 m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
             }
