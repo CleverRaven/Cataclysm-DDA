@@ -690,6 +690,7 @@
     [
       [ "salt", 1 ],
       [ "seasoning_italian", 10 ],
+      [ "wild_herbs", 10 ],
       [ "seasoning_salt", 10 ],
       [ "pepper", 10 ]
     ]
@@ -722,6 +723,7 @@
     [
       [ "salt", 1 ],
       [ "seasoning_italian", 10 ],
+      [ "wild_herbs", 10 ],
       [ "seasoning_salt", 10 ]
     ]
   ]
@@ -754,6 +756,7 @@
     [
       [ "salt", 1 ],
       [ "seasoning_italian", 10 ],
+      [ "wild_herbs", 10 ],
       [ "seasoning_salt", 10 ]
     ]
   ]
@@ -843,6 +846,7 @@
     [
       [ "salt", 1 ],
       [ "seasoning_italian", 10 ],
+      [ "wild_herbs", 10 ],
       [ "seasoning_salt", 10 ],
       [ "pepper", 10 ]
     ]
@@ -1514,6 +1518,37 @@
   "components": [
     [
       [ "tea_raw", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "herbal_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "wild_herbs", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -2270,6 +2305,7 @@
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ],
       [ "seasoning_italian", 15 ],
+      [ "wild_herbs", 15 ],
       [ "seasoning_salt", 15 ],
       [ "pepper", 20 ],
       [ "powder_eggs", 5 ],
@@ -3931,6 +3967,7 @@
     ],
     [
       [ "seasoning_italian", 20 ],
+      [ "wild_herbs", 20 ],
       [ "pepper", 20 ],
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ]
@@ -4291,7 +4328,8 @@
     [
       [ "sauce_pesto", 1 ],
       [ "sauce_red", 1 ],
-      [ "seasoning_italian", 5 ]
+      [ "seasoning_italian", 5 ],
+      [ "wild_herbs", 10 ]
     ],
     [
       [ "water", 1 ],
@@ -4372,7 +4410,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "seasoning_italian", 5 ]
+      [ "seasoning_italian", 5 ],
+      [ "wild_herbs", 10 ]
     ],
     [
       [ "water", 1 ],
@@ -4414,7 +4453,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "seasoning_italian", 5 ]
+      [ "seasoning_italian", 5 ],
+      [ "wild_herbs", 10 ]
     ],
     [
       [ "water", 1 ],
@@ -4454,7 +4494,8 @@
     [
       [ "seasoning_italian", 5 ],
       [ "sauce_red", 1 ],
-      [ "tomato", 2 ]
+      [ "tomato", 2 ],
+      [ "wild_herbs", 10 ]
     ],
     [
       [ "meat", 2 ],
@@ -4496,7 +4537,8 @@
     [
       [ "seasoning_italian", 5 ],
       [ "sauce_red", 1 ],
-      [ "tomato", 2 ]
+      [ "tomato", 2 ],
+      [ "wild_herbs", 10 ]
     ],
     [
       [ "meat", 2 ],
@@ -4538,7 +4580,8 @@
     [
       [ "seasoning_italian", 5 ],
       [ "sauce_red", 1 ],
-      [ "tomato", 2 ]
+      [ "tomato", 2 ],
+      [ "wild_herbs", 10 ]
     ],
     [
       [ "human_flesh", 2 ],
@@ -4580,7 +4623,8 @@
     [
       [ "seasoning_italian", 5 ],
       [ "sauce_red", 1 ],
-      [ "tomato", 2 ]
+      [ "tomato", 2 ],
+      [ "wild_herbs", 10 ]
     ],
     [
       [ "human_flesh", 2 ],
@@ -4621,7 +4665,8 @@
     ],
     [
       [ "seasoning_italian", 5 ],
-      [ "sauce_pesto", 1 ]
+      [ "sauce_pesto", 1 ],
+      [ "wild_herbs", 10 ]
     ],
     [
       [ "veggy", 2 ],

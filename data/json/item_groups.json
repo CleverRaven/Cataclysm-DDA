@@ -1107,6 +1107,7 @@
       ["choc_drink", 30],
       ["rootbeer", 65],
       ["purple_drink", 45],
+      ["herbal_tea", 50],
       ["V8", 15]
     ]
     },{
@@ -1160,6 +1161,7 @@
       ["apple_cider", 50],
       ["lemonade", 50],
       ["energy_drink", 55],
+      ["herbal_tea", 30],
       ["energy_drink_atomic", 4],
       ["cola", 70],
       ["creamsoda", 60],
