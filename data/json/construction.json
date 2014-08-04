@@ -106,9 +106,9 @@
         "description" : "Create Sign",
         "difficulty" : 0,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 3 ] ],
             [ [ "nail", 6 ] ]
@@ -120,9 +120,9 @@
         "description" : "Repair Door",
         "difficulty" : 1,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 3 ] ],
             [ [ "nail", 12 ] ]
@@ -134,9 +134,9 @@
         "description" : "Repair Damaged Wood Wall",
         "difficulty" : 1,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 16 ] ]
@@ -148,9 +148,9 @@
         "description" : "Repair Broken Wood Wall",
         "difficulty" : 1,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 8 ] ],
             [ [ "nail", 32 ] ]
@@ -162,9 +162,9 @@
         "description" : "Repair Damaged Log Wall",
         "difficulty" : 2,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 16 ] ]
@@ -176,9 +176,9 @@
         "description" : "Repair Broken Log Wall",
         "difficulty" : 2,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "log", 1 ] ],
             [ [ "2x4", 2 ] ],
@@ -191,9 +191,10 @@
         "description" : "Board Up Door",
         "difficulty" : 0,
         "time" : 8,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
@@ -205,9 +206,9 @@
         "description" : "Reinforce Wood Door",
         "difficulty" : 5,
         "time" : 30,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 48 ] ]
@@ -219,9 +220,9 @@
         "description" : "Repair Reinforced Wood Door",
         "difficulty" : 2,
         "time" : 15,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 6 ] ],
             [ [ "nail", 24 ] ]
@@ -233,9 +234,10 @@
         "description" : "Board Up Window",
         "difficulty" : 0,
         "time" : 5,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
@@ -247,9 +249,10 @@
         "description" : "Board Up Empty Window",
         "difficulty" : 0,
         "time" : 5,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
@@ -261,9 +264,10 @@
         "description" : "Reinforce Boarded Up Window",
         "difficulty" : 4,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 8 ] ],
             [ [ "nail", 16 ] ]
@@ -275,9 +279,9 @@
         "description" : "Reinforce Boarded Up Empty Window",
         "difficulty" : 4,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 8 ] ],
             [ [ "nail", 16 ] ]
@@ -289,9 +293,9 @@
         "description" : "Armor Reinforced Boarded Up Window",
         "difficulty" : 7,
         "time" : 30,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "spike", 4 ] ],
             [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
@@ -303,9 +307,10 @@
         "description" : "Armor Reinforced Boarded Up Empty Window",
         "difficulty" : 7,
         "time" : 30,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "spike", 4 ] ],
             [ [ "steel_plate", 1 ], [ "sheet_metal", 4 ] ]
@@ -317,9 +322,10 @@
         "description" : "Board Up Broken Window Frame",
         "difficulty" : 0,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer",
+              "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
@@ -332,9 +338,9 @@
         "description" : "Build Wall",
         "difficulty" : 2,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 20 ] ]
@@ -346,9 +352,9 @@
         "description" : "Build Wall",
         "difficulty" : 2,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 20 ] ]
@@ -360,9 +366,9 @@
         "description" : "Build Wall",
         "difficulty" : 2,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 20 ] ]
@@ -410,10 +416,9 @@
         "description" : "Build Stone Wall",
         "difficulty" : 6,
         "time" : 90,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 },
-            { "id": "DIG", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "rock", 12 ] ]
         ],
@@ -424,10 +429,9 @@
         "description" : "Build Stone Wall",
         "difficulty" : 6,
         "time" : 90,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 },
-            { "id": "DIG", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "rock", 12 ] ]
         ],
@@ -462,9 +466,9 @@
         "description" : "Build Window",
         "difficulty" : 2,
         "time" : 10,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 15 ], [ "log", 2 ] ],
             [ [ "nail", 30 ] ]
@@ -486,9 +490,9 @@
         "description" : "Build Window",
         "difficulty" : 2,
         "time" : 5,
-        "qualities": [ [
-            { "id": "SAW_W", "level": 1 }
-        ] ],
+        "tools" : [
+            [ "saw", "toolbox" ]
+        ],
         "components" : [
             [ [ "nail", 4 ] ],
             [ [ "sheet", 2 ] ],
@@ -502,9 +506,9 @@
         "description" : "Build Door",
         "difficulty" : 2,
         "time" : 15,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 24 ] ]
@@ -516,9 +520,9 @@
         "description" : "Build Door",
         "difficulty" : 2,
         "time" : 15,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 12 ] ]
@@ -530,14 +534,10 @@
         "description" : "Build Metal Door",
         "difficulty" : 9,
         "time" : 15,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_M", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset"],
+            [ "hacksaw", "toolbox" ]
+        ],
         "components" : [
             [ [ "spike", 8 ] ],
             [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
@@ -549,17 +549,11 @@
         "description" : "Build Metal Door",
         "difficulty" : 9,
         "time" : 15,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_M", "level": 1 }
-            ],
-		    [
-            { "id": "WRENCH", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolbox", "toolset" ],
+            [ "hacksaw", "toolbox" ],
+            [ "wrench", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ],
             [ [ "steel_plate", 2 ], [ "sheet_metal", 8 ] ]
@@ -571,14 +565,10 @@
         "description" : "Fence Posts",
         "difficulty" : 0,
         "time" : 5,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "DIG", "level": 2 }
-            ]
-			],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "rock", "hatchet",
+              "shovel", "e_tool", "primitive_shovel", "ax", "primitive_axe", "battleaxe", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ]
         ],
@@ -589,9 +579,9 @@
         "description" : "Build Fence",
         "difficulty" : 1,
         "time" : 5,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "rock" ]
+        ],
         "components" : [
             [ [ "2x4", 5 ] ],
             [ [ "nail", 8 ] ]
@@ -617,9 +607,9 @@
         "description" : "Build Wire Fence",
         "difficulty" : 3,
         "time" : 20,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "rock", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "pipe", 6 ] ],
             [ [ "scrap", 8 ] ]
@@ -667,9 +657,9 @@
         "description" : "Build Roof",
         "difficulty" : 3,
         "time" : 40,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            ["hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 8 ] ],
             [ [ "nail", 40 ] ]
@@ -681,7 +671,10 @@
         "description" : "Build Log & Sod Roof",
         "difficulty" : 3,
         "time" : 40,
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+        "tools" : [
+            ["hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "log", 2 ] ],
             [ [ "stick", 4 ], [ "2x4", 8 ] ]
@@ -723,14 +716,10 @@
         "description" : "Build Bulletin board",
         "difficulty" : 0,
         "time" : 10,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_W", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
@@ -742,14 +731,10 @@
         "description" : "Build Dresser",
         "difficulty" : 1,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_W", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 6 ] ],
             [ [ "nail", 8 ] ]
@@ -761,14 +746,10 @@
         "description" : "Build Bookcase",
         "difficulty" : 1,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_W", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 16 ] ]
@@ -780,14 +761,10 @@
         "description" : "Build Locker",
         "difficulty" : 1,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "WRENCH", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "wrench", "toolset" ],
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "sheet_metal", 2 ] ],
             [ [ "pipe", 8 ] ]
@@ -799,14 +776,10 @@
         "description" : "Build Metal Rack",
         "difficulty" : 1,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "WRENCH", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "wrench", "toolset" ],
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "pipe", 12 ] ]
         ],
@@ -817,9 +790,9 @@
         "description" : "Build Cupboard",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 3 ] ],
             [ [ "nail", 8 ] ]
@@ -831,9 +804,9 @@
         "description" : "Build Counter",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 6 ] ],
             [ [ "nail", 8 ] ]
@@ -845,9 +818,9 @@
         "description" : "Build Table",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 6 ] ],
             [ [ "nail", 8 ] ]
@@ -859,9 +832,9 @@
         "description" : "Build Chair",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 8 ] ]
@@ -873,9 +846,9 @@
         "description" : "Build Makeshift Bed",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
@@ -888,14 +861,10 @@
         "description" : "Build Armchair",
         "difficulty" : 2,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_W", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
@@ -908,14 +877,10 @@
         "description" : "Build Sofa",
         "difficulty" : 3,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_W", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "saw" ],
+            [ "hammer", "primitive_hammer", "hatchet", "nailgun", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
@@ -928,9 +893,9 @@
         "description" : "Build Wood Stove",
         "difficulty" : 0,
         "time" : 10,
-        "qualities": [ [
-            { "id": "SAW_M", "level": 1 }
-        ] ],
+        "tools" : [
+            [ "hacksaw", "toolbox" ]
+        ],
         "components" : [
             [ [ "metal_tank", 1 ] ],
             [ [ "pipe", 1 ] ]
@@ -942,14 +907,10 @@
         "description" : "Build Stone Fireplace",
         "difficulty" : 0,
         "time" : 40,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "DIG", "level": 2 }
-            ]
-			],
+        "tools" : [
+            [ "hammer", "primitive_hammer",
+              "shovel", "e_tool", "primitive_shovel", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "rock", 40 ] ]
         ],
@@ -960,14 +921,10 @@
         "description" : "Build Fermenting Vat",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_W", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "hammer", "primitive_hammer",
+              "shovel", "e_tool", "toolbox", "primitive_shovel" ]
+        ],
         "components" : [
             [ [ "2x4", 14 ] ],
             [ [ "nail", 12 ] ],
@@ -980,14 +937,10 @@
         "description" : "Build Wooden Keg",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SAW_W", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "hammer", "primitive_hammer",
+              "shovel", "e_tool", "toolbox", "primitive_shovel" ]
+        ],
         "components" : [
             [ [ "2x4", 18 ] ],
             [ [ "nail", 14 ] ],
@@ -1000,14 +953,10 @@
         "description" : "Build Water Well",
         "difficulty" : 9,
         "time" : 480,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "DIG", "level": 2 }
-            ]
-			],
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ],
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "rock", 40 ] ],
             [ [ "2x4", 4 ] ],
@@ -1020,14 +969,10 @@
         "description" : "Build Water Well",
         "difficulty" : 5,
         "time" : 120,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "WRENCH", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ],
+            [ "wrench", "toolbox", "toolset" ]
+        ],
         "components" : [
             [ [ "well_pump", 1 ] ],
             [ [ "pipe", 6 ] ]
@@ -1039,14 +984,10 @@
         "description" : "Deconstruct Furniture",
         "difficulty" : 0,
         "time" : 20,
-        "qualities": [ 
-		    [
-            { "id": "HAMMER", "level": 2 }
-            ],
-		    [
-            { "id": "SCREW", "level": 1 }
-            ]
-			],
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "toolbox", "toolset" ],
+            [ "screwdriver", "toolbox", "toolset" ]
+        ],
         "pre_special" : "check_deconstruct",
         "post_special" : "done_deconstruct"
     },{
@@ -1246,9 +1187,9 @@
         "description" : "Remove Carpet",
         "difficulty" : 0,
         "time" : 30,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "toolbox"]
+          ],
         "pre_flags" : "RUG",
         "post_terrain" : "t_floor"
     },{
@@ -1256,9 +1197,9 @@
         "description" : "Carpet Floor Red",
         "difficulty" : 0,
         "time" : 30,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "toolbox"]
+          ],
         "components" : [
             [ [ "nail", 5 ] ],
             [ [ "r_carpet", 1 ] ]
@@ -1270,9 +1211,9 @@
         "description" : "Carpet Floor Purple",
         "difficulty" : 0,
         "time" : 30,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "toolbox"]
+          ],
         "components" : [
             [ [ "nail", 5 ] ],
             [ [ "p_carpet", 1 ] ]
@@ -1284,9 +1225,9 @@
         "description" : "Carpet Floor Yellow",
         "difficulty" : 0,
         "time" : 30,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "toolbox"]
+          ],
         "components" : [
             [ [ "nail", 5 ] ],
             [ [ "y_carpet", 1 ] ]
@@ -1298,9 +1239,9 @@
         "description" : "Carpet Floor Green",
         "difficulty" : 0,
         "time" : 30,
-        "qualities": [ [
-            { "id": "HAMMER", "level": 2 }
-        ] ],
+        "tools" : [
+            [ "hammer", "toolbox"]
+          ],
         "components" : [
             [ [ "nail", 5 ] ],
             [ [ "g_carpet", 1 ] ]
@@ -1312,12 +1253,11 @@
         "description" : "Dig Downstair",
         "difficulty" : 5,
         "time" : 420,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ], 
-		               [ { "id": "HAMMER", "level": 2 } ], 
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+        "qualities": [ [ { "id": "DIG", "level": 3 } ] ],
         "tools" : [
-            [ "pickaxe" ]
+            [ "pickaxe" ],
+            [ "hatchet", "ax", "primitive_axe" ],
+            [ "hatchet", "hammer", "hammer_sledge", "toolbox" ]
         ],
         "components" : [
             [ [ "2x4", 8 ] , [ "log", 8 ] ],
@@ -1330,13 +1270,12 @@
         "description" : "Mine Downstair",
         "difficulty" : 6,
         "time" : 480,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ], 
-		               [ { "id": "HAMMER", "level": 2 } ], 
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+        "qualities": [ [ { "id": "DIG", "level": 3 } ] ],
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
-            [ "crowbar", "halligan"]
+            [ "crowbar", "halligan"],
+            [ "hatchet", "ax" ],
+            [ "hammer", "hammer_sledge", "toolbox" ]
         ],
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
@@ -1351,13 +1290,12 @@
         "description" : "Mine Upstair",
         "difficulty" : 6,
         "time" : 480,
-        "qualities": [ [ { "id": "AXE", "level": 2 } ], 
-		               [ { "id": "HAMMER", "level": 2 } ], 
-		               [ { "id": "DIG", "level": 3 } ]
-					   ],
+        "qualities": [ [ { "id": "DIG", "level": 3 } ] ],
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
             [ "crowbar", "halligan"],
+            [ "hatchet", "ax" ],
+            [ "hammer", "hammer_sledge", "toolbox" ],
             [ "miner_hat", "hat_hard", "firehelmet", "helmet_ball",
             "helmet_army", "helmet_lobster", "helmet_riot"]
         ],
