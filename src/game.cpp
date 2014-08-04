@@ -1396,8 +1396,8 @@ bool game::do_turn()
 
     monmove();
     update_stair_monsters();
-    u.reset();
     u.process_turn();
+    u.reset(); // Call this in case any effects have changed our stats
     u.process_active_items();
 
     if (levz >= 0 && !u.is_underwater()) {
