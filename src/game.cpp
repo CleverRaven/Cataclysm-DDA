@@ -11665,7 +11665,7 @@ void game::forage()
                                  calendar::turn, 0, 0, 0);
                 m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
             }
-        } else {
+        } else if (one_in(2)) {
             add_msg(m_good, _("You found a nest with some eggs!"));
             if (!one_in(4)) {
                 m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
@@ -11674,6 +11674,9 @@ void game::forage()
                 // So maybe we can give more than 1.
                 m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
             }
+        } else {
+            add_msg(m_good, _("You found some wild herbs!"));
+            m.spawn_item(u.posx, u.posy, "wild_herbs", 1, 0, calendar::turn);
         }
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
         found_something = true;
