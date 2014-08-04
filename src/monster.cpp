@@ -943,6 +943,11 @@ int monster::get_dodge()
  return ret + get_dodge_bonus();
 }
 
+int monster::get_melee() const
+{
+    return type->melee_skill;
+}
+
 int monster::dodge_roll()
 {
  int numdice = get_dodge();

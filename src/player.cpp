@@ -11146,6 +11146,11 @@ void player::boost_skill_level(std::string ident, int level)
     skillLevel(ident).level(level+skillLevel(ident));
 }
 
+int player::get_melee() const
+{
+    return get_skill_level("melee");
+}
+
 void player::setID (int i)
 {
     if( id >= 0 ) {

@@ -479,6 +479,8 @@ public:
  int get_dodge();
  /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
  int dodge_roll();
+ /** Returns melee skill level, to be used to throttle dodge practice. **/
+ int get_melee() const;
  /**
   * Adds a reason for why the player would miss a melee attack.
   *

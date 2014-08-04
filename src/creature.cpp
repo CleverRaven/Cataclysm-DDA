@@ -183,7 +183,7 @@ void Creature::reset_stats()
 void Creature::process_turn()
 {
     process_effects();
-    
+
     // Call this in case any effects have changed our stats
     reset_stats();
 
@@ -841,6 +841,10 @@ int Creature::get_dodge()
 {
     return get_dodge_base() + get_dodge_bonus();
 }
+int Creature::get_melee() const
+{
+    return 0;
+}
 int Creature::get_hit()
 {
     return get_hit_base() + get_hit_bonus();
@@ -876,7 +880,7 @@ int Creature::get_hit_bonus()
 }
 int Creature::get_bash_bonus()
 {
-    return bash_bonus;
+   return bash_bonus;
 }
 int Creature::get_cut_bonus()
 {

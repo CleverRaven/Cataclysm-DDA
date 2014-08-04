@@ -215,6 +215,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
     int  get_armor_bash(body_part bp);  // Natural armor, plus any worn armor
     int  get_dodge();       // Natural dodge, or 0 if we're occupied
+    int  get_melee() const; // For determining attack skill when awarding dodge practice.
     int  hit_roll();  // For the purposes of comparing to player::dodge_roll()
     int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
     int  fall_damage(); // How much a fall hurts us
