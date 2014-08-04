@@ -836,7 +836,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
         if (u_see_mon)
             add_msg(_("The shot passes through %s without hitting."),
             disp_name().c_str());
-        return 0;
+        return 1;
     }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
