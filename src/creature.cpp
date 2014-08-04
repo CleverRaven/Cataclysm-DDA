@@ -268,6 +268,17 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     dealt_dam.bp_hit = bp_hit;
 }
 
+// TODO: check this over, see if it's right
+/**
+ * Attempts to harm a creature with a projectile.
+ *
+ * @param source Pointer to the creature who shot the projectile.
+ * @param missed_by Deviation of the projectile.
+ * @param proj Reference to the projectile hitting the creature.
+ * @param dealt_dam A reference storing the damage dealt.
+ * @return 0 signals that the projectile should stop,
+ *         1 signals that the projectile should not stop (i.e. dodged, passed through).
+ */
 int Creature::deal_projectile_attack(Creature *source, double missed_by,
                                      const projectile &proj, dealt_damage_instance &dealt_dam)
 {
@@ -282,7 +293,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         else if (u_see_this)
             add_msg(_("%s dodges %s projectile."),
                        disp_name().c_str(), source->disp_name(true).c_str());
-        return 0;
+        return 1;
     }
 
     // Bounce applies whether it does damage or not.
