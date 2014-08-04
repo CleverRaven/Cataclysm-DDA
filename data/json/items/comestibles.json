@@ -9665,7 +9665,7 @@
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 3,
-        "description" : "A healthy beverage made from herbs steeped in hot water.",
+        "description" : "A healthy beverage made from herbs steeped in boiling water.",
         "price" : 5000,
         "material" : "null",
         "tool" : "null",
