@@ -88,6 +88,7 @@ void set_language(bool reload_options)
 #else // !LOCALIZE
 void set_language(bool reload_options)
 {
+  (void) reload_options; // Cancels MinGW warning on Windows
 }
 
 // sanitized message cache

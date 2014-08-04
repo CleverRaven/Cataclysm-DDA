@@ -983,6 +983,9 @@ void iexamine::fswitch(player *p, map *m, int examx, int examy)
 }
 
 void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
+  if (calendar::turn.get_season() == WINTER) {
+        add_msg(m_info, _("This flower is dead. You can't get it."));
+  }
   if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->hunger) > 0) &&
       (!(p->wearing_something_on(bp_mouth))) ) {
       if (!query_yn(_("You feel woozy as you explore the %s. Drink?"),m->furnname(examx, examy).c_str())) {
@@ -1027,6 +1030,9 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_blubell(player *p, map *m, int examx, int examy) {
+  if (calendar::turn.get_season() == WINTER) {
+        add_msg(m_info, _("This flower is dead. You can't get it."));
+  }
   if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
       ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
       p->moves -= 50; // Takes 30 seconds
@@ -1043,6 +1049,9 @@ void iexamine::flower_blubell(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
+  if (calendar::turn.get_season() == WINTER) {
+        add_msg(m_info, _("This flower is dead. You can't get it."));
+  }
   if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
       ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
       p->moves -= 50; // Takes 30 seconds
@@ -1585,7 +1594,8 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
         p->practice("survival", rng(1, 12 / survival) );
     }
 
-    int plantCount = rng(survival / 2, survival);
+    int plantBase = rng(2, 5);
+    int plantCount = rng(plantBase, plantBase + survival / 2);
     if (plantCount > 12) {
         plantCount = 12;
     }
@@ -1602,10 +1612,15 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
 
 void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
   if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
+      (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
       p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
       add_msg(_("You find a flower and drink some nectar."));
       p->hunger -= 15;
+  }
+  if (calendar::turn.get_season() != AUTUMN) {
+      add_msg( m_info, "The fruits ripen in autumn.");
+      return;
   }
   if(!query_yn(_("Harvest from the %s?"),m->tername(examx, examy).c_str())) {
     none(p, m, examx, examy);
@@ -1615,10 +1630,18 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy) {
+  if (calendar::turn.get_season() != SUMMER) {
+      add_msg( m_info, "Blueberry ripen in summer.");
+      return;
+  }
   pick_plant(p, m, examx, examy, "blueberries", t_shrub, true);
 }
 
 void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy) {
+  if (calendar::turn.get_season() != SUMMER) {
+      add_msg( m_info, "Strawberry ripen in summer.");
+      return;
+  }
   pick_plant(p, m, examx, examy, "strawberries", t_shrub, true);
 }
 
