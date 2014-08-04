@@ -1088,6 +1088,11 @@ void Creature::set_throw_resist(int nthrowres)
     throw_resist = nthrowres;
 }
 
+int Creature::weight_capacity() const
+{
+    return 13000 + get_str() * 4000;
+}
+
 /*
  * Event handlers
  */

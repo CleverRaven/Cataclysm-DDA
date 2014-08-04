@@ -636,7 +636,7 @@ int set_stats(WINDOW *w, player *u, int &points)
                 u->recalc_hp();
                 mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"), u->hp_max[0]);
                 mvwprintz(w_description, 1, 0, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
-                          u->convert_weight(u->weight_capacity(false)),
+                          u->convert_weight(u->weight_capacity()),
                           OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
                 mvwprintz(w_description, 2, 0, COL_STAT_NEUTRAL, _("Melee damage: %d"),
                           u->base_damage(false));
