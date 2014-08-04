@@ -295,9 +295,11 @@ void veh_interact::cache_tool_availability()
     has_wrench = crafting_inv.has_tools("wrench", 1) ||
                  crafting_inv.has_tools("toolset", 1) ||
                  crafting_inv.has_tools("survivor_belt", 1) ||
+                   g->u.is_wearing("survivor_belt") ||
                  crafting_inv.has_tools("toolbox", 1);
     has_hacksaw = crafting_inv.has_tools("hacksaw", 1) ||
                  crafting_inv.has_tools("survivor_belt", 1) ||
+                   g->u.is_wearing("survivor_belt") ||
                   crafting_inv.has_tools("toolbox", 1) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                   crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
