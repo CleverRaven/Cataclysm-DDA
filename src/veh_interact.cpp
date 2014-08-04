@@ -294,9 +294,11 @@ void veh_interact::cache_tool_availability()
     int charges_crude = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     has_wrench = crafting_inv.has_tools("wrench", 1) ||
                  crafting_inv.has_tools("toolset", 1) ||
+                 crafting_inv.has_tools("survivor_belt", 1) ||
                  crafting_inv.has_tools("toolbox", 1);
     has_hacksaw = crafting_inv.has_tools("hacksaw", 1) ||
                   crafting_inv.has_tools("toolbox", 1) ||
+                 crafting_inv.has_tools("survivor_belt", 1) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                   crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
                   crafting_inv.has_tools("toolset", 1);
@@ -1644,6 +1646,7 @@ void complete_vehicle ()
             veh->parts[vehicle_part].bigness = used_item.bigness;
             tools.push_back(tool_comp("wrench", -1));
             tools.push_back(tool_comp("toolbox", -1));
+            tools.push_back(tool_comp("survivor_belt", -1));
             g->consume_tools(&g->u, tools);
             tools.clear();
             dd = 0;
@@ -1671,6 +1674,7 @@ void complete_vehicle ()
     case 'o':
         tools.push_back(tool_comp("hacksaw", -1));
         tools.push_back(tool_comp("toolbox", -1));
+        tools.push_back(tool_comp("survivor_belt", -1));
         tools.push_back(tool_comp("circsaw_off", 20));
         g->consume_tools(&g->u, tools);
         // Dump contents of part at player's feet, if any.
