@@ -3937,6 +3937,60 @@
   ]
 },{
         "type" : "recipe",
+  "result": "survivor_belt",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 6,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 140 ],
+      [ "needle_wood", 140 ],
+      [ "sewing_kit", 140 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 6 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ],
+     [
+      [ "screwdriver", 1]
+     ],
+     [
+      [ "wrench", 1]
+     ],
+     [
+      [ "saw", 1]
+     ],
+     [
+      [ "hacksaw", 1]
+     ],
+     [
+      [ "hammer", 1],
+      [ "hatchet", 1 ]
+     ],
+     [
+      [ "sheath", 1]
+     ],
+     [
+      [ "legrig", 1 ],
+      [ "tool_belt", 1 ],
+      [ "dump_pouch", 1 ],
+      [ "leather_pouch", 4 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
   "result": "survivor_vest",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",

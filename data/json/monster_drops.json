@@ -16,7 +16,7 @@
     {
         "type" : "item_group",
         "subtype": "distribution",
-        "comment": "items that an average zombie carries around and rops on death",
+        "comment": "items that an average zombie carries around and drops on death",
         "id": "default_zombie_items",
         "groups": [
             [ "livingroom", 5 ],

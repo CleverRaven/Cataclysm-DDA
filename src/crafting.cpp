@@ -916,6 +916,7 @@ inventory game::crafting_inventory(player *p)
     crafting_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE, false);
     crafting_inv += p->inv;
     crafting_inv += p->weapon;
+    crafting_inv += p->worn;
     for (std::vector<item>::const_iterator a = p->worn.begin(); a != p->worn.end(); a++) {
         // Add contents of worn items, but not the worn item itself!
         crafting_inv += a->contents;
