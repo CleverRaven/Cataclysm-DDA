@@ -2900,10 +2900,11 @@ void game::rcdrive(int dx, int dy)
 
     if( m.move_cost(cx + dx, cy + dy) == 0 || !m.can_put_items(cx + dx, cy + dy) ||
         m.has_furn(cx + dx, cy + dy) ) {
-        sound(cx + dx, cy + dy, 7, "sound of a collision with an obstacle.");
+        sound(cx + dx, cy + dy, 7, _("sound of a collision with an obstacle."));
         return;
     } else if( m.add_item_or_charges(cx + dx, cy + dy, *rc_car ) ) {
-        sound(cx, cy, 6, "zzz...");
+        //~ Sound of moving a remote controlled car
+        sound(cx, cy, 6, _("zzz..."));
         u.moves -= 50;
         m.i_rem( cx, cy, rc_car );
         car_location_string.clear();
@@ -3060,6 +3061,11 @@ bool game::handle_action()
     bool continue_auto_move = false;
 
     switch (act) {
+    case ACTION_NULL:
+    case NUM_ACTIONS:
+        break; // dummy entries
+    case ACTION_ACTIONMENU:
+        break; // handled above
 
     case ACTION_PAUSE:
         if (run_mode == 2 && ((OPTIONS["SAFEMODEVEH"]) ||
@@ -14650,6 +14656,9 @@ void game::process_artifact(item *it, player *p, bool wielded)
         // Recharge it if necessary
         if (it->charges < tool->max_charges) {
             switch (tool->charge_type) {
+            case ARTC_NULL:
+            case NUM_ARTCS:
+                break; // dummy entries
             case ARTC_TIME:
                 // Once per hour
                 if (calendar::turn.seconds() == 0 && calendar::turn.minutes() == 0) {

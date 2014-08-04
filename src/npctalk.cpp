@@ -2663,6 +2663,10 @@ int trial_chance(talk_response response, player *u, npc *p)
  talk_trial trial = response.trial;
  int chance = response.difficulty;
  switch (trial) {
+  case TALK_TRIAL_NONE:
+  case NUM_TALK_TRIALS:
+   dbg( D_ERROR ) << "called trial_chance with invalid talk_trial value: " << trial;
+   break;
   case TALK_TRIAL_LIE:
    chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
    if (u->has_trait("TRUTHTELLER")) {

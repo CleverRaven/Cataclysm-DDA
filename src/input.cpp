@@ -848,6 +848,8 @@ void input_context::display_help()
     input_context ctxt("HELP_KEYBINDINGS");
     ctxt.register_action("UP", _("Scroll up"));
     ctxt.register_action("DOWN", _("Scroll down"));
+    ctxt.register_action("PAGE_DOWN");
+    ctxt.register_action("PAGE_UP");
     ctxt.register_action("REMOVE");
     ctxt.register_action("ADD_LOCAL");
     ctxt.register_action("ADD_GLOBAL");
@@ -981,6 +983,20 @@ void input_context::display_help()
         } else if (action == "UP") {
             if (scroll_offset > 0) {
                 scroll_offset--;
+            }
+        } else if (action == "PAGE_DOWN") {
+            if( scroll_offset + display_height < org_registered_actions.size() ) {
+                scroll_offset += display_height;
+            } else if( org_registered_actions.size() > display_height ) {
+                scroll_offset = 0;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( scroll_offset >= display_height ) {
+                scroll_offset -= display_height;
+            } else if( scroll_offset > 0 ) {
+                scroll_offset = 0;
+            } else if( org_registered_actions.size() > display_height ) {
+                scroll_offset = org_registered_actions.size() - display_height;
             }
         } else if (action == "QUIT") {
             if (status != s_show) {

@@ -4244,6 +4244,9 @@ void player::search_surroundings()
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
+        if( !g->m.pl_sees( posx, posy, x, y, -1 ) ) {
+            continue;
+        }
         const trap *tr = traplist[trid];
         if (tr->name.empty() || tr->can_see(*this, x, y)) {
             // Already seen, or has no name -> can never be seen

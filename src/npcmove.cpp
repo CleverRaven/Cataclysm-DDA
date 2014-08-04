@@ -463,6 +463,9 @@ void npc::choose_monster_target(int &enemy, int &danger,
                 case ENGAGE_HIT:
                     okay_by_rules = (mon->has_effect("hit_by_player"));
                     break;
+                case ENGAGE_ALL:
+                    okay_by_rules = true;
+                    break;
                 }
             }
 
@@ -1210,6 +1213,10 @@ void npc::avoid_friendly_fire(int target)
         valid_moves.push_back(point(posx    , posy - 1));
         valid_moves.push_back(point(posx + 1, posy    ));
         valid_moves.push_back(point(posx    , posy + 1));
+        break;
+    default:
+        // contains the case CENTER (pos==target, can not happen) and above/below (can not happen, function above is 2D only)
+        dbg( D_ERROR ) << "avoid_friendly_fire has strange direction to target: " << dir_to_target;
         break;
     }
 
