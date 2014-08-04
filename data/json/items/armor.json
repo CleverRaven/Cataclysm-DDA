@@ -5643,7 +5643,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A snug fitting pair of stockings made from thin and lightweight Nomex fire-resistant fabric.  Tough yet breathable, they are lightight and comfortable to wear under clothing.",
+        "description" : "A snug fitting pair of stockings made from thin and lightweight Nomex fire-resistant fabric.  Tough yet breathable, they are light and comfortable to wear under clothing.",
         "price" : 2000,
         "material" : ["nomex", "null"],
         "volume" : 3,
