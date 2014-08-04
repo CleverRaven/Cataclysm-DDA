@@ -11665,7 +11665,7 @@ void game::forage()
                                  calendar::turn, 0, 0, 0);
                 m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
             }
-        } else if (one_in(2)) {
+        } else if (!one_in(3)) {
             add_msg(m_good, _("You found a nest with some eggs!"));
             if (!one_in(4)) {
                 m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
