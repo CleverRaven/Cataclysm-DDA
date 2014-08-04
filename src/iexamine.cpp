@@ -1067,6 +1067,24 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "dahlia_bud");
 }
 
+void iexamine::flower_datura(player *p, map *m, int examx, int examy) {
+  if (calendar::turn.get_season() == WINTER) {
+        add_msg(m_info, _("This plant is dead. You can't get it."));
+  }
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+      p->moves -= 50; // Takes 30 seconds
+      add_msg(_("You drink some nectar."));
+      p->hunger -= 15;
+  }
+  if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
+    none(p, m, examx, examy);
+    return;
+  }
+  m->furn_set(examx, examy, f_null);
+  m->spawn_item(examx, examy, "datura_seed");
+}
+
 void iexamine::egg_sack_generic( player *p, map *m, int examx, int examy,
                                 const std::string &montype )
 {
@@ -2543,6 +2561,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("flower_dahlia" == function_name) {
     return &iexamine::flower_dahlia;
+  }
+  if ("flower_datura" == function_name) {
+    return &iexamine::flower_datura;
   }
   if ("egg_sackbw" == function_name) {
     return &iexamine::egg_sackbw;
