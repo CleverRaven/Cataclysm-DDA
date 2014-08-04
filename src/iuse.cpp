@@ -1381,10 +1381,6 @@ int iuse::datura(player *p, item *it, bool)
 {
     p->add_disease("datura", rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
-    if (p->has_disease("asthma")) {
-        p->add_msg_if_player(_("You can breathe again!"));
-        p->rem_disease("asthma");
-    }
     return it->type->charges_to_use();
 }
 
