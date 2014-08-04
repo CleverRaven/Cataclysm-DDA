@@ -2738,44 +2738,37 @@ int iuse::fish_trap(player *p, item *it, bool t)
         return 0;
     } else{
 
-        if (it->active)
-        {
+        if (it->active) {
             it->active = false;
             return 0;
         }
 
-        if (it->charges < 0)
-        {
+        if (it->charges < 0) {
             it->charges = 0;
             return 0;
         }
 
-        if (p->is_underwater())
-        {
+        if (p->is_underwater()) {
             p->add_msg_if_player(m_info, _("You can't do that while underwater."));
             return 0;
         }
 
-        if (it->charges == 0)
-        {
+        if (it->charges == 0) {
             p->add_msg_if_player(_("Fish is not so silly to go in here without bait."));
             return 0;
         }
 
         int dirx, diry;
 
-        if (!choose_adjacent(_("Fish where?"), dirx, diry))
-        {
+        if (!choose_adjacent(_("Fish where?"), dirx, diry)) {
             return 0;
         }
-        if (!g->m.has_flag("FISHABLE", dirx, diry))
-        {
+        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
             p->add_msg_if_player(m_info, _("You can't fish there!"));
             return 0;
         }
         point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
-        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river)
-        {
+        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
         }

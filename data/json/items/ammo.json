@@ -3854,7 +3854,7 @@
         "name" : "bread bait fish",
         "symbol" : "=",
         "color" : "light_red",
-        "description" : "A bait made from breadcrumb, used in traps to lure fish.",
+        "description" : "A bait made from breadcrumbs, used in traps to lure fish.",
         "material" : "wheat",
         "volume" : 1,
         "weight" : 1,
