@@ -1856,6 +1856,10 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
         } else {
             partname = part_info(pl[i]).name;
         }
+        if( part_flag( pl[i], "CARGO" ) ) {
+            //~ used/total volume of a cargo vehicle part
+            partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ), max_volume( pl[i] ) );
+        }
 
         bool armor = part_flag(pl[i], "ARMOR");
         std::string left_sym, right_sym;
