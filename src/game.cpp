@@ -1337,7 +1337,7 @@ bool game::do_turn()
     {
         u.update_health();
     }
-    
+
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
         calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0) {
@@ -11658,7 +11658,7 @@ void game::forage()
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
         found_something = true;
     }
-    if (veggy_chance < ((u.skillLevel("survival") / 2) + ((u.per_cur - 8) + 5))) {
+    if (veggy_chance < (u.skillLevel("survival") + ((u.per_cur / 2 - 4) + 3))) {
         found_something = true;
         if (!one_in(6) && (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == AUTUMN)) {
             if (!one_in(3)) {
@@ -11676,7 +11676,8 @@ void game::forage()
             if (!one_in(4)) {
                 m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
             } else {
-                // ~15% & 3.8% chance to find these, assuming you make your veggy roll
+                // 75% & 25% chance to find these at spring, assuming you make your veggy roll
+                // 12.5% & ~4.2% chance to find these at summer / autumn, assuming you make your veggy roll
                 // So maybe we can give more than 1.
                 m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
             }
@@ -13106,7 +13107,7 @@ void game::plswim(int x, int y)
     int movecost = u.swim_speed();
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
-        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 || 
+        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 ||
             (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
@@ -13300,7 +13301,7 @@ void game::vertical_move(int movez, bool force)
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
-            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 || 
+            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 ||
                   (g->u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));
