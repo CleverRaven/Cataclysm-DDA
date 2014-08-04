@@ -1090,7 +1090,26 @@ void Creature::set_throw_resist(int nthrowres)
 
 int Creature::weight_capacity() const
 {
-    return 13000 + get_str() * 4000;
+    int base_carry = 13000 + get_str() * 4000;
+    switch( get_size() ) {
+    case MS_TINY:
+        base_carry /= 4;
+        break;
+    case MS_SMALL:
+        base_carry /= 2;
+        break;
+    case MS_MEDIUM:
+    default:
+        break;
+    case MS_LARGE:
+        base_carry *= 2;
+        break;
+    case MS_HUGE:
+        base_carry *= 4;
+        break;
+    }
+
+    return base_carry;
 }
 
 /*
