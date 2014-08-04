@@ -821,21 +821,20 @@ void monster::hit_monster(monster &other)
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
     mdefense mdf;
-    if(!is_hallucination() && source != NULL)
-        {
+    if(!is_hallucination() && source != NULL) {
         (mdf.*type->sp_defense)(this, NULL);
-        }
+    }
     return Creature::deal_melee_attack(source, hitroll);
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
                                     const projectile& proj, dealt_damage_instance &dealt_dam) {
     bool u_see_mon = g->u_see(this);
-    if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
-            !proj.wide) {
-        if (u_see_mon)
-            add_msg(_("The shot passes through %s without hitting."),
-            disp_name().c_str());
+    // Maxes out at 50% chance with perfect hit
+    if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && !proj.wide) {
+        if (u_see_mon) {
+            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
+        }
         return 1;
     }
     // Not HARDTOSHOOT
@@ -844,14 +843,13 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
         missed_by = 0.2;
     }
     mdefense mdf;
-     if(!is_hallucination() && source != NULL)
-        {
+    if(!is_hallucination() && source != NULL) {
         (mdf.*type->sp_defense)(this, &proj);
-        }
+    }
 
     // whip has a chance to scare wildlife
     if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
-            add_effect("run", rng(3, 5));
+        add_effect("run", rng(3, 5));
     }
 
     return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
@@ -917,14 +915,14 @@ void monster::die_in_explosion(Creature* source)
 int monster::get_armor_cut(body_part bp)
 {
     (void) bp;
-// TODO: Add support for worn armor?
- return int(type->armor_cut) + armor_bash_bonus;
+    // TODO: Add support for worn armor?
+    return int(type->armor_cut) + armor_bash_bonus;
 }
 
 int monster::get_armor_bash(body_part bp)
 {
     (void) bp;
- return int(type->armor_bash) + armor_cut_bonus;
+    return int(type->armor_bash) + armor_cut_bonus;
 }
 
 int monster::hit_roll() {

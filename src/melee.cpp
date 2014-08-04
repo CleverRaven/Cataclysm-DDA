@@ -1193,8 +1193,9 @@ bool player::can_weapon_block()
 }
 
 void player::dodge_hit(Creature *source, int) {
-    if (dodges_left < 1)
+    if( dodges_left < 1 ) {
         return;
+    }
 
     ma_ondodge_effects(); // fire martial arts block-triggered effects
 
