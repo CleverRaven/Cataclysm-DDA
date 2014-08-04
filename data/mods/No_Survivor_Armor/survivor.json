@@ -2,6 +2,7 @@
     "type": "ITEM_BLACKLIST",
     "items": [
         "mask_survivor",
+        "survivor_belt",
         "mask_survivorxl",
         "survivor_vest",
         "survivor_runner_pack",
