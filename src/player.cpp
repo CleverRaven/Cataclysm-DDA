@@ -6737,7 +6737,7 @@ void player::process_active_items()
         if( !it.has_flag( "USE_UPS" ) ) {
             continue;
         }
-        if( it.charges < it.type->charges_to_use() ) {
+        if( it.charges < it.type->maximum_charges() ) {
             ch_UPS_used++;
             it.charges++;
         }
@@ -6751,7 +6751,7 @@ void player::process_active_items()
         if( !worn_item.has_flag( "USE_UPS" ) ) {
             continue;
         }
-        if( worn_item.charges < worn_item.type->charges_to_use() ) {
+        if( worn_item.charges < worn_item.type->maximum_charges() ) {
             ch_UPS_used++;
             worn_item.charges++;
         }
