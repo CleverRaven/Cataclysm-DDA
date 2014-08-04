@@ -437,7 +437,13 @@ bool cOpt::operator!=(const std::string sCompare) const
 
 void initOptions()
 {
+    OPTIONS.clear();
+    ACTIVE_WORLD_OPTIONS.clear();
     vPages.clear();
+    mPageItems.clear();
+    mOptionsSort.clear();
+    optionNames.clear();
+
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("graphics", _("Graphics")));
@@ -450,8 +456,6 @@ void initOptions()
     if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) {
         vPages.push_back(std::make_pair("world_default", _("World Defaults")));
     }
-
-    OPTIONS.clear();
 
     std::string tileset_names;
     tileset_names = get_tileset_names(FILENAMES["gfxdir"]); //get the tileset names and set the optionNames
