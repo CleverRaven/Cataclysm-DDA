@@ -2649,11 +2649,6 @@ int iuse::fish_trap(player *p, item *it, bool t)
         if (it->charges == 0) {
             it->active = false;
 
-            point pos = g->find_item(it);
-
-            if (p->sees(pos.x, pos.y)) {
-                p->add_msg_if_player(_("Clever fish ate the whole bait and not get caught!"));
-            }
             return 0;
         }
 
@@ -2701,10 +2696,6 @@ int iuse::fish_trap(player *p, item *it, bool t)
 
             if (fishes == 0) {
                 it->charges = -1;
-                if (p->sees(pos.x, pos.y)) {
-                    p->add_msg_if_player(_("Clever fish ate the whole bait and not get caught!"));
-                }
-
                 p->practice("survival", rng(5, 15));
 
                 return 0;
@@ -2724,7 +2715,8 @@ int iuse::fish_trap(player *p, item *it, bool t)
                 g->m.add_item_or_charges(pos.x, pos.y, fish);
             }
 
-            if (p->sees(pos.x, pos.y)) {
+            const int dist = rl_dist(p->posx, p->posy, pos.x, pos.y);
+            if (dist < 10 && p->sees(pos.x, pos.y)) {                
 
                 if (fishes == 1) {
                     p->add_msg_if_player(m_good, _("It seems trapped something there."));
