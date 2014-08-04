@@ -917,10 +917,6 @@ inventory game::crafting_inventory(player *p)
     crafting_inv += p->inv;
     crafting_inv += p->weapon;
     crafting_inv += p->worn;
-    for (std::vector<item>::const_iterator a = p->worn.begin(); a != p->worn.end(); a++) {
-        // Add contents of worn items, but not the worn item itself!
-        crafting_inv += a->contents;
-    }
     if (p->has_bionic("bio_tools")) {
         item tools("toolset", calendar::turn);
         tools.charges = p->power_level;
