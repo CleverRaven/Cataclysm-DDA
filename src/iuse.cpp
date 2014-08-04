@@ -8683,66 +8683,87 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
 }
 
-int iuse::camera(player *p, item *it, bool){
+int iuse::camera(player *p, item *it, bool)
+{
 
-	enum{c_cancel, c_shot, c_photos};
+    enum {c_cancel, c_shot, c_photos};
 
-	uimenu amenu;
+    uimenu amenu;
 
-	amenu.selected = 0;
-	amenu.text = _("What to do with camera?");
-	amenu.addentry(c_cancel, true, 'q', _("Cancel"));
-	amenu.addentry(c_shot, true, 's', _("Take a photo"));
-	amenu.addentry(c_photos, true, 'p', _("Photos"));
+    amenu.selected = 0;
+    amenu.text = _("What to do with camera?");
+    amenu.addentry(c_cancel, true, 'q', _("Cancel"));
+    amenu.addentry(c_shot, true, 's', _("Take a photo"));
+    amenu.addentry(c_photos, true, 'p', _("Photos"));
 
-	const int choice = amenu.ret;
+    const int choice = amenu.ret;
 
-	if (c_cancel == choice){
-		return 0;
-	}
+    if (c_cancel == choice) {
+        return 0;
+    }
 
-	if (c_shot == choice){
+    if (c_shot == choice) {
 
-		int x = p->posx;
-		int y = p->posy;
+        point pos = g->look_around();
 
-		std::vector <point> trajectory = g->pl_target_ui(x, y, 20, &(*it));
-		if (trajectory.empty()) {
-			return;
-		}
+        if (pos.x == -1 || pos.y == -1) {
+            p->add_msg_if_player(_("Never mind."));
+            return 0;
+        }
 
-		/*
-		
-		tx = trajectory[i].x;
-		ty = trajectory[i].y;
+        if (pos.x == p->posx && pos.y == p->posy) {
+            p->add_msg_if_player(_("To take a selfie is bad idea - flash harmful to the eyes."));
+            return 0;
+        }
 
-		const int zid = mon_at(tx, ty);
-		const int npcID = npc_at(tx, ty);
+        const int sel_zid = g->mon_at(pos.x, pos.y);
+        const int sel_tnpcID = g->npc_at(pos.x, pos.y);
+
+        if (sel_zid == -1 && sel_tnpcID == -1) {
+            p->add_msg_if_player(_("There is no creature to take photo."));
+            return 0;
+        }
+
+        std::vector <point> trajectory = line_to(p->posx, p->posy, pos.x, pos.y, 0);
+
+        if (trajectory.empty()) {
+            p->add_msg_if_player(_("Never mind."));
+            return 0;
+        }
+
+        for (int i = 0; i < trajectory.size(); i++) {
+            const int tx = trajectory[i].x;
+            const int ty = trajectory[i].y;
+
+            const int zid = g->mon_at(tx, ty);
+            const int npcID = g->npc_at(tx, ty);
+
+            if (zid != -1 || npcID != -1) {
+
+                return it->type->charges_to_use();
+            }
+
+        }
 
 
 
+        /*
+
+        if (zid != -1 && (!missed || one_in(7 - int(zombie(zid).type->size)))) {
+        monster &z = zombie(zid);
+
+        lse if (npcID != -1 && (!missed || one_in(4))) {
+        npc *guy = g->active_npc[npcID];
+
+        dist = rl_dist
+
+        */
 
 
-		if (zid != -1 && (!missed || one_in(7 - int(zombie(zid).type->size)))) {
-		monster &z = zombie(zid);
+        return it->type->charges_to_use();
+    }
 
-
-
-
-		lse if (npcID != -1 && (!missed || one_in(4))) {
-		npc *guy = g->active_npc[npcID];
-
-
-
-		dist = rl_dist
-
-		*/
-
-
-		return it->type->charges_to_use;
-	}
-
-	return it->type->charges_to_use;
+    return it->type->charges_to_use();
 
 }
 
