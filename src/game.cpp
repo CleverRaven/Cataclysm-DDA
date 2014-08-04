@@ -8347,8 +8347,6 @@ bool pet_menu(monster *z)
 
     if (give_items == choice) {
 
-        int max_cap = 0;
-
         if (z->inv.empty()) {
             add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
             return true;
@@ -8363,11 +8361,13 @@ bool pet_menu(monster *z)
 
         it_armor *armor = dynamic_cast<it_armor *>(it->type);
 
-        max_cap = armor->storage;
+        int max_cap = armor->storage;
+        int max_weight = z->weight_capacity() - armor->weight;
 
         if (z->inv.size() > 1) {
             for (int i = 1; i < z->inv.size(); i++) {
                 max_cap -= z->inv[i].volume();
+                max_weight -= z->inv[i].weight();
             }
         }
 
@@ -8390,14 +8390,23 @@ bool pet_menu(monster *z)
             for (int i = 0; i < result.size(); i++) {
 
                 int vol = result[i].volume();
+                int weight = result[i].weight();
+                bool too_heavy = max_weight - weight < 0;
+                bool too_big = max_cap - vol < 0;
 
-                if (max_cap - vol >= 0) {
+                if( !too_heavy && !too_big ) {
                     z->inv.push_back(result[i]);
                     max_cap -= vol;
+                    max_weight -= weight;
                 } else {
                     g->m.add_item_or_charges(z->xpos(), z->ypos(), result[i], 1);
-                    g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
-                                           result[i].display_name().c_str());
+                    if( too_big ) {
+                        g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
+                                               result[i].display_name().c_str());
+                    } else {
+                        g->u.add_msg_if_player(m_bad, _("%s is too heavy and fell to the ground!"),
+                                               result[i].display_name().c_str());
+                    }
                 }
             }
         }
