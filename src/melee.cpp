@@ -1200,6 +1200,8 @@ void player::dodge_hit(Creature *source, int) {
 
     dodges_left--;
 
+    practice( "dodge", source->get_melee() );
+
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, true, false);
 
