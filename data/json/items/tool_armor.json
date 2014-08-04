@@ -1280,7 +1280,7 @@
         "id" : "survivor_belt",
         "name" : "survivor utility belt",
         "name_plural" : "survivor utility belts",
-        "weight" : 2980,
+        "weight" : 3020,
         "color" : "green",
         "covers" : ["TORSO"],
         "to_hit" : 0,
@@ -1289,7 +1289,7 @@
         "description" : "A custom-built leather utility belt equipped with rigging containing many common hand tools and a sheath to carry an extra knife.  Durable and carefully crafted to be comfortable to wear.",
         "price" : 40000,
         "material" : ["leather", "cotton"],
-        "volume" : 14,
+        "volume" : 16,
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -1300,7 +1300,8 @@
         "coverage" : 10,
         "material_thickness" : 3,
         "use_action": "SHEATH_KNIFE",
-        "qualities": [["HAMMER", 2], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
+        "qualities": [["HAMMER", 2], ["SAW_M", 1], ["SAW_W", 1], ["WRENCH", 1],
+        ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
     },
 
   {
