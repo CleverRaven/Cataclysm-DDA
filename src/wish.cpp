@@ -253,6 +253,7 @@ class wish_monster_callback: public uimenu_callback
         int lastent;           // last menu entry
         std::string msg;       // feedback mesage
         bool friendly;         // spawn friendly critter?
+        int group;             // Number of monsters to spawn.
         WINDOW *w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, intialize window
@@ -261,6 +262,7 @@ class wish_monster_callback: public uimenu_callback
         wish_monster_callback() : msg(""), padding("") {
             started = false;
             friendly = false;
+            group = 0;
             lastent = -2;
             w_info = NULL;
         }
@@ -280,6 +282,12 @@ class wish_monster_callback: public uimenu_callback
                 friendly = !friendly;
                 lastent = -2; // force tmp monster regen
                 return true;  // tell menu we handled keypress
+            } else if( key == 'i' ) {
+                group++;
+                return true;
+            } else if( key == 'd' ) {
+                group = std::max( 1, group - 1 );
+                return true;
             }
             return false;
         }
@@ -306,7 +314,8 @@ class wish_monster_callback: public uimenu_callback
 
             mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
             msg = padding;
-            mvwprintw(w_info, getmaxy(w_info) - 2, 0, _("[/] find, [f] friendly, [q]uit"));
+            mvwprintw(w_info, getmaxy(w_info) - 2, 0,
+                      _("[/] find, [f]riendly, [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
         virtual void refresh(uimenu *menu) {
@@ -354,8 +363,11 @@ void game::wishmonster(int x, int y)
             }
             point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
             if (spawn.x != -1) {
-                mon.spawn(spawn.x, spawn.y);
-                add_zombie(mon);
+                std::vector<point> spawn_points = closest_points_first( cb->group, spawn );
+                for( auto spawn_point : spawn_points ) {
+                    mon.spawn(spawn_point.x, spawn_point.y);
+                    add_zombie(mon);
+                }
                 cb->msg = _("Monster spawned, choose another or 'q' to quit.");
                 uistate.wishmonster_selected = wmenu.ret;
                 wmenu.redraw();
