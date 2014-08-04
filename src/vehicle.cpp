@@ -861,6 +861,11 @@ void vehicle::play_music()
     for( size_t p = 0; p < parts.size(); ++p ) {
         if ( ! part_flag( p, "STEREO" ) )
             continue;
+        // epower is negative for consumers
+        if( drain( fuel_type_battery, -part_epower( p ) ) == 0 ) {
+            stereo_on = false;
+            return;
+        }
         std::string sound = "";
         const int radio_x = global_x() + parts[p].precalc_dx[0];
         const int radio_y = global_y() + parts[p].precalc_dy[0];
@@ -874,8 +879,7 @@ void vehicle::play_music()
             }
 
         }
-        g->ambient_sound( radio_x, radio_y, 15, sound );
-        if ((g->u.posx < radio_x + 15 && g->u.posy < radio_y + 15) && (g->u.posx > radio_x - 15 && g->u.posy > radio_y - 15)) {
+        if( g->ambient_sound( radio_x, radio_y, 15, sound ) ) {
             g->u.add_morale(MORALE_MUSIC,5,20,30,1);
         }
     }
@@ -2766,7 +2770,7 @@ void vehicle::idle() {
         }
         engine_on = false;
     }
-    if (stereo_on == true && engine_on == true) {
+    if (stereo_on == true) {
         play_music();
     }
     slow_leak();
@@ -2937,7 +2941,7 @@ void vehicle::thrust (int thd) {
             }
         }
     }
-    if (stereo_on == true && engine_on == true) {
+    if (stereo_on == true) {
         play_music();
     }
 }

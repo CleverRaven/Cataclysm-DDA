@@ -3516,6 +3516,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 0,
         "durability" : 60,
+        "epower" : -1,
         "bonus" : 40,
         "item" : "stereo",
         "difficulty" : 2,
