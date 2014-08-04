@@ -3958,9 +3958,6 @@
   ],
   "components": [
      [
-      [ "rag", 2 ]
-     ],
-     [
       [ "leather", 6 ]
      ],
      [
@@ -3981,6 +3978,9 @@
      [
       [ "hammer", 1],
       [ "hatchet", 1 ]
+     ],
+     [
+      [ "sheath", 1]
      ],
      [
       [ "legrig", 1 ],

@@ -1286,7 +1286,7 @@
         "to_hit" : 0,
         "storage" : 2,
         "symbol" : "[",
-        "description" : "A custom-built leather utility belt with straps and pouches containing many useful hand tools and a sheath to carry an extra knife.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
+        "description" : "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a knife.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
         "price" : 50000,
         "material" : ["leather", "iron"],
         "volume" : 16,
