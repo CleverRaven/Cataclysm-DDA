@@ -1445,6 +1445,7 @@ void vehicle::part_removal_cleanup() {
         refresh();
         if(parts.empty()) {
             g->m.destroy_vehicle(this);
+            return;
         } else {
             g->m.update_vehicle_cache(this, false);
         }
