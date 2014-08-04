@@ -2895,10 +2895,11 @@ void game::rcdrive(int dx, int dy)
 
     if( m.move_cost(cx + dx, cy + dy) == 0 || !m.can_put_items(cx + dx, cy + dy) ||
         m.has_furn(cx + dx, cy + dy) ) {
-        sound(cx + dx, cy + dy, 7, "sound of a collision with an obstacle.");
+        sound(cx + dx, cy + dy, 7, _("sound of a collision with an obstacle."));
         return;
     } else if( m.add_item_or_charges(cx + dx, cy + dy, *rc_car ) ) {
-        sound(cx, cy, 6, "zzz...");
+        //~ Sound of moving a remote controlled car
+        sound(cx, cy, 6, _("zzz..."));
         u.moves -= 50;
         m.i_rem( cx, cy, rc_car );
         car_location_string.clear();
