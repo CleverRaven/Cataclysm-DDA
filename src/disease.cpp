@@ -1209,40 +1209,41 @@ void dis_effect(player &p, disease &dis)
 
         case DI_DATURA:
 		    {
-                p.mod_per_bonus(-4);
-                p.mod_int_bonus(2);
-                p.mod_dex_bonus(-1);
+                p.mod_per_bonus(-6);
+                p.mod_dex_bonus(-3);
                 if (p.has_disease("asthma")) {
                     add_msg(m_good, _("You can breathe again!"));
                     p.rem_disease("asthma");
-                }
-              if (dis.duration > 2000 && one_in(8) && p.stim < 20) {
+              } if (p.thirst < 20 && one_in(8)) {
+                  p.thirst++;
+              } if (dis.duration > 1000 && p.focus_pool >= 1 && one_in(4)) {
+                  p.focus_pool--;
+            } if (dis.duration > 2000 && one_in(8) && p.stim < 20) {
                   p.stim++;
             } if (dis.duration > 4000 && one_in(4)) {
                   p.mod_pain(rng(-1, -8));
             } if (dis.duration > 6000 && one_in(128)) {
                   p.add_disease("hallu", rng(200, 1000));
-				  if (dis.duration > 8000 && one_in(16)) {
+				  if (dis.duration > 8000 && one_in(8)) {
                   p.mod_pain(rng(2, 20));
 				  if (one_in(4)) {
                       add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                       add_msg(m_bad, _("You stagger and fall!"));
                       p.add_effect("downed",rng(1,4));
-                  }  if (one_in(10) || will_vomit(p, 10)) {
+                  }  if (one_in(8) || will_vomit(p, 10)) {
                         p.vomit();
                     }
 			      }
             } if (dis.duration > 8000 && one_in(256)) {
                   p.add_disease("visuals", rng(20, 100));
                   p.mod_pain(rng(-8, -40));
-            } if (dis.duration > 12000 && one_in(16)) {
+            } if (dis.duration > 12000 && one_in(32)) {
                   add_msg(m_bad, _("There's some kind of big machine in the sky."));
                   p.add_disease("visuals", rng(40, 200));
 				  if (one_in(4)) {
                   add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
                   p.add_disease("hallu", rng(1000, 4000));
-
-                    if (one_in(4) || will_vomit(p, 10)) {
+                    if (one_in(2) || will_vomit(p, 10)) {
                         p.mod_pain(rng(4, 40));
                         p.vomit();
                     }
@@ -2828,10 +2829,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
             return _(
             "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
 			
-    case DI_DATURA:
-            return _(
-            "Intelligence + 2;   Dexterity - 1; Perception - 4");
-
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
