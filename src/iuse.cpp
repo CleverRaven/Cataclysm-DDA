@@ -2600,7 +2600,8 @@ int iuse::ups_battery(player *p, item *, bool)
     modded->item_tags.insert("USE_UPS");
     modded->item_tags.insert("NO_UNLOAD");
     modded->item_tags.insert("NO_RELOAD");
-    modded->charges = -1;
+    //Perhaps keep the modded charges at 1 or 0?
+    modded->charges = 0;
     return 1;
 }
 
@@ -5754,11 +5755,7 @@ int iuse::tazer(player *p, item *it, bool)
 
 int iuse::tazer2(player *p, item *it, bool)
 {
-    if (it->charges >= 100 || (it->has_flag("USE_UPS") &&
-                               (p->has_charges("UPS_off", 5) || p->has_charges("UPS_on", 5) ||
-                                p->has_charges("adv_UPS_off", 3) ||
-                                p->has_charges("adv_UPS_on", 3) ||
-                                (p->has_bionic("bio_ups") && p->power_level <= 1)))) {
+    if (it->charges >= 100) {
         int dirx, diry;
 
         if (!choose_adjacent(_("Shock"), dirx, diry)) {
