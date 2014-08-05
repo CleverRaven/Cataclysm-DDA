@@ -5662,7 +5662,7 @@
     "color":"pink",
     "size":"MEDIUM",
     "material":"flesh",
-    "diff":16,
+    "diff":100,
     "aggression":2,
     "morale":100,
     "speed":100,
