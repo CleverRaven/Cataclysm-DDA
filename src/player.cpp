@@ -1239,13 +1239,13 @@ void player::update_bodytemp()
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
-            add_disease("cold", 1, false, 2, 3, 0, 1, (body_part)i, -1);
+            add_disease("cold", 1, false, 2, 2, 0, 1, (body_part)i, -1);
             frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
-            add_disease("cold", 1, false, 1, 3, 0, 1, (body_part)i, -1);
+            add_disease("cold", 1, false, 1, 1, 0, 1, (body_part)i, -1);
             frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
@@ -1255,11 +1255,11 @@ void player::update_bodytemp()
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
         {
-            add_disease("hot",  1, false, 2, 3, 0, 1, (body_part)i, -1);
+            add_disease("hot",  1, false, 2, 2, 0, 1, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_HOT)
         {
-            add_disease("hot",  1, false, 1, 3, 0, 1, (body_part)i, -1);
+            add_disease("hot",  1, false, 1, 1, 0, 1, (body_part)i, -1);
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
