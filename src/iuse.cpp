@@ -1377,6 +1377,13 @@ int iuse::iodine(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::datura(player *p, item *it, bool)
+{
+    p->add_disease("datura", rng(2000, 8000));
+    p->add_msg_if_player(_("You eat the datura seed."));
+    return it->type->charges_to_use();
+}
+
 int iuse::flumed(player *p, item *it, bool)
 {
     p->add_disease("took_flumed", 6000);

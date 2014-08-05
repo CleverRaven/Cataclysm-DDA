@@ -53,6 +53,7 @@ public:
     int prozac              (player*, item*, bool);
     int sleep               (player*, item*, bool);
     int iodine              (player*, item*, bool);
+    int datura              (player*, item*, bool);
     int flumed              (player*, item*, bool);
     int flusleep            (player*, item*, bool);
     int inhaler             (player*, item*, bool);
