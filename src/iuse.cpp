@@ -2623,12 +2623,10 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
 
 int iuse::fish_trap(player *p, item *it, bool t)
 {
-    if (t)
-    {
-
+    if (t) {
+        // Handle processing fish trap over time.
         if (it->charges == 0) {
             it->active = false;
-
             return 0;
         }
 
@@ -2638,16 +2636,12 @@ int iuse::fish_trap(player *p, item *it, bool t)
 
             point pos = g->find_item(it);
 
-            //checking for cheating. The user has moved the trap?
-            //We can do this check every turn, or every 10, 50, 100 turns, but is it necessary? will not affect performance?
-            {
-                if (!g->m.has_flag("FISHABLE", pos.x, pos.y)) {
-                    return 0;
-                }
-                point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
-                if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
-                    return 0;
-                }
+            if (!g->m.has_flag("FISHABLE", pos.x, pos.y)) {
+                return 0;
+            }
+            point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
+            if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+                return 0;
             }
 
             int success = -50;
@@ -2662,7 +2656,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
                 it->charges = -1;
             }
 
-            int fishes;
+            int fishes = 0;
 
             if (success < 0) {
                 fishes = 0;
@@ -2708,8 +2702,8 @@ int iuse::fish_trap(player *p, item *it, bool t)
             }
         }
         return 0;
-    } else{
-
+    } else {
+        // Handle deploying fish trap.
         if (it->active) {
             it->active = false;
             return 0;
@@ -2732,7 +2726,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
 
         int dirx, diry;
 
-        if (!choose_adjacent(_("Fish where?"), dirx, diry)) {
+        if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
             return 0;
         }
         if (!g->m.has_flag("FISHABLE", dirx, diry)) {
@@ -2750,7 +2744,7 @@ int iuse::fish_trap(player *p, item *it, bool t)
         g->m.add_item_or_charges(dirx, diry, *it);
         p->i_rem(it);
 
-        p->add_msg_if_player(m_info, _("You set a trap and hope to catch, go back to check in half an hour."));
+        p->add_msg_if_player(m_info, _("You place the fish trap, in a half hour or so you might have some fish."));
 
         return 0;
     }
