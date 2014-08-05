@@ -1185,7 +1185,7 @@ void mattack::dance(monster *z)
                 add_msg(m_neutral, _("The %s spins in place!"), z->name().c_str());
                 break;
             case 5:
-                add_msg(m_neutral, _("The %s shrugs its shoulders!"), z->name().c_str());
+                add_msg(m_neutral, _("The %s crouches on the ground!"), z->name().c_str());
                 break;
             case 6:
                 add_msg(m_neutral, _("The %s looks left and right!"), z->name().c_str());
