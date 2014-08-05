@@ -1348,7 +1348,7 @@ bool game::do_turn()
     {
         u.update_health();
     }
-    
+
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
         calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0) {
@@ -11694,34 +11694,27 @@ void game::forage()
         found_something = true;
     }
     if (veggy_chance < ((u.skillLevel("survival") / 2) + ((u.per_cur - 8) + 5))) {
-        found_something = true;
-        if (!one_in(6) && (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == AUTUMN)) {
-            if (!one_in(3)) {
-                add_msg(m_good, _("You found some wild veggies!"));
-                m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, calendar::turn);
-                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-            } else {
-                add_msg(m_good, _("You found some wild mushrooms!"));
-                m.put_items_from("mushroom_forest", rng(1, 3), u.posx, u.posy,
-                                 calendar::turn, 0, 0, 0);
-                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-            }
-        } else if ( (calendar::turn.get_season() != WINTER) && (!one_in(3)) ) {
-            add_msg(m_good, _("You found a nest with some eggs!"));
-            if (!one_in(4)) {
-                m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
-            } else {
-                // ~15% & 3.8% chance to find these, assuming you make your veggy roll
-                // So maybe we can give more than 1.
-                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
-            }
-        } else if (calendar::turn.get_season() != WINTER) {
-            add_msg(m_good, _("You found some wild herbs!"));
-            m.spawn_item(u.posx, u.posy, "wild_herbs", 1, 0, calendar::turn);
-        } else {
-            found_something = false;
+        items_location loc;
+        switch (calendar::turn.get_season()) {
+        case SPRING:
+            loc = "forage_spring";
+            break;
+        case SUMMER:
+            loc = "forage_summer";
+            break;
+        case AUTUMN:
+            loc = "forage_autumn";
+            break;
+        case WINTER:
+            loc = "forage_winter";
+            break;
         }
-        m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+        int cnt = m.put_items_from_loc(loc, u.posx, u.posy, calendar::turn); // returns zero if location has no defined items
+        if (cnt > 0) {
+            add_msg(m_good, _("You found something!"));
+            m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+            found_something = true;
+        }
     } else {
         if (one_in(2)) {
             m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
@@ -13141,7 +13134,7 @@ void game::plswim(int x, int y)
     int movecost = u.swim_speed();
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
-        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 || 
+        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 ||
             (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
@@ -13335,7 +13328,7 @@ void game::vertical_move(int movez, bool force)
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
-            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 || 
+            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 ||
                   (g->u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));

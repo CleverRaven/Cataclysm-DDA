@@ -10959,6 +10959,13 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
     return item_num;
 }
 
+int map::put_items_from_loc(items_location loc, int x, int y, int turn)
+{
+    const Item_list items = item_controller->create_from_group(loc, turn);
+    spawn_items(x, y, items);
+    return items.size();
+}
+
 void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity,
                          long charges, int damlevel, bool rand)
 {
