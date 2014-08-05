@@ -2621,6 +2621,141 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
     return 0;
 }
 
+int iuse::fish_trap(player *p, item *it, bool t)
+{
+    if (t)
+    {
+
+        if (it->charges == 0) {
+            it->active = false;
+
+            return 0;
+        }
+
+        //after 30 min.
+        if (calendar::turn - it->bday > 300) {
+            it->active = false;
+
+            point pos = g->find_item(it);
+
+            //checking for cheating. The user has moved the trap?
+            //We can do this check every turn, or every 10, 50, 100 turns, but is it necessary? will not affect performance?
+            {
+                if (!g->m.has_flag("FISHABLE", pos.x, pos.y)) {
+                    return 0;
+                }
+                point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
+                if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+                    return 0;
+                }
+            }
+
+            int success = -50;
+            const int surv = p->skillLevel("survival");
+            const int attempts = rng(it->charges, it->charges * it->charges);
+            for (int i = 0; i < attempts; i++) {
+                success += rng(surv, surv * surv);
+            }
+
+            it->charges = rng(-1, it->charges);
+            if (it->charges == 0) {
+                it->charges = -1;
+            }
+
+            int fishes;
+
+            if (success < 0) {
+                fishes = 0;
+            } else if (success < 300) {
+                fishes = 1;
+            } else if (success < 1500) {
+                fishes = 2;
+            } else {
+                fishes = rng(3, 5);
+            }
+
+            if (fishes == 0) {
+                it->charges = -1;
+                p->practice("survival", rng(5, 15));
+
+                return 0;
+            }
+
+            for (int i = 0; i < fishes; i++) {
+                p->practice("survival", rng(3, 10));
+
+                item fish;
+                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                fish.make_corpse("corpse", GetMType(fish_mon), it->bday + 300);
+                //Yes, we can put fishes in the trap like knives in the boot,
+                //and then get fishes via activation of the item,
+                //but it's not as comfortable as if you just put fishes in the same tile with the trap.
+                //Also: corpses and comestibles not rot in containers like this, but on the ground will rot.
+                g->m.add_item_or_charges(pos.x, pos.y, fish);
+            }
+
+            const int dist = rl_dist(p->posx, p->posy, pos.x, pos.y);
+            if (dist < 10 && p->sees(pos.x, pos.y)) {                
+
+                if (fishes == 1) {
+                    p->add_msg_if_player(m_good, _("It seems trapped something there."));
+                } else if (fishes == 2) {
+                    p->add_msg_if_player(m_good, _("It seems trapped fish will be enough for fish soup!"));
+                } else {
+                    p->add_msg_if_player(m_good, _("Here is the catch! You can brag to other fishermen!"));
+                }
+            }
+        }
+        return 0;
+    } else{
+
+        if (it->active) {
+            it->active = false;
+            return 0;
+        }
+
+        if (it->charges < 0) {
+            it->charges = 0;
+            return 0;
+        }
+
+        if (p->is_underwater()) {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return 0;
+        }
+
+        if (it->charges == 0) {
+            p->add_msg_if_player(_("Fish is not so silly to go in here without bait."));
+            return 0;
+        }
+
+        int dirx, diry;
+
+        if (!choose_adjacent(_("Fish where?"), dirx, diry)) {
+            return 0;
+        }
+        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
+            p->add_msg_if_player(m_info, _("You can't fish there!"));
+            return 0;
+        }
+        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
+        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+            p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
+            return 0;
+        }
+
+        it->active = true;
+        it->bday = calendar::turn;
+        g->m.add_item_or_charges(dirx, diry, *it);
+        p->i_rem(it);
+
+        p->add_msg_if_player(m_info, _("You set a trap and hope to catch, go back to check in half an hour."));
+
+        return 0;
+    }
+}
+
 static bool valid_fabric(player *p, item *it, bool)
 {
     if (it->type->id == "null") {
