@@ -5659,7 +5659,7 @@
     "name": "Thriller",
     "species":"ZOMBIE",
     "symbol":"Z",
-    "color":"pink",
+    "color":"dkgray_red",
     "size":"MEDIUM",
     "material":"flesh",
     "diff":100,
