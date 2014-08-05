@@ -1115,6 +1115,11 @@ void mattack::callblobs( monster *z )
         }
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
+        if ((*ally)->has_effect("controlled")) {
+            (*ally)->add_effect("controlled", 1, 1);
+        } else {
+            (*ally)->add_effect("controlled", 2, 1);
+        }
     }
     // This is telepathy, doesn't take any moves.
     z->sp_timeout = z->type->sp_freq;

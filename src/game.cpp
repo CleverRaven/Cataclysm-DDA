@@ -6242,6 +6242,7 @@ void game::monmove()
 
         while (critter->moves > 0 && !critter->is_dead()) {
             critter->made_footstep = false;
+            // Controlled critters don't make their own plans
             if (!critter->has_effect("controlled")) {
                 critter->plan(friendlies); // Formulate a path to follow
             }
