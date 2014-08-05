@@ -148,6 +148,9 @@ public:
     // Sets the chance of the specified item in the group. weight 0 will allow you to remove
     // the item from the group. Returns false if the group doesn't exist.
     bool add_item_to_group(const std::string group_id, const std::string item_id, int weight);
+    
+    // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
+    std::bitset<13> flags_from_json(JsonObject &jo, const std::string & member, std::string flag_type="");
 
 private:
     std::map<Item_tag, itype*> m_templates;
@@ -188,8 +191,6 @@ private:
     void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
     void set_qualities_from_json(JsonObject &jo, std::string member, itype *new_item);
     
-    // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
-    std::bitset<13> flags_from_json(JsonObject &jo, const std::string & member, std::string flag_type="");
     void set_material_from_json(JsonObject &jo, std::string member, itype *new_item);
     bool is_mod_target(JsonObject &jo, std::string member, std::string weapon);
 
