@@ -1292,8 +1292,8 @@ bool game::do_turn()
             u.focus_pool -= 1;
         }
 
-        int dec_stom_food = u.stomach_food * 0.8;
-        int dec_stom_water = u.stomach_water * 0.8;
+        int dec_stom_food = u.stomach_food * 0.2;
+        int dec_stom_water = u.stomach_water * 0.2;
         dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
         dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
         u.stomach_food -= dec_stom_food;
