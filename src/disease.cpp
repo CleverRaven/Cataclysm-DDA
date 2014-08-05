@@ -1210,7 +1210,7 @@ void dis_effect(player &p, disease &dis)
         case DI_DATURA:
 		    {
                 p.mod_per_bonus(-6);
-                p.mod_dex_bonus(-4);
+                p.mod_dex_bonus(-3);
                 if (p.has_disease("asthma")) {
                     add_msg(m_good, _("You can breathe again!"));
                     p.rem_disease("asthma");
