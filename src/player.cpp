@@ -2375,61 +2375,65 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     nc_color status = c_white;
 
-    if (str_cur <= 0)
+    int stat_tmp = get_str();
+    if (stat_tmp <= 0)
         status = c_dkgray;
-    else if (str_cur < str_max / 2)
+    else if (stat_tmp < str_max / 2)
         status = c_red;
-    else if (str_cur < str_max)
+    else if (stat_tmp < str_max)
         status = c_ltred;
-    else if (str_cur == str_max)
+    else if (stat_tmp == str_max)
         status = c_white;
-    else if (str_cur < str_max * 1.5)
+    else if (stat_tmp < str_max * 1.5)
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  2, (str_cur < 10 ? 17 : 16), status, "%d", str_cur);
+    mvwprintz(w_stats,  2, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
 
-    if (dex_cur <= 0)
+    stat_tmp = get_dex();
+    if (stat_tmp <= 0)
         status = c_dkgray;
-    else if (dex_cur < dex_max / 2)
+    else if (stat_tmp < dex_max / 2)
         status = c_red;
-    else if (dex_cur < dex_max)
+    else if (stat_tmp < dex_max)
         status = c_ltred;
-    else if (dex_cur == dex_max)
+    else if (stat_tmp == dex_max)
         status = c_white;
-    else if (dex_cur < dex_max * 1.5)
+    else if (stat_tmp < dex_max * 1.5)
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  3, (dex_cur < 10 ? 17 : 16), status, "%d", dex_cur);
+    mvwprintz(w_stats,  3, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
 
-    if (int_cur <= 0)
+    stat_tmp = get_int();
+    if (stat_tmp <= 0)
         status = c_dkgray;
-    else if (int_cur < int_max / 2)
+    else if (stat_tmp < int_max / 2)
         status = c_red;
-    else if (int_cur < int_max)
+    else if (stat_tmp < int_max)
         status = c_ltred;
-    else if (int_cur == int_max)
+    else if (stat_tmp == int_max)
         status = c_white;
-    else if (int_cur < int_max * 1.5)
+    else if (stat_tmp < int_max * 1.5)
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  4, (int_cur < 10 ? 17 : 16), status, "%d", int_cur);
+    mvwprintz(w_stats,  4, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
 
-    if (per_cur <= 0)
+    stat_tmp = get_per();
+    if (stat_tmp <= 0)
         status = c_dkgray;
-    else if (per_cur < per_max / 2)
+    else if (stat_tmp < per_max / 2)
         status = c_red;
-    else if (per_cur < per_max)
+    else if (stat_tmp < per_max)
         status = c_ltred;
-    else if (per_cur == per_max)
+    else if (stat_tmp == per_max)
         status = c_white;
-    else if (per_cur < per_max * 1.5)
+    else if (stat_tmp < per_max * 1.5)
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  5, (per_cur < 10 ? 17 : 16), status, "%d", per_cur);
+    mvwprintz(w_stats,  5, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
 
     wrefresh(w_stats);
 
@@ -2728,7 +2732,7 @@ gun for ranged combat, and enhances many actions that require finesse."));
                     mvwprintz(w_stats, 4, 1, h_ltgray, _("Intelligence:"));
                     mvwprintz(w_stats, 6, 1, c_magenta, _("Read times: %d%%           "), read_speed(false));
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust: %d%%           "), rust_rate(false));
-                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "), int_cur);
+                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "), get_int());
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Intelligence is less important in most situations, but it is vital for more complex tasks like \
@@ -2738,7 +2742,7 @@ electronics crafting. It also affects how much skill you can pick up from readin
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
                     mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
                               abs(ranged_per_mod(false)),"          ");
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), per_cur);
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), get_per());
                     mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Perception is the most important stat for ranged combat. It's also used for \
