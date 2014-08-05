@@ -9796,7 +9796,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Expensive black dance shoes with a large heel.",
+        "description" : "Expensive black dance shoes with large heels.",
         "price" : 12000,
         "material" : ["leather", "null"],
         "volume" : 6,
@@ -9831,7 +9831,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["WATER_FRIENDLY"],
+        "flags" : ["RIGHT", "WATER_FRIENDLY"],
         "coverage" : 95,
         "material_thickness" : 2
     }
