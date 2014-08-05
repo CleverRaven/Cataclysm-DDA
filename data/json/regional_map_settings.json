@@ -17,7 +17,8 @@
               "t_shrub_strawberry": 0.4166,
               "f_mutpoppy": 8.3333,
 	      "f_bluebell": 8.3333,
-	      "f_dahlia": 8.3333
+	      "f_dahlia": 8.3333,
+	      "f_datura": 4.3333
           },
           "boost_chance": 0.833,            "//": "% of fields with boosted plant growth",
           "boosted_percent_coverage": 2.5,  "//": "for the above: total percent coverage jumps to this amount",
@@ -26,7 +27,8 @@
               "t_shrub_strawberry": 40.0,
               "f_mutpoppy": 6.6,
 	      "f_bluebell": 6.6,
-	      "f_dahlia": 6.6
+	      "f_dahlia": 6.6,
+	      "f_datura": 0.2
           },
           "boosted_other_percent": 50.0,    "//": "...accounts for this % of total coverage"
       },

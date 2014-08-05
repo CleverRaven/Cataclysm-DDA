@@ -78,7 +78,47 @@ public:
         type = jo.get_string("type");
         intensity = jo.get_int("intensity");
         duration = jo.get_int("duration");
-        bp = (body_part)jo.get_int("bp");
+        
+        int tmp_bp = jo.get_int("bp");
+        if (jo.has_member("side")) {
+            int side = jo.get_int("side");
+            if (side == 0) {
+                switch (tmp_bp) {
+                    case 4:
+                        break; //Already 4
+                    case 5:
+                        tmp_bp = 6;
+                        break;
+                    case 6:
+                        tmp_bp = 8;
+                        break;
+                    case 7:
+                        tmp_bp = 10;
+                        break;
+                    default:
+                        break;
+                }
+            } else if (side == 1) {
+                switch (tmp_bp) {
+                    case 4:
+                        tmp_bp = 5;
+                        break;
+                    case 5:
+                        tmp_bp = 7;
+                        break;
+                    case 6:
+                        tmp_bp = 9;
+                        break;
+                    case 7:
+                        tmp_bp = 11;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        bp = (body_part)tmp_bp;
+        
         permanent = jo.get_bool("permanent");
         decay = jo.get_int("decay");
         buff_id = jo.get_string("ma_buff_id");

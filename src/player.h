@@ -712,7 +712,7 @@ public:
 
  int weight_carried() const;
  int volume_carried() const;
- int weight_capacity(bool real_life = true) const;
+ int weight_capacity() const;
  int volume_capacity() const;
  double convert_weight(int weight);
  bool can_eat(const item i);

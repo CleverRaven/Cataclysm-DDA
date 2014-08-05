@@ -1177,7 +1177,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
-    covers = jo.get_int("covers");
+    jo.read( "covers", covers);
     encumber = jo.get_int("encumber");
     coverage = jo.get_int("coverage");
     thickness = jo.get_int("material_thickness");

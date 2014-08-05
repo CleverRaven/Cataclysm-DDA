@@ -1377,6 +1377,13 @@ int iuse::iodine(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::datura(player *p, item *it, bool)
+{
+    p->add_disease("datura", rng(2000, 8000));
+    p->add_msg_if_player(_("You eat the datura seed."));
+    return it->type->charges_to_use();
+}
+
 int iuse::flumed(player *p, item *it, bool)
 {
     p->add_disease("took_flumed", 6000);
@@ -2140,6 +2147,7 @@ int iuse::dogfood(player *p, item *, bool)
         if (g->zombie(mon_dex).type->id == "mon_dog") {
             p->add_msg_if_player(m_good, _("The dog seems to like you!"));
             g->zombie(mon_dex).friendly = -1;
+            g->zombie(mon_dex).add_effect("pet", 1, 1, true);
         } else {
             p->add_msg_if_player(_("The %s seems quite unimpressed!"),
                                  g->zombie(mon_dex).name().c_str());
@@ -6308,7 +6316,7 @@ void make_zlave(player *p)
     uimenu amenu;
 
     amenu.selected = 0;
-    amenu.text = _("Selectively butcher the downed zombie into a zlave?");
+    amenu.text = _("Selectively butcher the downed zombie into a zombie slave?");
     amenu.addentry(cancel, true, 'q', _("Cancel"));
     for (int i = 0; i < corpses.size(); i++) {
         amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
@@ -6396,7 +6404,7 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     if( p->skillLevel("survival") > 1 && p->skillLevel("firstaid") > 1 ) {
-        kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
+        kmenu.addentry(make_slave, true, 'z', _("Make zombie slave"));
     }
 
     kmenu.addentry(cancel, true, 'q', _("Cancel"));

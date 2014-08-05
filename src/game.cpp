@@ -1121,6 +1121,17 @@ bool game::do_turn()
         u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
                            pgettext("memorial_female", "Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
+    } else if (u.has_disease("datura") &&
+               u.disease_duration("datura") > 14000 &&
+			   one_in(512)) {
+        if (!(u.has_trait("NOPAIN"))) {
+            add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
+        } else {
+            add_msg(_("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
+        }
+        u.add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
+                           pgettext("memorial_female", "Died of datura overdose."));
+        u.hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
     if (u.hunger >= 3000) {
@@ -7385,7 +7396,8 @@ bool game::revive_corpse(int x, int y, item *it)
     critter.no_extra_death_drops = true;
 
     if (it->item_vars["zlave"] == "zlave"){
-        critter.add_effect("zlave", 1, 1, true);
+        critter.add_effect("pacified", 1, 1, true);
+        critter.add_effect("pet", 1, 1, true);
     }
 
     add_zombie(critter);
@@ -8198,7 +8210,7 @@ void game::control_vehicle()
     }
 }
 
-bool zlave_menu(monster *z)
+bool pet_menu(monster *z)
 {
     enum choices {
         cancel,
@@ -8213,12 +8225,17 @@ bool zlave_menu(monster *z)
 
     uimenu amenu;
 
+    std::string pet_name = "dog";
+    if( z->type->in_species("ZOMBIE") ) {
+        pet_name = "zombie slave";
+    }
+
     amenu.selected = 0;
-    amenu.text = _("What to do with zombie slave?");
+    amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
     amenu.addentry(cancel, true, 'q', _("Cancel"));
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
-    amenu.addentry(push_zlave, true, 'p', _("Push zombie slave"));
+    amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
 
     if (z->has_effect("has_bag")) {
         amenu.addentry(give_items, true, 'g', _("Place items into bag"));
@@ -8237,7 +8254,9 @@ bool zlave_menu(monster *z)
         }
     }
 
-    amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
+    if( z->type->in_species("ZOMBIE") ) {
+        amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
+    }
 
     amenu.query();
     int choice = amenu.ret;
@@ -8265,11 +8284,11 @@ bool zlave_menu(monster *z)
                 z->add_effect("tied", 1, 1, true);
             }
 
-            add_msg(_("You swap positions with your zombie slave."));
+            add_msg(_("You swap positions with your %s."), pet_name.c_str());
 
             return true;
         } else {
-            add_msg(_("You fail to budge the zombie slave!"));
+            add_msg(_("You fail to budge your %s!"), pet_name.c_str());
 
             return true;
         }
@@ -8280,9 +8299,9 @@ bool zlave_menu(monster *z)
         g->u.moves -= 30;
 
         if (!one_in(g->u.str_cur)) {
-            add_msg(_("You pushed the zombie slave."));
+            add_msg(_("You pushed the %s."), pet_name.c_str());
         } else {
-            add_msg(_("You pushed the zombie slave, but it resisted."));
+            add_msg(_("You pushed the %s, but it resisted."), pet_name.c_str());
             return true;
         }
 
@@ -8315,7 +8334,8 @@ bool zlave_menu(monster *z)
 
         z->add_item(*it);
 
-        add_msg(_("You mount the %s on your zombie slave, ready to store gear."), it->display_name().c_str());
+        add_msg(_("You mount the %s on your %s, ready to store gear."),
+                it->display_name().c_str(),  pet_name.c_str());
 
         g->u.i_rem(pos);
 
@@ -8336,7 +8356,7 @@ bool zlave_menu(monster *z)
 
         z->remove_effect("has_bag");
 
-        add_msg(_("You dump the contents of the zombie slave's bag on the ground."));
+        add_msg(_("You dump the contents of the %s's bag on the ground."), pet_name.c_str());
 
         g->u.moves -= 200;
         return true;
@@ -8344,32 +8364,33 @@ bool zlave_menu(monster *z)
 
     if (give_items == choice) {
 
-        int max_cap = 0;
-
         if (z->inv.empty()) {
-            add_msg(_("Your zombie slave has nothing to carry that in!"));
+            add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
             return true;
         }
 
         item *it = &z->inv[0];
 
         if (!it->is_armor()) {
-            add_msg(_("Your zombie slave has nothing to carry that in!"));
+            add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
             return true;
         }
 
         it_armor *armor = dynamic_cast<it_armor *>(it->type);
 
-        max_cap = armor->storage;
+        int max_cap = armor->storage;
+        int max_weight = z->weight_capacity() - armor->weight;
 
         if (z->inv.size() > 1) {
             for (int i = 1; i < z->inv.size(); i++) {
                 max_cap -= z->inv[i].volume();
+                max_weight -= z->inv[i].weight();
             }
         }
 
         if (max_cap <= 0) {
-            add_msg(_("Your zombie slave's doesn't have space for that, it's too bulky!"));
+            add_msg(_("There's no room in your %s's %s for that, it's too bulky!"),
+                    pet_name.c_str(), it->tname(1).c_str() );
             return true;
         }
 
@@ -8381,19 +8402,28 @@ bool zlave_menu(monster *z)
         if (result.size() == 0) {
             add_msg(_("Never mind."));
         } else {
-            add_msg(_("You stash some gear on your zombie slave."));
-
+            add_msg(_("You stash some gear in your %s's %s."),
+                    pet_name.c_str(), it->tname(1).c_str() );
             for (int i = 0; i < result.size(); i++) {
 
                 int vol = result[i].volume();
+                int weight = result[i].weight();
+                bool too_heavy = max_weight - weight < 0;
+                bool too_big = max_cap - vol < 0;
 
-                if (max_cap - vol >= 0) {
+                if( !too_heavy && !too_big ) {
                     z->inv.push_back(result[i]);
                     max_cap -= vol;
+                    max_weight -= weight;
                 } else {
                     g->m.add_item_or_charges(z->xpos(), z->ypos(), result[i], 1);
-                    g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
-                                           result[i].display_name().c_str());
+                    if( too_big ) {
+                        g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
+                                               result[i].display_name().c_str());
+                    } else {
+                        g->u.add_msg_if_player(m_bad, _("%s is too heavy and fell to the ground!"),
+                                               result[i].display_name().c_str());
+                    }
                 }
             }
         }
@@ -8500,13 +8530,12 @@ void game::examine(int examx, int examy)
         none = false;
     }
 
-    if (critter_at(examx, examy) != NULL)
-    {
+    if (critter_at(examx, examy) != NULL) {
         Creature *c = critter_at(examx, examy);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if (mon != NULL && mon->has_effect("zlave")) {
-            if (zlave_menu(mon)) {
+        if (mon != NULL && mon->has_effect("pet")) {
+            if (pet_menu(mon)) {
                 return;
             }
         }
@@ -8532,7 +8561,7 @@ void game::examine(int examx, int examy)
         if(m.tr_at(examx, examy) == tr_null) {
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
-    };
+    }
 }
 
 void game::advanced_inv()

@@ -36,7 +36,7 @@ enum dis_type_enum {
  DI_RAT, DI_BITE,
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
-  DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
+  DI_HALLU, DI_VISUALS, DI_IODINE, DI_DATURA, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Traps
  DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
@@ -122,6 +122,7 @@ void game::init_diseases() {
     disease_type_lookup["hallu"] = DI_HALLU;
     disease_type_lookup["visuals"] = DI_VISUALS;
     disease_type_lookup["iodine"] = DI_IODINE;
+    disease_type_lookup["datura"] = DI_DATURA;
     disease_type_lookup["took_xanax"] = DI_TOOK_XANAX;
     disease_type_lookup["took_prozac"] = DI_TOOK_PROZAC;
     disease_type_lookup["took_flumed"] = DI_TOOK_FLUMED;
@@ -1206,6 +1207,63 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
+        case DI_DATURA:
+		    {
+                p.mod_per_bonus(-6);
+                p.mod_dex_bonus(-3);
+                if (p.has_disease("asthma")) {
+                    add_msg(m_good, _("You can breathe again!"));
+                    p.rem_disease("asthma");
+              } if (p.thirst < 20 && one_in(8)) {
+                  p.thirst++;
+              } if (dis.duration > 1000 && p.focus_pool >= 1 && one_in(4)) {
+                  p.focus_pool--;
+            } if (dis.duration > 2000 && one_in(8) && p.stim < 20) {
+                  p.stim++;
+            } if (dis.duration > 3000 && p.focus_pool >= 1 && one_in(2)) {
+                  p.focus_pool--;
+            } if (dis.duration > 4000 && one_in(64)) {
+                  p.mod_pain(rng(-1, -8));
+            } if ((!p.has_disease ("hallu")) && (dis.duration > 5000 && one_in(4))) {
+                  p.add_disease("hallu", rng(200, 1000));
+            } if (dis.duration > 6000 && one_in(128)) {
+                  p.mod_pain(rng(-3, -24));
+				  if (dis.duration > 8000 && one_in(16)) {
+                      add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
+                      add_msg(m_bad, _("You stagger and fall!"));
+                      p.add_effect("downed",rng(1,4));
+                      if (one_in(8) || will_vomit(p, 10)) {
+                            p.vomit();
+                       }
+			      }
+            } if (dis.duration > 7000 && p.focus_pool >= 1) {
+                  p.focus_pool--;
+            } if (dis.duration > 8000 && one_in(256)) {
+                  p.add_disease("visuals", rng(40, 200));
+                  p.mod_pain(rng(-8, -40));
+            } if (dis.duration > 12000 && one_in(256)) {
+                  add_msg(m_bad, _("There's some kind of big machine in the sky."));
+                  p.add_disease("visuals", rng(80, 400));
+				  if (one_in(32)) {
+                        add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
+                        p.mod_pain(rng(4, 40));
+                        p.vomit();
+				  };
+            } if (dis.duration > 14000 && one_in(128)) {
+                  add_msg(m_bad, _("Order us some golf shoes, otherwise we'll never get out of this place alive."));
+                  p.add_disease("visuals", rng(400, 2000));
+				  if (one_in(8)) {
+                  add_msg(m_bad, _("The possibility of physical and mental collapse is now very real."));
+                    if (one_in(2) || will_vomit(p, 10)) {
+                        add_msg(m_bad, _("No one should be asked to handle this trip."));
+                        p.vomit();
+                        p.mod_pain(rng(8, 40));
+                    }
+				  };
+            }
+			}
+            break;
+
         case DI_TOOK_XANAX:
             if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
                 p.stim--;
@@ -2135,6 +2193,9 @@ std::string dis_name(disease& dis)
     case DI_METH:
         if (dis.duration > 200) return _("High on Meth");
         else return _("Meth Comedown");
+		
+    case DI_DATURA: return _("Experiencing Datura");
+
 
     case DI_IN_PIT: return _("Stuck in Pit");
     case DI_BOULDERING: return _("Clambering Over Rubble");
@@ -2750,6 +2811,8 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         return _("Intelligence - 1;   Perception - 1");
 
     case DI_VISUALS: return _("You can't trust everything that you see.");
+	
+    case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
 
     case DI_ADRENALINE:
         if (dis.duration > 150)
@@ -2767,7 +2830,7 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         else
             return _(
             "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
-
+			
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 

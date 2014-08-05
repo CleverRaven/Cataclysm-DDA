@@ -234,7 +234,7 @@ class Creature
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
         virtual void mod_stat( std::string stat, int modifier );
-        
+
         virtual void set_healthy(int nhealthy);
         virtual void set_healthy_mod(int nhealthy_mod);
         virtual void mod_healthy(int nhealthy);
@@ -266,6 +266,8 @@ class Creature
         virtual void set_melee_quiet(bool nquiet);
         virtual void set_grab_resist(int ngrabres);
         virtual void set_throw_resist(int nthrowres);
+
+        virtual int weight_capacity() const;
 
         /*
          * Event handlers
