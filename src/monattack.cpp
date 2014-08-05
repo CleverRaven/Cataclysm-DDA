@@ -1128,7 +1128,7 @@ void mattack::jackson( monster *z )
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if( candidate->type->in_species("ZOMBIE") && candidate->type->id != "mon_jackson" ) {
+        if(candidate->type->in_species("ZOMBIE") && candidate->type->id != "mon_zombie_jackson") {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( candidate );
@@ -1137,19 +1137,23 @@ void mattack::jackson( monster *z )
     const int num_dancers = std::min( allies.size(), nearby_points.size() );
     int dancers = 0;
     bool converted = false;
-    for( std::list<monster *>::iterator ally = allies.begin();
-         ally != allies.end(); ++ally, ++dancers ) {
+    for( auto ally = allies.begin(); ally != allies.end(); ++ally, ++dancers ) {
         point post = z->pos();
         if( dancers < num_dancers ) {
             // Each dancer is assigned a spot in the nearby_points vector based on their order.
             int assigned_spot = (nearby_points.size() * dancers) / num_dancers;
             post = nearby_points[ assigned_spot ];
         }
+        if ((*ally)->type->id != "mon_zombie_dancer") {
+            (*ally)->poly(GetMType("mon_zombie_dancer"));
+            converted = true;
+        }
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
-        if (ally->type->id != "mon_zombie_dancer") {
-            ally->poly(GetMType("mon_zombie_dancer"));
-            converted = true;
+        if ((*ally)->has_effect("controlled")) {
+            (*ally)->add_effect("controlled", 1, 1);
+        } else {
+            (*ally)->add_effect("controlled", 2, 1);
         }
     }
     // Did we convert anybody?
@@ -1166,7 +1170,7 @@ void mattack::jackson( monster *z )
 void mattack::dance(monster *z)
 {
     if (g->u_see(z->posx(), z->posy())) {
-        switch (rng(1,10) {
+        switch (rng(1,10)) {
             case 1:
                 add_msg(m_neutral, _("The %s swings its arms from side to side!"), z->name().c_str());
                 break;
@@ -1199,6 +1203,7 @@ void mattack::dance(monster *z)
                 break;
         }
     }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
 }
 
 void mattack::dogthing(monster *z)

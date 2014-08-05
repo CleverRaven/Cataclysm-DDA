@@ -5680,8 +5680,8 @@
     "special_freq":0,
     "death_function":["JACKSON"],
     "special_attack":"JACKSON",
-    "description":"And though you fight to stay alive, \your body starts to shiver. \nFor no mere mortal can resist, \nThe evil of the thriller.",
-    "flags":["SEES", "HEARS", "WARM", "BASHES", "BLEED", "NO_BREATHE", "VIS50"],
+    "description":"And though you fight to stay alive, \nYour body starts to shiver. \nFor no mere mortal can resist, \nThe evil of the thriller.",
+    "flags":["SEES", "HEARS", "WARM", "BASHES", "BLEED", "NO_BREATHE", "VIS50"]
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_dancer",
@@ -5692,9 +5692,9 @@
     "size":"HUGE",
     "material":"flesh",
     "diff":50,
-    "aggression":-99,
+    "aggression":100,
     "morale":100,
-    "speed":130,
+    "speed":100,
     "melee_skill":5,
     "melee_dice":4,
     "melee_dice_sides":8,
@@ -5709,7 +5709,7 @@
     "special_freq":30,
     "death_function":["NORMAL"],
     "special_attack":"DANCE",
-    "description":"The foulest stench is in the air, \nthe funk of forty thousand years, \n and grisly ghouls from every tomb, \n are closing in to seal your doom!",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "VIS50", "REVIVES"]
+    "description":"The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!",
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "DESTROYS", "POISON", "LEATHER", "NO_BREATHE", "VIS50", "REGENERATES_50"]
     }
 ]

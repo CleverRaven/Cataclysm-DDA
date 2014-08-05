@@ -6242,7 +6242,9 @@ void game::monmove()
 
         while (critter->moves > 0 && !critter->is_dead()) {
             critter->made_footstep = false;
-            critter->plan(friendlies); // Formulate a path to follow
+            if (!critter->has_effect("controlled")) {
+                critter->plan(friendlies); // Formulate a path to follow
+            }
             critter->move(); // Move one square, possibly hit u
             critter->process_triggers();
             m.mon_in_field(critter->posx(), critter->posy(), critter);
