@@ -1223,9 +1223,9 @@ void dis_effect(player &p, disease &dis)
             } if (dis.duration > 6000 && one_in(128)) {
                   p.add_disease("hallu", rng(200, 1000));
 				  if (dis.duration > 8000 && one_in(16)) {
-                  add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                   p.mod_pain(rng(2, 20));
 				  if (one_in(4)) {
+                      add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                       add_msg(m_bad, _("You stagger and fall!"));
                       p.add_effect("downed",rng(1,4));
                   }  if (one_in(10) || will_vomit(p, 10)) {
