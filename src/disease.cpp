@@ -2811,6 +2811,8 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         return _("Intelligence - 1;   Perception - 1");
 
     case DI_VISUALS: return _("You can't trust everything that you see.");
+	
+    case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
 
     case DI_ADRENALINE:
         if (dis.duration > 150)
