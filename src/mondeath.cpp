@@ -379,6 +379,18 @@ void mdeath::blobsplit(monster *z) {
     }
 }
 
+void mdeath::jackson(monster *z) {
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        monster *candidate = &g->zombie( i );
+        if(candidate->type->id == "mon_zombie_dancer" ) {
+            candidate->poly(GetMType("mon_zombie_hulk"));
+        }
+        if (g->u_see(z->posx(), z->posy())) {
+            add_msg(m_warning, _("The music stops!"));
+        }
+    }
+}
+
 void mdeath::melt(monster *z) {
     if (g->u_see(z)) {
         add_msg(m_good, _("The %s melts away."), z->name().c_str());

@@ -132,6 +132,7 @@ void MonsterGenerator::init_death()
     death_map["DISAPPEAR"] = &mdeath::disappear;// Hallucination disappears
     death_map["GUILT"] = &mdeath::guilt;// Morale penalty
     death_map["BLOBSPLIT"] = &mdeath::blobsplit;// Creates more blobs
+    death_map["JACKSON"] = &mdeath::jackson;// Reverts dancers
     death_map["MELT"] = &mdeath::melt;// Normal death, but melts
     death_map["AMIGARA"] = &mdeath::amigara;// Removes hypnosis if last one
     death_map["THING"] = &mdeath::thing;// Turn into a full thing
@@ -178,6 +179,8 @@ void MonsterGenerator::init_attack()
     attack_map["DISAPPEAR"] = &mattack::disappear;
     attack_map["FORMBLOB"] = &mattack::formblob;
     attack_map["CALLBLOBS"] = &mattack::callblobs;
+    attack_map["JACKSON"] = &mattack::jackson;
+    attack_map["DANCE"] = &mattack::dance;
     attack_map["DOGTHING"] = &mattack::dogthing;
     attack_map["TENTACLE"] = &mattack::tentacle;
     attack_map["VORTEX"] = &mattack::vortex;

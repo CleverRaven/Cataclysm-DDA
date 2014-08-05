@@ -21,6 +21,7 @@ public:
     void disappear      (monster *z); // Hallucination disappears
     void guilt          (monster *z); // Morale penalty
     void blobsplit      (monster *z); // Creates more blobs
+    void jackson        (monster *z); // Reverts dancers
     void melt           (monster *z); // Normal death, but melts
     void amigara        (monster *z); // Removes hypnosis if last one
     void thing          (monster *z); // Turn into a full thing

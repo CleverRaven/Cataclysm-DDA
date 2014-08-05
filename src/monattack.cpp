@@ -1120,6 +1120,87 @@ void mattack::callblobs( monster *z )
     z->sp_timeout = z->type->sp_freq;
 }
 
+void mattack::jackson( monster *z )
+{
+    // Jackson draws nearby zombies into the dance.
+    std::list<monster *> allies;
+    std::vector<point> nearby_points = closest_points_first( 5, z->pos() );
+    // Iterate using horrible creature_tracker API.
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        monster *candidate = &g->zombie( i );
+        if( candidate->type->in_species("ZOMBIE") && candidate->type->id != "mon_jackson" ) {
+            // Just give the allies consistent assignments.
+            // Don't worry about trying to make the orders optimal.
+            allies.push_back( candidate );
+        }
+    }
+    const int num_dancers = std::min( allies.size(), nearby_points.size() );
+    int dancers = 0;
+    bool converted = false;
+    for( std::list<monster *>::iterator ally = allies.begin();
+         ally != allies.end(); ++ally, ++dancers ) {
+        point post = z->pos();
+        if( dancers < num_dancers ) {
+            // Each dancer is assigned a spot in the nearby_points vector based on their order.
+            int assigned_spot = (nearby_points.size() * dancers) / num_dancers;
+            post = nearby_points[ assigned_spot ];
+        }
+        int trash = 0;
+        (*ally)->set_dest( post.x, post.y, trash );
+        if (ally->type->id != "mon_zombie_dancer") {
+            ally->poly(GetMType("mon_zombie_dancer"));
+            converted = true;
+        }
+    }
+    // Did we convert anybody?
+    if (converted) {
+        if (g->u_see(z->posx(), z->posy())) {
+            add_msg(m_warning, _("The %s lets out a shriek..."), z->name().c_str());
+        }
+    }
+    // This is telepathy, doesn't take any moves.
+    z->sp_timeout = z->type->sp_freq;
+}
+
+
+void mattack::dance(monster *z)
+{
+    if (g->u_see(z->posx(), z->posy())) {
+        switch (rng(1,10) {
+            case 1:
+                add_msg(m_neutral, _("The %s swings its arms from side to side!"), z->name().c_str());
+                break;
+            case 2:
+                add_msg(m_neutral, _("The %s does some fancy footwork!"), z->name().c_str());
+                break;
+            case 3:
+                add_msg(m_neutral, _("The %s shrugs its shoulders!"), z->name().c_str());
+                break;
+            case 4:
+                add_msg(m_neutral, _("The %s spins in place!"), z->name().c_str());
+                break;
+            case 5:
+                add_msg(m_neutral, _("The %s shrugs its shoulders!"), z->name().c_str());
+                break;
+            case 6:
+                add_msg(m_neutral, _("The %s looks left and right!"), z->name().c_str());
+                break;
+            case 7:
+                add_msg(m_neutral, _("The %s jumps back and forth!"), z->name().c_str());
+                break;
+            case 8:
+                add_msg(m_neutral, _("The %s raises its arms in the air!"), z->name().c_str());
+                break;
+            case 9:
+                add_msg(m_neutral, _("The %s swings its hips!"), z->name().c_str());
+                break;
+            case 10:
+                add_msg(m_neutral, _("The %s claps!"), z->name().c_str());
+                break;
+        }
+    }
+}
+
 void mattack::dogthing(monster *z)
 {
     if (!one_in(3) || !g->u_see(z)) {
