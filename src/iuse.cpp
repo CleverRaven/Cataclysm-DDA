@@ -2688,18 +2688,6 @@ int iuse::fish_trap(player *p, item *it, bool t)
                 //Also: corpses and comestibles not rot in containers like this, but on the ground will rot.
                 g->m.add_item_or_charges(pos.x, pos.y, fish);
             }
-
-            const int dist = rl_dist(p->posx, p->posy, pos.x, pos.y);
-            if (dist < 10 && p->sees(pos.x, pos.y)) {                
-
-                if (fishes == 1) {
-                    p->add_msg_if_player(m_good, _("It seems trapped something there."));
-                } else if (fishes == 2) {
-                    p->add_msg_if_player(m_good, _("It seems trapped fish will be enough for fish soup!"));
-                } else {
-                    p->add_msg_if_player(m_good, _("Here is the catch! You can brag to other fishermen!"));
-                }
-            }
         }
         return 0;
     } else {
