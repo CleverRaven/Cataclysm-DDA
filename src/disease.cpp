@@ -1209,9 +1209,8 @@ void dis_effect(player &p, disease &dis)
 
         case DI_DATURA:
 		    {
-                p.mod_per_bonus(-4);
-                p.mod_int_bonus(2);
-                p.mod_dex_bonus(-1);
+                p.mod_per_bonus(-6);
+                p.mod_dex_bonus(-3);
                 if (p.has_disease("asthma")) {
                     add_msg(m_good, _("You can breathe again!"));
                     p.rem_disease("asthma");
@@ -2828,10 +2827,6 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
             return _(
             "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
 			
-    case DI_DATURA:
-            return _(
-            "Intelligence + 2;   Dexterity - 1; Perception - 4");
-
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
