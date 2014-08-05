@@ -1115,10 +1115,8 @@ void mattack::callblobs( monster *z )
         }
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
-        if ((*ally)->has_effect("controlled")) {
-            (*ally)->add_effect("controlled", 1, 1);
-        } else {
-            (*ally)->add_effect("controlled", 2, 1);
+        if (!(*ally)->has_effect("controlled")) {
+            (*ally)->add_effect("controlled", 1, 1, true);
         }
     }
     // This is telepathy, doesn't take any moves.
@@ -1129,7 +1127,7 @@ void mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
-    std::vector<point> nearby_points = closest_points_first( 5, z->pos() );
+    std::vector<point> nearby_points = closest_points_first( 3, z->pos() );
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
@@ -1155,16 +1153,14 @@ void mattack::jackson( monster *z )
         }
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
-        if ((*ally)->has_effect("controlled")) {
-            (*ally)->add_effect("controlled", 1, 1);
-        } else {
-            (*ally)->add_effect("controlled", 2, 1);
+        if (!(*ally)->has_effect("controlled")) {
+            (*ally)->add_effect("controlled", 1, 1, true);
         }
     }
     // Did we convert anybody?
     if (converted) {
         if (g->u_see(z->posx(), z->posy())) {
-            add_msg(m_warning, _("The %s lets out a shriek..."), z->name().c_str());
+            add_msg(m_warning, _("The %s lets out a high-pitched cry!"), z->name().c_str());
         }
     }
     // This is telepathy, doesn't take any moves.

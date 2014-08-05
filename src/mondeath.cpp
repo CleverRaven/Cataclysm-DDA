@@ -379,11 +379,22 @@ void mdeath::blobsplit(monster *z) {
     }
 }
 
+void mdeath::brainblob(monster *z) {
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        monster *candidate = &g->zombie( i );
+        if(candidate->type->in_species("BLOB") && candidate->type->id != "mon_blob_brain" ) {
+            candidate->remove_effect("controlled");
+        }
+    }
+    blobsplit(z);
+}
+
 void mdeath::jackson(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
         if(candidate->type->id == "mon_zombie_dancer" ) {
             candidate->poly(GetMType("mon_zombie_hulk"));
+            candidate->remove_effect("controlled");
         }
         if (g->u_see(z->posx(), z->posy())) {
             add_msg(m_warning, _("The music stops!"));

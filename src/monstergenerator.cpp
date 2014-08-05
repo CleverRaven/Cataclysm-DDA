@@ -131,6 +131,7 @@ void MonsterGenerator::init_death()
     death_map["WORM"] = &mdeath::worm;// Spawns 2 half-worms
     death_map["DISAPPEAR"] = &mdeath::disappear;// Hallucination disappears
     death_map["GUILT"] = &mdeath::guilt;// Morale penalty
+    death_map["BRAINBLOB"] = &mdeath::brainblob;// Frees blobs, redirects to brainblob()
     death_map["BLOBSPLIT"] = &mdeath::blobsplit;// Creates more blobs
     death_map["JACKSON"] = &mdeath::jackson;// Reverts dancers
     death_map["MELT"] = &mdeath::melt;// Normal death, but melts

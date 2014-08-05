@@ -20,6 +20,7 @@ public:
     void worm           (monster *z); // Spawns 2 half-worms
     void disappear      (monster *z); // Hallucination disappears
     void guilt          (monster *z); // Morale penalty
+    void brainblob      (monster *z); // Frees blobs, redirects to blobsplit
     void blobsplit      (monster *z); // Creates more blobs
     void jackson        (monster *z); // Reverts dancers
     void melt           (monster *z); // Normal death, but melts
