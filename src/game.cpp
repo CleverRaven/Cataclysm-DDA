@@ -629,7 +629,7 @@ void game::start_game(std::string worldname)
         u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
     }
     u.moves = 0;
-    u.reset();
+    u.reset_bonuses();
     u.process_turn(); // process_turn adds the initial move points
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
@@ -1396,7 +1396,7 @@ bool game::do_turn()
 
     monmove();
     update_stair_monsters();
-    u.reset();
+    u.reset_bonuses();
     u.process_turn();
     u.process_active_items();
 
@@ -6234,7 +6234,7 @@ void game::monmove()
         }
 
         if (!critter->is_dead()) {
-            critter->reset();
+            critter->reset_bonuses();
             critter->process_turn();
         }
 
@@ -6294,7 +6294,7 @@ void game::monmove()
         if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
             (*it)->die( nullptr );
         } else {
-            (*it)->reset();
+            (*it)->reset_bonuses();
             (*it)->process_turn();
             while (!(*it)->is_dead() && (*it)->moves > 0 && turns < 10) {
                 int moves = (*it)->moves;
