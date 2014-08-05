@@ -2696,7 +2696,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     mvwprintz(w_stats, 2, 1, h_ltgray, _("Strength:"));
                     mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP: %d              "), hp_max[1]);
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight: %.1f %s     "),
-                              convert_weight(weight_capacity(false)),
+                              convert_weight(weight_capacity()),
                               OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
                     mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage: %d         "),
                               base_damage(false));
@@ -6255,14 +6255,11 @@ int player::volume_carried() const
     return inv.volume();
 }
 
-int player::weight_capacity(bool /* return_stat_effect */) const
+int player::weight_capacity() const
 {
-    // return_stat_effect is effectively pointless
-    // player info window shows current stat effects
-    // current str is used anyway (probably) always.
-    // int str = return_stat_effect ? get_str() : get_str();
-    int str = get_str();
-    int ret = 13000 + str * 4000;
+    // Get base capacity from creature,
+    // then apply player-only mutation and trait effects.
+    int ret = Creature::weight_capacity();
     if (has_trait("BADBACK")) {
         ret = int(ret * .65);
     }

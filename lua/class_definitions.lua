@@ -102,7 +102,7 @@ classes = {
                 rval = "int"
             },
             weight_capacity = {
-                args = { "bool" },
+                args = {},
                 rval = "int"
             },
             volume_carried = {
