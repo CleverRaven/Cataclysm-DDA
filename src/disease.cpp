@@ -1220,41 +1220,41 @@ void dis_effect(player &p, disease &dis)
                   p.focus_pool--;
             } if (dis.duration > 2000 && one_in(8) && p.stim < 20) {
                   p.stim++;
-            } if (dis.duration > 4000 && one_in(4)) {
+            } if (dis.duration > 3000 && p.focus_pool >= 1 && one_in(2)) {
+                  p.focus_pool--;
+            } if (dis.duration > 4000 && one_in(64)) {
                   p.mod_pain(rng(-1, -8));
-            } if (dis.duration > 6000 && one_in(128)) {
+            } if ((!p.has_disease ("hallu")) && (dis.duration > 5000 && one_in(4))) {
                   p.add_disease("hallu", rng(200, 1000));
-				  if (dis.duration > 8000 && one_in(8)) {
-                  p.mod_pain(rng(2, 20));
-				  if (one_in(4)) {
+            } if (dis.duration > 6000 && one_in(128)) {
+                  p.mod_pain(rng(-3, -24));
+				  if (dis.duration > 8000 && one_in(16)) {
                       add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                       add_msg(m_bad, _("You stagger and fall!"));
                       p.add_effect("downed",rng(1,4));
-                  }  if (one_in(8) || will_vomit(p, 10)) {
-                        p.vomit();
-                    }
+                      if (one_in(8) || will_vomit(p, 10)) {
+                            p.vomit();
+                       }
 			      }
+            } if (dis.duration > 7000 && p.focus_pool >= 1) {
+                  p.focus_pool--;
             } if (dis.duration > 8000 && one_in(256)) {
-                  p.add_disease("visuals", rng(20, 100));
-                  p.mod_pain(rng(-8, -40));
-            } if (dis.duration > 12000 && one_in(32)) {
-                  add_msg(m_bad, _("There's some kind of big machine in the sky."));
                   p.add_disease("visuals", rng(40, 200));
-				  if (one_in(4)) {
-                  add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
-                  p.add_disease("hallu", rng(1000, 4000));
-                    if (one_in(2) || will_vomit(p, 10)) {
+                  p.mod_pain(rng(-8, -40));
+            } if (dis.duration > 12000 && one_in(256)) {
+                  add_msg(m_bad, _("There's some kind of big machine in the sky."));
+                  p.add_disease("visuals", rng(80, 400));
+				  if (one_in(32)) {
+                        add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
                         p.mod_pain(rng(4, 40));
                         p.vomit();
-                    }
 				  };
             } if (dis.duration > 14000 && one_in(128)) {
                   add_msg(m_bad, _("Order us some golf shoes, otherwise we'll never get out of this place alive."));
-                  p.add_disease("visuals", rng(4, 20));
+                  p.add_disease("visuals", rng(400, 2000));
 				  if (one_in(8)) {
                   add_msg(m_bad, _("The possibility of physical and mental collapse is now very real."));
-                  p.add_disease("hallu", rng(10, 40));
-                    if (one_in(4) || will_vomit(p, 10)) {
+                    if (one_in(2) || will_vomit(p, 10)) {
                         add_msg(m_bad, _("No one should be asked to handle this trip."));
                         p.vomit();
                         p.mod_pain(rng(8, 40));
