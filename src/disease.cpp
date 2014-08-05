@@ -1221,28 +1221,28 @@ void dis_effect(player &p, disease &dis)
             } if (dis.duration > 4000 && one_in(4)) {
                   p.mod_pain(rng(-1, -8));
             } if (dis.duration > 6000 && one_in(128)) {
-                  p.add_disease("hallu", rng(2, 10));
+                  p.add_disease("hallu", rng(200, 1000));
 				  if (dis.duration > 8000 && one_in(16)) {
                   add_msg(m_bad, _("You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column."));
                   p.mod_pain(rng(2, 20));
 				  if (one_in(4)) {
                       add_msg(m_bad, _("You stagger and fall!"));
                       p.add_effect("downed",rng(1,4));
-                  }  if (one_in(20) || will_vomit(p, 10)) {
+                  }  if (one_in(10) || will_vomit(p, 10)) {
                         p.vomit();
                     }
 			      }
             } if (dis.duration > 8000 && one_in(256)) {
-                  p.add_disease("visuals", rng(2, 10));
+                  p.add_disease("visuals", rng(20, 100));
                   p.mod_pain(rng(-8, -40));
             } if (dis.duration > 12000 && one_in(16)) {
                   add_msg(m_bad, _("There's some kind of big machine in the sky."));
-                  p.add_disease("visuals", rng(4, 20));
+                  p.add_disease("visuals", rng(40, 200));
 				  if (one_in(4)) {
                   add_msg(m_bad, _("It's some kind of electric snake, coming right at you!"));
-                  p.add_disease("hallu", rng(10, 40));
+                  p.add_disease("hallu", rng(1000, 4000));
 
-                    if (one_in(20) || will_vomit(p, 10)) {
+                    if (one_in(4) || will_vomit(p, 10)) {
                         p.mod_pain(rng(4, 40));
                         p.vomit();
                     }
