@@ -8172,12 +8172,11 @@ int iuse::robotcontrol(player *p, item *it, bool)
     return 0;
 }
 
-void init_memory_card_with_random_stuff(player *p, item * it)
+void init_memory_card_with_random_stuff(player *p, item *it)
 {
 
     if (it->has_flag("MC_MOBILE") && it->has_flag("MC_RANDOM_STUFF") && !(it->has_flag("MC_USED") ||
-    it->has_flag("MC_HAS_DATA")))
-    {
+            it->has_flag("MC_HAS_DATA"))) {
 
         it->item_tags.insert("MC_HAS_DATA");
 
@@ -8349,8 +8348,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
 int iuse::einktabletpc(player *p, item *it, bool t)
 {
-    if (t)
-    {
+    if (t) {
 
         if (it->item_vars["EIPC_MUSIC_ON"] != "") {
 
@@ -8387,19 +8385,16 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             ei_cancel, ei_photo, ei_music, ei_recipe, ei_docs, ei_download, ei_upload, ei_decrypt
         };
 
-        if (p->is_underwater())
-        {
+        if (p->is_underwater()) {
             p->add_msg_if_player(m_info, _("You can't do that while underwater."));
             return 0;
         }
-        if (p->has_trait("ILLITERATE"))
-        {
+        if (p->has_trait("ILLITERATE")) {
             add_msg(m_info, _("You cannot read a computer screen."));
             return 0;
         }
         if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
-            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts"))
-        {
+            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts")) {
             add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
             return 0;
         }
@@ -8412,8 +8407,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
         bool has_something_uploadable = false;
 
-        if (it->item_vars["EIPC_PHOTOS"] != "")
-        {
+        if (it->item_vars["EIPC_PHOTOS"] != "") {
             has_something_uploadable = true;
             const int photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
             amenu.addentry(ei_photo, true, 'p', _("Photos [%d]"), photos);
@@ -8421,8 +8415,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             amenu.addentry(ei_photo, false, 'p', _("No photos on device"));
         }
 
-        if (it->item_vars["EIPC_MUSIC"] != "")
-        {
+        if (it->item_vars["EIPC_MUSIC"] != "") {
             if (it->active) {
                 has_something_uploadable = true;
                 amenu.addentry(ei_music, true, 'm', _("Turn music off"));
@@ -8434,20 +8427,17 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             amenu.addentry(ei_music, false, 'm', _("No music on device"));
         }
 
-        if (it->item_vars["RECIPE"] != "")
-        {
+        if (it->item_vars["RECIPE"] != "") {
             const item dummy(it->item_vars["RECIPE"], 0);
             amenu.addentry(0, false, -1, _("Recipe: %s"), dummy.tname().c_str());
         }
 
-        if (it->item_vars["EIPC_RECIPES"] != "")
-        {
+        if (it->item_vars["EIPC_RECIPES"] != "") {
             has_something_uploadable = true;
             amenu.addentry(ei_recipe, true, 'r', _("View recipe on E-ink screen"));
         }
 
-        if (it->item_vars["EIPC_DOCS"] != "")
-        {
+        if (it->item_vars["EIPC_DOCS"] != "") {
             has_something_uploadable = true;
             amenu.addentry(ei_docs, true, 'y', _("Your documents"));
         } else {
@@ -8456,15 +8446,13 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
         amenu.addentry(ei_download, true, 'w', _("Download data from memory card"));
 
-        if (has_something_uploadable)
-        {
+        if (has_something_uploadable) {
             amenu.addentry(ei_upload, true, 'u', _("Upload data to memory card"));
         } else {
             amenu.addentry(ei_upload, false, 'u', _("No internal data to upload"));
         }
 
-        if (p->skillLevel("computer") > 2)
-        {
+        if (p->skillLevel("computer") > 2) {
             amenu.addentry(ei_decrypt, true, 'd', _("Decrypt memory card"));
         } else {
             amenu.addentry(ei_decrypt, false, 'd', _("Decrypt memory card (low skill)"));
@@ -8474,13 +8462,11 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
         const int choice = amenu.ret;
 
-        if (ei_cancel == choice)
-        {
+        if (ei_cancel == choice) {
             return it->type->charges_to_use();
         }
 
-        if (ei_photo == choice)
-        {
+        if (ei_photo == choice) {
 
             const int photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
             const int viewed = std::min(photos, int(rng(10, 30)));
@@ -8530,8 +8516,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
-        if (ei_music == choice)
-        {
+        if (ei_music == choice) {
 
             p->moves -= 100;
 
@@ -8551,8 +8536,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
-        if (ei_recipe == choice)
-        {
+        if (ei_recipe == choice) {
 
             uimenu rmenu;
 
@@ -8591,8 +8575,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
-        if (ei_download == choice)
-        {
+        if (ei_download == choice) {
 
             p->moves -= 200;
 
@@ -8623,8 +8606,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
-        if (ei_decrypt == choice)
-        {
+        if (ei_decrypt == choice) {
 
             p->moves -= 200;
 
@@ -8685,17 +8667,18 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
 int iuse::camera(player *p, item *it, bool)
 {
-
     enum {c_cancel, c_shot, c_photos};
+    const std::string photo_quality_names[] = { _("awful"), _("bad"), _("not bad"), _("good"), _("fine"), _("exceptional")};
 
     uimenu amenu;
 
     amenu.selected = 0;
     amenu.text = _("What to do with camera?");
+    amenu.addentry(c_shot, true, 'p', _("Take a photo"));
+    amenu.addentry(c_photos, true, 'l', _("List photos"));
     amenu.addentry(c_cancel, true, 'q', _("Cancel"));
-    amenu.addentry(c_shot, true, 's', _("Take a photo"));
-    amenu.addentry(c_photos, true, 'p', _("Photos"));
 
+    amenu.query();
     const int choice = amenu.ret;
 
     if (c_cancel == choice) {
@@ -8717,54 +8700,100 @@ int iuse::camera(player *p, item *it, bool)
         }
 
         const int sel_zid = g->mon_at(pos.x, pos.y);
-        const int sel_tnpcID = g->npc_at(pos.x, pos.y);
+        const int sel_npcID = g->npc_at(pos.x, pos.y);
 
-        if (sel_zid == -1 && sel_tnpcID == -1) {
+        if (sel_zid == -1 && sel_npcID == -1) {
             p->add_msg_if_player(_("There is no creature to take photo."));
             return 0;
         }
 
         std::vector <point> trajectory = line_to(p->posx, p->posy, pos.x, pos.y, 0);
+        trajectory.push_back(point(pos.x, pos.y));
 
         if (trajectory.empty()) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }
 
-        for (int i = 0; i < trajectory.size(); i++) {
-            const int tx = trajectory[i].x;
-            const int ty = trajectory[i].y;
+        g->sound(p->posx, p->posy, 8, _("TODO: some sound of photo'shot in english."));
 
-            const int zid = g->mon_at(tx, ty);
-            const int npcID = g->npc_at(tx, ty);
+        for (int i = 0; i < trajectory.size(); i++) {
+            int tx = trajectory[i].x;
+            int ty = trajectory[i].y;
+
+            int zid = g->mon_at(tx, ty);
+            int npcID = g->npc_at(tx, ty);
 
             if (zid != -1 || npcID != -1) {
+                int dist = rl_dist(p->posx, p->posy, tx, ty);
+
+                int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
+                int photo_quality = 20 - rng(dist, dist * 2) * 2 + rng(camera_bonus / 2, camera_bonus);
+                if (photo_quality > 5) {
+                    photo_quality = 5;
+                }
+                if (photo_quality < 0) {
+                    photo_quality = 0;
+                }
+
+                if (zid != -1) {
+                    monster &z = g->zombie(zid);
+
+                    if (dist < 4 && one_in(dist + 2) && z.has_flag(MF_SEES)) {
+                        p->add_msg_if_player(_("%s looks blinded."), z.name().c_str());
+                        z.add_effect("blind", rng(5, 10));
+                    }
+
+                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination())) {
+                        continue;
+                    }
+
+                    if (zid != sel_zid) {
+                        p->add_msg_if_player(m_warning, _("%s standing in the way of the lens."), z.name().c_str());
+                        return it->type->charges_to_use();
+                    }
+
+                    if (z.is_hallucination()) {
+                        p->add_msg_if_player(_("Strange, but in the picture anyone..."));
+                        return it->type->charges_to_use();
+                    }
+
+                    if (z.mission_id != -1) {
+                        //quest processing...
+                    }
+
+                    p->add_msg_if_player(_("You shot %s in %s quality."), z.name().c_str(),
+                                         photo_quality_names[photo_quality].c_str());
+
+                    return it->type->charges_to_use();
+
+
+                } else {
+                    npc *guy = g->active_npc[npcID];
+
+                    if (dist < 4 && one_in(dist + 2)) {
+                        p->add_msg_if_player(_("%s looks blinded."), guy->name.c_str());
+                        guy->add_effect("blind", rng(5, 10));
+                    }
+
+                    if (npcID != sel_npcID) {
+                        p->add_msg_if_player(m_warning, _("%s standing in the way of the lens."), guy->name.c_str());
+                        return it->type->charges_to_use();
+                    }
+
+                    p->add_msg_if_player(_("You shot %s in %s quality."), guy->name.c_str(),
+                                         photo_quality_names[photo_quality].c_str());
+
+                    return it->type->charges_to_use();
+                }
 
                 return it->type->charges_to_use();
             }
 
         }
-
-
-
-        /*
-
-        if (zid != -1 && (!missed || one_in(7 - int(zombie(zid).type->size)))) {
-        monster &z = zombie(zid);
-
-        lse if (npcID != -1 && (!missed || one_in(4))) {
-        npc *guy = g->active_npc[npcID];
-
-        dist = rl_dist
-
-        */
-
-
-        return it->type->charges_to_use();
     }
 
     return it->type->charges_to_use();
-
 }
 
 int iuse::radiocar(player *p, item *it, bool)

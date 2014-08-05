@@ -879,7 +879,7 @@ void vehicle::play_music()
             if (!g->u.has_effect("music")){
                 g->u.add_effect("music", 1);
                 g->u.add_morale(MORALE_MUSIC, 5, 20, 30, 1);
-			}            
+            }
         }
     }
 }
