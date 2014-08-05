@@ -5674,7 +5674,7 @@
     "armor_bash":2,
     "armor_cut":2,
     "item_chance":60,
-    "death_drops": "default_zombie_death_drops",
+    "death_drops": "jackson_drops",
     "luminance":0,
     "hp":100,
     "special_freq":0,
