@@ -1408,7 +1408,7 @@
     "price": 1000,
     "material": ["steel", "plastic"],
     "weight": 42898,
-    "volume": 20,
+    "volume": 30,
     "bashing": 6,
     "cutting": 6,
     "to_hit": -2
@@ -1423,8 +1423,8 @@
     "description": "A broken tank drone.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": 1000,
     "material": ["steel", "plastic"],
-    "weight": 300,
-    "volume": 1,
+    "weight": 122385,
+    "volume": 60,
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3
@@ -1440,7 +1440,7 @@
     "description": "A broken manhack.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": 1000,
     "material": ["aluminum", "plastic"],
-    "weight": 3000,
+    "weight": 1213,
     "volume": 1,
     "bashing": 6,
     "cutting": 6,
