@@ -262,8 +262,8 @@ player& player::operator= (const player & rhs)
 
  hunger = rhs.hunger;
  thirst = rhs.thirst;
- stomach_food = rsh.stomach_food;
- stomach_water = rsh.stomach_water;
+ stomach_food = rhs.stomach_food;
+ stomach_water = rhs.stomach_water;
  fatigue = rhs.fatigue;
 
  underwater = rhs.underwater;
