@@ -59,10 +59,12 @@ struct damage_instance {
     damage_instance();
     static damage_instance physical(float bash, float cut, float stab, int arpen = 0);
     void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f);
+    damage_instance(damage_type dt, float a, int rp = 0, float rm = 1.0f);
     void add_effect( std::string effect );
     void mult_damage(double multiplier);
     float type_damage(damage_type dt) const;
     float total_damage() const;
+    void clear();
 };
 
 struct dealt_damage_instance {

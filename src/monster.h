@@ -50,7 +50,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 {
         friend class editmap;
     public:
-        using Creature::hit;
         monster();
         monster(mtype *t);
         monster(mtype *t, int x, int y);

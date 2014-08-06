@@ -12,6 +12,11 @@ damage_instance damage_instance::physical(float bash, float cut, float stab, int
     d.add_damage(DT_STAB, stab, arpen);
     return d;
 }
+damage_instance::damage_instance(damage_type dt, float a, int rp, float rm)
+{
+    add_damage( dt, a, rp, rm );
+}
+
 void damage_instance::add_damage(damage_type dt, float a, int rp, float rm)
 {
     damage_unit du(dt, a, rp, rm);
@@ -50,7 +55,11 @@ float damage_instance::total_damage() const
     }
     return ret;
 }
-
+void damage_instance::clear()
+{
+    damage_units.clear();
+    effects.clear();
+}
 
 dealt_damage_instance::dealt_damage_instance() : dealt_dams(NUM_DT, 0) { }
 //TODO: add check to ensure length
