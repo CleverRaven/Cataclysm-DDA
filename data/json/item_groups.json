@@ -7917,14 +7917,6 @@
       ["spike", 1]
     ]
   },{
-    "type" : "item_group",
-    "id" : "mushroom_forest",
-    "items":[
-      ["mushroom", 4],
-      ["mushroom_poison", 3],
-      ["mushroom_magic", 1]
-    ]
-  },{
 "type" : "item_group",
 "id" : "vending_ammo_pistol",
 "items":[
@@ -8294,6 +8286,52 @@
       ["tazer", 20],
       ["flashlight", 40],
       ["two_way_radio", 10]
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_spring",
+"subtype": "distribution",
+"entries" : [
+      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "wild_herbs", "prob": 10 }
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_summer",
+"subtype": "distribution",
+"entries" : [
+      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
+      { "group": "forage_mushroom", "prob": 50 },
+      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "wild_herbs", "prob": 10 }
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_autumn",
+"subtype": "distribution",
+"entries" : [
+      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
+      { "group": "forage_mushroom", "prob": 50 },
+      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "wild_herbs", "prob": 10 }
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_winter",
+"subtype": "distribution",
+"entries" : [
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_mushroom",
+"subtype": "distribution",
+"entries":[
+      { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
+      { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
+      { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
     ]
   }
 ]

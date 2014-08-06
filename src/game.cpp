@@ -11693,36 +11693,29 @@ void game::forage()
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
         found_something = true;
     }
-    if (veggy_chance < (u.skillLevel("survival") + ((u.per_cur / 2 - 4) + 3))) {
-        found_something = true;
-        if (!one_in(6) && (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == AUTUMN)) {
-            if (!one_in(3)) {
-                add_msg(m_good, _("You found some wild veggies!"));
-                m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, calendar::turn);
-                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-            } else {
-                add_msg(m_good, _("You found some wild mushrooms!"));
-                m.put_items_from("mushroom_forest", rng(1, 3), u.posx, u.posy,
-                                 calendar::turn, 0, 0, 0);
-                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-            }
-        } else if ( (calendar::turn.get_season() != WINTER) && (!one_in(3)) ) {
-            add_msg(m_good, _("You found a nest with some eggs!"));
-            if (!one_in(4)) {
-                m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
-            } else {
-                // 50% & ~16.7% chance to find these at spring, assuming you make your forage roll
-                // ~8.3% & ~2.8% chance to find these at summer / autumn, assuming you make your forage roll
-                // So maybe we can give more than 1.
-                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
-            }
-        } else if (calendar::turn.get_season() != WINTER) {
-            add_msg(m_good, _("You found some wild herbs!"));
-            m.spawn_item(u.posx, u.posy, "wild_herbs", 1, 0, calendar::turn);
-        } else {
-            found_something = false;
+    // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
+    if (veggy_chance < ((u.skillLevel("survival") * 1.5) + ((u.per_cur / 2 - 4) + 3))) {
+        items_location loc;
+        switch (calendar::turn.get_season()) {
+        case SPRING:
+            loc = "forage_spring";
+            break;
+        case SUMMER:
+            loc = "forage_summer";
+            break;
+        case AUTUMN:
+            loc = "forage_autumn";
+            break;
+        case WINTER:
+            loc = "forage_winter";
+            break;
         }
-        m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+        int cnt = m.put_items_from_loc(loc, u.posx, u.posy, calendar::turn); // returns zero if location has no defined items
+        if (cnt > 0) {
+            add_msg(m_good, _("You found something!"));
+            m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+            found_something = true;
+        }
     } else {
         if (one_in(2)) {
             m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
