@@ -6073,7 +6073,7 @@ int iuse::mp3_on(player *p, item *it, bool t)
                 case 5:
                     sound = _("dramatic classical music.");
                     if (p->int_cur >= 10) {
-                        p->add_morale(MORALE_MUSIC, 1, 100, 5, 2);
+                        p->add_morale(MORALE_MUSIC, 1, (50 + p->int_cur*2), 5, 2);
                     }
                     break;
             }
