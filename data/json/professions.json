@@ -1178,7 +1178,7 @@
         "ident": "bionic_worker",
         "name": "Industrial Cyborg",
         "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by your own metabolism.",
-        "points": 4,
+        "points": 5,
         "skills": [
             {
                 "level": 1,
@@ -1196,7 +1196,7 @@
         "CBMs":[
             "bio_tools",
             "bio_hydraulics",
-            "bio_metabolics",
+            "bio_batteries",
             "bio_power_storage_mkII"
         ],
         "items":{
