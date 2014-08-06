@@ -1361,8 +1361,8 @@
     "material": ["steel", "plastic"],
     "weight": 1565,
     "volume": 4,
-    "bashing": 6,
-    "cutting": 6,
+    "bashing": 4,
+    "cutting": 4,
     "to_hit": -3
   },
   {
@@ -1394,7 +1394,7 @@
     "weight": 17023,
     "volume": 10,
     "bashing": 6,
-    "cutting": 6,
+    "cutting": 10,
     "to_hit": -3
   },
   {
@@ -1409,7 +1409,7 @@
     "material": ["steel", "plastic"],
     "weight": 42898,
     "volume": 30,
-    "bashing": 6,
+    "bashing": 10,
     "cutting": 6,
     "to_hit": -2
   },
@@ -1420,13 +1420,13 @@
     "color": "green",
     "name": "broken tank drone",
     "category": "other",
-    "description": "A broken tank drone.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "description": "A broken tank drone.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": 1000,
     "material": ["steel", "plastic"],
     "weight": 122385,
     "volume": 60,
-    "bashing": 6,
-    "cutting": 6,
+    "bashing": 20,
+    "cutting": 15,
     "to_hit": -3
   },
 
