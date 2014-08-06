@@ -1185,7 +1185,7 @@ void player::update_bodytemp()
         // Chemical Imbalance
         // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
-        if ( has_disease("sleep") ) {
+        if ( has_disease("sleep") || has_disease("lying_down")) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
             // Too warm, don't need items on the floor
             if ( temp_conv[i] > BODYTEMP_NORM ) {
@@ -1212,18 +1212,13 @@ void player::update_bodytemp()
         }
         if (temp_cur[i] != temp_conv[i])
         {
-            if      ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage) &&
-                      (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r))
+            // If you're standing in deep water, you approach convergeant temp fast
+            // If you're standing in shallow water, only your feet and legs converge faster
+            if      ((ter_at_pos == t_water_dp || ter_at_pos == t_water_pool) ||
+                     ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage) &&
+                      (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)))
             {
                 temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
-            }
-            else if (ter_at_pos == t_water_dp)
-            {
-                temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
-            }
-            else if (i == bp_torso || i == bp_head)
-            {
-                temp_cur[i] = temp_difference*exp(-0.003) + temp_conv[i] + rounding_error;
             }
             else
             {
@@ -1234,32 +1229,37 @@ void player::update_bodytemp()
         // PENALTIES
         if      (temp_cur[i] < BODYTEMP_FREEZING)
         {
-            add_disease("cold", 1, false, 3, 3, 0, 1, (body_part)i, -1);
+            add_disease("cold", 1, false, 3, 3, 0, 1, (body_part)i, false);
             frostbite_timer[i] += 3;
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
-            add_disease("cold", 1, false, 2, 2, 0, 1, (body_part)i, -1);
+            add_disease("cold", 1, false, 2, 2, 0, 1, (body_part)i, false);
             frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
-            add_disease("cold", 1, false, 1, 1, 0, 1, (body_part)i, -1);
+            add_disease("cold", 1, false, 1, 1, 0, 1, (body_part)i, false);
             frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
-            add_disease("hot",  1, false, 3, 3, 0, 1, (body_part)i, -1);
+            add_disease("hot",  1, false, 3, 3, 0, 1, (body_part)i, false);
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
         {
-            add_disease("hot",  1, false, 2, 2, 0, 1, (body_part)i, -1);
+            add_disease("hot",  1, false, 2, 2, 0, 1, (body_part)i, false);
         }
         else if (temp_cur[i] > BODYTEMP_HOT)
         {
-            add_disease("hot",  1, false, 1, 1, 0, 1, (body_part)i, -1);
+            add_disease("hot",  1, false, 1, 1, 0, 1, (body_part)i, false);
+        }
+        else
+        {
+            rem_disease("cold", (body_part)i);
+            rem_disease("hot", (body_part)i);
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
@@ -1295,28 +1295,29 @@ void player::update_bodytemp()
         {
             frostbite_timer[i]--;
         }
-        if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
+        if ( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l)
         {
-            add_disease("frostbite", 1, false, 2, 2, 0, 1, (body_part)i, -1);
-            // Warning message for the player
-            if (disease_intensity("frostbite", false, (body_part)i) < 2
-                &&  (i == bp_mouth || i == bp_hand_l || i == bp_hand_r || i == bp_foot_l ||
-                      i == bp_foot_r))
+            if      (frostbite_timer[i] >= 2400 && g->get_temperature() < 32)
             {
-                //~ %s is bodypart
-                add_msg(m_bad, _("Your %s hardens from the frostbite!"),
-                                body_part_name(body_part(i)).c_str());
-            }
-            else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
-            {
-                add_disease("frostbite", 1, false, 1, 2, 0, 1, (body_part)i, -1);
                 // Warning message for the player
-                if (!has_disease("frostbite", (body_part)i))
+                if (frostbite_timer[i] == 2400 && temp_cur[i] < BODYTEMP_VERY_COLD)
+                {
+                    //~ %s is bodypart
+                    add_msg(m_bad, _("Your %s hardens from the frostbite!"),
+                                    body_part_name(body_part(i)).c_str());
+                }
+                add_disease("frostbite", 1, false, 2, 2, 0, 1, (body_part)i, false);
+            }
+            else if (frostbite_timer[i] >= 1200 && g->get_temperature() < 32)
+            {
+                // Warning message for the player
+                if (frostbite_timer[i] == 1200 && temp_cur[i] < BODYTEMP_VERY_COLD)
                 {
                     //~ %s is bodypart
                     add_msg(m_bad, _("You lose sensation in your %s."),
                         body_part_name(body_part(i)).c_str());
                 }
+                add_disease("frostbite", 1, false, 1, 1, 0, 1, (body_part)i, false);
             }
         }
         // Warn the player if condition worsens
