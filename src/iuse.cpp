@@ -8175,8 +8175,9 @@ int iuse::robotcontrol(player *p, item *it, bool)
 void init_memory_card_with_random_stuff(player *p, item *it)
 {
 
-    if (it->has_flag("MC_MOBILE") && (it->has_flag("MC_RANDOM_STUFF") || it->has_flag("MC_SCIENCE_STUFF")) && !(it->has_flag("MC_USED") ||
-            it->has_flag("MC_HAS_DATA"))) {
+    if (it->has_flag("MC_MOBILE") && (it->has_flag("MC_RANDOM_STUFF") ||
+                                      it->has_flag("MC_SCIENCE_STUFF")) && !(it->has_flag("MC_USED") ||
+                                              it->has_flag("MC_HAS_DATA"))) {
 
         it->item_tags.insert("MC_HAS_DATA");
 
@@ -8188,7 +8189,7 @@ void init_memory_card_with_random_stuff(player *p, item *it)
 
         //some special cards can contain "MC_ENCRYPTED" flag
         if (it->has_flag("MC_ENCRYPTED")) {
-            encrypted = true;            
+            encrypted = true;
         }
 
         int data_chance = 2;
@@ -8242,7 +8243,7 @@ void init_memory_card_with_random_stuff(player *p, item *it)
         }
 
         if (it->has_flag("MC_SCIENCE_STUFF")) {
-            it->item_vars["MC_RECIPE"] = "SCIENCE";            
+            it->item_vars["MC_RECIPE"] = "SCIENCE";
         }
     }
 }
@@ -8557,7 +8558,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
         if (ei_music == choice) {
 
-            p->moves -= 100;
+            p->moves -= 30;
 
             if (it->active) {
                 it->active = false;
@@ -8576,6 +8577,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         }
 
         if (ei_recipe == choice) {
+            p->moves -= 50;
 
             uimenu rmenu;
 
@@ -8711,7 +8713,6 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
                 return it->type->charges_to_use();
             }
-
             if (!mc->has_flag("MC_MOBILE")) {
                 p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
                 return it->type->charges_to_use();
@@ -8756,21 +8757,20 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
 int iuse::camera(player *p, item *it, bool)
 {
-    enum {c_cancel, c_shot, c_photos, c_upload};    
+    enum {c_cancel, c_shot, c_photos, c_upload};
 
     uimenu amenu;
 
     amenu.selected = 0;
     amenu.text = _("What to do with camera?");
     amenu.addentry(c_shot, true, 'p', _("Take a photo"));
-	if (it->item_vars["CAMERA_MONSTER_PHOTOS"] != ""){
-		amenu.addentry(c_photos, true, 'l', _("List photos"));
-		amenu.addentry(c_upload, true, 'u', _("Upload photos to memory card"));
-	}
-	else{
-		amenu.addentry(c_photos, false, 'l', _("No photos in memory"));
-	}
-    
+    if (it->item_vars["CAMERA_MONSTER_PHOTOS"] != "") {
+        amenu.addentry(c_photos, true, 'l', _("List photos"));
+        amenu.addentry(c_upload, true, 'u', _("Upload photos to memory card"));
+    } else {
+        amenu.addentry(c_photos, false, 'l', _("No photos in memory"));
+    }
+
     amenu.addentry(c_cancel, true, 'q', _("Cancel"));
 
     amenu.query();
@@ -8810,6 +8810,7 @@ int iuse::camera(player *p, item *it, bool)
             return 0;
         }
 
+        p->moves -= 50;
         g->sound(p->posx, p->posy, 8, _("TODO: SOME SOUND OF PHOTO'SHOT IN ENGLISH."));
 
         for (int i = 0; i < trajectory.size(); i++) {
@@ -8866,7 +8867,8 @@ int iuse::camera(player *p, item *it, bool)
                     const std::string mtype = z.type->id;
 
                     if (it->item_vars["CAMERA_MONSTER_PHOTOS"] == "") {
-                        it->item_vars["CAMERA_MONSTER_PHOTOS"] = "," + mtype + "," + string_format("%d", photo_quality) + ",";
+                        it->item_vars["CAMERA_MONSTER_PHOTOS"] = "," + mtype + "," + string_format("%d",
+                                photo_quality) + ",";
                     } else {
 
                         const size_t strpos = it->item_vars["CAMERA_MONSTER_PHOTOS"].find("," + mtype + ",");
@@ -8973,44 +8975,45 @@ int iuse::camera(player *p, item *it, bool)
         return it->type->charges_to_use();
     }
 
-	if (c_upload == choice){
+    if (c_upload == choice) {
 
-		p->moves -= 200;
+        p->moves -= 200;
 
-		const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
-		item *mc = &(p->i_at(pos));
+        const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+        item *mc = &(p->i_at(pos));
 
-		if (mc == NULL || mc->is_null()) {
-			p->add_msg_if_player(m_info, _("You do not have that item!"));
-			return it->type->charges_to_use();
-		}
-		if (!mc->has_flag("MC_MOBILE")) {
-			p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
-			return it->type->charges_to_use();
-		}
+        if (mc == NULL || mc->is_null()) {
+            p->add_msg_if_player(m_info, _("You do not have that item!"));
+            return it->type->charges_to_use();
+        }
+        if (!mc->has_flag("MC_MOBILE")) {
+            p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
+            return it->type->charges_to_use();
+        }
 
-		init_memory_card_with_random_stuff(p, mc);
+        init_memory_card_with_random_stuff(p, mc);
 
-		if (mc->has_flag("MC_ENCRYPTED")) {
+        if (mc->has_flag("MC_ENCRYPTED")) {
+            if (!query_yn(_("This memory card is encrypted. Format and clear data?"))) {
+                return it->type->charges_to_use();
+            }
+        }
+        if (mc->has_flag("MC_HAS_DATA")) {
+            if (!query_yn(_("Are you sure to clear old data on card?"))) {
+                return it->type->charges_to_use();
+            }
+        }
 
-			if (!query_yn(_("This memory card is encrypted. Format and clear data?"))){
-				return it->type->charges_to_use();
-			}
-		}
-		if (mc->has_flag("MC_HAS_DATA")) {
-			if (!query_yn(_("Are you sure to clear old data on card?"))){
-				return it->type->charges_to_use();
-			}
-		}
+        mc->make("mobile_memory_card");
+        mc->item_tags.clear();
+        mc->item_vars.clear();
+        mc->item_tags.insert("MC_HAS_DATA");
 
-		mc->make("mobile_memory_card");
-		mc->item_tags.insert("MC_HAS_DATA");
+        mc->item_vars["MC_MONSTER_PHOTOS"] = it->item_vars["CAMERA_MONSTER_PHOTOS"];
+        p->add_msg_if_player(m_info, _("You upload monster photos to memory card."));
 
-		mc->item_vars["MC_MONSTER_PHOTOS"] = it->item_vars["CAMERA_MONSTER_PHOTOS"];
-		p->add_msg_if_player(m_info, _("You upload monster photos to memory card."));
-
-		return it->type->charges_to_use();
-	}
+        return it->type->charges_to_use();
+    }
 
     return it->type->charges_to_use();
 }
