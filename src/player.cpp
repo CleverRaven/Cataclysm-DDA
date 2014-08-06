@@ -8151,11 +8151,11 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         // but best to code defensively.
         // Thanks for the warning, i2amroy.
         if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
-            int nut = rng(0, comest->nutr);
+            int nut = (rng(0, comest->nutr) * 0.66 );
             hunger -= nut;
             thirst -= ((comest->quench) * 0.66 );
             stomach_food += nut;
-            stomach_water += comest->quench;
+            stomach_water += ((comest->quench) * 0.66 );
             if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
                 mod_healthy_mod(-30);
             }
