@@ -143,9 +143,12 @@
     ],
     "components": [
       [
-        [ "scrap", 5 ],
-        [ "lead", 50 ],
-        [ "gold_small", 50 ]
+      [ "lead", 50 ],
+      [ "gold_small", 50 ],
+      [ "silver_small", 50 ],
+      [ "tin", 50 ],
+      [ "bismuth", 50 ],
+      [ "solder_wire", 50 ]
       ]
     ]
   },{
@@ -1102,7 +1105,8 @@
       [ "gold_small", 500 ],
       [ "silver_small", 500 ],
       [ "tin", 500 ],
-      [ "bismuth", 500 ]
+      [ "bismuth", 500 ],
+      [ "solder_wire", 500 ]
 
     ]
   ]
