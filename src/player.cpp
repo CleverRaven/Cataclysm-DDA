@@ -6639,7 +6639,7 @@ void player::process_active_items()
         if( !it.has_flag( "USE_UPS" ) ) {
             continue;
         }
-        if( it.charges < it.type->charges_to_use() ) {
+        if( it.charges < it.type->maximum_charges() ) {
             ch_UPS_used++;
             it.charges++;
         }
@@ -6765,7 +6765,12 @@ bool player::process_single_active_item(item *it)
             }
             if( charges_used > 0 ) {
                 if( it->has_flag( "USE_UPS" ) ) {
-                    if( use_charges_if_avail( "UPS_on", charges_used ) ) {
+		    //With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
+		    if (it->charges > charges_used){
+			it->charges -= charges_used;
+			charges_used = 0;
+		    }
+                    else if( use_charges_if_avail( "UPS_on", charges_used ) ) {
                         charges_used = 0;
                     }
                 } else if( it->charges > 0 ) {
@@ -6780,7 +6785,7 @@ bool player::process_single_active_item(item *it)
             if( charges_used == 0 ) {
                 tmp->invoke(this, it, true);
             } else {
-                if( it->has_flag( "USE_UPS" ) ) {
+                if( it->has_flag( "USE_UPS" ) && it->charges < charges_used) {
                     add_msg_if_player( _( "You need an active UPS to run %s!" ), it->tname().c_str() );
                 }
                 // deactivate
@@ -9267,7 +9272,8 @@ void player::use(int pos)
         }
         if( used->has_flag( "USE_UPS" ) ) {
             use_charges( "UPS", charges_used );
-            if( used->active && !has_active_UPS() ) {
+	    //Replace 1 with charges it needs to use.
+            if( used->active && !has_active_UPS() && used->charges <= 1  ) {
                 add_msg_if_player( m_info, _( "You need an active UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
             }
         } else {
