@@ -8290,7 +8290,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
     if (mc->item_vars["MC_RECIPE"] != "")
     {
-        const bool science = it->item_vars["MC_RECIPE"] == "SCIENCE";
+        const bool science = mc->item_vars["MC_RECIPE"] == "SCIENCE";
 
         std::vector<recipe *> candidates;
         recipe_map recipes = g->list_recipes();
@@ -8298,14 +8298,24 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
             for (recipe_list::iterator list_iter = map_iter->second.begin();
                  list_iter != map_iter->second.end(); ++list_iter) {
-                if (science || (*list_iter)->cat == "CC_FOOD") {
 
-                    const int dif = (*list_iter)->difficulty;
+				const int dif = (*list_iter)->difficulty;
 
-                    if ((science || dif <= 3) && one_in(dif)) {
-                        candidates.push_back(*list_iter);
-                    }
-                }
+				if (science){
+					if (dif >= 3 && one_in(dif + 1)) {
+						candidates.push_back(*list_iter);
+					}
+				}
+				else{
+					if ((*list_iter)->cat == "CC_FOOD") {
+						if (dif <= 3 && one_in(dif)) {
+							candidates.push_back(*list_iter);
+						}
+					}
+
+				}
+
+                
             }
         }
 
@@ -8323,13 +8333,17 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
                 p->add_msg_if_player(m_good, _("You download recipe of %s into internal memory"),
                                      dummy.tname().c_str());
             } else {
-                if (eink->item_vars["EIPC_RECIPES"].find(rident) == std::string::npos) {
+                if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
                     p->add_msg_if_player(m_good, _("You download recipe of %s into internal memory"),
                                          dummy.tname().c_str());
-                }
+				}
+				else{
+					p->add_msg_if_player(m_good, _("Your tablet already has recipe of %s"),
+						dummy.tname().c_str());
+				}
             }
         }
     }
@@ -8658,8 +8672,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
                     mc->item_tags.clear();
                     mc->item_vars.clear();
-                    mc->make(mc->type->id.substr(0, mc->type->id.find("_encrypted")).c_str());
-                    mc->make(mc->type->id + "_used");
+                    mc->make("mobile_memory_card_used");
 
                 }
 
@@ -8667,15 +8680,13 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
             return it->type->charges_to_use();
         }
-
     }
-
 }
 
 int iuse::camera(player *p, item *it, bool)
 {
     enum {c_cancel, c_shot, c_photos};
-    const std::string photo_quality_names[] = { _("awful"), _("bad"), _("not bad"), _("good"), _("fine"), _("exceptional")};
+    const std::string photo_quality_names[] = { "awful", "bad", "not bad", "good", "fine", "exceptional"};
 
     uimenu amenu;
 
@@ -8743,6 +8754,9 @@ int iuse::camera(player *p, item *it, bool)
                     photo_quality = 0;
                 }
 
+                //todo: translation needed?
+                const std::string quality_name = photo_quality_names[photo_quality];
+
                 if (zid != -1) {
                     monster &z = g->zombie(zid);
 
@@ -8770,10 +8784,36 @@ int iuse::camera(player *p, item *it, bool)
                     }
 
                     p->add_msg_if_player(_("You shot %s in %s quality."), z.name().c_str(),
-                                         photo_quality_names[photo_quality].c_str());
+                                         quality_name.c_str());
+
+                    const std::string mtype = z.type->id;
+
+                    if (it->item_vars["CAMERA_PHOTOS"] == "") {
+                        it->item_vars["CAMERA_PHOTOS"] = "," + mtype + "," + string_format("%d", photo_quality) + ",";
+                    } else {
+
+                        const size_t strpos = it->item_vars["CAMERA_PHOTOS"].find("," + mtype + ",");
+
+                        if (strpos == std::string::npos) {
+                            it->item_vars["CAMERA_PHOTOS"] += mtype + "," + string_format("%d", photo_quality) + ",";
+                        } else {
+
+                            const size_t strqpos = strpos + mtype.size() + 2;
+                            char *chq = &it->item_vars["CAMERA_PHOTOS"][strqpos];
+                            const int old_quality = atoi(chq);
+
+                            if (photo_quality > old_quality) {
+                                chq = &string_format("%d", photo_quality)[0];
+                                it->item_vars["CAMERA_PHOTOS"][strqpos] = *chq;
+
+                                p->add_msg_if_player(_("This photo is better that previous."));
+
+                            }
+
+                        }
+                    }
 
                     return it->type->charges_to_use();
-
 
                 } else {
                     npc *guy = g->active_npc[npcID];
@@ -8788,6 +8828,7 @@ int iuse::camera(player *p, item *it, bool)
                         return it->type->charges_to_use();
                     }
 
+                    //just photo, no save.
                     p->add_msg_if_player(_("You shot %s in %s quality."), guy->name.c_str(),
                                          photo_quality_names[photo_quality].c_str());
 
@@ -8798,6 +8839,61 @@ int iuse::camera(player *p, item *it, bool)
             }
 
         }
+
+        return it->type->charges_to_use();
+    }
+
+    if (c_photos == choice) {
+
+        uimenu pmenu;
+
+        pmenu.selected = 0;
+        pmenu.text = _("Your monsters collection:");
+        pmenu.addentry(0, true, 'q', _("Cancel"));
+
+        std::vector<std::string> monster_photos;
+
+        std::istringstream f(it->item_vars["CAMERA_PHOTOS"]);
+        std::string s;
+        int k = 1;
+        while (getline(f, s, ',')) {
+
+            if (s.size() == 0) {
+                continue;
+            }
+
+            monster_photos.push_back(s);
+
+            std::string menu_str;
+
+            const monster dummy(GetMType(s));
+            menu_str = dummy.name();
+
+            getline(f, s, ',');
+            char *chq = &s[0];
+            const int quality = atoi(chq);
+
+            //todo: translation needed?
+            menu_str += " [" + photo_quality_names[quality] + "]";
+
+            pmenu.addentry(k++, true, -1, menu_str.c_str());
+        }
+
+        int choice;
+        do {
+            pmenu.query();
+            choice = pmenu.ret;
+
+            if (0 == choice) {
+                break;
+            }
+
+            const monster dummy(GetMType(monster_photos[choice - 1]));
+            popup(dummy.type->description.c_str());
+
+        } while (true);
+
+        return it->type->charges_to_use();
     }
 
     return it->type->charges_to_use();
