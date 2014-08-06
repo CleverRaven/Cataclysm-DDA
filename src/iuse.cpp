@@ -8250,16 +8250,15 @@ void init_memory_card_with_random_stuff(player *p, item *it)
 bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 {
     bool something_downloaded = false;
-    if (mc->item_vars["MC_PHOTOS"] != "")
-    {
+    if (mc->item_vars["MC_PHOTOS"] != "") {
         something_downloaded = true;
 
         int new_photos = atoi(mc->item_vars["MC_PHOTOS"].c_str());
         mc->item_vars["MC_PHOTOS"] = "";
 
         p->add_msg_if_player(m_good, string_format(
-            ngettext("You download %d new photo into internal memory.",
-        "You download %d new photos into internal memory.", new_photos)).c_str());
+                                 ngettext("You download %d new photo into internal memory.",
+                                          "You download %d new photos into internal memory.", new_photos)).c_str());
 
         int old_photos = 0;
         if (eink->item_vars["EIPC_PHOTOS"] != "") {
@@ -8269,8 +8268,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         eink->item_vars["EIPC_PHOTOS"] = string_format("%d", old_photos + new_photos);
     }
 
-    if (mc->item_vars["MC_MUSIC"] != "")
-    {
+    if (mc->item_vars["MC_MUSIC"] != "") {
         something_downloaded = true;
 
         int new_songs = atoi(mc->item_vars["MC_MUSIC"].c_str());
@@ -8288,8 +8286,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         eink->item_vars["EIPC_MUSIC"] = string_format("%d", old_songs + new_songs);
     }
 
-    if (mc->item_vars["MC_RECIPE"] != "")
-    {
+    if (mc->item_vars["MC_RECIPE"] != "") {
         const bool science = mc->item_vars["MC_RECIPE"] == "SCIENCE";
 
         std::vector<recipe *> candidates;
@@ -8299,23 +8296,22 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             for (recipe_list::iterator list_iter = map_iter->second.begin();
                  list_iter != map_iter->second.end(); ++list_iter) {
 
-				const int dif = (*list_iter)->difficulty;
+                const int dif = (*list_iter)->difficulty;
 
-				if (science){
-					if (dif >= 3 && one_in(dif + 1)) {
-						candidates.push_back(*list_iter);
-					}
-				}
-				else{
-					if ((*list_iter)->cat == "CC_FOOD") {
-						if (dif <= 3 && one_in(dif)) {
-							candidates.push_back(*list_iter);
-						}
-					}
+                if (science) {
+                    if (dif >= 3 && one_in(dif + 1)) {
+                        candidates.push_back(*list_iter);
+                    }
+                } else {
+                    if ((*list_iter)->cat == "CC_FOOD") {
+                        if (dif <= 3 && one_in(dif)) {
+                            candidates.push_back(*list_iter);
+                        }
+                    }
 
-				}
+                }
 
-                
+
             }
         }
 
@@ -8339,26 +8335,61 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
                     p->add_msg_if_player(m_good, _("You download recipe of %s into internal memory"),
                                          dummy.tname().c_str());
-				}
-				else{
-					p->add_msg_if_player(m_good, _("Your tablet already has recipe of %s"),
-						dummy.tname().c_str());
-				}
+                } else {
+                    p->add_msg_if_player(m_good, _("Your tablet already has recipe of %s"),
+                                         dummy.tname().c_str());
+                }
             }
         }
     }
 
-    //documents todo:
+    if (mc->item_vars["MC_MONSTER_PHOTOS"] != "") {
+        something_downloaded = true;
+        p->add_msg_if_player(m_good, _("You have updated your monster collection."));
 
-    if (mc->has_flag("MC_TURN_USED"))
-    {
+        if (eink->item_vars["EINK_MONSTER_PHOTOS"] == "") {
+            eink->item_vars["EINK_MONSTER_PHOTOS"] = mc->item_vars["MC_MONSTER_PHOTOS"];
+        } else {
+            std::istringstream f(mc->item_vars["MC_MONSTER_PHOTOS"]);
+            std::string s;
+            while (getline(f, s, ',')) {
+
+                if (s.size() == 0) {
+                    continue;
+                }
+
+                const std::string mtype = s;
+                getline(f, s, ',');
+                char *chq = &s[0];
+                const int quality = atoi(chq);
+
+                const size_t eink_strpos = eink->item_vars["EINK_MONSTER_PHOTOS"].find("," + mtype + ",");
+
+                if (eink_strpos == std::string::npos) {
+                    eink->item_vars["EINK_MONSTER_PHOTOS"] += mtype + "," + string_format("%d", quality) + ",";
+                } else {
+
+                    const size_t strqpos = eink_strpos + mtype.size() + 2;
+                    char *chq = &eink->item_vars["EINK_MONSTER_PHOTOS"][strqpos];
+                    const int old_quality = atoi(chq);
+
+                    if (quality > old_quality) {
+                        chq = &string_format("%d", quality)[0];
+                        eink->item_vars["EINK_MONSTER_PHOTOS"][strqpos] = *chq;
+                    }
+                }
+
+            }
+        }
+    }
+
+    if (mc->has_flag("MC_TURN_USED")) {
         mc->item_tags.clear();
         mc->item_vars.clear();
         mc->make("mobile_memory_card_used");
     }
 
-    if (!something_downloaded)
-    {
+    if (!something_downloaded) {
         p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
         return false;
     }
@@ -8366,6 +8397,8 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
     return true;
 
 }
+
+const std::string photo_quality_names[] = { "awful", "bad", "not bad", "good", "fine", "exceptional" };
 
 int iuse::einktabletpc(player *p, item *it, bool t)
 {
@@ -8392,10 +8425,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                     const std::string sound = get_random_music_description(p);
                     g->sound(pos.x, pos.y, 8, sound);
                 }
-
             }
-
-
         }
 
         return 0;
@@ -8403,7 +8433,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
     } else {
 
         enum {
-            ei_cancel, ei_photo, ei_music, ei_recipe, ei_docs, ei_download, ei_upload, ei_decrypt
+            ei_cancel, ei_photo, ei_music, ei_recipe, ei_monsters, ei_download, ei_decrypt
         };
 
         if (p->is_underwater()) {
@@ -8426,10 +8456,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         amenu.text = _("Choose menu option:");
         amenu.addentry(ei_cancel, true, 'q', _("Cancel"));
 
-        bool has_something_uploadable = false;
-
         if (it->item_vars["EIPC_PHOTOS"] != "") {
-            has_something_uploadable = true;
             const int photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
             amenu.addentry(ei_photo, true, 'p', _("Photos [%d]"), photos);
         } else {
@@ -8437,8 +8464,6 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         }
 
         if (it->item_vars["EIPC_MUSIC"] != "") {
-            has_something_uploadable = true;
-
             if (it->active) {
                 amenu.addentry(ei_music, true, 'm', _("Turn music off"));
             } else {
@@ -8455,24 +8480,16 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         }
 
         if (it->item_vars["EIPC_RECIPES"] != "") {
-            has_something_uploadable = true;
             amenu.addentry(ei_recipe, true, 'r', _("View recipe on E-ink screen"));
         }
 
-        if (it->item_vars["EIPC_DOCS"] != "") {
-            has_something_uploadable = true;
-            amenu.addentry(ei_docs, true, 'y', _("Your documents"));
+        if (it->item_vars["EINK_MONSTER_PHOTOS"] != "") {
+            amenu.addentry(ei_monsters, true, 'y', _("Your collection of monsters"));
         } else {
-            amenu.addentry(ei_docs, false, 'y', _("No documents on device"));
+            amenu.addentry(ei_monsters, false, 'y', _("Collection of monsters is empty"));
         }
 
         amenu.addentry(ei_download, true, 'w', _("Download data from memory card"));
-
-        if (has_something_uploadable) {
-            amenu.addentry(ei_upload, true, 'u', _("Upload data to memory card"));
-        } else {
-            amenu.addentry(ei_upload, false, 'u', _("No internal data to upload"));
-        }
 
         if (p->skillLevel("computer") > 2) {
             amenu.addentry(ei_decrypt, true, 'd', _("Decrypt memory card"));
@@ -8598,14 +8615,65 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
+        if (ei_monsters == choice) {
+
+            uimenu pmenu;
+
+            pmenu.selected = 0;
+            pmenu.text = _("Your collection of monsters:");
+            pmenu.addentry(0, true, 'q', _("Cancel"));
+
+            std::vector<std::string> monster_photos;
+
+            std::istringstream f(it->item_vars["EINK_MONSTER_PHOTOS"]);
+            std::string s;
+            int k = 1;
+            while (getline(f, s, ',')) {
+
+                if (s.size() == 0) {
+                    continue;
+                }
+
+                monster_photos.push_back(s);
+
+                std::string menu_str;
+
+                const monster dummy(GetMType(s));
+                menu_str = dummy.name();
+
+                getline(f, s, ',');
+                char *chq = &s[0];
+                const int quality = atoi(chq);
+
+                //todo: translation needed?
+                menu_str += " [" + photo_quality_names[quality] + "]";
+
+                pmenu.addentry(k++, true, -1, menu_str.c_str());
+            }
+
+            int choice;
+            do {
+                pmenu.query();
+                choice = pmenu.ret;
+
+                if (0 == choice) {
+                    break;
+                }
+
+                const monster dummy(GetMType(monster_photos[choice - 1]));
+                popup(dummy.type->description.c_str());
+
+            } while (true);
+
+            return it->type->charges_to_use();
+        }
+
         if (ei_download == choice) {
 
             p->moves -= 200;
 
             const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
             item *mc = &(p->i_at(pos));
-
-            init_memory_card_with_random_stuff(p, mc);
 
             if (mc == NULL || mc->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -8615,11 +8683,14 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
                 return it->type->charges_to_use();
             }
+
+            init_memory_card_with_random_stuff(p, mc);
+
             if (mc->has_flag("MC_ENCRYPTED")) {
                 p->add_msg_if_player(m_info, _("This memory card is encrypted."));
                 return it->type->charges_to_use();
             }
-            if (!(mc->has_flag("MC_HAS_DATA") || mc->has_flag("MC_DOCUMENTS"))) {
+            if (!mc->has_flag("MC_HAS_DATA")) {
                 p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
                 return it->type->charges_to_use();
             }
@@ -8636,8 +8707,6 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
             item *mc = &(p->i_at(pos));
 
-            init_memory_card_with_random_stuff(p, mc);
-
             if (mc == NULL || mc->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
                 return it->type->charges_to_use();
@@ -8647,6 +8716,8 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
                 return it->type->charges_to_use();
             }
+
+            init_memory_card_with_random_stuff(p, mc);
 
             if (!mc->has_flag("MC_ENCRYPTED")) {
                 p->add_msg_if_player(m_info, _("This memory card is not encrypted."));
@@ -8685,15 +8756,21 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
 int iuse::camera(player *p, item *it, bool)
 {
-    enum {c_cancel, c_shot, c_photos};
-    const std::string photo_quality_names[] = { "awful", "bad", "not bad", "good", "fine", "exceptional"};
+    enum {c_cancel, c_shot, c_photos, c_upload};    
 
     uimenu amenu;
 
     amenu.selected = 0;
     amenu.text = _("What to do with camera?");
     amenu.addentry(c_shot, true, 'p', _("Take a photo"));
-    amenu.addentry(c_photos, true, 'l', _("List photos"));
+	if (it->item_vars["CAMERA_MONSTER_PHOTOS"] != ""){
+		amenu.addentry(c_photos, true, 'l', _("List photos"));
+		amenu.addentry(c_upload, true, 'u', _("Upload photos to memory card"));
+	}
+	else{
+		amenu.addentry(c_photos, false, 'l', _("No photos in memory"));
+	}
+    
     amenu.addentry(c_cancel, true, 'q', _("Cancel"));
 
     amenu.query();
@@ -8733,7 +8810,7 @@ int iuse::camera(player *p, item *it, bool)
             return 0;
         }
 
-        g->sound(p->posx, p->posy, 8, _("TODO: some sound of photo'shot in english."));
+        g->sound(p->posx, p->posy, 8, _("TODO: SOME SOUND OF PHOTO'SHOT IN ENGLISH."));
 
         for (int i = 0; i < trajectory.size(); i++) {
             int tx = trajectory[i].x;
@@ -8788,23 +8865,23 @@ int iuse::camera(player *p, item *it, bool)
 
                     const std::string mtype = z.type->id;
 
-                    if (it->item_vars["CAMERA_PHOTOS"] == "") {
-                        it->item_vars["CAMERA_PHOTOS"] = "," + mtype + "," + string_format("%d", photo_quality) + ",";
+                    if (it->item_vars["CAMERA_MONSTER_PHOTOS"] == "") {
+                        it->item_vars["CAMERA_MONSTER_PHOTOS"] = "," + mtype + "," + string_format("%d", photo_quality) + ",";
                     } else {
 
-                        const size_t strpos = it->item_vars["CAMERA_PHOTOS"].find("," + mtype + ",");
+                        const size_t strpos = it->item_vars["CAMERA_MONSTER_PHOTOS"].find("," + mtype + ",");
 
                         if (strpos == std::string::npos) {
-                            it->item_vars["CAMERA_PHOTOS"] += mtype + "," + string_format("%d", photo_quality) + ",";
+                            it->item_vars["CAMERA_MONSTER_PHOTOS"] += mtype + "," + string_format("%d", photo_quality) + ",";
                         } else {
 
                             const size_t strqpos = strpos + mtype.size() + 2;
-                            char *chq = &it->item_vars["CAMERA_PHOTOS"][strqpos];
+                            char *chq = &it->item_vars["CAMERA_MONSTER_PHOTOS"][strqpos];
                             const int old_quality = atoi(chq);
 
                             if (photo_quality > old_quality) {
                                 chq = &string_format("%d", photo_quality)[0];
-                                it->item_vars["CAMERA_PHOTOS"][strqpos] = *chq;
+                                it->item_vars["CAMERA_MONSTER_PHOTOS"][strqpos] = *chq;
 
                                 p->add_msg_if_player(_("This photo is better that previous."));
 
@@ -8828,7 +8905,7 @@ int iuse::camera(player *p, item *it, bool)
                         return it->type->charges_to_use();
                     }
 
-                    //just photo, no save.
+                    //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
                     p->add_msg_if_player(_("You shot %s in %s quality."), guy->name.c_str(),
                                          photo_quality_names[photo_quality].c_str());
 
@@ -8848,12 +8925,12 @@ int iuse::camera(player *p, item *it, bool)
         uimenu pmenu;
 
         pmenu.selected = 0;
-        pmenu.text = _("Your monsters collection:");
+        pmenu.text = _("Monsters photo on camera:");
         pmenu.addentry(0, true, 'q', _("Cancel"));
 
         std::vector<std::string> monster_photos;
 
-        std::istringstream f(it->item_vars["CAMERA_PHOTOS"]);
+        std::istringstream f(it->item_vars["CAMERA_MONSTER_PHOTOS"]);
         std::string s;
         int k = 1;
         while (getline(f, s, ',')) {
@@ -8895,6 +8972,45 @@ int iuse::camera(player *p, item *it, bool)
 
         return it->type->charges_to_use();
     }
+
+	if (c_upload == choice){
+
+		p->moves -= 200;
+
+		const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+		item *mc = &(p->i_at(pos));
+
+		if (mc == NULL || mc->is_null()) {
+			p->add_msg_if_player(m_info, _("You do not have that item!"));
+			return it->type->charges_to_use();
+		}
+		if (!mc->has_flag("MC_MOBILE")) {
+			p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
+			return it->type->charges_to_use();
+		}
+
+		init_memory_card_with_random_stuff(p, mc);
+
+		if (mc->has_flag("MC_ENCRYPTED")) {
+
+			if (!query_yn(_("This memory card is encrypted. Format and clear data?"))){
+				return it->type->charges_to_use();
+			}
+		}
+		if (mc->has_flag("MC_HAS_DATA")) {
+			if (!query_yn(_("Are you sure to clear old data on card?"))){
+				return it->type->charges_to_use();
+			}
+		}
+
+		mc->make("mobile_memory_card");
+		mc->item_tags.insert("MC_HAS_DATA");
+
+		mc->item_vars["MC_MONSTER_PHOTOS"] = it->item_vars["CAMERA_MONSTER_PHOTOS"];
+		p->add_msg_if_player(m_info, _("You upload monster photos to memory card."));
+
+		return it->type->charges_to_use();
+	}
 
     return it->type->charges_to_use();
 }
