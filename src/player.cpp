@@ -1214,9 +1214,11 @@ void player::update_bodytemp()
         {
             // If you're standing in deep water, you approach convergeant temp fast
             // If you're standing in shallow water, only your feet and legs converge faster
-            if      ((ter_at_pos == t_water_dp || ter_at_pos == t_water_pool) ||
-                     ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage) &&
-                      (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)))
+            if      ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool ||
+                      ter_at_pos == t_swater_dp) ||
+                     ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh ||
+                        ter_at_pos == t_sewage) &&
+                      (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) )
             {
                 temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
             }
@@ -2830,7 +2832,7 @@ detecting traps and other things of interest."));
                 min = line - half_y;
                 max = line - half_y + encumb_win_size_y;
             }
-            
+
             for (int i = min; i < max; i++) {
                 iLayers = iArmorEnc = 0;
                 iWarmth = warmth(body_part(i));
@@ -2890,8 +2892,8 @@ Perception %+.1f when throwing items."),
             }
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
-            
-            
+
+
             action = ctxt.handle_input();
             if (action == "DOWN") {
                 if (line < 11) {
@@ -3173,7 +3175,7 @@ Perception %+.1f when throwing items."),
     delwin(w_grid_effect);
     delwin(w_grid_skill);
     delwin(w_grid_trait);
-    
+
     g->refresh_all();
 }
 
@@ -8548,7 +8550,7 @@ hint_rating player::rate_action_wear(item *it)
   return HINT_IFFY;
  }
  // Checks to see if the player is wearing shoes
- if (((it->covers.test(bp_foot_l) && is_wearing_shoes("left")) || 
+ if (((it->covers.test(bp_foot_l) && is_wearing_shoes("left")) ||
       (it->covers.test(bp_foot_r) && is_wearing_shoes("right"))) &&
       !it->has_flag("BELTED") && !it->has_flag("SKINTIGHT")) {
   return HINT_IFFY;
@@ -8900,7 +8902,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (((to_wear->covers.test(bp_foot_l) && is_wearing_shoes("left")) || 
+        if (((to_wear->covers.test(bp_foot_l) && is_wearing_shoes("left")) ||
               (to_wear->covers.test(bp_foot_r) && is_wearing_shoes("right"))) &&
               !to_wear->has_flag("BELTED") && !to_wear->has_flag("SKINTIGHT")) {
             // Checks to see if the player is wearing shoes
