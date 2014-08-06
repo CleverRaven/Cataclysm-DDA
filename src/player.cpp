@@ -1214,7 +1214,7 @@ void player::update_bodytemp()
         {
             // If you're standing in deep water, you approach convergeant temp fast
             // If you're standing in shallow water, only your feet and legs converge faster
-            if      ((ter_at_pos == t_water_dp) ||
+            if      ((ter_at_pos == t_water_dp || ter_at_pos == t_water_pool) ||
                      ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage) &&
                       (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)))
             {
