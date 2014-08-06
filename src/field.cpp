@@ -1330,22 +1330,22 @@ void map::step_in_field(int x, int y)
             //TODO: Add resistance to this with rubber shoes or something?
             if (cur->getFieldDensity() == 3 && !inside) {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
-                g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 4, 10 ) ) );
-                g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 4, 10 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_CUT, rng( 2, 8 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, rng( 2, 8 ) ) );
+                g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 4, 10 ) ) );
+                g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 4, 10 ) ) );
+                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 2, 8 ) ) );
+                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 2, 8 ) ) );
             } else if (cur->getFieldDensity() == 2 && !inside) {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
-                g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 2, 5 ) ) );
-                g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 2, 5 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_CUT, rng( 1, 4 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, rng( 1, 4 ) ) );
+                g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 2, 5 ) ) );
+                g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 2, 5 ) ) );
+                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 1, 4 ) ) );
+                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 1, 4 ) ) );
             } else if (!inside) {
                 add_msg(m_bad, _("The acid burns your legs and feet!"));
-                g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 1, 3 ) ) );
-                g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 1, 3 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_CUT, rng( 0, 2 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, rng( 0, 2 ) ) );
+                g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 1, 3 ) ) );
+                g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 1, 3 ) ) );
+                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 0, 2 ) ) );
+                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 0, 2 ) ) );
             }
             break;
 
@@ -1381,26 +1381,20 @@ void map::step_in_field(int x, int y)
             if (!g->u.has_active_bionic("bio_heatsink") && !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
                     add_msg(m_bad, _("You burn your legs and feet!"));
-                    g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_CUT, rng( 1, 4 ) ) );
-                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, rng( 1, 4 ) ) );
+                    g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 1, 4 ) ) );
+                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 1, 4 ) ) );
                 } else if (adjusted_intensity == 2) {
                     add_msg(m_bad, _("You're burning up!"));
-                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_CUT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, rng( 2, 6 ) ) );
-                    damage_instance d;
-                    d.add_damage( DT_BASH, 4 );
-                    d.add_damage( DT_CUT, rng( 4, 9 ) );
-                    g->u.deal_damage( nullptr, bp_torso, d );
+                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
                 } else if (adjusted_intensity == 3) {
                     add_msg(m_bad, _("You're set ablaze!"));
-                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_CUT, rng( 2, 6 ) ) );
-                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, rng( 2, 6 ) ) );
-                    damage_instance d;
-                    d.add_damage( DT_BASH, 4 );
-                    d.add_damage( DT_CUT, rng( 4, 9 ) );
-                    g->u.deal_damage( nullptr, bp_torso, d );
+                    g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                    g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
                     g->u.add_effect("onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
@@ -1480,12 +1474,9 @@ void map::step_in_field(int x, int y)
             if (inside) break; //fireballs can't touch you inside a car.
             if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit stops fire.
                 add_msg(m_bad, _("You're torched by flames!"));
-                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_CUT, rng( 2, 6 ) ) );
-                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, rng( 2, 6 ) ) );
-                damage_instance d;
-                d.add_damage( DT_BASH, 4 );
-                d.add_damage( DT_CUT, rng( 4, 9 ) );
-                g->u.deal_damage( nullptr, bp_torso, d );
+                g->u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
+                g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_HEAT, rng( 4, 9 ) ) );
             } else
                 add_msg(_("These flames do not burn you."));
             break;

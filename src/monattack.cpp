@@ -450,7 +450,7 @@ void mattack::growplants(monster *z)
                             //~ %s is bodypart name in accusative.
                             add_msg(m_bad, _("A tree bursts forth from the earth and pierces your %s!"),
                                     body_part_name_accusative(hit).c_str());
-                            g->u.deal_damage( z, hit, damage_instance( DT_CUT, rng( 10, 30 ) ) );
+                            g->u.deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
                         }
                     } else {
                         int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
@@ -475,7 +475,7 @@ void mattack::growplants(monster *z)
                                 add_msg(m_warning, _("A tree bursts forth from the earth and pierces %1$s's %2$s!"),
                                         g->active_npc[npcdex]->name.c_str(),
                                         body_part_name_accusative(hit).c_str());
-                            g->active_npc[npcdex]->deal_damage( z, hit, damage_instance( DT_CUT, rng( 10, 30 ) ) );
+                            g->active_npc[npcdex]->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
                         }
                     }
                     g->m.ter_set(z->posx() + i, z->posy() + j, t_tree_young);
@@ -525,7 +525,7 @@ void mattack::growplants(monster *z)
                                 //~ %s is bodypart name in accusative.
                                 add_msg(m_bad, _("The underbrush beneath your feet grows and pierces your %s!"),
                                         body_part_name_accusative(hit).c_str());
-                                g->u.deal_damage( z, hit, damage_instance( DT_CUT, rng( 10, 30 ) ) );
+                                g->u.deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
                             }
                         } else {
                             int npcdex = g->npc_at(z->posx() + i, z->posy() + j);
@@ -550,7 +550,7 @@ void mattack::growplants(monster *z)
                                     add_msg(m_warning, _("Underbrush grows into a tree, and it pierces %1$s's %2$s!"),
                                             g->active_npc[npcdex]->name.c_str(),
                                             body_part_name_accusative(hit).c_str());
-                                g->active_npc[npcdex]->deal_damage( z, hit, damage_instance( DT_CUT, rng( 10, 30 ) ) );
+                                g->active_npc[npcdex]->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
                             }
                         }
                     }
@@ -2183,7 +2183,7 @@ void mattack::longswipe(monster *z)
             int dam = rng(3, 7);
             //~ 1$s is bodypart name, 2$d is damage value.
             add_msg(m_bad, _("Your %1$s is slashed for %2$d damage!"), body_part_name(hit).c_str(), dam);
-            g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
+            g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
             g->u.practice( "dodge", z->type->melee_skill );
         }
         return;
@@ -2208,7 +2208,7 @@ void mattack::longswipe(monster *z)
     int dam = rng(6, 10);
     //~ %d is damage value.
     add_msg(m_bad, _("Your throat is slashed for %d damage!"), dam);
-    g->u.deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
+    g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
     g->u.add_disease("bleed", 100, false, 1, 1, 0, -1, hit, true);
     g->u.practice( "dodge", z->type->melee_skill );
 }
