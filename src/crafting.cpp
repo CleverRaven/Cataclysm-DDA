@@ -1549,6 +1549,7 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
             if (type == "welder") {
                 have_this_tool = (crafting_inv.has_tools("hacksaw", 1) ||
                                   crafting_inv.has_tools("survivor_belt", 1) ||
+                                  crafting_inv.has_tools("toolbox", 1) ||
                                   crafting_inv.has_tools("toolset", 1));
             }
 
