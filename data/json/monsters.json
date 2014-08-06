@@ -2495,7 +2495,7 @@
     "special_freq":20,
     "death_function":"MELT",
     "special_attack":"LUNGE",
-    "description":"This rotting corpse seaps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
+    "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
     },{
         "type" : "MONSTER",
