@@ -2094,6 +2094,43 @@ inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair
     return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
 }
 
+std::string swim_cost_text(int moves)
+{
+    return string_format( ngettext( "Swimming costs %+d movement point. ",
+                                    "Swimming costs %+d movement points. ",
+                                    moves ),
+                          moves );
+}
+
+std::string run_cost_text(int moves)
+{
+    return string_format( ngettext( "Running costs %+d movement point. ",
+                                    "Running costs %+d movement points. ",
+                                    moves ),
+                          moves );
+}
+
+std::string reload_cost_text(int moves)
+{
+    return string_format( ngettext( "Reloading costs %+d movement point. ",
+                                    "Reloading costs %+d movement points. ",
+                                    moves ),
+                          moves );
+}
+
+std::string melee_cost_text(int moves)
+{
+    return string_format( ngettext( "Melee and thrown attacks cost %+d movement point. ",
+                                    "Melee and thrown attacks cost %+d movement points. ",
+                                    moves ),
+                          moves );
+}
+
+std::string doge_skill_text(double mod)
+{
+    return string_format( _( "Dodge skill %+.1f. " ), mod );
+}
+
 void player::disp_info()
 {
     int line;
@@ -2813,87 +2850,44 @@ detecting traps and other things of interest."));
             werase(w_info);
             std::string s;
             if (line == 0) {
-                s = _("Melee skill %+d;");
-                s += _(" Dodge skill %+d;\n");
-                s += ngettext("Swimming costs %+d movement point;\n",
-                             "Swimming costs %+d movement points;\n",
-                             encumb(bp_torso) * (80 - skillLevel("swimming") * 3));
-                s += ngettext("Melee and thrown attacks cost %+d movement point.",
-                             "Melee and thrown attacks cost %+d movement points.",
-                             encumb(bp_torso) * 20);
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s.c_str(),
-                               -encumb(bp_torso), -encumb(bp_torso),
-                               encumb(bp_torso) * (80 - skillLevel("swimming") * 3),
-                               encumb(bp_torso) * 20);
+                s += string_format( _("Melee skill %+d; "), -encumb( bp_torso ) );
+                s += doge_skill_text( -encumb( bp_torso ) );
+                s += swim_cost_text( encumb( bp_torso ) * ( 80 - skillLevel( "swimming" ) * 3 ) );
+                s += melee_cost_text( encumb( bp_torso ) * 20 );
             } else if (line == 1) { //Torso
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Head encumbrance has no effect; it simply limits how much you can put on."));
+                s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
             } else if (line == 2) { //Head
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
+                s += string_format( _("\
 Perception %+d when checking traps or firing ranged weapons;\n\
 Perception %+.1f when throwing items."),
                                -encumb(bp_eyes),
                                double(double(-encumb(bp_eyes)) / 2));
             } else if (line == 3) { //Eyes
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, ngettext("\
-Running costs %+d movement point.", "Running costs %+d movement points.", encumb(bp_mouth) * 5), encumb(bp_mouth) * 5);
+                s += run_cost_text( encumb( bp_mouth ) * 5 );
             } else if (line == 4) { //Left Arm
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Arm encumbrance affects your accuracy with ranged weapons."));
+                s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 5) { //Right Arm
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Arm encumbrance affects your accuracy with ranged weapons."));
+                s += _("Arm encumbrance affects your accuracy with ranged weapons.");
             } else if (line == 6) { //Left Hand
-                s = ngettext("Reloading costs %+d movement point; ",
-                             "Reloading costs %+d movement points; ",
-                             encumb(bp_hand_l) * 15);
-                s += _("Dexterity %+d when throwing items.");
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str() , encumb(bp_hand_l) * 15,
-                               -encumb(bp_hand_l));
+                s += reload_cost_text( encumb( bp_hand_l ) * 15 );
+                s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_l ) );
             } else if (line == 7) { //Right Hand
-                s = ngettext("Reloading costs %+d movement point; ",
-                             "Reloading costs %+d movement points; ",
-                             encumb(bp_hand_r) * 15);
-                s += _("Dexterity %+d when throwing items.");
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str() , encumb(bp_hand_r) * 15,
-                               -encumb(bp_hand_r));
+                s += reload_cost_text( encumb( bp_hand_r ) * 15 );
+                s += string_format( _("Dexterity %+d when throwing items."), -encumb( bp_hand_r ) );
             } else if (line == 8) { //Left Leg
-                s = ngettext("Running costs %+d movement point; ",
-                             "Running costs %+d movement points; ",
-                             encumb(bp_leg_l) * 1.5);
-                s += ngettext("Swimming costs %+d movement point;\n",
-                             "Swimming costs %+d movement points;\n",
-                             encumb(bp_leg_l) * (50 - skillLevel("swimming") * 2) / 2);
-                s += _("Dodge skill %+.1f.");
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str(), encumb(bp_leg_l) * 1.5,
-                               encumb(bp_leg_l) * (50 - skillLevel("swimming") * 2) / 2,
-                               double(-encumb(bp_leg_l)) / 4);
+                s += run_cost_text( encumb( bp_leg_l ) * 1.5 );
+                s += swim_cost_text( encumb( bp_leg_l ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
+                s += doge_skill_text( -encumb( bp_leg_l ) / 4.0 );
             } else if (line == 9) { //Right Leg
-                s = ngettext("Running costs %+d movement point; ",
-                             "Running costs %+d movement points; ",
-                             encumb(bp_leg_r) * 1.5);
-                s += ngettext("Swimming costs %+d movement point;\n",
-                             "Swimming costs %+d movement points;\n",
-                             encumb(bp_leg_r) * (50 - skillLevel("swimming") * 2) / 2);
-                s += _("Dodge skill %+.1f.");
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               s.c_str(), encumb(bp_leg_r) * 1.5,
-                               encumb(bp_leg_r) * (50 - skillLevel("swimming") * 2) / 2,
-                               double(-encumb(bp_leg_r)) / 4);
+                s += run_cost_text( encumb( bp_leg_r ) * 1.5 );
+                s += swim_cost_text( encumb( bp_leg_r ) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
+                s += doge_skill_text( -encumb( bp_leg_r ) / 4.0 );
             } else if (line == 10) { //Left Foot
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               ngettext("Running costs %+d movement point.", 
-                                        "Running costs %+d movement points.",
-                                        encumb(bp_foot_l) * 2.5), encumb(bp_foot_l) * 2.5);
+                s += run_cost_text( encumb( bp_foot_l ) * 2.5 );
             } else if (line == 11) { //Right Foot
-                fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                               ngettext("Running costs %+d movement point.", 
-                                        "Running costs %+d movement points.",
-                                        encumb(bp_foot_r) * 2.5), encumb(bp_foot_r) * 2.5);
+                s += run_cost_text( encumb( bp_foot_r ) * 2.5 );
             }
+            fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
             
             
