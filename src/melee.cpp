@@ -1193,12 +1193,15 @@ bool player::can_weapon_block()
 }
 
 void player::dodge_hit(Creature *source, int) {
-    if (dodges_left < 1)
+    if( dodges_left < 1 ) {
         return;
+    }
 
     ma_ondodge_effects(); // fire martial arts block-triggered effects
 
     dodges_left--;
+
+    practice( "dodge", source->get_melee() * 2, source->get_melee() );
 
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, true, false);

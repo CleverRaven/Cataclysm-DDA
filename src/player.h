@@ -479,6 +479,8 @@ public:
  int get_dodge();
  /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
  int dodge_roll();
+ /** Returns melee skill level, to be used to throttle dodge practice. **/
+ int get_melee() const;
  /**
   * Adds a reason for why the player would miss a melee attack.
   *
@@ -524,14 +526,9 @@ public:
   *  absorb() reduces dam and cut by your armor (and bionics, traits, etc)
   */
  void absorb(body_part bp, int &dam, int &cut);
- /** Hurts a body_part directly, no armor reduction */
- void hurt (body_part bphurt, int  dam);
- /** Hurts a hp_part directly, no armor reduction */
- void hurt (hp_part hurt, int dam);
-
  /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
  dealt_damage_instance deal_damage(Creature* source, body_part bp, const damage_instance& d);
- /** Actually hurt the player */
+ /** Actually hurt the player, hurts a body_part directly, no armor reduction */
  void apply_damage(Creature* source, body_part bp, int amount);
  /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
  void mod_pain(int npain);
@@ -559,8 +556,10 @@ public:
  /** Recalculates HP after a change to max strength */
  void recalc_hp();
 
- /** Handles helath fluctuations over time and the chance to be infected by random diseases */
+ /** Handles the chance to be infected by random diseases */
  void get_sick();
+ /** Handles health fluctuations over time, redirects into Creature::update_health */
+ void update_health(int base_threshold = 0);
  /** Checks against env_resist of the players armor, if they fail then they become infected with the disease */
  bool infect(dis_type type, body_part vector, int strength,
               int duration, bool permanent = false, int intensity = 1,
@@ -713,7 +712,7 @@ public:
 
  int weight_carried() const;
  int volume_carried() const;
- int weight_capacity(bool real_life = true) const;
+ int weight_capacity() const;
  int volume_capacity() const;
  double convert_weight(int weight);
  bool can_eat(const item i);
@@ -847,7 +846,8 @@ public:
  int next_climate_control_check;
  bool last_climate_control_ret;
  int power_level, max_power_level;
- int hunger, thirst, fatigue, health, stomach_food, stomach_water;
+ int hunger, thirst, fatigue;
+ int stomach_food, stomach_water;
  int oxygen;
  unsigned int recoil;
  unsigned int driving_recoil;

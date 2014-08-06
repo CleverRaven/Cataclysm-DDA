@@ -303,6 +303,10 @@ void defense_game::init_map()
     g->u.posy = SEEY;
 
     switch (location) {
+    case DEFLOC_NULL:
+    case NUM_DEFENSE_LOCATIONS:
+        DebugLog( D_ERROR, D_GAME ) << "defense location is invalid: " << location;
+        break;
 
     case DEFLOC_HOSPITAL:
         for (int x = 49; x <= 51; x++) {
@@ -403,7 +407,10 @@ void defense_game::init_to_style(defense_style new_style)
     mercenaries = false;
 
     switch (new_style) {
-    case DEFENSE_EASY:
+    case NUM_DEFENSE_STYLES:
+        DebugLog( D_ERROR, D_GAME ) << "invalid defense style: " << new_style;
+        break;
+    case DEFENSE_CUSTOM:
         location = DEFLOC_HOSPITAL;
         initial_difficulty = 15;
         wave_difficulty = 10;
@@ -417,7 +424,8 @@ void defense_game::init_to_style(defense_style new_style)
         triffids = true;
         mercenaries = true;
         break;
-
+    case DEFENSE_EASY:
+        break; // keep default, default is easy
     case DEFENSE_MEDIUM:
         location = DEFLOC_MALL;
         initial_difficulty = 30;
@@ -1201,6 +1209,8 @@ std::string caravan_category_name(caravan_category cat)
         return _("Clothing & Armor");
     case CARAVAN_TOOLS:
         return _("Tools, Traps & Grenades");
+    case NUM_CARAVAN_CATEGORIES:
+        break; // error message below 
     }
     return "BUG (defense.cpp:caravan_category_name)";
 }
@@ -1252,6 +1262,9 @@ std::vector<itype_id> caravan_items(caravan_category cat)
                   "soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",
                   "grenade", "flashbang", "EMPbomb", "smokebomb", "bot_manhack",
                   "bot_turret", "UPS_off", "mininuke" };
+        break;
+    case NUM_CARAVAN_CATEGORIES:
+        DebugLog( D_ERROR, D_GAME ) << "invalid caravan category: " << cat;
         break;
     }
 

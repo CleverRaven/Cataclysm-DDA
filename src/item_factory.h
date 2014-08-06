@@ -190,6 +190,7 @@ private:
     
     // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
     std::bitset<13> flags_from_json(JsonObject &jo, const std::string & member, std::string flag_type="");
+    
     void set_material_from_json(JsonObject &jo, std::string member, itype *new_item);
     bool is_mod_target(JsonObject &jo, std::string member, std::string weapon);
 

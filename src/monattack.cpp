@@ -428,7 +428,7 @@ void mattack::growplants(monster *z)
                         if (rn < 0) {
                             rn = 0;
                         }
-                        g->zombie( mondex ).hurt( rn, 0, z );
+                        g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
                     } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                         // Player is hit by a growing tree
                         if (!g->u.uncanny_dodge()) {
@@ -504,7 +504,7 @@ void mattack::growplants(monster *z)
                             if (rn < 0) {
                                 rn = 0;
                             }
-                            g->zombie( mondex ).hurt( rn, 0, z );
+                            g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
                         } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                             if (!g->u.uncanny_dodge()) {
                                     body_part hit = num_bp;
@@ -843,7 +843,7 @@ void mattack::fungus_sprout(monster *z)
         for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
             if (g->u.posx == x && g->u.posy == y) {
                 add_msg(m_bad, _("You're shoved away as a fungal wall grows!"));
-                g->fling_player_or_monster(&g->u, 0, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx,
+                g->fling_creature( &g->u, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx,
                                            g->u.posy), rng(10, 50));
             }
             if (g->is_empty(x, y)) {
@@ -950,7 +950,7 @@ void mattack::dermatik(monster *z)
     if (player_swat > dodge_roll) {
         add_msg(_("The %s lands on you, but you swat it off."), z->name().c_str());
         if (z->hp >= z->type->hp / 2) {
-            z->hurt(1);
+            z->apply_damage( &g->u, bp_torso, 1 );
         }
         if (player_swat > dodge_roll * 1.5) {
             z->stumble(false);
@@ -1216,7 +1216,7 @@ void mattack::vortex(monster *z)
                         g->m.shoot(traj[i].x, traj[i].y, dam, false, no_effects);
                         int mondex = g->mon_at(traj[i].x, traj[i].y);
                         if (mondex != -1) {
-                            g->zombie( mondex ).hurt( dam, 0, z );
+                            g->zombie( mondex ).apply_damage( z, random_body_part(), dam );
                             dam = 0;
                         }
                         if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -1290,7 +1290,7 @@ void mattack::vortex(monster *z)
                             if (g->u_see(traj[i].x, traj[i].y))
                                 add_msg(_("The %s hits a %s!"), thrown->name().c_str(),
                                         g->zombie(monhit).name().c_str());
-                            g->zombie( monhit ).hurt( damage, 0, z );
+                            g->zombie( monhit ).apply_damage( z, bp_torso, damage );
                             hit_wall = true;
                             thrown->setpos(traj[i - 1]);
                         } else if (g->m.move_cost(traj[i].x, traj[i].y) == 0) {
@@ -1300,7 +1300,7 @@ void mattack::vortex(monster *z)
                         int damage_copy = damage;
                         g->m.shoot(traj[i].x, traj[i].y, damage_copy, false, no_effects);
                         if (damage_copy < damage) {
-                            thrown->hurt(damage - damage_copy);
+                            thrown->apply_damage( nullptr, bp_torso, damage - damage_copy );
                         }
                     }
                     if (hit_wall) {
@@ -1308,7 +1308,7 @@ void mattack::vortex(monster *z)
                     } else {
                         thrown->setpos(traj[traj.size() - 1]);
                     }
-                    thrown->hurt( damage, 0, z );
+                    thrown->apply_damage( z, bp_torso, damage );
                 } // if (distance > 0)
             } // if (mondex != -1)
 
@@ -1334,7 +1334,7 @@ void mattack::vortex(monster *z)
                             if (g->u_see(traj[i].x, traj[i].y)) {
                                 add_msg(m_bad, _("You hit a %s!"), g->zombie(monhit).name().c_str());
                             }
-                            g->zombie( monhit ).hurt( damage, 0, &g->u ); // We get the kill :)
+                            g->zombie( monhit ).apply_damage( &g->u, bp_torso, damage ); // We get the kill :)
                             hit_wall = true;
                             g->u.posx = traj[i - 1].x;
                             g->u.posy = traj[i - 1].y;
@@ -1481,7 +1481,7 @@ void mattack::tazer(monster *z)
     }
     add_msg(m_bad, _("The %s shocks you!"), z->name().c_str());
     int shock = rng(1, 5);
-    g->u.hurt(bp_torso, shock * rng(1, 3));
+    g->u.apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
     g->u.moves -= shock * 20;
 }
 

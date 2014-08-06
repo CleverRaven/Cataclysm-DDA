@@ -93,14 +93,15 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
     vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
 
     int menu_length = 0;
-    for (int pos = 0; pos < vMenuItems.size(); pos++) {
+    for( auto menu_item : vMenuItems ) {
         // adds (width + 2) if there are no shortcut symbols "<" & ">", and just width otherwise
-        menu_length += utf8_width(vMenuItems[pos].c_str()) +
-                       (vMenuItems[pos].find_first_of("<") == std::string::npos ? 2 : 0);
+        menu_length += utf8_width(menu_item.c_str()) +
+            (menu_item.find_first_of("<") == std::string::npos ? 2 : 0);
     }
-    int spacing = (window_width - menu_length) / vMenuItems.size() - 1;
-    spacing = (spacing < 1 ? 1 : spacing);
-    const int adj_offset = (window_width - menu_length - spacing * vMenuItems.size() ) / 2 - 1;
+    const int free_space = std::max(0, window_width - menu_length);
+    const int spacing = free_space / ((int)vMenuItems.size() - 1);
+    const int width_of_spacing = spacing * (vMenuItems.size() - 1);
+    const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
     print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX + adj_offset, spacing);
 
     refresh();
@@ -113,7 +114,7 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
 {
     mvwprintz(w_in, iOffsetY, iOffsetX, c_black, "");
 
-    for (int i = 0; i < vItems.size(); i++) {
+    for (int i = 0; i < (int)vItems.size(); i++) {
         wprintz(w_in, c_ltgray, "[");
         if (iSel == i) {
             shortcut_print(w_in, h_white, h_white, vItems[i]);
@@ -121,9 +122,7 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
             shortcut_print(w_in, c_ltgray, c_white, vItems[i]);
         }
         wprintz(w_in, c_ltgray, "]");
-        for (int j = 0; j < spacing; j++) {
-            wprintz(w_in, c_ltgray, " ");
-        }
+        wprintz(w_in, c_ltgray, std::string(spacing, ' ').c_str());
     }
 }
 

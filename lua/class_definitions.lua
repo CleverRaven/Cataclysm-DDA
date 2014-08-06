@@ -26,10 +26,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            health = {
-                type = "int",
-                writable = false
-            },
 
             name = {
                 type = "string",
@@ -106,7 +102,7 @@ classes = {
                 rval = "int"
             },
             weight_capacity = {
-                args = { "bool" },
+                args = {},
                 rval = "int"
             },
             volume_carried = {

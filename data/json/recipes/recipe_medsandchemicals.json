@@ -406,7 +406,48 @@
       [ "aspirin", 10 ]
     ],
     [
-      [ "acid", 1 ]
+      [ "acid", 1 ],
+      [ "datura_seed", 2 ]
+    ],
+    [
+      [ "bleach", 1 ],
+      [ "oxy_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "adrenaline_injector",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 8] , ["adv_chemistry", 7] , ["pocket_survival", 8] , ["atomic_survival", 8] , ["textbook_survival", 8] , ["survival_book", 8] , [ "recipe_labchem", 7]],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "hotplate", 20 ],
+      [ "chemistry_set", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "syringe", 1 ]
+    ],
+    [
+      [ "charcoal", 1 ]
+    ],
+    [
+      [ "datura_seed", 2 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
     ],
     [
       [ "bleach", 1 ],
@@ -514,6 +555,46 @@
   ]
 },{
         "type" : "recipe",
+  "result": "lsd",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 8] , ["adv_chemistry", 6]  , [ "recipe_labchem", 7]],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 2 ],
+      [ "hotplate", 20 ],
+      [ "chemistry_set", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "datura_seed", 1 ]
+    ],
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "aspirin", 10 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "saline", 5 ]
+    ],
+    [
+      [ "ammonia", 1 ],
+      [ "lye_powder", 100 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -607,7 +688,8 @@
     ],
     [
       [ "veggy_tainted", 3 ],
-      [ "biollante_bud", 1 ]
+      [ "biollante_bud", 1 ],
+      [ "datura_seed", 4 ]
     ],
     [
       [ "ammonia", 1 ],

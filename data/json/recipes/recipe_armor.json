@@ -1297,6 +1297,51 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "sleeveless_trenchcoat",
+  "id_suffix": "from_rags",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 35700,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 9 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeveless_trenchcoat",
+  "id_suffix": "from_trenchcoat",
+  "byproduct": { "id" : "rag", "amount" : 2 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 21000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "trenchcoat", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "coat_rain",
   "category": "CC_ARMOR",
@@ -1364,6 +1409,52 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "sleeveless_trenchcoat_fur",
+  "id_suffix": "from_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 38 ],
+      [ "needle_wood", 38 ],
+      [ "sewing_kit", 38 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 9 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeveless_trenchcoat_fur",
+  "id_suffix": "from_trenchcoat_fur",
+  "byproduct": { "id" : "fur", "amount" : 2 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "trenchcoat_fur", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "trenchcoat_leather",
   "category": "CC_ARMOR",
@@ -1384,6 +1475,52 @@
   "components": [
     [
       [ "leather", 22 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_trenchcoat_leather",
+  "id_suffix": "from_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 6,
+  "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "needle_bone", 38 ],
+      [ "needle_wood", 38 ],
+      [ "sewing_kit", 38 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 18 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeveless_trenchcoat_leather",
+  "id_suffix": "from_trenchcoat_leather",
+  "byproduct": { "id" : "leather", "amount" : 4 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "trenchcoat_leather", 1 ]
     ]
   ]
 },{
@@ -3673,6 +3810,82 @@
      ]
   ]
 },{
+  "type" : "recipe",
+  "result": "sleeveless_trenchcoat_survivor",
+  "id_suffix": "from_stuff",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 5],
+  "difficulty": 6,
+  "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time. The sleeveless survivor trenchcoat is the exception with the premade wearable items.",
+  "time": 59500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 85 ],
+      [ "needle_wood", 85 ],
+      [ "sewing_kit", 85 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "trenchcoat", 1 ],
+      [ "trenchcoat_leather", 1 ],
+      [ "jacket_army", 1 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "kevlar_plate", 10 ]
+     ],
+     [
+      [ "rag", 11 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 85 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sleeveless_trenchcoat_survivor",
+  "id_suffix": "from_trenchcoat_survivor",
+  "byproduct": { "id" : "rag", "amount" : 4 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+   "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "trenchcoat_survivor", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "pants_survivor",
   "category": "CC_ARMOR",
@@ -3720,6 +3933,60 @@
      ],
      [
       [ "duct_tape", 100 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "survivor_belt",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 3],
+  "difficulty": 6,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 140 ],
+      [ "needle_wood", 140 ],
+      [ "sewing_kit", 140 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "leather", 6 ]
+     ],
+     [
+      [ "duct_tape", 100 ]
+     ],
+     [
+      [ "screwdriver", 1]
+     ],
+     [
+      [ "wrench", 1]
+     ],
+     [
+      [ "saw", 1]
+     ],
+     [
+      [ "hacksaw", 1]
+     ],
+     [
+      [ "hammer", 1],
+      [ "hatchet", 1 ]
+     ],
+     [
+      [ "sheath", 1]
+     ],
+     [
+      [ "legrig", 1 ],
+      [ "tool_belt", 1 ],
+      [ "dump_pouch", 1 ],
+      [ "leather_pouch", 4 ]
      ]
   ]
 },{

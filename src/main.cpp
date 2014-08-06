@@ -208,33 +208,13 @@ int main(int argc, char *argv[])
         }
     }
 
-    // setup debug loggind
     setupDebug();
-    // set locale to system default
-    setlocale(LC_ALL, "");
-#ifdef LOCALIZE
-    const char *locale_dir;
-#ifdef __linux__
-    if (!FILENAMES["base_path"].empty()) {
-        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
-    } else {
-        locale_dir = "lang/mo";
-    }
-#else
-    locale_dir = "lang/mo";
-#endif // __linux__
-
-    bindtextdomain("cataclysm-dda", locale_dir);
-    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
-    textdomain("cataclysm-dda");
-#endif // LOCALIZE
-
-    // ncurses stuff
+    // Options strings loaded with system locale
     initOptions();
-    load_options(); // For getting size options
-#ifdef LOCALIZE
-    setlocale(LC_ALL, OPTIONS["USE_LANG"].getValue().c_str());
-#endif // LOCALIZE
+    load_options();
+
+    set_language(true);
+
     if (initscr() == NULL) { // Initialize ncurses
         DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
         return 1;

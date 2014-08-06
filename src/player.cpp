@@ -150,7 +150,6 @@ player::player() : Character(), name("")
  recoil = 0;
  driving_recoil = 0;
  scent = 500;
- health = 0;
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  start_location = "shelter";
@@ -266,7 +265,6 @@ player& player::operator= (const player & rhs)
  stomach_food = rsh.stomach_food;
  stomach_water = rsh.stomach_water;
  fatigue = rhs.fatigue;
- health = rhs.health;
 
  underwater = rhs.underwater;
  oxygen = rhs.oxygen;
@@ -2085,8 +2083,6 @@ void player::mod_stat( std::string stat, int modifier )
         thirst += modifier;
     } else if( stat == "fatigue" ) {
         fatigue += modifier;
-    } else if( stat == "health" ) {
-        health += modifier;
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else {
@@ -2383,61 +2379,65 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     nc_color status = c_white;
 
-    if (str_cur <= 0)
+    int stat_tmp = get_str();
+    if (stat_tmp <= 0)
         status = c_dkgray;
-    else if (str_cur < str_max / 2)
+    else if (stat_tmp < str_max / 2)
         status = c_red;
-    else if (str_cur < str_max)
+    else if (stat_tmp < str_max)
         status = c_ltred;
-    else if (str_cur == str_max)
+    else if (stat_tmp == str_max)
         status = c_white;
-    else if (str_cur < str_max * 1.5)
+    else if (stat_tmp < str_max * 1.5)
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  2, (str_cur < 10 ? 17 : 16), status, "%d", str_cur);
+    mvwprintz(w_stats,  2, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
 
-    if (dex_cur <= 0)
+    stat_tmp = get_dex();
+    if (stat_tmp <= 0)
         status = c_dkgray;
-    else if (dex_cur < dex_max / 2)
+    else if (stat_tmp < dex_max / 2)
         status = c_red;
-    else if (dex_cur < dex_max)
+    else if (stat_tmp < dex_max)
         status = c_ltred;
-    else if (dex_cur == dex_max)
+    else if (stat_tmp == dex_max)
         status = c_white;
-    else if (dex_cur < dex_max * 1.5)
+    else if (stat_tmp < dex_max * 1.5)
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  3, (dex_cur < 10 ? 17 : 16), status, "%d", dex_cur);
+    mvwprintz(w_stats,  3, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
 
-    if (int_cur <= 0)
+    stat_tmp = get_int();
+    if (stat_tmp <= 0)
         status = c_dkgray;
-    else if (int_cur < int_max / 2)
+    else if (stat_tmp < int_max / 2)
         status = c_red;
-    else if (int_cur < int_max)
+    else if (stat_tmp < int_max)
         status = c_ltred;
-    else if (int_cur == int_max)
+    else if (stat_tmp == int_max)
         status = c_white;
-    else if (int_cur < int_max * 1.5)
+    else if (stat_tmp < int_max * 1.5)
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  4, (int_cur < 10 ? 17 : 16), status, "%d", int_cur);
+    mvwprintz(w_stats,  4, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
 
-    if (per_cur <= 0)
+    stat_tmp = get_per();
+    if (stat_tmp <= 0)
         status = c_dkgray;
-    else if (per_cur < per_max / 2)
+    else if (stat_tmp < per_max / 2)
         status = c_red;
-    else if (per_cur < per_max)
+    else if (stat_tmp < per_max)
         status = c_ltred;
-    else if (per_cur == per_max)
+    else if (stat_tmp == per_max)
         status = c_white;
-    else if (per_cur < per_max * 1.5)
+    else if (stat_tmp < per_max * 1.5)
         status = c_ltgreen;
     else
         status = c_green;
-    mvwprintz(w_stats,  5, (per_cur < 10 ? 17 : 16), status, "%d", per_cur);
+    mvwprintz(w_stats,  5, (stat_tmp < 10 ? 17 : 16), status, "%d", stat_tmp);
 
     wrefresh(w_stats);
 
@@ -2704,7 +2704,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     mvwprintz(w_stats, 2, 1, h_ltgray, _("Strength:"));
                     mvwprintz(w_stats, 6, 1, c_magenta, _("Base HP: %d              "), hp_max[1]);
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Carry weight: %.1f %s     "),
-                              convert_weight(weight_capacity(false)),
+                              convert_weight(weight_capacity()),
                               OPTIONS["USE_METRIC_WEIGHTS"] == "kg"?_("kg"):_("lbs"));
                     mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage: %d         "),
                               base_damage(false));
@@ -2736,7 +2736,7 @@ gun for ranged combat, and enhances many actions that require finesse."));
                     mvwprintz(w_stats, 4, 1, h_ltgray, _("Intelligence:"));
                     mvwprintz(w_stats, 6, 1, c_magenta, _("Read times: %d%%           "), read_speed(false));
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Skill rust: %d%%           "), rust_rate(false));
-                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "), int_cur);
+                    mvwprintz(w_stats, 8, 1, c_magenta, _("Crafting Bonus: %d          "), get_int());
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Intelligence is less important in most situations, but it is vital for more complex tasks like \
@@ -2746,7 +2746,7 @@ electronics crafting. It also affects how much skill you can pick up from readin
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
                     mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
                               abs(ranged_per_mod(false)),"          ");
-                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), per_cur);
+                    mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), get_per());
                     mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
 Perception is the most important stat for ranged combat. It's also used for \
@@ -4252,6 +4252,9 @@ void player::search_surroundings()
         if (trid == tr_null || (x == posx && y == posy)) {
             continue;
         }
+        if( !g->m.pl_sees( posx, posy, x, y, -1 ) ) {
+            continue;
+        }
         const trap *tr = traplist[trid];
         if (tr->name.empty() || tr->can_see(*this, x, y)) {
             // Already seen, or has no name -> can never be seen
@@ -4672,71 +4675,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
     return dealt_damage_instance(dealt_dams);
 }
-/*
-    Where damage to player is actually applied to hit body parts
-    Might be where to put bleed stuff rather than in player::deal_damage()
- */
-void player::apply_damage(Creature *, body_part bp, int dam) {
-    if (is_dead_state()) {
-        // don't do any more damage if we're already dead
-        return;
-    }
-
-    switch (bp) {
-    case bp_eyes: // Fall through to head damage
-    case bp_mouth: // Fall through to head damage
-    case bp_head:
-        hp_cur[hp_head] -= dam;
-        if (hp_cur[hp_head] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_head];
-            hp_cur[hp_head] = 0;
-        }
-        break;
-    case bp_torso:
-        hp_cur[hp_torso] -= dam;
-        if (hp_cur[hp_torso] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_torso];
-            hp_cur[hp_torso] = 0;
-        }
-        break;
-    case bp_hand_l: // Fall through to arms
-    case bp_arm_l:
-        hp_cur[hp_arm_l] -= dam;
-        if (hp_cur[hp_arm_l] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_arm_l];
-            hp_cur[hp_arm_l] = 0;
-        }
-        break;
-    case bp_hand_r: // Fall through to arms
-    case bp_arm_r:
-        hp_cur[hp_arm_r] -= dam;
-        if (hp_cur[hp_arm_r] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_arm_r];
-            hp_cur[hp_arm_r] = 0;
-        }
-        break;
-    case bp_foot_l: // Fall through to legs
-    case bp_leg_l:
-        hp_cur[hp_leg_l] -= dam;
-        if (hp_cur[hp_leg_l] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_leg_l];
-            hp_cur[hp_leg_l] = 0;
-        }
-        break;
-    case bp_foot_r: // Fall through to legs
-    case bp_leg_r:
-        hp_cur[hp_leg_r] -= dam;
-        if (hp_cur[hp_leg_r] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_leg_r];
-            hp_cur[hp_leg_r] = 0;
-        }
-        break;
-    default:
-        debugmsg("Wacky body part hurt!");
-    }
-    lifetime_stats()->damage_taken+=dam;
-
-}
 
 void player::mod_pain(int npain) {
     if ((has_trait("NOPAIN"))) {
@@ -4761,8 +4699,16 @@ void player::mod_pain(int npain) {
     Creature::mod_pain(npain);
 }
 
-void player::hurt(body_part hurt, int dam)
+/*
+    Where damage to player is actually applied to hit body parts
+    Might be where to put bleed stuff rather than in player::deal_damage()
+ */
+void player::apply_damage(Creature *source, body_part hurt, int dam)
 {
+    if( is_dead_state() ) {
+        // don't do any more damage if we're already dead
+        return;
+    }
     hp_part hurtpart;
     switch (hurt) {
         case bp_eyes: // Fall through to head damage
@@ -4773,27 +4719,19 @@ void player::hurt(body_part hurt, int dam)
         case bp_torso:
             hurtpart = hp_torso;
             break;
-        case bp_hand_l:
-            // Shouldn't happen, but fall through to arms
-            debugmsg("Hurt against hands!");
+        case bp_hand_l: // fall through to arms
         case bp_arm_l:
             hurtpart = hp_arm_l;
             break;
-        case bp_hand_r:
-            // Shouldn't happen, but fall through to arms
-            debugmsg("Hurt against hands!");
+        case bp_hand_r: // but fall through to arms
         case bp_arm_r:
             hurtpart = hp_arm_r;
             break;
-        case bp_foot_l:
-            // Shouldn't happen, but fall through to legs
-            debugmsg("Hurt against feet!");
+        case bp_foot_l: // but fall through to legs
         case bp_leg_l:
             hurtpart = hp_leg_l;
             break;
-        case bp_foot_r:
-            // Shouldn't happen, but fall through to legs
-            debugmsg("Hurt against feet!");
+        case bp_foot_r: // but fall through to legs
         case bp_leg_r:
             hurtpart = hp_leg_r;
             break;
@@ -4827,32 +4765,9 @@ void player::hurt(body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
     lifetime_stats()->damage_taken += dam;
-}
-
-void player::hurt(hp_part hurt, int dam)
-{
-    if (has_disease("sleep") && rng(0, dam) > 2) {
-        wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    if( is_dead_state() ) {
+        die( source );
     }
-
-    if (dam <= 0) {
-        return;
-    }
-
-    if (!is_npc()) {
-        g->cancel_activity_query(_("You were hurt!"));
-    }
-
-    mod_pain( dam / 2 );
-
-    hp_cur[hurt] -= dam;
-    if (hp_cur[hurt] < 0) {
-        lifetime_stats()->damage_taken += hp_cur[hurt];
-        hp_cur[hurt] = 0;
-    }
-    lifetime_stats()->damage_taken += dam;
 }
 
 void player::heal(body_part healed, int dam)
@@ -4986,10 +4901,10 @@ void player::knock_back_from(int x, int y)
   add_effect("stunned", 1);
   if ((str_max - 6) / 4 > critter->type->size) {
    critter->knock_back_from(posx, posy); // Chain reaction!
-   critter->hurt((str_max - 6) / 4);
+   critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
    critter->add_effect("stunned", 1);
   } else if ((str_max - 6) / 4 == critter->type->size) {
-   critter->hurt((str_max - 6) / 4);
+   critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
    critter->add_effect("stunned", 1);
   }
 
@@ -5018,7 +4933,7 @@ void player::knock_back_from(int x, int y)
  } else if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
 
   // It's some kind of wall.
-  hurt(bp_torso, 3);
+  apply_damage( nullptr, bp_torso, 3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
   add_effect("stunned", 2);
   add_msg_player_or_npc( _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
@@ -5074,7 +4989,7 @@ void player::hp_convert(hp_part hpart, body_part &bp)
             bp = bp_leg_l;
             break;
         case hp_leg_r:
-            bp = bp_leg_l;
+            bp = bp_leg_r;
             break;
     }
 }
@@ -5147,26 +5062,26 @@ void player::recalc_hp()
 
 void player::get_sick()
 {
- if (health > 0 && rng(0, health + 10) < health)
-  health--;
- if (health < 0 && rng(0, 10 - health) < (0 - health))
-  health++;
- if (one_in(12))
-  health -= 1;
+    if (has_trait("DISIMMUNE")) {
+        return;
+    }
 
- if (g->debugmon)
-  debugmsg("Health: %d", health);
+    if (!has_disease("flu") && !has_disease("common_cold") &&
+        one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
+        if (one_in(6)) {
+            infect("flu", bp_mouth, 3, rng(40000, 80000));
+        } else {
+            infect("common_cold", bp_mouth, 3, rng(20000, 60000));
+        }
+    }
+}
 
- if (has_trait("DISIMMUNE"))
-  return;
-
- if (!has_disease("flu") && !has_disease("common_cold") &&
-     one_in(900 + 10 * health + (has_trait("DISRESISTANT") ? 300 : 0))) {
-  if (one_in(6))
-   infect("flu", bp_mouth, 3, rng(40000, 80000));
-  else
-   infect("common_cold", bp_mouth, 3, rng(20000, 60000));
- }
+void player::update_health(int base_threshold)
+{
+    if (has_artifact_with(AEP_SICK)) {
+        base_threshold += 50;
+    }
+    Creature::update_health(base_threshold);
 }
 
 bool player::infect(dis_type type, body_part vector, int strength,
@@ -5508,7 +5423,7 @@ void player::process_effects() {
             if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
                 add_msg_if_player(m_bad, _("You're suddenly wracked with pain!"));
                 mod_pain(1);
-                hurt(bp_torso, rng(0, 2) * rng(0, 1));
+                apply_damage( nullptr, bp_torso, rng( 0, 2 ) * rng( 0, 1 ) );
             }
             mod_per_bonus(-1);
             mod_dex_bonus(-1);
@@ -5573,7 +5488,7 @@ void player::suffer()
                 power_level--;
             } else {
                 add_msg(m_bad, _("You're drowning!"));
-                hurt(bp_torso, rng(1, 4));
+                apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
     }
@@ -5584,17 +5499,13 @@ void player::suffer()
             add_msg(m_good, _("This soil is delicious!"));
             hunger -= 2;
             thirst -= 2;
-            if (health <= 10) {
-                health++;
-            }
+            mod_healthy_mod(10);
             // Mmm, dat soil...
             focus_pool--;
         } else if (one_in(20 / shoe_factor)){
             hunger--;
             thirst--;
-            if (health <= 5) {
-                health++;
-            }
+            mod_healthy_mod(5);
         }
     }
 
@@ -5858,7 +5769,7 @@ void player::suffer()
         }
     }
 
-    if (has_trait("ALBINO") && g->is_in_sunlight(posx, posy) && one_in(10)) {
+    if ((has_trait("ALBINO") || has_disease("datura")) && g->is_in_sunlight(posx, posy) && one_in(10)) {
         // Umbrellas and rain gear can also keep the sun off!
         // (No, really, I know someone who uses an umbrella when it's sunny out.)
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
@@ -6088,7 +5999,7 @@ void player::suffer()
         add_disease("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
-        health--;
+        mod_healthy_mod(-50);
     }
     if (has_bionic("bio_sleepy") && one_in(500)) {
         fatigue++;
@@ -6112,90 +6023,90 @@ void player::suffer()
 
 void player::mend()
 {
- // Wearing splints can slowly mend a broken limb back to 1 hp.
- // 2 weeks is faster than a fracture would heal IRL,
- // but 3 weeks average (a generous estimate) was tedious and no fun.
- for(int i = 0; i < num_hp_parts; i++) {
-  int broken = (hp_cur[i] <= 0);
-  if(broken) {
-   double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
-   double healing_factor = 1.0;
-   // Studies have shown that alcohol and tobacco use delay fracture healing time
-   if(has_disease("cig") | addiction_level(ADD_CIG)) {
-    healing_factor *= 0.5;
-   }
-   if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
-    healing_factor *= 0.5;
-   }
+    // Wearing splints can slowly mend a broken limb back to 1 hp.
+    // 2 weeks is faster than a fracture would heal IRL,
+    // but 3 weeks average (a generous estimate) was tedious and no fun.
+    for(int i = 0; i < num_hp_parts; i++) {
+        int broken = (hp_cur[i] <= 0);
+        if(broken) {
+            double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
+            double healing_factor = 1.0;
+            // Studies have shown that alcohol and tobacco use delay fracture healing time
+            if(has_disease("cig") | addiction_level(ADD_CIG)) {
+                healing_factor *= 0.5;
+            }
+            if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
+                healing_factor *= 0.5;
+            }
 
-   // Bed rest speeds up mending
-   if(has_disease("sleep")) {
-    healing_factor *= 4.0;
-   } else if(fatigue > 383) {
-    // but being dead tired does not...
-    healing_factor *= 0.75;
-   }
+            // Bed rest speeds up mending
+            if(has_disease("sleep")) {
+                healing_factor *= 4.0;
+            } else if(fatigue > 383) {
+            // but being dead tired does not...
+                healing_factor *= 0.75;
+            }
 
-   // Being healthy helps.
-   if(health > 0) {
-    healing_factor *= 2.0;
-   }
+            // Being healthy helps.
+            if(get_healthy() > 0) {
+                healing_factor *= 2.0;
+            }
 
-   // And being well fed...
-   if(hunger < 0) {
-    healing_factor *= 2.0;
-   }
+            // And being well fed...
+            if(hunger < 0) {
+                healing_factor *= 2.0;
+            }
 
-   if(thirst < 0) {
-    healing_factor *= 2.0;
-   }
+            if(thirst < 0) {
+                healing_factor *= 2.0;
+            }
 
-   // Mutagenic healing factor!
-   if(has_trait("REGEN")) {
-    healing_factor *= 16.0;
-   } else if (has_trait("FASTHEALER2")) {
-    healing_factor *= 4.0;
-   } else if (has_trait("FASTHEALER")) {
-    healing_factor *= 2.0;
-   } else if (has_trait("SLOWHEALER")) {
-    healing_factor *= 0.5;
-   }
+            // Mutagenic healing factor!
+            if(has_trait("REGEN")) {
+                healing_factor *= 16.0;
+            } else if (has_trait("FASTHEALER2")) {
+                healing_factor *= 4.0;
+            } else if (has_trait("FASTHEALER")) {
+                healing_factor *= 2.0;
+            } else if (has_trait("SLOWHEALER")) {
+                healing_factor *= 0.5;
+            }
 
-   bool mended = false;
-   body_part part;
-   switch(i) {
-    case hp_arm_r:
-     part = bp_arm_r;
-     mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
-     break;
-    case hp_arm_l:
-     part = bp_arm_l;
-     mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
-     break;
-    case hp_leg_r:
-     part = bp_leg_r;
-     mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
-     break;
-    case hp_leg_l:
-     part = bp_leg_l;
-     mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
-     break;
-    default:
-     // No mending for you!
-     break;
-   }
-   if(mended) {
-    hp_cur[i] = 1;
-    //~ %s is bodypart
-    add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
-                     pgettext("memorial_female", "Broken %s began to mend."),
-                     body_part_name(part).c_str());
-    //~ %s is bodypart
-    add_msg(m_good, _("Your %s has started to mend!"),
-      body_part_name(part).c_str());
-   }
-  }
- }
+            bool mended = false;
+            body_part part;
+            switch(i) {
+                case hp_arm_r:
+                    part = bp_arm_r;
+                    mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
+                    break;
+                case hp_arm_l:
+                    part = bp_arm_l;
+                    mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
+                    break;
+                case hp_leg_r:
+                    part = bp_leg_r;
+                    mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
+                    break;
+                case hp_leg_l:
+                    part = bp_leg_l;
+                    mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
+                    break;
+                default:
+                    // No mending for you!
+                    break;
+            }
+            if(mended) {
+                hp_cur[i] = 1;
+                //~ %s is bodypart
+                add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
+                                  pgettext("memorial_female", "Broken %s began to mend."),
+                                  body_part_name(part).c_str());
+                //~ %s is bodypart
+                add_msg(m_good, _("Your %s has started to mend!"),
+                body_part_name(part).c_str());
+            }
+        }
+    }
 }
 
 void player::vomit()
@@ -6359,14 +6270,11 @@ int player::volume_carried() const
     return inv.volume();
 }
 
-int player::weight_capacity(bool /* return_stat_effect */) const
+int player::weight_capacity() const
 {
-    // return_stat_effect is effectively pointless
-    // player info window shows current stat effects
-    // current str is used anyway (probably) always.
-    // int str = return_stat_effect ? get_str() : get_str();
-    int str = get_str();
-    int ret = 13000 + str * 4000;
+    // Get base capacity from creature,
+    // then apply player-only mutation and trait effects.
+    int ret = Creature::weight_capacity();
     if (has_trait("BADBACK")) {
         ret = int(ret * .65);
     }
@@ -8236,7 +8144,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            health -= 3;
+            mod_healthy_mod(-30);
         }
     } else if (has_trait("GIZZARD")) {
         // Carrion-eating Birds might have Saprovore; Saprophage is unlikely,
@@ -8249,13 +8157,13 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             stomach_food += nut;
             stomach_water += comest->quench;
             if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-                health -= 3;
+                mod_healthy_mod(-30);
             }
         } else {
         // Shorter GI tract, so less nutrients captured.
             hunger -= ((comest->nutr) * 0.66);
             thirst -= ((comest->quench) * 0.66);
-            health += ((comest->healthy) * 0.66);
+            mod_healthy_mod(comest->healthy * 0.66);
             stomach_food += ((comest->nutr) *= 0.66);
             stomach_water += ((comest->quench) *= 0.66);
         }
@@ -8263,7 +8171,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
         thirst -= comest->quench;
-        health += comest->healthy;
+        mod_healthy_mod(comest->healthy);
         stomach_food += comest->nutr;
         stomach_water += comest->quench;
     }
@@ -8376,9 +8284,7 @@ void player::rooted()
         if( one_in(20 / shoe_factor) ) {
             hunger--;
             thirst--;
-            if (health <= 5) {
-                health++;
-            }
+            mod_healthy_mod(10);
         }
     }
 }
@@ -9904,8 +9810,7 @@ void player::do_read( item *book )
                 !foot_factor ) {
                 hunger -= root_factor * foot_factor;
                 thirst -= root_factor * foot_factor;
-                health += root_factor * foot_factor;
-                health = std::min( int(5  * foot_factor), health );
+                mod_healthy_mod(root_factor * foot_factor);
             }
             if (activity.type != ACT_NULL) {
                 return;
@@ -11263,6 +11168,11 @@ void player::boost_skill_level(std::string ident, int level)
     skillLevel(ident).level(level+skillLevel(ident));
 }
 
+int player::get_melee() const
+{
+    return get_skill_level("melee");
+}
+
 void player::setID (int i)
 {
     if( id >= 0 ) {
@@ -11398,7 +11308,8 @@ void player::environmental_revert_effect()
     hunger = 0;
     thirst = 0;
     fatigue = 0;
-    health = 0;
+    set_healthy(0);
+    set_healthy_mod(0);
     stim = 0;
     pain = 0;
     pkill = 0;

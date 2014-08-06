@@ -43,8 +43,7 @@
     "type" : "item_group",
     "id" : "field",
     "items":[
-      ["rock", 40],
-      ["strawberries", 2]
+      ["rock", 40]
     ]
   },{
     "type" : "item_group",
@@ -52,12 +51,10 @@
     "items":[
       ["rock", 40],
       ["stick", 95],
-      ["mushroom", 4],
-      ["mushroom_poison", 3],
-      ["mushroom_magic", 1],
-      ["blueberries", 3],
-      ["blackberries", 3],
-      ["cranberries", 3]
+      ["bottle_plastic", 1],
+      ["bottle_glass", 1],
+      ["syringe", 1],
+      ["cig_butt", 1]
     ]
   },{
     "type" : "item_group",
@@ -1000,6 +997,7 @@
       ["poncho", 15],
       ["folding_poncho", 5],
       ["trenchcoat", 25],
+      ["sleeveless_trenchcoat", 5],
       ["peacoat", 30],
       ["vest", 15],
       ["mag_porn", 20],
@@ -1106,6 +1104,7 @@
       ["choc_drink", 30],
       ["rootbeer", 65],
       ["purple_drink", 45],
+      ["herbal_tea", 30],
       ["V8", 15]
     ]
     },{
@@ -1159,6 +1158,7 @@
       ["apple_cider", 50],
       ["lemonade", 50],
       ["energy_drink", 55],
+      ["herbal_tea", 30],
       ["energy_drink_atomic", 4],
       ["cola", 70],
       ["creamsoda", 60],
@@ -2150,6 +2150,7 @@
       ["folding_bicycle", 1],
       ["coat_rain", 5],
       ["hood_rain", 5],
+      ["sleeveless_trenchcoat", 3],
       ["blowgun", 5],
       ["dart", 5],
       ["elbow_pads", 40],
@@ -2165,6 +2166,7 @@
       ["signal_flare", 15],
       ["airhorn", 30],
       ["quikclot", 10],
+      ["bfipowder", 15],
       ["speargun", 10],
       ["minispeargun", 10],
       ["doublespeargun", 8],
@@ -2826,6 +2828,9 @@
       ["arm_warmers", 20],
       ["leg_warmers", 20],
       ["trenchcoat_leather", 25],
+      ["sleeveless_trenchcoat", 5],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_fur", 1],
       ["cloak", 5],
       ["house_coat", 25],
       ["flotation_vest", 1],
@@ -3754,6 +3759,7 @@
       ["jar_3l_glass", 15],
       ["oxygen_tank", 50],
       ["smoxygen_tank", 25],
+      ["bfipowder", 15],
       ["quikclot", 10]
     ]
   },{
@@ -4243,6 +4249,9 @@
       ["cane", 10],
       ["suit", 60],
       ["waistcoat", 30],
+      ["sleeveless_trenchcoat", 10],
+      ["sleeveless_trenchcoat_leather", 10],
+      ["sleeveless_trenchcoat_fur", 10],
       ["gold_watch", 20],
       ["sf_watch", 10],
       ["tieclip", 3],
@@ -4560,6 +4569,7 @@
       ["grapnel", 10],
       ["folding_poncho", 5],
       ["quikclot", 20],
+      ["bfipowder", 20],
       ["sheath", 10],
       ["survnote", 1]
     ]
@@ -5668,6 +5678,7 @@
       ["ampoule", 12],
       ["oxygen_tank", 10],
       ["smoxygen_tank", 20],
+      ["bfipowder", 15],
       ["quikclot", 10]
     ]
   },{
@@ -5858,6 +5869,8 @@
       ["jacket_army", 30],
       ["jumpsuit", 20],
       ["jacket_leather", 30],
+      ["sleeveless_trenchcoat", 5],
+      ["sleeveless_trenchcoat_leather", 10],
       ["kevlar", 30],
       ["modularvest", 12],
       ["modularvestkevlar", 10],
@@ -5954,6 +5967,7 @@
       ["pocketwatch", 2],
       ["pur_tablets", 10],
       ["quikclot", 10],
+      ["bfipowder", 15],
       ["e_tool", 15],
       ["dehydrator", 10],
       ["sm_extinguisher", 10],
@@ -6837,6 +6851,7 @@
       ["signal_flare", 25],
       ["militarymap", 4],
       ["quikclot", 20],
+      ["bfipowder", 20],
       ["rx12_injector", 5],
       ["ampoule", 10],
       ["optical_cloak", 1],
@@ -7157,6 +7172,7 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["hoodie", 65],
+      ["sleeveless_trenchcoat", 10],
       ["gloves_fingerless", 20],
       ["backpack", 38],
       ["backpack_leather", 28],
@@ -7650,12 +7666,16 @@
     "id" : "survivorzed_tops",
     "items":[
       ["trenchcoat_survivor", 10],
+      ["sleeveless_trenchcoat_survivor", 5],
       ["vest", 40],
       ["kevlar", 16],
       ["jacket_army", 28],
       ["trenchcoat", 24],
       ["trenchcoat_leather", 20],
       ["trenchcoat_fur", 10],
+      ["sleeveless_trenchcoat", 15],
+      ["sleeveless_trenchcoat_leather", 10],
+      ["sleeveless_trenchcoat_fur", 5],
       ["peacoat", 14],
       ["vest_leather", 22],
       ["bunker_coat", 6],
@@ -7826,6 +7846,7 @@
       ["misc_repairkit", 8],
       ["flamethrower_simple", 2],
       ["toolbox", 1],
+      ["survivor_belt", 2],
       ["survnote", 30]
     ]
   },{

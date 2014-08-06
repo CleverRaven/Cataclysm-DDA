@@ -104,13 +104,15 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         }
         if (critter != NULL && cur_missed_by <= 1.0) {
             dealt_damage_instance dealt_dam;
-            critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
+            bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
                 std::vector<point> blood_traj = trajectory;
                 blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
                 splatter( blood_traj, dam, critter );
             }
-            dam = 0;
+            if (!passed_through) {
+                dam = 0;
+            }
         } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
@@ -716,7 +718,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                                         _("%s <npcname> hits the %s for %d damage."),
                                         message.c_str(), z.name().c_str(), dam);
             }
-            z.hurt( dam, real_dam, &p );
+            z.apply_damage( &p, bp_torso, dam );
             return;
 
         } else if (npcID != -1 && (!missed || one_in(4))) {
@@ -792,7 +794,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                                         message.c_str(), guy->name.c_str(), dam);
             }
 
-            guy->hurt(bodypart_to_hp_part(bp), dam);
+            guy->apply_damage( &p, bp, dam );
             if (guy->is_dead_state())
                 guy->die(&p);
             return;

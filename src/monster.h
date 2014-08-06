@@ -205,24 +205,17 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     virtual int deal_melee_attack(Creature* source, int hitroll);
     virtual int deal_projectile_attack(Creature* source, double missed_by,
             const projectile& proj, dealt_damage_instance &dealt_dam);
-    // TODO: this hit is not the same as the one from Creature, it hits other
-    // things. Need to phase out
-    int  hit(Creature &t, body_part &bp_hit); // Returns a damage
-    void hit_monster(int i);
     // TODO: fully replace hurt with apply/deal_damage
     virtual void deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain);
     void apply_damage(Creature* source, body_part bp, int amount);
-    // Deals this dam damage;
-    // If real_dam is provided, caps overkill at real_dam.
-    void hurt(int dam, int real_dam, Creature *source);
-    void hurt(int dam);
     // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
     void explode();
-    // TODO: make this not a shim (possibly need to redo prototype)
-    void hurt(body_part bp, int dam);
+    // Let the monster die and let its body explode into gibs
+    void die_in_explosion( Creature *source );
     int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
     int  get_armor_bash(body_part bp);  // Natural armor, plus any worn armor
     int  get_dodge();       // Natural dodge, or 0 if we're occupied
+    int  get_melee() const; // For determining attack skill when awarding dodge practice.
     int  hit_roll();  // For the purposes of comparing to player::dodge_roll()
     int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
     int  fall_damage(); // How much a fall hurts us
@@ -296,6 +289,8 @@ private:
  std::vector <point> plans;
  int _posx, _posy;
  bool dead;
+    /** Attack another monster */
+    void hit_monster(monster &other);
 };
 
 #endif

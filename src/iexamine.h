@@ -55,6 +55,7 @@ public:
  void flower_poppy (player *p, map *m, int examx, int examy);
  void flower_blubell (player *p, map *m, int examx, int examy);
  void flower_dahlia (player *p, map *m, int examx, int examy);
+ void flower_datura (player *p, map *m, int examx, int examy);
  void egg_sackbw(player *p, map *m, int examx, int examy);
  void egg_sackws(player *p, map *m, int examx, int examy);
  void fungus (player *p, map *m, int examx, int examy);

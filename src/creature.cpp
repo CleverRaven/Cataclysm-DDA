@@ -51,6 +51,8 @@ Creature::Creature()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    healthy = 0;
+    healthy_mod = 0;
     moves = 0;
     pain = 0;
     killer = NULL;
@@ -80,6 +82,9 @@ Creature::Creature(const Creature &rhs)
     dex_bonus = rhs.dex_bonus;
     per_bonus = rhs.per_bonus;
     int_bonus = rhs.int_bonus;
+    
+    healthy = rhs.healthy;
+    healthy_mod = rhs.healthy_mod;
 
     num_blocks = rhs.num_blocks;
     num_dodges = rhs.num_dodges;
@@ -179,6 +184,9 @@ void Creature::process_turn()
 {
     process_effects();
 
+    // Call this in case any effects have changed our stats
+    reset_stats();
+
     // add an appropriate number of moves
     moves += get_speed();
 }
@@ -268,6 +276,17 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     dealt_dam.bp_hit = bp_hit;
 }
 
+// TODO: check this over, see if it's right
+/**
+ * Attempts to harm a creature with a projectile.
+ *
+ * @param source Pointer to the creature who shot the projectile.
+ * @param missed_by Deviation of the projectile.
+ * @param proj Reference to the projectile hitting the creature.
+ * @param dealt_dam A reference storing the damage dealt.
+ * @return 0 signals that the projectile should stop,
+ *         1 signals that the projectile should not stop (i.e. dodged, passed through).
+ */
 int Creature::deal_projectile_attack(Creature *source, double missed_by,
                                      const projectile &proj, dealt_damage_instance &dealt_dam)
 {
@@ -282,7 +301,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         else if (u_see_this)
             add_msg(_("%s dodges %s projectile."),
                        disp_name().c_str(), source->disp_name(true).c_str());
-        return 0;
+        return 1;
     }
 
     // Bounce applies whether it does damage or not.
@@ -644,6 +663,27 @@ void Creature::process_effects()
     }
 }
 
+void Creature::update_health(int base_threshold)
+{
+    if (get_healthy_mod() > 200) {
+        set_healthy_mod(200);
+    } else if (get_healthy_mod() < -200) {
+        set_healthy_mod(-200);
+    }
+    int roll = rng(-100, 100);
+    base_threshold += get_healthy() - get_healthy_mod();
+    if (roll > base_threshold) {
+        mod_healthy(1);
+    } else if (roll < base_threshold) {
+        mod_healthy(-1);
+    }
+    set_healthy_mod(get_healthy_mod() * 3 / 4);
+
+    if (g->debugmon) {
+        debugmsg("Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
+    }
+}
+
 // Methods for setting/getting misc key/value pairs.
 void Creature::set_value( const std::string key, const std::string value )
 {
@@ -737,6 +777,15 @@ int Creature::get_int_bonus() const
     return int_bonus;
 }
 
+int Creature::get_healthy() const
+{
+    return healthy;
+}
+int Creature::get_healthy_mod() const
+{
+    return healthy_mod;
+}
+
 int Creature::get_num_blocks() const
 {
     return num_blocks + num_blocks_bonus;
@@ -792,6 +841,10 @@ int Creature::get_dodge()
 {
     return get_dodge_base() + get_dodge_bonus();
 }
+int Creature::get_melee() const
+{
+    return 0;
+}
 int Creature::get_hit()
 {
     return get_hit_base() + get_hit_bonus();
@@ -827,7 +880,7 @@ int Creature::get_hit_bonus()
 }
 int Creature::get_bash_bonus()
 {
-    return bash_bonus;
+   return bash_bonus;
 }
 int Creature::get_cut_bonus()
 {
@@ -893,6 +946,23 @@ void Creature::mod_int_bonus(int nint)
     int_bonus += nint;
 }
 
+void Creature::set_healthy(int nhealthy)
+{
+    healthy = nhealthy;
+}
+void Creature::mod_healthy(int nhealthy)
+{
+    healthy += nhealthy;
+}
+void Creature::set_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod = nhealthy_mod;
+}
+void Creature::mod_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod += nhealthy_mod;
+}
+
 void Creature::mod_stat( std::string stat, int modifier )
 {
     if( stat == "str" ) {
@@ -903,6 +973,10 @@ void Creature::mod_stat( std::string stat, int modifier )
         mod_per_bonus( modifier );
     } else if( stat == "int" ) {
         mod_int_bonus( modifier );
+    } else if( stat == "healthy" ) {
+        mod_healthy( modifier );
+    } else if( stat == "healthy_mod" ) {
+        mod_healthy_mod( modifier );
     } else if( stat == "speed" ) {
         mod_speed_bonus( modifier );
     } else if( stat == "dodge" ) {
@@ -1016,6 +1090,30 @@ void Creature::set_grab_resist(int ngrabres)
 void Creature::set_throw_resist(int nthrowres)
 {
     throw_resist = nthrowres;
+}
+
+int Creature::weight_capacity() const
+{
+    int base_carry = 13000 + get_str() * 4000;
+    switch( get_size() ) {
+    case MS_TINY:
+        base_carry /= 4;
+        break;
+    case MS_SMALL:
+        base_carry /= 2;
+        break;
+    case MS_MEDIUM:
+    default:
+        break;
+    case MS_LARGE:
+        base_carry *= 2;
+        break;
+    case MS_HUGE:
+        base_carry *= 4;
+        break;
+    }
+
+    return base_carry;
 }
 
 /*

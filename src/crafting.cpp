@@ -916,10 +916,7 @@ inventory game::crafting_inventory(player *p)
     crafting_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE, false);
     crafting_inv += p->inv;
     crafting_inv += p->weapon;
-    for (std::vector<item>::const_iterator a = p->worn.begin(); a != p->worn.end(); a++) {
-        // Add contents of worn items, but not the worn item itself!
-        crafting_inv += a->contents;
-    }
+    crafting_inv += p->worn;
     if (p->has_bionic("bio_tools")) {
         item tools("toolset", calendar::turn);
         tools.charges = p->power_level;
@@ -1551,6 +1548,7 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
             // disassembly requires a hacksaw or super toolkit.
             if (type == "welder") {
                 have_this_tool = (crafting_inv.has_tools("hacksaw", 1) ||
+                                  crafting_inv.has_tools("survivor_belt", 1) ||
                                   crafting_inv.has_tools("toolset", 1));
             }
 

@@ -131,6 +131,7 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("dex_cur",dex_cur);      data.read("dex_max",dex_max);
     data.read("int_cur",int_cur);      data.read("int_max",int_max);
     data.read("per_cur",per_cur);      data.read("per_max",per_max);
+    data.read("healthy",healthy);      data.read("healthy_mod",healthy_mod);
     data.read("hunger",hunger);        data.read("thirst",thirst);
     data.read("fatigue",fatigue);      data.read("stim",stim);
     data.read("pain",pain);            data.read("pkill",pkill);
@@ -227,6 +228,9 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "dex_cur", dex_cur );      json.member( "dex_max", dex_max );
     json.member( "int_cur", int_cur );      json.member( "int_max", int_max );
     json.member( "per_cur", per_cur );      json.member( "per_max", per_max );
+    
+    // Healthy values
+    json.member( "healthy", healthy );      json.member( "healthy_mod", healthy_mod );
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );        json.member( "thirst", thirst );
@@ -340,9 +344,6 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
-    // possibly related to illness[] ?
-    json.member( "health", health );
-
     // crafting etc
     json.member( "activity", activity );
     json.member( "backlog", activity );
@@ -441,8 +442,6 @@ void player::deserialize(JsonIn &jsin)
     data.read( "blocks_left", num_blocks);
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
-
-    data.read( "health", health );
 
     data.read( "mutations", my_mutations );
 

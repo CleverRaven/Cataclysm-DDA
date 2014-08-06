@@ -324,7 +324,7 @@ nc_color monster::color_with_effects() const
     if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied")) {
         ret = hilite(ret);
     }
-    if (has_effect("zlave")) {
+    if (has_effect("pacified")) {
         ret = invert_color(ret);
     }
     if (has_effect("onfire")) {
@@ -477,7 +477,7 @@ monster_attitude monster::attitude(player *u) const
     if (has_effect("run")) {
         return MATT_FLEE;
     }
-    if (has_effect("zlave")) {
+    if (has_effect("pacified")) {
         return MATT_ZLAVE;
     }
 
@@ -666,67 +666,6 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-int monster::hit(Creature &p, body_part &bp_hit) {
- int ret = 0;
- int highest_hit = 0;
-
-    //If the player is knocked down or the monster can fly, any body part is a valid target
-    if(p.is_on_ground() || has_flag(MF_FLIES)){
-        highest_hit = 20;
-    } else {
-        switch (type->size) {
-        case MS_TINY:
-            highest_hit = 3;
-            break;
-        case MS_SMALL:
-            highest_hit = 12;
-            break;
-        case MS_MEDIUM:
-            highest_hit = 20;
-            break;
-        case MS_LARGE:
-            highest_hit = 28;
-            break;
-        case MS_HUGE:
-            highest_hit = 35;
-            break;
-        }
-        if (digging()){
-            highest_hit -= 8;
-        }
-        if (highest_hit <= 1){
-            highest_hit = 2;
-        }
-    }
-
-    if (highest_hit > 20){
-        highest_hit = 20;
-    }
-
-
-    int bp_rand = rng(0, highest_hit - 1);
-    if (bp_rand <=  1){
-        bp_hit = bp_leg_l;
-    } else if (bp_rand <= 2){
-        bp_hit = bp_leg_r;
-    } else if (bp_rand <= 10){
-        bp_hit = bp_torso;
-    } else if (bp_rand <= 12){
-        bp_hit = bp_arm_l;
-    } else if (bp_rand <= 14){
-        bp_hit = bp_arm_r;
-    } else if (bp_rand <= 16){
-        bp_hit = bp_mouth;
-    } else if (bp_rand == 17){
-        bp_hit = bp_eyes;
-    } else{
-        bp_hit = bp_head;
-    }
-    ret += dice(type->melee_dice, type->melee_sides);
-    return ret;
-}
-
-
 void monster::melee_attack(Creature &target, bool, matec_id) {
     mod_moves(-100);
     if (type->melee_dice == 0) { // We don't attack, so just return
@@ -849,9 +788,9 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     }
 }
 
-void monster::hit_monster(int i)
+void monster::hit_monster(monster &other)
 {
- monster* target = &(g->zombie(i));
+ monster* target = &other;
  moves -= 100;
 
  if (this == target) {
@@ -876,28 +815,27 @@ void monster::hit_monster(int i)
  if (g->u_see(this))
   add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
- target->hurt(damage);
+ target->apply_damage( this, bp_torso, damage );
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
     mdefense mdf;
-    if(!is_hallucination() && source != NULL)
-        {
+    if(!is_hallucination() && source != NULL) {
         (mdf.*type->sp_defense)(this, NULL);
-        }
+    }
     return Creature::deal_melee_attack(source, hitroll);
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
                                     const projectile& proj, dealt_damage_instance &dealt_dam) {
     bool u_see_mon = g->u_see(this);
-    if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
-            !proj.wide) {
-        if (u_see_mon)
-            add_msg(_("The shot passes through %s without hitting."),
-            disp_name().c_str());
-        return 0;
+    // Maxes out at 50% chance with perfect hit
+    if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && !proj.wide) {
+        if (u_see_mon) {
+            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
+        }
+        return 1;
     }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
@@ -905,14 +843,13 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
         missed_by = 0.2;
     }
     mdefense mdf;
-     if(!is_hallucination() && source != NULL)
-        {
+    if(!is_hallucination() && source != NULL) {
         (mdf.*type->sp_defense)(this, &proj);
-        }
+    }
 
     // whip has a chance to scare wildlife
     if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
-            add_effect("run", rng(3, 5));
+        add_effect("run", rng(3, 5));
     }
 
     return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
@@ -957,29 +894,11 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
-void monster::apply_damage(Creature* source, body_part bp, int amount) {
-    // monsters don't have bodyparts
-    (void) bp;
-    hurt(amount, 0, source);
-}
-
-void monster::hurt(body_part, int dam) {
-    hurt(dam, 0, nullptr);
-}
-
-void monster::hurt(int dam) {
-    hurt(dam, 0, nullptr);
-}
-
-void monster::hurt( int dam, int real_dam, Creature *source )
-{
+void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
     if( dead ) {
         return;
     }
     hp -= dam;
-    if( real_dam > 0 ) {
-        hp = std::max( hp, -real_dam );
-    }
     if( hp < 1 ) {
         die( source );
     } else if( dam > 0 ) {
@@ -987,17 +906,23 @@ void monster::hurt( int dam, int real_dam, Creature *source )
     }
 }
 
+void monster::die_in_explosion(Creature* source)
+{
+    hp = -9999; // huge to trigger explosion and prevent corpse item
+    die( source );
+}
+
 int monster::get_armor_cut(body_part bp)
 {
     (void) bp;
-// TODO: Add support for worn armor?
- return int(type->armor_cut) + armor_bash_bonus;
+    // TODO: Add support for worn armor?
+    return int(type->armor_cut) + armor_bash_bonus;
 }
 
 int monster::get_armor_bash(body_part bp)
 {
     (void) bp;
- return int(type->armor_bash) + armor_cut_bonus;
+    return int(type->armor_bash) + armor_cut_bonus;
 }
 
 int monster::hit_roll() {
@@ -1016,6 +941,11 @@ int monster::get_dodge()
  return ret + get_dodge_bonus();
 }
 
+int monster::get_melee() const
+{
+    return type->melee_skill;
+}
+
 int monster::dodge_roll()
 {
  int numdice = get_dodge();
@@ -1025,6 +955,7 @@ int monster::dodge_roll()
   case MS_SMALL: numdice += 3; break;
   case MS_LARGE: numdice -= 2; break;
   case MS_HUGE:  numdice -= 4; break;
+  case MS_MEDIUM: break; // keep default
  }
 
  numdice += int(speed / 80);
@@ -1230,20 +1161,20 @@ void monster::process_effects()
         std::string id = effect_it->second.get_id();
         if (id == "nasty_poisoned") {
             speed -= rng(3, 5);
-            hurt(rng(3, 6));
+            apply_damage( nullptr, bp_torso, rng( 3, 6 ) );
         } if (id == "poisoned") {
             speed -= rng(0, 3);
-            hurt(rng(1, 3));
+            apply_damage( nullptr, bp_torso, rng( 1, 3 ) );
 
         // MATERIALS-TODO: use fire resistance
         } else if (id == "onfire") {
             if (made_of("flesh") || made_of("iflesh"))
-                hurt(rng(3, 8));
+                apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
             if (made_of("veggy"))
-                hurt(rng(10, 20));
+                apply_damage( nullptr, bp_torso, rng( 10, 20 ) );
             if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
                 made_of("wool"))
-                hurt(rng(15, 40));
+                apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
         }
     }
 

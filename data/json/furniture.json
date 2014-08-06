@@ -1270,6 +1270,16 @@
         "examine_action": "flower_dahlia"
     },{
         "type" : "furniture",
+        "id" : "f_datura",
+        "name": "datura",
+        "symbol": "*",
+        "color": "light_green",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_datura"
+    },{
+        "type" : "furniture",
         "id" : "f_forge",
         "name": "forge",
         "symbol": "^",

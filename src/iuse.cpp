@@ -514,7 +514,9 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
     if ((p->hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
         p->heal(healed, dam);
     } else if ((p->hp_cur[healed] >= 1) && (dam < 0)) {
-        p->hurt(healed, -dam); //hurt takes + damage
+        body_part bp;
+        p->hp_convert( healed, bp );
+        p->apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
     body_part bp_healed = bp_torso;
@@ -562,8 +564,8 @@ int iuse::bandage(player *p, item *it, bool)
         return false;
     }
     if (num_hp_parts != use_healing_item(p, it, 3, 1, 4, 90, 0, 0, false)) {
-        if (it->type->id != "quikclot") {
-            // Make bandages and rags take arbitrarily longer than hemostatic powder.
+        if (it->type->id != "quikclot" || "bfipowder") {
+            // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
             p->moves -= 100;
         }
         return it->type->charges_to_use();
@@ -1288,13 +1290,7 @@ int iuse::meth(player *p, item *it, bool)
 int iuse::vitamins(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You take some vitamins."));
-    if (p->health >= 10) {
-        return it->type->charges_to_use();
-    } else if (p->health >= 0) {
-        p->health = 10;
-    } else {
-        p->health += 10;
-    }
+    p->mod_healthy_mod(50);
     return it->type->charges_to_use();
 }
 
@@ -1302,13 +1298,7 @@ int iuse::vaccine(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You inject the vaccine."));
     p->add_msg_if_player(m_good, _("You feel tough."));
-    if (p->health >= 100) {
-        return it->type->charges_to_use();
-    } else if (p->health >= 0) {
-        p->health = 100;
-    } else {
-        p->health += 100;
-    }
+    p->mod_healthy_mod(200);
     p->mod_pain(3);
     return it->type->charges_to_use();
 }
@@ -1384,6 +1374,13 @@ int iuse::iodine(player *p, item *it, bool)
 {
     p->add_disease("iodine", 1200);
     p->add_msg_if_player(_("You take an iodine tablet."));
+    return it->type->charges_to_use();
+}
+
+int iuse::datura(player *p, item *it, bool)
+{
+    p->add_disease("datura", rng(2000, 8000));
+    p->add_msg_if_player(_("You eat the datura seed."));
     return it->type->charges_to_use();
 }
 
@@ -2150,6 +2147,7 @@ int iuse::dogfood(player *p, item *, bool)
         if (g->zombie(mon_dex).type->id == "mon_dog") {
             p->add_msg_if_player(m_good, _("The dog seems to like you!"));
             g->zombie(mon_dex).friendly = -1;
+            g->zombie(mon_dex).add_effect("pet", 1, 1, true);
         } else {
             p->add_msg_if_player(_("The %s seems quite unimpressed!"),
                                  g->zombie(mon_dex).name().c_str());
@@ -2631,6 +2629,123 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
     return 0;
 }
 
+int iuse::fish_trap(player *p, item *it, bool t)
+{
+    if (t) {
+        // Handle processing fish trap over time.
+        if (it->charges == 0) {
+            it->active = false;
+            return 0;
+        }
+
+        //after 30 min.
+        if (calendar::turn - it->bday > 300) {
+            it->active = false;
+
+            point pos = g->find_item(it);
+
+            if (!g->m.has_flag("FISHABLE", pos.x, pos.y)) {
+                return 0;
+            }
+            point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
+            if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+                return 0;
+            }
+
+            int success = -50;
+            const int surv = p->skillLevel("survival");
+            const int attempts = rng(it->charges, it->charges * it->charges);
+            for (int i = 0; i < attempts; i++) {
+                success += rng(surv, surv * surv);
+            }
+
+            it->charges = rng(-1, it->charges);
+            if (it->charges == 0) {
+                it->charges = -1;
+            }
+
+            int fishes = 0;
+
+            if (success < 0) {
+                fishes = 0;
+            } else if (success < 300) {
+                fishes = 1;
+            } else if (success < 1500) {
+                fishes = 2;
+            } else {
+                fishes = rng(3, 5);
+            }
+
+            if (fishes == 0) {
+                it->charges = -1;
+                p->practice("survival", rng(5, 15));
+
+                return 0;
+            }
+
+            for (int i = 0; i < fishes; i++) {
+                p->practice("survival", rng(3, 10));
+
+                item fish;
+                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                fish.make_corpse("corpse", GetMType(fish_mon), it->bday + 300);
+                //Yes, we can put fishes in the trap like knives in the boot,
+                //and then get fishes via activation of the item,
+                //but it's not as comfortable as if you just put fishes in the same tile with the trap.
+                //Also: corpses and comestibles not rot in containers like this, but on the ground will rot.
+                g->m.add_item_or_charges(pos.x, pos.y, fish);
+            }
+        }
+        return 0;
+    } else {
+        // Handle deploying fish trap.
+        if (it->active) {
+            it->active = false;
+            return 0;
+        }
+
+        if (it->charges < 0) {
+            it->charges = 0;
+            return 0;
+        }
+
+        if (p->is_underwater()) {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return 0;
+        }
+
+        if (it->charges == 0) {
+            p->add_msg_if_player(_("Fish is not so silly to go in here without bait."));
+            return 0;
+        }
+
+        int dirx, diry;
+
+        if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
+            return 0;
+        }
+        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
+            p->add_msg_if_player(m_info, _("You can't fish there!"));
+            return 0;
+        }
+        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
+        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+            p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
+            return 0;
+        }
+
+        it->active = true;
+        it->bday = calendar::turn;
+        g->m.add_item_or_charges(dirx, diry, *it);
+        p->i_rem(it);
+
+        p->add_msg_if_player(m_info, _("You place the fish trap, in a half hour or so you might have some fish."));
+
+        return 0;
+    }
+}
+
 static bool valid_fabric(player *p, item *it, bool)
 {
     if (it->type->id == "null") {
@@ -2767,7 +2882,7 @@ int iuse::extinguisher(player *p, item *it, bool)
                 p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
             }
             monster &critter = g->zombie( mondex );
-            critter.hurt( rng( 20, 60 ), 0, p );
+            critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
             critter.speed /= 2;
         }
     }
@@ -5012,7 +5127,7 @@ int iuse::granade_act(player *, item *it, bool t)
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
-                            g->zombie( zid ).hurt( 9999 ); // trigger exploding
+                            g->zombie( zid ).die_in_explosion( nullptr );
                         }
                     }
                 }
@@ -5722,7 +5837,7 @@ int iuse::tazer(player *p, item *it, bool)
         p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
         int shock = rng(5, 25);
         z->moves -= shock * 100;
-        z->hurt( shock, 0, p );
+        z->apply_damage( p, bp_torso, shock );
         return it->type->charges_to_use();
     }
 
@@ -5816,7 +5931,7 @@ int iuse::tazer2(player *p, item *it, bool)
             p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
             int shock = rng(5, 25);
             z->moves -= shock * 100;
-            z->hurt( shock, 0, p );
+            z->apply_damage( p, bp_torso, shock );
 
             return 100;
         }
@@ -6201,7 +6316,7 @@ void make_zlave(player *p)
     uimenu amenu;
 
     amenu.selected = 0;
-    amenu.text = _("Selectively butcher the downed zombie into a zlave?");
+    amenu.text = _("Selectively butcher the downed zombie into a zombie slave?");
     amenu.addentry(cancel, true, 'q', _("Cancel"));
     for (int i = 0; i < corpses.size(); i++) {
         amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
@@ -6289,7 +6404,7 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     if( p->skillLevel("survival") > 1 && p->skillLevel("firstaid") > 1 ) {
-        kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
+        kmenu.addentry(make_slave, true, 'z', _("Make zombie slave"));
     }
 
     kmenu.addentry(cancel, true, 'q', _("Cancel"));
@@ -7098,7 +7213,7 @@ int iuse::artifact(player *p, item *it, bool)
 
             case AEA_HURTALL:
                 for (size_t j = 0; j < g->num_zombies(); j++) {
-                    g->zombie(j).hurt(rng(0, 5));
+                    g->zombie(j).apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
                 }
                 break;
 
@@ -8140,7 +8255,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
             } else if (success >= -2) { //A near success
                 p->add_msg_if_player(_("The %s short circuits as you attempt to reprogram it!"),
                                      z->name().c_str());
-                z->hurt( rng( 1, 10 ), 0, p ); //damage it a little
+                z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
                 if( z->is_dead() ) {
                     p->practice("computer", 10);
                     return it->type->charges_to_use(); // Do not do the other effects if the robot died

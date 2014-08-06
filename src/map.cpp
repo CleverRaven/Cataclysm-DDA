@@ -805,7 +805,7 @@ bool map::vehproceed()
                 }
                 unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
                                      y + veh->parts[ppl[ps]].precalc_dy[0]);
-                g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
+                g->fling_creature(psg, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
                                             vel1 - psg->str_cur));
             } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {

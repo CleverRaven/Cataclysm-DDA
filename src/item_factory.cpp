@@ -193,6 +193,7 @@ void Item_factory::init()
     iuse_function_list["PROZAC"] = &iuse::prozac;
     iuse_function_list["SLEEP"] = &iuse::sleep;
     iuse_function_list["IODINE"] = &iuse::iodine;
+    iuse_function_list["DATURA"] = &iuse::datura;
     iuse_function_list["FLUMED"] = &iuse::flumed;
     iuse_function_list["FLUSLEEP"] = &iuse::flusleep;
     iuse_function_list["INHALER"] = &iuse::inhaler;
@@ -337,6 +338,7 @@ void Item_factory::init()
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["UPS_BATTERY"] = &iuse::ups_battery;
     iuse_function_list["FISHING_BASIC"] = &iuse::fishing_rod_basic;
+    iuse_function_list["FISH_TRAP"] = &iuse::fish_trap;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
     iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
     iuse_function_list["RM13ARMOR_OFF"] = &iuse::rm13armor_off;
