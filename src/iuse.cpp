@@ -8175,15 +8175,20 @@ int iuse::robotcontrol(player *p, item *it, bool)
 void init_memory_card_with_random_stuff(player *p, item *it)
 {
 
-    if (it->has_flag("MC_MOBILE") && it->has_flag("MC_RANDOM_STUFF") && !(it->has_flag("MC_USED") ||
+    if (it->has_flag("MC_MOBILE") && (it->has_flag("MC_RANDOM_STUFF") || it->has_flag("MC_SCIENCE_STUFF")) && !(it->has_flag("MC_USED") ||
             it->has_flag("MC_HAS_DATA"))) {
 
         it->item_tags.insert("MC_HAS_DATA");
 
         bool encrypted = false;
+
         if (it->has_flag("MC_MAY_BE_ENCRYPTED") && one_in(8)) {
             it->make(it->type->id + "_encrypted");
-            encrypted = true;
+        }
+
+        //some special cards can contain "MC_ENCRYPTED" flag
+        if (it->has_flag("MC_ENCRYPTED")) {
+            encrypted = true;            
         }
 
         int data_chance = 2;
@@ -8233,7 +8238,11 @@ void init_memory_card_with_random_stuff(player *p, item *it)
         }
 
         if (one_in(data_chance)) {
-            it->item_vars["MC_RECIPE"] = string_format("%d", 1);
+            it->item_vars["MC_RECIPE"] = "SIMPLE";
+        }
+
+        if (it->has_flag("MC_SCIENCE_STUFF")) {
+            it->item_vars["MC_RECIPE"] = "SCIENCE";            
         }
     }
 }
@@ -8279,11 +8288,9 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         eink->item_vars["EIPC_MUSIC"] = string_format("%d", old_songs + new_songs);
     }
 
-    //TODO: DELETE IT. DEBUG!!!
-    mc->item_vars["MC_RECIPE"] = "1";
-
     if (mc->item_vars["MC_RECIPE"] != "")
     {
+        const bool science = it->item_vars["MC_RECIPE"] == "SCIENCE";
 
         std::vector<recipe *> candidates;
         recipe_map recipes = g->list_recipes();
@@ -8291,11 +8298,11 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
             for (recipe_list::iterator list_iter = map_iter->second.begin();
                  list_iter != map_iter->second.end(); ++list_iter) {
-                if ((*list_iter)->cat == "CC_FOOD") {
+                if (science || (*list_iter)->cat == "CC_FOOD") {
 
                     const int dif = (*list_iter)->difficulty;
 
-                    if (dif <= 3 && one_in(dif)) {
+                    if ((science || dif <= 3) && one_in(dif)) {
                         candidates.push_back(*list_iter);
                     }
                 }
@@ -8333,7 +8340,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
     {
         mc->item_tags.clear();
         mc->item_vars.clear();
-        mc->make(mc->type->id + "_used");
+        mc->make("mobile_memory_card_used");
     }
 
     if (!something_downloaded)
@@ -8416,8 +8423,9 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         }
 
         if (it->item_vars["EIPC_MUSIC"] != "") {
+            has_something_uploadable = true;
+
             if (it->active) {
-                has_something_uploadable = true;
                 amenu.addentry(ei_music, true, 'm', _("Turn music off"));
             } else {
                 const int songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
@@ -8566,6 +8574,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             if (0 == rchoice) {
                 return it->type->charges_to_use();
             } else {
+                it->item_tags.insert("HAS_RECIPE");
                 it->item_vars["RECIPE"] = recipes[rchoice - 1];
 
                 const item dummy(it->item_vars["RECIPE"], 0);
@@ -8638,8 +8647,6 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 p->practice("computer", rng(5, 10));
 
                 p->add_msg_if_player(m_good, _("You successfully decrypted content on %s!"), mc->tname().c_str());
-
-                mc->make(mc->type->id.substr(0, mc->type->id.find("_encrypted")).c_str());
 
                 einkpc_download_memory_card(p, it, mc);
             } else {

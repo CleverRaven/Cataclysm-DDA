@@ -7687,7 +7687,6 @@
     "color": "blue",
     "name": "E-Ink Tablet PC",
     "description": "Tablet PC with colorful E-Ink display. Useful multifunctional device from pre-apocalypse time. Has display which consumes almost no energy.",
-    "flags": ["HAS_RECIPE"],
     "price": 20000,
     "material": "plastic",
     "weight": 2000,
@@ -7745,7 +7744,7 @@
     "charges_per_use": 5,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "camera",
+    "revert_to": "camera_pro",
     "use_action": "CAMERA"
   }
 ]
