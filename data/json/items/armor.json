@@ -3857,7 +3857,7 @@
         "type" : "ARMOR",
         "id" : "sleeveless_trenchcoat_survivor",
         "category" : "armor",
-        "name" : "sleeveless_survivor trenchcoat",
+        "name" : "sleeveless survivor trenchcoat",
         "note": "The general guideline for sleeveless trenchcoats is the the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
         "weight" : 1632,
         "color" : "brown",
