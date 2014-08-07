@@ -8290,6 +8290,8 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
     if (mc->item_vars["MC_RECIPE"] != "") {
         const bool science = mc->item_vars["MC_RECIPE"] == "SCIENCE";
 
+        mc->item_vars["MC_RECIPE"] = "";
+
         std::vector<recipe *> candidates;
         recipe_map recipes = g->list_recipes();
 
@@ -8527,28 +8529,28 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 const int random_photo = rng(1, 20);
                 switch (random_photo) {
                     case 1:
-                        p->add_msg_if_player(m_good, _("This dog reminds yours..."));
+                        p->add_msg_if_player(m_good, _("You used to have a dog like this..."));
                         break;
                     case 2:
-                        p->add_msg_if_player(m_good, _("Funny stupid cat! Ha-ha-ha!"));
+                        p->add_msg_if_player(m_good, _("Hey you! Be nice to cats!"));
                         break;
                     case 3:
                         p->add_msg_if_player(m_good, _("Excellent pictures of nature."));
                         break;
                     case 4:
-                        p->add_msg_if_player(m_good, _("Photo meal, photo of food, photo..."));
+                        p->add_msg_if_player(m_good, _("Food photos...your stomach rumbles!"));
                         break;
                     case 5:
-                        p->add_msg_if_player(m_good, _("Pictures of something to travel very interesting."));
+                        p->add_msg_if_player(m_good, _("Some very interesting travel photos."));
                         break;
                     case 6:
                         p->add_msg_if_player(m_good, _("Pictures of a concert of popular band."));
                         break;
                     case 7:
-                        p->add_msg_if_player(m_good, _("Pictures of someone's house, luxuriously."));
+                        p->add_msg_if_player(m_good, _("Photos of someone's luxurious house."));
                         break;
                     default:
-                        p->add_msg_if_player(m_good, _("You nostalgiques staring at the photo."));
+                        p->add_msg_if_player(m_good, _("You feel nostalgic as you stare at the photo."));
                         break;
                 }
             }
@@ -8790,7 +8792,7 @@ int iuse::camera(player *p, item *it, bool)
         }
 
         if (pos.x == p->posx && pos.y == p->posy) {
-            p->add_msg_if_player(_("To take a selfie is bad idea - flash harmful to the eyes."));
+            p->add_msg_if_player(_("You decide not to flash yourself."));
             return 0;
         }
 
@@ -8798,7 +8800,7 @@ int iuse::camera(player *p, item *it, bool)
         const int sel_npcID = g->npc_at(pos.x, pos.y);
 
         if (sel_zid == -1 && sel_npcID == -1) {
-            p->add_msg_if_player(_("There is no creature to take photo."));
+            p->add_msg_if_player(_("There's nothing particularly interesting there."));
             return 0;
         }
 
@@ -8811,7 +8813,7 @@ int iuse::camera(player *p, item *it, bool)
         }
 
         p->moves -= 50;
-        g->sound(p->posx, p->posy, 8, _("TODO: SOME SOUND OF PHOTO'SHOT IN ENGLISH."));
+        g->sound(p->posx, p->posy, 8, _("Click."));
 
         for (int i = 0; i < trajectory.size(); i++) {
             int tx = trajectory[i].x;
@@ -8843,17 +8845,17 @@ int iuse::camera(player *p, item *it, bool)
                         z.add_effect("blind", rng(5, 10));
                     }
 
-                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination())) {
+                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
                         continue;
                     }
 
                     if (zid != sel_zid) {
-                        p->add_msg_if_player(m_warning, _("%s standing in the way of the lens."), z.name().c_str());
+                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), z.name().c_str());
                         return it->type->charges_to_use();
                     }
 
-                    if (z.is_hallucination()) {
-                        p->add_msg_if_player(_("Strange, but in the picture anyone..."));
+                    if (z.is_hallucination() || z.type->in_species("HALLUCINATION")) {
+                        p->add_msg_if_player(_("Strange...there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
 
@@ -8885,7 +8887,7 @@ int iuse::camera(player *p, item *it, bool)
                                 chq = &string_format("%d", photo_quality)[0];
                                 it->item_vars["CAMERA_MONSTER_PHOTOS"][strqpos] = *chq;
 
-                                p->add_msg_if_player(_("This photo is better that previous."));
+                                p->add_msg_if_player(_("This photo is better than previous."));
 
                             }
 
@@ -8903,7 +8905,7 @@ int iuse::camera(player *p, item *it, bool)
                     }
 
                     if (npcID != sel_npcID) {
-                        p->add_msg_if_player(m_warning, _("%s standing in the way of the lens."), guy->name.c_str());
+                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), guy->name.c_str());
                         return it->type->charges_to_use();
                     }
 
@@ -8999,7 +9001,7 @@ int iuse::camera(player *p, item *it, bool)
             }
         }
         if (mc->has_flag("MC_HAS_DATA")) {
-            if (!query_yn(_("Are you sure to clear old data on card?"))) {
+            if (!query_yn(_("Are you sure you want to clear the old data on the card?"))) {
                 return it->type->charges_to_use();
             }
         }
