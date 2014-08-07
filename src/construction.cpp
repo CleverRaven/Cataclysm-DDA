@@ -624,6 +624,11 @@ void construct::done_deconstruct(point p)
             add_msg(_("That %s can not be disassembled!"), t.name.c_str());
             return;
         }
+        if (t == t_console_broken) {
+            if (g->u.skillLevel("electronics") >= 1) {
+                g->u.practice(electronics, 2, 4);
+            }
+        }
         g->m.ter_set(p.x, p.y, t.deconstruct.ter_set);
         add_msg(_("You disassemble the %s."), t.name.c_str());
         g->m.spawn_item_list(t.deconstruct.items, p.x, p.y);
