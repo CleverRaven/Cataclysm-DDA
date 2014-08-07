@@ -8401,7 +8401,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
 }
 
-const std::string photo_quality_names[] = { "awful", "bad", "not bad", "good", "fine", "exceptional" };
+const std::string photo_quality_names[] = { _("awful"), _("bad"), _("not bad"), _("good"), _("fine"), _("exceptional") };
 
 int iuse::einktabletpc(player *p, item *it, bool t)
 {
@@ -8649,7 +8649,6 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 char *chq = &s[0];
                 const int quality = atoi(chq);
 
-                //todo: translation needed?
                 menu_str += " [" + photo_quality_names[quality] + "]";
 
                 pmenu.addentry(k++, true, -1, menu_str.c_str());
@@ -8807,11 +8806,6 @@ int iuse::camera(player *p, item *it, bool)
         std::vector <point> trajectory = line_to(p->posx, p->posy, pos.x, pos.y, 0);
         trajectory.push_back(point(pos.x, pos.y));
 
-        if (trajectory.empty()) {
-            p->add_msg_if_player(_("Never mind."));
-            return 0;
-        }
-
         p->moves -= 50;
         g->sound(p->posx, p->posy, 8, _("Click."));
 
@@ -8834,7 +8828,6 @@ int iuse::camera(player *p, item *it, bool)
                     photo_quality = 0;
                 }
 
-                //todo: translation needed?
                 const std::string quality_name = photo_quality_names[photo_quality];
 
                 if (zid != -1) {
@@ -8954,7 +8947,6 @@ int iuse::camera(player *p, item *it, bool)
             char *chq = &s[0];
             const int quality = atoi(chq);
 
-            //todo: translation needed?
             menu_str += " [" + photo_quality_names[quality] + "]";
 
             pmenu.addentry(k++, true, -1, menu_str.c_str());

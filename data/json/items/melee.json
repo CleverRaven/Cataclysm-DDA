@@ -3795,7 +3795,7 @@
     "color": "white",
     "name": "Science SD-Memory card",
     "name_plural": "Science SD-Memory cards",
-    "description": "Memory card you found on dead scientist (or Lab. todo: correct text).  It encrypted and may contain some very useful stuff.",
+    "description": "Memory card you found on dead scientist or laboratory.  It is encrypted and may contain some very useful stuff.",
     "price": 10000,
     "material": "plastic",
     "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF"],
