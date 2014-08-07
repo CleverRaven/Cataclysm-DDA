@@ -103,7 +103,7 @@ void event::actualize()
      mony = rng(0, SEEY * MAPSIZE);
      tries++;
     } while (tries < 10 && !g->is_empty(monx, mony) &&
-             rl_dist(g->u.posx, g->u.posx, monx, mony) <= 2);
+             rl_dist(g->u.posx, g->u.posy, monx, mony) <= 2);
     if (tries < 10) {
      wyrm.spawn(monx, mony);
      g->add_zombie(wyrm);
