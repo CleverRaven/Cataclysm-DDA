@@ -4173,19 +4173,14 @@ ff.......|....|WWWWWWWW|\n\
 
         dat.fill_groundcover();
 
-        square(this, t_dirt, 3, 3, 20, 20); // fixme: restore grass_or_dirt as dat.square_groundcover() and use dat.is_groundcover instead of t_dirt for checks below.
-        line(this, t_chainfence_h,  2,  2, 10,  2);
-        line(this, t_chainfence_h, 13,  2, 21,  2);
-        line(this, t_chaingate_l,      11,  2, 12,  2);
-        line(this, t_chainfence_h,  2, 21, 10, 21);
-        line(this, t_chainfence_h, 13, 21, 21, 21);
-        line(this, t_chaingate_l,      11, 21, 12, 21);
-        line(this, t_chainfence_v,  2,  3,  2, 10);
-        line(this, t_chainfence_v, 21,  3, 21, 10);
-        line(this, t_chaingate_l,       2, 11,  2, 12);
-        line(this, t_chainfence_v,  2, 13,  2, 20);
-        line(this, t_chainfence_v, 21, 13, 21, 20);
-        line(this, t_chaingate_l,      21, 11, 21, 12);
+        line(this, t_chainfence_h,            0,            0, SEEX * 2 - 1,            0);
+        line(this, t_chaingate_l,            11,            0,           12,            0);
+        line(this, t_chainfence_h,            0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+        line(this, t_chaingate_l,            11, SEEY * 2 - 1,           12, SEEY * 2 - 1);
+        line(this, t_chainfence_v,            0,            0,            0, SEEX * 2 - 1);
+        line(this, t_chaingate_l,             0,           11,            0,           12);
+        line(this, t_chainfence_v, SEEX * 2 - 1,            0, SEEX * 2 - 1, SEEY * 2 - 1);
+        line(this, t_chaingate_l,  SEEX * 2 - 1,           11, SEEX * 2 - 1,           12);
         // Place some random buildings
 
         bool okay = true;
@@ -4194,11 +4189,22 @@ ff.......|....|WWWWWWWW|\n\
             int buildwidthmax  = (buildx <= 11 ? buildx - 3 : 20 - buildx),
                 buildheightmax = (buildy <= 11 ? buildy - 3 : 20 - buildy);
             int buildwidth = rng(3, buildwidthmax), buildheight = rng(3, buildheightmax);
-            if (ter(buildx, buildy) != t_dirt) {
+            if( !dat.is_groundcover( ter( buildx, buildy ) ) ) {
                 okay = false;
             } else {
                 int bx1 = buildx - buildwidth, bx2 = buildx + buildwidth,
                     by1 = buildy - buildheight, by2 = buildy + buildheight;
+                bool overlap = false;
+                for(int x = bx1; x <= bx2 && !overlap; x++) {
+                    for(int y = by1; y <= by2 && !overlap; y++) {
+                        if( !dat.is_groundcover( ter( x, y ) ) ) {
+                            overlap = true;
+                        }
+                    }
+                }
+                if(overlap) {
+                    continue;
+                }
                 square(this, t_floor, bx1, by1, bx2, by2);
                 line(this, t_concrete_h, bx1, by1, bx2, by1);
                 line(this, t_concrete_h, bx1, by2, bx2, by2);
@@ -4267,51 +4273,38 @@ ff.......|....|WWWWWWWW|\n\
                     for (int j = doory - 1; j <= doory + 1; j++) {
                         i_clear(i, j);
                         if (furn(i, j) == f_bed || furn(i, j) == f_rack || furn(i, j) == f_counter) {
-                            set(i, j, t_floor, f_null);
+                            furn_set(i, j, f_null);
                         }
+                    }
+                }
+                for( int i = -1; i <= +1; i += 2 ) {
+                    // Wall from another room, make a double door, doesn't look nice,
+                    // but is better than a door leading into wall. Original:
+                    // ---     -+-
+                    // -+- ==> -+-
+                    // ...     ...
+                    if( ( ter( doorx + i, doory ) == t_concrete_h || ter( doorx + i, doory ) == t_concrete_v ) &&
+                        ter( doorx - i, doory ) == t_floor ) {
+                        ter_set( doorx + i, doory, t_door_c );
+                    }
+                    if( ( ter( doorx, doory + i ) == t_concrete_h || ter( doorx, doory + i ) == t_concrete_v ) &&
+                        ter( doorx, doory - i ) == t_floor ) {
+                        ter_set( doorx, doory + i, t_door_c );
                     }
                 }
                 ter_set(doorx, doory, t_door_c);
             }
         }
-        // Seal up the entrances if there's walls there
-        if (ter(11,  3) != t_dirt) {
-            ter_set(11,  2, t_concrete_h);
-        }
-        if (ter(12,  3) != t_dirt) {
-            ter_set(12,  2, t_concrete_h);
-        }
-
-        if (ter(11, 20) != t_dirt) {
-            ter_set(11,  2, t_concrete_h);
-        }
-        if (ter(12, 20) != t_dirt) {
-            ter_set(12,  2, t_concrete_h);
-        }
-
-        if (ter( 3, 11) != t_dirt) {
-            ter_set( 2, 11, t_concrete_v);
-        }
-        if (ter( 3, 12) != t_dirt) {
-            ter_set( 2, 12, t_concrete_v);
-        }
-
-        if (ter( 3, 11) != t_dirt) {
-            ter_set( 2, 11, t_concrete_v);
-        }
-        if (ter( 3, 12) != t_dirt) {
-            ter_set( 2, 12, t_concrete_v);
-        }
 
         // Place turrets by (possible) entrances
-        add_spawn("mon_turret_rifle", 1,  3, 11);
-        add_spawn("mon_turret_rifle", 1,  3, 12);
-        add_spawn("mon_turret_rifle", 1, 20, 11);
-        add_spawn("mon_turret_rifle", 1, 20, 12);
-        add_spawn("mon_turret_rifle", 1, 11,  3);
-        add_spawn("mon_turret_rifle", 1, 12,  3);
-        add_spawn("mon_turret_rifle", 1, 11, 20);
-        add_spawn("mon_turret_rifle", 1, 12, 20);
+        add_spawn("mon_turret_rifle", 1,  1, 11);
+        add_spawn("mon_turret_rifle", 1,  1, 12);
+        add_spawn("mon_turret_rifle", 1, SEEX * 2 - 2, 11);
+        add_spawn("mon_turret_rifle", 1, SEEX * 2 - 2, 12);
+        add_spawn("mon_turret_rifle", 1, 11,  1);
+        add_spawn("mon_turret_rifle", 1, 12,  1);
+        add_spawn("mon_turret_rifle", 1, 11, SEEY * 2 - 2);
+        add_spawn("mon_turret_rifle", 1, 12, SEEY * 2 - 2);
 
         // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++) {
