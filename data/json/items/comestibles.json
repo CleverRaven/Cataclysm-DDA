@@ -9655,7 +9655,7 @@
         "color" : "green",
         "addiction_type" : "caffeine",
         "spoils_in" : 0,
-        "stim" : 4,
+        "stim" : 1,
         "container" : "bottle_plastic",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
@@ -9675,7 +9675,7 @@
         "charges" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 6
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
