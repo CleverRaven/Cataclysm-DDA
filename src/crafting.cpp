@@ -987,6 +987,8 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
 
     current.clear();
     available.clear();
+    std::map<int, recipe*> ordered_list;
+    int max_difficulty = 0;
 
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
@@ -1035,7 +1037,31 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                 available.push_back(false);
             }
         }
+        max_difficulty = std::max(max_difficulty, rec->difficulty);
     }
+
+    std::vector<recipe *> ordered_current;
+    std::vector<bool> ordered_available;
+
+    for (int i = max_difficulty; i != -1; --i)
+    {
+        for (std::vector<recipe*>::iterator iter = current.begin(); iter != current.end(); ++iter)
+        {
+            if ((*iter)->difficulty == i)
+            {
+                ordered_current.push_back((*iter));
+                if ((*iter)->can_make_with_inventory(crafting_inv)) {
+                    ordered_available.push_back(true);
+                } else {
+                    ordered_available.push_back(false);
+                }
+            }
+        }
+    }
+
+    current = ordered_current;
+    available = ordered_available;
+
 }
 
 void game::make_craft(recipe *making)
