@@ -466,7 +466,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's dispersion modifier based on skill. **/
         int skill_dispersion( item *weapon, bool random ) const;
         /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion(item *weapon) const;
+        double get_weapon_dispersion( item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_effects );
         /** Handles gun firing effects and functions */

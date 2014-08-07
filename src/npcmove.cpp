@@ -813,7 +813,8 @@ int npc::confident_range(int position)
     double deviation = 0;
     int max = 0;
     if (position == -1) {
-        deviation = get_weapon_dispersion( &weapon );
+        deviation = get_weapon_dispersion( &weapon, true );
+        deviation += recoil + driving_recoil;
         // Convert from MoA back to quarter-degrees.
         deviation /= 15;
     } else { // We aren't firing a gun, we're throwing something!

@@ -531,7 +531,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
 
         make_gun_sound_effect(*this, burst, used_weapon);
 
-        double total_dispersion = get_weapon_dispersion(used_weapon);
+        double total_dispersion = get_weapon_dispersion(used_weapon, true);
         //debugmsg("%f",total_dispersion);
         int range = rl_dist(xpos(), ypos(), tarx, tary);
         // penalties for point-blank
@@ -1356,6 +1356,11 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     }
 }
 
+// Little helper to clean up dispersion calculation methods.
+static int rand_or_max( bool random, int max )
+{
+    return random ? rng(0, max) : max;
+}
 
 int player::skill_dispersion( item *weapon, bool random ) const
 {
@@ -1364,40 +1369,33 @@ int player::skill_dispersion( item *weapon, bool random ) const
     int dispersion = 0; // Measured in Minutes of Arc.
     // Up to 0.75 degrees for each skill point < 10.
     if (weapon_skill_level < 10) {
-        int max_dispersion = 45 * (10 - weapon_skill_level);
-        if( random ) {
-            dispersion += rng(0, max_dispersion);
-        } else {
-            dispersion += max_dispersion;
-        }
+        dispersion += rand_or_max( random, 45 * (10 - weapon_skill_level) );
     }
     // Up to 0.25 deg per each skill point < 10.
     if( get_skill_level("gun") < 10) {
-        int max_dispersion = 15 * (10 - get_skill_level("gun"));
-        if( random ) {
-            dispersion += rng(0, max_dispersion);
-        } else {
-            dispersion += max_dispersion;
-        }
+        dispersion += rand_or_max( random, 15 * (10 - get_skill_level("gun")) );
     }
     return dispersion;
 }
 // utility functions for projectile_attack
-double player::get_weapon_dispersion(item *weapon) const
+double player::get_weapon_dispersion(item *weapon, bool random) const
 {
     double dispersion = 0.; // Measured in quarter-degrees.
-    dispersion += skill_dispersion( weapon, true );
+    dispersion += skill_dispersion( weapon, random );
 
-    dispersion += rng(0, ranged_dex_mod());
-    dispersion += rng(0, ranged_per_mod());
+    dispersion += rand_or_max( random, ranged_dex_mod() );
+    dispersion += rand_or_max( random, ranged_per_mod() );
 
-    dispersion += rng(0, 30 * (encumb(bp_arm_l) + encumb(bp_arm_r))) + rng(0, 60 * encumb(bp_eyes));
+    dispersion += rand_or_max( random, 30 * (encumb(bp_arm_l) + encumb(bp_arm_r)) );
+    dispersion += rand_or_max( random, 60 * encumb(bp_eyes) );
 
-    dispersion += rng(0, weapon->curammo->dispersion);
+    dispersion += rand_or_max( random, weapon->curammo->dispersion);
 
-    dispersion += rng(0, weapon->dispersion());
-    int adj_recoil = recoil + driving_recoil;
-    dispersion += rng(int(adj_recoil / 4), adj_recoil);
+    dispersion += rand_or_max( random, weapon->dispersion() );
+    if( random ) {
+        int adj_recoil = recoil + driving_recoil;
+        dispersion += rng( int(adj_recoil / 4), adj_recoil );
+    }
 
     if (has_bionic("bio_targeting")) {
         dispersion *= 0.75;
