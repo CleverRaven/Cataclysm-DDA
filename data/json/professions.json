@@ -1178,7 +1178,7 @@
         "type" : "profession",
         "ident": "bionic_worker",
         "name": "Industrial Cyborg",
-        "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by your own metabolism.",
+        "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
         "points": 5,
         "skills": [
             {
