@@ -8532,7 +8532,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                         p->add_msg_if_player(m_good, _("You used to have a dog like this..."));
                         break;
                     case 2:
-                        p->add_msg_if_player(m_good, _("Hey you! Be nice to cats!"));
+                        p->add_msg_if_player(m_good, _("Ha-ha! An amusing cat photo."));
                         break;
                     case 3:
                         p->add_msg_if_player(m_good, _("Excellent pictures of nature."));
