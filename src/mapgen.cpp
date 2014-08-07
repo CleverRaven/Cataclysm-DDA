@@ -9923,12 +9923,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
 
     } else if (terrain_type == "mansion_entrance") {
+        dat.fill_groundcover();
 
-        // Left wall
-        line(this, t_wall_v,  0,  0,  0, SEEY * 2 - 2);
-        line(this, t_door_c,  0, SEEY - 1, 0, SEEY);
         // Front wall
-        line(this, t_wall_h,  1, 10,  SEEX * 2 - 1, 10);
+        line(this, t_wall_h,  0, 10,  SEEX * 2 - 1, 10);
         line(this, t_door_locked, SEEX - 1, 10, SEEX, 10);
         int winx1 = rng(2, 4);
         int winx2 = rng(4, 6);
@@ -9939,13 +9937,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line(this, t_window, winx1, 10, winx2, 10);
         line(this, t_window, SEEX * 2 - 1 - winx1, 10, SEEX * 2 - 1 - winx2, 10);
         line(this, t_door_c, SEEX - 1, 10, SEEX, 10);
-        // Bottom wall
-        line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
-        line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
 
-        build_mansion_room(this, room_mansion_courtyard, 1, 0, SEEX * 2 - 1, 9, dat);
-        square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
-        build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2, dat);
+        build_mansion_room(this, room_mansion_courtyard, 0, 0, SEEX * 2 - 1, 9, dat);
+        square(this, t_floor, 0, 11, SEEX * 2 - 1, SEEY * 2 - 1);
+        build_mansion_room(this, room_mansion_entry, 0, 11, SEEX * 2 - 1, SEEY * 2 - 1, dat);
         // Rotate to face the road
         if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east) ||
             ((t_east != "mansion") && (t_north == "mansion") && (t_south == "mansion"))) {
@@ -9963,7 +9958,16 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (one_in(3)) {
             add_spawn("mon_zombie", rng(1, 8), 12, 12);
         }
-
+        // Left wall
+        if( t_west == "mansion_entrance" || t_west == "mansion" ) {
+            line(this, t_wall_v,  0,  0,  0, SEEY * 2 - 2);
+            line(this, t_door_c,  0, SEEY - 1, 0, SEEY);
+        }
+        // Bottom wall
+        if( t_south == "mansion_entrance" || t_south == "mansion" ) {
+            line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+            line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+        }
 
     } else if (terrain_type == "mansion") {
 
@@ -12297,7 +12301,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
             for (int x = 1; x <= dx / 2; x += 4) {
                 for (int y = 1; y <= dx / 2; y += 4) {
                     m->ter_set(x1 + x, y1 + y, t_tree);
-                    m->ter_set(x2 - x, y2 - y, t_tree);
+                    m->ter_set(x2 - x, y2 - y + 1, t_tree);
                 }
             }
         }
@@ -12318,7 +12322,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
         if (!one_in(3)) { // Columns
             for (int y = y1 + 2; y <= y2; y += 3) {
                 m->ter_set(cx_low - 3, y, t_column);
-                m->ter_set(cx_low + 3, y, t_column);
+                m->ter_set(cx_low + 4, y, t_column);
             }
         }
         if (one_in(6)) { // Suits of armor
