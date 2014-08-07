@@ -1488,8 +1488,7 @@ void game::rustCheck()
 
 void game::process_events()
 {
-    for (std::vector<event>::iterator it = events.begin();
-         it != events.end();) {
+    for( auto it = events.begin(); it != events.end(); ) {
         it->per_turn();
         if (it->turn <= int(calendar::turn)) {
             it->actualize();
@@ -4329,8 +4328,8 @@ struct terrain {
 
 bool game::event_queued(event_type type)
 {
-    for( std::vector<event>::iterator it = events.begin(); it != events.end(); ++it ) {
-        if( it->type == type ) {
+    for( auto &e : events ) {
+        if( e.type == type ) {
             return true;
         }
     }
@@ -5686,12 +5685,11 @@ unsigned char game::light_level()
         ret = calendar::turn.sunlight();
         ret -= weather_data[weather].sight_penalty;
     }
-    for (std::vector<event>::iterator it = events.begin();
-         it != events.end(); ++it) {
+    for( auto &e : events ) {
         // The EVENT_DIM event slowly dims the sky, then relights it
         // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it
-        if (it->type == EVENT_DIM) {
-            int turns_left = it->turn - int(calendar::turn);
+        if( e.type == EVENT_DIM ) {
+            int turns_left = e.turn - int(calendar::turn);
             if (turns_left > 25) {
                 ret = (ret * (turns_left - 25)) / 25;
             } else {
