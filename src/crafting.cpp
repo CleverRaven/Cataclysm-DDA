@@ -678,7 +678,7 @@ recipe *game::select_crafting_recipe()
             keepline = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 85, filterstring,
-                                              _("Search tools or component using prefix t and c. \n(i.e. \"t:hammer\" or \"c:two by four\".)"));
+                                              _("Search tools or component or skills using prefix t, c and s. \n(i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"));
             redraw = true;
         } else if (action == "QUIT") {
             done = true;
@@ -953,6 +953,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     bool search_name = true;
     bool search_tool = false;
     bool search_component = false;
+    bool search_skill = false;
     size_t pos = filter.find(":");
     if(pos != std::string::npos) {
         search_name = false;
@@ -964,6 +965,8 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                 search_tool = true;
             } else if(*it == 'c') {
                 search_component = true;
+            } else if(*it == 's') {
+                search_skill = true;
             }
         }
         filter = filter.substr(pos + 1);
@@ -1011,6 +1014,12 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                 }
                 if(search_component) {
                     if( !lcmatch_any( rec->components, filter ) ) {
+                        continue;
+                    }
+                }
+                if(search_skill) {
+                    if( !lcmatch(rec->skill_used->name() ,      filter) &&
+                        !lcmatch(rec->required_skills_string(), filter)) {
                         continue;
                     }
                 }
