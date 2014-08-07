@@ -1018,8 +1018,11 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                     }
                 }
                 if(search_skill) {
-                    if( !lcmatch(rec->skill_used->name() ,      filter) &&
-                        !lcmatch(rec->required_skills_string(), filter)) {
+                    if( !rec->skill_used) {
+                        continue;
+                    }
+                    else if( !lcmatch(rec->skill_used->name() ,      filter) &&
+                             !lcmatch(rec->required_skills_string(), filter)) {
                         continue;
                     }
                 }
