@@ -7723,7 +7723,7 @@ bool player::consume(int pos)
                     return false;
                 }
             }
-            int charge = (to_eat->volume() + to_eat->weight()) / 225;
+            int charge = (to_eat->volume() + to_eat->weight()) / 9;
             if (to_eat->type->m1 == "leather" || to_eat->type->m2 == "leather") {
                 charge /= 4;
             }
@@ -8049,13 +8049,13 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL" ) ) {
-        charge_power(rng(2, 8));
+        charge_power(rng(50, 200));
     }
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_WEAK" ) ) {
-        charge_power(rng(1, 4));
+        charge_power(rng(25, 100));
     }
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
-        charge_power(rng(3, 12));
+        charge_power(rng(75, 300));
     }
 
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
