@@ -21,9 +21,9 @@
 },{
     "type":"GENERIC",
     "id" : "hand_paddles",
-    "name" : "hand paddies",
-    "name_plural" : "hand paddies",
-    "description" : "hand paddies for boat",
+    "name" : "oars",
+    "name_plural" : "oars",
+    "description" : "Oars for a boat",
     "weight" : 816,
     "to_hit" : -1,
     "color" : "light_gray",
