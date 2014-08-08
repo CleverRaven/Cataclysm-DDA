@@ -1727,7 +1727,6 @@ void map::mon_in_field(int x, int y, monster *z)
             break;
 
         case fd_tear_gas:
-        case fd_pacif_gas:
             if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
                 !z->has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
@@ -1746,6 +1745,13 @@ void map::mon_in_field(int x, int y, monster *z)
                 if (z->has_flag(MF_SEES)) {
                      z->add_effect("blind", cur->getFieldDensity() * 8);
                 }
+            }
+            break;
+
+        case fd_pacif_gas:
+            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
+                !z->has_flag(MF_NO_BREATHE)) {
+                z->add_effect("stunned", rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
             }
             break;
 
