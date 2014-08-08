@@ -12300,7 +12300,7 @@ bool game::plmove(int dx, int dy)
                     add_msg(m_good, _("You get into a fist and you attack!"));
                 }
                 else {
-                    u.moves -= rng(3, 8) * 10;
+                    u.moves -= rng(2, 8) * 10;
                     add_msg(m_bad, _("You are completely relaxed and can't hit."));
                     return false;
                 }

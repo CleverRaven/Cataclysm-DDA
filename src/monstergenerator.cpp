@@ -142,6 +142,7 @@ void MonsterGenerator::init_death()
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
+    death_map["PACIFBURST"] = &mdeath::pacifburst;// Explode soothing gas.
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
 
     /* Currently Unimplemented */
