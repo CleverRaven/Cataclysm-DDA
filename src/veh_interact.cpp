@@ -1660,7 +1660,7 @@ void complete_vehicle ()
         tools.push_back(tool_comp("welder_crude", int(welder_crude_charges*dmg)));
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED*dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED*dmg)));
-        tools.push_back(tool_comp("toolset", int(welder_charges*dmg)));
+        tools.push_back(tool_comp("toolset", int(welder_crude_charges*dmg)));
         g->consume_tools(&g->u, tools);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
