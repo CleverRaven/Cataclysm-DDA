@@ -2724,6 +2724,7 @@ int item::dispersion() const
 
 // Sight dispersion and aim speed pick the best sight bonus to use.
 // The best one is the fastest one whose dispersion is under the threshold.
+// If you provide a threshold of -1, it just gives lowest dispersion.
 int item::sight_dispersion( int aim_threshold ) const
 {
     if (!is_gun()) {
@@ -2732,14 +2733,15 @@ int item::sight_dispersion( int aim_threshold ) const
     it_gun* gun = dynamic_cast<it_gun*>(type);
     int best_dispersion = gun->sight_dispersion;
     int best_aim_speed = INT_MAX;
-    if( gun->sight_dispersion < aim_threshold ) {
+    if( gun->sight_dispersion < aim_threshold || aim_threshold == -1 ) {
         best_aim_speed = gun->aim_speed;
     }
     for (size_t i = 0; i < contents.size(); i++) {
         if (contents[i].is_gunmod()) {
             it_gunmod *mod = dynamic_cast<it_gunmod*>(contents[i].type);
             if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-                mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) {
+                (mod->sight_dispersion < aim_threshold || aim_threshold == -1) &&
+                mod->aim_speed < best_aim_speed ) {
                 best_aim_speed = mod->aim_speed;
                 best_dispersion = mod->sight_dispersion;
             }
