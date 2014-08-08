@@ -228,7 +228,7 @@ void mattack::pacifgas(monster *z)
         for (int j = -4; j <= 4; j++) {
             if( g->m.move_cost( monx + i, mony + j ) != 0 &&
                 g->m.clear_path(monx, mony, monx + i, mony + j, 3, 1, 100, junk) ) {
-                g->m.add_field(monx + i, mony + j, fd_pacif_gas, 2);
+                g->m.add_field(monx + i, mony + j, fd_pacif_gas, rng(1, 3));
             }
         }
     }
