@@ -118,8 +118,8 @@ void game::init_fields()
 
         {
             "fd_pacif_gas",
-            {_("hazy cloud"),_("soothing gas"),_("thick soothing gas")}, '8', 8,
-            {c_white, c_white, c_white}, {true, true, true},{false, false, false},   500,
+            {_("hazy cloud"),_("soothing gas"),_("thick soothing gas")}, '&', 8,
+			{c_unset, c_unset, c_unset}, { true, true, true }, { false, false, false }, 500,
             {0,0,0}
         },
 
@@ -1454,7 +1454,7 @@ void map::step_in_field(int x, int y)
         case fd_pacif_gas:
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
-                g->u.add_env_effect("pacif_gas", bp_mouth, cur->getFieldDensity() * 2, 20);
+                g->u.add_env_effect("pacif_gas", bp_mouth, cur->getFieldDensity() * 2, 3);
             }
             break;
 
