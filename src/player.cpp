@@ -11103,12 +11103,30 @@ nc_color encumb_color(int level)
 
 const SkillLevel& player::skillLevel(std::string ident) const
 {
-    return _skills.at(Skill::skill(ident));
+	try
+	{
+		return _skills.at(Skill::skill(ident));
+	}
+	catch (std::out_of_range e)
+	{
+		debugmsg("Skill %s not found. Returning dummy", ident);
+		static SkillLevel dummy;
+		return dummy;
+	}
 }
 
 const SkillLevel& player::skillLevel(Skill *_skill) const
 {
-    return _skills.at(_skill);
+	try
+	{
+		return _skills.at(_skill);
+	}
+	catch (std::out_of_range e)
+	{
+		debugmsg("Skill %s not found. Returning dummy", _skill->ident());
+		static SkillLevel dummy;
+		return dummy;
+	}
 }
 
 SkillLevel& player::skillLevel(std::string ident)
