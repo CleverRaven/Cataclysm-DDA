@@ -18,12 +18,12 @@
      [ ["mold_plastic", -1] ],
      [
       ["hotplate", 10],
-      ["toolset", 1],
+      ["toolset", 10],
       ["fire", -1]
      ],
      [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
      ]
   ],
   "components" : [
@@ -65,12 +65,12 @@
     [ ["mold_plastic", -1] ],
     [
       ["hotplate", 12],
-      ["toolset", 1],
+      ["toolset", 12],
       ["fire", -1]
     ],
     [
       [ "soldering_iron", 12 ],
-      [ "toolset", 1 ]
+      [ "toolset", 12 ]
     ]
   ],
   "components" : [
@@ -111,12 +111,12 @@
     [ ["mold_plastic", -1] ],
     [
       ["hotplate", 10],
-      ["toolset", 1],
+      ["toolset", 10],
       ["fire", -1]
     ],
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components" : [
@@ -202,7 +202,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 4 ],
-      [ "toolset", 1 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -232,7 +232,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 3 ],
-      [ "toolset", 1 ]
+      [ "toolset", 3 ]
     ]
   ],
   "components": [
@@ -261,7 +261,7 @@
     ],
     [
       [ "hotplate", 20 ],
-      [ "toolset", 2 ],
+      [ "toolset", 20 ],
       [ "fire", -1 ]
     ]
   ],
@@ -287,7 +287,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 4 ],
-      [ "toolset", 1 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -318,7 +318,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 7 ],
-      [ "toolset", 1 ]
+      [ "toolset", 7 ]
     ]
   ],
   "components": [
@@ -489,7 +489,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 5 ],
-      [ "toolset", 1 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -518,7 +518,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 5 ],
-      [ "toolset", 1 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -551,7 +551,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 2 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -582,7 +582,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 5 ],
-      [ "toolset", 1 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -610,7 +610,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -643,7 +643,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -750,7 +750,7 @@
 	[ ["forge", 50], ["char_forge", 10] ],
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ], 
   "components": [
@@ -788,7 +788,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -828,7 +828,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -859,7 +859,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 14 ],
-      [ "toolset", 1 ]
+      [ "toolset", 14 ]
     ]
   ],
   "components": [
@@ -891,7 +891,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 14 ],
-      [ "toolset", 1 ]
+      [ "toolset", 14 ]
     ]
   ],
   "components": [
@@ -932,7 +932,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -967,7 +967,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 5 ],
-      [ "toolset", 1 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -1002,7 +1002,7 @@
   ], "tools": [
     [
       ["soldering_iron", 10],
-      ["toolset", 2]
+      ["toolset", 10]
     ]
   ],
   "components": [
@@ -1045,7 +1045,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 14 ],
-      [ "toolset", 1 ]
+      [ "toolset", 14 ]
     ]
   ],
   "components": [
@@ -1079,7 +1079,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 14 ],
-      [ "toolset", 1 ]
+      [ "toolset", 14 ]
     ]
   ],
   "components": [
@@ -1113,7 +1113,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 24 ],
-      [ "toolset", 2 ]
+      [ "toolset", 24 ]
     ]
   ],
   "components": [
@@ -1147,7 +1147,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 24 ],
-      [ "toolset", 2 ]
+      [ "toolset", 24 ]
     ]
   ],
   "components": [
@@ -1182,7 +1182,7 @@
   ], "tools" : [
     [
       [ "soldering_iron", 24 ],
-      [ "toolset", 2 ]
+      [ "toolset", 24 ]
     ]
   ],
   "components" : [
@@ -1220,7 +1220,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1257,7 +1257,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 32 ],
-      [ "toolset", 2 ]
+      [ "toolset", 32 ]
     ]
   ],
   "components": [
@@ -1295,7 +1295,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1331,7 +1331,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1363,7 +1363,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1395,7 +1395,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1431,7 +1431,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1464,7 +1464,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1500,7 +1500,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1536,7 +1536,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1574,7 +1574,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1606,7 +1606,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1638,7 +1638,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1670,7 +1670,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -1699,7 +1699,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 35 ],
-      [ "toolset", 2 ]
+      [ "toolset", 35 ]
     ]
   ],
   "components": [
@@ -1733,7 +1733,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 35 ],
-      [ "toolset", 2 ]
+      [ "toolset", 35 ]
     ]
   ],
   "components": [
@@ -1767,7 +1767,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 35 ],
-      [ "toolset", 2 ]
+      [ "toolset", 35 ]
     ]
   ],
   "components": [
@@ -1805,7 +1805,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 16 ],
-      [ "toolset", 2 ]
+      [ "toolset", 16 ]
     ]
   ],
   "components": [
@@ -1844,7 +1844,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -1882,7 +1882,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ]
+      [ "toolset", 150 ]
     ]
   ],
   "components": [
@@ -1924,7 +1924,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ]
+      [ "toolset", 150 ]
     ]
   ],
   "components": [
@@ -1971,7 +1971,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 5 ]
+      [ "toolset", 150 ]
     ]
   ],
   "components": [
@@ -2009,12 +2009,12 @@
     ],
     [
       ["hotplate", 2],
-      ["toolset", 1],
+      ["toolset", 2],
       ["fire", -1]
     ],
     [
       [ "soldering_iron", 5 ],
-      [ "toolset", 1 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -2058,14 +2058,14 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 1 ]
+      [ "toolset", 10 ]
     ],
     [
       ["mold_plastic", -1]
     ],
     [
       ["hotplate", 5],
-      ["toolset", 1],
+      ["toolset", 15],
       ["fire", -1]
     ]
   ],
@@ -2110,14 +2110,14 @@
   ], "tools": [
     [
       [ "soldering_iron", 15 ],
-      [ "toolset", 2 ]
+      [ "toolset", 15 ]
     ],
     [
       ["mold_plastic", -1]
     ],
     [
       ["hotplate", 8],
-      ["toolset", 1],
+      ["toolset", 8],
       ["fire", -1]
     ]
   ],
@@ -2162,14 +2162,14 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ],
     [
       ["mold_plastic", -1]
     ],
     [
       ["hotplate", 12],
-      ["toolset", 3],
+      ["toolset", 12],
       ["fire", -1]
     ]
   ],
@@ -2214,7 +2214,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 14 ],
-      [ "toolset", 1 ]
+      [ "toolset", 14 ]
     ]
   ],
   "components": [
@@ -2256,7 +2256,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 14 ],
-      [ "toolset", 1 ]
+      [ "toolset", 14 ]
     ]
   ],
   "components": [
@@ -2307,7 +2307,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 14 ],
-      [ "toolset", 1 ]
+      [ "toolset", 14 ]
     ]
   ],
   "components": [
@@ -2345,7 +2345,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 14 ],
-      [ "toolset", 1 ]
+      [ "toolset", 14 ]
     ]
   ],
 
@@ -2386,7 +2386,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 2 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
