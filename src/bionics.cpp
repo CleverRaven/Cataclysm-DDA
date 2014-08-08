@@ -12,7 +12,7 @@
 #include <algorithm> //std::min
 #include <sstream>
 
-#define BATTERY_AMOUNT 4 // How much batteries increase your power
+#define BATTERY_AMOUNT 100 // How much batteries increase your power
 
 std::map<bionic_id, bionic_data *> bionics;
 std::vector<bionic_id> faulty_bionics;
@@ -423,7 +423,7 @@ void player::activate_bionic(int b)
             }
         }
     } else if (bio.id == "bio_time_freeze") {
-        moves += 100 * power_level;
+        moves += power_level;
         power_level = 0;
         add_msg(m_good, _("Your speed suddenly increases!"));
         if (one_in(3)) {
@@ -955,7 +955,7 @@ bool player::install_bionics(it_bionic *type)
     if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") {
         pow_up = BATTERY_AMOUNT;
         if (type->id == "bio_power_storage_mkII") {
-            pow_up = 10;
+            pow_up = 250;
         }
     }
 
@@ -1081,7 +1081,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
             if (u->max_power_level > 0) {
                 int old_power = u->max_power_level;
                 add_msg(m_bad, _("You lose power capacity!"));
-                u->max_power_level = rng(0, u->max_power_level - 1);
+                u->max_power_level = rng(0, u->max_power_level - 25);
                 g->u.add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
                                       pgettext("memorial_female", "Lost %d units of power capacity."),
                                       old_power - u->max_power_level);
