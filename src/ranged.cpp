@@ -839,15 +839,15 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
-static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
+static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode)
 {
     draw_border(w_target);
     mvwprintz(w_target, 0, 2, c_white, "< ");
     if (!relevant) { // currently targetting vehicle to refill with fuel
         wprintz(w_target, c_red, _("Select a vehicle"));
     } else {
-        if( relevant == &p.weapon && relevant->is_gun() ) {
-            if( relevant->has_flag("RELOAD_AND_SHOOT") ) {
+        if( mode == TARGET_MODE_FIRE ) {
+            if(relevant->has_flag("RELOAD_AND_SHOOT")) {
                 wprintz(w_target, c_red, _("Shooting %s from %s"),
                         p.weapon.curammo->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevent->has_flag("NO_AMMO") ) {
@@ -921,7 +921,7 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <Creature *> t, int &target,
-                                item *relevant)
+                                item *relevant, target_mode mode)
 {
     std::vector<point> ret;
     int tarx, tary, junk, tart;
@@ -946,7 +946,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     WINDOW *w_target = newwin(height, width, top, left);
     WINDOW_PTR w_targetptr( w_target );
 
-    draw_targeting_window( w_target, relevant, u );
+    draw_targeting_window( w_target, relevant, u, mode );
 
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
@@ -1059,8 +1059,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             mvwprintw(w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
         }
 
-        wmove( w_target, line_number++, 1 );
-        u.print_aim_adjective( w_target, relevant );
+        if( mode == TARGET_MODE_FIRE ) {
+            wmove( w_target, line_number++, 1 );
+            u.print_aim_adjective( w_target, relevant );
+        }
 
         wrefresh(w_target);
         wrefresh(w_terrain);
