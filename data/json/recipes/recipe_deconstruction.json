@@ -1794,7 +1794,7 @@
       [ "small_repairkit", 1 ]
     ],
     [
-      [ "battery", 1 ]
+      [ "battery", 300 ]
     ],
     [
       [ "manual_gun", 1 ]
