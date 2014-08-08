@@ -53,6 +53,7 @@ enum field_id {
  fd_smoke,
  fd_toxic_gas,
  fd_tear_gas,
+ fd_pacif_gas,
  fd_nuke_gas,
  fd_gas_vent,
  fd_fire_vent,

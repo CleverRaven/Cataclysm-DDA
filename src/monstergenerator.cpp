@@ -160,6 +160,7 @@ void MonsterGenerator::init_attack()
     attack_map["ACID"] = &mattack::acid;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
+    attack_map["PACIFGAS"] = &mattack::pacifgas;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["RESURRECT"] = &mattack::resurrect;
     attack_map["SCIENCE"] = &mattack::science;

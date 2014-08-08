@@ -4882,6 +4882,7 @@ void map::build_transparency_cache()
       case fd_incendiary:
       case fd_toxic_gas:
       case fd_tear_gas:
+      case fd_pacif_gas:
        if(cur->getFieldDensity() == 3)
         transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
        if(cur->getFieldDensity() == 2)

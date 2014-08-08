@@ -5653,5 +5653,33 @@
     "special_attack":"DISAPPEAR",
     "description":"The multi-cooker's got a mind of its own!  Look out!!",
     "flags":["SEES", "HEARS", "NO_BREATHE"]
+    },
+{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_pacifier",
+    "name": "pacifier zombie",
+    "species":"ZOMBIE",
+    "symbol":"Z",
+    "color":"green_yellow",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":11,
+    "aggression":100,
+    "morale":100,
+    "speed":95,
+    "melee_skill":4,
+    "melee_dice":1,
+    "melee_dice_sides":6,
+    "melee_cut":2,
+    "dodge":4,
+    "armor_bash":0,
+    "armor_cut":0,
+    "luminance":0,
+    "hp":75,
+    "special_freq":2,
+    "death_function":"NORMAL",
+    "special_attack":"PACIFGAS",
+    "description":"A dead body emits neurotoxin that suppresses the will, aggression and desire to fight..",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "FRIENDLY_SPECIAL", "NO_BREATHE", "VIS50", "REVIVES"]
     }
 ]

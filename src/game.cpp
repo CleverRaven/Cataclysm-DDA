@@ -12283,6 +12283,18 @@ bool game::plmove(int dx, int dy)
                 u.clear_destination();
                 return false;
             }
+
+            if (u.has_effect("pacif_gas")) {
+                if (one_in(8)){
+                    add_msg(m_good, _("You get into a fist and you attack!"));
+                }
+                else{
+                    add_msg(m_bad, _("You are completely relaxed and can't hit."));
+                    return false;
+                }
+
+            }
+
             u.melee_attack(critter, true);
             if (critter.is_hallucination()) {
                 critter.die( &g->u );

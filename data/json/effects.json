@@ -139,6 +139,14 @@
         "apply_message":"You inhale a lungful of tear gas.",
         "rating": "bad"
     },
+    {
+        "type":"effect_type",
+        "id":"pacif_gas",
+        "name": "Pacified gas",
+        "desc": "Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\nAre you pacified and completely relaxed, you feel good and you can't raise a hand to fight.",
+        "apply_message":"You inhale sweetish gas.",
+        "rating": "bad"
+    },
    {
       "type":"effect_type",
       "id":"boomered",
