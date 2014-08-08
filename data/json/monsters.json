@@ -5679,7 +5679,7 @@
     "special_freq":2,
     "death_function":"NORMAL",
     "special_attack":"PACIFGAS",
-    "description":"A dead body emits neurotoxin that suppresses the will, aggression and desire to fight..",
+    "description":"A dead body emits neurotoxin that suppresses the will, aggression and desire to fight.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "FRIENDLY_SPECIAL", "NO_BREATHE", "VIS50", "REVIVES"]
     }
 ]

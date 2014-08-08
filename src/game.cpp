@@ -10933,6 +10933,17 @@ void game::plthrow(int pos)
         return;
     }
 
+    if (u.has_effect("pacif_gas")) {
+        if (one_in(5)) {
+            add_msg(m_good, _("Are you going with the spirit!"));
+        }
+        else {
+            u.moves -= rng(2, 5) * 10;
+            add_msg(m_bad, _("You are completely relaxed and can't throw anything."));
+            return;
+        }
+    }
+
     temp_exit_fullscreen();
     m.draw(w_terrain, point(u.posx, u.posy));
 
@@ -12285,15 +12296,14 @@ bool game::plmove(int dx, int dy)
             }
 
             if (u.has_effect("pacif_gas")) {
-                if (one_in(8)){
+                if (one_in(8)) {
                     add_msg(m_good, _("You get into a fist and you attack!"));
                 }
-                else{
+                else {
                     u.moves -= rng(3, 8) * 10;
                     add_msg(m_bad, _("You are completely relaxed and can't hit."));
                     return false;
                 }
-
             }
 
             u.melee_attack(critter, true);
