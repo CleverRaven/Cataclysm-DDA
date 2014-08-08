@@ -444,9 +444,9 @@ public:
  /** Returns the base to hit chance the player has based on their stats */
  int base_to_hit(bool real_life = true, int stat = -999);
  /** Returns Creature::get_hit_base() modified by clothing and weapon skill */
- int get_hit_base();
+ int get_hit_base() const;
  /** Returns the player's basic hit roll that is compared to the target's dodge roll */
- int  hit_roll();
+ int  hit_roll() const;
  /** Returns true if the player scores a critical hit */
  bool scored_crit(int target_dodge = 0);
 
@@ -474,9 +474,9 @@ public:
  /** Handles combat effects, returns a string of any valid combat effect messages */
  std::string melee_special_effects(Creature &t, damage_instance& d, ma_technique &tec);
  /** Returns Creature::get_dodge_base modified by the player's skill level */
- int get_dodge_base();   // Returns the players's dodge, modded by clothing etc
+ int get_dodge_base() const;   // Returns the players's dodge, modded by clothing etc
  /** Returns Creature::get_dodge() modified by any player effects */
- int get_dodge();
+ int get_dodge() const;
  /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
  int dodge_roll();
  /** Returns melee skill level, to be used to throttle dodge practice. **/
@@ -583,9 +583,9 @@ public:
  /** Unpauses a permanent disease, making it wear off when it's timer expires */
  bool unpause_disease(dis_type type, body_part part = num_bp);
  /** Returns the duration of the entered disease's timer */
- int  disease_duration(dis_type type, bool all = false, body_part part = num_bp);
+ int  disease_duration(dis_type type, bool all = false, body_part part = num_bp) const;
  /** Returns the intensity level of the entered disease */
- int  disease_intensity(dis_type type, bool all = false, body_part part = num_bp);
+ int  disease_intensity(dis_type type, bool all = false, body_part part = num_bp) const;
 
  /** Adds an addiction to the player */
  void add_addiction(add_type type, int strength);
@@ -682,15 +682,15 @@ public:
  /** Returns warmth provided by armor, etc., factoring in layering */
  int encumb(body_part bp, double &layers, int &armorenc) const;
  /** Returns overall bashing resistance for the body_part */
- int get_armor_bash(body_part bp);
+ int get_armor_bash(body_part bp) const;
  /** Returns overall cutting resistance for the body_part */
- int get_armor_cut(body_part bp);
+ int get_armor_cut(body_part bp) const;
  /** Returns bashing resistance from the creature and armor only */
- int get_armor_bash_base(body_part bp);
+ int get_armor_bash_base(body_part bp) const;
  /** Returns cutting resistance from the creature and armor only */
- int get_armor_cut_base(body_part bp);
+ int get_armor_cut_base(body_part bp) const;
  /** Returns overall env_resist on a body_part */
- int get_env_resist(body_part bp);
+ int get_env_resist(body_part bp) const;
  /** Returns true if the player is wearing something on the entered body_part */
  bool wearing_something_on(body_part bp) const;
  /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
@@ -871,6 +871,9 @@ public:
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
+
+ const SkillLevel& skillLevel(Skill* _skill) const;
+ const SkillLevel& skillLevel(std::string ident) const;
 
     // for serialization
     SkillLevel get_skill_level(Skill* _skill) const;
