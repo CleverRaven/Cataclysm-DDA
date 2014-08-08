@@ -559,7 +559,7 @@ void player::process_turn()
     if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
             hunger < 100 && (int(calendar::turn) % 5 == 0)) {
         hunger += 2;
-        power_level++;
+        power_level += 25;
     }
 
     suffer();
@@ -5478,7 +5478,7 @@ void player::suffer()
         if (oxygen < 0) {
             if (has_bionic("bio_gills") && power_level > 0) {
                 oxygen += 5;
-                power_level--;
+                power_level -= 25;
             } else {
                 add_msg(m_bad, _("You're drowning!"));
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
@@ -5961,9 +5961,9 @@ void player::suffer()
         add_msg(m_bad, _("You suffer a burning acidic discharge!"));
         hurtall(1);
     }
-    if (has_bionic("bio_drain") && power_level > 0 && one_in(600)) {
+    if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
         add_msg(m_bad, _("Your batteries discharge slightly."));
-        power_level--;
+        power_level -= 25;
     }
     if (has_bionic("bio_noise") && one_in(500)) {
         if(!is_deaf())
@@ -5986,9 +5986,9 @@ void player::suffer()
         add_effect("stunned", 1);
         add_effect("downed", 1);
     }
-    if (has_bionic("bio_shakes") && power_level > 0 && one_in(1200)) {
+    if (has_bionic("bio_shakes") && power_level > 24 && one_in(1200)) {
         add_msg(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
-        power_level--;
+        power_level -= 25;
         add_disease("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
@@ -7708,7 +7708,7 @@ bool player::consume(int pos)
         // For when bionics let you eat fuel
         if (to_eat->is_ammo() && has_active_bionic("bio_batteries") &&
             dynamic_cast<it_ammo*>(to_eat->type)->type == "battery") {
-            const int factor = 20;
+            const int factor = 1;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {
                 add_msg_if_player(m_info, _("Your internal power storage is fully powered."));
@@ -7723,7 +7723,7 @@ bool player::consume(int pos)
                     return false;
                 }
             }
-            int charge = (to_eat->volume() + to_eat->weight()) / 225;
+            int charge = (to_eat->volume() + to_eat->weight()) / 9;
             if (to_eat->type->m1 == "leather" || to_eat->type->m2 == "leather") {
                 charge /= 4;
             }
@@ -8049,13 +8049,13 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL" ) ) {
-        charge_power(rng(2, 8));
+        charge_power(rng(50, 200));
     }
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_WEAK" ) ) {
-        charge_power(rng(1, 4));
+        charge_power(rng(25, 100));
     }
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
-        charge_power(rng(3, 12));
+        charge_power(rng(75, 300));
     }
 
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
@@ -10446,14 +10446,14 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
         // CBMs absorb damage first before hitting armour
         if (has_active_bionic("bio_ads")) {
-            if (it->amount > 0 && power_level > 1) {
+            if (it->amount > 0 && power_level > 24) {
                 if (it->type == DT_BASH)
                     it->amount -= rng(1, 8);
                 else if (it->type == DT_CUT)
                     it->amount -= rng(1, 4);
                 else if (it->type == DT_STAB)
                     it->amount -= rng(1, 2);
-                power_level--;
+                power_level -= 25;
             }
             if (it->amount < 0) it->amount = 0;
         }
@@ -10494,15 +10494,15 @@ void player::absorb(body_part bp, int &dam, int &cut)
     // CBMS absorb damage first before hitting armour
     if (has_active_bionic("bio_ads"))
     {
-        if (dam > 0 && power_level > 1)
+        if (dam > 0 && power_level > 24)
         {
             dam -= rng(1, 8);
-            power_level--;
+            power_level -= 25;
         }
-        if (cut > 0 && power_level > 1)
+        if (cut > 0 && power_level > 24)
         {
             cut -= rng(0, 4);
-            power_level--;
+            power_level -= 25;
         }
         if (dam < 0)
             dam = 0;
@@ -11176,9 +11176,9 @@ int player::getID () const
 
 bool player::uncanny_dodge(bool is_u)
 {
-    if( this->power_level < 3 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
+    if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
     point adjacent = adjacent_tile();
-    power_level -= 3;
+    power_level -= 75;
     if (adjacent.x != posx || adjacent.y != posy)
     {
         posx = adjacent.x;
@@ -11687,12 +11687,12 @@ void player::place_corpse()
         }
     }
     int pow = max_power_level;
-    while( pow >= 4 ) {
-        if( pow >= 10 ) {
-            pow -= 10;
+    while( pow >= 100 ) {
+        if( pow >= 250 ) {
+            pow -= 250;
             body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
         } else {
-            pow -= 4;
+            pow -= 100;
             body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
         }
     }
