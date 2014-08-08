@@ -56,6 +56,7 @@ void remove_recharge_mod( item &it, player &p )
     p.i_add_or_drop( mod, 1 );
     it.item_tags.erase( "RECHARGE" );
     it.item_tags.erase( "NO_UNLOAD" );
+    it.item_tags.erase( "NO_RELOAD" );
 }
 
 void remove_atomic_mod( item &it, player &p )
@@ -2517,6 +2518,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
     modded->charges = it->charges;
     modded->item_tags.insert("RECHARGE");
     modded->item_tags.insert("NO_UNLOAD");
+    modded->item_tags.insert("NO_RELOAD");
     return 1;
 }
 
