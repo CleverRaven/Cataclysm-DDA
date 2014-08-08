@@ -7070,6 +7070,7 @@
         "//" : "These seem to be sold via subscription; makes a certain amount of sense, but low-bid seems a Bad Idea.",
         "material" : ["plastic", "null"],
         "coverage" : 0,
+        "flags" : ["OVERSIZE"],
         "symbol" : "[",
         "bashing" : 0,
         "cutting" : 0,
