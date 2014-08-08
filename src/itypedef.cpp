@@ -13,11 +13,11 @@ std::map<std::string, itype*> itypes;
 
 
 // Members of iuse struct, which is slowly morphing into a class.
-bool itype::has_use() {
+bool itype::has_use() const {
     return !use_methods.empty();
 }
 
-bool itype::can_use( std::string iuse_name ) {
+bool itype::can_use( std::string iuse_name ) const {
     const use_function* func;
 
     try {
@@ -31,20 +31,20 @@ bool itype::can_use( std::string iuse_name ) {
                       *func ) != use_methods.cend();
 }
 
-bool itype::is_covering(body_part bp) {
+bool itype::is_covering(body_part bp) const {
     if (!is_armor()) {
         return false;
     }
-    it_armor* armor = dynamic_cast<it_armor*>(this);
+    const it_armor* armor = dynamic_cast<const it_armor*>(this);
     return armor->covers.test(bp);
 }
 
 
-bool itype::is_sided(body_part bp) {
+bool itype::is_sided(body_part bp) const {
     if (!is_armor()) {
         return false;
     }
-    it_armor* armor = dynamic_cast<it_armor*>(this);
+    const it_armor* armor = dynamic_cast<const it_armor*>(this);
     return armor->sided.test(bp);
 }
 
