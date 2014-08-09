@@ -1043,21 +1043,9 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
 
             filtered_list.push_back(rec);
 
-            if (rec->can_make_with_inventory(crafting_inv)) {
-                current.insert(current.begin(), rec);
-                available.insert(available.begin(), true);
-            } else {
-                current.push_back(rec);
-                available.push_back(false);
-            }
         }
         max_difficulty = std::max(max_difficulty, rec->difficulty);
     }
-
-    if (!search_skill && !search_skill_primary_only) return;
-
-    current.clear();
-    available.clear();
 
     int truecount = 0;
     for (int i = max_difficulty; i != -1; --i)
