@@ -13942,17 +13942,8 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     rebuild_mon_at_cache();
 }
 
-void game::spawn_mon(int shiftx, int shifty)
+void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
-    int nlevx = levx + shiftx;
-    int nlevy = levy + shifty;
-    int group;
-    int monx, mony;
-    int dist;
-    int pop, rad;
-    int iter;
-    int t;
-
     // Create a new NPC?
     if (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
         npc *tmp = new npc();
@@ -13993,126 +13984,6 @@ void game::spawn_mon(int shiftx, int shifty)
         // This will make the new NPC active
         load_npcs();
     }
-
-    // Now, spawn monsters (perhaps)
-    monster zom;
-    for (size_t i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
-        if (cur_om->zg[i].posz != levz) {
-            continue;    // skip other levels - hack
-        }
-        group = 0;
-        bool horde = cur_om->zg[i].horde;
-        if (cur_om->zg[i].diffuse) {
-            dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        } else {
-            dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        }
-        pop = cur_om->zg[i].population;
-        rad = cur_om->zg[i].radius;
-        if (dist <= rad) {
-            // (The area of the group's territory) in (population/square at this range)
-            // chance of adding one monster; cap at the population OR 16
-            while ((cur_om->zg[i].diffuse ? long(pop) :
-                    long((1.0 - double(dist / rad)) * pop)) > rng(0, (rad * rad)) &&
-                   rng(horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
-                   group < pop && group < MAPSIZE * 3) {
-                group++;
-            }
-            cur_om->zg[i].population -= group;
-            // Reduce group radius proportionally to remaining
-            // population to maintain a minimal population density.
-            if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
-                !cur_om->zg[i].diffuse) {
-                cur_om->zg[i].radius--;
-            }
-
-            // If we spawned some zombies, advance the timer (exept hordes)
-            if (group > 0 && !cur_om->zg[i].horde) {
-                nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
-            }
-
-            for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(cur_om->zg[i].type,
-                                                   &group, (int)calendar::turn);
-                zom = monster(GetMType(spawn_details.name));
-                for (int kk = 0; kk < spawn_details.pack_size; kk++) {
-                    iter = 0;
-                    do {
-                        monx = rng(0, SEEX * MAPSIZE - 1);
-                        mony = rng(0, SEEY * MAPSIZE - 1);
-                        if (shiftx == 0 && shifty == 0) {
-                            if (one_in(2)) {
-                                shiftx = 1 - 2 * rng(0, 1);
-                            } else {
-                                shifty = 1 - 2 * rng(0, 1);
-                            }
-                        }
-                        if (shiftx == -1) {
-                            monx = (SEEX * MAPSIZE) / 6;
-                        } else if (shiftx == 1) {
-                            monx = (SEEX * MAPSIZE * 5) / 6;
-                        }
-                        if (shifty == -1) {
-                            mony = (SEEY * MAPSIZE) / 6;
-                        }
-                        if (shifty == 1) {
-                            mony = (SEEY * MAPSIZE * 5) / 6;
-                        }
-                        monx += rng(-5, 5);
-                        mony += rng(-5, 5);
-                        iter++;
-
-                    } while ((!zom.can_move_to(monx, mony) || !is_empty(monx, mony) ||
-                              m.sees(u.posx, u.posy, monx, mony, SEEX, t) || !m.is_outside(monx, mony) ||
-                              rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
-                    if (iter < 50) {
-                        zom.spawn(monx, mony);
-                        add_zombie(zom);
-                    }
-                }
-            } // Placing monsters of this group is done!
-            if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
-                cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
-                i--; // And don't increment i.
-            }
-        }
-    }
-}
-
-int game::valid_group(std::string type, int x, int y, int z_coord)
-{
-    std::vector <int> valid_groups;
-    std::vector <int> semi_valid; // Groups that're ALMOST big enough
-    int dist;
-    for (size_t i = 0; i < cur_om->zg.size(); i++) {
-        if (cur_om->zg[i].posz != z_coord) {
-            continue;
-        }
-        dist = trig_dist(x, y, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        if (dist < cur_om->zg[i].radius) {
-            if (MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type)) {
-                valid_groups.push_back(i);
-            }
-        } else if (dist < cur_om->zg[i].radius + 3) {
-            if (MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type)) {
-                semi_valid.push_back(i);
-            }
-        }
-    }
-    if (valid_groups.empty()) {
-        if (semi_valid.empty()) {
-            return -1;
-        } else {
-            // If there's a group that's ALMOST big enough,
-            //expand that group's radius by one and absorb into that group.
-            int semi = rng(0, semi_valid.size() - 1);
-            if (!cur_om->zg[semi_valid[semi]].diffuse) {
-                cur_om->zg[semi_valid[semi]].radius++;
-            }
-            return semi_valid[semi];
-        }
-    }
-    return valid_groups[rng(0, valid_groups.size() - 1)];
 }
 
 void game::wait()

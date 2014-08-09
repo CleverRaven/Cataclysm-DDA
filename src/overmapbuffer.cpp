@@ -58,9 +58,43 @@ overmap &overmapbuffer::get( const int x, const int y )
         }
     }
     // If we don't have one, make it, stash it in the list, and return it.
+    // for some reason that constructor will also load any existing overmap.
     overmap new_overmap(x, y);
+    fix_mongroups( new_overmap );
     overmap_list.push_back( new_overmap );
     return overmap_list.back();
+}
+
+void overmapbuffer::fix_mongroups(overmap &new_overmap)
+{
+    for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
+        auto &mg = *it;
+        // spawn related code simply sets population to 0 when they have been
+        // transformed into spawn points on a submap, the group can then be removed
+        if( mg.population <= 0 ) {
+            it = new_overmap.zg.erase( it );
+            continue;
+        }
+        // Inside the bounds of the overmap?
+        if( mg.posx >= 0 && mg.posy >= 0 && mg.posx < OMAPX * 2 && mg.posy < OMAPY * 2 ) {
+            ++it;
+            continue;
+        }
+        point smabs( mg.posx + new_overmap.pos().x * OMAPX * 2,
+                     mg.posy + new_overmap.pos().y * OMAPY * 2 );
+        point omp = sm_to_om_remain( smabs );
+        if( !has( omp.x, omp.y ) ) {
+            // Don't generate new overmaps, as this can be called from the
+            // overmap-generating code.
+            ++it;
+            continue;
+        }
+        overmap &om = get( omp.x, omp.y );
+        mg.posx = smabs.x;
+        mg.posy = smabs.y;
+        om.zg.push_back( mg );
+        it = new_overmap.zg.erase( it );
+    }
 }
 
 void overmapbuffer::save()
@@ -202,6 +236,23 @@ std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
     const overmap* om = overmap_buffer.get_existing_om_global(x, y);
     point p = omt_to_sm_copy(x, y);
     return const_cast<overmap*>(om)->monsters_at(p.x, p.y, z);
+}
+
+std::vector<mongroup*> overmapbuffer::groups_at(int x, int y, int z)
+{
+    std::vector<mongroup *> result;
+    const point omp = sm_to_om_remain( x, y );
+    if( !has( omp.x, omp.y ) ) {
+        return result;
+    }
+    overmap &om = get( omp.x, omp.y );
+    for( auto &mg : om.zg ) {
+        if( mg.posx != x || mg.posy != y || mg.posz != z || mg.population <= 0 ) {
+            continue;
+        }
+        result.push_back( &mg );
+    }
+    return result;
 }
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )

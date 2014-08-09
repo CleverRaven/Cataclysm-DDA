@@ -221,8 +221,13 @@ public:
     t_notes_vector find_notes(int z, const std::string& pattern) const {
         return get_notes(z, &pattern); // filter with pattern
     }
-    // hordes
+    // hordes -- this uses overmap terrain coordinates!
     std::vector<mongroup*> monsters_at(int x, int y, int z);
+    /**
+     * Monster groups at (x,y,z) - absolute submap coordinates.
+     * Groups with no population are not included.
+     */
+    std::vector<mongroup*> groups_at(int x, int y, int z);
 
     /**
      * Spawn monsters from the overmap onto the main map (game::m).
@@ -318,6 +323,11 @@ private:
      * This function may greate a new overmap if needed.
      */
     bool check_ot_type(const std::string& otype, int x, int y, int z);
+    /**
+     * Go thorough the monster groups of the overmap and move out-of-bounds
+     * groups to the correct overmap (if it exists), also removes empty groups.
+     */
+    void fix_mongroups(overmap &new_overmap);
 };
 
 extern overmapbuffer overmap_buffer;

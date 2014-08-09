@@ -660,7 +660,6 @@ class game
         void despawn_monster(int mondex);
 
         void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
-        int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
