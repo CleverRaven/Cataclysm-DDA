@@ -552,7 +552,6 @@ void draw_tabs(WINDOW *w, std::string sTab)
     tab_captions.push_back(_("TRAITS"));
     tab_captions.push_back(_("PROFESSION"));
     tab_captions.push_back(_("SKILLS"));
-    tab_captions.push_back(_("SCENARIO"));
     tab_captions.push_back(_("DESCRIPTION"));
     std::vector<int> tab_pos(tab_captions.size() + 1, 0);
     tab_pos[0] = 2;
