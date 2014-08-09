@@ -1,0 +1,18 @@
+[
+	{
+            "type": "scenario",
+            "ident": "Refugee",
+            "name": "Refugee",
+            "description": "You ran to the evac shelter.(WIP)",
+            
+            "items": {
+                "both": [
+
+                    "backpack"
+
+                ]
+            }
+        }
+]
+    
+            

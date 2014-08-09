@@ -31,6 +31,7 @@
 #include "debug.h"
 #include "path_info.h"
 #include "start_location.h"
+#include "scenario.h"
 #include "omdata.h"
 #include "options.h"
 #include "game.h"
@@ -120,6 +121,7 @@ void DynamicDataLoader::initialize()
     type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
     type_function_map["ammunition_type"] = new StaticFunctionAccessor(
         &ammunition_type::load_ammunition_type);
+    type_function_map["scenario"] = new StaticFunctionAccessor(&scenario::load_scenario);
     type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
@@ -377,6 +379,7 @@ void DynamicDataLoader::check_consistency() {
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();
+    scenario::check_definitions();
     check_martialarts();
     ammunition_type::check_consistency();
 }

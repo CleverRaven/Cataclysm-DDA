@@ -23,6 +23,7 @@ class game;
 struct trap;
 class mission;
 class profession;
+class scenario;
 nc_color encumb_color(int level);
 
 struct special_attack
@@ -839,6 +840,7 @@ public:
  std::string name;
  bool male;
  profession* prof;
+ scenario* scen;
  std::string start_location;
 
  std::map<std::string, int> mutation_category_level;
