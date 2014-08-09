@@ -63,7 +63,7 @@ int ranged_skill_offset( std::string skill )
 double Creature::projectile_attack(const projectile &proj, int sourcex, int sourcey,
                                    int targetx, int targety, double shot_dispersion)
 {
-    int range = rl_dist(sourcex, sourcey, targetx, targety);
+    double range = rl_dist(sourcex, sourcey, targetx, targety);
     // .013 * trange is a computationally cheap version of finding the tangent in degrees.
     // 0.0002166... is used because the unit of dispersion is MOA (1/60 degree).
     // It's also generous; missed_by will be rather short.
