@@ -1986,13 +1986,13 @@ void overmap::first_house(int &x, int &y, const std::string start_location)
 void overmap::process_mongroups()
 {
     for( auto it = zg.begin(); it != zg.end(); ) {
-        mongroup &mg = *it;
+        mongroup &mg = it->second;
         if( mg.dying ) {
             mg.population *= .8;
             mg.radius *= .9;
         }
         if( mg.population <= 0 ) {
-            it = zg.erase( it );
+            zg.erase( it++ );
         } else {
             ++it;
         }
@@ -2010,10 +2010,13 @@ void mongroup::wander()
 
 void overmap::move_hordes()
 {
+    // Prevent hordes to be moved twice by putting them in here after moving.
+    decltype(zg) tmpzg;
     //MOVE ZOMBIE GROUPS
-    for( auto it = zg.begin(); it != zg.end(); ++it ) {
-        mongroup &mg = *it;
+    for( auto it = zg.begin(); it != zg.end(); ) {
+        mongroup &mg = it->second;
         if( !mg.horde ) {
+            ++it;
             continue;
         }
         if( rng(0, 100) >= mg.interest ) {
@@ -2037,8 +2040,13 @@ void overmap::move_hordes()
             } else {
                 mg.dec_interest( 1 );
             }
+            // Erase the group at it's old location, add the group with the new location
+            tmpzg.insert( std::pair<tripoint, mongroup>( tripoint(mg.posx, mg.posy, mg.posz ), mg ) );
+            zg.erase( it++ );
         }
     }
+    // and now back into the monster group map.
+    zg.insert( tmpzg.begin(), tmpzg.end() );
 }
 
 /**
@@ -2048,7 +2056,7 @@ void overmap::signal_hordes( const int x, const int y, const int sig_power)
 {
     // TODO: Signal adjacent overmaps too. (the 3 nearest ones)
     for( auto it = zg.begin(); it != zg.end(); ++it ) {
-        mongroup &mg = *it;
+        mongroup &mg = it->second;
         if( !mg.horde ) {
             continue;
         }
@@ -3579,7 +3587,7 @@ void overmap::place_mongroups()
             if( !one_in(16) || cities[i].s > 5 ) {
                 mongroup m( "GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
                             int(cities[i].s * 2.5), cities[i].s * 80 );
-                m.set_target( zg.back().posx, zg.back().posy );
+//                m.set_target( zg.back().posx, zg.back().posy );
                 m.horde = true;
                 m.wander();
                 add_mon_group( m );
@@ -3986,7 +3994,7 @@ void overmap::add_mon_group(const mongroup &group)
     // makes the diffuse setting obsolete (as it only controls how the radius
     // is interpreted) - it's only used when adding monster groups with function.
     if( group.radius == 1 ) {
-        zg.push_back( group );
+        zg.insert(std::pair<tripoint, mongroup>( tripoint( group.posx, group.posy, group.posz ), group ) );
         return;
     }
     const int rad = group.radius;
@@ -4034,7 +4042,7 @@ void overmap::add_mon_group(const mongroup &group)
             // This would in turn to lead to a call to this function again.
             // To avoid this, the overmapbufer checks the monster groups when loading
             // an overmap and moves groups with out-of-bounds position to another overmap.
-            zg.push_back( tmp );
+            add_mon_group( tmp );
             xpop += tmp.population;
         }
     }

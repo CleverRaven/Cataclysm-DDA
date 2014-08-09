@@ -68,11 +68,11 @@ overmap &overmapbuffer::get( const int x, const int y )
 void overmapbuffer::fix_mongroups(overmap &new_overmap)
 {
     for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
-        auto &mg = *it;
+        auto &mg = it->second;
         // spawn related code simply sets population to 0 when they have been
         // transformed into spawn points on a submap, the group can then be removed
         if( mg.population <= 0 ) {
-            it = new_overmap.zg.erase( it );
+            new_overmap.zg.erase( it++ );
             continue;
         }
         // Inside the bounds of the overmap?
@@ -92,8 +92,8 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
         overmap &om = get( omp.x, omp.y );
         mg.posx = smabs.x;
         mg.posy = smabs.y;
-        om.zg.push_back( mg );
-        it = new_overmap.zg.erase( it );
+        om.add_mon_group( mg );
+        new_overmap.zg.erase( it++ );
     }
 }
 
@@ -254,9 +254,11 @@ std::vector<mongroup*> overmapbuffer::groups_at(int x, int y, int z)
     if( !has( omp.x, omp.y ) ) {
         return result;
     }
+    const tripoint dpos( x, y, z );
     overmap &om = get( omp.x, omp.y );
-    for( auto &mg : om.zg ) {
-        if( mg.posx != x || mg.posy != y || mg.posz != z || mg.population <= 0 ) {
+    for( auto it = om.zg.lower_bound( dpos ), end = om.zg.upper_bound( dpos ); it != end; ++it ) {
+        auto &mg = it->second;
+        if( mg.population <= 0 ) {
             continue;
         }
         result.push_back( &mg );

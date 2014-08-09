@@ -622,7 +622,8 @@ void overmap::save()
     }
     fout << std::endl;
 
-    for( auto &mg : zg ) {
+    for( auto &mgv : zg ) {
+        auto &mg = mgv.second;
         fout << "Z " << mg.type << " " << mg.posx << " " << mg.posy << " " <<
             mg.posz << " " << int(mg.radius) << " " << mg.population << " " <<
             mg.diffuse << " " << mg.dying << " " <<

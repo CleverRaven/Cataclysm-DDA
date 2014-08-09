@@ -351,8 +351,11 @@ class overmap
 
      return settings;
   }
+    void clear_mon_groups() { zg.clear(); }
+private:
+    std::multimap<tripoint, mongroup> zg;
+public:
   // TODO: make private
-  std::vector<mongroup> zg;
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
