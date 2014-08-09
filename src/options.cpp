@@ -1247,7 +1247,6 @@ void show_options(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
-        setlocale( LC_ALL, OPTIONS["USE_LANG"].getValue().c_str() );
     }
 #ifdef SDLTILES
     if( used_tiles_changed ) {
