@@ -1649,7 +1649,7 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
 
 void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy) {
   if (calendar::turn.get_season() != SUMMER) {
-      add_msg( m_info, "Blueberry ripen in summer.");
+      add_msg( m_info, "Blueberries ripen in summer.");
       return;
   }
   pick_plant(p, m, examx, examy, "blueberries", t_shrub, true);
@@ -1657,7 +1657,7 @@ void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy) {
 
 void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy) {
   if (calendar::turn.get_season() != SUMMER) {
-      add_msg( m_info, "Strawberry ripen in summer.");
+      add_msg( m_info, "Strawberries ripen in summer.");
       return;
   }
   pick_plant(p, m, examx, examy, "strawberries", t_shrub, true);
