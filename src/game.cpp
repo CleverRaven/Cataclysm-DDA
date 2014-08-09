@@ -10935,11 +10935,11 @@ void game::plthrow(int pos)
 
     if (u.has_effect("pacif_gas")) {
         if (one_in(5)) {
-            add_msg(m_good, _("Are you going with the spirit!"));
+            add_msg(m_good, _("You concentrate mightily, and your body obeys!"));
         }
         else {
             u.moves -= rng(2, 5) * 10;
-            add_msg(m_bad, _("You are completely relaxed and can't throw anything."));
+            add_msg(m_bad, _("You can't muster up the effort to throw anything..."));
             return;
         }
     }
@@ -12297,11 +12297,11 @@ bool game::plmove(int dx, int dy)
 
             if (u.has_effect("pacif_gas")) {
                 if (one_in(8)) {
-                    add_msg(m_good, _("You get into a fist and you attack!"));
+                    add_msg(m_good, _("Your willpower asserts itself, and so do you!"));
                 }
                 else {
                     u.moves -= rng(2, 8) * 10;
-                    add_msg(m_bad, _("You are completely relaxed and can't hit."));
+                    add_msg(m_bad, _("You're too pacified to strike anything..."));
                     return false;
                 }
             }
