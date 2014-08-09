@@ -4558,17 +4558,19 @@ int player::throw_dex_mod(bool return_stat_effect) const
 int player::aim_per_time( item *gun ) const
 {
     // Account for Dexterity, weapon skill, weapon mods and flags,
-    int speed_score = 0;
+    int speed_penalty = 0;
     // Ranges from 0 - 600.
     // 0 - 10 after adjustment.
-    speed_score += skill_dispersion( gun, false ) / 60;
+    speed_penalty += skill_dispersion( gun, false ) / 60;
     // Ranges from 0 - 12 after adjustment.
-    speed_score += ranged_dex_mod() / 15;
+    speed_penalty += ranged_dex_mod() / 15;
     // Ranges from 0 - 10
-    speed_score += gun->aim_speed( recoil );
+    speed_penalty += gun->aim_speed( recoil );
     // TODO: should any conditions, mutations, etc affect this?
     // Probably CBMs too.
-    return std::max( 1, 32 - speed_score );
+    int improvement_amount = std::max( 1, 32 - speed_penalty );
+    // Improvement rate is capped by the max aim level of the gun sight being used.
+    return std::min( improvement_amount, recoil - gun->sight_dispersion( recoil ) );
 }
 
 int player::read_speed(bool return_stat_effect)

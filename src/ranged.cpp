@@ -1173,9 +1173,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
             do {
                 do_aim( &u, t, target, relevant, x, y );
-            } while( u.moves > 0 && u.recoil > aim_threshold );
-            if( u.recoil <= aim_threshold ) {
+            } while( u.moves > 0 && u.recoil > aim_threshold &&
+                     u.recoil - u.weapon.sight_dispersion( -1 ) > 0 );
+            if( u.recoil <= aim_threshold ||
+                u.recoil - u.weapon.sight_dispersion( -1 ) == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
+                // Also fire if we're at our best aim level already.
                 return ret;
             } else {
                 // We've run out of moves, set the activity to aim so we'll
