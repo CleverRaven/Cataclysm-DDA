@@ -1306,7 +1306,7 @@ bool overmap::generate_sub(int const z)
             } else if (oter_above == "anthill") {
                 int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
                 ant_points.push_back(city(i, j, size));
-                zg.push_back(mongroup("GROUP_ANT", i * 2, j * 2, z, size * 1.5, rng(6000, 8000)));
+                add_mon_group(mongroup("GROUP_ANT", i * 2, j * 2, z, size * 1.5, rng(6000, 8000)));
             } else if (oter_above == "slimepit_down") {
                 int size = rng(MIN_GOO_SIZE, MAX_GOO_SIZE);
                 goo_points.push_back(city(i, j, size));
@@ -1338,7 +1338,7 @@ bool overmap::generate_sub(int const z)
                     }
                 }
                 ter(i, j, z) = "spiral_hub";
-                zg.push_back(mongroup("GROUP_SPIRAL", i * 2, j * 2, z, 2, 200));
+                add_mon_group(mongroup("GROUP_SPIRAL", i * 2, j * 2, z, 2, 200));
             } else if (oter_above == "silo") {
                 if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z)) {
                     ter(i, j, z) = "silo_finale";
@@ -1381,12 +1381,12 @@ bool overmap::generate_sub(int const z)
 
     for (int i = 0; i < cities.size(); i++) {
         if (one_in(3)) {
-            zg.push_back(mongroup("GROUP_CHUD", cities[i].x * 2,
+            add_mon_group(mongroup("GROUP_CHUD", cities[i].x * 2,
                                   cities[i].y * 2, z, cities[i].s,
                                   cities[i].s * 20));
         }
         if (!one_in(8)) {
-            zg.push_back(mongroup("GROUP_SEWER",
+            add_mon_group(mongroup("GROUP_SEWER",
                                   cities[i].x * 2, cities[i].y * 2, z,
                                   cities[i].s * 3.5, cities[i].s * 70));
         }
@@ -2494,7 +2494,7 @@ bool overmap::build_lab(int x, int y, int z, int s)
                  && ter(finalex, finaley, z) != "lab_core");
         ter(finalex, finaley, z) = "lab_finale";
     }
-    zg.push_back(mongroup("GROUP_LAB", (x * 2), (y * 2), z, s, 400));
+    add_mon_group(mongroup("GROUP_LAB", (x * 2), (y * 2), z, s, 400));
 
     return numstairs > 0;
 }
@@ -2560,7 +2560,7 @@ bool overmap::build_ice_lab(int x, int y, int z, int s)
                  && ter(finalex, finaley, z) != "ice_lab_core");
         ter(finalex, finaley, z) = "ice_lab_finale";
     }
-    zg.push_back(mongroup("GROUP_ICE_LAB", (x * 2), (y * 2), z, s, 400));
+    add_mon_group(mongroup("GROUP_ICE_LAB", (x * 2), (y * 2), z, s, 400));
 
     return numstairs > 0;
 }
@@ -3583,7 +3583,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
         overmap_special_spawns spawns = special.spawns;
         int pop = rng(spawns.min_population, spawns.max_population);
         int rad = rng(spawns.min_radius, spawns.max_radius);
-        zg.push_back(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
+        add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
 }
 
@@ -3609,16 +3609,17 @@ void overmap::place_mongroups()
     for( size_t i = 0; i < cities.size(); i++ ) {
         if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
             if( !one_in(16) || cities[i].s > 5 ) {
-                zg.push_back( mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                                       int(cities[i].s * 2.5), cities[i].s * 80) );
-                zg.back().set_target( zg.back().posx, zg.back().posy );
-                zg.back().horde = true;
-                zg.back().wander();
+                mongroup m( "GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
+                            int(cities[i].s * 2.5), cities[i].s * 80 );
+                m.set_target( zg.back().posx, zg.back().posy );
+                m.horde = true;
+                m.wander();
+                add_mon_group( m );
             }
         }
         if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {
-            zg.push_back( mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                                   int(cities[i].s * 2.5), cities[i].s * 80) );
+            add_mon_group(mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
+                                   int(cities[i].s * 2.5), cities[i].s * 80));
         }
     }
 
@@ -3635,7 +3636,7 @@ void overmap::place_mongroups()
                     }
                 }
                 if (swamp_count >= 25)
-                    zg.push_back(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
+                    add_mon_group(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
                                           rng(swamp_count * 8, swamp_count * 25)));
             }
         }
@@ -3654,7 +3655,7 @@ void overmap::place_mongroups()
                     }
                 }
                 if (river_count >= 25)
-                    zg.push_back(mongroup("GROUP_RIVER", x * 2, y * 2, 0, 3,
+                    add_mon_group(mongroup("GROUP_RIVER", x * 2, y * 2, 0, 3,
                                           rng(river_count * 8, river_count * 25)));
             }
         }
@@ -3664,25 +3665,28 @@ void overmap::place_mongroups()
         // Place the "put me anywhere" groups
         int numgroups = rng(0, 3);
         for (int i = 0; i < numgroups; i++) {
-            zg.push_back(
-                mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
+            add_mon_group(mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
                          rng(20, 40), rng(30, 50)));
         }
     }
 
     // Forest groups cover the entire map
-    zg.push_back( mongroup("GROUP_FOREST", OMAPX / 2, OMAPY / 2, 0,
-                           OMAPY, rng(2000, 12000)));
-    zg.back().diffuse = true;
-    zg.push_back( mongroup("GROUP_FOREST", OMAPX / 2, (OMAPY * 3) / 2, 0,
-                           OMAPY, rng(2000, 12000)));
-    zg.back().diffuse = true;
-    zg.push_back( mongroup("GROUP_FOREST", (OMAPX * 3) / 2, OMAPY / 2, 0,
-                           OMAPX, rng(2000, 12000)));
-    zg.back().diffuse = true;
-    zg.push_back( mongroup("GROUP_FOREST", (OMAPX * 3) / 2, (OMAPY * 3) / 2, 0,
-                           OMAPX, rng(2000, 12000)));
-    zg.back().diffuse = true;
+    mongroup m("GROUP_FOREST", OMAPX / 2, OMAPY / 2, 0,
+                           OMAPY, rng(2000, 12000));
+    m.diffuse = true;
+    add_mon_group( m );
+    m = mongroup("GROUP_FOREST", OMAPX / 2, (OMAPY * 3) / 2, 0,
+                           OMAPY, rng(2000, 12000));
+    m.diffuse = true;
+    add_mon_group( m );
+    m = mongroup("GROUP_FOREST", (OMAPX * 3) / 2, OMAPY / 2, 0,
+                           OMAPX, rng(2000, 12000));
+    m.diffuse = true;
+    add_mon_group( m );
+    m = mongroup("GROUP_FOREST", (OMAPX * 3) / 2, (OMAPY * 3) / 2, 0,
+                           OMAPX, rng(2000, 12000));
+    m.diffuse = true;
+    add_mon_group( m );
 }
 
 int overmap::get_top_border()
@@ -4005,6 +4009,68 @@ void regional_settings::setup()
         default_groundcover_str = NULL;
         optionsdata.add_value("DEFAULT_REGION", id );
     }
+}
+
+void overmap::add_mon_group(const mongroup &group)
+{
+    // Monster groups: the old system had large groups (radius > 1),
+    // the new system transforms them into groups of radius 1, this also
+    // makes the diffuse setting obsolete (as it only controls how the radius
+    // is interpreted) - it's only used when adding monster groups with function.
+    if( group.radius == 1 ) {
+        zg.push_back( group );
+        return;
+    }
+    const int rad = group.radius;
+    const double total_area = rad * rad * M_PI;
+    const double pop = group.population;
+    int xpop = 0;
+    for( int x = -rad; x <= rad; x++ ) {
+        for( int y = -rad; y <= rad; y++ ) {
+            const int dist = group.diffuse ? square_dist( x, y, 0, 0 ) : trig_dist( x, y, 0, 0 );
+            if( dist > rad ) {
+                continue;
+            }
+            // Population on a single submap, *not* a integer
+            double pop_here;
+            if( group.diffuse ) {
+                pop_here = pop / total_area;
+            } else {
+                // non-diffuse groups are more dense towards the center.
+                pop_here = ( 1.0 - static_cast<double>( dist ) / rad ) * pop / total_area;
+            }
+            int p = std::floor( pop_here );
+            if( pop_here - p != 0 ) {
+                // in case the population is something like 0.2, randomly add a
+                // single population unit, this *should* on average give the correct
+                // total population.
+                const int mod = 10000 * ( pop_here - p );
+                if( x_in_y( mod, 10000 ) ) {
+                    p++;
+                }
+            }
+            if( p == 0 ) {
+                continue;
+            }
+            // Exact copy to keep all important values, only change what's needed
+            // for a single-submap group.
+            mongroup tmp( group );
+            tmp.radius = 1;
+            tmp.posx += x;
+            tmp.posy += y;
+            tmp.population = p;
+            // This *can* create groups outside of the area of this overmap.
+            // As this function is called during generating the overmap, the
+            // neighboring overmaps might not have been generated and one can't access
+            // them through the overmapbuffer as this would trigger generating them.
+            // This would in turn to lead to a call to this function again.
+            // To avoid this, the overmapbufer checks the monster groups when loading
+            // an overmap and moves groups with out-of-bounds position to another overmap.
+            zg.push_back( tmp );
+            xpop += tmp.population;
+        }
+    }
+    DebugLog( D_ERROR, D_GAME ) << group.type << ": " << group.population << " => " << xpop;
 }
 
 const point overmap::invalid_point = point(INT_MIN, INT_MIN);

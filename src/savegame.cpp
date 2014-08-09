@@ -375,12 +375,13 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             ty = 0;
             intr = 0;
             buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
-            zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
-            zg.back().diffuse = cd;
-            zg.back().dying = cdying;
-            zg.back().horde = horde;
-            zg.back().set_target(tx,ty);
-            zg.back().interest=intr;
+            mongroup mg( cstr, cx, cy, cz, cs, cp );
+            mg.diffuse = cd;
+            mg.dying = cdying;
+            mg.horde = horde;
+            mg.set_target( tx, ty );
+            mg.interest = intr;
+            add_mon_group( mg );
             nummg++;
         } else if( datatype == 'M' ) {
             monster_data mdata;
