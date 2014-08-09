@@ -5676,7 +5676,7 @@
     "armor_cut":0,
     "luminance":0,
     "hp":75,
-    "special_freq":1,
+    "special_freq":10,
     "death_function":"PACIFBURST",
     "special_attack":"PACIFGAS",
     "description":"A dead body emits neurotoxin that suppresses the will, aggression and desire to fight.",
