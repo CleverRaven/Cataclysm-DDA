@@ -1294,7 +1294,7 @@ bool game::do_turn()
             u.pkill++;
         }
         if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy)) {
-            u.charge_power(1);
+            u.charge_power(25);
         }
         // Huge folks take penalties for cramming themselves in vehicles
         if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
@@ -1481,11 +1481,11 @@ void game::rustCheck()
             continue;
         }
 
-        bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 0;
+        bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
         if (u.skillLevel(*aSkill).rust(charged_bio_mem)) {
-            u.power_level--;
+            u.power_level -= 25;
         }
         int newSkill = u.skillLevel(*aSkill);
         if (newSkill < oldSkillLevel) {
@@ -6267,9 +6267,9 @@ void game::monmove()
         }
 
         if (!critter->is_dead()) {
-            if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
+            if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
                 rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
-                u.power_level--;
+                u.power_level -= 25;
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
                 if (u.has_disease("sleep") || u.has_disease("lying_down")) {
@@ -7220,7 +7220,7 @@ void game::emp_blast(int x, int y)
     if (u.posx == x && u.posy == y) {
         if (u.power_level > 0) {
             add_msg(m_bad, _("The EMP blast drains your power."));
-            int max_drain = (u.power_level > 40 ? 40 : u.power_level);
+            int max_drain = (u.power_level > 1000 ? 1000 : u.power_level);
             u.charge_power(0 - rng(1 + max_drain / 3, max_drain));
         }
         // TODO: More effects?
@@ -11238,19 +11238,19 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
     if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
         !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
-        !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 1)) {
+        !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 5)) {
         add_msg(m_info,
                 _("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
         return;
     } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
                !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
-               !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 4)) {
+               !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 20)) {
         add_msg(m_info,
                 _("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
         return;
     } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
                !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
-               !u.has_charges("adv_UPS_on", 24) && !(u.has_bionic("bio_ups") && u.power_level >= 8)) {
+               !u.has_charges("adv_UPS_on", 24) && !(u.has_bionic("bio_ups") && u.power_level >= 40)) {
         add_msg(m_info,
                 _("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
         return;
@@ -12269,7 +12269,7 @@ bool game::plmove(int dx, int dy)
         x = u.posx + dx;
         y = u.posy + dy;
 
-        if (moveCount % 60 == 0) {
+        if (moveCount % 2 == 0) {
             if (u.has_bionic("bio_torsionratchet")) {
                 u.charge_power(1);
             }
@@ -13048,7 +13048,7 @@ bool game::plmove(int dx, int dy)
                     press_x(ACTION_CONTROL_VEHICLE).c_str());
         }
 
-    } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+    } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 250) {
         //probability travel through walls but not water
         int tunneldist = 0;
         // tile is impassable
@@ -13060,7 +13060,7 @@ bool game::plmove(int dx, int dy)
                 // assuming we've already started
                 tunneldist > 0)) {
             tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
-            if (tunneldist * 10 >
+            if (tunneldist * 250 >
                 u.power_level) { //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
                 add_msg(_("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!"));
                 tunneldist = 0; //we didn't tunnel anywhere
@@ -13076,7 +13076,7 @@ bool game::plmove(int dx, int dy)
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.posx, u.posy);
             }
-            u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
+            u.power_level -= (tunneldist * 250); //tunneling costs 10 bionic power per impassable tile
             u.moves -= 100; //tunneling costs 100 moves
             u.posx += (tunneldist + 1) * (x -
                                           u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
@@ -13087,7 +13087,7 @@ bool game::plmove(int dx, int dy)
                 m.board_vehicle(u.posx, u.posy, &u);
             }
         } else { //or you couldn't tunnel due to lack of energy
-            u.power_level -= 10; //failure is expensive!
+            u.power_level -= 250; //failure is expensive!
             return false;
         }
 

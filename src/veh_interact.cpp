@@ -309,7 +309,7 @@ void veh_interact::cache_tool_availability()
                  (crafting_inv.has_tools("welder_crude", 1) &&
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                  (crafting_inv.has_tools("toolset", 1) &&
-                  crafting_inv.has_charges("toolset", charges / 20));
+                  crafting_inv.has_charges("toolset", charges_crude));
     has_goggles = (crafting_inv.has_tools("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||
                    g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on"));
@@ -1592,7 +1592,7 @@ void complete_vehicle ()
             // without the goggles one _must_ use the duct tape
             tools.push_back(tool_comp("welder", welder_charges));
             tools.push_back(tool_comp("welder_crude", welder_crude_charges));
-            tools.push_back(tool_comp("toolset", welder_charges / 20));
+            tools.push_back(tool_comp("toolset", welder_crude_charges));
         }
         tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
         tools.push_back(tool_comp("toolbox", DUCT_TAPE_USED));
@@ -1660,7 +1660,7 @@ void complete_vehicle ()
         tools.push_back(tool_comp("welder_crude", int(welder_crude_charges*dmg)));
         tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED*dmg)));
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED*dmg)));
-        tools.push_back(tool_comp("toolset", int(welder_charges*dmg / 20)));
+        tools.push_back(tool_comp("toolset", int(welder_crude_charges*dmg)));
         g->consume_tools(&g->u, tools);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
