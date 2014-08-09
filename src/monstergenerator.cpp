@@ -191,6 +191,7 @@ void MonsterGenerator::init_attack()
     attack_map["SMG"] = &mattack::smg;
     attack_map["LASER"] = &mattack::laser;
     attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
+	attack_map["SEARCHLIGHT"] = &mattack::searchlight;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
     attack_map["MULTI_ROBOT"] = &mattack::multi_robot;

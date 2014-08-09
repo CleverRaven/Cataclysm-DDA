@@ -192,6 +192,12 @@ void game::init_fields()
             {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
             {0,0,0}
         },
+        { 
+            "fd_spotlight",
+            { _("spotlight"), _("spotlight"), _("spotlight") }, '&', 1,
+            { c_white, c_white, c_white}, { true, true, true }, { false, false, false }, 1,
+            {0,0,0}
+        },
         {
             "fd_blood_veggy",
             {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,

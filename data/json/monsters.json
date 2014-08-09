@@ -5158,6 +5158,40 @@
     "description":"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
+    "type" : "MONSTER",
+    "id" : "mon_turret_searchlight",
+    "name": "milspec searchlight",
+    "species":"ROBOT",
+    "symbol":"2",
+    "color":"ltgreen",
+    "size":"LARGE",
+    "material":"steel",
+    "diff":20,
+    "aggression":100,
+    "morale":100,
+    "speed":300,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":14,
+    "armor_cut":16,
+    "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 1 ],
+            [ "turret_searchlight", 1 ]
+        ]
+    },
+    "luminance":1,
+    "hp":30,
+    "special_freq":1,
+    "death_function":"EXPLODE",
+    "special_attack":"SEARCHLIGHT",
+    "description":"high tower with a powerful spotlight who is always looking for a target.",
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    },{
         "type" : "MONSTER",
         "id" : "mon_exploder",
     "name": "exploder",

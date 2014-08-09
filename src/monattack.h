@@ -43,6 +43,7 @@ class mattack
         void smg                (monster *z); // Automated MP5
         void laser              (monster *z);
         void rifle_tur          (monster *z); // Automated M4
+        void searchlight        (monster *z);
         void flamethrower       (monster *z);
         void copbot             (monster *z);
         void multi_robot        (monster *z); // Pick from tazer, smg, flame
