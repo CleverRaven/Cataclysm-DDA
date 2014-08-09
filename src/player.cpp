@@ -3387,32 +3387,35 @@ void player::disp_morale()
     delwin(w);
 }
 
-void player::print_aim_adjective( WINDOW *w, item *weapon)
+int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target )
 {
-    const int aim_level = recoil + driving_recoil + ranged_dex_mod() +
-        skill_dispersion( weapon, false );
-    std::string aim_adjective;
-    if( aim_level == 0 ) {
-        aim_adjective = _("pinpoint");
-    } else if ( aim_level < 150 ) {
-        aim_adjective = _("solid");
-    } else if ( aim_level < 300 ) {
-        aim_adjective = _("controlled");
-    } else if ( aim_level < 450 ) {
-        aim_adjective = _("steady");
-    } else if ( aim_level < 600 ) {
-        aim_adjective = _("stable");
-    } else if ( aim_level < 750 ) {
-        aim_adjective = _("unsteady");
-    } else if ( aim_level < 900 ) {
-        aim_adjective = _("shakey");
-    } else if ( aim_level < 1050 ) {
-        aim_adjective = _("precarious");
-    } else {
-        aim_adjective = _("wild");
-    }
-    // "Your aim is <an adjective describing steadiness of aim>."
-    wprintw(w, _("Your aim is %s"), aim_adjective.c_str() );
+    // Window width minus borders.
+    const int window_width = getmaxx( w ) - 2;
+    // This is absolute accuracy for the player.
+    // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
+    // Creature::projectile_attack() into shared methods.
+    // Dodge is intentionally not accounted for.
+    const double aim_level = recoil + driving_recoil + get_weapon_dispersion( weapon, false );
+    const double range = rl_dist( xpos(), ypos(), target->xpos(), target->ypos() );
+    const double missed_by = aim_level * 0.00021666666666666666 * range;
+    const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
+    // Confidence is chance of the actual shot being under .6, which is the threshold for a solid hit.
+    // This simplifies the calculation greatly, that's intentional.
+    const double confidence = std::max( 0.0, 0.6 / hit_rating );
+    // This is a relative measure of how steady the player's aim is,
+    // 0 it is the best the player can do.
+    const double steady_score = recoil - weapon->sight_dispersion( -1 );
+    // Fairly arbitrary cap on steadiness...
+    const double steadiness = std::max( 0.0, 1.0 - (steady_score / 1000) );
+    const std::string confidence_label = _("Confidence: ");
+    const std::string steadiness_label = _("Steadiness: ");
+    const int confidence_width = window_width - utf8_width( confidence_label.c_str() );
+    const int steadiness_width = window_width - utf8_width( steadiness_label.c_str() );
+    const std::string confidence_meter = std::string( confidence_width * confidence, '*' );
+    const std::string steadiness_meter = std::string( steadiness_width * steadiness, '*' );
+    mvwprintw(w, line_number++, 1, "%s%s", confidence_label.c_str(), confidence_meter.c_str() );
+    mvwprintw(w, line_number++, 1, "%s%s", steadiness_label.c_str(), steadiness_meter.c_str() );
+    return line_number;
 }
 
 void player::print_gun_mode( WINDOW *w, nc_color c )

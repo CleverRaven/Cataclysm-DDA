@@ -1059,9 +1059,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             mvwprintw(w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
         }
 
-        if( mode == TARGET_MODE_FIRE ) {
-            wmove( w_target, line_number++, 1 );
-            u.print_aim_adjective( w_target, relevant );
+        if( mode == TARGET_MODE_FIRE && critter_at( x, y ) ) {
+            line_number = u.print_aim_bars( w_target, line_number, relevant, critter_at( x, y ) );
         }
 
         wrefresh(w_target);
