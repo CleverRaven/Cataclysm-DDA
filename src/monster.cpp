@@ -7,6 +7,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "translations.h"
+#include "overmapbuffer.h"
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
@@ -1062,25 +1063,25 @@ void monster::die(Creature* nkiller) {
         g->m.add_item_or_charges( posx(), posy(), it );
     }
 
-// If we're a queen, make nearby groups of our type start to die out
- if (has_flag(MF_QUEEN)) {
-// Do it for overmap above/below too
-  for(int z = 0; z >= -1; --z) {
-      for (int x = -MAPSIZE/2; x <= MAPSIZE/2; x++)
-      {
-          for (int y = -MAPSIZE/2; y <= MAPSIZE/2; y++)
-          {
-                 std::vector<mongroup*> groups =
-                     g->cur_om->monsters_at(g->levx+x, g->levy+y, z);
-                 for (int i = 0; i < groups.size(); i++) {
-                     if (MonsterGroupManager::IsMonsterInGroup
-                         (groups[i]->type, (type->id)))
-                         groups[i]->dying = true;
-                 }
-          }
-      }
-  }
- }
+    // If we're a queen, make nearby groups of our type start to die out
+    if( has_flag( MF_QUEEN ) ) {
+        // The submap coordinates of this monster, monster groups coordinates are
+        // submap coordinates.
+        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( _posx, _posy ) );
+        // Do it for overmap above/below too
+        for( int z = 1; z >= -1; --z ) {
+            for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
+                for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
+                    std::vector<mongroup*> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y, g->levz + z );
+                    for( auto &mgp : groups ) {
+                        if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
+                            mgp->dying = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
 // If we're a mission monster, update the mission
  if (mission_id != -1) {
   mission_type *misstype = g->find_mission_type(mission_id);

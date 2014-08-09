@@ -233,9 +233,18 @@ bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda) const
 
 std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
 {
-    const overmap* om = overmap_buffer.get_existing_om_global(x, y);
-    point p = omt_to_sm_copy(x, y);
-    return const_cast<overmap*>(om)->monsters_at(p.x, p.y, z);
+    // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
+    // but monster groups are defined with submap coordinates.
+    std::vector<mongroup *> result, tmp;
+    tmp = groups_at( x * 2, y * 2 , z );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+    tmp = groups_at( x * 2, y * 2 + 1, z );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+    tmp = groups_at( x * 2 + 1, y * 2 + 1, z );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+    tmp = groups_at( x * 2 + 1, y * 2 , z );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+    return result;
 }
 
 std::vector<mongroup*> overmapbuffer::groups_at(int x, int y, int z)
