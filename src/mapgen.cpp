@@ -10996,29 +10996,6 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
     place_on_submap->spawns.push_back(tmp);
 }
 
-void map::add_spawn(monster *mon)
-{
-    int spawnx, spawny;
-    std::string spawnname = (mon->unique_name == "" ? "NONE" : mon->unique_name);
-    if (mon->spawnmapx != -1) {
-        spawnx = mon->spawnposx;
-        spawny = mon->spawnposy;
-    } else {
-        spawnx = mon->posx();
-        spawny = mon->posy();
-    }
-    while (spawnx < 0) {
-        spawnx += SEEX;
-    }
-    while (spawny < 0) {
-        spawny += SEEY;
-    }
-    spawnx %= SEEX;
-    spawny %= SEEY;
-    add_spawn(mon->type->id, 1, spawnx, spawny, (mon->friendly < 0),
-              mon->faction_id, mon->mission_id, spawnname);
-}
-
 vehicle *map::add_vehicle(std::string type, const int x, const int y, const int dir,
                           const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {

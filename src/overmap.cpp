@@ -653,6 +653,7 @@ overmap::overmap(overmap const &o)
     , prefix(o.prefix)
     , name(o.name)
     , layer(NULL)
+    , monsters(o.monsters)
 {
     settings = o.settings;
     layer = new map_layer[OVERMAP_LAYERS];
@@ -686,6 +687,7 @@ overmap &overmap::operator=(overmap const &o)
     loc = o.loc;
     prefix = o.prefix;
     name = o.name;
+    monsters = o.monsters;
 
     if (layer) {
         delete [] layer;

@@ -30,10 +30,6 @@ monster::monster()
  moves = 0;
  sp_timeout = 0;
  def_chance = 0;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = 0;
  morale = 2;
@@ -45,7 +41,6 @@ monster::monster()
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- keep = 0;
  ammo = 100;
 }
 
@@ -63,10 +58,6 @@ monster::monster(mtype *t)
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
  def_chance = type->def_chance;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
@@ -95,10 +86,6 @@ monster::monster(mtype *t, int x, int y)
  hp = type->hp;
  sp_timeout = type->sp_freq;
  def_chance = type->def_chance;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
@@ -1254,16 +1241,6 @@ field_id monster::gibType() const {
     if (made_of("iflesh"))
         return fd_gibs_insect;
     return fd_gibs_flesh; //Please update the corpse gib type code at mtypedef.cpp modifying these rules!
-}
-
-bool monster::getkeep() const
-{
-    return keep;
-}
-
-void monster::setkeep(bool r)
-{
-    keep = r;
 }
 
 m_size monster::get_size() const {

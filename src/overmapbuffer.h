@@ -4,6 +4,8 @@
 #include <set>
 #include "overmap.h"
 
+class monster;
+
 /**
  * Coordinate systems used here are:
  * overmap (om): the position of an overmap. Each overmap stores
@@ -221,6 +223,17 @@ public:
     }
     // hordes
     std::vector<mongroup*> monsters_at(int x, int y, int z);
+
+    /**
+     * Spawn monsters from the overmap onto the main map (game::m).
+     * (x,y,z) is an absolute *submap* coordinate.
+     */
+    void spawn_monster(const int x, const int y, const int z);
+    /**
+     * Despawn the monster back onto the overmap. The monsters position
+     * (monster::pos()) is interpreted as relative to the main map.
+     */
+    void despawn_monster(const monster &critter);
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);

@@ -59,10 +59,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  void poly(mtype *t);
  void spawn(int x, int y); // All this does is moves the monster to x,y
 
- bool keep; // Variable to track newly loaded monsters so they don't go kaput.
- bool getkeep() const;
- void setkeep(bool r);
-
  m_size get_size() const;
  int get_hp( hp_part ) const { return hp; };
  int get_hp_max( hp_part = num_hp_parts ) const { return type->hp; };
@@ -244,9 +240,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  int wandx, wandy; // Wander destination - Just try to move in that direction
  int wandf;        // Urge to wander - Increased by sound, decrements each move
  std::vector<item> inv; // Inventory
-
-// If we were spawned by the map, store our origin for later use
- int spawnmapx, spawnmapy, spawnposx, spawnposy;
 
 // DEFINING VALUES
  int speed;

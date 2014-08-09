@@ -4394,14 +4394,13 @@ void game::debug()
             active_npc.clear();
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
-            // Save monsters.
-            for (unsigned int i = 0; i < num_zombies(); i++) {
-                force_save_monster(zombie(i));
-            }
-            clear_zombies();
+            const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
+            const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
+            // TODO: make this use the normal map shifting function all the time?
+            shift_monsters( nlevx - levx, nlevy - levy, tmp.z - levz );
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
-            levx = tmp.x * 2 - int(MAPSIZE / 2);
-            levy = tmp.y * 2 - int(MAPSIZE / 2);
+            levx = nlevx - cur_om->pos().x * OMAPX * 2;
+            levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
             m.load(levx, levy, levz, true, cur_om);
             load_npcs();
@@ -6282,22 +6281,9 @@ void game::monmove()
                 critter->posy() < 0 - (SEEY * MAPSIZE) / 6 ||
                 critter->posx() > (SEEX * MAPSIZE * 7) / 6 ||
                 critter->posy() > (SEEY * MAPSIZE * 7) / 6) {
-                // Re-absorb into local group, if applicable
-                int group = valid_group((critter->type->id), levx, levy, levz);
-                if (group != -1) {
-                    cur_om->zg[group].population++;
-                    if (cur_om->zg[group].population /
-                        (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                        !cur_om->zg[group].diffuse) {
-                        cur_om->zg[group].radius++;
-                    }
-                } else if (MonsterGroupManager::Monster2Group((critter->type->id)) != "GROUP_NULL") {
-                    cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter->type->id)),
-                                                  levx, levy, levz, 1, 1));
-                }
                 // Remove the zombie, but don't let it "die", it still exists, just
                 // not in the reality bubble.
-                remove_zombie( i );
+                despawn_monster( i );
                 i--;
             }
         }
@@ -7274,6 +7260,9 @@ Creature *game::critter_at(int x, int y)
 
 bool game::add_zombie(monster &critter)
 {
+    if( !m.inbounds( critter.posx(), critter.posy() ) ) {
+        dbg( D_ERROR ) << "added a critter with out-of-bounds position: " << critter.posx() << "," << critter.posy() << " - " << critter.disp_name();
+    }
     return critter_tracker.add(critter);
 }
 
@@ -13473,21 +13462,22 @@ void game::vertical_move(int movez, bool force)
         monstairy = levy;
         monstairz = levz;
     }
-    // Make sure monsters are saved!
-    for (unsigned int i = 0; i < num_zombies(); i++) {
+    // Save all monsters that can reach the stairs, remove them from the tracker,
+    // then despawn the remaining monsters. Because it's a vertical shift, all
+    // monsters are out of the bounds of the map and will despawn.
+    for( unsigned int i = 0; i < num_zombies(); ) {
         monster &critter = zombie(i);
         int turns = critter.turns_to_reach(u.posx, u.posy);
         if (turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach(u.posx, u.posy)
             && !slippedpast) {
             critter.staircount = 10 + turns;
             coming_to_stairs.push_back(critter);
-            //remove_zombie(i);
+            remove_zombie( i );
         } else {
-            force_save_monster(critter);
+            i++;
         }
     }
-    despawn_monsters();
-    clear_zombies();
+    shift_monsters( 0, 0, movez );
 
     // Clear current scents.
     for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
@@ -13608,7 +13598,7 @@ void game::update_map(int &x, int &y)
 
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
-        despawn_monsters(shiftx, shifty);
+        shift_monsters( shiftx, shifty, 0 );
         u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
     }
 
@@ -13915,61 +13905,38 @@ void game::update_stair_monsters()
     }
 }
 
-void game::force_save_monster(monster &critter)
+void game::despawn_monster(int mondex)
 {
-    point ms = m.getabs( critter.posx(), critter.posy() );
-    point sm = overmapbuffer::ms_to_sm_remain( ms );
-
-    critter.spawnmapx = 0; // only needs to be != -1, see map::add_spawn
-    critter.spawnmapy = 0;
-    critter.spawnposx = ms.x; // this value is really used, not spawnmapy
-    critter.spawnposy = ms.y;
-
-    tinymap tmp;
-    tmp.load_abs( sm.x, sm.y, levz, false );
-    tmp.add_spawn(&critter);
-    tmp.save();
+    monster &critter = zombie( mondex );
+    if( !critter.is_hallucination() ) {
+        // hallucinations aren't stored, they come and go as they like,
+        overmap_buffer.despawn_monster( critter );
+    }
+    remove_zombie( mondex );
 }
 
-void game::despawn_monsters(const int shiftx, const int shifty)
+void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
 {
-    for (unsigned int i = 0; i < num_zombies(); i++) {
-        monster &critter = zombie(i);
-        // If either shift argument is non-zero, we're shifting.
-        if (shiftx != 0 || shifty != 0) {
-            critter.shift(shiftx, shifty);
-            if (critter.posx() >= 0 && critter.posx() <= SEEX * MAPSIZE &&
-                critter.posy() >= 0 && critter.posy() <= SEEY * MAPSIZE) {
-                // We're inbounds, so don't despawn after all.
-                continue;
-            } else {
-                if ((critter.spawnmapx != -1) || critter.getkeep() ||
-                    ((shiftx != 0 || shifty != 0) && critter.friendly != 0)) {
-                    force_save_monster( critter );
-
-                    // We're saving him, so there's no need to keep anymore.
-                    critter.setkeep(false);
-                } else {
-                    // No spawn site, so absorb them back into a group.
-                    int group = valid_group((critter.type->id), levx + shiftx, levy + shifty, levz);
-                    if (group != -1) {
-                        cur_om->zg[group].population++;
-                        if (cur_om->zg[group].population /
-                            (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                            !cur_om->zg[group].diffuse) {
-                            cur_om->zg[group].radius++;
-                        }
-                    }
-                }
-                // Check if we should keep him.
-                if (!critter.getkeep()) {
-                    remove_zombie(i);
-                    i--;
-                }
-            }
-        }
+    // If either shift argument is non-zero, we're shifting.
+    if( shiftx == 0 && shifty == 0 && shiftz == 0 ) {
+        return;
     }
-
+    for( unsigned int i = 0; i < num_zombies(); ) {
+        monster &critter = zombie( i );
+        if( shiftx != 0 || shifty != 0 ) {
+            critter.shift( shiftx, shifty );
+        }
+        // TODO: with z-levels, this can be removed, instead shift the critter
+        // along shiftz, too. Than make the 3D-inbounds check.
+        if( shiftz == 0 && m.inbounds( critter.posx(), critter.posy() ) ) {
+            i++;
+            // We're inbounds, so don't despawn after all.
+            continue;
+        }
+        // Either a vertical shift or the critter is now outside of the reality bubble,
+        // anyway: it must be saved and removed.
+        despawn_monster( i );
+    }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.
     rebuild_mon_at_cache();

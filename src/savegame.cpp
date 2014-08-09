@@ -238,7 +238,6 @@ void game::unserialize(std::ifstream & fin)
         while (vdata.has_more()) {
             monster montmp;
             vdata.read_next(montmp);
-            montmp.setkeep(true);
             add_zombie(montmp);
         }
 
@@ -383,6 +382,13 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             zg.back().set_target(tx,ty);
             zg.back().interest=intr;
             nummg++;
+        } else if( datatype == 'M' ) {
+            monster_data mdata;
+            fin >> mdata.x >> mdata.y >> mdata.z;
+            std::string data;
+            getline( fin, data );
+            mdata.mon.deserialize( data );
+            monsters.push_back( std::move( mdata ) );
         } else if (datatype == 't') { // City
             fin >> cx >> cy >> cs;
             tmp.x = cx; tmp.y = cy; tmp.s = cs;
@@ -627,6 +633,10 @@ void overmap::save()
     for (int i = 0; i < radios.size(); i++)
         fout << "T " << radios[i].x << " " << radios[i].y << " " << radios[i].strength <<
             " " << radios[i].type << " " << std::endl << radios[i].message << std::endl;
+
+    for( const auto &mdata : monsters ) {
+        fout << "M " << mdata.x << " " << mdata.y << " " << mdata.z << " " << mdata.mon.serialize() << std::endl;
+    }
 
     // store tracked vehicle locations and names
     for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
