@@ -1778,75 +1778,79 @@ void mattack::searchlight(monster *z)
     int y = zposy + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
     int shift = 0;
 
-    int tc;
-    if (!z->sees_player(tc)) {
-        if (settings.item_vars["SL_DIR"] != "") {
-            shift = atoi(settings.item_vars["SL_DIR"].c_str());
-        }
+	for (int i = 0; i < 2; i++){
 
-        switch (shift) {
-            case 0:
-                y--;
-                break;
-            case 1:
-                y--;
-                x++;
-                break;
-            case 2:
-                x++;
-                break;
-            case 3:
-                x++;
-                y++;
-                break;
-            case 4:
-                y++;
-                break;
-            case 5:
-                y++;
-                x--;
-                break;
-            case 6:
-                x--;
-                break;
-            case 7:
-                x--;
-                y--;
-                break;
+		int tc;
+		if (!z->sees_player(tc)) {
+			if (settings.item_vars["SL_DIR"] != "") {
+				shift = atoi(settings.item_vars["SL_DIR"].c_str());
+			}
 
-            default:
-                break;
-        }
+			switch (shift) {
+			case 0:
+				y--;
+				break;
+			case 1:
+				y--;
+				x++;
+				break;
+			case 2:
+				x++;
+				break;
+			case 3:
+				x++;
+				y++;
+				break;
+			case 4:
+				y++;
+				break;
+			case 5:
+				y++;
+				x--;
+				break;
+			case 6:
+				x--;
+				break;
+			case 7:
+				x--;
+				y--;
+				break;
 
-    } else {
-        if (x < g->u.posx) {
-            x++;
-        }
-        if (x > g->u.posx) {
-            x--;
-        }
-        if (y < g->u.posy) {
-            y++;
-        }
-        if (y > g->u.posy) {
-            y--;
-        }
-    }
+			default:
+				break;
+			}
 
-    if (rl_dist(x, y, zposx, zposy) > 50) {
-        if (x > zposx) {
-            x--;
-        }
-        if (x < zposx) {
-            x++;
-        }
-        if (y > zposy) {
-            y--;
-        }
-        if (y < zposy) {
-            y++;
-        }
-    }
+		}
+		else {
+			if (x < g->u.posx) {
+				x++;
+			}
+			if (x > g->u.posx) {
+				x--;
+			}
+			if (y < g->u.posy) {
+				y++;
+			}
+			if (y > g->u.posy) {
+				y--;
+			}
+		}
+
+		if (rl_dist(x, y, zposx, zposy) > 50) {
+			if (x > zposx) {
+				x--;
+			}
+			if (x < zposx) {
+				x++;
+			}
+			if (y > zposy) {
+				y--;
+			}
+			if (y < zposy) {
+				y++;
+			}
+		}
+	}
 
     settings.item_vars["SL_SPOT_X"] = string_format("%d", x - zposx);
     settings.item_vars["SL_SPOT_Y"] = string_format("%d", y - zposy);
