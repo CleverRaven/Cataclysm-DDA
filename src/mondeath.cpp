@@ -503,17 +503,9 @@ void mdeath::smokeburst(monster *z) {
 
 void mdeath::pacifburst(monster *z)
 {
-    std::string tmp;
-    std::string explode = string_format(_("a %s explode!"), z->name().c_str());
-    g->sound(z->posx(), z->posy(), 16, explode);
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.add_field(z->posx() + i, z->posy() + j, fd_pacif_gas, 3);
-            int mondex = g->mon_at(z->posx() + i, z->posy() + j);
-            if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
-                g->zombie(mondex).moves -= 150;
-            }
         }
     }
 }
