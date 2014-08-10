@@ -218,6 +218,22 @@ void mattack::smokecloud(monster *z)
     }
 }
 
+void mattack::pacifgas(monster *z)
+{
+    z->sp_timeout = z->type->sp_freq;
+    const int monx = z->posx();
+    const int mony = z->posy();
+    int junk = 0;
+    for (int i = -4; i <= 4; i++) {
+        for (int j = -4; j <= 4; j++) {
+            if( g->m.move_cost( monx + i, mony + j ) != 0 &&
+                g->m.clear_path(monx, mony, monx + i, mony + j, 3, 1, 100, junk) ) {
+                g->m.add_field(monx + i, mony + j, fd_pacif_gas, rng(1, 3));
+            }
+        }
+    }
+}
+
 void mattack::boomer(monster *z)
 {
     int j;

@@ -501,6 +501,15 @@ void mdeath::smokeburst(monster *z) {
     }
 }
 
+void mdeath::pacifburst(monster *z)
+{
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            g->m.add_field(z->posx() + i, z->posy() + j, fd_pacif_gas, 3);
+        }
+    }
+}
+
 void mdeath::gameover(monster *z) {
     add_msg(m_bad, _("The %s was destroyed!  GAME OVER!"), z->name().c_str());
     g->u.hp_cur[hp_torso] = 0;

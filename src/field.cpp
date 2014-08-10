@@ -117,6 +117,13 @@ void game::init_fields()
         },
 
         {
+            "fd_pacif_gas",
+            {_("hazy cloud"),_("soothing gas"),_("thick soothing gas")}, '&', 8,
+			{c_unset, c_unset, c_unset}, { true, true, true }, { false, false, false }, 500,
+            {0,0,0}
+        },
+
+        {
             "fd_nuke_gas",
             {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8', 8,
             {c_white, c_ltgreen, c_green}, {true, true, false}, {true, true, true},  1000,
@@ -876,6 +883,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( this, cur, x, y, curtype, 33, 30 );
                         break;
 
+                    case fd_pacif_gas:
+                        spread_gas( this, cur, x, y, curtype, 25, 50 );
+                        break;
+
                     case fd_toxic_gas:
                         spread_gas( this, cur, x, y, curtype, 50, 30 );
                         break;
@@ -1160,6 +1171,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_smoke ) ||
                             curfield.findField( fd_toxic_gas ) ||
                             curfield.findField( fd_tear_gas ) ||
+                            curfield.findField( fd_pacif_gas ) ||
                             curfield.findField( fd_nuke_gas ) ||
                             curfield.findField( fd_gas_vent ) ||
                             curfield.findField( fd_fire_vent ) ||
@@ -1436,6 +1448,13 @@ void map::step_in_field(int x, int y)
             if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
             {
                 g->u.add_env_effect("blind", bp_eyes, cur->getFieldDensity() * 2, 10);
+            }
+            break;
+
+        case fd_pacif_gas:
+            if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            {
+                g->u.add_env_effect("pacif_gas", bp_mouth, cur->getFieldDensity() * 2, 3);
             }
             break;
 
@@ -1726,6 +1745,13 @@ void map::mon_in_field(int x, int y, monster *z)
                 if (z->has_flag(MF_SEES)) {
                      z->add_effect("blind", cur->getFieldDensity() * 8);
                 }
+            }
+            break;
+
+        case fd_pacif_gas:
+            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
+                !z->has_flag(MF_NO_BREATHE)) {
+                z->add_effect("stunned", rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
             }
             break;
 

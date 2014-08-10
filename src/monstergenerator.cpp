@@ -142,6 +142,7 @@ void MonsterGenerator::init_death()
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
+    death_map["PACIFBURST"] = &mdeath::pacifburst;// Explode soothing gas.
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
 
     /* Currently Unimplemented */
@@ -160,6 +161,7 @@ void MonsterGenerator::init_attack()
     attack_map["ACID"] = &mattack::acid;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
+    attack_map["PACIFGAS"] = &mattack::pacifgas;
     attack_map["BOOMER"] = &mattack::boomer;
     attack_map["RESURRECT"] = &mattack::resurrect;
     attack_map["SCIENCE"] = &mattack::science;
