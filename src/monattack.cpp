@@ -1759,8 +1759,8 @@ void mattack::searchlight(monster *z)
         }
     }
 
-    //battery charge from the generator is enough for ~two minutes
-    if (calendar::turn % 20 == 0) {
+    //battery charge from the generator is enough for some time of work
+    if (calendar::turn % 100 == 0) {
 
         bool generator_ok = false;
 

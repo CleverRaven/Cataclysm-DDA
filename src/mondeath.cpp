@@ -428,6 +428,12 @@ void mdeath::explode(monster *z) {
 void mdeath::focused_beam(monster *z)
 {
 
+    for (int k = g->m.i_at(z->posx(), z->posy()).size() - 1; k >= 0; k--) {
+        if (g->m.i_at(z->posx(), z->posy())[k].type->id == "processor") {
+            g->m.i_rem(z->posx(), z->posy(), k);
+        }
+    }
+
     if (z->inv.size() > 0) {
         item &settings = z->inv[0];
 
