@@ -447,7 +447,7 @@ bool player::create(character_type type, std::string tempname)
     else if (has_trait("HYPEROPIC")) {
         prof_items.push_back("glasses_reading");
     }
-
+//LOOK HERE FOR ITEM STUFF!
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
@@ -1465,14 +1465,15 @@ int set_scenario(WINDOW *w, player *u, int &points)
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
-         /*   if (u->scen != sorted_scens[i]) {
+	//Just while I figure out where the data for scen will be stored
+            if (g->scen != sorted_scens[i]) {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? h_ltgray : c_ltgray);
             } else {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       sorted_scens[i]->gender_appropriate_name(u->male).c_str());
-*/
+
 			//Will Scenarios have gender based name variations?
         }
 
@@ -1551,8 +1552,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
                 }
         } else if (action == "CONFIRM") {
                 //u->scen = scenario::scen(sorted_scens[cur_id]->ident()); // we've got a const*
-		u->start_location = "shelter";
-
+		u->start_location = sorted_scens[cur_id]->start_location();
+		u->prof = sorted_scens[cur_id]->prof();
+		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
+		//g->scen = sorted_scens[cur_id];
         } else if (action == "PREV_TAB") {
                 retval = -1;
         } else if (action == "NEXT_TAB") {

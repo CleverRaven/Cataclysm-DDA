@@ -58,6 +58,12 @@ void scenario::load_scenario(JsonObject &jsobj)
     const std::string desc = jsobj.get_string("description").c_str();
     scen._description_male = pgettext("scen_desc_male", desc.c_str());
     scen._description_female = pgettext("scen_desc_female", desc.c_str());
+
+    const std::string start = jsobj.get_string("start_location").c_str();
+    scen._start_location = pgettext("start_location", start.c_str());
+
+    const std::string proffe = jsobj.get_string("profession").c_str();
+    scen._profession = profession::prof(pgettext("profession",proffe.c_str()));
     
 
     JsonObject items_obj=jsobj.get_object("items");

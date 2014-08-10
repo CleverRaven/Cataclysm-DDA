@@ -4,15 +4,18 @@
             "ident": "Refugee",
             "name": "Refugee",
             "description": "You ran to the evac shelter.(WIP)",
-            
-            "items": {
-                "both": [
+            "start_location":"shelter",
+	    "profession" : "tailor",
 
-                    "backpack"
-
-                ]
-            }
-        }
+        },
+	{
+	    "type": "scenario",
+	    "ident": "evacuee",
+	    "name": "Evacuee",
+	    "description": "You have survived the initial wave of panic, and have achieved (relative) safety. What you do now is up to you",
+	    "start_location": "shelter",
+	    "profession" : "unemployed"
+	}
 ]
     
             

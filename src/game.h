@@ -6,6 +6,7 @@
 #include "map.h"
 #include "lightmap.h"
 #include "player.h"
+#include "scenario.h"
 #include "overmap.h"
 #include "omdata.h"
 #include "mapitems.h"
