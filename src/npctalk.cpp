@@ -554,7 +554,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                     return _("Ma'am");
             case 5:
                 if (g->u.male)
-                    return _("Rough out there isn't it.");
+                    return _("Rough out there, isn't it?");
                 else
                     return _("Ma'am, you really shouldn't be traveling out there.");
             //}
@@ -1596,7 +1596,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
 
  case TALK_EVAC_GUARD1_JOIN3:
-  RESPONSE(_("I don't like you're attitude."));
+  RESPONSE(_("I don't like your attitude."));
    SUCCESS(TALK_EVAC_GUARD1_ATTITUDE);
   RESPONSE(_("Well alright then."));
    SUCCESS(TALK_EVAC_GUARD1);
@@ -1716,7 +1716,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
  case TALK_EVAC_GUARD3_HIDE2:
   RESPONSE(_("Sorry, I didn't mean to offend you..."));
    SUCCESS(TALK_EVAC_GUARD3_WASTE);
-  RESPONSE(_("Get bent traitor!"));
+  RESPONSE(_("Get bent, traitor!"));
    TRIAL(TALK_TRIAL_INTIMIDATE, 20 + p->op_of_u.fear * 3);
    SUCCESS(TALK_EVAC_GUARD3_HOSTILE);
    FAILURE(TALK_EVAC_GUARD3_INSULT);
@@ -2926,8 +2926,11 @@ std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
  int total_cost = tmp.price();
  p->add_msg_if_player(m_good, _("Let's see what you've got..."));
  std::stringstream response;
- response << string_format(_("I'm willing to pay $%.2f per serving. You have "
-                            "%d servings for a total of $%.2f.  No questions asked, here is your cash.")
+ response << string_format(ngettext("I'm willing to pay $%.2f per serving. You have "
+                                    "%d serving for a total of $%.2f. No questions asked, here is your cash.",
+                                    "I'm willing to pay $%.2f per serving. You have "
+                                    "%d servings for a total of $%.2f. No questions asked, here is your cash.",
+                            you_have)
                             ,(double)item_cost/100 ,you_have, (double)total_cost/100);
  return response.str();
 }

@@ -30,6 +30,7 @@
     "color": "red",
     "flags": ["LIGHT_15", "RADIO_CONTAINER"],
     "name": "RC car (on)",
+    "name_plural": "RC cars (on)",
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "price": 2000,
     "material": "plastic",

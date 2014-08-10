@@ -9838,7 +9838,7 @@ void player::do_read( item *book )
             if (no_recipes) {
                 add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
             } else {
-                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for yo"),
+                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for you."),
                         reading->nname(1).c_str());
             }
         }

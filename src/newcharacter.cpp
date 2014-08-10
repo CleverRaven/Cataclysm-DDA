@@ -1095,8 +1095,8 @@ int set_profession(WINDOW *w, player *u, int &points)
                                      pointsForProf);
         } else {
             //~ 1s - profession name, 2d - current character points.
-            prof_msg_temp = ngettext("Profession %1$s cost %2$d point",
-                                     "Profession %1$s cost %2$d points",
+            prof_msg_temp = ngettext("Profession %1$s costs %2$d point",
+                                     "Profession %1$s costs %2$d points",
                                      pointsForProf);
         }
         // This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
