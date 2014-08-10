@@ -16,8 +16,7 @@
 typedef std::string craft_cat;
 typedef std::string craft_subcat;
 
-struct byproduct
-{
+struct byproduct {
     itype_id result;
     int charges_mult;
     int amount;
@@ -30,7 +29,7 @@ struct byproduct
     }
 
     byproduct(itype_id res, int mult = 1, int amnt = 1)
-    : result(res), charges_mult(mult), amount(amnt)
+        : result(res), charges_mult(mult), amount(amnt)
     {
     }
 };
@@ -88,7 +87,7 @@ struct recipe : public requirements {
             }
         }
         if(!bps.empty()) {
-            for(auto& val : bps) {
+            for(auto &val : bps) {
                 byproducts.push_back(val);
             }
         }
@@ -103,7 +102,7 @@ struct recipe : public requirements {
 
     bool has_byproducts() const;
 
-    bool can_make_with_inventory(const inventory& crafting_inv) const;
+    bool can_make_with_inventory(const inventory &crafting_inv) const;
 
     int print_items(WINDOW *w, int ypos, int xpos, nc_color col);
     void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp);
