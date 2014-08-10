@@ -152,7 +152,7 @@ void map::generate_lightmap()
                     apply_light_source(sx, sy, 1, trigdist);
                     break;
 				case fd_spotlight:
-					add_light_source(sx, sy, 80);
+					add_light_source(sx, sy, 20);
 					break;
                 }
             }

@@ -136,6 +136,7 @@ void MonsterGenerator::init_death()
     death_map["AMIGARA"] = &mdeath::amigara;// Removes hypnosis if last one
     death_map["THING"] = &mdeath::thing;// Turn into a full thing
     death_map["EXPLODE"] = &mdeath::explode;// Damaging explosion
+    death_map["FOCUSEDBEAM"] = &mdeath::focused_beam;// Blinding ray
     death_map["BROKEN"] = &mdeath::broken;// Spawns a broken robot.
     death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
     death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal

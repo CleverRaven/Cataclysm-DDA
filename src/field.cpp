@@ -195,8 +195,14 @@ void game::init_fields()
         { 
             "fd_spotlight",
             { _("spotlight"), _("spotlight"), _("spotlight") }, '&', 1,
-            { c_white, c_white, c_white}, { true, true, true }, { false, false, false }, 1,
+            {c_white, c_white, c_white}, { true, true, true }, { false, false, false }, 1,
             {0,0,0}
+        },
+        {
+            "fd_dazzling",
+            { _("dazzing"), _("dazzing"), _("dazzing") }, '#', 4,
+            {c_ltred_yellow, c_ltred_yellow, c_ltred_yellow}, { true, true, true }, { false, false, false }, 1,
+            { 0, 0, 0 }
         },
         {
             "fd_blood_veggy",
@@ -1175,6 +1181,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_shock_vent ) ||
                             curfield.findField( fd_plasma ) ||
                             curfield.findField( fd_laser ) ||
+                            curfield.findField(fd_dazzling) ||
                             curfield.findField( fd_electricity ) ||
                             curfield.findField( fd_incendiary ) ) {
                             // Kill them at the end of processing.
@@ -1443,6 +1450,10 @@ void map::step_in_field(int x, int y)
             {
                 g->u.add_env_effect("blind", bp_eyes, cur->getFieldDensity() * 2, 10);
             }
+            break;
+
+        case fd_dazzling:
+            g->u.add_env_effect("blind", bp_eyes, 10, 10);
             break;
 
         case fd_toxic_gas:
@@ -1732,6 +1743,13 @@ void map::mon_in_field(int x, int y, monster *z)
                 if (z->has_flag(MF_SEES)) {
                      z->add_effect("blind", cur->getFieldDensity() * 8);
                 }
+            }
+            break;
+
+        case fd_dazzling:
+            if (z->has_flag(MF_SEES)) {
+                z->add_effect("blind", cur->getFieldDensity() * 12);
+                z->add_effect("stunned", cur->getFieldDensity() * rng(5, 12));
             }
             break;
 

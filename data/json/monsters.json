@@ -5187,7 +5187,7 @@
     "luminance":1,
     "hp":30,
     "special_freq":1,
-    "death_function":"EXPLODE",
+    "death_function":"FOCUSEDBEAM",
     "special_attack":"SEARCHLIGHT",
     "description":"high tower with a powerful spotlight who is always looking for a target.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
