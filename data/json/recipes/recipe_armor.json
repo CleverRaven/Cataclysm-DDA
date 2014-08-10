@@ -3052,6 +3052,33 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "tricorne",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 65000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 20 ],
+      [ "needle_wood", 20 ],
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 8 ]
+    ],
+    [
+      [ "tallow", 1 ],
+      [ "cooking_oil", 1 ],
+      [ "lamp_oil", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "sundress",
   "category": "CC_ARMOR",
