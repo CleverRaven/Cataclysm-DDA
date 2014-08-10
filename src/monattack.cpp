@@ -1710,7 +1710,6 @@ void mattack::rifle_tur(monster *z)
 
 void mattack::searchlight(monster *z)
 {
-
     int max_lamp_count = 3;
     if (z->hp < z->type->hp) {
         max_lamp_count--;
@@ -1760,9 +1759,31 @@ void mattack::searchlight(monster *z)
         }
     }
 
+    //battery charge from the generator is enough for ~two minutes
+    if (calendar::turn % 20 == 0) {
+
+        bool generator_ok = false;
+
+        for (int x = zposx - 24; x < zposx + 24; x++)
+            for (int y = zposy - 24; y < zposy + 24; y++) if (g->m.ter_at(x, y).id == "t_plut_generator") {
+                    generator_ok = true;
+                }
+
+        if (!generator_ok) {
+            item &settings = z->inv[0];
+            settings.item_vars["SL_POWER"] = "OFF";
+
+            return;
+        }
+    }
+
     for (int i = 0; i < max_lamp_count; i++) {
 
         item &settings = z->inv[i];
+
+        if (settings.item_vars["SL_POWER"] == "OFF") {
+            return;
+        }
 
         const int rng_dir = rng(0, 7);
 

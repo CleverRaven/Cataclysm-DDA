@@ -4308,10 +4308,23 @@ ff.......|....|WWWWWWWW|\n\
 
         // Place searchlights
         if (one_in(3)) {
-            add_spawn("mon_turret_searchlight", 1, 1, 1);
-            add_spawn("mon_turret_searchlight", 1, SEEX * 2 - 2, 1);
-            add_spawn("mon_turret_searchlight", 1, 1, SEEY * 2 - 2);
-            add_spawn("mon_turret_searchlight", 1, SEEX * 2 - 2, SEEY * 2 - 2);
+
+            bool generator_ok = false;
+            for (int i = 0; i < 20; i++){
+                int rnx = rng(3, 20), rny = rng(3, 20);
+                 if (move_cost(rnx, rny) != 0) {
+                    generator_ok = true;
+                    ter_set(rnx, rny, t_plut_generator);
+                    break;
+                 }
+            }
+
+            if (generator_ok){
+                add_spawn("mon_turret_searchlight", 1, 1, 1);
+                add_spawn("mon_turret_searchlight", 1, SEEX * 2 - 2, 1);
+                add_spawn("mon_turret_searchlight", 1, 1, SEEY * 2 - 2);
+                add_spawn("mon_turret_searchlight", 1, SEEX * 2 - 2, SEEY * 2 - 2);
+            }
         }
 
         // Finally, scatter dead bodies / mil zombies
