@@ -63,7 +63,7 @@ std::string ammunition_type::default_ammotype() const
 
 void ammunition_type::check_consistency()
 {
-    for( const auto & ammo : _all_ammunition_type ) {
+    for( const auto &ammo : _all_ammunition_type ) {
         // TODO: these ammo types should probably not have default ammo at all.
         if( ammo.second._default_ammotype == "UPS" ||
             ammo.second._default_ammotype == "components" ||

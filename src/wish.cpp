@@ -21,20 +21,23 @@ class wish_mutate_callback: public uimenu_callback
         player *p;
         std::string padding;
 
-        nc_color mcolor(std::string m) {
+        nc_color mcolor(std::string m)
+        {
             if ( pTraits[ m ] == true ) {
                 return c_green;
             }
             return c_ltgray;
         }
 
-        wish_mutate_callback() : msg("") {
+        wish_mutate_callback() : msg("")
+        {
             lastlen = 0;
             started = false;
             vTraits.clear();
             pTraits.clear();
         }
-        virtual bool key(int key, int entnum, uimenu *menu) {
+        virtual bool key(int key, int entnum, uimenu *menu)
+        {
             if ( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if ( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
@@ -51,7 +54,8 @@ class wish_mutate_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu) {
+        virtual void select(int entnum, uimenu *menu)
+        {
             if ( ! started ) {
                 started = true;
                 padding = std::string(menu->pad_right - 1, ' ');
@@ -134,7 +138,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].category.size(); j++) {
-                    mvwprintw(menu->window, line2, startx + 11, "%s", mutation_data[vTraits[ entnum ]].category[j].c_str());
+                    mvwprintw(menu->window, line2, startx + 11, "%s",
+                              mutation_data[vTraits[ entnum ]].category[j].c_str());
                     line2++;
                 }
             }
@@ -259,7 +264,8 @@ class wish_monster_callback: public uimenu_callback
         bool started;          // if unset, intialize window
         std::string padding;   // ' ' x window width
 
-        wish_monster_callback() : msg(""), padding("") {
+        wish_monster_callback() : msg(""), padding("")
+        {
             started = false;
             friendly = false;
             group = 0;
@@ -267,7 +273,8 @@ class wish_monster_callback: public uimenu_callback
             w_info = NULL;
         }
 
-        void setup(uimenu *menu) {
+        void setup(uimenu *menu)
+        {
             w_info = newwin(menu->w_height - 2, menu->pad_right, 1,
                             menu->w_x + menu->w_width - 2 - menu->pad_right);
             padding = std::string( getmaxx(w_info), ' ' );
@@ -275,7 +282,8 @@ class wish_monster_callback: public uimenu_callback
             wrefresh(w_info);
         }
 
-        virtual bool key(int key, int entnum, uimenu *menu) {
+        virtual bool key(int key, int entnum, uimenu *menu)
+        {
             (void)entnum; // unused
             (void)menu;   // unused
             if ( key == 'f' ) {
@@ -292,7 +300,8 @@ class wish_monster_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu) {
+        virtual void select(int entnum, uimenu *menu)
+        {
             if ( ! started ) {
                 started = true;
                 setup(menu);
@@ -318,12 +327,14 @@ class wish_monster_callback: public uimenu_callback
                       _("[/] find, [f]riendly, [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
-        virtual void refresh(uimenu *menu) {
+        virtual void refresh(uimenu *menu)
+        {
             (void)menu; // unused
             wrefresh(w_info);
         }
 
-        ~wish_monster_callback() {
+        ~wish_monster_callback()
+        {
             werase(w_info);
             wrefresh(w_info);
             delwin(w_info);
@@ -384,9 +395,11 @@ class wish_item_callback: public uimenu_callback
     public:
         bool incontainer;
         std::string msg;
-        wish_item_callback() : incontainer(false), msg("") {
+        wish_item_callback() : incontainer(false), msg("")
+        {
         }
-        virtual bool key(int key, int /*entnum*/, uimenu* /*menu*/) {
+        virtual bool key(int key, int /*entnum*/, uimenu * /*menu*/)
+        {
             if ( key == 'f' ) {
                 incontainer = !incontainer;
                 return true;
@@ -394,7 +407,8 @@ class wish_item_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu) {
+        virtual void select(int entnum, uimenu *menu)
+        {
             const int starty = 3;
             const int startx = menu->w_width - menu->pad_right;
             const std::string padding(menu->pad_right, ' ');
@@ -450,8 +464,8 @@ void game::wishitem( player *p, int x, int y)
             item granted(standard_itype_ids[wmenu.ret], calendar::turn);
             if (p != NULL) {
                 amount = helper::to_int(
-                         string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
-                                            granted.tname()));
+                             string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
+                                                granted.tname()));
             }
             if (dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer) {
                 granted = granted.in_its_container();
@@ -534,7 +548,8 @@ void game::wishskill(player *p)
                 ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
         } else if ( skmenu.ret == 0 && sksel == -1 ) {
-            int ret = menu(true, _("Alter all skill values"), _("Add 3"), _("Add 1"), _("Subtract 1"), _("Subtract 3"), _("set to 0"),
+            int ret = menu(true, _("Alter all skill values"), _("Add 3"), _("Add 1"), _("Subtract 1"),
+                           _("Subtract 3"), _("set to 0"),
                            _("Set to 5"), _("Set to 10"), _("(Reset changes)"), NULL);
             if ( ret > 0 ) {
                 int skmod = 0;
