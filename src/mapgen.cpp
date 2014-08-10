@@ -4310,8 +4310,8 @@ ff.......|....|WWWWWWWW|\n\
         if (one_in(3)) {
             add_spawn("mon_turret_searchlight", 1, 1, 1);
             add_spawn("mon_turret_searchlight", 1, SEEX * 2 - 2, 1);
-            add_spawn("mon_turret_searchlight", 1, 1, 1, SEEY * 2 - 2);
-            add_spawn("mon_turret_searchlight", 1, 1, SEEX * 2 - 2, SEEY * 2 - 2);
+            add_spawn("mon_turret_searchlight", 1, 1, SEEY * 2 - 2);
+            add_spawn("mon_turret_searchlight", 1, SEEX * 2 - 2, SEEY * 2 - 2);
         }
 
         // Finally, scatter dead bodies / mil zombies
