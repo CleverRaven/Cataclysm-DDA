@@ -1710,6 +1710,9 @@ void mattack::rifle_tur(monster *z)
 
 void mattack::searchlight(monster *z)
 {
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+
     int max_lamp_count = 3;
     if (z->hp < z->type->hp) {
         max_lamp_count--;
