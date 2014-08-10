@@ -35,6 +35,8 @@
 #  make LUA=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1
+# Use dynamic linking (requires system libraries).
+#  make DYNAMIC_LINKING=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -47,7 +49,11 @@ RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
-DEBUG = -g
+ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+  DEBUG = -g
+else
+  DEBUG = -g -D_GLIBCXX_DEBUG
+endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
@@ -100,16 +106,28 @@ RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
-  OTHERS += -O3 $(RELEASE_FLAGS)
+  ifeq ($(NATIVE), osx)
+    CXXFLAGS += -O3
+  else
+    CXXFLAGS += -Os
+    LDFLAGS += -s
+  endif
+  # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
+  # Strip symbols, generates smaller executable.
+  OTHERS += $(RELEASE_FLAGS)
   DEBUG =
 endif
 
 ifdef CLANG
+  ifeq ($(NATIVE), osx)
+    OTHERS += -stdlib=libc++
+  endif
   CXX = $(CROSS)clang++
   LD  = $(CROSS)clang++
-  OTHERS = --std=c++98
-  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
+  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
+
+OTHERS += --std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
@@ -146,9 +164,12 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
+    ifeq ($(MACPORTS), 1)
+      LDFLAGS += -L$(shell ncursesw5-config --libdir)
+    endif
   endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), Linux)
@@ -156,9 +177,17 @@ ifeq ($(NATIVE), osx)
   endif
 endif
 
-# Win32 (mingw32?)
+# Win32 (MinGW32 or MinGW-w64(32bit)?)
 ifeq ($(NATIVE), win32)
+# Any reason not to use -m32 on MinGW32?
   TARGETSYSTEM=WINDOWS
+else
+  # Win64 (MinGW-w64? 64bit isn't currently working.)
+  ifeq ($(NATIVE), win64)
+    CXXFLAGS += -m64
+    LDFLAGS += -m64
+    TARGETSYSTEM=WINDOWS
+  endif
 endif
 
 # MXE cross-compile to win32
@@ -174,12 +203,20 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static
+  ifdef DYNAMIC_LINKING
+    # Windows isn't sold with programming support, these are static to remove MinGW dependency.
+    LDFLAGS += -static-libgcc -static-libstdc++
+  else
+    LDFLAGS += -static
+  endif
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl -liconv
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
+  ifeq ($(NATIVE), win64)
+    RFLAGS += -F pe-x86-64
+  endif
 endif
 
 ifdef SOUND
@@ -211,12 +248,13 @@ ifdef LUA
   BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
+ifdef SDL
+  TILES = 1
+endif
+
 ifdef TILES
   SDL = 1
   BINDIST_EXTRAS += gfx
-endif
-
-ifdef SDL
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       DEFINES += -DOSX_SDL_FW
@@ -239,7 +277,7 @@ ifdef SDL
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       ifdef TILES
-	LDFLAGS += -lSDL2_image
+        LDFLAGS += -lSDL2_image
       endif
     endif
   else # not osx
@@ -253,7 +291,14 @@ ifdef SDL
   endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    ifndef DYNAMIC_LINKING
+      # These differ depending on what SDL2 is configured to use.
+      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    else
+      # Currently none needed by the game itself (only used by SDL2 layer).
+      # Placeholder for future use (savegame compression, etc).
+      LDFLAGS +=
+    endif
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
@@ -270,7 +315,8 @@ else
         ifeq ($(NATIVE), osx)
             LDFLAGS += -lncurses
         else
-            LDFLAGS += -lncursesw
+            LDFLAGS += $(shell ncursesw5-config --libs)
+            CXXFLAGS += $(shell ncursesw5-config --cflags)
         endif
       endif
       # Work around Cygwin not including gettext support in glibc
@@ -323,7 +369,7 @@ all: version $(TARGET) $(L10N)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) \
           $(OBJS) $(LDFLAGS)
 
 .PHONY: version json-verify
@@ -362,7 +408,7 @@ localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
 $(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)

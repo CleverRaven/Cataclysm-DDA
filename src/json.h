@@ -3,9 +3,12 @@
 
 #include <iosfwd>
 #include <map>
+#include <unordered_map>
 #include <set>
+#include <unordered_set>
 #include <string>
 #include <vector>
+#include <bitset>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -167,6 +170,7 @@ public:
     bool test_int() { return test_number(); };
     bool test_float() { return test_number(); };
     bool test_string();
+    bool test_bitset();
     bool test_array();
     bool test_object();
 
@@ -180,6 +184,7 @@ public:
     bool read(float &f);
     bool read(double &d);
     bool read(std::string &s);
+    bool read(std::bitset<13> &b);
     bool read(JsonDeserializer &j);
     // array ~> vector
     template <typename T> bool read(std::vector<T> &v) {
@@ -209,8 +214,37 @@ public:
             return true;
         } catch (std::string e) { return false; }
     }
+    // array ~> unordered_set
+    template <typename T> bool read(std::unordered_set<T> &v) {
+        if (!test_array()) { return false; }
+        try {
+            start_array();
+            v.clear();
+            while (!end_array()) {
+                T element;
+                if (read(element)) { v.insert(element); }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
     // object ~> map
     template <typename T> bool read(std::map<std::string,T> &m) {
+        if (!test_object()) { return false; }
+        try {
+            start_object();
+            m.clear();
+            while (!end_object()) {
+                std::string name = get_member_name();
+                T element;
+                if (read(element)) { m[name] = element; }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
+    // object ~> unordered_map
+    template <typename T> bool read(std::unordered_map<std::string,T> &m) {
         if (!test_object()) { return false; }
         try {
             start_object();
@@ -290,13 +324,15 @@ public:
     void write(const unsigned long &ul);
     void write(const double &f);
     void write(const std::string &s);
+    void write(const std::bitset<13> &b);
     void write(const char *cstr) { write(std::string(cstr)); }
     void write(const JsonSerializer &thing);
     // vector ~> array
     template <typename T> void write(const std::vector<T> &v) {
         start_array();
-        for (size_t i = 0; i < v.size(); ++i) {
-            write(v[i]);
+        for (typename std::vector<T>::const_iterator it = v.begin();
+             it != v.end(); ++it) {
+            write(*it);
         }
         end_array();
     }
@@ -309,10 +345,30 @@ public:
         }
         end_array();
     }
+    // unordered_set ~> array
+    template <typename T> void write(const std::unordered_set<T> &v) {
+        start_array();
+        typename std::unordered_set<T>::const_iterator it;
+        for (it = v.begin(); it != v.end(); ++it) {
+            write(*it);
+        }
+        end_array();
+    }
     // map ~> object
     template <typename T> void write(const std::map<std::string,T> &m) {
         start_object();
         typename std::map<std::string,T>::const_iterator it;
+        for (it = m.begin(); it != m.end(); ++it) {
+            write(it->first);
+            write_member_separator();
+            write(it->second);
+        }
+        end_object();
+    }
+    // unordered_map ~> object
+    template <typename T> void write(const std::unordered_map<std::string,T> &m) {
+        start_object();
+        typename std::unordered_map<std::string,T>::const_iterator it;
         for (it = m.begin(); it != m.end(); ++it) {
             write(it->first);
             write_member_separator();
@@ -590,6 +646,7 @@ public:
     bool test_int() { return test_number(); };
     bool test_float() { return test_number(); };
     bool test_string();
+    bool test_bitset();
     bool test_array();
     bool test_object();
 

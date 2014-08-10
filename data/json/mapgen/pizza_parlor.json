@@ -185,7 +185,14 @@
 				" ": "t_sidewalk",
 				"@": "t_console_broken",
 				"w": "t_linoleum_white",
-				"l": "t_linoleum_gray"
+				"l": "t_linoleum_gray",
+				"t": "t_linoleum_gray",
+				"s": "t_linoleum_gray",
+				"F": "t_linoleum_white",
+				"#": "t_linoleum_white",
+				"O": "t_linoleum_white",
+				"{": "t_linoleum_white",
+				"L": "t_linoleum_white"
 			},
 			"furniture": {
 				"t": "f_toilet",
@@ -204,6 +211,16 @@
 			},
 			"place_specials": [
 				{ "type": "toilet", "x": 1, "y": 22 }
+			],
+			"//": "Default terrain is floor but some things are outside (tables)",
+			"set": [
+				{ "line": "terrain", "x": 20, "y": 15, "x2": 20, "y2": 17, "id": "t_concrete" },
+				{ "point": "terrain", "id": "t_concrete", "x": 21, "y": 16},
+				{ "point": "terrain", "id": "t_concrete", "x": 19, "y": 16},
+
+				{ "line": "terrain", "x": 20, "y": 19, "x2": 20, "y2": 21, "id": "t_concrete" },
+				{ "point": "terrain", "id": "t_concrete", "x": 21, "y": 20},
+				{ "point": "terrain", "id": "t_concrete", "x": 19, "y": 20}
 			],
 			"place_groups": [
 				{ "item": "pizza_display", "x": 6,      "y":[5,8],  "chance": 45, "repeat": [3,4] },

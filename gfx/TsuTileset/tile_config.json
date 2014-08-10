@@ -11579,13 +11579,6 @@
          "multitile" : false
       },
       {
-         "id" : "bio_null",
-         "fg" : 1183,
-         "bg" : 193,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
          "id" : "bio_power_storage",
          "fg" : 1183,
          "bg" : 193,

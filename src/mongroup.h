@@ -10,8 +10,6 @@ struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
-void init_translation();
-
 struct MonsterGroupEntry
 {
     std::string name;
@@ -64,7 +62,7 @@ struct MonsterGroup {
 struct mongroup {
     std::string type;
     int posx, posy, posz;
-    unsigned char radius;
+    unsigned int radius;
     unsigned int population;
     int tx, ty; //horde target
     int interest; //interest to target in percents
@@ -72,7 +70,7 @@ struct mongroup {
     bool horde;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
     mongroup( std::string ptype, int pposx, int pposy, int pposz,
-              unsigned char prad, unsigned int ppop ) {
+              unsigned int prad, unsigned int ppop ) {
         type = ptype;
         posx = pposx;
         posy = pposy;

@@ -253,6 +253,7 @@ class wish_monster_callback: public uimenu_callback
         int lastent;           // last menu entry
         std::string msg;       // feedback mesage
         bool friendly;         // spawn friendly critter?
+        int group;             // Number of monsters to spawn.
         WINDOW *w_info;        // ui_parent menu's padding area
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, intialize window
@@ -261,6 +262,7 @@ class wish_monster_callback: public uimenu_callback
         wish_monster_callback() : msg(""), padding("") {
             started = false;
             friendly = false;
+            group = 0;
             lastent = -2;
             w_info = NULL;
         }
@@ -280,6 +282,12 @@ class wish_monster_callback: public uimenu_callback
                 friendly = !friendly;
                 lastent = -2; // force tmp monster regen
                 return true;  // tell menu we handled keypress
+            } else if( key == 'i' ) {
+                group++;
+                return true;
+            } else if( key == 'd' ) {
+                group = std::max( 1, group - 1 );
+                return true;
             }
             return false;
         }
@@ -298,15 +306,16 @@ class wish_monster_callback: public uimenu_callback
             }
 
             werase(w_info);
-            tmp.print_info(w_info);
+            tmp.print_info( w_info, 6, 5, 1 );
 
-            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->name.c_str());
+            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->nname().c_str());
             mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
 
             mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
             msg = padding;
-            mvwprintw(w_info, getmaxy(w_info) - 2, 0, _("[/] find, [f] friendly, [q]uit"));
+            mvwprintw(w_info, getmaxy(w_info) - 2, 0,
+                      _("[/] find, [f]riendly, [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
         virtual void refresh(uimenu *menu) {
@@ -338,8 +347,8 @@ void game::wishmonster(int x, int y)
     int i = 0;
     for (std::map<std::string, mtype *>::const_iterator mon = montypes.begin();
          mon != montypes.end(); ++mon) {
-        wmenu.addentry( i, true, 0, "%s", mon->second->name.c_str() );
-        wmenu.entries[i].extratxt.txt = string_format("%c", mon->second->sym);
+        wmenu.addentry( i, true, 0, "%s", mon->second->nname().c_str() );
+        wmenu.entries[i].extratxt.txt = mon->second->sym;
         wmenu.entries[i].extratxt.color = mon->second->color;
         wmenu.entries[i].extratxt.left = 1;
         ++i;
@@ -354,8 +363,11 @@ void game::wishmonster(int x, int y)
             }
             point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
             if (spawn.x != -1) {
-                mon.spawn(spawn.x, spawn.y);
-                add_zombie(mon);
+                std::vector<point> spawn_points = closest_points_first( cb->group, spawn );
+                for( auto spawn_point : spawn_points ) {
+                    mon.spawn(spawn_point.x, spawn_point.y);
+                    add_zombie(mon);
+                }
                 cb->msg = _("Monster spawned, choose another or 'q' to quit.");
                 uistate.wishmonster_selected = wmenu.ret;
                 wmenu.redraw();
@@ -394,7 +406,7 @@ class wish_item_callback: public uimenu_callback
             if ( ity == NULL ) {
                 return;
             }
-            item tmp(ity, g->turn);
+            item tmp(ity->id, calendar::turn);
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
@@ -435,14 +447,14 @@ void game::wishitem( player *p, int x, int y)
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            item granted = item_controller->create(standard_itype_ids[wmenu.ret], turn);
+            item granted(standard_itype_ids[wmenu.ret], calendar::turn);
             if (p != NULL) {
                 amount = helper::to_int(
                          string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
                                             granted.tname()));
             }
             if (dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer) {
-                granted = granted.in_its_container(&itypes);
+                granted = granted.in_its_container();
             }
             if ( p != NULL ) {
                 for (int i = 0; i < amount; i++) {
@@ -479,7 +491,7 @@ void game::wishskill(player *p)
          aSkill != Skill::skills.end(); ++aSkill) {
         int skill_id = (*aSkill)->id();
         skmenu.addentry( skill_id + skoffset, true, -2, _("@ %d: %s  "),
-                         (int)p->skillLevel(*aSkill), _((*aSkill)->name().c_str()) );
+                         (int)p->skillLevel(*aSkill), (*aSkill)->name().c_str() );
         origskills[skill_id] = (int)p->skillLevel(*aSkill);
     }
     do {

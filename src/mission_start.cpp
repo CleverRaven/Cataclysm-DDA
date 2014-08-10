@@ -4,6 +4,7 @@
 #include <sstream>
 #include "omdata.h"
 #include "overmapbuffer.h"
+#include "messages.h"
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -19,6 +20,28 @@ point target_om_ter(const std::string &omter, int reveal_rad, mission *miss, boo
     int dist = 0;
     const point place = overmap_buffer.find_closest(
         g->om_global_location(), omter, dist, must_see);
+    if(place != overmap::invalid_point && reveal_rad >= 0) {
+        overmap_buffer.reveal(place, reveal_rad, g->levz);
+    }
+    miss->target = place;
+    return place;
+}
+
+point target_om_ter_random(const std::string &omter, int reveal_rad, mission *miss, bool must_see)
+{
+    int dist = 0;
+    std::vector<point> places = overmap_buffer.find_all(
+        g->om_global_location(), omter, dist, must_see);
+    if (places.size() == 0){
+        debugmsg("Couldn't find %s", omter.c_str());
+        return point();
+    }
+    std::vector<point> places_om;
+    for (int i = 0; i < places.size(); i++) {
+        if (g->cur_om == overmap_buffer.get_existing_om_global(places[i]))
+            places_om.push_back(places[i]);
+    }
+    const point place = places_om[rng(0,places_om.size()-1)];
     if(place != overmap::invalid_point && reveal_rad >= 0) {
         overmap_buffer.reveal(place, reveal_rad, g->levz);
     }
@@ -60,18 +83,16 @@ void mission_start::place_dog(mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(itypes["dog_whistle"], 0) );
- g->add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
+ g->u.i_add( item("dog_whistle", 0) );
+ add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
 
  miss->target = house;
  overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap doghouse;
- // Get overmap, crop house coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(house.x, house.y);
- doghouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
+ doghouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
  doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
- doghouse.save(&om, int(g->turn), house.x * 2, house.y * 2, g->levz);
+ doghouse.save();
 }
 
 void mission_start::place_zombie_mom(mission *miss)
@@ -86,22 +107,133 @@ void mission_start::place_zombie_mom(mission *miss)
  overmap_buffer.reveal(house, 6, g->levz);
 
  tinymap zomhouse;
- // Get overmap, crop house coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(house.x, house.y);
- zomhouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
+ zomhouse.load_abs(house.x * 2, house.y * 2, g->levz, false);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
- zomhouse.save(&om, int(g->turn), house.x * 2, house.y * 2, g->levz);
+ zomhouse.save();
+}
+
+void mission_start::place_zombie_bay(mission *miss)
+{
+ point site = target_om_ter_random("evac_center_9", 1, miss, false);
+ tinymap bay;
+ bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay.add_spawn("mon_zombie_electric", 1, SEEX, SEEY, false, -1, miss->uid, "Sean McLaughlin");
+ bay.save();
+}
+
+void mission_start::place_caravan_ambush(mission *miss)
+{
+ point site = target_om_ter_random("field", 1, miss, false);
+ tinymap bay;
+ bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay.add_vehicle("cube_van", SEEX, SEEY, 0);
+ bay.add_vehicle("quad_bike", SEEX+6, SEEY-5, 270, 500, -1, true);
+ bay.add_vehicle("motorcycle", SEEX-2, SEEY-9, 315, 500, -1, true);
+ bay.add_vehicle("motorcycle", SEEX-5, SEEY-5, 90, 500, -1, true);
+ bay.draw_square_ter(t_grass, SEEX-6, SEEY-9, SEEX+6, SEEY+3);
+ bay.draw_square_ter(t_dirt, SEEX-4, SEEY-7, SEEX+3, SEEY+1);
+ bay.ter_set(SEEX, SEEY-4, t_ash);
+ bay.spawn_item(SEEX-1, SEEY-3, "rock");
+ bay.spawn_item(SEEX, SEEY-3, "rock");
+ bay.spawn_item(SEEX+1, SEEY-3, "rock");
+ bay.spawn_item(SEEX-1, SEEY-4, "rock");
+ bay.spawn_item(SEEX+1, SEEY-4, "rock");
+ bay.spawn_item(SEEX-1, SEEY-5, "rock");
+ bay.spawn_item(SEEX, SEEY-5, "rock");
+ bay.spawn_item(SEEX+1, SEEY-5, "rock");
+ bay.trap_set(SEEX+3, SEEY-5, tr_rollmat);
+ bay.trap_set(SEEX, SEEY-7, tr_rollmat);
+ bay.trap_set(SEEX-3, SEEY-4, tr_fur_rollmat);
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "can_beans");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "beer");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "beer");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "bottle_glass");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "bottle_glass");
+ bay.spawn_item(SEEX+rng(-6,6), SEEY+rng(-9,3), "heroin");
+ bay.place_items("dresser", 75, SEEX-3, SEEY, SEEX-2, SEEY+2, true, 0 );
+ bay.place_items("softdrugs", 50, SEEX-3, SEEY, SEEX-2, SEEY+2, true, 0 );
+ bay.place_items("camping", 75, SEEX-3, SEEY, SEEX-2, SEEY+2, true, 0 );
+ bay.spawn_item(SEEX+1, SEEY+4, "9mm_casing",1,1,0,0,true);
+ bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
+ bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
+ bay.spawn_item(SEEX+rng(-2,3), SEEY+rng(3,6), "9mm_casing",1,1,0,0,true);
+ bay.add_corpse(SEEX+1, SEEY+7);
+ bay.add_corpse(SEEX, SEEY+8);
+ bay.add_field(SEEX, SEEY+7,fd_blood,1);
+ bay.add_field(SEEX+2, SEEY+7,fd_blood,1);
+ bay.add_field(SEEX-1, SEEY+8,fd_blood,1);
+ bay.add_field(SEEX+1, SEEY+8,fd_blood,1);
+ bay.add_field(SEEX+2, SEEY+8,fd_blood,1);
+ bay.add_field(SEEX+1, SEEY+9,fd_blood,1);
+ bay.add_field(SEEX, SEEY+9,fd_blood,1);
+ bay.place_npc(SEEX+3,SEEY-5, "bandit");
+ bay.place_npc(SEEX, SEEY-7, "thug");
+ miss->target_npc_id = bay.place_npc(SEEX-3, SEEY-4, "bandit");
+ bay.save();
+}
+
+void mission_start::place_bandit_cabin(mission *miss)
+{
+ point site = target_om_ter_random("bandit_cabin", 1, miss, false);
+ tinymap cabin;
+ cabin.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ cabin.trap_set(SEEX-5, SEEY-6, tr_landmine_buried);
+ cabin.trap_set(SEEX-7, SEEY-7, tr_landmine_buried);
+ cabin.trap_set(SEEX-4, SEEY-7, tr_landmine_buried);
+ cabin.trap_set(SEEX-12, SEEY-1, tr_landmine_buried);
+ miss->target_npc_id = cabin.place_npc(SEEX, SEEY, "bandit");
+ cabin.save();
+}
+
+void mission_start::place_informant(mission *miss)
+{
+ point site = target_om_ter_random("evac_center_19", 1, miss, false);
+ tinymap bay;
+ bay.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ miss->target_npc_id = bay.place_npc(SEEX, SEEY, "evac_guard3");
+ bay.save();
+
+ site = target_om_ter_random("evac_center_7", 1, miss, false);
+ tinymap bay2;
+ bay2.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ bay2.place_npc(SEEX+rng(-3,3), SEEY+rng(-3,3), "scavenger_hunter");
+ bay2.save();
+ site = target_om_ter_random("evac_center_17", 1, miss, false);
+}
+
+void mission_start::place_grabber(mission *miss)
+{
+ point site = target_om_ter_random("field", 5, miss, false);
+ tinymap there;
+ there.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ there.add_spawn("mon_graboid", 1, SEEX+rng(-3,3), SEEY+rng(-3,3));
+ there.add_spawn("mon_graboid", 1, SEEX, SEEY, false, -1, miss->uid, "Little Guy");
+ there.save();
+}
+
+void mission_start::place_bandit_camp(mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ g->u.i_add( item("ruger_redhawk", 0, false) );
+ g->u.i_add( item("44magnum", 0, false) );
+ g->u.i_add( item("holster", 0, false) );
+ g->u.i_add( item("badge_marshal", 0, false) );
+ add_msg(m_good, _("%s has instated you as a marshal!"), p->name.c_str());
+
+ point site = target_om_ter_random("bandit_camp_1", 1, miss, false);
+ tinymap bay1;
+ bay1.load_abs(site.x * 2, site.y * 2, g->levz, false);
+ miss->target_npc_id = bay1.place_npc(SEEX+5, SEEY-3, "bandit");
+ bay1.save();
 }
 
 void mission_start::place_jabberwock(mission *miss)
 {
     point site = target_om_ter("forest_thick", 6, miss, false);
  tinymap grove;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- grove.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ grove.load_abs(site.x * 2, site.y * 2, g->levz, false);
  grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
- grove.save(&om, int(g->turn), site.x * 2, site.y * 2, g->levz);
+ grove.save();
 }
 
 void mission_start::kill_100_z(mission *miss)
@@ -129,9 +261,7 @@ void mission_start::kill_horde_master(mission *miss)
  miss->target = site;
  overmap_buffer.reveal(site, 6, g->levz);
  tinymap tile;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- tile.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ tile.load_abs(site.x * 2, site.y * 2, g->levz, false);
  tile.add_spawn("mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
  tile.add_spawn("mon_zombie_brute",3,SEEX,SEEY);
  tile.add_spawn("mon_zombie_dog",3,SEEX,SEEY);
@@ -144,7 +274,7 @@ void mission_start::kill_horde_master(mission *miss)
 }
  tile.add_spawn("mon_zombie_necro",2,SEEX,SEEY);
  tile.add_spawn("mon_zombie_hulk",1,SEEX,SEEY);
- tile.save(&om, int(g->turn), site.x * 2, site.y * 2, g->levz);
+ tile.save();
 }
 
 void mission_start::place_npc_software(mission *miss)
@@ -154,8 +284,8 @@ void mission_start::place_npc_software(mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(itypes["usb_drive"], 0) );
- g->add_msg(_("%s gave you a USB drive."), dev->name.c_str());
+ g->u.i_add( item("usb_drive", 0) );
+ add_msg(_("%s gave you a USB drive."), dev->name.c_str());
 
  std::string type = "house";
 
@@ -190,9 +320,7 @@ void mission_start::place_npc_software(mission *miss)
     overmap_buffer.reveal(place, 6, g->levz);
 
  tinymap compmap;
- // Get overmap, crop place coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(place.x, place.y);
- compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
+ compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
     oter_id oter = g->cur_om->ter(place.x, place.y, 0);
@@ -265,8 +393,7 @@ void mission_start::place_npc_software(mission *miss)
  computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y, string_format(_("%s's Terminal"), dev->name.c_str()), 0);
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option(_("Download Software"), COMPACT_DOWNLOAD_SOFTWARE, 0);
-
- compmap.save(&om, int(g->turn), place.x * 2, place.y * 2, g->levz);
+ compmap.save();
 }
 
 void mission_start::place_priest_diary(mission *miss)
@@ -280,9 +407,7 @@ void mission_start::place_priest_diary(mission *miss)
  miss->target = place;
  overmap_buffer.reveal(place, 2, g->levz);
  tinymap compmap;
- // Get overmap, crop place coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(place.x, place.y);
- compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
+ compmap.load_abs(place.x * 2, place.y * 2, g->levz, false);
  point comppoint;
 
   std::vector<point> valid;
@@ -298,7 +423,7 @@ void mission_start::place_priest_diary(mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
  compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary");
- compmap.save(&om, int(g->turn), place.x * 2, place.y * 2, g->levz);
+ compmap.save();
 }
 
 void mission_start::place_deposit_box(mission *miss)
@@ -314,9 +439,7 @@ void mission_start::place_deposit_box(mission *miss)
     overmap_buffer.reveal(site, 2, g->levz);
 
  tinymap compmap;
- // Get overmap, crop site coords to be valid inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
- compmap.load(site.x * 2, site.y * 2, g->levz, false, &om);
+ compmap.load_abs(site.x * 2, site.y * 2, g->levz, false);
  point comppoint;
   std::vector<point> valid;
   for (int x = 0; x < SEEX * 2; x++) {
@@ -339,27 +462,27 @@ void mission_start::place_deposit_box(mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
 compmap.spawn_item(comppoint.x, comppoint.y, "safe_box");
-compmap.save(&om, int(g->turn), site.x * 2, site.y * 2, g->levz);
+compmap.save();
 }
 
 void mission_start::reveal_lab_black_box(mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
-  g->u.i_add( item(itypes["black_box"], 0) );
-  g->add_msg(_("%s gave you back the black box."), dev->name.c_str());
+  g->u.i_add( item("black_box", 0) );
+  add_msg(_("%s gave you back the black box."), dev->name.c_str());
  }
     target_om_ter("lab", 3, miss, false);
 }
 
 void mission_start::open_sarcophagus(mission *miss)
 {
- npc *p = g->find_npc(miss->npc_id);
- p->attitude = NPCATT_FOLLOW;
- if (p != NULL) {
-  g->u.i_add( item(itypes["sarcophagus_access_code"], 0) );
-  g->add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
- }
+    npc *p = g->find_npc(miss->npc_id);
+    p->attitude = NPCATT_FOLLOW;
+    if (p != NULL) {
+        g->u.i_add( item("sarcophagus_access_code", 0) );
+        add_msg(m_good, _("%s gave you sarcophagus access code."), p->name.c_str());
+    }
     target_om_ter("haz_sar", 3, miss, false);
 }
 
@@ -367,8 +490,8 @@ void mission_start::reveal_hospital(mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
-  g->u.i_add( item(itypes["vacutainer"], 0) );
-  g->add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
+  g->u.i_add( item("vacutainer", 0) );
+  add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
  }
     target_om_ter("hospital", 3, miss, false);
 }
@@ -420,14 +543,12 @@ void mission_start::recruit_tracker(mission *miss)
 
  point site = target_om_ter("cabin", 2, miss, false);
  miss->recruit_class = NC_COWBOY;
- // get  the overmap of the new npc, crop site to valid values inside that overmap
- overmap &om = overmap_buffer.get_om_global(site.x, site.y);
 
  npc * temp = new npc();
  temp->normalize();
  temp->randomize(NC_COWBOY);
  // NPCs spawn with submap coordinates, site is in overmap terrain coords
- temp->spawn_at(&om, site.x * 2, site.y * 2, g->levz);
+ temp->spawn_at( site.x * 2, site.y * 2, g->levz );
  temp->posx = 11;
  temp->posy = 11;
  temp->attitude = NPCATT_TALK;

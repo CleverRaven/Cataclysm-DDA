@@ -4,14 +4,30 @@ Info on translating Cataclysm-DDA into another language.
 TRANSLATORS
 ===========
 
-The current official location for translating Cataclysm-DDA is at
-[Launchpad Translations](https://translations.launchpad.net/cdda).
+The current official locations for translating Cataclysm-DDA is at
+[Launchpad Translations](https://translations.launchpad.net/cdda) and [Transifex Translations](https://www.transifex.com/projects/p/cataclysm-dda).
 
-For the moment, there are separate locations for translating
-[Chinese](https://translations.launchpad.net/cataclysm)
-and [Russian](https://translations.launchpad.net/cataclysm-dda).
-We will be merging these once translations have stabalized.
+You can join to your language translation project:
 
+On [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/):
+* Russian
+
+On [Launchpad](https://translations.launchpad.net/cdda):
+* Brazilian
+* Portuguese
+* Chinese (Simplified)
+* Chinese (Traditional)
+* Czech
+* French
+* German
+* Italian
+* Japanese
+* Korean
+* Polish
+* Serbian
+* Vietnamese
+
+If your language is not translated you can add it into any translation project on launchpad.net or transifex.com(prefered).
 Using Launchpad Translations anyone can help translate.
 All you need to do is set up a Launchpad account,
 and tell it your preferred language.
@@ -36,7 +52,7 @@ General notes for all translators are in
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `lang/notes/de.txt` for German.
 
-Cataclysm-DDA has more than 10,000 translatable strings,
+Cataclysm-DDA has more than 14,000 translatable strings,
 but don't be discouraged.
 The more translators there are,
 the easier it becomes :).
@@ -51,7 +67,7 @@ to correctly merge and maintain the translation files.
 There are scripts available for these,
 so usually the process will be as follows:
 
-1. Download the translations in .po format from Launchpad.
+1. Download the translations in .po format.
 2. Put them in `lang/incoming/`,
    ensuring they are named consistently with the files in `lang/po/`.
 3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-dda.pot`.
@@ -83,5 +99,3 @@ and you want to test the Russian (ru) translation,
 the steps would be `lang/compile_mo.sh ru`,
 `mv lang/mo/ru lang/mo/en_NZ`,
 `./cataclysm`.
-
-

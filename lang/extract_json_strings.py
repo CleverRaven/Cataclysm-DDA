@@ -13,15 +13,19 @@ import os
 # there may be some non-json files in data/raw
 not_json = {
     "sokoban.txt",
+    "main.lua"
 }
 
 # these objects have no translatable strings
 ignorable = {
     "colordef",
+    "ITEM_BLACKLIST",
     "item_group",
     "mapgen",
     "monstergroup",
     "monitems",
+    "npc", # FIXME right now this object is unextractable
+    "overmap_special",
     "recipe_category",
     "recipe_subcategory",
     "recipe",
@@ -50,10 +54,12 @@ automatically_convertible = {
     "construction",
     "CONTAINER",
     "dream",
+    "faction",
     "furniture",
     "GENERIC",
     "GUNMOD",
     "GUN",
+    "STATIONARY_ITEM",
     "hint",
     "ITEM_CATEGORY",
     "keybinding",
@@ -65,6 +71,7 @@ automatically_convertible = {
     "skill",
     "snippet",
     "speech",
+    "start_location",
     "terrain",
     "tool_quality",
     "TOOL",
@@ -87,9 +94,11 @@ needs_plural = {
     "GENERIC",
     "GUNMOD",
     "GUN",
+    "STATIONARY_ITEM",
     "TOOL",
     "TOOL_ARMOR",
-    "VAR_VEH_PART"
+    "VAR_VEH_PART",
+    "MONSTER"
 }
 
 # these objects can be automatically converted, but use format strings
@@ -137,19 +146,21 @@ def extract_professions(item):
     outfile = get_outfile("professions")
     nm = item["name"]
     if type(nm) == dict:
-        writestr(outfile, nm["male"], comment="Male profession name")
-        writestr(outfile, nm["female"], comment="Female profession name")
-        writestr(outfile, item["description"],
-         comment="Profession ({0}/{1}) description".format(nm["male"], nm["female"]))
+        writestr(outfile, nm["male"], context="profession_male")
+        writestr(outfile, item["description"], context="prof_desc_male",
+                 comment="Profession ({}) description".format(nm["male"]))
+
+        writestr(outfile, nm["female"], context="profession_female")
+        writestr(outfile, item["description"], context="prof_desc_female",
+                 comment="Profession ({0}) description".format(nm["female"]))
     else:
-        # Add default constructed gender specific names, see profession.cpp
-        # They are optional. If missing, the (trnalsted) gender prefix is used
-        # to construct the name.
-        writestr(outfile, "male {0}".format(nm), comment="Male profession name (optional)")
-        writestr(outfile, "female {0}".format(nm), comment="Female profession name (optional)")
-        writestr(outfile, nm, comment="Profession name")
-        writestr(outfile, item["description"],
-         comment="Profession ({0}) description".format(nm))
+        writestr(outfile, nm, context="profession_male")
+        writestr(outfile, item["description"], context="prof_desc_male",
+                 comment="Profession (male {}) description".format(nm))
+
+        writestr(outfile, nm, context="profession_female")
+        writestr(outfile, item["description"], context="prof_desc_female",
+                 comment="Profession (female {}) description".format(nm))
 
 # these objects need to have their strings specially extracted
 extract_specials = {
@@ -203,6 +214,11 @@ def gettextify(string, context=None, plural=None):
             return "_(%r)\n" % string
 
 def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None):
+    if type(string) is list and plural is None:
+        for entry in string:
+            writestr(filename, entry, None, context, format_strings, comment)
+        return
+
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
@@ -231,7 +247,8 @@ use_action_msgs = {
     "need_fire_msg",
     "need_charges_msg",
     "non_interactive_msg",
-    "unfold_msg"
+    "unfold_msg",
+    "activation_message"
 }
 
 def extract_use_action_msgs(outfile, use_action, kwargs):
@@ -322,6 +339,7 @@ def extract_all_from_dir(json_dir):
         extract_all_from_dir(os.path.join(json_dir, d))
 
 def extract_all_from_file(json_file):
+    print("Loading %s" % json_file)
     "Extract translatable strings from every object in the specified file."
     jsondata = json.loads(open(json_file).read())
     # it's either an array of objects, or a single object
@@ -331,22 +349,25 @@ def extract_all_from_file(json_file):
         for jsonobject in jsondata:
             extract(jsonobject, json_file)
 
-def add_fake_items():
-    """Add names of fake items. This is done by hand and must be updated
-    manually each time something is added to itypedef.cpp."""
-    outfile = os.path.join(to_dir, "fakeitems.py")
+def add_fake_types():
+    """Add names of fake items and monsters. This is done by hand and must be updated
+    manually each time something is added to itypedef.cpp or mtypedef.cpp."""
+    outfile = os.path.join(to_dir, "faketypes.py")
 
+    # fake item types
     writestr(outfile, "corpse", "corpses")
     writestr(outfile, "nearby fire")
     writestr(outfile, "cvd machine")
     writestr(outfile, "integrated toolset")
     writestr(outfile, "a smoking device and a source of flame")
-    writestr(outfile, "flyer", "flyers")
     writestr(outfile, "note", "notes")
     writestr(outfile, "misc software")
     writestr(outfile, "MediSoft")
     writestr(outfile, "infection data")
     writestr(outfile, "hackPRO")
+
+    # fake monster types
+    writestr(outfile, "human", "humans")
 
 
 ##
@@ -356,6 +377,6 @@ def add_fake_items():
 extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
 extract_all_from_dir(mods_dir)
-add_fake_items()
+add_fake_types()
 
 # done.

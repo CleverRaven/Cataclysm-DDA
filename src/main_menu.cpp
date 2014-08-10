@@ -8,7 +8,6 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "help.h"
-#include "options.h"
 #include "worldfactory.h"
 #include "file_wrapper.h"
 #include "path_info.h"
@@ -24,7 +23,7 @@
 #include <dirent.h>
 #endif
 
-#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
 
 void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
@@ -94,14 +93,15 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
     vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
 
     int menu_length = 0;
-    for (int pos = 0; pos < vMenuItems.size(); pos++) {
+    for( auto menu_item : vMenuItems ) {
         // adds (width + 2) if there are no shortcut symbols "<" & ">", and just width otherwise
-        menu_length += utf8_width(vMenuItems[pos].c_str()) +
-                       (vMenuItems[pos].find_first_of("<") == std::string::npos ? 2 : 0);
+        menu_length += utf8_width(menu_item.c_str()) +
+            (menu_item.find_first_of("<") == std::string::npos ? 2 : 0);
     }
-    int spacing = (window_width - menu_length) / vMenuItems.size() - 1;
-    spacing = (spacing < 1 ? 1 : spacing);
-    const int adj_offset = (window_width - menu_length - spacing * vMenuItems.size() ) / 2 - 1;
+    const int free_space = std::max(0, window_width - menu_length);
+    const int spacing = free_space / ((int)vMenuItems.size() - 1);
+    const int width_of_spacing = spacing * (vMenuItems.size() - 1);
+    const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
     print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX + adj_offset, spacing);
 
     refresh();
@@ -114,7 +114,7 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
 {
     mvwprintz(w_in, iOffsetY, iOffsetX, c_black, "");
 
-    for (int i = 0; i < vItems.size(); i++) {
+    for (int i = 0; i < (int)vItems.size(); i++) {
         wprintz(w_in, c_ltgray, "[");
         if (iSel == i) {
             shortcut_print(w_in, h_white, h_white, vItems[i]);
@@ -122,10 +122,26 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
             shortcut_print(w_in, c_ltgray, c_white, vItems[i]);
         }
         wprintz(w_in, c_ltgray, "]");
-        for (int j = 0; j < spacing; j++) {
-            wprintz(w_in, c_ltgray, " ");
-        }
+        wprintz(w_in, c_ltgray, std::string(spacing, ' ').c_str());
     }
+}
+
+
+std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
+{
+    std::ifstream stream( path.c_str() );
+    std::vector<std::string> result;
+    std::string line;
+    while( std::getline( stream, line ) ) {
+        if( !line.empty() && line[0] == '#' ) {
+            continue;
+        }
+        result.push_back( line );
+    }
+    if( result.empty() ) {
+        result.push_back( alternative_text );
+    }
+    return result;
 }
 
 bool game::opening_screen()
@@ -206,43 +222,11 @@ bool game::opening_screen()
     ctxt.register_action("ANY_INPUT");
     bool start = false;
 
-    // Load MOTD and store it in a string
-    // Only load it once, it shouldn't change for the duration of the application being open
-    static std::vector<std::string> motd;
-    if (motd.empty()) {
-        std::ifstream motd_file;
-        motd_file.open(FILENAMES["motd"].c_str());
-        if (!motd_file.is_open()) {
-            motd.push_back(_("No message today."));
-        } else {
-            while (!motd_file.eof()) {
-                std::string tmp;
-                getline(motd_file, tmp);
-                if (!tmp.length() || tmp[0] != '#') {
-                    motd.push_back(tmp);
-                }
-            }
-        }
-    }
-
-    // Load Credits and store it in a string
-    // Only load it once, it shouldn't change for the duration of the application being open
-    static std::vector<std::string> credits;
-    if (credits.empty()) {
-        std::ifstream credits_file;
-        credits_file.open(FILENAMES["credits"].c_str());
-        if (!credits_file.is_open()) {
-            credits.push_back(_("No message today."));
-        } else {
-            while (!credits_file.eof()) {
-                std::string tmp;
-                getline(credits_file, tmp);
-                if (!tmp.length() || tmp[0] != '#') {
-                    credits.push_back(tmp);
-                }
-            }
-        }
-    }
+    // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
+    static std::vector<std::string> motd = load_file(
+        PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ) , _( "No message today." ) );
+    static std::vector<std::string> credits = load_file(
+        PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
 
     u = player();
 
@@ -578,19 +562,20 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                               c_red, _("No save games found!"));
                 } else {
-                    for (std::vector<std::string>::iterator it = savegames.begin(); it != savegames.end(); ++it) {
+                    for( std::vector<std::string>::iterator it = savegames.begin();
+                         it != savegames.end(); ) {
                         std::string savename = base64_decode(*it);
-                        if(MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername()) {
+                        if( MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername() ) {
                             it = savegames.erase(it);
-                            it--; // it-- because it will get incremented in the for loop
-                            continue;
                         } else {
-                        int i = it - savegames.begin(); // calculates the index from distance between it and savegames.begin()
-                        available = true;
-                        int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                                  (sel3 == i ? h_white : c_white),
-                                  base64_decode(*it).c_str());
+                            // calculates the index from distance between it and savegames.begin()
+                            int i = it - savegames.begin();
+                            available = true;
+                            int line = iMenuOffsetY - 2 - i;
+                            mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                                      (sel3 == i ? h_white : c_white),
+                                      base64_decode(*it).c_str());
+                            ++it;
                         }
                     }
                     if (!available) {
@@ -685,7 +670,6 @@ bool game::opening_screen()
 
                             savegames.clear();
                             MAPBUFFER.reset();
-                            MAPBUFFER.make_volatile();
                             overmap_buffer.clear();
 
                             layer = 2;

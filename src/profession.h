@@ -20,10 +20,10 @@ public:
     typedef std::vector<StartingSkill> StartingSkillList;
 private:
     std::string _ident;
-    std::string _name;
     std::string _name_male;
     std::string _name_female;
-    std::string _description;
+    std::string _description_male;
+    std::string _description_female;
     std::string _gender_req;
     signed int _point_cost;
     std::vector<std::string> _starting_items;
@@ -69,9 +69,8 @@ public:
     void check_definition() const;
 
     std::string ident() const;
-    std::string name() const;
     std::string gender_appropriate_name(bool male) const;
-    std::string description() const;
+    std::string description(bool male) const;
     std::string gender_req() const;
     signed int point_cost() const;
     std::vector<std::string> items() const;
@@ -92,9 +91,9 @@ public:
      * Check if the given player can pick this job with the given amount
      * of points.
      *
-     * @return "YES", or otherwise the reason for failure, e.g. "INSUFFICIENT_POINTS"
+     * @return true, if player can pick profession. Otherwise - false.
      */
-    std::string can_pick(player* u, int points) const;
+    bool can_pick(player* u, int points) const;
 
 };
 

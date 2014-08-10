@@ -4,9 +4,10 @@
 
 mtype::mtype () {
     id = "mon_null";
-    name = _("human");
+    name = "human";
+    name_plural = "humans";
     description = "";
-    sym = ' ';
+    sym = " ";
     color = c_white;
     size = MS_MEDIUM;
     mat = "hflesh";
@@ -32,8 +33,24 @@ mtype::mtype () {
     flags.insert(MF_HUMAN);
 }
 
+std::string mtype::nname(unsigned int quantity) const {
+    return ngettext(name.c_str(), name_plural.c_str(), quantity);
+}
+
 bool mtype::has_flag(m_flag flag) const {
     return bitflags[flag];
+}
+
+bool mtype::has_flag(std::string flag) const {
+    return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
+}
+
+void mtype::set_flag(std::string flag, bool state) {
+    if( state ) {
+        flags.insert( MonsterGenerator::generator().m_flag_from_string( flag ) );
+    } else {
+        flags.erase( MonsterGenerator::generator().m_flag_from_string( flag ) );
+    }
 }
 
 bool mtype::has_anger_trigger(monster_trigger trig) const {
@@ -80,4 +97,36 @@ field_id mtype::gibType() {
     if (mat == "iflesh")
         return fd_gibs_insect;
     return fd_gibs_flesh; //Please update the monster blood type code at gibType() in monster.cpp when modifying these rules!
+}
+
+itype_id mtype::get_meat_itype() const
+{
+    if( has_flag( MF_POISON ) ) {
+        if( mat == "flesh" || mat == "hflesh" ) {
+            return "meat_tainted";
+        } else if( mat == "iflesh" ) {
+            //In the future, insects could drop insect flesh rather than plain ol' meat.
+            return "meat_tainted";
+        } else if( mat == "veggy" ) {
+            return "veggy_tainted";
+        }
+    } else {
+        if( mat == "flesh" || mat == "hflesh" ) {
+            if( has_flag( MF_HUMAN ) ) {
+                return "human_flesh";
+            } else if( has_flag( MF_AQUATIC ) ) {
+                return "fish";
+            } else {
+                return "meat";
+            }
+        } else if( mat == "bone" ) {
+            return "bone";
+        } else if( mat == "iflesh" ) {
+            //In the future, insects could drop insect flesh rather than plain ol' meat.
+            return "meat";
+        } else if( mat == "veggy" ) {
+            return "veggy";
+        }
+    }
+    return "null";
 }

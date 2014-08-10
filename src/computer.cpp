@@ -6,6 +6,7 @@
 #include "json.h"
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
+#include "messages.h"
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -44,14 +45,8 @@ computer &computer::operator=(const computer &rhs)
     security = rhs.security;
     name = rhs.name;
     mission_id = rhs.mission_id;
-    options.clear();
-    for (unsigned i = 0; i < rhs.options.size(); i++) {
-        options.push_back(rhs.options[i]);
-    }
-    failures.clear();
-    for (unsigned i = 0; i < rhs.failures.size(); i++) {
-        failures.push_back(rhs.failures[i]);
-    }
+    options = rhs.options;
+    failures = rhs.failures;
     w_terminal = NULL;
     w_border = NULL;
     return *this;
@@ -197,7 +192,7 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
-    p->practice(g->turn, "computer", 5 + Security * 2);
+    p->practice( "computer", 5 + Security * 2 );
     int player_roll = p->skillLevel("computer");
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
@@ -219,19 +214,20 @@ std::string computer::save_data()
     }
     data << savename << " " << security << " " << mission_id << " " <<
          options.size() << " ";
-    for (unsigned i = 0; i < options.size(); i++) {
-        savename = options[i].name;
+    for (std::vector<computer_option>::iterator it = options.begin();
+         it != options.end(); ++it) {
+        savename = it->name;
         found = savename.find(" ");
         while (found != std::string::npos) {
             savename.replace(found, 1, "_");
             found = savename.find(" ");
         }
-        data << savename << " " << int(options[i].action) << " " <<
-             options[i].security << " ";
+        data << savename << " " << int(it->action) <<" "<< it->security << " ";
     }
     data << failures.size() << " ";
-    for (unsigned i = 0; i < failures.size(); i++) {
-        data << int(failures[i]) << " ";
+    for (std::vector<computer_failure>::iterator it = failures.begin();
+         it != failures.end(); ++it) {
+        data << int(*it) << " ";
     }
 
     return data.str();
@@ -318,10 +314,10 @@ void computer::activate_function(computer_action action)
                         for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
                             if (g->m.furn(x1, y1) == f_counter) {
                                 bool found_item = false;
-                                for (unsigned i = 0; i < g->m.i_at(x1, y1).size(); i++) {
-                                    item *it = &(g->m.i_at(x1, y1)[i]);
+                                for (std::vector<item>::iterator it = g->m.i_at(x1, y1).begin();
+                                     it != g->m.i_at(x1, y1).end(); ++it) {
                                     if (it->is_container()) {
-                                        item sewage = item(itypes["sewage"], g->turn);
+                                        item sewage = item("sewage", calendar::turn);
                                         it_container *container = dynamic_cast<it_container *>(it->type);
                                         it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
                                         long maxCharges = container->contains * comest->charges;
@@ -342,7 +338,7 @@ void computer::activate_function(computer_action action)
                                     }
                                 }
                                 if (!found_item) {
-                                    item sewage(itypes["sewage"], g->turn);
+                                    item sewage("sewage", calendar::turn);
                                     g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
@@ -373,7 +369,7 @@ void computer::activate_function(computer_action action)
                       g->m.ter(x, y + 1) == t_concrete_h) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass_h &&
                       g->m.ter(x, y - 1) == t_concrete_h))) {
-                    g->kill_mon(mondex, true);
+                    g->zombie( mondex ).die( &g->u );
                 }
             }
         }
@@ -432,7 +428,7 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[(g->levx + g->levy + g->levz + (alerts)) % lab_notes.size()];
+            log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) % lab_notes.size()];
         }
 
         print_text("%s", log.c_str());
@@ -473,16 +469,16 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
-        point target = overmap::draw_overmap(0);
-        if (target == overmap::invalid_point) {
-            g->add_msg(_("Target acquisition canceled"));
+        tripoint target = overmap::draw_overmap(0);
+        if (target == overmap::invalid_tripoint) {
+            add_msg(m_info, _("Target acquisition canceled"));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {
-            g->add_msg(_("Nuclear missile launched!"));
+            add_msg(m_info, _("Nuclear missile launched!"));
             options.clear();//Remove the option to fire another missle.
         } else {
-            g->add_msg(_("Nuclear missile launch aborted."));
+            add_msg(m_info, _("Nuclear missile launch aborted."));
             return;
         }
         g->refresh_all();
@@ -501,14 +497,14 @@ void computer::activate_function(computer_action action)
         // For each level between here and the surface, remove the missile
         for (int level = g->levz; level <= 0; level++) {
             map tmpmap;
-            tmpmap.load(g->levx, g->levy, level, false);
+            tmpmap.load(g->levx, g->levy, level, false, g->cur_om);
 
             if(level < 0) {
                 tmpmap.translate(t_missile, t_hole);
             } else if(level == 0) {
                 tmpmap.translate(t_metal_floor, t_hole);
             }
-            tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, level);
+            tmpmap.save();
         }
 
         const oter_id oter = overmap_buffer.ter(target.x, target.y, 0);
@@ -518,7 +514,15 @@ void computer::activate_function(computer_action action)
                                otermap[oter].name.c_str() );
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y - 2; y <= target.y + 2; y++) {
-                g->nuke(x, y);
+                // give it a nice rounded shape
+                if(!(x == (target.x-2) && (y == (target.y-2))) &&
+                   !(x == (target.x-2) && (y == (target.y+2))) &&
+                   !(x == (target.x+2) && (y == (target.y-2))) &&
+                   !(x == (target.x+2) && (y == (target.y+2))))
+                {
+                    g->nuke(x, y);
+                }
+
             }
         }
 
@@ -531,11 +535,11 @@ void computer::activate_function(computer_action action)
         if(query_yn(_("Disarm missile."))) {
             g->u.add_memorial_log(pgettext("memorial_male", "Disarmed a nuclear missile."),
                                   pgettext("memorial_female", "Disarmed a nuclear missile."));
-            g->add_msg(_("Nuclear missile disarmed!"));
+            add_msg(m_info, _("Nuclear missile disarmed!"));
             options.clear();//disable missile.
             activate_failure(COMPFAIL_SHUTDOWN);
         } else {
-            g->add_msg(_("Nuclear missile remains active."));
+            add_msg(m_neutral, _("Nuclear missile remains active."));
             return;
         }
         break;
@@ -545,10 +549,11 @@ void computer::activate_function(computer_action action)
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
-                    if (g->m.i_at(x, y)[i].is_bionic()) {
-                        if ((ssize_t)names.size() < TERMY - 8) {
-                            names.push_back(g->m.i_at(x, y)[i].tname());
+                for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
+                     it != g->m.i_at(x, y).end(); ++it) {
+                    if (it->is_bionic()) {
+                        if ((int)names.size() < TERMY - 8) {
+                            names.push_back(it->tname());
                         } else {
                             more++;
                         }
@@ -563,8 +568,9 @@ void computer::activate_function(computer_action action)
         print_line(_("Bionic access - Manifest:"));
         print_newline();
 
-        for (unsigned i = 0; i < names.size(); i++) {
-            print_line("%s", names[i].c_str());
+        for (std::vector<std::string>::iterator it = names.begin();
+             it != names.end(); ++it) {
+            print_line("%s", it->c_str());
         }
         if (more > 0) {
             print_line(ngettext("%d OTHER FOUND...", "%d OTHERS FOUND...", more), more);
@@ -588,7 +594,7 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 47:\n\
 Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
@@ -605,7 +611,7 @@ themselves.\n"));
             return;
         }
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 49:\n\
 We've stopped mining operations in this area, obviously, until archaeologists\n\
@@ -623,7 +629,7 @@ for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
             return;
         }
         reset_terminal();
-        print_line(_("NEPower Mine(%d:%d) Log"), g->levx, g->levy);
+        print_line(_("NEPower Mine(%d:%d) Log"), g->get_abs_levx(), g->get_abs_levy());
         print_line(_("\
 ENTRY 54:\n\
 I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
@@ -657,9 +663,9 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n"));
         }
         reset_terminal();
         print_line(_("\
-SITE %d%d%d%d%d\n\
+SITE %d%d%d\n\
 PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES"),
-                   g->cur_om->pos().x, g->cur_om->pos().y, g->levx, g->levy, abs(g->levz));
+                   g->get_abs_levx(), g->get_abs_levy(), abs(g->get_abs_levz()));
         print_line(_("\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
    IMPERATIVE 2:07B\n\
@@ -678,7 +684,7 @@ INITIATING STANDARD TREMOR TEST..."));
         break;
 
     case COMPACT_AMIGARA_START:
-        g->add_event(EVENT_AMIGARA, int(g->turn) + 10, 0, 0, 0);
+        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10);
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
             g->u.add_disease("amigara", 20);
         }
@@ -701,7 +707,7 @@ of pureed bone & LSD."));
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
-            item software(itypes[miss->item_id], 0);
+            item software(miss->item_id, 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
             usb->contents.clear();
@@ -729,14 +735,18 @@ of pureed bone & LSD."));
                         item *blood = &(g->m.i_at(x, y)[0].contents[0]);
                         if (blood->corpse == NULL || blood->corpse->id == "mon_null") {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if (blood->corpse->sym == 'Z') {
-                            print_line(_("Result:  Human blood.  Unknown pathogen found."));
+                        } else if( blood->corpse->in_species( "ZOMBIE" ) ) {
+                            if( blood->corpse->sym == "Z" ) {
+                                print_line(_("Result:  Human blood.  Unknown pathogen found."));
+                            } else {
+                                print_line(_("Result:  Unknown blood type.  Unknown pathogen found."));
+                            }
                             print_line(_("Pathogen bonded to erythrocytes and leukocytes."));
                             if (query_bool(_("Download data?"))) {
                                 if (!g->u.has_amount("usb_drive", 1)) {
                                     print_error(_("USB drive required!"));
                                 } else {
-                                    item software(itypes["software_blood_data"], 0);
+                                    item software("software_blood_data", 0);
                                     item *usb = g->u.pick_usb();
                                     usb->contents.clear();
                                     usb->put_in(software);
@@ -770,7 +780,7 @@ of pureed bone & LSD."));
                     } else { // Success!
                         if (g->m.i_at(x, y)[0].type->id == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
-                            item transcript(itypes["black_box_transcript"], g->turn);
+                            item transcript("black_box_transcript", calendar::turn);
                             g->m.add_item_or_charges(g->u.posx, g->u.posy, transcript);
                         } else {
                             print_line(_("Memory Bank:  Unencrypted\nNothing of interest.\n"));
@@ -925,7 +935,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   \n\
   Director Grimes has released a new series of accusations that\n\
   will soon be investigated by a Congressional committee.  Below\n\
-  is the message that he sent myself.\n\
+  is the message that he sent me.\n\
   \n\
   --------------------------------------------------------------\n\
   Subj: Congressional Investigations\n\
@@ -975,8 +985,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   action in this national crisis.  You will proceed with fail-\n\
   safe procedures and rig the sarcophagus with c-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
-  and seal the sarcophagus or remove the charges.  It is of\n\
-  upmost importance that the facility is sealed immediatly when\n\
+  and seal the sarcophagus or remove the charges.  It is of the\n\
+  utmost importance that the facility be sealed immediatly when\n\
   the orders are given.  We have been alerted by Homeland Security\n\
   that there are potential terrorist suspects that are being\n\
   detained in connection with the recent national crisis.\n\
@@ -1013,7 +1023,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     case COMPACT_SRCF_SEAL:
         g->u.add_memorial_log(pgettext("memorial_male", "Sealed a Hazardous Material Sarcophagus."),
                               pgettext("memorial_female", "Sealed a Hazardous Material Sarcophagus."));
-        g->add_msg(_("Evacuate Immediately!"));
+        add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
@@ -1066,6 +1076,7 @@ void computer::activate_random_failure()
 
 void computer::activate_failure(computer_failure fail)
 {
+    bool found_tile = false;
     switch (fail) {
 
     case COMPFAIL_NULL: // Unknown action.
@@ -1073,11 +1084,23 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_SHUTDOWN:
+        for( int x = g->u.posx-1; x <= g->u.posx+1; x++ ) {
+            for( int y = g->u.posy-1; y <= g->u.posy+1; y++ ) {
+                if( g->m.has_flag("CONSOLE", x, y) ) {
+                    g->m.ter_set(x, y, t_console_broken);
+                    add_msg(m_bad, _("The console shuts down."));
+                    found_tile = true;
+                }
+            }
+        }
+        if( found_tile ) {
+            break;
+        }
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.has_flag("CONSOLE", x, y)) {
                     g->m.ter_set(x, y, t_console_broken);
-                    g->add_msg(_("The console shuts down."));
+                    add_msg(m_bad, _("The console shuts down."));
                 }
             }
         }
@@ -1088,7 +1111,7 @@ void computer::activate_failure(computer_failure fail)
                               pgettext("memorial_female", "Set off an alarm."));
         g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED)) {
-            g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
         break;
 
@@ -1102,7 +1125,7 @@ void computer::activate_failure(computer_failure fail)
                 tries++;
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
-                g->add_msg(_("Manhacks drop from compartments in the ceiling."));
+                add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
                 monster robot(GetMType("mon_manhack"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
@@ -1121,7 +1144,7 @@ void computer::activate_failure(computer_failure fail)
                 tries++;
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
-                g->add_msg(_("Secubots emerge from compartments in the floor."));
+                add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
                 monster robot(GetMType("mon_secubot"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
@@ -1131,18 +1154,19 @@ void computer::activate_failure(computer_failure fail)
     break;
 
     case COMPFAIL_DAMAGE:
-        g->add_msg(_("The console electrocutes you!"));
+        add_msg(m_neutral, _("The console electrocutes you."));
         if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
-            g->add_msg(_("The electricity flows around you."));
-      } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
-            g->add_msg(_("Your armor safely grounds the electrical discharge."));
-        }   else {
-        g->u.hurtall(rng(1, 10));
+            add_msg(m_neutral, _("The electricity flows around you."));
+        } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
+            add_msg(m_neutral, _("Your armor safely grounds the electrical discharge."));
+        } else {
+               add_msg(m_bad, _("Your body is damaged by the electric shock!"));
+               g->u.hurtall(rng(1, 10));
            }
         break;
 
     case COMPFAIL_PUMP_EXPLODE:
-        g->add_msg(_("The pump explodes!"));
+        add_msg(m_warning, _("The pump explodes!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
@@ -1154,7 +1178,7 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_PUMP_LEAK:
-        g->add_msg(_("Sewage leaks!"));
+        add_msg(m_warning, _("Sewage leaks!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
@@ -1188,7 +1212,7 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_AMIGARA:
-        g->add_event(EVENT_AMIGARA, int(g->turn) + 5, 0, 0, 0);
+        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
         g->u.add_disease("amigara", 20);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
@@ -1199,20 +1223,21 @@ void computer::activate_failure(computer_failure fail)
         for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
             for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
                 if (g->m.ter(x, y) == t_centrifuge) {
-                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++) {
-                        if (g->m.i_at(x, y).empty()) {
-                            print_error(_("ERROR: Please place sample in centrifuge."));
-                        } else if (g->m.i_at(x, y).size() > 1) {
-                            print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                        } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
-                            print_error(_("ERROR: Please use vacutainer-contained samples."));
-                        } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                            print_error(_("ERROR: Vacutainer empty."));
-                        } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
-                            print_error(_("ERROR: Please only use blood samples."));
-                        } else {
-                            print_error(_("ERROR: Blood sample destroyed."));
-                            g->m.i_at(x, y)[i].contents.clear();
+                    if (g->m.i_at(x, y).empty()) {
+                        print_error(_("ERROR: Please place sample in centrifuge."));
+                    } else if (g->m.i_at(x, y).size() > 1) {
+                        print_error(_("ERROR: Please remove all but one sample from centrifuge."));
+                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                        print_error(_("ERROR: Please use vacutainer-contained samples."));
+                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                        print_error(_("ERROR: Vacutainer empty."));
+                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                        print_error(_("ERROR: Please only use blood samples."));
+                    } else {
+                        print_error(_("ERROR: Blood sample destroyed."));
+                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
+                             it != g->m.i_at(x, y).end(); ++it) {
+                            it->contents.clear();
                         }
                     }
                 }
@@ -1226,18 +1251,19 @@ void computer::activate_failure(computer_failure fail)
         for (int x = 0; x <= 23; x++) {
             for (int y = 0; y <= 23; y++) {
                 if (g->m.ter(x, y) == t_floor_blue) {
-                    for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++) {
-                        if (g->m.i_at(x, y).empty()) {
-                            print_error(_("ERROR: Please place memory bank in scan area."));
-                        } else if (g->m.i_at(x, y).size() > 1) {
-                            print_error(_("ERROR: Please only scan one item at a time."));
-                        } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
-                            print_error(_("ERROR: Memory bank destroyed or not present."));
-                        } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                            print_error(_("ERROR: Memory bank is empty."));
-                        } else {
-                            print_error(_("ERROR: Data bank destroyed."));
-                            g->m.i_at(x, y)[i].contents.clear();
+                    if (g->m.i_at(x, y).empty()) {
+                        print_error(_("ERROR: Please place memory bank in scan area."));
+                    } else if (g->m.i_at(x, y).size() > 1) {
+                        print_error(_("ERROR: Please only scan one item at a time."));
+                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
+                        print_error(_("ERROR: Memory bank destroyed or not present."));
+                    } else if (g->m.i_at(x, y)[0].contents.empty()) {
+                        print_error(_("ERROR: Memory bank is empty."));
+                    } else {
+                        print_error(_("ERROR: Data bank destroyed."));
+                        for (std::vector<item>::iterator it = g->m.i_at(x, y).begin();
+                             it != g->m.i_at(x, y).end(); ++it) {
+                            it->contents.clear();
                         }
                     }
                 }

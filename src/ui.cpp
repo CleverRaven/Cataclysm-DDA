@@ -1,6 +1,7 @@
 #include "ui.h"
 #include "catacharset.h"
 #include "output.h"
+#include "debug.h"
 #include <sstream>
 #include <stdlib.h>
 #include <algorithm>
@@ -78,6 +79,19 @@ uimenu::uimenu(bool cancelable, const char *mes, std::vector<std::string> option
 uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) {
     // another quick convenience coonstructor
     init();
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = title;
+    entries = ents;
+    query();
+    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
+}
+
+uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) {
+    // another quick convenience coonstructor
+    init();
+    return_invalid = cancelable;
     w_x = startx;
     w_y = starty;
     w_width = width;
@@ -277,7 +291,6 @@ void uimenu::setup() {
     }
     max_entry_len = 0;
     std::vector<int> autoassign;
-    autoassign.clear();
     int pad = pad_left + pad_right + 2;
     for ( int i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(entries[ i ].txt.c_str());
@@ -306,26 +319,16 @@ void uimenu::setup() {
         }
         fentries.push_back( i );
     }
-    if ( !autoassign.empty() ) {
-        int modifier = 0; //Increase this by one if assignment fails (the key is already used then).
-        for ( int a = 0; a < autoassign.size(); ) {
-            int setkey=-1;
-            if ( (a + modifier) < 9 ) {
-                setkey = (a + modifier) + 49; // 1-9;
-            } else if ( (a + modifier) == 9 ) {
-                setkey = (a + modifier) + 39; // 0;
-            } else if ( (a + modifier) < 36 ) {
-                setkey = (a + modifier) + 87; // a-z
-            } else if ( (a + modifier) < 61 ) {
-                setkey = (a + modifier) + 29; // A-Z
-            }
-            if ( setkey != -1 && keymap.count(setkey) <= 0 ) {
-                int palloc = autoassign[ a ];
-                entries[ palloc ].hotkey = setkey;
-                keymap[ setkey ] = palloc;
-                a++;
-            } else {
-                modifier++; //Keymap.count was not <= 0
+    static const std::string hotkeys("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    size_t next_free_hotkey = 0;
+    for( auto it = autoassign.begin(); it != autoassign.end() && next_free_hotkey < hotkeys.size(); ++it ) {
+        while( next_free_hotkey < hotkeys.size() ) {
+            const int setkey = hotkeys[next_free_hotkey];
+            next_free_hotkey++;
+            if( keymap.count( setkey ) == 0 ) {
+                entries[*it].hotkey = setkey;
+                keymap[setkey] = *it;
+                break;
             }
         }
     }
@@ -521,7 +524,7 @@ void uimenu::show() {
             if ( hilight_full ) {
                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
-            if(entries[ ei ].enabled && entries[ ei ].hotkey > 33 && entries[ ei ].hotkey < 126 ) {
+            if(entries[ ei ].enabled && entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 mvwprintz( window, estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
                            hotkey_color , "%c", entries[ ei ].hotkey );
             }
@@ -696,12 +699,17 @@ void uimenu::query(bool loop) {
  * cleanup
  */
 uimenu::~uimenu() {
+    reset();
+}
+
+void uimenu::reset() {
     if (window != NULL) {
         werase(window);
         wrefresh(window);
         delwin(window);
         window = NULL;
     }
+
     init();
 }
 

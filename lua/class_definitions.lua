@@ -26,10 +26,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            health = {
-                type = "int",
-                writable = false
-            },
 
             name = {
                 type = "string",
@@ -106,7 +102,7 @@ classes = {
                 rval = "int"
             },
             weight_capacity = {
-                args = { "bool" },
+                args = {},
                 rval = "int"
             },
             volume_carried = {
@@ -370,7 +366,15 @@ classes = {
             in_species = {
                 args = {"string"},
                 rval = "bool"
-            }
+            },
+	    has_flag = {
+	        args = {"string"},
+		rval = "bool"
+	    },
+	    set_flag = {
+	        args = {"string", "bool"},
+		rval = nil
+	    }
         }
     },
     mongroup = {
@@ -463,9 +467,10 @@ classes = {
     },
     itype = {
         attributes = {
-            name = {
+            id = {
                 type = "string",
-                writable = true
+                writable = false,
+                desc = "The unique string identifier of the item type, as defined in the JSON."
             },
             description = {
                 type = "string",
@@ -514,6 +519,12 @@ classes = {
             }
         },
         functions = {
+            nname = {
+                args = { "int" },
+                argnames = { "quantity" },
+                rval = "string",
+                desc = "Get a translated name for the item with the given quantity."
+            }
         }
     },
     it_comest = {
@@ -728,7 +739,7 @@ classes = {
 
 global_functions = {
     add_msg = {
-        cpp_name = "g->add_msg",
+        cpp_name = "add_msg",
         args     = { "cstring" },
         argnames = { "message" },
         rval = nil,
@@ -825,5 +836,20 @@ global_functions = {
         cpp_name = "get_armor_type",
         args = { "string" },
         rval = "it_armor"
+    },
+    create_monster = {
+        cpp_name = "create_monster",
+        args = { "string", "int", "int" },
+        argnames = { "monster_type", "x", "y" },
+        rval = "monster",
+        desc = "Spawns a monster of the given type at the given location within the current reality bubble. Returns nil if something is blocking that location."
+    },
+    is_empty = {
+        cpp_name = "g->is_empty",
+        args = { "int", "int" },
+        argnames = { "x", "y" },
+        rval = "bool",
+        desc = "Check if the given location in the current reality bubble is empty."
     }
+
 }

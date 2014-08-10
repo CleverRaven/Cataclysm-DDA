@@ -11,6 +11,9 @@ Used to store the master field effects list metadata. Not used to store a field,
 of an existing field.
 */
 struct field_t {
+    // internal ident, used for tileset and for serializing,
+    // should be the same as the entry in field_id below (e.g. "fd_fire").
+    std::string id;
  std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
  char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
  int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground" (rubble), 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
@@ -33,9 +36,6 @@ struct field_t {
  int move_cost[3];
 };
 
-/*
-  On altering any entries in this enum please add or remove the appropriate entry to the field_names array in tile_id_data.h
-*/
 //The master list of id's for a field, corresponding to the fieldlist array.
 enum field_id {
  fd_null = 0,
@@ -73,6 +73,8 @@ enum field_id {
  fd_weedsmoke,
  fd_cracksmoke,
  fd_methsmoke,
+ fd_bees,
+ fd_incendiary,
  num_fields
 };
 
@@ -80,6 +82,12 @@ enum field_id {
 Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
 */
 extern field_t fieldlist[num_fields];
+/**
+ * Returns the field_id of the field whose ident (field::id) matches the given ident.
+ * Returns fd_null (and prints a debug message!) if the field ident is unknown.
+ * Never returns num_fields.
+ */
+extern field_id field_from_ident(const std::string &field_ident);
 
 /*
 Class: field_entry
@@ -96,7 +104,7 @@ public:
       is_alive = false;
     };
 
-    field_entry(field_id t, unsigned char d, unsigned int a) {
+    field_entry(field_id t, int d, int a) {
         type = t;
         density = d;
         age = a;
@@ -110,7 +118,7 @@ public:
     field_id getFieldType() const;
 
     //Returns the current density (aka intensity) of the current field entry.
-    signed char getFieldDensity() const;
+    int getFieldDensity() const;
 
     //Returns the age (usually turns to live) of the current field entry.
     int getFieldAge() const;
@@ -121,7 +129,7 @@ public:
     field_id setFieldType(const field_id new_field_id);
 
     //Allows you to modify the density of the current field entry.
-    signed char setFieldDensity(const signed char new_density);
+    int setFieldDensity(const int new_density);
 
     //Allows you to modify the age of the current field entry.
     int setFieldAge(const int new_age);
@@ -149,7 +157,7 @@ public:
 
 private:
     field_id type; //The field identifier.
-    signed char density; //The density, or intensity (higher is stronger), of the field entry.
+    int density; //The density, or intensity (higher is stronger), of the field entry.
     int age; //The age, or time to live, of the field effect. 0 is permanent.
     bool is_alive; //True if this is an active field, false if it should be destroyed next check.
 };
@@ -171,9 +179,9 @@ public:
     //Returns false if the field_id already exists, true otherwise.
     //If you wish to modify an already existing field use findField and modify the result.
     //Density defaults to 1, and age to 0 (permanent) if not specified.
-    bool addField(const field_id field_to_add,const unsigned char new_density=1, const int new_age=0);
+    bool addField(const field_id field_to_add,const int new_density = 1, const int new_age = 0);
 
-    //Removes the field entry with a type equal to the field_id parameter. Returns true if removed, false otherwise.
+    //Removes the field entry with a type equal to the field_id parameter. Returns the next iterator.
     std::map<field_id, field_entry*>::iterator removeField(const field_id field_to_remove);
 
     //Returns the number of fields existing on the current tile.

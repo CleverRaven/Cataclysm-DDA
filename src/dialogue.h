@@ -35,18 +35,29 @@ struct talk_function
     void mission_failure      (npc*);
     void clear_mission        (npc*);
     void mission_reward       (npc*);
+    void mission_reward_cash  (npc*);
     void mission_favor        (npc*);
     void give_equipment       (npc*);
     void start_trade          (npc*);
+    std::string bulk_trade_inquire   (npc*, itype_id);
+    void bulk_trade_accept    (npc*, itype_id);
     void assign_base          (npc*);
+    void assign_guard         (npc*);
+    void stop_guard           (npc*);
+    void end_conversation     (npc*);
+    void insult_combat        (npc*);
+    void reveal_stats         (npc*);
     void follow               (npc*); // p follows u
     void deny_follow          (npc*); // p gets DI_ASKED_TO_FOLLOW
     void deny_lead            (npc*); // p gets DI_ASKED_TO_LEAD
     void deny_equipment       (npc*); // p gets DI_ASKED_FOR_ITEM
+    void deny_train           (npc*); // p gets DI_ASKED_TO_TRAIN
+    void deny_personal_info   (npc*); // p gets DI_ASKED_PERSONAL_INFO
     void enslave              (npc*) {}; // p becomes slave of u
     void hostile              (npc*); // p turns hostile to u
     void flee                 (npc*);
     void leave                (npc*); // p becomes indifferant
+    void stranger_neutral     (npc*); // p is now neutral towards you
 
     void start_mugging        (npc*);
     void player_leaving       (npc*);

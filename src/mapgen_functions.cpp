@@ -6,6 +6,8 @@
 #include "mapgenformat.h"
 #include "overmap.h"
 #include "monstergenerator.h"
+#include "options.h"
+
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
     default_groundcover(0,1,0)
@@ -112,6 +114,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
     mapgen_cfunction_map["cavern"] = &mapgen_cavern;
     mapgen_cfunction_map["rock"] = &mapgen_rock;
+    mapgen_cfunction_map["open_air"] = &mapgen_open_air;
     mapgen_cfunction_map["rift"] = &mapgen_rift;
     mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
     mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
@@ -373,7 +376,7 @@ void mapgen_null(map *m, oter_id, mapgendata, int, float)
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             m->ter_set(i, j, t_null);
-            m->radiation(i, j) = 0;
+            m->set_radiation(i, j, 0);
         }
     }
 }
@@ -391,10 +394,10 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
            if (rng(0, dat.w_fac) <= i && rng(0, dat.e_fac) <= SEEX * 2 - 1 - i &&
                rng(0, dat.n_fac) <= j && rng(0, dat.s_fac) <= SEEX * 2 - 1 - j ) {
                m->ter_set(i, j, t_rubble);
-               m->radiation(i, j) = rng(0, 4) * rng(0, 2);
+               m->set_radiation(i, j, rng(0, 4) * rng(0, 2));
            } else {
                m->ter_set(i, j, dat.groundcover());
-               m->radiation(i, j) = rng(0, 2) * rng(0, 2) * rng(0, 2);
+               m->set_radiation(i, j, rng(0, 2) * rng(0, 2) * rng(0, 2));
             }
         }
     }
@@ -508,7 +511,6 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
                 if (one_in(250)) {
                     m->ter_set(i, j, t_tree_apple);
-                    m->spawn_item(i, j, "apple", 1, 0, turn);
                 } else {
                     m->ter_set(i, j, t_tree);
                 }
@@ -543,6 +545,12 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         int x = SEEX / 2 + rng(0, SEEX), y = SEEY / 2 + rng(0, SEEY);
         for (int i = 0; i < 20; i++) {
             if (x >= 0 && x < SEEX * 2 && y >= 0 && y < SEEY * 2) {
+                if (m->ter(x, y) == t_swater_sh) {
+                    m->ter_set(x, y, t_swater_dp);
+                } else if ( dat.is_groundcover( m->ter(x, y) ) ||
+                         m->ter(x, y) == t_underbrush) {
+                    m->ter_set(x, y, t_swater_sh);
+                }
                 if (m->ter(x, y) == t_water_sh) {
                     m->ter_set(x, y, t_water_dp);
                 } else if ( dat.is_groundcover( m->ter(x, y) ) ||
@@ -565,7 +573,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 int wx = rng(0, SEEX * 2 -1), wy = rng(0, SEEY - 1);
                 if (dat.is_groundcover( m->ter(wx, wy) ) ||
                     m->ter(wx, wy) == t_underbrush) {
-                    m->ter_set(wx, wy, t_water_sh);
+                    m->ter_set(wx, wy, t_swater_sh);
                 }
             }
             factor = dat.e_fac + (dat.ne_fac / 2) + (dat.se_fac / 2);
@@ -581,7 +589,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
                 if (dat.is_groundcover( m->ter(wx, wy) ) ||
                       m->ter(wx, wy) == t_underbrush) {
-                    m->ter_set(wx, wy, t_water_sh);
+                    m->ter_set(wx, wy, t_swater_sh);
                 }
             }
             factor = dat.w_fac + (dat.nw_fac / 2) + (dat.sw_fac / 2);
@@ -598,7 +606,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             m->add_trap(x, y, tr_sinkhole);
-            if (m->ter(x, y) != t_water_sh) {
+            if (m->ter(x, y) != t_swater_sh && m->ter(x, y) != t_water_sh) {
                 m->ter_set(x, y, dat.groundcover());
             }
         }
@@ -625,6 +633,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 }
             }
         }
+        m->ter_set( 12, 12, t_dirt );
         m->furn_set(12, 12, f_egg_sackws);
         m->remove_field(12, 12, fd_web);
         m->add_spawn("mon_spider_web", rng(1, 2), SEEX, SEEY);
@@ -1554,15 +1563,24 @@ void mapgen_river_center(map *m, oter_id, mapgendata dat, int, float)
 void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
-    for (int i = SEEX * 2 - 1; i >= 0; i--) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (j < 4 && i >= SEEX * 2 - 4) {
-                m->ter_set(i, j, t_water_sh);
-            } else {
-                m->ter_set(i, j, t_water_dp);
+    fill_background(m, t_water_dp);
+    // this is not_ne, so deep on all sides except ne corner, which is shallow
+    // shallow is 20,0, 23,4
+    int north_edge = rng(16, 18);
+    int east_edge = rng(4, 8);
+
+    for(int x = north_edge; x < 24; x++){
+        for(int y = 0; y < east_edge; y++){
+            int circle_edge = ((24 - x) * (24 - x)) + (y * y);
+            if(circle_edge <= 8){
+                m->ter_set(x, y, grass_or_dirt());
+            }
+            else if(circle_edge <= 36){
+                m->ter_set(x, y, t_water_sh);
             }
         }
     }
+
     if (terrain_type == "river_c_not_se") {
         m->rotate(1);
     }
@@ -1577,15 +1595,15 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, 
 void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (j < 4) {
-                m->ter_set(i, j, t_water_sh);
-            } else {
-                m->ter_set(i, j, t_water_dp);
-            }
-        }
+    fill_background(m, t_water_dp);
+
+    for(int x = 0; x <= 24; x++){
+        int ground_edge = rng(1,3);
+        int shallow_edge = rng(4,6);
+        line(m, grass_or_dirt(), x, 0, x, ground_edge);
+        line(m, t_water_sh, x, ground_edge, x, shallow_edge);
     }
+
     if (terrain_type == "river_east") {
         m->rotate(1);
     }
@@ -1600,15 +1618,21 @@ void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, fl
 void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
-    for (int i = SEEX * 2 - 1; i >= 0; i--) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (i >= SEEX * 2 - 4 || j < 4) {
-                m->ter_set(i, j, t_water_sh);
-            } else {
-                m->ter_set(i, j, t_water_dp);
-            }
-        }
+    fill_background(m, t_water_dp);
+    // NE corner deep, other corners are shallow.  do 2 passes: one x, one y
+    for(int x = 0; x < 24; x++){
+        int ground_edge = rng(1,3);
+        int shallow_edge = rng(4,6);
+        line(m, grass_or_dirt(), x, 0, x, ground_edge);
+        line(m, t_water_sh, x, ground_edge, x, shallow_edge);
     }
+    for(int y = 0; y < 24; y++){
+        int ground_edge = rng(19,21);
+        int shallow_edge = rng(16,18);
+        line(m, grass_or_dirt(), ground_edge, y, 23, y);
+        line(m, t_water_sh, shallow_edge, y, ground_edge, y);
+    }
+
     if (terrain_type == "river_se") {
         m->rotate(1);
     }
@@ -2335,7 +2359,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                 house_room(m, room_bathroom, lw, cw, rn, bw, dat);
 
                 if (one_in(5)) {
-                    // Put door between batroom and kitchen with low chance
+                    // Put door between bathroom and kitchen with low chance
                     m->ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
                 } else {
                     // ...Otherwise, between bathroom and bedroom
@@ -3571,7 +3595,7 @@ void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
         // Make the whole area rock, then plop an open area in the center.
         square(m, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
         square(m, t_rock_floor, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8);
-        // Create an anteroom with hte stairs and some locked doors.
+        // Create an anteroom with the stairs and some locked doors.
         m->ter_set(SEEX - 1, SEEY * 2 - 7, t_door_locked);
         m->ter_set(SEEX    , SEEY * 2 - 7, t_door_locked);
         m->ter_set(SEEX - 1, SEEY * 2 - 6, t_rock_floor);
@@ -3921,7 +3945,7 @@ void mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
                                                     t_rock_floor, t_rock_floor),
                                   mapf::basic_bind(". # < + p t c s a r f & i", f_null, f_null, f_null, f_null, f_pool_table,
                                                     f_table, f_counter, f_sofa,f_armchair, f_rack, f_fridge, f_sink, f_toilet));
-        //place diferent furniture sets
+        // Place different furniture sets
         if (one_in(2)){
             line_furn(m, f_bookcase, 1, 22, 9, 22);
             line_furn(m, f_bookcase, 1, 19, 1, 22);
@@ -3964,7 +3988,7 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
                 if (!(one_in(3))){
                 m->add_field(i, j, fd_web, rng(1, 3));
                 }
-                if (one_in(30)){
+                if( one_in( 30 ) && m->move_cost( i, j ) > 0 ) {
                     m->furn_set(i, j, f_egg_sackbw);
                     m->add_spawn("mon_spider_widow_giant", rng(3, 6), i, j); //hope you like'em spiders
                     m->remove_field(i, j, fd_web);
@@ -4348,7 +4372,7 @@ void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
 
 }
 
-// _b is basement. obviously!
+// _b is basement, obviously!
 void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
 {
 
@@ -4424,7 +4448,7 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
         //Cabin design 1 Quad
         if (one_in(2)) {
             square(m, t_wall_log, 2, 3, 21, 20);
-            square(m, t_floor, 2, 17, 21, 20);//Front porch
+            square(m, t_floor, 2, 17, 21, 20); //Front porch
             line(m, t_fence_v, 2, 17, 2, 20);
             line(m, t_fence_v, 21, 17, 21, 20);
             line(m, t_fence_h, 2, 20, 21, 20);
@@ -4439,7 +4463,7 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             square(m, t_rubble, 19, 18, 20, 19);
             m->ter_set(20, 17, t_rubble);
             m->ter_set(18, 19, t_rubble); //Porch done
-            line(m, t_door_c, 11, 16, 12, 16);//Interior
+            line(m, t_door_c, 11, 16, 12, 16); //Interior
             square(m, t_floor, 3, 4, 9, 9);
             square(m, t_floor, 3, 11, 9, 15);
             square(m, t_floor, 11, 4, 12, 15);
@@ -4454,8 +4478,8 @@ void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
             line(m, t_window_domestic, 17, 16, 18, 16);
             line(m, t_curtains, 21, 12, 21, 13);
             line(m, t_window_empty, 21, 6, 21, 7);
-            m->ter_set(8, 3, t_curtains);//Windows End
-            line(m, t_door_c, 11, 3, 12, 3);//Rear Doors
+            m->ter_set(8, 3, t_curtains); //Windows End
+            line(m, t_door_c, 11, 3, 12, 3); //Rear Doors
             square(m, t_rubble, 20, 3, 21, 4);
             m->ter_set(19, 3, t_rubble);
             m->ter_set(21, 5, t_rubble);
@@ -4844,7 +4868,7 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
         line(m, t_bars, 8, 18, 11, 18);
         line(m, t_door_metal_locked, 9, 18, 10, 18);
     }
-    computer * tmpcomp = m->add_computer(8, 21, _("Consolated Computerized Bank of the Treasury"), 3);
+    computer * tmpcomp = m->add_computer(8, 21, _("Consolidated Computerized Bank of the Treasury"), 3);
     tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
     tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
     tmpcomp->add_failure(COMPFAIL_ALARM);
@@ -4918,6 +4942,7 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     for (int j = office_top; j <= bw - 1; j++) {
                         m->i_clear(i, j);
                         m->ter_set(i, j, t_floor);
+                        m->furn_set( i, j, t_null );
                     }
                 }
                 line(m, t_wall_h, lw + 1, office_top, office_right, office_top);
@@ -4939,6 +4964,7 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     for (int j = office_top; j <= bw - 1; j++) {
                         m->i_clear(i, j);
                         m->ter_set(i, j, t_floor);
+                        m->furn_set( i, j, t_null );
                     }
                 }
                 line(m, t_wall_h, office_left, office_top, rw - 1, office_top);
@@ -5822,7 +5848,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             case 3:
                 // bat corpses
                 for (int i = rng(1, 12); i > 0; i--) {
-                    body.make_corpse(itypes["corpse"], GetMType("mon_bat"), g->turn);
+                    body.make_corpse("corpse", GetMType("mon_bat"), calendar::turn);
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                 }
                 break;
@@ -5840,7 +5866,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 for (int ii = 0; ii < bloodline.size(); ii++) {
                     m->add_field(bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
                 }
-                body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+                body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
                 m->add_item_or_charges(hermx, hermy, body);
                 // This seems verbose.  Maybe a function to spawn from a list of item groups?
                 m->place_items("stash_food", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
@@ -6137,6 +6163,11 @@ void mapgen_rock(map *m, oter_id, mapgendata dat, int, float)
 
 
 
+}
+
+
+void mapgen_open_air(map *m, oter_id, mapgendata, int, float){
+    fill_background(m, t_open_air);
 }
 
 

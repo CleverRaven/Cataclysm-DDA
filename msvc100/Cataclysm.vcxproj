@@ -793,6 +793,7 @@
     <ClInclude Include="..\src\file_finder.h" />
     <ClInclude Include="..\src\file_wrapper.h" />
     <ClInclude Include="..\src\game.h" />
+    <ClInclude Include="..\src\game_constants.h" />
     <ClInclude Include="..\src\gamemode.h" />
     <ClInclude Include="..\src\get_version.h" />
     <ClInclude Include="..\src\graffiti.h" />
@@ -844,11 +845,13 @@
     <ClInclude Include="..\src\overmap.h" />
     <ClInclude Include="..\src\overmapbuffer.h" />
     <ClInclude Include="..\src\path_info.h" />
+    <ClInclude Include="..\src\pickup.h" />
     <ClInclude Include="..\src\player.h" />
     <ClInclude Include="..\src\player_activity.h" />
     <ClInclude Include="..\src\pldata.h" />
     <ClInclude Include="..\src\posix_time.h" />
     <ClInclude Include="..\src\profession.h" />
+    <ClInclude Include="..\src\requirements.h" />
     <ClInclude Include="..\src\rng.h" />
     <ClInclude Include="..\src\savegame.h" />
     <ClInclude Include="..\src\SDLMain.h" />
@@ -976,11 +979,13 @@
     <ClCompile Include="..\src\overmap.cpp" />
     <ClCompile Include="..\src\overmapbuffer.cpp" />
     <ClCompile Include="..\src\path_info.cpp" />
+    <ClCompile Include="..\src\pickup.cpp" />
     <ClCompile Include="..\src\player.cpp" />
     <ClCompile Include="..\src\player_activity.cpp" />
     <ClCompile Include="..\src\posix_time.cpp" />
     <ClCompile Include="..\src\profession.cpp" />
     <ClCompile Include="..\src\ranged.cpp" />
+    <ClCompile Include="..\src\requirements.cpp" />
     <ClCompile Include="..\src\rng.cpp" />
     <ClCompile Include="..\src\savegame.cpp" />
     <ClCompile Include="..\src\savegame_json.cpp" />

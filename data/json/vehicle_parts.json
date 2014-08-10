@@ -1664,7 +1664,7 @@
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF"],
+        "flags" : ["ROOF", "FOLDABLE"],
         "breaks_into" : [
             {"item": "rag", "min": 3, "max": 6}
         ]
@@ -2326,7 +2326,7 @@
         "durability" : 160,
         "size" : 110000,
         "fuel_type" : "gasoline",
-        "item" : "metal_tank",
+        "item" : "55gal_drum",
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
@@ -2972,11 +2972,30 @@
         "fuel_type" : "50",
         "item" : "m2browning",
         "difficulty" : 6,
-        "size" : 160,
+        "size" : 1600,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
             {"item": "m2browning", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_mk19",
+        "name" : "mounted Mark 19 grenade launcher",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "fuel_type" : "40mm",
+        "item" : "mark19",
+        "difficulty" : 6,
+        "size" : 480,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "mark19", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -3487,4 +3506,27 @@
         "breaks_into" : [
             {"item": "glass_shard", "min": 0, "max": 2}
         ]
-    }]
+    },{
+        "type" : "vehicle_part",
+        "id" : "stereo",
+        "name" : "stereo system",
+        "symbol" : "&",
+        "color" : "red",
+        "broken_symbol" : "&",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 0,
+        "durability" : 60,
+        "epower" : -1,
+        "bonus" : 40,
+        "item" : "stereo",
+        "difficulty" : 2,
+        "flags" : ["STEREO"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5}
+        ]
+    }
+
+
+]

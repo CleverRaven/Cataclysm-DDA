@@ -23,6 +23,7 @@ Format: File with definition : Name of enum
 * debug.h : DebugClass
 * dialogue.h : talk_trial
 * disease.cpp : dis_type_enum
+* effect.h : effect_rating
 * enums.h : phase_id
 * enums.h : damage_type
 * event.h : event_type
@@ -44,6 +45,7 @@ Format: File with definition : Name of enum
 * gamemode.h : caravan_category
 * input.h : InputEvent
 * item.h : hint_rating
+* item.h : layer_level
 * itype.h : item_cat
 * itype.h : software_type
 * itype.h : technique_id
@@ -55,6 +57,7 @@ Format: File with definition : Name of enum
 * mapdata.h : furn_id
 * mapdata.h : map_extra
 * mapgen.cpp : room_type
+* messages.h : game_message_type
 * mission.h : talk_topic
 * mission.h : mission_id
 * mission.h : mission_origin
@@ -62,12 +65,9 @@ Format: File with definition : Name of enum
 * monster.h : monster_effect_type
 * monster.h : monster_attitude
 * morale.h : morale_type
-* mtype.h : monster_species
-* mtype.h : mon_id
 * mtype.h : m_size
 * mtype.h : monster_trigger
 * mtype.h : m_flag
-* mtype.h : m_category
 * npc.h : npc_attitude
 * npc.h : npc_mission
 * npc.h : npc_class
@@ -77,9 +77,6 @@ Format: File with definition : Name of enum
 * npc.h : npc_favor_type
 * npc.h : combat_engagement
 * npc.h : talk_topic
-* omdata.h : oter_id
-* omdata.h : omspec_flag
-* omdata.h : omspec_id
 * omdata.h : overmap_zone
 * overmpa.h : radio_type
 * pldata.h : character_type
@@ -87,7 +84,6 @@ Format: File with definition : Name of enum
 * pldata.h : activity_type
 * pldata.h : pl_flag
 * pldata.h : hp_part
-* trap.h : trap_id
 * veh_interact.h : sel_types
 * vehicle.cpp : vehicle_controls
 * vehicle.h : veh_coll_type

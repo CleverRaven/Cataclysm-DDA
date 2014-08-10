@@ -146,7 +146,8 @@ class uimenu: public ui_container {
 
     uimenu(bool cancancel, const char * message, ...); // legacy menu()
     uimenu(bool cancelable, const char *mes, std::vector<std::string> options); // legacy menu_vec
-    uimenu (int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
+    uimenu(bool cancelable, int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
+    uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
 
     void init();
     void setup();
@@ -164,7 +165,10 @@ class uimenu: public ui_container {
     void addentry(int r, bool e, int k, const char *format, ...);
     void settext(std::string str);
     void settext(const char *format, ...);
+
+    void reset();
     ~uimenu ();
+
     operator int() const;
 
     // pending refactor // ui_element_input * filter_input;

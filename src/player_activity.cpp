@@ -1,6 +1,5 @@
 #include "player_activity.h"
 #include "translations.h"
-#include "platform.h"
 
 player_activity::player_activity(activity_type t, int turns, int Index, int pos, std::string name_in)
 : JsonSerializer(), JsonDeserializer()
@@ -43,7 +42,8 @@ const std::string &player_activity::get_stop_phrase() const {
         _(" Stop pumping gas?"), _(" Stop training?"),
         _(" Stop waiting?"), _(" Stop using first aid?"),
         _(" Stop fishing?"), _(" Stop mining?"),
-        _(" Stop smashing?")
+        _(" Stop smashing?"), _(" Stop de-stressing?"),
+        _(" Stop cutting tissues?")
     };
     return stop_phrase[type];
 }
@@ -59,6 +59,7 @@ bool player_activity::is_abortable() const {
         case ACT_FIRSTAID:
         case ACT_PICKAXE:
         case ACT_PULP:
+        case ACT_MAKE_ZLAVE:
             return true;
         default:
             return false;
@@ -70,6 +71,7 @@ bool player_activity::is_suspendable() const {
         case ACT_NULL:
         case ACT_RELOAD:
         case ACT_DISASSEMBLE:
+        case ACT_MAKE_ZLAVE:
             return false;
         default:
             return true;
@@ -78,9 +80,9 @@ bool player_activity::is_suspendable() const {
 
 
 int player_activity::get_value(int index, int def) const {
-    return (index < (ssize_t)values.size()) ? values[index] : def;
+    return ((size_t)index < values.size()) ? values[index] : def;
 }
 
 std::string player_activity::get_str_value(int index, std::string def) const {
-    return (index < (ssize_t)str_values.size()) ? str_values[index] : def;
+    return ((size_t)index < str_values.size()) ? str_values[index] : def;
 }

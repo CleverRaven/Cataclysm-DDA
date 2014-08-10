@@ -2,8 +2,9 @@
 #include "color.h"
 #include "translations.h"
 #include "rng.h"
-#include "output.h"
+#include "debug.h"
 #include "item_factory.h"
+#include "catacharset.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -25,11 +26,13 @@ MonsterGenerator::~MonsterGenerator()
 }
 
 void MonsterGenerator::reset() {
-    for (std::map<std::string, mtype*>::iterator types = mon_templates.begin(); types != mon_templates.end(); ++types){
+    for (std::map<std::string, mtype*>::iterator types = mon_templates.begin();
+         types != mon_templates.end(); ++types){
         delete types->second;
     }
     mon_templates.clear();
-    for (std::map<std::string, species_type*>::iterator specs = mon_species.begin(); specs != mon_species.end(); ++specs){
+    for (std::map<std::string, species_type*>::iterator specs = mon_species.begin();
+         specs != mon_species.end(); ++specs){
         delete specs->second;
     }
     mon_species.clear();
@@ -39,7 +42,8 @@ void MonsterGenerator::reset() {
 
 void MonsterGenerator::finalize_mtypes()
 {
-    for (std::map<std::string, mtype*>::iterator monentry = mon_templates.begin(); monentry != mon_templates.end(); ++monentry){
+    for (std::map<std::string, mtype*>::iterator monentry = mon_templates.begin();
+         monentry != mon_templates.end(); ++monentry){
         mtype *mon = monentry->second;
         apply_species_attributes(mon);
         set_mtype_flags(mon);
@@ -48,7 +52,8 @@ void MonsterGenerator::finalize_mtypes()
 
 void MonsterGenerator::apply_species_attributes(mtype *mon)
 {
-    for (std::set<std::string>::iterator spec = mon->species.begin(); spec != mon->species.end(); ++spec){
+    for (std::set<std::string>::iterator spec = mon->species.begin(); spec != mon->species.end();
+         ++spec) {
         if (mon_species.find(*spec) != mon_species.end()){
             species_type *mspec = mon_species[*spec];
 
@@ -70,15 +75,18 @@ void MonsterGenerator::set_mtype_flags(mtype *mon)
         mon->bitflags[nflag] = true;
     }
     monster_trigger ntrig;
-    for (std::set<monster_trigger>::iterator trig = mon->anger.begin(); trig != mon->anger.end(); ++trig){
+    for (std::set<monster_trigger>::iterator trig = mon->anger.begin(); trig != mon->anger.end();
+         ++trig){
         ntrig = monster_trigger(*trig);
         mon->bitanger[ntrig] = true;
     }
-    for (std::set<monster_trigger>::iterator trig = mon->fear.begin(); trig != mon->fear.end(); ++trig){
+    for (std::set<monster_trigger>::iterator trig = mon->fear.begin(); trig != mon->fear.end();
+         ++trig){
         ntrig = monster_trigger(*trig);
         mon->bitfear[ntrig] = true;
     }
-    for (std::set<monster_trigger>::iterator trig = mon->placate.begin(); trig != mon->placate.end(); ++trig){
+    for (std::set<monster_trigger>::iterator trig = mon->placate.begin(); trig != mon->placate.end();
+         ++trig){
         ntrig = monster_trigger(*trig);
         mon->bitplacate[ntrig] = true;
     }
@@ -169,6 +177,7 @@ void MonsterGenerator::init_attack()
     attack_map["PLANT"] = &mattack::plant;
     attack_map["DISAPPEAR"] = &mattack::disappear;
     attack_map["FORMBLOB"] = &mattack::formblob;
+    attack_map["CALLBLOBS"] = &mattack::callblobs;
     attack_map["DOGTHING"] = &mattack::dogthing;
     attack_map["TENTACLE"] = &mattack::tentacle;
     attack_map["VORTEX"] = &mattack::vortex;
@@ -181,6 +190,7 @@ void MonsterGenerator::init_attack()
     attack_map["TAZER"] = &mattack::tazer;
     attack_map["SMG"] = &mattack::smg;
     attack_map["LASER"] = &mattack::laser;
+    attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
     attack_map["MULTI_ROBOT"] = &mattack::multi_robot;
@@ -191,6 +201,8 @@ void MonsterGenerator::init_attack()
     attack_map["BITE"] = &mattack::bite;
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
+    attack_map["LUNGE"] = &mattack::lunge;
+    attack_map["LONGSWIPE"] = &mattack::longswipe;
     attack_map["PARROT"] = &mattack::parrot;
     attack_map["DARKMAN"] = &mattack::darkman;
     attack_map["SLIMESPRING"] = &mattack::slimespring;
@@ -308,7 +320,13 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         mtype *newmon = new mtype;
 
         newmon->id = mid;
-        newmon->name = _(jo.get_string("name","").c_str());
+        newmon->name = jo.get_string("name").c_str();
+        if(jo.has_member("name_plural")) {
+            newmon->name_plural = jo.get_string("name_plural");
+        } else {
+            // default behaviour: Assume the regular plural form (appending an “s”)
+            newmon->name_plural = newmon->name + "s";
+        }
         newmon->description = _(jo.get_string("description").c_str());
 
         newmon->mat = jo.get_string("material");
@@ -316,7 +334,10 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");
 
-        newmon->sym = jo.get_string("symbol")[0]; // will fail here if there is no symbol
+        newmon->sym = jo.get_string("symbol");
+        if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
+            jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
+        }
         newmon->color = color_from_string(jo.get_string("color"));
         newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), size_map, MS_MEDIUM);
         newmon->phase = get_from_string(jo.get_string("phase", "SOLID"), phase_map, SOLID);
@@ -398,7 +419,7 @@ void MonsterGenerator::load_species(JsonObject &jo)
 
 mtype *MonsterGenerator::get_mtype(std::string mon)
 {
-    static mtype *default_montype = mon_templates["mon_null"];
+    mtype *default_montype = mon_templates["mon_null"];
 
     if (mon == "mon_zombie_fast")
     {
@@ -427,7 +448,8 @@ bool MonsterGenerator::has_species(const std::string& species) const
 mtype *MonsterGenerator::get_mtype(int mon)
 {
     int count = 0;
-    for (std::map<std::string, mtype*>::iterator monit = mon_templates.begin(); monit != mon_templates.end(); ++monit){
+    for (std::map<std::string, mtype*>::iterator monit = mon_templates.begin();
+         monit != mon_templates.end(); ++monit) {
         if (count == mon){
             return monit->second;
         }
@@ -442,31 +464,34 @@ std::map<std::string, mtype*> MonsterGenerator::get_all_mtypes() const
 }
 std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 {
-    static std::vector<std::string> hold;
-    if (hold.empty()){
-        for (std::map<std::string, mtype*>::const_iterator mon = mon_templates.begin(); mon != mon_templates.end(); ++mon){
+    std::vector<std::string> hold;
+        for (std::map<std::string, mtype*>::const_iterator mon = mon_templates.begin();
+             mon != mon_templates.end(); ++mon){
             hold.push_back(mon->first);
         }
-    }
-    const std::vector<std::string> ret = hold;
-    return ret;
+    return hold;
 }
 
 mtype *MonsterGenerator::get_valid_hallucination()
 {
-    static std::vector<mtype*> potentials;
-    if (potentials.empty()){
-        for (std::map<std::string, mtype*>::iterator mon = mon_templates.begin(); mon != mon_templates.end(); ++mon){
+    std::vector<mtype*> potentials;
+        for (std::map<std::string, mtype*>::iterator mon = mon_templates.begin();
+             mon != mon_templates.end(); ++mon){
             if (mon->first != "mon_null" && mon->first != "mon_generator"){
                 potentials.push_back(mon->second);
             }
         }
-    }
 
     return potentials[rng(0, potentials.size() - 1)];
 }
 
-std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(JsonObject& jo, std::string member)
+m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
+{
+    return flag_map.find( flag )->second;
+}
+
+std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(JsonObject& jo,
+                                                                              std::string member)
 {
     std::vector<void (mdeath::*)(monster*)> deaths;
 
@@ -484,29 +509,24 @@ std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(Js
 
 MonAttackFunction MonsterGenerator::get_attack_function(JsonObject& jo, std::string member)
 {
-    static MonAttackFunction default_attack = attack_map["NONE"];
-
-    if (attack_map.find(jo.get_string(member, "")) != attack_map.end())
-    {
+    if (attack_map.find(jo.get_string(member, "")) != attack_map.end()) {
         return attack_map[jo.get_string(member)];
     }
 
-    return default_attack;
+    return attack_map["NONE"];
 }
 
 MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject& jo, std::string member)
 {
-    static MonDefenseFunction default_defense = defense_map["NONE"];
-
-    if (defense_map.find(jo.get_string(member, "")) != defense_map.end())
-    {
+    if (defense_map.find(jo.get_string(member, "")) != defense_map.end()) {
         return defense_map[jo.get_string(member)];
     }
 
-    return default_defense;
+    return defense_map["NONE"];
 }
 template <typename T>
-std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags, std::map<std::string, T> conversion_map, T fallback)
+std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags,
+                                                std::map<std::string, T> conversion_map, T fallback)
 {
     std::set<T> ret;
 
@@ -525,7 +545,8 @@ std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags, std:
 }
 
 template <typename T>
-T MonsterGenerator::get_from_string(std::string tag, std::map<std::string, T> conversion_map, T fallback)
+T MonsterGenerator::get_from_string(std::string tag, std::map<std::string, T> conversion_map,
+                                    T fallback)
 {
     T ret = fallback;
     if (conversion_map.find(tag) != conversion_map.end()){
@@ -546,7 +567,8 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
         if (!mon->death_drops.empty() && !item_controller->has_group(mon->death_drops)) {
-            debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(), mon->death_drops.c_str());
+            debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
+                     mon->death_drops.c_str());
         }
     }
 }

@@ -1,6 +1,3 @@
-
-#include "veh_type.h"
-
 #if (defined SDLTILES)
 #include <algorithm>
 #include "cata_tiles.h"
@@ -9,9 +6,12 @@
 #include "path_info.h"
 #include "monstergenerator.h"
 #include "item_factory.h"
+#include "veh_type.h"
 #include <fstream>
 
 #include "SDL2/SDL_image.h"
+
+#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 #define ITEM_HIGHLIGHT "highlight_item"
 
@@ -52,7 +52,8 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_hit = false;
     do_draw_line = false;
     do_draw_weather = false;
-    do_draw_footsteps = false;
+    do_draw_sct = false;
+    do_draw_zones = false;
 
     boomered = false;
     sight_impaired = false;
@@ -88,18 +89,17 @@ void cata_tiles::init(std::string load_file_path)
     // send this information to old init to avoid redundant code
     load_tilejson(json_path, tileset_path);
 }
+
 void cata_tiles::reinit(std::string load_file_path)
 {
     clear_buffer();
     clear();
-    std::string json_path, tileset_path;
-    get_tile_information(load_file_path, json_path, tileset_path);
-    load_tilejson(json_path, tileset_path);
+    init(load_file_path);
 }
 
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
-    DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
+    dbg( D_INFO ) << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]";
     const std::string filename = "tileset.txt";                 // tileset-information-file
     const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
     const std::string default_tileset = FILENAMES["defaulttilepng"];
@@ -112,7 +112,7 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
         fin.open(it->c_str());
         if(!fin.is_open()) {
             fin.close();
-            DebugLog() << "\tCould not read ." << *it << " -- Setting to default values!\n";
+            dbg( D_ERROR ) << "Could not read " << *it << " -- Setting to default values!";
             json_path = default_json;
             tileset_path = default_tileset;
             return;
@@ -140,11 +140,11 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
                 } else if (sOption.find("JSON") != std::string::npos) {
                     fin >> json_path;
                     json_path = FILENAMES["gfxdir"] + json_path;
-                    DebugLog() << "\tJSON path set to [" << json_path << "].\n";
+                    dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
                 } else if (sOption.find("TILESET") != std::string::npos) {
                     fin >> tileset_path;
                     tileset_path = FILENAMES["gfxdir"] + tileset_path;
-                    DebugLog() << "\tTILESET path set to [" << tileset_path << "].\n";
+                    dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
                 }
             }
         }
@@ -153,11 +153,11 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
     if (json_path == "") {
         json_path = default_json;
-        DebugLog() << "\tJSON set to default [" << json_path << "].\n";
+        dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
     }
     if (tileset_path == "") {
         tileset_path = default_tileset;
-        DebugLog() << "\tTILESET set to default [" << tileset_path << "].\n";
+        dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
     }
 }
 
@@ -167,10 +167,7 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
     SDL_Surface *tile_atlas = IMG_Load(path.c_str());
 
     if(!tile_atlas) {
-        std::cerr << "Could not locate tileset file at " << path << std::endl;
-        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
-        // TODO: run without tileset
-        return 0;
+        throw std::string("Could not load tileset image at ") + path + ", error: " + IMG_GetError();
     }
 
         /** get dimensions of the atlas image */
@@ -195,7 +192,12 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
                 source_rect.y = y;
 
                 SDL_Surface *tile_surf = create_tile_surface();
-                SDL_BlitSurface(tile_atlas, &source_rect, tile_surf, &dest_rect);
+                if( tile_surf == nullptr ) {
+                    continue;
+                }
+                if( SDL_BlitSurface( tile_atlas, &source_rect, tile_surf, &dest_rect ) != 0 ) {
+                    dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+                }
                 if (R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255) {
                     Uint32 key = SDL_MapRGB(tile_surf->format, 0,0,0);
                     SDL_SetColorKey(tile_surf, SDL_TRUE, key);
@@ -203,15 +205,20 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
                 }
 
                 SDL_Texture *tile_tex = SDL_CreateTextureFromSurface(renderer,tile_surf);
+                if( tile_tex == nullptr ) {
+                    dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
+                }
 
                 SDL_FreeSurface(tile_surf);
 
+                if( tile_tex != nullptr ) {
                 tile_values.push_back(tile_tex);
                 tilecount++;
+                }
             }
         }
 
-        DebugLog() << "Tiles Created: " << tilecount << "\n";
+        dbg( D_INFO ) << "Tiles Created: " << tilecount;
         SDL_FreeSurface(tile_atlas);
         return tilecount;
 }
@@ -226,23 +233,17 @@ void cata_tiles::set_draw_scale(int scale) {
 
 void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 {
-    DebugLog() << "Attempting to Load JSON file\n";
+    dbg( D_INFO ) << "Attempting to Load JSON file " << path;
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
-        //throw (std::string)"ERROR: " + path + (std::string)" could not be read.";
-        DebugLog() << (std::string)"ERROR: " + path + (std::string)" could not be read.\n";
-        throw std::string("failed to open tile info json");
+        throw std::string("failed to open tile info json: ") + path;
     }
 
-    try {
         load_tilejson_from_file( config_file, image_path );
         if (tile_ids.count("unknown") == 0) {
             debugmsg("The tileset you're using has no 'unknown' tile defined!");
         }
-    } catch (std::string e) {
-        debugmsg("%s: %s", path.c_str(), e.c_str());
-    }
 }
 
 void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &image_path)
@@ -253,7 +254,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
 
     /** 1) Make sure that the loaded file has the "tile_info" section */
     if (!config.has_member("tile_info")) {
-        throw (std::string)"ERROR: \"tile_info\" missing\n";
+        config.throw_error( "\"tile_info\" missing" );
     }
 
     JsonArray info = config.get_array("tile_info");
@@ -288,7 +289,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
                 B = tra.get_int("B");
             }
             // First load the tileset image to get the number of available tiles.
-            DebugLog() << "Attempting to Load Tileset file\n";
+            dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
             const int newsize = load_tileset(tileset_image_path, R, G, B);
             // Now load the tile definitions for the loaded tileset image.
             load_tilejson_from_file(tile_part_def, offset, newsize);
@@ -301,7 +302,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         }
     } else {
         // old system, no tile file path entry, only one array of tiles
-        DebugLog() << "Attempting to Load Tileset file\n";
+        dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
         const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
     }
@@ -321,7 +322,7 @@ void cata_tiles::add_ascii_subtile(tile_type *curr_tile, const std::string &t_id
 void cata_tiles::load_ascii_tilejson_from_file(JsonObject &config, int offset, int size)
 {
     if (!config.has_member("ascii")) {
-        config.throw_error("ERROR: \"ascii\" section missing", "ascii");
+        config.throw_error( "\"ascii\" section missing" );
     }
     JsonArray ascii = config.get_array("ascii");
     while (ascii.has_more()) {
@@ -438,7 +439,7 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
 void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int size)
 {
     if (!config.has_member("tiles")) {
-        throw (std::string)"ERROR: \"tiles\" section missing\n";
+        config.throw_error( "\"tiles\" section missing" );
     }
 
     JsonArray tiles = config.get_array("tiles");
@@ -466,7 +467,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
         curr_tile->multitile = t_multi;
         curr_tile->rotates = t_rota;
     }
-    DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size() << "\n";
+    dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size();
 }
 
 tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
@@ -535,6 +536,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
                 // Draw lighting
                 draw_lighting(x, y, l);
                 // continue on to next part of loop
+                g->mapRain[my][mx] = false;
                 continue;
             }
             // light is no longer being considered, for now.
@@ -542,6 +544,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             if (!draw_terrain(x, y)) {
                 continue;
             }
+            g->mapRain[my][mx] = g->m.is_outside(x, y);
             draw_furniture(x, y);
             draw_trap(x, y);
             draw_field_or_item(x, y);
@@ -549,7 +552,11 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_entity(x, y);
         }
     }
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit || do_draw_line || do_draw_weather || do_draw_footsteps;
+    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
+                   do_draw_line || do_draw_weather || do_draw_sct ||
+                   do_draw_zones;
+
+    draw_footsteps_frame();
     if (in_animation) {
         if (do_draw_explosion) {
             draw_explosion_frame();
@@ -569,9 +576,13 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             draw_weather_frame();
             void_weather();
         }
-        if (do_draw_footsteps) {
-            draw_footsteps_frame();
-            void_footsteps();
+        if (do_draw_sct) {
+            draw_sct_frame();
+            void_sct();
+        }
+        if (do_draw_zones) {
+            draw_zones_frame();
+            void_zones();
         }
     }
     // check to see if player is located at ter
@@ -630,7 +641,9 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         } else if (category == C_MONSTER) {
             if (MonsterGenerator::generator().has_mtype(id)) {
                 const mtype *m = MonsterGenerator::generator().get_mtype(id);
-                sym = m->sym;
+                int len = m->sym.length();
+                const char *s = m->sym.c_str();
+                sym = UTF8_getch(&s, &len);
                 col = m->color;
             }
         } else if (category == C_VEHICLE_PART) {
@@ -645,13 +658,10 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
                 col = v.color;
             }
         } else if (category == C_FIELD) {
-            for(int i = 0; i < num_fields; i++) {
-                if(field_names[i] == id) {
-                    sym = fieldlist[i].sym;
-                    // TODO: field density?
-                    col = fieldlist[i].color[0];
-                }
-            }
+            const field_id fid = field_from_ident( id );
+            sym = fieldlist[fid].sym;
+            // TODO: field density?
+            col = fieldlist[fid].color[0];
         } else if (category == C_TRAP) {
             if (trapmap.count(id) > 0) {
                 const trap *t = traplist[trapmap[id]];
@@ -659,11 +669,9 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
                 col = t->color;
             }
         } else if (category == C_ITEM) {
-            if (item_controller->has_template(id)) {
-                const itype *i = item_controller->find_template(id);
-                sym = i->sym;
-                col = i->color;
-            }
+            const itype *i = item_controller->find_template(id);
+            sym = i->sym;
+            col = i->color;
         }
         // Special cases for walls
         switch(sym) {
@@ -749,7 +757,6 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
         if (std::find(display_subtiles.begin(), display_subtiles.end(), multitile_keys[subtile]) != display_subtiles.end()) {
             // append subtile name to tile and re-find display_tile
             const std::string new_id = id + "_" + multitile_keys[subtile];
-            //DebugLog() << "<"<< id << ">\n";
             return draw_from_id_string(new_id, x, y, -1, rota);
         }
     }
@@ -782,39 +789,45 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     destination.h = tile_height;
 
     // blit background first : always non-rotated
-    if (bg >= 0 && bg < tile_values.size()) {
+    if( bg >= 0 && static_cast<size_t>( bg ) < tile_values.size() ) {
         SDL_Texture *bg_tex = tile_values[bg];
-        SDL_RenderCopyEx(renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE );
+        if( SDL_RenderCopyEx( renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE ) != 0 ) {
+            dbg( D_ERROR ) << "SDL_RenderCopyEx(bg) failed: " << SDL_GetError();
+        }
     }
 
+    int ret = 0;
     // blit foreground based on rotation
     if (rota == 0) {
-        if (fg >= 0 && fg < tile_values.size()) {
+        if (fg >= 0 && static_cast<size_t>( fg ) < tile_values.size()) {
             SDL_Texture *fg_tex = tile_values[fg];
-            SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE);
+            ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE );
         }
     } else {
-        if (fg >= 0 && fg < tile_values.size()) {
+        if (fg >= 0 && static_cast<size_t>( fg ) < tile_values.size()) {
             SDL_Texture *fg_tex = tile_values[fg];
 
             if(rota == 1) {
 #if (defined _WIN32 || defined WINDOWS)
                 destination.y -= 1;
 #endif
-                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
+                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
                     -90, NULL, SDL_FLIP_NONE );
             } else if(rota == 2) {
                 //flip rather then rotate here
-                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
-                    0, NULL, (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL) );
+                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
+                    0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
             } else { //rota == 3
 #if (defined _WIN32 || defined WINDOWS)
                 destination.x -= 1;
 #endif
-                SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination,
+                ret = SDL_RenderCopyEx( renderer, fg_tex, NULL, &destination,
                     90, NULL, SDL_FLIP_NONE );
             }
         }
+    }
+    if( ret != 0 ) {
+        dbg( D_ERROR ) << "SDL_RenderCopyEx(fg) failed: " << SDL_GetError();
     }
 
     return true;
@@ -839,6 +852,8 @@ bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
         case BOOMER_DARK:
             light_name = "lighting_boomered_dark";
             break;
+        case CLEAR: // Actually handled by the caller.
+            return false;
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
@@ -916,6 +931,9 @@ bool cata_tiles::draw_trap(int x, int y)
     if (tr_id == tr_null) {
         return false;
     }
+    if (!traplist[tr_id]->can_see(g->u, x, y)) {
+        return false;
+    }
 
     const std::string tr_name = traplist[tr_id]->id;
 
@@ -977,7 +995,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
     bool ret_draw_field = true;
     bool ret_draw_item = true;
     if (is_draw_field) {
-        std::string fd_name = field_names[f.fieldSymbol()];
+        const std::string fd_name = fieldlist[f.fieldSymbol()].id;
 
         // for rotation inforomation
         const int neighborhood[4] = {
@@ -1062,20 +1080,18 @@ bool cata_tiles::draw_entity(int x, int y)
     bool entity_here = false;
     // check for monster (most common)
     if (!entity_here && g->mon_at(x, y) >= 0) {
-        monster m = g->zombie(g->mon_at(x, y));
-        if (!m.dead) {
+        monster &m = g->zombie(g->mon_at(x, y));
             ent_name = m.type->id;
             ent_category = C_MONSTER;
-            if(m.type->species.size() >= 1) {
+            if(!(m.type->species.empty())) {
                 ent_subcategory = *(m.type->species.begin());
             }
             entity_here = true;
-        }
     }
     // check for NPC (next most common)
     if (!entity_here && g->npc_at(x, y) >= 0) {
         npc &m = *g->active_npc[g->npc_at(x, y)];
-        if (!m.dead) {
+        if( !m.is_dead() ) {
             ent_name = m.male ? "npc_male" : "npc_female";
             entity_here = true;
         }
@@ -1111,6 +1127,9 @@ SDL_Surface *cata_tiles::create_tile_surface()
     #else
         surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
     #endif
+    if( surface == nullptr ) {
+        dbg( D_ERROR ) << "Failed to create surface: " << SDL_GetError();
+    }
     return surface;
 }
 
@@ -1122,15 +1141,23 @@ void cata_tiles::create_default_item_highlight()
     int index = tile_values.size();
 
     SDL_Surface *surface = create_tile_surface();
+    if( surface == nullptr ) {
+        return;
+    }
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    if( texture == nullptr ) {
+        dbg( D_ERROR ) << "Failed to create texture: " << SDL_GetError();
+    }
     SDL_FreeSurface(surface);
 
+    if( texture != nullptr ) {
     tile_values.push_back(texture);
     tile_type *type = new tile_type;
     type->fg = index;
     type->bg = -1;
     tile_ids[key] = type;
+    }
 }
 
 /* Animation Functions */
@@ -1171,10 +1198,16 @@ void cata_tiles::init_draw_weather(weather_printable weather, std::string name)
     weather_name = name;
     anim_weather = weather;
 }
-void cata_tiles::init_draw_footsteps(std::queue<point> steps)
+void cata_tiles::init_draw_sct()
 {
-    do_draw_footsteps = true;
-    footsteps = steps;
+    do_draw_sct = true;
+}
+void cata_tiles::init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset)
+{
+    do_draw_zones = true;
+    pStartZone = p_pointStart;
+    pEndZone = p_pointEnd;
+    pZoneOffset = p_pointOffset;
 }
 /* -- Void Animators */
 void cata_tiles::void_explosion()
@@ -1213,9 +1246,13 @@ void cata_tiles::void_weather()
     weather_name = "";
     anim_weather.vdrops.clear();
 }
-void cata_tiles::void_footsteps()
+void cata_tiles::void_sct()
 {
-    do_draw_footsteps = false;
+    do_draw_sct = false;
+}
+void cata_tiles::void_zones()
+{
+    do_draw_zones = false;
 }
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
@@ -1264,9 +1301,9 @@ void cata_tiles::draw_line()
     int mx = line_pos_x, my = line_pos_y;
     std::string line_overlay = "animation_line";
     if (!is_target_line || g->u_see(mx, my)) {
-        for (int i = 0; i < line_trajectory.size() - 1; i++) {
-            mx = line_trajectory[i].x;
-            my = line_trajectory[i].y;
+        for( auto it = line_trajectory.begin(); it != line_trajectory.end() - 1; ++it ) {
+            mx = it->x;
+            my = it->y;
 
             draw_from_id_string(line_overlay, mx, my, 0, 0);
         }
@@ -1278,37 +1315,71 @@ void cata_tiles::draw_line()
 }
 void cata_tiles::draw_weather_frame()
 {
-    for (std::vector<std::pair<int, int> >::iterator weather_iterator = anim_weather.vdrops.begin();
-            weather_iterator != anim_weather.vdrops.end();
-            ++weather_iterator) {
+    for( auto weather_iterator = anim_weather.vdrops.begin();
+         weather_iterator != anim_weather.vdrops.end(); ++weather_iterator ) {
         // currently in ascii screen coordinates
-        int x = weather_iterator->first;
-        int y = weather_iterator->second;
-
-        x = x + g->ter_view_x - getmaxx(g->w_terrain) / 2;
-        y = y + g->ter_view_y - getmaxy(g->w_terrain) / 2;
-
+        int x = weather_iterator->first + o_x;
+        int y = weather_iterator->second + o_y;
         draw_from_id_string(weather_name, C_WEATHER, empty_string, x, y, 0, 0);
     }
 }
+void cata_tiles::draw_sct_frame()
+{
+    for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
+        const int iDX = iter->getPosX();
+        const int iDY = iter->getPosY();
+
+        int iOffsetX = 0;
+
+        for (int j=0; j < 2; ++j) {
+            std::string sText = iter->getText((j == 0) ? "first" : "second");
+            int FG = msgtype_to_tilecolor( iter->getMsgType((j == 0) ? "first" : "second"),
+                                           (iter->getStep() >= SCT.iMaxSteps / 2) );
+
+            for( std::string::iterator it = sText.begin(); it != sText.end(); ++it ) {
+                std::string generic_id("ASCII_XFB");
+                generic_id[6] = static_cast<char>(*it);
+                generic_id[7] = static_cast<char>(FG);
+                generic_id[8] = static_cast<char>(-1);
+
+                if (tile_ids.count(generic_id) > 0) {
+                    draw_from_id_string(generic_id, C_NONE, empty_string, iDX + iOffsetX, iDY, 0, 0);
+                }
+
+                iOffsetX++;
+            }
+        }
+    }
+}
+void cata_tiles::draw_zones_frame()
+{
+    bool item_highlight_available = tile_ids.find(ITEM_HIGHLIGHT) != tile_ids.end();
+
+    if (!item_highlight_available) {
+        create_default_item_highlight();
+        item_highlight_available = true;
+    }
+
+    for (int iY=pStartZone.y; iY <= pEndZone.y; ++iY) {
+        for (int iX=pStartZone.x; iX <= pEndZone.x; ++iX) {
+            draw_from_id_string(ITEM_HIGHLIGHT, C_NONE, empty_string, iX + pZoneOffset.x, iY + pZoneOffset.y, 0, 0);
+        }
+    }
+
+}
 void cata_tiles::draw_footsteps_frame()
 {
-    const std::string footstep_tilestring = "footstep";
-    while (!footsteps.empty()) {
-        point p = footsteps.front();
-        footsteps.pop();
-
-        int x = p.x;
-        int y = p.y;
-
-        draw_from_id_string(footstep_tilestring, x, y, 0, 0);
+    static const std::string footstep_tilestring = "footstep";
+    std::vector<point> markers;
+    g->calculate_footstep_markers(markers);
+    for (std::vector<point>::const_iterator a = markers.begin(); a != markers.end(); ++a) {
+        draw_from_id_string(footstep_tilestring, a->x, a->y, 0, 0);
     }
 }
 /* END OF ANIMATION FUNCTIONS */
 
 void cata_tiles::init_light()
 {
-    g->m.build_map_cache();
     g->reset_light_level();
 
     sightrange_natural = g->u.sight_range(1);
@@ -1318,7 +1389,7 @@ void cata_tiles::init_light()
     sightrange_max = g->u.unimpaired_range();
     u_clairvoyance = g->u.clairvoyance();
 
-    boomered = g->u.has_disease("boomered");
+    boomered = g->u.has_effect("boomered");
     sight_impaired = g->u.sight_impaired();
     bionight_bionic_active = g->u.has_active_bionic("bio_night");
 }
@@ -1329,9 +1400,7 @@ LIGHTING cata_tiles::light_at(int x, int y)
     const int dist = rl_dist(g->u.posx, g->u.posy, x, y);
 
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
-    int distance_to_look = real_max_sight_range;
-
-    distance_to_look = DAYLIGHT_LEVEL;
+    int distance_to_look = DAYLIGHT_LEVEL;
 
     bool can_see = g->m.pl_sees(g->u.posx, g->u.posy, x, y, distance_to_look);
     lit_level lit = g->m.light_at(x, y);

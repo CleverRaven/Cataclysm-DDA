@@ -1,12 +1,6 @@
 #ifndef _COORDINATES_H_
 #define _COORDINATES_H_
 
-#include <stdlib.h>
-#include <vector>
-#include <string>
-#include <set>
-#include <map>
-
 #include "mapdata.h"
 #include "overmap.h"
 

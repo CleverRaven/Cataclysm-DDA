@@ -5,34 +5,75 @@
 #include "options.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "overmapbuffer.h"
+#include "messages.h"
+#include <climits>
+
+event::event()
+{
+    type = EVENT_NULL;
+    turn = 0;
+    faction_id = -1;
+    map_point.x = INT_MIN;
+    map_point.y = INT_MIN;
+}
+
+event::event( event_type e_t, int t, int f_id, int x, int y )
+{
+    type = e_t;
+    turn = t;
+    faction_id = f_id;
+    map_point.x = x;
+    map_point.y = y;
+}
 
 void event::actualize()
 {
- switch (type) {
-
-  case EVENT_HELP: {
-   npc tmp;
-   int num = 1;
-   if (faction_id >= 0)
-    num = rng(1, 6);
-   for (int i = 0; i < num; i++) {
-    if (faction_id != -1) {
-     faction* fac = g->faction_by_id(faction_id);
-     if (fac)
-      tmp.randomize_from_faction(fac);
-     else
-      debugmsg("EVENT_HELP run with invalid faction_id");
-    } else
-     tmp.randomize();
-    tmp.attitude = NPCATT_DEFEND;
-    tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
-    tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
-    g->active_npc.push_back(&tmp);
-   }
-  } break;
+    switch( type ) {
+        case EVENT_HELP:
+            debugmsg("Currently disabled while NPC and monster factions are being rewritten.");
+        /*
+        {
+            int num = 1;
+            if( faction_id >= 0 ) {
+                num = rng( 1, 6 );
+            }
+            for( int i = 0; i < num; i++ ) {
+                npc *temp = new npc();
+                temp->normalize();
+                if( faction_id != -1 ) {
+                    faction *fac = g->faction_by_id( faction_id );
+                    if( fac ) {
+                        temp->randomize_from_faction( fac );
+                    } else {
+                        debugmsg( "EVENT_HELP run with invalid faction_id" );
+                        temp->randomize();
+                    }
+                } else {
+                    temp->randomize();
+                }
+                temp->attitude = NPCATT_DEFEND;
+                // important: npc::spawn_at must be called to put the npc into the overmap
+                temp->spawn_at( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz() );
+                // spawn at the border of the reality bubble, outside of the players view
+                if( one_in( 2 ) ) {
+                    temp->posx = rng( 0, SEEX * MAPSIZE - 1 );
+                    temp->posy = rng( 0, 1 ) * SEEY * MAPSIZE;
+                } else {
+                    temp->posx = rng( 0, 1 ) * SEEX * MAPSIZE;
+                    temp->posy = rng( 0, SEEY * MAPSIZE - 1 );
+                }
+                // And tell the npc to go to the player.
+                temp->goal.x = g->om_global_location().x;
+                temp->goal.y = g->om_global_location().y;
+                // The npcs will be loaded later by game::load_npcs()
+            }
+        }
+        */
+        break;
 
   case EVENT_ROBOT_ATTACK: {
-   if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4) {
+   if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
     mtype *robot_type = GetMType("mon_tripod");
     if (faction_id == 0) { // The cops!
      robot_type = GetMType("mon_copbot");
@@ -40,8 +81,8 @@ void event::actualize()
                            pgettext("memorial_female", "Became wanted by the police!"));
     }
     monster robot(robot_type);
-    int robx = (g->levx > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
-        roby = (g->levy > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
+    int robx = (g->get_abs_levx() > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
+        roby = (g->get_abs_levy() > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
     robot.spawn(robx, roby);
     g->add_zombie(robot);
    }
@@ -62,14 +103,14 @@ void event::actualize()
      mony = rng(0, SEEY * MAPSIZE);
      tries++;
     } while (tries < 10 && !g->is_empty(monx, mony) &&
-             rl_dist(g->u.posx, g->u.posx, monx, mony) <= 2);
+             rl_dist(g->u.posx, g->u.posy, monx, mony) <= 2);
     if (tries < 10) {
      wyrm.spawn(monx, mony);
      g->add_zombie(wyrm);
     }
    }
    if (!one_in(25)) // They just keep coming!
-    g->add_event(EVENT_SPAWN_WYRMS, int(g->turn) + rng(15, 25));
+    g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
   } break;
 
   case EVENT_AMIGARA: {
@@ -143,7 +184,7 @@ void event::actualize()
     }
    }
    if (saw_grate)
-    g->add_msg(_("The nearby grates open to reveal a staircase!"));
+    add_msg(_("The nearby grates open to reveal a staircase!"));
   } break;
 
   case EVENT_TEMPLE_FLOOD: {
@@ -188,11 +229,11 @@ void event::actualize()
 // Check if we should print a message
    if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
     if (flood_buf[g->u.posx][g->u.posy] == t_water_sh) {
-     g->add_msg(_("Water quickly floods up to your knees."));
+     add_msg(m_warning, _("Water quickly floods up to your knees."));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached knees."),
                            pgettext("memorial_female", "Water level reached knees."));
     } else { // Must be deep water!
-     g->add_msg(_("Water fills nearly to the ceiling!"));
+     add_msg(m_warning, _("Water fills nearly to the ceiling!"));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached the ceiling."),
                            pgettext("memorial_female", "Water level reached the ceiling."));
      g->plswim(g->u.posx, g->u.posy);
@@ -203,7 +244,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++)
        g->m.ter_set(x, y, flood_buf[x][y]);
    }
-   g->add_event(EVENT_TEMPLE_FLOOD, int(g->turn) + rng(2, 3));
+   g->add_event(EVENT_TEMPLE_FLOOD, int(calendar::turn) + rng(2, 3));
   } break;
 
   case EVENT_TEMPLE_SPAWN: {
@@ -247,7 +288,7 @@ void event::per_turn()
     eyebot.spawn(place.x, place.y);
     g->add_zombie(eyebot);
     if (g->u_see(place.x, place.y))
-     g->add_msg(_("An eyebot swoops down nearby!"));
+     add_msg(m_warning, _("An eyebot swoops down nearby!"));
    }
   } break;
 
@@ -256,16 +297,16 @@ void event::per_turn()
     turn--;
     return;
    }
-   if (int(g->turn) % 3 == 0)
-    g->add_msg(_("You hear screeches from the rock above and around you!"));
+   if (int(calendar::turn) % 3 == 0)
+    add_msg(m_warning, _("You hear screeches from the rock above and around you!"));
    break;
 
   case EVENT_AMIGARA:
-   g->add_msg(_("The entire cavern shakes!"));
+   add_msg(m_warning, _("The entire cavern shakes!"));
    break;
 
   case EVENT_TEMPLE_OPEN:
-   g->add_msg(_("The earth rumbles."));
+   add_msg(m_warning, _("The earth rumbles."));
    break;
 
 

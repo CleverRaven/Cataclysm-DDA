@@ -10,7 +10,6 @@
 #include "debug.h"
 #include "map.h"
 #include "output.h"
-#include "item_factory.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
 #include "trap.h"
@@ -42,6 +41,8 @@
 #include "skill.h"
 #include "vehicle.h"
 #include "file_finder.h"
+
+#define ARRAY_SIZE(array) ( sizeof( array ) / sizeof( array[0] ) )
 
 //
 #include "mission.h"
@@ -84,7 +85,6 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             pdata.read("run_mode", tmprun);
             pdata.read("mostseen", mostseen);
             pdata.read("nextinv", tmpinv);
-            nextinv = (char)tmpinv;
             pdata.read("next_npc_id", next_npc_id);
             pdata.read("next_faction_id", next_faction_id);
             pdata.read("next_mission_id", next_mission_id);
@@ -99,11 +99,11 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             pdata.read("om_x",comx);
             pdata.read("om_y",comy);
 
-            turn = tmpturn;
+            calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -140,7 +140,6 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kscrap;
             if ( linein.peek() == '{' ) {
                 try {
                     JsonIn kjin(linein);
@@ -149,13 +148,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                     debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
                 }
             } else {
-                for (int kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                    if ( kk < 126 ) { // see legacy_mon_id
+                for (size_t kk = 0; kk < ARRAY_SIZE(legacy_mon_id) && !linein.eof(); kk++) {
                         // load->int->str->int (possibly shifted)
                         linein >> kills[legacy_mon_id[kk]];
-                    } else {
-                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
-                    }
                 }
             }
 
@@ -176,9 +171,10 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
 
-            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+            // tempinv is a no-longer used field, so is discarded.
+            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
                 next_faction_id >> next_mission_id >> tmpspawn;
 
             getline(fin, linebuf);
@@ -186,11 +182,11 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             parseline() >> levx >> levy >> levz >> comx >> comy;
 
-            turn = tmpturn;
+            calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -235,15 +231,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk; int kscrap;
-            for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                if ( kk < 126 ) { // see legacy_mon_id
+            for (size_t kk = 0; kk < ARRAY_SIZE(legacy_mon_id) && !linein.eof(); kk++) {
                     // load->int->str->int (possibly shifted)
-                    //kk = monster_ints[ legacy_mon_id[ kk ] ];
                     linein >> kills[legacy_mon_id[kk]];
-                } else {
-                    linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
-                }
             }
 
             // Finally, the data on the player.
@@ -293,9 +283,10 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
 
-            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+            // tempenv gets the value of the no-longer-used nextinv variable, so we discard it.
+            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
                 next_faction_id >> next_mission_id >> tmpspawn;
 
             getline(fin, linebuf);
@@ -303,11 +294,11 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             parseline() >> levx >> levy >> levz >> comx >> comy;
 
-            turn = tmpturn;
+            calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -352,15 +343,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk; int kscrap;
-            for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                if ( kk < 126 ) { // see legacy_mon_id
+            for (size_t kk = 0; kk < ARRAY_SIZE(legacy_mon_id) && !linein.eof(); kk++) {
                     // load->int->str->int (possibly shifted)
-                    //kk = monster_ints[ legacy_mon_id[ kk ] ];
                     linein >> kills[legacy_mon_id[kk]];
-                } else {
-                    linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
-                }
             }
 
             // Finally, the data on the player.
@@ -411,19 +396,20 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 /*
 original 'structure', which globs game/weather/location & killcount/player data onto the same lines.
 */
-         int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
-         fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+         int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+         // tempinv gets the legacy nextinv value and is discarded.
+         fin >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
              next_faction_id >> next_mission_id >> tmpspawn;
 
          load_legacy_future_weather(fin);
 
          fin >> levx >> levy >> levz >> comx >> comy;
 
-         turn = tmpturn;
+         calendar::turn = tmpturn;
          nextspawn = tmpspawn;
 
          cur_om = &overmap_buffer.get(comx, comy);
-         m.load(levx, levy, levz);
+         m.load(levx, levy, levz, true, cur_om);
 
          run_mode = tmprun;
          if (OPTIONS["SAFEMODE"] && run_mode == 0)
@@ -465,7 +451,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
         // And the kill counts;
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
-         for (int i = 0; i < num_monsters; i++)
+         for (size_t i = 0; i < ARRAY_SIZE(legacy_mon_id); i++)
           fin >> kills[legacy_mon_id[i]];
         // Finally, the data on the player.
          if (fin.peek() == '\n')
@@ -1089,14 +1075,14 @@ static bool unserialize_legacy(std::ifstream & fin ) {
            popup_nowait(_("Please wait as the map loads [%d/%d]"),
                         num_loaded, num_submaps);
           int locx, locy, locz, turn, temperature;
-          submap* sm = new submap();
+          std::unique_ptr<submap> sm(new submap());
           fin >> locx >> locy >> locz >> turn >> temperature;
           if(fin.eof()) {
               break;
           }
           sm->turn_last_touched = turn;
           sm->temperature = temperature;
-          int turndif = int(g->turn) - turn;
+          int turndif = int(calendar::turn) - turn;
           if (turndif < 0)
            turndif = 0;
         // Load terrain
@@ -1110,7 +1096,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             sm->itm[i][j].clear();
             sm->set_trap(i, j, tr_null);
             //sm->fld[i][j] = field(); //not needed now
-            sm->graf[i][j] = graffiti();
+            sm->set_graffiti(i, j, graffiti());
            }
           }
         // Load irradiation
@@ -1126,7 +1112,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
              }
             }
             count--;
-            sm->rad[i][j] = radtmp;
+            sm->set_radiation(i, j, radtmp);
            }
           }
         // Load items and traps and fields and spawn points and vehicles
@@ -1188,7 +1174,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             int i;
             fin >> j >> i;
             getline(fin,s);
-            sm->graf[j][i] = graffiti(s);
+            sm->set_graffiti(j, i, graffiti(s));
            }
           } while (string_identifier != "----" && !fin.eof());
 
@@ -1342,15 +1328,14 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
         }
 
         int locx, locy, locz, turn, temperature;
-        submap *sm = new submap();
+        std::unique_ptr<submap> sm(new submap());
         fin >> locx >> locy >> locz >> turn >> temperature;
         if(fin.eof()) {
-            delete sm;
             break;
         }
         sm->turn_last_touched = turn;
         sm->temperature = temperature;
-        int turndif = int(g->turn) - turn;
+        int turndif = int(calendar::turn) - turn;
         if (turndif < 0) {
             turndif = 0;
         }
@@ -1366,7 +1351,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 sm->set_furn(i, j, f_null);
                 sm->itm[i][j].clear();
                 sm->set_trap(i, j, tr_null);
-                sm->graf[i][j] = graffiti();
+                sm->set_graffiti(i, j, graffiti());
             }
         }
         // Load irradiation
@@ -1382,7 +1367,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                     }
                 }
                 count--;
-                sm->rad[i][j] = radtmp;
+                sm->set_radiation(i, j, radtmp);
             }
         }
         // Load items and traps and fields and spawn points and vehicles
@@ -1398,7 +1383,6 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 // file has ended, but the submap-separator string
                 // "----" has not been read, something's wrong, skip
                 // this probably damaged/invalid submap.
-                delete sm;
                 return;
             }
             fin >> string_identifier; // "----" indicates end of this submap
@@ -1459,7 +1443,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 int i;
                 fin >> j >> i;
                 getline(fin, s);
-                sm->graf[j][i] = graffiti(s);
+                sm->set_graffiti(j, i, graffiti(s));
             }
         } while (string_identifier != "----");
 
@@ -1536,7 +1520,7 @@ void player::load_legacy(std::stringstream & dump)
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
          underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
-         focus_pool >> male >> prof_ident >> health >> styletmp;
+         focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1606,7 +1590,7 @@ void player::load_legacy(std::stringstream & dump)
  dump >> numill;
  for (int i = 0; i < numill; i++) {
      dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart >> illtmp.side;
+          >> temp_bpart;
      illtmp.bp = (body_part)temp_bpart;
      illness.push_back(illtmp);
  }
@@ -1781,9 +1765,12 @@ void npc::load_legacy(std::stringstream & dump) {
  }
 // Special NPC stuff
  int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
+ int omx, omy;
  dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
-         omz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
+         mapz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
          flagstmp >> fac_id >> tmpatt;
+ mapx += omx * OMAPX * 2;
+ mapy += omy * OMAPY * 2;
  personality.aggression = agg;
  personality.bravery = bra;
  personality.collector = col;
@@ -1919,36 +1906,19 @@ void item::load_legacy(std::stringstream & dump) {
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
 
-    bool old_itype = false;
-
-    if ( idtmp == "null" ) {
-        std::map<std::string, std::string>::const_iterator oldity = item_vars.find("_invalid_itype_");
-        if ( oldity != item_vars.end() ) {
-            old_itype = true;
-            idtmp = oldity->second;
-        }
-    }
-
-    std::map<std::string, itype*>::const_iterator ity = itypes.find(idtmp);
-    if ( ity == itypes.end() ) {
-        item_vars["_invalid_itype_"] = idtmp;
-        make(NULL);
-    } else {
-        if ( old_itype ) {
-            item_vars.erase( "_invalid_itype_" );
-        }
-        make(ity->second);
-    }
+    make(idtmp);
 
     invlet = char(lettmp);
     damage = damtmp;
     active = false;
-    if (acttmp == 1)
+    if (acttmp == 1) {
         active = true;
-    if (ammotmp != "null")
+    }
+    if (ammotmp != "null") {
         curammo = dynamic_cast<it_ammo*>(itypes[ammotmp]);
-    else
+    } else {
         curammo = NULL;
+    }
 }
 
 ///// vehicle.h

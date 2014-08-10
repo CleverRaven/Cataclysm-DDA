@@ -1,0 +1,54 @@
+[
+  {
+    "type" : "vehicle_part",
+    "id" : "inflatable_section",
+    "name" : "inflatable section",
+    "symbol" : "O",
+    "color" : "green",
+    "size" : 60,
+    "broken_symbol" : "#",
+    "broken_color" : "light_gray",
+    "durability" : 50,
+    "item" : "inflatable_section",
+    "difficulty" : 3,
+    "location" : "structure",
+    "flags" : ["MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO"],
+    "breaks_into" : [ {"item": "plastic_chunk", "min": 10, "max": 20} ]
+  },{
+    "type" : "vehicle_part",
+    "id" : "inflatable_airbag",
+    "name" : "inflatable airbag",
+    "symbol" : "O",
+    "color" : "green",
+    "broken_symbol" : "x",
+    "broken_color" : "light_gray",
+    "damage_modifier" : 50,
+    "durability" : 40,
+    "wheel_width" : 4,
+    "item" : "inflatable_airbag",
+    "difficulty" : 2,
+    "location" : "under",
+    "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+    "breaks_into" : [ {"item": "plastic_chunk", "min": 10, "max": 20} ]
+},{
+    "type" : "vehicle_part",
+    "id" : "hand_paddles",
+    "name" : "hand paddles",
+    "symbol" : "*",
+    "color" : "light_gray",
+    "broken_symbol" : "#",
+    "broken_color" : "red",
+    "damage_modifier" : 50,
+    "durability" : 50,
+    "power" : 50,
+    "fuel_type" : "muscle",
+    "item" : "hand_paddles",
+    "difficulty" : 1,
+    "location" : "engine_block",
+    "flags" : ["PADDLES", "ENGINE", "FOLDABLE"],
+    "breaks_into" : [
+        {"item": "steel_chunk", "min": 1, "max": 2},
+        {"item": "plastic_chunk", "min": 10, "max": 20}
+    ]
+  }
+]

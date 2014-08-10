@@ -1,0 +1,145 @@
+{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_1",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_2",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_3",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_4",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_5",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_6",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_7",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_8",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_9",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_10",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_11",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_12",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_13",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_14",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_15",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_16",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },

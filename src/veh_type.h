@@ -35,6 +35,7 @@ enum vpart_bitflags {
     VPFLAG_SEATBELT,
     VPFLAG_WHEEL,
     VPFLAG_MOUNTABLE,
+    VPFLAG_FLOATS,
 
     VPFLAG_ALTERNATOR,
     VPFLAG_ENGINE,
@@ -88,6 +89,7 @@ struct vpart_info
     unsigned long bitflags; // flags checked so often that things slow down due to string cmp
 
     int z_order;        // z-ordering, inferred from location, cached here
+    int list_order;     // Display order in vehicle interact display
 
     bool has_flag(const std::string & flag) const {
         return flags.count(flag) != 0;

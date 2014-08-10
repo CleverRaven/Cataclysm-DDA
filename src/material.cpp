@@ -1,6 +1,6 @@
 #include "material.h"
 
-#include "output.h" // debugmsg
+#include "debug.h"
 #include "damage.h" // damage_type
 #include "json.h"
 #include "translations.h"
@@ -9,7 +9,7 @@
 
 material_type::material_type()
 {
-    _ident = "";
+    _ident = "null";
     _name = "null";
     _bash_resist = 0;
     _cut_resist = 0;
@@ -91,7 +91,7 @@ void material_type::load_material(JsonObject &jsobj)
     mat._dmg_adj[3] = _(jsarr.next_string().c_str());
 
     _all_materials[mat._ident] = mat;
-    //dout(D_INFO) << "Loaded material: " << mat._name;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded material: " << mat._name;
 }
 
 material_type* material_type::find_material(std::string ident)
@@ -148,7 +148,7 @@ int material_type::dam_resist(damage_type damtype) const
 
 bool material_type::is_null() const
 {
-    return (_ident == "");
+    return (_ident == "null");
 }
 
 std::string material_type::ident() const

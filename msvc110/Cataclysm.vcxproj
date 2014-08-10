@@ -152,9 +152,11 @@
     <ClCompile Include="..\src\mapgen.cpp" />
     <ClCompile Include="..\src\mapgenformat.cpp" />
     <ClCompile Include="..\src\mapgen_functions.cpp" />
+    <ClCompile Include="..\src\mapsharing.cpp" />
     <ClCompile Include="..\src\martialarts.cpp" />
     <ClCompile Include="..\src\material.cpp" />
     <ClCompile Include="..\src\melee.cpp" />
+    <ClCompile Include="..\src\messages.cpp" />
     <ClCompile Include="..\src\mission.cpp" />
     <ClCompile Include="..\src\missiondef.cpp" />
     <ClCompile Include="..\src\mission_end.cpp" />
@@ -184,11 +186,13 @@
     <ClCompile Include="..\src\overmap.cpp" />
     <ClCompile Include="..\src\overmapbuffer.cpp" />
     <ClCompile Include="..\src\path_info.cpp" />
+    <ClCompile Include="..\src\pickup.cpp" />
     <ClCompile Include="..\src\player.cpp" />
     <ClCompile Include="..\src\player_activity.cpp" />
     <ClCompile Include="..\src\posix_time.cpp" />
     <ClCompile Include="..\src\profession.cpp" />
     <ClCompile Include="..\src\ranged.cpp" />
+    <ClCompile Include="..\src\requirements.cpp" />
     <ClCompile Include="..\src\rng.cpp" />
     <ClCompile Include="..\src\savegame.cpp" />
     <ClCompile Include="..\src\savegame_json.cpp" />
@@ -256,6 +260,7 @@
     <ClInclude Include="..\src\file_finder.h" />
     <ClInclude Include="..\src\file_wrapper.h" />
     <ClInclude Include="..\src\game.h" />
+    <ClInclude Include="..\src\game_constants.h" />
     <ClInclude Include="..\src\gamemode.h" />
     <ClInclude Include="..\src\get_version.h" />
     <ClInclude Include="..\src\graffiti.h" />
@@ -270,6 +275,7 @@
     <ClInclude Include="..\src\item_group.h" />
     <ClInclude Include="..\src\itype.h" />
     <ClInclude Include="..\src\iuse.h" />
+    <ClInclude Include="..\src\iuse_actor.h" />
     <ClInclude Include="..\src\iuse_software.h" />
     <ClInclude Include="..\src\iuse_software_kitten.h" />
     <ClInclude Include="..\src\iuse_software_snake.h" />
@@ -285,8 +291,10 @@
     <ClInclude Include="..\src\mapgenformat.h" />
     <ClInclude Include="..\src\mapgen_functions.h" />
     <ClInclude Include="..\src\mapitems.h" />
+    <ClInclude Include="..\src\mapsharing.h" />
     <ClInclude Include="..\src\martialarts.h" />
     <ClInclude Include="..\src\material.h" />
+    <ClInclude Include="..\src\messages.h" />
     <ClInclude Include="..\src\mission.h" />
     <ClInclude Include="..\src\mod_manager.h" />
     <ClInclude Include="..\src\monattack.h" />
@@ -308,6 +316,7 @@
     <ClInclude Include="..\src\overmap.h" />
     <ClInclude Include="..\src\overmapbuffer.h" />
     <ClInclude Include="..\src\path_info.h" />
+    <ClInclude Include="..\src\pickup.h" />
     <ClInclude Include="..\src\platform.h" />
     <ClInclude Include="..\src\player.h" />
     <ClInclude Include="..\src\player_activity.h" />
@@ -315,6 +324,7 @@
     <ClInclude Include="..\src\posix_time.h" />
     <ClInclude Include="..\src\profession.h" />
     <ClInclude Include="..\src\rng.h" />
+    <ClInclude Include="..\src\requirements.h" />
     <ClInclude Include="..\src\savegame.h" />
     <ClInclude Include="..\src\SDLMain.h" />
     <ClInclude Include="..\src\setvector.h" />

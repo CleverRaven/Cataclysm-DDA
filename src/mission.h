@@ -40,6 +40,13 @@ enum mission_id {
  MISSION_KILL_HORDE_MASTER,             //demon slayer 3
  MISSION_RECRUIT_TRACKER,               //demon slayer 4
  MISSION_JOIN_TRACKER,                  //demon slayer 4b
+ MISSION_FREE_MERCHANTS_EVAC_1,         //Clear Back Bay
+ MISSION_FREE_MERCHANTS_EVAC_2,         //Kill Raiders
+ MISSION_FREE_MERCHANTS_EVAC_3,         //Acquire Plutonium Cells
+ MISSION_OLD_GUARD_REP_1,               //Bandit Pair
+ MISSION_OLD_GUARD_REP_2,               //Raider Informant
+ MISSION_OLD_GUARD_REP_3,               //Missing without a trace
+ MISSION_OLD_GUARD_REP_4,               //Raider Camp
  NUM_MISSION_IDS
 };
 
@@ -89,14 +96,20 @@ struct mission_start {
     void infect_npc         ( mission *); // DI_INFECTION, remove antibiotics
     void place_dog          ( mission *); // Put a dog in a house!
     void place_zombie_mom   ( mission *); // Put a zombie mom in a house!
+    void place_zombie_bay   ( mission *); // Put a boss zombie in the refugee/evac center back bay
+    void place_caravan_ambush ( mission *); // For Free Merchants mission
+    void place_bandit_cabin ( mission *); // For Old Guard mission
+    void place_informant    ( mission *); // For Old Guard mission
+    void place_grabber      ( mission *); // For Old Guard mission
+    void place_bandit_camp  ( mission *); // For Old Guard mission
     void place_jabberwock   ( mission *); // Put a jabberwok in the woods nearby
     void kill_100_z         ( mission *); // Kill 100 more regular zombies
-    void kill_horde_master  ( mission *);// Kill the master zombie at the center of the horde
+    void kill_horde_master  ( mission *); // Kill the master zombie at the center of the horde
     void place_npc_software ( mission *); // Put NPC-type-dependent software
     void place_priest_diary ( mission *); // Hides the priest's diary in a local house
     void place_deposit_box  ( mission *); // Place a safe deposit box in a nearby bank
     void reveal_lab_black_box ( mission *); // Reveal the nearest lab and give black box
-    void open_sarcophagus   ( mission *); // Reveal the sarcophagus and give access code acidia v
+    void open_sarcophagus   ( mission *); // Reveal the sarcophagus and give access code
     void reveal_hospital    ( mission *); // Reveal the nearest hospital
     void find_safety        ( mission *); // Goal is set to non-spawn area
     void point_prison       ( mission *); // Point to prison entrance
@@ -108,6 +121,7 @@ struct mission_start {
 struct mission_end { // These functions are run when a mission ends
     void standard       ( mission *){}; // Nothing special happens
     void leave          ( mission *); // NPC leaves after the mission is complete
+    void thankful       ( mission *); // NPC defaults to being a friendly stranger
     void deposit_box    ( mission *); // random valuable reward
     void heal_infection ( mission *);
 };
@@ -129,8 +143,9 @@ struct mission_type {
 
  std::vector<mission_origin> origins; // Points of origin
  itype_id item_id;
+ int item_count;
  npc_class recruit_class;  // The type of NPC you are to recruit
- int recruit_npc_id;
+ int target_npc_id;
  std::string monster_type;
  int monster_kill_goal;
  oter_id target_id;
@@ -153,9 +168,10 @@ struct mission_type {
    deadline_low = 0;
    deadline_high = 0;
    item_id = "null";
+   item_count = 1;
    target_id = 0;///(0);// = "";
    recruit_class = NC_NONE;
-   recruit_npc_id = -1;
+   target_npc_id = -1;
    monster_type = "mon_null";
    monster_kill_goal = -1;
    follow_up = MISSION_NULL;
@@ -177,12 +193,12 @@ public:
     // global overmap terrain coordinates.
     point target;
     itype_id item_id;       // Item that needs to be found (or whatever)
+    int item_count;         // The number of above items needed
     oter_id target_id;      // Destination type to be reached
-    npc_class recruit_class;// The type of NPC you are to recruit acidia
-    int recruit_npc_id;     // The ID of a specific NPC to recruit
+    npc_class recruit_class;// The type of NPC you are to recruit
+    int target_npc_id;     // The ID of a specific NPC to interact with
     std::string monster_type;    // Monster ID that are to be killed
     int monster_kill_goal;  // the kill count you wish to reach
-    int count;              // How many of that item
     int deadline;           // Turn number
     int npc_id;             // ID of a related npc
     int good_fac_id, bad_fac_id; // IDs of the protagonist/antagonist factions
@@ -190,7 +206,6 @@ public:
     mission_id follow_up;   // What mission do we get after this succeeds?
 
     std::string name();
-    std::string save_info();
     void load_info(std::ifstream &info);
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const;
@@ -206,12 +221,12 @@ public:
   uid = -1;
   target = point(INT_MIN, INT_MIN);
   item_id = "null";
+  item_count = 1;
   target_id = 0;
   recruit_class = NC_NONE;
-  recruit_npc_id = -1;
+  target_npc_id = -1;
   monster_type = "mon_null";
   monster_kill_goal = -1;
-  count = 0;
   deadline = 0;
   npc_id = -1;
   good_fac_id = -1;

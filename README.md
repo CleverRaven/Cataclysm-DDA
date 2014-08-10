@@ -1,6 +1,6 @@
 # Cataclysm: Dark Days Ahead
 
-Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there's far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for for food, equipment, or, if you're lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have...
+Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have...
 
 
 ## Download
@@ -12,13 +12,30 @@ The source can either be downloaded as [an archive](https://github.com/CleverRav
 
 ## Compile
 
-The latest instructions on how to compile can be found on [our wiki](http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile).
+The latest instructions on how to compile can be found on [our wiki](http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile).  See doc/COMPILER_SUPPORT.md for details on which compilers we support.
 
 
 ## Contribute
 
+[![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=146201)](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
+
 Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/CONTRIBUTING.md) for details.
 
+## Community
+
+Cataclysm: Dark Days Ahead main site, includes links to forum, wiki, and GitHub repo:
+http://www.cataclysmdda.com/
+
+Forums:
+http://smf.cataclysmdda.com
+Wiki:
+http://wiki.cataclysmdda.com/
+GitHub repo:
+https://github.com/CleverRaven/Cataclysm-DDA
+
+IRC:
+irc.freenode.net ; #CataclysmDDA
+http://webchat.freenode.net/?channels=#CataclysmDDA
 
 ## Frequently Asked Questions
 

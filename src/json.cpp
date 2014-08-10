@@ -10,6 +10,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <bitset>
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -624,6 +625,15 @@ bool JsonArray::test_string()
     return jsin->test_string();
 }
 
+bool JsonArray::test_bitset()
+{
+    if (!has_more()) {
+        return false;
+    }
+    jsin->seek(positions[index]);
+    return jsin->test_bitset();
+}
+
 bool JsonArray::test_array()
 {
     if (!has_more()) {
@@ -1080,7 +1090,7 @@ double JsonIn::get_float()
     stream->unget();
     end_value();
     // now put it all together!
-    return i * pow(10.0f, static_cast<float>(e + mod_e));
+    return i * std::pow(10.0f, e + mod_e);
 }
 
 bool JsonIn::get_bool()
@@ -1223,6 +1233,15 @@ bool JsonIn::test_string()
     return false;
 }
 
+bool JsonIn::test_bitset()
+{
+    eat_whitespace();
+    if (peek() == '"') {
+        return true;
+    }
+    return false;
+}
+
 bool JsonIn::test_array()
 {
     eat_whitespace();
@@ -1312,6 +1331,16 @@ bool JsonIn::read(std::string &s)
         return false;
     }
     s = get_string();
+    return true;
+}
+
+bool JsonIn::read(std::bitset<13> &b)
+{
+    if (!test_bitset()) {
+        return false;
+    }
+    std::string tmp_string = get_string();
+    b = std::bitset<13> (tmp_string);
     return true;
 }
 
@@ -1685,6 +1714,22 @@ void JsonOut::write(const std::string &s)
         } else {
             stream->put(ch);
         }
+    }
+    stream->put('"');
+    need_separator = true;
+}
+
+void JsonOut::write(const std::bitset<13> &b)
+{
+    if (need_separator) {
+        write_separator();
+    }
+    std::string converted = b.to_string();
+    unsigned char ch;
+    stream->put('"');
+    for (int i = 0; i < converted.size(); ++i) {
+        ch = converted[i];
+        stream->put(ch);
     }
     stream->put('"');
     need_separator = true;

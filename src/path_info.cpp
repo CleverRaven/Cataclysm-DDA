@@ -1,5 +1,8 @@
 #include <cstdlib>
 #include "path_info.h"
+#include "options.h"
+#include "file_wrapper.h"
+#include <locale.h>
 
 // create map where we will store the FILENAMES
 std::map<std::string, std::string> FILENAMES;
@@ -63,16 +66,16 @@ void PATH_INFO::update_datadir()
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+    update_pathname("motddir", FILENAMES["datadir"] + "motd/");
+    update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
 
     // Shared files
-    update_pathname("motd", FILENAMES["datadir"] + "motd");
-    update_pathname("credits", FILENAMES["datadir"] + "credits");
-    // TODO Load localized names
+    update_pathname("motd", FILENAMES["motddir"] + "en.motd");
+    update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
-    // TODO fontdata.json is user related file
-    update_pathname("second_fontdata", FILENAMES["datadir"] + "fontdata.json");
+    update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
@@ -86,7 +89,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
-    update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");
+    update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
 }
 
@@ -112,16 +115,15 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+    update_pathname("motddir", FILENAMES["datadir"] + "motd/");
+    update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
 
     // Shared files
-    update_pathname("motd", FILENAMES["datadir"] + "motd");
-    update_pathname("credits", FILENAMES["datadir"] + "credits");
-    // TODO Load localized names
+    update_pathname("motd", FILENAMES["motddir"] + "en.motd");
+    update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
-    // TODO fontdata.json is user related file
-    update_pathname("second_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
@@ -138,13 +140,54 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("user_keybindings", FILENAMES["config_dir"] + "keybindings.json");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
-    update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");
+    update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
 
     // Needed to move files from these legacy locations to the new config directory.
     update_pathname("legacy_options", "data/options.txt");
     update_pathname("legacy_keymap", "data/keymap.txt");
-    update_pathname("legacy_fontlist", "data/fontlist.txt");
-    update_pathname("legacy_fontdata", "data/FONTDATA");
     update_pathname("legacy_autopickup", "data/auto_pickup.txt");
+    update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
+}
+
+std::string PATH_INFO::find_translated_file( const std::string &pathid,
+        const std::string &extension, const std::string &fallbackid )
+{
+    const std::string base_path = FILENAMES[pathid];
+
+#if defined LOCALIZE && ! defined __CYGWIN__
+    std::string local_path_1; // complete locale: en_NZ
+    std::string local_path_2; // only the first part: en
+    std::string loc_name;
+    if( OPTIONS["USE_LANG"].getValue().empty() ) {
+        const char *v = setlocale( LC_ALL, NULL );
+        if( v != NULL ) {
+            loc_name = v;
+        }
+    } else {
+        loc_name = OPTIONS["USE_LANG"].getValue();
+    }
+    if( loc_name == "C" ) {
+        loc_name = "en";
+    }
+    if( !loc_name.empty() ) {
+        const size_t dotpos = loc_name.find( '.' );
+        if( dotpos != std::string::npos ) {
+            loc_name.erase( dotpos );
+        }
+        const std::string local_path_1 = base_path + loc_name + extension;
+        if( file_exist( local_path_1 ) ) {
+            return local_path_1;
+        }
+        const size_t p = loc_name.find( '_' );
+        if( p != std::string::npos ) {
+            const std::string local_path_2 = base_path + loc_name.substr( 0, p ) + extension;
+            if( file_exist( local_path_2 ) ) {
+                return local_path_2;
+            }
+        }
+    }
+#endif
+    (void) extension;
+    return FILENAMES[fallbackid];
 }
