@@ -6609,6 +6609,12 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "turret_searchlight",
+    "items":[
+      ["lens", 15]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "helicopter",
     "items":[
       ["chain", 20],

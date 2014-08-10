@@ -64,6 +64,8 @@ enum field_id {
  fd_acid_vent,
  fd_plasma,
  fd_laser,
+ fd_spotlight,
+ fd_dazzling,
  fd_blood_veggy,
  fd_blood_insect,
  fd_blood_invertebrate,

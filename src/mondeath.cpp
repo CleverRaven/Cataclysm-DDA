@@ -425,6 +425,35 @@ void mdeath::explode(monster *z) {
     g->explosion(z->posx(), z->posy(), size, 0, false);
 }
 
+void mdeath::focused_beam(monster *z)
+{
+
+    for (int k = g->m.i_at(z->posx(), z->posy()).size() - 1; k >= 0; k--) {
+        if (g->m.i_at(z->posx(), z->posy())[k].type->id == "processor") {
+            g->m.i_rem(z->posx(), z->posy(), k);
+        }
+    }
+
+    if (z->inv.size() > 0) {
+        item &settings = z->inv[0];
+
+        int x = z->posx() + atoi(settings.item_vars["SL_SPOT_X"].c_str());
+        int y = z->posy() + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
+
+        g->m.add_field(x, y, fd_dazzling, 2);
+
+        std::vector <point> traj = line_to(z->posx(), z->posy(), x, y, 0);
+
+        for (auto it = traj.begin(); it != traj.end(); ++it) {
+            g->m.add_field(it->x, it->y, fd_dazzling, 2);
+        }
+    }
+
+    z->inv.clear();
+
+    g->explosion(z->posx(), z->posy(), 8, 0, false);
+}
+
 void mdeath::broken(monster *z) {
     std::string item_id = z->type->id;
     if (item_id.compare(0, 4, "mon_") == 0) {

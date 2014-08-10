@@ -2641,5 +2641,24 @@
         "color": "dkgray",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"]
+    }, {
+        "type" : "terrain",
+        "id" : "t_plut_generator",
+        "name": "plutonium generator",
+        "symbol": "4",
+        "color": "h_brown",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 16, "str_max": 90, "num_tests": 2,
+            "explosive" : 3,
+            "ter_set": "t_floor",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 4},
+                { "item": "steel_chunk", "amount": 6, "minamount": 1},
+                { "item": "plut_cell", "amount": 3, "minamount": 0}
+            ]
+        }
     }
 ]

@@ -151,6 +151,12 @@ void map::generate_lightmap()
                 case fd_laser:
                     apply_light_source(sx, sy, 1, trigdist);
                     break;
+                case fd_spotlight:
+                    add_light_source(sx, sy, 20);
+                    break;
+                case fd_dazzling:
+                    add_light_source(sx, sy, 2);
+                    break;
                 }
             }
         }
