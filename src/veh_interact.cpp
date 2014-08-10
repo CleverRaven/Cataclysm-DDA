@@ -22,7 +22,7 @@
  * Creates a blank veh_interact window.
  */
 veh_interact::veh_interact ()
-: main_context("VEH_INTERACT")
+    : main_context("VEH_INTERACT")
 {
     cpart = -1;
     ddx = 0;
@@ -295,14 +295,14 @@ void veh_interact::cache_tool_availability()
     has_wrench = crafting_inv.has_tools("wrench", 1) ||
                  crafting_inv.has_tools("toolset", 1) ||
                  crafting_inv.has_tools("survivor_belt", 1) ||
-                   g->u.is_wearing("survivor_belt") ||
+                 g->u.is_wearing("survivor_belt") ||
                  crafting_inv.has_tools("toolbox", 1);
     has_hacksaw = crafting_inv.has_tools("hacksaw", 1) ||
-                 crafting_inv.has_tools("survivor_belt", 1) ||
-                   g->u.is_wearing("survivor_belt") ||
+                  crafting_inv.has_tools("survivor_belt", 1) ||
+                  g->u.is_wearing("survivor_belt") ||
                   crafting_inv.has_tools("toolbox", 1) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
-                  crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
+                   crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
                   crafting_inv.has_tools("toolset", 1);
     has_welder = (crafting_inv.has_tools("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
@@ -314,8 +314,8 @@ void veh_interact::cache_tool_availability()
                    g->u.has_bionic("bio_sunglasses") ||
                    g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on"));
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED) ||
-                    (crafting_inv.has_tools("toolbox", 1) &&
-                     crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
+                     (crafting_inv.has_tools("toolbox", 1) &&
+                      crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
     has_jack = crafting_inv.has_tools("jack", 1);
     has_siphon = crafting_inv.has_tools("hose", 1);
 
@@ -364,7 +364,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'f': // refill mode
         if (!ptanks.empty()) {
-            std::vector<vehicle_part*>::iterator iter;
+            std::vector<vehicle_part *>::iterator iter;
             for (iter = ptanks.begin(); iter != ptanks.end(); ) {
                 if ((*iter)->hp > 0 &&
                     g->refill_vehicle_part(*veh, *iter, true)) {
@@ -374,13 +374,15 @@ task_reason veh_interact::cant_do (char mode)
                     iter = ptanks.erase(iter);
                 }
             }
-            if(pass_checks)
+            if(pass_checks) {
                 return CAN_DO;
+            }
         }
 
         // if refillable parts exist but can't be refilled for some reason.
-        if (has_ptank)
+        if (has_ptank) {
             return CANT_REFILL;
+        }
 
         // No refillable parts here (valid_target = false)
         break;
@@ -462,10 +464,12 @@ void veh_interact::do_install()
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't install parts while driving." ) );
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _( "You can't install parts while driving." ) );
         wrefresh (w_msg);
         return;
-    default: break; // no reason, all is well
+    default:
+        break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
@@ -512,13 +516,15 @@ void veh_interact::do_install()
                        engine_string.c_str());
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
-        if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill && has_skill2) {
+        if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill &&
+            has_skill2) {
             if (!(has_muscle_engine && eng) && !((engines > 0) && install_muscle_engine)) {
                 sel_cmd = 'i';
                 return;
             } else {
                 werase (w_msg);
-                fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred, _("That install would conflict with the existing drive system."));
+                fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
+                               _("That install would conflict with the existing drive system."));
                 wrefresh (w_msg);
                 return;
             }
@@ -594,10 +600,12 @@ void veh_interact::do_repair()
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't repair stuff while driving." ) );
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _( "You can't repair stuff while driving." ) );
         wrefresh (w_msg);
         return;
-    default: break; // no reason, all is well
+    default:
+        break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to repair:"));
     wrefresh (w_mode);
@@ -668,10 +676,12 @@ void veh_interact::do_refill()
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't refill the vehicle while driving." ) );
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _( "You can't refill the vehicle while driving." ) );
         wrefresh (w_msg);
         return;
-    default: break; // no reason, all is well
+    default:
+        break; // no reason, all is well
     }
 
     if (ptanks.empty()) {
@@ -752,10 +762,12 @@ void veh_interact::do_remove()
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "Better not remove something will driving." ) );
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _( "Better not remove something will driving." ) );
         wrefresh (w_msg);
         return;
-    default: break; // no reason, all is well
+    default:
+        break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
@@ -823,10 +835,12 @@ void veh_interact::do_siphon()
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't siphon from a moving vehicle." ) );
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _( "You can't siphon from a moving vehicle." ) );
         wrefresh (w_msg);
         return;
-    default: break; // no reason, all is well
+    default:
+        break; // no reason, all is well
     }
     sel_cmd = 's';
 }
@@ -858,7 +872,8 @@ void veh_interact::do_tirechange()
         fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "Who is driving while you work?" ) );
         wrefresh (w_msg);
         return;
-    default: break; // no reason, all is well
+    default:
+        break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:"));
     wrefresh (w_mode);
@@ -877,10 +892,10 @@ void veh_interact::do_tirechange()
             sel_cmd = 'c';
             return;
         } else if (action == "QUIT") {
-                werase (w_list);
-                wrefresh (w_list);
-                werase (w_msg);
-                break;
+            werase (w_list);
+            wrefresh (w_list);
+            werase (w_msg);
+            break;
         } else {
             move_in_list(pos, action, wheel_types.size());
         }
@@ -909,10 +924,12 @@ void veh_interact::do_drain()
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, _( "You can't siphon from a moving vehicle." ) );
+        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray,
+                        _( "You can't siphon from a moving vehicle." ) );
         wrefresh (w_msg);
         return;
-    default: break; // no reason, all is well
+    default:
+        break; // no reason, all is well
     }
     sel_cmd = 'd';
 }
@@ -1178,17 +1195,17 @@ void veh_interact::display_stats()
         const int second_column = 34 + (extraw / 4); // 29
         const int third_column = 63 + (extraw / 2);  // 56
         for (int i = 0; i < 15; i++) {
-            if (i<5) { // First column
+            if (i < 5) { // First column
                 x[i] = 1;
                 y[i] = i;
                 w[i] = second_column - 2;
-            } else if (i<10) { // Second column
+            } else if (i < 10) { // Second column
                 x[i] = second_column;
-                y[i] = i-5;
+                y[i] = i - 5;
                 w[i] = third_column - second_column - 1;
             } else { // Third column
                 x[i] = third_column;
-                y[i] = i-10;
+                y[i] = i - 10;
                 w[i] = extraw - third_column - 2;
             }
         }
@@ -1237,15 +1254,15 @@ void veh_interact::display_stats()
         if( conf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels:    <color_ltgreen>enough</color>"));
-        }	else {
+        }   else {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels:      <color_ltred>lack</color>"));
         }
-    }	else{
-        if (conf){
+    }   else {
+        if (conf) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Boat:    <color_blue>can swim</color>"));
-        }	else{
+        }   else {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Boat:  <color_ltred>can't swim</color>"));
         }
@@ -1363,13 +1380,13 @@ void veh_interact::display_mode(char mode)
         int pos[10];
         pos[0] = 1;
         for (size_t i = 0; i < actions.size(); i++) {
-            pos[i+1] = pos[i] + utf8_width(actions[i].c_str()) - 2;
+            pos[i + 1] = pos[i] + utf8_width(actions[i].c_str()) - 2;
         }
         int spacing = int((esc_pos - 1 - pos[actions.size()]) / actions.size());
         int shift = int((esc_pos - pos[actions.size()] - spacing * (actions.size() - 1)) / 2) - 1;
         for (size_t i = 0; i < actions.size(); i++) {
             shortcut_print(w_mode, 0, pos[i] + spacing * i + shift,
-                           enabled[i]? c_ltgray : c_dkgray, enabled[i]? c_ltgreen : c_green,
+                           enabled[i] ? c_ltgray : c_dkgray, enabled[i] ? c_ltgreen : c_green,
                            actions[i]);
         }
     }
@@ -1568,8 +1585,8 @@ void complete_vehicle ()
     int welder_crude_charges = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     inventory crafting_inv = g->crafting_inventory(&g->u);
     const bool has_goggles = crafting_inv.has_tools("goggles_welding", 1) ||
-                   g->u.has_bionic("bio_sunglasses") ||
-                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on");
+                             g->u.has_bionic("bio_sunglasses") ||
+                             g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on");
     int partnum;
     item used_item;
     bool broken;
@@ -1581,8 +1598,8 @@ void complete_vehicle ()
     // For siphoning from adjacent vehicles
     int posx = 0;
     int posy = 0;
-    std::map<point, vehicle*> foundv;
-    vehicle * fillv = NULL;
+    std::map<point, vehicle *> foundv;
+    vehicle *fillv = NULL;
 
     // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName relAbel
     switch (cmd) {
@@ -1637,7 +1654,7 @@ void complete_vehicle ()
         }
 
         add_msg (m_good, _("You install a %s into the %s."),
-                    vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
+                 vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20 );
         break;
     case 'r':
@@ -1656,16 +1673,16 @@ void complete_vehicle ()
         } else {
             dmg = 1.1 - double(veh->parts[vehicle_part].hp) / veh->part_info(vehicle_part).durability;
         }
-        tools.push_back(tool_comp("welder", int(welder_charges*dmg)));
-        tools.push_back(tool_comp("welder_crude", int(welder_crude_charges*dmg)));
-        tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED*dmg)));
-        tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED*dmg)));
-        tools.push_back(tool_comp("toolset", int(welder_crude_charges*dmg)));
+        tools.push_back(tool_comp("welder", int(welder_charges * dmg)));
+        tools.push_back(tool_comp("welder_crude", int(welder_crude_charges * dmg)));
+        tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
+        tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
+        tools.push_back(tool_comp("toolset", int(welder_crude_charges * dmg)));
         g->consume_tools(&g->u, tools);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
-                    veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
-        g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty+dd)*5+20)*dmg) );
+                 veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
+        g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, vehicle_part, true)) {
@@ -1702,12 +1719,12 @@ void complete_vehicle ()
         } else {
             if (broken) {
                 add_msg(_("You remove the broken %s from the %s."),
-                           veh->part_info(vehicle_part).name.c_str(),
-                           veh->name.c_str());
+                        veh->part_info(vehicle_part).name.c_str(),
+                        veh->name.c_str());
             } else {
                 add_msg(_("You remove the %s from the %s."),
-                           veh->part_info(vehicle_part).name.c_str(),
-                           veh->name.c_str());
+                        veh->part_info(vehicle_part).name.c_str(),
+                        veh->name.c_str());
             }
             veh->remove_part (vehicle_part);
             veh->part_removal_cleanup();
@@ -1715,22 +1732,22 @@ void complete_vehicle ()
         break;
     case 's':
 
-        for (int x = g->u.posx-1; x < g->u.posx+2; x++) {
-          for (int y = g->u.posy-1; y < g->u.posy+2; y++) {
-            fillv = g->m.veh_at(x, y);
-            if ( fillv != NULL &&
-              fillv != veh &&
-              foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
-              fillv->fuel_capacity("gasoline") > 0 ) {
-                foundv[point(fillv->posx, fillv->posy)] = fillv;
+        for (int x = g->u.posx - 1; x < g->u.posx + 2; x++) {
+            for (int y = g->u.posy - 1; y < g->u.posy + 2; y++) {
+                fillv = g->m.veh_at(x, y);
+                if ( fillv != NULL &&
+                     fillv != veh &&
+                     foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
+                     fillv->fuel_capacity("gasoline") > 0 ) {
+                    foundv[point(fillv->posx, fillv->posy)] = fillv;
+                }
             }
-          }
         }
-        fillv=NULL;
+        fillv = NULL;
         if ( ! foundv.empty() ) {
             uimenu fmenu;
             fmenu.text = _("Fill what?");
-            fmenu.addentry(_("Nearby vehicle (%d)"),foundv.size());
+            fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
             fmenu.addentry(_("Container"));
             fmenu.addentry(_("Never mind"));
             fmenu.query();
@@ -1750,14 +1767,14 @@ void complete_vehicle ()
             }
         }
         if ( fillv != NULL ) {
-            int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
+            int want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
             int got = veh->drain("gasoline", want);
             fillv->refill("gasoline", got);
             add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s",
-                                "Siphoned %d units of %s from the %s into the %s%s",
-                                got),
-               got, "gasoline", veh->name.c_str(), fillv->name.c_str(),
-               (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
+                             "Siphoned %d units of %s from the %s into the %s%s",
+                             got),
+                    got, "gasoline", veh->name.c_str(), fillv->name.c_str(),
+                    (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
             g->u.moves -= 200;
         } else {
             g->u.siphon( veh, "gasoline" );
@@ -1777,7 +1794,7 @@ void complete_vehicle ()
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
             add_msg( _("You replace one of the %s's tires with a %s."),
-                        veh->name.c_str(), vehicle_part_types[part_id].name.c_str() );
+                     veh->name.c_str(), vehicle_part_types[part_id].name.c_str() );
             used_item = consume_vpart_item( part_id );
             partnum = veh->install_part( dx, dy, part_id, used_item );
             if( partnum < 0 ) {
