@@ -5189,7 +5189,7 @@
     "special_freq":1,
     "death_function":"FOCUSEDBEAM",
     "special_attack":"SEARCHLIGHT",
-    "description":"high tower with a powerful spotlight who is always looking for a target.",
+    "description":"A high tower with a three spotlights which is continuously looking for a target.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",

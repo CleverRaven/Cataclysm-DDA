@@ -439,7 +439,7 @@ void mdeath::focused_beam(monster *z)
         std::vector <point> traj = line_to(z->posx(), z->posy(), x, y, 0);
 
         for (auto it = traj.begin(); it != traj.end(); ++it) {
-			g->m.add_field(it->x, it->y, fd_dazzling, 2);
+            g->m.add_field(it->x, it->y, fd_dazzling, 2);
         }
     }
 

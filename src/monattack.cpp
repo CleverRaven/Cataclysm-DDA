@@ -1789,7 +1789,7 @@ void mattack::searchlight(monster *z)
         int y = zposy + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
         int shift = 0;
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < rng(1, 2); i++) {
 
             int tc;
             if (!z->sees_player(tc)) {
