@@ -22,7 +22,8 @@
 #include <map>
 #include <vector>
 
-bool play_videogame(std::string function_name, std::map<std::string, std::string> & game_data, int &score)
+bool play_videogame(std::string function_name, std::map<std::string, std::string> &game_data,
+                    int &score)
 {
     if ( function_name == "" ) {
         score = 15;
@@ -77,7 +78,9 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
     } else {
         score = -5;
         /* morale/activity workaround >.> */
-        game_data["end_message"] = string_format(_("You struggle to get '%s' working, and finally give up to play minesweeper."), function_name.c_str() );
+        game_data["end_message"] = string_format(
+                                       _("You struggle to get '%s' working, and finally give up to play minesweeper."),
+                                       function_name.c_str() );
         // todo: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
         return false;
     }
