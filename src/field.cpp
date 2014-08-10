@@ -1181,7 +1181,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_shock_vent ) ||
                             curfield.findField( fd_plasma ) ||
                             curfield.findField( fd_laser ) ||
-                            curfield.findField(fd_dazzling) ||
+                            curfield.findField( fd_dazzling) ||
                             curfield.findField( fd_electricity ) ||
                             curfield.findField( fd_incendiary ) ) {
                             // Kill them at the end of processing.

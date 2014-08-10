@@ -5169,7 +5169,7 @@
     "diff":20,
     "aggression":100,
     "morale":100,
-    "speed":300,
+    "speed":100,
     "melee_skill":0,
     "melee_dice":0,
     "melee_dice_sides":0,
