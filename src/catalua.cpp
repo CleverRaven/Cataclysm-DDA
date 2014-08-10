@@ -158,11 +158,6 @@ overmap *get_current_overmap() {
     return g->cur_om;
 }
 
-mongroup *create_monster_group(overmap *map, std::string type, int overmap_x, int overmap_y, int z, int radius, int population) {
-    map->zg.push_back(mongroup(type, overmap_x * 2, overmap_y * 2, z, radius, population));
-    return &(map->zg.back());
-}
-
 /** Create a new monster of the given type. */
 monster *create_monster(std::string mon_type, int x, int y) {
     monster new_monster(GetMType(mon_type), x, y);
@@ -280,33 +275,6 @@ static int game_get_item_groups(lua_State *L) {
 
         lua_pushnumber(L, i + 1);
         lua_pushstring(L, items[i].c_str());
-        lua_rawset(L, -3);
-    }
-
-    return 1; // 1 return values
-}
-
-// monstergroups = game.monstergroups(overmap)
-static int game_monstergroups(lua_State *L) {
-    overmap **userdata = (overmap**) lua_touserdata(L, 1);
-
-    std::vector<mongroup>& mongroups = (*userdata)->zg;
-
-    lua_createtable(L, mongroups.size(), 0); // Preallocate enough space for all our monster groups.
-
-    // Iterate over the monster group list and insert each monster group into our returned table.
-    for( size_t i = 0; i < mongroups.size(); ++i ) {
-        // The stack will look like this:
-        // 1 - t, table containing group
-        // 2 - k, index at which the next group will be inserted
-        // 3 - v, next group to insert
-        //
-        // lua_rawset then does t[k] = v and pops v and k from the stack
-
-        lua_pushnumber(L, i + 1);
-        mongroup** mongroup_userdata = (mongroup**) lua_newuserdata(L, sizeof(mongroup*));
-        *mongroup_userdata = &(mongroups[i]);
-        luah_setmetatable(L, "mongroup_metatable");
         lua_rawset(L, -3);
     }
 
@@ -489,7 +457,6 @@ static const struct luaL_Reg global_funcs [] = {
     {"monster_type", game_monster_type},
     {"dofile", game_dofile},
     {"get_monster_types", game_get_monster_types},
-    {"monstergroups", game_monstergroups},
     {"get_item_groups", game_get_item_groups},
     {NULL, NULL}
 };
