@@ -65,7 +65,7 @@ bool player::create(character_type type, std::string tempname)
     weapon = item("null", 0);
 
     g->u.prof = profession::generic();
-    g->u.scen = scenario::generic();
+
 
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
@@ -1373,6 +1373,7 @@ inline bool scenario_display_sort(const scenario *a, const scenario *b)
 
     return a->point_cost() < b->point_cost();
 }
+//Doesn't need points...fix that.
 int set_scenario(WINDOW *w, player *u, int &points)
 {
     draw_tabs(w, _("SCENARIO"));
@@ -1384,7 +1385,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
-    //BEIGETODO:SWITCH TO SCENARIO WINDOWS
+
     WINDOW *w_items =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const scenario *> sorted_scens;
@@ -1397,13 +1398,13 @@ int set_scenario(WINDOW *w, player *u, int &points)
     std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_display_sort);
 
     // Select the current profession, if possible.
-    for (size_t i = 0; i < sorted_scens.size(); ++i) {
+    /*for (size_t i = 0; i < sorted_scens.size(); ++i) {
         if (sorted_scens[i]->ident() == u->scen->ident()) {
             cur_id = i;
             break;
         }
-    }
-
+    }*/
+    //u->start_location = u->scen->start_location;
     input_context ctxt("NEW_CHAR_SCENARIOS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
@@ -1421,8 +1422,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
         werase(w_description);
         mvwprintz(w, 3, 1, c_ltgray, empty_line.c_str());
 
-
-
+	
         // Draw header.
 	// Net point cost for scenarios should always be 0
 	/*netPointCost = 0;
@@ -1459,20 +1459,20 @@ int set_scenario(WINDOW *w, player *u, int &points)
                        sorted_scens[cur_id]->description(u->male));
 
         calcStartPos(iStartPos, cur_id, iContentHeight, scenario::count());
-
         //Draw options
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > scenario::count()) ?
              scenario::count() : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
-            if (u->scen != sorted_scens[i]) {
+         /*   if (u->scen != sorted_scens[i]) {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? h_ltgray : c_ltgray);
             } else {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       sorted_scens[i]->gender_appropriate_name(u->male).c_str());
+*/
 			//Will Scenarios have gender based name variations?
         }
 
@@ -1550,7 +1550,9 @@ int set_scenario(WINDOW *w, player *u, int &points)
                     cur_id = scenario::count() - 1;
                 }
         } else if (action == "CONFIRM") {
-                u->scen = scenario::scen(sorted_scens[cur_id]->ident()); // we've got a const*
+                //u->scen = scenario::scen(sorted_scens[cur_id]->ident()); // we've got a const*
+		u->start_location = "shelter";
+
         } else if (action == "PREV_TAB") {
                 retval = -1;
         } else if (action == "NEXT_TAB") {
@@ -1821,6 +1823,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 if( 0 == strcmp( _( loc->second.name().c_str() ),
                                  select_location.entries[ select_location.selected ].txt.c_str() ) ) {
                     u->start_location = loc->second.ident();
+
                 }
             }
             werase(select_location.window);

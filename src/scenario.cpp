@@ -9,20 +9,27 @@
 #include "player.h"
 #include "item_factory.h"
 #include "bionics.h"
+#include "start_location.h"
 
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),
-     _description_male("null"), _description_female("null")
+     _description_male("null"), _description_female("null"), _start_location("null")
 {
 }
+scenario::scenario(std::string scen)
+{
 
-scenario::scenario(std::string ident, std::string name, std::string description)
+    
+}
+scenario::scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof)
 {
     _ident = ident;
     _name_male = name;
     _name_female = name;
     _description_male = description;
     _description_female = description;
+    _start_location = start_location;
+    _profession = prof;
 
 }
 
@@ -51,12 +58,13 @@ void scenario::load_scenario(JsonObject &jsobj)
     const std::string desc = jsobj.get_string("description").c_str();
     scen._description_male = pgettext("scen_desc_male", desc.c_str());
     scen._description_female = pgettext("scen_desc_female", desc.c_str());
-
+    
 
     JsonObject items_obj=jsobj.get_object("items");
     scen.add_items_from_jsonarray(items_obj.get_array("both"), "both");
     scen.add_items_from_jsonarray(items_obj.get_array("male"), "male");
     scen.add_items_from_jsonarray(items_obj.get_array("female"), "female");
+       
 
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
@@ -216,6 +224,15 @@ signed int scenario::point_cost() const
     return 0;
 }
 
+std::string scenario::start_location() const
+{
+    return _start_location;
+}
+
+profession* scenario::prof() const
+{
+    return _profession;
+}
 std::vector<std::string> scenario::items() const
 {
     return _starting_items;

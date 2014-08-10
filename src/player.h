@@ -840,7 +840,7 @@ public:
  std::string name;
  bool male;
  profession* prof;
- scenario* scen;
+
  std::string start_location;
 
  std::map<std::string, int> mutation_category_level;

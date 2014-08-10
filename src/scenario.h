@@ -8,6 +8,7 @@
 #include "addiction.h"
 #include "start_location.h"
 #include "skill.h"
+#include "profession.h"
 #include "json.h"
 
 class scenario;
@@ -24,6 +25,10 @@ private:
     std::string _description_male;
     std::string _description_female;
     std::string _gender_req;
+    std::string _start_location;
+    profession* _profession;
+    std::vector<std::string> traits;
+ 
 //Gender variations left in for translation purposes
     std::vector<std::string> _starting_items;
     std::vector<std::string> _starting_items_male;
@@ -38,8 +43,9 @@ private:
 public:
     //these three aren't meant for external use, but had to be made public regardless
     scenario();
+    scenario(std::string scen);
     scenario(std::string ident, std::string name, std::string description);
-
+    scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof);
     static void load_scenario(JsonObject &jsobj);
 
     // these should be the only ways used to get at professions
@@ -64,10 +70,13 @@ public:
     std::string gender_appropriate_name(bool male) const;
     std::string description(bool male) const;
     std::string gender_req() const;
+    std::string start_location() const;
+    profession* prof() const;
     signed int point_cost() const;
     std::vector<std::string> items() const;
     std::vector<std::string> items_male() const;
     std::vector<std::string> items_female() const;
+
 
     /**
      * Check if this type of profession has a certain flag set.

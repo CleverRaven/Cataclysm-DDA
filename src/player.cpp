@@ -151,7 +151,7 @@ player::player() : Character(), name("")
  scent = 500;
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
- scen = scenario::has_initialized() ? scenario::generic() : NULL;
+
  start_location = "shelter";
  moves = 100;
  movecounter = 0;
@@ -245,7 +245,7 @@ player& player::operator= (const player & rhs)
  name = rhs.name;
  male = rhs.male;
  prof = rhs.prof;
- scen = rhs.scen;
+
  start_location = rhs.start_location;
 
  sight_max = rhs.sight_max;
