@@ -50,7 +50,7 @@
     },{
         "type" : "snippet",
         "category" : "flier",
-        "text" : "This is an advertisement for Robert's Universal Robotics brand law enforcement robots. It shows a picture of tripod robot incinerating a mob of looters and stepping over charred and smoking corpses. The caption reads: \"R.U.R. Technology you can Trust.\""
+        "text" : "This is an advertisement for Robert's Universal Robotics brand law enforcement robots. It shows a picture of a tribot incinerating a mob of looters and stepping over charred and smoking corpses. The caption reads: \"R.U.R. Technology you can Trust.\""
     },{
         "type" : "snippet",
         "category" : "flier",
@@ -103,6 +103,10 @@
         "type" : "snippet",
         "category" : "flier",
         "text" : "This is an advertisement for Rivtech brand ammunition. It shows a picture of an armored steel plate with a gaping hole blasted through the middle. Sitting beside the plate is a block of brightly colored caseless ammunition. The caption reads:  \"Rivtech 8x40mm caseless. Nothing else comes close.\""
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is an advertisement for Leadworks LLC's Home Frontier Starter Pack.  It shows a picture of a young suburban parent, equipped with rifle and revolver, keeping a steely eye on the neighborhood from the front porch.  Similarly-armed parents are visible in front of every house on the street.  Young children are at play and older ones tend a large vegetable garden.  The caption reads: \"A well-armed community is a SAFE community.  Leadworks, LLC.\""
     },{
 	        "type" : "snippet",
         "category" : "note",

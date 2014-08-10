@@ -1772,5 +1772,36 @@
       ["cable", 8]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "l_HFPack",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "l_long_45", 1 ]
+    ],
+    [
+      [ "l_enforcer_45", 1 ]
+    ],
+    [
+      [ "small_repairkit", 1 ]
+    ],
+    [
+      [ "battery", 300 ]
+    ],
+    [
+      [ "manual_gun", 1 ]
+    ],
+    [
+      [ "holster", 1 ]
+    ]
+  ]
 }
 ]

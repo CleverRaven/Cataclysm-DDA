@@ -3770,5 +3770,22 @@
       "cutting":0,
       "to_hit":-2,
       "flags":["CD"]
-     }
+     },
+  {
+    "id": "l_HFPack",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": "Home Frontier Starter Pack",
+    "name_plural": "Home Frontier Starter Packs",
+    "category": "other",
+    "description": "This not-so-little bundle of joy contains Leadworks, LLC's premier offerings: the Enforcer autorevolver (with holster) & Long Ranger rifle.  Maintenance kit, batteries for same, and a complimentary copy of the Gun Owner's Handbook are included.  The perfect investment for a new family starting out!  Disassemble to unpack and enjoy.",
+    "price": 463500,
+    "weight": 8932,
+    "volume": 18,
+    "bashing": -2,
+    "cutting": 0,
+    "to_hit": -2,
+    "material": ["wood", "steel"]
+  }
 ]
