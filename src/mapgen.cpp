@@ -95,6 +95,35 @@ void map::generate(const int x, const int y, const int z, const int turn)
         add_extra( random_map_extra( ex ));
     }
 
+    for( int i = 0; i < my_MAPSIZE; i++ ) {
+        for( int j = 0; j < my_MAPSIZE; j++ ) {
+            auto groups = overmap_buffer.groups_at( x + i, y + j, z );
+            for( auto &mgp : groups ) {
+                mongroup &mg = *mgp;
+                // place_spawns does not work here as it requires a "chance", not a
+                // specific monster count.
+                int group = mg.population;
+                for( int g = 0; g < group; g++ ) {
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mg.type, &group );
+                    if( spawn_details.name == "mon_null" ) {
+                        continue;
+                    }
+                    int tries = 10;
+                    int monx = 0;
+                    int mony = 0;
+                    do {
+                        monx = rng( 0, SEEX - 1 ) + SEEX * i;
+                        mony = rng( 0, SEEY - 1 ) + SEEY * j;
+                        tries--;
+                    } while( move_cost( monx, mony ) == 0 && tries > 0 );
+                    add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
+                }
+                // indicates the group is empty, and can be removed later
+                mg.population = 0;
+            }
+        }
+    }
+
     post_process(zones);
 
     // Okay, we know who are neighbors are.  Let's draw!
@@ -10994,29 +11023,6 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
     }
     spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);
     place_on_submap->spawns.push_back(tmp);
-}
-
-void map::add_spawn(monster *mon)
-{
-    int spawnx, spawny;
-    std::string spawnname = (mon->unique_name == "" ? "NONE" : mon->unique_name);
-    if (mon->spawnmapx != -1) {
-        spawnx = mon->spawnposx;
-        spawny = mon->spawnposy;
-    } else {
-        spawnx = mon->posx();
-        spawny = mon->posy();
-    }
-    while (spawnx < 0) {
-        spawnx += SEEX;
-    }
-    while (spawny < 0) {
-        spawny += SEEY;
-    }
-    spawnx %= SEEX;
-    spawny %= SEEY;
-    add_spawn(mon->type->id, 1, spawnx, spawny, (mon->friendly < 0),
-              mon->faction_id, mon->mission_id, spawnname);
 }
 
 vehicle *map::add_vehicle(std::string type, const int x, const int y, const int dir,

@@ -696,11 +696,17 @@ void mutation_effect(player &p, std::string mut)
         p.recalc_hp();
 
     } else if (mut == "STR_ALPHA") {
-        if (p.str_max <= 7) {
+        if (p.str_max <= 6) {
+            p.str_max = 8;
+        }
+        else if (p.per_max <= 7) {
             p.str_max = 11;
         }
-        else {
+        else if (p.int_max <= 14) {
             p.str_max = 15;
+        }
+        else {
+            p.str_max = 18;
         }
         p.recalc_hp();
     } else if (mut == "DEX_UP") {
@@ -729,11 +735,17 @@ void mutation_effect(player &p, std::string mut)
         p.dex_max += 7;
 
     } else if (mut == "DEX_ALPHA") {
-        if (p.dex_max <= 7) {
+        if (p.dex_max <= 6) {
+            p.dex_max = 8;
+        }
+        else if (p.per_max <= 7) {
             p.dex_max = 11;
         }
-        else {
+        else if (p.int_max <= 14) {
             p.dex_max = 15;
+        }
+        else {
+            p.dex_max = 18;
         }
     } else if (mut == "INT_UP") {
         p.int_max ++;
@@ -748,11 +760,17 @@ void mutation_effect(player &p, std::string mut)
         p.int_max += 7;
 
     } else if (mut == "INT_ALPHA") {
-        if (p.int_max <= 7) {
+        if (p.int_max <= 6) {
+            p.int_max = 8;
+        }
+        else if (p.int_max <= 7) {
             p.int_max = 11;
         }
-        else {
+        else if (p.int_max <= 14) {
             p.int_max = 15;
+        }
+        else {
+            p.int_max = 18;
         }
     } else if (mut == "INT_SLIME") {
         p.int_max *= 2; // Now, can you keep it? :-)
@@ -770,11 +788,17 @@ void mutation_effect(player &p, std::string mut)
         p.per_max += 7;
 
     } else if (mut == "PER_ALPHA") {
-        if (p.per_max <= 7) {
+        if (p.per_max <= 6) {
+            p.per_max = 8;
+        }
+        else if (p.per_max <= 7) {
             p.per_max = 11;
         }
-        else {
+        else if (p.int_max <= 14) {
             p.per_max = 15;
+        }
+        else {
+            p.per_max = 18;
         }
     } else if (mut == "PER_SLIME") {
         p.per_max -= 8;
@@ -867,11 +891,17 @@ void mutation_loss_effect(player &p, std::string mut)
         p.recalc_hp();
 
     } else if (mut == "STR_ALPHA") {
-        if (p.str_max == 15) {
+        if (p.str_max == 18) {
+            p.str_max = 15;
+        }
+        else if (p.str_max == 15) {
             p.str_max = 8;
         }
-        else {
+        else if (p.str_max == 11) {
             p.str_max = 7;
+        }
+        else {
+            p.str_max = 4;
         }
         p.recalc_hp();
     } else if (mut == "DEX_UP") {
@@ -900,11 +930,17 @@ void mutation_loss_effect(player &p, std::string mut)
         p.dex_max -= 7;
 
     } else if (mut == "DEX_ALPHA") {
-        if (p.dex_max == 15) {
+        if (p.dex_max == 18) {
+            p.dex_max = 15;
+        }
+        else if (p.dex_max == 15) {
             p.dex_max = 8;
         }
-        else {
+        else if (p.dex_max == 11) {
             p.dex_max = 7;
+        }
+        else {
+            p.dex_max = 4;
         }
     } else if (mut == "INT_UP") {
         p.int_max --;
@@ -919,11 +955,17 @@ void mutation_loss_effect(player &p, std::string mut)
         p.int_max -= 7;
 
     } else if (mut == "INT_ALPHA") {
-        if (p.int_max == 15) {
+        if (p.int_max == 18) {
+            p.int_max = 15;
+        }
+        else if (p.int_max == 15) {
             p.int_max = 8;
         }
-        else {
+        else if (p.int_max == 11) {
             p.int_max = 7;
+        }
+        else {
+            p.int_max = 4;
         }
     } else if (mut == "INT_SLIME") {
         p.int_max /= 2; // In case you have a freak accident with the debug menu ;-)
@@ -941,11 +983,17 @@ void mutation_loss_effect(player &p, std::string mut)
         p.per_max -= 7;
 
     } else if (mut == "PER_ALPHA") {
-        if (p.per_max == 15) {
+        if (p.per_max == 18) {
+            p.per_max = 15;
+        }
+        else if (p.per_max == 15) {
             p.per_max = 8;
         }
-        else {
+        else if (p.per_max == 11) {
             p.per_max = 7;
+        }
+        else {
+            p.per_max = 4;
         }
     } else if (mut == "PER_SLIME") {
         p.per_max += 8;

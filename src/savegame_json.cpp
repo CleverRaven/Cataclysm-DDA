@@ -891,7 +891,6 @@ void monster::deserialize(JsonIn &jsin)
     data.read("anger", anger);
     data.read("morale", morale);
     data.read("hallucination", hallucination);
-    data.read("onstairs", onstairs);
     data.read("stairscount", staircount); // really?
 
     data.read("plans", plans);
@@ -939,7 +938,6 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("anger",anger);
     json.member("morale",morale);
     json.member("hallucination",hallucination);
-    json.member("onstairs",onstairs);
     json.member("stairscount",staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
