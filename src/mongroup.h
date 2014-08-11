@@ -80,6 +80,9 @@ struct mongroup {
         posz = pposz;
         radius = prad;
         population = ppop;
+        tx = 0;
+        ty = 0;
+        interest = 0;
         dying = false;
         diffuse = false;
         horde = false;
