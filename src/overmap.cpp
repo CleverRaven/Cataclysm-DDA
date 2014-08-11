@@ -601,20 +601,11 @@ void reset_region_settings()
 
 overmap::overmap(int x, int y)
     : loc(x, y)
-    , prefix()
-    , name(g->u.name)
     , layer()
     , nullret("")
     , nullbool(false)
     , nullstr("")
 {
-    if (name.empty()) {
-        debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
-    }
-
-    if (g->has_gametype()) {
-        prefix = special_game_name(g->gametype());
-    }
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();

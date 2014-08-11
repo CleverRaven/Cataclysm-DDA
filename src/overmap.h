@@ -365,8 +365,6 @@ public:
  private:
   friend class overmapbuffer;
   point loc;
-  std::string prefix;
-  std::string name;
 
     std::array<map_layer, OVERMAP_LAYERS> layer;
 
