@@ -873,6 +873,11 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     case DT_BIOLOGICAL: // internal damage, like from smoke or poison
     case DT_CUT:
     case DT_ACID:
+        if( has_flag( MF_ACIDPROOF ) ) {
+            damage += 0; // immunity
+            pain += 0;
+            return;
+        }
     case DT_STAB:
     case DT_HEAT:
     default:

@@ -1617,13 +1617,14 @@ void map::mon_in_field(int x, int y, monster *z)
             }
             break;
 
- // TODO: Use acid resistance
         case fd_acid:
-            if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_ACIDPROOF)) {
+            if( !z->has_flag( MF_FLIES ) ) {
                 if (cur->getFieldDensity() == 3) {
-                    dam += rng(4, 10) + rng(2, 8);
+                    const int d = rng( 4, 10 ) + rng( 2, 8 );
+                    z->deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 } else {
-                    dam += rng(cur->getFieldDensity(), cur->getFieldDensity() * 4);
+                    const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 4 );
+                    z->deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 }
             }
             break;
