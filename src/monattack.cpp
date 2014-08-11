@@ -1795,6 +1795,192 @@ void mattack::rifle_tur(monster *z)
     }
 }
 
+void mattack::searchlight(monster *z)
+{
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+
+    int max_lamp_count = 3;
+    if (z->hp < z->type->hp) {
+        max_lamp_count--;
+    }
+    if (z->hp < z->type->hp / 3) {
+        max_lamp_count--;
+    }
+
+    const int zposx = z->posx();
+    const int zposy = z->posy();
+
+    //this searchlight is not initialized
+    if (z->inv.size() == 0) {
+
+        for (int i = 0; i < max_lamp_count; i++) {
+
+            item settings("processor", 0);
+
+            settings.item_vars["SL_PREFER_UP"] = "TRUE";
+            settings.item_vars["SL_PREFER_DOWN"] = "TRUE";
+            settings.item_vars["SL_PREFER_RIGHT"] = "TRUE";
+            settings.item_vars["SL_PREFER_LEFT"] = "TRUE";
+
+            for (int x = zposx - 24; x < zposx + 24; x++)
+                for (int y = zposy - 24; y < zposy + 24; y++) {
+                    if (g->mon_at(x, y) != -1 && g->zombie(g->mon_at(x, y)).type->id == "mon_turret_searchlight") {
+                        if (x < zposx) {
+                            settings.item_vars["SL_PREFER_LEFT"] = "FALSE";
+                        }
+                        if (x > zposx) {
+                            settings.item_vars["SL_PREFER_RIGHT"] = "FALSE";
+                        }
+                        if (y < zposy) {
+                            settings.item_vars["SL_PREFER_UP"] = "FALSE";
+                        }
+                        if (y > zposy) {
+                            settings.item_vars["SL_PREFER_DOWN"] = "FALSE";
+                        }
+                    }
+
+                }
+
+            settings.item_vars["SL_SPOT_X"] = string_format("%d", 0);
+            settings.item_vars["SL_SPOT_Y"] = string_format("%d", 0);
+
+            z->add_item(settings);
+        }
+    }
+
+    //battery charge from the generator is enough for some time of work
+    if (calendar::turn % 100 == 0) {
+
+        bool generator_ok = false;
+
+        for (int x = zposx - 24; x < zposx + 24; x++)
+            for (int y = zposy - 24; y < zposy + 24; y++) if (g->m.ter_at(x, y).id == "t_plut_generator") {
+                    generator_ok = true;
+                }
+
+        if (!generator_ok) {
+            item &settings = z->inv[0];
+            settings.item_vars["SL_POWER"] = "OFF";
+
+            return;
+        }
+    }
+
+    for (int i = 0; i < max_lamp_count; i++) {
+
+        item &settings = z->inv[i];
+
+        if (settings.item_vars["SL_POWER"] == "OFF") {
+            return;
+        }
+
+        const int rng_dir = rng(0, 7);
+
+        if (one_in(5)) {
+
+            if (!one_in(5)) {
+                settings.item_vars["SL_DIR"] = string_format("%d", rng_dir);
+            } else {
+                const int rng_pref = rng(0, 3) * 2;
+                if (rng_pref == 0 && settings.item_vars["SL_PREFER_UP"] == "TRUE") {
+                    settings.item_vars["SL_DIR"] = string_format("%d", rng_pref);
+                } else            if (rng_pref == 2 && settings.item_vars["SL_PREFER_RIGHT"] == "TRUE") {
+                    settings.item_vars["SL_DIR"] = string_format("%d", rng_pref);
+                } else            if (rng_pref == 4 && settings.item_vars["SL_PREFER_DOWN"] == "TRUE") {
+                    settings.item_vars["SL_DIR"] = string_format("%d", rng_pref);
+                } else            if (rng_pref == 6 && settings.item_vars["SL_PREFER_LEFT"] == "TRUE") {
+                    settings.item_vars["SL_DIR"] = string_format("%d", rng_pref);
+                }
+            }
+        }
+
+
+        int x = zposx + atoi(settings.item_vars["SL_SPOT_X"].c_str());
+        int y = zposy + atoi(settings.item_vars["SL_SPOT_Y"].c_str());
+        int shift = 0;
+
+        for (int i = 0; i < rng(1, 2); i++) {
+
+            int tc;
+            if (!z->sees_player(tc)) {
+                if (settings.item_vars["SL_DIR"] != "") {
+                    shift = atoi(settings.item_vars["SL_DIR"].c_str());
+                }
+
+                switch (shift) {
+                    case 0:
+                        y--;
+                        break;
+                    case 1:
+                        y--;
+                        x++;
+                        break;
+                    case 2:
+                        x++;
+                        break;
+                    case 3:
+                        x++;
+                        y++;
+                        break;
+                    case 4:
+                        y++;
+                        break;
+                    case 5:
+                        y++;
+                        x--;
+                        break;
+                    case 6:
+                        x--;
+                        break;
+                    case 7:
+                        x--;
+                        y--;
+                        break;
+
+                    default:
+                        break;
+                }
+
+            } else {
+                if (x < g->u.posx) {
+                    x++;
+                }
+                if (x > g->u.posx) {
+                    x--;
+                }
+                if (y < g->u.posy) {
+                    y++;
+                }
+                if (y > g->u.posy) {
+                    y--;
+                }
+            }
+
+            if (rl_dist(x, y, zposx, zposy) > 50) {
+                if (x > zposx) {
+                    x--;
+                }
+                if (x < zposx) {
+                    x++;
+                }
+                if (y > zposy) {
+                    y--;
+                }
+                if (y < zposy) {
+                    y++;
+                }
+            }
+        }
+
+        settings.item_vars["SL_SPOT_X"] = string_format("%d", x - zposx);
+        settings.item_vars["SL_SPOT_Y"] = string_format("%d", y - zposy);
+
+        g->m.add_field(x, y, fd_spotlight, 1);
+
+    }
+}
+
 void mattack::flamethrower(monster *z)
 {
     int t;
