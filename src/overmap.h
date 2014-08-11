@@ -3,17 +3,18 @@
 #include "enums.h"
 #include "string.h"
 #include "omdata.h"
+#include "mapdata.h"
 #include "mongroup.h"
 #include "output.h"
 #include "debug.h"
-#include <vector>
-#include <iosfwd>
-#include <string>
-#include <stdlib.h>
 #include "cursesdef.h"
 #include "name.h"
 #include "input.h"
 #include "json.h"
+#include <vector>
+#include <iosfwd>
+#include <string>
+#include <stdlib.h>
 
 class overmapbuffer;
 class npc;
