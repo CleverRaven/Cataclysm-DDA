@@ -1,7 +1,6 @@
 #ifndef _ENUMS_H_
 #define _ENUMS_H_
 
-#include "rng.h"
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn

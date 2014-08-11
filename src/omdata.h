@@ -1,15 +1,13 @@
 #ifndef _OMDATA_H_
 #define _OMDATA_H_
 
+#include "color.h"
+#include "json.h"
+#include "enums.h"
 #include <string>
 #include <vector>
-#include <bitset>
-#include "mtype.h"
-#include "itype.h"
-#include "output.h"
-#include "mongroup.h"
-#include "mapdata.h"
-#include "json.h"
+#include <list>
+#include <set>
 
 #define OMAPX 180
 #define OMAPY 180
@@ -39,8 +37,7 @@ struct oter_t {
     std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
     bool rotates; // lazy for; directional_peers.size() == 4
     bool line_drawing; // lazy for; directional_peers.size() == 8
-    std::string
-    id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
+    std::string id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
 
     oter_t &operator=(const oter_t right)
     {
