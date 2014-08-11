@@ -64,3 +64,4 @@ lang/mo/
 # Netbeans IDE folders
 nbproject/
 
+*.orig

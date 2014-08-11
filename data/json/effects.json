@@ -145,6 +145,15 @@
         "apply_message":"You inhale a lungful of tear gas.",
         "rating": "bad"
     },
+    {
+        "type":"effect_type",
+        "id":"pacif_gas",
+        "name": "Relaxation gas",
+        "desc": "Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\nYou are thoroughly relaxed and don't feel like moving. Fighting? Too much effort.",
+        "apply_message":"You inhale sweetish gas.",
+        "remove_message":"Slackness gone, you are again in the ranks.",
+        "rating": "bad"
+    },
    {
       "type":"effect_type",
       "id":"boomered",

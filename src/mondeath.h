@@ -33,6 +33,7 @@ class mdeath
         void gas            (monster *z); // Explodes in toxic gas
         void kill_breathers (monster *z); // All breathers die
         void smokeburst     (monster *z); // Explode like a huge smoke bomb.
+        void pacifburst     (monster *z); // Explode soothing gas.
 
         void gameover       (monster *z); // Game over!  Defense mode
 };

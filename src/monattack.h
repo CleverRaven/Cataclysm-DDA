@@ -12,6 +12,7 @@ class mattack
         void acid               (monster *z);
         void shockstorm         (monster *z);
         void smokecloud         (monster *z);
+        void pacifgas           (monster *z);
         void boomer             (monster *z);
         void resurrect          (monster *z);
         void science            (monster *z);
