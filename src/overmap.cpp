@@ -2019,7 +2019,7 @@ void overmap::move_hordes()
             ++it;
             continue;
         }
-        if( rng(0, 100) >= mg.interest ) {
+        if( rng(0, 100) < mg.interest ) {
             // TODO: Adjust for monster speed.
             // TODO: Handle moving to adjacent overmaps.
             if( mg.posx > mg.tx) {
