@@ -511,10 +511,6 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"S"
-            },
-            {
-                "input_method":"keyboard",
                 "key":"s"
             }
         ]
