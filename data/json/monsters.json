@@ -5711,5 +5711,32 @@
     "special_attack":"DANCE",
     "description":"The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!",
     "flags":["WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "VIS50", "REGENERATES_50"]
+    }, {
+    "type" : "MONSTER",
+    "id" : "mon_zombie_pacifier",
+    "name": "pacifier zombie",
+    "species":"ZOMBIE",
+    "symbol":"Z",
+    "color":"ltblue_magenta",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":11,
+    "aggression":100,
+    "morale":100,
+    "speed":80,
+    "melee_skill":4,
+    "melee_dice":1,
+    "melee_dice_sides":6,
+    "melee_cut":2,
+    "dodge":0,
+    "armor_bash":0,
+    "armor_cut":0,
+    "luminance":0,
+    "hp":75,
+    "special_freq":10,
+    "death_function":"PACIFBURST",
+    "special_attack":"PACIFGAS",
+    "description":"A dead body emits neurotoxin that suppresses the will, aggression and desire to fight.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "FRIENDLY_SPECIAL", "NO_BREATHE", "VIS50", "REVIVES"]
     }
 ]
