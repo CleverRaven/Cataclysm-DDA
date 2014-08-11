@@ -9,5 +9,11 @@
     "ident" : "house",
     "name" : "House",
     "target" : "house"
+  },{
+    "type" : "start_location",
+    "ident" : "s_garage",
+    "name" : "Garage",
+    "target" : "s_garage"
+
   }
 ]

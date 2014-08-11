@@ -21,7 +21,7 @@ scenario::scenario(std::string scen)
 
     
 }
-scenario::scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof)
+scenario::scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission)
 {
     _ident = ident;
     _name_male = name;
@@ -30,7 +30,8 @@ scenario::scenario(std::string ident, std::string name, std::string description,
     _description_female = description;
     _start_location = start_location;
     _profession = prof;
-
+    _mission = mission;
+    _start_name = start_location;
 }
 
 scenmap scenario::_all_scens;
@@ -61,11 +62,14 @@ void scenario::load_scenario(JsonObject &jsobj)
 
     const std::string start = jsobj.get_string("start_location").c_str();
     scen._start_location = pgettext("start_location", start.c_str());
+    const std::string stame = jsobj.get_string("start_name").c_str();
+    scen._start_name = pgettext("start_name", stame.c_str());
 
     const std::string proffe = jsobj.get_string("profession").c_str();
     scen._profession = profession::prof(pgettext("profession",proffe.c_str()));
     
-
+    //scen._mission = jsobj.get_int("mission_id");    
+    
     JsonObject items_obj=jsobj.get_object("items");
     scen.add_items_from_jsonarray(items_obj.get_array("both"), "both");
     scen.add_items_from_jsonarray(items_obj.get_array("male"), "male");
@@ -97,7 +101,7 @@ scenario* scenario::scen(std::string ident)
 
 scenario* scenario::generic()
 {
-    return scenario::scen("Refugee");
+    return scenario::scen("evacuee");
 }
 
 // Strategy: a third of the time, return the generic profession.  Otherwise, return a profession,
@@ -176,7 +180,7 @@ void scenario::check_definition() const
 
 bool scenario::has_initialized()
 {
-    return exists("Refugee");
+    return exists("evacuee");
 }
 
 void scenario::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
@@ -234,10 +238,19 @@ std::string scenario::start_location() const
 {
     return _start_location;
 }
+std::string scenario::start_name() const
+{
+    return _start_name;
+}
 
 profession* scenario::prof() const
 {
     return _profession;
+}
+
+int scenario::mission() const
+{
+    return _mission;
 }
 std::vector<std::string> scenario::items() const
 {

@@ -26,7 +26,9 @@ private:
     std::string _description_female;
     std::string _gender_req;
     std::string _start_location;
+    std::string _start_name;
     profession* _profession;
+    int _mission;
     std::vector<std::string> traits;
  
 //Gender variations left in for translation purposes
@@ -45,7 +47,7 @@ public:
     scenario();
     scenario(std::string scen);
     scenario(std::string ident, std::string name, std::string description);
-    scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof);
+    scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission);
     static void load_scenario(JsonObject &jsobj);
 
     // these should be the only ways used to get at professions
@@ -71,7 +73,9 @@ public:
     std::string description(bool male) const;
     std::string gender_req() const;
     std::string start_location() const;
+    std::string start_name() const;
     profession* prof() const;
+    int mission() const;
     signed int point_cost() const;
     std::vector<std::string> items() const;
     std::vector<std::string> items_male() const;

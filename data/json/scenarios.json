@@ -1,20 +1,30 @@
 [
 	{
-            "type": "scenario",
-            "ident": "Refugee",
-            "name": "Refugee",
-            "description": "You ran to the evac shelter.(WIP)",
-            "start_location":"shelter",
-	    "profession" : "tailor",
-
-        },
-	{
 	    "type": "scenario",
 	    "ident": "evacuee",
 	    "name": "Evacuee",
-	    "description": "You have survived the initial wave of panic, and have achieved (relative) safety. What you do now is up to you",
+	    "description": "You have survived the initial wave of panic, and have achieved (relative) safety. What you do now is up to you.",
 	    "start_location": "shelter",
+	    "start_name": "Evac Center",
 	    "profession" : "unemployed"
+	},
+	{
+	    "type": "scenario",
+	    "ident": "homealone",
+	    "name": "Missed",
+	    "description": "Whether by choice, situation, or just bad luck. You missed the evacuation, and now you're stuck in a city full of the risen dead.",
+	    "start_location": "house",
+	    "start_name": "My House",
+	    "profession" : "unemployed"
+	},
+	{
+	    "type": "scenario",
+	    "ident": "mechanic",
+	    "name": "Mechanic",
+	    "description": "Working in the shop, you were so focused on the task at hand you missed the evacuation!",
+	    "start_location": "s_garage",
+	    "start_name": "Auto Repair Center",
+	    "profession" : "mechanic"
 	}
 ]
     

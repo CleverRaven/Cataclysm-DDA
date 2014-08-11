@@ -51,9 +51,10 @@ void draw_tabs(WINDOW *w, std::string sTab);
 
 int set_stats(WINDOW *w, player *u, int &points);
 int set_traits(WINDOW *w, player *u, int &points, int max_trait_points);
+int set_scenario(WINDOW *w, player *u, int &points);
 int set_profession(WINDOW *w, player *u, int &points);
 int set_skills(WINDOW *w, player *u, int &points);
-int set_scenario(WINDOW *w, player *u, int &points);
+
 int set_description(WINDOW *w, player *u, character_type type, int &points);
 
 Skill *random_skill();
@@ -269,15 +270,15 @@ bool player::create(character_type type, std::string tempname)
             case 1:
                 tab += set_traits     (w, this, points, max_trait_points);
                 break;
-            case 2:
-                tab += set_profession (w, this, points);
-                break;
-            case 3:
-                tab += set_skills     (w, this, points);
-                break;
-	    case 4:
+	    case 2:
 		tab += set_scenario   (w, this, points);
 		break;
+            case 3:
+                tab += set_profession (w, this, points);
+                break;
+            case 4:
+                tab += set_skills     (w, this, points);
+                break;
             case 5:
                 tab += set_description(w, this, type, points);
                 break;
@@ -556,9 +557,9 @@ void draw_tabs(WINDOW *w, std::string sTab)
     std::vector<std::string> tab_captions;
     tab_captions.push_back(_("STATS"));
     tab_captions.push_back(_("TRAITS"));
-    tab_captions.push_back(_("PROFESSION"));
-    tab_captions.push_back(_("SKILLS"));
     tab_captions.push_back(_("SCENARIO"));
+    tab_captions.push_back(_("PROFESSION"));
+    tab_captions.push_back(_("SKILLS")); 
     tab_captions.push_back(_("DESCRIPTION"));
     std::vector<int> tab_pos(tab_captions.size() + 1, 0);
     tab_pos[0] = 2;
@@ -1386,7 +1387,9 @@ int set_scenario(WINDOW *w, player *u, int &points)
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_items =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_profession =       newwin(iContentHeight - 1, 25,  6 + getbegy(w), 24 + getbegx(w));
+
+    WINDOW *w_location=  newwin(iContentHeight - 8, 50, 10 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const scenario *> sorted_scens;
     for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
@@ -1487,14 +1490,20 @@ int set_scenario(WINDOW *w, player *u, int &points)
         }
         scen_items.insert( scen_items.end(), scen_gender_items.begin(), scen_gender_items.end() );
         int line_offset = 1;
-        werase(w_items);
-        mvwprintz(w_items, 0, 0, COL_HEADER, _("Scenario items:"));
-        for (size_t i = 0; i < scen_items.size() && line_offset + i < getmaxy(w_items); i++) {
+        werase(w_profession);
+	werase(w_location);
+        mvwprintz(w_profession, 0, 0, COL_HEADER, _("Scenario Profession:"));
+        /*for (size_t i = 0; i < scen_items.size() && line_offset + i < getmaxy(w_items); i++) {
             itype *it = item_controller->find_template(scen_items[i]);
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
                              it->nname(1)) - 1;
-        }
+        }*/
+	wprintz(w_profession, c_ltgray,_("\n"));
+	wprintz(w_profession, c_ltgray,_(sorted_scens[cur_id]->prof()->gender_appropriate_name(u->male).c_str()));
+	mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenarion Location:"));
+	wprintz(w_location, c_ltgray,_("\n"));
+	wprintz(w_location, c_ltgray,_(sorted_scens[cur_id]->start_name().c_str()));
 
         /*profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
         mvwprintz(w_skills, 0, 0, COL_HEADER, _("Profession skills:\n"));
@@ -1536,7 +1545,8 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
         wrefresh(w);
         wrefresh(w_description);
-        wrefresh(w_items);
+        wrefresh(w_profession);
+	wrefresh(w_location);
         //wrefresh(w_genderswap);
 
         const std::string action = ctxt.handle_input();
@@ -1555,6 +1565,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
 		u->start_location = sorted_scens[cur_id]->start_location();
 		u->prof = sorted_scens[cur_id]->prof();
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
+		
+		/*u->active_missions.resize(1);
+		u->active_missions[0] = sorted_scens[cur_id]->mission();
+		u->active_mission = sorted_scens[cur_id]->mission();*/
 		//g->scen = sorted_scens[cur_id];
         } else if (action == "PREV_TAB") {
                 retval = -1;
@@ -1564,7 +1578,8 @@ int set_scenario(WINDOW *w, player *u, int &points)
     } while (retval == 0);
 
     delwin(w_description);
-    delwin(w_items);
+    delwin(w_profession);
+    delwin(w_location);
     return retval;
 }
 int set_description(WINDOW *w, player *u, character_type type, int &points)
