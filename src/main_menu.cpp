@@ -106,15 +106,17 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
 
     int menu_length = 0;
     for( auto menu_item : vMenuItems ) {
-        // adds (width + 2) if there are no shortcut symbols "<" & ">", and just width otherwise
-        menu_length += utf8_width(menu_item.c_str()) +
-                       (menu_item.find_first_of("<") == std::string::npos ? 2 : 0);
+        // adds (width - 2) if there are shortcut symbols "<" & ">", and just width otherwise
+        menu_length += utf8_width(menu_item.c_str()) + 2  - // +2 for ']' and '['
+                       (menu_item.find_first_of("<") != std::string::npos ? 2 : 0);
     }
-    const int free_space = std::max(0, window_width - menu_length);
-    const int spacing = free_space / ((int)vMenuItems.size() - 1);
+    // Available free space. -1 width_pos != line_pos. line_pos == width - 1.
+    const int free_space = std::max(0, window_width - menu_length - 1);
+    // Use 3 spaces with adj_offset or lesser value with no offset.
+    const int spacing = std::min(3, free_space / ((int)vMenuItems.size() - 1));
     const int width_of_spacing = spacing * (vMenuItems.size() - 1);
     const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
-    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX + adj_offset, spacing);
+    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, adj_offset, spacing);
 
     refresh();
     wrefresh(w_open);
