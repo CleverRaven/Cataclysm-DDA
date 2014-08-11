@@ -479,7 +479,11 @@
    },
    {
       "type":"effect_type",
-      "id":"zlave"
+      "id":"pet"
+   },
+   {
+      "type":"effect_type",
+      "id":"pacified"
    },
    {
       "type":"effect_type",

@@ -229,7 +229,7 @@ class game
         void plswim(int x, int y); // Called by plmove.  Handles swimming
         // when player is thrown (by impact or something)
         void fling_creature(Creature *c, const int &dir, float flvel,
-                                     bool controlled = false);
+                            bool controlled = false);
 
         /**
          * Nuke the area at (x,y) - global overmap terrain coordinates!
@@ -319,7 +319,10 @@ class game
         point find_item(item *it);
         void remove_item(item *it);
 
-        recipe_map list_recipes(){ return recipes; };
+        recipe_map list_recipes()
+        {
+            return recipes;
+        };
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
         std::list<item> consume_items(player *p, const std::vector<item_comp> &components);
         void consume_tools(player *p, const std::vector<tool_comp> &tools);
@@ -644,10 +647,22 @@ class game
         // Map updating and monster spawning
         void replace_stair_monsters();
         void update_stair_monsters();
-        void despawn_monsters(const int shiftx = 0, const int shifty = 0);
-        void force_save_monster(monster &critter);
+        /**
+         * Shift all active monsters, the shift vector (x,y,z) is the number of
+         * shifted submaps. Monsters that are outside of the reality bubble after
+         * shifting are despawned.
+         * Note on z-levels: this works with vertical shifts, but currently all
+         * monsters are despawned upon a vertical shift.
+         */
+        void shift_monsters(const int shiftx, const int shifty, const int shiftz);
+        /**
+         * Despawn a specific monster, it's stored on the overmap. Also removes
+         * it from the creature tracker. Keep in mind that mondex points to a
+         * different monster after calling this (or to no monster at all).
+         */
+        void despawn_monster(int mondex);
+
         void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
-        int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
@@ -715,7 +730,7 @@ class game
         int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
         //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
         int nulscent;    // Returned for OOB scent checks
-        std::vector<event> events;         // Game events to be processed
+        std::list<event> events;         // Game events to be processed
         std::map<std::string, int> kills;         // Player's kill count
         int moves_since_last_save;
         time_t last_save_timestamp;

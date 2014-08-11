@@ -30,7 +30,7 @@ std::string body_part_name (body_part bp)
     case bp_foot_l:
         return _("left foot");
     case bp_foot_r:
-        return _("left foot");
+        return _("right foot");
     default:
         return _("appendix");
     }

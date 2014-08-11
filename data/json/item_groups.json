@@ -853,12 +853,15 @@
       ["sw_22", 5],
       ["glock_19", 7],
       ["usp_9mm", 6],
+      ["l_mp_9mm", 2],
       ["cx4", 1],
       ["sw_619", 4],
       ["taurus_38", 4],
       ["sig_40", 4],
       ["sw_610", 2],
       ["ruger_redhawk", 3],
+      ["l_enforcer_45", 6],
+      ["l_long_45", 8],
       ["usp_45", 6],
       ["m1911", 5],
       ["fn57", 1],
@@ -1334,6 +1337,7 @@
       ["advanced_ecig", 8],
       ["nicotine_liquid", 8],
       ["battery", 50],
+      ["l_enforcer_45", 5],
       ["rm99_pistol", 1],
       ["rm103a_pistol", 1],
       ["shotgun_sawn", 2],
@@ -2356,8 +2360,9 @@
       ["sw_610", 2],
       ["ruger_redhawk", 3],
       ["deagle_44", 2],
-      ["usp_45", 6],
-      ["m1911", 5],
+      ["l_enforcer_45", 8],
+      ["usp_45", 5],
+      ["m1911", 4],
       ["fn57", 2],
       ["hk_ucp", 2],
       ["raging_bull", 1],
@@ -2374,8 +2379,9 @@
       ["shotgun_d", 2],
       ["rm228", 2],
       ["rm120c", 1],
-      ["remington_870", 9],
-      ["mossberg_500", 5]
+      ["l_def_12", 6],
+      ["remington_870", 8],
+      ["mossberg_500", 4]
     ]
   },{
     "type" : "item_group",
@@ -2383,6 +2389,7 @@
     "items":[
       ["marlin_9a", 14],
       ["ruger_1022", 12],
+      ["l_long_45", 8],
       ["cx4", 15],
       ["browning_blr", 8],
       ["remington_700", 14],
@@ -2401,6 +2408,7 @@
       ["american_180", 2],
       ["uzi", 8],
       ["tec9", 10],
+      ["l_mp_9mm", 10],
       ["calico", 6],
       ["hk_mp5", 12],
       ["mac_10", 14],
@@ -2440,14 +2448,16 @@
       ["sw_22", 5],
       ["glock_19", 7],
       ["usp_9mm", 6],
+      ["l_mp_9mm", 3],
       ["sw_619", 4],
       ["taurus_38", 4],
       ["sig_40", 4],
       ["sw_610", 2],
       ["ruger_redhawk", 3],
       ["deagle_44", 2],
-      ["usp_45", 6],
-      ["m1911", 5],
+      ["l_enforcer_45", 6],
+      ["usp_45", 5],
+      ["m1911", 4],
       ["fn57", 2],
       ["hk_ucp", 2],
       ["raging_bull", 1],
@@ -2455,8 +2465,9 @@
       ["shotgun_s", 1],
       ["shotgun_d", 2],
       ["rm228", 2],
-      ["remington_870", 9],
-      ["mossberg_500", 5],
+      ["l_def_12", 6],
+      ["remington_870", 8],
+      ["mossberg_500", 4],
       ["rm120c", 2],
       ["saiga_12", 3],
       ["rm20", 1],
@@ -2473,6 +2484,7 @@
       ["marlin_9a", 14],
       ["ruger_1022", 12],
       ["cx4", 15],
+      ["l_long_45", 6],
       ["browning_blr", 8],
       ["remington_700", 14],
       ["m14a", 10],
@@ -2537,6 +2549,7 @@
       ["mag_shotgun", 20],
       ["mag_smg", 10],
       ["recipe_bullets", 10],
+      ["l_HFPack", 15],
       ["flashlight", 40],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -3181,12 +3194,15 @@
     "id" : "cop_armory",
     "items":[
       ["usp_9mm", 15],
-      ["m1911", 10],
+      ["l_enforcer_45", 7],
+      ["l_long_45", 2],
+      ["m1911", 5],
       ["fn57", 8],
       ["hk_mp5", 8],
       ["hk_ump45", 7],
       ["fn_p90", 5],
-      ["remington_870", 10],
+      ["l_def_12", 8],
+      ["remington_870", 8],
       ["remington_700", 7],
       ["9mm", 16],
       ["45_acp", 12],
@@ -3206,8 +3222,9 @@
       ["tazer", 25],
       ["remington_700", 5],
       ["3006", 5],
-      ["remington_870", 10],
-      ["mossberg_500", 10],
+      ["l_def_12", 8],
+      ["remington_870", 8],
+      ["mossberg_500", 8],
       ["shot_beanbag", 25],
       ["rm120c", 2],
       ["rm20", 1],
@@ -3234,13 +3251,13 @@
     "id" : "cop_weapons",
     "items":[
       ["baton", 8],
-      ["remington_870", 15],
-      ["shot_00", 8],
-      ["45_acp", 8],
       ["usp_9mm", 10],
       ["rm120c", 2],
       ["remington_700", 9],
+      ["l_def_12", 8],
+      ["remington_870", 15],
       ["mossberg_500", 5],
+      ["shot_00", 8],
       ["rm20", 1],
       ["shot_beanbag", 15],
       ["20x66_beanbag", 10],
@@ -3248,8 +3265,10 @@
       ["20x66_shot", 5],
       ["PR24-retracted", 20],
       ["tonfa", 20],
+      ["l_enforcer_45", 7],
       ["usp_45", 6],
       ["m1911", 5],
+      ["45_acp", 8],
       ["rm99_pistol", 1],
       ["8mm_fmj", 2],
       ["8mm_caseless", 3],
@@ -3268,6 +3287,7 @@
       ["9mm", 12],
       ["fn57", 4],
       ["fn_p90", 3],
+      ["l_mp_9mm", 2],
       ["tazer", 15]
     ]
   },{
@@ -3463,6 +3483,7 @@
     "guns_with_ammo" : true,
     "items":[
       ["flaregun", 4],
+      ["l_enforcer_45", 6],
       ["m1911", 10],
       ["ruger_redhawk", 9],
       ["deagle_44", 9],
@@ -3473,6 +3494,7 @@
       ["rm228", 5],
       ["m14a", 15],
       ["ruger_mini", 10],
+      ["l_long_45", 9],
       ["browning_blr", 9],
       ["remington_700", 9],
       ["rm120c", 3],
@@ -3496,6 +3518,7 @@
       ["rifle_flintlock", 4],
       ["mosin91_30", 5],
       ["mosin44", 5],
+      ["l_HFPack", 1],
       ["survnote", 1]
     ]
   },{
@@ -7191,6 +7214,7 @@
       ["shotgun_sawn", 4],
       ["uzi", 8],
       ["tec9", 10],
+      ["l_mp_9mm", 4],
       ["mac_10", 14],
       ["rm228", 1],
       ["suppressor", 15],
@@ -7920,14 +7944,6 @@
       ["spike", 1]
     ]
   },{
-    "type" : "item_group",
-    "id" : "mushroom_forest",
-    "items":[
-      ["mushroom", 4],
-      ["mushroom_poison", 3],
-      ["mushroom_magic", 1]
-    ]
-  },{
 "type" : "item_group",
 "id" : "vending_ammo_pistol",
 "items":[
@@ -8297,6 +8313,52 @@
       ["tazer", 20],
       ["flashlight", 40],
       ["two_way_radio", 10]
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_spring",
+"subtype": "distribution",
+"entries" : [
+      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "wild_herbs", "prob": 10 }
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_summer",
+"subtype": "distribution",
+"entries" : [
+      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
+      { "group": "forage_mushroom", "prob": 50 },
+      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "wild_herbs", "prob": 10 }
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_autumn",
+"subtype": "distribution",
+"entries" : [
+      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
+      { "group": "forage_mushroom", "prob": 50 },
+      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "wild_herbs", "prob": 10 }
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_winter",
+"subtype": "distribution",
+"entries" : [
+    ]
+  },{
+"type" : "item_group",
+"id" : "forage_mushroom",
+"subtype": "distribution",
+"entries":[
+      { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
+      { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
+      { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
     ]
   }
 ]

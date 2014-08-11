@@ -57,11 +57,12 @@ void npc::move()
 
     //faction opinion determines if it should consider you hostile
     if (my_fac != NULL && my_fac->likes_u < -10 && this->sees(g->u.posx, g->u.posy)
-        && g->u.is_invisible() == false){
-        if (op_of_u.fear > 10 + personality.aggression + personality.bravery)
-            attitude = NPCATT_FLEE; // We don't want to take u on!
-        else
-            attitude = NPCATT_KILL; // Yeah, we think we could take you!
+        && g->u.is_invisible() == false) {
+        if (op_of_u.fear > 10 + personality.aggression + personality.bravery) {
+            attitude = NPCATT_FLEE;    // We don't want to take u on!
+        } else {
+            attitude = NPCATT_KILL;    // Yeah, we think we could take you!
+        }
     }
 
 
@@ -110,7 +111,7 @@ void npc::move()
         }
         if (action == npc_undecided) {
             if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
-                    || mission == NPC_MISSION_GUARD || has_disease("infection")) {
+                || mission == NPC_MISSION_GUARD || has_disease("infection")) {
                 action = npc_pause;
             } else if (has_new_items) {
                 action = scan_new_items(target);
@@ -200,7 +201,7 @@ void npc::execute_action(npc_action action, int target)
         recoil = 6;
         if (g->u_see(posx, posy)) {
             add_msg(_("%s reloads their %s."), name.c_str(),
-                                              weapon.tname().c_str());
+                    weapon.tname().c_str());
         }
     }
     break;
@@ -571,12 +572,12 @@ npc_action npc::method_of_attack(int target, int danger)
                 else {
                     return npc_avoid_friendly_fire;
                 }
-            else if (target == TARGET_PLAYER && g->u.is_invisible() == true){
+            else if (target == TARGET_PLAYER && g->u.is_invisible() == true) {
                 return npc_pause;//Lost you since you went invisible
-            }else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)){
+            } else if (target == TARGET_PLAYER && !this->sees(g->u.posx, g->u.posy)) {
                 return npc_melee;//Can't see target
-            }else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
-                     g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
+            } else if (rl_dist(posx, posy, tarx, tary) > weapon.range() &&
+                       g->m.sees( posx, posy, tarx, tary, weapon.range(), junk )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= gun->burst &&
                        gun->burst > 1 &&
@@ -1076,7 +1077,7 @@ void npc::move_to(int x, int y)
             bool diag = trigdist && posx != x && posy != y;
             moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
             if (g->m.tr_at(x, y) != tr_null) { // NPC stepped on a trap!
-                trap* tr = traplist[g->m.tr_at(x, y)];
+                trap *tr = traplist[g->m.tr_at(x, y)];
                 if (!this->avoid_trap(tr, x, y)) {
                     tr->trigger(this, x, y);
                 }
@@ -1384,15 +1385,15 @@ void npc::pick_up_item()
         if (pickup.size() == 1) {
             if (u_see_items)
                 add_msg(_("%s picks up a %s."), name.c_str(),
-                           (*items)[pickup[0]].tname().c_str());
+                        (*items)[pickup[0]].tname().c_str());
             else {
                 add_msg(_("%s picks something up."), name.c_str());
             }
         } else if (pickup.size() == 2) {
             if (u_see_items)
                 add_msg(_("%s picks up a %s and a %s."), name.c_str(),
-                           (*items)[pickup[0]].tname().c_str(),
-                           (*items)[pickup[1]].tname().c_str());
+                        (*items)[pickup[0]].tname().c_str(),
+                        (*items)[pickup[1]].tname().c_str());
             else {
                 add_msg(_("%s picks up a couple of items."), name.c_str());
             }
@@ -1402,11 +1403,11 @@ void npc::pick_up_item()
     } else if (u_see_items) {
         if (pickup.size() == 1) {
             add_msg(_("Someone picks up a %s."),
-                                              (*items)[pickup[0]].tname().c_str());
+                    (*items)[pickup[0]].tname().c_str());
         } else if (pickup.size() == 2)
             add_msg(_("Someone picks up a %s and a %s"),
-                       (*items)[pickup[0]].tname().c_str(),
-                       (*items)[pickup[1]].tname().c_str());
+                    (*items)[pickup[0]].tname().c_str(),
+                    (*items)[pickup[1]].tname().c_str());
         else {
             add_msg(_("Someone picks up several items."));
         }
@@ -1519,11 +1520,11 @@ void npc::drop_items(int weight, int volume)
     if (g->u_see(posx, posy)) {
         if (num_items_dropped >= 3) {
             add_msg(ngettext("%s drops %d item.", "%s drops %d items.",
-                                                       num_items_dropped), name.c_str(),
-                                              num_items_dropped);
+                             num_items_dropped), name.c_str(),
+                    num_items_dropped);
         } else {
             add_msg(_("%s drops a %s."), name.c_str(),
-                                              item_name_str.c_str());
+                    item_name_str.c_str());
         }
     }
     update_worst_item_value();
@@ -1668,7 +1669,7 @@ void npc::alt_attack(int target)
             moves -= 125;
             if (g->u_see(posx, posy)) {
                 add_msg(_("%s throws a %s."),
-                                                  name.c_str(), used->tname().c_str());
+                        name.c_str(), used->tname().c_str());
             }
 
             int stack_size = -1;
@@ -1733,7 +1734,7 @@ void npc::alt_attack(int target)
                 moves -= 125;
                 if (g->u_see(posx, posy)) {
                     add_msg(_("%s throws a %s."), name.c_str(),
-                                                      used->tname().c_str());
+                            used->tname().c_str());
                 }
 
                 int stack_size = -1;
@@ -1813,7 +1814,7 @@ void npc::heal_player(player &patient)
             if (u_see_me) {
                 if (u_see_patient) {
                     add_msg(_("%s heals %s."),
-                                                      name.c_str(), patient.name.c_str());
+                            name.c_str(), patient.name.c_str());
                 } else {
                     add_msg(_("%s heals someone."), name.c_str());
                 }
@@ -1919,7 +1920,7 @@ void npc::heal_self()
     }
     if (g->u_see(posx, posy)) {
         add_msg(_("%s heals %s."), name.c_str(),
-                                          (male ? _("himself") : _("herself")));
+                (male ? _("himself") : _("herself")));
     }
     heal(worst, amount_healed);
     moves -= 250;
@@ -2003,14 +2004,14 @@ void npc::mug_player(player &mark)
                 if (u_see_me) {
                     if (u_see_mark) {
                         add_msg(_("%s takes %s's money!"),
-                                                          name.c_str(), mark.name.c_str());
+                                name.c_str(), mark.name.c_str());
                     } else {
                         add_msg(_("%s takes someone's money!"),
-                                                          name.c_str());
+                                name.c_str());
                     }
                 } else if (u_see_mark) {
                     add_msg(_("Someone takes %s's money!"),
-                                                      mark.name.c_str());
+                            mark.name.c_str());
                 }
             } else {
                 if (u_see_me) {
@@ -2054,22 +2055,22 @@ void npc::mug_player(player &mark)
                     if (u_see_me) {
                         if (u_see_mark)
                             add_msg(_("%s takes %s's %s."), name.c_str(),
-                                                              mark.name.c_str(),
-                                                              stolen.tname().c_str());
+                                    mark.name.c_str(),
+                                    stolen.tname().c_str());
                         else {
                             add_msg(_("%s takes something from somebody."),
-                                                              name.c_str());
+                                    name.c_str());
                         }
                     } else if (u_see_mark)
                         add_msg(_("Someone takes %s's %s."),
-                                                          mark.name.c_str(), stolen.tname().c_str());
+                                mark.name.c_str(), stolen.tname().c_str());
                 } else {
                     if (u_see_me) {
                         add_msg(m_bad, _("%s takes your %s."),
-                                                          name.c_str(), stolen.tname().c_str());
+                                name.c_str(), stolen.tname().c_str());
                     } else {
                         add_msg(m_bad, _("Someone takes your %s."),
-                                                          stolen.tname().c_str());
+                                stolen.tname().c_str());
                     }
                 }
                 i_add(stolen);
@@ -2139,14 +2140,13 @@ bool npc::has_destination() const
 void npc::reach_destination()
 {
     //this entire clause is to preserve the guard's home coordinates and permit him/her to return
-    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP){
-        if (guardx == global_square_location().x && guardy == global_square_location().y){
+    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP) {
+        if (guardx == global_square_location().x && guardy == global_square_location().y) {
             return; //Our guard is already at his/her home tile
-        }
-        else {
-            if (path.size() > 1)
-                move_to_next();  //No point recalculating the path to get home
-            else{
+        } else {
+            if (path.size() > 1) {
+                move_to_next();    //No point recalculating the path to get home
+            } else {
                 int pt1 = guardx - mapx * SEEX;
                 int pt2 = guardy - mapy * SEEY;
                 update_path(pt1, pt2);
@@ -2172,7 +2172,7 @@ void npc::set_destination()
      * Also, NPCs should be able to assign themselves missions like "break into that
      *  lab" or "map that river bank."
      */
-    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP){
+    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP) {
         goal.x = global_omt_location().x;
         goal.y = global_omt_location().y;
         goal.z = g->levz;

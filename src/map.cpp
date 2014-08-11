@@ -4637,8 +4637,6 @@ void map::spawn_monsters()
      int tries = 0;
      int mx = current_submap->spawns[i].posx, my = current_submap->spawns[i].posy;
      monster tmp(GetMType(current_submap->spawns[i].type));
-     tmp.spawnmapx = g->levx + gx;
-     tmp.spawnmapy = g->levy + gy;
      tmp.faction_id = current_submap->spawns[i].faction_id;
      tmp.mission_id = current_submap->spawns[i].mission_id;
      if (current_submap->spawns[i].name != "NONE")
@@ -4660,14 +4658,13 @@ void map::spawn_monsters()
       tries++;
      }
      if (tries != 10) {
-      tmp.spawnposx = fx;
-      tmp.spawnposy = fy;
       tmp.spawn(fx, fy);
       g->add_zombie(tmp);
      }
     }
    }
    current_submap->spawns.clear();
+    overmap_buffer.spawn_monster( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
   }
  }
 }

@@ -344,7 +344,7 @@ void draw_border(WINDOW *w, nc_color FG)
 {
     wattron(w, FG);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wattroff(w, FG);
 }
 
@@ -432,7 +432,7 @@ bool query_yn(const char *mes, ...)
 
     // localizes the selectors, requires translation to use lower case
     std::string selectors = _("yn");
-    if (selectors.length()<2) {
+    if (selectors.length() < 2) {
         selectors = "yn";
     }
     std::string ucselectors = selectors;
@@ -443,13 +443,14 @@ bool query_yn(const char *mes, ...)
     std::string *dispkeys = &selectors;
     if (force_uc) {
         ucwarning = _("Case Sensitive");
-        ucwarning = " (" + ucwarning +")";
+        ucwarning = " (" + ucwarning + ")";
         dispkeys = &ucselectors;
     }
 
     // figures the length of the combined texts
     // width needed for text +2 for the border. + (/) 4 for the symbols and a space
-    int win_width = utf8_width(text.c_str()) + utf8_width(selectors.c_str()) + utf8_width(ucwarning.c_str()) + 2 + 4;
+    int win_width = utf8_width(text.c_str()) + utf8_width(selectors.c_str()) + utf8_width(
+                        ucwarning.c_str()) + 2 + 4;
     win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
 
     WINDOW *w = NULL;
@@ -459,28 +460,27 @@ bool query_yn(const char *mes, ...)
     std::string color_on = "<color_white>";
     std::string color_off = "</color>";
 
-    char ch ='?';
+    char ch = '?';
     bool result = true;
     bool gotkey = false;
 
     while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE) {
 
-        gotkey= (force_uc && ((ch == ucselectors[0]) || (ch == ucselectors[1])))
-            || (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
+        gotkey = (force_uc && ((ch == ucselectors[0]) || (ch == ucselectors[1])))
+                 || (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
 
         if (gotkey) {
             result = (!force_uc && (ch == selectors[0])) || (force_uc && (ch == ucselectors[0]));
             break; // could move break past render to flash final choice once.
-        } else
-        if ((!force_uc && (ch != ucselectors[0]) && (ch != ucselectors[1]))
-            || (force_uc && ((ch != selectors[0]) && (ch != selectors[1])))) {
+        } else if ((!force_uc && (ch != ucselectors[0]) && (ch != ucselectors[1]))
+                   || (force_uc && ((ch != selectors[0]) && (ch != selectors[1])))) {
             result = !result;
         }
 
         if (result) {
-            query = " (" + color_on + dispkeys->substr(0,1) + color_off + "/" + dispkeys->substr(1,1) + ")";
+            query = " (" + color_on + dispkeys->substr(0, 1) + color_off + "/" + dispkeys->substr(1, 1) + ")";
         } else {
-            query = " (" + dispkeys->substr(0,1) + "/" + color_on + dispkeys->substr(1,1) + color_off + ")";
+            query = " (" + dispkeys->substr(0, 1) + "/" + color_on + dispkeys->substr(1, 1) + color_off + ")";
         }
         if (force_uc) {
             query += ucwarning;
@@ -489,7 +489,7 @@ bool query_yn(const char *mes, ...)
         if (!w) {
             textformatted = foldstring(text + query, win_width);
             w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
-                (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
+                       (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
             draw_border(w);
         }
         fold_and_print(w, 1, 1, win_width, c_ltred, text + query);
@@ -690,7 +690,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                         hmenu.addentry(h, true, -2, (*hist)[h].c_str());
                     }
                     if ( !ret.empty() && ( hmenu.entries.empty() ||
-                                             hmenu.entries[hist->size() - 1].txt != ret.str() ) ) {
+                                           hmenu.entries[hist->size() - 1].txt != ret.str() ) ) {
                         hmenu.addentry(hist->size(), true, -2, ret.str());
                         hmenu.selected = hist->size();
                     } else {
@@ -848,14 +848,14 @@ long popup(const std::string &text, PopupFlags flags)
     WINDOW *w;
     if ((flags & PF_FULLSCREEN) != 0) {
         w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+                   (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                   (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
     } else if ((flags & PF_ON_TOP) == 0) {
         if (height > FULL_SCREEN_HEIGHT) {
             height = FULL_SCREEN_HEIGHT;
         }
         w = newwin(height, width, (TERMY - (height + 1)) / 2,
-                       (TERMX > width) ? (TERMX - width) / 2 : 0);
+                   (TERMX > width) ? (TERMX - width) / 2 : 0);
     } else {
         w = newwin(height, width, 0, (TERMX > width) ? (TERMX - width) / 2 : 0);
     }
@@ -920,7 +920,8 @@ void full_screen_popup(const char *mes, ...)
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
-int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight, const std::string sItemName,
+int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
+                   const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    const int selected, const bool without_getch, const bool without_border)
 {
@@ -1351,9 +1352,9 @@ std::string vstring_format(const char *pattern, va_list argptr)
     // If we have no C++11 support, define a hackish way to do va_copy
     // See http://stackoverflow.com/questions/558223/va-copy-porting-to-visual-c
     // and http://stackoverflow.com/questions/5047971/how-do-i-check-for-c11-support
-    #if __cplusplus < 201103L && !defined(va_copy)
-        #define va_copy(dest, source) dest = source
-    #endif
+#if __cplusplus < 201103L && !defined(va_copy)
+#define va_copy(dest, source) dest = source
+#endif
 
     int buffer_size = 1024; // Any number is good
     int returned_length = 0;
@@ -1454,7 +1455,8 @@ std::string rm_prefix(std::string str, char c1, char c2)
 // draw a menu item like strign with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const std::string &fmt)
+size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
+                      const std::string &fmt)
 {
     std::string tmp = fmt;
     size_t pos = tmp.find_first_of('<');
@@ -1496,7 +1498,8 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::str
     return len;
 }
 
-void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::string &text, const bool bMonster)
+void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::string &text,
+                const bool bMonster)
 {
     if (current_hp == max_hp) {
         color = c_green;
@@ -1697,14 +1700,15 @@ int scrollingcombattext::cSCT::getPosX()
 
         if (oDir == NORTH || oDir == SOUTH) {
             //Center text
-            iDirOffset -= getText().length()/2;
+            iDirOffset -= getText().length() / 2;
 
         } else if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
             //Left align text
             iDirOffset -= getText().length();
         }
 
-        return iPosX + iDirOffset + (iDirX * ((sType == "hp") ? (getStepOffset() + 1) : (getStepOffset() + getStep())));
+        return iPosX + iDirOffset + (iDirX * ((sType == "hp") ? (getStepOffset() + 1) :
+                                              (getStepOffset() + getStep())));
     }
 
     return 0;
@@ -1749,30 +1753,44 @@ nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg)
     if (!bOldMsg) {
         // color for new messages
         switch(type) {
-            case m_good:    return c_ltgreen;
-            case m_bad:     return c_ltred;
-            case m_mixed:
-            case m_headshot:return c_pink;
-            case m_neutral: return c_white;
-            case m_warning:
-            case m_critical:return c_yellow;
-            case m_info:
-            case m_grazing: return c_ltblue;
-            default:        return c_white;
+        case m_good:
+            return c_ltgreen;
+        case m_bad:
+            return c_ltred;
+        case m_mixed:
+        case m_headshot:
+            return c_pink;
+        case m_neutral:
+            return c_white;
+        case m_warning:
+        case m_critical:
+            return c_yellow;
+        case m_info:
+        case m_grazing:
+            return c_ltblue;
+        default:
+            return c_white;
         }
     } else {
         // color for slightly old messages
         switch(type) {
-            case m_good:    return c_green;
-            case m_bad:     return c_red;
-            case m_mixed:
-            case m_headshot:return c_magenta;
-            case m_neutral: return c_ltgray;
-            case m_warning:
-            case m_critical:return c_brown;
-            case m_info:
-            case m_grazing: return c_blue;
-            default:        return c_ltgray;
+        case m_good:
+            return c_green;
+        case m_bad:
+            return c_red;
+        case m_mixed:
+        case m_headshot:
+            return c_magenta;
+        case m_neutral:
+            return c_ltgray;
+        case m_warning:
+        case m_critical:
+            return c_brown;
+        case m_info:
+        case m_grazing:
+            return c_blue;
+        default:
+            return c_ltgray;
         }
     }
 
@@ -1784,16 +1802,23 @@ int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg)
     int iBold = (bOldMsg) ? 0 : 8;
 
     switch(type) {
-        case m_good:    return iBold + COLOR_GREEN;
-        case m_bad:     return iBold + COLOR_RED;
-        case m_mixed:
-        case m_headshot:return iBold + COLOR_MAGENTA;
-        case m_neutral: return iBold + COLOR_WHITE;
-        case m_warning:
-        case m_critical:return iBold + COLOR_YELLOW;
-        case m_info:
-        case m_grazing: return iBold + COLOR_BLUE;
-        default:        return -1;
+    case m_good:
+        return iBold + COLOR_GREEN;
+    case m_bad:
+        return iBold + COLOR_RED;
+    case m_mixed:
+    case m_headshot:
+        return iBold + COLOR_MAGENTA;
+    case m_neutral:
+        return iBold + COLOR_WHITE;
+    case m_warning:
+    case m_critical:
+        return iBold + COLOR_YELLOW;
+    case m_info:
+    case m_grazing:
+        return iBold + COLOR_BLUE;
+    default:
+        return -1;
     }
 
     return -1;
@@ -1801,23 +1826,28 @@ int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg)
 
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
-int get_terminal_width() {
+int get_terminal_width()
+{
     int width = OPTIONS["TERMINAL_X"];
     return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
 }
 
-int get_terminal_height() {
+int get_terminal_height()
+{
     return OPTIONS["TERMINAL_Y"];
 }
 
-bool is_draw_tiles_mode() {
+bool is_draw_tiles_mode()
+{
     return false;
 }
 
-void play_music(std::string) {
+void play_music(std::string)
+{
 }
 
-void play_sound(std::string) {
+void play_sound(std::string)
+{
 }
 
 #endif

@@ -16,7 +16,8 @@ void help_draw_dir(WINDOW *win, int line_y)
 {
     action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
                              ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
+                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
+                            };
     mvwprintz(win, line_y + 1, 0, c_white, _("\
   \\ | /     \\ | /\n\
    \\|/       \\|/ \n\

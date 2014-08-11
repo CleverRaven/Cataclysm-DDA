@@ -95,6 +95,35 @@ void map::generate(const int x, const int y, const int z, const int turn)
         add_extra( random_map_extra( ex ));
     }
 
+    for( int i = 0; i < my_MAPSIZE; i++ ) {
+        for( int j = 0; j < my_MAPSIZE; j++ ) {
+            auto groups = overmap_buffer.groups_at( x + i, y + j, z );
+            for( auto &mgp : groups ) {
+                mongroup &mg = *mgp;
+                // place_spawns does not work here as it requires a "chance", not a
+                // specific monster count.
+                int group = mg.population;
+                for( int g = 0; g < group; g++ ) {
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mg.type, &group );
+                    if( spawn_details.name == "mon_null" ) {
+                        continue;
+                    }
+                    int tries = 10;
+                    int monx = 0;
+                    int mony = 0;
+                    do {
+                        monx = rng( 0, SEEX - 1 ) + SEEX * i;
+                        mony = rng( 0, SEEY - 1 ) + SEEY * j;
+                        tries--;
+                    } while( move_cost( monx, mony ) == 0 && tries > 0 );
+                    add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
+                }
+                // indicates the group is empty, and can be removed later
+                mg.population = 0;
+            }
+        }
+    }
+
     post_process(zones);
 
     // Okay, we know who are neighbors are.  Let's draw!
@@ -4173,19 +4202,14 @@ ff.......|....|WWWWWWWW|\n\
 
         dat.fill_groundcover();
 
-        square(this, t_dirt, 3, 3, 20, 20); // fixme: restore grass_or_dirt as dat.square_groundcover() and use dat.is_groundcover instead of t_dirt for checks below.
-        line(this, t_chainfence_h,  2,  2, 10,  2);
-        line(this, t_chainfence_h, 13,  2, 21,  2);
-        line(this, t_chaingate_l,      11,  2, 12,  2);
-        line(this, t_chainfence_h,  2, 21, 10, 21);
-        line(this, t_chainfence_h, 13, 21, 21, 21);
-        line(this, t_chaingate_l,      11, 21, 12, 21);
-        line(this, t_chainfence_v,  2,  3,  2, 10);
-        line(this, t_chainfence_v, 21,  3, 21, 10);
-        line(this, t_chaingate_l,       2, 11,  2, 12);
-        line(this, t_chainfence_v,  2, 13,  2, 20);
-        line(this, t_chainfence_v, 21, 13, 21, 20);
-        line(this, t_chaingate_l,      21, 11, 21, 12);
+        line(this, t_chainfence_h,            0,            0, SEEX * 2 - 1,            0);
+        line(this, t_chaingate_l,            11,            0,           12,            0);
+        line(this, t_chainfence_h,            0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+        line(this, t_chaingate_l,            11, SEEY * 2 - 1,           12, SEEY * 2 - 1);
+        line(this, t_chainfence_v,            0,            0,            0, SEEX * 2 - 1);
+        line(this, t_chaingate_l,             0,           11,            0,           12);
+        line(this, t_chainfence_v, SEEX * 2 - 1,            0, SEEX * 2 - 1, SEEY * 2 - 1);
+        line(this, t_chaingate_l,  SEEX * 2 - 1,           11, SEEX * 2 - 1,           12);
         // Place some random buildings
 
         bool okay = true;
@@ -4194,11 +4218,22 @@ ff.......|....|WWWWWWWW|\n\
             int buildwidthmax  = (buildx <= 11 ? buildx - 3 : 20 - buildx),
                 buildheightmax = (buildy <= 11 ? buildy - 3 : 20 - buildy);
             int buildwidth = rng(3, buildwidthmax), buildheight = rng(3, buildheightmax);
-            if (ter(buildx, buildy) != t_dirt) {
+            if( !dat.is_groundcover( ter( buildx, buildy ) ) ) {
                 okay = false;
             } else {
                 int bx1 = buildx - buildwidth, bx2 = buildx + buildwidth,
                     by1 = buildy - buildheight, by2 = buildy + buildheight;
+                bool overlap = false;
+                for(int x = bx1; x <= bx2 && !overlap; x++) {
+                    for(int y = by1; y <= by2 && !overlap; y++) {
+                        if( !dat.is_groundcover( ter( x, y ) ) ) {
+                            overlap = true;
+                        }
+                    }
+                }
+                if(overlap) {
+                    continue;
+                }
                 square(this, t_floor, bx1, by1, bx2, by2);
                 line(this, t_concrete_h, bx1, by1, bx2, by1);
                 line(this, t_concrete_h, bx1, by2, bx2, by2);
@@ -4267,51 +4302,38 @@ ff.......|....|WWWWWWWW|\n\
                     for (int j = doory - 1; j <= doory + 1; j++) {
                         i_clear(i, j);
                         if (furn(i, j) == f_bed || furn(i, j) == f_rack || furn(i, j) == f_counter) {
-                            set(i, j, t_floor, f_null);
+                            furn_set(i, j, f_null);
                         }
+                    }
+                }
+                for( int i = -1; i <= +1; i += 2 ) {
+                    // Wall from another room, make a double door, doesn't look nice,
+                    // but is better than a door leading into wall. Original:
+                    // ---     -+-
+                    // -+- ==> -+-
+                    // ...     ...
+                    if( ( ter( doorx + i, doory ) == t_concrete_h || ter( doorx + i, doory ) == t_concrete_v ) &&
+                        ter( doorx - i, doory ) == t_floor ) {
+                        ter_set( doorx + i, doory, t_door_c );
+                    }
+                    if( ( ter( doorx, doory + i ) == t_concrete_h || ter( doorx, doory + i ) == t_concrete_v ) &&
+                        ter( doorx, doory - i ) == t_floor ) {
+                        ter_set( doorx, doory + i, t_door_c );
                     }
                 }
                 ter_set(doorx, doory, t_door_c);
             }
         }
-        // Seal up the entrances if there's walls there
-        if (ter(11,  3) != t_dirt) {
-            ter_set(11,  2, t_concrete_h);
-        }
-        if (ter(12,  3) != t_dirt) {
-            ter_set(12,  2, t_concrete_h);
-        }
-
-        if (ter(11, 20) != t_dirt) {
-            ter_set(11,  2, t_concrete_h);
-        }
-        if (ter(12, 20) != t_dirt) {
-            ter_set(12,  2, t_concrete_h);
-        }
-
-        if (ter( 3, 11) != t_dirt) {
-            ter_set( 2, 11, t_concrete_v);
-        }
-        if (ter( 3, 12) != t_dirt) {
-            ter_set( 2, 12, t_concrete_v);
-        }
-
-        if (ter( 3, 11) != t_dirt) {
-            ter_set( 2, 11, t_concrete_v);
-        }
-        if (ter( 3, 12) != t_dirt) {
-            ter_set( 2, 12, t_concrete_v);
-        }
 
         // Place turrets by (possible) entrances
-        add_spawn("mon_turret_rifle", 1,  3, 11);
-        add_spawn("mon_turret_rifle", 1,  3, 12);
-        add_spawn("mon_turret_rifle", 1, 20, 11);
-        add_spawn("mon_turret_rifle", 1, 20, 12);
-        add_spawn("mon_turret_rifle", 1, 11,  3);
-        add_spawn("mon_turret_rifle", 1, 12,  3);
-        add_spawn("mon_turret_rifle", 1, 11, 20);
-        add_spawn("mon_turret_rifle", 1, 12, 20);
+        add_spawn("mon_turret_rifle", 1,  1, 11);
+        add_spawn("mon_turret_rifle", 1,  1, 12);
+        add_spawn("mon_turret_rifle", 1, SEEX * 2 - 2, 11);
+        add_spawn("mon_turret_rifle", 1, SEEX * 2 - 2, 12);
+        add_spawn("mon_turret_rifle", 1, 11,  1);
+        add_spawn("mon_turret_rifle", 1, 12,  1);
+        add_spawn("mon_turret_rifle", 1, 11, SEEY * 2 - 2);
+        add_spawn("mon_turret_rifle", 1, 12, SEEY * 2 - 2);
 
         // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++) {
@@ -9923,12 +9945,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
 
     } else if (terrain_type == "mansion_entrance") {
+        dat.fill_groundcover();
 
-        // Left wall
-        line(this, t_wall_v,  0,  0,  0, SEEY * 2 - 2);
-        line(this, t_door_c,  0, SEEY - 1, 0, SEEY);
         // Front wall
-        line(this, t_wall_h,  1, 10,  SEEX * 2 - 1, 10);
+        line(this, t_wall_h,  0, 10,  SEEX * 2 - 1, 10);
         line(this, t_door_locked, SEEX - 1, 10, SEEX, 10);
         int winx1 = rng(2, 4);
         int winx2 = rng(4, 6);
@@ -9939,13 +9959,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         line(this, t_window, winx1, 10, winx2, 10);
         line(this, t_window, SEEX * 2 - 1 - winx1, 10, SEEX * 2 - 1 - winx2, 10);
         line(this, t_door_c, SEEX - 1, 10, SEEX, 10);
-        // Bottom wall
-        line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
-        line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
 
-        build_mansion_room(this, room_mansion_courtyard, 1, 0, SEEX * 2 - 1, 9, dat);
-        square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
-        build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2, dat);
+        build_mansion_room(this, room_mansion_courtyard, 0, 0, SEEX * 2 - 1, 9, dat);
+        square(this, t_floor, 0, 11, SEEX * 2 - 1, SEEY * 2 - 1);
+        build_mansion_room(this, room_mansion_entry, 0, 11, SEEX * 2 - 1, SEEY * 2 - 1, dat);
         // Rotate to face the road
         if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east) ||
             ((t_east != "mansion") && (t_north == "mansion") && (t_south == "mansion"))) {
@@ -9963,7 +9980,16 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (one_in(3)) {
             add_spawn("mon_zombie", rng(1, 8), 12, 12);
         }
-
+        // Left wall
+        if( t_west == "mansion_entrance" || t_west == "mansion" ) {
+            line(this, t_wall_v,  0,  0,  0, SEEY * 2 - 2);
+            line(this, t_door_c,  0, SEEY - 1, 0, SEEY);
+        }
+        // Bottom wall
+        if( t_south == "mansion_entrance" || t_south == "mansion" ) {
+            line(this, t_wall_h,  0, SEEY * 2 - 1, SEEX * 2 - 1, SEEY * 2 - 1);
+            line(this, t_door_c, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
+        }
 
     } else if (terrain_type == "mansion") {
 
@@ -10959,6 +10985,13 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
     return item_num;
 }
 
+int map::put_items_from_loc(items_location loc, int x, int y, int turn)
+{
+    const Item_list items = item_controller->create_from_group(loc, turn);
+    spawn_items(x, y, items);
+    return items.size();
+}
+
 void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity,
                          long charges, int damlevel, bool rand)
 {
@@ -10990,29 +11023,6 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
     }
     spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);
     place_on_submap->spawns.push_back(tmp);
-}
-
-void map::add_spawn(monster *mon)
-{
-    int spawnx, spawny;
-    std::string spawnname = (mon->unique_name == "" ? "NONE" : mon->unique_name);
-    if (mon->spawnmapx != -1) {
-        spawnx = mon->spawnposx;
-        spawny = mon->spawnposy;
-    } else {
-        spawnx = mon->posx();
-        spawny = mon->posy();
-    }
-    while (spawnx < 0) {
-        spawnx += SEEX;
-    }
-    while (spawny < 0) {
-        spawny += SEEY;
-    }
-    spawnx %= SEEX;
-    spawny %= SEEY;
-    add_spawn(mon->type->id, 1, spawnx, spawny, (mon->friendly < 0),
-              mon->faction_id, mon->mission_id, spawnname);
 }
 
 vehicle *map::add_vehicle(std::string type, const int x, const int y, const int dir,
@@ -12290,7 +12300,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
             for (int x = 1; x <= dx / 2; x += 4) {
                 for (int y = 1; y <= dx / 2; y += 4) {
                     m->ter_set(x1 + x, y1 + y, t_tree);
-                    m->ter_set(x2 - x, y2 - y, t_tree);
+                    m->ter_set(x2 - x, y2 - y + 1, t_tree);
                 }
             }
         }
@@ -12311,7 +12321,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
         if (!one_in(3)) { // Columns
             for (int y = y1 + 2; y <= y2; y += 3) {
                 m->ter_set(cx_low - 3, y, t_column);
-                m->ter_set(cx_low + 3, y, t_column);
+                m->ter_set(cx_low + 4, y, t_column);
             }
         }
         if (one_in(6)) { // Suits of armor

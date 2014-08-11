@@ -102,7 +102,7 @@ classes = {
                 rval = "int"
             },
             weight_capacity = {
-                args = { "bool" },
+                args = {},
                 rval = "int"
             },
             volume_carried = {
@@ -801,11 +801,6 @@ global_functions = {
         cpp_name = "get_current_overmap",
         args = { },
         rval = "overmap"
-    },
-    create_monster_group = {
-        cpp_name = "create_monster_group",
-        args = {"overmap", "string", "int", "int", "int", "int", "int"},
-        rval = "mongroup"
     },
     add_item_to_group = {
         cpp_name = "item_controller->add_item_to_group",

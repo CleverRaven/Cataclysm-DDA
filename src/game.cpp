@@ -629,7 +629,7 @@ void game::start_game(std::string worldname)
         u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
     }
     u.moves = 0;
-    u.reset();
+    u.reset_bonuses();
     u.process_turn(); // process_turn adds the initial move points
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
@@ -1121,6 +1121,17 @@ bool game::do_turn()
         u.add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
                            pgettext("memorial_female", "Died of a healing stimulant overdose."));
         u.hp_cur[hp_torso] = 0;
+    } else if (u.has_disease("datura") &&
+               u.disease_duration("datura") > 14000 &&
+			   one_in(512)) {
+        if (!(u.has_trait("NOPAIN"))) {
+            add_msg(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
+        } else {
+            add_msg(_("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
+        }
+        u.add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
+                           pgettext("memorial_female", "Died of datura overdose."));
+        u.hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
     if (u.hunger >= 3000) {
@@ -1283,7 +1294,7 @@ bool game::do_turn()
             u.pkill++;
         }
         if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy)) {
-            u.charge_power(1);
+            u.charge_power(25);
         }
         // Huge folks take penalties for cramming themselves in vehicles
         if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
@@ -1291,6 +1302,15 @@ bool game::do_turn()
             u.pain += 2 * rng(2, 3);
             u.focus_pool -= 1;
         }
+
+        int dec_stom_food = u.stomach_food * 0.2;
+        int dec_stom_water = u.stomach_water * 0.2;
+        dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
+        dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
+        u.stomach_food -= dec_stom_food;
+        u.stomach_water -= dec_stom_water;
+        u.stomach_food = u.stomach_food < 0 ? 0 : u.stomach_food;
+        u.stomach_water = u.stomach_water < 0 ? 0 : u.stomach_water;
     }
 
     if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
@@ -1337,7 +1357,7 @@ bool game::do_turn()
     {
         u.update_health();
     }
-    
+
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
         calendar::turn % ((int)OPTIONS["AUTOSAVE_TURNS"] * 10) == 0) {
@@ -1396,7 +1416,7 @@ bool game::do_turn()
 
     monmove();
     update_stair_monsters();
-    u.reset();
+    u.reset_bonuses();
     u.process_turn();
     u.process_active_items();
 
@@ -1461,11 +1481,11 @@ void game::rustCheck()
             continue;
         }
 
-        bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 0;
+        bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
         if (u.skillLevel(*aSkill).rust(charged_bio_mem)) {
-            u.power_level--;
+            u.power_level -= 25;
         }
         int newSkill = u.skillLevel(*aSkill);
         if (newSkill < oldSkillLevel) {
@@ -1477,8 +1497,7 @@ void game::rustCheck()
 
 void game::process_events()
 {
-    for (std::vector<event>::iterator it = events.begin();
-         it != events.end();) {
+    for( auto it = events.begin(); it != events.end(); ) {
         it->per_turn();
         if (it->turn <= int(calendar::turn)) {
             it->actualize();
@@ -4318,8 +4337,8 @@ struct terrain {
 
 bool game::event_queued(event_type type)
 {
-    for( std::vector<event>::iterator it = events.begin(); it != events.end(); ++it ) {
-        if( it->type == type ) {
+    for( auto &e : events ) {
+        if( e.type == type ) {
             return true;
         }
     }
@@ -4375,14 +4394,13 @@ void game::debug()
             active_npc.clear();
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
-            // Save monsters.
-            for (unsigned int i = 0; i < num_zombies(); i++) {
-                force_save_monster(zombie(i));
-            }
-            clear_zombies();
+            const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
+            const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
+            // TODO: make this use the normal map shifting function all the time?
+            shift_monsters( nlevx - levx, nlevy - levy, tmp.z - levz );
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
-            levx = tmp.x * 2 - int(MAPSIZE / 2);
-            levy = tmp.y * 2 - int(MAPSIZE / 2);
+            levx = nlevx - cur_om->pos().x * OMAPX * 2;
+            levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
             m.load(levx, levy, levz, true, cur_om);
             load_npcs();
@@ -5675,12 +5693,11 @@ unsigned char game::light_level()
         ret = calendar::turn.sunlight();
         ret -= weather_data[weather].sight_penalty;
     }
-    for (std::vector<event>::iterator it = events.begin();
-         it != events.end(); ++it) {
+    for( auto &e : events ) {
         // The EVENT_DIM event slowly dims the sky, then relights it
         // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it
-        if (it->type == EVENT_DIM) {
-            int turns_left = it->turn - int(calendar::turn);
+        if( e.type == EVENT_DIM ) {
+            int turns_left = e.turn - int(calendar::turn);
             if (turns_left > 25) {
                 ret = (ret * (turns_left - 25)) / 25;
             } else {
@@ -6234,7 +6251,7 @@ void game::monmove()
         }
 
         if (!critter->is_dead()) {
-            critter->reset();
+            critter->reset_bonuses();
             critter->process_turn();
         }
 
@@ -6252,9 +6269,9 @@ void game::monmove()
         }
 
         if (!critter->is_dead()) {
-            if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
+            if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
                 rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
-                u.power_level--;
+                u.power_level -= 25;
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
                 if (u.has_disease("sleep") || u.has_disease("lying_down")) {
@@ -6267,22 +6284,9 @@ void game::monmove()
                 critter->posy() < 0 - (SEEY * MAPSIZE) / 6 ||
                 critter->posx() > (SEEX * MAPSIZE * 7) / 6 ||
                 critter->posy() > (SEEY * MAPSIZE * 7) / 6) {
-                // Re-absorb into local group, if applicable
-                int group = valid_group((critter->type->id), levx, levy, levz);
-                if (group != -1) {
-                    cur_om->zg[group].population++;
-                    if (cur_om->zg[group].population /
-                        (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                        !cur_om->zg[group].diffuse) {
-                        cur_om->zg[group].radius++;
-                    }
-                } else if (MonsterGroupManager::Monster2Group((critter->type->id)) != "GROUP_NULL") {
-                    cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter->type->id)),
-                                                  levx, levy, levz, 1, 1));
-                }
                 // Remove the zombie, but don't let it "die", it still exists, just
                 // not in the reality bubble.
-                remove_zombie( i );
+                despawn_monster( i );
                 i--;
             }
         }
@@ -6297,7 +6301,7 @@ void game::monmove()
         if((*it)->hp_cur[hp_head] <= 0 || (*it)->hp_cur[hp_torso] <= 0) {
             (*it)->die( nullptr );
         } else {
-            (*it)->reset();
+            (*it)->reset_bonuses();
             (*it)->process_turn();
             while (!(*it)->is_dead() && (*it)->moves > 0 && turns < 10) {
                 int moves = (*it)->moves;
@@ -7205,7 +7209,7 @@ void game::emp_blast(int x, int y)
     if (u.posx == x && u.posy == y) {
         if (u.power_level > 0) {
             add_msg(m_bad, _("The EMP blast drains your power."));
-            int max_drain = (u.power_level > 40 ? 40 : u.power_level);
+            int max_drain = (u.power_level > 1000 ? 1000 : u.power_level);
             u.charge_power(0 - rng(1 + max_drain / 3, max_drain));
         }
         // TODO: More effects?
@@ -7259,6 +7263,9 @@ Creature *game::critter_at(int x, int y)
 
 bool game::add_zombie(monster &critter)
 {
+    if( !m.inbounds( critter.posx(), critter.posy() ) ) {
+        dbg( D_ERROR ) << "added a critter with out-of-bounds position: " << critter.posx() << "," << critter.posy() << " - " << critter.disp_name();
+    }
     return critter_tracker.add(critter);
 }
 
@@ -7388,7 +7395,8 @@ bool game::revive_corpse(int x, int y, item *it)
     critter.no_extra_death_drops = true;
 
     if (it->item_vars["zlave"] == "zlave"){
-        critter.add_effect("zlave", 1, 1, true);
+        critter.add_effect("pacified", 1, 1, true);
+        critter.add_effect("pet", 1, 1, true);
     }
 
     add_zombie(critter);
@@ -8201,7 +8209,7 @@ void game::control_vehicle()
     }
 }
 
-bool zlave_menu(monster *z)
+bool pet_menu(monster *z)
 {
     enum choices {
         cancel,
@@ -8216,12 +8224,17 @@ bool zlave_menu(monster *z)
 
     uimenu amenu;
 
+    std::string pet_name = "dog";
+    if( z->type->in_species("ZOMBIE") ) {
+        pet_name = "zombie slave";
+    }
+
     amenu.selected = 0;
-    amenu.text = _("What to do with zombie slave?");
+    amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
     amenu.addentry(cancel, true, 'q', _("Cancel"));
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
-    amenu.addentry(push_zlave, true, 'p', _("Push zombie slave"));
+    amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
 
     if (z->has_effect("has_bag")) {
         amenu.addentry(give_items, true, 'g', _("Place items into bag"));
@@ -8240,7 +8253,9 @@ bool zlave_menu(monster *z)
         }
     }
 
-    amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
+    if( z->type->in_species("ZOMBIE") ) {
+        amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
+    }
 
     amenu.query();
     int choice = amenu.ret;
@@ -8268,11 +8283,11 @@ bool zlave_menu(monster *z)
                 z->add_effect("tied", 1, 1, true);
             }
 
-            add_msg(_("You swap positions with your zombie slave."));
+            add_msg(_("You swap positions with your %s."), pet_name.c_str());
 
             return true;
         } else {
-            add_msg(_("You fail to budge the zombie slave!"));
+            add_msg(_("You fail to budge your %s!"), pet_name.c_str());
 
             return true;
         }
@@ -8283,9 +8298,9 @@ bool zlave_menu(monster *z)
         g->u.moves -= 30;
 
         if (!one_in(g->u.str_cur)) {
-            add_msg(_("You pushed the zombie slave."));
+            add_msg(_("You pushed the %s."), pet_name.c_str());
         } else {
-            add_msg(_("You pushed the zombie slave, but it resisted."));
+            add_msg(_("You pushed the %s, but it resisted."), pet_name.c_str());
             return true;
         }
 
@@ -8318,7 +8333,8 @@ bool zlave_menu(monster *z)
 
         z->add_item(*it);
 
-        add_msg(_("You mount the %s on your zombie slave, ready to store gear."), it->display_name().c_str());
+        add_msg(_("You mount the %s on your %s, ready to store gear."),
+                it->display_name().c_str(),  pet_name.c_str());
 
         g->u.i_rem(pos);
 
@@ -8339,7 +8355,7 @@ bool zlave_menu(monster *z)
 
         z->remove_effect("has_bag");
 
-        add_msg(_("You dump the contents of the zombie slave's bag on the ground."));
+        add_msg(_("You dump the contents of the %s's bag on the ground."), pet_name.c_str());
 
         g->u.moves -= 200;
         return true;
@@ -8347,32 +8363,33 @@ bool zlave_menu(monster *z)
 
     if (give_items == choice) {
 
-        int max_cap = 0;
-
         if (z->inv.empty()) {
-            add_msg(_("Your zombie slave has nothing to carry that in!"));
+            add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
             return true;
         }
 
         item *it = &z->inv[0];
 
         if (!it->is_armor()) {
-            add_msg(_("Your zombie slave has nothing to carry that in!"));
+            add_msg(_("There is no container on your %s to put things in!"), pet_name.c_str());
             return true;
         }
 
         it_armor *armor = dynamic_cast<it_armor *>(it->type);
 
-        max_cap = armor->storage;
+        int max_cap = armor->storage;
+        int max_weight = z->weight_capacity() - armor->weight;
 
         if (z->inv.size() > 1) {
             for (int i = 1; i < z->inv.size(); i++) {
                 max_cap -= z->inv[i].volume();
+                max_weight -= z->inv[i].weight();
             }
         }
 
         if (max_cap <= 0) {
-            add_msg(_("Your zombie slave's doesn't have space for that, it's too bulky!"));
+            add_msg(_("There's no room in your %s's %s for that, it's too bulky!"),
+                    pet_name.c_str(), it->tname(1).c_str() );
             return true;
         }
 
@@ -8384,19 +8401,28 @@ bool zlave_menu(monster *z)
         if (result.size() == 0) {
             add_msg(_("Never mind."));
         } else {
-            add_msg(_("You stash some gear on your zombie slave."));
-
+            add_msg(_("You stash some gear in your %s's %s."),
+                    pet_name.c_str(), it->tname(1).c_str() );
             for (int i = 0; i < result.size(); i++) {
 
                 int vol = result[i].volume();
+                int weight = result[i].weight();
+                bool too_heavy = max_weight - weight < 0;
+                bool too_big = max_cap - vol < 0;
 
-                if (max_cap - vol >= 0) {
+                if( !too_heavy && !too_big ) {
                     z->inv.push_back(result[i]);
                     max_cap -= vol;
+                    max_weight -= weight;
                 } else {
                     g->m.add_item_or_charges(z->xpos(), z->ypos(), result[i], 1);
-                    g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
-                                           result[i].display_name().c_str());
+                    if( too_big ) {
+                        g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
+                                               result[i].display_name().c_str());
+                    } else {
+                        g->u.add_msg_if_player(m_bad, _("%s is too heavy and fell to the ground!"),
+                                               result[i].display_name().c_str());
+                    }
                 }
             }
         }
@@ -8503,13 +8529,12 @@ void game::examine(int examx, int examy)
         none = false;
     }
 
-    if (critter_at(examx, examy) != NULL)
-    {
+    if (critter_at(examx, examy) != NULL) {
         Creature *c = critter_at(examx, examy);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if (mon != NULL && mon->has_effect("zlave")) {
-            if (zlave_menu(mon)) {
+        if (mon != NULL && mon->has_effect("pet")) {
+            if (pet_menu(mon)) {
                 return;
             }
         }
@@ -8535,7 +8560,7 @@ void game::examine(int examx, int examy)
         if(m.tr_at(examx, examy) == tr_null) {
             Pickup::pick_up(examx, examy, 0);    // After disarming a trap, pick it up.
         }
-    };
+    }
 }
 
 void game::advanced_inv()
@@ -11205,19 +11230,19 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
     if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
         !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
-        !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 1)) {
+        !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 5)) {
         add_msg(m_info,
                 _("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
         return;
     } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
                !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
-               !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 4)) {
+               !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 20)) {
         add_msg(m_info,
                 _("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
         return;
     } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
                !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
-               !u.has_charges("adv_UPS_on", 24) && !(u.has_bionic("bio_ups") && u.power_level >= 8)) {
+               !u.has_charges("adv_UPS_on", 24) && !(u.has_bionic("bio_ups") && u.power_level >= 40)) {
         add_msg(m_info,
                 _("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
         return;
@@ -11667,35 +11692,29 @@ void game::forage()
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
         found_something = true;
     }
-    if (veggy_chance < ((u.skillLevel("survival") / 2) + ((u.per_cur - 8) + 5))) {
-        found_something = true;
-        if (!one_in(6) && (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == AUTUMN)) {
-            if (!one_in(3)) {
-                add_msg(m_good, _("You found some wild veggies!"));
-                m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, calendar::turn);
-                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-            } else {
-                add_msg(m_good, _("You found some wild mushrooms!"));
-                m.put_items_from("mushroom_forest", rng(1, 3), u.posx, u.posy,
-                                 calendar::turn, 0, 0, 0);
-                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-            }
-        } else if ( (calendar::turn.get_season() != WINTER) && (!one_in(3)) ) {
-            add_msg(m_good, _("You found a nest with some eggs!"));
-            if (!one_in(4)) {
-                m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
-            } else {
-                // ~15% & 3.8% chance to find these, assuming you make your veggy roll
-                // So maybe we can give more than 1.
-                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
-            }
-        } else if (calendar::turn.get_season() != WINTER) {
-            add_msg(m_good, _("You found some wild herbs!"));
-            m.spawn_item(u.posx, u.posy, "wild_herbs", 1, 0, calendar::turn);
-        } else {
-            found_something = false;
+    // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
+    if (veggy_chance < ((u.skillLevel("survival") * 1.5) + ((u.per_cur / 2 - 4) + 3))) {
+        items_location loc;
+        switch (calendar::turn.get_season()) {
+        case SPRING:
+            loc = "forage_spring";
+            break;
+        case SUMMER:
+            loc = "forage_summer";
+            break;
+        case AUTUMN:
+            loc = "forage_autumn";
+            break;
+        case WINTER:
+            loc = "forage_winter";
+            break;
         }
-        m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+        int cnt = m.put_items_from_loc(loc, u.posx, u.posy, calendar::turn); // returns zero if location has no defined items
+        if (cnt > 0) {
+            add_msg(m_good, _("You found something!"));
+            m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+            found_something = true;
+        }
     } else {
         if (one_in(2)) {
             m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
@@ -12242,7 +12261,7 @@ bool game::plmove(int dx, int dy)
         x = u.posx + dx;
         y = u.posy + dy;
 
-        if (moveCount % 60 == 0) {
+        if (moveCount % 2 == 0) {
             if (u.has_bionic("bio_torsionratchet")) {
                 u.charge_power(1);
             }
@@ -13021,7 +13040,7 @@ bool game::plmove(int dx, int dy)
                     press_x(ACTION_CONTROL_VEHICLE).c_str());
         }
 
-    } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+    } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 250) {
         //probability travel through walls but not water
         int tunneldist = 0;
         // tile is impassable
@@ -13033,7 +13052,7 @@ bool game::plmove(int dx, int dy)
                 // assuming we've already started
                 tunneldist > 0)) {
             tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
-            if (tunneldist * 10 >
+            if (tunneldist * 250 >
                 u.power_level) { //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
                 add_msg(_("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!"));
                 tunneldist = 0; //we didn't tunnel anywhere
@@ -13049,7 +13068,7 @@ bool game::plmove(int dx, int dy)
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.posx, u.posy);
             }
-            u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
+            u.power_level -= (tunneldist * 250); //tunneling costs 10 bionic power per impassable tile
             u.moves -= 100; //tunneling costs 100 moves
             u.posx += (tunneldist + 1) * (x -
                                           u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
@@ -13060,7 +13079,7 @@ bool game::plmove(int dx, int dy)
                 m.board_vehicle(u.posx, u.posy, &u);
             }
         } else { //or you couldn't tunnel due to lack of energy
-            u.power_level -= 10; //failure is expensive!
+            u.power_level -= 250; //failure is expensive!
             return false;
         }
 
@@ -13115,7 +13134,7 @@ void game::plswim(int x, int y)
     int movecost = u.swim_speed();
     u.practice("swimming", u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
-        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 || 
+        if (!u.is_underwater() && !(g->u.shoe_type_count("swim_fins") == 2 ||
             (g->u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
@@ -13309,7 +13328,7 @@ void game::vertical_move(int movez, bool force)
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
-            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 || 
+            if (u.swim_speed() < 500 || g->u.shoe_type_count("swim_fins") == 2 ||
                   (g->u.shoe_type_count("swim_fins") == 1 && one_in(2))) {
                 u.set_underwater(false);
                 add_msg(_("You surface."));
@@ -13446,22 +13465,22 @@ void game::vertical_move(int movez, bool force)
         monstairy = levy;
         monstairz = levz;
     }
-    // Make sure monsters are saved!
-    for (unsigned int i = 0; i < num_zombies(); i++) {
+    // Save all monsters that can reach the stairs, remove them from the tracker,
+    // then despawn the remaining monsters. Because it's a vertical shift, all
+    // monsters are out of the bounds of the map and will despawn.
+    for( unsigned int i = 0; i < num_zombies(); ) {
         monster &critter = zombie(i);
         int turns = critter.turns_to_reach(u.posx, u.posy);
         if (turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach(u.posx, u.posy)
             && !slippedpast) {
-            critter.onstairs = true;
             critter.staircount = 10 + turns;
             coming_to_stairs.push_back(critter);
-            //remove_zombie(i);
+            remove_zombie( i );
         } else {
-            force_save_monster(critter);
+            i++;
         }
     }
-    despawn_monsters();
-    clear_zombies();
+    shift_monsters( 0, 0, movez );
 
     // Clear current scents.
     for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
@@ -13582,7 +13601,7 @@ void game::update_map(int &x, int &y)
 
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
-        despawn_monsters(shiftx, shifty);
+        shift_monsters( shiftx, shifty, 0 );
         u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
     }
 
@@ -13677,7 +13696,6 @@ void game::replace_stair_monsters()
 {
     for (std::vector<monster>::iterator it = coming_to_stairs.begin();
          it != coming_to_stairs.end(); ++it) {
-        it->onstairs = false;
         it->staircount = 0;
         add_zombie(*it);
     }
@@ -13768,7 +13786,6 @@ void game::update_stair_monsters()
 
                 if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
                     critter.setpos(mposx, mposy, true);
-                    critter.onstairs = false;
                     critter.staircount = 0;
                     add_zombie(critter);
                     if (u_see(mposx, mposy)) {
@@ -13891,77 +13908,45 @@ void game::update_stair_monsters()
     }
 }
 
-void game::force_save_monster(monster &critter)
+void game::despawn_monster(int mondex)
 {
-    point ms = m.getabs( critter.posx(), critter.posy() );
-    point sm = overmapbuffer::ms_to_sm_remain( ms );
-
-    critter.spawnmapx = 0; // only needs to be != -1, see map::add_spawn
-    critter.spawnmapy = 0;
-    critter.spawnposx = ms.x; // this value is really used, not spawnmapy
-    critter.spawnposy = ms.y;
-
-    tinymap tmp;
-    tmp.load_abs( sm.x, sm.y, levz, false );
-    tmp.add_spawn(&critter);
-    tmp.save();
+    monster &critter = zombie( mondex );
+    if( !critter.is_hallucination() ) {
+        // hallucinations aren't stored, they come and go as they like,
+        overmap_buffer.despawn_monster( critter );
+    }
+    remove_zombie( mondex );
 }
 
-void game::despawn_monsters(const int shiftx, const int shifty)
+void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
 {
-    for (unsigned int i = 0; i < num_zombies(); i++) {
-        monster &critter = zombie(i);
-        // If either shift argument is non-zero, we're shifting.
-        if (shiftx != 0 || shifty != 0) {
-            critter.shift(shiftx, shifty);
-            if (critter.posx() >= 0 && critter.posx() <= SEEX * MAPSIZE &&
-                critter.posy() >= 0 && critter.posy() <= SEEY * MAPSIZE) {
-                // We're inbounds, so don't despawn after all.
-                continue;
-            } else {
-                if ((critter.spawnmapx != -1) || critter.getkeep() ||
-                    ((shiftx != 0 || shifty != 0) && critter.friendly != 0)) {
-                    force_save_monster( critter );
-
-                    // We're saving him, so there's no need to keep anymore.
-                    critter.setkeep(false);
-                } else {
-                    // No spawn site, so absorb them back into a group.
-                    int group = valid_group((critter.type->id), levx + shiftx, levy + shifty, levz);
-                    if (group != -1) {
-                        cur_om->zg[group].population++;
-                        if (cur_om->zg[group].population /
-                            (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                            !cur_om->zg[group].diffuse) {
-                            cur_om->zg[group].radius++;
-                        }
-                    }
-                }
-                // Check if we should keep him.
-                if (!critter.getkeep()) {
-                    remove_zombie(i);
-                    i--;
-                }
-            }
-        }
+    // If either shift argument is non-zero, we're shifting.
+    if( shiftx == 0 && shifty == 0 && shiftz == 0 ) {
+        return;
     }
-
+    for( unsigned int i = 0; i < num_zombies(); ) {
+        monster &critter = zombie( i );
+        if( shiftx != 0 || shifty != 0 ) {
+            critter.shift( shiftx, shifty );
+        }
+        // TODO: with z-levels, this can be removed, instead shift the critter
+        // along shiftz, too. Than make the 3D-inbounds check.
+        if( shiftz == 0 && m.inbounds( critter.posx(), critter.posy() ) ) {
+            i++;
+            // We're inbounds, so don't despawn after all.
+            continue;
+        }
+        // Either a vertical shift or the critter is now outside of the reality bubble,
+        // anyway: it must be saved and removed.
+        despawn_monster( i );
+    }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.
     rebuild_mon_at_cache();
 }
 
-void game::spawn_mon(int shiftx, int shifty)
+void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
-    int nlevx = levx + shiftx;
-    int nlevy = levy + shifty;
-    int group;
-    int monx, mony;
-    int dist;
-    int pop, rad;
-    int iter;
-    int t;
-
     // Create a new NPC?
     if (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
         npc *tmp = new npc();
@@ -14002,126 +13987,6 @@ void game::spawn_mon(int shiftx, int shifty)
         // This will make the new NPC active
         load_npcs();
     }
-
-    // Now, spawn monsters (perhaps)
-    monster zom;
-    for (size_t i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
-        if (cur_om->zg[i].posz != levz) {
-            continue;    // skip other levels - hack
-        }
-        group = 0;
-        bool horde = cur_om->zg[i].horde;
-        if (cur_om->zg[i].diffuse) {
-            dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        } else {
-            dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        }
-        pop = cur_om->zg[i].population;
-        rad = cur_om->zg[i].radius;
-        if (dist <= rad) {
-            // (The area of the group's territory) in (population/square at this range)
-            // chance of adding one monster; cap at the population OR 16
-            while ((cur_om->zg[i].diffuse ? long(pop) :
-                    long((1.0 - double(dist / rad)) * pop)) > rng(0, (rad * rad)) &&
-                   rng(horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
-                   group < pop && group < MAPSIZE * 3) {
-                group++;
-            }
-            cur_om->zg[i].population -= group;
-            // Reduce group radius proportionally to remaining
-            // population to maintain a minimal population density.
-            if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
-                !cur_om->zg[i].diffuse) {
-                cur_om->zg[i].radius--;
-            }
-
-            // If we spawned some zombies, advance the timer (exept hordes)
-            if (group > 0 && !cur_om->zg[i].horde) {
-                nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
-            }
-
-            for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(cur_om->zg[i].type,
-                                                   &group, (int)calendar::turn);
-                zom = monster(GetMType(spawn_details.name));
-                for (int kk = 0; kk < spawn_details.pack_size; kk++) {
-                    iter = 0;
-                    do {
-                        monx = rng(0, SEEX * MAPSIZE - 1);
-                        mony = rng(0, SEEY * MAPSIZE - 1);
-                        if (shiftx == 0 && shifty == 0) {
-                            if (one_in(2)) {
-                                shiftx = 1 - 2 * rng(0, 1);
-                            } else {
-                                shifty = 1 - 2 * rng(0, 1);
-                            }
-                        }
-                        if (shiftx == -1) {
-                            monx = (SEEX * MAPSIZE) / 6;
-                        } else if (shiftx == 1) {
-                            monx = (SEEX * MAPSIZE * 5) / 6;
-                        }
-                        if (shifty == -1) {
-                            mony = (SEEY * MAPSIZE) / 6;
-                        }
-                        if (shifty == 1) {
-                            mony = (SEEY * MAPSIZE * 5) / 6;
-                        }
-                        monx += rng(-5, 5);
-                        mony += rng(-5, 5);
-                        iter++;
-
-                    } while ((!zom.can_move_to(monx, mony) || !is_empty(monx, mony) ||
-                              m.sees(u.posx, u.posy, monx, mony, SEEX, t) || !m.is_outside(monx, mony) ||
-                              rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
-                    if (iter < 50) {
-                        zom.spawn(monx, mony);
-                        add_zombie(zom);
-                    }
-                }
-            } // Placing monsters of this group is done!
-            if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
-                cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
-                i--; // And don't increment i.
-            }
-        }
-    }
-}
-
-int game::valid_group(std::string type, int x, int y, int z_coord)
-{
-    std::vector <int> valid_groups;
-    std::vector <int> semi_valid; // Groups that're ALMOST big enough
-    int dist;
-    for (size_t i = 0; i < cur_om->zg.size(); i++) {
-        if (cur_om->zg[i].posz != z_coord) {
-            continue;
-        }
-        dist = trig_dist(x, y, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        if (dist < cur_om->zg[i].radius) {
-            if (MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type)) {
-                valid_groups.push_back(i);
-            }
-        } else if (dist < cur_om->zg[i].radius + 3) {
-            if (MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type)) {
-                semi_valid.push_back(i);
-            }
-        }
-    }
-    if (valid_groups.empty()) {
-        if (semi_valid.empty()) {
-            return -1;
-        } else {
-            // If there's a group that's ALMOST big enough,
-            //expand that group's radius by one and absorb into that group.
-            int semi = rng(0, semi_valid.size() - 1);
-            if (!cur_om->zg[semi_valid[semi]].diffuse) {
-                cur_om->zg[semi_valid[semi]].radius++;
-            }
-            return semi_valid[semi];
-        }
-    }
-    return valid_groups[rng(0, valid_groups.size() - 1)];
 }
 
 void game::wait()

@@ -60,30 +60,30 @@ void game::load_vehiclepart(JsonObject &jo)
     }
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
-                      + (jo.has_member("size") ? 1 : 0)
-                      + (jo.has_member("wheel_width") ? 1 : 0)
-                      + (jo.has_member("bonus") ? 1 : 0);
+                        + (jo.has_member("size") ? 1 : 0)
+                        + (jo.has_member("wheel_width") ? 1 : 0)
+                        + (jo.has_member("bonus") ? 1 : 0);
 
     if(element_count == 0) {
-      //If not specified, assume 0
-      next_part.par1 = 0;
+        //If not specified, assume 0
+        next_part.par1 = 0;
     } else if(element_count == 1) {
-      if(jo.has_member("par1")) {
-        next_part.par1 = jo.get_int("par1");
-      } else if(jo.has_member("size")) {
-        next_part.par1 = jo.get_int("size");
-      } else if(jo.has_member("wheel_width")) {
-        next_part.par1 = jo.get_int("wheel_width");
-      } else { //bonus
-        next_part.par1 = jo.get_int("bonus");
-      }
+        if(jo.has_member("par1")) {
+            next_part.par1 = jo.get_int("par1");
+        } else if(jo.has_member("size")) {
+            next_part.par1 = jo.get_int("size");
+        } else if(jo.has_member("wheel_width")) {
+            next_part.par1 = jo.get_int("wheel_width");
+        } else { //bonus
+            next_part.par1 = jo.get_int("bonus");
+        }
     } else {
-      //Too many
-      debugmsg("Error parsing vehicle part '%s': \
+        //Too many
+        debugmsg("Error parsing vehicle part '%s': \
                Use AT MOST one of: par1, power, size, wheel_width, bonus",
-               next_part.name.c_str());
-      //Keep going to produce more messages if other parts are wrong
-      next_part.par1 = 0;
+                 next_part.name.c_str());
+        //Keep going to produce more messages if other parts are wrong
+        next_part.par1 = 0;
     }
     next_part.fuel_type = jo.has_member("fuel_type") ? jo.get_string("fuel_type") : "NULL";
     next_part.item = jo.get_string("item");
@@ -92,9 +92,9 @@ void game::load_vehiclepart(JsonObject &jo)
 
     next_part.bitflags = 0;
     JsonArray jarr = jo.get_array("flags");
-    std::string nstring="";
-    while (jarr.has_more()){
-        nstring=jarr.next_string();
+    std::string nstring = "";
+    while (jarr.has_more()) {
+        nstring = jarr.next_string();
         next_part.flags.insert(nstring);
         if ( vpart_bitflag_map.find(nstring) != vpart_bitflag_map.end() ) {
             next_part.bitflags |= mfb( vpart_bitflag_map.find(nstring)->second );
@@ -111,8 +111,8 @@ void game::load_vehiclepart(JsonObject &jo)
         //Sanity check
         if(next_break_entry.max < next_break_entry.min) {
             debugmsg("For vehicle part %s: breaks_into item '%s' has min (%d) > max (%d)!",
-                             next_part.name.c_str(), next_break_entry.item_id.c_str(),
-                             next_break_entry.min, next_break_entry.max);
+                     next_part.name.c_str(), next_break_entry.item_id.c_str(),
+                     next_break_entry.min, next_break_entry.max);
         }
         next_part.breaks_into.push_back(next_break_entry);
     }
@@ -187,7 +187,7 @@ void game::load_vehicle(JsonObject &jo)
     JsonArray parts = jo.get_array("parts");
     point pxy;
     std::string pid;
-    while (parts.has_more()){
+    while (parts.has_more()) {
         JsonObject part = parts.next_object();
         pxy = point(part.get_int("x"), part.get_int("y"));
         pid = part.get_string("part");
@@ -203,7 +203,7 @@ void game::load_vehicle(JsonObject &jo)
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
-                vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
+                     vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {
             //Array of items that all spawn together (ie jack+tire)
@@ -232,7 +232,7 @@ void game::load_vehicle(JsonObject &jo)
 
 void game::reset_vehicles()
 {
-    for (std::map<std::string, vehicle*>::iterator veh = vtypes.begin(); veh != vtypes.end(); ++veh){
+    for (std::map<std::string, vehicle *>::iterator veh = vtypes.begin(); veh != vtypes.end(); ++veh) {
         delete veh->second;
     }
     vtypes.clear();
@@ -250,7 +250,7 @@ void game::finalize_vehicles()
 
     std::map<point, bool> cargo_spots;
 
-    while (!vehprototypes.empty()){
+    while (!vehprototypes.empty()) {
         cargo_spots.clear();
         vehicle_prototype *proto = vehprototypes.front();
         vehprototypes.pop();
@@ -271,8 +271,8 @@ void game::finalize_vehicles()
 
             if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
                 debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                        next_vehicle->name.c_str(), part_id.c_str(),
-                        next_vehicle->parts.size(), part_x, part_y);
+                         next_vehicle->name.c_str(), part_id.c_str(),
+                         next_vehicle->parts.size(), part_x, part_y);
             }
             if ( vehicle_part_types[part_id].has_flag("CARGO") ) {
                 cargo_spots[p] = true;
@@ -280,9 +280,11 @@ void game::finalize_vehicles()
         }
 
         for (size_t i = 0; i < proto->item_spawns.size(); i++) {
-            if (cargo_spots.find(point(proto->item_spawns[i].x, proto->item_spawns[i].y)) == cargo_spots.end()){
+            if (cargo_spots.find(point(proto->item_spawns[i].x,
+                                       proto->item_spawns[i].y)) == cargo_spots.end()) {
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                         proto->name.c_str(), proto->item_spawns[i].x, proto->item_spawns[i].y, proto->item_spawns[i].chance);
+                         proto->name.c_str(), proto->item_spawns[i].x, proto->item_spawns[i].y,
+                         proto->item_spawns[i].chance);
             }
             for (int j = 0; j < proto->item_spawns[i].item_ids.size(); j++) {
                 const std::string &itm = proto->item_spawns[i].item_ids[j];
@@ -307,35 +309,36 @@ void game::finalize_vehicles()
     }
 }
 
-void init_vpart_bitflag_map() {
-    vpart_bitflag_map["ARMOR"]=VPFLAG_ARMOR;               // (!!!) map::draw
-    vpart_bitflag_map["TRANSPARENT"]=VPFLAG_TRANSPARENT;   // (!!!) map::draw
-    vpart_bitflag_map["EVENTURN"]=VPFLAG_EVENTURN;         // (!!!) lightmap
-    vpart_bitflag_map["ODDTURN"]=VPFLAG_ODDTURN;           // ""
-    vpart_bitflag_map["CONE_LIGHT"]=VPFLAG_CONE_LIGHT;     // ""
-    vpart_bitflag_map["CIRCLE_LIGHT"]=VPFLAG_CIRCLE_LIGHT; // ""
-    vpart_bitflag_map["BOARDABLE"]=VPFLAG_BOARDABLE;
-    vpart_bitflag_map["AISLE"]=VPFLAG_AISLE;               // (!!!) map::move_cost
-    vpart_bitflag_map["CONTROLS"]=VPFLAG_CONTROLS;
-    vpart_bitflag_map["OBSTACLE"]=VPFLAG_OBSTACLE;         // (!!!) map::move_cost
-    vpart_bitflag_map["OPAQUE"]=VPFLAG_OPAQUE;             // (!!!) map::trans
-    vpart_bitflag_map["OPENABLE"]=VPFLAG_OPENABLE;
-    vpart_bitflag_map["SEATBELT"]=VPFLAG_SEATBELT;         // crashes
-    vpart_bitflag_map["WHEEL"]=VPFLAG_WHEEL;
+void init_vpart_bitflag_map()
+{
+    vpart_bitflag_map["ARMOR"] = VPFLAG_ARMOR;             // (!!!) map::draw
+    vpart_bitflag_map["TRANSPARENT"] = VPFLAG_TRANSPARENT; // (!!!) map::draw
+    vpart_bitflag_map["EVENTURN"] = VPFLAG_EVENTURN;       // (!!!) lightmap
+    vpart_bitflag_map["ODDTURN"] = VPFLAG_ODDTURN;         // ""
+    vpart_bitflag_map["CONE_LIGHT"] = VPFLAG_CONE_LIGHT;   // ""
+    vpart_bitflag_map["CIRCLE_LIGHT"] = VPFLAG_CIRCLE_LIGHT; // ""
+    vpart_bitflag_map["BOARDABLE"] = VPFLAG_BOARDABLE;
+    vpart_bitflag_map["AISLE"] = VPFLAG_AISLE;             // (!!!) map::move_cost
+    vpart_bitflag_map["CONTROLS"] = VPFLAG_CONTROLS;
+    vpart_bitflag_map["OBSTACLE"] = VPFLAG_OBSTACLE;       // (!!!) map::move_cost
+    vpart_bitflag_map["OPAQUE"] = VPFLAG_OPAQUE;           // (!!!) map::trans
+    vpart_bitflag_map["OPENABLE"] = VPFLAG_OPENABLE;
+    vpart_bitflag_map["SEATBELT"] = VPFLAG_SEATBELT;       // crashes
+    vpart_bitflag_map["WHEEL"] = VPFLAG_WHEEL;
     vpart_bitflag_map["FLOATS"] = VPFLAG_FLOATS;
-    vpart_bitflag_map["ALTERNATOR"]=VPFLAG_ALTERNATOR;
-    vpart_bitflag_map["ENGINE"]=VPFLAG_ENGINE;
-    vpart_bitflag_map["FRIDGE"]=    VPFLAG_FRIDGE;
-    vpart_bitflag_map["FUEL_TANK"]= VPFLAG_FUEL_TANK;
-    vpart_bitflag_map["LIGHT"]=     VPFLAG_LIGHT;
-    vpart_bitflag_map["WINDOW"]=     VPFLAG_WINDOW;
-    vpart_bitflag_map["CURTAIN"]=     VPFLAG_CURTAIN;
-    vpart_bitflag_map["CARGO"]=     VPFLAG_CARGO;
-    vpart_bitflag_map["INTERNAL"]=     VPFLAG_INTERNAL;
-    vpart_bitflag_map["SOLAR_PANEL"]=     VPFLAG_SOLAR_PANEL;
+    vpart_bitflag_map["ALTERNATOR"] = VPFLAG_ALTERNATOR;
+    vpart_bitflag_map["ENGINE"] = VPFLAG_ENGINE;
+    vpart_bitflag_map["FRIDGE"] =    VPFLAG_FRIDGE;
+    vpart_bitflag_map["FUEL_TANK"] = VPFLAG_FUEL_TANK;
+    vpart_bitflag_map["LIGHT"] =     VPFLAG_LIGHT;
+    vpart_bitflag_map["WINDOW"] =     VPFLAG_WINDOW;
+    vpart_bitflag_map["CURTAIN"] =     VPFLAG_CURTAIN;
+    vpart_bitflag_map["CARGO"] =     VPFLAG_CARGO;
+    vpart_bitflag_map["INTERNAL"] =     VPFLAG_INTERNAL;
+    vpart_bitflag_map["SOLAR_PANEL"] =     VPFLAG_SOLAR_PANEL;
     vpart_bitflag_map["VARIABLE_SIZE"] = VPFLAG_VARIABLE_SIZE;
     vpart_bitflag_map["VPFLAG_TRACK"] = VPFLAG_TRACK;      // find_power -> game::finalize_vehicles
-/*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
+    /*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
     vpart_bitflag_map["RECHARGE"] = VPFLAG_RECHARGE;
     vpart_bitflag_map["MIRROR"] = VPFLAG_MIRROR;
 }

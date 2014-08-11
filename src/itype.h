@@ -208,9 +208,13 @@ public:
     {
         return false;
     }
-    virtual int  charges_to_use()
+    virtual int charges_to_use()
     {
         return 1;
+    }
+    virtual int maximum_charges()
+    {
+	return 1;
     }
 
     bool has_use();
@@ -533,7 +537,10 @@ struct it_tool : public virtual itype {
     {
         return charges_per_use;
     }
-
+    int maximum_charges()
+    {
+	return max_charges;
+    }
     it_tool() : itype(), ammo(), max_charges(0), def_charges(0), rand_charges(), charges_per_use(0),
         turns_per_charge(0), revert_to(), subtype()
     {
@@ -556,6 +563,10 @@ struct it_tool_armor : public virtual it_tool, public virtual it_armor {
     virtual int charges_to_use()
     {
         return it_tool::charges_to_use();
+    }
+    virtual int maximum_charges()
+    {
+	return it_tool::maximum_charges();
     }
     virtual std::string get_item_type_string()
     {

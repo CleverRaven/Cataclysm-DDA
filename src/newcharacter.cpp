@@ -494,11 +494,11 @@ bool player::create(character_type type, std::string tempname)
     for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
          iter != prof_CBMs.end(); ++iter) {
         if (*iter == "bio_power_storage") {
-            max_power_level += 4;
-            power_level += 4;
+            max_power_level += 100;
+            power_level += 100;
         } else if (*iter == "bio_power_storage_mkII") {
-            max_power_level += 10;
-            power_level += 10;
+            max_power_level += 250;
+            power_level += 250;
         } else {
             add_bionic(*iter);
         }
@@ -636,7 +636,7 @@ int set_stats(WINDOW *w, player *u, int &points)
                 u->recalc_hp();
                 mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"), u->hp_max[0]);
                 mvwprintz(w_description, 1, 0, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
-                          u->convert_weight(u->weight_capacity(false)),
+                          u->convert_weight(u->weight_capacity()),
                           OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
                 mvwprintz(w_description, 2, 0, COL_STAT_NEUTRAL, _("Melee damage: %d"),
                           u->base_damage(false));
@@ -1354,7 +1354,6 @@ inline bool skill_description_sort(const std::pair<Skill *, int> &a, const std::
     int levelB = b.second;
     return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
 }
-
 int set_description(WINDOW *w, player *u, character_type type, int &points)
 {
     if (PLTYPE_NOW == type) {

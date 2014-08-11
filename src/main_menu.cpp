@@ -53,23 +53,35 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
     const nc_color cColor2 = c_ltblue;
     const nc_color cColor3 = c_ltblue;
 
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "_________            __                   .__                            ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____  ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "_________            __                   .__                            ");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____  ");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
 
     if (bShowDDA) {
         if (FULL_SCREEN_HEIGHT > 24) {
             ++iLine;
         }
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__      ________                           ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  "________                   .__      ________                           ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
 
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
@@ -93,14 +105,15 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
     vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
 
     int menu_length = 0;
-    for (int pos = 0; pos < vMenuItems.size(); pos++) {
+    for( auto menu_item : vMenuItems ) {
         // adds (width + 2) if there are no shortcut symbols "<" & ">", and just width otherwise
-        menu_length += utf8_width(vMenuItems[pos].c_str()) +
-                       (vMenuItems[pos].find_first_of("<") == std::string::npos ? 2 : 0);
+        menu_length += utf8_width(menu_item.c_str()) +
+                       (menu_item.find_first_of("<") == std::string::npos ? 2 : 0);
     }
-    int spacing = (window_width - menu_length) / vMenuItems.size() - 1;
-    spacing = (spacing < 1 ? 1 : spacing);
-    const int adj_offset = (window_width - menu_length - spacing * vMenuItems.size() ) / 2 - 1;
+    const int free_space = std::max(0, window_width - menu_length);
+    const int spacing = free_space / ((int)vMenuItems.size() - 1);
+    const int width_of_spacing = spacing * (vMenuItems.size() - 1);
+    const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
     print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX + adj_offset, spacing);
 
     refresh();
@@ -113,7 +126,7 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
 {
     mvwprintz(w_in, iOffsetY, iOffsetX, c_black, "");
 
-    for (int i = 0; i < vItems.size(); i++) {
+    for (int i = 0; i < (int)vItems.size(); i++) {
         wprintz(w_in, c_ltgray, "[");
         if (iSel == i) {
             shortcut_print(w_in, h_white, h_white, vItems[i]);
@@ -121,9 +134,7 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
             shortcut_print(w_in, c_ltgray, c_white, vItems[i]);
         }
         wprintz(w_in, c_ltgray, "]");
-        for (int j = 0; j < spacing; j++) {
-            wprintz(w_in, c_ltgray, " ");
-        }
+        wprintz(w_in, c_ltgray, std::string(spacing, ' ').c_str());
     }
 }
 
@@ -225,9 +236,9 @@ bool game::opening_screen()
 
     // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
     static std::vector<std::string> motd = load_file(
-        PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ) , _( "No message today." ) );
+            PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ) , _( "No message today." ) );
     static std::vector<std::string> credits = load_file(
-        PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
+                PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
 
     u = player();
 
@@ -320,7 +331,8 @@ bool game::opening_screen()
             }
         } else if (layer == 2) {
             if (sel1 == 1) { // New Character
-                if (MAP_SHARING::isSharing() && world_generator->all_worlds.empty()) { //don't show anything when there are no worlds (will not work if there are special maps)
+                if (MAP_SHARING::isSharing() &&
+                    world_generator->all_worlds.empty()) { //don't show anything when there are no worlds (will not work if there are special maps)
                     layer = 1;
                     sel1 = 1;
                     continue;
@@ -370,7 +382,7 @@ bool game::opening_screen()
                         world_generator->set_active_world(world);
                         setup();
                         if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
-                                                    ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
+                                      ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             continue;
                         }
@@ -391,11 +403,11 @@ bool game::opening_screen()
                               c_red, _("No Worlds found!"));
                 } else {
                     for (int i = 0; i < world_generator->all_worldnames.size(); ++i) {
-                      int line = iMenuOffsetY - 2 - i;
-                      std::string world_name = world_generator->all_worldnames[i];
-                      int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
-                      mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
-                                (sel2 == i ? h_white : c_white), "%s (%d)", world_name.c_str(), savegames_count);
+                        int line = iMenuOffsetY - 2 - i;
+                        std::string world_name = world_generator->all_worldnames[i];
+                        int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
+                        mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
+                                  (sel2 == i ? h_white : c_white), "%s (%d)", world_name.c_str(), savegames_count);
                     }
                 }
                 wrefresh(w_open);
@@ -433,12 +445,12 @@ bool game::opening_screen()
                 // only show reset / destroy world if there is at least one valid world existing!
 
                 if(MAP_SHARING::isSharing() && !MAP_SHARING::isWorldmenu() && !MAP_SHARING::isAdmin()) {
-                layer = 1;
-                popup(_("Only the admin can change worlds."));
-                continue;
+                    layer = 1;
+                    popup(_("Only the admin can change worlds."));
+                    continue;
                 }
 
-                int world_subs_to_display = (!world_generator->all_worldnames.empty())? vWorldSubItems.size(): 1;
+                int world_subs_to_display = (!world_generator->all_worldnames.empty()) ? vWorldSubItems.size() : 1;
                 std::vector<std::string> world_subs;
                 int xoffset = 25 + iMenuOffsetX + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
@@ -581,7 +593,7 @@ bool game::opening_screen()
                     }
                     if (!available) {
                         mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                                c_red, _("No save games found!"));
+                                  c_red, _("No save games found!"));
                     }
                 }
                 wrefresh(w_open);

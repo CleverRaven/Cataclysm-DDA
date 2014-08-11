@@ -621,7 +621,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
         case TALK_EVAC_MERCHANT_WORLD:
             return _("Can't say we've heard much.  Most these shelters seemed to have been designed to make people feel safer... not actually "
                     "aid in their survival.  Our radio equipment is utter garbage that someone convinced the government to buy, with no intention "
-                    "of it ever being used.  From the passing scavangers I've heard nothing but prime loot'n spots and rumors of hordes.");
+                    "of it ever being used.  From the passing scavengers I've heard nothing but prime loot'n spots and rumors of hordes.");
 
         case TALK_EVAC_MERCHANT_HORDES:
             return _("Had one guy pop in here a while back saying he had tried to drive into Syracuse after the outbreak.  Didn't even make it "
@@ -677,7 +677,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                      "might have something, if you can find him.");
 
         case TALK_EVAC_GUARD1_OLDGUARD:
-            return _("That's just our nickname for them. They're whats left of the federal government.  "
+            return _("That's just our nickname for them. They're what's left of the federal government.  "
                      "Don't know how legitimate they are but they are named after some military unit "
                      "that once protected the president.  Their liaison is usually hanging around "
                      "here somewhere.");
@@ -767,7 +767,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_EVAC_HUNTER_HUNT:
             return _("Yep. Whatever game I spot, I bag and sell the meat and other "
-                     "parts here. Got the occaisional fish and basketfull of wild "
+                     "parts here. Got the occasional fish and basket full of wild "
                      "fruit, but nothing comes close to a freshly-cooked moose steak "
                      "for supper!");
 
@@ -843,7 +843,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_ARSONIST:
             if (g->u.is_wearing("badge_marshal"))
-                return _("That sure is a shiney badge you got there!");
+                return _("That sure is a shiny badge you got there!");
             return _("Heh, you look important.");
 
         case TALK_ARSONIST_NEW:
@@ -2391,7 +2391,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   RESPONSE(_("Can I do anything for you?"));
    SUCCESS(TALK_MISSION_LIST);
   SELECT_TEMP(_("Can you teach me anything?"), 0);
-   if (!p->has_disease(_("asked_to_train"))) {
+   if (!p->has_disease("asked_to_train")) {
     int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
                   3 * p->op_of_u.anger + p->op_of_u.owed / 50;
     TRIAL(TALK_TRIAL_PERSUADE, commitment * 2);
@@ -2421,7 +2421,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   }
   if (p->is_following()) {
    RESPONSE(_("I'd like to know a bit more about you..."));
-   if (!p->has_disease(_("asked_personal_info"))) {
+   if (!p->has_disease("asked_personal_info")) {
     int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
                  3 * p->op_of_u.anger + p->op_of_u.owed / 25;
     TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);

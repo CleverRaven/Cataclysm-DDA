@@ -1377,6 +1377,13 @@ int iuse::iodine(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::datura(player *p, item *it, bool)
+{
+    p->add_disease("datura", rng(2000, 8000));
+    p->add_msg_if_player(_("You eat the datura seed."));
+    return it->type->charges_to_use();
+}
+
 int iuse::flumed(player *p, item *it, bool)
 {
     p->add_disease("took_flumed", 6000);
@@ -2140,6 +2147,7 @@ int iuse::dogfood(player *p, item *, bool)
         if (g->zombie(mon_dex).type->id == "mon_dog") {
             p->add_msg_if_player(m_good, _("The dog seems to like you!"));
             g->zombie(mon_dex).friendly = -1;
+            g->zombie(mon_dex).add_effect("pet", 1, 1, true);
         } else {
             p->add_msg_if_player(_("The %s seems quite unimpressed!"),
                                  g->zombie(mon_dex).name().c_str());
@@ -2590,7 +2598,8 @@ int iuse::ups_battery(player *p, item *, bool)
     modded->item_tags.insert("USE_UPS");
     modded->item_tags.insert("NO_UNLOAD");
     modded->item_tags.insert("NO_RELOAD");
-    modded->charges = -1;
+    //Perhaps keep the modded charges at 1 or 0?
+    modded->charges = 0;
     return 1;
 }
 
@@ -2619,6 +2628,123 @@ int iuse::fishing_rod_basic(player *p, item *it, bool)
     p->assign_activity(ACT_FISH, 30000, 0, p->get_item_position(it), it->tname());
 
     return 0;
+}
+
+int iuse::fish_trap(player *p, item *it, bool t)
+{
+    if (t) {
+        // Handle processing fish trap over time.
+        if (it->charges == 0) {
+            it->active = false;
+            return 0;
+        }
+
+        //after 30 min.
+        if (calendar::turn - it->bday > 300) {
+            it->active = false;
+
+            point pos = g->find_item(it);
+
+            if (!g->m.has_flag("FISHABLE", pos.x, pos.y)) {
+                return 0;
+            }
+            point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
+            if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+                return 0;
+            }
+
+            int success = -50;
+            const int surv = p->skillLevel("survival");
+            const int attempts = rng(it->charges, it->charges * it->charges);
+            for (int i = 0; i < attempts; i++) {
+                success += rng(surv, surv * surv);
+            }
+
+            it->charges = rng(-1, it->charges);
+            if (it->charges == 0) {
+                it->charges = -1;
+            }
+
+            int fishes = 0;
+
+            if (success < 0) {
+                fishes = 0;
+            } else if (success < 300) {
+                fishes = 1;
+            } else if (success < 1500) {
+                fishes = 2;
+            } else {
+                fishes = rng(3, 5);
+            }
+
+            if (fishes == 0) {
+                it->charges = -1;
+                p->practice("survival", rng(5, 15));
+
+                return 0;
+            }
+
+            for (int i = 0; i < fishes; i++) {
+                p->practice("survival", rng(3, 10));
+
+                item fish;
+                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                fish.make_corpse("corpse", GetMType(fish_mon), it->bday + 300);
+                //Yes, we can put fishes in the trap like knives in the boot,
+                //and then get fishes via activation of the item,
+                //but it's not as comfortable as if you just put fishes in the same tile with the trap.
+                //Also: corpses and comestibles not rot in containers like this, but on the ground will rot.
+                g->m.add_item_or_charges(pos.x, pos.y, fish);
+            }
+        }
+        return 0;
+    } else {
+        // Handle deploying fish trap.
+        if (it->active) {
+            it->active = false;
+            return 0;
+        }
+
+        if (it->charges < 0) {
+            it->charges = 0;
+            return 0;
+        }
+
+        if (p->is_underwater()) {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return 0;
+        }
+
+        if (it->charges == 0) {
+            p->add_msg_if_player(_("Fish is not so silly to go in here without bait."));
+            return 0;
+        }
+
+        int dirx, diry;
+
+        if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
+            return 0;
+        }
+        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
+            p->add_msg_if_player(m_info, _("You can't fish there!"));
+            return 0;
+        }
+        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
+        if (!otermap[overmap_buffer.ter(op.x, op.y, g->levz)].is_river) {
+            p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
+            return 0;
+        }
+
+        it->active = true;
+        it->bday = calendar::turn;
+        g->m.add_item_or_charges(dirx, diry, *it);
+        p->i_rem(it);
+
+        p->add_msg_if_player(m_info, _("You place the fish trap, in a half hour or so you might have some fish."));
+
+        return 0;
+    }
 }
 
 static bool valid_fabric(player *p, item *it, bool)
@@ -5744,11 +5870,7 @@ int iuse::tazer(player *p, item *it, bool)
 
 int iuse::tazer2(player *p, item *it, bool)
 {
-    if (it->charges >= 100 || (it->has_flag("USE_UPS") &&
-                               (p->has_charges("UPS_off", 5) || p->has_charges("UPS_on", 5) ||
-                                p->has_charges("adv_UPS_off", 3) ||
-                                p->has_charges("adv_UPS_on", 3) ||
-                                (p->has_bionic("bio_ups") && p->power_level <= 1)))) {
+    if (it->charges >= 100) {
         int dirx, diry;
 
         if (!choose_adjacent(_("Shock"), dirx, diry)) {
@@ -5948,7 +6070,7 @@ int iuse::mp3_on(player *p, item *it, bool t)
                 case 5:
                     sound = _("dramatic classical music.");
                     if (p->int_cur >= 10) {
-                        p->add_morale(MORALE_MUSIC, 1, 100, 5, 2);
+                        p->add_morale(MORALE_MUSIC, 1, (50 + p->int_cur*2), 5, 2);
                     }
                     break;
             }
@@ -6191,7 +6313,7 @@ void make_zlave(player *p)
     uimenu amenu;
 
     amenu.selected = 0;
-    amenu.text = _("Selectively butcher the downed zombie into a zlave?");
+    amenu.text = _("Selectively butcher the downed zombie into a zombie slave?");
     amenu.addentry(cancel, true, 'q', _("Cancel"));
     for (int i = 0; i < corpses.size(); i++) {
         amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
@@ -6279,7 +6401,7 @@ int iuse::knife(player *p, item *it, bool t)
     }
 
     if( p->skillLevel("survival") > 1 && p->skillLevel("firstaid") > 1 ) {
-        kmenu.addentry(make_slave, true, 'z', _("Make zlave"));
+        kmenu.addentry(make_slave, true, 'z', _("Make zombie slave"));
     }
 
     kmenu.addentry(cancel, true, 'q', _("Cancel"));
