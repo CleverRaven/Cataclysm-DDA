@@ -6995,13 +6995,11 @@ std::list<item> player::use_amount(itype_id it, int quantity, bool use_container
     if (weapon.use_amount(it, quantity, use_container, ret)) {
         remove_weapon();
     }
-    for (std::vector<item>::iterator a = worn.begin(); a != worn.end() && quantity > 0; ++a) {
-        for (std::vector<item>::iterator b = a->contents.begin(); b != a->contents.end() && quantity > 0; ) {
-            if (b->use_amount(it, quantity, use_container, ret)) {
-                b = a->contents.erase(b);
-            } else {
-                ++b;
-            }
+    for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
+        if( a->use_amount( it, quantity, use_container, ret ) ) {
+            a = worn.erase( a );
+        } else {
+            ++a;
         }
     }
     if (quantity <= 0) {
@@ -7188,13 +7186,11 @@ std::list<item> player::use_charges(itype_id it, long quantity)
     if (weapon.use_charges(it, quantity, ret)) {
         remove_weapon();
     }
-    for (std::vector<item>::iterator a = worn.begin(); a != worn.end() && quantity > 0; ++a) {
-        for (std::vector<item>::iterator b = a->contents.begin(); b != a->contents.end() && quantity > 0; ) {
-            if (b->use_charges(it, quantity, ret)) {
-                b = a->contents.erase(b);
-            } else {
-                ++b;
-            }
+    for( auto a = worn.begin(); a != worn.end() && quantity > 0; ++a ) {
+        if( a->use_charges( it, quantity, ret ) ) {
+            a = worn.erase( a );
+        } else {
+            ++a;
         }
     }
     if (quantity <= 0) {
