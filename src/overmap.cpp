@@ -1494,14 +1494,14 @@ void overmap::draw(WINDOW *w, const tripoint &center,
 
     // If we're debugging monster groups, find the monster group we've selected
     const mongroup *mgroup = NULL;
+    std::vector<mongroup *> mgroups;
     if(debug_monstergroups) {
-        auto groups = overmap_buffer.monsters_at( center.x, center.y, center.z );
-        for( auto &mgp : groups ) {
-            if( mgp->horde ) {
-                continue;
-            }
+        mgroups = overmap_buffer.monsters_at( center.x, center.y, center.z );
+        for( const auto &mgp : mgroups ) {
             mgroup = mgp;
-            break;
+            if( mgp->horde ) {
+                break;
+            }
         }
     }
 
@@ -1655,15 +1655,28 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                     ter_color = c_red;
                     ter_sym = 'x';
                 } else {
-                    auto groups = overmap_buffer.monsters_at( center.x, center.y, center.z );
+                    const auto &groups = overmap_buffer.monsters_at( omx, omy, center.z );
                     for( auto &mgp : groups ) {
-                        if( mgp->horde ) {
+                        if( mgp->type == "GROUP_FOREST" ) {
+                            // Don't flood the map with forest creatures.
                             continue;
                         }
-                        mgroup = mgp;
-                        ter_color = c_blue;
-                        ter_sym = '-';
-                        break;
+                        if( mgp->horde ) {
+                            // Hordes show as +
+                            ter_sym = '+';
+                            break;
+                        } else {
+                            // Regular groups show as -
+                            ter_sym = '-';
+                        }
+                    }
+                    // Set the color only if we encountered an eligible group.
+                    if( ter_sym == '+' || ter_sym == '-' ) {
+                        if( los ) {
+                            ter_color = c_ltblue;
+                        } else {
+                            ter_color = c_blue;
+                        }
                     }
                 }
             }
@@ -1763,11 +1776,23 @@ void overmap::draw(WINDOW *w, const tripoint &center,
 
     // Draw text describing the overmap tile at the cursor position.
     if (csee) {
-        if(mgroup) {
-            mvwprintz(w, 1, om_map_width + 3, c_blue, "# monsters: %d", mgroup->population);
-            mvwprintz(w, 2, om_map_width + 3, c_blue, "  Interest: %d", mgroup->interest);
-            mvwprintz(w, 3, om_map_width + 3, c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
-            mvwprintz(w, 3, om_map_width + 3, c_red, "x");
+        if(!mgroups.empty()) {
+            int line_number = 1;
+            for( const auto &mgroup : mgroups ) {
+                mvwprintz(w, line_number++, om_map_width + 3,
+                          c_blue, "  Species: %s", mgroup->type.c_str());
+                mvwprintz(w, line_number++, om_map_width + 3,
+                          c_blue, "# monsters: %d", mgroup->population);
+                if( !mgroup->horde ) {
+                    continue;
+                }
+                mvwprintz(w, line_number++, om_map_width + 3,
+                          c_blue, "  Interest: %d", mgroup->interest);
+                mvwprintz(w, line_number, om_map_width + 3,
+                          c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
+                mvwprintz(w, line_number++, om_map_width + 3,
+                          c_red, "x");
+            }
         } else {
             mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
             std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
