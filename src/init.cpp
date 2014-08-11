@@ -196,7 +196,7 @@ void DynamicDataLoader::initialize()
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
     type_function_map["BULLET_PULLING"] = new StaticFunctionAccessor(&iuse::load_bullet_pulling);
-    
+
     type_function_map["faction"] = new StaticFunctionAccessor(
         &faction::load_faction);
     type_function_map["npc"] = new StaticFunctionAccessor(
@@ -302,7 +302,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
 void init_names()
 {
     const std::string filename = PATH_INFO::find_translated_file( "namesdir",
-                                                                  ".json", "names" );
+                                 ".json", "names" );
     load_names_from_file(filename);
 }
 
@@ -355,7 +355,8 @@ void DynamicDataLoader::unload_data()
 
 extern void calculate_mapgen_weights();
 extern void init_data_mappings();
-void DynamicDataLoader::finalize_loaded_data() {
+void DynamicDataLoader::finalize_loaded_data()
+{
     g->init_missions(); // Needs overmap terrain.
     init_data_mappings();
     finalize_overmap_terrain();
@@ -368,7 +369,8 @@ void DynamicDataLoader::finalize_loaded_data() {
     check_consistency();
 }
 
-void DynamicDataLoader::check_consistency() {
+void DynamicDataLoader::check_consistency()
+{
     item_controller->check_itype_definitions();
     item_controller->check_items_of_groups_exist();
     MonsterGenerator::generator().check_monster_definitions();

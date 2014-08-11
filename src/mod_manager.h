@@ -37,12 +37,12 @@ struct MOD_INFORMATION {
     std::string type()
     {
         switch (_type) {
-            case MT_CORE:
-                return "CORE";
-                break;
-            case MT_SUPPLEMENTAL:
-                return "SUPPLEMENTAL";
-                break;
+        case MT_CORE:
+            return "CORE";
+            break;
+        case MT_SUPPLEMENTAL:
+            return "SUPPLEMENTAL";
+            break;
         }
     }
 };

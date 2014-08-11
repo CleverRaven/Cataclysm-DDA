@@ -7,6 +7,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "translations.h"
+#include "overmapbuffer.h"
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
@@ -30,10 +31,6 @@ monster::monster()
  moves = 0;
  sp_timeout = 0;
  def_chance = 0;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = 0;
  morale = 2;
@@ -45,7 +42,6 @@ monster::monster()
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- keep = 0;
  ammo = 100;
 }
 
@@ -63,10 +59,6 @@ monster::monster(mtype *t)
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
  def_chance = type->def_chance;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
@@ -95,10 +87,6 @@ monster::monster(mtype *t, int x, int y)
  hp = type->hp;
  sp_timeout = type->sp_freq;
  def_chance = type->def_chance;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
@@ -1075,25 +1063,25 @@ void monster::die(Creature* nkiller) {
         g->m.add_item_or_charges( posx(), posy(), it );
     }
 
-// If we're a queen, make nearby groups of our type start to die out
- if (has_flag(MF_QUEEN)) {
-// Do it for overmap above/below too
-  for(int z = 0; z >= -1; --z) {
-      for (int x = -MAPSIZE/2; x <= MAPSIZE/2; x++)
-      {
-          for (int y = -MAPSIZE/2; y <= MAPSIZE/2; y++)
-          {
-                 std::vector<mongroup*> groups =
-                     g->cur_om->monsters_at(g->levx+x, g->levy+y, z);
-                 for (int i = 0; i < groups.size(); i++) {
-                     if (MonsterGroupManager::IsMonsterInGroup
-                         (groups[i]->type, (type->id)))
-                         groups[i]->dying = true;
-                 }
-          }
-      }
-  }
- }
+    // If we're a queen, make nearby groups of our type start to die out
+    if( has_flag( MF_QUEEN ) ) {
+        // The submap coordinates of this monster, monster groups coordinates are
+        // submap coordinates.
+        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( _posx, _posy ) );
+        // Do it for overmap above/below too
+        for( int z = 1; z >= -1; --z ) {
+            for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
+                for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
+                    std::vector<mongroup*> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y, g->levz + z );
+                    for( auto &mgp : groups ) {
+                        if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
+                            mgp->dying = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
 // If we're a mission monster, update the mission
  if (mission_id != -1) {
   mission_type *misstype = g->find_mission_type(mission_id);
@@ -1254,16 +1242,6 @@ field_id monster::gibType() const {
     if (made_of("iflesh"))
         return fd_gibs_insect;
     return fd_gibs_flesh; //Please update the corpse gib type code at mtypedef.cpp modifying these rules!
-}
-
-bool monster::getkeep() const
-{
-    return keep;
-}
-
-void monster::setkeep(bool r)
-{
-    keep = r;
 }
 
 m_size monster::get_size() const {

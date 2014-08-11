@@ -1,3 +1,0 @@
-{
-		"type" : "mapgen",
-		"om_terrain" : ["office_tower_

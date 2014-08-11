@@ -213,7 +213,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     std::map<direction, int> vItemIndex;
 
     vItemIndex[CENTER] = 0;
-    for (int i=0; i < here.size(); ++i) {
+    for (int i = 0; i < here.size(); ++i) {
         vItemDir.push_back(CENTER);
     }
 
@@ -225,7 +225,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         if (OPTIONS["AUTO_PICKUP_ADJACENT"]) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
-            for (int i=0; i < 8; i++) {
+            for (int i = 0; i < 8; i++) {
                 vItemIndex[adjacentDir[i]] = 0;
 
                 point apos = direction_XY(adjacentDir[i]);
@@ -240,10 +240,10 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
                 const std::vector<item> &hereTemp = g->m.i_at( apos.x, apos.y );
 
-                    for (int j=0; j < hereTemp.size(); j++) {
-                        vItemDir.push_back(adjacentDir[i]);
-                        here.push_back(hereTemp[j]);
-                    }
+                for (int j = 0; j < hereTemp.size(); j++) {
+                    vItemDir.push_back(adjacentDir[i]);
+                    here.push_back(hereTemp[j]);
+                }
             }
         }
     }
@@ -482,7 +482,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 idx = selected;
             } else if ( ch == '`' ) {
                 std::string ext = string_input_popup(
-                    _("Enter 2 letters (case sensitive):"), 3, "", "", "", 2);
+                                      _("Enter 2 letters (case sensitive):"), 3, "", "", "", 2);
                 if(ext.size() == 2) {
                     int p1 = pickup_chars.find(ext.at(0));
                     int p2 = pickup_chars.find(ext.at(1));
@@ -724,7 +724,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                                 g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                                 g->u.wield(&(g->u.i_add(here[i])));
                                 mapPickup[here[i].tname()] += (here[i].count_by_charges()) ?
-                                    here[i].charges : 1;
+                                                              here[i].charges : 1;
                                 add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet,
                                         g->u.weapon.display_name().c_str());
                             }
@@ -762,7 +762,8 @@ void Pickup::pick_up(int posx, int posy, int min)
 
             if (picked_up) {
                 point pairDir = direction_XY(dirThisItem);
-                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.x, posy + pairDir.y, veh, cargo_part, moves_taken, vItemIndex[dirThisItem]);
+                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.x, posy + pairDir.y, veh, cargo_part,
+                                                      moves_taken, vItemIndex[dirThisItem]);
                 vItemIndex[dirThisItem]--;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !pickup_obj.from_veh;
@@ -805,7 +806,8 @@ void Pickup::pick_up(int posx, int posy, int min)
 
 //helper function for Pickup::pick_up
 //return value is amount of ammo added to quiver
-int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement, bool &picked_up)
+int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement,
+                                    bool &picked_up)
 {
     //add ammo to quiver
     int quivered = here.add_ammo_to_quiver(&g->u, true);
@@ -829,7 +831,7 @@ int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_
 
 //helper function for Pickup::pick_up (singular item)
 void Pickup::remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int cargo_part,
-                                int &moves_taken, int curmit)
+                                        int &moves_taken, int curmit)
 {
     if (pickup_obj.from_veh) {
         veh->remove_item (cargo_part, curmit);

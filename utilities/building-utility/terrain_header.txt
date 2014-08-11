@@ -1,3 +1,0 @@
-{
-        "type" : "overmap_terrain",
-        "id" : "office_tower_

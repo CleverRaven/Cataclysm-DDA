@@ -1294,7 +1294,7 @@ bool game::do_turn()
             u.pkill++;
         }
         if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy)) {
-            u.charge_power(1);
+            u.charge_power(25);
         }
         // Huge folks take penalties for cramming themselves in vehicles
         if ((u.has_trait("HUGE") || u.has_trait("HUGE_OK")) && u.in_vehicle) {
@@ -1481,11 +1481,11 @@ void game::rustCheck()
             continue;
         }
 
-        bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 0;
+        bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
         if (u.skillLevel(*aSkill).rust(charged_bio_mem)) {
-            u.power_level--;
+            u.power_level -= 25;
         }
         int newSkill = u.skillLevel(*aSkill);
         if (newSkill < oldSkillLevel) {
@@ -4394,14 +4394,13 @@ void game::debug()
             active_npc.clear();
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
-            // Save monsters.
-            for (unsigned int i = 0; i < num_zombies(); i++) {
-                force_save_monster(zombie(i));
-            }
-            clear_zombies();
+            const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
+            const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
+            // TODO: make this use the normal map shifting function all the time?
+            shift_monsters( nlevx - levx, nlevy - levy, tmp.z - levz );
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
-            levx = tmp.x * 2 - int(MAPSIZE / 2);
-            levy = tmp.y * 2 - int(MAPSIZE / 2);
+            levx = nlevx - cur_om->pos().x * OMAPX * 2;
+            levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
             m.load(levx, levy, levz, true, cur_om);
             load_npcs();
@@ -6260,16 +6259,19 @@ void game::monmove()
 
         while (critter->moves > 0 && !critter->is_dead()) {
             critter->made_footstep = false;
-            critter->plan(friendlies); // Formulate a path to follow
+            // Controlled critters don't make their own plans
+            if (!critter->has_effect("controlled")) {
+                critter->plan(friendlies); // Formulate a path to follow
+            }
             critter->move(); // Move one square, possibly hit u
             critter->process_triggers();
             m.mon_in_field(critter->posx(), critter->posy(), critter);
         }
 
         if (!critter->is_dead()) {
-            if (u.has_active_bionic("bio_alarm") && u.power_level >= 1 &&
+            if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
                 rl_dist(u.posx, u.posy, critter->posx(), critter->posy()) <= 5) {
-                u.power_level--;
+                u.power_level -= 25;
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
                 if (u.has_disease("sleep") || u.has_disease("lying_down")) {
@@ -6282,22 +6284,9 @@ void game::monmove()
                 critter->posy() < 0 - (SEEY * MAPSIZE) / 6 ||
                 critter->posx() > (SEEX * MAPSIZE * 7) / 6 ||
                 critter->posy() > (SEEY * MAPSIZE * 7) / 6) {
-                // Re-absorb into local group, if applicable
-                int group = valid_group((critter->type->id), levx, levy, levz);
-                if (group != -1) {
-                    cur_om->zg[group].population++;
-                    if (cur_om->zg[group].population /
-                        (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                        !cur_om->zg[group].diffuse) {
-                        cur_om->zg[group].radius++;
-                    }
-                } else if (MonsterGroupManager::Monster2Group((critter->type->id)) != "GROUP_NULL") {
-                    cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((critter->type->id)),
-                                                  levx, levy, levz, 1, 1));
-                }
                 // Remove the zombie, but don't let it "die", it still exists, just
                 // not in the reality bubble.
-                remove_zombie( i );
+                despawn_monster( i );
                 i--;
             }
         }
@@ -7220,7 +7209,7 @@ void game::emp_blast(int x, int y)
     if (u.posx == x && u.posy == y) {
         if (u.power_level > 0) {
             add_msg(m_bad, _("The EMP blast drains your power."));
-            int max_drain = (u.power_level > 40 ? 40 : u.power_level);
+            int max_drain = (u.power_level > 1000 ? 1000 : u.power_level);
             u.charge_power(0 - rng(1 + max_drain / 3, max_drain));
         }
         // TODO: More effects?
@@ -7274,6 +7263,9 @@ Creature *game::critter_at(int x, int y)
 
 bool game::add_zombie(monster &critter)
 {
+    if( !m.inbounds( critter.posx(), critter.posy() ) ) {
+        dbg( D_ERROR ) << "added a critter with out-of-bounds position: " << critter.posx() << "," << critter.posy() << " - " << critter.disp_name();
+    }
     return critter_tracker.add(critter);
 }
 
@@ -11238,19 +11230,19 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
     if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
         !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
-        !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 1)) {
+        !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 5)) {
         add_msg(m_info,
                 _("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
         return;
     } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
                !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
-               !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 4)) {
+               !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 20)) {
         add_msg(m_info,
                 _("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
         return;
     } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
                !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
-               !u.has_charges("adv_UPS_on", 24) && !(u.has_bionic("bio_ups") && u.power_level >= 8)) {
+               !u.has_charges("adv_UPS_on", 24) && !(u.has_bionic("bio_ups") && u.power_level >= 40)) {
         add_msg(m_info,
                 _("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
         return;
@@ -12269,7 +12261,7 @@ bool game::plmove(int dx, int dy)
         x = u.posx + dx;
         y = u.posy + dy;
 
-        if (moveCount % 60 == 0) {
+        if (moveCount % 2 == 0) {
             if (u.has_bionic("bio_torsionratchet")) {
                 u.charge_power(1);
             }
@@ -13048,7 +13040,7 @@ bool game::plmove(int dx, int dy)
                     press_x(ACTION_CONTROL_VEHICLE).c_str());
         }
 
-    } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 10) {
+    } else if (u.has_active_bionic("bio_probability_travel") && u.power_level >= 250) {
         //probability travel through walls but not water
         int tunneldist = 0;
         // tile is impassable
@@ -13060,7 +13052,7 @@ bool game::plmove(int dx, int dy)
                 // assuming we've already started
                 tunneldist > 0)) {
             tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
-            if (tunneldist * 10 >
+            if (tunneldist * 250 >
                 u.power_level) { //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
                 add_msg(_("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!"));
                 tunneldist = 0; //we didn't tunnel anywhere
@@ -13076,7 +13068,7 @@ bool game::plmove(int dx, int dy)
             if (u.in_vehicle) {
                 m.unboard_vehicle(u.posx, u.posy);
             }
-            u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
+            u.power_level -= (tunneldist * 250); //tunneling costs 10 bionic power per impassable tile
             u.moves -= 100; //tunneling costs 100 moves
             u.posx += (tunneldist + 1) * (x -
                                           u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
@@ -13087,7 +13079,7 @@ bool game::plmove(int dx, int dy)
                 m.board_vehicle(u.posx, u.posy, &u);
             }
         } else { //or you couldn't tunnel due to lack of energy
-            u.power_level -= 10; //failure is expensive!
+            u.power_level -= 250; //failure is expensive!
             return false;
         }
 
@@ -13473,22 +13465,22 @@ void game::vertical_move(int movez, bool force)
         monstairy = levy;
         monstairz = levz;
     }
-    // Make sure monsters are saved!
-    for (unsigned int i = 0; i < num_zombies(); i++) {
+    // Save all monsters that can reach the stairs, remove them from the tracker,
+    // then despawn the remaining monsters. Because it's a vertical shift, all
+    // monsters are out of the bounds of the map and will despawn.
+    for( unsigned int i = 0; i < num_zombies(); ) {
         monster &critter = zombie(i);
         int turns = critter.turns_to_reach(u.posx, u.posy);
         if (turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach(u.posx, u.posy)
             && !slippedpast) {
-            critter.onstairs = true;
             critter.staircount = 10 + turns;
             coming_to_stairs.push_back(critter);
-            //remove_zombie(i);
+            remove_zombie( i );
         } else {
-            force_save_monster(critter);
+            i++;
         }
     }
-    despawn_monsters();
-    clear_zombies();
+    shift_monsters( 0, 0, movez );
 
     // Clear current scents.
     for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
@@ -13609,7 +13601,7 @@ void game::update_map(int &x, int &y)
 
     // Shift monsters if we're actually shifting
     if (shiftx || shifty) {
-        despawn_monsters(shiftx, shifty);
+        shift_monsters( shiftx, shifty, 0 );
         u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
     }
 
@@ -13704,7 +13696,6 @@ void game::replace_stair_monsters()
 {
     for (std::vector<monster>::iterator it = coming_to_stairs.begin();
          it != coming_to_stairs.end(); ++it) {
-        it->onstairs = false;
         it->staircount = 0;
         add_zombie(*it);
     }
@@ -13795,7 +13786,6 @@ void game::update_stair_monsters()
 
                 if (is_empty(mposx, mposy) && coming_to_stairs[i].staircount <= 0) {
                     critter.setpos(mposx, mposy, true);
-                    critter.onstairs = false;
                     critter.staircount = 0;
                     add_zombie(critter);
                     if (u_see(mposx, mposy)) {
@@ -13918,77 +13908,45 @@ void game::update_stair_monsters()
     }
 }
 
-void game::force_save_monster(monster &critter)
+void game::despawn_monster(int mondex)
 {
-    point ms = m.getabs( critter.posx(), critter.posy() );
-    point sm = overmapbuffer::ms_to_sm_remain( ms );
-
-    critter.spawnmapx = 0; // only needs to be != -1, see map::add_spawn
-    critter.spawnmapy = 0;
-    critter.spawnposx = ms.x; // this value is really used, not spawnmapy
-    critter.spawnposy = ms.y;
-
-    tinymap tmp;
-    tmp.load_abs( sm.x, sm.y, levz, false );
-    tmp.add_spawn(&critter);
-    tmp.save();
+    monster &critter = zombie( mondex );
+    if( !critter.is_hallucination() ) {
+        // hallucinations aren't stored, they come and go as they like,
+        overmap_buffer.despawn_monster( critter );
+    }
+    remove_zombie( mondex );
 }
 
-void game::despawn_monsters(const int shiftx, const int shifty)
+void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
 {
-    for (unsigned int i = 0; i < num_zombies(); i++) {
-        monster &critter = zombie(i);
-        // If either shift argument is non-zero, we're shifting.
-        if (shiftx != 0 || shifty != 0) {
-            critter.shift(shiftx, shifty);
-            if (critter.posx() >= 0 && critter.posx() <= SEEX * MAPSIZE &&
-                critter.posy() >= 0 && critter.posy() <= SEEY * MAPSIZE) {
-                // We're inbounds, so don't despawn after all.
-                continue;
-            } else {
-                if ((critter.spawnmapx != -1) || critter.getkeep() ||
-                    ((shiftx != 0 || shifty != 0) && critter.friendly != 0)) {
-                    force_save_monster( critter );
-
-                    // We're saving him, so there's no need to keep anymore.
-                    critter.setkeep(false);
-                } else {
-                    // No spawn site, so absorb them back into a group.
-                    int group = valid_group((critter.type->id), levx + shiftx, levy + shifty, levz);
-                    if (group != -1) {
-                        cur_om->zg[group].population++;
-                        if (cur_om->zg[group].population /
-                            (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
-                            !cur_om->zg[group].diffuse) {
-                            cur_om->zg[group].radius++;
-                        }
-                    }
-                }
-                // Check if we should keep him.
-                if (!critter.getkeep()) {
-                    remove_zombie(i);
-                    i--;
-                }
-            }
-        }
+    // If either shift argument is non-zero, we're shifting.
+    if( shiftx == 0 && shifty == 0 && shiftz == 0 ) {
+        return;
     }
-
+    for( unsigned int i = 0; i < num_zombies(); ) {
+        monster &critter = zombie( i );
+        if( shiftx != 0 || shifty != 0 ) {
+            critter.shift( shiftx, shifty );
+        }
+        // TODO: with z-levels, this can be removed, instead shift the critter
+        // along shiftz, too. Than make the 3D-inbounds check.
+        if( shiftz == 0 && m.inbounds( critter.posx(), critter.posy() ) ) {
+            i++;
+            // We're inbounds, so don't despawn after all.
+            continue;
+        }
+        // Either a vertical shift or the critter is now outside of the reality bubble,
+        // anyway: it must be saved and removed.
+        despawn_monster( i );
+    }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.
     rebuild_mon_at_cache();
 }
 
-void game::spawn_mon(int shiftx, int shifty)
+void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
-    int nlevx = levx + shiftx;
-    int nlevy = levy + shifty;
-    int group;
-    int monx, mony;
-    int dist;
-    int pop, rad;
-    int iter;
-    int t;
-
     // Create a new NPC?
     if (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] && one_in(100 + 15 * cur_om->npcs.size())) {
         npc *tmp = new npc();
@@ -14029,126 +13987,6 @@ void game::spawn_mon(int shiftx, int shifty)
         // This will make the new NPC active
         load_npcs();
     }
-
-    // Now, spawn monsters (perhaps)
-    monster zom;
-    for (size_t i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
-        if (cur_om->zg[i].posz != levz) {
-            continue;    // skip other levels - hack
-        }
-        group = 0;
-        bool horde = cur_om->zg[i].horde;
-        if (cur_om->zg[i].diffuse) {
-            dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        } else {
-            dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        }
-        pop = cur_om->zg[i].population;
-        rad = cur_om->zg[i].radius;
-        if (dist <= rad) {
-            // (The area of the group's territory) in (population/square at this range)
-            // chance of adding one monster; cap at the population OR 16
-            while ((cur_om->zg[i].diffuse ? long(pop) :
-                    long((1.0 - double(dist / rad)) * pop)) > rng(0, (rad * rad)) &&
-                   rng(horde ? MAPSIZE * 2 : 0, MAPSIZE * 4) > group &&
-                   group < pop && group < MAPSIZE * 3) {
-                group++;
-            }
-            cur_om->zg[i].population -= group;
-            // Reduce group radius proportionally to remaining
-            // population to maintain a minimal population density.
-            if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
-                !cur_om->zg[i].diffuse) {
-                cur_om->zg[i].radius--;
-            }
-
-            // If we spawned some zombies, advance the timer (exept hordes)
-            if (group > 0 && !cur_om->zg[i].horde) {
-                nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
-            }
-
-            for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(cur_om->zg[i].type,
-                                                   &group, (int)calendar::turn);
-                zom = monster(GetMType(spawn_details.name));
-                for (int kk = 0; kk < spawn_details.pack_size; kk++) {
-                    iter = 0;
-                    do {
-                        monx = rng(0, SEEX * MAPSIZE - 1);
-                        mony = rng(0, SEEY * MAPSIZE - 1);
-                        if (shiftx == 0 && shifty == 0) {
-                            if (one_in(2)) {
-                                shiftx = 1 - 2 * rng(0, 1);
-                            } else {
-                                shifty = 1 - 2 * rng(0, 1);
-                            }
-                        }
-                        if (shiftx == -1) {
-                            monx = (SEEX * MAPSIZE) / 6;
-                        } else if (shiftx == 1) {
-                            monx = (SEEX * MAPSIZE * 5) / 6;
-                        }
-                        if (shifty == -1) {
-                            mony = (SEEY * MAPSIZE) / 6;
-                        }
-                        if (shifty == 1) {
-                            mony = (SEEY * MAPSIZE * 5) / 6;
-                        }
-                        monx += rng(-5, 5);
-                        mony += rng(-5, 5);
-                        iter++;
-
-                    } while ((!zom.can_move_to(monx, mony) || !is_empty(monx, mony) ||
-                              m.sees(u.posx, u.posy, monx, mony, SEEX, t) || !m.is_outside(monx, mony) ||
-                              rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
-                    if (iter < 50) {
-                        zom.spawn(monx, mony);
-                        add_zombie(zom);
-                    }
-                }
-            } // Placing monsters of this group is done!
-            if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
-                cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
-                i--; // And don't increment i.
-            }
-        }
-    }
-}
-
-int game::valid_group(std::string type, int x, int y, int z_coord)
-{
-    std::vector <int> valid_groups;
-    std::vector <int> semi_valid; // Groups that're ALMOST big enough
-    int dist;
-    for (size_t i = 0; i < cur_om->zg.size(); i++) {
-        if (cur_om->zg[i].posz != z_coord) {
-            continue;
-        }
-        dist = trig_dist(x, y, cur_om->zg[i].posx, cur_om->zg[i].posy);
-        if (dist < cur_om->zg[i].radius) {
-            if (MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type)) {
-                valid_groups.push_back(i);
-            }
-        } else if (dist < cur_om->zg[i].radius + 3) {
-            if (MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type)) {
-                semi_valid.push_back(i);
-            }
-        }
-    }
-    if (valid_groups.empty()) {
-        if (semi_valid.empty()) {
-            return -1;
-        } else {
-            // If there's a group that's ALMOST big enough,
-            //expand that group's radius by one and absorb into that group.
-            int semi = rng(0, semi_valid.size() - 1);
-            if (!cur_om->zg[semi_valid[semi]].diffuse) {
-                cur_om->zg[semi_valid[semi]].radius++;
-            }
-            return semi_valid[semi];
-        }
-    }
-    return valid_groups[rng(0, valid_groups.size() - 1)];
 }
 
 void game::wait()

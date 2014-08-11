@@ -151,7 +151,7 @@ void computer::use()
             ch = getch();
         } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= (char)options_size));
         if (ch == 'q' || ch == 'Q') {
-             break; // Exit from main computer loop
+            break; // Exit from main computer loop
         } else { // We selected an option other than quit.
             ch -= '1'; // So '1' -> 0; index in options.size()
             computer_option current = options[ch];
@@ -222,7 +222,7 @@ std::string computer::save_data()
             savename.replace(found, 1, "_");
             found = savename.find(" ");
         }
-        data << savename << " " << int(it->action) <<" "<< it->security << " ";
+        data << savename << " " << int(it->action) << " " << it->security << " ";
     }
     data << failures.size() << " ";
     for (std::vector<computer_failure>::iterator it = failures.begin();
@@ -285,11 +285,11 @@ void computer::activate_function(computer_action action)
         query_any(_("Doors opened.  Press any key..."));
         break;
 
-        //LOCK AND UNLOCK are used to build more complex buildings
-        // that can have multiple doors that can be locked and be
-        // unlocked by different computers.
-        //Simply uses translate_radius which take a given radius and
-        // player position to determine which terrain tiles to edit.
+    //LOCK AND UNLOCK are used to build more complex buildings
+    // that can have multiple doors that can be locked and be
+    // unlocked by different computers.
+    //Simply uses translate_radius which take a given radius and
+    // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
         g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
         query_any(_("Lock enabled.  Press any key..."));
@@ -300,7 +300,7 @@ void computer::activate_function(computer_action action)
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
-        //Toll is required for the church computer/mechanism to function
+    //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
         //~ the sound of a church bell ringing
         g->sound(g->u.posx, g->u.posy, 120, _("Bohm... Bohm... Bohm..."));
@@ -359,8 +359,8 @@ void computer::activate_function(computer_action action)
         break;
 
     case COMPACT_TERMINATE:
-        g->u.add_memorial_log(pgettext("memorial_male","Terminated subspace specimens."),
-                              pgettext("memorial_female","Terminated subspace specimens."));
+        g->u.add_memorial_log(pgettext("memorial_male", "Terminated subspace specimens."),
+                              pgettext("memorial_female", "Terminated subspace specimens."));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 int mondex = g->mon_at(x, y);
@@ -428,20 +428,20 @@ void computer::activate_function(computer_action action)
         if (lab_notes.empty()) {
             log = _("No data found.");
         } else {
-            log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) % lab_notes.size()];
+            log = lab_notes[(g->get_abs_levx() + g->get_abs_levy() + g->get_abs_levz() + alerts) %
+                            lab_notes.size()];
         }
 
         print_text("%s", log.c_str());
         // One's an anomaly
         if (alerts == 0) {
-        query_any(_("Local data-access error logged, alerting helpdesk. Press any key..."));
-        alerts ++;
-        }
-        else {
-        // Two's a trend.
+            query_any(_("Local data-access error logged, alerting helpdesk. Press any key..."));
+            alerts ++;
+        } else {
+            // Two's a trend.
             query_any(_("Warning: anomalous archive-access activity detected at this node. Press any key..."));
             alerts ++;
-            }
+        }
     }
     break;
 
@@ -515,11 +515,10 @@ void computer::activate_function(computer_action action)
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y - 2; y <= target.y + 2; y++) {
                 // give it a nice rounded shape
-                if(!(x == (target.x-2) && (y == (target.y-2))) &&
-                   !(x == (target.x-2) && (y == (target.y+2))) &&
-                   !(x == (target.x+2) && (y == (target.y-2))) &&
-                   !(x == (target.x+2) && (y == (target.y+2))))
-                {
+                if(!(x == (target.x - 2) && (y == (target.y - 2))) &&
+                   !(x == (target.x - 2) && (y == (target.y + 2))) &&
+                   !(x == (target.x + 2) && (y == (target.y - 2))) &&
+                   !(x == (target.x + 2) && (y == (target.y + 2)))) {
                     g->nuke(x, y);
                 }
 
@@ -1084,8 +1083,8 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_SHUTDOWN:
-        for( int x = g->u.posx-1; x <= g->u.posx+1; x++ ) {
-            for( int y = g->u.posy-1; y <= g->u.posy+1; y++ ) {
+        for( int x = g->u.posx - 1; x <= g->u.posx + 1; x++ ) {
+            for( int y = g->u.posy - 1; y <= g->u.posy + 1; y++ ) {
                 if( g->m.has_flag("CONSOLE", x, y) ) {
                     g->m.ter_set(x, y, t_console_broken);
                     add_msg(m_bad, _("The console shuts down."));
@@ -1155,14 +1154,15 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_DAMAGE:
         add_msg(m_neutral, _("The console electrocutes you."));
-        if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
+        if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) ||
+            g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
             add_msg(m_neutral, _("The electricity flows around you."));
         } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
             add_msg(m_neutral, _("Your armor safely grounds the electrical discharge."));
         } else {
-               add_msg(m_bad, _("Your body is damaged by the electric shock!"));
-               g->u.hurtall(rng(1, 10));
-           }
+            add_msg(m_bad, _("Your body is damaged by the electric shock!"));
+            g->u.hurtall(rng(1, 10));
+        }
         break;
 
     case COMPFAIL_PUMP_EXPLODE:

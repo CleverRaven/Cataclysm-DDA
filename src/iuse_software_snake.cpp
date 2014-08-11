@@ -157,7 +157,8 @@ int snake_game::start_game()
             break;
         } else {
             //Add new position to map
-            mSnakeBody[vSnakeBody[vSnakeBody.size() - 1].first][vSnakeBody[vSnakeBody.size() - 1].second] = true;
+            mSnakeBody[vSnakeBody[vSnakeBody.size() - 1].first][vSnakeBody[vSnakeBody.size() - 1].second] =
+                true;
         }
 
         //Have we eaten the forbidden fruit?
