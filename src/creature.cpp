@@ -458,7 +458,8 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                             this->ypos(),
                             direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
                             health_bar, m_good,
-                            "hp", m_neutral,
+                            //~ “hit points”, used in scrolling combat text
+                            _("hp"), m_neutral,
                             "hp");
                 } else {
                     SCT.removeCreatureHP();
