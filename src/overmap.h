@@ -14,6 +14,7 @@
 #include "name.h"
 #include "input.h"
 #include "json.h"
+#include <array>
 
 class overmapbuffer;
 class npc;
@@ -257,12 +258,12 @@ struct node
 class overmap
 {
  public:
-  overmap();
-  overmap(overmap const&);
+    overmap(const overmap&) = default;
+    overmap(overmap &&) = default;
   overmap(int x, int y);
   ~overmap();
 
-  overmap& operator=(overmap const&);
+  overmap& operator=(overmap const&) = default;
 
   point const& pos() const { return loc; }
 
@@ -343,7 +344,6 @@ class overmap
   /** Get the y coordinate of the bottom border of this overmap. */
   int get_bottom_border();
 
-  regional_settings settings;
   const regional_settings& get_settings(const int x, const int y, const int z) {
      (void)x;
      (void)y;
@@ -368,8 +368,7 @@ public:
   std::string prefix;
   std::string name;
 
-  //map_layer layer[OVERMAP_LAYERS];
-  map_layer *layer;
+    std::array<map_layer, OVERMAP_LAYERS> layer;
 
   oter_id nullret;
   bool nullbool;
@@ -389,6 +388,7 @@ public:
      * (adding it to the creature tracker and putting it onto the map).
      */
     std::vector<monster_data> monsters;
+    regional_settings settings;
 
   // Initialise
   void init_layers();
@@ -457,6 +457,8 @@ public:
   bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
   void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
     void add_mon_group(const mongroup &group);
+    // not available because *every* overmap needs location, so use the other constructor.
+    overmap() = delete;
 };
 
 // TODO: readd the stream operators
