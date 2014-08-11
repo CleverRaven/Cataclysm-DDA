@@ -60,8 +60,8 @@ overmap &overmapbuffer::get( const int x, const int y )
     // If we don't have one, make it, stash it in the list, and return it.
     // for some reason that constructor will also load any existing overmap.
     overmap new_overmap(x, y);
-    fix_mongroups( new_overmap );
     overmap_list.push_back( new_overmap );
+    fix_mongroups( overmap_list.back() );
     return overmap_list.back();
 }
 
