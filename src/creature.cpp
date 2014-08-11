@@ -605,7 +605,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
         effects[eff_id] = new_eff;
         if (is_player()) { // only print the message if we didn't already have it
             add_msg( effect_types[eff_id].gain_game_message_type(),
-                     effect_types[eff_id].get_apply_message().c_str() );
+                     _(effect_types[eff_id].get_apply_message().c_str()) );
             g->u.add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
@@ -650,7 +650,7 @@ void Creature::process_effects()
     for( auto it = effects.begin(); it != effects.end(); ) {
         if( !it->second.is_permanent() && it->second.get_duration() <= 0 ) {
             const effect_type *type = it->second.get_effect_type();
-            add_msg( type->lose_game_message_type(), type->get_remove_message().c_str() );
+            add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
             g->u.add_memorial_log(
                 pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
                 pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
