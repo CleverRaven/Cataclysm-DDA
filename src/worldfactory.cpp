@@ -1075,9 +1075,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     int line = 1;
     bool noname = false;
     input_context ctxt("WORLDGEN_CONFIRM_DIALOG");
-    // Disabled because it conflicts with the "pick random world name" option,
-    // feel free to enable it and change its keybinding in keybindings.json
-    // ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("NEXT_TAB");
@@ -1089,10 +1087,10 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
         mvwprintz(w_confirmation, namebar_y, 2, c_white, _("World Name:"));
         mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
         fold_and_print(w_confirmation, 3, 2, 76, c_ltgray,
-                       _("Press <color_yellow>?</color> to pick a random name for your world."));
+                       _("Press <color_yellow>%s</color> to pick a random name for your world."), ctxt.get_desc("PICK_RANDOM_WORLDNAME").c_str());
         fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_ltgray, _("\
-Press <color_yellow>></color> when you are satisfied with the world as it is and are ready \
-to continue, or <color_yellow><</color> to go back and review your world."));
+Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready \
+to continue, or <color_yellow>%s</color> to go back and review your world."), ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
         if (!noname) {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
             if (line == 1) {
