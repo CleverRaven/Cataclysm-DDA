@@ -10,14 +10,16 @@
 
 overmapbuffer overmap_buffer;
 
-// Cached result of previous call to overmapbuffer::get_existing
-static const overmap *last_requested_overmap = NULL;
-
 inline int modulo(int v, int m);
 inline int divide(int v, int m);
 inline int divide(int v, int m, int &r);
 
+bool operator==(const std::unique_ptr<overmap> &a, const point &b) {
+    return a && a->pos() == b;
+}
+
 overmapbuffer::overmapbuffer()
+: last_requested_overmap( nullptr )
 {
 }
 
@@ -48,21 +50,18 @@ std::string overmapbuffer::player_filename(int const x, int const y)
 
 overmap &overmapbuffer::get( const int x, const int y )
 {
-    // Check list first
-    for(std::list<overmap>::iterator candidate = overmap_list.begin();
-        candidate != overmap_list.end(); ++candidate)
-    {
-        if(candidate->pos().x == x && candidate->pos().y == y)
-        {
-            return *candidate;
-        }
+    auto it = std::find( overmaps.begin(), overmaps.end(), point( x, y ) );
+    if( it != overmaps.end() ) {
+        return **it;
     }
-    // If we don't have one, make it, stash it in the list, and return it.
-    // for some reason that constructor will also load any existing overmap.
-    overmap new_overmap(x, y);
-    overmap_list.push_back( std::move( new_overmap ) );
-    fix_mongroups( overmap_list.back() );
-    return overmap_list.back();
+    // That constructor loads an existing overmap or creates a new one.
+    std::unique_ptr<overmap> new_om( new overmap( x, y ) );
+    overmap &result = *new_om;
+    overmaps.push_back( std::move( new_om ) );
+    // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
+    // necessarily the overmap at (x,y)
+    fix_mongroups( result );
+    return result;
 }
 
 void overmapbuffer::fix_mongroups(overmap &new_overmap)
@@ -99,17 +98,15 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
 
 void overmapbuffer::save()
 {
-    for(std::list<overmap>::iterator current_map = overmap_list.begin();
-        current_map != overmap_list.end(); ++current_map)
-    {
+    for( auto &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
-        current_map->save();
+        omp->save();
     }
 }
 
 void overmapbuffer::clear()
 {
-    overmap_list.clear();
+    overmaps.clear();
     known_non_existing.clear();
     last_requested_overmap = NULL;
 }
@@ -134,18 +131,14 @@ void overmapbuffer::delete_note(int x, int y, int z)
     }
 }
 
-const overmap *overmapbuffer::get_existing(int x, int y) const
+overmap *overmapbuffer::get_existing(int x, int y)
 {
     if (last_requested_overmap != NULL && last_requested_overmap->pos().x == x && last_requested_overmap->pos().y == y) {
         return last_requested_overmap;
     }
-    for(std::list<overmap>::const_iterator candidate = overmap_list.begin();
-        candidate != overmap_list.end(); ++candidate)
-    {
-        if(candidate->pos().x == x && candidate->pos().y == y)
-        {
-            return last_requested_overmap = &*candidate;
-        }
+    auto it = std::find( overmaps.begin(), overmaps.end(), point( x, y ) );
+    if( it != overmaps.end() ) {
+        return last_requested_overmap = it->get();
     }
     if (known_non_existing.count(point(x, y)) > 0) {
         // This overmap does not exist on disk (this has already been
@@ -153,23 +146,12 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
         return NULL;
     }
     // Check if the overmap exist on disk,
-    // overmap(0,0) should always exist, we need it for the proper
-    // overmap file name.
-    std::stringstream filename;
-    filename << world_generator->active_world->world_path << "/";
-
-    if (g->has_gametype()) {
-        filename << special_game_name(g->gametype()) << ".";
-    }
-
-    filename << "o." << x << "." << y;
-
-    std::ifstream tmp(filename.str().c_str(), std::ios::in);
+    std::ifstream tmp(terrain_filename( x, y ).c_str(), std::ios::in);
     if(tmp.is_open()) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         tmp.close();
-        return &const_cast<overmapbuffer*>(this)->get(x, y);
+        return &get( x, y );
     }
     // File does not exist (or not readable which is essentially
     // the same for our usage). A second call of this function with
@@ -181,12 +163,12 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
     return NULL;
 }
 
-bool overmapbuffer::has(int x, int y) const
+bool overmapbuffer::has(int x, int y)
 {
     return get_existing(x, y) != NULL;
 }
 
-const overmap *overmapbuffer::get_existing_om_global(int &x, int &y) const
+overmap *overmapbuffer::get_existing_om_global(int &x, int &y)
 {
     const point om_pos = omt_to_om_remain(x, y);
     return get_existing(om_pos.x, om_pos.y);
@@ -198,19 +180,19 @@ overmap &overmapbuffer::get_om_global(int &x, int &y)
     return get(om_pos.x, om_pos.y);
 }
 
-const overmap *overmapbuffer::get_existing_om_global(const point& p) const
+overmap *overmapbuffer::get_existing_om_global(const point& p)
 {
     const point om_pos = omt_to_om_copy(p);
     return get_existing(om_pos.x, om_pos.y);
 }
 
-bool overmapbuffer::has_note(int x, int y, int z) const
+bool overmapbuffer::has_note(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
     return (om != NULL) && om->has_note(x, y, z);
 }
 
-const std::string& overmapbuffer::note(int x, int y, int z) const
+const std::string& overmapbuffer::note(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
     if (om == NULL) {
@@ -225,7 +207,7 @@ bool overmapbuffer::has_npc(int x, int y, int z)
     return !get_npcs_near_omt(x, y, z, 0).empty();
 }
 
-bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda) const
+bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
 {
     const overmap *om = get_existing_om_global(x, y);
     return (om != NULL) && om->has_vehicle(x, y, z, require_pda);
@@ -306,7 +288,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     veh->om_id = id;
 }
 
-bool overmapbuffer::seen(int x, int y, int z) const
+bool overmapbuffer::seen(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
     return (om != NULL) && const_cast<overmap*>(om)->seen(x, y, z);
@@ -419,7 +401,7 @@ std::vector<point> overmapbuffer::find_all(const tripoint& origin, const std::st
 }
 
 npc* overmapbuffer::find_npc(int id) {
-    for (std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it) {
+    for( auto &it : overmaps ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             if (it->npcs[i]->getID() == id) {
                 return it->npcs[i];
@@ -431,7 +413,7 @@ npc* overmapbuffer::find_npc(int id) {
 
 void overmapbuffer::remove_npc(int id)
 {
-    for (std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it) {
+    for( auto &it : overmaps ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             if (p->getID() == id) {
@@ -458,8 +440,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
-    for(std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it)
-    {
+    for( auto &it : overmaps ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             // Global position of NPC, in submap coordiantes
@@ -479,8 +460,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
-    for(std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it)
-    {
+    for( auto &it : overmaps ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             // Global position of NPC, in submap coordiantes
@@ -551,12 +531,10 @@ void overmapbuffer::despawn_monster(const monster &critter)
 }
 
 extern bool lcmatch(const std::string& text, const std::string& pattern);
-overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern) const
+overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern)
 {
     t_notes_vector result;
-    for(std::list<overmap>::const_iterator it = overmap_list.begin();
-        it != overmap_list.end(); ++it)
-    {
+    for( auto &it : overmaps ) {
         const overmap &om = *it;
         const int offset_x = om.pos().x * OMAPX;
         const int offset_y = om.pos().y * OMAPY;
