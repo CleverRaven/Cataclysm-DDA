@@ -634,7 +634,7 @@
             },
             {
                 "input_method":"keyboard",
-                "key":" "
+                "key":"SPACE"
             },
             {
                 "input_method":"gamepad",
