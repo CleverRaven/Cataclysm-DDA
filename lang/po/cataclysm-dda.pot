@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-04 09:58+0400\n"
+"POT-Creation-Date: 2014-08-11 10:27+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -483,9 +483,9 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"The .454 Casull round a very powerful revolver round capable of killing huge "
-"game, like elephants, with ease.  It's designed to be used with the Taurus "
-"Raging Bull."
+"The .454 Casull round is a very powerful revolver round capable of killing "
+"huge game, like elephants, with ease.  It's designed to be used with the "
+"Taurus Raging Bull."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -1841,6 +1841,46 @@ msgstr[1] ""
 msgid ""
 "A small bottle of liquid.  The liquid is made up of propylene glycol, "
 "vegetable glycerine, flavorings and nicotine."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "fish bait - meat"
+msgid_plural "fish bait - meats"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "A bait made from raw meat, used in traps to lure fish."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "fish bait - fish"
+msgid_plural "fish bait - fishs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "A bait made from raw fish, used in traps to lure fish."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "fish bait - veggy"
+msgid_plural "fish bait - veggys"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "A bait made from vegetables, used in traps to lure fish."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "fish bait - bread"
+msgid_plural "fish bait - breads"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "A bait made from breadcrumbs, used in traps to lure fish."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4837,8 +4877,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "sleeveless_survivor trenchcoat"
-msgid_plural "sleeveless_survivor trenchcoats"
+msgid "sleeveless survivor trenchcoat"
+msgid_plural "sleeveless survivor trenchcoats"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -5651,8 +5691,8 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A snug fitting pair of stockings made from thin and lightweight Nomex fire-"
-"resistant fabric.  Tough yet breathable, they are lightight and comfortable "
-"to wear under clothing."
+"resistant fabric.  Tough yet breathable, they are light and comfortable to "
+"wear under clothing."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -7581,6 +7621,48 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "red leather jacket"
+msgid_plural "red leather jackets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A candy-apple-red leather jacket with black strips and shoulder "
+"protrusions.  It has a number of zippers and snaps in the front."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "red jeans"
+msgid_plural "red jeans"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A pair of tight-fitting candy-apple-red jeans with two deep pockets."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "pair of dance shoes"
+msgid_plural "pairs of dance shoes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "Expensive black dance shoes with large heels."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "white glove"
+msgid_plural "white gloves"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A single white glove covered with hundreds of rhinestones."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "karate gi"
 msgid_plural "karate gis"
 msgstr[0] ""
@@ -8234,8 +8316,8 @@ msgstr[1] ""
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"While activated, the muscles in your arms will be greatly enhanced, "
-"increasing your strength by 20."
+"While activated, your muscles will be greatly enhanced, increasing your "
+"strength by 20."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -14631,6 +14713,28 @@ msgid "A fragrant mix of dried oregano, basil, thyme and other spices."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "wild herbs"
+msgid_plural "wild herbs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A tasty collection of wild herbs including violet, sassafras, mint, clover, "
+"purslane, dandelion, and burdock."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "herbal tea"
+msgid_plural "herbal tea"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A healthy beverage made from herbs steeped in boiling water."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "seasoned salt"
 msgid_plural "seasoned salt"
 msgstr[0] ""
@@ -16899,6 +17003,19 @@ msgid ""
 "still addictive.  It can't be reused once it's empty."
 msgstr ""
 
+#: lang/json/COMESTIBLE_from_json.py
+msgid "datura seeds"
+msgid_plural "datura seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
+"psychoactive chemicals, these tiny seeds are a potent analgesic and "
+"deliriant, and can be deadly in cases of overdose."
+msgstr ""
+
 #: lang/json/COMESTIBLE_from_json.py src/addiction.cpp
 msgid "diazepam"
 msgid_plural "diazepams"
@@ -18005,7 +18122,17 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A torch that has consumed all its fuel; it can be recrafted into another "
-"torch"
+"torch."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "dead flare"
+msgid_plural "dead flares"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "This is a spent magnesium flare.  It is essentially trash."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -18128,7 +18255,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "A broken laptop, basically a paperweight now"
+msgid "A broken laptop, basically a paperweight now."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -18139,8 +18266,8 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A broken eyebot.  Much less threatening now that it lies limp on solid "
-"ground.  Could be gutted for parts."
+"A broken eyebot.  Much less threatening now that it won't be calling for "
+"backup.  Could be gutted for parts."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -18163,8 +18290,8 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A broken police bot.  Much less threatening now that it lies limp on solid "
-"ground.  Could be gutted for parts."
+"A broken police bot.  Much less threatening now that it's quiet and still.  "
+"Could be gutted for parts."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -18175,8 +18302,8 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A broken miner bot.  Much less threatening now that it lies limp on solid "
-"ground.  Could be gutted for parts."
+"A broken miner bot.  Much less threatening now that it's no longer capable "
+"of drilling anything.  Could be gutted for parts."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -18187,8 +18314,8 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A broken tribot.  Much less threatening now that it lies limp on solid "
-"ground.  Could be gutted for parts."
+"A broken tribot.  Now that its legs lie broken and immobile, the world seems "
+"a little less threatening.  Could be gutted for parts."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -18199,8 +18326,9 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A broken tank drone.  Much less threatening now that it lies limp on solid "
-"ground.  Could be gutted for parts."
+"A broken tank drone.  Still looks intimidating despite being permanently "
+"inoperative, possibly due to the sheer size and mass.  Could be gutted for "
+"parts."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -19333,7 +19461,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "MRE - Beef"
-msgid_plural "MREs - Beef"
+msgid_plural "MREs - beef"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19346,7 +19474,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "MRE - Vegetarian"
-msgid_plural "MREs - Vegetarian"
+msgid_plural "MREs - vegetarian"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19359,7 +19487,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "MRE - Chicken"
-msgid_plural "MREs - Chicken"
+msgid_plural "MREs - chicken"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19372,7 +19500,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "MRE - Hotdogs"
-msgid_plural "MREs - Hotdogs"
+msgid_plural "MREs - hotdogs"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19385,7 +19513,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "MRE - Ravioli"
-msgid_plural "MREs - Ravioli"
+msgid_plural "MREs - ravioli"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -19553,6 +19681,21 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A CD with many hit songs burned to it."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "Home Frontier Starter Pack"
+msgid_plural "Home Frontier Starter Packs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This not-so-little bundle of joy contains Leadworks, LLC's premier "
+"offerings: the Enforcer autorevolver (with holster) & Long Ranger rifle.  "
+"Maintenance kit, batteries for same, and a complimentary copy of the Gun "
+"Owner's Handbook are included.  The perfect investment for a new family "
+"starting out!  Disassemble to unpack and enjoy."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -20163,13 +20306,13 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "hand paddies"
-msgid_plural "hand paddies"
+msgid "oars"
+msgid_plural "oars"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "hand paddies for boat"
+msgid "Oars for a boat"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -21206,8 +21349,22 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A popular 9mm pistol, widely used among law enforcement.  Extensively tested "
-"for durability, it has been found to stay accurate even after subjected to "
-"extreme abuse."
+"for durability, it has been found to stay accurate even after being "
+"subjected to extreme abuse."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "L39B"
+msgid_plural "L39B"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A selective-firing 9mm handgun introduced in 2039, Leadworks LLC's L39B "
+"provides accurate single-shot placement as well as controllable short-range "
+"firepower with its three-round burst mode.  Users praised its accuracy and "
+"fearsome appearance."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -21317,8 +21474,8 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A popular .45 pistol, widely used among law enforcement.  Extensively tested "
-"for durability, it has been found to stay accurate even after subjected to "
-"extreme abuse."
+"for durability, it has been found to stay accurate even after being "
+"subjected to extreme abuse."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -21331,6 +21488,20 @@ msgstr[1] ""
 msgid ""
 "The M1911 was the US Military standard-issue sidearm for most of the 20th "
 "Century.  It remains one of the most popular .45 pistols today."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "L2031 Enforcer"
+msgid_plural "L2031 Enforcer"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-"
+"action of a semi-auto with the ease-of-handloading and style of a revolver.  "
+"It achieved overnight stardom when it appeared in \"Treasure Trail\", a "
+"popular space-Western series running from 2030 through 2037."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -21445,6 +21616,18 @@ msgid ""
 "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov "
 "pattern as the AK47 rifle.  It reloads with a magazine, rather than one "
 "shell at a time like most shotguns."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "L12 Defender"
+msgid_plural "L12 Defender"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Leadworks LLC's sole shotgun offering to date has surprisingly good reach, "
+"thanks to its moving barrel and forward-back pump mechanism."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -21626,6 +21809,22 @@ msgstr[1] ""
 msgid ""
 "A highly accurate lever-action hunting rifle chambered for the "
 "powerful .30-06 round."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "L1820 Long Ranger"
+msgid_plural "L1820 Long Ranger"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Numbered to bridge the gap between the USian Frontier and modern Civil "
+"Defense needs, the Long Ranger was designed to give Enforcer users (or "
+"anyone using .45 caliber cartridges) a little extra reach whilst using the "
+"same ammunition.  Synthetic furniture cost it some charm points from the "
+"legendary Winchester rifles it was based upon, but users agree that the "
+"forty-five's punch with the reach of a rifle is worth it."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -24174,6 +24373,12 @@ msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
+"This rotting corpse seeps a glowing ooze from its lesions.  A strange "
+"tattered jumpsuit marks it as an oddity across the wasteland."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
 "This rotting corpse seaps a glowing ooze from its lesions.  A strange "
 "tattered jumpsuit marks it as an oddity across the wasteland."
 msgstr ""
@@ -25449,6 +25654,34 @@ msgid "The multi-cooker's got a mind of its own!  Look out!!"
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "Thriller"
+msgid_plural "Thrillers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"And though you fight to stay alive, \n"
+"Your body starts to shiver. \n"
+"For no mere mortal can resist, \n"
+"The evil of the thriller."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "zombie dancer"
+msgid_plural "zombie dancers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The foulest stench is in the air, \n"
+"The funk of forty thousand years, \n"
+"And grisly ghouls from every tomb, \n"
+"Are closing in to seal your doom!"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "Compsognathus"
 msgid_plural "Compsognathuss"
 msgstr[0] ""
@@ -26596,16 +26829,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "dead flare"
-msgid_plural "dead flares"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-msgid "This is a spent magnesium flare.  It is essentially trash."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
 msgid "hotplate"
 msgid_plural "hotplates"
 msgstr[0] ""
@@ -26748,15 +26971,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "Control laptop"
-msgid_plural "Control laptops"
+msgid "control laptop"
+msgid_plural "control laptops"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"A modified laptop, now capable of transmiting  in the ultra high frequencies "
-"utilized by robots.  Activate it to command robots from afar"
+"A modified laptop, now capable of transmitting in the ultra high frequencies "
+"utilized by robots.  Activate it to command robots from afar."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -29536,7 +29759,7 @@ msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"These are long, aluminum tongs.  They are is commonly used for cooking or in "
+"These are long, aluminum tongs.  They are commonly used for cooking or in "
 "metalworking fabrication recipes."
 msgstr ""
 
@@ -30030,7 +30253,8 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This device converts conventional battery connections to run off of a "
-"Unified Power System instead."
+"Unified Power System instead. Having the UPS on will slowly charge an tool "
+"in your inventory."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -30091,6 +30315,20 @@ msgid ""
 "tailgating.  Its multitude of settings and features promise to handle any "
 "sort of cooking, from parboiling potatoes to cooking curry to popping "
 "popcorn.  There's no manual, but you're sure you can work it out."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "plastic fish trap"
+msgid_plural "plastic fish traps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a makeshift fish trap made from plastic bottles.  It's simple, even "
+"primitive, but easy to use.  The principle of action: the fish swims inside "
+"for bait, but can't get out.  Not humane, prohibited by law, but there are "
+"no cops left to care."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -30636,6 +30874,10 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "speargun spear"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid "fish bait"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -32271,6 +32513,16 @@ msgid "AI tag for when monsters are tamed. This is a bug if you have it."
 msgstr ""
 
 #: lang/json/effects_from_json.py
+msgid "Controlled Monster"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid ""
+"AI tag for when monsters are being controlled by another. This is a bug if "
+"you have it."
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Hit-and-run Running"
 msgstr ""
 
@@ -33053,6 +33305,10 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "thump."
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "datura"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -39678,10 +39934,6 @@ msgid "refugee center"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "refugee renter"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "bandit cabin"
 msgstr ""
 
@@ -39754,8 +40006,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You knew the end was coming. You augmented yourself with some basic bionics "
-"and got additional survival training. Now the end has come, and it is time "
+"You knew the end was coming.  You augmented yourself with some basic bionics "
+"and got additional survival training.  Now the end has come, and it is time "
 "to see if your efforts have paid off."
 msgstr ""
 
@@ -39768,8 +40020,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You knew the end was coming. You augmented yourself with some basic bionics "
-"and got additional survival training. Now the end has come, and it is time "
+"You knew the end was coming.  You augmented yourself with some basic bionics "
+"and got additional survival training.  Now the end has come, and it is time "
 "to see if your efforts have paid off."
 msgstr ""
 
@@ -39782,7 +40034,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"Some would say that there's nothing particularly notable about you. But "
+"Some would say that there's nothing particularly notable about you.  But "
 "you've survived, and that's more than most could say right now."
 msgstr ""
 
@@ -39795,7 +40047,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"Some would say that there's nothing particularly notable about you. But "
+"Some would say that there's nothing particularly notable about you.  But "
 "you've survived, and that's more than most could say right now."
 msgstr ""
 
@@ -39808,8 +40060,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"Tailoring may not seem like the most useful skill when the world has ended. "
-"Most people wouldn't expect a simple tailor to live long. This is your "
+"Tailoring may not seem like the most useful skill when the world has ended.  "
+"Most people wouldn't expect a simple tailor to live long.  This is your "
 "opportunity to prove them wrong."
 msgstr ""
 
@@ -39822,8 +40074,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"Tailoring may not seem like the most useful skill when the world has ended. "
-"Most people wouldn't expect a simple tailor to live long. This is your "
+"Tailoring may not seem like the most useful skill when the world has ended.  "
+"Most people wouldn't expect a simple tailor to live long.  This is your "
 "opportunity to prove them wrong."
 msgstr ""
 
@@ -39865,8 +40117,8 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Thanks to your time in the lab, you're familiar with the basics of "
-"conducting science. You escaped along with the lucky civilians, but at least "
-"you kept your lab gear."
+"conducting science.  You escaped along with the lucky civilians, but at "
+"least you kept your lab gear."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -39879,8 +40131,8 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Thanks to your time in the lab, you're familiar with the basics of "
-"conducting science. You escaped along with the lucky civilians, but at least "
-"you kept your lab gear."
+"conducting science.  You escaped along with the lucky civilians, but at "
+"least you kept your lab gear."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -39892,7 +40144,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"Although you never got your driver's license, you've always loved cars. At "
+"Although you never got your driver's license, you've always loved cars.  At "
 "least now you'll never be wanting for materials."
 msgstr ""
 
@@ -39905,7 +40157,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"Although you never got your driver's license, you've always loved cars. At "
+"Although you never got your driver's license, you've always loved cars.  At "
 "least now you'll never be wanting for materials."
 msgstr ""
 
@@ -39921,7 +40173,7 @@ msgid ""
 "Your flexible outlook on the law, the scuffles you've been in (and avoided) "
 "at the bar, and your impressive ability to weasel your way out of the "
 "consequences of your actions - all these skills have helped ensure your "
-"survival. But how much longer will they hold out?"
+"survival.  But how much longer will they hold out?"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -39936,7 +40188,7 @@ msgid ""
 "Your flexible outlook on the law, the scuffles you've been in (and avoided) "
 "at the bar, and your impressive ability to weasel your way out of the "
 "consequences of your actions - all these skills have helped ensure your "
-"survival. But how much longer will they hold out?"
+"survival.  But how much longer will they hold out?"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -39949,7 +40201,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You were a promising young cyclist with a bright career in front of you "
-"before this all happened. Perhaps you'll never get to participate in the "
+"before this all happened.  Perhaps you'll never get to participate in the "
 "grand tours now, but as the saying goes: Life is like riding a bicycle, you "
 "got to keep moving."
 msgstr ""
@@ -39964,7 +40216,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You were a promising young cyclist with a bright career in front of you "
-"before this all happened. Perhaps you'll never get to participate in the "
+"before this all happened.  Perhaps you'll never get to participate in the "
 "grand tours now, but as the saying goes: Life is like riding a bicycle, you "
 "got to keep moving."
 msgstr ""
@@ -39978,10 +40230,10 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You were a high school drop-out with one goal in mind: to join the military. "
-"You finally got in, just in time for your training to get interrupted by a "
-"national emergency. As far as you can tell, military command abandoned you "
-"in this hellhole when you missed the emergency evac."
+"You were a high school drop-out with one goal in mind: to join the "
+"military.  You finally got in, just in time for your training to get "
+"interrupted by a national emergency.  As far as you can tell, military "
+"command abandoned you in this hellhole when you missed the emergency evac."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -39993,10 +40245,10 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You were a high school drop-out with one goal in mind: to join the military. "
-"You finally got in, just in time for your training to get interrupted by a "
-"national emergency. As far as you can tell, military command abandoned you "
-"in this hellhole when you missed the emergency evac."
+"You were a high school drop-out with one goal in mind: to join the "
+"military.  You finally got in, just in time for your training to get "
+"interrupted by a national emergency.  As far as you can tell, military "
+"command abandoned you in this hellhole when you missed the emergency evac."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40008,8 +40260,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You were the best of the best, the military's finest. That's why you're "
-"still alive, even after all your comrades fell to the undead. As far as you "
+"You were the best of the best, the military's finest.  That's why you're "
+"still alive, even after all your comrades fell to the undead.  As far as you "
 "can tell, military command abandoned you in this hellhole when you missed "
 "the emergency evac."
 msgstr ""
@@ -40023,8 +40275,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You were the best of the best, the military's finest. That's why you're "
-"still alive, even after all your comrades fell to the undead. As far as you "
+"You were the best of the best, the military's finest.  That's why you're "
+"still alive, even after all your comrades fell to the undead.  As far as you "
 "can tell, military command abandoned you in this hellhole when you missed "
 "the emergency evac."
 msgstr ""
@@ -40065,7 +40317,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Fresh out of med school, you've got little in the way of practical "
-"experience. You just hope it will be enough if the old adage of 'Doctor, "
+"experience.  You just hope it will be enough if the old adage of 'Doctor, "
 "heal thyself' ends up being required."
 msgstr ""
 
@@ -40079,7 +40331,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Fresh out of med school, you've got little in the way of practical "
-"experience. You just hope it will be enough if the old adage of 'Doctor, "
+"experience.  You just hope it will be enough if the old adage of 'Doctor, "
 "heal thyself' ends up being required."
 msgstr ""
 
@@ -40092,9 +40344,9 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"The boss always said he could rely on you to pull through on the tough jobs. "
-"A shame he didn't manage it, himself. No stranger to a spot of violence, you "
-"almost feel at home in this new world already."
+"The boss always said he could rely on you to pull through on the tough "
+"jobs.  A shame he didn't manage it, himself.  No stranger to a spot of "
+"violence, you almost feel at home in this new world already."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40106,9 +40358,9 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"The boss always said he could rely on you to pull through on the tough jobs. "
-"A shame he didn't manage it, himself. No stranger to a spot of violence, you "
-"almost feel at home in this new world already."
+"The boss always said he could rely on you to pull through on the tough "
+"jobs.  A shame he didn't manage it, himself.  No stranger to a spot of "
+"violence, you almost feel at home in this new world already."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40121,7 +40373,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "A low paid security guard, things have suddenly gotten a lot more dangerous "
-"than patrolling the grounds warding off potential thieves. You don't have "
+"than patrolling the grounds warding off potential thieves.  You don't have "
 "any particularly useful skills, but you do have some useful equipment since "
 "you were on the job when things started going south."
 msgstr ""
@@ -40136,7 +40388,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "A low paid security guard, things have suddenly gotten a lot more dangerous "
-"than patrolling the grounds warding off potential thieves. You don't have "
+"than patrolling the grounds warding off potential thieves.  You don't have "
 "any particularly useful skills, but you do have some useful equipment since "
 "you were on the job when things started going south."
 msgstr ""
@@ -40152,8 +40404,8 @@ msgctxt "prof_desc_male"
 msgid ""
 "Skilled at surviving off the land far from civilization, your skills are "
 "quite likely to come in useful considering civilization is now full of "
-"monsters that want you dead. Your equipment is basic, but versatile - and "
-"with your skills, more than you need... except your canteen's run out!"
+"monsters that want you dead.  Your equipment is basic, but versatile - and "
+"with your skills, more than you need...  except your canteen's run out!"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40167,8 +40419,8 @@ msgctxt "prof_desc_female"
 msgid ""
 "Skilled at surviving off the land far from civilization, your skills are "
 "quite likely to come in useful considering civilization is now full of "
-"monsters that want you dead. Your equipment is basic, but versatile - and "
-"with your skills, more than you need... except your canteen's run out!"
+"monsters that want you dead.  Your equipment is basic, but versatile - and "
+"with your skills, more than you need...  except your canteen's run out!"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40181,7 +40433,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Everyone at work knew you as the person who always had a cigarette or two in "
-"hand. Now, you're down to a single pack, and you hope you find more soon. "
+"hand.  Now, you're down to a single pack, and you hope you find more soon.  "
 "You start out with a strong nicotine addiction."
 msgstr ""
 
@@ -40195,7 +40447,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Everyone at work knew you as the person who always had a cigarette or two in "
-"hand. Now, you're down to a single pack, and you hope you find more soon. "
+"hand.  Now, you're down to a single pack, and you hope you find more soon.  "
 "You start out with a strong nicotine addiction."
 msgstr ""
 
@@ -40208,7 +40460,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"Cocaine. It is, indeed, a helluva drug. You blew your money on some dust, "
+"Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, "
 "and before you knew it you were turning tricks behind the local CVS just to "
 "score one more line."
 msgstr ""
@@ -40222,7 +40474,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"Cocaine. It is, indeed, a helluva drug. You blew your money on some dust, "
+"Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, "
 "and before you knew it you were turning tricks behind the local CVS just to "
 "score one more line."
 msgstr ""
@@ -40238,8 +40490,8 @@ msgctxt "prof_desc_male"
 msgid ""
 "Society drove you to the fringes and set you wandering, with no home, no "
 "family, no friends, until you could only find solace in the bottom of a "
-"bottle. But society doesn't mean a thing anymore, and for all the crap "
-"thrown your way, you're still standing. God damn, you need a drink."
+"bottle.  But society doesn't mean a thing anymore, and for all the crap "
+"thrown your way, you're still standing.  God damn, you need a drink."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40253,8 +40505,8 @@ msgctxt "prof_desc_female"
 msgid ""
 "Society drove you to the fringes and set you wandering, with no home, no "
 "family, no friends, until you could only find solace in the bottom of a "
-"bottle. But society doesn't mean a thing anymore, and for all the crap "
-"thrown your way, you're still standing. God damn, you need a drink."
+"bottle.  But society doesn't mean a thing anymore, and for all the crap "
+"thrown your way, you're still standing.  God damn, you need a drink."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40295,8 +40547,8 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Just a small-town deputy when you got the call, you were still ready to come "
-"to the rescue. Except that soon it was you who needed rescuing - you were "
-"lucky to escape with your life. Who's going to respect your authority when "
+"to the rescue.  Except that soon it was you who needed rescuing - you were "
+"lucky to escape with your life.  Who's going to respect your authority when "
 "the government this badge represents might not even exist anymore?"
 msgstr ""
 
@@ -40310,8 +40562,8 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Just a small-town deputy when you got the call, you were still ready to come "
-"to the rescue. Except that soon it was you who needed rescuing - you were "
-"lucky to escape with your life. Who's going to respect your authority when "
+"to the rescue.  Except that soon it was you who needed rescuing - you were "
+"lucky to escape with your life.  Who's going to respect your authority when "
 "the government this badge represents might not even exist anymore?"
 msgstr ""
 
@@ -40325,7 +40577,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You've been accused of being the sort of person who'd be willing to sell "
-"your own mother for a dollar. It always left you insulted - you've been "
+"your own mother for a dollar.  It always left you insulted - you've been "
 "around the block a time or two, and you'd charge way more than a dollar - "
 "and get it, too!"
 msgstr ""
@@ -40340,7 +40592,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You've been accused of being the sort of person who'd be willing to sell "
-"your own mother for a dollar. It always left you insulted - you've been "
+"your own mother for a dollar.  It always left you insulted - you've been "
 "around the block a time or two, and you'd charge way more than a dollar - "
 "and get it, too!"
 msgstr ""
@@ -40355,9 +40607,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Ever since you were a child you loved hunting, and you soon took a liking to "
-"the challenge of hunting with a bow. Why, if the world ended there's nothing "
-"you'd want at your side more than your trusty bow. So when it did, you made "
-"made sure to bring it along."
+"the challenge of hunting with a bow.  Why, if the world ended there's "
+"nothing you'd want at your side more than your trusty bow.  So when it did, "
+"you made made sure to bring it along."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40370,9 +40622,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Ever since you were a child you loved hunting, and you soon took a liking to "
-"the challenge of hunting with a bow. Why, if the world ended there's nothing "
-"you'd want at your side more than your trusty bow. So when it did, you made "
-"made sure to bring it along."
+"the challenge of hunting with a bow.  Why, if the world ended there's "
+"nothing you'd want at your side more than your trusty bow.  So when it did, "
+"you made made sure to bring it along."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40385,9 +40637,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You used to work at a local hardware store, and you did a lot of home "
-"renovations yourself. Now you look out at the horizon of a ruined world, and "
-"wonder - are your meager skills, and the few supplies you grabbed on the way "
-"out, sufficient to help it rebuild?"
+"renovations yourself.  Now you look out at the horizon of a ruined world, "
+"and wonder - are your meager skills, and the few supplies you grabbed on the "
+"way out, sufficient to help it rebuild?"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40400,9 +40652,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You used to work at a local hardware store, and you did a lot of home "
-"renovations yourself. Now you look out at the horizon of a ruined world, and "
-"wonder - are your meager skills, and the few supplies you grabbed on the way "
-"out, sufficient to help it rebuild?"
+"renovations yourself.  Now you look out at the horizon of a ruined world, "
+"and wonder - are your meager skills, and the few supplies you grabbed on the "
+"way out, sufficient to help it rebuild?"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40414,7 +40666,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You're a lumberjack, and you're okay. You felled trees before before the "
+"You're a lumberjack, and you're okay.  You felled trees before before the "
 "world ended, but suspect the undead aren't nearly as tough."
 msgstr ""
 
@@ -40427,7 +40679,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You're a lumberjack, and you're okay. You felled trees before before the "
+"You're a lumberjack, and you're okay.  You felled trees before before the "
 "world ended, but suspect the undead aren't nearly as tough."
 msgstr ""
 
@@ -40441,7 +40693,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You've travelled for a living, sightseeing here and there, and living off "
-"your parents' trust fund. But now they're gone, and the only thing between "
+"your parents' trust fund.  But now they're gone, and the only thing between "
 "you and death is the open road and your backpack."
 msgstr ""
 
@@ -40455,7 +40707,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You've travelled for a living, sightseeing here and there, and living off "
-"your parents' trust fund. But now they're gone, and the only thing between "
+"your parents' trust fund.  But now they're gone, and the only thing between "
 "you and death is the open road and your backpack."
 msgstr ""
 
@@ -40496,7 +40748,7 @@ msgctxt "prof_desc_male"
 msgid ""
 "You used to work for some small-time business owners doing minor electrical "
 "work, and you just so happened to be working on one of these jokes of an "
-"evac shelter when the cataclysm struck. Unfortunately, you didn't finish "
+"evac shelter when the cataclysm struck.  Unfortunately, you didn't finish "
 "wiring anything up except the computer - fat lot of good it's doing you now."
 msgstr ""
 
@@ -40511,7 +40763,7 @@ msgctxt "prof_desc_female"
 msgid ""
 "You used to work for some small-time business owners doing minor electrical "
 "work, and you just so happened to be working on one of these jokes of an "
-"evac shelter when the cataclysm struck. Unfortunately, you didn't finish "
+"evac shelter when the cataclysm struck.  Unfortunately, you didn't finish "
 "wiring anything up except the computer - fat lot of good it's doing you now."
 msgstr ""
 
@@ -40526,8 +40778,8 @@ msgctxt "prof_desc_male"
 msgid ""
 "Caffeine pills and all-nighters in front of a computer screen have given you "
 "skills in an area that seem, on the face of it, distinctly less-than-useful "
-"when the world has ended. You suppose you can't really get in trouble for "
-"fulfilling your dream of hacking into a military mainframe, now. That's a "
+"when the world has ended.  You suppose you can't really get in trouble for "
+"fulfilling your dream of hacking into a military mainframe, now.  That's a "
 "plus."
 msgstr ""
 
@@ -40542,8 +40794,8 @@ msgctxt "prof_desc_female"
 msgid ""
 "Caffeine pills and all-nighters in front of a computer screen have given you "
 "skills in an area that seem, on the face of it, distinctly less-than-useful "
-"when the world has ended. You suppose you can't really get in trouble for "
-"fulfilling your dream of hacking into a military mainframe, now. That's a "
+"when the world has ended.  You suppose you can't really get in trouble for "
+"fulfilling your dream of hacking into a military mainframe, now.  That's a "
 "plus."
 msgstr ""
 
@@ -40557,7 +40809,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You were a high school student, but the tests you'll face now will have much "
-"higher stakes. There might even be something useful in one of these books "
+"higher stakes.  There might even be something useful in one of these books "
 "you've been lugging around all year."
 msgstr ""
 
@@ -40571,7 +40823,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You were a high school student, but the tests you'll face now will have much "
-"higher stakes. There might even be something useful in one of these books "
+"higher stakes.  There might even be something useful in one of these books "
 "you've been lugging around all year."
 msgstr ""
 
@@ -40586,7 +40838,7 @@ msgctxt "prof_desc_male"
 msgid ""
 "You were in the middle of a nice, hot shower when the cataclysm struck! You "
 "barely managed to escape with some soap and the most massively useful thing "
-"ever... a towel."
+"ever...  a towel."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40600,7 +40852,7 @@ msgctxt "prof_desc_female"
 msgid ""
 "You were in the middle of a nice, hot shower when the cataclysm struck! You "
 "barely managed to escape with some soap and the most massively useful thing "
-"ever... a towel."
+"ever...  a towel."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40665,7 +40917,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You have done many high profile heists, but your gains mean nothing in this "
-"world. All you have left are the tools of your trade and your impeccable "
+"world.  All you have left are the tools of your trade and your impeccable "
 "style."
 msgstr ""
 
@@ -40679,7 +40931,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You have done many high profile heists, but your gains mean nothing in this "
-"world. All you have left are the tools of your trade and your impeccable "
+"world.  All you have left are the tools of your trade and your impeccable "
 "style."
 msgstr ""
 
@@ -40692,9 +40944,10 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"Medical advances have saved your body from certain death. You are augmented "
-"with bionic muscles and sensors monitoring your blood powered by your own "
-"metabolism. Make the most of your second chance at life."
+"When the diagnosis came back positive you signed up for a series of "
+"experimental bionic surgeries that saved your life.  Now you're healthier "
+"than you ever were before, thanks to a suite of bionic systems powered by "
+"standard batteries.  Make the most of your second chance at life."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40706,9 +40959,152 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"Medical advances have saved your body from certain death. You are augmented "
-"with bionic muscles and sensors monitoring your blood powered by your own "
-"metabolism. Make the most of your second chance at life."
+"When the diagnosis came back positive you signed up for a series of "
+"experimental bionic surgeries that saved your life.  Now you're healthier "
+"than you ever were before, thanks to a suite of bionic systems powered by "
+"standard batteries.  Make the most of your second chance at life."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Industrial Cyborg"
+msgstr ""
+
+#. ~ Profession (male Industrial Cyborg) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"For better or for worse, bionic augmentation has turned you into a walking "
+"power tool.  Upgraded with a standard industrial-grade manual labor surgery "
+"and training package, you are augmented with bionic muscles and an "
+"integrated toolset, both powered by standard batteries."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Industrial Cyborg"
+msgstr ""
+
+#. ~ Profession (female Industrial Cyborg) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"For better or for worse, bionic augmentation has turned you into a walking "
+"power tool.  Upgraded with a standard industrial-grade manual labor surgery "
+"and training package, you are augmented with bionic muscles and an "
+"integrated toolset, both powered by standard batteries."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Athlete"
+msgstr ""
+
+#. ~ Profession (male Bionic Athlete) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"It's a shame the apocalypse happened; you'll never get a shot at the "
+"Cyberolympics.  Now the only thing between you and death by zombie is your "
+"freakish cyborg strength."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bionic Athlete"
+msgstr ""
+
+#. ~ Profession (female Bionic Athlete) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"It's a shame the apocalypse happened; you'll never get a shot at the "
+"Cyberolympics.  Now the only thing between you and death by zombie is your "
+"freakish cyborg strength."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Police Officer"
+msgstr ""
+
+#. ~ Profession (male Bionic Police Officer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"Mortally injured in the line of duty, you were resurrected by the surgeons "
+"from the department's revolutionary Cybercop program.  Now, in these lawless "
+"times, you are truly the future of law enforcement."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bionic Police Officer"
+msgstr ""
+
+#. ~ Profession (female Bionic Police Officer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"Mortally injured in the line of duty, you were resurrected by the surgeons "
+"from the department's revolutionary Cybercop program.  Now, in these lawless "
+"times, you are truly the future of law enforcement."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Firefighter"
+msgstr ""
+
+#. ~ Profession (male Bionic Firefighter) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"As a second-generation augmented firefighter, you have been cybernetically "
+"enhanced to operate in the most dire of emergency situations.  The end of "
+"the world definitely counts as a dire situation."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bionic Firefighter"
+msgstr ""
+
+#. ~ Profession (female Bionic Firefighter) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"As a second-generation augmented firefighter, you have been cybernetically "
+"enhanced to operate in the most dire of emergency situations.  The end of "
+"the world definitely counts as a dire situation."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Boffin"
+msgstr ""
+
+#. ~ Profession (male Bionic Boffin) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"Prior to the apocalypse you were employed by a major international "
+"corporation as a representative and technical advisor, utilizing the "
+"incredible power of your cybernetically augmented mind."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bionic Boffin"
+msgstr ""
+
+#. ~ Profession (female Bionic Boffin) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"Prior to the apocalypse you were employed by a major international "
+"corporation as a representative and technical advisor, utilizing the "
+"incredible power of your cybernetically augmented mind."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40721,7 +41117,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You are the result of one of the military's latest and final research "
-"programs, a prototype cyborg soldier. You're still alive thanks to your "
+"programs, a prototype cyborg soldier.  You're still alive thanks to your "
 "augmentations, even after all your comrades fell to the undead."
 msgstr ""
 
@@ -40735,7 +41131,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You are the result of one of the military's latest and final research "
-"programs, a prototype cyborg soldier. You're still alive thanks to your "
+"programs, a prototype cyborg soldier.  You're still alive thanks to your "
 "augmentations, even after all your comrades fell to the undead."
 msgstr ""
 
@@ -40749,9 +41145,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Your body has several bionics worth millions of dollars, paid for by public "
-"taxes. The government has turned you into an infiltration and recon "
-"specialist: you have night vision, an alarm and a hacking module. And it all "
-"runs off piles and piles of everyday household batteries."
+"taxes.  The government has turned you into an infiltration and recon "
+"specialist: you have night vision, an alarm and a hacking module.  And it "
+"all runs off piles and piles of everyday household batteries."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40764,9 +41160,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Your body has several bionics worth millions of dollars, paid for by public "
-"taxes. The government has turned you into an infiltration and recon "
-"specialist: you have night vision, an alarm and a hacking module. And it all "
-"runs off piles and piles of everyday household batteries."
+"taxes.  The government has turned you into an infiltration and recon "
+"specialist: you have night vision, an alarm and a hacking module.  And it "
+"all runs off piles and piles of everyday household batteries."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40806,9 +41202,9 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"Your body is a wreck of bionic parts. You have a large capacity for power, "
-"but are filled with broken bionics. At least your ethanol power supply still "
-"works."
+"Your body is a wreck of bionic parts.  You have a large capacity for power, "
+"but are filled with broken bionics.  At least your ethanol power supply "
+"still works."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40820,9 +41216,9 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"Your body is a wreck of bionic parts. You have a large capacity for power, "
-"but are filled with broken bionics. At least your ethanol power supply still "
-"works."
+"Your body is a wreck of bionic parts.  You have a large capacity for power, "
+"but are filled with broken bionics.  At least your ethanol power supply "
+"still works."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40890,8 +41286,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You spent most of your life trapping with your father. Both of you made a "
-"decent living off of your catches, and trapping tutorials. Hopefully, your "
+"You spent most of your life trapping with your father.  Both of you made a "
+"decent living off of your catches, and trapping tutorials.  Hopefully, your "
 "skills will come in useful against less conventional game."
 msgstr ""
 
@@ -40904,8 +41300,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You spent most of your life trapping with your father. Both of you made a "
-"decent living off of your catches, and trapping tutorials. Hopefully, your "
+"You spent most of your life trapping with your father.  Both of you made a "
+"decent living off of your catches, and trapping tutorials.  Hopefully, your "
 "skills will come in useful against less conventional game."
 msgstr ""
 
@@ -40919,7 +41315,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You were going through your community college's metalsmithing program when "
-"the world ended. You ran into trouble coming out of class - but managed to "
+"the world ended.  You ran into trouble coming out of class - but managed to "
 "keep ahold of the equipment you were carrying at the time."
 msgstr ""
 
@@ -40933,7 +41329,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You were going through your community college's metalsmithing program when "
-"the world ended. You ran into trouble coming out of class - but managed to "
+"the world ended.  You ran into trouble coming out of class - but managed to "
 "keep ahold of the equipment you were carrying at the time."
 msgstr ""
 
@@ -40946,8 +41342,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"All you ever wanted was to make people laugh. Dropping out of school and "
-"performing at kids' parties was a dream come true until the world ended. "
+"All you ever wanted was to make people laugh.  Dropping out of school and "
+"performing at kids' parties was a dream come true until the world ended.  "
 "There's precious few balloon animals in your future now."
 msgstr ""
 
@@ -40960,8 +41356,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"All you ever wanted was to make people laugh. Dropping out of school and "
-"performing at kids' parties was a dream come true until the world ended. "
+"All you ever wanted was to make people laugh.  Dropping out of school and "
+"performing at kids' parties was a dream come true until the world ended.  "
 "There's precious few balloon animals in your future now."
 msgstr ""
 
@@ -40975,8 +41371,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Early in the rush to safety, you were separated from your master by cruel "
-"fate. Now you are on your own with nothing to your name but a suit of really "
-"kinky black leather. Unfortunately, there's no safewords in the apocalypse."
+"fate.  Now you are on your own with nothing to your name but a suit of "
+"really kinky black leather.  Unfortunately, there's no safewords in the "
+"apocalypse."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -40989,8 +41386,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Early in the rush to safety, you were separated from your master by cruel "
-"fate. Now you are on your own with nothing to your name but a suit of really "
-"kinky black leather. Unfortunately, there's no safewords in the apocalypse."
+"fate.  Now you are on your own with nothing to your name but a suit of "
+"really kinky black leather.  Unfortunately, there's no safewords in the "
+"apocalypse."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41002,7 +41400,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You haven't seen this much blood since the war. The whole world's gone "
+"You haven't seen this much blood since the war.  The whole world's gone "
 "crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for "
 "what they've done."
 msgstr ""
@@ -41016,7 +41414,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You haven't seen this much blood since the war. The whole world's gone "
+"You haven't seen this much blood since the war.  The whole world's gone "
 "crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for "
 "what they've done."
 msgstr ""
@@ -41059,7 +41457,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You were a minor-league hockey goalie before the rest of your team became "
-"zombies. It's just you and your hockey equipment versus the undead, but at "
+"zombies.  It's just you and your hockey equipment versus the undead, but at "
 "least you can cross-check them now."
 msgstr ""
 
@@ -41073,7 +41471,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You were a minor-league hockey goalie before the rest of your team became "
-"zombies. It's just you and your hockey equipment versus the undead, but at "
+"zombies.  It's just you and your hockey equipment versus the undead, but at "
 "least you can cross-check them now."
 msgstr ""
 
@@ -41086,7 +41484,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You were a batter on a local minor league team before the cataclysm. You "
+"You were a batter on a local minor league team before the cataclysm.  You "
 "escaped with your equipment, but how long can you survive until your innings "
 "are up?"
 msgstr ""
@@ -41100,7 +41498,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You were a batter on a local minor league team before the cataclysm. You "
+"You were a batter on a local minor league team before the cataclysm.  You "
 "escaped with your equipment, but how long can you survive until your innings "
 "are up?"
 msgstr ""
@@ -41115,8 +41513,8 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You were the star player for the local football team, adored by teammates "
-"and fans alike. Now they just adore your brain. You've still got your bulky "
-"football gear on."
+"and fans alike.  Now they just adore your brain.  You've still got your "
+"bulky football gear on."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41129,8 +41527,8 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You were the star player for the local football team, adored by teammates "
-"and fans alike. Now they just adore your brain. You've still got your bulky "
-"football gear on."
+"and fans alike.  Now they just adore your brain.  You've still got your "
+"bulky football gear on."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41169,7 +41567,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "The cataclysm struck on the big day and you escaped with nothing but your "
-"wedding attire. Cold feet? You'd just like to keep your feet attached!"
+"wedding attire.  Cold feet? You'd just like to keep your feet attached!"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41182,7 +41580,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "The cataclysm struck on the big day and you escaped with nothing but your "
-"wedding attire. Cold feet? You'd just like to keep your feet attached!"
+"wedding attire.  Cold feet? You'd just like to keep your feet attached!"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41194,7 +41592,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"The apocalypse has been your psychotic dream come true. Now that the system "
+"The apocalypse has been your psychotic dream come true.  Now that the system "
 "is dead, it's time to party among the bones of the world!"
 msgstr ""
 
@@ -41207,7 +41605,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"The apocalypse has been your psychotic dream come true. Now that the system "
+"The apocalypse has been your psychotic dream come true.  Now that the system "
 "is dead, it's time to party among the bones of the world!"
 msgstr ""
 
@@ -41221,9 +41619,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "As a first responder you were direct witness to the gutwrenching horrors of "
-"the apocalypse. Separated from most of your equipment and your unit while on "
-"call, you were forced to fight your way to safety with little more than your "
-"trusty iron and bunker gear to protect you."
+"the apocalypse.  Separated from most of your equipment and your unit while "
+"on call, you were forced to fight your way to safety with little more than "
+"your trusty iron and bunker gear to protect you."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41236,9 +41634,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "As a first responder you were direct witness to the gutwrenching horrors of "
-"the apocalypse. Separated from most of your equipment and your unit while on "
-"call, you were forced to fight your way to safety with little more than your "
-"trusty iron and bunker gear to protect you."
+"the apocalypse.  Separated from most of your equipment and your unit while "
+"on call, you were forced to fight your way to safety with little more than "
+"your trusty iron and bunker gear to protect you."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41329,9 +41727,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Through a series of painful and expensive surgeries you became a walking "
-"bionic weapon, your services as a mercenary available to the highest bidder. "
-"Now that the world has ended, those bionic enhancements may spell the "
-"difference between life and death."
+"bionic weapon, your services as a mercenary available to the highest "
+"bidder.  Now that the world has ended, those bionic enhancements may spell "
+"the difference between life and death."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41344,9 +41742,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Through a series of painful and expensive surgeries you became a walking "
-"bionic weapon, your services as a mercenary available to the highest bidder. "
-"Now that the world has ended, those bionic enhancements may spell the "
-"difference between life and death."
+"bionic weapon, your services as a mercenary available to the highest "
+"bidder.  Now that the world has ended, those bionic enhancements may spell "
+"the difference between life and death."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41359,9 +41757,9 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Long ago your lifelong infatuation with bionic enhancement lead you into a "
-"shady world of back-alley bionic clinics and self-installed secondhand CBMs. "
-"The world has moved on but your posthuman hunger still cries out to be fed; "
-"where will you get your bionic fix now?"
+"shady world of back-alley bionic clinics and self-installed secondhand "
+"CBMs.  The world has moved on but your posthuman hunger still cries out to "
+"be fed; where will you get your bionic fix now?"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41374,9 +41772,9 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Long ago your lifelong infatuation with bionic enhancement lead you into a "
-"shady world of back-alley bionic clinics and self-installed secondhand CBMs. "
-"The world has moved on but your posthuman hunger still cries out to be fed; "
-"where will you get your bionic fix now?"
+"shady world of back-alley bionic clinics and self-installed secondhand "
+"CBMs.  The world has moved on but your posthuman hunger still cries out to "
+"be fed; where will you get your bionic fix now?"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41389,7 +41787,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Completely overtaken by bionic-induced psychosis, you are a deformed "
-"posthuman monster who had no place in society. But now, where once you were "
+"posthuman monster who had no place in society.  But now, where once you were "
 "forced to hide in the shadows, you find in this new desolation a world where "
 "even a creature such as yourself might find its niche."
 msgstr ""
@@ -41404,7 +41802,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Completely overtaken by bionic-induced psychosis, you are a deformed "
-"posthuman monster who had no place in society. But now, where once you were "
+"posthuman monster who had no place in society.  But now, where once you were "
 "forced to hide in the shadows, you find in this new desolation a world where "
 "even a creature such as yourself might find its niche."
 msgstr ""
@@ -41419,7 +41817,7 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "Now instead of complaining about your fees, your clients try to eat your "
-"brain. You can't tell which one is worse though."
+"brain.  You can't tell which one is worse though."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41432,7 +41830,7 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "Now instead of complaining about your fees, your clients try to eat your "
-"brain. You can't tell which one is worse though."
+"brain.  You can't tell which one is worse though."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41444,8 +41842,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You were on your way to the dojo for your first lesson when the world ended. "
-"And you really wanted to learn how to swim, too."
+"You were on your way to the dojo for your first lesson when the world "
+"ended.  And you really wanted to learn how to swim, too."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41457,8 +41855,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You were on your way to the dojo for your first lesson when the world ended. "
-"And you really wanted to learn how to swim, too."
+"You were on your way to the dojo for your first lesson when the world "
+"ended.  And you really wanted to learn how to swim, too."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41470,8 +41868,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"'Drop the martial arts!', they said. 'Learn a skill for the REAL world!', "
-"they said. Well, you're about to show them! SHOW THEM ALL!"
+"'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', "
+"they said.  Well, you're about to show them! SHOW THEM ALL!"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41483,8 +41881,8 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"'Drop the martial arts!', they said. 'Learn a skill for the REAL world!', "
-"they said. Well, you're about to show them! SHOW THEM ALL!"
+"'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', "
+"they said.  Well, you're about to show them! SHOW THEM ALL!"
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41523,8 +41921,8 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "You were delivering the last pizza of the night to the local cryogenics lab "
-"when the cataclysm hit. Fleeing to the nearest shelter, you find yourself "
-"with only your wits and some leftover pizza. And they didn't even leave a "
+"when the cataclysm hit.  Fleeing to the nearest shelter, you find yourself "
+"with only your wits and some leftover pizza.  And they didn't even leave a "
 "tip!"
 msgstr ""
 
@@ -41538,8 +41936,8 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "You were delivering the last pizza of the night to the local cryogenics lab "
-"when the cataclysm hit. Fleeing to the nearest shelter, you find yourself "
-"with only your wits and some leftover pizza. And they didn't even leave a "
+"when the cataclysm hit.  Fleeing to the nearest shelter, you find yourself "
+"with only your wits and some leftover pizza.  And they didn't even leave a "
 "tip!"
 msgstr ""
 
@@ -41553,8 +41951,8 @@ msgstr ""
 msgctxt "prof_desc_male"
 msgid ""
 "While on your way to a long-lost temple following a clue from your dead "
-"grandfather's journal, the ground started to shake uncontrollably. Getting a "
-"bad feeling about the situation, you head to the nearest shelter."
+"grandfather's journal, the ground started to shake uncontrollably.  Getting "
+"a bad feeling about the situation, you head to the nearest shelter."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -41567,8 +41965,8 @@ msgstr ""
 msgctxt "prof_desc_female"
 msgid ""
 "While on your way to a long-lost temple following a clue from your dead "
-"grandfather's journal, the ground started to shake uncontrollably. Getting a "
-"bad feeling about the situation, you head to the nearest shelter."
+"grandfather's journal, the ground started to shake uncontrollably.  Getting "
+"a bad feeling about the situation, you head to the nearest shelter."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -42024,7 +42422,7 @@ msgstr ""
 #: lang/json/snippet_from_json.py
 msgid ""
 "This is an advertisement for Robert's Universal Robotics brand law "
-"enforcement robots. It shows a picture of tripod robot incinerating a mob of "
+"enforcement robots. It shows a picture of a tribot incinerating a mob of "
 "looters and stepping over charred and smoking corpses. The caption reads: "
 "\"R.U.R. Technology you can Trust.\""
 msgstr ""
@@ -42139,6 +42537,17 @@ msgid ""
 "an armored steel plate with a gaping hole blasted through the middle. "
 "Sitting beside the plate is a block of brightly colored caseless ammunition. "
 "The caption reads:  \"Rivtech 8x40mm caseless. Nothing else comes close.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is an advertisement for Leadworks LLC's Home Frontier Starter Pack.  It "
+"shows a picture of a young suburban parent, equipped with rifle and "
+"revolver, keeping a steely eye on the neighborhood from the front porch.  "
+"Similarly-armed parents are visible in front of every house on the street.  "
+"Young children are at play and older ones tend a large vegetable garden.  "
+"The caption reads: \"A well-armed community is a SAFE community.  Leadworks, "
+"LLC.\""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -48077,6 +48486,10 @@ msgid "Iodine"
 msgstr ""
 
 #: src/bionics.cpp
+msgid "Anticholinergic Tropane Alkaloids"
+msgstr ""
+
+#: src/bionics.cpp
 msgid "Antihistamines"
 msgstr ""
 
@@ -48230,10 +48643,6 @@ msgstr ""
 
 #: src/bionics.cpp
 msgid "You unleash a powerful shockwave!"
-msgstr ""
-
-#: src/bionics.cpp
-msgid "Your internal UPS powers on."
 msgstr ""
 
 #: src/bionics.cpp
@@ -48449,6 +48858,10 @@ msgstr ""
 
 #: src/bodypart.cpp
 msgid "left foot"
+msgstr ""
+
+#: src/bodypart.cpp
+msgid "right foot"
 msgstr ""
 
 #: src/bodypart.cpp
@@ -49691,8 +50104,9 @@ msgstr ""
 
 #: src/crafting.cpp
 msgid ""
-"Search tools or component using prefix t and c. \n"
-"(i.e. \"t:hammer\" or \"c:two by four\".)"
+"Search tools or component using prefix t. \n"
+"Search skills using prefix s, or S for skill used only. \n"
+" (i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"
 msgstr ""
 
 #: src/crafting.cpp
@@ -50101,6 +50515,11 @@ msgstr ""
 #: src/creature.cpp
 #, c-format
 msgid "The shot reflects off %s %s!"
+msgstr ""
+
+#. ~ “hit points”, used in scrolling combat text
+#: src/creature.cpp src/melee.cpp
+msgid "hp"
 msgstr ""
 
 #: src/creature.cpp
@@ -50947,6 +51366,41 @@ msgid "Your bones feel like they're crumbling."
 msgstr ""
 
 #: src/disease.cpp
+msgid "You can breathe again!"
+msgstr ""
+
+#: src/disease.cpp
+msgid ""
+"You're experiencing loss of basic motor skills and blurred vision.  Your "
+"mind recoils in horror, unable to communicate with your spinal column."
+msgstr ""
+
+#: src/disease.cpp
+msgid "You stagger and fall!"
+msgstr ""
+
+#: src/disease.cpp
+msgid "There's some kind of big machine in the sky."
+msgstr ""
+
+#: src/disease.cpp
+msgid "It's some kind of electric snake, coming right at you!"
+msgstr ""
+
+#: src/disease.cpp
+msgid ""
+"Order us some golf shoes, otherwise we'll never get out of this place alive."
+msgstr ""
+
+#: src/disease.cpp
+msgid "The possibility of physical and mental collapse is now very real."
+msgstr ""
+
+#: src/disease.cpp
+msgid "No one should be asked to handle this trip."
+msgstr ""
+
+#: src/disease.cpp
 msgid "You're winded from smoking."
 msgstr ""
 
@@ -51529,6 +51983,10 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Meth Comedown"
+msgstr ""
+
+#: src/disease.cpp
+msgid "Experiencing Datura"
 msgstr ""
 
 #: src/disease.cpp
@@ -52227,6 +52685,10 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "You can't trust everything that you see."
+msgstr ""
+
+#: src/disease.cpp
+msgid "Buy the ticket, take the ride.  The datura has you now."
 msgstr ""
 
 #: src/disease.cpp
@@ -54708,6 +55170,28 @@ msgid "Died of a healing stimulant overdose."
 msgstr ""
 
 #: src/game.cpp
+msgid ""
+"Your heart spasms painfully and stops, dragging you back to reality as you "
+"die."
+msgstr ""
+
+#: src/game.cpp
+msgid ""
+"You dissolve into beautiful paroxysms of energy.  Life fades from your "
+"nebulae and you are no more."
+msgstr ""
+
+#: src/game.cpp
+msgctxt "memorial_male"
+msgid "Died of datura overdose."
+msgstr ""
+
+#: src/game.cpp
+msgctxt "memorial_female"
+msgid "Died of datura overdose."
+msgstr ""
+
+#: src/game.cpp
 msgid "You have starved to death."
 msgstr ""
 
@@ -55069,6 +55553,15 @@ msgstr ""
 
 #: src/game.cpp
 msgid "No radio car connected."
+msgstr ""
+
+#: src/game.cpp
+msgid "sound of a collision with an obstacle."
+msgstr ""
+
+#. ~ Sound of moving a remote controlled car
+#: src/game.cpp
+msgid "zzz..."
 msgstr ""
 
 #: src/game.cpp
@@ -56101,7 +56594,8 @@ msgid "No controls there."
 msgstr ""
 
 #: src/game.cpp
-msgid "What to do with zombie slave?"
+#, c-format
+msgid "What to do with your %s?"
 msgstr ""
 
 #: src/game.cpp
@@ -56109,7 +56603,8 @@ msgid "Swap positions"
 msgstr ""
 
 #: src/game.cpp
-msgid "Push zombie slave"
+#, c-format
+msgid "Push %s"
 msgstr ""
 
 #: src/game.cpp
@@ -56141,19 +56636,23 @@ msgid "Tear out pheromone ball"
 msgstr ""
 
 #: src/game.cpp
-msgid "You swap positions with your zombie slave."
+#, c-format
+msgid "You swap positions with your %s."
 msgstr ""
 
 #: src/game.cpp
-msgid "You fail to budge the zombie slave!"
+#, c-format
+msgid "You fail to budge your %s!"
 msgstr ""
 
 #: src/game.cpp
-msgid "You pushed the zombie slave."
+#, c-format
+msgid "You pushed the %s."
 msgstr ""
 
 #: src/game.cpp
-msgid "You pushed the zombie slave, but it resisted."
+#, c-format
+msgid "You pushed the %s, but it resisted."
 msgstr ""
 
 #: src/game.cpp
@@ -56166,28 +56665,37 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You mount the %s on your zombie slave, ready to store gear."
+msgid "You mount the %s on your %s, ready to store gear."
 msgstr ""
 
 #: src/game.cpp
-msgid "You dump the contents of the zombie slave's bag on the ground."
+#, c-format
+msgid "You dump the contents of the %s's bag on the ground."
 msgstr ""
 
 #: src/game.cpp
-msgid "Your zombie slave has nothing to carry that in!"
+#, c-format
+msgid "There is no container on your %s to put things in!"
 msgstr ""
 
 #: src/game.cpp
-msgid "Your zombie slave's doesn't have space for that, it's too bulky!"
+#, c-format
+msgid "There's no room in your %s's %s for that, it's too bulky!"
 msgstr ""
 
 #: src/game.cpp
-msgid "You stash some gear on your zombie slave."
+#, c-format
+msgid "You stash some gear in your %s's %s."
 msgstr ""
 
 #: src/game.cpp
 #, c-format
 msgid "%s did not fit and fell to the ground!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "%s is too heavy and fell to the ground!"
 msgstr ""
 
 #: src/game.cpp
@@ -56824,15 +57332,7 @@ msgid "You found some trash!"
 msgstr ""
 
 #: src/game.cpp
-msgid "You found some wild veggies!"
-msgstr ""
-
-#: src/game.cpp
-msgid "You found some wild mushrooms!"
-msgstr ""
-
-#: src/game.cpp
-msgid "You found a nest with some eggs!"
+msgid "You found something!"
 msgstr ""
 
 #: src/game.cpp
@@ -59372,6 +59872,10 @@ msgid "You drink some nectar."
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "This plant is dead. You can't get it."
+msgstr ""
+
+#: src/iexamine.cpp
 #, c-format
 msgid "Harvest the %s?"
 msgstr ""
@@ -59588,12 +60092,12 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "%.3f kg"
+msgid "%.3f lbs"
 msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "%.3f lbs"
+msgid "%.3f kg"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -60936,8 +61440,7 @@ msgid "Your wound still hurts."
 msgstr ""
 
 #: src/iuse.cpp
-#: src/iuse.cpp src/iuse_actor.cpp
-#: src/player.cpp
+#: src/iuse_actor.cpp src/player.cpp
 msgid "You can't do that while underwater."
 msgstr ""
 
@@ -61167,6 +61670,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You take an iodine tablet."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You eat the datura seed."
 msgstr ""
 
 #: src/iuse.cpp
@@ -62008,6 +62515,18 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You cast your line and wait to hook something..."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Fish is not so silly to go in here without bait."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Put fish trap where?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You place the fish trap, in a half hour or so you might have some fish."
 msgstr ""
 
 #: src/iuse.cpp
@@ -63684,7 +64203,7 @@ msgid ""
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Selectively butcher the downed zombie into a zlave?"
+msgid "Selectively butcher the downed zombie into a zombie slave?"
 msgstr ""
 
 #: src/iuse.cpp
@@ -63724,7 +64243,7 @@ msgid "Cauterize...for FUN!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Make zlave"
+msgid "Make zombie slave"
 msgstr ""
 
 #: src/iuse.cpp
@@ -68827,6 +69346,61 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %s lets out a high-pitched cry!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s swings its arms from side to side!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s does some fancy footwork!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s shrugs its shoulders!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s spins in place!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s crouches on the ground!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s looks left and right!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s jumps back and forth!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s raises its arms in the air!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s swings its hips!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s claps!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %s's head explodes in a mass of roiling tentacles!"
 msgstr ""
 
@@ -69306,6 +69880,10 @@ msgstr ""
 
 #: src/mondeath.cpp
 msgid "Two small blobs slither out of the corpse."
+msgstr ""
+
+#: src/mondeath.cpp
+msgid "The music stops!"
 msgstr ""
 
 #: src/mondeath.cpp
@@ -71917,7 +72495,7 @@ msgid ""
 "designed to make people feel safer... not actually aid in their survival.  "
 "Our radio equipment is utter garbage that someone convinced the government "
 "to buy, with no intention of it ever being used.  From the passing "
-"scavangers I've heard nothing but prime loot'n spots and rumors of hordes."
+"scavengers I've heard nothing but prime loot'n spots and rumors of hordes."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -72002,7 +72580,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid ""
-"That's just our nickname for them. They're whats left of the federal "
+"That's just our nickname for them. They're what's left of the federal "
 "government.  Don't know how legitimate they are but they are named after "
 "some military unit that once protected the president.  Their liaison is "
 "usually hanging around here somewhere."
@@ -72120,7 +72698,7 @@ msgstr ""
 #: src/npctalk.cpp
 msgid ""
 "Yep. Whatever game I spot, I bag and sell the meat and other parts here. Got "
-"the occaisional fish and basketfull of wild fruit, but nothing comes close "
+"the occasional fish and basket full of wild fruit, but nothing comes close "
 "to a freshly-cooked moose steak for supper!"
 msgstr ""
 
@@ -72242,7 +72820,7 @@ msgid ""
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "That sure is a shiney badge you got there!"
+msgid "That sure is a shiny badge you got there!"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -73526,10 +74104,6 @@ msgid "Can you teach me anything?"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "asked_to_train"
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "Wait at this base."
 msgstr ""
 
@@ -73539,10 +74113,6 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "I'd like to know a bit more about you..."
-msgstr ""
-
-#: src/npctalk.cpp
-msgid "asked_personal_info"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -75546,6 +76116,39 @@ msgid "Year"
 msgstr ""
 
 #: src/player.cpp
+#, c-format
+msgid "Swimming costs %+d movement point. "
+msgid_plural "Swimming costs %+d movement points. "
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/player.cpp
+#, c-format
+msgid "Running costs %+d movement point. "
+msgid_plural "Running costs %+d movement points. "
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/player.cpp
+#, c-format
+msgid "Reloading costs %+d movement point. "
+msgid_plural "Reloading costs %+d movement points. "
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/player.cpp
+#, c-format
+msgid "Melee and thrown attacks cost %+d movement point. "
+msgid_plural "Melee and thrown attacks cost %+d movement points. "
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/player.cpp
+#, c-format
+msgid "Dodge skill %+.1f. "
+msgstr ""
+
+#: src/player.cpp
 msgid "Dexterity"
 msgstr ""
 
@@ -75769,27 +76372,8 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Melee skill %+d;"
+msgid "Melee skill %+d; "
 msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid " Dodge skill %+d;\n"
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "Swimming costs %+d movement point;\n"
-msgid_plural "Swimming costs %+d movement points;\n"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/player.cpp
-#, c-format
-msgid "Melee and thrown attacks cost %+d movement point."
-msgid_plural "Melee and thrown attacks cost %+d movement points."
-msgstr[0] ""
-msgstr[1] ""
 
 #: src/player.cpp
 msgid ""
@@ -75804,38 +76388,12 @@ msgid ""
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Running costs %+d movement point."
-msgid_plural "Running costs %+d movement points."
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/player.cpp
 msgid "Arm encumbrance affects your accuracy with ranged weapons."
 msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Reloading costs %+d movement point; "
-msgid_plural "Reloading costs %+d movement points; "
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/player.cpp
-#, c-format
 msgid "Dexterity %+d when throwing items."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "Running costs %+d movement point; "
-msgid_plural "Running costs %+d movement points; "
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/player.cpp
-#, c-format
-msgid "Dodge skill %+.1f."
 msgstr ""
 
 #: src/player.cpp
@@ -76423,6 +76981,10 @@ msgstr ""
 #: src/player.cpp
 msgctxt "memorial_female"
 msgid "Threw up."
+msgstr ""
+
+#: src/player.cpp
+msgid "You feel nauseous, but your stomach is empty."
 msgstr ""
 
 #. ~ %s is weapon name
@@ -79038,6 +79600,12 @@ msgstr ""
 #: src/vehicle.cpp
 #, c-format
 msgid "%d\" %s"
+msgstr ""
+
+#. ~ used/total volume of a cargo vehicle part
+#: src/vehicle.cpp
+#, c-format
+msgid " (vol: %d/%d)"
 msgstr ""
 
 #. ~ indicates that a vehicle part is inside
