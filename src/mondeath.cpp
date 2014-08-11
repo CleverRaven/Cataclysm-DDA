@@ -482,6 +482,11 @@ void mdeath::focused_beam(monster *z)
     }
 
     if (z->inv.size() > 0) {
+
+        if (g->u_see(z)) {
+            add_msg(m_warning, _("As final light is destroyed, it erupts in a blinding flare!")
+        }
+
         item &settings = z->inv[0];
 
         int x = z->posx() + atoi(settings.item_vars["SL_SPOT_X"].c_str());
