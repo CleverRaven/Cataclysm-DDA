@@ -228,7 +228,7 @@ of those things now.  Can you put her out of her misery for me?");
         }
         break;
 
-    //patriot mission 1
+//patriot mission 1
     case MISSION_GET_FLAG:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -257,7 +257,7 @@ good man to rely on... might as well give up, I guess.");
         }
         break;
 
-    //patriot mission 2
+//patriot mission 2
     case MISSION_GET_BLACK_BOX:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -290,7 +290,7 @@ Fuck ya, America!");
         }
         break;
 
-    //patriot mission 3
+//patriot mission 3
     case MISSION_GET_BLACK_BOX_TRANSCRIPT:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -325,7 +325,7 @@ Fuck ya, America!");
         }
         break;
 
-    //patriot mission 4
+//patriot mission 4
     case MISSION_EXPLORE_SARCOPHAGUS:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -359,7 +359,7 @@ bird coming to pick them up.");
         }
         break;
 
-    //martyr mission 1
+//martyr mission 1
     case MISSION_GET_RELIC:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -389,7 +389,7 @@ I wish you the best of luck, may whatever god you please guide your path.");
         }
         break;
 
-    //martyr mission 2
+//martyr mission 2
     case MISSION_RECOVER_PRIEST_DIARY:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -423,7 +423,7 @@ within his own home.");
         }
         break;
 
-    //martyr mission 3
+//martyr mission 3
     case MISSION_INVESTIGATE_CULT:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -462,7 +462,7 @@ known if they are responsible for the outbreak but they certainly know more abou
         }
         break;
 
-    //martyr mission 4
+//martyr mission 4
     case MISSION_INVESTIGATE_PRISON_VISIONARY:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -528,7 +528,7 @@ Thanks so much, you may save both of us yet.");
         }
         break;
 
-    //humanitarian mission 1
+//humanitarian mission 1
     case MISSION_GET_RECORD_PATIENT:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -556,7 +556,7 @@ Thank you, I suppose it wont change what has already happened but it will bring 
         }
         break;
 
-    //humanitarian mission 2
+//humanitarian mission 2
     case MISSION_REACH_FEMA_CAMP:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -586,7 +586,7 @@ Thank you, just bring me to the camp... I just want to see.");
         }
         break;
 
-    //humanitarian mission 3
+//humanitarian mission 3
     case MISSION_REACH_FARM_HOUSE:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -618,7 +618,7 @@ ought to be safe for now.  You'll always be welcome here.");
         }
         break;
 
-    //vigilante mission 1
+//vigilante mission 1
     case MISSION_GET_RECORD_ACCOUNTING:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -649,7 +649,7 @@ will prove their guilt if we get an expert to examine it.");
         }
         break;
 
-    //vigilante mission 2
+//vigilante mission 2
     case MISSION_GET_SAFE_BOX:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -680,7 +680,7 @@ we take measure to stop those who seek to rule over us.");
         }
         break;
 
-    //vigilante mission 3
+//vigilante mission 3
     case MISSION_GET_DEPUTY_BADGE:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -709,7 +709,7 @@ I'd check the police station.");
         }
         break;
 
-    //demon slayer mission 1
+//demon slayer mission 1
     case MISSION_KILL_JABBERWOCK:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -739,7 +739,7 @@ Thanks, make sure you're ready for whatever the beast is.");
         }
         break;
 
-    //demon slayer mission 2
+//demon slayer mission 2
     case MISSION_KILL_100_Z:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -772,7 +772,7 @@ our little neck of the world if you keep this up.");
         }
         break;
 
-    //demon slayer mission 3
+//demon slayer mission 3
     case MISSION_KILL_HORDE_MASTER:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -805,7 +805,7 @@ alive under the rubble and ash.");
 
 
 
-    //demon slayer mission 4
+//demon slayer mission 4
     case MISSION_RECRUIT_TRACKER:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -839,7 +839,7 @@ target.");
         }
         break;
 
-    //demon slayer mission 4b
+//demon slayer mission 4b
     case MISSION_JOIN_TRACKER:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -868,7 +868,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         }
         break;
 
-    //Free Merchants
+//Free Merchants
     case MISSION_FREE_MERCHANTS_EVAC_1:
         switch (state) {
         case TALK_MISSION_DESCRIBE:
@@ -961,7 +961,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         }
         break;
 
-    //Old Guard
+//Old Guard
     case MISSION_OLD_GUARD_REP_1:
         switch (state) {
         case TALK_MISSION_DESCRIBE:

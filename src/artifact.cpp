@@ -239,8 +239,7 @@ std::string artifact_noun[NUM_ART_NOUNS];
 std::string artifact_name(std::string type);
 
 // Constructrs for artifact itypes.
-it_artifact_tool::it_artifact_tool() : it_tool()
-{
+it_artifact_tool::it_artifact_tool() : it_tool() {
     id = mk_artifact_id();
     ammo = "NULL";
     price = 0;
@@ -253,8 +252,7 @@ it_artifact_tool::it_artifact_tool() : it_tool()
     use_methods.push_back( &iuse::artifact );
 };
 
-it_artifact_armor::it_artifact_armor() : it_armor()
-{
+it_artifact_armor::it_artifact_armor() : it_armor() {
     id = mk_artifact_id();
     price = 0;
 };
@@ -622,7 +620,7 @@ void it_artifact_tool::create_name(const std::string &type)
 void it_artifact_tool::create_name(const std::string &property_name, const std::string &shape_name)
 {
     name = rmp_format(_("<artifact_name>%1$s %2$s"), property_name.c_str(),
-                      shape_name.c_str());
+                           shape_name.c_str());
     name_plural = name;
 }
 
@@ -891,7 +889,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
     // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
                                           artifact_natural_property(rng(ARTPROP_NULL + 1,
-                                                  ARTPROP_MAX - 1)));
+                                                                        ARTPROP_MAX - 1)));
     artifact_property_datum *property_data = &(artifact_property_data[property]);
 
     art->sym = ':';
@@ -992,31 +990,31 @@ std::string new_natural_artifact(artifact_natural_property prop)
 // Make a special debugging artifact.
 std::string architects_cube()
 {
-    std::string artifact_name(std::string type);
+      std::string artifact_name(std::string type);
 
-    it_artifact_tool *art = new it_artifact_tool();
-    artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-    art->create_name(info->name);
-    art->color = info->color;
-    art->sym = info->sym;
-    art->m1 = info->m1;
-    art->m2 = info->m2;
-    art->volume = rng(info->volume_min, info->volume_max);
-    art->weight = rng(info->weight_min, info->weight_max);
-    // Set up the basic weapon type
-    artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-    art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-    art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
-    art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-    if( weapon->tag != "" ) {
-        art->item_tags.insert(weapon->tag);
-    }
-    // Add an extra weapon perhaps?
-    art->description = _("The architect's cube.");
-    art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
-    item_controller->add_item_type( art );
-    artifact_itype_ids.push_back(art->id);
-    return art->id;
+      it_artifact_tool *art = new it_artifact_tool();
+      artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
+      art->create_name(info->name);
+      art->color = info->color;
+      art->sym = info->sym;
+      art->m1 = info->m1;
+      art->m2 = info->m2;
+      art->volume = rng(info->volume_min, info->volume_max);
+      art->weight = rng(info->weight_min, info->weight_max);
+      // Set up the basic weapon type
+      artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+      art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
+      art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
+      art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
+      if( weapon->tag != "" ) {
+          art->item_tags.insert(weapon->tag);
+      }
+      // Add an extra weapon perhaps?
+      art->description = _("The architect's cube.");
+      art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
+      item_controller->add_item_type( art );
+      artifact_itype_ids.push_back(art->id);
+      return art->id;
 }
 
 std::vector<art_effect_passive> fill_good_passive()

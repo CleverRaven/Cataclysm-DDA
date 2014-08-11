@@ -74,10 +74,8 @@ nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = fal
 int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = false);
 
 std::vector<std::string> foldstring (std::string str, int width);
-int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,
-                   ...);
-int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
-                   const std::string &text);
+int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
+int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const std::string &text);
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const char *mes, ...);
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
@@ -147,8 +145,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    const int selected = -1, const bool without_getch = false, const bool without_border = false);
 
-int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight,
-                   const std::string sItemName,
+int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    const int selected = -1, const bool without_getch = false, const bool without_border = false);
 
@@ -167,8 +164,7 @@ std::string vstring_format(const std::string pattern, va_list argptr);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
-                      const std::string &fmt);
+size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const std::string &fmt);
 size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
@@ -185,8 +181,7 @@ void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
 
-class scrollingcombattext
-{
+class scrollingcombattext {
     private:
 
     public:
@@ -195,8 +190,7 @@ class scrollingcombattext
         scrollingcombattext() : iMaxSteps(8) {};
         ~scrollingcombattext() {};
 
-        class cSCT
-        {
+        class cSCT {
             private:
                 int iPosX;
                 int iPosY;
@@ -218,40 +212,16 @@ class scrollingcombattext
                      const std::string p_sType = "");
                 ~cSCT() {};
 
-                int getStep()
-                {
-                    return iStep;
-                }
-                int getStepOffset()
-                {
-                    return iStepOffset;
-                }
-                int advanceStep()
-                {
-                    return ++iStep;
-                }
-                int advanceStepOffset()
-                {
-                    return ++iStepOffset;
-                }
+                int getStep() { return iStep; }
+                int getStepOffset() { return iStepOffset; }
+                int advanceStep() { return ++iStep; }
+                int advanceStepOffset() { return ++iStepOffset; }
                 int getPosX();
                 int getPosY();
-                direction getDirecton()
-                {
-                    return oDir;
-                }
-                int getInitPosX()
-                {
-                    return iPosX;
-                }
-                int getInitPosY()
-                {
-                    return iPosY;
-                }
-                std::string getType()
-                {
-                    return sType;
-                }
+                direction getDirecton() { return oDir; }
+                int getInitPosX() { return iPosX; }
+                int getInitPosY() { return iPosY; }
+                std::string getType() { return sType; }
                 std::string getText(std::string sType = "full");
                 game_message_type getMsgType(std::string sType = "first");
         };

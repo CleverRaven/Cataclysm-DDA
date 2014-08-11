@@ -139,15 +139,15 @@ void mapbuffer::save( bool delete_after_save )
         std::stringstream segment_path;
         tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
         segment_path << map_directory.str() << "/" << segment_addr.x << "." <<
-                     segment_addr.y << "." << segment_addr.z;
+            segment_addr.y << "." << segment_addr.z;
         assure_dir_exist( segment_path.str().c_str() );
 
         std::stringstream quad_path;
         quad_path << segment_path.str() << "/" << om_addr.x << "." <<
-                  om_addr.y << "." << om_addr.z << ".map";
+            om_addr.y << "." << om_addr.z << ".map";
 
-        // delete_on_save deletes everything, otherwise delete submaps
-        // outside the current map.
+                   // delete_on_save deletes everything, otherwise delete submaps
+                   // outside the current map.
         save_quad( quad_path.str(), om_addr, submaps_to_delete,
                    delete_after_save || om_addr.z != g->levz ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
@@ -325,7 +325,7 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
             }
         }
         jsout.end_array();
-
+        
         jsout.member("cosmetics");
         jsout.start_array();
         for (int j = 0; j < SEEY; j++) {
@@ -397,8 +397,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     const tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
     std::stringstream quad_path;
     quad_path << world_generator->active_world->world_path << "/maps/" <<
-              segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
-              om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
+        segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
+        om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 
     std::ifstream fin( quad_path.str().c_str() );
     if( !fin.is_open() ) {
@@ -549,13 +549,11 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
             }
         }
         if( !add_submap( submap_coordinates, sm ) ) {
-            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y,
-                      submap_coordinates.z );
+            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y, submap_coordinates.z );
         }
     }
     if( submaps.count( p ) == 0 ) {
-        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y,
-                 p.z);
+        debugmsg("file %s did not contain the expected submap %d,%d,%d", quad_path.str().c_str(), p.x, p.y, p.z);
         return NULL;
     }
     return submaps[ p ];

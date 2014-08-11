@@ -11,7 +11,7 @@ typedef enum { COPT_NO_HIDE,
                COPT_SDL_HIDE,
                COPT_CURSES_HIDE,
                COPT_POSIX_CURSES_HIDE
-             } copt_hide_t;
+} copt_hide_t;
 
 class regional_settings;
 class options_data

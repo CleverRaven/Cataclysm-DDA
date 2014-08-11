@@ -75,8 +75,7 @@ void *tracePtrs[TRACE_SIZE];
 
 struct NullBuf : public std::streambuf {
     NullBuf() {}
-    int overflow( int c )
-    {
+    int overflow( int c ) {
         return c;
     }
 };

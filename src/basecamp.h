@@ -9,20 +9,16 @@ class basecamp
         basecamp();
         basecamp(std::string const &name_, int const posx_, int const posy_);
 
-        inline bool is_valid() const
-        {
+        inline bool is_valid() const {
             return !name.empty();
         }
-        inline int board_x() const
-        {
+        inline int board_x() const {
             return posx;
         }
-        inline int board_y() const
-        {
+        inline int board_y() const {
             return posy;
         }
-        inline std::string const &camp_name() const
-        {
+        inline std::string const &camp_name() const {
             return name;
         }
 

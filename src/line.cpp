@@ -10,7 +10,7 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
 {
     std::vector<point> ret;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
+    const int numCells = square_dist(tripoint(x1, y1, 0),tripoint(x2, y2, 0));
     ret.reserve(numCells);
     const int dx = x2 - x1;
     const int dy = y2 - y1;
@@ -20,10 +20,10 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     cur.y = y1;
 
     // Draw point
-    if (dx == 0 && dy == 0) {
-        ret.push_back(cur);
-        // Should exit here
-        return ret;
+    if (dx==0 && dy==0) {
+      ret.push_back(cur);
+      // Should exit here
+      return ret;
     }
 
     // Any ideas why we're multiplying the abs distance by two here?
@@ -181,14 +181,14 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
 
 int trig_dist(const int x1, const int y1, const int x2, const int y2)
 {
-    return trig_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
+    return trig_dist(tripoint(x1, y1, 0),tripoint(x2, y2, 0));
 }
 
 int trig_dist(const tripoint loc1, const tripoint loc2)
 {
     return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
-                     ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
-                     ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
+                           ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
+                           ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
 }
 
 int square_dist(const int x1, const int y1, const int x2, const int y2)
@@ -212,7 +212,7 @@ int rl_dist(const int x1, const int y1, const int x2, const int y2)
 
 int rl_dist(const point a, const point b)
 {
-    return rl_dist(tripoint(a.x, a.y, 0), tripoint(b.x, b.y, 0));
+    return rl_dist(tripoint(a.x, a.y, 0),tripoint(b.x, b.y, 0));
 }
 
 int rl_dist(const tripoint loc1, const tripoint loc2)
@@ -224,7 +224,7 @@ int rl_dist(const tripoint loc1, const tripoint loc2)
 }
 
 // returns normalized dx and dy for the current line vector.
-std::pair<double, double> slope_of(const std::vector<point> &line)
+std::pair<double,double> slope_of(const std::vector<point> &line)
 {
     const double len = line.size();
     double normDx = (line.back().x - line.front().x) / len;
@@ -258,9 +258,8 @@ std::vector<point> continue_line(const std::vector<point> &line, const int dista
 }
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
-{
-    // May want to optimize this, but it's called fairly infrequently as part of specific attack
-    // routines, erring on the side of readability.
+{ // May want to optimize this, but it's called fairly infrequently as part of specific attack
+  // routines, erring on the side of readability.
     tripoint start;
     tripoint end;
     start = end = line.back();
@@ -322,36 +321,36 @@ direction direction_from(const tripoint loc1, const tripoint loc2)
 
 point direction_XY(direction dir)
 {
-    switch((dir != CENTER) ? dir % 8 : dir) {
-    case NORTH:
-        return point(0, -1);
+    switch((dir != CENTER) ? dir%8 : dir) {
+        case NORTH:
+            return point(0, -1);
 
-    case NORTHEAST:
-        return point(1, -1);
+        case NORTHEAST:
+            return point(1, -1);
 
-    case EAST:
-        return point(1, 0);
+        case EAST:
+            return point(1, 0);
 
-    case SOUTHEAST:
-        return point(1, 1);
+        case SOUTHEAST:
+            return point(1, 1);
 
-    case SOUTH:
-        return point(0, 1);
+        case SOUTH:
+            return point(0, 1);
 
-    case SOUTHWEST:
-        return point(-1, 1);
+        case SOUTHWEST:
+            return point(-1, 1);
 
-    case WEST:
-        return point(-1, 0);
+        case WEST:
+            return point(-1, 0);
 
-    case NORTHWEST:
-        return point(-1, -1);
+        case NORTHWEST:
+            return point(-1, -1);
 
-    case CENTER:
-        return point(0, 0);
+        case CENTER:
+            return point(0, 0);
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return point(999, 999);
@@ -360,7 +359,7 @@ point direction_XY(direction dir)
 std::string direction_name(direction dir)
 {
     switch (dir) {
-    //~ used for "to the north" etc
+        //~ used for "to the north" etc
     case NORTH:
         return _("north");
     case NORTHEAST:
@@ -418,7 +417,7 @@ std::string direction_name(direction dir)
 std::string direction_name_short(direction dir)
 {
     switch (dir) {
-    //~ abbreviated direction names
+        //~ abbreviated direction names
     case NORTH:
         return _("N    ");
     case NORTHEAST:

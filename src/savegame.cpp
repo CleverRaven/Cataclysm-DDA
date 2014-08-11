@@ -238,6 +238,7 @@ void game::unserialize(std::ifstream & fin)
         while (vdata.has_more()) {
             monster montmp;
             vdata.read_next(montmp);
+            montmp.setkeep(true);
             add_zombie(montmp);
         }
 
@@ -375,21 +376,13 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             ty = 0;
             intr = 0;
             buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
-            mongroup mg( cstr, cx, cy, cz, cs, cp );
-            mg.diffuse = cd;
-            mg.dying = cdying;
-            mg.horde = horde;
-            mg.set_target( tx, ty );
-            mg.interest = intr;
-            add_mon_group( mg );
+            zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
+            zg.back().diffuse = cd;
+            zg.back().dying = cdying;
+            zg.back().horde = horde;
+            zg.back().set_target(tx,ty);
+            zg.back().interest=intr;
             nummg++;
-        } else if( datatype == 'M' ) {
-            monster_data mdata;
-            fin >> mdata.x >> mdata.y >> mdata.z;
-            std::string data;
-            getline( fin, data );
-            mdata.mon.deserialize( data );
-            monsters.push_back( std::move( mdata ) );
         } else if (datatype == 't') { // City
             fin >> cx >> cy >> cs;
             tmp.x = cx; tmp.y = cy; tmp.s = cs;
@@ -622,13 +615,11 @@ void overmap::save()
     }
     fout << std::endl;
 
-    for( auto &mgv : zg ) {
-        auto &mg = mgv.second;
-        fout << "Z " << mg.type << " " << mg.posx << " " << mg.posy << " " <<
-            mg.posz << " " << int(mg.radius) << " " << mg.population << " " <<
-            mg.diffuse << " " << mg.dying << " " <<
-            mg.horde << " " << mg.tx << " " << mg.ty << " " << mg.interest << std::endl;
-    }
+    for (int i = 0; i < zg.size(); i++)
+        fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<
+            zg[i].posz << " " << int(zg[i].radius) << " " << zg[i].population << " " <<
+            zg[i].diffuse << " " << zg[i].dying << " " <<
+            zg[i].horde << " " << zg[i].tx << " " << zg[i].ty << " " << zg[i].interest << std::endl;
     for (int i = 0; i < cities.size(); i++)
         fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s << std::endl;
     for (int i = 0; i < roads_out.size(); i++)
@@ -636,10 +627,6 @@ void overmap::save()
     for (int i = 0; i < radios.size(); i++)
         fout << "T " << radios[i].x << " " << radios[i].y << " " << radios[i].strength <<
             " " << radios[i].type << " " << std::endl << radios[i].message << std::endl;
-
-    for( const auto &mdata : monsters ) {
-        fout << "M " << mdata.x << " " << mdata.y << " " << mdata.z << " " << mdata.mon.serialize() << std::endl;
-    }
 
     // store tracked vehicle locations and names
     for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();

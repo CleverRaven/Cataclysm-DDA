@@ -1817,7 +1817,7 @@
      [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "toolset", 2 ]
      ],
      [
       [ "needle_bone", 200 ],
@@ -2322,7 +2322,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2363,7 +2363,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2395,7 +2395,7 @@
       [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
       ]
   ],
   "components": [
@@ -2435,7 +2435,7 @@
       [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
       ]
   ],
   "components": [
@@ -2480,7 +2480,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2528,7 +2528,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2577,7 +2577,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2620,7 +2620,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2662,7 +2662,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2707,7 +2707,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2812,7 +2812,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2856,7 +2856,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2900,7 +2900,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -2939,7 +2939,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -3231,7 +3231,7 @@
   ], "tools": [
     [
       [ "hotplate", 20 ],
-      [ "toolset", 20 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4246,7 +4246,7 @@
      [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "toolset", 2 ]
      ],
      [
       [ "needle_bone", 100 ],
@@ -4300,7 +4300,7 @@
      [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "toolset", 2 ]
      ],
      [
       [ "needle_bone", 150 ],
@@ -4357,7 +4357,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56
+      [ "toolset", 4
       ]
     ],
     [
@@ -4419,7 +4419,7 @@
     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 200 ],
@@ -4480,7 +4480,7 @@
      [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "toolset", 2 ]
      ],
      [
       [ "needle_bone", 200 ],
@@ -4539,7 +4539,7 @@
     [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
     ],
     [
       [ "needle_bone", 200 ],
@@ -4594,7 +4594,7 @@
      [
       [ "welder", 56 ],
       [ "soldering_iron", 56 ],
-      [ "toolset", 56 ]
+      [ "toolset", 4 ]
      ],
      [
       [ "needle_bone", 200 ],
@@ -4654,7 +4654,7 @@
     [
       [ "welder", 42 ],
       [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "toolset", 4 ]
     ],
     [
       [ "needle_bone", 160 ],
@@ -4698,7 +4698,7 @@
     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 100 ],
@@ -4742,7 +4742,7 @@
     [
       [ "welder", 42 ],
       [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "toolset", 4 ]
     ],
     [
       [ "needle_bone", 80 ],
@@ -4789,7 +4789,7 @@
     [
       [ "welder", 84 ],
       [ "soldering_iron", 84 ],
-      [ "toolset", 84 ]
+      [ "toolset", 6 ]
     ],
     [
       [ "needle_bone", 20 ],
@@ -4839,7 +4839,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 40 ],
@@ -4880,7 +4880,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 40 ],
@@ -4924,7 +4924,7 @@
     [
       [ "welder", 42 ],
       [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "toolset", 3 ]
     ],
     [
       [ "needle_bone", 10 ],
@@ -4985,7 +4985,7 @@
     [
       [ "welder", 42 ],
       [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "toolset", 3 ]
     ],
     [
       [ "needle_bone", 10 ],
@@ -5047,7 +5047,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 40 ],
@@ -5092,7 +5092,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 40 ],
@@ -5132,7 +5132,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 40 ],
@@ -5172,7 +5172,7 @@
     [
       [ "welder", 14 ],
       [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "toolset", 1 ]
     ],
     [
       [ "needle_bone", 50 ],
@@ -5220,7 +5220,7 @@
     [
       [ "welder", 14 ],
       [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "toolset", 1 ]
     ],
     [
       [ "needle_bone", 50 ],
@@ -5268,7 +5268,7 @@
     [
       [ "welder", 28 ],
       [ "soldering_iron", 28 ],
-      [ "toolset", 28 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 40 ],
@@ -5319,7 +5319,7 @@
     [
       [ "welder", 14 ],
       [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "toolset", 1 ]
     ],
     [
       [ "needle_bone", 50 ],
@@ -5367,7 +5367,7 @@
     [
       [ "welder", 14 ],
       [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "toolset", 1 ]
     ],
     [
       [ "needle_bone", 50 ],
@@ -5412,7 +5412,7 @@
     [
       [ "welder", 14 ],
       [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
+      [ "toolset", 1 ]
     ],
     [
       [ "needle_bone", 50 ],
@@ -5453,7 +5453,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 80 ],
@@ -5497,7 +5497,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 80 ],
@@ -5541,7 +5541,7 @@
     [
       [ "welder", 42 ],
       [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "toolset", 3 ]
     ],
     [
       [ "needle_bone", 60 ],
@@ -5592,7 +5592,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 80 ],
@@ -5636,7 +5636,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 80 ],
@@ -5681,7 +5681,7 @@
     [
       [ "welder", 21 ],
       [ "soldering_iron", 21 ],
-      [ "toolset", 21 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 80 ],
@@ -5727,7 +5727,7 @@
     [
       [ "welder", 112 ],
       [ "soldering_iron", 112 ],
-      [ "toolset", 112 ]
+      [ "toolset", 8 ]
     ]
   ],
   "components": [
@@ -5762,7 +5762,7 @@
     [
       [ "welder", 112 ],
       [ "soldering_iron", 112 ],
-      [ "toolset", 112 ]
+      [ "toolset", 8 ]
     ]
   ],
   "components": [
@@ -5849,7 +5849,7 @@
     [
       [ "welder", 42 ],
       [ "soldering_iron", 42 ],
-      [ "toolset", 42 ]
+      [ "toolset", 3 ]
     ],
     [
       [ "needle_bone", 20 ],
@@ -5887,7 +5887,7 @@
     ],
     [
       [ "hotplate", 5],
-      ["toolset", 5],
+      ["toolset", 1],
       ["fire", -1]
     ]
   ],
@@ -5917,7 +5917,7 @@
     ],
     [
       [ "hotplate", 5],
-      [ "toolset", 5],
+      [ "toolset", 1],
       [ "fire", -1]
     ]
   ],
@@ -5950,7 +5950,7 @@
     ],
     [
       [ "hotplate", 5],
-      [ "toolset", 5],
+      [ "toolset", 1],
       [ "fire", -1]
     ]
   ],
@@ -5988,7 +5988,7 @@
     ],
     [
       [ "hotplate", 5],
-      ["toolset", 5],
+      ["toolset", 1],
       ["fire", -1]
     ]
   ],
@@ -6026,7 +6026,7 @@
     ],
     [
       [ "soldering_iron", 10],
-      ["toolset", 10],
+      ["toolset", 1],
       ["fire", -1]
     ]
   ],
@@ -6059,7 +6059,7 @@
     ],
     [
       [ "soldering_iron", 10],
-      ["toolset", 10],
+      ["toolset", 1],
       ["fire", -1]
     ]
   ],
@@ -6213,7 +6213,7 @@
     ],
     [
       [ "soldering_iron", 60 ],
-      [ "toolset", 60 ]
+      [ "toolset", 6 ]
     ]
   ],
   "components": [
@@ -6251,7 +6251,7 @@
     ],
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -6290,7 +6290,7 @@
     ],
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -6329,7 +6329,7 @@
     ],
     [
       [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [

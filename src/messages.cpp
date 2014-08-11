@@ -18,7 +18,7 @@ std::vector< std::pair<std::string, std::string> > Messages::recent_messages(con
         }
 
         recent_messages.push_back( std::make_pair( player_messages.messages[i].turn.print_time(),
-                                   message_with_count.str() ) );
+                                                   message_with_count.str() ) );
     }
     return recent_messages;
 }
@@ -182,7 +182,7 @@ void Messages::display_messages()
             calendar timepassed = calendar::turn - m.turn;
             if (int(timepassed) > lasttime) {
                 mvwprintz(w, line, 3, c_ltblue, _("%s ago:"),
-                          timepassed.textify_period().c_str());
+                        timepassed.textify_period().c_str());
                 line++;
                 lasttime = int(timepassed);
             }

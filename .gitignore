@@ -40,8 +40,6 @@ data/mods/user-default-mods.json
 Release*/
 Debug*/
 *.opensdf
-*.user
-*.vcxproj.filters
 
 # Temporary and backup files
 *~

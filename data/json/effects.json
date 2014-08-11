@@ -13,12 +13,6 @@
     },
     {
         "type":"effect_type",
-        "id":"controlled",
-        "name": "Controlled Monster",
-        "desc": "AI tag for when monsters are being controlled by another. This is a bug if you have it."
-    },
-    {
-        "type":"effect_type",
         "id":"run",
         "name": "Hit-and-run Running",
         "desc": "AI tag for when hit-and-run monsters run away. This is a bug if you have it."

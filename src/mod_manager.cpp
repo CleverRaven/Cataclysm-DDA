@@ -235,8 +235,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
     DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 
     if (!assure_dir_exist(output_base_path)) {
-        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" << output_base_path <<
-                                    "] for saving";
+        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" << output_base_path << "] for saving";
         return false;
     }
 
@@ -281,7 +280,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         while (!dir_to_make.empty()) {
             if (!assure_dir_exist(dir_to_make.front())) {
                 DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" <<
-                                            dir_to_make.front() << "] for saving";
+                           dir_to_make.front() << "] for saving";
             }
 
             dir_to_make.pop();

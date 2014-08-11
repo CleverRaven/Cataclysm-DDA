@@ -35,7 +35,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 3 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -62,7 +62,7 @@
   ], "tools": [
     [
       [ "hotplate", 3 ],
-      [ "toolset", 3 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -132,7 +132,7 @@
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 7 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -201,7 +201,7 @@
     [
       [ "hotplate", 15 ],
       [ "chemistry_set", 15 ],
-      [ "toolset", 15 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -237,7 +237,7 @@
       [ "fire", -1 ],
       [ "hotplate", 8 ],
       [ "chemistry_set", 8 ],
-      [ "toolset", 8 ]
+      [ "toolset", 1 ]
     ]
   ],
   "components": [
@@ -269,7 +269,7 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 1 ],
       [ "hotplate", 2 ],
       [ "chemistry_set", 2 ]
     ]
@@ -299,7 +299,7 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 1 ],
       [ "hotplate", 2 ],
       [ "chemistry_set", 2 ]
     ]
@@ -329,7 +329,7 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 1 ],
       [ "hotplate", 2 ],
       [ "chemistry_set", 2 ]
     ]
@@ -360,7 +360,7 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 20 ],
+      [ "toolset", 2 ],
       [ "hotplate", 20 ],
       [ "chemistry_set", 20 ]
     ]
@@ -393,7 +393,7 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 20 ],
+      [ "toolset", 2 ],
       [ "hotplate", 20 ],
       [ "chemistry_set", 20 ]
     ]
@@ -430,7 +430,7 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 20 ],
+      [ "toolset", 2 ],
       [ "hotplate", 20 ],
       [ "chemistry_set", 20 ]
     ]
@@ -471,7 +471,7 @@
     [
       [ "hotplate", 3 ],
       [ "chemistry_set", 3 ],
-      [ "toolset", 3 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -502,7 +502,7 @@
     [
       [ "hotplate", 3 ],
       [ "chemistry_set", 3 ],
-      [ "toolset", 3 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -536,7 +536,7 @@
     [
       [ "hotplate", 3 ],
       [ "chemistry_set", 3 ],
-      [ "toolset", 3 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -569,7 +569,7 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 20 ],
+      [ "toolset", 2 ],
       [ "hotplate", 20 ],
       [ "chemistry_set", 20 ]
     ]
@@ -611,7 +611,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -651,7 +651,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -678,7 +678,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -714,7 +714,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -741,7 +741,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -778,7 +778,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -805,7 +805,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -840,7 +840,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -867,7 +867,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -902,7 +902,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -929,7 +929,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -967,7 +967,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -994,7 +994,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1028,7 +1028,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1055,7 +1055,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1089,7 +1089,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1116,7 +1116,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1150,7 +1150,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1177,7 +1177,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1211,7 +1211,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1238,7 +1238,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1272,7 +1272,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1299,7 +1299,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1333,7 +1333,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1360,7 +1360,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1395,7 +1395,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1422,7 +1422,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1456,7 +1456,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1483,7 +1483,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1517,7 +1517,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1544,7 +1544,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1578,7 +1578,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1605,7 +1605,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1655,7 +1655,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1703,7 +1703,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1739,7 +1739,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1766,7 +1766,7 @@
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1802,7 +1802,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1829,7 +1829,7 @@
     [
       [ "chemistry_set", 31 ],
       [ "hotplate", 31 ],
-      [ "toolset", 31 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1862,7 +1862,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1889,7 +1889,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1925,7 +1925,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1952,7 +1952,7 @@
     [
       [ "chemistry_set", 31 ],
       [ "hotplate", 31 ],
-      [ "toolset", 31 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1985,7 +1985,7 @@
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
-      [ "toolset", 37 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2012,7 +2012,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2054,7 +2054,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2085,7 +2085,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2119,7 +2119,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2203,7 +2203,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -2232,7 +2232,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -2261,7 +2261,7 @@
     [
       [ "chemistry_set", 2 ],
       [ "hotplate", 2 ],
-      [ "toolset", 2 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ],
     [
@@ -2298,7 +2298,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 5 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2332,7 +2332,7 @@
     [
       [ "chemistry_set", 18 ],
       [ "hotplate", 18 ],
-      [ "toolset", 18 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2359,7 +2359,7 @@
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
   ],
   "components": [
     [ [ "water", 4 ], [ "water_clean", 4 ] ],
@@ -2381,7 +2381,7 @@
     [
       [ "hotplate", 7 ],
       [ "chemistry_set", 7 ],
-      [ "toolset", 7 ]
+      [ "toolset", 1 ]
     ]
   ],
   "components": [

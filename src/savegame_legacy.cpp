@@ -886,10 +886,9 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                     }
                 } else if (datatype == 'Z') { // Monster group
                     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
-                    mongroup mg(cstr, cx, cy, cz, cs, cp);
-                    mg.diffuse = cd;
-                    mg.dying = cdying;
-                    add_mon_group( mg );
+                    zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
+                    zg.back().diffuse = cd;
+                    zg.back().dying = cdying;
                     nummg++;
                 } else if (datatype == 't') { // City
                     fin >> cx >> cy >> cs;

@@ -133,8 +133,7 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
         std::vector<art_effect_active>  effects_activated;
         std::vector<art_effect_passive> effects_carried;
 
-        bool is_artifact()
-        {
+        bool is_artifact() {
             return true;
         }
 
@@ -142,16 +141,14 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
         void serialize(JsonOut &json) const;
         using JsonDeserializer::deserialize;
         void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin)
-        {
+        void deserialize(JsonIn &jsin) {
             JsonObject jo = jsin.get_object();
             deserialize(jo);
         }
 
         it_artifact_tool();
 
-        it_artifact_tool(JsonObject &jo) : it_tool()
-        {
+        it_artifact_tool(JsonObject &jo) : it_tool() {
             use_methods.push_back( &iuse::artifact );
             deserialize(jo);
         };
@@ -164,8 +161,7 @@ class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDes
     public:
         std::vector<art_effect_passive> effects_worn;
 
-        bool is_artifact()
-        {
+        bool is_artifact() {
             return true;
         }
 
@@ -173,16 +169,14 @@ class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDes
         void serialize(JsonOut &json) const;
         using JsonDeserializer::deserialize;
         void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin)
-        {
+        void deserialize(JsonIn &jsin) {
             JsonObject jo = jsin.get_object();
             deserialize(jo);
         }
 
         it_artifact_armor();
 
-        it_artifact_armor(JsonObject &jo) : it_armor()
-        {
+        it_artifact_armor(JsonObject &jo) : it_armor() {
             deserialize(jo);
         };
         void create_name(const std::string &type);

@@ -1,199 +1,106 @@
-#! /usr/bin/env python
+# This program runs well with PYTHON 2.5 but may not
+# run without an error with PYTHON 2.2
+#
+# I (acidia) just made this as a quick utility to change a character map in
+# drawing.txt into a json that the game can process.  You'll have to modify the
+# paths in this folder unless you decide to put all the files in
+# 'c:\building-utility' and create a folder called 'output' for it to drop the
+# finished result in.  This is in no way polished, it just saved me a huge
+# amount of time creating 9x9 buildings so I figured someone else might be able
+# to use it.
 
-from __future__ import division
-
-import argparse
-import copy
-import json
-
-_MAP_CELL_SIZE = 24
-_TEMPLATE_JSON_SECTION = "_Building_Utility"
-_TEMPLATE_TYPE_CELL_MAP = "CELL_MAP"
-_TEMPLATE_TYPE_CELL_NUM = "CELL_NUM"
-_TEMPLATE_FUNC_OBJ_REPLACE = "object_replace"
-_TEMPLATE_FUNC_STR_FORMAT = "string_format"
+import os
 
 
-def division_split(div, single_list):
-    "Divides a list into a list of lists each containing div amount of "
-    "elements.  The last list will contain less than the div amount if the "
-    "list has a non-divisable amount of elements."
+def main():
+    # initally clear overmap_terrain_entry.json
+    # this is a hack, file operations in general need to be refactored a lot
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "w") as outfile:
+        pass
 
-    ret_list = []
-    while single_list:
-        ret_list.append(single_list[:div])
-        single_list = single_list[div:]
+    with open(os.path.join(os.getcwd(), 'drawing.txt'),"r") as infile:
+        data = '[\n'
+        mapCount = 1
+        mapList = [""] * 9
 
-    return ret_list
+        for line in infile:
+            lineCT = 0
 
+            # magic numbers: what are these actually?
+            magic_1 = 24
+            magic_2 = 735
 
-def internal_append(list_of_lists, appends):
-    "Returns the list created when each element of appends is put into its "
-    "corresponding list in list_of_lists (Corresponding by index).  Stops when"
-    " shortest list is exhausted."
+            while len(line) >= magic_1:
+                mapList[lineCT] += '\t\t\t\t"' + line[:magic_1] + '"'
 
-    return [l + [a] for l, a in zip(list_of_lists, appends)]
+                if len(mapList[lineCT]) < magic_2:
+                    mapList[lineCT] += ','
+                mapList[lineCT] += '\n'
 
+                line = line[24:]
+                lineCT += 1
 
-def get_map_cells(infile, cell_size):
-    cell_line_no = 1
-    cells_per_line = None
-    line_no = None
+            if len(mapList[0]) >= 760:
+                for line in mapList:
+                    if len(line) > 20:
+                        data = writeJSON(mapCount, line, data)
+                        writeTerrain(mapCount)
+                        mapCount += 1
+                mapList = [""] * 9
 
-    # all_cells holds completed cells.  cell_list holds incompleted cells.
-    all_cells = []
-    cell_list = [[]]
+    # remove last comma
+    data = data[:-1] + "\n]\n"
+    finalizeEntry(data)
 
-    for line_no, line in enumerate(infile, 1):
-        # -1 to remove newline char
-        line = line[:-1]
+#Takes the mapNum and 'text' is the 24x24 map
+def writeJSON(mapNum, text, data):
+    entry = ''
+    with open(os.path.join(os.getcwd(), 'json_header.txt'),
+              "r") as json_header_file:
+        entry += json_header_file.read().rstrip()
 
-        assert len(line) % cell_size == 0, \
-            "Map {infile} does not have colums equal to a multiple of the " \
-            "map cell size. Error occured on line {line_no}.".format(
-                infile=infile.name,
-                line_no=line_no)
+    entry += str(mapNum)
 
-        if cells_per_line is None:
-            cells_per_line = len(line) // cell_size
-            # setting up for internal_append
-            cell_list *= cells_per_line
-        else:
-            assert cells_per_line == len(line) // cell_size, \
-                "Map {infile} starts new cells before finishing cells " \
-                "{cell_begin} to {cell_end}. Error occured on line " \
-                "{line_no}.".format(infile=infile.name,
-                    cell_begin=len(all_cells) + 1,
-                    cell_end=len(all_cells) + cells_per_line,
-                    line_no=line_no)
+    with open(os.path.join(os.getcwd(), 'json_middle.txt'),
+              "r") as json_middle_file:
+        entry += json_middle_file.read()
 
-        cell_list = internal_append(cell_list, division_split(cell_size, line))
+    entry += text
 
-        cell_line_no += 1
+    with open(os.path.join(os.getcwd(), 'json_footer.txt'),
+              "r") as json_footer_file:
+        entry += json_footer_file.read().rstrip()
 
-        if cell_line_no > cell_size:
-            cell_line_no = 1
-            cells_per_line = None
+    return data + entry
 
-            all_cells.extend(cell_list)
-            cell_list = [[]]
+def finalizeEntry(data):
+    with open(os.path.join(os.getcwd(), 'output', 'office_tower.json'),
+              "w") as outfile:
+        outfile.write(data)
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "a") as out_terrain_file:
+        out_terrain_file.write("\n")
 
-    if line_no is not None:
-        assert line_no % cell_size == 0, \
-            "Map {infile} reaches EOF before the completion of cells " \
-            "{cell_begin} to {cell_end}.".format(infile=infile.name,
-                cell_begin=len(all_cells) + 1,
-                cell_end=len(all_cells) + cells_per_line)
+def writeTerrain(mapNum):
+    entry = ''
+    with open(os.path.join(os.getcwd(), 'terrain_header.txt'),
+              "r") as terrain_header_file:
+        entry += terrain_header_file.read().rstrip()
 
-    return all_cells
+    entry += str(mapNum)
 
+    with open(os.path.join(os.getcwd(), 'terrain_footer.txt'),
+              "r") as terrain_footer_file:
+        entry += terrain_footer_file.read().rstrip()
 
-def recursive_dict_update(info_dict, list_path, data):
-    "Recurses through the info_dict using the sequence in list_path until "
-    "reaching the end, where data replaces whatever is currently in that part "
-    "of the dict.  This function uses a modifier that has effects beyond the "
-    "scope of the function."
-    if list_path == []:
-        return data
-    else:
-        info_dict[list_path[0]] = \
-            recursive_dict_update(info_dict.get(list_path[0], {}),
-                                  list_path[1:], data)
-        return info_dict
-
-
-def template_update(full_dict, settings, data):
-    # OBJ_REPLACE completely replaces the old value with the new value
-    paths = settings.get(_TEMPLATE_FUNC_OBJ_REPLACE, [])
-    if paths != []:
-        # TODO: this is ugly, find a better way
-        if isinstance(paths[0], list):
-            for path in paths:
-                recursive_dict_update(full_dict, path, data)
-        else:
-            recursive_dict_update(full_dict, paths, data)
-
-    # STR_FORMAT uses printf formatting to change the string in the dict
-    for string, paths in settings.get(_TEMPLATE_FUNC_STR_FORMAT, {}).items():
-        # TODO: this is ugly, find a better way
-        if isinstance(paths[0], list):
-            for path in paths:
-                recursive_dict_update(full_dict, path, string % data)
-        else:
-            recursive_dict_update(full_dict, paths, string % data)
-
-
-def complete_json_file(template_file, all_cells, remove_template=True):
-    json_list = []
-    json_template = json.load(template_file)
-
-    template_settings = json_template.get(_TEMPLATE_JSON_SECTION)
-    if remove_template:
-        json_template.pop(_TEMPLATE_JSON_SECTION, None)
-
-    for cell_no, cell in enumerate(all_cells, 1):
-        copy_of_template = copy.deepcopy(json_template)
-        template_update(copy_of_template,
-                        template_settings.get(_TEMPLATE_TYPE_CELL_MAP, {}),
-                        cell)
-        template_update(copy_of_template,
-                        template_settings.get(_TEMPLATE_TYPE_CELL_NUM, {}),
-                        cell_no)
-
-        json_list.append(copy_of_template)
-
-    # TODO: better output file names
-    with open("updated_" + template_file.name, "w") as outfile:
-        json.dump(json_list, outfile, indent=4, separators=(",", ": "),
-                  sort_keys=True)
-
+    with open(os.path.join(os.getcwd(), 'output',
+                           'overmap_terrain_entry.json'),
+              "a") as outfile:
+        outfile.write(entry)
 
 if __name__ == "__main__":
-    # TODO: epilog needs actual formatting. see argparse formatterclass
-    main_parser = argparse.ArgumentParser(description=
-        "A script for combining multi-cell maps with their json data.",
-        epilog="To format the json template, add the key '{section}' to the "
-        "root dictionary.  In that section, create a dictionary with one or "
-        "more template type keys.  Each type key should have a dictionary of "
-        "function keys.  Each function key has its own value format, however "
-        "they will all have a destination or list of destinations of where "
-        "in the json template to perform the function.\n\nList of types:\t"
-        "'{cell_map}':\tThe list of ascii lines representing the map cell.\n\t"
-        "'{cell_num}':\tThe number of the current cell.\n\nList of functions:"
-        "\t'{obj_repl}':\tValue is a keypath or list of keypaths where the "
-        "value at the end of the keypath will be replaced with the chosen "
-        "type.\n\t'{str_form}'\tValue is a dictionary with printf formatted "
-        "strings as keys which have keypath or list of keypaths as values.  "
-        "The value at the end of the keypath(s) will be replaced with the "
-        "string formatted with the type as input.".format(
-            section=_TEMPLATE_JSON_SECTION, cell_map=_TEMPLATE_TYPE_CELL_MAP,
-            cell_num=_TEMPLATE_TYPE_CELL_NUM,
-            obj_repl=_TEMPLATE_FUNC_OBJ_REPLACE,
-            str_form=_TEMPLATE_FUNC_STR_FORMAT))
-
-    main_parser.add_argument("map_file", metavar="map-file",
-                        type=argparse.FileType("r"),
-                        help="A file that contains an ascii representation "
-                        "of one or more map cells.")
-
-    main_parser.add_argument("json_templates", metavar="json-file",
-                        nargs="+",
-                        type=argparse.FileType("r"),
-                        help="A json template that will be combined with the "
-                        "map cells to a properly formatted json map file.  "
-                        "See below for templating format.")
-
-    args = main_parser.parse_args()
-
-    with args.map_file:
-        all_cells = get_map_cells(args.map_file, _MAP_CELL_SIZE)
-
-    for json_template in args.json_templates:
-        with json_template:
-            try:
-                complete_json_file(json_template, all_cells)
-            except ValueError as val_err:
-                main_parser.exit(1, "Could not parse json in file {file_name}"
-                "\n{json_err}\n".format(file_name=json_template.name,
-                                        json_err=str(val_err)))
+    main()
 

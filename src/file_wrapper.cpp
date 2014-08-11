@@ -17,8 +17,7 @@
 #include <tchar.h>
 #endif
 
-bool assure_dir_exist( std::string path )
-{
+bool assure_dir_exist( std::string path ) {
     DIR *dir = opendir( path.c_str() );
     if( dir != NULL ) {
         closedir( dir );
@@ -31,14 +30,12 @@ bool assure_dir_exist( std::string path )
 #endif
 }
 
-bool file_exist(const std::string &path)
-{
+bool file_exist(const std::string &path) {
     struct stat buffer;
     return ( stat( path.c_str(), &buffer ) == 0 );
 }
 
-bool remove_file(const std::string &path)
-{
+bool remove_file(const std::string &path) {
 #if (defined _WIN32 || defined __WIN32__)
     return DeleteFile(path.c_str()) != 0;
 #else
@@ -46,8 +43,7 @@ bool remove_file(const std::string &path)
 #endif
 }
 
-bool rename_file(const std::string &old_path, const std::string &new_path)
-{
+bool rename_file(const std::string &old_path, const std::string &new_path) {
 #if (defined _WIN32 || defined __WIN32__)
     // Windows rename function does not override existing targets, so we
     // have to remove the target to make it compatible with the linux rename

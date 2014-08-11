@@ -2109,8 +2109,7 @@ void player_hit_message(player* attacker, std::string message,
                     t.ypos(),
                     direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
                     health_bar, m_good,
-                    //~ “hit points”, used in scrolling combat text
-                    _("hp"), m_neutral,
+                    "hp", m_neutral,
                     "hp");
         } else {
             SCT.removeCreatureHP();

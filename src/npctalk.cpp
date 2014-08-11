@@ -2391,7 +2391,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   RESPONSE(_("Can I do anything for you?"));
    SUCCESS(TALK_MISSION_LIST);
   SELECT_TEMP(_("Can you teach me anything?"), 0);
-   if (!p->has_disease("asked_to_train")) {
+   if (!p->has_disease(_("asked_to_train"))) {
     int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
                   3 * p->op_of_u.anger + p->op_of_u.owed / 50;
     TRIAL(TALK_TRIAL_PERSUADE, commitment * 2);
@@ -2421,7 +2421,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   }
   if (p->is_following()) {
    RESPONSE(_("I'd like to know a bit more about you..."));
-   if (!p->has_disease("asked_personal_info")) {
+   if (!p->has_disease(_("asked_personal_info"))) {
     int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
                  3 * p->op_of_u.anger + p->op_of_u.owed / 25;
     TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);

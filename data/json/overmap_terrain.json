@@ -4247,7 +4247,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "evac_center_19",
-        "name" : "refugee center",
+        "name" : "refugee renter",
         "sym" : 4194414,
         "color" : "white",
         "extras" : "build",

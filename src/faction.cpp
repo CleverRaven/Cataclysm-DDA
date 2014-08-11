@@ -83,10 +83,10 @@ void faction::load_faction(JsonObject &jsobj)
     _all_faction[jsobj.get_string("id")] = fac;
 }
 
-faction *faction::find_faction(std::string ident)
+faction* faction::find_faction(std::string ident)
 {
     faction_map::iterator found = _all_faction.find(ident);
-    if (found != _all_faction.end()) {
+    if (found != _all_faction.end()){
         return &(found->second);
     } else {
         debugmsg("Tried to get invalid faction: %s", ident.c_str());
@@ -98,7 +98,7 @@ faction *faction::find_faction(std::string ident)
 void faction::load_faction_template(std::string ident)
 {
     faction_map::iterator found = _all_faction.find(ident);
-    if (found != _all_faction.end()) {
+    if (found != _all_faction.end()){
         id = found->second.id;
         name = found->second.name;
         likes_u = found->second.likes_u;
@@ -123,8 +123,8 @@ void faction::load_faction_template(std::string ident)
 std::vector<std::string> faction::all_json_factions()
 {
     std::vector<std::string> v;
-    for(std::map<std::string, faction>::const_iterator it = _all_faction.begin();
-        it != _all_faction.end(); it++) {
+    for(std::map<std::string, faction>::const_iterator it = _all_faction.begin(); it != _all_faction.end(); it++)
+    {
         v.push_back(it -> first.c_str());
     }
     return v;
@@ -539,14 +539,13 @@ bool faction::matches_us(faction_value v)
 std::string faction::describe()
 {
     std::string ret;
-    ret = desc + "\n \n" + string_format( _("%s have the ultimate goal of %s."), name.c_str(),
-                                          facgoal_data[goal].name.c_str());
+    ret = desc + "\n \n" +string_format( _("%s have the ultimate goal of %s."), name.c_str(), facgoal_data[goal].name.c_str());
     if (job2 == FACJOB_NULL) {
         ret += string_format( _(" Their primary concern is %s."), facjob_data[job1].name.c_str());
     } else {
         ret += string_format( _(" Their primary concern is %s, but they are also involved in %s."),
-                              facjob_data[job1].name.c_str(),
-                              facjob_data[job2].name.c_str());
+                               facjob_data[job1].name.c_str(),
+                               facjob_data[job2].name.c_str());
     }
     if (values != 0) {
         ret += _(" They are known for ");

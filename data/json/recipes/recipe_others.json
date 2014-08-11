@@ -81,7 +81,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ],
+      [ "toolset", 15 ],
       [ "soldering_iron", 150 ]
     ]
   ],
@@ -113,7 +113,7 @@
     [
       ["welder", 100],
       ["welder_crude", 150],
-      ["toolset", 150]
+      ["toolset", 4]
     ]
   ],
   "components": [
@@ -146,7 +146,7 @@
      [ ["mold_plastic", -1] ],
      [
       ["hotplate", 10],
-      ["toolset", 10],
+      ["toolset", 1],
       ["fire", -1]
      ],
      [
@@ -154,7 +154,7 @@
      ],
      [
       [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
+      [ "toolset", 1 ]
      ]
   ],
   "components" : [
@@ -282,7 +282,7 @@
     [
       [ "welder", 35 ],
       [ "welder_crude", 52 ],
-      [ "toolset", 52 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -316,7 +316,7 @@
     [
       [ "welder", 15 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
+      [ "toolset", 1 ]
     ]
   ],
   "components": [
@@ -349,7 +349,7 @@
     [
       [ "welder", 35 ],
       [ "welder_crude", 52 ],
-      [ "toolset", 52 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -383,7 +383,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 3 ]
     ]
   ],
   "components": [
@@ -419,7 +419,7 @@
   ], "tools": [
         [
             [ "soldering_iron", 16 ],
-            [ "toolset", 16 ]
+            [ "toolset", 2 ]
         ]
         ],
     "components": [
@@ -1044,7 +1044,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -1090,7 +1090,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ]
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -1171,7 +1171,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -1199,7 +1199,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 2 ]
     ],
     [
       [ "needle_bone", 50 ],
@@ -1298,7 +1298,7 @@
       [ "fire", -1 ],
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 3 ]
+      [ "toolset", 1 ]
     ]
   ],
   "components": [
@@ -1354,7 +1354,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -1390,7 +1390,7 @@
     [
       [ "welder", 300 ],
       [ "welder_crude", 450 ],
-      [ "toolset", 450 ]
+      [ "toolset", 12 ]
     ]
   ],
   "components": [
@@ -1578,7 +1578,7 @@
       [ "char_smoker", 1 ],
       [ "lighter", 5 ],
       [ "ref_lighter", 5 ],
-      [ "toolset", 2 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1668,7 +1668,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 5 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1708,7 +1708,7 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
+      [ "toolset", 1 ],
       [ "forge", 10],
       [ "char_forge", 2]
     ]
@@ -1756,7 +1756,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -1781,7 +1781,7 @@
     [
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
-      [ "toolset", 90 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -1809,7 +1809,7 @@
     [
       [ "welder", 40 ],
       [ "welder_crude", 60 ],
-      [ "toolset", 60 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -1839,7 +1839,7 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
+      [ "toolset", 1 ]
     ]
   ],
   "components": [
@@ -1867,7 +1867,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ],
+      [ "toolset", 2 ],
       [ "forge", 50 ],
       [ "char_forge", 10]
     ]
@@ -1897,7 +1897,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ],
+      [ "toolset", 2 ],
       [ "forge", 50 ],
       [ "char_forge", 10]
     ]
@@ -1944,7 +1944,7 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
+      [ "toolset", 1 ]
     ]
   ],
   "components": [
@@ -1988,7 +1988,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ],
+      [ "toolset", 5 ],
       [ "forge", 100 ],
       [ "char_forge", 20]
     ]
@@ -2016,7 +2016,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ],
+      [ "toolset", 5 ],
       [ "forge", 100 ],
       [ "char_forge", 20]
     ]
@@ -2051,7 +2051,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ],
+      [ "toolset", 5 ],
       [ "forge", 100 ],
       [ "char_forge", 20]
     ]
@@ -2310,7 +2310,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -2337,7 +2337,7 @@
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -2458,7 +2458,7 @@
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
+      [ "toolset", 1 ]
     ]
   ],
   "components": [
@@ -2517,7 +2517,7 @@
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
+      [ "toolset", 1 ],
       [ "forge", 5],
       [ "char_forge", 1]
     ]
@@ -2677,7 +2677,7 @@
   "tools": [
     [
       ["hotplate", 2],
-      ["toolset", 2],
+      ["toolset", 1],
       ["fire", -1]
     ]
   ],
@@ -2699,7 +2699,7 @@
   "tools": [
     [
       ["hotplate", 5],
-      ["toolset", 5],
+      ["toolset", 1],
       ["fire", -1]
     ]
   ],
@@ -2724,7 +2724,7 @@
     ],
     [
       ["hotplate", 5],
-      ["toolset", 5],
+      ["toolset", 1],
       ["fire", -1]
     ]
   ],
@@ -2908,8 +2908,8 @@
       [
       [ "welder", 200 ],
       [ "welder_crude", 300 ],
-      [ "toolset", 300 ],
-      [ "soldering_iron", 300 ]
+      [ "toolset", 20 ],
+      [ "soldering_iron", 200 ]
       ] ],
   "components":
     [
@@ -3743,7 +3743,7 @@
     [
       [ "welder", 100],
       [ "welder_crude", 150],
-      [ "toolset", 150]
+      [ "toolset", 4]
     ]
   ],
   "components": [
@@ -3816,7 +3816,7 @@
       [ "lighter", 20 ],
       [ "ref_lighter", 20 ],
       [ "fire", -1 ],
-      [ "toolset", 20 ]
+      [ "toolset", 2 ]
     ]
   ],
   "components": [
@@ -3843,7 +3843,7 @@
     [
       [ "hotplate", 18 ],
       [ "chemistry_set", 18 ],
-      [ "toolset", 18 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3874,7 +3874,7 @@
     [
       [ "hotplate", 18 ],
       [ "chemistry_set", 18 ],
-      [ "toolset", 18 ],
+      [ "toolset", 1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3913,8 +3913,8 @@
      [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ],
-      [ "soldering_iron", 150 ]
+      [ "toolset", 10 ],
+      [ "soldering_iron", 100 ]
      ]
     ],
   "components":
@@ -3956,8 +3956,8 @@
      [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
-      [ "toolset", 75 ],
-      [ "soldering_iron", 75 ]
+      [ "toolset", 5 ],
+      [ "soldering_iron", 50 ]
      ]
     ],
   "components":
@@ -3991,8 +3991,8 @@
     [
       [ "welder", 150 ],
       [ "welder_crude", 225 ],
-      [ "toolset", 225 ],
-      [ "soldering_iron", 225 ]
+      [ "toolset", 15 ],
+      [ "soldering_iron", 150 ]
     ] ],
   "components":
     [
@@ -4162,7 +4162,7 @@
     [
       ["welder", 20],
       ["welder_crude", 30],
-      ["toolset", 30]
+      ["toolset", 1]
     ],
     [
       ["fire", -1]
@@ -4228,7 +4228,7 @@
   "tools": [
     [
       [ "soldering_iron", 40 ],
-      [ "toolset", 40 ]
+      [ "toolset", 4 ]
     ]
   ],
   "components": [
@@ -4545,7 +4545,7 @@
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
-      [ "toolset", 150 ],
+      [ "toolset", 10 ],
       [ "soldering_iron", 150 ]
     ] ],
   "components":

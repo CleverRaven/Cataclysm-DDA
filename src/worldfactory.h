@@ -14,7 +14,8 @@
 #include <string>
 #include <algorithm>
 
-struct WORLD {
+struct WORLD
+{
     std::string world_path;
     std::string world_name;
     std::unordered_map<std::string, cOpt> world_options;

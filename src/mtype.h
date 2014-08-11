@@ -124,68 +124,67 @@ enum m_flag {
 };
 
 struct mtype {
-    private:
-        friend class MonsterGenerator;
-        std::string name;
-        std::string name_plural;
-    public:
-        std::string id;
-        std::string description;
-        std::set<std::string> species, categories;
-        /** UTF-8 encoded symbol, should be exactyle one cell wide. */
-        std::string sym;
-        nc_color color;
-        m_size size;
-        std::string mat;
-        phase_id phase;
-        std::set<m_flag> flags;
-        std::set<monster_trigger> anger, placate, fear;
+private:
+    friend class MonsterGenerator;
+    std::string name;
+    std::string name_plural;
+public:
+    std::string id;
+    std::string description;
+    std::set<std::string> species, categories;
+    /** UTF-8 encoded symbol, should be exactyle one cell wide. */
+    std::string sym;
+    nc_color color;
+    m_size size;
+    std::string mat;
+    phase_id phase;
+    std::set<m_flag> flags;
+    std::set<monster_trigger> anger, placate, fear;
 
-        std::bitset<MF_MAX> bitflags;
-        std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
+    std::bitset<MF_MAX> bitflags;
+    std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
 
-        int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
-        int agro;       // How likely to attack; -100 to 100
-        int morale;     // Default morale level
+    int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
+    int agro;       // How likely to attack; -100 to 100
+    int morale;     // Default morale level
 
-        unsigned int  speed;       // Speed; human = 100
-        unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
-        unsigned char melee_dice;  // Number of dice on melee hit
-        unsigned char melee_sides; // Number of sides those dice have
-        unsigned char melee_cut;   // Bonus cutting damage
-        unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
-        unsigned char armor_bash;  // Natural armor vs. bash
-        unsigned char armor_cut;   // Natural armor vs. cut
-        std::string
-        death_drops;   // Name of item group that is used to create item dropped upon death, or empty
-        float luminance;           // 0 is default, >0 gives luminance to lightmap
-        int hp;
-        unsigned int sp_freq;     // How long sp_attack takes to charge
-        std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
-        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        void (mattack::*sp_attack)(monster *); // This monster's special attack
-        // This monster's special "defensive" move that may trigger when the monster is attacked.
-        // Note that this can be anything, and is not necessarily beneficial to the monster
-        void (mdefense::*sp_defense)(monster *, const projectile *);
-        // Default constructor
-        mtype ();
+    unsigned int  speed;       // Speed; human = 100
+    unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
+    unsigned char melee_dice;  // Number of dice on melee hit
+    unsigned char melee_sides; // Number of sides those dice have
+    unsigned char melee_cut;   // Bonus cutting damage
+    unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
+    unsigned char armor_bash;  // Natural armor vs. bash
+    unsigned char armor_cut;   // Natural armor vs. cut
+    std::string death_drops;   // Name of item group that is used to create item dropped upon death, or empty
+    float luminance;           // 0 is default, >0 gives luminance to lightmap
+    int hp;
+    unsigned int sp_freq;     // How long sp_attack takes to charge
+    std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
+    unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
+    void (mattack::*sp_attack)(monster *); // This monster's special attack
+    // This monster's special "defensive" move that may trigger when the monster is attacked.
+    // Note that this can be anything, and is not necessarily beneficial to the monster
+    void (mdefense::*sp_defense)(monster *, const projectile*);
+    // Default constructor
+    mtype ();
 
-        // Used to fetch the properly pluralized monster type name
-        std::string nname(unsigned int quantity = 1) const;
-        bool has_flag(m_flag flag) const;
-        bool has_flag(std::string flag) const;
-        void set_flag(std::string flag, bool state);
-        bool has_anger_trigger(monster_trigger trigger) const;
-        bool has_fear_trigger(monster_trigger trigger) const;
-        bool has_placate_trigger(monster_trigger trigger) const;
-        bool in_category(std::string category) const;
-        bool in_species(std::string _species) const;
-        //Used for corpses.
-        field_id bloodType ();
-        field_id gibType ();
-        // The item id of the meat items that are produced by this monster (or "null")
-        // if there is no matching item type. e.g. "veggy" for plant monsters.
-        itype_id get_meat_itype() const;
+    // Used to fetch the properly pluralized monster type name
+    std::string nname(unsigned int quantity = 1) const;
+    bool has_flag(m_flag flag) const;
+    bool has_flag(std::string flag) const;
+    void set_flag(std::string flag, bool state);
+    bool has_anger_trigger(monster_trigger trigger) const;
+    bool has_fear_trigger(monster_trigger trigger) const;
+    bool has_placate_trigger(monster_trigger trigger) const;
+    bool in_category(std::string category) const;
+    bool in_species(std::string _species) const;
+    //Used for corpses.
+    field_id bloodType ();
+    field_id gibType ();
+    // The item id of the meat items that are produced by this monster (or "null")
+    // if there is no matching item type. e.g. "veggy" for plant monsters.
+    itype_id get_meat_itype() const;
 };
 
 #endif

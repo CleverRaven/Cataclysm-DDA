@@ -131,8 +131,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //float constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn,
-           copt_hide_t opt_hide = COPT_NO_HIDE)
+           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -162,34 +161,35 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 //helper functions
 bool cOpt::is_hidden()
 {
-    switch(hide) {
-    case COPT_NO_HIDE:
-        return false;
+    switch(hide)
+    {
+        case COPT_NO_HIDE:
+            return false;
 
-    case COPT_SDL_HIDE:
+        case COPT_SDL_HIDE:
 #ifdef SDLTILES
-        return true;
+            return true;
 #else
-        return false;
+            return false;
 #endif
 
-    case COPT_CURSES_HIDE:
+        case COPT_CURSES_HIDE:
 #ifndef SDLTILES // If not defined. it's curses interface.
-        return true;
+            return true;
 #else
-        return false;
+            return false;
 #endif
 
-    case COPT_POSIX_CURSES_HIDE:
-        // Check if we on windows and using wincuses.
+        case COPT_POSIX_CURSES_HIDE:
+// Check if we on windows and using wincuses.
 #if ((defined TILES && defined SDLTILES) || defined _WIN32 || defined WINDOWS)
         return false;
 #else
         return true;
 #endif
 
-    default:
-        return false; // No hide on default
+        default:
+            return false; // No hide on default
     }
 }
 
@@ -276,8 +276,7 @@ std::string cOpt::getDefaultText(const bool bTranslated)
             }
             sItems += (bTranslated) ? optionNames[vItems[i]] : vItems[i];
         }
-        return string_format(_("Default: %s - Values: %s"),
-                             (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
+        return string_format(_("Default: %s - Values: %s"), (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
 
     } else if (sType == "bool") {
         return (bDefault) ? _("Default: True") : _("Default: False");
@@ -459,8 +458,7 @@ void initOptions()
     }
 
     std::string tileset_names;
-    tileset_names = get_tileset_names(
-                        FILENAMES["gfxdir"]); //get the tileset names and set the optionNames
+    tileset_names = get_tileset_names(FILENAMES["gfxdir"]); //get the tileset names and set the optionNames
 
     ////////////////////////////GENERAL//////////////////////////
     OPTIONS["AUTO_PICKUP"] = cOpt("general", _("Auto pickup enabled"),
@@ -746,7 +744,7 @@ void initOptions()
     OPTIONS["ANIMATION_DELAY"] = cOpt("graphics", _("Animation delay"),
                                       _("The amount of time to pause between animation frames in ms."),
                                       0, 100, 10
-                                     );
+                                      );
 
     mOptionsSort["graphics"]++;
 
@@ -793,8 +791,8 @@ void initOptions()
 
     ////////////////////////////DEBUG////////////////////////////
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
-            _("Determines the scope, which is known in the beginning of the game."),
-            3, 20, 15
+                                                  _("Determines the scope, which is known in the beginning of the game."),
+                                                  3, 20, 15
                                                  );
 
     mOptionsSort["debug"]++;
@@ -936,18 +934,18 @@ void initOptions()
 
     //Sort out possible double empty lines after options are hidden
     for (unsigned i = 0; i < vPages.size(); ++i) {
-        bool bLastLineEmpty = false;
+    bool bLastLineEmpty = false;
         while (mPageItems[i][0] == "") {
             //delete empty lines at the beginning
             mPageItems[i].erase(mPageItems[i].begin());
         }
 
-        while (mPageItems[i][mPageItems[i].size() - 1] == "") {
+        while (mPageItems[i][mPageItems[i].size()-1] == "") {
             //delete empty lines at the end
-            mPageItems[i].erase(mPageItems[i].end() - 1);
+            mPageItems[i].erase(mPageItems[i].end()-1);
         }
 
-        for (unsigned j = mPageItems[i].size() - 1; j > 0; --j) {
+        for (unsigned j = mPageItems[i].size()-1; j > 0; --j) {
             bool bThisLineEmpty = (mPageItems[i][j] == "");
 
             if (bLastLineEmpty == true && bThisLineEmpty == true) {
@@ -1249,6 +1247,7 @@ void show_options(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
+        setlocale( LC_ALL, OPTIONS["USE_LANG"].getValue().c_str() );
     }
 #ifdef SDLTILES
     if( used_tiles_changed ) {

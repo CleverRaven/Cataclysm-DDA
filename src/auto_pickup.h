@@ -20,15 +20,13 @@ class cPickupRules
         bool bActive;
         bool bExclude;
 
-        cPickupRules()
-        {
+        cPickupRules() {
             this->sRule = "";
             this->bActive = false;
             this->bExclude = false;
         }
 
-        cPickupRules(std::string sRuleIn, bool bActiveIn, bool bExcludeIn)
-        {
+        cPickupRules(std::string sRuleIn, bool bActiveIn, bool bExcludeIn) {
             this->sRule = sRuleIn;
             this->bActive = bActiveIn;
             this->bExclude = bExcludeIn;

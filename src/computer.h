@@ -11,7 +11,8 @@
 class game;
 class player;
 
-enum computer_action {
+enum computer_action
+{
     COMPACT_NULL = 0,
     COMPACT_OPEN,
     COMPACT_LOCK,
@@ -51,7 +52,8 @@ enum computer_action {
     NUM_COMPUTER_ACTIONS
 };
 
-enum computer_failure {
+enum computer_failure
+{
     COMPFAIL_NULL = 0,
     COMPFAIL_SHUTDOWN,
     COMPFAIL_ALARM,
@@ -66,7 +68,8 @@ enum computer_failure {
     NUM_COMPUTER_FAILURES
 };
 
-struct computer_option {
+struct computer_option
+{
     std::string name;
     computer_action action;
     int security;
@@ -81,71 +84,71 @@ struct computer_option {
 
 class computer
 {
-    public:
-        computer();
-        computer(std::string Name, int Security);
-        ~computer();
+public:
+    computer();
+    computer(std::string Name, int Security);
+    ~computer();
 
-        computer &operator=(const computer &rhs);
-        // Initialization
-        void set_security(int Security);
-        void add_option(std::string opt_name, computer_action action, int Security);
-        void add_failure(computer_failure failure);
-        // Basic usage
-        void shutdown_terminal(); // Shutdown (free w_terminal, etc)
-        void use();
-        bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
-        // Save/load
-        std::string save_data();
-        void load_data(std::string data);
+    computer & operator=(const computer &rhs);
+    // Initialization
+    void set_security(int Security);
+    void add_option(std::string opt_name, computer_action action, int Security);
+    void add_failure(computer_failure failure);
+    // Basic usage
+    void shutdown_terminal(); // Shutdown (free w_terminal, etc)
+    void use();
+    bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
+    // Save/load
+    std::string save_data();
+    void load_data(std::string data);
 
-        std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
-        int mission_id; // Linked to a mission?
+    std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
+    int mission_id; // Linked to a mission?
 
-        static void load_lab_note(JsonObject &jsobj);
-        static void clear_lab_notes();
+    static void load_lab_note(JsonObject &jsobj);
+    static void clear_lab_notes();
 
-    private:
-        // Difficulty of simply logging in
-        int security;
-        // Things we can do
-        std::vector<computer_option> options;
-        // Things that happen if we fail a hack
-        std::vector<computer_failure> failures;
-        // Output window
-        WINDOW *w_terminal;
-        // Pretty border
-        WINDOW *w_border;
-        // Misc research notes from json
-        static std::vector<std::string> lab_notes;
+private:
+    // Difficulty of simply logging in
+    int security;
+    // Things we can do
+    std::vector<computer_option> options;
+    // Things that happen if we fail a hack
+    std::vector<computer_failure> failures;
+    // Output window
+    WINDOW *w_terminal;
+    // Pretty border
+    WINDOW *w_border;
+    // Misc research notes from json
+    static std::vector<std::string> lab_notes;
 
-        // Called by use()
-        void activate_function      (computer_action action);
-        // Generally called when we fail a hack attempt
-        void activate_random_failure();
-        // ...but we can also choose a specific failure.
-        void activate_failure       (computer_failure fail);
+    // Called by use()
+    void activate_function      (computer_action action);
+    // Generally called when we fail a hack attempt
+    void activate_random_failure();
+    // ...but we can also choose a specific failure.
+    void activate_failure       (computer_failure fail);
 
-        // OUTPUT/INPUT:
+    // OUTPUT/INPUT:
 
-        // Reset to a blank terminal (e.g. at start of usage loop)
-        void reset_terminal();
-        // Prints a line to the terminal (with printf flags)
-        void print_line(const char *text, ...);
-        // For now, the same as print_line but in red (TODO: change this?)
-        void print_error(const char *text, ...);
-        // Wraps and prints a block of text with a 1-space indent
-        void print_text(const char *text, ...);
-        // Prints code-looking gibberish
-        void print_gibberish_line();
-        // Prints a line and waits for Y/N/Q
-        char query_ynq(const char *text, ...);
-        // Same as query_ynq, but returns true for y or Y
-        bool query_bool(const char *text, ...);
-        // Simply wait for any key, returns True
-        bool query_any(const char *text, ...);
-        // Move the cursor to the beginning of the next line
-        void print_newline();
+    // Reset to a blank terminal (e.g. at start of usage loop)
+    void reset_terminal();
+    // Prints a line to the terminal (with printf flags)
+    void print_line(const char *text, ...);
+    // For now, the same as print_line but in red (TODO: change this?)
+    void print_error(const char *text, ...);
+    // Wraps and prints a block of text with a 1-space indent
+    void print_text(const char* text, ...);
+    // Prints code-looking gibberish
+    void print_gibberish_line();
+    // Prints a line and waits for Y/N/Q
+    char query_ynq(const char *text, ...);
+    // Same as query_ynq, but returns true for y or Y
+    bool query_bool(const char *text, ...);
+    // Simply wait for any key, returns True
+    bool query_any(const char *text, ...);
+    // Move the cursor to the beginning of the next line
+    void print_newline();
 };
 
 #endif

@@ -15,7 +15,7 @@
 
 #ifdef LOCALIZE
 
-const char *pgettext(const char *context, const char *msgid)
+const char * pgettext(const char *context, const char *msgid)
 {
     // need to construct the string manually,
     // to correctly handle strings loaded from json.
@@ -41,7 +41,7 @@ void set_language(bool reload_options)
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if (defined _WIN32 || defined WINDOWS)
         std::string lang_env = "LANGUAGE=" + lang_opt;
-        if (_putenv(lang_env.c_str()) != 0) {
+        if (_putenv(lang_env.c_str()) != 0){
             DebugLog(D_WARNING, D_MAIN) << "Can't set 'LANGUAGE' environment variable";
         }
 #else
@@ -88,7 +88,7 @@ void set_language(bool reload_options)
 #else // !LOCALIZE
 void set_language(bool reload_options)
 {
-    (void) reload_options; // Cancels MinGW warning on Windows
+  (void) reload_options; // Cancels MinGW warning on Windows
 }
 
 // sanitized message cache
@@ -98,7 +98,7 @@ std::map<const char *, std::string> &sanitized_messages()
     return sanitized_messages;
 }
 
-const char *strip_positional_formatting(const char *msgid)
+const char * strip_positional_formatting(const char *msgid)
 {
     // first check if we have it cached
     if (sanitized_messages().find(msgid) != sanitized_messages().end()) {

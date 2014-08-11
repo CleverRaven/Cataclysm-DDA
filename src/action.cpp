@@ -17,8 +17,7 @@ extern input_context get_default_mode_input_context();
 void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap,
                   std::set<action_id> &unbound_keymap);
 
-void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from,
-                            std::set<action_id> &unbound_keymap)
+void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from, std::set<action_id> &unbound_keymap)
 {
     // Load the player's actual keymap
     std::ifstream fin;
@@ -38,8 +37,7 @@ void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keym
     parse_keymap(fin, keymap, unbound_keymap);
 }
 
-void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap,
-                  std::set<action_id> &unbound_keymap)
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, std::set<action_id> &unbound_keymap)
 {
     while (!keymap_txt.eof()) {
         std::string id;
@@ -593,21 +591,21 @@ action_id handle_action_menu()
             REGISTER_CATEGORY("craft");
             REGISTER_CATEGORY("info");
             REGISTER_CATEGORY("misc");
-            if (hotkey_for_action(ACTION_QUICKSAVE) > -1) {
+            if (hotkey_for_action(ACTION_QUICKSAVE) >-1) {
                 REGISTER_ACTION(ACTION_QUICKSAVE);
             }
             REGISTER_ACTION(ACTION_SAVE);
-            if (hotkey_for_action(ACTION_QUIT) > -1) {
+            if (hotkey_for_action(ACTION_QUIT) >-1) {
                 REGISTER_ACTION(ACTION_QUIT);
             }
             REGISTER_ACTION(ACTION_HELP);
-            if ((entry = &entries.back())) {
+            if ((entry= &entries.back())) {
                 entry->txt += "...";        // help _is_a menu.
             }
-            if (hotkey_for_action(ACTION_DEBUG) > -1) {
+            if (hotkey_for_action(ACTION_DEBUG) >-1) {
                 REGISTER_CATEGORY("debug"); // register with globalkey
-                if ((entry = &entries.back())) {
-                    entry->hotkey = hotkey_for_action(ACTION_DEBUG);
+                if ((entry= &entries.back())) {
+                    entry->hotkey= hotkey_for_action(ACTION_DEBUG);
                 }
             }
         } else if(category == "look") {
@@ -637,13 +635,13 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_UNLOAD);
         } else if(category == "debug") {
             REGISTER_ACTION(ACTION_DEBUG);
-            if ((entry = &entries.back())) {
+            if ((entry= &entries.back())) {
                 entry->txt += "..."; // debug _is_a menu.
             }
             REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
-#ifndef TILES
-            REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
-#endif
+            #ifndef TILES
+                REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
+            #endif
             REGISTER_ACTION(ACTION_DISPLAY_SCENT);
             REGISTER_ACTION(ACTION_TOGGLE_DEBUGMON);
         } else if(category == "interact") {
@@ -685,12 +683,12 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_SLEEP);
             REGISTER_ACTION(ACTION_BIONICS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
-#ifdef TILES
+            #ifdef TILES
             if (use_tiles) {
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
                 REGISTER_ACTION(ACTION_ZOOM_IN);
             }
-#endif
+            #endif
         }
 
         std::string title = _("Back");
@@ -703,8 +701,8 @@ action_id handle_action_menu()
 
         title = _("Actions");
         if(category != "back") {
-            catgname = _(category.c_str());
-            capitalize_letter(catgname, 0);
+            catgname= _(category.c_str());
+            capitalize_letter(catgname,0);
             title += ": " + catgname;
         }
 
@@ -717,14 +715,14 @@ action_id handle_action_menu()
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
-        int ix = (TERMX > width) ? (TERMX - width) / 2 - 1 : 0;
-        int iy = (TERMY > entries.size() + 2) ? (TERMY - entries.size() - 2) / 2 - 1 : 0;
+        int ix = (TERMX > width) ? (TERMX - width) / 2 -1 : 0;
+        int iy = (TERMY > entries.size() + 2) ? (TERMY - entries.size() -2) / 2 -1 : 0;
         int selection = (int) uimenu(true, std::max(ix, 0), std::min(width, TERMX - 2),
                                      std::max(iy, 0), title, entries);
 
         g->draw();
 
-        if (selection < 0) {
+        if (selection <0) {
             return ACTION_NULL;
         } else if (selection == 2 * NUM_ACTIONS) {
             if (category != "back") {
@@ -788,8 +786,7 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
 
             if(can_interact_at(action_to_highlight, x, y)) {
                 highlighted = true;
-                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos() + g->u.view_offset_x,
-                            g->u.ypos() + g->u.view_offset_y);
+                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos() + g->u.view_offset_x, g->u.ypos() + g->u.view_offset_y);
             }
         }
     }

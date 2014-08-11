@@ -11,7 +11,7 @@ void addict_effect(addiction &add)
     case ADD_CIG:
         if (in > 20 || one_in((500 - 20 * in))) {
             add_msg(rng(0, 6) < in ? _("You need some nicotine.") :
-                    _("You could use some nicotine."));
+                       _("You could use some nicotine."));
             g->u.add_morale(MORALE_CRAVING_NICOTINE, -15, -50);
             if (one_in(800 - 50 * in)) {
                 g->u.fatigue++;
@@ -161,17 +161,16 @@ void addict_effect(addiction &add)
         if (g->u.has_trait("MUT_JUNKIE")) {
             if (one_in(600 - 50 * in)) {
                 add_msg(m_warning, rng(0, 6) < in ? _("You so miss the exquisite rainbow of post-humanity.") :
-                        _("Your body is SOO booorrrring.  Just a little sip to liven things up?"));
+                           _("Your body is SOO booorrrring.  Just a little sip to liven things up?"));
                 g->u.add_morale(MORALE_CRAVING_MUTAGEN, -20, -200);
             }
             if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
                 g->u.focus_pool -= (in);
-                add_msg(m_warning,
-                        _("You daydream what it'd be like if you were *different*.  Different is good."));
+                add_msg(m_warning, _("You daydream what it'd be like if you were *different*.  Different is good."));
             }
         } else if (in > 5 || one_in((500 - 15 * in))) {
             add_msg(m_warning, rng(0, 6) < in ? _("You haven't had any mutagen lately.") :
-                    _("You could use some new parts..."));
+                       _("You could use some new parts..."));
             g->u.add_morale(MORALE_CRAVING_MUTAGEN, -5, -50);
         }
         break;
@@ -192,13 +191,13 @@ void addict_effect(addiction &add)
         } else if (!g->u.has_disease("hallu") && rng(10, 3200) < in) {
             g->u.add_disease("hallu", 3600);
         } else if (one_in(50) && dice(3, 50) < in) {
-            add_msg(m_bad, _("You throw up heavily!"));
-            g->cancel_activity_query(_("Throwing up."));
-            g->u.vomit();
-        }
+                add_msg(m_bad, _("You throw up heavily!"));
+                g->cancel_activity_query(_("Throwing up."));
+                g->u.vomit();
+            }
         break;
 
-    //for any other unhandled cases
+        //for any other unhandled cases
     default:
         break;
 
@@ -357,13 +356,13 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.")
 
     case ADD_COKE:
         return _("Perception - 1;   Intelligence - 1;  Frequent cravings.");
-
+        
     case ADD_CRACK:
         return _("Perception - 2;   Intelligence - 2;  Frequent cravings.");
-
+        
     case ADD_MUTAGEN:
         return _("You've gotten a taste for mutating and the chemicals that cause it.  But you can stop, yeah, any time you want.");
-
+        
     case ADD_DIAZEPAM:
         return _("Perception - 1;   Intelligence - 1;\n\
 Anxiety, nausea, hallucinations, and general malaise.");

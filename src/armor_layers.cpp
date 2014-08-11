@@ -39,7 +39,7 @@ void player::sort_armor()
     int req_mid_h = 3 + 1 + 8 + 7 + 13;
 
     const int win_h = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
-                               std::max(req_right_h, req_mid_h)));
+                                               std::max(req_right_h, req_mid_h)));
     const int win_w = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 3;
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
@@ -350,11 +350,11 @@ Press %s to assign special inventory letters to clothing.\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart."),
-                         ctxt.get_desc("MOVE_ARMOR").c_str(),
-                         ctxt.get_desc("PREV_TAB").c_str(),
-                         ctxt.get_desc("NEXT_TAB").c_str(),
-                         ctxt.get_desc("ASSIGN_INVLETS").c_str()
-                        );
+                ctxt.get_desc("MOVE_ARMOR").c_str(),
+                ctxt.get_desc("PREV_TAB").c_str(),
+                ctxt.get_desc("NEXT_TAB").c_str(),
+                ctxt.get_desc("ASSIGN_INVLETS").c_str()
+            );
             //TODO: refresh the window properly. Current method erases the intersection symbols
             draw_border(w_sort_armor); // hack to mark whole window for redrawing
             wrefresh(w_sort_armor);
@@ -414,18 +414,18 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
     std::vector<std::string> props;
     props.push_back(name_and_value(_("Coverage:"),
-                                   string_format("%3d", int(each_armor->coverage)), width));
+                    string_format("%3d", int(each_armor->coverage)), width));
     props.push_back(name_and_value(_("Encumbrance:"), string_format("%3d",
-                                   (worn_item->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1) :
-                                   int(each_armor->encumber)), width));
+                    (worn_item->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1) :
+                    int(each_armor->encumber)), width));
     props.push_back(name_and_value(_("Bash Protection:"),
-                                   string_format("%3d", int(worn_item->bash_resist())), width));
+                    string_format("%3d", int(worn_item->bash_resist())), width));
     props.push_back(name_and_value(_("Cut Protection:"),
-                                   string_format("%3d", int(worn_item->cut_resist())), width));
+                    string_format("%3d", int(worn_item->cut_resist())), width));
     props.push_back(name_and_value(_("Warmth:"),
-                                   string_format("%3d", int(each_armor->warmth)), width));
+                    string_format("%3d", int(each_armor->warmth)), width));
     props.push_back(name_and_value(_("Storage:"),
-                                   string_format("%3d", int(each_armor->storage)), width));
+                    string_format("%3d", int(each_armor->storage)), width));
 
     return props;
 }

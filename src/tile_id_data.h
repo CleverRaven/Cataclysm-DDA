@@ -3,7 +3,8 @@
 
 #define toString(x) #x
 
-const std::string multitile_keys[] = {
+const std::string multitile_keys[] =
+{
     toString(center),
     toString(corner),
     toString(edge),

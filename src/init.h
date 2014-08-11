@@ -9,64 +9,64 @@
 //********** Functor Base, Static and Class member accessors
 class TFunctor
 {
-    public:
-        virtual void operator ()(JsonObject &jo) = 0; // virtual () operator
-        virtual void Call(JsonObject &jo) = 0; // what will be getting called
-        virtual ~TFunctor() {};
+public:
+    virtual void operator ()(JsonObject &jo) = 0; // virtual () operator
+    virtual void Call(JsonObject &jo) = 0; // what will be getting called
+    virtual ~TFunctor() {};
 };
 
 class StaticFunctionAccessor : public TFunctor
 {
-    private:
-        void (*_fptr)(JsonObject &jo);
+private:
+    void (*_fptr)(JsonObject &jo);
 
-    public:
-        virtual void operator()(JsonObject &jo)
-        {
-            (*_fptr)(jo);
-        }
-        virtual void Call(JsonObject &jo)
-        {
-            (*_fptr)(jo);
-        }
+public:
+    virtual void operator()(JsonObject &jo)
+    {
+        (*_fptr)(jo);
+    }
+    virtual void Call(JsonObject &jo)
+    {
+        (*_fptr)(jo);
+    }
 
-        StaticFunctionAccessor(void (*fptr)(JsonObject &jo))
-        {
-            _fptr = fptr;
-        }
+    StaticFunctionAccessor(void (*fptr)(JsonObject &jo))
+    {
+        _fptr = fptr;
+    }
 
-        ~StaticFunctionAccessor()
-        {
-            _fptr = NULL;
-        }
+    ~StaticFunctionAccessor()
+    {
+        _fptr = NULL;
+    }
 };
 template <class TClass> class ClassFunctionAccessor : public TFunctor
 {
-    private:
-        void (TClass::*_fptr)(JsonObject &jo);
-        TClass *ptr_to_obj;
+private:
+    void (TClass::*_fptr)(JsonObject &jo);
+    TClass *ptr_to_obj;
 
-    public:
-        virtual void operator()(JsonObject &jo)
-        {
-            (*ptr_to_obj.*_fptr)(jo);
-        }
-        virtual void Call(JsonObject &jo)
-        {
-            (*ptr_to_obj.*_fptr)(jo);
-        }
+public:
+    virtual void operator()(JsonObject &jo)
+    {
+        (*ptr_to_obj.*_fptr)(jo);
+    }
+    virtual void Call(JsonObject &jo)
+    {
+        (*ptr_to_obj.*_fptr)(jo);
+    }
 
-        ClassFunctionAccessor(TClass *ptr2obj, void (TClass::*fptr)(JsonObject &jo))
-        {
-            ptr_to_obj = ptr2obj;
-            _fptr = fptr;
-        }
+    ClassFunctionAccessor(TClass *ptr2obj, void (TClass::*fptr)(JsonObject &jo))
+    {
+        ptr_to_obj = ptr2obj;
+        _fptr = fptr;
+    }
 
-        ~ClassFunctionAccessor()
-        {
-            _fptr = NULL;
-            ptr_to_obj = NULL;
-        }
+    ~ClassFunctionAccessor()
+    {
+        _fptr = NULL;
+        ptr_to_obj = NULL;
+    }
 };
 //********** END - Functor Base, Static and Class member accessors
 

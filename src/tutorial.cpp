@@ -48,7 +48,7 @@ bool tutorial_game::init()
     }
     g->cur_om->ter(lx, ly, 0) = "tutorial";
     g->cur_om->ter(lx, ly, -1) = "tutorial";
-    g->cur_om->clear_mon_groups();
+    g->cur_om->zg.clear();
     // to submap coordinates as it is supposed to be
     g->levx = lx * 2;
     g->levy = ly * 2;

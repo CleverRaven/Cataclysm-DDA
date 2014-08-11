@@ -27,12 +27,10 @@ class Creature
         virtual std::string disp_name(bool possessive = false) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
 
-        virtual bool is_player() const
-        {
+        virtual bool is_player() const {
             return false;
         }
-        virtual bool is_npc () const
-        {
+        virtual bool is_npc () const {
             return false;
         }
 
@@ -42,8 +40,7 @@ class Creature
         virtual void set_fake (const bool fake_value);
 
         virtual void normalize(); // recreate the Creature from scratch
-        virtual void
-        process_turn(); // handles long-term non-idempotent updates to creature state (e.g. moves += speed, bionics hunger costs)
+        virtual void process_turn(); // handles long-term non-idempotent updates to creature state (e.g. moves += speed, bionics hunger costs)
         virtual void reset(); // handle both reset steps. Call this function instead of reset_stats/bonuses
         virtual void reset_bonuses(); // reset the value of all bonus fields to 0
         virtual void reset_stats(); // prepare the Creature for the next turn. Should be idempotent
@@ -53,8 +50,7 @@ class Creature
         virtual int dodge_roll() = 0;
 
         // makes a single melee attack, with the currently equipped weapon
-        virtual void melee_attack(Creature &t, bool allow_special,
-                                  matec_id technique) = 0; // Returns a damage
+        virtual void melee_attack(Creature &t, bool allow_special, matec_id technique) = 0; // Returns a damage
 
         // fires a projectile at target point from source point, with total_dispersion
         // dispersion. returns the rolled dispersion of the shot.
@@ -93,7 +89,7 @@ class Creature
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
         virtual void deal_melee_hit(Creature *source, int hit_spread, bool crit,
-                                    const damage_instance &d, dealt_damage_instance &dealt_dam);
+                                      const damage_instance &d, dealt_damage_instance &dealt_dam);
 
         // makes a ranged projectile attack against the creature
         // dodgeable determines if the dodge stat applies or not, dodge is
@@ -106,7 +102,7 @@ class Creature
         // Mutates the damage_instance& object passed in to reflect the
         // post-mitigation object
         virtual dealt_damage_instance deal_damage(Creature *source, body_part bp,
-                const damage_instance &d);
+                                                  const damage_instance &d);
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type(const damage_unit &du,
@@ -135,8 +131,7 @@ class Creature
         // the old add_effect
         void add_effect(efftype_id eff_id, int dur, int intensity = 1, bool permanent = false);
         bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            int intensity = 1, bool permanent =
-                                false); // gives chance to save via env resist, returns if successful
+                            int intensity = 1, bool permanent = false); // gives chance to save via env resist, returns if successful
         void remove_effect(efftype_id eff_id);
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id) const;
@@ -147,7 +142,7 @@ class Creature
         std::string get_value( const std::string key ) const;
 
         virtual void process_effects(); // runs all the effects on the Creature
-
+        
         /** Handles health fluctuations over time */
         virtual void update_health(int base_threshold = 0);
 
@@ -179,7 +174,7 @@ class Creature
         virtual int get_dex_bonus() const;
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
-
+        
         virtual int get_healthy() const;
         virtual int get_healthy_mod() const;
 
@@ -204,17 +199,11 @@ class Creature
         virtual m_size get_size() const = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
-        virtual std::string get_material() const
-        {
-            return "flesh";
-        }
+        virtual std::string get_material() const { return "flesh"; }
         virtual field_id bloodType () const = 0;
         virtual field_id gibType () const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
-        virtual bool has_flag( const m_flag ) const
-        {
-            return false;
-        };
+        virtual bool has_flag( const m_flag ) const { return false; };
 
         virtual int get_speed_base() const;
         virtual int get_dodge_base();
@@ -306,7 +295,7 @@ class Creature
          * to this can be stacked, the return value is acceptable as vStart for the next
          * call without creating empty lines or overwriting lines.
          */
-        virtual int print_info(WINDOW *w, int vStart, int vLines, int column) const = 0;
+        virtual int print_info(WINDOW* w, int vStart, int vLines, int column) const = 0;
 
         // Message related stuff
         virtual void add_msg_if_player(const char *, ...) const {};
@@ -316,7 +305,7 @@ class Creature
         virtual void add_msg_player_or_npc(const char *, const char *, ...) const {};
         virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...) const {};
 
-        virtual void add_memorial_log(const char *, const char *, ...) {};
+        virtual void add_memorial_log(const char*, const char*, ...) {};
 
         virtual nc_color symbol_color() const;
         virtual nc_color basic_symbol_color() const;
@@ -337,7 +326,7 @@ class Creature
         int dex_bonus;
         int per_bonus;
         int int_bonus;
-
+        
         int healthy; //How healthy the creature is, currently only used by players
         int healthy_mod;
 
@@ -367,7 +356,7 @@ class Creature
 
         bool fake;
 
-        Creature &operator= (const Creature &rhs);
+        Creature& operator= (const Creature& rhs);
 
         body_part select_body_part(Creature *source, int hit_roll);
 };
