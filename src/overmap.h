@@ -281,7 +281,6 @@ class overmap
   oter_id& ter(const int x, const int y, const int z);
   const oter_id get_ter(const int x, const int y, const int z) const;
   bool&   seen(int x, int y, int z);
-  std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
   bool is_road_or_highway(int x, int y, int z);
 
@@ -352,8 +351,11 @@ class overmap
 
      return settings;
   }
+    void clear_mon_groups() { zg.clear(); }
+private:
+    std::multimap<tripoint, mongroup> zg;
+public:
   // TODO: make private
-  std::vector<mongroup> zg;
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
@@ -372,6 +374,21 @@ class overmap
   oter_id nullret;
   bool nullbool;
   std::string nullstr;
+
+    struct monster_data {
+        // relative to the position of this overmap,
+        // in submap coordinates.
+        int x;
+        int y;
+        int z;
+        monster mon;
+    };
+    /**
+     * When monsters despawn during map-shifting they will be added here.
+     * map::spawn_monsters will load them and place them into the reality bubble
+     * (adding it to the creature tracker and putting it onto the map).
+     */
+    std::vector<monster_data> monsters;
 
   // Initialise
   void init_layers();
@@ -439,6 +456,7 @@ class overmap
   static void print_npcs(WINDOW *w, int const x, int const y, int const z);
   bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
   void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
+    void add_mon_group(const mongroup &group);
 };
 
 // TODO: readd the stream operators

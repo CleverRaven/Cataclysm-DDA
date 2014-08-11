@@ -15,7 +15,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "coffeemaker", 3],
       [ "fire", -1 ]
     ]
@@ -41,7 +41,7 @@
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
   ],
@@ -66,7 +66,7 @@
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
   ],
@@ -93,7 +93,7 @@
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
   ],
@@ -125,7 +125,7 @@
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
   ],
@@ -152,7 +152,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -490,7 +490,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -532,7 +532,7 @@
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
-      [ "toolset", 2 ],
+      [ "toolset", 25 ],
       [ "fire", -1 ]
     ]
   ],
@@ -777,7 +777,7 @@
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
   ],
@@ -868,7 +868,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ]
   ],
@@ -904,7 +904,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ]
   ],
@@ -934,7 +934,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -959,7 +959,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -984,7 +984,7 @@
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1013,7 +1013,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1036,7 +1036,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1061,7 +1061,7 @@
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1096,7 +1096,7 @@
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1140,7 +1140,7 @@
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1180,7 +1180,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1207,7 +1207,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1239,7 +1239,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1269,7 +1269,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1300,7 +1300,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1332,7 +1332,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1369,7 +1369,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1401,7 +1401,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1436,7 +1436,7 @@
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1465,7 +1465,7 @@
       [
         [ "hotplate", 2 ],
         [ "char_smoker", 1 ],
-        [ "toolset", 1 ],
+        [ "toolset", 2 ],
         [ "fire", -1 ]
       ]
     ],
@@ -1510,7 +1510,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ],
       [ "coffeemaker", 2]
@@ -1541,7 +1541,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ],
       [ "coffeemaker", 2]
@@ -1572,7 +1572,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -1638,7 +1638,7 @@
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
-      ["toolset", 1],
+      ["toolset", 2],
       ["fire", -1]
     ]
   ],
@@ -1663,7 +1663,7 @@
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
-      ["toolset", 1],
+      ["toolset", 2],
       ["fire", -1]
     ]
   ],
@@ -1688,7 +1688,7 @@
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
-      ["toolset", 1],
+      ["toolset", 2],
       ["fire", -1]
     ]
   ],
@@ -1716,7 +1716,7 @@
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
-      ["toolset", 1],
+      ["toolset", 2],
       ["fire", -1]
     ]
   ],
@@ -1744,7 +1744,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "atomic_coffeepot", -1 ],
       [ "coffeemaker", 2],
       [ "fire", -1 ]
@@ -1821,7 +1821,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2059,7 +2059,7 @@
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 7 ],
       [ "fire", -1 ]
     ],
     [
@@ -2101,7 +2101,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2130,7 +2130,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2160,7 +2160,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2192,7 +2192,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2218,7 +2218,7 @@
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
+      [ "toolset", 20 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2287,7 +2287,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2331,7 +2331,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2360,7 +2360,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2410,7 +2410,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2452,7 +2452,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2513,7 +2513,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2563,7 +2563,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2604,7 +2604,7 @@
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2642,7 +2642,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -2684,7 +2684,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2716,7 +2716,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2745,7 +2745,7 @@
     [
       [ "hotplate", 16 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 16 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2778,7 +2778,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2809,7 +2809,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -2843,7 +2843,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2873,7 +2873,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2922,7 +2922,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2966,7 +2966,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -2996,7 +2996,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3042,7 +3042,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3083,7 +3083,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3116,7 +3116,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3169,7 +3169,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3217,7 +3217,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3246,7 +3246,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3298,7 +3298,7 @@
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
+      [ "toolset", 20 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3353,7 +3353,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3384,7 +3384,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3414,7 +3414,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3464,7 +3464,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -3510,7 +3510,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -3573,7 +3573,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -3623,7 +3623,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -3672,7 +3672,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -3738,7 +3738,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -3795,7 +3795,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -3866,7 +3866,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3950,7 +3950,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -3988,7 +3988,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ],
     [
@@ -4068,7 +4068,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ],
     [
@@ -4104,7 +4104,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ],
     [
@@ -4140,7 +4140,7 @@
   ], "tools": [
     [
       [ "hotplate", 8 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4180,7 +4180,7 @@
   ], "tools": [
     [
       [ "hotplate", 8 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4218,7 +4218,7 @@
   ], "tools": [
     [
       [ "hotplate", 8 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4261,7 +4261,7 @@
   ], "tools": [
     [
       [ "hotplate", 8 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4303,7 +4303,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -4351,7 +4351,7 @@
     [
       [ "hotplate", 8],
       [ "char_smoker", 1],
-      [ "toolset", 1],
+      [ "toolset", 8],
       [ "fire", -1]
     ],
     [
@@ -4391,7 +4391,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -4434,7 +4434,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ],
     [
@@ -4480,7 +4480,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4523,7 +4523,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4566,7 +4566,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4609,7 +4609,7 @@
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 6 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4652,7 +4652,7 @@
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4743,7 +4743,7 @@
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 2 ]
+      [ "toolset", 50 ]
     ]
   ],
   "components": [
@@ -4802,7 +4802,7 @@
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 2 ]
+      [ "toolset", 50 ]
     ]
   ],
   "components": [
@@ -4836,7 +4836,7 @@
     [
       [ "chemistry_set", 40 ],
       [ "hotplate", 40 ],
-      [ "toolset", 2 ]
+      [ "toolset", 40 ]
     ]
   ],
   "components": [
@@ -4868,7 +4868,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4901,7 +4901,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4935,7 +4935,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -4968,7 +4968,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -5002,7 +5002,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -5247,7 +5247,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
     [
@@ -5321,7 +5321,7 @@
     [
       ["hotplate", 5],
       [ "char_smoker", 1 ],
-      ["toolset", 1],
+      ["toolset", 5],
       ["fire", -1]
     ],
     [
@@ -5355,7 +5355,7 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
-  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
+  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ],
                 [ ["rock_quern", -1] ] ],
   "components": [ [ ["corn", 2] ] ]
 },{
@@ -5396,7 +5396,7 @@
     [
       ["hotplate", 25],
       [ "char_smoker", 1 ],
-      ["toolset", 2],
+      ["toolset", 25],
       ["fire", -1]
     ],
     [
@@ -5421,7 +5421,7 @@
     [
       ["hotplate", 25],
       [ "char_smoker", 1 ],
-      ["toolset", 2],
+      ["toolset", 25],
       ["fire", -1]
     ],
     [
@@ -5446,7 +5446,7 @@
     [
       ["hotplate", 25],
       [ "char_smoker", 1 ],
-      ["toolset", 2],
+      ["toolset", 25],
       ["fire", -1]
     ],
     [
@@ -5519,7 +5519,7 @@
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 8 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 8 ], [ "char_smoker", 1 ], [ "toolset", 8 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5541,7 +5541,7 @@
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 8 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5572,7 +5572,7 @@
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 4 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5601,7 +5601,7 @@
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 4 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5631,7 +5631,7 @@
   "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 1] ],
   "tools": [
     [ [ "still", -1], [ "v6_combustion", -1], [ "v8_combustion", -1]],
-    [ [ "hotplate", 10 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 10 ], [ "char_smoker", 1 ], [ "toolset", 10 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5662,7 +5662,7 @@
   "qualities":[
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5699,7 +5699,7 @@
   "qualities":[
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5730,7 +5730,7 @@
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 2 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 2 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5761,7 +5761,7 @@
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -5841,7 +5841,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -5915,7 +5915,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -5949,7 +5949,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -5991,7 +5991,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6030,7 +6030,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6063,7 +6063,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6095,7 +6095,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6133,7 +6133,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6169,7 +6169,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6202,7 +6202,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6239,7 +6239,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6271,7 +6271,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6298,7 +6298,7 @@
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6337,7 +6337,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6373,7 +6373,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6409,7 +6409,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6560,7 +6560,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
     ],
@@ -6586,7 +6586,7 @@
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6615,7 +6615,7 @@
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 20 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6660,7 +6660,7 @@
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 20 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6697,7 +6697,7 @@
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 20 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6735,7 +6735,7 @@
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 20 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6771,7 +6771,7 @@
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
-      ["toolset", 1],
+      ["toolset", 2],
       ["fire", -1]
     ]
   ],
@@ -6816,7 +6816,7 @@
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 2 ],
       [ "fire", -1 ]
     ]
   ],
@@ -6923,7 +6923,7 @@
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
+      [ "toolset", 8 ],
       [ "fire", -1 ]
     ]
   ],

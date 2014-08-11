@@ -12,4 +12,7 @@
 
 #include "get_version.h"
 
-const char* getVersionString() { return VERSION; }
+const char *getVersionString()
+{
+    return VERSION;
+}

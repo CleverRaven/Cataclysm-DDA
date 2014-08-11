@@ -494,11 +494,11 @@ bool player::create(character_type type, std::string tempname)
     for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
          iter != prof_CBMs.end(); ++iter) {
         if (*iter == "bio_power_storage") {
-            max_power_level += 4;
-            power_level += 4;
+            max_power_level += 100;
+            power_level += 100;
         } else if (*iter == "bio_power_storage_mkII") {
-            max_power_level += 10;
-            power_level += 10;
+            max_power_level += 250;
+            power_level += 250;
         } else {
             add_bionic(*iter);
         }
@@ -1354,7 +1354,6 @@ inline bool skill_description_sort(const std::pair<Skill *, int> &a, const std::
     int levelB = b.second;
     return levelA > levelB || (levelA == levelB && a.first->name() < b.first->name());
 }
-
 int set_description(WINDOW *w, player *u, character_type type, int &points)
 {
     if (PLTYPE_NOW == type) {

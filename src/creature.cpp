@@ -9,34 +9,45 @@
 #include <map>
 
 static std::map<int, std::map<body_part, double> > default_hit_weights = {
-    { -1, /* attacker smaller */
-      { { bp_eyes, 0.f },
-        { bp_head, 0.f },
-        { bp_torso, 55.f },
-        { bp_arm_l, 18.f },
-        { bp_arm_r, 18.f },
-        { bp_leg_l, 28.f },
-        { bp_leg_r, 28.f } } },
-    { 0, /* attacker equal size */
-      { { bp_eyes, 10.f },
-        { bp_head, 20.f },
-        { bp_torso, 55.f },
-        { bp_arm_l, 28.f },
-        { bp_arm_r, 28.f },
-        { bp_leg_l, 18.f },
-        { bp_leg_r, 18.f } } },
-    { 1, /* attacker larger */
-      { { bp_eyes, 5.f },
-        { bp_head, 25.f },
-        { bp_torso, 55.f },
-        { bp_arm_l, 28.f },
-        { bp_arm_r, 28.f },
-        { bp_leg_l, 10.f },
-        { bp_leg_r, 10.f } } } };
+    {
+        -1, /* attacker smaller */
+        {   { bp_eyes, 0.f },
+            { bp_head, 0.f },
+            { bp_torso, 55.f },
+            { bp_arm_l, 18.f },
+            { bp_arm_r, 18.f },
+            { bp_leg_l, 28.f },
+            { bp_leg_r, 28.f }
+        }
+    },
+    {
+        0, /* attacker equal size */
+        {   { bp_eyes, 10.f },
+            { bp_head, 20.f },
+            { bp_torso, 55.f },
+            { bp_arm_l, 28.f },
+            { bp_arm_r, 28.f },
+            { bp_leg_l, 18.f },
+            { bp_leg_r, 18.f }
+        }
+    },
+    {
+        1, /* attacker larger */
+        {   { bp_eyes, 5.f },
+            { bp_head, 25.f },
+            { bp_torso, 55.f },
+            { bp_arm_l, 28.f },
+            { bp_arm_r, 28.f },
+            { bp_leg_l, 10.f },
+            { bp_leg_r, 10.f }
+        }
+    }
+};
 
 struct weight_compare {
     bool operator() (const std::pair<body_part, double> &left,
-                     const std::pair<body_part, double> &right) {
+                     const std::pair<body_part, double> &right)
+    {
         return left.second < right.second;
     }
 };
@@ -82,7 +93,7 @@ Creature::Creature(const Creature &rhs)
     dex_bonus = rhs.dex_bonus;
     per_bonus = rhs.per_bonus;
     int_bonus = rhs.int_bonus;
-    
+
     healthy = rhs.healthy;
     healthy_mod = rhs.healthy_mod;
 
@@ -229,7 +240,7 @@ int Creature::deal_melee_attack(Creature *source, int hitroll)
 }
 
 void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
-                                const damage_instance &dam, dealt_damage_instance &dealt_dam)
+                              const damage_instance &dam, dealt_damage_instance &dealt_dam)
 {
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
@@ -254,16 +265,16 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     }
     if (stab_moves >= 150) {
         if (is_player() && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-              (g->u.footwear_factor() == .5 && one_in(2))) ) {
+                            (g->u.footwear_factor() == .5 && one_in(2))) ) {
             // can the player force their self to the ground? probably not.
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
             source->add_msg_player_or_npc( m_good, _("You force %s to the ground!"),
-                                                   _("<npcname> forces %s to the ground!"),
-                                                   disp_name().c_str() );
+                                           _("<npcname> forces %s to the ground!"),
+                                           disp_name().c_str() );
         }
         if (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-              (g->u.footwear_factor() == .5 && one_in(2))) {
+            (g->u.footwear_factor() == .5 && one_in(2))) {
             add_effect("downed", 1);
             mod_moves(-stab_moves / 2);
         }
@@ -297,10 +308,10 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     if (dodge_roll() >= dice(10, proj.speed)) {
         if (is_player())
             add_msg(_("You dodge %s projectile!"),
-                       source->disp_name(true).c_str());
+                    source->disp_name(true).c_str());
         else if (u_see_this)
             add_msg(_("%s dodges %s projectile."),
-                       disp_name().c_str(), source->disp_name(true).c_str());
+                    disp_name().c_str(), source->disp_name(true).c_str());
         return 1;
     }
 
@@ -411,21 +422,21 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     }
     if( stun_strength > 0 ) {
         switch( get_size() ) {
-            case MS_TINY:
-                stun_strength *= 4;
-                break;
-            case MS_SMALL:
-                stun_strength *= 2;
-                break;
-            case MS_MEDIUM:
-            default:
-                break;
-            case MS_LARGE:
-                stun_strength /= 2;
-                break;
-            case MS_HUGE:
-                stun_strength /= 4;
-                break;
+        case MS_TINY:
+            stun_strength *= 4;
+            break;
+        case MS_SMALL:
+            stun_strength *= 2;
+            break;
+        case MS_MEDIUM:
+        default:
+            break;
+        case MS_LARGE:
+            stun_strength /= 2;
+            break;
+        case MS_HUGE:
+            stun_strength /= 4;
+            break;
         }
         add_effect( "stunned", rng(stun_strength / 2, stun_strength) );
     }
@@ -437,7 +448,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             }
         } else if (dealt_dam.total_damage() == 0) {
             add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
-                       skin_name().c_str());
+                    skin_name().c_str());
         } else if (source != NULL) {
             if (source->is_player()) {
                 //player hits monster ranged
@@ -458,24 +469,25 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                             this->ypos(),
                             direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
                             health_bar, m_good,
-                            "hp", m_neutral,
+                            //~ “hit points”, used in scrolling combat text
+                            _("hp"), m_neutral,
                             "hp");
                 } else {
                     SCT.removeCreatureHP();
                 }
 
                 add_msg(m_good, _("You hit the %s for %d damage."),
-                           disp_name().c_str(), dealt_dam.total_damage());
+                        disp_name().c_str(), dealt_dam.total_damage());
 
             } else if(this->is_player()) {
                 //monster hits player ranged
                 //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
                 add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                                          body_part_name_accusative(bp_hit).c_str( ),
-                                          dealt_dam.total_damage());
+                                  body_part_name_accusative(bp_hit).c_str( ),
+                                  dealt_dam.total_damage());
             } else if( u_see_this ) {
                 add_msg(_("%s shoots %s."),
-                           source->disp_name().c_str(), disp_name().c_str());
+                        source->disp_name().c_str(), disp_name().c_str());
             }
         }
     }
@@ -486,7 +498,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 }
 
 dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
-                                            const damage_instance &dam)
+        const damage_instance &dam)
 {
     int total_damage = 0;
     int total_pain = 0;
@@ -605,7 +617,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
         effects[eff_id] = new_eff;
         if (is_player()) { // only print the message if we didn't already have it
             add_msg( effect_types[eff_id].gain_game_message_type(),
-                     effect_types[eff_id].get_apply_message().c_str() );
+                     _(effect_types[eff_id].get_apply_message().c_str()) );
             g->u.add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
@@ -614,7 +626,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
     }
 }
 bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                                int intensity, bool permanent)
+                              int intensity, bool permanent)
 {
     if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
         add_effect(eff_id, dur, intensity, permanent);
@@ -650,7 +662,7 @@ void Creature::process_effects()
     for( auto it = effects.begin(); it != effects.end(); ) {
         if( !it->second.is_permanent() && it->second.get_duration() <= 0 ) {
             const effect_type *type = it->second.get_effect_type();
-            add_msg( type->lose_game_message_type(), type->get_remove_message().c_str() );
+            add_msg( type->lose_game_message_type(), _(type->get_remove_message().c_str()) );
             g->u.add_memorial_log(
                 pgettext("memorial_male", type->get_remove_memorial_log().c_str() ),
                 pgettext("memorial_female", type->get_remove_memorial_log().c_str()) );
@@ -880,7 +892,7 @@ int Creature::get_hit_bonus()
 }
 int Creature::get_bash_bonus()
 {
-   return bash_bonus;
+    return bash_bonus;
 }
 int Creature::get_cut_bonus()
 {
@@ -1232,7 +1244,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     return selected_part;
 }
 
-Creature& Creature::operator= (const Creature& rhs)
+Creature &Creature::operator= (const Creature &rhs)
 {
     str_cur = rhs.str_cur;
     dex_cur = rhs.dex_cur;

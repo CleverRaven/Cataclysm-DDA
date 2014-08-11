@@ -10,7 +10,7 @@
 
 // hack for MingW: prevent undefined references to `libintl_printf'
 #if defined _WIN32 || defined __CYGWIN__
- #undef printf
+#undef printf
 #endif
 
 //Adding a group:
@@ -30,60 +30,66 @@ std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-        std::string group_name, int *quantity, int turn )
+    std::string group_name, int *quantity, int turn )
 {
     int spawn_chance = rng(1, 1000);
     MonsterGroup group = monsterGroupMap[group_name];
 
     //Our spawn details specify, by default, a single instance of the default monster
-    MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster,1);
+    MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
     //If the default monster is too difficult, replace this with "mon_null"
-    if(turn!=-1 && (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))){
-        spawn_details = MonsterGroupResult("mon_null",0);
+    if(turn != -1 &&
+       (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))) {
+        spawn_details = MonsterGroupResult("mon_null", 0);
     }
 
     bool monster_found = false;
     // Step through spawn definitions from the monster group until one is found or
-    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it){
+    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it) {
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
-        valid_entry = valid_entry && (turn == -1 || (turn+900) >= (MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->name)->difficulty)));
+        valid_entry = valid_entry && (turn == -1 ||
+                                      (turn + 900) >= (MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->name)->difficulty)));
         // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
-        if(ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]){
-            valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") || GetMType(it->name)->in_category("WILDLIFE"));
+        if(ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+            valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") ||
+                                          GetMType(it->name)->in_category("WILDLIFE"));
         }
         //Insure that the time is not before the spawn first appears or after it stops appearing
         valid_entry = valid_entry && (HOURS(it->starts) < calendar::turn.get_turn());
         valid_entry = valid_entry && (it->lasts_forever() || HOURS(it->ends) > calendar::turn.get_turn());
 
-        std::vector<std::pair<int,int> > valid_times_of_day;
+        std::vector<std::pair<int, int> > valid_times_of_day;
         bool season_limited = false;
         bool season_matched = false;
         //Collect the various spawn conditions, and then insure they are met appropriately
-        for(std::vector<std::string>::iterator condition = it->conditions.begin(); condition != it->conditions.end(); ++condition){
+        for(std::vector<std::string>::iterator condition = it->conditions.begin();
+            condition != it->conditions.end(); ++condition) {
             //Collect valid time of day ranges
-            if( (*condition) == "DAY" || (*condition) == "NIGHT" || (*condition) == "DUSK" || (*condition) == "DAWN" ){
+            if( (*condition) == "DAY" || (*condition) == "NIGHT" || (*condition) == "DUSK" ||
+                (*condition) == "DAWN" ) {
                 int sunset = calendar::turn.sunset().get_turn();
                 int sunrise = calendar::turn.sunrise().get_turn();
-                if((*condition) == "DAY"){
-                    valid_times_of_day.push_back( std::make_pair(sunrise,sunset) );
-                } else if((*condition) == "NIGHT"){
-                    valid_times_of_day.push_back( std::make_pair(sunset,sunrise) );
-                } else if((*condition) == "DUSK"){
-                    valid_times_of_day.push_back( std::make_pair(sunset-HOURS(1),sunset+HOURS(1)) );
-                } else if((*condition) == "DAWN"){
-                    valid_times_of_day.push_back( std::make_pair(sunrise-HOURS(1),sunrise+HOURS(1)) );
+                if((*condition) == "DAY") {
+                    valid_times_of_day.push_back( std::make_pair(sunrise, sunset) );
+                } else if((*condition) == "NIGHT") {
+                    valid_times_of_day.push_back( std::make_pair(sunset, sunrise) );
+                } else if((*condition) == "DUSK") {
+                    valid_times_of_day.push_back( std::make_pair(sunset - HOURS(1), sunset + HOURS(1)) );
+                } else if((*condition) == "DAWN") {
+                    valid_times_of_day.push_back( std::make_pair(sunrise - HOURS(1), sunrise + HOURS(1)) );
                 }
             }
 
             //If we have any seasons listed, we know to limit by season, and if any season matches this season, we are good to spawn
-            if( (*condition) == "SUMMER" || (*condition) == "WINTER" || (*condition) == "SPRING" || (*condition) == "AUTUMN" ){
+            if( (*condition) == "SUMMER" || (*condition) == "WINTER" || (*condition) == "SPRING" ||
+                (*condition) == "AUTUMN" ) {
                 season_limited = true;
                 if( (calendar::turn.get_season() == SUMMER && (*condition) == "SUMMER") ||
                     (calendar::turn.get_season() == WINTER && (*condition) == "WINTER") ||
                     (calendar::turn.get_season() == SPRING && (*condition) == "SPRING") ||
-                    (calendar::turn.get_season() == AUTUMN && (*condition) == "AUTUMN") ){
+                    (calendar::turn.get_season() == AUTUMN && (*condition) == "AUTUMN") ) {
                     season_matched = true;
                 }
             }
@@ -91,44 +97,45 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
         //Make sure the current time of day is within one of the valid time ranges for this spawn
         bool is_valid_time_of_day = false;
-        if(valid_times_of_day.size() < 1){
+        if(valid_times_of_day.size() < 1) {
             //Then it can spawn whenever, since no times were defined
             is_valid_time_of_day = true;
         } else {
             //Otherwise, it's valid if it matches any of the times of day
-            for(std::vector<std::pair<int,int> >::iterator time_pair = valid_times_of_day.begin(); time_pair != valid_times_of_day.end(); ++time_pair){
+            for(std::vector<std::pair<int, int> >::iterator time_pair = valid_times_of_day.begin();
+                time_pair != valid_times_of_day.end(); ++time_pair) {
                 int time_now = calendar::turn.get_turn();
-                if(time_now > time_pair->first &&  time_now < time_pair->second){
+                if(time_now > time_pair->first &&  time_now < time_pair->second) {
                     is_valid_time_of_day = true;
                 }
             }
         }
-        if(!is_valid_time_of_day){
+        if(!is_valid_time_of_day) {
             valid_entry = false;
         }
 
         //If we are limited by season, make sure we matched a season
-        if(season_limited && !season_matched){
+        if(season_limited && !season_matched) {
             valid_entry = false;
         }
 
         //If the entry was valid, check to see if we actually spawn it
-        if(valid_entry){
+        if(valid_entry) {
             //If the monsters frequency is greater than the spawn_chance, select this spawn rule
-            if(it->frequency >= spawn_chance){
-                if(it->pack_maximum > 1){
-                  spawn_details = MonsterGroupResult(it->name, rng(it->pack_minimum,it->pack_maximum));
+            if(it->frequency >= spawn_chance) {
+                if(it->pack_maximum > 1) {
+                    spawn_details = MonsterGroupResult(it->name, rng(it->pack_minimum, it->pack_maximum));
                 } else {
-                  spawn_details = MonsterGroupResult(it->name, 1);
+                    spawn_details = MonsterGroupResult(it->name, 1);
                 }
                 //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
                 //We will reduce it by the spawn rule's cost multiplier
-                if(quantity){
+                if(quantity) {
                     *quantity -= it->cost_multiplier * spawn_details.pack_size;
                 }
                 monster_found = true;
-            //Otherwise, subtract the frequency from spawn result for the next loop around
-            }else{
+                //Otherwise, subtract the frequency from spawn result for the next loop around
+            } else {
                 spawn_chance -= it->frequency;
             }
         }
@@ -140,19 +147,19 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
 {
     MonsterGroup g = monsterGroupMap[group];
-    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
-    {
-        if(it->name == monster) return true;
+    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it) {
+        if(it->name == monster) {
+            return true;
+        }
     }
     return false;
 }
 
 std::string MonsterGroupManager::Monster2Group(std::string monster)
 {
-    for (std::map<std::string, MonsterGroup>::const_iterator it = monsterGroupMap.begin(); it != monsterGroupMap.end(); ++it)
-    {
-        if(IsMonsterInGroup(it->first, monster ))
-        {
+    for (std::map<std::string, MonsterGroup>::const_iterator it = monsterGroupMap.begin();
+         it != monsterGroupMap.end(); ++it) {
+        if(IsMonsterInGroup(it->first, monster )) {
             return it->first;
         }
     }
@@ -167,27 +174,24 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
 
     monsters.push_back(g.defaultMonster);
 
-    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
-    {
+    for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it) {
         monsters.push_back(it->name);
     }
     return monsters;
 }
 
-bool MonsterGroupManager::isValidMonsterGroup(std::string group) {
+bool MonsterGroupManager::isValidMonsterGroup(std::string group)
+{
     return ( monsterGroupMap.find(group) != monsterGroupMap.end() );
 }
 
 MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
 {
     std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
-    if(it == monsterGroupMap.end())
-    {
+    if(it == monsterGroupMap.end()) {
         debugmsg("Unable to get the group '%s'", group.c_str());
         return MonsterGroup();
-    }
-    else
-    {
+    } else {
         return it->second;
     }
 }
@@ -201,26 +205,31 @@ t_string_set monster_whitelist;
 t_string_set monster_categories_blacklist;
 t_string_set monster_categories_whitelist;
 
-void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo) {
+void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo)
+{
     add_to_set(monster_blacklist, jo, "monsters");
     add_to_set(monster_categories_blacklist, jo, "categories");
 }
 
-void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo) {
+void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo)
+{
     add_to_set(monster_whitelist, jo, "monsters");
     add_to_set(monster_categories_whitelist, jo, "categories");
 }
 
-bool monster_is_blacklisted(const mtype *m) {
+bool monster_is_blacklisted(const mtype *m)
+{
     if(m == NULL || monster_whitelist.count(m->id) > 0) {
         return false;
     }
-    for(std::set<std::string>::const_iterator b = monster_categories_whitelist.begin(); b != monster_categories_whitelist.end(); ++b) {
+    for(std::set<std::string>::const_iterator b = monster_categories_whitelist.begin();
+        b != monster_categories_whitelist.end(); ++b) {
         if (m->categories.count(*b) > 0) {
             return false;
         }
     }
-    for(std::set<std::string>::const_iterator b = monster_categories_blacklist.begin(); b != monster_categories_blacklist.end(); ++b) {
+    for(std::set<std::string>::const_iterator b = monster_categories_blacklist.begin();
+        b != monster_categories_blacklist.end(); ++b) {
         if (m->categories.count(*b) > 0) {
             return true;
         }
@@ -246,7 +255,8 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             debugmsg("monster on blacklist %s does not exist", a->c_str());
         }
     }
-    for(std::map<std::string, MonsterGroup>::iterator b = monsterGroupMap.begin(); b != monsterGroupMap.end(); ++b) {
+    for(std::map<std::string, MonsterGroup>::iterator b = monsterGroupMap.begin();
+        b != monsterGroupMap.end(); ++b) {
         MonsterGroup &mg = b->second;
         for(FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
             if(monster_is_blacklisted(gen.GetMType(c->name))) {
@@ -271,7 +281,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 
     g.name = jo.get_string("name");
     g.defaultMonster = jo.get_string("default");
-    if (jo.has_array("monsters")){
+    if (jo.has_array("monsters")) {
         JsonArray monarr = jo.get_array("monsters");
 
         while (monarr.has_more()) {
@@ -281,25 +291,26 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int cost = mon.get_int("cost_multiplier");
             int pack_min = 1;
             int pack_max = 1;
-            if(mon.has_member("pack_size")){
+            if(mon.has_member("pack_size")) {
                 JsonArray packarr = mon.get_array("pack_size");
                 pack_min = packarr.next_int();
                 pack_max = packarr.next_int();
             }
             int starts = 0;
             int ends = 0;
-            if(mon.has_member("starts")){
+            if(mon.has_member("starts")) {
                 starts = mon.get_int("starts");
             }
-            if(mon.has_member("ends")){
+            if(mon.has_member("ends")) {
                 ends = mon.get_int("ends");
             }
-            MonsterGroupEntry new_mon_group = MonsterGroupEntry(name,freq,cost,pack_min,pack_max,starts,ends);
-            if(mon.has_member("conditions")){
-              JsonArray conditions_arr = mon.get_array("conditions");
-              while(conditions_arr.has_more()){
-                new_mon_group.conditions.push_back(conditions_arr.next_string());
-              }
+            MonsterGroupEntry new_mon_group = MonsterGroupEntry(name, freq, cost, pack_min, pack_max, starts,
+                                              ends);
+            if(mon.has_member("conditions")) {
+                JsonArray conditions_arr = mon.get_array("conditions");
+                while(conditions_arr.has_more()) {
+                    new_mon_group.conditions.push_back(conditions_arr.next_string());
+                }
             }
             g.monsters.push_back(new_mon_group);
         }

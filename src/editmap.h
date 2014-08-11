@@ -19,16 +19,17 @@ struct editmap_hilight {
     nc_color color;
     std::map<point, char> points;
     nc_color(*getbg)(nc_color);
-    void setup() {
+    void setup()
+    {
         getbg = ( color == c_red ? &red_background :
-         ( color == c_magenta ? &magenta_background :
-           ( color == c_cyan ? &cyan_background :
-             ( color == c_yellow ? &yellow_background : &green_background )
-           )
-         )
-       );
+                  ( color == c_magenta ? &magenta_background :
+                    ( color == c_cyan ? &cyan_background :
+                      ( color == c_yellow ? &yellow_background : &green_background )
+                    )
+                  )
+                );
     };
-    void draw(editmap * em, bool update=false);
+    void draw(editmap *em, bool update = false);
 };
 
 class editmap
@@ -39,7 +40,7 @@ class editmap
         point screen2pos( const int i, const int j );
         bool eget_direction ( int &x, int &y, const std::string &action ) const;
         point edit();
-        void uber_draw_ter( WINDOW * w, map * m );
+        void uber_draw_ter( WINDOW *w, map *m );
         void update_view(bool update_info = false);
         int edit_ter();
 
@@ -50,7 +51,7 @@ class editmap
         int edit_npc();
         int edit_veh();
         int edit_mapgen();
-        void cleartmpmap( tinymap & tmpmap );
+        void cleartmpmap( tinymap &tmpmap );
         int mapgen_preview(real_coords &tc, uimenu &gmenu);
         int mapgen_retarget();
         int select_shape(shapetype shape, int mode = -1 );
@@ -106,7 +107,8 @@ class editmap
         int zlevel;
         bool uberdraw;
         std::map<oter_id, int> oter_special;
-        editmap() {
+        editmap()
+        {
             width = TERMX - TERRAIN_WINDOW_TERM_WIDTH;
             height = TERMY;
             infoHeight = 0;
@@ -160,7 +162,8 @@ class editmap
             zlevel = g->levz;
             uberdraw = false;
         };
-        ~editmap() {
+        ~editmap()
+        {
             delwin(w_info);
             delwin(w_help);
         }

@@ -523,7 +523,7 @@ void mattack::growplants(monster *z)
                             g->zombie( mondex ).apply_damage( z, one_in( 2 ) ? bp_leg_l : bp_leg_r, rn );
                         } else if (g->u.posx == z->posx() + i && g->u.posy == z->posy() + j) {
                             if (!g->u.uncanny_dodge()) {
-                                    body_part hit = num_bp;
+                                body_part hit = num_bp;
                                 if (one_in(2)) {
                                     hit = bp_leg_l;
                                 } else {
@@ -740,7 +740,7 @@ void mattack::triffid_heartbeat(monster *z)
             tries++;
             g->m.ter_set(x, y, t_dirt);
             if (rl_dist(x, y, g->u.posx, g->u.posy) > 3 && g->num_zombies() < 30 &&
-                        g->mon_at(x, y) == -1 && one_in(20)) { // Spawn an extra monster
+                g->mon_at(x, y) == -1 && one_in(20)) { // Spawn an extra monster
                 std::string montype = "mon_triffid";
                 if (one_in(4)) {
                     montype = "mon_creeper_hub";
@@ -860,7 +860,7 @@ void mattack::fungus_sprout(monster *z)
             if (g->u.posx == x && g->u.posy == y) {
                 add_msg(m_bad, _("You're shoved away as a fungal wall grows!"));
                 g->fling_creature( &g->u, g->m.coord_to_angle(z->posx(), z->posy(), g->u.posx,
-                                           g->u.posy), rng(10, 50));
+                                   g->u.posy), rng(10, 50));
             }
             if (g->is_empty(x, y)) {
                 monster wall(GetMType("mon_fungal_wall"));
@@ -1131,9 +1131,96 @@ void mattack::callblobs( monster *z )
         }
         int trash = 0;
         (*ally)->set_dest( post.x, post.y, trash );
+        if (!(*ally)->has_effect("controlled")) {
+            (*ally)->add_effect("controlled", 1, 1, true);
+        }
     }
     // This is telepathy, doesn't take any moves.
     z->sp_timeout = z->type->sp_freq;
+}
+
+void mattack::jackson( monster *z )
+{
+    // Jackson draws nearby zombies into the dance.
+    std::list<monster *> allies;
+    std::vector<point> nearby_points = closest_points_first( 3, z->pos() );
+    // Iterate using horrible creature_tracker API.
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        monster *candidate = &g->zombie( i );
+        if(candidate->type->in_species("ZOMBIE") && candidate->type->id != "mon_zombie_jackson") {
+            // Just give the allies consistent assignments.
+            // Don't worry about trying to make the orders optimal.
+            allies.push_back( candidate );
+        }
+    }
+    const int num_dancers = std::min( allies.size(), nearby_points.size() );
+    int dancers = 0;
+    bool converted = false;
+    for( auto ally = allies.begin(); ally != allies.end(); ++ally, ++dancers ) {
+        point post = z->pos();
+        if( dancers < num_dancers ) {
+            // Each dancer is assigned a spot in the nearby_points vector based on their order.
+            int assigned_spot = (nearby_points.size() * dancers) / num_dancers;
+            post = nearby_points[ assigned_spot ];
+        }
+        if ((*ally)->type->id != "mon_zombie_dancer") {
+            (*ally)->poly(GetMType("mon_zombie_dancer"));
+            converted = true;
+        }
+        int trash = 0;
+        (*ally)->set_dest( post.x, post.y, trash );
+        if (!(*ally)->has_effect("controlled")) {
+            (*ally)->add_effect("controlled", 1, 1, true);
+        }
+    }
+    // Did we convert anybody?
+    if (converted) {
+        if (g->u_see(z->posx(), z->posy())) {
+            add_msg(m_warning, _("The %s lets out a high-pitched cry!"), z->name().c_str());
+        }
+    }
+    // This is telepathy, doesn't take any moves.
+    z->sp_timeout = z->type->sp_freq;
+}
+
+
+void mattack::dance(monster *z)
+{
+    if (g->u_see(z->posx(), z->posy())) {
+        switch (rng(1,10)) {
+            case 1:
+                add_msg(m_neutral, _("The %s swings its arms from side to side!"), z->name().c_str());
+                break;
+            case 2:
+                add_msg(m_neutral, _("The %s does some fancy footwork!"), z->name().c_str());
+                break;
+            case 3:
+                add_msg(m_neutral, _("The %s shrugs its shoulders!"), z->name().c_str());
+                break;
+            case 4:
+                add_msg(m_neutral, _("The %s spins in place!"), z->name().c_str());
+                break;
+            case 5:
+                add_msg(m_neutral, _("The %s crouches on the ground!"), z->name().c_str());
+                break;
+            case 6:
+                add_msg(m_neutral, _("The %s looks left and right!"), z->name().c_str());
+                break;
+            case 7:
+                add_msg(m_neutral, _("The %s jumps back and forth!"), z->name().c_str());
+                break;
+            case 8:
+                add_msg(m_neutral, _("The %s raises its arms in the air!"), z->name().c_str());
+                break;
+            case 9:
+                add_msg(m_neutral, _("The %s swings its hips!"), z->name().c_str());
+                break;
+            case 10:
+                add_msg(m_neutral, _("The %s claps!"), z->name().c_str());
+                break;
+        }
+    }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
 }
 
 void mattack::dogthing(monster *z)
@@ -1331,7 +1418,7 @@ void mattack::vortex(monster *z)
             if (g->u.posx == x && g->u.posy == y) { // Throw... the player?! D:
                 bool immune = false;
                 if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-                      (g->u.footwear_factor() == .5 && one_in(2)))) {
+                        (g->u.footwear_factor() == .5 && one_in(2)))) {
                     add_msg(_("You secure yourself using your tentacles!"));
                     immune = true;
                 }
@@ -1639,7 +1726,7 @@ void mattack::laser(monster *z)
         add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
     }
     tmp.weapon = item("cerberus_laser", 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["laser_capacitor"]);
     tmp.weapon.charges = 100;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
     if (target == &g->u) {
@@ -2032,7 +2119,7 @@ void mattack::flesh_golem(monster *z)
     add_msg(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
     g->u.hit(z, hit, dam, 0);
     if  (one_in(6) && !g->u.is_throw_immune() && (!g->u.has_trait("LEG_TENT_BRACE") ||
-          g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2)))) {
+            g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2)))) {
         g->u.add_effect("downed", 30);
     }
     g->u.practice( "dodge", z->type->melee_skill );
@@ -2044,7 +2131,7 @@ void mattack::lunge(monster *z)
         if (one_in(5)) {
             int j;
             if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
-                    !g->sees_u(z->posx(), z->posy(), j)) {
+                !g->sees_u(z->posx(), z->posy(), j)) {
                 return; // Out of range
             }
             z->moves += 200;
@@ -2057,7 +2144,9 @@ void mattack::lunge(monster *z)
     add_msg(_("The %s lunges straight into you!"), z->name().c_str());
     z->moves -= 100;
 
-    if (g->u.uncanny_dodge()) { return; }
+    if (g->u.uncanny_dodge()) {
+        return;
+    }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
@@ -2073,7 +2162,7 @@ void mattack::lunge(monster *z)
     add_msg(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
     g->u.hit(z, hit, dam, 0);
     if (one_in(6) && !g->u.is_throw_immune() && (!g->u.has_trait("LEG_TENT_BRACE") ||
-          g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2)))) {
+            g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2)))) {
         g->u.add_effect("downed", 3);
     }
     g->u.practice( "dodge", z->type->melee_skill );
@@ -2085,14 +2174,16 @@ void mattack::longswipe(monster *z)
         if (one_in(5)) {
             int j;
             if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3 ||
-                    !g->sees_u(z->posx(), z->posy(), j)) {
+                !g->sees_u(z->posx(), z->posy(), j)) {
                 return; // Out of range
             }
             z->moves -= 150;
             z->sp_timeout = z->type->sp_freq; // Reset timer
             add_msg(_("The %s thrusts a claw at you!"), z->name().c_str());
 
-            if (g->u.uncanny_dodge()) { return; }
+            if (g->u.uncanny_dodge()) {
+                return;
+            }
             // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
             int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
             if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
@@ -2114,7 +2205,9 @@ void mattack::longswipe(monster *z)
     add_msg(_("The %s slashes at your neck!"), z->name().c_str());
     z->moves -= 100;
 
-    if (g->u.uncanny_dodge()) { return; }
+    if (g->u.uncanny_dodge()) {
+        return;
+    }
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
@@ -2318,12 +2411,12 @@ void mattack::bio_op_takedown(monster *z)
     // Literally "The zombie kicks" vvvvv |  FIXME FIX message or comment why Literally.
     //~ 1$s is bodypart name in accusative, 2$d is damage value.
     add_msg(m_bad, _("The zombie kicks your %1$s for %2$d damage..."),
-                    body_part_name_accusative(hit).c_str(), dam);
+            body_part_name_accusative(hit).c_str(), dam);
     g->u.hit(z, hit, dam, 0);
     // At this point, Judo or Tentacle Bracing can make this much less painful
     if ( !g->u.is_throw_immune()) {
         if (!g->u.has_trait("LEG_TENT_BRACE") && (g->u.footwear_factor() == 1 ||
-             (g->u.footwear_factor() == .5 && one_in(2))) ) {
+                (g->u.footwear_factor() == .5 && one_in(2))) ) {
             if (one_in(4)) {
                 hit = bp_head;
                 dam = rng(9, 21); // 50% damage buff for the headshot.
@@ -2337,8 +2430,7 @@ void mattack::bio_op_takedown(monster *z)
             }
             g->u.add_effect("downed", 3);
         }
-    }
-    else if (!thrown_by_judo(z)) {
+    } else if (!thrown_by_judo(z)) {
         // Saved by the tentacle-bracing! :)
         hit = bp_torso;
         dam = rng(3, 9);

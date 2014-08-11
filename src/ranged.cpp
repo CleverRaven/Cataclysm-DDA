@@ -410,8 +410,8 @@ void player::fire_gun(int tarx, int tary, bool burst)
                 if( rl_dist(z.posx(), z.posy(), tarx, tary) <=
                     std::min(2 + skillLevel("gun"), weaponrange) &&
                     rl_dist(xpos(), ypos(), z.xpos(), z.ypos()) <= weaponrange && sees(&z, dummy) ) {
-                        // oh you're not dead and I don't like you. Hello!
-                        new_targets.push_back(z.pos());
+                    // oh you're not dead and I don't like you. Hello!
+                    new_targets.push_back(z.pos());
                 }
             }
 
@@ -726,8 +726,9 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 
             if (rng(0, 100) < 20 + skillLevel * 12 && thrown.type->melee_cut > 0) {
                 if (!p.is_npc()) {
-                    if (npcID != -1)
+                    if (npcID != -1) {
                         message += string_format(_(" You cut %s!"), guy->name.c_str());
+                    }
                 }
                 if (npcID != -1 && thrown.type->melee_cut > guy->get_armor_cut(bp_torso)) {
                     dam += (thrown.type->melee_cut - guy->get_armor_cut(bp_torso));
@@ -759,12 +760,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             game_message_type gmtSCTcolor = m_good;
             body_part bp = bp_torso;
             if (goodhit < .1) {
-                    message = _("Headshot!");
-                    gmtSCTcolor = m_headshot;
-                    bp = bp_head;
-                    dam = rng(dam, dam * 3);
-                    p.practice( "throw", 5 );
-                    p.lifetime_stats()->headshots++;
+                message = _("Headshot!");
+                gmtSCTcolor = m_headshot;
+                bp = bp_head;
+                dam = rng(dam, dam * 3);
+                p.practice( "throw", 5 );
+                p.lifetime_stats()->headshots++;
             } else if (goodhit < .2) {
                 message = _("Critical!");
                 gmtSCTcolor = m_critical;
@@ -795,10 +796,11 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             }
 
             guy->apply_damage( &p, bp, dam );
-            if (guy->is_dead_state())
+            if (guy->is_dead_state()) {
                 guy->die(&p);
+            }
             return;
-            
+
         } else { // No monster hit, but the terrain might be.
             m.shoot(tx, ty, dam, false, no_effects);
         }
@@ -1406,7 +1408,8 @@ void splatter( std::vector<point> trajectory, int dam, Creature *target )
        !target->is_player()) { //Check if the creature isn't an NPC or the player (so the cast works)
         monster *mon = dynamic_cast<monster *>(target);
         if (mon->is_hallucination() || mon->get_material() != "flesh" ||
-            mon->has_flag(MF_VERMIN)) {//if it is a hallucanation, not made of flesh, or a vermin creature, don't splatter the blood.
+            mon->has_flag(
+                MF_VERMIN)) {//if it is a hallucanation, not made of flesh, or a vermin creature, don't splatter the blood.
             return;
         }
     }

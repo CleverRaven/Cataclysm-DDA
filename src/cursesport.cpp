@@ -346,7 +346,7 @@ inline int fill(char *&fmt, int &len, std::string &target)
             // Newlines at the begin of a sequence are handled in printstring
             target.assign( " ", 1 );
             len = tmplen;
-            fmt = const_cast<char*>(tmpptr);
+            fmt = const_cast<char *>(tmpptr);
             return 1; // the space
         } else if( cw == -1 ) {
             // Control character but behind some other characters, finish the sequence.
@@ -354,7 +354,7 @@ inline int fill(char *&fmt, int &len, std::string &target)
             // or by the next call to this function (replaced with a space).
             break;
         }
-        fmt = const_cast<char*>(tmpptr);
+        fmt = const_cast<char *>(tmpptr);
         dlen += cw;
     }
     target.assign(start, fmt - start);
@@ -625,7 +625,7 @@ int start_color(void)
     return curses_start_color();
 }
 
-int keypad(WINDOW*, bool)
+int keypad(WINDOW *, bool)
 {
     return 1;
 }
@@ -683,42 +683,42 @@ int waddch(WINDOW *win, const chtype ch)
     charcode = ch;
 
     switch (ch) {       //LINE_NESW  - X for on, O for off
-        case LINE_XOXO:   //#define LINE_XOXO 4194424
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:   //#define LINE_OXOX 4194417
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:   //#define LINE_XXOO 4194413
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:   //#define LINE_OXXO 4194412
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:   //#define LINE_OOXX 4194411
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:   //#define LINE_XOOX 4194410
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:   //#define LINE_XXOX 4194422
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:   //#define LINE_XXXO 4194420
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:   //#define LINE_XOXX 4194421
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:   //#define LINE_OXXX 4194423
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:   //#define LINE_XXXX 4194414
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            charcode = (char)ch;
-            break;
+    case LINE_XOXO:   //#define LINE_XOXO 4194424
+        charcode = LINE_XOXO_C;
+        break;
+    case LINE_OXOX:   //#define LINE_OXOX 4194417
+        charcode = LINE_OXOX_C;
+        break;
+    case LINE_XXOO:   //#define LINE_XXOO 4194413
+        charcode = LINE_XXOO_C;
+        break;
+    case LINE_OXXO:   //#define LINE_OXXO 4194412
+        charcode = LINE_OXXO_C;
+        break;
+    case LINE_OOXX:   //#define LINE_OOXX 4194411
+        charcode = LINE_OOXX_C;
+        break;
+    case LINE_XOOX:   //#define LINE_XOOX 4194410
+        charcode = LINE_XOOX_C;
+        break;
+    case LINE_XXOX:   //#define LINE_XXOX 4194422
+        charcode = LINE_XXOX_C;
+        break;
+    case LINE_XXXO:   //#define LINE_XXXO 4194420
+        charcode = LINE_XXXO_C;
+        break;
+    case LINE_XOXX:   //#define LINE_XOXX 4194421
+        charcode = LINE_XOXX_C;
+        break;
+    case LINE_OXXX:   //#define LINE_OXXX 4194423
+        charcode = LINE_OXXX_C;
+        break;
+    case LINE_XXXX:   //#define LINE_XXXX 4194414
+        charcode = LINE_XXXX_C;
+        break;
+    default:
+        charcode = (char)ch;
+        break;
     }
     char buffer[2] = { charcode, '\0' };
     return printstring( win, buffer );

@@ -64,7 +64,7 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
     int recipe_count = 0;
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
-                list_iter != map_iter->second.end(); ++list_iter) {
+             list_iter != map_iter->second.end(); ++list_iter) {
             if ((*list_iter)->ident == rec_name) {
                 if (!override_existing) {
                     jsobj.throw_error(
@@ -121,20 +121,19 @@ void load_recipe(JsonObject &jsobj)
     // could be a single byproduct - either id or byproduct, or array of ids and byproducts
     if (jsobj.has_string("byproducts")) {
         bps.push_back(byproduct(jsobj.get_string("byproducts")));
-    }
-    else if (jsobj.has_object("byproducts")) {
+    } else if (jsobj.has_object("byproducts")) {
         JsonObject jsbp = jsobj.get_object("byproducts");
-        bps.push_back(byproduct(jsbp.get_string("id"), jsbp.get_int("charges_mult", 1), jsbp.get_int("amount", 1)));
-    }
-    else if (jsobj.has_array("byproducts")) {
+        bps.push_back(byproduct(jsbp.get_string("id"), jsbp.get_int("charges_mult", 1),
+                                jsbp.get_int("amount", 1)));
+    } else if (jsobj.has_array("byproducts")) {
         jsarr = jsobj.get_array("byproducts");
         while (jsarr.has_more()) {
             if (jsarr.has_string(0)) {
                 bps.push_back(byproduct(jsarr.next_string()));
-            }
-            else if (jsarr.has_object(0)) {
+            } else if (jsarr.has_object(0)) {
                 JsonObject jsbp = jsarr.next_object();
-                bps.push_back(byproduct(jsbp.get_string("id"), jsbp.get_int("charges_mult", 1), jsbp.get_int("amount", 1)));
+                bps.push_back(byproduct(jsbp.get_string("id"), jsbp.get_int("charges_mult", 1),
+                                        jsbp.get_int("amount", 1)));
             }
         }
     }
@@ -173,7 +172,7 @@ void finalize_recipes()
 {
     for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it) {
         for (recipe_list::iterator i = it->second.begin(); i != it->second.end(); ++i) {
-            recipe* r = *i;
+            recipe *r = *i;
             for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
                 const std::string &book_id = j->first;
                 const int skill_level = j->second;
@@ -249,15 +248,17 @@ bool game::check_eligible_containers_for_crafting(recipe *making)
     std::vector<item> bps = making->create_byproducts();
     bps.push_back(making->create_result());
 
-    for(item& prod : bps) {
+    for(item &prod : bps) {
         if (prod.made_of(LIQUID)) {
             long charges_to_store = prod.charges;
             // we go trough half-filled containers first
-            for(item& cont : conts) {
+            for(item &cont : conts) {
                 if (!cont.is_container_empty()) {
                     if (cont.contents[0].type->id ==  prod.type->id) {
                         charges_to_store -= cont.get_remaining_capacity();
-                        if (charges_to_store <= 0) break;
+                        if (charges_to_store <= 0) {
+                            break;
+                        }
                     }
                 }
             }
@@ -269,7 +270,9 @@ bool game::check_eligible_containers_for_crafting(recipe *making)
                         LIQUID_FILL_ERROR tmperr;
                         charges_to_store -= iter->get_remaining_capacity_for_liquid(prod, tmperr);
                         iter = conts.erase(iter);
-                        if (charges_to_store <= 0) break;
+                        if (charges_to_store <= 0) {
+                            break;
+                        }
                     }
                 }
             }
@@ -290,7 +293,7 @@ std::vector<item> game::get_eligible_containers_for_crafting()
     if (is_container_eligible_for_crafting(u.weapon)) {
         conts.push_back(u.weapon);
     }
-    for (item& i : u.worn) {
+    for (item &i : u.worn) {
         if (is_container_eligible_for_crafting(i)) {
             conts.push_back(i);
         }
@@ -302,7 +305,7 @@ std::vector<item> game::get_eligible_containers_for_crafting()
             }
         }
     }
-    for (item& i : m.i_at(u.posx, u.posy)) {
+    for (item &i : m.i_at(u.posx, u.posy)) {
         if (is_container_eligible_for_crafting(i)) {
             conts.push_back(i);
         }
@@ -370,7 +373,7 @@ static craft_cat first_craft_cat()
 static craft_cat next_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-            iter != craft_cat_list.end(); ++iter) {
+         iter != craft_cat_list.end(); ++iter) {
         if ((*iter) == cat) {
             if( ++iter == craft_cat_list.end() ) {
                 return craft_cat_list.front();
@@ -384,7 +387,7 @@ static craft_cat next_craft_cat(const craft_cat cat)
 static craft_cat prev_craft_cat(const craft_cat cat)
 {
     for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
-            iter != craft_cat_list.end(); ++iter) {
+         iter != craft_cat_list.end(); ++iter) {
         if ((*iter) == cat) {
             if( iter == craft_cat_list.begin() ) {
                 return craft_cat_list.back();
@@ -408,7 +411,7 @@ static craft_subcat last_craft_subcat(const craft_cat cat)
 static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat)
 {
     for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
-            iter != craft_subcat_list[cat].end(); ++iter) {
+         iter != craft_subcat_list[cat].end(); ++iter) {
         if ((*iter) == subcat) {
             if( ++iter == craft_subcat_list[cat].end() ) {
                 return craft_subcat_list[cat].front();
@@ -422,7 +425,7 @@ static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat su
 static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat)
 {
     for (std::vector<craft_subcat>::iterator iter = craft_subcat_list[cat].begin();
-            iter != craft_subcat_list[cat].end(); ++iter) {
+         iter != craft_subcat_list[cat].end(); ++iter) {
         if ((*iter) == subcat) {
             if( iter == craft_subcat_list[cat].begin() ) {
                 return craft_subcat_list[cat].back();
@@ -612,7 +615,8 @@ recipe *game::select_crafting_recipe()
             if(display_mode == 0 || display_mode == 1) {
                 ypos += current[line]->print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv);
             }
-            ypos += current[line]->print_components(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv);
+            ypos += current[line]->print_components(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
+                                                    crafting_inv);
 
             if ( isWide ) {
                 if ( lastid != current[line]->id ) {
@@ -678,7 +682,7 @@ recipe *game::select_crafting_recipe()
             keepline = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 85, filterstring,
-                                              _("Search tools or component using prefix t and c. \n(i.e. \"t:hammer\" or \"c:two by four\".)"));
+                                              _("Search tools or component using prefix t. \nSearch skills using prefix s, or S for skill used only. \n (i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"));
             redraw = true;
         } else if (action == "QUIT") {
             done = true;
@@ -893,7 +897,7 @@ int recipe::print_items(WINDOW *w, int ypos, int xpos, nc_color col)
     const int oldy = ypos;
 
     mvwprintz(w, ypos++, xpos, col, _( "Byproducts:" ));
-    for (auto& bp : byproducts) {
+    for (auto &bp : byproducts) {
         print_item(w, ypos++, xpos, col, bp);
     }
 
@@ -953,6 +957,8 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     bool search_name = true;
     bool search_tool = false;
     bool search_component = false;
+    bool search_skill = false;
+    bool search_skill_primary_only = false;
     size_t pos = filter.find(":");
     if(pos != std::string::npos) {
         search_name = false;
@@ -964,6 +970,10 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                 search_tool = true;
             } else if(*it == 'c') {
                 search_component = true;
+            } else if(*it == 's') {
+                search_skill = true;
+            } else if(*it == 'S') {
+                search_skill_primary_only = true;
             }
         }
         filter = filter.substr(pos + 1);
@@ -984,6 +994,8 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
 
     current.clear();
     available.clear();
+    std::vector<recipe *> filtered_list;
+    int max_difficulty = 0;
 
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
@@ -1014,16 +1026,48 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                         continue;
                     }
                 }
+                if(search_skill) {
+                    if( !rec->skill_used) {
+                        continue;
+                    } else if( !lcmatch( rec->skill_used->name(), filter ) &&
+                               !lcmatch( rec->required_skills_string(), filter )) {
+                        continue;
+                    }
+                }
+                if(search_skill_primary_only) {
+                    if( !rec->skill_used ) {
+                        continue;
+                    } else if( !lcmatch( rec->skill_used->name(), filter )) {
+                        continue;
+                    }
+                }
             }
-            if (rec->can_make_with_inventory(crafting_inv)) {
-                current.insert(current.begin(), rec);
-                available.insert(available.begin(), true);
-            } else {
-                current.push_back(rec);
-                available.push_back(false);
+
+            filtered_list.push_back(rec);
+
+        }
+        max_difficulty = std::max(max_difficulty, rec->difficulty);
+    }
+
+    int truecount = 0;
+    for (int i = max_difficulty; i != -1; --i) {
+        for (std::vector<recipe *>::iterator iter = filtered_list.begin(); iter != filtered_list.end();
+             ++iter) {
+            recipe *rec = *iter;
+            if (rec->difficulty == i) {
+                if (rec->can_make_with_inventory(crafting_inv)) {
+                    current.insert(current.begin(), rec);
+                    available.insert(available.begin(), true);
+                    truecount++;
+                } else {
+                    current.push_back(rec);
+                    available.push_back(false);
+                }
             }
         }
     }
+    // This is so the list of available recipes is also is order of difficulty.
+    std::reverse(current.begin(), current.begin() + truecount);
 }
 
 void game::make_craft(recipe *making)
@@ -1054,7 +1098,7 @@ item recipe::create_result(int handed) const
 std::vector<item> recipe::create_byproducts() const
 {
     std::vector<item> bps;
-    for(auto& val : byproducts) {
+    for(auto &val : byproducts) {
         for (int i = 0; i < val.amount; i++) {
             item newit(val.result, calendar::turn, false);
             if (val.charges_mult != 1) {
@@ -1085,7 +1129,7 @@ void game::complete_craft()
     if( u.lastrecipe == nullptr ) {
         u.lastrecipe = making; // has been lost due to save & load
     }
-    
+
     int handed = 0;
     if (making->paired) {
         handed = menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL);
@@ -1097,7 +1141,7 @@ void game::complete_craft()
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
     if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-            && !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts")) {
+        && !u.is_wearing("glasses_bifocal") && !u.has_effect("contacts")) {
         int main_rank_penalty = 0;
         if (making->skill_used == Skill::skill("electronics")) {
             main_rank_penalty = 2;
@@ -1226,7 +1270,7 @@ void game::complete_craft()
 
     if (making->has_byproducts()) {
         std::vector<item> bps = making->create_byproducts();
-        for(auto& bp : bps) {
+        for(auto &bp : bps) {
             if (bp.is_armor() && bp.has_flag("VARSIZE")) {
                 bp.item_tags.insert("FIT");
             }
@@ -1608,7 +1652,7 @@ void game::disassemble(int pos)
         inventory crafting_inv = crafting_inventory(&u);
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
             if (OPTIONS["QUERY_DISASSEMBLE"] &&
-                    !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str()))) {
+                !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str()))) {
                 return;
             }
             u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
@@ -1619,7 +1663,7 @@ void game::disassemble(int pos)
     //if we're trying to disassemble a book or magazine
     if( dis_item->is_book() ) {
         if (OPTIONS["QUERY_DISASSEMBLE"] &&
-                !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str()))) {
+            !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str()))) {
             return;
         } else {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
@@ -1801,7 +1845,7 @@ recipe *game::recipe_by_index(int index)
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
-                list_iter != map_iter->second.end(); ++list_iter) {
+             list_iter != map_iter->second.end(); ++list_iter) {
             if ((*list_iter)->id == index) {
                 return *list_iter;
             }
@@ -1814,7 +1858,7 @@ recipe *recipe_by_name(std::string name)
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
-                list_iter != map_iter->second.end(); ++list_iter) {
+             list_iter != map_iter->second.end(); ++list_iter) {
             if ((*list_iter)->ident == name) {
                 return *list_iter;
             }
@@ -1827,7 +1871,7 @@ void check_recipe_definitions()
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
-                list_iter != map_iter->second.end(); ++list_iter) {
+             list_iter != map_iter->second.end(); ++list_iter) {
             const recipe &r = **list_iter;
             const std::string display_name = std::string("recipe ") + r.ident;
             r.check_consistency(display_name);

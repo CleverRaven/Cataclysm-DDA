@@ -12,7 +12,7 @@ iuse_actor *iuse_transform::clone() const
     return new iuse_transform(*this);
 }
 
-long iuse_transform::use(player* p, item* it, bool /*t*/) const
+long iuse_transform::use(player *p, item *it, bool /*t*/) const
 {
     if (need_fire > 0 && p != NULL && p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
@@ -70,11 +70,11 @@ long auto_iuse_transform::use(player *p, item *it, bool t) const
     if (t) {
         if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
             // Dirty hack to display the "when unterwater" message instead of the normal message
-            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater,
-                      const_cast<auto_iuse_transform*>(this)->msg_transform);
+            std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
+                      const_cast<auto_iuse_transform *>(this)->msg_transform);
             const long tmp = iuse_transform::use(p, it, t);
-            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater,
-                      const_cast<auto_iuse_transform*>(this)->msg_transform);
+            std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
+                      const_cast<auto_iuse_transform *>(this)->msg_transform);
             return tmp;
         }
         // Normal use, don't need to do anything here.
@@ -118,7 +118,8 @@ long explosion_iuse::use(player *p, item *it, bool t) const
     }
     if (it->charges > 0) {
         if (no_deactivate_msg.empty()) {
-            p->add_msg_if_player(m_warning, _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
+            p->add_msg_if_player(m_warning,
+                                 _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
         } else {
             p->add_msg_if_player(m_info, no_deactivate_msg.c_str(), it->tname().c_str());
         }
@@ -236,7 +237,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
     return 1;
 }
 
-consume_drug_iuse::~consume_drug_iuse(){};
+consume_drug_iuse::~consume_drug_iuse() {};
 
 iuse_actor *consume_drug_iuse::clone() const
 {
@@ -271,8 +272,7 @@ long consume_drug_iuse::use(player *p, item *it, bool) const
         int duration = disease->second;
         if (p->has_trait("TOLERANCE")) {
             duration -= 10; // Symmetry would cause negative duration.
-        }
-        else if (p->has_trait("LIGHTWEIGHT")) {
+        } else if (p->has_trait("LIGHTWEIGHT")) {
             duration += 20;
         }
         p->add_disease( disease->first, duration );

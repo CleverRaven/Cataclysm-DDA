@@ -482,7 +482,8 @@ utf8_wrapper utf8_wrapper::substr_display(size_t start, size_t length) const
     return substr_byte(byte_start_display(0, start), length, true);
 }
 
-utf8_wrapper utf8_wrapper::substr_byte(size_t bytestart, size_t length, bool use_display_width) const
+utf8_wrapper utf8_wrapper::substr_byte(size_t bytestart, size_t length,
+                                       bool use_display_width) const
 {
     if(length == 0 || bytestart >= _data.length()) {
         return utf8_wrapper();
