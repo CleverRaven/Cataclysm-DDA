@@ -39,9 +39,7 @@ void release_traps()
 {
     std::vector<trap *>::iterator it;
     for (it = traplist.begin(); it != traplist.end(); it++) {
-        if (*it != NULL) {
-            delete *it;
-        }
+        delete *it;
     }
     traplist.clear();
     trapmap.clear();
