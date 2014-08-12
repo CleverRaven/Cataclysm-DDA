@@ -6040,40 +6040,50 @@ int iuse::mp3(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+std::string get_random_music_description(player *p)
+{
+    std::string sound = "";
+
+    if (one_in(50)) {
+        sound = _("some bass-heavy post-glam speed polka");
+    }
+    switch (rng(1, 10)) {
+        case 1:
+            sound = _("a sweet guitar solo!");
+            p->stim++;
+            break;
+        case 2:
+            sound = _("a funky bassline.");
+            break;
+        case 3:
+            sound = _("some amazing vocals.");
+            break;
+        case 4:
+            sound = _("some pumping bass.");
+            break;
+        case 5:
+            sound = _("dramatic classical music.");
+            if (p->int_cur >= 10) {
+                p->add_morale(MORALE_MUSIC, 1, (50 + p->int_cur*2), 5, 2);
+            }
+            break;
+    }
+
+    return sound;
+}
+
 int iuse::mp3_on(player *p, item *it, bool t)
 {
     if (t) { // Normal use
         if (!p->has_item(it) || p->is_deaf()) {
             return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
         }
-        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
-
+        if (!p->has_effect("music")){
+            p->add_effect("music", 1);
+            p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
+        }
         if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
-            std::string sound = "";
-            if (one_in(50)) {
-                sound = _("some bass-heavy post-glam speed polka");
-            }
-            switch (rng(1, 10)) {
-                case 1:
-                    sound = _("a sweet guitar solo!");
-                    p->stim++;
-                    break;
-                case 2:
-                    sound = _("a funky bassline.");
-                    break;
-                case 3:
-                    sound = _("some amazing vocals.");
-                    break;
-                case 4:
-                    sound = _("some pumping bass.");
-                    break;
-                case 5:
-                    sound = _("dramatic classical music.");
-                    if (p->int_cur >= 10) {
-                        p->add_morale(MORALE_MUSIC, 1, (50 + p->int_cur*2), 5, 2);
-                    }
-                    break;
-            }
+            std::string sound = get_random_music_description(p);
             if (sound.length() > 0) {
                 p->add_msg_if_player(_("You listen to %s"), sound.c_str());
             }
@@ -8312,6 +8322,830 @@ int iuse::robotcontrol(player *p, item *it, bool)
     return 0;
 }
 
+void init_memory_card_with_random_stuff(player *, item *it)
+{
+
+    if (it->has_flag("MC_MOBILE") && (it->has_flag("MC_RANDOM_STUFF") ||
+                                      it->has_flag("MC_SCIENCE_STUFF")) && !(it->has_flag("MC_USED") ||
+                                              it->has_flag("MC_HAS_DATA"))) {
+
+        it->item_tags.insert("MC_HAS_DATA");
+
+        bool encrypted = false;
+
+        if (it->has_flag("MC_MAY_BE_ENCRYPTED") && one_in(8)) {
+            it->make(it->type->id + "_encrypted");
+        }
+
+        //some special cards can contain "MC_ENCRYPTED" flag
+        if (it->has_flag("MC_ENCRYPTED")) {
+            encrypted = true;
+        }
+
+        int data_chance = 2;
+
+        //encrypted memory cards often contain data
+        if (encrypted && !one_in(3)) {
+            data_chance--;
+        }
+
+        //just empty memory card
+        if (!one_in(data_chance)) {
+            return;
+        }
+
+        //add someone's personal photos
+        if (one_in(data_chance)) {
+
+            //decrease chance to more data
+            data_chance++;
+
+            if (encrypted && one_in(3)) {
+                data_chance--;
+            }
+
+            const int duckfaces_count = rng(5, 30);
+            it->item_vars["MC_PHOTOS"] = string_format("%d", duckfaces_count);
+        }
+        //decrease chance to music and other useful data
+        data_chance++;
+        if (encrypted && one_in(2)) {
+            data_chance--;
+        }
+
+        if (one_in(data_chance)) {
+            data_chance++;
+
+            if (encrypted && one_in(3)) {
+                data_chance--;
+            }
+
+            const int new_songs_count = rng(5, 15);
+            it->item_vars["MC_MUSIC"] = string_format("%d", new_songs_count);
+        }
+        data_chance++;
+        if (encrypted && one_in(2)) {
+            data_chance--;
+        }
+
+        if (one_in(data_chance)) {
+            it->item_vars["MC_RECIPE"] = "SIMPLE";
+        }
+
+        if (it->has_flag("MC_SCIENCE_STUFF")) {
+            it->item_vars["MC_RECIPE"] = "SCIENCE";
+        }
+    }
+}
+
+bool einkpc_download_memory_card(player *p, item *eink, item *mc)
+{
+    bool something_downloaded = false;
+    if (mc->item_vars["MC_PHOTOS"] != "") {
+        something_downloaded = true;
+
+        int new_photos = atoi(mc->item_vars["MC_PHOTOS"].c_str());
+        mc->item_vars["MC_PHOTOS"] = "";
+
+        p->add_msg_if_player(m_good, string_format(
+                                 ngettext("You download %d new photo into internal memory.",
+                                          "You download %d new photos into internal memory.", new_photos)).c_str());
+
+        int old_photos = 0;
+        if (eink->item_vars["EIPC_PHOTOS"] != "") {
+            old_photos = atoi(eink->item_vars["EIPC_PHOTOS"].c_str());
+        }
+
+        eink->item_vars["EIPC_PHOTOS"] = string_format("%d", old_photos + new_photos);
+    }
+
+    if (mc->item_vars["MC_MUSIC"] != "") {
+        something_downloaded = true;
+
+        int new_songs = atoi(mc->item_vars["MC_MUSIC"].c_str());
+        mc->item_vars["MC_MUSIC"] = "";
+
+        p->add_msg_if_player(m_good, string_format(
+                                 ngettext("You download %d new song into internal memory.",
+                                          "You download %d new songs into internal memory.", new_songs)).c_str());
+
+        int old_songs = 0;
+        if (eink->item_vars["EIPC_MUSIC"] != "") {
+            old_songs = atoi(eink->item_vars["EIPC_MUSIC"].c_str());
+        }
+
+        eink->item_vars["EIPC_MUSIC"] = string_format("%d", old_songs + new_songs);
+    }
+
+    if (mc->item_vars["MC_RECIPE"] != "") {
+        const bool science = mc->item_vars["MC_RECIPE"] == "SCIENCE";
+
+        mc->item_vars["MC_RECIPE"] = "";
+
+        std::vector<recipe *> candidates;
+        recipe_map recipes = g->list_recipes();
+
+        for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
+            for (recipe_list::iterator list_iter = map_iter->second.begin();
+                 list_iter != map_iter->second.end(); ++list_iter) {
+
+                const int dif = (*list_iter)->difficulty;
+
+                if (science) {
+                    if (dif >= 3 && one_in(dif + 1)) {
+                        candidates.push_back(*list_iter);
+                    }
+                } else {
+                    if ((*list_iter)->cat == "CC_FOOD") {
+                        if (dif <= 3 && one_in(dif)) {
+                            candidates.push_back(*list_iter);
+                        }
+                    }
+
+                }
+
+
+            }
+        }
+
+        if (candidates.size() > 0) {
+
+            recipe *r = candidates[rng(0, candidates.size() - 1)];
+            const std::string rident = r->ident;
+
+            const item dummy(r->ident, 0);
+
+            if (eink->item_vars["EIPC_RECIPES"] == "") {
+                something_downloaded = true;
+                eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
+
+                p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
+                                     dummy.tname().c_str());
+            } else {
+                if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
+                    something_downloaded = true;
+                    eink->item_vars["EIPC_RECIPES"] += rident + ",";
+
+                    p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
+                                         dummy.tname().c_str());
+                } else {
+                    p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
+                                         dummy.tname().c_str());
+                }
+            }
+        }
+    }
+
+    if (mc->item_vars["MC_MONSTER_PHOTOS"] != "") {
+        something_downloaded = true;
+        p->add_msg_if_player(m_good, _("You have updated your monster collection."));
+
+        if (eink->item_vars["EINK_MONSTER_PHOTOS"] == "") {
+            eink->item_vars["EINK_MONSTER_PHOTOS"] = mc->item_vars["MC_MONSTER_PHOTOS"];
+        } else {
+            std::istringstream f(mc->item_vars["MC_MONSTER_PHOTOS"]);
+            std::string s;
+            while (getline(f, s, ',')) {
+
+                if (s.size() == 0) {
+                    continue;
+                }
+
+                const std::string mtype = s;
+                getline(f, s, ',');
+                char *chq = &s[0];
+                const int quality = atoi(chq);
+
+                const size_t eink_strpos = eink->item_vars["EINK_MONSTER_PHOTOS"].find("," + mtype + ",");
+
+                if (eink_strpos == std::string::npos) {
+                    eink->item_vars["EINK_MONSTER_PHOTOS"] += mtype + "," + string_format("%d", quality) + ",";
+                } else {
+
+                    const size_t strqpos = eink_strpos + mtype.size() + 2;
+                    char *chq = &eink->item_vars["EINK_MONSTER_PHOTOS"][strqpos];
+                    const int old_quality = atoi(chq);
+
+                    if (quality > old_quality) {
+                        chq = &string_format("%d", quality)[0];
+                        eink->item_vars["EINK_MONSTER_PHOTOS"][strqpos] = *chq;
+                    }
+                }
+
+            }
+        }
+    }
+
+    if (mc->has_flag("MC_TURN_USED")) {
+        mc->item_tags.clear();
+        mc->item_vars.clear();
+        mc->make("mobile_memory_card_used");
+    }
+
+    if (!something_downloaded) {
+        p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
+        return false;
+    }
+
+    return true;
+
+}
+
+const std::string photo_quality_names[] = { _("awful"), _("bad"), _("not bad"), _("good"), _("fine"), _("exceptional") };
+
+int iuse::einktabletpc(player *p, item *it, bool t)
+{
+    if (t) {
+
+        if (it->item_vars["EIPC_MUSIC_ON"] != "") {
+
+            if (calendar::turn % 50 == 0) {
+                it->charges--;
+            }
+
+            const point pos = g->find_item(it);
+
+            //the more varied music, the better max mood.
+            const int songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
+
+            //if user can hear this music and not already hear music
+            if (g->sound(pos.x, pos.y, 8, "") && !p->has_effect("music")) {
+
+                p->add_effect("music", 1);
+                p->add_morale(MORALE_MUSIC, 1, std::min(100, songs), 5, 2);
+
+                if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
+                    const std::string sound = get_random_music_description(p);
+                    g->sound(pos.x, pos.y, 8, sound);
+                }
+            }
+        }
+
+        return 0;
+
+    } else {
+
+        enum {
+            ei_cancel, ei_photo, ei_music, ei_recipe, ei_monsters, ei_download, ei_decrypt
+        };
+
+        if (p->is_underwater()) {
+            p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+            return 0;
+        }
+        if (p->has_trait("ILLITERATE")) {
+            add_msg(m_info, _("You cannot read a computer screen."));
+            return 0;
+        }
+        if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
+            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts")) {
+            add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
+            return 0;
+        }
+
+        uimenu amenu;
+
+        amenu.selected = 0;
+        amenu.text = _("Choose menu option:");
+        amenu.addentry(ei_cancel, true, 'q', _("Cancel"));
+
+        if (it->item_vars["EIPC_PHOTOS"] != "") {
+            const int photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
+            amenu.addentry(ei_photo, true, 'p', _("Photos [%d]"), photos);
+        } else {
+            amenu.addentry(ei_photo, false, 'p', _("No photos on device"));
+        }
+
+        if (it->item_vars["EIPC_MUSIC"] != "") {
+            if (it->active) {
+                amenu.addentry(ei_music, true, 'm', _("Turn music off"));
+            } else {
+                const int songs = atoi(it->item_vars["EIPC_MUSIC"].c_str());
+                amenu.addentry(ei_music, true, 'm', _("Turn music on [%d]"), songs);
+            }
+        } else {
+            amenu.addentry(ei_music, false, 'm', _("No music on device"));
+        }
+
+        if (it->item_vars["RECIPE"] != "") {
+            const item dummy(it->item_vars["RECIPE"], 0);
+            amenu.addentry(0, false, -1, _("Recipe: %s"), dummy.tname().c_str());
+        }
+
+        if (it->item_vars["EIPC_RECIPES"] != "") {
+            amenu.addentry(ei_recipe, true, 'r', _("View recipe on E-ink screen"));
+        }
+
+        if (it->item_vars["EINK_MONSTER_PHOTOS"] != "") {
+            amenu.addentry(ei_monsters, true, 'y', _("Your collection of monsters"));
+        } else {
+            amenu.addentry(ei_monsters, false, 'y', _("Collection of monsters is empty"));
+        }
+
+        amenu.addentry(ei_download, true, 'w', _("Download data from memory card"));
+
+        if (p->skillLevel("computer") > 2) {
+            amenu.addentry(ei_decrypt, true, 'd', _("Decrypt memory card"));
+        } else {
+            amenu.addentry(ei_decrypt, false, 'd', _("Decrypt memory card (low skill)"));
+        }
+
+        amenu.query();
+
+        const int choice = amenu.ret;
+
+        if (ei_cancel == choice) {
+            return it->type->charges_to_use();
+        }
+
+        if (ei_photo == choice) {
+
+            const int photos = atoi(it->item_vars["EIPC_PHOTOS"].c_str());
+            const int viewed = std::min(photos, int(rng(10, 30)));
+            const int count = photos - viewed;
+            if (count == 0) {
+                it->item_vars["EIPC_PHOTOS"] = "";
+            } else {
+                it->item_vars["EIPC_PHOTOS"] = string_format("%d", count);
+            }
+
+            p->moves -= rng(3, 7) * 100;
+
+            if (p->has_trait("PSYCHOPATH")) {
+                p->add_msg_if_player(m_info, _("Wasted time, these pictures do not provoke your senses."));
+            } else {
+                p->add_morale(MORALE_PHOTOS, rng(15, 30), 100);
+
+                const int random_photo = rng(1, 20);
+                switch (random_photo) {
+                    case 1:
+                        p->add_msg_if_player(m_good, _("You used to have a dog like this..."));
+                        break;
+                    case 2:
+                        p->add_msg_if_player(m_good, _("Ha-ha! An amusing cat photo."));
+                        break;
+                    case 3:
+                        p->add_msg_if_player(m_good, _("Excellent pictures of nature."));
+                        break;
+                    case 4:
+                        p->add_msg_if_player(m_good, _("Food photos...your stomach rumbles!"));
+                        break;
+                    case 5:
+                        p->add_msg_if_player(m_good, _("Some very interesting travel photos."));
+                        break;
+                    case 6:
+                        p->add_msg_if_player(m_good, _("Pictures of a concert of popular band."));
+                        break;
+                    case 7:
+                        p->add_msg_if_player(m_good, _("Photos of someone's luxurious house."));
+                        break;
+                    default:
+                        p->add_msg_if_player(m_good, _("You feel nostalgic as you stare at the photo."));
+                        break;
+                }
+            }
+
+            return it->type->charges_to_use();
+        }
+
+        if (ei_music == choice) {
+
+            p->moves -= 30;
+
+            if (it->active) {
+                it->active = false;
+                it->item_vars["EIPC_MUSIC_ON"] = "";
+
+                p->add_msg_if_player(m_info, _("You turned off music on your %s."), it->tname().c_str());
+            } else {
+                it->active = true;
+                it->item_vars["EIPC_MUSIC_ON"] = "1";
+
+                p->add_msg_if_player(m_info, _("You turned on music on your %s."), it->tname().c_str());
+
+            }
+
+            return it->type->charges_to_use();
+        }
+
+        if (ei_recipe == choice) {
+            p->moves -= 50;
+
+            uimenu rmenu;
+
+            rmenu.selected = 0;
+            rmenu.text = _("Choose recipe to view:");
+            rmenu.addentry(0, true, 'q', _("Cancel"));
+
+            std::vector<std::string> recipes;
+            std::istringstream f(it->item_vars["EIPC_RECIPES"]);
+            std::string s;
+            int k = 1;
+            while (getline(f, s, ',')) {
+
+                if (s.size() == 0) {
+                    continue;
+                }
+
+                recipes.push_back(s);
+
+                const item dummy(s, 0);
+                rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+            }
+
+            rmenu.query();
+
+            const int rchoice = rmenu.ret;
+            if (0 == rchoice) {
+                return it->type->charges_to_use();
+            } else {
+                it->item_tags.insert("HAS_RECIPE");
+                it->item_vars["RECIPE"] = recipes[rchoice - 1];
+
+                const item dummy(it->item_vars["RECIPE"], 0);
+                p->add_msg_if_player(m_info, _("You change the e-ink screen to show a recipe for %s."), dummy.tname().c_str());
+            }
+
+            return it->type->charges_to_use();
+        }
+
+        if (ei_monsters == choice) {
+
+            uimenu pmenu;
+
+            pmenu.selected = 0;
+            pmenu.text = _("Your collection of monsters:");
+            pmenu.addentry(0, true, 'q', _("Cancel"));
+
+            std::vector<std::string> monster_photos;
+
+            std::istringstream f(it->item_vars["EINK_MONSTER_PHOTOS"]);
+            std::string s;
+            int k = 1;
+            while (getline(f, s, ',')) {
+                if (s.size() == 0) {
+                    continue;
+                }
+                monster_photos.push_back(s);
+                std::string menu_str;
+                const monster dummy(GetMType(s));
+                menu_str = dummy.name();
+                getline(f, s, ',');
+                char *chq = &s[0];
+                const int quality = atoi(chq);
+                menu_str += " [" + photo_quality_names[quality] + "]";
+                pmenu.addentry(k++, true, -1, menu_str.c_str());
+            }
+
+            int choice;
+            do {
+                pmenu.query();
+                choice = pmenu.ret;
+
+                if (0 == choice) {
+                    break;
+                }
+
+                const monster dummy(GetMType(monster_photos[choice - 1]));
+                popup(dummy.type->description.c_str());
+            } while (true);
+            return it->type->charges_to_use();
+        }
+
+        if (ei_download == choice) {
+
+            p->moves -= 200;
+
+            const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            item *mc = &(p->i_at(pos));
+
+            if (mc == NULL || mc->is_null()) {
+                p->add_msg_if_player(m_info, _("You do not have that item!"));
+                return it->type->charges_to_use();
+            }
+            if (!mc->has_flag("MC_MOBILE")) {
+                p->add_msg_if_player(m_info, _("This is not a compatible memory card."));
+                return it->type->charges_to_use();
+            }
+
+            init_memory_card_with_random_stuff(p, mc);
+
+            if (mc->has_flag("MC_ENCRYPTED")) {
+                p->add_msg_if_player(m_info, _("This memory card is encrypted."));
+                return it->type->charges_to_use();
+            }
+            if (!mc->has_flag("MC_HAS_DATA")) {
+                p->add_msg_if_player(m_info, _("This memory card does not contain any new data."));
+                return it->type->charges_to_use();
+            }
+
+            einkpc_download_memory_card(p, it, mc);
+
+            return it->type->charges_to_use();
+        }
+
+        if (ei_decrypt == choice) {
+            p->moves -= 200;
+            const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            item *mc = &(p->i_at(pos));
+
+            if (mc == NULL || mc->is_null()) {
+                p->add_msg_if_player(m_info, _("You do not have that item!"));
+                return it->type->charges_to_use();
+            }
+            if (!mc->has_flag("MC_MOBILE")) {
+                p->add_msg_if_player(m_info, _("This is not a compatible memory card."));
+                return it->type->charges_to_use();
+            }
+
+            init_memory_card_with_random_stuff(p, mc);
+
+            if (!mc->has_flag("MC_ENCRYPTED")) {
+                p->add_msg_if_player(m_info, _("This memory card is not encrypted."));
+                return it->type->charges_to_use();
+            }
+
+            p->practice("computer", rng(2, 5));
+
+            const int success = p->skillLevel("computer") * rng(1, p->skillLevel("computer")) *
+                rng(1, p->int_cur) - rng(30, 80);
+            if (success > 0) {
+                p->practice("computer", rng(5, 10));
+                p->add_msg_if_player(m_good, _("You successfully decrypted content on %s!"),
+                                     mc->tname().c_str());
+                einkpc_download_memory_card(p, it, mc);
+            } else {
+                if (success > -10 || one_in(5)) {
+                    p->add_msg_if_player(m_neutral, _("You failed to decrypt the %s."), mc->tname().c_str());
+                } else {
+                    p->add_msg_if_player(m_bad, _("You tripped the firmware protection, and the card deleted its data!"));
+                    mc->item_tags.clear();
+                    mc->item_vars.clear();
+                    mc->make("mobile_memory_card_used");
+                }
+            }
+            return it->type->charges_to_use();
+        }
+    }
+    return 0;
+}
+
+int iuse::camera(player *p, item *it, bool)
+{
+    enum {c_cancel, c_shot, c_photos, c_upload};
+
+    uimenu amenu;
+
+    amenu.selected = 0;
+    amenu.text = _("What to do with camera?");
+    amenu.addentry(c_shot, true, 'p', _("Take a photo"));
+    if (it->item_vars["CAMERA_MONSTER_PHOTOS"] != "") {
+        amenu.addentry(c_photos, true, 'l', _("List photos"));
+        amenu.addentry(c_upload, true, 'u', _("Upload photos to memory card"));
+    } else {
+        amenu.addentry(c_photos, false, 'l', _("No photos in memory"));
+    }
+
+    amenu.addentry(c_cancel, true, 'q', _("Cancel"));
+
+    amenu.query();
+    const int choice = amenu.ret;
+
+    if (c_cancel == choice) {
+        return 0;
+    }
+
+    if (c_shot == choice) {
+
+        point pos = g->look_around();
+
+        if (pos.x == -1 || pos.y == -1) {
+            p->add_msg_if_player(_("Never mind."));
+            return 0;
+        }
+
+        if (pos.x == p->posx && pos.y == p->posy) {
+            p->add_msg_if_player(_("You decide not to flash yourself."));
+            return 0;
+        }
+
+        const int sel_zid = g->mon_at(pos.x, pos.y);
+        const int sel_npcID = g->npc_at(pos.x, pos.y);
+
+        if (sel_zid == -1 && sel_npcID == -1) {
+            p->add_msg_if_player(_("There's nothing particularly interesting there."));
+            return 0;
+        }
+
+        std::vector <point> trajectory = line_to(p->posx, p->posy, pos.x, pos.y, 0);
+        trajectory.push_back(point(pos.x, pos.y));
+
+        p->moves -= 50;
+        g->sound(p->posx, p->posy, 8, _("Click."));
+
+        for (int i = 0; i < trajectory.size(); i++) {
+            int tx = trajectory[i].x;
+            int ty = trajectory[i].y;
+
+            int zid = g->mon_at(tx, ty);
+            int npcID = g->npc_at(tx, ty);
+
+            if (zid != -1 || npcID != -1) {
+                int dist = rl_dist(p->posx, p->posy, tx, ty);
+
+                int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
+                int photo_quality = 20 - rng(dist, dist * 2) * 2 + rng(camera_bonus / 2, camera_bonus);
+                if (photo_quality > 5) {
+                    photo_quality = 5;
+                }
+                if (photo_quality < 0) {
+                    photo_quality = 0;
+                }
+
+                const std::string quality_name = photo_quality_names[photo_quality];
+
+                if (zid != -1) {
+                    monster &z = g->zombie(zid);
+
+                    if (dist < 4 && one_in(dist + 2) && z.has_flag(MF_SEES)) {
+                        p->add_msg_if_player(_("%s looks blinded."), z.name().c_str());
+                        z.add_effect("blind", rng(5, 10));
+                    }
+
+                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
+                        continue;
+                    }
+
+                    if (zid != sel_zid) {
+                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), z.name().c_str());
+                        return it->type->charges_to_use();
+                    }
+
+                    if (z.is_hallucination() || z.type->in_species("HALLUCINATION")) {
+                        p->add_msg_if_player(_("Strange...there's nothing in the picture?"));
+                        return it->type->charges_to_use();
+                    }
+
+                    if (z.mission_id != -1) {
+                        //quest processing...
+                    }
+
+                    p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                                         z.name().c_str());
+
+                    const std::string mtype = z.type->id;
+
+                    if (it->item_vars["CAMERA_MONSTER_PHOTOS"] == "") {
+                        it->item_vars["CAMERA_MONSTER_PHOTOS"] = "," + mtype + "," + string_format("%d",
+                                photo_quality) + ",";
+                    } else {
+
+                        const size_t strpos = it->item_vars["CAMERA_MONSTER_PHOTOS"].find("," + mtype + ",");
+
+                        if (strpos == std::string::npos) {
+                            it->item_vars["CAMERA_MONSTER_PHOTOS"] += mtype + "," + string_format("%d", photo_quality) + ",";
+                        } else {
+
+                            const size_t strqpos = strpos + mtype.size() + 2;
+                            char *chq = &it->item_vars["CAMERA_MONSTER_PHOTOS"][strqpos];
+                            const int old_quality = atoi(chq);
+
+                            if (photo_quality > old_quality) {
+                                chq = &string_format("%d", photo_quality)[0];
+                                it->item_vars["CAMERA_MONSTER_PHOTOS"][strqpos] = *chq;
+
+                                p->add_msg_if_player(_("This photo is better than the previous one."));
+
+                            }
+
+                        }
+                    }
+
+                    return it->type->charges_to_use();
+
+                } else {
+                    npc *guy = g->active_npc[npcID];
+
+                    if (dist < 4 && one_in(dist + 2)) {
+                        p->add_msg_if_player(_("%s looks blinded."), guy->name.c_str());
+                        guy->add_effect("blind", rng(5, 10));
+                    }
+
+                    if (npcID != sel_npcID) {
+                        p->add_msg_if_player(m_warning, _("There's a %s in the way!"), guy->name.c_str());
+                        return it->type->charges_to_use();
+                    }
+
+                    //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
+                    p->add_msg_if_player(_("You took a %s photo of %s."), photo_quality_names[photo_quality].c_str(),
+                                         guy->name.c_str());
+
+                    return it->type->charges_to_use();
+                }
+
+                return it->type->charges_to_use();
+            }
+
+        }
+
+        return it->type->charges_to_use();
+    }
+
+    if (c_photos == choice) {
+
+        uimenu pmenu;
+
+        pmenu.selected = 0;
+        pmenu.text = _("Critter photos saved on camera:");
+        pmenu.addentry(0, true, 'q', _("Cancel"));
+
+        std::vector<std::string> monster_photos;
+
+        std::istringstream f(it->item_vars["CAMERA_MONSTER_PHOTOS"]);
+        std::string s;
+        int k = 1;
+        while (getline(f, s, ',')) {
+
+            if (s.size() == 0) {
+                continue;
+            }
+
+            monster_photos.push_back(s);
+
+            std::string menu_str;
+
+            const monster dummy(GetMType(s));
+            menu_str = dummy.name();
+
+            getline(f, s, ',');
+            char *chq = &s[0];
+            const int quality = atoi(chq);
+
+            menu_str += " [" + photo_quality_names[quality] + "]";
+
+            pmenu.addentry(k++, true, -1, menu_str.c_str());
+        }
+
+        int choice;
+        do {
+            pmenu.query();
+            choice = pmenu.ret;
+
+            if (0 == choice) {
+                break;
+            }
+
+            const monster dummy(GetMType(monster_photos[choice - 1]));
+            popup(dummy.type->description.c_str());
+
+        } while (true);
+
+        return it->type->charges_to_use();
+    }
+
+    if (c_upload == choice) {
+
+        p->moves -= 200;
+
+        const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+        item *mc = &(p->i_at(pos));
+
+        if (mc == NULL || mc->is_null()) {
+            p->add_msg_if_player(m_info, _("You do not have that item!"));
+            return it->type->charges_to_use();
+        }
+        if (!mc->has_flag("MC_MOBILE")) {
+            p->add_msg_if_player(m_info, _("This is not a compatible memory card."));
+            return it->type->charges_to_use();
+        }
+
+        init_memory_card_with_random_stuff(p, mc);
+
+        if (mc->has_flag("MC_ENCRYPTED")) {
+            if (!query_yn(_("This memory card is encrypted. Format and clear data?"))) {
+                return it->type->charges_to_use();
+            }
+        }
+        if (mc->has_flag("MC_HAS_DATA")) {
+            if (!query_yn(_("Are you sure you want to clear the old data on the card?"))) {
+                return it->type->charges_to_use();
+            }
+        }
+
+        mc->make("mobile_memory_card");
+        mc->item_tags.clear();
+        mc->item_vars.clear();
+        mc->item_tags.insert("MC_HAS_DATA");
+
+        mc->item_vars["MC_MONSTER_PHOTOS"] = it->item_vars["CAMERA_MONSTER_PHOTOS"];
+        p->add_msg_if_player(m_info, _("You upload monster photos to memory card."));
+
+        return it->type->charges_to_use();
+    }
+
+    return it->type->charges_to_use();
+}
+
 int iuse::radiocar(player *p, item *it, bool)
 {
     int choice = -1;
@@ -8553,13 +9387,9 @@ int iuse::radiocontrol(player *p, item *it, bool t)
 
 bool multicooker_hallu(player *p)
 {
-
     p->moves -= 200;
-
     const int random_hallu = rng(1, 7);
-
     std::vector<point> points;
-
     switch (random_hallu) {
 
         case 1:
@@ -8595,7 +9425,6 @@ bool multicooker_hallu(player *p)
 
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
-
                 const point random_point = points[rng(0, points.size() - 1)];
 
                 monster m(GetMType("mon_hallu_multicooker"));
@@ -8603,13 +9432,10 @@ bool multicooker_hallu(player *p)
                 m.add_effect("run", 1, 1, true);
                 m.spawn(random_point.x, random_point.y);
                 g->add_zombie(m);
-
             } else {
-
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
                 for (auto pp = points.begin(); pp != points.end(); ++pp) {
-
                     monster m(GetMType("mon_hallu_multicooker"));
                     m.hallucination = true;
                     m.spawn(pp->x, pp->y);
@@ -8627,7 +9453,6 @@ bool multicooker_hallu(player *p)
 int iuse::multicooker(player *p, item *it, bool t)
 {
     if (t) {
-
         if (it->charges == 0) {
             it->active = false;
             return 0;
@@ -8645,7 +9470,6 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (cooktime <= 0) {
-
             it->active = false;
 
             item meal(it->item_vars["DISH"], calendar::turn);
@@ -8664,15 +9488,12 @@ int iuse::multicooker(player *p, item *it, bool t)
             g->sound(pos.x, pos.y, 8, _("ding!"));
 
             return 0;
-
         } else {
             it->item_vars["COOKTIME"] = string_format("%d", cooktime);
-
             return 0;
         }
 
     } else {
-
         enum {
             mc_cancel, mc_start, mc_stop, mc_take, mc_upgrade
         };
@@ -8708,21 +9529,17 @@ int iuse::multicooker(player *p, item *it, bool t)
         if (it->active) {
             menu.addentry(mc_stop, true, 's', _("Stop cooking"));
         } else {
-
             if (it->contents.empty()) {
                 if (it->charges < 50) {
                     p->add_msg_if_player(_("Batteries are low."));
                     return 0;
                 }
-
                 menu.addentry(mc_start, true, 's', _("Start cooking"));
 
                 if (p->skillLevel("electronics") > 3 && p->skillLevel("fabrication") > 3) {
-
                     if (it->item_vars["MULTI_COOK_UPGRADE"] == "") {
                         menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi-cooker"));
                     } else {
-
                         if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
                             menu.addentry(mc_upgrade, false, 'u', _("Multi-cooker already upgraded"));
                         } else {
@@ -8730,14 +9547,12 @@ int iuse::multicooker(player *p, item *it, bool t)
                         }
                     }
                 }
-
             } else {
                 menu.addentry(mc_take, true, 't', _("Take out dish"));
             }
         }
 
         menu.query();
-
         int choice = menu.ret;
 
         if (mc_cancel == choice) {
@@ -8745,15 +9560,11 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (mc_stop == choice) {
-
             if (query_yn(_("Really stop cooking?"))) {
                 it->active = false;
                 it->item_vars["DISH"] = "";
-                return 0;
             }
-
             return 0;
-
         }
 
         if (mc_take == choice) {
@@ -8763,8 +9574,8 @@ int iuse::multicooker(player *p, item *it, bool t)
                 p->add_msg_if_player(m_good, _("You got the dish from the multi-cooker.  The %s smells delicious."),
                                      dish.tname(dish.charges, false).c_str());
             } else {
-                p->add_msg_if_player(m_good, _("You got the %s from the multi-cooker."), dish.tname(dish.charges,
-                                     false).c_str());
+                p->add_msg_if_player(m_good, _("You got the %s from the multi-cooker."),
+                                     dish.tname(dish.charges, false).c_str());
             }
 
             p->i_add(dish);
@@ -8774,7 +9585,6 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (mc_start == choice) {
-
             enum {
                 d_cancel
             };
@@ -8795,28 +9605,23 @@ int iuse::multicooker(player *p, item *it, bool t)
             crafting_inv.push_back(item("pot", 0)); //good COOK, BOIL, CONTAIN qualities inside
 
             int counter = 1;
-
             recipe_map recipes = g->list_recipes();
 
             for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
                 for (recipe_list::iterator list_iter = map_iter->second.begin();
                      list_iter != map_iter->second.end(); ++list_iter) {
-                    if ((*list_iter)->cat == "CC_FOOD" && ((*list_iter)->subcat == "CSC_FOOD_MEAT" ||
-                                                           (*list_iter)->subcat == "CSC_FOOD_VEGGI" || (*list_iter)->subcat == "CSC_FOOD_PASTA")) {
-
+                    if ((*list_iter)->cat == "CC_FOOD" &&
+                        ((*list_iter)->subcat == "CSC_FOOD_MEAT" ||
+                         (*list_iter)->subcat == "CSC_FOOD_VEGGI" ||
+                         (*list_iter)->subcat == "CSC_FOOD_PASTA")) {
 
                         if (g->u.knows_recipe((*list_iter))) {
-
                             dishes.push_back(*list_iter);
-
                             const bool can_make = (*list_iter)->can_make_with_inventory(crafting_inv);
-
                             item dummy((*list_iter)->result, 0);
 
                             dmenu.addentry(counter++, can_make, -1, dummy.display_name());
-
                         }
-
                     }
                 }
             }
@@ -8828,9 +9633,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             if (d_cancel == choice) {
                 return 0;
             } else {
-
                 recipe *meal = dishes[choice - 1];
-
                 int mealtime;
                 if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
                     mealtime = meal->time;
@@ -8843,7 +9646,8 @@ int iuse::multicooker(player *p, item *it, bool t)
 
                 if (it->charges < all_charges) {
 
-                    p->add_msg_if_player(m_warning, _("The multi-cooker needs %d charges to cook this dish."),
+                    p->add_msg_if_player(m_warning,
+                                         _("The multi-cooker needs %d charges to cook this dish."),
                                          all_charges);
 
                     return 0;

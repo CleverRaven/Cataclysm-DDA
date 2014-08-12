@@ -106,15 +106,17 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
 
     int menu_length = 0;
     for( auto menu_item : vMenuItems ) {
-        // adds (width + 2) if there are no shortcut symbols "<" & ">", and just width otherwise
+        // adds width if there are shortcut symbols "<" & ">", and width + 2 otherwise.
         menu_length += utf8_width(menu_item.c_str()) +
-                       (menu_item.find_first_of("<") == std::string::npos ? 2 : 0);
+            (menu_item.find_first_of("<") != std::string::npos ? 0 : 2);
     }
-    const int free_space = std::max(0, window_width - menu_length);
+    // Available free space. -1 width_pos != line_pos. line_pos == width - 1.
+    const int free_space = std::max(0, window_width - menu_length - 1 - iMenuOffsetX);
     const int spacing = free_space / ((int)vMenuItems.size() - 1);
     const int width_of_spacing = spacing * (vMenuItems.size() - 1);
     const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
-    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX + adj_offset, spacing);
+
+    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, adj_offset, spacing);
 
     refresh();
     wrefresh(w_open);
@@ -126,7 +128,8 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
 {
     mvwprintz(w_in, iOffsetY, iOffsetX, c_black, "");
 
-    for (int i = 0; i < (int)vItems.size(); i++) {
+    const int items_size = (int)vItems.size();
+    for (int i = 0; i < items_size; i++) {
         wprintz(w_in, c_ltgray, "[");
         if (iSel == i) {
             shortcut_print(w_in, h_white, h_white, vItems[i]);
@@ -134,7 +137,10 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
             shortcut_print(w_in, c_ltgray, c_white, vItems[i]);
         }
         wprintz(w_in, c_ltgray, "]");
-        wprintz(w_in, c_ltgray, std::string(spacing, ' ').c_str());
+        // Don't print spaces after last item.
+        if ( i != (items_size - 1)) {
+            wprintz(w_in, c_ltgray, std::string(spacing, ' ').c_str());
+        }
     }
 }
 

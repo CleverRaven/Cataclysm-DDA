@@ -50,7 +50,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 {
         friend class editmap;
     public:
-        using Creature::hit;
         monster();
         monster(mtype *t);
         monster(mtype *t, int x, int y);
@@ -220,13 +219,13 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
-        int  get_armor_cut(body_part bp);   // Natural armor, plus any worn armor
-        int  get_armor_bash(body_part bp);  // Natural armor, plus any worn armor
-        int  get_dodge();       // Natural dodge, or 0 if we're occupied
+        int  get_armor_cut(body_part bp) const;   // Natural armor, plus any worn armor
+        int  get_armor_bash(body_part bp) const;  // Natural armor, plus any worn armor
+        int  get_dodge() const;       // Natural dodge, or 0 if we're occupied
         int  get_melee() const; // For determining attack skill when awarding dodge practice.
-        int  hit_roll();  // For the purposes of comparing to player::dodge_roll()
+        int  hit_roll() const;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll();  // For the purposes of comparing to player::hit_roll()
-        int  fall_damage(); // How much a fall hurts us
+        int  fall_damage() const; // How much a fall hurts us
 
         void die(Creature *killer); //this is the die from Creature, it calls kill_mon
         void drop_items_on_death();

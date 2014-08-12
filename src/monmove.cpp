@@ -971,7 +971,7 @@ void monster::knock_back_from(int x, int y)
   npc *p = g->active_npc[npcdex];
   apply_damage( p, bp_torso, 3 );
   add_effect("stunned", 1);
-  p->hit(this, bp_torso, type->size, 0);
+  p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
   if (u_see)
    add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 

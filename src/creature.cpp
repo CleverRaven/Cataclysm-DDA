@@ -212,19 +212,6 @@ bool Creature::digging() const
  * Damage-related functions
  */
 
-
-// TODO: this is a shim for the currently existing calls to Creature::hit,
-// start phasing them out
-int Creature::hit(Creature *source, body_part bphurt, int dam, int cut)
-{
-    damage_instance d;
-    d.add_damage(DT_BASH, dam);
-    d.add_damage(DT_CUT, cut);
-    dealt_damage_instance dealt_dams = deal_damage(source, bphurt, d);
-
-    return dealt_dams.total_damage();
-}
-
 int Creature::deal_melee_attack(Creature *source, int hitroll)
 {
     int dodgeroll = dodge_roll();
@@ -729,7 +716,7 @@ void Creature::mod_moves(int nmoves)
 /*
  * Killer-related things
  */
-Creature *Creature::get_killer()
+Creature *Creature::get_killer() const
 {
     return killer;
 }
@@ -820,31 +807,31 @@ int Creature::get_num_dodges_bonus() const
 }
 
 // currently this is expected to be overridden to actually have use
-int Creature::get_env_resist(body_part)
+int Creature::get_env_resist(body_part) const
 {
     return 0;
 }
-int Creature::get_armor_bash(body_part)
+int Creature::get_armor_bash(body_part) const
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut(body_part)
+int Creature::get_armor_cut(body_part) const
 {
     return armor_cut_bonus;
 }
-int Creature::get_armor_bash_base(body_part)
+int Creature::get_armor_bash_base(body_part) const
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut_base(body_part)
+int Creature::get_armor_cut_base(body_part) const
 {
     return armor_cut_bonus;
 }
-int Creature::get_armor_bash_bonus()
+int Creature::get_armor_bash_bonus() const
 {
     return armor_bash_bonus;
 }
-int Creature::get_armor_cut_bonus()
+int Creature::get_armor_cut_bonus() const
 {
     return armor_cut_bonus;
 }
@@ -853,7 +840,7 @@ int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
-int Creature::get_dodge()
+int Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();
 }
@@ -861,7 +848,7 @@ int Creature::get_melee() const
 {
     return 0;
 }
-int Creature::get_hit()
+int Creature::get_hit() const
 {
     return get_hit_base() + get_hit_bonus();
 }
@@ -870,11 +857,11 @@ int Creature::get_speed_base() const
 {
     return speed_base;
 }
-int Creature::get_dodge_base()
+int Creature::get_dodge_base() const
 {
     return (get_dex() / 2) + int(get_speed() / 150); //Faster = small dodge advantage
 }
-int Creature::get_hit_base()
+int Creature::get_hit_base() const
 {
     return (get_dex() / 2) + 1;
 }
@@ -882,45 +869,45 @@ int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
-int Creature::get_dodge_bonus()
+int Creature::get_dodge_bonus() const
 {
     return dodge_bonus;
 }
-int Creature::get_block_bonus()
+int Creature::get_block_bonus() const
 {
     return block_bonus; //base is 0
 }
-int Creature::get_hit_bonus()
+int Creature::get_hit_bonus() const
 {
     return hit_bonus; //base is 0
 }
-int Creature::get_bash_bonus()
+int Creature::get_bash_bonus() const
 {
     return bash_bonus;
 }
-int Creature::get_cut_bonus()
+int Creature::get_cut_bonus() const
 {
     return cut_bonus;
 }
 
-float Creature::get_bash_mult()
+float Creature::get_bash_mult() const
 {
     return bash_mult;
 }
-float Creature::get_cut_mult()
+float Creature::get_cut_mult() const
 {
     return cut_mult;
 }
 
-bool Creature::get_melee_quiet()
+bool Creature::get_melee_quiet() const
 {
     return melee_quiet;
 }
-int Creature::get_grab_resist()
+int Creature::get_grab_resist() const
 {
     return grab_resist;
 }
-int Creature::get_throw_resist()
+int Creature::get_throw_resist() const
 {
     return throw_resist;
 }

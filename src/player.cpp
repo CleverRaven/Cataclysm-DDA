@@ -67,6 +67,7 @@ void game::init_morale()
     _("Mutagenic Anticipation"),
     _("Good Feeling"),
     _("Supported"),
+    _("Looked at photos"),
 
     _("Nicotine Craving"),
     _("Caffeine Craving"),
@@ -4895,7 +4896,7 @@ void player::knock_back_from(int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *critter = &(g->zombie(mondex));
-  hit(this, bp_torso, critter->type->size, 0);
+  deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
   add_effect("stunned", 1);
   if ((str_max - 6) / 4 > critter->type->size) {
    critter->knock_back_from(posx, posy); // Chain reaction!
@@ -4915,9 +4916,9 @@ void player::knock_back_from(int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hit(this, bp_torso, 3, 0);
+  deal_damage( p, bp_torso, damage_instance( DT_BASH, p->get_size() ) );
   add_effect("stunned", 1);
-  p->hit(this, bp_torso, 3, 0);
+  p->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
   add_msg_player_or_npc( _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
@@ -5232,7 +5233,7 @@ bool player::unpause_disease(dis_type type, body_part part)
     return false;
 }
 
-int player::disease_duration(dis_type type, bool all, body_part part)
+int player::disease_duration(dis_type type, bool all, body_part part) const
 {
     int tmp = 0;
     for (auto &i : illness) {
@@ -5247,7 +5248,7 @@ int player::disease_duration(dis_type type, bool all, body_part part)
     return tmp;
 }
 
-int player::disease_intensity(dis_type type, bool all, body_part part)
+int player::disease_intensity(dis_type type, bool all, body_part part) const
 {
     int tmp = 0;
     for (auto &i : illness) {
@@ -9827,7 +9828,7 @@ void player::do_read( item *book )
             if (no_recipes) {
                 add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
             } else {
-                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for yo"),
+                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for you."),
                         reading->nname(1).c_str());
             }
         }
@@ -10292,17 +10293,17 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     return ret;
 }
 
-int player::get_armor_bash(body_part bp)
+int player::get_armor_bash(body_part bp) const
 {
     return get_armor_bash_base(bp) + armor_bash_bonus;
 }
 
-int player::get_armor_cut(body_part bp)
+int player::get_armor_cut(body_part bp) const
 {
     return get_armor_cut_base(bp) + armor_cut_bonus;
 }
 
-int player::get_armor_bash_base(body_part bp)
+int player::get_armor_bash_base(body_part bp) const
 {
     int ret = 0;
     for (auto &i : worn) {
@@ -10347,7 +10348,7 @@ int player::get_armor_bash_base(body_part bp)
     return ret;
 }
 
-int player::get_armor_cut_base(body_part bp)
+int player::get_armor_cut_base(body_part bp) const
 {
     int ret = 0;
     for (auto &i : worn) {
@@ -10724,7 +10725,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
         cut = 0;
 }
 
-int player::get_env_resist(body_part bp)
+int player::get_env_resist(body_part bp) const
 {
     int ret = 0;
     for (auto &i : worn) {
@@ -10995,6 +10996,13 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
                       get_skill_level(book_recipe->first->skill_used) >= book_recipe->second ) &&
                     ( difficulty == -1 || book_recipe->second < difficulty ) ) {
                     difficulty = book_recipe->second;
+                }
+            }
+        } else {
+            if (candidate.has_flag("HAS_RECIPE")){
+                item dummy = candidate;
+                if (dummy.item_vars["RECIPE"] == r->ident){
+                    if (difficulty == -1) difficulty = r->difficulty;
                 }
             }
         }

@@ -2041,7 +2041,7 @@
         "bashing" : 36,
         "cutting" : 0,
         "price" : 12000,
-		"qualities": [["HAMMER", 1]]
+        "qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
@@ -2059,7 +2059,7 @@
         "bashing" : 30,
         "cutting" : 0,
         "price" : 16000,
-		"qualities": [["HAMMER", 1]]
+                "qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
@@ -2312,9 +2312,9 @@
         "material" : ["aluminum", "null"],
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE"],
-	    "use_action": {
+            "use_action": {
             "type": "transform",
-	    "target": "baton-extended",
+            "target": "baton-extended",
             "msg": "You snap open your baton."
         },
         "volume" : 1,
@@ -2428,7 +2428,7 @@
         "bashing" : 26,
         "cutting" : 0,
         "price" : 100000,
-		"qualities": [["HAMMER", 1]]
+                "qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
@@ -2446,7 +2446,7 @@
         "cutting" : 4,
         "flags" : ["DURABLE_MELEE", "SPEAR"],
         "price" : 120000,
-		"qualities": [["HAMMER", 1]]
+                "qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
@@ -3548,18 +3548,18 @@
    },
    {
     "id": "ugl_buttstock",
-	"type": "GENERIC",
-	"symbol": ",",
-	"color": "dark_gray",
-	"name": "grenade launcher buttstock",
-	"description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a stand alone weapon",
-	"price": 10000,
-	"material": "steel",
-	"weight": 600,
-	"volume": 1,
-	"bashing": 0,
-	"cutting": 0,
-	"to_hit": 1
+        "type": "GENERIC",
+        "symbol": ",",
+        "color": "dark_gray",
+        "name": "grenade launcher buttstock",
+        "description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a stand alone weapon",
+        "price": 10000,
+        "material": "steel",
+        "weight": 600,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 1
    },
    {
    "id": "katana_fake",
@@ -3609,9 +3609,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons"
-	},
-	{
-	"id": "broadsword_fake",
+        },
+        {
+        "id": "broadsword_fake",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
@@ -3633,9 +3633,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons"
-	},
-	{
-	"id": "rapier_fake",
+        },
+        {
+    "id": "rapier_fake",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
@@ -3657,9 +3657,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons"
-	},
-	{
-	"id": "wakizashi_fake",
+    },
+    {
+    "id": "wakizashi_fake",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
@@ -3681,9 +3681,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons"
-	},
-	{
-	"id": "kris_fake",
+    },
+    {
+    "id": "kris_fake",
     "type": "GENERIC",
     "symbol": "/",
     "color": "dark_gray",
@@ -3706,9 +3706,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons"
-	},
-	{
-	"id": "battleaxe_fake",
+    },
+    {
+    "id": "battleaxe_fake",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
@@ -3729,9 +3729,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons"
-	},
-	{
-	"id": "nodachi_fake",
+    },
+    {
+    "id": "nodachi_fake",
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",
@@ -3754,8 +3754,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons"
-	},
-     {
+  },{
       "type":"GENERIC",
       "id":"music_cd",
       "symbol":"?",
@@ -3787,5 +3786,71 @@
     "cutting": 0,
     "to_hit": -2,
     "material": ["wood", "steel"]
+  },{
+    "type":"GENERIC",
+    "id": "mobile_memory_card",
+    "symbol": ",",
+    "color": "white",
+    "name": "SD-Memory card",
+    "description": "A memory card, used.  Might be worth a look.",
+    "price": 1000,
+    "material": "plastic",
+    "flags" : ["MC_MOBILE", "MC_RANDOM_STUFF", "MC_MAY_BE_ENCRYPTED", "MC_TURN_USED"],
+    "weight": 5,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+  {
+    "type":"GENERIC",
+    "id": "mobile_memory_card_used",
+    "symbol": ",",
+    "color": "white",
+    "name": "SD-Memory card (clean)",
+    "name_plural": "SD-Memory cards (clean)",
+    "description": "This memory card is either unused or has been wiped clean.  You could use it to store your data, though!",
+    "price": 500,
+    "material": "plastic",
+    "flags" : ["MC_MOBILE", "MC_USED"],
+    "weight": 5,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+  {
+    "type":"GENERIC",
+    "id": "mobile_memory_card_encrypted",
+    "symbol": ",",
+    "color": "white",
+    "name": "SD-Memory card (encrypted)",
+    "name_plural": "SD-Memory cards (encrypted)",
+    "description": "This memory card appears to have the firmware encryption set.  Hopefully it contains something worth encrypting.",
+    "price": 2000,
+    "material": "plastic",
+    "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED"],
+    "weight": 5,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+  {
+    "type":"GENERIC",
+    "id": "mobile_memory_card_science",
+    "symbol": ",",
+    "color": "white",
+    "name": "Science SD-Memory card",
+    "name_plural": "Science SD-Memory cards",
+    "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks * Interesting *, though...",
+    "price": 10000,
+    "material": "plastic",
+    "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF"],
+    "weight": 5,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0
   }
 ]

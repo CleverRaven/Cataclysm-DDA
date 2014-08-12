@@ -1665,8 +1665,7 @@
     ],
 	  [[ "char_kiln", 1 ]]
   ]
-},
-{
+},{
   "type" : "recipe",
   "result": "multi_cooker",
   "id_suffix": "uncraft",
@@ -1803,5 +1802,61 @@
       [ "holster", 1 ]
     ]
   ]
-}
+},{
+    "type" : "recipe",
+    "result": "eink_tablet_pc",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "e_scrap", 2 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "camera",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "lens", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "camera_pro",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 5 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "lens", 2 ] ]
+    ]
+  }
 ]

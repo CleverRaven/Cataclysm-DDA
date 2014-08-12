@@ -49,7 +49,7 @@ class Creature
         virtual void reset_stats(); // prepare the Creature for the next turn. Should be idempotent
         virtual void die(Creature *killer) = 0;
 
-        virtual int hit_roll() = 0;
+        virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
 
         // makes a single melee attack, with the currently equipped weapon
@@ -69,8 +69,6 @@ class Creature
         virtual int smite_attack(game* g, projectile &proj, int targetx, int targety,
                 std::set<std::string>& proj_effects);
                 */
-
-        virtual int hit(Creature *source, body_part bphurt, int dam, int cut);
 
         // handles dodges and misses, allowing triggering of martial arts counter
         virtual void dodge_hit(Creature *source, int hit_spread) = 0;
@@ -159,7 +157,7 @@ class Creature
          * Get/set our killer, this is currently used exclusively to allow
          * mondeath effects to happen after death cleanup
          */
-        virtual Creature *get_killer();
+        virtual Creature *get_killer() const;
 
         /*
          * getters for stats - combat-related stats will all be held within
@@ -188,19 +186,19 @@ class Creature
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
 
-        virtual int get_env_resist(body_part bp);
+        virtual int get_env_resist(body_part bp) const;
 
-        virtual int get_armor_bash(body_part bp);
-        virtual int get_armor_cut(body_part bp);
-        virtual int get_armor_bash_base(body_part bp);
-        virtual int get_armor_cut_base(body_part bp);
-        virtual int get_armor_bash_bonus();
-        virtual int get_armor_cut_bonus();
+        virtual int get_armor_bash(body_part bp) const;
+        virtual int get_armor_cut(body_part bp) const;
+        virtual int get_armor_bash_base(body_part bp) const;
+        virtual int get_armor_cut_base(body_part bp) const;
+        virtual int get_armor_bash_bonus() const;
+        virtual int get_armor_cut_bonus() const;
 
         virtual int get_speed() const;
-        virtual int get_dodge();
+        virtual int get_dodge() const;
         virtual int get_melee() const;
-        virtual int get_hit();
+        virtual int get_hit() const;
         virtual m_size get_size() const = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
@@ -217,21 +215,21 @@ class Creature
         };
 
         virtual int get_speed_base() const;
-        virtual int get_dodge_base();
-        virtual int get_hit_base();
+        virtual int get_dodge_base() const;
+        virtual int get_hit_base() const;
         virtual int get_speed_bonus() const;
-        virtual int get_dodge_bonus();
-        virtual int get_block_bonus();
-        virtual int get_hit_bonus();
-        virtual int get_bash_bonus();
-        virtual int get_cut_bonus();
+        virtual int get_dodge_bonus() const;
+        virtual int get_block_bonus() const;
+        virtual int get_hit_bonus() const;
+        virtual int get_bash_bonus() const;
+        virtual int get_cut_bonus() const;
 
-        virtual float get_bash_mult();
-        virtual float get_cut_mult();
+        virtual float get_bash_mult() const;
+        virtual float get_cut_mult() const;
 
-        virtual bool get_melee_quiet();
-        virtual int get_grab_resist();
-        virtual int get_throw_resist();
+        virtual bool get_melee_quiet() const;
+        virtual int get_grab_resist() const;
+        virtual int get_throw_resist() const;
 
         /*
          * setters for stats and boni

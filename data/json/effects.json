@@ -492,5 +492,9 @@
    {
       "type":"effect_type",
       "id":"tied"
+   },
+   {
+      "type":"effect_type",
+      "id":"music"
    }
 ]

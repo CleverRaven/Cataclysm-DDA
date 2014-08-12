@@ -599,34 +599,13 @@ void reset_region_settings()
 
 // *** BEGIN overmap FUNCTIONS ***
 
-overmap::overmap()
-    : loc(999, 999)
-    , prefix()
-    , name()
-    , layer(NULL)
-    , nullret("")
-    , nullbool(false)
-    , nullstr("")
-{
-    // debugmsg("Warning - null overmap!");
-}
-
 overmap::overmap(int x, int y)
     : loc(x, y)
-    , prefix()
-    , name(g->u.name)
-    , layer(NULL)
+    , layer()
     , nullret("")
     , nullbool(false)
     , nullstr("")
 {
-    if (name.empty()) {
-        debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
-    }
-
-    if (g->has_gametype()) {
-        prefix = special_game_name(g->gametype());
-    }
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
@@ -642,75 +621,12 @@ overmap::overmap(int x, int y)
     open();
 }
 
-overmap::overmap(overmap const &o)
-    : zg(o.zg)
-    , radios(o.radios)
-    , npcs(o.npcs)
-    , vehicles(o.vehicles)
-    , cities(o.cities)
-    , roads_out(o.roads_out)
-    , loc(o.loc)
-    , prefix(o.prefix)
-    , name(o.name)
-    , layer(NULL)
-    , monsters(o.monsters)
-{
-    settings = o.settings;
-    layer = new map_layer[OVERMAP_LAYERS];
-    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-        for(int i = 0; i < OMAPX; ++i) {
-            for(int j = 0; j < OMAPY; ++j) {
-                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
-                layer[z].visible[i][j] = o.layer[z].visible[i][j];
-            }
-        }
-        layer[z].notes = o.layer[z].notes;
-    }
-}
-
 overmap::~overmap()
 {
-    if (layer) {
-        delete [] layer;
-        layer = NULL;
-    }
-}
-
-overmap &overmap::operator=(overmap const &o)
-{
-    zg = o.zg;
-    radios = o.radios;
-    npcs = o.npcs;
-    vehicles = o.vehicles;
-    cities = o.cities;
-    roads_out = o.roads_out;
-    loc = o.loc;
-    prefix = o.prefix;
-    name = o.name;
-    monsters = o.monsters;
-
-    if (layer) {
-        delete [] layer;
-        layer = NULL;
-    }
-    settings = o.settings;
-
-    layer = new map_layer[OVERMAP_LAYERS];
-    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-        for(int i = 0; i < OMAPX; ++i) {
-            for(int j = 0; j < OMAPY; ++j) {
-                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
-                layer[z].visible[i][j] = o.layer[z].visible[i][j];
-            }
-        }
-        layer[z].notes = o.layer[z].notes;
-    }
-    return *this;
 }
 
 void overmap::init_layers()
 {
-    layer = new map_layer[OVERMAP_LAYERS];
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
         oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? settings.default_oter :
                                "open_air";
