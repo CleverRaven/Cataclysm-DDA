@@ -1049,7 +1049,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_push_items: {
                         std::vector<item> *it = &(i_at(x, y));
-                        for (int i = 0; i < it->size(); i++) {
+                        for (size_t i = 0; i < it->size(); i++) {
                             if ((*it)[i].type->id != "rock" || (*it)[i].bday >= int(calendar::turn) - 1) {
                                 i++;
                             } else {
@@ -1217,24 +1217,30 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_incendiary:
-                        int offset_x = x + rng(-1,1);
-                        int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
-                        if (has_flag("EXPLODES", offset_x, offset_y) || has_flag("FLAMMABLE", offset_x, offset_y) ||
-                        has_flag("FLAMMABLE_ASH",offset_x, offset_y) || has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
-                                add_field(offset_x, offset_y , fd_fire, 1);
-                        }
+                        { //Needed for variable scope
+                            int offset_x = x + rng(-1,1);
+                            int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
+                            if (has_flag("EXPLODES", offset_x, offset_y) || has_flag("FLAMMABLE", offset_x, offset_y) ||
+                            has_flag("FLAMMABLE_ASH",offset_x, offset_y) || has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
+                                    add_field(offset_x, offset_y , fd_fire, 1);
+                            }
 
-                        //check piles for flammable items and set those on fire
-                        for (std::vector<item>::iterator it =
-                                 i_at(x, y).begin();
-                             it != i_at(x, y).end(); ++it) {
-                                if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
-                                it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline"){
-                                    add_field(x, y, fd_fire, 1);
-                                }
-                        }
+                            //check piles for flammable items and set those on fire
+                            for (std::vector<item>::iterator it =
+                                     i_at(x, y).begin();
+                                 it != i_at(x, y).end(); ++it) {
+                                    if (it->made_of("paper") || it->made_of("wood") || it->made_of("veggy") ||
+                                    it->made_of("cotton") || it->made_of("wool") || it->type->id == "gasoline"){
+                                        add_field(x, y, fd_fire, 1);
+                                    }
+                            }
 
-                        spread_gas( this, cur, x, y, curtype, 66, 40 );
+                            spread_gas( this, cur, x, y, curtype, 66, 40 );
+                        }
+                        break;
+                    
+                    default:
+                        //Suppress warnings
                         break;
 
                 } // switch (curtype)
@@ -1595,6 +1601,9 @@ void map::step_in_field(int x, int y)
             }
             break;
 
+        default:
+            //Suppress warnings
+            break;
         }
         ++field_list_it;
     }
@@ -1867,7 +1876,11 @@ void map::mon_in_field(int x, int y, monster *z)
                         z->add_effect("onfire", rng(12, 16));
                 }
             }
-
+            break;
+        
+        default:
+            //Suppress warnings
+            break;
         }
         ++field_list_it;
     }
@@ -1879,93 +1892,100 @@ void map::mon_in_field(int x, int y, monster *z)
 // TODO FIXME XXX: oh god the horror
 void map::field_effect(int x, int y) //Applies effect of field immediately
 {
- field_entry *cur = NULL;
- field &curfield = field_at(x, y);
- for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
- cur = field_list_it->second;
- if(cur == NULL) continue;
+    field_entry *cur = NULL;
+    field &curfield = field_at(x, y);
+    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it) {
+        cur = field_list_it->second;
+        if(cur == NULL) {
+            continue;
+        }
 
- switch (cur->getFieldType()) {                        //Can add independent code for different types of fields to apply different effects
-  case fd_rubble:
-   int hit_chance = 10;
-   int fdmon = g->mon_at(x, y);              //The index of the monster at (x,y), or -1 if there isn't one
-   int fdnpc = g->npc_at(x, y);              //The index of the NPC at (x,y), or -1 if there isn't one
-   npc *me = NULL;
-   if (fdnpc != -1)
-    me = g->active_npc[fdnpc];
-   int veh_part;
-   bool pc_inside = false;
-   bool npc_inside = false;
+        //Can add independent code for different types of fields to apply different effects
+        if (cur->getFieldType() == fd_rubble) {
+            int hit_chance = 10;
+            //The index of the monster at (x,y), or -1 if there isn't one
+            int fdmon = g->mon_at(x, y);
+            //The index of the NPC at (x,y), or -1 if there isn't one
+            int fdnpc = g->npc_at(x, y);
+            npc *me = NULL;
+            if (fdnpc != -1) {
+                me = g->active_npc[fdnpc];
+            }
+            int veh_part;
+            bool pc_inside = false;
+            bool npc_inside = false;
 
-   if (g->u.in_vehicle) {
-    vehicle *veh = veh_at(x, y, veh_part);
-    pc_inside = (veh && veh->is_inside(veh_part));
-   }
-   if (me && me->in_vehicle) {
-    vehicle *veh = veh_at(x, y, veh_part);
-    npc_inside = (veh && veh->is_inside(veh_part));
-   }
-   if (g->u.posx == x && g->u.posy == y && !pc_inside) {            //If there's a PC at (x,y) and he's not in a covered vehicle...
-    if (g->u.get_dodge() < rng(1, hit_chance) || one_in(g->u.get_dodge())) {
-     int how_many_limbs_hit = rng(0, num_hp_parts);
-     for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
-      g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
-      add_msg(m_bad, _("You are hit by the falling debris!"));
-     }
-     if (one_in(g->u.dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-          (g->u.footwear_factor() == .5 && one_in(2))) ) {
-      g->u.add_effect("downed", 2);
-     }
-     if (one_in(g->u.str_cur)) {
-      g->u.add_effect("stunned", 2);
-     }
+            if (g->u.in_vehicle) {
+                vehicle *veh = veh_at(x, y, veh_part);
+                pc_inside = (veh && veh->is_inside(veh_part));
+            }
+            if (me && me->in_vehicle) {
+                vehicle *veh = veh_at(x, y, veh_part);
+                npc_inside = (veh && veh->is_inside(veh_part));
+            }
+            //If there's a PC at (x,y) and he's not in a covered vehicle...
+            if (g->u.posx == x && g->u.posy == y && !pc_inside) {
+                if (g->u.get_dodge() < rng(1, hit_chance) || one_in(g->u.get_dodge())) {
+                    int how_many_limbs_hit = rng(0, num_hp_parts);
+                    for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
+                        g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
+                        add_msg(m_bad, _("You are hit by the falling debris!"));
+                    }
+                    if (one_in(g->u.dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
+                          g->u.footwear_factor() == 1 || (g->u.footwear_factor() == .5 && one_in(2))) ) {
+                        g->u.add_effect("downed", 2);
+                    }
+                    if (one_in(g->u.str_cur)) {
+                        g->u.add_effect("stunned", 2);
+                    }
+                } else if (one_in(g->u.str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
+                          g->u.footwear_factor() == 1 ||
+                          (g->u.footwear_factor() == .5 && one_in(2))) ) {
+                    add_msg(m_bad, _("You trip as you evade the falling debris!"));
+                    g->u.add_effect("downed", 1);
+                }
+                //Avoiding disease system for the moment, since I was having trouble with it.
+                //g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
+                //g->u.rem_disease("crushed");           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
+            }
+            if (fdmon != -1 && size_t(fdmon) < g->num_zombies()) {  //If there's a monster at (x,y)...
+                monster* monhit = &(g->zombie(fdmon));
+                int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
+                monhit->apply_damage( nullptr, bp_torso, dam ); //Ideally an external disease-like system would handle this to make it easier to modify later
+            }
+            if (fdnpc != -1) {
+                if (size_t(fdnpc) < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
+                    if (me && (me->get_dodge() < rng(1, hit_chance) || one_in(me->get_dodge()))) {
+                        int how_many_limbs_hit = rng(0, num_hp_parts);
+                        for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
+                            me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
+                        }
+                        // Not sure how to track what NPCs are wearing, and they're under revision anyway so leaving it checking player. :-/
+                        if (one_in(me->dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
+                              g->u.footwear_factor() == 1 ||
+                              (g->u.footwear_factor() == .5 && one_in(2))) ) {
+                            me->add_effect("downed", 2);
+                        }
+                        if (one_in(me->str_cur)) {
+                            me->add_effect("stunned", 2);
+                        }
+                    } else if (me && one_in(me->str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") ||
+                                g->u.footwear_factor() == 1 ||
+                                (g->u.footwear_factor() == .5 && one_in(2))) ) {
+                        me->add_effect("downed", 1);
+                    }
+                }
+                if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
+                    me->die( nullptr );        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
+                    g->active_npc.erase(g->active_npc.begin() + fdnpc);
+                }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
+            }
+            vehicle *veh = veh_at(x, y, veh_part);
+            if (veh) {
+                veh->damage(veh_part, ceil(veh->parts[veh_part].hp/3.0 * cur->getFieldDensity()), 1, false);
+            }
+        }
     }
-    else if (one_in(g->u.str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-              (g->u.footwear_factor() == .5 && one_in(2))) ) {
-     add_msg(m_bad, _("You trip as you evade the falling debris!"));
-     g->u.add_effect("downed", 1);
-    }
-                        //Avoiding disease system for the moment, since I was having trouble with it.
-//    g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
- //   g->u.rem_disease("crushed");           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
-   }
-   if (fdmon != -1 && fdmon < g->num_zombies()) {  //If there's a monster at (x,y)...
-    monster* monhit = &(g->zombie(fdmon));
-    int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
-    monhit->apply_damage( nullptr, bp_torso, dam ); //Ideally an external disease-like system would handle this to make it easier to modify later
-   }
-   if (fdnpc != -1) {
-    if (fdnpc < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
-    if (me && (me->get_dodge() < rng(1, hit_chance) || one_in(me->get_dodge()))) {
-      int how_many_limbs_hit = rng(0, num_hp_parts);
-      for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
-       me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
-      }
-      // Not sure how to track what NPCs are wearing, and they're under revision anyway so leaving it checking player. :-/
-      if (one_in(me->dex_cur) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-          (g->u.footwear_factor() == .5 && one_in(2))) ) {
-       me->add_effect("downed", 2);
-      }
-      if (one_in(me->str_cur)) {
-       me->add_effect("stunned", 2);
-      }
-     }
-     else if (me && one_in(me->str_cur) && (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-               (g->u.footwear_factor() == .5 && one_in(2))) ) {
-      me->add_effect("downed", 1);
-     }
-    }
-    if (me && (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0)) {
-     me->die( nullptr );        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
-     g->active_npc.erase(g->active_npc.begin() + fdnpc);
-    }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
-   }
-    vehicle *veh = veh_at(x, y, veh_part);
-    if (veh) {
-     veh->damage(veh_part, ceil(veh->parts[veh_part].hp/3.0 * cur->getFieldDensity()), 1, false);
-    }
- }
- }
 }
 
 int field_entry::move_cost() const{
