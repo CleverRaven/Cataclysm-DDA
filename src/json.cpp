@@ -177,7 +177,7 @@ void JsonArray::throw_error(std::string err)
 
 void JsonArray::throw_error(std::string err, int idx)
 {
-    if (idx >= 0 && idx < positions.size() ) {
+    if (idx >= 0 && size_t(idx) < positions.size() ) {
         jsin->seek( positions[idx] );
     }
     jsin->error(err);
@@ -466,7 +466,7 @@ void JsonArray::finish()
 
 bool JsonArray::has_more()
 {
-    return (index >= 0 && index < positions.size());
+    return (index >= 0 && size_t(index) < positions.size());
 }
 int JsonArray::size()
 {
@@ -490,7 +490,7 @@ void JsonArray::verify_index(int i)
 {
     if (!jsin) {
         throw (std::string)"tried to access empty array.";
-    } else if (i < 0 || i >= positions.size()) {
+    } else if (i < 0 || size_t(i) >= positions.size()) {
         jsin->seek(start);
         std::stringstream err;
         err << "bad index value: " << i;
@@ -1467,7 +1467,7 @@ void JsonIn::error(std::string message, int offset)
     } else if (ch == '\n') {
         // pass
     } else if (peek() != '\r' && peek() != '\n') {
-        for (int i = 0; i < pos - startpos; ++i) {
+        for (size_t i = 0; i < pos - startpos; ++i) {
             err << ' ';
         }
     }
@@ -1717,8 +1717,8 @@ void JsonOut::write(const std::string &s)
     }
     unsigned char ch;
     stream->put('"');
-    for (int i = 0; i < s.size(); ++i) {
-        ch = s[i];
+    for (auto &i : s) {
+        ch = i;
         if (ch == '"') {
             stream->write("\\\"", 2);
         } else if (ch == '\\') {
@@ -1762,8 +1762,8 @@ void JsonOut::write(const std::bitset<13> &b)
     std::string converted = b.to_string();
     unsigned char ch;
     stream->put('"');
-    for (int i = 0; i < converted.size(); ++i) {
-        ch = converted[i];
+    for (auto &i : converted) {
+        ch = i;
         stream->put(ch);
     }
     stream->put('"');
