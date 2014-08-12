@@ -8479,17 +8479,17 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
                 something_downloaded = true;
                 eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
 
-                p->add_msg_if_player(m_good, _("You download recipe of %s into internal memory"),
+                p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
                                      dummy.tname().c_str());
             } else {
                 if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
-                    p->add_msg_if_player(m_good, _("You download recipe of %s into internal memory"),
+                    p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
                                          dummy.tname().c_str());
                 } else {
-                    p->add_msg_if_player(m_good, _("Your tablet already has recipe of %s"),
+                    p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
                                          dummy.tname().c_str());
                 }
             }
@@ -8763,7 +8763,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 it->item_vars["RECIPE"] = recipes[rchoice - 1];
 
                 const item dummy(it->item_vars["RECIPE"], 0);
-                p->add_msg_if_player(m_info, _("Now e-ink screen contains recipe of %s."), dummy.tname().c_str());
+                p->add_msg_if_player(m_info, _("You change the e-ink screen to show a recipe for %s."), dummy.tname().c_str());
             }
 
             return it->type->charges_to_use();
@@ -8824,7 +8824,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             }
             if (!mc->has_flag("MC_MOBILE")) {
-                p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
+                p->add_msg_if_player(m_info, _("This is not a compatible memory card."));
                 return it->type->charges_to_use();
             }
 
@@ -8854,7 +8854,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             }
             if (!mc->has_flag("MC_MOBILE")) {
-                p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
+                p->add_msg_if_player(m_info, _("This is not a compatible memory card."));
                 return it->type->charges_to_use();
             }
 
@@ -8876,10 +8876,9 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 einkpc_download_memory_card(p, it, mc);
             } else {
                 if (success > -10 || one_in(5)) {
-                    p->add_msg_if_player(m_neutral, _("You failed to decrypt content of %s!"),
-                                         mc->tname().c_str());
+                    p->add_msg_if_player(m_neutral, _("You failed to decrypt the %s."), mc->tname().c_str());
                 } else {
-                    p->add_msg_if_player(m_bad, _("Firmware protection tripped on and the data is lost!"));
+                    p->add_msg_if_player(m_bad, _("You tripped the firmware protection, and the card deleted its data!"));
                     mc->item_tags.clear();
                     mc->item_vars.clear();
                     mc->make("mobile_memory_card_used");
@@ -8990,8 +8989,8 @@ int iuse::camera(player *p, item *it, bool)
                         //quest processing...
                     }
 
-                    p->add_msg_if_player(_("You shot %s in %s quality."), z.name().c_str(),
-                                         quality_name.c_str());
+                    p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                                         z.name().c_str());
 
                     const std::string mtype = z.type->id;
 
@@ -9014,7 +9013,7 @@ int iuse::camera(player *p, item *it, bool)
                                 chq = &string_format("%d", photo_quality)[0];
                                 it->item_vars["CAMERA_MONSTER_PHOTOS"][strqpos] = *chq;
 
-                                p->add_msg_if_player(_("This photo is better than previous."));
+                                p->add_msg_if_player(_("This photo is better than the previous one."));
 
                             }
 
@@ -9037,8 +9036,8 @@ int iuse::camera(player *p, item *it, bool)
                     }
 
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
-                    p->add_msg_if_player(_("You shot %s in %s quality."), guy->name.c_str(),
-                                         photo_quality_names[photo_quality].c_str());
+                    p->add_msg_if_player(_("You took a %s photo of %s."), photo_quality_names[photo_quality].c_str(),
+                                         guy->name.c_str());
 
                     return it->type->charges_to_use();
                 }
@@ -9056,7 +9055,7 @@ int iuse::camera(player *p, item *it, bool)
         uimenu pmenu;
 
         pmenu.selected = 0;
-        pmenu.text = _("Monsters photo on camera:");
+        pmenu.text = _("Critter photos saved on camera:");
         pmenu.addentry(0, true, 'q', _("Cancel"));
 
         std::vector<std::string> monster_photos;
@@ -9115,7 +9114,7 @@ int iuse::camera(player *p, item *it, bool)
             return it->type->charges_to_use();
         }
         if (!mc->has_flag("MC_MOBILE")) {
-            p->add_msg_if_player(m_info, _("This is not compatible memory card!"));
+            p->add_msg_if_player(m_info, _("This is not a compatible memory card."));
             return it->type->charges_to_use();
         }
 

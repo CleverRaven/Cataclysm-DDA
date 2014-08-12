@@ -67,7 +67,7 @@ void game::init_morale()
     _("Mutagenic Anticipation"),
     _("Good Feeling"),
     _("Supported"),
-    _("Looked photos"),
+    _("Looked at photos"),
 
     _("Nicotine Craving"),
     _("Caffeine Craving"),
