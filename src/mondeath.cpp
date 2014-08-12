@@ -116,7 +116,7 @@ void mdeath::kill_vines(monster *z)
             }
         }
         if (!closer) {
-            vine->hp = 0;
+            vine->die(z);
         }
     }
 }
@@ -152,7 +152,7 @@ void mdeath::vine_cut(monster *z)
             }
         }
         if (!found_neighbor) {
-            vine->hp = 0;
+            vine->die(z);
         }
     }
 }
