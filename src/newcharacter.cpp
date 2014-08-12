@@ -813,11 +813,11 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     const size_t iContentHeight = FULL_SCREEN_HEIGHT - 9;
     int iCurWorkingPage = 0;
 
-    unsigned iStartPos[2];
+    int iStartPos[2];
     iStartPos[0] = 0;
     iStartPos[1] = 0;
 
-    unsigned iCurrentLine[2];
+    int iCurrentLine[2];
     iCurrentLine[0] = 0;
     iCurrentLine[1] = 0;
 
@@ -1024,7 +1024,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     int cur_id = 0;
     int retval = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 10;
-    unsigned iStartPos = 0;
+    int iStartPos = 0;
 
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));

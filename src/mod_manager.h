@@ -155,11 +155,11 @@ class mod_ui
 
         void try_add(const std::string &mod_to_add,
                      std::vector<std::string> &active_list);
-        void try_rem(unsigned selection, std::vector<std::string> &active_list);
-        void try_shift(char direction, unsigned &selection, std::vector<std::string> &active_list);
+        void try_rem(int selection, std::vector<std::string> &active_list);
+        void try_shift(char direction, int &selection, std::vector<std::string> &active_list);
 
-        bool can_shift_up(unsigned selection, std::vector<std::string> active_list);
-        bool can_shift_down(unsigned selection, std::vector<std::string> active_list);
+        bool can_shift_up(int selection, std::vector<std::string> active_list);
+        bool can_shift_down(int selection, std::vector<std::string> active_list);
 
     private:
         void set_usable_mods();

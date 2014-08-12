@@ -88,7 +88,7 @@ void show_auto_pickup()
     int iCurrentPage = 1;
     int iCurrentLine = 0;
     int iCurrentCol = 1;
-    unsigned iStartPos = 0;
+    int iStartPos = 0;
     bool bStuffChanged = false;
     input_context ctxt("AUTO_PICKUP");
     ctxt.register_cardinal();
@@ -353,7 +353,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     const int iOffsetX = 15 + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
     const int iOffsetY = 5 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0);
 
-    unsigned iStartPos = 0;
+    int iStartPos = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
     const int iContentWidth = FULL_SCREEN_WIDTH - 30;
     std::stringstream sTemp;

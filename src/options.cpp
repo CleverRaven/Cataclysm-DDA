@@ -1011,7 +1011,7 @@ void show_options(bool ingame)
     int iCurrentPage = 0;
     int iLastPage = 0;
     int iCurrentLine = 0;
-    unsigned iStartPos = 0;
+    int iStartPos = 0;
     bool bStuffChanged = false;
     bool bWorldStuffChanged = false;
     input_context ctxt("OPTIONS");

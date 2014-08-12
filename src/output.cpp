@@ -1285,7 +1285,7 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
     wrefresh(window);
 }
 
-void calcStartPos(unsigned &iStartPos, const int iCurrentLine, const int iContentHeight,
+void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight,
                   const int iNumEntries)
 {
     if( OPTIONS["MENU_SCROLL"] ) {

@@ -181,7 +181,7 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
                     nc_color bar_color = c_white);
-void calcStartPos(unsigned &iStartPos, const int iCurrentLine,
+void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
 

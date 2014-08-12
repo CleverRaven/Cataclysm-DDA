@@ -8832,7 +8832,7 @@ void game::zones_manager()
 
     int iZonesNum = u.Zones.size();
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
-    unsigned iStartPos = 0;
+    int iStartPos = 0;
     int iActive = 0;
     bool bBlink = false;
     bool bRedrawInfo = true;
@@ -9785,7 +9785,7 @@ int game::list_items(const int iLastState)
     int iReturn = -1;
     int iActive = 0; // Item index that we're looking at
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
-    unsigned iStartPos = 0;
+    int iStartPos = 0;
     int iActiveX = 0;
     int iActiveY = 0;
     int iLastActiveX = INT_MIN;
@@ -10087,7 +10087,7 @@ int game::list_monsters(const int iLastState)
     int iReturn = -1;
     int iActive = 0; // monster index that we're looking at
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
-    unsigned iStartPos = 0;
+    int iStartPos = 0;
     int iActiveX = 0;
     int iActiveY = 0;
     int iLastActiveX = -1;
