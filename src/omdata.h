@@ -16,7 +16,7 @@ class overmap;
 
 struct oter_t {
     std::string id;      // definitive identifier
-    int loadid;          // position in termap / terlist
+    unsigned loadid;          // position in termap / terlist
     std::string name;
     long sym; // This is a long, so we can support curses linedrawing
     nc_color color;
@@ -33,7 +33,7 @@ struct oter_t {
     // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
     std::string
     id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
-    int loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
+    unsigned loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
     std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
     bool rotates; // lazy for; directional_peers.size() == 4
     bool line_drawing; // lazy for; directional_peers.size() == 8
@@ -67,7 +67,7 @@ struct oter_t {
 };
 
 struct oter_id {
-    int _val; // just numeric index of oter_t, but typically invoked as string
+    unsigned _val; // just numeric index of oter_t, but typically invoked as string
 
     // Hi, I'm an
     operator int() const;
@@ -79,7 +79,7 @@ struct oter_id {
     const oter_t &t() const;
 
     // set and compare by string
-    const int &operator=(const int &i);
+    const unsigned &operator=(const int &i);
     bool operator!=(const char *v) const;
     bool operator==(const char *v) const;
     bool operator>=(const char *v) const;
@@ -100,7 +100,7 @@ struct oter_id {
     // these std::string functions are provided for convenience, for others,
     //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
     const char *c_str() const;
-    int size() const;
+    size_t size() const;
     int find(const std::string &v, const int start, const int end) const;
     int compare(size_t pos, size_t len, const char *s, size_t n = 0) const;
 };
