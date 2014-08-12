@@ -38,7 +38,7 @@ const std::list<item> &inventory::const_stack(int i) const
     return *iter;
 }
 
-int inventory::size() const
+size_t inventory::size() const
 {
     return items.size();
 }
