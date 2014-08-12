@@ -27,7 +27,7 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy)
         return;
     }
 
-    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+    for (size_t i = 0; i < m->i_at(examx, examy).size(); i++) {
         if (m->i_at(examx, examy)[i].made_of(LIQUID)) {
             item *liq = &(m->i_at(examx, examy)[i]);
 
@@ -373,7 +373,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy)
             card->charges -= vend_items[cur_pos].price();
             p->i_add_or_drop(vend_items[cur_pos]);
             m->i_rem(examx, examy, cur_pos);
-            if (cur_pos == vend_items.size()) {
+            if (cur_pos == (int)vend_items.size()) {
                 cur_pos--;
             }
             used_machine = true;
@@ -397,7 +397,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy)
 {
     std::vector<item> &items = m->i_at(examx, examy);
     int waterIndex = -1;
-    for (int i = 0; i < items.size(); i++) {
+    for (size_t i = 0; i < items.size(); i++) {
         if (items[i].typeId() == "water") {
             waterIndex = i;
             break;
@@ -463,7 +463,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy)
                 }
             }
         }
-        for (int i = 0; i < g->num_zombies(); i++) {
+        for (int i = 0; i < (int)g->num_zombies(); i++) {
             if ( (g->zombie(i).type->id == "mon_turret") ||
                  (g->zombie(i).type->id == "mon_turret_rifle") ) {
                 g->remove_zombie(i);
@@ -892,7 +892,7 @@ void iexamine::bulletin_board(player *p, map *m, int examx, int examy)
         options.push_back(_("Cancel"));
         // TODO: Other Bulletin Boards
         int choice = menu_vec(true, _("Bulletin Board"), options) - 1;
-        if (choice >= 0 && choice < options.size()) {
+        if (choice >= 0 && size_t(choice) < options.size()) {
             if (options[choice] == _("Create camp")) {
                 // TODO: Allow text entry for name
                 m->add_camp(_("Home"), examx, examy);
@@ -1253,7 +1253,7 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy)
         seed_names.push_back("Cancel");
         seed_index = menu_vec(false, _("Use which seed?"),
                               seed_names) - 1; // TODO: make cancelable using ESC
-        if (seed_index == seed_names.size() - 1) {
+        if (seed_index == (int)seed_names.size() - 1) {
             seed_index = -1;
         }
     } else {
@@ -1289,7 +1289,7 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
         itype_id seedType = m->i_at(examx, examy)[0].typeId();
         if (seedType == "fungal_seeds") {
             fungus(p, m, examx, examy);
-            for (int k = 0; k < g->m.i_at(examx, examy).size(); k++) {
+            for (size_t k = 0; k < g->m.i_at(examx, examy).size(); k++) {
                 g->m.i_rem(examx, examy, k);
             }
         } else {
@@ -1315,7 +1315,7 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
                p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
         //Reduce the amount of time it takes until the next stage of the plant by 20% of a seasons length. (default 2.8 days).
         WORLDPTR world = world_generator->active_world;
-        unsigned int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
+        int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
         if (!world->world_options.empty()) {
             fertilizerEpoch = 14400 * (world->world_options["SEASON_LENGTH"] * 0.2) ;
         }
@@ -1337,7 +1337,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
     bool vat_full = false;
     bool brew_present = false;
     int charges_on_ground = 0;
-    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+    for (int i = 0; i < (int)m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].has_flag("BREW")) || brew_present) {
             //This isn't a brew or there was already another kind of brew inside, so this has to be moved.
             m->add_item_or_charges(examx, examy, m->i_at(examx, examy)[i]);
@@ -1374,7 +1374,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
         if (b_types.size() > 1) {
             b_names.push_back("Cancel");
             b_index = menu_vec(false, _("Use which brew?"), b_names) - 1;
-            if (b_index == b_names.size() - 1) {
+            if (b_index == (int)b_names.size() - 1) {
                 b_index = -1;
             }
         } else { //Only one brew type was in inventory, so it's automatically used
@@ -1427,7 +1427,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy)
 void iexamine::fvat_full(player *p, map *m, int examx, int examy)
 {
     bool liquid_present = false;
-    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+    for (int i = 0; i < (int)m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].made_of(LIQUID)) || liquid_present) {
             m->add_item_or_charges(examx, examy, m->i_at(examx, examy)[i]);
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
@@ -1494,7 +1494,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
 {
     int keg_cap = 600;
     bool liquid_present = false;
-    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+    for (int i = 0; i < (int)m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {
             m->add_item_or_charges(examx, examy, m->i_at(examx, examy)[i]);
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
@@ -1527,7 +1527,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy)
         if (drink_types.size() > 1) {
             drink_names.push_back("Cancel");
             drink_index = menu_vec(false, _("Store which drink?"), drink_names) - 1;
-            if (drink_index == drink_names.size() - 1) {
+            if (drink_index == (int)drink_names.size() - 1) {
                 drink_index = -1;
             }
         } else { //Only one drink type was in inventory, so it's automatically used
@@ -2148,12 +2148,10 @@ static point getNearFilledGasTank(map *m, int x, int y, long &gas_units)
             if( new_distance >= distance ) {
                 continue;
             }
-            for( int k = 0; k < m->i_at(i, j).size(); k++ ) {
-                if( m->i_at(i, j)[k].made_of(LIQUID) ) {
-                    item *liq = &(m->i_at(i, j)[k]);
-
-                    long count = dynamic_cast<it_ammo *>(liq->type)->count;
-                    long units = liq->charges / count;
+            for( auto &k : m->i_at(i, j)) {
+                if(k.made_of(LIQUID)) {
+                    long count = dynamic_cast<it_ammo *>(k.type)->count;
+                    long units = k.charges / count;
 
                     distance = new_distance;
                     p = point(i, j);
@@ -2185,7 +2183,7 @@ static int findBestGasDiscount(player *p)
 {
     int discount = 0;
 
-    for (int i = 0; i < p->inv.size(); i++) {
+    for (size_t i = 0; i < p->inv.size(); i++) {
         item &it = p->inv.find_item(i);
 
         if (it.has_flag("GAS_DISCOUNT")) {
@@ -2205,14 +2203,14 @@ static std::string str_to_illiterate_str(std::string s)
     if (!g->u.has_trait("ILLITERATE")) {
         return s;
     } else {
-        for (int i = 0; i < s.size(); i++) {
-            s[i] = s[i] + rng(0, 5) - rng(0, 5);
-            if( s[i] < ' ' ) {
+        for (auto &i : s) {
+            i = i + rng(0, 5) - rng(0, 5);
+            if( i < ' ' ) {
                 // some control character, most likely not handled correctly be the print functions
-                s[i] = ' ';
-            } else if( s[i] == '%' ) {
+                i = ' ';
+            } else if( i == '%' ) {
                 // avoid characters that trigger formatting in the various print functions
-                s[i]++;
+                i++;
             }
         }
         return s;
@@ -2272,7 +2270,7 @@ static bool toPumpFuel(map *m, point src, point dst, long units)
         return false;
     }
 
-    for (int i = 0; i < m->i_at(src.x, src.y).size(); i++) {
+    for (size_t i = 0; i < m->i_at(src.x, src.y).size(); i++) {
         if (m->i_at(src.x, src.y)[i].made_of(LIQUID)) {
             item *liq = &(m->i_at(src.x, src.y)[i]);
             long count = dynamic_cast<it_ammo *>(liq->type)->count;
