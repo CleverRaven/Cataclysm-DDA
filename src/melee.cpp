@@ -118,7 +118,7 @@ int player::base_to_hit(bool real_life, int stat)
 }
 
 
-int player::get_hit_base()
+int player::get_hit_base() const
 {
     int best_bonus = 0;
 
@@ -168,7 +168,7 @@ int player::get_hit_base()
     return Creature::get_hit_base() + melee_skill + best_bonus;
 }
 
-int player::hit_roll()
+int player::hit_roll() const
 {
 // apply martial arts bonuses
 
@@ -528,12 +528,12 @@ bool player::scored_crit(int target_dodge)
  return false;
 }
 
-int player::get_dodge_base() {
+int player::get_dodge_base() const {
     // Creature::get_dodge_base includes stat calculations already
     return Creature::get_dodge_base() + skillLevel("dodge");
 }
 
-int player::get_dodge()
+int player::get_dodge() const
 //Returns 1/2*DEX + dodge skill level + static bonuses from mutations
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {

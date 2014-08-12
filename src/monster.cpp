@@ -905,24 +905,24 @@ void monster::die_in_explosion(Creature* source)
     die( source );
 }
 
-int monster::get_armor_cut(body_part bp)
+int monster::get_armor_cut(body_part bp) const
 {
     (void) bp;
     // TODO: Add support for worn armor?
     return int(type->armor_cut) + armor_bash_bonus;
 }
 
-int monster::get_armor_bash(body_part bp)
+int monster::get_armor_bash(body_part bp) const
 {
     (void) bp;
     return int(type->armor_bash) + armor_cut_bonus;
 }
 
-int monster::hit_roll() {
+int monster::hit_roll() const {
     return 0;
 }
 
-int monster::get_dodge()
+int monster::get_dodge() const
 {
  if (has_effect("downed"))
   return 0;
@@ -955,7 +955,7 @@ int monster::dodge_roll()
  return dice(numdice, 10);
 }
 
-int monster::fall_damage()
+int monster::fall_damage() const
 {
  if (has_flag(MF_FLIES))
   return 0;

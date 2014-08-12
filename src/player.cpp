@@ -5226,7 +5226,7 @@ bool player::unpause_disease(dis_type type, body_part part)
     return false;
 }
 
-int player::disease_duration(dis_type type, bool all, body_part part)
+int player::disease_duration(dis_type type, bool all, body_part part) const
 {
     int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
@@ -5241,7 +5241,7 @@ int player::disease_duration(dis_type type, bool all, body_part part)
     return tmp;
 }
 
-int player::disease_intensity(dis_type type, bool all, body_part part)
+int player::disease_intensity(dis_type type, bool all, body_part part) const
 {
     int tmp = 0;
     for (int i = 0; i < illness.size(); i++) {
@@ -10300,17 +10300,17 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     return ret;
 }
 
-int player::get_armor_bash(body_part bp)
+int player::get_armor_bash(body_part bp) const
 {
     return get_armor_bash_base(bp) + armor_bash_bonus;
 }
 
-int player::get_armor_cut(body_part bp)
+int player::get_armor_cut(body_part bp) const
 {
     return get_armor_cut_base(bp) + armor_cut_bonus;
 }
 
-int player::get_armor_bash_base(body_part bp)
+int player::get_armor_bash_base(body_part bp) const
 {
  int ret = 0;
  for (int i = 0; i < worn.size(); i++) {
@@ -10354,7 +10354,7 @@ int player::get_armor_bash_base(body_part bp)
  return ret;
 }
 
-int player::get_armor_cut_base(body_part bp)
+int player::get_armor_cut_base(body_part bp) const
 {
  int ret = 0;
  for (int i = 0; i < worn.size(); i++) {
@@ -10719,7 +10719,7 @@ void player::absorb(body_part bp, int &dam, int &cut)
         cut = 0;
 }
 
-int player::get_env_resist(body_part bp)
+int player::get_env_resist(body_part bp) const
 {
     int ret = 0;
     for (int i = 0; i < worn.size(); i++) {
@@ -11121,6 +11121,34 @@ nc_color encumb_color(int level)
  if (level < 7)
   return c_ltred;
  return c_red;
+}
+
+const SkillLevel& player::skillLevel(std::string ident) const
+{
+	try
+	{
+		return _skills.at(Skill::skill(ident));
+	}
+	catch (std::out_of_range e)
+	{
+		debugmsg("Skill %s not found. Returning dummy", ident);
+		static SkillLevel dummy;
+		return dummy;
+	}
+}
+
+const SkillLevel& player::skillLevel(Skill *_skill) const
+{
+	try
+	{
+		return _skills.at(_skill);
+	}
+	catch (std::out_of_range e)
+	{
+		debugmsg("Skill %s not found. Returning dummy", _skill->ident());
+		static SkillLevel dummy;
+		return dummy;
+	}
 }
 
 SkillLevel& player::skillLevel(std::string ident)
