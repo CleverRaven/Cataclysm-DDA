@@ -37,9 +37,9 @@ point target_om_ter_random(const std::string &omter, int reveal_rad, mission *mi
         return point();
     }
     std::vector<point> places_om;
-    for (int i = 0; i < places.size(); i++) {
-        if (g->cur_om == overmap_buffer.get_existing_om_global(places[i]))
-            places_om.push_back(places[i]);
+    for (auto &i : places) {
+        if (g->cur_om == overmap_buffer.get_existing_om_global(i))
+            places_om.push_back(i);
     }
     const point place = places_om[rng(0,places_om.size()-1)];
     if(place != overmap::invalid_point && reveal_rad >= 0) {

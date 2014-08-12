@@ -417,23 +417,23 @@ void monster::load_info(std::string data)
 
 void monster::debug(player &u)
 {
- debugmsg("monster::debug %s has %d steps planned.", name().c_str(), plans.size());
- debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
- for (int i = 0; i < plans.size(); i++) {
+    debugmsg("monster::debug %s has %d steps planned.", name().c_str(), plans.size());
+    debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
+    for (size_t i = 0; i < plans.size(); i++) {
         const int digit = '0' + (i % 10);
         mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, digit);
- }
- getch();
+    }
+    getch();
 }
 
 void monster::shift(int sx, int sy)
 {
- _posx -= sx * SEEX;
- _posy -= sy * SEEY;
- for (int i = 0; i < plans.size(); i++) {
-  plans[i].x -= sx * SEEX;
-  plans[i].y -= sy * SEEY;
- }
+    _posx -= sx * SEEX;
+    _posy -= sy * SEEY;
+    for (auto &i : plans) {
+        i.x -= sx * SEEX;
+        i.y -= sy * SEEY;
+    }
 }
 
 point monster::move_target()
@@ -551,72 +551,75 @@ void monster::process_trigger(monster_trigger trig, int amount)
 
 int monster::trigger_sum(std::set<monster_trigger> *triggers) const
 {
- int ret = 0;
- bool check_terrain = false, check_meat = false, check_fire = false;
- for (auto trig = triggers->begin(); trig != triggers->end(); ++trig)
- {
-     switch (*trig){
-      case MTRIG_STALK:
-       if (anger > 0 && one_in(20))
-        ret++;
-       break;
+    int ret = 0;
+    bool check_terrain = false, check_meat = false, check_fire = false;
+    for (auto trig = triggers->begin(); trig != triggers->end(); ++trig){
+        switch (*trig) {
+            case MTRIG_STALK:
+                if (anger > 0 && one_in(20)) {
+                    ret++;
+                }
+                break;
 
-      case MTRIG_MEAT:
-       check_terrain = true;
-       check_meat = true;
-       break;
+            case MTRIG_MEAT:
+                check_terrain = true;
+                check_meat = true;
+                break;
 
-      case MTRIG_PLAYER_CLOSE:
-       if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5)
-        ret += 5;
-       for (int i = 0; i < g->active_npc.size(); i++) {
-        if (rl_dist(_posx, _posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
-         ret += 5;
-       }
-       break;
+            case MTRIG_PLAYER_CLOSE:
+                if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5) {
+                    ret += 5;
+                }
+                for (auto &i : g->active_npc) {
+                    if (rl_dist(_posx, _posy, i->posx, i->posy) <= 5) {
+                        ret += 5;
+                    }
+                }
+                break;
 
-      case MTRIG_FIRE:
-       check_terrain = true;
-       check_fire = true;
-       break;
+            case MTRIG_FIRE:
+                check_terrain = true;
+                check_fire = true;
+                break;
 
-      case MTRIG_PLAYER_WEAK:
-       if (g->u.hp_percentage() <= 70)
-        ret += 10 - int(g->u.hp_percentage() / 10);
-       break;
+            case MTRIG_PLAYER_WEAK:
+                if (g->u.hp_percentage() <= 70) {
+                    ret += 10 - int(g->u.hp_percentage() / 10);
+                }
+                break;
 
-      default:
-       break; // The rest are handled when the impetus occurs
+            default:
+                break; // The rest are handled when the impetus occurs
+        }
     }
- }
 
- if (check_terrain) {
-  for (int x = _posx - 3; x <= _posx + 3; x++) {
-   for (int y = _posy - 3; y <= _posy + 3; y++) {
-    if (check_meat) {
-     std::vector<item> *items = &(g->m.i_at(x, y));
-     for (int n = 0; n < items->size(); n++) {
-      if ((*items)[n].type->id == "corpse" ||
-          (*items)[n].type->id == "meat" ||
-          (*items)[n].type->id == "meat_cooked" ||
-          (*items)[n].type->id == "human_flesh") {
-       ret += 3;
-       check_meat = false;
-      }
-     }
+    if (check_terrain) {
+        for (int x = _posx - 3; x <= _posx + 3; x++) {
+            for (int y = _posy - 3; y <= _posy + 3; y++) {
+                if (check_meat) {
+                    std::vector<item> *items = &(g->m.i_at(x, y));
+                    for (size_t n = 0; n < items->size(); n++) {
+                        if ((*items)[n].type->id == "corpse" || (*items)[n].type->id == "meat" ||
+                              (*items)[n].type->id == "meat_cooked" ||
+                              (*items)[n].type->id == "human_flesh") {
+                            ret += 3;
+                            check_meat = false;
+                        }
+                    }
+                }
+                if (check_fire) {
+                    ret += ( 5 * g->m.get_field_strength( point(x, y), fd_fire) );
+                }
+            }
+        }
+        if (check_fire) {
+            if (g->u.has_amount("torch_lit", 1)) {
+                ret += 49;
+            }
+        }
     }
-    if (check_fire) {
-      ret += ( 5 * g->m.get_field_strength( point(x, y), fd_fire) );
-    }
-   }
-  }
-  if (check_fire) {
-   if (g->u.has_amount("torch_lit", 1))
-    ret += 49;
-  }
- }
 
- return ret;
+    return ret;
 }
 
 bool monster::is_underwater() const {
@@ -768,7 +771,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     if (anger_adjust != 0 && morale_adjust != 0)
     {
-        for (int i = 0; i < g->num_zombies(); i++)
+        for (size_t i = 0; i < g->num_zombies(); i++)
         {
             g->zombie(i).morale += morale_adjust;
             g->zombie(i).anger += anger_adjust;
@@ -924,14 +927,17 @@ int monster::hit_roll() const {
 
 int monster::get_dodge() const
 {
- if (has_effect("downed"))
-  return 0;
- int ret = type->sk_dodge;
- if (has_effect("beartrap") || has_effect("tied"))
-  ret /= 2;
- if (moves <= 0 - 100 - type->speed)
-  ret = rng(0, ret);
- return ret + get_dodge_bonus();
+    if (has_effect("downed")) {
+        return 0;
+    }
+    int ret = type->sk_dodge;
+    if (has_effect("beartrap") || has_effect("tied")) {
+        ret /= 2;
+    }
+    if (moves <= 0 - 100 - (int)type->speed) {
+        ret = rng(0, ret);
+    }
+    return ret + get_dodge_bonus();
 }
 
 int monster::get_melee() const
@@ -1087,51 +1093,53 @@ void monster::die(Creature* nkiller) {
             }
         }
     }
-// If we're a mission monster, update the mission
- if (mission_id != -1) {
-  mission_type *misstype = g->find_mission_type(mission_id);
-  if (misstype->goal == MGOAL_FIND_MONSTER)
-   g->fail_mission(mission_id);
-  if (misstype->goal == MGOAL_KILL_MONSTER)
-   g->mission_step_complete(mission_id, 1);
- }
-// Also, perform our death function
- mdeath md;
- if(is_hallucination()) {
-   //Hallucinations always just disappear
-   md.disappear(this);
-   return;
- } else {
-   //Not a hallucination, go process the death effects.
-   std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
-   void (mdeath::*func)(monster *);
-   for (int i = 0; i < deathfunctions.size(); i++) {
-     func = deathfunctions.at(i);
-     (md.*func)(this);
-   }
- }
-// If our species fears seeing one of our own die, process that
- int anger_adjust = 0, morale_adjust = 0;
- if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
-    anger_adjust += 15;
- }
- if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
-    morale_adjust -= 15;
- }
- if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
-    anger_adjust -= 15;
- }
+    // If we're a mission monster, update the mission
+    if (mission_id != -1) {
+        mission_type *misstype = g->find_mission_type(mission_id);
+        if (misstype->goal == MGOAL_FIND_MONSTER) {
+            g->fail_mission(mission_id);
+        }
+        if (misstype->goal == MGOAL_KILL_MONSTER) {
+            g->mission_step_complete(mission_id, 1);
+        }
+    }
+    // Also, perform our death function
+    mdeath md;
+    if(is_hallucination()) {
+        //Hallucinations always just disappear
+        md.disappear(this);
+        return;
+    } else {
+        //Not a hallucination, go process the death effects.
+        std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
+        void (mdeath::*func)(monster *);
+        for (size_t i = 0; i < deathfunctions.size(); i++) {
+            func = deathfunctions.at(i);
+            (md.*func)(this);
+        }
+    }
+    // If our species fears seeing one of our own die, process that
+    int anger_adjust = 0, morale_adjust = 0;
+    if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
+        anger_adjust += 15;
+    }
+    if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
+        morale_adjust -= 15;
+    }
+    if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
+        anger_adjust -= 15;
+    }
 
- if (anger_adjust != 0 && morale_adjust != 0) {
-  int light = g->light_level();
-  for (int i = 0; i < g->num_zombies(); i++) {
-   int t = 0;
-   if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t)) {
-    g->zombie(i).morale += morale_adjust;
-    g->zombie(i).anger += anger_adjust;
-   }
-  }
- }
+    if (anger_adjust != 0 && morale_adjust != 0) {
+        int light = g->light_level();
+        for (size_t i = 0; i < g->num_zombies(); i++) {
+            int t = 0;
+            if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t)) {
+                g->zombie(i).morale += morale_adjust;
+                g->zombie(i).anger += anger_adjust;
+            }
+        }
+    }
 }
 
 void monster::drop_items_on_death()
