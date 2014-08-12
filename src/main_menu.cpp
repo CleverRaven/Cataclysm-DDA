@@ -112,8 +112,7 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
     }
     // Available free space. -1 width_pos != line_pos. line_pos == width - 1.
     const int free_space = std::max(0, window_width - menu_length - 1 - iMenuOffsetX);
-    // Use 3 spaces with adj_offset or lesser value with no offset.
-    const int spacing = std::min(3, free_space / ((int)vMenuItems.size() - 1));
+    const int spacing = free_space / ((int)vMenuItems.size() - 1);
     const int width_of_spacing = spacing * (vMenuItems.size() - 1);
     const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
 
