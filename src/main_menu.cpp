@@ -253,14 +253,14 @@ bool game::opening_screen()
 
         if (layer == 1) {
             if (sel1 == 0) { // Print the MOTD.
-                for (int i = 0; i < motd.size() && i < 16; i++) {
+                for (size_t i = 0; i < motd.size() && i < 16; i++) {
                     mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, motd[i].c_str());
                 }
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) { // Print the Credits.
-                for (int i = 0; i < credits.size() && i < 16; i++) {
+                for (size_t i = 0; i < credits.size() && i < 16; i++) {
                     mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, credits[i].c_str());
                 }
 
@@ -369,7 +369,7 @@ bool game::opening_screen()
                     }
                 } else if (action == "RIGHT") {
                     sel2++;
-                    if (sel2 >= vSubItems.size()) {
+                    if (sel2 >= (int)vSubItems.size()) {
                         sel2 = 0;
                     }
                 } else if (action == "DOWN" || action == "QUIT") {
@@ -408,7 +408,7 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                               c_red, _("No Worlds found!"));
                 } else {
-                    for (int i = 0; i < world_generator->all_worldnames.size(); ++i) {
+                    for (int i = 0; i < (int)world_generator->all_worldnames.size(); ++i) {
                         int line = iMenuOffsetY - 2 - i;
                         std::string world_name = world_generator->all_worldnames[i];
                         int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
@@ -428,7 +428,7 @@ bool game::opening_screen()
                         sel2 = world_generator->all_worldnames.size() - 1;
                     }
                 } else if (action == "UP") {
-                    if (sel2 < world_generator->all_worldnames.size() - 1) {
+                    if (sel2 < (int)world_generator->all_worldnames.size() - 1) {
                         sel2++;
                     } else {
                         sel2 = 0;
@@ -436,7 +436,7 @@ bool game::opening_screen()
                 } else if (action == "LEFT" || action == "QUIT") {
                     layer = 1;
                 } else if (action == "RIGHT" || action == "CONFIRM") {
-                    if (sel2 >= 0 && sel2 < world_generator->all_worldnames.size()) {
+                    if (sel2 >= 0 && sel2 < (int)world_generator->all_worldnames.size()) {
                         layer = 3;
                         sel3 = 0;
                     }
@@ -614,7 +614,7 @@ bool game::opening_screen()
                         sel3 = savegames.size() - 1;
                     }
                 } else if (action == "UP") {
-                    if (sel3 < savegames.size() - 1) {
+                    if (sel3 < (int)savegames.size() - 1) {
                         sel3++;
                     } else {
                         sel3 = 0;
@@ -625,7 +625,7 @@ bool game::opening_screen()
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 }
                 if (action == "RIGHT" || action == "CONFIRM") {
-                    if (sel3 >= 0 && sel3 < savegames.size()) {
+                    if (sel3 >= 0 && sel3 < (int)savegames.size()) {
                         werase(w_background);
                         wrefresh(w_background);
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
@@ -658,7 +658,7 @@ bool game::opening_screen()
                         sel3 = world_generator->all_worldnames.size() - 1;
                     }
                 } else if (action == "UP") {
-                    if (sel3 < world_generator->all_worldnames.size() - 1) {
+                    if (sel3 < (int)world_generator->all_worldnames.size() - 1) {
                         ++sel3;
                     } else {
                         sel3 = 0;
@@ -669,7 +669,7 @@ bool game::opening_screen()
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 }
                 if (action == "RIGHT" || action == "CONFIRM") {
-                    if (sel3 >= 0 && sel3 < world_generator->all_worldnames.size()) {
+                    if (sel3 >= 0 && sel3 < (int)world_generator->all_worldnames.size()) {
                         bool query_yes = false;
                         bool do_delete = false;
                         if (sel2 == 1) { // Delete World
@@ -715,7 +715,7 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                               c_red, _("No templates found!"));
                 } else {
-                    for (int i = 0; i < templates.size(); i++) {
+                    for (int i = 0; i < (int)templates.size(); i++) {
                         int line = iMenuOffsetY - 4 - i;
                         mvwprintz(w_open, line, 20 + iMenuOffsetX + extra_w / 2,
                                   (sel3 == i ? h_white : c_white), templates[i].c_str());
@@ -735,7 +735,7 @@ bool game::opening_screen()
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 } else if (action == "UP") {
-                    if (sel3 < templates.size() - 1) {
+                    if (sel3 < (int)templates.size() - 1) {
                         sel3++;
                     } else {
                         sel3 = 0;
