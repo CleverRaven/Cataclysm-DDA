@@ -23,8 +23,8 @@
 int getfoldedwidth (std::vector<std::string> foldedstring)
 {
     int ret = 0;
-    for ( int i = 0; i < foldedstring.size() ; i++ ) {
-        int width = utf8_width(foldedstring[i].c_str());
+    for (auto &i : foldedstring) {
+        int width = utf8_width(i.c_str());
         if ( width > ret ) {
             ret = width;
         }
@@ -185,7 +185,7 @@ bool lcmatch(const std::string &str, const std::string &findstr)
     std::string ret = "";
     ret.reserve( str.size() );
     transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
-    return ( ret.find( findstr ) != -1 );
+    return ( (int)ret.find( findstr ) != -1 );
 }
 
 /*
@@ -207,7 +207,7 @@ void uimenu::filterlist()
     fselected = -1;
     int f = 0;
     for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( nocase == false && entries[ i ].txt.find(filter) != -1 ) ||
+        if( notfiltering || ( nocase == false && (int)entries[ i ].txt.find(filter) != -1 ) ||
             lcmatch(entries[i].txt, fstr ) ) {
             fentries.push_back( i );
             if ( i == selected ) {
@@ -228,13 +228,13 @@ void uimenu::filterlist()
         } else {
             selected = fentries [ 0 ];
         }
-    } else if (fselected < fentries.size()) {
+    } else if (fselected < (int)fentries.size()) {
         selected = fentries[fselected];
     } else {
         fselected = selected = -1;
     }
     // scroll to top of screen if all remaining entries fit the screen.
-    if (fentries.size() <= vmax) {
+    if ((int)fentries.size() <= vmax) {
         vshift = 0;
     }
 }
@@ -311,7 +311,7 @@ void uimenu::setup()
     max_entry_len = 0;
     std::vector<int> autoassign;
     int pad = pad_left + pad_right + 2;
-    for ( int i = 0; i < entries.size(); i++ ) {
+    for ( size_t i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(entries[ i ].txt.c_str());
         if ( txtwidth > max_entry_len ) {
             max_entry_len = txtwidth;
@@ -373,9 +373,9 @@ void uimenu::setup()
                     textformatted = foldstring(text, realtextwidth);
                     formattxt = false;
                     realtextwidth = 10;
-                    for ( int l = 0; l < textformatted.size(); l++ ) {
-                        if ( utf8_width(textformatted[l].c_str()) > realtextwidth ) {
-                            realtextwidth = utf8_width(textformatted[l].c_str());
+                    for (auto &l : textformatted) {
+                        if ( utf8_width(l.c_str()) > realtextwidth ) {
+                            realtextwidth = utf8_width(l.c_str());
                         }
                     }
                     if ( realtextwidth + 4 > w_width ) {
@@ -400,7 +400,7 @@ void uimenu::setup()
     }
 
     vmax = entries.size();
-    if ( vmax + 3 + textformatted.size() > w_height ) {
+    if ( vmax + 3 + (int)textformatted.size() > w_height ) {
         vmax = w_height - 3 - textformatted.size();
         if ( vmax < 1 ) {
             if (textformatted.empty()) {
@@ -425,7 +425,7 @@ void uimenu::setup()
     if ( scrollbar_side == -1 ) {
         scrollbar_side = ( pad_left > 0 ? 1 : 0 );
     }
-    if ( entries.size() <= vmax ) {
+    if ( (int)entries.size() <= vmax ) {
         scrollbar_auto = false;
     }
     window = newwin(w_height, w_width, w_y, w_x);
@@ -446,14 +446,14 @@ void uimenu::apply_scrollbar()
     if ( ! scrollbar_auto ) {
         return;
     }
-    if ( last_vshift != vshift || last_fsize != fentries.size() ) {
+    if ( last_vshift != vshift || last_fsize != (int)fentries.size() ) {
         last_vshift = vshift;
         last_fsize = fentries.size();
 
         int sbside = ( scrollbar_side == 0 ? 0 : w_width );
         int estart = textformatted.size() + 1;
 
-        if ( !fentries.empty() && vmax < fentries.size() ) {
+        if ( !fentries.empty() && vmax < (int)fentries.size() ) {
             wattron(window, border_color);
             mvwaddch(window, estart, sbside, '^');
             wattroff(window, border_color);
@@ -516,12 +516,12 @@ void uimenu::show()
     int estart = text_lines + 2;
 
     if( OPTIONS["MENU_SCROLL"] ) {
-        if (fentries.size() > vmax) {
+        if ((int)fentries.size() > vmax) {
             vshift = fselected - (vmax - 1) / 2;
 
             if (vshift < 0) {
                 vshift = 0;
-            } else if (vshift + vmax > fentries.size()) {
+            } else if (vshift + vmax > (int)fentries.size()) {
                 vshift = fentries.size() - vmax;
             }
         }
@@ -534,7 +534,7 @@ void uimenu::show()
     }
 
     for ( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
-        if ( fei < fentries.size() ) {
+        if ( fei < (int)fentries.size() ) {
             int ei = fentries [ fei ];
             nc_color co = ( ei == selected ?
                             hilight_color :
@@ -635,7 +635,7 @@ bool uimenu::scrollby(int scrollby, const int key)
     if ( ! looparound ) {
         if ( backwards && fselected < 0 ) {
             fselected = 0;
-        } else if ( fselected >= fentries.size() ) {
+        } else if ( fselected >= (int)fentries.size() ) {
             fselected = fentries.size() - 1;
         }
     }
@@ -657,7 +657,7 @@ bool uimenu::scrollby(int scrollby, const int key)
     } else {
         while ( iter > 0 ) {
             iter--;
-            if( fselected >= fentries.size() ) {
+            if( fselected >= (int)fentries.size() ) {
                 fselected = 0;
             }
             if ( entries[ fentries [ fselected ] ].enabled == false ) {
