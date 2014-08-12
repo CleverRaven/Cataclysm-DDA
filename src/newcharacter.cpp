@@ -66,6 +66,7 @@ bool player::create(character_type type, std::string tempname)
     weapon = item("null", 0);
 
     g->u.prof = profession::generic();
+    g->scen = scenario::generic();
 
 
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -1043,12 +1044,14 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-        sorted_profs.push_back(&(iter->second));
+	if (g->scen->has_flag("ALL_PROFS") || g->scen->profquery(&(iter->second)) == true){
+        sorted_profs.push_back(&(iter->second));}
     }
 
     // Sort professions by name.
     // profession_display_sort() keeps "unemployed" at the top.
-    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);
+    if (sorted_profs.size() > 1){
+    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);}
 
     // Select the current profession, if possible.
     for (size_t i = 0; i < sorted_profs.size(); ++i) {
@@ -1057,6 +1060,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             break;
         }
     }
+    //debugmsg("Got past here");
 
     input_context ctxt("NEW_CHAR_PROFESSIONS");
     ctxt.register_cardinal();
@@ -1081,7 +1085,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         if (negativeProf) {
                   pointsForProf *=-1;
         }
-
+	//debugmsg("GOT past here");
         // Draw header.
         std::string points_msg = string_format(_("Points left: %2d"), points);
         int pMsg_length = utf8_width(_(points_msg.c_str()));
@@ -1107,6 +1111,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                                      "Profession %1$s cost %2$d points",
                                      pointsForProf);
         }
+	//debugmsg("Got Past here");
         // This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
         mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green:c_ltred, prof_msg_temp.c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
@@ -1116,8 +1121,8 @@ int set_profession(WINDOW *w, player *u, int &points)
                        sorted_profs[cur_id]->description(u->male));
 
         calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
-
         //Draw options
+	if (sorted_profs.size() > 1){
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > profession::count()) ?
              profession::count() : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
@@ -1131,7 +1136,14 @@ int set_profession(WINDOW *w, player *u, int &points)
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       sorted_profs[i]->gender_appropriate_name(u->male).c_str());
         }
-
+	}
+	else{
+		mvwprintz(w, 5 - iStartPos, 2, c_ltgray, "\							");
+		nc_color col;
+		col = (sorted_profs[0] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
+		mvwprintz(w, 5 - iStartPos, 2, col,
+		sorted_profs[0]->gender_appropriate_name(u->male).c_str());
+	}
         std::vector<std::string> prof_items = sorted_profs[cur_id]->items();
         std::vector<std::string> prof_gender_items;
         if (u->male) {
@@ -1151,6 +1163,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         werase(w_skills);
+	//debugmsg("Got Past here");
         profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
         mvwprintz(w_skills, 0, 0, COL_HEADER, _("Profession skills:\n"));
         if (!prof_skills.empty()) {
@@ -1492,15 +1505,15 @@ int set_scenario(WINDOW *w, player *u, int &points)
         int line_offset = 1;
         werase(w_profession);
 	werase(w_location);
-        mvwprintz(w_profession, 0, 0, COL_HEADER, _("Scenario Profession:"));
+        //mvwprintz(w_profession, 0, 0, COL_HEADER, _("Scenario Profession:"));
         /*for (size_t i = 0; i < scen_items.size() && line_offset + i < getmaxy(w_items); i++) {
             itype *it = item_controller->find_template(scen_items[i]);
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
                              it->nname(1)) - 1;
         }*/
-	wprintz(w_profession, c_ltgray,_("\n"));
-	wprintz(w_profession, c_ltgray,_(sorted_scens[cur_id]->prof()->gender_appropriate_name(u->male).c_str()));
+	//wprintz(w_profession, c_ltgray,_("\n"));
+	//wprintz(w_profession, c_ltgray,_(sorted_scens[cur_id]->prof()->gender_appropriate_name(u->male).c_str()));
 	mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenarion Location:"));
 	wprintz(w_location, c_ltgray,_("\n"));
 	wprintz(w_location, c_ltgray,_(sorted_scens[cur_id]->start_name().c_str()));
@@ -1563,7 +1576,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
         } else if (action == "CONFIRM") {
                 //u->scen = scenario::scen(sorted_scens[cur_id]->ident()); // we've got a const*
 		u->start_location = sorted_scens[cur_id]->start_location();
-		u->prof = sorted_scens[cur_id]->prof();
+		//u->prof = sorted_scens[cur_id]->prof();
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
 		
 		/*u->active_missions.resize(1);

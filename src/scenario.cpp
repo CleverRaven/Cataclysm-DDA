@@ -65,8 +65,8 @@ void scenario::load_scenario(JsonObject &jsobj)
     const std::string stame = jsobj.get_string("start_name").c_str();
     scen._start_name = pgettext("start_name", stame.c_str());
 
-    const std::string proffe = jsobj.get_string("profession").c_str();
-    scen._profession = profession::prof(pgettext("profession",proffe.c_str()));
+   // const std::string proffe = jsobj.get_string("profession").c_str();
+   // scen._profession = profession::prof(pgettext("profession",proffe.c_str()));
     
     //scen._mission = jsobj.get_int("mission_id");    
     
@@ -74,8 +74,12 @@ void scenario::load_scenario(JsonObject &jsobj)
     scen.add_items_from_jsonarray(items_obj.get_array("both"), "both");
     scen.add_items_from_jsonarray(items_obj.get_array("male"), "male");
     scen.add_items_from_jsonarray(items_obj.get_array("female"), "female");
-       
 
+
+    jsarr = jsobj.get_array("professions");
+    while (jsarr.has_more()) {
+        scen._allowed_professions.insert(jsarr.next_string());
+    }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
         scen.flags.insert(jsarr.next_string());
@@ -243,10 +247,10 @@ std::string scenario::start_name() const
     return _start_name;
 }
 
-profession* scenario::prof() const
+/*profession* scenario::prof() const
 {
     return _profession;
-}
+}*/
 
 int scenario::mission() const
 {
@@ -266,7 +270,10 @@ std::vector<std::string> scenario::items_female() const
 {
     return _starting_items_female;
 }
-
+bool scenario::profquery(const profession* proff) const
+{
+    return _allowed_professions.count(proff->ident()) != 0;
+}
 bool scenario::has_flag(std::string flag) const
 {
     return flags.count(flag) != 0;

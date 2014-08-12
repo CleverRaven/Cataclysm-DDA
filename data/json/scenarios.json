@@ -6,7 +6,7 @@
 	    "description": "You have survived the initial wave of panic, and have achieved (relative) safety. What you do now is up to you.",
 	    "start_location": "shelter",
 	    "start_name": "Evac Center",
-	    "profession" : "unemployed"
+	    "professions" : ["unemployed"]
 	},
 	{
 	    "type": "scenario",
@@ -15,7 +15,7 @@
 	    "description": "Whether by choice, situation, or just bad luck. You missed the evacuation, and now you're stuck in a city full of the risen dead.",
 	    "start_location": "house",
 	    "start_name": "My House",
-	    "profession" : "unemployed"
+	    "flags" : ["ALL_PROFS"]
 	},
 	{
 	    "type": "scenario",
@@ -24,7 +24,7 @@
 	    "description": "Working in the shop, you were so focused on the task at hand you missed the evacuation!",
 	    "start_location": "s_garage",
 	    "start_name": "Auto Repair Center",
-	    "profession" : "mechanic"
+	    "professions" : ["mechanic"]
 	}
 ]
     

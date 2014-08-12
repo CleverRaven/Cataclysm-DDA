@@ -28,6 +28,7 @@ private:
     std::string _start_location;
     std::string _start_name;
     profession* _profession;
+    std::set<std::string> _allowed_professions;
     int _mission;
     std::vector<std::string> traits;
  
@@ -74,7 +75,8 @@ public:
     std::string gender_req() const;
     std::string start_location() const;
     std::string start_name() const;
-    profession* prof() const;
+    //profession* prof() const;
+    bool profquery(const profession* proff) const;
     int mission() const;
     signed int point_cost() const;
     std::vector<std::string> items() const;
