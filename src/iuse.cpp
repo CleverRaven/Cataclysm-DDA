@@ -8322,7 +8322,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
     return 0;
 }
 
-void init_memory_card_with_random_stuff(player *p, item *it)
+void init_memory_card_with_random_stuff(player *, item *it)
 {
 
     if (it->has_flag("MC_MOBILE") && (it->has_flag("MC_RANDOM_STUFF") ||
@@ -8887,6 +8887,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
     }
+    return 0;
 }
 
 int iuse::camera(player *p, item *it, bool)
