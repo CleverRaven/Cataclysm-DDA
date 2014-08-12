@@ -310,7 +310,7 @@ void cOpt::setNext()
 {
     if (sType == "string") {
         int iNext = getItemPos(sSet) + 1;
-        if (iNext >= vItems.size()) {
+        if (iNext >= (int)vItems.size()) {
             iNext = 0;
         }
 
@@ -1049,8 +1049,8 @@ void show_options(bool ingame)
 
         //Draw options
         size_t iBlankOffset = 0; // Offset when blank line is printed.
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ?
-                mPageItems[iCurrentPage].size() : iContentHeight); i++) {
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > (int)mPageItems[iCurrentPage].size()) ?
+                (int)mPageItems[iCurrentPage].size() : iContentHeight); i++) {
 
             int line_pos; // Current line position in window.
             nc_color cLineColor = c_ltgreen;
@@ -1156,7 +1156,7 @@ void show_options(bool ingame)
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
-                if (iCurrentLine >= mPageItems[iCurrentPage].size()) {
+                if (iCurrentLine >= (int)mPageItems[iCurrentPage].size()) {
                     iCurrentLine = 0;
                 }
             } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == ""));
@@ -1178,7 +1178,7 @@ void show_options(bool ingame)
             iCurrentLine = 0;
             iStartPos = 0;
             iCurrentPage++;
-            if (iCurrentPage >= vPages.size()) {
+            if (iCurrentPage >= (int)vPages.size()) {
                 iCurrentPage = 0;
             }
         } else if (action == "PREV_TAB") {
@@ -1347,7 +1347,7 @@ void save_options(bool ingame)
     fout << options_header() << std::endl;
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
-        bool update_wopt = (ingame && j == iWorldOptPage );
+        bool update_wopt = (ingame && (int)j == iWorldOptPage );
         for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
             if (OPTIONS[mPageItems[j][i]].getDefaultText() != "") {
                 fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
