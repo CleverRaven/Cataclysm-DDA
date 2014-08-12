@@ -538,11 +538,6 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 // Note: this may throw io errors from std::ofstream
 void overmap::save()
 {
-    if (layer == NULL) {
-        debugmsg("Tried to save a null overmap");
-        return;
-    }
-
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);

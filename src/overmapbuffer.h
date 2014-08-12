@@ -1,8 +1,10 @@
 #ifndef _OVERMAPBUFFER_H_
 #define _OVERMAPBUFFER_H_
 
-#include <set>
 #include "overmap.h"
+#include <set>
+#include <list>
+#include <memory>
 
 class monster;
 
@@ -77,18 +79,18 @@ public:
     /**
      * Uses global overmap terrain coordinates.
      */
-    bool has_note(int x, int y, int z) const;
-    bool has_note(const tripoint& p) const { return has_note(p.x, p.y, p.z); }
-    const std::string& note(int x, int y, int z) const;
-    const std::string& note(const tripoint& p) const { return note(p.x, p.y, p.z); }
+    bool has_note(int x, int y, int z);
+    bool has_note(const tripoint& p) { return has_note(p.x, p.y, p.z); }
+    const std::string& note(int x, int y, int z);
+    const std::string& note(const tripoint& p) { return note(p.x, p.y, p.z); }
     void add_note(int x, int y, int z, const std::string& message);
     void add_note(const tripoint& p, const std::string& message) { add_note(p.x, p.y, p.z, message); }
     void delete_note(int x, int y, int z);
     void delete_note(const tripoint& p) { delete_note(p.x, p.y, p.z); }
-    bool seen(int x, int y, int z) const;
+    bool seen(int x, int y, int z);
     void set_seen(int x, int y, int z, bool seen = true);
     bool has_npc(int x, int y, int z);
-    bool has_vehicle(int x, int y, int z, bool require_pda = true) const;
+    bool has_vehicle(int x, int y, int z, bool require_pda = true);
     const regional_settings& get_settings(int x, int y, int z);
     bool is_safe(int x, int y, int z);
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
@@ -195,8 +197,8 @@ public:
      * The parameters x and y will be cropped to be local to the
      * returned overmap, the parameter p will not be changed.
      */
-    const overmap* get_existing_om_global(int& x, int& y) const;
-    const overmap* get_existing_om_global(const point& p) const;
+    overmap* get_existing_om_global(int& x, int& y);
+    overmap* get_existing_om_global(const point& p);
     overmap& get_om_global(int& x, int& y);
     overmap& get_om_global(const point& p);
     /**
@@ -204,21 +206,21 @@ public:
      * @returns true if the buffer has a overmap with
      * the given coordinates.
      */
-    bool has(int x, int y) const;
+    bool has(int x, int y);
     /**
      * Get an existing overmap, does not create a new one
      * and may return NULL if the requested overmap does not
      * exist.
      * (x,y) are global overmap coordinates (same as @ref get).
      */
-    const overmap *get_existing(int x, int y) const;
+    overmap *get_existing(int x, int y);
 
     typedef std::pair<point, std::string> t_point_with_note;
     typedef std::vector<t_point_with_note> t_notes_vector;
-    t_notes_vector get_all_notes(int z) const {
+    t_notes_vector get_all_notes(int z) {
         return get_notes(z, NULL); // NULL => don't filter notes
     }
-    t_notes_vector find_notes(int z, const std::string& pattern) const {
+    t_notes_vector find_notes(int z, const std::string& pattern) {
         return get_notes(z, &pattern); // filter with pattern
     }
     // hordes -- this uses overmap terrain coordinates!
@@ -303,12 +305,14 @@ public:
     static tripoint omt_to_seg_copy(const tripoint& p);
 
 private:
-    std::list<overmap> overmap_list;
+    std::list< std::unique_ptr< overmap > > overmaps;
     /**
      * Set of overmap coordinates of overmaps that are known
      * to not exist on disk. See @ref get_existing for usage.
      */
     mutable std::set<point> known_non_existing;
+    // Cached result of previous call to overmapbuffer::get_existing
+    overmap mutable * last_requested_overmap;
 
     /**
      * Get a list of notes in the (loaded) overmaps.
@@ -316,7 +320,7 @@ private:
      * @param pattern only notes that contain this pattern are returned.
      * If the pattern is NULL, every note matches.
      */
-    t_notes_vector get_notes(int z, const std::string* pattern) const;
+    t_notes_vector get_notes(int z, const std::string* pattern);
     /**
      * See overmap::check_ot_type, this uses global
      * overmap terrain coordinates.
