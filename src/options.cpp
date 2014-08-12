@@ -570,7 +570,7 @@ void initOptions()
     optionNames["pl"] = "polski";
     optionNames["pt_BR"] = "Português (Brasil)";
     optionNames["pt_PT"] = "português (Portugal)";
-    optionNames["ru"] = "русский";
+    optionNames["ru"] = "Русский";
     optionNames["sr"] = "srpski";
     optionNames["vi"] = "Tiếng Việt";
     optionNames["zh_CN"] = "中文(中华人民共和国)";
