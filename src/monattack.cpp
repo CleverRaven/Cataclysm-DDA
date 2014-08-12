@@ -2615,5 +2615,5 @@ void mattack::suicide(monster *z)
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return; //commit suicide only when adjacent to player
     }
-    z->hp = 0;
+    z->die(z);
 }
