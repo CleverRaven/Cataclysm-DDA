@@ -67,8 +67,8 @@ struct curseline {
 typedef struct {
     int x;//left side of window
     int y;//top side of window
-    unsigned width;//width of the curses window
-    unsigned height;//height of the curses window
+    int width;//width of the curses window
+    int height;//height of the curses window
     int FG;//current foreground color from attron
     int BG;//current background color from attron
     bool inuse;// Does this window actually exist?
@@ -176,8 +176,8 @@ int attron(int attrs);
 int attroff(int attrs);
 int waddch(WINDOW *win, const chtype ch);
 int printw(const char *fmt, ...);
-unsigned getmaxx(WINDOW *win);
-unsigned getmaxy(WINDOW *win);
+int getmaxx(WINDOW *win);
+int getmaxy(WINDOW *win);
 int getbegx(WINDOW *win);
 int getbegy(WINDOW *win);
 int getcurx(WINDOW *win);

@@ -585,13 +585,13 @@ int clearok(WINDOW *win)
 }
 
 //gets the max x of a window (the width)
-unsigned getmaxx(WINDOW *win)
+int getmaxx(WINDOW *win)
 {
     return win->width;
 }
 
 //gets the max y of a window (the height)
-unsigned getmaxy(WINDOW *win)
+int getmaxy(WINDOW *win)
 {
     return win->height;
 }

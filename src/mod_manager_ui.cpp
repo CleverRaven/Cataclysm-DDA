@@ -85,24 +85,28 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     std::string dependency_string = "";
     if (!dependencies.empty()) {
         DebugLog( D_PEDANTIC_INFO, DC_ALL ) << mod->name << " Dependencies --";
-        for (auto &i : dependencies) {
-            //~ delimiter for mod dependency enumeration
-            dependency_string += pgettext("mod manager", ", ");
-            DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\t" << i;
-            if (active_manager->mod_map.find(i) != active_manager->mod_map.end()) {
-                dependency_string += "[" + active_manager->mod_map[i]->name + "]";
+        for (size_t i = 0; i < dependencies.size(); ++i) {
+            if (i > 0) {
+                //~ delimiter for mod dependency enumeration
+                dependency_string += pgettext("mod manager", ", ");
+            }
+            DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\t" << dependencies[i];
+            if (active_manager->mod_map.find(dependencies[i]) != active_manager->mod_map.end()) {
+                dependency_string += "[" + active_manager->mod_map[dependencies[i]]->name + "]";
             } else {
-                dependency_string += "[<color_red>" + i + "</color>]";
+                dependency_string += "[<color_red>" + dependencies[i] + "</color>]";
             }
         }
         DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\n";
     }
     std::string author_string = "";
     if (!authors.empty()) {
-        for (auto &i : authors) {
-            //~ delimiter for mod author enumeration
-            author_string += pgettext("mod manager", ", ");
-            author_string += i;
+        for (size_t i = 0; i < authors.size(); ++i) {
+            if (i > 0) {
+                //~ delimiter for mod author enumeration
+                author_string += pgettext("mod manager", ", ");
+            }
+            author_string += authors[i];
         }
         info << string_format(ngettext("Author: %s\n", "Authors: %s\n", authors.size()),
                               author_string.c_str());
@@ -196,7 +200,7 @@ void mod_ui::try_add(const std::string &mod_to_add,
     }
 }
 
-void mod_ui::try_rem(unsigned selection, std::vector<std::string> &active_list)
+void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 {
     // first make sure that what we are looking for exists in the list
     if (selection >= active_list.size()) {
@@ -225,10 +229,10 @@ void mod_ui::try_rem(unsigned selection, std::vector<std::string> &active_list)
     }
 }
 
-void mod_ui::try_shift(char direction, unsigned &selection, std::vector<std::string> &active_list)
+void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> &active_list)
 {
     // error catch for out of bounds
-    if (selection >= active_list.size()) {
+    if (selection < 0 || selection >= active_list.size()) {
         return;
     }
 
@@ -269,10 +273,10 @@ void mod_ui::try_shift(char direction, unsigned &selection, std::vector<std::str
     selection += selshift;
 }
 
-bool mod_ui::can_shift_up(unsigned selection, std::vector<std::string> active_list)
+bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
 {
     // error catch for out of bounds
-    if (selection >= active_list.size()) {
+    if (selection < 0 || selection >= active_list.size()) {
         return false;
     }
     // dependencies of this active element
@@ -306,10 +310,10 @@ bool mod_ui::can_shift_up(unsigned selection, std::vector<std::string> active_li
     }
 }
 
-bool mod_ui::can_shift_down(unsigned selection, std::vector<std::string> active_list)
+bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
 {
     // error catch for out of bounds
-    if (selection >= active_list.size()) {
+    if (selection < 0 || selection >= active_list.size()) {
         return false;
     }
     std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings(
