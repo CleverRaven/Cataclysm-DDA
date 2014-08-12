@@ -176,7 +176,7 @@ void input_manager::load(const std::string &file_name, bool is_user_preferences)
             // post-0.A had written action names into the user preferences
             // config file. Any names that exist in user preferences will be
             // ignored.
-            actions[action_id].name = action.get_string("name");
+            actions[action_id].name = _(action.get_string("name").c_str());
         }
 
         // Iterate over the bindings JSON array
