@@ -155,10 +155,10 @@ void show_auto_pickup()
                      vAutoPickupRules[iCurrentPage].size());
 
         // display auto pickup
-        for (int i = iStartPos; i < vAutoPickupRules[iCurrentPage].size(); i++) {
+        for (int i = iStartPos; i < (int)vAutoPickupRules[iCurrentPage].size(); i++) {
             if (i >= iStartPos &&
-                i < iStartPos + ((iContentHeight > vAutoPickupRules[iCurrentPage].size()) ?
-                                 vAutoPickupRules[iCurrentPage].size() : iContentHeight)) {
+                i < iStartPos + ((iContentHeight > (int)vAutoPickupRules[iCurrentPage].size()) ?
+                                 (int)vAutoPickupRules[iCurrentPage].size() : iContentHeight)) {
                 nc_color cLineColor = (vAutoPickupRules[iCurrentPage][i].bActive) ?
                                       c_white : c_ltgray;
 
@@ -208,7 +208,7 @@ void show_auto_pickup()
         } else if (action == "DOWN") {
             iCurrentLine++;
             iCurrentCol = 1;
-            if (iCurrentLine >= vAutoPickupRules[iCurrentPage].size()) {
+            if (iCurrentLine >= (int)vAutoPickupRules[iCurrentPage].size()) {
                 iCurrentLine = 0;
             }
         } else if (action == "UP") {
@@ -224,7 +224,7 @@ void show_auto_pickup()
         } else if (action == "REMOVE_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
             vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
-            if (iCurrentLine > vAutoPickupRules[iCurrentPage].size() - 1) {
+            if (iCurrentLine > (int)vAutoPickupRules[iCurrentPage].size() - 1) {
                 iCurrentLine--;
             }
         } else if (action == "COPY_RULE" && currentPageNonEmpty) {
@@ -289,7 +289,7 @@ void show_auto_pickup()
             }
         } else if (action == "MOVE_RULE_UP" && currentPageNonEmpty) {
             bStuffChanged = true;
-            if (iCurrentLine < vAutoPickupRules[iCurrentPage].size() - 1) {
+            if (iCurrentLine < (int)vAutoPickupRules[iCurrentPage].size() - 1) {
                 std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
                           vAutoPickupRules[iCurrentPage][iCurrentLine + 1]);
                 iCurrentLine++;
@@ -391,9 +391,9 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, vMatchingItems.size());
 
         // display auto pickup
-        for (int i = iStartPos; i < vMatchingItems.size(); i++) {
+        for (int i = iStartPos; i < (int)vMatchingItems.size(); i++) {
             if (i >= iStartPos &&
-                i < iStartPos + ((iContentHeight > vMatchingItems.size()) ? vMatchingItems.size() :
+                i < iStartPos + ((iContentHeight > (int)vMatchingItems.size()) ? (int)vMatchingItems.size() :
                                  iContentHeight)) {
                 nc_color cLineColor = c_white;
 
@@ -418,7 +418,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             iCurrentLine++;
-            if (iCurrentLine >= vMatchingItems.size()) {
+            if (iCurrentLine >= (int)vMatchingItems.size()) {
                 iCurrentLine = 0;
             }
         } else if (action == "UP") {
@@ -777,7 +777,7 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
         return true;
     }
 
-    size_t iPos;
+    int iPos;
     std::vector<std::string> vPattern;
 
     sPattern = trim_rule(sPattern);
@@ -812,12 +812,11 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
             }
         } else { //inbetween: vPat[i]
             if (*it != "") {
-                if ((iPos = ci_find_substr(sText, *it)) == -1) {
+                if ((iPos = (int)ci_find_substr(sText, *it)) == -1) {
                     return false;
                 }
 
-                sText = sText.substr(iPos + it->length(),
-                                     sText.length() - iPos);
+                sText = sText.substr(iPos + (int)it->length(), (int)sText.length() - iPos);
             }
         }
     }
