@@ -243,7 +243,7 @@ void npc::execute_action(npc_action action, int target)
         bool ammo_found = false;
         int index = -1;
         invslice slice = inv.slice();
-        for (int i = 0; i < slice.size(); i++) {
+        for (size_t i = 0; i < slice.size(); i++) {
             item &it = slice[i]->front();
             bool am = (it.is_gun() &&
                        has_ammo( (dynamic_cast<it_gun *>(it.type))->ammo ).size() > 0);
@@ -336,7 +336,7 @@ void npc::execute_action(npc_action action, int target)
 
     case npc_follow_player:
         update_path(g->u.posx, g->u.posy);
-        if (path.size() <= follow_distance()) { // We're close enough to u.
+        if ((int)path.size() <= follow_distance()) { // We're close enough to u.
             move_pause();
         } else if (!path.empty()) {
             move_to_next();
@@ -430,7 +430,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
     int highest_priority = 0;
     total_danger = 0;
 
-    for (int i = 0; i < g->num_zombies(); i++) {
+    for (size_t i = 0; i < g->num_zombies(); i++) {
         monster *mon = &(g->zombie(i));
         if (this->sees(mon, linet)) {
             int distance = (100 * rl_dist(posx, posy, mon->posx(), mon->posy())) /
@@ -486,7 +486,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
                 distance = (100 * rl_dist(g->u.posx, g->u.posy, mon->posx(), mon->posy())) /
                            mon->speed;
                 priority -= distance;
-                if (mon->speed < get_speed()) {
+                if ((int)mon->speed < get_speed()) {
                     priority -= 10;
                 }
                 priority *= (personality.bravery + personality.altruism + op_of_u.value) /
@@ -536,7 +536,8 @@ npc_action npc::method_of_attack(int target, int danger)
         return npc_pause;
     }
 
-    int dist = rl_dist(posx, posy, tarx, tary), target_HP;
+    int dist = rl_dist(posx, posy, tarx, tary);
+    unsigned target_HP;
     if (target == TARGET_PLAYER) {
         target_HP = g->u.hp_percentage() * g->u.hp_max[hp_torso];
     } else {
@@ -594,8 +595,8 @@ npc_action npc::method_of_attack(int target, int danger)
     bool has_empty_gun = false, has_better_melee = false;
     std::vector<item *> empty_guns;
     invslice slice = inv.slice();
-    for (int i = 0; i < slice.size(); i++) {
-        item &it = slice[i]->front();
+    for (auto &i : slice) {
+        item &it = i->front();
         bool allowed = can_use_gun && it.is_gun() && (!use_silent || weapon.is_silent());
         if (allowed && it.charges > 0) {
             return npc_wield_loaded_gun;
@@ -608,11 +609,11 @@ npc_action npc::method_of_attack(int target, int danger)
     }
 
     bool has_ammo_for_empty_gun = false;
-    for (int i = 0; i < empty_guns.size(); i++) {
-        for (int j = 0; j < slice.size(); j++) {
-            item &it = slice[j]->front();
+    for (auto &i : empty_guns) {
+        for (auto &j : slice) {
+            item &it = j->front();
             if (it.is_ammo() &&
-                it.ammo_type() == empty_guns[i]->ammo_type()) {
+                it.ammo_type() == i->ammo_type()) {
                 has_ammo_for_empty_gun = true;
             }
         }
@@ -767,7 +768,7 @@ int npc::choose_escape_item()
     int best = -1;
     int ret = INT_MIN;
     invslice slice = inv.slice();
-    for (int i = 0; i < slice.size(); i++) {
+    for (size_t i = 0; i < slice.size(); i++) {
         item &it = slice[i]->front();
         for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
             it_comest *food = NULL;
@@ -911,11 +912,11 @@ bool npc::wont_hit_friend(int tarx, int tary, int position)
         traj = line_to(posx, posy, tarx, tary, 0);
     }
 
-    for (int i = 0; i < traj.size(); i++) {
-        int dist = rl_dist(posx, posy, traj[i].x, traj[i].y);
+    for (auto &i : traj) {
+        int dist = rl_dist(posx, posy, i.x, i.y);
         int deviation = 1 + int(dist / confident);
-        for (int x = traj[i].x - deviation; x <= traj[i].x + deviation; x++) {
-            for (int y = traj[i].y - deviation; y <= traj[i].y + deviation; y++) {
+        for (int x = i.x - deviation; x <= i.x + deviation; x++) {
+            for (int y = i.y - deviation; y <= i.y + deviation; y++) {
                 // Hit the player?
                 if (is_friend() && g->u.posx == x && g->u.posy == y) {
                     return false;
@@ -1021,7 +1022,7 @@ void npc::move_to(int x, int y)
         }
     }
     if (recoil > 0) { // Start by dropping recoil a little
-        if (int(str_cur / 2) + skillLevel("gun") >= recoil) {
+        if (int(str_cur / 2) + skillLevel("gun") >= (int)recoil) {
             recoil = 0;
         } else {
             recoil -= int(str_cur / 2) + skillLevel("gun");
@@ -1221,9 +1222,9 @@ void npc::avoid_friendly_fire(int target)
         break;
     }
 
-    for (int i = 0; i < valid_moves.size(); i++) {
-        if (can_move_to(valid_moves[i].x, valid_moves[i].y)) {
-            move_to(valid_moves[i].x, valid_moves[i].y);
+    for (auto &i : valid_moves) {
+        if (can_move_to(i.x, i.y)) {
+            move_to(i.x, i.y);
             return;
         }
     }
@@ -1266,9 +1267,9 @@ void npc::move_away_from(int x, int y)
         options.push_back( point(posx - dx, posy + dy) );
     }
 
-    for (int i = 0; i < options.size(); i++) {
-        if (can_move_to(options[i].x, options[i].y)) {
-            move_to(options[i].x, options[i].y);
+    for (auto &i : options) {
+        if (can_move_to(i.x, i.y)) {
+            move_to(i.x, i.y);
         }
     }
     move_pause();
@@ -1278,7 +1279,7 @@ void npc::move_pause()
 {
     moves = 0;
     if (recoil > 0) {
-        if (str_cur + 2 * skillLevel("gun") >= recoil) {
+        if (str_cur + 2 * skillLevel("gun") >= (int)recoil) {
             recoil = 0;
         } else {
             recoil -= str_cur + 2 * skillLevel("gun");
@@ -1365,7 +1366,7 @@ void npc::pick_up_item()
     int total_volume = 0, total_weight = 0; // How much the items will add
     std::vector<int> pickup; // Indices of items we want
 
-    for ( int i = 0; i < items->size(); i++ ) {
+    for ( size_t i = 0; i < items->size(); i++ ) {
         const item &item = ( *items ) [i];
         int itval = value( item ), vol = item.volume(),
             wgt = item.weight();
@@ -1413,17 +1414,18 @@ void npc::pick_up_item()
         }
     }
 
-    for (int i = 0; i < pickup.size(); i++) {
-        int itval = value((*items)[pickup[i]]);
+    for (auto &i : pickup) {
+        int itval = value((*items)[i]);
         if (itval < worst_item_value) {
             worst_item_value = itval;
         }
         i_add((*items)[pickup[i]]);
     }
-    for (int i = 0; i < pickup.size(); i++) {
-        g->m.i_rem(itx, ity, pickup[i]);
-        for (int j = i + 1; j < pickup.size(); j++) { // Fix indices
-            pickup[j]--;
+    for (auto &i : pickup) {
+        g->m.i_rem(itx, ity, i);
+        // Fix indices
+        for (auto &j : pickup) {
+            j--;
         }
     }
 }
@@ -1441,7 +1443,7 @@ void npc::drop_items(int weight, int volume)
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
-    for (int i = 0; i < slice.size(); i++) {
+    for (size_t i = 0; i < slice.size(); i++) {
         item &it = slice[i]->front();
         double wgt_ratio, vol_ratio;
         if (value(it) == 0) {
@@ -1452,7 +1454,7 @@ void npc::drop_items(int weight, int volume)
             vol_ratio = it.volume() / value(it);
         }
         bool added_wgt = false, added_vol = false;
-        for (int j = 0; j < rWgt.size() && !added_wgt; j++) {
+        for (size_t j = 0; j < rWgt.size() && !added_wgt; j++) {
             if (wgt_ratio > rWgt[j].ratio) {
                 added_wgt = true;
                 rWgt.insert(rWgt.begin() + j, ratio_index(wgt_ratio, i));
@@ -1461,7 +1463,7 @@ void npc::drop_items(int weight, int volume)
         if (!added_wgt) {
             rWgt.push_back(ratio_index(wgt_ratio, i));
         }
-        for (int j = 0; j < rVol.size() && !added_vol; j++) {
+        for (size_t j = 0; j < rVol.size() && !added_vol; j++) {
             if (vol_ratio > rVol[j].ratio) {
                 added_vol = true;
                 rVol.insert(rVol.begin() + j, ratio_index(vol_ratio, i));
@@ -1486,7 +1488,7 @@ void npc::drop_items(int weight, int volume)
             index = rWgt[0].index;
             rWgt.erase(rWgt.begin());
             // Fix the rest of those indices.
-            for (int i = 0; i < rWgt.size(); i++) {
+            for (size_t i = 0; i < rWgt.size(); i++) {
                 if (rWgt[i].index > index) {
                     rWgt[i].index--;
                 }
@@ -1495,7 +1497,7 @@ void npc::drop_items(int weight, int volume)
             index = rVol[0].index;
             rVol.erase(rVol.begin());
             // Fix the rest of those indices.
-            for (int i = 0; i < rVol.size(); i++) {
+            for (size_t i = 0; i < rVol.size(); i++) {
                 if (i > rVol.size())
                     debugmsg("npc::drop_items() - looping through rVol - Size is %d, i is %d",
                              rVol.size(), i);
@@ -1539,8 +1541,8 @@ npc_action npc::scan_new_items(int target)
     // Check if there's something better to wield
     bool has_empty_gun = false, has_better_melee = false;
     std::vector<item *> empty_guns;
-    for (int i = 0; i < slice.size(); i++) {
-        item &it = slice[i]->front();
+    for (auto &i : slice) {
+        item &it = i->front();
         bool allowed = can_use_gun && it.is_gun() && (!use_silent || it.is_silent());
         if (allowed && it.charges > 0) {
             return npc_wield_loaded_gun;
@@ -1553,11 +1555,11 @@ npc_action npc::scan_new_items(int target)
     }
 
     bool has_ammo_for_empty_gun = false;
-    for (int i = 0; i < empty_guns.size(); i++) {
-        for (int j = 0; j < slice.size(); j++) {
-            item &it = slice[j]->front();
+    for (auto &i : empty_guns) {
+        for (auto &j : slice) {
+            item &it = j->front();
             if (it.is_ammo() &&
-                it.ammo_type() == empty_guns[i]->ammo_type()) {
+                it.ammo_type() == i->ammo_type()) {
                 has_ammo_for_empty_gun = true;
             }
         }
@@ -1643,7 +1645,7 @@ void npc::alt_attack(int target)
         position = -1;
     } else {
         invslice slice = inv.slice();
-        for (int i = 0; i < inv.size(); i++) {
+        for (size_t i = 0; i < inv.size(); i++) {
             if (slice[i]->front().type->id == which) {
                 used = &(slice[i]->front());
                 position = i;
@@ -1948,7 +1950,7 @@ void npc::pick_and_eat()
     int best_hunger = 999, best_thirst = 999, index = -1;
     bool thirst_more_important = (thirst > hunger * 1.5);
     invslice slice = inv.slice();
-    for (int i = 0; i < slice.size(); i++) {
+    for (size_t i = 0; i < slice.size(); i++) {
         int eaten_hunger = -1, eaten_thirst = -1;
         it_comest *food = NULL;
         item &it = slice[i]->front();
@@ -2033,7 +2035,7 @@ void npc::mug_player(player &mark)
             int best_value = minimum_item_value() * value_mod;
             int position = INT_MIN;
             invslice slice = mark.inv.slice();
-            for (int i = 0; i < slice.size(); i++) {
+            for (size_t i = 0; i < slice.size(); i++) {
                 if (value(slice[i]->front()) >= best_value &&
                     can_pickVolume(slice[i]->front().volume()) &&
                     can_pickWeight(slice[i]->front().weight())) {
