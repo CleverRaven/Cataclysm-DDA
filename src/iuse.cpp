@@ -6290,8 +6290,8 @@ void make_zlave(player *p)
 
     const int cancel = 0;
 
-    for (int i = 0; i < items.size(); i++) {
-        item &it = items[i];
+    for (auto &i : items) {
+        item &it = i;
 
         if (it.is_corpse() && it.corpse->in_species("ZOMBIE") && it.corpse->mat == "flesh" &&
             it.corpse->sym == "Z" && it.active && it.item_vars["zlave"] == "") {
@@ -6325,7 +6325,7 @@ void make_zlave(player *p)
     amenu.selected = 0;
     amenu.text = _("Selectively butcher the downed zombie into a zombie slave?");
     amenu.addentry(cancel, true, 'q', _("Cancel"));
-    for (int i = 0; i < corpses.size(); i++) {
+    for (size_t i = 0; i < corpses.size(); i++) {
         amenu.addentry(i + 1, true, -1, corpses[i]->display_name().c_str());
     }
 
@@ -8284,7 +8284,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
         case 2: { //make all friendly robots stop their purposeless extermination of (un)life.
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
-            for (int i = 0; i < g->num_zombies(); i++) {
+            for (size_t i = 0; i < g->num_zombies(); i++) {
                 if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species("ROBOT")) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
                                          g->zombie(i).name().c_str());
@@ -8302,7 +8302,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
         case 3: { //make all friendly robots terminate (un)life with extreme prejudice
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
-            for (int i = 0; i < g->num_zombies(); i++) {
+            for (size_t i = 0; i < g->num_zombies(); i++) {
                 if (g->zombie(i).friendly != 0 && g->zombie(i).has_flag(MF_ELECTRONIC)) {
                     p->add_msg_if_player(_("A following %s goes into combat mode."),
                                          g->zombie(i).name().c_str());
@@ -8943,9 +8943,9 @@ int iuse::camera(player *p, item *it, bool)
         p->moves -= 50;
         g->sound(p->posx, p->posy, 8, _("Click."));
 
-        for (int i = 0; i < trajectory.size(); i++) {
-            int tx = trajectory[i].x;
-            int ty = trajectory[i].y;
+        for (auto &i : trajectory) {
+            int tx = i.x;
+            int ty = i.y;
 
             int zid = g->mon_at(tx, ty);
             int npcID = g->npc_at(tx, ty);
@@ -9265,7 +9265,7 @@ int iuse::radiocaron(player *p, item *it, bool t)
 
 void sendRadioSignal(player *p, std::string signal)
 {
-    for (int i = 0; i < p->inv.size(); i++) {
+    for (size_t i = 0; i < p->inv.size(); i++) {
         item &it = p->inv.find_item(i);
 
         if (it.has_flag("RADIO_ACTIVATION") && it.has_flag(signal)) {
