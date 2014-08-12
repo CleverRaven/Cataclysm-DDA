@@ -641,8 +641,8 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     ctxt.register_action("QUIT");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
-    int iStartPos = 0;
-    int iCurrentLine = 0;
+    unsigned iStartPos = 0;
+    unsigned iCurrentLine = 0;
 
     do {
         for (int i = 0; i < iContentHeight; i++) {
@@ -716,9 +716,10 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
         } else if (action == "UP") {
             do {
-                iCurrentLine--;
-                if (iCurrentLine < 0) {
+                if (iCurrentLine == 1) {
                     iCurrentLine = mPageItems[iWorldOptPage].size() - 1;
+                } else {
+                    iCurrentLine--;
                 }
             } while(world->world_options[mPageItems[iWorldOptPage][iCurrentLine]].getMenuText() == "");
 
@@ -788,8 +789,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     int last_active_header = 0;
     size_t active_header = 0;
     size_t useable_mod_count = mman_ui->usable_mods.size();
-    int startsel[2] = {0, 0};
-    int cursel[2] = {0, 0};
+    unsigned startsel[2] = {0, 0};
+    unsigned cursel[2] = {0, 0};
 
     bool redraw_headers = true;
     bool redraw_shift = true;
@@ -868,7 +869,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 
                 for( size_t i = startsel[0], c = 0;
                      i < useable_mod_count && c < getmaxy(w_list); ++i, ++c ) {
-                    if ((int)i != cursel[0]) {
+                    if (i != cursel[0]) {
                         list_output << std::string(3, ' ');
                     } else {
                         if (active_header == 0) {
@@ -888,7 +889,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         }
         if (redraw_active) {
             werase(w_active);
-            const int active_count = active_mod_order.size();
+            const size_t active_count = active_mod_order.size();
             calcStartPos(startsel[1], cursel[1], getmaxy(w_active), active_count);
 
             if (active_count == 0) {
@@ -896,7 +897,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             } else {
                 std::stringstream list_output;
 
-                for (int i = startsel[1], c = 0; i < active_count && c < getmaxy(w_active); ++i, ++c) {
+                for (size_t i = startsel[1], c = 0; i < active_count && c < getmaxy(w_active); ++i, ++c) {
                     if (i != cursel[1]) {
                         list_output << std::string(3, ' ');
                     } else {
@@ -1036,9 +1037,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             if (active_mod_order.empty()) {
                 cursel[1] = 0;
             } else {
-                if (cursel[1] < 0) {
-                    cursel[1] = 0;
-                } else if (cursel[1] >= (int)active_mod_order.size()) {
+                if (cursel[1] >= active_mod_order.size()) {
                     cursel[1] = active_mod_order.size() - 1;
                 }
             }

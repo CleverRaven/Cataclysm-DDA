@@ -67,8 +67,8 @@ struct curseline {
 typedef struct {
     int x;//left side of window
     int y;//top side of window
-    int width;//width of the curses window
-    int height;//height of the curses window
+    unsigned width;//width of the curses window
+    unsigned height;//height of the curses window
     int FG;//current foreground color from attron
     int BG;//current background color from attron
     bool inuse;// Does this window actually exist?
