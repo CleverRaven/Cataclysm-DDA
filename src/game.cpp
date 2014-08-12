@@ -729,7 +729,7 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end()
 {
-    write_msg();
+    draw_sidebar();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions', missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
@@ -2642,7 +2642,7 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
 void game::hide_mouseview()
 {
     if (liveview.hide()) {
-        write_msg(); // Redraw anything hidden by mouseview
+        draw_sidebar(); // Redraw anything hidden by mouseview
     }
 }
 
@@ -5133,10 +5133,15 @@ void game::draw()
     werase(w_terrain);
     draw_ter();
     draw_footsteps();
+    draw_sidebar();
+}
 
+void game::draw_sidebar()
+{
     if (fullscreen) {
         return;
     }
+
     // Draw Status
     draw_HP();
     werase(w_status);
@@ -5221,8 +5226,7 @@ void game::draw()
         col_temp = c_ltblue;
     }
 
-    wprintz(w_location, col_temp, "%s",
-            (std::string(" ") + print_temperature((float)display_temp)).c_str());
+    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str() );
     wrefresh(w_location);
 
     //Safemode coloring
@@ -5241,13 +5245,18 @@ void game::draw()
     wrefresh(w_status);
     wrefresh(w_status2);
 
-    std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
-    if (graffiti) {
-        add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
-    }
+    werase(w_messages);
+    int maxlength = getmaxx(w_messages);
 
-    // Draw messages
-    write_msg();
+    // Print monster info and start our output below it.
+    const int topline = mon_info(w_messages) + 2;
+
+    int line = getmaxy(w_messages) - 1;
+    Messages::display_messages(w_messages, 0, topline, maxlength, line);
+
+    wrefresh(w_messages);
+
+    draw_minimap();
 }
 
 bool game::isBetween(int test, int down, int up)
@@ -5372,11 +5381,6 @@ void game::refresh_all()
 {
     m.reset_vehicle_cache();
     draw();
-    if (!fullscreen) {
-        draw_HP();
-        wrefresh(w_messages);
-        draw_minimap();
-    }
     refresh();
 }
 
@@ -12735,6 +12739,10 @@ bool game::plmove(int dx, int dy)
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
+        std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
+        if (graffiti) {
+            add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
+        }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
             if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
                 add_msg(m_bad, _("You hurt your left foot on the %s!"), m.tername(x, y).c_str());
@@ -13643,9 +13651,6 @@ void game::update_map(int &x, int &y)
 
     // Update what parts of the world map we can see
     update_overmap_seen();
-    if (!fullscreen) {
-        draw_minimap();
-    }
 }
 
 tripoint game::om_global_location() const
@@ -14076,23 +14081,6 @@ bool game::game_quit()
 bool game::game_error()
 {
     return (uquit == QUIT_ERROR);
-}
-
-void game::write_msg()
-{
-    if (fullscreen) {
-        return;
-    }
-    werase(w_messages);
-    int maxlength = getmaxx(w_messages);
-
-    // Print monster info and start our output below it.
-    const int topline = mon_info(w_messages) + 2;
-
-    int line = getmaxy(w_messages) - 1;
-    Messages::display_messages(w_messages, 0, topline, maxlength, line);
-
-    wrefresh(w_messages);
 }
 
 void game::teleport(player *p, bool add_teleglow)

@@ -18,7 +18,6 @@ void Pickup::pick_up(int posx, int posy, int min)
         return;
     }
 
-    g->write_msg();
     if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
         return;
     }
@@ -432,7 +431,6 @@ void Pickup::pick_up(int posx, int posy, int min)
     } else {
         if(g->was_fullscreen) {
             g->draw_ter();
-            g->write_msg();
         }
         // Now print the two lists; those on the ground and about to be added to inv
         // Continue until we hit return or space

@@ -474,7 +474,6 @@ class game
         bool narrow_sidebar;
         bool fullscreen;
         bool was_fullscreen;
-        void write_msg();        // Prints the messages in the messages list
         void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0,
                           int cy = 0); // open vehicle interaction screen
 
@@ -687,6 +686,8 @@ class game
         void msg_buffer();       // Opens a window with old messages in it
         void draw_minimap();     // Draw the 5x5 minimap
         void draw_HP();          // Draws the player's HP and Power level
+        /** Draws the sidebar (if it's visible), including all windows there */
+        void draw_sidebar();
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
