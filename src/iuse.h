@@ -208,6 +208,8 @@ public:
     int pack_item           (player *, item *, bool);
     int radglove            (player *, item *, bool);
     int robotcontrol        (player *, item *, bool);
+    int einktabletpc        (player *, item *, bool);
+    int camera              (player *, item *, bool);
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 

@@ -67,6 +67,7 @@ void game::init_morale()
     _("Mutagenic Anticipation"),
     _("Good Feeling"),
     _("Supported"),
+    _("Looked photos"),
 
     _("Nicotine Craving"),
     _("Caffeine Craving"),
@@ -10990,6 +10991,13 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
                       get_skill_level(book_recipe->first->skill_used) >= book_recipe->second ) &&
                     ( difficulty == -1 || book_recipe->second < difficulty ) ) {
                     difficulty = book_recipe->second;
+                }
+            }
+        } else {
+            if (candidate.has_flag("HAS_RECIPE")){
+                item dummy = candidate;
+                if (dummy.item_vars["RECIPE"] == r->ident){
+                    if (difficulty == -1) difficulty = r->difficulty;
                 }
             }
         }

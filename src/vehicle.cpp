@@ -879,8 +879,9 @@ void vehicle::play_music()
             }
 
         }
-        if( g->ambient_sound( radio_x, radio_y, 15, sound ) ) {
-            g->u.add_morale(MORALE_MUSIC,5,20,30,1);
+        if( g->ambient_sound( radio_x, radio_y, 15, sound ) && !g->u.has_effect("music") ){
+            g->u.add_effect("music", 1);
+            g->u.add_morale(MORALE_MUSIC, 5, 20, 30, 1);
         }
     }
 }

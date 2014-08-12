@@ -8,7 +8,8 @@
 #define MIN_MORALE_READ (-40)
 #define MIN_MORALE_CRAFT (-50)
 
-enum morale_type {
+enum morale_type
+{
     MORALE_NULL = 0,
     MORALE_FOOD_GOOD,
     MORALE_FOOD_HOT,
@@ -19,6 +20,7 @@ enum morale_type {
     MORALE_MUTAGEN,
     MORALE_FEELING_GOOD,
     MORALE_SUPPORT,
+    MORALE_PHOTOS,
 
     MORALE_CRAVING_NICOTINE,
     MORALE_CRAVING_CAFFEINE,
