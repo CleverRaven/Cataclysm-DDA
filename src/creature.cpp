@@ -212,19 +212,6 @@ bool Creature::digging() const
  * Damage-related functions
  */
 
-
-// TODO: this is a shim for the currently existing calls to Creature::hit,
-// start phasing them out
-int Creature::hit(Creature *source, body_part bphurt, int dam, int cut)
-{
-    damage_instance d;
-    d.add_damage(DT_BASH, dam);
-    d.add_damage(DT_CUT, cut);
-    dealt_damage_instance dealt_dams = deal_damage(source, bphurt, d);
-
-    return dealt_dams.total_damage();
-}
-
 int Creature::deal_melee_attack(Creature *source, int hitroll)
 {
     int dodgeroll = dodge_roll();

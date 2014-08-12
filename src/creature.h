@@ -70,8 +70,6 @@ class Creature
                 std::set<std::string>& proj_effects);
                 */
 
-        virtual int hit(Creature *source, body_part bphurt, int dam, int cut);
-
         // handles dodges and misses, allowing triggering of martial arts counter
         virtual void dodge_hit(Creature *source, int hit_spread) = 0;
 

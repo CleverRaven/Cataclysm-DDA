@@ -6832,6 +6832,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": "refillable lighter (lit)",
+    "name_plural": "refillable lighters (lit)",
     "description": "This is a lighter featuring a flip top cover and refuelable tank.  It is lit.",
     "price": 35000,
     "material": "aluminum",

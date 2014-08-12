@@ -1025,7 +1025,7 @@
         "stun_dur" : 2,
         "messages" : [
             "You catch the attack and send %s spinning!",
-            "<npcname> catches ans spins %s!"
+            "<npcname> catches and spins %s!"
         ]
     },{
         "type" : "technique",

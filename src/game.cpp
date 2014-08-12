@@ -6536,26 +6536,20 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
                 veh->damage(vpart, dam, fire ? 2 : 1, false);
             }
 
+            player *n = nullptr;
             if (npc_hit != -1) {
-                active_npc[npc_hit]->hit(NULL, bp_torso, rng(dam / 2, long(dam * 1.5)), 0);
-                active_npc[npc_hit]->hit(NULL, bp_head, rng(dam / 3, dam), 0);
-                active_npc[npc_hit]->hit(NULL, bp_leg_l, rng(dam / 3, dam), 0);
-                active_npc[npc_hit]->hit(NULL, bp_leg_r, rng(dam / 3, dam), 0);
-                active_npc[npc_hit]->hit(NULL, bp_arm_l, rng(dam / 3, dam), 0);
-                active_npc[npc_hit]->hit(NULL, bp_arm_r, rng(dam / 3, dam), 0);
-                if (active_npc[npc_hit]->hp_cur[hp_head] <= 0 ||
-                    active_npc[npc_hit]->hp_cur[hp_torso] <= 0) {
-                    active_npc[npc_hit]->die( nullptr ); // TODO: player's fault?
-                }
-            }
-            if (u.posx == i && u.posy == j) {
+                n = active_npc[npc_hit];
+            } else if( u.posx == i && u.posy == j ) {
                 add_msg(m_bad, _("You're caught in the explosion!"));
-                u.hit(NULL, bp_torso, rng(dam / 2, dam * 1.5), 0);
-                u.hit(NULL, bp_head, rng(dam / 3, dam), 0);
-                u.hit(NULL, bp_leg_l, rng(dam / 3, dam), 0);
-                u.hit(NULL, bp_leg_r, rng(dam / 3, dam), 0);
-                u.hit(NULL, bp_arm_l, rng(dam / 3, dam), 0);
-                u.hit(NULL, bp_arm_r, rng(dam / 3, dam), 0);
+                n = &u;
+            }
+            if( n != nullptr ) {
+                n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
+                n->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+                n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+                n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+                n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+                n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             }
             if (fire) {
                 m.add_field(i, j, fd_fire, dam / 10);
@@ -6604,28 +6598,24 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
             tx = traj[j].x;
             ty = traj[j].y;
             const int zid = mon_at(tx, ty);
+            const int npcdex = npc_at(tx, ty);
             if (zid != -1) {
                 monster &critter = critter_tracker.find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
-            } else if (npc_at(tx, ty) != -1) {
+            } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
                 if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
                     dam = rng(2 * dam, 5 * dam);
                 } else if (hit == bp_torso) {
                     dam = rng(long(1.5 * dam), 3 * dam);
                 }
-                int npcdex = npc_at(tx, ty);
-                active_npc[npcdex]->hit(NULL, hit, 0, dam);
-                if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
-                    active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
-                    active_npc[npcdex]->die( nullptr );
-                }
+                active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
             } else if (tx == u.posx && ty == u.posy) {
                 body_part hit = random_body_part();
                 //~ %s is bodypart name in accusative.
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
-                u.hit(NULL, hit, 0, dam);
+                u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
             } else {
                 std::set<std::string> shrapnel_effects;
                 m.shoot(tx, ty, dam, j == traj.size() - 1, shrapnel_effects);
@@ -6853,28 +6843,28 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     }
                     add_msg(_("%s took %d damage! (before armor)"), targ->name.c_str(), dam_mult * force_remaining);
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_arm_l, force_remaining * dam_mult, 0);
+                        targ->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_arm_r, force_remaining * dam_mult, 0);
+                        targ->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_leg_l, force_remaining * dam_mult, 0);
+                        targ->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_leg_r, force_remaining * dam_mult, 0);
+                        targ->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_torso, force_remaining * dam_mult, 0);
+                        targ->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_head, force_remaining * dam_mult, 0);
+                        targ->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_hand_l, force_remaining * dam_mult, 0);
+                        targ->deal_damage( nullptr, bp_hand_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        targ->hit(NULL, bp_hand_r, force_remaining * dam_mult, 0);
+                        targ->deal_damage( nullptr, bp_hand_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
@@ -6951,28 +6941,28 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                     }
                     u.add_effect("stunned", force_remaining);
                     if (one_in(2)) {
-                        u.hit(NULL, bp_arm_l, force_remaining * dam_mult, 0);
+                        u.deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_arm_r, force_remaining * dam_mult, 0);
+                        u.deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_leg_l, force_remaining * dam_mult, 0);
+                        u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_leg_r, force_remaining * dam_mult, 0);
+                        u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_torso, force_remaining * dam_mult, 0);
+                        u.deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_head, force_remaining * dam_mult, 0);
+                        u.deal_damage( nullptr, bp_head, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_hand_l, force_remaining * dam_mult, 0);
+                        u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                     if (one_in(2)) {
-                        u.hit(NULL, bp_hand_r, force_remaining * dam_mult, 0);
+                        u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
                     }
                 }
                 m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining);
@@ -7618,10 +7608,10 @@ void game::smash()
                 m.add_item_or_charges(u.posx, u.posy, *it);
             }
             sound(u.posx, u.posy, 24, "");
-            u.hit(NULL, bp_hand_r, 0, rng(0, u.weapon.volume()));
+            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, u.weapon.volume() ) ) );
             if (u.weapon.volume() > 20) {
                 // Hurt left arm too, if it was big
-                u.hit(NULL, bp_hand_l, 0, rng(0, long(u.weapon.volume() * .5)));
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
             }
             u.remove_weapon();
         }
@@ -12742,18 +12732,18 @@ bool game::plmove(int dx, int dy)
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
             if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
                 add_msg(m_bad, _("You hurt your left foot on the %s!"), m.tername(x, y).c_str());
-                u.hit(NULL, bp_foot_l, 0, 1);
+                u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
             if (one_in(5) && u.get_armor_bash(bp_foot_r) < rng(2, 5)) {
                 add_msg(m_bad, _("You hurt your right foot on the %s!"), m.tername(x, y).c_str());
-                u.hit(NULL, bp_foot_l, 0, 1);
+                u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
         }
         if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2))
             && (!u.in_vehicle)) {
             if (!u.has_trait("PARKOUR") || one_in(4)) {
                 body_part bp = random_body_part();
-                if(u.hit(NULL, bp, 0, rng(1, 4)) > 0) {
+                if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
                     //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                     add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
                                 body_part_name_accusative(bp).c_str(),

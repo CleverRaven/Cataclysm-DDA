@@ -4894,7 +4894,7 @@ void player::knock_back_from(int x, int y)
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
   monster *critter = &(g->zombie(mondex));
-  hit(this, bp_torso, critter->type->size, 0);
+  deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
   add_effect("stunned", 1);
   if ((str_max - 6) / 4 > critter->type->size) {
    critter->knock_back_from(posx, posy); // Chain reaction!
@@ -4914,9 +4914,9 @@ void player::knock_back_from(int x, int y)
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
-  hit(this, bp_torso, 3, 0);
+  deal_damage( p, bp_torso, damage_instance( DT_BASH, p->get_size() ) );
   add_effect("stunned", 1);
-  p->hit(this, bp_torso, 3, 0);
+  p->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
   add_msg_player_or_npc( _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
@@ -9834,7 +9834,7 @@ void player::do_read( item *book )
             if (no_recipes) {
                 add_msg(m_info, _("You can no longer learn from %s."), reading->nname(1).c_str());
             } else {
-                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for yo"),
+                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for you."),
                         reading->nname(1).c_str());
             }
         }
