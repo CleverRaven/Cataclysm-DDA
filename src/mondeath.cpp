@@ -93,7 +93,7 @@ void mdeath::kill_vines(monster *z)
 {
     std::vector<int> vines;
     std::vector<int> hubs;
-    for (int i = 0; i < g->num_zombies(); i++) {
+    for (size_t i = 0; i < g->num_zombies(); i++) {
         bool isHub = g->zombie(i).type->id == "mon_creeper_hub";
         if (isHub && (g->zombie(i).posx() != z->posx() || g->zombie(i).posy() != z->posy())) {
             hubs.push_back(i);
@@ -104,15 +104,15 @@ void mdeath::kill_vines(monster *z)
     }
 
     int curX, curY;
-    for (int i = 0; i < vines.size(); i++) {
-        monster *vine = &(g->zombie(vines[i]));
+    for (auto &i : vines) {
+        monster *vine = &(g->zombie(i));
         int dist = rl_dist(vine->posx(), vine->posy(), z->posx(), z->posy());
         bool closer = false;
-        for (int j = 0; j < hubs.size() && !closer; j++) {
-            curX = g->zombie(hubs[j]).posx();
-            curY = g->zombie(hubs[j]).posy();
+        for (auto &j : hubs) {
+            curX = g->zombie(j).posx();
+            curY = g->zombie(j).posy();
             if (rl_dist(vine->posx(), vine->posy(), curX, curY) < dist) {
-                closer = true;
+                break;
             }
         }
         if (!closer) {
@@ -136,9 +136,9 @@ void mdeath::vine_cut(monster *z)
         }
     }
 
-    for (int i = 0; i < vines.size(); i++) {
+    for (auto &i : vines) {
         bool found_neighbor = false;
-        monster *vine = &(g->zombie( vines[i] ));
+        monster *vine = &(g->zombie( i ));
         for (int x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++) {
             for (int y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++) {
                 if (x != z->posx() || y != z->posy()) {
@@ -430,7 +430,7 @@ void mdeath::amigara(monster *z)
         return;
     }
     int count = 0;
-    for (int i = 0; i < g->num_zombies(); i++) {
+    for (size_t i = 0; i < g->num_zombies(); i++) {
         if (g->zombie(i).type->id == "mon_amigara_horror") {
             count++;
         }
@@ -596,7 +596,7 @@ void mdeath::gameover(monster *z)
 void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
-    for (int i = 0; i < g->num_zombies(); i++) {
+    for (size_t i = 0; i < g->num_zombies(); i++) {
         const std::string monID = g->zombie(i).type->id;
         if (monID == "mon_breather_hub " || monID == "mon_breather") {
             g->zombie(i).die( nullptr );
