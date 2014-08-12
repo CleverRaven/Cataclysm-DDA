@@ -203,7 +203,7 @@ void mod_ui::try_add(const std::string &mod_to_add,
 void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 {
     // first make sure that what we are looking for exists in the list
-    if (selection >= active_list.size()) {
+    if (selection >= (int)active_list.size()) {
         // trying to access an out of bounds value! quit early
         return;
     }
@@ -232,7 +232,7 @@ void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> &active_list)
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= active_list.size()) {
+    if (selection < 0 || selection >= (int)active_list.size()) {
         return;
     }
 
@@ -276,7 +276,7 @@ void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> 
 bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= active_list.size()) {
+    if (selection < 0 || selection >= (int)active_list.size()) {
         return false;
     }
     // dependencies of this active element
@@ -313,7 +313,7 @@ bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
 bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= active_list.size()) {
+    if (selection < 0 || selection >= (int)active_list.size()) {
         return false;
     }
     std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings(
@@ -325,7 +325,7 @@ bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
     std::string modstring;
 
     // figure out if we can move down!
-    if (selection == active_list.size() - 1) {
+    if (selection == (int)active_list.size() - 1) {
         // can't move down, don't bother trying
         return false;
     }
