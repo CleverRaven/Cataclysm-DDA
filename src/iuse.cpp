@@ -8783,24 +8783,17 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             std::string s;
             int k = 1;
             while (getline(f, s, ',')) {
-
                 if (s.size() == 0) {
                     continue;
                 }
-
                 monster_photos.push_back(s);
-
                 std::string menu_str;
-
                 const monster dummy(GetMType(s));
                 menu_str = dummy.name();
-
                 getline(f, s, ',');
                 char *chq = &s[0];
                 const int quality = atoi(chq);
-
                 menu_str += " [" + photo_quality_names[quality] + "]";
-
                 pmenu.addentry(k++, true, -1, menu_str.c_str());
             }
 
@@ -8815,9 +8808,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
                 const monster dummy(GetMType(monster_photos[choice - 1]));
                 popup(dummy.type->description.c_str());
-
             } while (true);
-
             return it->type->charges_to_use();
         }
 
@@ -8854,9 +8845,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
         }
 
         if (ei_decrypt == choice) {
-
             p->moves -= 200;
-
             const int pos = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
             item *mc = &(p->i_at(pos));
 
@@ -8878,29 +8867,24 @@ int iuse::einktabletpc(player *p, item *it, bool t)
 
             p->practice("computer", rng(2, 5));
 
-            const int success = p->skillLevel("computer") * rng(1, p->skillLevel("computer")) * rng(1,
-                                p->int_cur) - rng(30, 80);
+            const int success = p->skillLevel("computer") * rng(1, p->skillLevel("computer")) *
+                rng(1, p->int_cur) - rng(30, 80);
             if (success > 0) {
                 p->practice("computer", rng(5, 10));
-
-                p->add_msg_if_player(m_good, _("You successfully decrypted content on %s!"), mc->tname().c_str());
-
+                p->add_msg_if_player(m_good, _("You successfully decrypted content on %s!"),
+                                     mc->tname().c_str());
                 einkpc_download_memory_card(p, it, mc);
             } else {
-
                 if (success > -10 || one_in(5)) {
-                    p->add_msg_if_player(m_neutral, _("You failed to decrypt content of %s!"), mc->tname().c_str());
+                    p->add_msg_if_player(m_neutral, _("You failed to decrypt content of %s!"),
+                                         mc->tname().c_str());
                 } else {
                     p->add_msg_if_player(m_bad, _("Firmware protection tripped on and the data is lost!"));
-
                     mc->item_tags.clear();
                     mc->item_vars.clear();
                     mc->make("mobile_memory_card_used");
-
                 }
-
             }
-
             return it->type->charges_to_use();
         }
     }
@@ -9403,13 +9387,9 @@ int iuse::radiocontrol(player *p, item *it, bool t)
 
 bool multicooker_hallu(player *p)
 {
-
     p->moves -= 200;
-
     const int random_hallu = rng(1, 7);
-
     std::vector<point> points;
-
     switch (random_hallu) {
 
         case 1:
@@ -9445,7 +9425,6 @@ bool multicooker_hallu(player *p)
 
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
-
                 const point random_point = points[rng(0, points.size() - 1)];
 
                 monster m(GetMType("mon_hallu_multicooker"));
@@ -9453,13 +9432,10 @@ bool multicooker_hallu(player *p)
                 m.add_effect("run", 1, 1, true);
                 m.spawn(random_point.x, random_point.y);
                 g->add_zombie(m);
-
             } else {
-
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
                 for (auto pp = points.begin(); pp != points.end(); ++pp) {
-
                     monster m(GetMType("mon_hallu_multicooker"));
                     m.hallucination = true;
                     m.spawn(pp->x, pp->y);
@@ -9477,7 +9453,6 @@ bool multicooker_hallu(player *p)
 int iuse::multicooker(player *p, item *it, bool t)
 {
     if (t) {
-
         if (it->charges == 0) {
             it->active = false;
             return 0;
@@ -9495,7 +9470,6 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (cooktime <= 0) {
-
             it->active = false;
 
             item meal(it->item_vars["DISH"], calendar::turn);
@@ -9514,15 +9488,12 @@ int iuse::multicooker(player *p, item *it, bool t)
             g->sound(pos.x, pos.y, 8, _("ding!"));
 
             return 0;
-
         } else {
             it->item_vars["COOKTIME"] = string_format("%d", cooktime);
-
             return 0;
         }
 
     } else {
-
         enum {
             mc_cancel, mc_start, mc_stop, mc_take, mc_upgrade
         };
@@ -9558,21 +9529,17 @@ int iuse::multicooker(player *p, item *it, bool t)
         if (it->active) {
             menu.addentry(mc_stop, true, 's', _("Stop cooking"));
         } else {
-
             if (it->contents.empty()) {
                 if (it->charges < 50) {
                     p->add_msg_if_player(_("Batteries are low."));
                     return 0;
                 }
-
                 menu.addentry(mc_start, true, 's', _("Start cooking"));
 
                 if (p->skillLevel("electronics") > 3 && p->skillLevel("fabrication") > 3) {
-
                     if (it->item_vars["MULTI_COOK_UPGRADE"] == "") {
                         menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi-cooker"));
                     } else {
-
                         if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
                             menu.addentry(mc_upgrade, false, 'u', _("Multi-cooker already upgraded"));
                         } else {
@@ -9580,14 +9547,12 @@ int iuse::multicooker(player *p, item *it, bool t)
                         }
                     }
                 }
-
             } else {
                 menu.addentry(mc_take, true, 't', _("Take out dish"));
             }
         }
 
         menu.query();
-
         int choice = menu.ret;
 
         if (mc_cancel == choice) {
@@ -9595,15 +9560,11 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (mc_stop == choice) {
-
             if (query_yn(_("Really stop cooking?"))) {
                 it->active = false;
                 it->item_vars["DISH"] = "";
-                return 0;
             }
-
             return 0;
-
         }
 
         if (mc_take == choice) {
@@ -9613,8 +9574,8 @@ int iuse::multicooker(player *p, item *it, bool t)
                 p->add_msg_if_player(m_good, _("You got the dish from the multi-cooker.  The %s smells delicious."),
                                      dish.tname(dish.charges, false).c_str());
             } else {
-                p->add_msg_if_player(m_good, _("You got the %s from the multi-cooker."), dish.tname(dish.charges,
-                                     false).c_str());
+                p->add_msg_if_player(m_good, _("You got the %s from the multi-cooker."),
+                                     dish.tname(dish.charges, false).c_str());
             }
 
             p->i_add(dish);
@@ -9624,7 +9585,6 @@ int iuse::multicooker(player *p, item *it, bool t)
         }
 
         if (mc_start == choice) {
-
             enum {
                 d_cancel
             };
@@ -9645,28 +9605,23 @@ int iuse::multicooker(player *p, item *it, bool t)
             crafting_inv.push_back(item("pot", 0)); //good COOK, BOIL, CONTAIN qualities inside
 
             int counter = 1;
-
             recipe_map recipes = g->list_recipes();
 
             for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
                 for (recipe_list::iterator list_iter = map_iter->second.begin();
                      list_iter != map_iter->second.end(); ++list_iter) {
-                    if ((*list_iter)->cat == "CC_FOOD" && ((*list_iter)->subcat == "CSC_FOOD_MEAT" ||
-                                                           (*list_iter)->subcat == "CSC_FOOD_VEGGI" || (*list_iter)->subcat == "CSC_FOOD_PASTA")) {
-
+                    if ((*list_iter)->cat == "CC_FOOD" &&
+                        ((*list_iter)->subcat == "CSC_FOOD_MEAT" ||
+                         (*list_iter)->subcat == "CSC_FOOD_VEGGI" ||
+                         (*list_iter)->subcat == "CSC_FOOD_PASTA")) {
 
                         if (g->u.knows_recipe((*list_iter))) {
-
                             dishes.push_back(*list_iter);
-
                             const bool can_make = (*list_iter)->can_make_with_inventory(crafting_inv);
-
                             item dummy((*list_iter)->result, 0);
 
                             dmenu.addentry(counter++, can_make, -1, dummy.display_name());
-
                         }
-
                     }
                 }
             }
@@ -9678,9 +9633,7 @@ int iuse::multicooker(player *p, item *it, bool t)
             if (d_cancel == choice) {
                 return 0;
             } else {
-
                 recipe *meal = dishes[choice - 1];
-
                 int mealtime;
                 if (it->item_vars["MULTI_COOK_UPGRADE"] == "UPGRADE") {
                     mealtime = meal->time;
@@ -9693,7 +9646,8 @@ int iuse::multicooker(player *p, item *it, bool t)
 
                 if (it->charges < all_charges) {
 
-                    p->add_msg_if_player(m_warning, _("The multi-cooker needs %d charges to cook this dish."),
+                    p->add_msg_if_player(m_warning,
+                                         _("The multi-cooker needs %d charges to cook this dish."),
                                          all_charges);
 
                     return 0;
