@@ -570,9 +570,8 @@ void overmap::save()
         fout << count;
         fout << std::endl;
 
-        for (int i = 0; i < layer[z].notes.size(); i++) {
-            fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " <<
-                layer[z].notes[i].num << std::endl << layer[z].notes[i].text << std::endl;
+        for (auto &i : layer[z].notes) {
+            fout << "N " << i.x << " " << i.y << " " << i.num << std::endl << i.text << std::endl;
         }
     }
     fout.close();
@@ -624,13 +623,13 @@ void overmap::save()
             mg.diffuse << " " << mg.dying << " " <<
             mg.horde << " " << mg.tx << " " << mg.ty << " " << mg.interest << std::endl;
     }
-    for (int i = 0; i < cities.size(); i++)
-        fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s << std::endl;
-    for (int i = 0; i < roads_out.size(); i++)
-        fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
-    for (int i = 0; i < radios.size(); i++)
-        fout << "T " << radios[i].x << " " << radios[i].y << " " << radios[i].strength <<
-            " " << radios[i].type << " " << std::endl << radios[i].message << std::endl;
+    for (auto &i : cities)
+        fout << "t " << i.x << " " << i.y << " " << i.s << std::endl;
+    for (auto &i : roads_out)
+        fout << "R " << i.x << " " << i.y << std::endl;
+    for (auto &i : radios)
+        fout << "T " << i.x << " " << i.y << " " << i.strength <<
+            " " << i.type << " " << std::endl << i.message << std::endl;
 
     for( const auto &mdata : monsters ) {
         fout << "M " << mdata.x << " " << mdata.y << " " << mdata.z << " " << mdata.mon.serialize() << std::endl;
@@ -646,8 +645,8 @@ void overmap::save()
     }
 
     //saving the npcs
-    for (int i = 0; i < npcs.size(); i++)
-        fout << "n " << npcs[i]->save_info() << std::endl;
+    for (auto &i : npcs)
+        fout << "n " << i->save_info() << std::endl;
 
     fclose_exclusive(fout, terfilename.c_str());
 }
@@ -716,15 +715,15 @@ void game::serialize_master(std::ofstream &fout) {
 
         json.member("active_missions");
         json.start_array();
-        for (int i = 0; i < active_missions.size(); ++i) {
-            active_missions[i].serialize(json);
+        for (auto &i : active_missions) {
+            i.serialize(json);
         }
         json.end_array();
 
         json.member("factions");
         json.start_array();
-        for (int i = 0; i < factions.size(); ++i) {
-            factions[i].serialize(json);
+        for (auto &i : factions) {
+            i.serialize(json);
         }
         json.end_array();
 

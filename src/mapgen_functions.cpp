@@ -5883,8 +5883,8 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                     hermx = rng(SEEX - 6, SEEX + 5),
                     hermy = rng(SEEX - 6, SEEY + 5);
                 std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
-                for (int ii = 0; ii < bloodline.size(); ii++) {
-                    m->add_field(bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
+                for (auto &ii : bloodline) {
+                    m->add_field(ii.x, ii.y, fd_blood, 2);
                 }
                 body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
                 m->add_item_or_charges(hermx, hermy, body);
@@ -5920,9 +5920,9 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 pathy = rng(SEEY - 6, SEEY + 5);
             }
             std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
-            for (int ii = 0; ii < pathline.size(); ii++) {
-                square(m, t_dirt, pathline[ii].x, pathline[ii].y,
-                       pathline[ii].x + 1, pathline[ii].y + 1);
+            for (auto &ii : pathline) {
+                square(m, t_dirt, ii.x, ii.y,
+                       ii.x + 1, ii.y + 1);
             }
             while (!one_in(8)) {
                 m->ter_set(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5), t_dirt);
@@ -5981,9 +5981,9 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
             do {
                 int tox = (one_in(2) ? 2 : SEEX * 2 - 3), toy = rng(2, SEEY * 2 - 3);
                 std::vector<point> path = line_to(centerx, SEEY - 1, tox, toy, 0);
-                for (int i = 0; i < path.size(); i++) {
-                    for (int cx = path[i].x - 1; cx <= path[i].x + 1; cx++) {
-                        for (int cy = path[i].y - 1; cy <= path[i].y + 1; cy++) {
+                for (auto &i : path) {
+                    for (int cx = i.x - 1; cx <= i.x + 1; cx++) {
+                        for (int cy = i.y - 1; cy <= i.y + 1; cy++) {
                             m->ter_set(cx, cy, t_rock_floor);
                             if (one_in(10)) {
                                 m->add_field(cx, cy, fd_blood, rng(1, 3));
