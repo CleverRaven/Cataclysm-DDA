@@ -7187,7 +7187,7 @@ std::list<item> player::use_charges(itype_id it, long quantity)
     if (weapon.use_charges(it, quantity, ret)) {
         remove_weapon();
     }
-    for( auto a = worn.begin(); a != worn.end() && quantity > 0; ++a ) {
+    for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
         if( a->use_charges( it, quantity, ret ) ) {
             a = worn.erase( a );
         } else {
