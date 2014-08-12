@@ -30,11 +30,11 @@ void mattack::antqueen(monster *z)
     // Count up all adjacent tiles the contain at least one egg.
     for (int x = z->posx() - 2; x <= z->posx() + 2; x++) {
         for (int y = z->posy() - 2; y <= z->posy() + 2; y++) {
-            for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+            for (auto &i : g->m.i_at(x, y)) {
                 // is_empty() because we can't hatch an ant under the player, a monster, etc.
-                if (g->m.i_at(x, y)[i].type->id == "ant_egg" && g->is_empty(x, y)) {
+                if (i.type->id == "ant_egg" && g->is_empty(x, y)) {
                     egg_points.push_back(point(x, y));
-                    i = g->m.i_at(x, y).size(); // Done looking at this tile
+                    break; // Done looking at this tile
                 }
                 int mondex = g->mon_at(x, y);
                 if (mondex != -1 && (g->zombie(mondex).type->id == "mon_ant_larva" ||
@@ -67,14 +67,13 @@ void mattack::antqueen(monster *z)
         if (g->u_see(z->posx(), z->posy())) {
             add_msg(m_warning, _("The %s tends nearby eggs, and they hatch!"), z->name().c_str());
         }
-        for (int i = 0; i < egg_points.size(); i++) {
-            int x = egg_points[i].x, y = egg_points[i].y;
-            for (int j = 0; j < g->m.i_at(x, y).size(); j++) {
-                if (g->m.i_at(x, y)[j].type->id == "ant_egg") {
-                    g->m.i_rem(x, y, j);
-                    j = g->m.i_at(x, y).size(); // Max one hatch per tile.
-                    monster tmp(GetMType("mon_ant_larva"), x, y);
+        for (auto &i : egg_points) {
+            for (size_t j = 0; j < g->m.i_at(i.x, i.y).size(); j++) {
+                if (g->m.i_at(i.x, i.y)[j].type->id == "ant_egg") {
+                    g->m.i_rem(i.x, i.y, j);
+                    monster tmp(GetMType("mon_ant_larva"), i.x, i.y);
                     g->add_zombie(tmp);
+                    break; // Max one hatch per tile
                 }
             }
         }
@@ -130,11 +129,11 @@ void mattack::acid(monster *z)
     g->sound(z->posx(), z->posy(), 4, _("a spitting noise."));
     int hitx = g->u.posx + rng(-2, 2), hity = g->u.posy + rng(-2, 2);
     std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, junk);
-    for (int i = 0; i < line.size(); i++) {
-        if (g->m.hit_with_acid(line[i].x, line[i].y)) {
-            if (g->u_see(line[i].x, line[i].y)) {
+    for (auto &i : line) {
+        if (g->m.hit_with_acid(i.x, i.y)) {
+            if (g->u_see(i.x, i.y)) {
                 add_msg(_("A glob of acid hits the %s!"),
-                        g->m.tername(line[i].x, line[i].y).c_str());
+                        g->m.tername(i.x, i.y).c_str());
             }
             return;
         }
@@ -167,9 +166,9 @@ void mattack::shockstorm(monster *z)
         t = 0;
     }
     std::vector<point> bolt = line_to(z->posx(), z->posy(), tarx, tary, t);
-    for (int i = 0; i < bolt.size(); i++) { // Fill the LOS with electricity
+    for (auto &i : bolt) { // Fill the LOS with electricity
         if (!one_in(4)) {
-            g->m.add_field(bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
+            g->m.add_field(i.x, i.y, fd_electricity, rng(1, 3));
         }
     }
     // 5x5 cloud of electricity at the square hit
@@ -232,14 +231,14 @@ void mattack::boomer(monster *z)
     if (u_see) {
         add_msg(m_warning, _("The %s spews bile!"), z->name().c_str());
     }
-    for (int i = 0; i < line.size(); i++) {
-        g->m.add_field(line[i].x, line[i].y, fd_bile, 1);
+    for (auto &i : line) {
+        g->m.add_field(i.x, i.y, fd_bile, 1);
         // If bile hit a solid tile, return.
-        if (g->m.move_cost(line[i].x, line[i].y) == 0) {
-            g->m.add_field(line[i].x, line[i].y, fd_bile, 3);
-            if (g->u_see(line[i].x, line[i].y))
+        if (g->m.move_cost(i.x, i.y) == 0) {
+            g->m.add_field(i.x, i.y, fd_bile, 3);
+            if (g->u_see(i.x, i.y))
                 add_msg(_("Bile splatters on the %s!"),
-                        g->m.tername(line[i].x, line[i].y).c_str());
+                        g->m.tername(i.x, i.y).c_str());
             return;
         }
     }
@@ -265,12 +264,11 @@ void mattack::resurrect(monster *z)
     for (int x = z->posx() - 4; x <= z->posx() + 4; x++) {
         for (int y = z->posy() - 4; y <= z->posy() + 4; y++) {
             if (g->is_empty(x, y) && g->m.sees(z->posx(), z->posy(), x, y, -1, junk)) {
-                for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
-                    if (g->m.i_at(x, y)[i].type->id == "corpse" &&
-                        g->m.i_at(x, y)[i].corpse->has_flag(MF_REVIVES) &&
-                        g->m.i_at(x, y)[i].corpse->in_species("ZOMBIE")) {
+                for (auto &i : g->m.i_at(x, y)) {
+                    if (i.type->id == "corpse" && i.corpse->has_flag(MF_REVIVES) &&
+                          i.corpse->in_species("ZOMBIE")) {
                         corpses.push_back(point(x, y));
-                        i = g->m.i_at(x, y).size();
+                        break;
                     }
                 }
             }
@@ -287,9 +285,9 @@ void mattack::resurrect(monster *z)
     z->sp_timeout = z->type->sp_freq; // Reset timer
     z->moves -= 500;   // It takes a while
     int raised = 0;
-    for (int i = 0; i < corpses.size(); i++) {
-        int x = corpses[i].x, y = corpses[i].y;
-        for (int n = 0; n < g->m.i_at(x, y).size(); n++) {
+    for (auto &i : corpses) {
+        int x = i.x, y = i.y;
+        for (size_t n = 0; n < g->m.i_at(x, y).size(); n++) {
             if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
                 if (!g->revive_corpse(x, y, n)) {
                     continue;
@@ -297,7 +295,7 @@ void mattack::resurrect(monster *z)
                 if (g->u_see(x, y)) {
                     raised++;
                 }
-                n = g->m.i_at(x, y).size(); // Only one body raised per tile
+                break; // Only one body raised per tile
             }
         }
     }
@@ -381,8 +379,8 @@ void mattack::science(monster *z) // I said SCIENCE again!
     case 4: // Acid pool
         add_msg(m_warning, _("The %s drops a flask of acid!"), z->name().c_str());
         z->moves -= 100;
-        for (int i = 0; i < free.size(); i++) {
-            g->m.add_field(free[i].x, free[i].y, fd_acid, 3);
+        for (auto &i : free) {
+            g->m.add_field(i.x, i.y, fd_acid, 3);
         }
         break;
     case 5: // Flavor text
@@ -616,7 +614,7 @@ void mattack::vine(monster *z)
     }
     // Calculate distance from nearest hub
     int dist_from_hub = 999;
-    for (int i = 0; i < g->num_zombies(); i++) {
+    for (size_t i = 0; i < g->num_zombies(); i++) {
         if (g->zombie(i).type->id == "mon_creeper_hub") {
             int dist = rl_dist(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy());
             if (dist < dist_from_hub) {
@@ -661,12 +659,15 @@ void mattack::spit_sap(monster *z)
             hity = g->u.posy + rng(0 - int(missed_by), int(missed_by));
         std::vector<point> line = line_to(z->posx(), z->posy(), hitx, hity, 0);
         int dam = 5;
-        for (int i = 0; i < line.size() && dam > 0; i++) {
-            g->m.shoot(line[i].x, line[i].y, dam, false, no_effects);
-            if (dam == 0 && g->u_see(line[i].x, line[i].y)) {
+        for (auto &i : line) {
+            g->m.shoot(i.x, i.y, dam, false, no_effects);
+            if (dam == 0 && g->u_see(i.x, i.y)) {
                 add_msg(_("A glob of sap hits the %s!"),
-                        g->m.tername(line[i].x, line[i].y).c_str());
+                        g->m.tername(i.x, i.y).c_str());
                 return;
+            }
+            if (dam <= 0) {
+                break;
             }
         }
         g->m.add_field(hitx, hity, fd_sap, (dam >= 4 ? 3 : 2));
@@ -679,11 +680,11 @@ void mattack::spit_sap(monster *z)
     g->m.sees(g->u.posx, g->u.posy, z->posx(), z->posy(), 60, t);
     std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
     int dam = 5;
-    for (int i = 0; i < line.size() && dam > 0; i++) {
-        g->m.shoot(line[i].x, line[i].y, dam, false, no_effects);
-        if (dam == 0 && g->u_see(line[i].x, line[i].y)) {
+    for (auto &i : line) {
+        g->m.shoot(i.x, i.y, dam, false, no_effects);
+        if (dam == 0 && g->u_see(i.x, i.y)) {
             add_msg(_("A glob of sap hits the %s!"),
-                    g->m.tername(line[i].x, line[i].y).c_str());
+                    g->m.tername(i.x, i.y).c_str());
             return;
         }
     }
@@ -883,8 +884,8 @@ void mattack::leap(monster *z)
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
             std::vector<point> line = line_to(z->posx(), z->posy(), x, y, linet);
-            for (int i = 0; i < line.size(); i++) {
-                if (g->m.move_cost(line[i].x, line[i].y) == 0) {
+            for (auto &i : line) {
+                if (g->m.move_cost(i.x, i.y) == 0) {
                     blocked_path = true;
                     break;
                 }
@@ -898,7 +899,7 @@ void mattack::leap(monster *z)
     }
 
     // Go back and remove all options that aren't tied for best
-    for (int i = 0; i < options.size() && options.size() > 1; i++) {
+    for (size_t i = 0; i < options.size() && options.size() > 1; i++) {
         point p = options[i];
         if (rl_dist(target.x, target.y, options[i].x, options[i].y) != best) {
             options.erase(options.begin() + i);
@@ -1243,9 +1244,9 @@ void mattack::tentacle(monster *z)
 
     std::vector<point> line = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
     std::set<std::string> no_effects;
-    for (int i = 0; i < line.size(); i++) {
+    for (auto &i : line) {
         int tmpdam = 20;
-        g->m.shoot(line[i].x, line[i].y, tmpdam, true, no_effects);
+        g->m.shoot(i.x, i.y, tmpdam, true, no_effects);
     }
 
     if (g->u.uncanny_dodge()) {
@@ -1302,7 +1303,7 @@ void mattack::vortex(monster *z)
                 if (distance > 0) {
                     int dam = (thrown.weight() / 113) / double(3 + double(thrown.volume() / 6));
                     std::vector<point> traj = continue_line(from_monster, distance);
-                    for (int i = 0; i < traj.size() && dam > 0; i++) {
+                    for (size_t i = 0; i < traj.size() && dam > 0; i++) {
                         g->m.shoot(traj[i].x, traj[i].y, dam, false, no_effects);
                         int mondex = g->mon_at(traj[i].x, traj[i].y);
                         if (mondex != -1) {
@@ -1328,8 +1329,8 @@ void mattack::vortex(monster *z)
                                 if (g->u_see(traj[i].x, traj[i].y)) {
                                     add_msg(m_warning, _("The %s shatters!"), thrown.tname().c_str());
                                 }
-                                for (int n = 0; n < thrown.contents.size(); n++) {
-                                    g->m.add_item_or_charges(traj[i].x, traj[i].y, thrown.contents[n]);
+                                for (auto &n : thrown.contents) {
+                                    g->m.add_item_or_charges(traj[i].x, traj[i].y, n);
                                 }
                                 g->sound(traj[i].x, traj[i].y, 16, _("glass breaking!"));
                             } else {
@@ -1374,7 +1375,7 @@ void mattack::vortex(monster *z)
                     }
                     std::vector<point> traj = continue_line(from_monster, distance);
                     bool hit_wall = false;
-                    for (int i = 0; i < traj.size() && !hit_wall; i++) {
+                    for (size_t i = 0; i < traj.size() && !hit_wall; i++) {
                         int monhit = g->mon_at(traj[i].x, traj[i].y);
                         if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
                             if (g->u_see(traj[i].x, traj[i].y))
@@ -1418,7 +1419,7 @@ void mattack::vortex(monster *z)
                     add_msg(m_bad, _("You're thrown by winds!"));
                     bool hit_wall = false;
                     int damage = rng(5, 10);
-                    for (int i = 0; i < traj.size() && !hit_wall; i++) {
+                    for (size_t i = 0; i < traj.size() && !hit_wall; i++) {
                         int monhit = g->mon_at(traj[i].x, traj[i].y);
                         if (i > 0 && monhit != -1 && !g->zombie(monhit).digging()) {
                             if (g->u_see(traj[i].x, traj[i].y)) {
@@ -1509,12 +1510,12 @@ void mattack::stare(monster *z)
     } else {
         add_msg(m_bad, _("A piercing beam of light bursts forth!"));
         std::vector<point> sight = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, 0);
-        for (int i = 0; i < sight.size(); i++) {
-            if (g->m.ter(sight[i].x, sight[i].y) == t_reinforced_glass_h ||
-                g->m.ter(sight[i].x, sight[i].y) == t_reinforced_glass_v) {
-                i = sight.size();
-            } else if (g->m.is_destructable(sight[i].x, sight[i].y)) {
-                g->m.ter_set(sight[i].x, sight[i].y, t_rubble);
+        for (auto &i : sight) {
+            if (g->m.ter(i.x, i.y) == t_reinforced_glass_h ||
+                g->m.ter(i.x, i.y) == t_reinforced_glass_v) {
+                break;
+            } else if (g->m.is_destructable(i.x, i.y)) {
+                g->m.ter_set(i.x, i.y, t_rubble);
             }
         }
     }
@@ -1995,15 +1996,15 @@ void mattack::flamethrower(monster *z)
     z->moves -= 500;   // It takes a while
     std::vector<point> traj = line_to(z->posx(), z->posy(), g->u.posx, g->u.posy, t);
 
-    for (int i = 0; i < traj.size(); i++) {
+    for (auto &i : traj) {
         // break out of attack if flame hits a wall
-        if (g->m.hit_with_fire(traj[i].x, traj[i].y)) {
-            if (g->u_see(traj[i].x, traj[i].y))
+        if (g->m.hit_with_fire(i.x, i.y)) {
+            if (g->u_see(i.x, i.y))
                 add_msg(_("The tongue of flame hits the %s!"),
-                        g->m.tername(traj[i].x, traj[i].y).c_str());
+                        g->m.tername(i.x, i.y).c_str());
             return;
         }
-        g->m.add_field(traj[i].x, traj[i].y, fd_fire, 1);
+        g->m.add_field(i.x, i.y, fd_fire, 1);
     }
     if (!g->u.uncanny_dodge()) {
         g->u.add_effect("onfire", 8);
@@ -2106,7 +2107,7 @@ void mattack::generator(monster *z)
 void mattack::upgrade(monster *z)
 {
     std::vector<int> targets;
-    for (int i = 0; i < g->num_zombies(); i++) {
+    for (size_t i = 0; i < g->num_zombies(); i++) {
         if (g->zombie(i).type->id == "mon_zombie" &&
             rl_dist(z->posx(), z->posy(), g->zombie(i).posx(), g->zombie(i).posy()) <= 5) {
             targets.push_back(i);
