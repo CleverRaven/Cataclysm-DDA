@@ -558,22 +558,23 @@ void initOptions()
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
-    optionNames["cs"] = _("Czech");
-    optionNames["en"] = _("English");
-    optionNames["fr_FR"] = _("French");
-    optionNames["de_DE"] = _("German");
-    optionNames["it"] = _("Italian");
-    optionNames["es_ES"] = _("Spanish");
-    optionNames["ja"] = _("Japanese");
-    optionNames["ko"] = _("Korean");
-    optionNames["pl"] = _("Polish");
-    optionNames["pt_BR"] = _("Brazilian Portuguese");
-    optionNames["pt_PT"] = _("Portuguese, Portugal");
-    optionNames["ru"] = _("Russian");
-    optionNames["sr"] = _("Serbian");
-    optionNames["vi"] = _("Vietnamese");
-    optionNames["zh_CN"] = _("Simplified Chinese");
-    optionNames["zh_TW"] = _("Traditional Chinese");
+    // Note: language names are in their own language and are *not* translated at all.
+    optionNames["cs"] = "čeština";
+    optionNames["en"] = "English";
+    optionNames["fr_FR"] =  "français (France)";
+    optionNames["de_DE"] = "Deutsch (Deutschland)";
+    optionNames["it"] = "italiano";
+    optionNames["es_ES"] = "español (España)";
+    optionNames["ja"] = "日本語";
+    optionNames["ko"] = "한국어";
+    optionNames["pl"] = "polski";
+    optionNames["pt_BR"] = "Português (Brasil)";
+    optionNames["pt_PT"] = "português (Portugal)";
+    optionNames["ru"] = "русский";
+    optionNames["sr"] = "srpski";
+    optionNames["vi"] = "Tiếng Việt";
+    optionNames["zh_CN"] = "中文(中华人民共和国)";
+    optionNames["zh_TW"] = "中文(台灣)";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
                                ",cs,en,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
