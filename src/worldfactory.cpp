@@ -663,8 +663,8 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
         //Draw options
         int iBlankOffset = 0;
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iWorldOptPage].size()) ?
-                mPageItems[iWorldOptPage].size() : iContentHeight); i++) {
+        for (size_t i = iStartPos; i < iStartPos + ((size_t(iContentHeight) > mPageItems[iWorldOptPage].size()) ?
+                mPageItems[iWorldOptPage].size() : size_t(iContentHeight)); i++) {
             nc_color cLineColor = c_ltgreen;
 
             if (world->world_options[mPageItems[iWorldOptPage][i]].getMenuText() == "") {
@@ -677,7 +677,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
             mvwprintz(w_options, i - iStartPos, 1, c_white, sTemp.str().c_str());
             mvwprintz(w_options, i - iStartPos, 5, c_white, "");
 
-            if (iCurrentLine == i) {
+            if (size_t(iCurrentLine) == i) {
                 wprintz(w_options, c_yellow, ">> ");
             } else {
                 wprintz(w_options, c_yellow, "   ");
@@ -689,7 +689,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
+            mvwprintz(w_options, i - iStartPos, 62, (size_t(iCurrentLine) == i) ? hilite(cLineColor) :
                       cLineColor, "%s", (world->world_options[mPageItems[iWorldOptPage][i]].getValueName()).c_str());
         }
 
@@ -709,7 +709,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
-                if (iCurrentLine >= mPageItems[iWorldOptPage].size()) {
+                if (size_t(iCurrentLine) >= mPageItems[iWorldOptPage].size()) {
                     iCurrentLine = 0;
                 }
             } while(world->world_options[mPageItems[iWorldOptPage][iCurrentLine]].getMenuText() == "");
