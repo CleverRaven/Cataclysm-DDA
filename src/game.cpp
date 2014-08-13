@@ -28,6 +28,7 @@
 #include "help.h"
 #include "action.h"
 #include "monstergenerator.h"
+#include "monattack.h"
 #include "worldfactory.h"
 #include "file_finder.h"
 #include "mod_manager.h"
@@ -613,7 +614,7 @@ void game::start_game(std::string worldname)
     player_start.load( player_location.x, player_location.y, levz, false, cur_om );
     player_start.translate( t_window_domestic, t_curtains );
     player_start.save();
-
+    if (g->scen->has_flag("INFECTED")){u.add_disease("infected",100,false,1,1,0, -1, random_body_part(), true);}
     levx -= int(int(MAPSIZE / 2) / 2);
     levy -= int(int(MAPSIZE / 2) / 2);
     levz = 0;

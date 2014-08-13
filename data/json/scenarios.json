@@ -20,11 +20,20 @@
 	{
 	    "type": "scenario",
 	    "ident": "summer",
-	    "name": "Fun in the Sunmer.",
+	    "name": "Fun in the Summer",
 	    "description": "It's Summer TIME! And that can mean only one thing! The risen dead and the hottest vacation spot around!",
 	    "start_location": "shelter",
 	    "start_name": "Summer Vacation Spot",
 	    "flags" : ["ALL_PROFS","SUM_START"]
+	},
+	{
+	    "type": "scenario",
+	    "ident": "bitten",
+	    "name": "Ow...",
+	    "description": "You dun messed up A-Aron, you went and got yo' ass bitten.",
+	    "start_location": "shelter",
+	    "start_name": "Shelter",
+	    "flags" : ["ALL_PROFS","INFECTED"]
 	},
 	{
 	    "type": "scenario",
