@@ -2846,11 +2846,11 @@ bool item::reload(player &u, int pos)
         // Reload using a spare magazine
         int spare_mag = has_gunmod("spare_mag");
         if (charges <= 0 && spare_mag != -1 &&
-            u.weapon.contents[spare_mag].charges > 0) {
-            charges = u.weapon.contents[spare_mag].charges;
-            curammo = u.weapon.contents[spare_mag].curammo;
-            u.weapon.contents[spare_mag].charges = 0;
-            u.weapon.contents[spare_mag].curammo = NULL;
+            contents[spare_mag].charges > 0) {
+            charges = contents[spare_mag].charges;
+            curammo = contents[spare_mag].curammo;
+            contents[spare_mag].charges = 0;
+            contents[spare_mag].curammo = NULL;
             return true;
         }
 
