@@ -859,9 +859,9 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                          vStartingTraits[iCurrentPage].size());
 
             //Draw Traits
-            for (int i = iStartPos[iCurrentPage]; (size_t) i < vStartingTraits[iCurrentPage].size(); i++) {
-                if (i >= iStartPos[iCurrentPage] && (size_t) i < iStartPos[iCurrentPage] +
-                    ((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
+            for (int i = iStartPos[iCurrentPage]; i < (int)vStartingTraits[iCurrentPage].size(); i++) {
+                if (i >= iStartPos[iCurrentPage] && i < iStartPos[iCurrentPage] +
+                    (int)((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
                      vStartingTraits[iCurrentPage].size() : iContentHeight)) {
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 41, c_ltgray,
@@ -883,7 +883,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     nc_color cLine = col_off_pas;
                     if (iCurWorkingPage == iCurrentPage) {
                         cLine = col_off_act;
-                        if (iCurrentLine[iCurrentPage] == i) {
+                        if (iCurrentLine[iCurrentPage] == (int)i) {
                             cLine = hi_off;
 
                             if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
@@ -936,9 +936,10 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 iCurWorkingPage = 0;
             }
         } else if (action == "UP") {
-                iCurrentLine[iCurWorkingPage]--;
-                if (iCurrentLine[iCurWorkingPage] < 0) {
+                if (iCurrentLine[iCurWorkingPage] == 1) {
                     iCurrentLine[iCurWorkingPage] = vStartingTraits[iCurWorkingPage].size() - 1;
+                } else {
+                    iCurrentLine[iCurWorkingPage]--;
                 }
         } else if (action == "DOWN") {
                 iCurrentLine[iCurWorkingPage]++;
@@ -1110,7 +1111,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
 
         //Draw options
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > profession::count()) ?
+        for (unsigned i = iStartPos; (int)i < iStartPos + ((iContentHeight > profession::count()) ?
              profession::count() : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
@@ -1135,7 +1136,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         int line_offset = 1;
         werase(w_items);
         mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));
-        for (size_t i = 0; i < prof_items.size() && line_offset + i < getmaxy(w_items); i++) {
+        for (size_t i = 0; i < prof_items.size() && line_offset + (int)i < getmaxy(w_items); i++) {
             itype *it = item_controller->find_template(prof_items[i]);
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,

@@ -1132,7 +1132,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
 
         //hit only one valid target (pierce through doesn't spread out)
         if (technique.aoe == "impale") {
-            int victim = rng(0, mon_targets.size() + npc_targets.size() - 1);
+            size_t victim = rng(0, mon_targets.size() + npc_targets.size() - 1);
             if (victim > mon_targets.size()) {
                 victim -= mon_targets.size();
                 mon_targets.clear();
@@ -1149,22 +1149,22 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
 
         //hit the targets in the lists (all candidates if wide or burst, or just the unlucky sod if deep)
         int count_hit = 0;
-        for (int i = 0; i < mon_targets.size(); i++) {
-            if (hit_roll() >= rng(0, 5) + g->zombie(mon_targets[i]).dodge_roll()) {
+        for (auto &i : mon_targets) {
+            if (hit_roll() >= rng(0, 5) + g->zombie(i).dodge_roll()) {
                 count_hit++;
-                melee_attack(g->zombie(mon_targets[i]), false);
+                melee_attack(g->zombie(i), false);
 
-                std::string temp_target = string_format(_("the %s"), g->zombie(mon_targets[i]).name().c_str());
+                std::string temp_target = string_format(_("the %s"), g->zombie(i).name().c_str());
                 add_msg_player_or_npc( m_good, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
             }
         }
-        for (int i = 0; i < npc_targets.size(); i++) {
-            if (hit_roll() >= rng(0, 5) + g->active_npc[npc_targets[i]]->dodge_roll()) {
+        for (auto &i : npc_targets) {
+            if (hit_roll() >= rng(0, 5) + g->active_npc[i]->dodge_roll()) {
                 count_hit++;
-                melee_attack(*g->active_npc[npc_targets[i]], false);
+                melee_attack(*g->active_npc[i], false);
 
                 add_msg_player_or_npc( m_good, _("You hit %s!"), _("<npcname> hits %s!"),
-                                          g->active_npc[npc_targets[i]]->name.c_str() );
+                                          g->active_npc[i]->name.c_str() );
             }
         }
 

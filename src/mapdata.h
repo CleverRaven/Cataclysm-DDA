@@ -480,8 +480,8 @@ struct id_or_id {
  * It's a terrain! No, it's a furniture! Wait it's both!
  */
 struct ter_furn_id {
-   short ter;
-   short furn;
+   unsigned short ter;
+   unsigned short furn;
    ter_furn_id() : ter(0), furn(0) {};
 };
 

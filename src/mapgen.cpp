@@ -296,8 +296,8 @@ void load_mapgen( JsonObject &jo ) {
             std::string mapgenid = mapgenid_list[0];
             mapgen_function * mgfunc = load_mapgen_function(jo, mapgenid, -1);
             if ( mgfunc != NULL ) {
-               for( int i=1; i < mapgenid_list.size(); i++ ) {
-                   oter_mapgen[ mapgenid_list[i] ].push_back( mgfunc );
+               for( auto &i : mapgenid_list) {
+                   oter_mapgen[ i ].push_back( mgfunc );
                }
             }
         } else {
@@ -457,6 +457,10 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
                     }
                     tmp_i.val = trapmap[ tmpid ];
                 } break;
+                
+                default:
+                    //Suppress warnings
+                    break;
             }
             tmp_i.valmax = tmp_i.val; // todo... support for random furniture? or not.
         }
@@ -695,10 +699,10 @@ bool mapgen_function_json::setup() {
             c=0;
             while ( parray.has_more() ) { // hrm
                 tmpval = parray.next_string();
-                if ( tmpval.size() != mapgensize ) {
+                if ( (int)tmpval.size() != mapgensize ) {
                     parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
                 }
-                for ( int i=0; i < tmpval.size(); i++ ) {
+                for ( size_t i = 0; i < tmpval.size(); i++ ) {
                     tmpkey=(int)tmpval[i];
                     if ( format_terrain.find( tmpkey ) != format_terrain.end() ) {
                         format[ wtf_mean_nonant(c, i) ].ter = format_terrain[ tmpkey ];
@@ -922,14 +926,14 @@ bool jmapgen_setmap::apply( map *m ) {
                 } break;
                 case JMAPGEN_SETMAP_LINE_TRAP: {
                     const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
-                    for (int i = 0; i < line.size(); i++) {
-                        m->trap_set( line[i].x, line[i].y, (trap_id)val.get() );
+                    for (auto &i : line) {
+                        m->trap_set( i.x, i.y, (trap_id)val.get() );
                     }
                 } break;
                 case JMAPGEN_SETMAP_LINE_RADIATION: {
                     const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
-                    for (int i = 0; i < line.size(); i++) {
-                        m->set_radiation( line[i].x, line[i].y, (int)val.get() );
+                    for (auto &i : line) {
+                        m->set_radiation( i.x, i.y, (int)val.get() );
                     }
                 } break;
 
@@ -962,6 +966,10 @@ bool jmapgen_setmap::apply( map *m ) {
                         }
                     }
                 } break;
+                
+                default:
+                    //Suppress warnings
+                    break;
             }
         }
     }
@@ -11147,28 +11155,24 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
             const int global_x = wreckage->smx * SEEX + wreckage->posx;
             const int global_y = wreckage->smy * SEEY + wreckage->posy;
 
-            for (int part_index = 0; part_index < veh->parts.size(); part_index++) {
+            for (auto &part_index : veh->parts) {
 
-                const int local_x = (veh->smx * SEEX + veh->posx)
-                                    + veh->parts[part_index].precalc_dx[0]
-                                    - global_x;
-                const int local_y = (veh->smy * SEEY + veh->posy)
-                                    + veh->parts[part_index].precalc_dy[0]
-                                    - global_y;
+                const int local_x = (veh->smx * SEEX + veh->posx) +
+                                     part_index.precalc_dx[0] - global_x;
+                const int local_y = (veh->smy * SEEY + veh->posy) +
+                                     part_index.precalc_dy[0] - global_y;
 
-                wreckage->install_part(local_x, local_y, veh->parts[part_index]);
+                wreckage->install_part(local_x, local_y, part_index);
 
             }
-            for (int part_index = 0; part_index < other_veh->parts.size(); part_index++) {
+            for (auto &part_index : other_veh->parts) {
 
-                const int local_x = (other_veh->smx * SEEX + other_veh->posx)
-                                    + other_veh->parts[part_index].precalc_dx[0]
-                                    - global_x;
-                const int local_y = (other_veh->smy * SEEY + other_veh->posy)
-                                    + other_veh->parts[part_index].precalc_dy[0]
-                                    - global_y;
+                const int local_x = (other_veh->smx * SEEX + other_veh->posx) +
+                                     part_index.precalc_dx[0] - global_x;
+                const int local_y = (other_veh->smy * SEEY + other_veh->posy) +
+                                     part_index.precalc_dy[0] - global_y;
 
-                wreckage->install_part(local_x, local_y, other_veh->parts[part_index]);
+                wreckage->install_part(local_x, local_y, part_index);
 
             }
 
@@ -11231,8 +11235,8 @@ void map::rotate(int turns)
     const int radius = int(MAPSIZE / 2) + 3;
     // uses submap coordinates
     std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
-    for (int i = 0; i < npcs.size(); i++) {
-        npc *act_npc = npcs[i];
+    for (auto &i : npcs) {
+        npc *act_npc = i;
         if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
             act_npc->global_omt_location().y*2 == get_abs_sub().y ){
                 rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
@@ -11258,8 +11262,8 @@ void map::rotate(int turns)
                         new_y = old_x;
                         break;
                     }
-                npcs[i]->posx += (new_x-old_x);
-                npcs[i]->posy += (new_y-old_y);
+                i->posx += (new_x-old_x);
+                i->posy += (new_y-old_y);
             }
     }
     ter_id rotated [SEEX * 2][SEEY * 2];
@@ -11315,8 +11319,8 @@ void map::rotate(int turns)
                 gridto = (1 - sx) * my_MAPSIZE + sy;
                 break;
             }
-            for (int spawn = 0; spawn < grid[gridfrom]->spawns.size(); spawn++) {
-                spawn_point tmp = grid[gridfrom]->spawns[spawn];
+            for (auto &spawn : grid[gridfrom]->spawns) {
+                spawn_point tmp = spawn;
                 int new_x = tmp.posx;
                 int new_y = tmp.posy;
                 switch(turns) {
@@ -11372,8 +11376,8 @@ void map::rotate(int turns)
 
     // change vehicles' directions
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
-        for (int v = 0; v < vehrot[i].size(); v++) {
-            vehicle *veh = vehrot[i][v];
+        for (auto &v : vehrot[i]) {
+            vehicle *veh = v;
             // turn the steering wheel, vehicle::turn does not actually
             // move the vehicle.
             veh->turn(turns * 90);
@@ -12039,7 +12043,7 @@ void silo_rooms(map *m)
 
     while (rooms.size() > 1) {
         int best_dist = 999, closest = 0;
-        for (int i = 1; i < rooms.size(); i++) {
+        for (size_t i = 1; i < rooms.size(); i++) {
             int dist = trig_dist(rooms[0].x, rooms[0].y, rooms[i].x, rooms[i].y);
             if (dist < best_dist) {
                 best_dist = dist;
@@ -12203,6 +12207,9 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, map
             }
         }
         m->place_items("bedroom", 65, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
+        break;
+    default:
+        //Supress warnings
         break;
     }
 
@@ -13105,8 +13112,8 @@ void map::add_extra(map_extra type)
         int x1 = rng(0,    SEEX     - 1), y1 = rng(0,    SEEY     - 1),
             x2 = rng(SEEX, SEEX * 2 - 1), y2 = rng(SEEY, SEEY * 2 - 1);
         std::vector<point> fumarole = line_to(x1, y1, x2, y2, 0);
-        for (int i = 0; i < fumarole.size(); i++) {
-            ter_set(fumarole[i].x, fumarole[i].y, t_lava);
+        for (auto &i : fumarole) {
+            ter_set(i.x, i.y, t_lava);
         }
     }
     break;

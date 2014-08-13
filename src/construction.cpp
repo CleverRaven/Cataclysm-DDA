@@ -98,7 +98,7 @@ void construction_menu()
     }
 
     int iMaxY = TERMY;
-    if (available.size() + 2 < iMaxY) {
+    if ((int)available.size() + 2 < iMaxY) {
         iMaxY = available.size() + 2;
     }
     if (iMaxY < FULL_SCREEN_HEIGHT) {
@@ -150,12 +150,12 @@ void construction_menu()
         }
         // Determine where in the master list to start printing
         if( OPTIONS["MENU_SCROLL"] ) {
-            if (available.size() > iMaxY) {
+            if ((int)available.size() > iMaxY) {
                 offset = select - (iMaxY - 1) / 2;
 
                 if (offset < 0) {
                     offset = 0;
-                } else if (offset + iMaxY -2   > available.size()) {
+                } else if (offset + iMaxY -2 > (int)available.size()) {
                     offset = available.size() - iMaxY + 2;
                 }
              }
@@ -167,7 +167,7 @@ void construction_menu()
             }
         }
         // Print the constructions between offset and max (or how many will fit)
-        for (int i = 0; i < iMaxY - 2 && (i + offset) < available.size(); i++) {
+        for (size_t i = 0; (int)i < iMaxY - 2 && (i + offset) < available.size(); i++) {
             int current = i + offset;
             nc_color col = ( player_can_build(g->u, total_inv, available[current]) &&
                              can_construct( available[current] ) ) ? c_white : c_dkgray;
@@ -179,7 +179,7 @@ void construction_menu()
             // If we run out of hotkeys, just stop assigning them.
             std::string cur_name = available[current].c_str();
             mvwprintz(w_con, 1 + i, 1, col, "%c %s",
-                      (current < hotkeys.size()) ? hotkeys[current] : ' ',
+                      (current < (int)hotkeys.size()) ? hotkeys[current] : ' ',
                       utf8_truncate(cur_name, 27).c_str());
         }
 
@@ -258,7 +258,7 @@ void construction_menu()
 
         if (action == "DOWN") {
             update_info = true;
-            if (select < available.size() - 1) {
+            if (select < (int)available.size() - 1) {
                 select++;
             } else {
                 select = 0;
@@ -273,7 +273,7 @@ void construction_menu()
         } else if (action == "PAGE_DOWN") {
             update_info = true;
             select += 15;
-            if ( select > available.size() - 1 ) {
+            if ( select > (int)available.size() - 1 ) {
                 select = available.size() - 1;
             }
         } else if (action == "PAGE_UP") {
@@ -298,11 +298,11 @@ void construction_menu()
             } else {
                 // Get the index corresponding to the key pressed.
                 chosen = hotkeys.find_first_of(raw_input_char);
-                if( chosen == std::string::npos ) {
+                if( chosen == (int)std::string::npos ) {
                     continue;
                 }
             }
-            if (chosen < available.size()) {
+            if (chosen < (int)available.size()) {
                 if (player_can_build(g->u, total_inv, available[chosen])) {
                     place_construction(available[chosen]);
                     exit = true;

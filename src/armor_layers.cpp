@@ -130,7 +130,7 @@ void player::sort_armor()
                 }
             }
         }
-        leftListSize = (tmp_worn.size() < cont_h - 2) ? tmp_worn.size() : cont_h - 2;
+        leftListSize = ((int)tmp_worn.size() < cont_h - 2) ? (int)tmp_worn.size() : cont_h - 2;
 
         // Left header
         mvwprintz(w_sort_left, 0, 0, c_ltgray, _("(Innermost)"));
@@ -157,7 +157,7 @@ void player::sort_armor()
 
         // Left footer
         mvwprintz(w_sort_left, cont_h - 1, 0, c_ltgray, _("(Outermost)"));
-        if (leftListSize > tmp_worn.size()) {
+        if (leftListSize > (int)tmp_worn.size()) {
             mvwprintz(w_sort_left, cont_h - 1, left_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
         }
         if (leftListSize == 0) {

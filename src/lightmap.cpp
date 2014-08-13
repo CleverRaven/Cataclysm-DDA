@@ -157,12 +157,15 @@ void map::generate_lightmap()
                 case fd_dazzling:
                     add_light_source(sx, sy, 2);
                     break;
+                default:
+                    //Suppress warnings
+                    break;
                 }
             }
         }
     }
 
-    for (int i = 0; i < g->num_zombies(); ++i) {
+    for (size_t i = 0; i < g->num_zombies(); ++i) {
         int mx = g->zombie(i).posx();
         int my = g->zombie(i).posy();
         if (INBOUNDS(mx, my)) {

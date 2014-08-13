@@ -298,7 +298,7 @@ std::vector<item> game::get_eligible_containers_for_crafting()
             conts.push_back(i);
         }
     }
-    for (int i = 0; i < u.inv.size(); i++) {
+    for (size_t i = 0; i < u.inv.size(); i++) {
         for (item it : u.inv.const_stack(i)) {
             if (is_container_eligible_for_crafting(it)) {
                 conts.push_back(it);

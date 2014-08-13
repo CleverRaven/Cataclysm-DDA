@@ -213,7 +213,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     std::map<direction, int> vItemIndex;
 
     vItemIndex[CENTER] = 0;
-    for (int i = 0; i < here.size(); ++i) {
+    for (size_t i = 0; i < here.size(); ++i) {
         vItemDir.push_back(CENTER);
     }
 
@@ -240,16 +240,16 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
                 const std::vector<item> &hereTemp = g->m.i_at( apos.x, apos.y );
 
-                for (int j = 0; j < hereTemp.size(); j++) {
+                for (auto &j : hereTemp) {
                     vItemDir.push_back(adjacentDir[i]);
-                    here.push_back(hereTemp[j]);
+                    here.push_back(j);
                 }
             }
         }
     }
 
     // Not many items, just grab them
-    if (here.size() <= min && min != -1) {
+    if ((int)here.size() <= min && min != -1) {
         item newit = here[0];
         int moves_taken = 100;
         bool picked_up = false;
@@ -393,7 +393,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         for(size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
             for (size_t i = 0; i < here.size(); i++) {
                 bPickup = false;
-                if (here[i].volume() == iVol) {
+                if (here[i].volume() == (int)iVol) {
                     iNumChecked++;
 
                     //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
@@ -439,7 +439,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         do {
             static const std::string pickup_chars =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
-            size_t idx = -1;
+            int idx = -1;
             for (int i = 1; i < pickupH; i++) {
                 mvwprintw(w_pickup, i, 0,
                           "                                                ");
@@ -452,7 +452,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 start -= maxitems;
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-            } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
+            } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < (int)here.size()) {
                 start += maxitems;
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
@@ -461,7 +461,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 if ( selected < 0 ) {
                     selected = here.size() - 1;
                     start = (int)( here.size() / maxitems ) * maxitems;
-                    if (start >= here.size()) {
+                    if (start >= (int)here.size()) {
                         start -= maxitems;
                     }
                 } else if ( selected < start ) {
@@ -469,7 +469,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
             } else if ( ch == KEY_DOWN ) {
                 selected++;
-                if ( selected >= here.size() ) {
+                if ( selected >= (int)here.size() ) {
                     selected = 0;
                     start = 0;
                 } else if ( selected >= start + maxitems ) {
@@ -494,7 +494,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 idx = pickup_chars.find(ch);
             }
 
-            if ( idx < here.size()) {
+            if ( idx < (int)here.size()) {
                 if (idx != -1) {
                     if (itemcount != 0 || pickup_count[idx] == 0) {
                         if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
@@ -541,7 +541,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             if ( selected != last_selected ) {
                 last_selected = selected;
                 werase(w_item_info);
-                if ( selected >= 0 && selected <= here.size() - 1 ) {
+                if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
                     std::vector<iteminfo> vThisItem, vDummy;
                     here[selected].info(true, &vThisItem);
 
@@ -563,7 +563,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     }
                     getitem[i] = true;
                 }
-                if (count == here.size()) {
+                if (count == (int)here.size()) {
                     for (size_t i = 0; i < here.size(); i++) {
                         getitem[i] = false;
                     }
@@ -576,13 +576,13 @@ void Pickup::pick_up(int posx, int posy, int min)
             for (cur_it = start; cur_it < start + maxitems; cur_it++) {
                 mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
                           "                                        ");
-                if (cur_it < here.size()) {
+                if (cur_it < (int)here.size()) {
                     nc_color icolor = here[cur_it].color(&g->u);
                     if (cur_it == selected) {
                         icolor = hilite(icolor);
                     }
 
-                    if (cur_it < pickup_chars.size() ) {
+                    if (cur_it < (int)pickup_chars.size() ) {
                         mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor,
                                  char(pickup_chars[cur_it]));
                     } else {
@@ -619,7 +619,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 mvwprintw(w_pickup, maxitems + 2, 0, prev);
             }
             mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
-            if (cur_it < here.size()) {
+            if (cur_it < (int)here.size()) {
                 mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
             }
 

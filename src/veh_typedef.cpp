@@ -279,23 +279,19 @@ void game::finalize_vehicles()
             }
         }
 
-        for (size_t i = 0; i < proto->item_spawns.size(); i++) {
-            if (cargo_spots.find(point(proto->item_spawns[i].x,
-                                       proto->item_spawns[i].y)) == cargo_spots.end()) {
+        for (auto &i : proto->item_spawns) {
+            if (cargo_spots.find(point(i.x, i.y)) == cargo_spots.end()) {
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                         proto->name.c_str(), proto->item_spawns[i].x, proto->item_spawns[i].y,
-                         proto->item_spawns[i].chance);
+                         proto->name.c_str(), i.x, i.y, i.chance);
             }
-            for (int j = 0; j < proto->item_spawns[i].item_ids.size(); j++) {
-                const std::string &itm = proto->item_spawns[i].item_ids[j];
-                if (!item_controller->has_template(itm)) {
-                    debugmsg("unknown item %s in spawn list of %s", itm.c_str(), proto->id.c_str());
+            for (auto &j : i.item_ids) {
+                if (!item_controller->has_template(j)) {
+                    debugmsg("unknown item %s in spawn list of %s", j.c_str(), proto->id.c_str());
                 }
             }
-            for (int j = 0; j < proto->item_spawns[i].item_groups.size(); j++) {
-                const std::string &itm = proto->item_spawns[i].item_groups[j];
-                if (!item_controller->has_group(itm)) {
-                    debugmsg("unknown item group %s in spawn list of %s", itm.c_str(), proto->id.c_str());
+            for (auto &j : i.item_groups) {
+                if (!item_controller->has_group(j)) {
+                    debugmsg("unknown item group %s in spawn list of %s", j.c_str(), proto->id.c_str());
                 }
             }
         }

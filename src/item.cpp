@@ -1628,8 +1628,8 @@ bool item::has_flag(const std::string &f) const
 bool item::contains_with_flag(std::string f) const
 {
     bool ret = false;
-    for (int k = 0; k < contents.size(); k++) {
-        ret = contents[k].has_flag(f);
+    for (auto &k : contents) {
+        ret = k.has_flag(f);
         if (ret) return ret;
     }
     return ret;
@@ -2760,7 +2760,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
     }
 
     amenu.text = std::string(_("Choose ammo type:"));
-    if (amenu.text.length() < namelen) {
+    if ((int)amenu.text.length() < namelen) {
         amenu.text += std::string(namelen - amenu.text.length(), ' ');
     } else {
         amenu.text.erase(namelen, amenu.text.length() - namelen);
@@ -2788,7 +2788,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
         // still show the container name, display_name adds the contents
         // to the name: "bottle of gasoline"
         std::string row = it.display_name();
-        if (row.length() < namelen) {
+        if ((int)row.length() < namelen) {
             row += std::string(namelen - row.length(), ' ');
         } else {
             row.erase(namelen, row.length() - namelen);
@@ -2802,7 +2802,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
         }
     }
     amenu.query();
-    if (amenu.ret < 0 || amenu.ret >= am.size()) {
+    if (amenu.ret < 0 || amenu.ret >= (int)am.size()) {
         // invalid selection / escaped from the menu
         return INT_MIN;
     }

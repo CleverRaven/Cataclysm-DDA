@@ -660,7 +660,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Uses the current wielded weapon */
         void use_wielded();
         /** Removes selected gunmod from the entered weapon */
-        void remove_gunmod(item *weapon, int id);
+        void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(it_bionic *type);
         /** Handles reading effects */

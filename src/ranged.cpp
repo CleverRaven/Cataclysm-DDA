@@ -68,7 +68,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     // if this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = is_fake() ? g->m.veh_at(xpos(), ypos()) : NULL;
 
-    for (int i = 0; i < trajectory.size() && (dam > 0 || (proj.proj_effects.count("FLAME"))); i++) {
+    for (size_t i = 0; i < trajectory.size() && (dam > 0 || (proj.proj_effects.count("FLAME"))); i++) {
         px = tx;
         py = ty;
         (void) px;
@@ -77,7 +77,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         ty = trajectory[i].y;
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        g->draw_bullet(g->u, tx, ty, i, trajectory, proj.proj_effects.count("FLAME") ? '#' : '*', ts);
+        g->draw_bullet(g->u, tx, ty, (int)i, trajectory, proj.proj_effects.count("FLAME") ? '#' : '*', ts);
 
         /* TODO: add running out of momentum back in
         if (dam <= 0 && !(proj.proj_effects.count("FLAME"))) { // Ran out of momentum.
@@ -502,7 +502,7 @@ void player::fire_gun(int tarx, int tary, bool burst)
         //debugmsg("%f",total_dispersion);
         int range = rl_dist(xpos(), ypos(), tarx, tary);
         // penalties for point-blank
-        if (range < (firing->volume / 3) && firing->ammo != "shot") {
+        if (range < int(firing->volume / 3) && firing->ammo != "shot") {
             total_dispersion *= double(firing->volume / 3) / double(range);
         }
 
@@ -637,7 +637,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
     int dam = real_dam;
 
-    int i = 0, tx = 0, ty = 0;
+    int tx = 0, ty = 0;
+    size_t i = 0;
     for (i = 0; i < trajectory.size() && dam >= 0; i++) {
         message = "";
         double goodhit = missed_by;
@@ -665,8 +666,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                     add_msg(_("The %s shatters!"), thrown.tname().c_str());
                 }
 
-                for (int i = 0; i < thrown.contents.size(); i++) {
-                    m.add_item_or_charges(tx, ty, thrown.contents[i]);
+                for (auto &j : thrown.contents) {
+                    m.add_item_or_charges(tx, ty, j);
                 }
 
                 sound(tx, ty, 16, _("glass breaking!"));
@@ -740,8 +741,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                     add_msg(_("The %s shatters!"), thrown.tname().c_str());
                 }
 
-                for (int i = 0; i < thrown.contents.size(); i++) {
-                    m.add_item_or_charges(tx, ty, thrown.contents[i]);
+                for (auto &j : thrown.contents) {
+                    m.add_item_or_charges(tx, ty, j);
                 }
 
                 sound(tx, ty, 16, _("glass breaking!"));
@@ -826,8 +827,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             add_msg(_("The %s shatters!"), thrown.tname().c_str());
         }
 
-        for (int i = 0; i < thrown.contents.size(); i++) {
-            m.add_item_or_charges(tx, ty, thrown.contents[i]);
+        for (auto &i : thrown.contents) {
+            m.add_item_or_charges(tx, ty, i);
         }
         sound(tx, ty, 16, _("glass breaking!"));
     } else {
@@ -863,7 +864,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             // If no previous target, target the closest there is
             double closest = -1;
             double dist;
-            for (int i = 0; i < t.size(); i++) {
+            for (size_t i = 0; i < t.size(); i++) {
                 dist = rl_dist(t[i]->xpos(), t[i]->ypos(), u.posx, u.posy);
                 if( (closest < 0 || dist < closest) && u.sees( t[i] ) ) {
                     closest = dist;
@@ -948,7 +949,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             bool cont = true;
             int cx = x;
             int cy = y;
-            for (int i = 0; i < ret.size() && cont; i++) {
+            for (size_t i = 0; i < ret.size() && cont; i++) {
                 if(trig_dist(u.posx, u.posy, ret[i].x, ret[i].y) > range) {
                     ret.resize(i);
                     cont = false;
@@ -976,12 +977,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         m.build_map_cache(); // part of the SDLTILES drawing code
         m.draw(w_terrain, center); // embedded in SDL drawing code
         // Draw the Monsters
-        for (int i = 0; i < num_zombies(); i++) {
+        for (size_t i = 0; i < num_zombies(); i++) {
             draw_critter( zombie( i ), center );
         }
         // Draw the NPCs
-        for (int i = 0; i < active_npc.size(); i++) {
-            draw_critter( *active_npc[i], center );
+        for (auto &i : active_npc) {
+            draw_critter( *i, center );
         }
         // Draw the player
         draw_critter( g->u, center );
@@ -1106,13 +1107,13 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             y = t[target]->ypos();
         } else if ((action == "NEXT_TARGET") && (target != -1)) {
             target++;
-            if (target == t.size()) {
+            if (target == (int)t.size()) {
                 target = 0;
             }
             x = t[target]->xpos();
             y = t[target]->ypos();
         } else if (action == "FIRE") {
-            for (int i = 0; i < t.size(); i++) {
+            for (size_t i = 0; i < t.size(); i++) {
                 if (t[i]->xpos() == x && t[i]->ypos() == y) {
                     target = i;
                 }

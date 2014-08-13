@@ -655,8 +655,8 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
         //Draw options
         int iBlankOffset = 0;
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iWorldOptPage].size()) ?
-                mPageItems[iWorldOptPage].size() : iContentHeight); i++) {
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > (int)mPageItems[iWorldOptPage].size()) ?
+                (int)mPageItems[iWorldOptPage].size() : iContentHeight); i++) {
             nc_color cLineColor = c_ltgreen;
 
             if (world->world_options[mPageItems[iWorldOptPage][i]].getMenuText() == "") {
@@ -701,7 +701,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
-                if (iCurrentLine >= mPageItems[iWorldOptPage].size()) {
+                if (iCurrentLine >= (int)mPageItems[iWorldOptPage].size()) {
                     iCurrentLine = 0;
                 }
             } while(world->world_options[mPageItems[iWorldOptPage][iCurrentLine]].getMenuText() == "");
@@ -859,7 +859,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 std::stringstream list_output;
 
                 for( size_t i = startsel[0], c = 0;
-                     i < useable_mod_count && c < getmaxy(w_list); ++i, ++c ) {
+                     i < useable_mod_count && (int)c < getmaxy(w_list); ++i, ++c ) {
                     if ((int)i != cursel[0]) {
                         list_output << std::string(3, ' ');
                     } else {
@@ -914,7 +914,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 std::stringstream shift_display;
                 // get shift information for whatever is visible in the active list
                 for (size_t i = startsel[1], c = 0; i < active_mod_order.size() &&
-                     c < getmaxy(w_active); ++i, ++c) {
+                     (int)c < getmaxy(w_active); ++i, ++c) {
                     if (mman_ui->can_shift_up(i, active_mod_order)) {
                         shift_display << "<color_blue>+</color> ";
                     } else {

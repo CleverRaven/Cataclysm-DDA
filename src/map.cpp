@@ -40,7 +40,7 @@ map::map(int mapsize)
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     memset(veh_exists_at, 0, sizeof(veh_exists_at));
-    for (int n = 0; n < sizeof(grid) / sizeof(grid[0]); n++) {
+    for (size_t n = 0; n < sizeof(grid) / sizeof(grid[0]); n++) {
         grid[n] = NULL;
     }
 }
@@ -273,157 +273,164 @@ void map::unboard_vehicle(const int x, const int y)
 
 void map::destroy_vehicle (vehicle *veh)
 {
- if (!veh) {
-  debugmsg("map::destroy_vehicle was passed NULL");
-  return;
- }
- submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy);
- for (int i = 0; i < current_submap->vehicles.size(); i++) {
-  if (current_submap->vehicles[i] == veh) {
-   vehicle_list.erase(veh);
-   reset_vehicle_cache();
-   current_submap->vehicles.erase (current_submap->vehicles.begin() + i);
-   delete veh;
-   return;
-  }
- }
- debugmsg ("destroy_vehicle can't find it! name=%s, x=%d, y=%d", veh->name.c_str(), veh->smx, veh->smy);
+    if (!veh) {
+        debugmsg("map::destroy_vehicle was passed NULL");
+        return;
+    }
+    submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy);
+    for (size_t i = 0; i < current_submap->vehicles.size(); i++) {
+        if (current_submap->vehicles[i] == veh) {
+            vehicle_list.erase(veh);
+            reset_vehicle_cache();
+            current_submap->vehicles.erase (current_submap->vehicles.begin() + i);
+            delete veh;
+            return;
+        }
+    }
+    debugmsg ("destroy_vehicle can't find it! name=%s, x=%d, y=%d", veh->name.c_str(), veh->smx, veh->smy);
 }
 
 bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
 {
- const int x2 = x + dx;
- const int y2 = y + dy;
- int srcx = x;
- int srcy = y;
- int dstx = x2;
- int dsty = y2;
+    const int x2 = x + dx;
+    const int y2 = y + dy;
+    int srcx = x;
+    int srcy = y;
+    int dstx = x2;
+    int dsty = y2;
 
- if (!inbounds(srcx, srcy)){
-  if (g->debugmon)
-   debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
-            srcx, srcy, dstx, dsty);
-  return false;
- }
+    if (!inbounds(srcx, srcy)){
+        if (g->debugmon) {
+            debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
+                        srcx, srcy, dstx, dsty);
+        }
+        return false;
+    }
 
- int src_offset_x, src_offset_y, dst_offset_x, dst_offset_y;
- submap * const src_submap = get_submap_at(srcx, srcy, src_offset_x, src_offset_y);
- submap * const dst_submap = get_submap_at(dstx, dsty, dst_offset_x, dst_offset_y);
+    int src_offset_x, src_offset_y, dst_offset_x, dst_offset_y;
+    submap * const src_submap = get_submap_at(srcx, srcy, src_offset_x, src_offset_y);
+    submap * const dst_submap = get_submap_at(dstx, dsty, dst_offset_x, dst_offset_y);
 
- if (test) {
-  return src_submap != dst_submap;
- }
+    if (test) {
+        return src_submap != dst_submap;
+    }
 
- // first, let's find our position in current vehicles vector
- int our_i = -1;
- for (int i = 0; i < src_submap->vehicles.size(); i++) {
-  if (src_submap->vehicles[i]->posx == src_offset_x &&
-      src_submap->vehicles[i]->posy == src_offset_y) {
-   our_i = i;
-   break;
-  }
- }
- if (our_i < 0) {
-     vehicle *v = veh_at(x, y);
-     for(int a = 0; a < my_MAPSIZE * my_MAPSIZE; a++) {
-        for (int i = 0; i < grid[a]->vehicles.size(); i++) {
-            if (grid[a]->vehicles[i] == v) {
-                our_i = i;
-                const_cast<submap*&>(src_submap) = grid[a];
-                break;
+    // first, let's find our position in current vehicles vector
+    int our_i = -1;
+    for (size_t i = 0; i < src_submap->vehicles.size(); i++) {
+        if (src_submap->vehicles[i]->posx == src_offset_x &&
+              src_submap->vehicles[i]->posy == src_offset_y) {
+            our_i = i;
+            break;
+        }
+    }
+    if (our_i < 0) {
+        vehicle *v = veh_at(x, y);
+        for(int a = 0; a < my_MAPSIZE * my_MAPSIZE; a++) {
+            for (size_t i = 0; i < grid[a]->vehicles.size(); i++) {
+                if (grid[a]->vehicles[i] == v) {
+                    our_i = i;
+                    const_cast<submap*&>(src_submap) = grid[a];
+                    break;
+                }
             }
         }
-     }
- }
- if (our_i < 0) {
-  if (g->debugmon)
-   debugmsg ("displace_vehicle our_i=%d", our_i);
-  return false;
- }
- // move the vehicle
- vehicle *veh = src_submap->vehicles[our_i];
- // don't let it go off grid
- if (!inbounds(x2, y2)){
-  veh->stop();
-   // Silent debug
-  dbg(D_ERROR) << "map:displace_vehicle: Stopping vehicle, displaced dx=" << dx << ", dy=" << dy;
-   // debugmon'd on screen
-  if (g->debugmon) debugmsg ("stopping vehicle, displaced dx=%d, dy=%d", dx,dy);
-  return false;
- }
+    }
+    if (our_i < 0) {
+        if (g->debugmon) {
+            debugmsg ("displace_vehicle our_i=%d", our_i);
+        }
+        return false;
+    }
+    // move the vehicle
+    vehicle *veh = src_submap->vehicles[our_i];
+    // don't let it go off grid
+    if (!inbounds(x2, y2)) {
+        veh->stop();
+        // Silent debug
+        dbg(D_ERROR) << "map:displace_vehicle: Stopping vehicle, displaced dx=" << dx << ", dy=" << dy;
+        // debugmon'd on screen
+        if (g->debugmon) debugmsg ("stopping vehicle, displaced dx=%d, dy=%d", dx,dy); {
+            return false;
+        }
+    }
 
     // record every passenger inside
- std::vector<int> psg_parts = veh->boarded_parts();
- std::vector<player *> psgs;
- for (int p = 0; p < psg_parts.size(); p++)
-  psgs.push_back (veh->get_passenger (psg_parts[p]));
+    std::vector<int> psg_parts = veh->boarded_parts();
+    std::vector<player *> psgs;
+    for (auto &p : psg_parts) {
+        psgs.push_back(veh->get_passenger(p));
+    }
 
- const int rec = abs(veh->velocity) / 5 / 100;
+    const int rec = abs(veh->velocity) / 5 / 100;
 
- bool need_update = false;
- int upd_x, upd_y;
- // move passengers
- for (int i = 0; i < psg_parts.size(); i++) {
-  player *psg = psgs[i];
-  const int p = psg_parts[i];
-  if (!psg) {
-   debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p,
-             veh->global_x() + veh->parts[p].precalc_dx[0],
-             veh->global_y() + veh->parts[p].precalc_dy[0],
-                      g->u.posx, g->u.posy);
-   veh->parts[p].remove_flag(vehicle_part::passenger_flag);
-   continue;
-  }
-  // add recoil
-  psg->driving_recoil = rec;
-  // displace passenger taking in account vehicle movement (dx, dy)
-  // and turning: precalc_dx/dy [0] contains previous frame direction,
-  // and precalc_dx/dy[1] should contain next direction
-  psg->posx += dx + veh->parts[p].precalc_dx[1] - veh->parts[p].precalc_dx[0];
-  psg->posy += dy + veh->parts[p].precalc_dy[1] - veh->parts[p].precalc_dy[0];
-  if (psg == &g->u) { // if passenger is you, we need to update the map
-   need_update = true;
-   upd_x = psg->posx;
-   upd_y = psg->posy;
-  }
- }
- for (int p = 0; p < veh->parts.size(); p++) {
-  veh->parts[p].precalc_dx[0] = veh->parts[p].precalc_dx[1];
-  veh->parts[p].precalc_dy[0] = veh->parts[p].precalc_dy[1];
- }
+    bool need_update = false;
+    int upd_x, upd_y;
+    // move passengers
+    for (size_t i = 0; i < psg_parts.size(); i++) {
+        player *psg = psgs[i];
+        const int p = psg_parts[i];
+        if (!psg) {
+            debugmsg ("empty passenger part %d pcoord=%d,%d u=%d,%d?", p,
+                         veh->global_x() + veh->parts[p].precalc_dx[0],
+                         veh->global_y() + veh->parts[p].precalc_dy[0],
+                                  g->u.posx, g->u.posy);
+            veh->parts[p].remove_flag(vehicle_part::passenger_flag);
+            continue;
+        }
+        // add recoil
+        psg->driving_recoil = rec;
+        // displace passenger taking in account vehicle movement (dx, dy)
+        // and turning: precalc_dx/dy [0] contains previous frame direction,
+        // and precalc_dx/dy[1] should contain next direction
+        psg->posx += dx + veh->parts[p].precalc_dx[1] - veh->parts[p].precalc_dx[0];
+        psg->posy += dy + veh->parts[p].precalc_dy[1] - veh->parts[p].precalc_dy[0];
+        if (psg == &g->u) { // if passenger is you, we need to update the map
+            need_update = true;
+            upd_x = psg->posx;
+            upd_y = psg->posy;
+        }
+    }
+ 
+    for (auto &p : veh->parts) {
+        p.precalc_dx[0] = p.precalc_dx[1];
+        p.precalc_dy[0] = p.precalc_dy[1];
+    }
 
- veh->posx = dst_offset_x;
- veh->posy = dst_offset_y;
- if (src_submap != dst_submap) {
+    veh->posx = dst_offset_x;
+    veh->posy = dst_offset_y;
+    if (src_submap != dst_submap) {
         veh->set_submap_moved( int( x2 / SEEX ), int( y2 / SEEY ) );
         dst_submap->vehicles.push_back( veh );
         src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
- }
+    }
 
- x += dx;
- y += dy;
+    x += dx;
+    y += dy;
 
- update_vehicle_cache(veh);
+    update_vehicle_cache(veh);
 
- bool was_update = false;
- if (need_update &&
-     (upd_x < SEEX * int(my_MAPSIZE / 2) || upd_y < SEEY *int(my_MAPSIZE / 2) ||
-      upd_x >= SEEX * (1+int(my_MAPSIZE / 2)) ||
-      upd_y >= SEEY * (1+int(my_MAPSIZE / 2))   )) {
-// map will shift, so adjust vehicle coords we've been passed
-  if (upd_x < SEEX * int(my_MAPSIZE / 2))
-   x += SEEX;
-  else if (upd_x >= SEEX * (1+int(my_MAPSIZE / 2)))
-   x -= SEEX;
-  if (upd_y < SEEY * int(my_MAPSIZE / 2))
-   y += SEEY;
-  else if (upd_y >= SEEY * (1+int(my_MAPSIZE / 2)))
-   y -= SEEY;
-  g->update_map(upd_x, upd_y);
-  was_update = true;
- }
+    bool was_update = false;
+    if (need_update &&
+          (upd_x < SEEX * int(my_MAPSIZE / 2) || upd_y < SEEY *int(my_MAPSIZE / 2) ||
+          upd_x >= SEEX * (1+int(my_MAPSIZE / 2)) ||
+          upd_y >= SEEY * (1+int(my_MAPSIZE / 2)))) {
+        // map will shift, so adjust vehicle coords we've been passed
+        if (upd_x < SEEX * int(my_MAPSIZE / 2)) {
+            x += SEEX;
+        } else if (upd_x >= SEEX * (1+int(my_MAPSIZE / 2))) {
+            x -= SEEX;
+        }
+        if (upd_y < SEEY * int(my_MAPSIZE / 2)) {
+            y += SEEY;
+        } else if (upd_y >= SEEY * (1+int(my_MAPSIZE / 2))) {
+            y -= SEEY;
+        }
+        g->update_map(upd_x, upd_y);
+        was_update = true;
+    }
 
- return (src_submap != dst_submap) || was_update;
+    return (src_submap != dst_submap) || was_update;
 }
 
 void map::on_vehicle_moved() {
@@ -571,9 +578,9 @@ bool map::vehproceed()
     // if not enough wheels, mess up the ground a bit.
     if (!veh->valid_wheel_config()) {
         veh->velocity += veh->velocity < 0 ? 2000 : -2000;
-        for (int p = 0; p < veh->parts.size(); p++) {
-            const int px = x + veh->parts[p].precalc_dx[0];
-            const int py = y + veh->parts[p].precalc_dy[0];
+        for (auto &p : veh->parts) {
+            const int px = x + p.precalc_dx[0];
+            const int py = y + p.precalc_dy[0];
             const ter_id &pter = ter(px, py);
             if (pter == t_dirt || pter == t_grass) {
                 ter_set(px, py, t_dirtmound);
@@ -771,15 +778,15 @@ bool map::vehproceed()
 
         std::vector<int> ppl = veh->boarded_parts();
 
-        for (int ps = 0; ps < ppl.size(); ps++) {
-            player *psg = veh->get_passenger (ppl[ps]);
+        for (auto &ps : ppl) {
+            player *psg = veh->get_passenger (ps);
             if (!psg) {
-                debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
+                debugmsg ("throw passenger: empty passenger at part %d", ps);
                 continue;
             }
 
             bool throw_from_seat = 0;
-            if (veh->part_with_feature (ppl[ps], VPFLAG_SEATBELT) == -1) {
+            if (veh->part_with_feature (ps, VPFLAG_SEATBELT) == -1) {
                 throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);
             }
 
@@ -803,12 +810,12 @@ bool map::vehproceed()
                     add_msg(m_bad, _("%s is hurled from the %s's seat by the power of the impact!"),
                                    psg->name.c_str(), veh->name.c_str());
                 }
-                unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
-                                     y + veh->parts[ppl[ps]].precalc_dy[0]);
+                unboard_vehicle(x + veh->parts[ps].precalc_dx[0],
+                                     y + veh->parts[ps].precalc_dy[0]);
                 g->fling_creature(psg, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
                                             vel1 - psg->str_cur));
-            } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {
+            } else if (veh->part_with_feature (ps, "CONTROLS") >= 0) {
                 // FIXME: should actually check if passenger is in control,
                 // not just if there are controls there.
                 const int lose_ctrl_roll = rng (0, dmg_1);
@@ -839,16 +846,15 @@ bool map::vehproceed()
     // damn references!
     if (can_move) {
         std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
-        for (int w = 0; w < wheel_indices.size(); w++) {
-            const int p = wheel_indices[w];
+        for (auto &w : wheel_indices) {
             if (one_in(2)) {
-                if (displace_water (x + veh->parts[p].precalc_dx[0],
-                                    y + veh->parts[p].precalc_dy[0]) && pl_ctrl) {
+                if (displace_water (x + veh->parts[w].precalc_dx[0],
+                                    y + veh->parts[w].precalc_dy[0]) && pl_ctrl) {
                     add_msg(m_warning, _("You hear a splash!"));
                 }
             }
-            veh->handle_trap( x + veh->parts[p].precalc_dx[0],
-                              y + veh->parts[p].precalc_dy[0], p );
+            veh->handle_trap( x + veh->parts[w].precalc_dx[0],
+                              y + veh->parts[w].precalc_dy[0], w );
         }
     }
 
@@ -1354,50 +1360,55 @@ bool map::is_outside(const int x, const int y)
 // MATERIALS-TODO: Use fire resistance
 bool map::flammable_items_at(const int x, const int y)
 {
- for (int i = 0; i < i_at(x, y).size(); i++) {
-  item *it = &(i_at(x, y)[i]);
-  int vol = it->volume();
-  if (it->made_of("paper") || it->made_of("powder") ||
-      it->type->id == "whiskey" || it->type->id == "vodka" ||
-      it->type->id == "rum" || it->type->id == "tequila")
-    return true;
-  if ((it->made_of("wood") || it->made_of("veggy")) && (it->burnt < 1 || vol <= 10))
-    return true;
-  if (it->made_of("cotton") && (vol <= 5 || it->burnt < 1))
-    return true;
-  if (it->is_ammo() && it->ammo_type() != "battery" &&
-      it->ammo_type() != "nail" && it->ammo_type() != "BB" &&
-      it->ammo_type() != "bolt" && it->ammo_type() != "arrow" &&
-      it->ammo_type() != "pebble" && it->ammo_type() != "fishspear" &&
-      it->ammo_type() != "NULL")
-    return true;
- }
- return false;
+    for (auto &i : i_at(x, y)) {
+        int vol = i.volume();
+        if (i.made_of("paper") || i.made_of("powder") ||
+              i.type->id == "whiskey" || i.type->id == "vodka" ||
+              i.type->id == "rum" || i.type->id == "tequila") {
+            return true;
+        }
+        if ((i.made_of("wood") || i.made_of("veggy")) && (i.burnt < 1 || vol <= 10)) {
+            return true;
+        }
+        if (i.made_of("cotton") && (vol <= 5 || i.burnt < 1)) {
+            return true;
+        }
+        if (i.is_ammo() && i.ammo_type() != "battery" &&
+              i.ammo_type() != "nail" && i.ammo_type() != "BB" &&
+              i.ammo_type() != "bolt" && i.ammo_type() != "arrow" &&
+              i.ammo_type() != "pebble" && i.ammo_type() != "fishspear" &&
+              i.ammo_type() != "NULL") {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool map::moppable_items_at(const int x, const int y)
 {
- for (int i = 0; i < i_at(x, y).size(); i++) {
-  item *it = &(i_at(x, y)[i]);
-  if (it->made_of(LIQUID))
-   return true;
- }
- field &fld = field_at(x, y);
- if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 || fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
-    || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 || fld.findField(fd_sludge) != 0) {
-  return true;
- }
- int vpart;
- vehicle *veh = veh_at(x, y, vpart);
- if(veh != 0) {
-  std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
-  for(size_t i = 0; i < parts_here.size(); i++) {
-   if(veh->parts[parts_here[i]].blood > 0) {
-    return true;
-   }
-  }
- }
- return false;
+    for (auto &i : i_at(x, y)) {
+        if (i.made_of(LIQUID)) {
+            return true;
+        }
+    }
+    field &fld = field_at(x, y);
+    if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
+          fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
+          || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 ||
+          fld.findField(fd_sludge) != 0) {
+        return true;
+    }
+    int vpart;
+    vehicle *veh = veh_at(x, y, vpart);
+    if(veh != 0) {
+        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
+        for(auto &i : parts_here) {
+            if(veh->parts[i].blood > 0) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 point map::random_outdoor_tile()
@@ -1449,29 +1460,29 @@ bool map::has_nearby_fire(int x, int y, int radius)
 }
 
 void map::mop_spills(const int x, const int y) {
- for (int i = 0; i < i_at(x, y).size(); i++) {
-  item *it = &(i_at(x, y)[i]);
-  if (it->made_of(LIQUID)) {
-    i_rem(x, y, i);
-    i--;
-  }
- }
- field &fld = field_at(x, y);
- fld.removeField(fd_blood);
- fld.removeField(fd_blood_veggy);
- fld.removeField(fd_blood_insect);
- fld.removeField(fd_blood_invertebrate);
- fld.removeField(fd_bile);
- fld.removeField(fd_slime);
- fld.removeField(fd_sludge);
- int vpart;
- vehicle *veh = veh_at(x, y, vpart);
- if(veh != 0) {
-  std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
-  for(size_t i = 0; i < parts_here.size(); i++) {
-   veh->parts[parts_here[i]].blood = 0;
-  }
- }
+    for (size_t i = 0; i < i_at(x, y).size(); i++) {
+        item *it = &(i_at(x, y)[i]);
+        if (it->made_of(LIQUID)) {
+            i_rem(x, y, i);
+            i--;
+        }
+    }
+    field &fld = field_at(x, y);
+    fld.removeField(fd_blood);
+    fld.removeField(fd_blood_veggy);
+    fld.removeField(fd_blood_insect);
+    fld.removeField(fd_blood_invertebrate);
+    fld.removeField(fd_bile);
+    fld.removeField(fd_slime);
+    fld.removeField(fd_sludge);
+    int vpart;
+    vehicle *veh = veh_at(x, y, vpart);
+    if(veh != 0) {
+        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount_dx, veh->parts[vpart].mount_dy);
+        for(size_t i = 0; i < parts_here.size(); i++) {
+            veh->parts[parts_here[i]].blood = 0;
+        }
+    }
 }
 
 bool map::bash(const int x, const int y, const int str, bool silent, int *res)
@@ -2108,7 +2119,7 @@ void map::shoot(const int x, const int y, int &dam,
         return; // Items on floor-type spaces won't be shot up.
     }
 
-    for (int i = 0; i < i_at(x, y).size(); i++) {
+    for (size_t i = 0; i < i_at(x, y).size(); i++) {
         bool destroyed = false;
         int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);
         // volume dependent chance
@@ -2121,8 +2132,8 @@ void map::shoot(const int x, const int y, int &dam,
         }
 
         if (destroyed) {
-            for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
-                i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            for (auto &j : i_at(x, y)[i].contents) {
+                i_at(x, y).push_back(j);
             }
             i_rem(x, y, i);
             i--;
@@ -2498,9 +2509,10 @@ item map::acid_from(const int x, const int y)
 
 void map::i_rem(const int x, const int y, const int index)
 {
- if (index > i_at(x, y).size() - 1)
-  return;
- i_at(x, y).erase(i_at(x, y).begin() + index);
+    if (index > (int)i_at(x, y).size() - 1) {
+        return;
+    }
+    i_at(x, y).erase(i_at(x, y).begin() + index);
 }
 
 void map::i_rem(const int x, const int y, item* it)
@@ -2524,19 +2536,19 @@ void map::i_clear(const int x, const int y)
 
 point map::find_item(const item *it)
 {
- point ret;
- for (ret.x = 0; ret.x < SEEX * my_MAPSIZE; ret.x++) {
-  for (ret.y = 0; ret.y < SEEY * my_MAPSIZE; ret.y++) {
-   for (int i = 0; i < i_at(ret.x, ret.y).size(); i++) {
-    if (it == &i_at(ret.x, ret.y)[i]) {
-     return ret;
+    point ret;
+    for (ret.x = 0; ret.x < SEEX * my_MAPSIZE; ret.x++) {
+        for (ret.y = 0; ret.y < SEEY * my_MAPSIZE; ret.y++) {
+            for (auto &i : i_at(ret.x, ret.y)) {
+                if (it == &i) {
+                    return ret;
+                }
+            }
+        }
     }
-   }
-  }
- }
- ret.x = -1;
- ret.y = -1;
- return ret;
+    ret.x = -1;
+    ret.y = -1;
+    return ret;
 }
 
 void map::spawn_an_item(const int x, const int y, item new_item,
@@ -2647,7 +2659,7 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
         return;
     }
     // recurse to spawn (quantity - 1) items
-    for(int i = 1; i < quantity; i++)
+    for(unsigned i = 1; i < quantity; i++)
     {
         spawn_item(x, y, type_id, 1, charges, birthday, damlevel);
     }
@@ -2667,13 +2679,15 @@ int map::max_volume(const int x, const int y)
 
 // total volume of all the things
 int map::stored_volume(const int x, const int y) {
-   if(!INBOUNDS(x, y)) return 0;
-   int cur_volume=0;
-   for (int n = 0; n < i_at(x, y).size(); n++) {
-       item* curit = &(i_at(x, y)[n]);
-       cur_volume += curit->volume();
-   }
-   return cur_volume;
+    if(!INBOUNDS(x, y)) {
+        return 0;
+    }
+    int cur_volume=0;
+    for (auto &n : i_at(x, y)) {
+        item* curit = &n;
+        cur_volume += curit->volume();
+    }
+    return cur_volume;
 }
 
 // free space
@@ -2738,11 +2752,11 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         }
 
         if (tryaddcharges) {
-            for (int i = 0; i < i_at(p_it->x,p_it->y).size(); i++)
+            for (auto &i : i_at(p_it->x,p_it->y))
             {
-                if(i_at(p_it->x, p_it->y)[i].type->id == add_type)
+                if(i.type->id == add_type)
                 {
-                    i_at(p_it->x, p_it->y)[i].charges += new_item.charges;
+                    i.charges += new_item.charges;
                     return true;
                 }
             }
@@ -2767,7 +2781,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     if (!INBOUNDS(x, y)) {
         return;
     }
-    if (has_flag("DESTROY_ITEM", x, y) || (i_at(x,y).size() >= maxitems)) {
+    if (has_flag("DESTROY_ITEM", x, y) || ((int)i_at(x,y).size() >= maxitems)) {
         return;
     }
     field &fld = field_at(x, y);
@@ -3409,9 +3423,9 @@ void map::disarm_trap(const int x, const int y)
     if (tr->get_avoidance() ==  0 && tr->get_difficulty() == 0) {
         add_msg(_("You take down the %s."), tr->name.c_str());
         std::vector<itype_id> comp = tr->components;
-        for (int i = 0; i < comp.size(); i++) {
-            if (comp[i] != "null") {
-                spawn_item(x, y, comp[i], 1, 1);
+        for (auto &i : comp) {
+            if (i != "null") {
+                spawn_item(x, y, i, 1, 1);
                 remove_trap(x, y);
             }
         }
@@ -3424,9 +3438,9 @@ void map::disarm_trap(const int x, const int y)
     if (roll >= diff) {
         add_msg(_("You disarm the trap!"));
         std::vector<itype_id> comp = tr->components;
-        for (int i = 0; i < comp.size(); i++) {
-            if (comp[i] != "null") {
-                spawn_item(x, y, comp[i], 1, 1);
+        for (auto &i : comp) {
+            if (i != "null") {
+                spawn_item(x, y, i, 1, 1);
             }
         }
         if (tr_at(x, y) == tr_engine) {
@@ -4113,7 +4127,7 @@ std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, c
     }
 
     for (unsigned int i = 1; i < vSpiral.size(); i++) {
-        if (iPosOffset >= vPos.size()) {
+        if (iPosOffset >= (int)vPos.size()) {
             iPosOffset = 0;
         }
 
@@ -4126,135 +4140,145 @@ std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, c
 // Bash defaults to true.
 std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool can_bash)
 {
-/* TODO: If the origin or destination is out of bound, figure out the closest
- * in-bounds point and go to that, then to the real origin/destination.
- */
+    /* TODO: If the origin or destination is out of bound, figure out the closest
+     * in-bounds point and go to that, then to the real origin/destination.
+     */
 
- if (!INBOUNDS(Fx, Fy) || !INBOUNDS(Tx, Ty)) {
-  int linet;
-  if (sees(Fx, Fy, Tx, Ty, -1, linet))
-   return line_to(Fx, Fy, Tx, Ty, linet);
-  else {
-   std::vector<point> empty;
-   return empty;
-  }
- }
-// First, check for a simple straight line on flat ground
- int linet = 0;
- if (clear_path(Fx, Fy, Tx, Ty, -1, 2, 2, linet))
-  return line_to(Fx, Fy, Tx, Ty, linet);
-/*
- if (move_cost(Tx, Ty) == 0)
-  debugmsg("%d:%d wanted to move to %d:%d, a %s!", Fx, Fy, Tx, Ty,
-           tername(Tx, Ty).c_str());
- if (move_cost(Fx, Fy) == 0)
-  debugmsg("%d:%d, a %s, wanted to move to %d:%d!", Fx, Fy,
-           tername(Fx, Fy).c_str(), Tx, Ty);
-*/
- std::vector<point> open;
- astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int score[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int gscore[SEEX * MAPSIZE][SEEY * MAPSIZE];
- point parent[SEEX * MAPSIZE][SEEY * MAPSIZE];
- int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
- if (Tx < Fx) {
-  startx = Tx - 4;
-  endx = Fx + 4;
- }
- if (Ty < Fy) {
-  starty = Ty - 4;
-  endy = Fy + 4;
- }
- if (startx < 0)
-  startx = 0;
- if (starty < 0)
-  starty = 0;
- if (endx > SEEX * my_MAPSIZE - 1)
-  endx = SEEX * my_MAPSIZE - 1;
- if (endy > SEEY * my_MAPSIZE - 1)
-  endy = SEEY * my_MAPSIZE - 1;
-
- for (int x = startx; x <= endx; x++) {
-  for (int y = starty; y <= endy; y++) {
-   list  [x][y] = ASL_NONE; // Init to not being on any list
-   score [x][y] = 0;        // No score!
-   gscore[x][y] = 0;        // No score!
-   parent[x][y] = point(-1, -1);
-  }
- }
- list[Fx][Fy] = ASL_OPEN;
- open.push_back(point(Fx, Fy));
-
- bool done = false;
-
- do {
-  //debugmsg("Open.size() = %d", open.size());
-  int best = 9999;
-  int index = -1;
-  for (int i = 0; i < open.size(); i++) {
-   if (i == 0 || score[open[i].x][open[i].y] < best) {
-    best = score[open[i].x][open[i].y];
-    index = i;
-   }
-  }
-
-  std::vector<point> vDirCircle = getDirCircle(open[index].x, open[index].y, Tx, Ty);
-
-  for (unsigned int i = 0; i < vDirCircle.size(); ++i) {
-    const int x = vDirCircle[i].x;
-    const int y = vDirCircle[i].y;
-
-    if (x == Tx && y == Ty) {
-     done = true;
-     parent[x][y] = open[index];
-    } else if (x >= startx && x <= endx && y >= starty && y <= endy &&
-               (move_cost(x, y) > 0 || (can_bash && has_flag("BASHABLE", x, y)))) {
-     if (list[x][y] == ASL_NONE) { // Not listed, so make it open
-      list[x][y] = ASL_OPEN;
-      open.push_back(point(x, y));
-      parent[x][y] = open[index];
-      gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
-      if (ter(x, y) == t_door_c)
-       gscore[x][y] += 4; // A turn to open it and a turn to move there
-      else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y)))
-       gscore[x][y] += 18; // Worst case scenario with damage penalty
-      score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
-     } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
-      int newg = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
-      if (ter(x, y) == t_door_c)
-       newg += 4; // A turn to open it and a turn to move there
-      else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y)))
-       newg += 18; // Worst case scenario with damage penalty
-      if (newg < gscore[x][y]) {
-       gscore[x][y] = newg;
-       parent[x][y] = open[index];
-       score [x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
-      }
-     }
+    if (!INBOUNDS(Fx, Fy) || !INBOUNDS(Tx, Ty)) {
+        int linet;
+        if (sees(Fx, Fy, Tx, Ty, -1, linet)) {
+            return line_to(Fx, Fy, Tx, Ty, linet);
+        } else {
+            std::vector<point> empty;
+            return empty;
+        }
     }
-  }
-  list[open[index].x][open[index].y] = ASL_CLOSED;
-  open.erase(open.begin() + index);
- } while (!done && !open.empty());
+    // First, check for a simple straight line on flat ground
+    int linet = 0;
+    if (clear_path(Fx, Fy, Tx, Ty, -1, 2, 2, linet)) {
+        return line_to(Fx, Fy, Tx, Ty, linet);
+    }
+    /*
+    if (move_cost(Tx, Ty) == 0) {
+        debugmsg("%d:%d wanted to move to %d:%d, a %s!", Fx, Fy, Tx, Ty,
+                    tername(Tx, Ty).c_str());
+    }
+    if (move_cost(Fx, Fy) == 0) {
+        debugmsg("%d:%d, a %s, wanted to move to %d:%d!", Fx, Fy,
+                    tername(Fx, Fy).c_str(), Tx, Ty);
+    }
+    */
+    std::vector<point> open;
+    astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
+    int score[SEEX * MAPSIZE][SEEY * MAPSIZE];
+    int gscore[SEEX * MAPSIZE][SEEY * MAPSIZE];
+    point parent[SEEX * MAPSIZE][SEEY * MAPSIZE];
+    int startx = Fx - 4, endx = Tx + 4, starty = Fy - 4, endy = Ty + 4;
+    if (Tx < Fx) {
+        startx = Tx - 4;
+        endx = Fx + 4;
+    }
+    if (Ty < Fy) {
+        starty = Ty - 4;
+        endy = Fy + 4;
+    }
+    if (startx < 0) {
+        startx = 0;
+    }
+    if (starty < 0) {
+        starty = 0;
+    }
+    if (endx > SEEX * my_MAPSIZE - 1) {
+        endx = SEEX * my_MAPSIZE - 1;
+    }
+    if (endy > SEEY * my_MAPSIZE - 1) {
+        endy = SEEY * my_MAPSIZE - 1;
+    }
 
- std::vector<point> tmp;
- std::vector<point> ret;
- if (done) {
-  point cur(Tx, Ty);
-  while (cur.x != Fx || cur.y != Fy) {
-   //debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
-   tmp.push_back(cur);
-   if (rl_dist(cur.x, cur.y, parent[cur.x][cur.y].x, parent[cur.x][cur.y].y)>1){
-    debugmsg("Jump in our route! %d:%d->%d:%d", cur.x, cur.y,
-             parent[cur.x][cur.y].x, parent[cur.x][cur.y].y);
+    for (int x = startx; x <= endx; x++) {
+        for (int y = starty; y <= endy; y++) {
+            list  [x][y] = ASL_NONE; // Init to not being on any list
+            score [x][y] = 0;        // No score!
+            gscore[x][y] = 0;        // No score!
+            parent[x][y] = point(-1, -1);
+        }
+    }
+    list[Fx][Fy] = ASL_OPEN;
+    open.push_back(point(Fx, Fy));
+
+    bool done = false;
+
+    do {
+        //debugmsg("Open.size() = %d", open.size());
+        int best = 9999;
+        int index = -1;
+        for (size_t i = 0; i < open.size(); i++) {
+            if (i == 0 || score[open[i].x][open[i].y] < best) {
+                best = score[open[i].x][open[i].y];
+                index = i;
+            }
+        }
+
+        std::vector<point> vDirCircle = getDirCircle(open[index].x, open[index].y, Tx, Ty);
+
+        for (unsigned int i = 0; i < vDirCircle.size(); ++i) {
+            const int x = vDirCircle[i].x;
+            const int y = vDirCircle[i].y;
+
+            if (x == Tx && y == Ty) {
+                done = true;
+                parent[x][y] = open[index];
+            } else if (x >= startx && x <= endx && y >= starty && y <= endy &&
+                        (move_cost(x, y) > 0 || (can_bash && has_flag("BASHABLE", x, y)))) {
+                if (list[x][y] == ASL_NONE) { // Not listed, so make it open
+                    list[x][y] = ASL_OPEN;
+                    open.push_back(point(x, y));
+                    parent[x][y] = open[index];
+                    gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
+                    if (ter(x, y) == t_door_c) {
+                        gscore[x][y] += 4; // A turn to open it and a turn to move there
+                    } else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y))) {
+                        gscore[x][y] += 18; // Worst case scenario with damage penalty
+                    }
+                    score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
+                } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
+                    int newg = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
+                    if (ter(x, y) == t_door_c) {
+                        newg += 4; // A turn to open it and a turn to move there
+                    } else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y))) {
+                        newg += 18; // Worst case scenario with damage penalty
+                    }
+                    if (newg < gscore[x][y]) {
+                        gscore[x][y] = newg;
+                        parent[x][y] = open[index];
+                        score [x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
+                    }
+                }
+            }
+        }
+        list[open[index].x][open[index].y] = ASL_CLOSED;
+        open.erase(open.begin() + index);
+    } while (!done && !open.empty());
+
+    std::vector<point> tmp;
+    std::vector<point> ret;
+    if (done) {
+        point cur(Tx, Ty);
+        while (cur.x != Fx || cur.y != Fy) {
+            //debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
+            tmp.push_back(cur);
+            if (rl_dist(cur.x, cur.y, parent[cur.x][cur.y].x, parent[cur.x][cur.y].y)>1){
+                debugmsg("Jump in our route! %d:%d->%d:%d", cur.x, cur.y,
+                            parent[cur.x][cur.y].x, parent[cur.x][cur.y].y);
+                return ret;
+            }
+            cur = parent[cur.x][cur.y];
+        }
+        for (int i = tmp.size() - 1; i >= 0; i--) {
+            ret.push_back(tmp[i]);
+        }
+    }
     return ret;
-   }
-   cur = parent[cur.x][cur.y];
-  }
-  for (int i = tmp.size() - 1; i >= 0; i--)
-   ret.push_back(tmp[i]);
- }
- return ret;
 }
 
 int map::coord_to_angle ( const int x, const int y, const int tgtx, const int tgty ) {
@@ -4527,7 +4551,7 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
                   it->calc_rot(point(x,y));
-                  if(it->rot >= (food->spoils * 600)*2) {
+                  if(it->rot >= (int)(food->spoils * 600)*2) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
               } else { ++it; intidx++; }
@@ -4576,10 +4600,10 @@ void map::loadn(const int worldx, const int worldy, const int worldz,
   const int merchantRestock = 14400 * 3; //14400 is the length of one day
   //Check for Merchants to restock
   if (g->active_npc.size() >= 1){
-    for (int i = 0; i < g->active_npc.size(); i++){
-        if (g->active_npc[i]->restock != -1 && calendar::turn > (g->active_npc[i]->restock + merchantRestock)){
-            g->active_npc[i]->shop_restock();
-            g->active_npc[i]->restock = int(calendar::turn);
+    for (auto &i : g->active_npc){
+        if (i->restock != -1 && calendar::turn > (i->restock + merchantRestock)){
+            i->shop_restock();
+            i->restock = int(calendar::turn);
         }
     }
   }
@@ -4629,44 +4653,47 @@ void map::copy_grid(const int to, const int from)
 
 void map::spawn_monsters()
 {
- for (int gx = 0; gx < my_MAPSIZE; gx++) {
-  for (int gy = 0; gy < my_MAPSIZE; gy++) {
-   submap * const current_submap = get_submap_at_grid(gx, gy);
-   for (int i = 0; i < current_submap->spawns.size(); i++) {
-    for (int j = 0; j < current_submap->spawns[i].count; j++) {
-     int tries = 0;
-     int mx = current_submap->spawns[i].posx, my = current_submap->spawns[i].posy;
-     monster tmp(GetMType(current_submap->spawns[i].type));
-     tmp.faction_id = current_submap->spawns[i].faction_id;
-     tmp.mission_id = current_submap->spawns[i].mission_id;
-     if (current_submap->spawns[i].name != "NONE")
-      tmp.unique_name = current_submap->spawns[i].name;
-     if (current_submap->spawns[i].friendly)
-      tmp.friendly = -1;
-     int fx = mx + gx * SEEX, fy = my + gy * SEEY;
+    for (int gx = 0; gx < my_MAPSIZE; gx++) {
+        for (int gy = 0; gy < my_MAPSIZE; gy++) {
+            submap * const current_submap = get_submap_at_grid(gx, gy);
+            for (auto &i : current_submap->spawns) {
+                for (int j = 0; j < i.count; j++) {
+                    int tries = 0;
+                    int mx = i.posx, my = i.posy;
+                    monster tmp(GetMType(i.type));
+                    tmp.faction_id = i.faction_id;
+                    tmp.mission_id = i.mission_id;
+                    if (i.name != "NONE") {
+                        tmp.unique_name = i.name;
+                    }
+                    if (i.friendly) {
+                        tmp.friendly = -1;
+                    }
+                    int fx = mx + gx * SEEX, fy = my + gy * SEEY;
 
-     while ((!g->is_empty(fx, fy) || !tmp.can_move_to(fx, fy)) &&
-            tries < 10) {
-      mx = (current_submap->spawns[i].posx + rng(-3, 3)) % SEEX;
-      my = (current_submap->spawns[i].posy + rng(-3, 3)) % SEEY;
-      if (mx < 0)
-       mx += SEEX;
-      if (my < 0)
-       my += SEEY;
-      fx = mx + gx * SEEX;
-      fy = my + gy * SEEY;
-      tries++;
-     }
-     if (tries != 10) {
-      tmp.spawn(fx, fy);
-      g->add_zombie(tmp);
-     }
+                    while ((!g->is_empty(fx, fy) || !tmp.can_move_to(fx, fy)) && tries < 10) {
+                        mx = (i.posx + rng(-3, 3)) % SEEX;
+                        my = (i.posy + rng(-3, 3)) % SEEY;
+                        if (mx < 0) {
+                            mx += SEEX;
+                        }
+                        if (my < 0) {
+                            my += SEEY;
+                        }
+                        fx = mx + gx * SEEX;
+                        fy = my + gy * SEEY;
+                        tries++;
+                    }
+                    if (tries != 10) {
+                        tmp.spawn(fx, fy);
+                        g->add_zombie(tmp);
+                    }
+                }
+            }
+            current_submap->spawns.clear();
+            overmap_buffer.spawn_monster( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
+        }
     }
-   }
-   current_submap->spawns.clear();
-    overmap_buffer.spawn_monster( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
-  }
- }
 }
 
 void map::clear_spawns()
@@ -4904,32 +4931,32 @@ void map::build_transparency_cache()
 
 void map::build_map_cache()
 {
- build_outside_cache();
+    build_outside_cache();
 
- build_transparency_cache();
+    build_transparency_cache();
 
- // Cache all the vehicle stuff in one loop
- VehicleList vehs = get_vehicles();
- for( size_t v = 0; v < vehs.size(); ++v ) {
-  for (int part = 0; part < vehs[v].v->parts.size(); part++) {
-   int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
-   int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];
-   if(INBOUNDS(px, py)) {
-    if (vehs[v].v->is_inside(part)) {
-     outside_cache[px][py] = false;
+    // Cache all the vehicle stuff in one loop
+    VehicleList vehs = get_vehicles();
+    for(auto &v : vehs) {
+        for (size_t part = 0; part < v.v->parts.size(); part++) {
+            int px = v.x + v.v->parts[part].precalc_dx[0];
+            int py = v.y + v.v->parts[part].precalc_dy[0];
+            if(INBOUNDS(px, py)) {
+                if (v.v->is_inside(part)) {
+                    outside_cache[px][py] = false;
+                }
+                if (v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0) {
+                    int dpart = v.v->part_with_feature(part , VPFLAG_OPENABLE);
+                    if (dpart < 0 || !v.v->parts[dpart].open) {
+                        transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+                    }
+                }
+            }
+        }
     }
-    if (vehs[v].v->part_flag(part, VPFLAG_OPAQUE) && vehs[v].v->parts[part].hp > 0) {
-     int dpart = vehs[v].v->part_with_feature(part , VPFLAG_OPENABLE);
-     if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
-      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
-     }
-    }
-   }
-  }
- }
 
- build_seen_cache();
- generate_lightmap();
+    build_seen_cache();
+    generate_lightmap();
 }
 
 std::vector<point> closest_points_first(int radius, point p)
@@ -5043,8 +5070,8 @@ ter_id find_furn_id(const std::string id, bool complain=true) {
 void map::draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2)
 {
     std::vector<point> line = line_to(x1, y1, x2, y2, 0);
-    for (int i = 0; i < line.size(); i++) {
-        ter_set(line[i].x, line[i].y, type);
+    for (auto &i : line) {
+        ter_set(i.x, i.y, type);
     }
     ter_set(x1, y1, type);
 }
@@ -5055,8 +5082,8 @@ void map::draw_line_ter(const std::string type, int x1, int y1, int x2, int y2) 
 
 void map::draw_line_furn(furn_id type, int x1, int y1, int x2, int y2) {
     std::vector<point> line = line_to(x1, y1, x2, y2, 0);
-    for (int i = 0; i < line.size(); i++) {
-        furn_set(line[i].x, line[i].y, type);
+    for (auto &i : line) {
+        furn_set(i.x, i.y, type);
     }
     furn_set(x1, y1, type);
 }

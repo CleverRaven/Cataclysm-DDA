@@ -451,7 +451,7 @@ size_t utf8_wrapper::byte_start_display(size_t bstart, size_t start) const
             continue;
         }
         const int width = mk_wcwidth(ch);
-        if(start >= width) {
+        if((int)start >= width) {
             // If width is 0, include the code point (might be combination character)
             // Same when width is actually smaller than start
             start -= width;
