@@ -61,7 +61,10 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
 
 weather_type weather_generator::get_weather_conditions(const point &location, const calendar &t) {
     w_point w(get_weather(location, t));
-    return get_weather_conditions(w);
+    weather_type wt = get_weather_conditions(w);
+    // Make sure we don't say it's sunny at night! =P
+    if (wt == WEATHER_SUNNY && t.is_night()) { return WEATHER_CLEAR; }
+    return wt;
 }
 weather_type weather_generator::get_weather_conditions(const w_point &w) const {
     weather_type r(WEATHER_CLEAR);
