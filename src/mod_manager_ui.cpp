@@ -122,7 +122,7 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     }
 
     if(!description.empty()) {
-        info << string_format("Description: %s\n", description.c_str());
+        info << string_format(_("Description: %s\n"), description.c_str());
     } else {
         info << _("Description: [NONE]\n");
     }

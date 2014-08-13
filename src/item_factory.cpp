@@ -1638,11 +1638,12 @@ void Item_factory::debug_spawn()
 {
     std::vector<std::string> groups = get_all_group_names();
     uimenu menu;
-    menu.text = "Test which group?";
+    menu.text = _("Test which group?");
     for (size_t i = 0; i < groups.size(); i++) {
         menu.entries.push_back(uimenu_entry(i, true, -2, groups[i]));
     }
-    menu.entries.push_back(uimenu_entry(menu.entries.size(), true, -2, "cancel"));
+    //~ Spawn group menu: Menu entry to exit menu
+    menu.entries.push_back(uimenu_entry(menu.entries.size(), true, -2, _("cancel")));
     while (true) {
         menu.query();
         const size_t index = menu.ret;
@@ -1664,7 +1665,7 @@ void Item_factory::debug_spawn()
             itemnames2.insert(std::pair<int, std::string>(e.second, e.first));
         }
         uimenu menu2;
-        menu2.text = "result of 100 spawns:";
+        menu2.text = _("Result of 100 spawns:");
         for (const auto &e : itemnames2) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
