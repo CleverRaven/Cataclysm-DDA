@@ -953,7 +953,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         for (int i = x - 1; i <= x + 1; i++) {
                             for (int j = y - 1; j <= y + 1; j++) {
                                 field &wandering_field = field_at(i, j);
-                                tmpfld = NULL;
                                 tmpfld = wandering_field.findField(fd_toxic_gas);
                                 if (tmpfld && tmpfld->getFieldDensity() < 3) {
                                     tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
