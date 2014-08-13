@@ -2557,6 +2557,8 @@
         "broken_color" : "red",
         "damage_modifier" : 10,
         "durability" : 250,
+        "size" : 100,
+        "fuel_type" : "battery",
         "item" : "vehicle_controls",
         "difficulty" : 3,
         "flags" : ["CONTROLS", "FOLDABLE"],
