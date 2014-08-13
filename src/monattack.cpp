@@ -2607,7 +2607,6 @@ void mattack::riotbot(monster *z)
                 add_msg(_("The robot carefully scans you."));
             }
             return;
-
         }
 
         enum {ur_arrest, ur_resist, ur_trick};

@@ -276,7 +276,7 @@ void game::init_fields()
         {
             "fd_relax_gas",
             {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
-            {c_white, c_pink, c_cyan}, { true, true, true }, { false, false, false }, 500,
+            { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
             {0,0,0}
         }
 
