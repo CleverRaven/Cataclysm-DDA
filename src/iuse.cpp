@@ -9163,6 +9163,8 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
         if (it->charges == 0) {
 
             g->sound(pos.x, pos.y, 2, "Click.");
+            it->item_tags.erase("NO_UNWIELD");
+            it->active = false;
 
             if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
                 add_msg(m_good, _("%s on your hands opened!"), it->tname().c_str());

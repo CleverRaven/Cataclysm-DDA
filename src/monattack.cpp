@@ -2629,6 +2629,7 @@ void mattack::riotbot(monster *z)
         if (choice == ur_arrest) {
             item handcuffs("e_handcuffs", 0);
             handcuffs.item_tags.insert("NO_UNWIELD");
+            handcuffs.charges = 1000;
             handcuffs.active = true;
             handcuffs.item_vars["HANDCUFFS_X"] = string_format("%d", g->u.posx);
             handcuffs.item_vars["HANDCUFFS_Y"] = string_format("%d", g->u.posy);

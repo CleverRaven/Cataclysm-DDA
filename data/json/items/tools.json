@@ -7822,7 +7822,7 @@
     "symbol": ";",
     "color": "white",
     "name": "electronic handcuffs",
-    "description": "A electronic handcuffs.  If they're wearing on your hands, you sinners before the law and managed to catch.  They continuously emit a siren signal that serves as an invitation for the police.  Wait for their arrival, don't try to escape or to take them down - you will receive a electric shock.  Of course, the world does not remain the police and no one will take it, you only have to wait when they will drain the batteries or to be smart...",
+    "description": "A electronic handcuffs.  If they're is turned on and wearing on your hands, you sinners before the law and managed to catch.  They continuously emit a siren signal that serves as an invitation for the police.  Wait for their arrival, don't try to escape or to take them down - you will receive a electric shock.  Of course, the world does not remain the police and no one will take it, you only have to wait when they will drain the batteries or to be smart...",
     "flags": ["ALWAYS_TWOHAND"],
     "price": 1000,
     "material": ["plastic", "steel"],
@@ -7832,11 +7832,11 @@
     "cutting": 1,
     "to_hit": -8,
     "max_charges": 1000,
-    "initial_charges": 1000,
+    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "e_handcuffs",
     "use_action": "EHANDCUFFS"
   }
 ]
