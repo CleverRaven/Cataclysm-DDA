@@ -773,7 +773,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                              "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
                     book->recipes.size(), recipes.c_str());
                 dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
+                dump->push_back(iteminfo("DESCRIPTION", recipe_line));
             }
         } else {
             dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));
@@ -1577,19 +1577,26 @@ int item::damage_cut() const
 {
     int total = type->melee_cut;
     if (is_gun()) {
+        std::string tmp_tp;
         for (size_t i = 0; i < contents.size(); i++) {
-            if (contents[i].typeId() == "bayonet" || "pistol_bayonet"|| "sword_bayonet")
+            tmp_tp = contents[i].typeId();
+            if ( tmp_tp == "bayonet" || tmp_tp == "pistol_bayonet" ||
+                 tmp_tp == "sword_bayonet" ) {
                 return contents[i].type->melee_cut;
+            }
         }
     }
-    if( is_null() )
+
+    if( is_null() ) {
         return 0;
+    }
+
     total -= total * (damage * 0.1);
-      if (total > 0) {
-      return total;
-      } else {
-         return 0;
-        }
+    if (total > 0) {
+        return total;
+    } else {
+        return 0;
+    }
 }
 
 bool item::has_flag(const std::string &f) const

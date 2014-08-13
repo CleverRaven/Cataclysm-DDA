@@ -38,9 +38,9 @@ bool player::is_armed() const
  return (weapon.typeId() != "null");
 }
 
-bool player::handle_melee_wear() {
+bool player::handle_melee_wear()
+{
 // Here is where we handle wear and tear on things we use as melee weapons or shields.
-    std::stringstream dump;
     int material_factor = 1;
     int damage_chance = dex_cur + ( 2 * get_skill_level("melee") ) + ( 128 / std::max(str_cur,1) );
   // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
@@ -1065,8 +1065,6 @@ bool player::has_technique(matec_id id) {
 void player::perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam,
                                int &stab_dam, int &move_cost)
 {
-    std::string target = t.disp_name();
-
     bash_dam += technique.bash;
     if (cut_dam > stab_dam) { // cut affects stab damage too since only one of cut/stab is used
         cut_dam += technique.cut;
@@ -1109,6 +1107,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     }
 
     /* TODO: put all this in when disease/effects merging is done
+    std::string target = t.disp_name();
     if (technique.disarms) {
         g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
         if (you) {
