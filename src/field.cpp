@@ -192,7 +192,7 @@ void game::init_fields()
             {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
             {0,0,0}
         },
-        { 
+        {
             "fd_spotlight",
             { _("spotlight"), _("spotlight"), _("spotlight") }, '&', 1,
             {c_white, c_white, c_white}, { true, true, true }, { false, false, false }, 1,
@@ -270,6 +270,13 @@ void game::init_fields()
             "fd_incendiary",
             {_("smoke"),_("airborne incendiary"), _("airborne incendiary")}, '8', 8,
             {c_white, c_ltred, c_ltred_red}, {true, true, false}, {true, true, true},  500,
+            {0,0,0}
+        },
+
+        {
+            "fd_relax_gas",
+            {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
+            {c_white, c_pink, c_cyan}, { true, true, true }, { false, false, false }, 500,
             {0,0,0}
         }
 
@@ -888,6 +895,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( this, cur, x, y, curtype, 33, 30 );
                         break;
 
+                    case fd_relax_gas:
+                        spread_gas( this, cur, x, y, curtype, 25, 50 );
+                        break;
+
                     case fd_toxic_gas:
                         spread_gas( this, cur, x, y, curtype, 50, 30 );
                         break;
@@ -1172,6 +1183,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_smoke ) ||
                             curfield.findField( fd_toxic_gas ) ||
                             curfield.findField( fd_tear_gas ) ||
+                            curfield.findField( fd_relax_gas ) ||
                             curfield.findField( fd_nuke_gas ) ||
                             curfield.findField( fd_gas_vent ) ||
                             curfield.findField( fd_fire_vent ) ||
@@ -1238,7 +1250,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             spread_gas( this, cur, x, y, curtype, 66, 40 );
                         }
                         break;
-                    
+
                     default:
                         //Suppress warnings
                         break;
@@ -1455,6 +1467,13 @@ void map::step_in_field(int x, int y)
             if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
             {
                 g->u.add_env_effect("blind", bp_eyes, cur->getFieldDensity() * 2, 10);
+            }
+            break;
+
+        case fd_relax_gas:
+            if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+            {
+                g->u.add_env_effect("relax_gas", bp_mouth, cur->getFieldDensity() * 2, 3);
             }
             break;
 
@@ -1756,6 +1775,13 @@ void map::mon_in_field(int x, int y, monster *z)
             }
             break;
 
+        case fd_relax_gas:
+            if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") || z->made_of("iflesh")) &&
+                !z->has_flag(MF_NO_BREATHE)) {
+                z->add_effect("stunned", rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
+            }
+            break;
+
         case fd_dazzling:
             if (z->has_flag(MF_SEES)) {
                 z->add_effect("blind", cur->getFieldDensity() * 12);
@@ -1877,7 +1903,7 @@ void map::mon_in_field(int x, int y, monster *z)
                 }
             }
             break;
-        
+
         default:
             //Suppress warnings
             break;

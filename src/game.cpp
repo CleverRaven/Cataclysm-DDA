@@ -10930,6 +10930,17 @@ void game::plthrow(int pos)
         return;
     }
 
+    if (u.has_effect("relax_gas")) {
+        if (one_in(5)) {
+            add_msg(m_good, _("You concentrate mightily, and your body obeys!"));
+        }
+        else {
+            u.moves -= rng(2, 5) * 10;
+            add_msg(m_bad, _("You can't muster up the effort to throw anything..."));
+            return;
+        }
+    }
+
     temp_exit_fullscreen();
     m.draw(w_terrain, point(u.posx, u.posy));
 
@@ -12279,6 +12290,16 @@ bool game::plmove(int dx, int dy)
                 add_msg(m_info, _("Click directly on monster to attack."));
                 u.clear_destination();
                 return false;
+            }
+            if (u.has_effect("relax_gas")) {
+                if (one_in(8)) {
+                    add_msg(m_good, _("Your willpower asserts itself, and so do you!"));
+                }
+                else {
+                    u.moves -= rng(2, 8) * 10;
+                    add_msg(m_bad, _("You're too pacified to strike anything..."));
+                    return false;
+                }
             }
             u.melee_attack(critter, true);
             if (critter.is_hallucination()) {

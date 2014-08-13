@@ -349,6 +349,7 @@ void Item_factory::init()
     iuse_function_list["ROBOTCONTROL"] = &iuse::robotcontrol;
     iuse_function_list["EINKTABLETPC"] = &iuse::einktabletpc;
     iuse_function_list["CAMERA"] = &iuse::camera;
+    iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS

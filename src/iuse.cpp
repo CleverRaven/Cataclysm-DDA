@@ -741,7 +741,7 @@ int iuse::alcohol(player *p, item *it, bool)
     it_comest *food = dynamic_cast<it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
         duration = 180 - (10 * p->str_max);
-        // Metabolizing the booze improves the nutritional value; 
+        // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out depressant
@@ -767,7 +767,7 @@ int iuse::alcohol_weak(player *p, item *it, bool)
     it_comest *food = dynamic_cast<it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
         duration = 90 - (6 * p->str_max);
-        // Metabolizing the booze improves the nutritional value; 
+        // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out the depressant
@@ -1048,7 +1048,7 @@ int iuse::eyedrops(player *p, item *it, bool)
     if (it->charges < 1) {
         p->add_msg_if_player(_("You're out of %s."), it->tname().c_str());
         return false;
-    } 
+    }
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
     if (p->has_effect("boomered")) {
@@ -9144,6 +9144,57 @@ int iuse::camera(player *p, item *it, bool)
     }
 
     return it->type->charges_to_use();
+}
+
+int iuse::ehandcuffs(player *p, item *it, bool t)
+{
+if (t){
+
+        point pos = g->find_item(it);
+
+    if (it->charges == 0){
+
+        g->sound(pos.x, pos.y, 2, "Click.");
+
+         if (p->has_item(it) && p->weapon.type->id == "e_handcuffs"){
+            add_msg(m_good, _("Handcuffs on your hands opened!"));
+        }
+
+        return it->type->charges_to_use();
+    }
+
+   const int x = atoi(it->item_vars["HANDCUFFS_X"].c_str());
+   const int y = atoi(it->item_vars["HANDCUFFS_Y"].c_str());
+
+   if (x != pos.x || y != pos.y){
+
+         if (p->has_item(it) && p->weapon.type->id == "e_handcuffs"){
+
+            add_msg(m_bad, _("Ouch, your hands is electrocuted!"));
+
+            p->apply_damage( nullptr, bp_arm_l, rng( 0, 2 ) );
+            p->apply_damage( nullptr, bp_arm_r, rng( 0, 2 ) );
+
+        }else{
+            //
+            add_msg(m_bad, _("Electronic handcuffs is sparkle!"));
+        }
+
+        it->charges -= 50;
+        if (it->charges < 1) it->charges = 1;
+
+        it->item_vars["HANDCUFFS_X"] = string_format("%d", pos.x);
+        it->item_vars["HANDCUFFS_Y"] = string_format("%d", pos.y);
+
+        return it->type->charges_to_use();
+
+   }
+
+   return it->type->charges_to_use();
+
+}
+
+return it->type->charges_to_use();
 }
 
 int iuse::radiocar(player *p, item *it, bool)
