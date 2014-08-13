@@ -1806,7 +1806,7 @@ void musicFinished() {
     current_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if(current_playlist_at >= playlists[current_playlist].files.size()) {
+    if(current_playlist_at >= (int)playlists[current_playlist].files.size()) {
         current_playlist_at = 0;
     }
 
@@ -1847,7 +1847,7 @@ void load_soundset() {
         JsonObject config = json.get_object();
         JsonArray playlists_ = config.get_array("playlists");
 
-        for(int i=0; i < playlists_.size(); i++) {
+        for(int i=0; i < (int)playlists_.size(); i++) {
             JsonObject playlist = playlists_.get_object(i);
 
             std::string playlist_id = playlist.get_string("id");
@@ -1855,7 +1855,7 @@ void load_soundset() {
             playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
 
             JsonArray playlist_files = playlist.get_array("files");
-            for(int j=0; j < playlist_files.size(); j++) {
+            for(int j=0; j < (int)playlist_files.size(); j++) {
                 JsonObject entry = playlist_files.get_object(j);
                 playlist_to_load.files.push_back(entry.get_string("file"));
                 playlist_to_load.volumes.push_back(entry.get_int("volume"));
