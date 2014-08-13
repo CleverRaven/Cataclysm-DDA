@@ -270,7 +270,7 @@ const std::vector<int> rot_chart = calc_rot_array(200);
  */
 int get_hourly_rotpoints_at_temp (const int &temp)
 {
-    if ( temp < 0 || temp < -1 ) {
+    if ( temp < 0 ) {
         return 0;
     }
     if ( temp > 150 ) {

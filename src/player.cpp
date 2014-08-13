@@ -10050,7 +10050,7 @@ std::string player::is_snuggling()
         return "nothing";
     }
     else if ( ticker == 1 ) {
-        return floor_armor->nname(1).c_str();
+        return floor_armor->nname(1);
     }
     else if ( ticker > 1 ) {
         return "many";
