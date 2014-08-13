@@ -2628,7 +2628,7 @@ void mattack::riotbot(monster *z)
         if (choice == ur_arrest) {
             item handcuffs("e_handcuffs", 0);
             handcuffs.item_tags.insert("NO_UNWIELD");
-            handcuffs.charges = 1000;
+            handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.item_vars["HANDCUFFS_X"] = string_format("%d", g->u.posx);
             handcuffs.item_vars["HANDCUFFS_Y"] = string_format("%d", g->u.posy);
@@ -2658,7 +2658,7 @@ void mattack::riotbot(monster *z)
                 z->anger = -rng(0, 50);
                 return;
             } else {
-                add_msg(m_bad, _("You make sudden movements, similar to the attack."));
+                add_msg(m_bad, _("You're a bad actor, make awkward movements."));
                 g->u.moves -= 100;
                 bad_trick = true;
             }
@@ -2686,14 +2686,14 @@ void mattack::riotbot(monster *z)
     }
 
     if (calendar::turn % 5 == 0) {
-        g->sound(monx, mony, 25, _("Empty your hands and hold position!"));
+        g->sound(monx, mony, 25, _("Empty your hands and hold position, citizen!"));
     }
 
     if (dist > 5 && dist < 18 && one_in(10)) {
 
         z->moves -= 50;
 
-        int delta = dist / 3 + 1;  //precautionary shot
+        int delta = dist / 4 + 1;  //precautionary shot
         if (z->hp < z->type->hp) {
             delta = 1;    //precision shot
         }
