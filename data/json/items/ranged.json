@@ -1936,7 +1936,7 @@
     "description": "A bolt-action sniper rifle chambered in the powerful .300 Winchester Magnum round.  The M2010 had completely replaced the M24 rifle series by 2017.",
     "price": 320000,
     "material": ["steel", "plastic"],
-    "flags": ["RELOAD_ONE", "NEVER_JAMS"],
+    "flags": "NEVER_JAMS",
     "skill": "rifle",
     "ammo": "300",
     "weight": 4080,
