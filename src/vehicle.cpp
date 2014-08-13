@@ -2726,21 +2726,16 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
 
 void vehicle::charge_battery (int amount)
 {
-    for(auto &f : fuel)
-    {
-        if(part_info(fuel[f]).fuel_type == fuel_type_battery)
-        {
+    for(auto &f : fuel) {
+        if(part_info(f).fuel_type == fuel_type_battery) {
             int empty = part_info(f).size - parts[f].amount;
-            if(empty < amount)
-            {
+            if(empty < amount) {
                 amount -= empty;
                 parts[f].amount = part_info(f).size;
                 if (amount <= 0) {
                     break;
                 }
-            }
-            else
-            {
+            } else {
                 parts[f].amount += amount;
                 amount = 0;
                 break;
