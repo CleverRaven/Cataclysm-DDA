@@ -217,7 +217,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
     std::set<point>::const_iterator i;
     for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
         item *c = NULL;
-        unsigned int maxcontains = 0;
+        int maxcontains = 0;
         point loc = *i;
         std::vector<item> &items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
