@@ -1625,6 +1625,28 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
     return have_all_tools;
 }
 
+bool query_dissamble(const recipe *cur_recipe, const item &dis_item)
+{
+    if( OPTIONS["QUERY_DISASSEMBLE"] ) {
+        std::ostringstream buffer;
+        buffer << "\n" << _("You think you can salvage: ");
+        if( dis_item.components.empty() ) {
+            for( auto it = cur_recipe->components.begin(); it != cur_recipe->components.end(); ++it ) {
+                if( it != cur_recipe->components.begin() ) {
+                    buffer << _(", ");
+                }
+                buffer << it->front().to_string();
+            }
+        } else {
+            buffer << dis_item.components_to_string();
+        }
+        buffer << "\n\n";
+        buffer << string_format( _("Really disassemble the %s?"), dis_item.tname().c_str() );
+        return query_yn( "%s", buffer.str().c_str() );
+    }
+    return true;
+}
+
 void game::disassemble(int pos)
 {
     if (pos == INT_MAX) {
@@ -1651,8 +1673,7 @@ void game::disassemble(int pos)
     if (cur_recipe != NULL) {
         inventory crafting_inv = crafting_inventory(&u);
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
-            if (OPTIONS["QUERY_DISASSEMBLE"] &&
-                !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str()))) {
+            if( !query_dissamble( cur_recipe, *dis_item ) ) {
                 return;
             }
             u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
