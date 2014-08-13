@@ -28,9 +28,19 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1, SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, SORTBY_DAMAGE, NUM_SORTBY
 };
 
-const std::string sortnames[NUM_SORTBY] = { "-none-", _( "none" ), _( "name" ), _( "weight" ), _( "volume" ),
-                                            _( "charges" ), _( "category" ), _( "damage" )
-                                          };
+std::string advanced_inventory::get_sortname(int sortby)
+{
+    switch(sortby) {
+        case SORTBY_NONE: return _("none");
+        case SORTBY_NAME: return _("name");
+        case SORTBY_WEIGHT: return _("weight");
+        case SORTBY_VOLUME: return _("volume");
+        case SORTBY_CHARGES: return _("charges");
+        case SORTBY_CATEGORY: return _("category");
+        case SORTBY_DAMAGE: return _("damage");
+        default: return "-none-";
+    }
+}
 
 bool advanced_inventory::isDirectionalDragged(int area1, int area2)
 {
@@ -767,7 +777,7 @@ void advanced_inventory::redraw_pane( int i )
     }
     draw_border(panes[i].window);
     mvwprintw(panes[i].window, 0, 3, _("< [s]ort: %s >"),
-              sortnames[ panes[i].sortby < NUM_SORTBY ? panes[i].sortby : 0 ].c_str() );
+              get_sortname( panes[i].sortby < NUM_SORTBY ? panes[i].sortby : 0 ).c_str() );
     int max = MAX_ITEM_IN_SQUARE;
     if ( panes[i].area == isall ) {
         max *= 9;
@@ -1612,12 +1622,12 @@ void advanced_inventory::display(player *pp)
             uimenu sm; /* using new uimenu class */
             sm.text = _("Sort by... ");
             sm.entries.push_back(uimenu_entry(SORTBY_NONE, true, 'u', _("Unsorted (recently added first)") ));
-            sm.entries.push_back(uimenu_entry(SORTBY_NAME, true, 'n', sortnames[SORTBY_NAME]));
-            sm.entries.push_back(uimenu_entry(SORTBY_WEIGHT, true, 'w', sortnames[SORTBY_WEIGHT]));
-            sm.entries.push_back(uimenu_entry(SORTBY_VOLUME, true, 'v', sortnames[SORTBY_VOLUME]));
-            sm.entries.push_back(uimenu_entry(SORTBY_CHARGES, true, 'x', sortnames[SORTBY_CHARGES]));
-            sm.entries.push_back(uimenu_entry(SORTBY_CATEGORY, true, 'c', sortnames[SORTBY_CATEGORY]));
-            sm.entries.push_back(uimenu_entry(SORTBY_DAMAGE, true, 'd', sortnames[SORTBY_DAMAGE]));
+            sm.entries.push_back(uimenu_entry(SORTBY_NAME, true, 'n', get_sortname(SORTBY_NAME)));
+            sm.entries.push_back(uimenu_entry(SORTBY_WEIGHT, true, 'w', get_sortname(SORTBY_WEIGHT)));
+            sm.entries.push_back(uimenu_entry(SORTBY_VOLUME, true, 'v', get_sortname(SORTBY_VOLUME)));
+            sm.entries.push_back(uimenu_entry(SORTBY_CHARGES, true, 'x', get_sortname(SORTBY_CHARGES)));
+            sm.entries.push_back(uimenu_entry(SORTBY_CATEGORY, true, 'c', get_sortname(SORTBY_CATEGORY)));
+            sm.entries.push_back(uimenu_entry(SORTBY_DAMAGE, true, 'd', get_sortname(SORTBY_DAMAGE)));
             // Pre-select current sort.
             // uimenu.selected is entries[index] (starting at 0), not return value.
             sm.selected = panes[src].sortby - 1;

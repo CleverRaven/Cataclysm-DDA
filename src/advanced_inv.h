@@ -133,6 +133,7 @@ class advanced_inventory
             isdrag(11)
         {
         }
+        std::string get_sortname(int sortby);
         bool move_all_items();
         void display(player *pp);
         void print_items(advanced_inventory_pane &pane, bool active);
