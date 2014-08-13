@@ -3735,7 +3735,9 @@ std::string player::get_category_dream(const std::string &cat, int strength) con
             valid_dreams.push_back(dreams[i]); // Put the valid ones into our list
         }
     }
-
+    if( valid_dreams.empty() ) {
+        return "";
+    }
     int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
     selected_dream = valid_dreams[index];
     index = rng(0, selected_dream.messages.size() - 1); // Randomly selected a message from the chosen dream
@@ -7187,7 +7189,7 @@ std::list<item> player::use_charges(itype_id it, long quantity)
     if (weapon.use_charges(it, quantity, ret)) {
         remove_weapon();
     }
-    for( auto a = worn.begin(); a != worn.end() && quantity > 0; ++a ) {
+    for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
         if( a->use_charges( it, quantity, ret ) ) {
             a = worn.erase( a );
         } else {

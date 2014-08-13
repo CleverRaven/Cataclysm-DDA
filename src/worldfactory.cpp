@@ -64,29 +64,21 @@ WORLD::WORLD()
 }
 
 worldfactory::worldfactory()
+: active_world( nullptr )
+, all_worlds()
+, all_worldnames()
+, mman( nullptr )
+, mman_ui( nullptr )
 {
-    active_world = NULL;
-    mman = new mod_manager;
+    mman.reset( new mod_manager );
     mman->refresh_mod_list();
-    mman_ui = new mod_ui(mman);
+    mman_ui.reset( new mod_ui( mman.get() ) );
 }
 
 worldfactory::~worldfactory()
 {
-    for (std::map<std::string, WORLDPTR>::iterator it = all_worlds.begin(); it != all_worlds.end();
-         ++it) {
-        delete it->second;
-        it->second = NULL;
-    }
-    all_worlds.clear();
-    all_worldnames.clear();
-    if (mman) {
-        delete mman;
-        mman = NULL;
-    }
-    if (mman_ui) {
-        delete mman_ui;
-        mman_ui = NULL;
+    for( auto &wp : all_worlds ) {
+        delete wp.second;
     }
 }
 
@@ -1330,5 +1322,5 @@ std::unordered_map<std::string, cOpt> worldfactory::get_world_options(std::strin
 
 mod_manager *worldfactory::get_mod_manager()
 {
-    return mman;
+    return mman.get();
 }

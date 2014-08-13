@@ -3115,7 +3115,9 @@ void manage_sleep(player& p, disease& dis)
         if ((int(calendar::turn) % (3600 / strength) == 0) && one_in(3)) {
             // Select a dream
             std::string dream = p.get_category_dream(highcat, strength);
-            add_msg("%s",dream.c_str());
+            if( !dream.empty() ) {
+                add_msg( "%s", dream.c_str() );
+            }
         }
     }
 

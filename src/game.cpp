@@ -4396,13 +4396,13 @@ void game::debug()
             m.vehicle_list.clear();
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
             const int nlevy = tmp.y * 2 - int(MAPSIZE / 2);
-            // TODO: make this use the normal map shifting function all the time?
-            shift_monsters( nlevx - levx, nlevy - levy, tmp.z - levz );
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
             levx = nlevx - cur_om->pos().x * OMAPX * 2;
             levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
             m.load(levx, levy, levz, true, cur_om);
+            // TODO: make this use the normal map shifting function all the time?
+            shift_monsters( nlevx - levx, nlevy - levy, tmp.z - levz );
             load_npcs();
             m.spawn_monsters(); // Static monsters
             update_overmap_seen();

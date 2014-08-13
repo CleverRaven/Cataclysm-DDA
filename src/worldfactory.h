@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-#include <algorithm>
+#include <memory>
 
 struct WORLD {
     std::string world_path;
@@ -73,8 +73,8 @@ class worldfactory
 
         std::unordered_map<std::string, cOpt> get_default_world_options();
         std::unordered_map<std::string, cOpt> get_world_options(std::string path);
-        mod_manager *mman;
-        mod_ui *mman_ui;
+        std::unique_ptr<mod_manager> mman;
+        std::unique_ptr<mod_ui> mman_ui;
 };
 
 extern worldfactory *world_generator;
