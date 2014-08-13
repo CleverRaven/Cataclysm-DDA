@@ -1933,7 +1933,7 @@
     "color": "dkgray",
     "name": "M2010 ESR",
     "name_plural": "M2010 ESR",
-    "description": "A bolt-action sniper rifle chambered in the powerful .300 Winchester Magnum round.  The M2010 had completely replaced the M24 rifle series by 2017.",
+    "description": "A bolt-action, box-magazine-fed, sniper rifle chambered in the powerful .300 Winchester Magnum round.  The M2010 had completely replaced the M24 rifle series by 2017.",
     "price": 320000,
     "material": ["steel", "plastic"],
     "flags": "NEVER_JAMS",
@@ -1951,7 +1951,7 @@
     "durability": 8,
     "burst": 0,
     "clip_size": 5,
-    "reload": 75,
+    "reload": 480,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
  

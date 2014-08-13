@@ -559,19 +559,19 @@ void initOptions()
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
     // Note: language names are in their own language and are *not* translated at all.
-    optionNames["cs"] = "čeština";
+    optionNames["cs"] = "Čeština";
     optionNames["en"] = "English";
-    optionNames["fr_FR"] =  "français (France)";
+    optionNames["fr_FR"] =  "Français (France)";
     optionNames["de_DE"] = "Deutsch (Deutschland)";
-    optionNames["it"] = "italiano";
-    optionNames["es_ES"] = "español (España)";
+    optionNames["it"] = "Italiano";
+    optionNames["es_ES"] = "Español (España)";
     optionNames["ja"] = "日本語";
     optionNames["ko"] = "한국어";
     optionNames["pl"] = "polski";
     optionNames["pt_BR"] = "Português (Brasil)";
-    optionNames["pt_PT"] = "português (Portugal)";
+    optionNames["pt_PT"] = "Português (Portugal)";
     optionNames["ru"] = "Русский";
-    optionNames["sr"] = "srpski";
+    optionNames["sr"] = "Srpski";
     optionNames["vi"] = "Tiếng Việt";
     optionNames["zh_CN"] = "中文(中华人民共和国)";
     optionNames["zh_TW"] = "中文(台灣)";
