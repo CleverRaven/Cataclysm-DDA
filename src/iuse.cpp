@@ -9152,6 +9152,14 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
 
         point pos = g->find_item(it);
 
+        if (g->m.has_flag("SWIMMABLE", pos.x, pos.y)) {
+            it->item_tags.erase("NO_UNWIELD");
+            it->charges = 0;
+            it->active = false;
+            add_msg(m_good, _("%s automatically turned off!"), it->tname().c_str());
+            return it->type->charges_to_use();
+        }
+
         if (it->charges == 0) {
 
             g->sound(pos.x, pos.y, 2, "Click.");
@@ -9161,6 +9169,10 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
             }
 
             return it->type->charges_to_use();
+        }
+
+        if (calendar::turn % 10 == 0) {
+            g->sound(pos.x, pos.y, 10, _("a police siren, whoop WHOOP."));
         }
 
         const int x = atoi(it->item_vars["HANDCUFFS_X"].c_str());
@@ -9176,7 +9188,6 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
                 p->apply_damage(nullptr, bp_arm_r, rng(0, 2));
 
             } else {
-                //
                 add_msg(m_bad, _("%s is sparkle!"), it->tname().c_str());
             }
 
@@ -9198,6 +9209,8 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
 
     if (it->active) {
         add_msg("%s sitting tightly on the skin, you can't take them off.", it->tname().c_str());
+    } else {
+        add_msg("%s discharged and can be taken off.", it->tname().c_str());
     }
 
     return it->type->charges_to_use();

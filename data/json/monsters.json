@@ -5779,7 +5779,7 @@
     "special_freq":1,
     "death_function":"BROKEN",
     "special_attack":"RIOTBOT",
-    "description":"Nonviolent riot-control bot.  Designed to suppress riots and mass arrests.  Emits relaxation gas, slightly crackled with electricity and has a set of electronic handcuffs and light gun blinding actions.",
+    "description":"Nonviolent riot-control bot.  Designed to suppress riots and to mass arrests.  Emits relaxation gas, slightly crackled with electricity and has a set of electronic handcuffs and not vital gun blinding actions.",
     "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "VIS50"]
     }
 ]
