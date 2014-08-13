@@ -877,7 +877,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int oxygen;
         unsigned int recoil;
         unsigned int driving_recoil;
-        unsigned int scent;
+        int scent;
         int dodges_left, blocks_left;
         int stim, pkill, radiation;
         unsigned long cash;

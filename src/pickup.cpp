@@ -515,7 +515,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
                 if (getitem[idx]) {
                     if (pickup_count[idx] != 0 &&
-                        pickup_count[idx] < here[idx].charges) {
+                        (int)pickup_count[idx] < here[idx].charges) {
                         item temp = here[idx].clone();
                         temp.charges = pickup_count[idx];
                         new_weight += temp.weight();
@@ -525,7 +525,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                         new_volume += here[idx].volume();
                     }
                 } else if (pickup_count[idx] != 0 &&
-                           pickup_count[idx] < here[idx].charges) {
+                           (int)pickup_count[idx] < here[idx].charges) {
                     item temp = here[idx].clone();
                     temp.charges = pickup_count[idx];
                     new_weight -= temp.weight();

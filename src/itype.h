@@ -366,13 +366,13 @@ struct it_ammo : public virtual itype {
 struct it_gun : public virtual itype {
     ammotype ammo;
     Skill *skill_used;
-    signed int dmg_bonus;
-    signed int pierce;
-    signed int range;
-    signed int dispersion;
-    signed int recoil;
-    signed int durability;
-    unsigned int burst;
+    int dmg_bonus;
+    int pierce;
+    int range;
+    int dispersion;
+    int recoil;
+    int durability;
+    int burst;
     int clip;
     int reload_time;
 
@@ -497,7 +497,7 @@ struct it_book : public virtual itype {
 };
 
 struct it_container : public virtual itype {
-    unsigned int contains; // Internal volume
+    int contains; // Internal volume
     virtual bool is_container() const
     {
         return true;

@@ -2220,7 +2220,7 @@ bool item::is_container_full() const
     return get_remaining_capacity() == 0;
 }
 
-bool item::is_funnel_container(unsigned int &bigger_than) const
+bool item::is_funnel_container(int &bigger_than) const
 {
     if ( ! is_watertight_container() ) {
         return false;

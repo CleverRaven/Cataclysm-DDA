@@ -571,7 +571,7 @@ void player::process_turn()
     suffer();
 
     // Set our scent towards the norm
-    unsigned norm_scent = 500;
+    int norm_scent = 500;
     if (has_trait("WEAKSCENT")) {
         norm_scent = 300;
     }
