@@ -1478,7 +1478,11 @@ void map::step_in_field(int x, int y)
             break;
 
         case fd_dazzling:
-            g->u.add_env_effect("blind", bp_eyes, 10, 10);
+            if (cur->getFieldDensity() > 1 || one_in(5)){
+                g->u.add_env_effect("blind", bp_eyes, 10, 10);
+            } else{
+                g->u.add_env_effect("blind", bp_eyes, 1, 1);
+            }
             break;
 
         case fd_toxic_gas:
