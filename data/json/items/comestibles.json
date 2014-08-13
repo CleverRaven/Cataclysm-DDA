@@ -1955,7 +1955,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "european_pilsner",
-        "name" : "european pilsner",
+        "name" : "European pilsner",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -1984,7 +1984,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "pale_ale",
-        "name" : "american pale ale",
+        "name" : "American pale ale",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -2013,7 +2013,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "india_pale_ale",
-        "name" : "india pale ale",
+        "name" : "India pale ale",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -2071,7 +2071,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "belgian_ale",
-        "name" : "belgian ale",
+        "name" : "Belgian ale",
         "weight" : 249,
         "color" : "brown",
         "addiction_type" : "alcohol",
