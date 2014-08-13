@@ -667,7 +667,7 @@ std::list<item> inventory::reduce_stack_internal(const Locator &locator, int qua
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (item_matches_locator(iter->front(), locator, pos)) {
-            if(quantity >= iter->size() || quantity < 0) {
+            if(quantity >= (int)iter->size() || quantity < 0) {
                 ret = *iter;
                 items.erase(iter);
             } else {
