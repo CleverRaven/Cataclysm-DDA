@@ -2013,12 +2013,12 @@ void game::update_weather()
             has_generator = true;
         }
 //        debugmsg("Generating weather for turn %d", int(calendar::turn));
-        w_point w = weatherGen.get_weather(u.pos(), calendar(calendar::turn));
+        w_point w = weatherGen.get_weather(u.pos(), calendar::turn);
         weather_type old_weather = weather;
         weather = weatherGen.get_weather_conditions(w);
         temperature = w.temperature;
         g->lightning_active = false;
-        nextweather += 50; // Check weather each turn.
+        nextweather += 50; // Check weather each 50 turns.
         if (weather != old_weather && weather_data[weather].dangerous &&
             levz >= 0 && m.is_outside(u.posx, u.posy)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data[weather].name.c_str());

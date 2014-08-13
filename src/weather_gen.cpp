@@ -15,15 +15,15 @@ weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
 w_point weather_generator::get_weather(const point &location, const calendar &t) {
     const double x(location.x / 2000.0);// Integer x position / widening factor of the Perlin function.
     const double y(location.y / 2000.0);// Integer y position / widening factor of the Perlin function.
-    int initial_season(0);
-    if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring") {
-        initial_season = 1;
-    } else if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
-        initial_season = 2;
-    } else if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
-        initial_season = 3;
-    }
-    const double z( double( t.get_turn() + DAYS(initial_season * t.season_length()) ) / 2000.0); // Integer turn / widening factor of the Perlin function.
+//    int initial_season(0);
+//    if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring") {
+//        initial_season = 1;
+//    } else if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+//        initial_season = 2;
+//    } else if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
+//        initial_season = 3;
+//    }
+    const double z( double( t.get_turn() ) / 2000.0); // Integer turn / widening factor of the Perlin function.
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
@@ -32,7 +32,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     double H2(raw_noise_4d(x, y, z, SEED + 151) / 4);
     double P(raw_noise_4d(x, y, z / 3, SEED + 211) * 70);
 
-    const double now(( double(t.turn_of_year() + DAYS( initial_season * t.season_length() )) ) / double(calendar::year_turns())); // [0,1)
+    const double now( (double( t.turn_of_year() )) / double(t.year_turns()) ); // [0,1)
     const double ctn(cos(tau * now));
 
     // Temperature variation
@@ -91,13 +91,14 @@ void weather_generator::test_weather() {
     std::ofstream testfile;
     std::ostringstream ss;
     testfile.open("weather.output", std::ofstream::trunc);
-    testfile << "turn,temperature(C),humidity(%),pressure(mB)" << std::endl;
+    testfile << "turn,temperature(F),humidity(%),pressure(mB)" << std::endl;
 
-    for (calendar i(0); i.get_turn() < 14400 * calendar::year_length(); i+=200) {
+    for (calendar i(calendar::turn); i.get_turn() < calendar::turn + 14400 * 2 * calendar::turn.year_length(); i+=200) {
         ss.str("");
         w_point w = get_weather(point(0,0),i);
         ss << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure;
         testfile << std::string( ss.str() ) << std::endl;
     }
     testfile.close();
+    //debugmsg("Starting season: %s", ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue().c_str());
 }
