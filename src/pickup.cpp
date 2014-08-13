@@ -494,17 +494,15 @@ void Pickup::pick_up(int posx, int posy, int min)
                 idx = pickup_chars.find(ch);
             }
 
-            if ( idx < (int)here.size()) {
-                if (idx != -1) {
-                    if (itemcount != 0 || pickup_count[idx] == 0) {
-                        if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
-                            // Ignore the count if we pickup the whole stack anyway
-                            // or something that is not counted by charges (tools)
-                            itemcount = 0;
-                        }
-                        pickup_count[idx] = itemcount;
+            if( idx >= 0 && idx < (int)here.size()) {
+                if (itemcount != 0 || pickup_count[idx] == 0) {
+                    if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
+                        // Ignore the count if we pickup the whole stack anyway
+                        // or something that is not counted by charges (tools)
                         itemcount = 0;
                     }
+                    pickup_count[idx] = itemcount;
+                    itemcount = 0;
                 }
 
                 getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
