@@ -28,8 +28,8 @@ class effect_type
 
         efftype_id id;
 
-        std::string get_name() const;
-        std::string get_desc() const;
+        std::string get_name();
+        std::string get_desc();
 
         effect_rating get_rating() const;
 
