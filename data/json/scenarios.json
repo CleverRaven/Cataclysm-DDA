@@ -19,6 +19,15 @@
 	},
 	{
 	    "type": "scenario",
+	    "ident": "summer",
+	    "name": "Fun in the Sunmer.",
+	    "description": "It's Summer TIME! And that can mean only one thing! The risen dead and the hottest vacation spot around!",
+	    "start_location": "shelter",
+	    "start_name": "Summer Vacation Spot",
+	    "flags" : ["ALL_PROFS","SUM_START"]
+	},
+	{
+	    "type": "scenario",
 	    "ident": "mechanic",
 	    "name": "Mechanic",
 	    "description": "Working in the shop, you were so focused on the task at hand you missed the evacuation!",

@@ -1,6 +1,7 @@
 #include "weather_gen.h"
 #include "options.h"
 #include "enums.h"
+#include "game.h"
 
 #include <cmath>
 #include <iostream>
@@ -23,6 +24,10 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     } else if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
         initial_season = 3;
     }
+    if (g->scen->has_flag("SUM_START")){initial_season = 2;}
+    if (g->scen->has_flag("SPR_START")){initial_season = 1;}
+    if (g->scen->has_flag("AUT_START")){initial_season = 3;}
+    if (g->scen->has_flag("WIN_START")){initial_season = 0;}
     const double z( double( t.get_turn() + DAYS(initial_season * t.season_length()) ) / 2000.0); // Integer turn / widening factor of the Perlin function.
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 

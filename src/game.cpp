@@ -572,14 +572,23 @@ void game::start_game(std::string worldname)
     }
 
     calendar::turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
-    if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
-    else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
-        calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
-    } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
-        calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
-    } else {
-        calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
-    }
+    if (g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") || g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START")){
+	if (g->scen->has_flag("SPR_START"));
+	else if (g->scen->has_flag("SUM_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);}
+	else if (g->scen->has_flag("AUT_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);}
+	else if (g->scen->has_flag("WIN_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);}
+	else {debugmsg("The Unicorn");}
+	}
+    else{
+	    if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
+	    else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+	    } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
+		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+	    } else {
+		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+	    }
+	}
     nextweather = calendar::turn;
     weatherSeed = rand();
     run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
