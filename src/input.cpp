@@ -1199,7 +1199,7 @@ void init_interface()
 }
 #endif
 
-const std::string &input_context::get_action_name(const std::string &action_id) const
+const std::string input_context::get_action_name(const std::string &action_id) const
 {
     // 1) Check action name overrides specific to this input_context
     const input_manager::t_string_string_map::const_iterator action_name_override =
@@ -1211,7 +1211,7 @@ const std::string &input_context::get_action_name(const std::string &action_id) 
     // 2) Check if the hotkey has a name
     const action_attributes &attributes = inp_mngr.get_action_attributes(action_id, category);
     if (!attributes.name.empty()) {
-        return attributes.name;
+        return _(attributes.name.c_str());
     }
 
     // 3) If the hotkey has no name, the user has created a local hotkey in
@@ -1220,7 +1220,7 @@ const std::string &input_context::get_action_name(const std::string &action_id) 
     const action_attributes &default_attributes = inp_mngr.get_action_attributes(action_id,
             default_context_id);
     if (!default_attributes.name.empty()) {
-        return default_attributes.name;
+        return _(default_attributes.name.c_str());
     }
 
     // 4) Unable to find suitable name. Keybindings configuration likely borked

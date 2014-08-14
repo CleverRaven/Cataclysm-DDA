@@ -3394,7 +3394,7 @@ talk_topic dialogue::opt(talk_topic topic)
  if (special_talk(ch) != TALK_NONE)
   return special_talk(ch);
 
- std::string response_printed = rmp_format("<you say something>You: %s", responses[ch].text.c_str());
+ std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
  folded = foldstring(response_printed, FULL_SCREEN_WIDTH / 2);
  for( size_t i = 0; i < folded.size(); ++i ){
    history.push_back(folded[i]);

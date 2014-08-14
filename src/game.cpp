@@ -729,7 +729,7 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end()
 {
-    write_msg();
+    draw_sidebar();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Save the factions', missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
@@ -2642,7 +2642,7 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
 void game::hide_mouseview()
 {
     if (liveview.hide()) {
-        write_msg(); // Redraw anything hidden by mouseview
+        draw_sidebar(); // Redraw anything hidden by mouseview
     }
 }
 
@@ -3894,7 +3894,6 @@ void game::death_screen()
 bool game::load_master(std::string worldname)
 {
     std::ifstream fin;
-    std::string data;
     std::stringstream datafile;
     datafile << world_generator->all_worlds[worldname]->world_path << "/master.gsav";
     fin.open(datafile.str().c_str(), std::ifstream::in | std::ifstream::binary);
@@ -4182,7 +4181,6 @@ static bool isForbidden(std::string candidate)
 void game::delete_world(std::string worldname, bool delete_folder)
 {
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
-    std::string filetmp = "";
     std::vector<std::string> file_paths;
     std::set<std::string> directory_paths;
 
@@ -5133,10 +5131,15 @@ void game::draw()
     werase(w_terrain);
     draw_ter();
     draw_footsteps();
+    draw_sidebar();
+}
 
+void game::draw_sidebar()
+{
     if (fullscreen) {
         return;
     }
+
     // Draw Status
     draw_HP();
     werase(w_status);
@@ -5221,8 +5224,7 @@ void game::draw()
         col_temp = c_ltblue;
     }
 
-    wprintz(w_location, col_temp, "%s",
-            (std::string(" ") + print_temperature((float)display_temp)).c_str());
+    wprintz( w_location, col_temp, " %s", print_temperature( display_temp ).c_str() );
     wrefresh(w_location);
 
     //Safemode coloring
@@ -5241,13 +5243,18 @@ void game::draw()
     wrefresh(w_status);
     wrefresh(w_status2);
 
-    std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
-    if (graffiti) {
-        add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
-    }
+    werase(w_messages);
+    int maxlength = getmaxx(w_messages);
 
-    // Draw messages
-    write_msg();
+    // Print monster info and start our output below it.
+    const int topline = mon_info(w_messages) + 2;
+
+    int line = getmaxy(w_messages) - 1;
+    Messages::display_messages(w_messages, 0, topline, maxlength, line);
+
+    wrefresh(w_messages);
+
+    draw_minimap();
 }
 
 bool game::isBetween(int test, int down, int up)
@@ -5372,11 +5379,6 @@ void game::refresh_all()
 {
     m.reset_vehicle_cache();
     draw();
-    if (!fullscreen) {
-        draw_HP();
-        wrefresh(w_messages);
-        draw_minimap();
-    }
     refresh();
 }
 
@@ -7444,9 +7446,7 @@ void game::open()
         return;
     }
 
-    bool didit = false;
-
-    didit = m.open_door(openx, openy, !m.is_outside(u.posx, u.posy));
+    bool didit = m.open_door(openx, openy, !m.is_outside(u.posx, u.posy));
 
     if (!didit) {
         const std::string terid = m.get_ter(openx, openy);
@@ -9479,11 +9479,9 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 {
     std::vector<map_item_stack> ret;
 
-    std::string sFilterPre = "";
     std::string sFilterTemp = filter;
 
-    for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-        std::string name = iter->example.tname();
+    for (auto iter = stack.begin(); iter != stack.end(); ++iter) {
         if (sFilterTemp == "" || list_items_match(iter->example, sFilterTemp)) {
             ret.push_back(*iter);
         }
@@ -9640,9 +9638,7 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
-    for(std::vector<map_item_stack>::iterator it = stack.begin();
-        it != stack.end();) {
-        std::string name = it->example.tname();
+    for(auto it = stack.begin(); it != stack.end();) {
         if (prorities == "" || !list_items_match(it->example, prorities)) {
             tempstack.push_back(*it);
             it = stack.erase(it);
@@ -9652,8 +9648,7 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
     }
 
     int id = stack.size();
-    for(std::vector<map_item_stack>::iterator it = tempstack.begin();
-        it != tempstack.end(); ++it) {
+    for (auto it = tempstack.begin(); it != tempstack.end(); ++it) {
         stack.push_back(*it);
     }
     return id;
@@ -9664,9 +9659,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
-    for(std::vector<map_item_stack>::iterator it = stack.begin() + start;
-        it != stack.end();) {
-        std::string name = it->example.tname();
+    for (auto it = stack.begin() + start; it != stack.end();) {
         if(prorities != "" && list_items_match(it->example, prorities)) {
             tempstack.push_back(*it);
             it = stack.erase(it);
@@ -9676,8 +9669,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
     }
 
     int id = stack.size();
-    for(std::vector<map_item_stack>::iterator it = tempstack.begin();
-        it != tempstack.end(); ++it) {
+    for (auto it = tempstack.begin(); it != tempstack.end(); ++it) {
         stack.push_back(*it);
     }
     return id;
@@ -12766,6 +12758,10 @@ bool game::plmove(int dx, int dy)
         if (signage.size()) {
             add_msg(m_info, _("The sign says: %s"), signage.c_str());
         }
+        std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
+        if (graffiti) {
+            add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
+        }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
             if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
                 add_msg(m_bad, _("You hurt your left foot on the %s!"), m.tername(x, y).c_str());
@@ -13674,9 +13670,6 @@ void game::update_map(int &x, int &y)
 
     // Update what parts of the world map we can see
     update_overmap_seen();
-    if (!fullscreen) {
-        draw_minimap();
-    }
 }
 
 tripoint game::om_global_location() const
@@ -14107,23 +14100,6 @@ bool game::game_quit()
 bool game::game_error()
 {
     return (uquit == QUIT_ERROR);
-}
-
-void game::write_msg()
-{
-    if (fullscreen) {
-        return;
-    }
-    werase(w_messages);
-    int maxlength = getmaxx(w_messages);
-
-    // Print monster info and start our output below it.
-    const int topline = mon_info(w_messages) + 2;
-
-    int line = getmaxy(w_messages) - 1;
-    Messages::display_messages(w_messages, 0, topline, maxlength, line);
-
-    wrefresh(w_messages);
 }
 
 void game::teleport(player *p, bool add_teleglow)

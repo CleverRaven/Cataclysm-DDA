@@ -206,7 +206,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                         if(one_in(2)) {
                             hit = bp_foot_l;
                         } else {
-                            hit = bp_foot_l;
+                            hit = bp_foot_r;
                         }
                         break;
                     case  2:
@@ -215,7 +215,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                         if(one_in(2)) {
                             hit = bp_leg_l;
                         } else {
-                            hit = bp_leg_l;
+                            hit = bp_leg_r;
                         }
                         break;
                     case  5:
@@ -300,7 +300,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                         if(one_in(2)) {
                             hit = bp_foot_l;
                         } else {
-                            hit = bp_foot_l;
+                            hit = bp_foot_r;
                         }
                         break;
                     case  2:
@@ -309,7 +309,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                         if(one_in(2)) {
                             hit = bp_leg_l;
                         } else {
-                            hit = bp_leg_l;
+                            hit = bp_leg_r;
                         }
                         break;
                     case  5:
