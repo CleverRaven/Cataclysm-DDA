@@ -50,7 +50,7 @@ calendar::calendar(int turn)
     second = 6 * (turn % 10);
     minute = minute_param % 60;
     hour = hour_param % 24;
-    day = 1 + day_param % int(season_length());
+    day = 1 + day_param % season_length();
     season = season_type(season_param % 4);
     year = season_param / 4;
 }
@@ -92,7 +92,7 @@ calendar &calendar::operator =(int rhs)
     second = 6 * (rhs % 10);
     minute = minute_param % 60;
     hour = hour_param % 24;
-    day = day_param % int(season_length());
+    day = day_param % season_length();
     season = season_type(season_param % 4);
     year = season_param / 4;
     return *this;
