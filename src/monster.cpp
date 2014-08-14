@@ -872,15 +872,15 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     case DT_NULL:
         debugmsg("monster::deal_damage_handle_type: illegal damage type DT_NULL");
         break;
-    case DT_TRUE: // typeless damage, should always go through
-    case DT_BIOLOGICAL: // internal damage, like from smoke or poison
-    case DT_CUT:
     case DT_ACID:
         if( has_flag( MF_ACIDPROOF ) ) {
             damage += 0; // immunity
             pain += 0;
             return;
         }
+    case DT_TRUE: // typeless damage, should always go through
+    case DT_BIOLOGICAL: // internal damage, like from smoke or poison
+    case DT_CUT:
     case DT_STAB:
     case DT_HEAT:
     default:
