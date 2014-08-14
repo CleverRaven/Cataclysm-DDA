@@ -409,11 +409,20 @@ bool game::opening_screen()
                               c_red, _("No Worlds found!"));
                 } else {
                     for (int i = 0; i < (int)world_generator->all_worldnames.size(); ++i) {
-                        int line = iMenuOffsetY - 2 - i;
-                        std::string world_name = world_generator->all_worldnames[i];
-                        int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
-                        mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
-                                  (sel2 == i ? h_white : c_white), "%s (%d)", world_name.c_str(), savegames_count);
+                      int line = iMenuOffsetY - 2 - i;
+                      std::string world_name = world_generator->all_worldnames[i];
+                      int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
+                      nc_color color1, color2;
+                      if(world_name == "TUTORIAL" || world_name == "DEFENSE") {
+                         color1 = c_ltcyan;
+                         color2 = h_ltcyan;
+                      } else {
+                         color1 = c_white;
+                         color2 = h_white;
+                      }
+                      mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
+                                (sel2 == i ? color2 : color1 ), "%s (%d)",
+                                world_name.c_str(), savegames_count);
                     }
                 }
                 wrefresh(w_open);
@@ -643,8 +652,16 @@ bool game::opening_screen()
                      it != world_generator->all_worldnames.end(); ++it) {
                     int savegames_count = world_generator->all_worlds[*it]->world_saves.size();
                     int line = iMenuOffsetY - 4 - i;
+                    nc_color color1, color2;
+                    if(*it == "TUTORIAL" || *it == "DEFENSE") {
+                       color1 = c_ltcyan;
+                       color2 = h_ltcyan;
+                    } else {
+                       color1 = c_white;
+                       color2 = h_white;
+                    }
                     mvwprintz(w_open, line, 26 + iMenuOffsetX + extra_w / 2,
-                              (sel3 == i ? h_white : c_white), "%s (%d)", (*it).c_str(), savegames_count);
+                              (sel3 == i ? color2 : color1), "%s (%d)", (*it).c_str(), savegames_count);
                     ++i;
                 }
                 wrefresh(w_open);
