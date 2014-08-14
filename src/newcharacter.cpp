@@ -1044,7 +1044,7 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-	if (g->scen->profsize() == 0 || g->scen->profquery(&(iter->second)) == true){
+	if ((g->scen->profsize() == 0) || g->scen->profquery(&(iter->second)) == true){
         sorted_profs.push_back(&(iter->second));}
     }
 
@@ -1212,13 +1212,14 @@ int set_profession(WINDOW *w, player *u, int &points)
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
                 cur_id++;
-                if (cur_id > profession::count() - 1) {
+                if (cur_id > sorted_profs.size() - 1) {
                     cur_id = 0;
                 }
         } else if (action == "UP") {
                 cur_id--;
                 if (cur_id < 0) {
-                    cur_id = profession::count() - 1;
+                    //cur_id = profession::count() - 1;
+		    cur_id = sorted_profs.size() - 1;
                 }
         } else if (action == "CONFIRM") {
                 u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
@@ -1536,16 +1537,17 @@ int set_scenario(WINDOW *w, player *u, int &points)
         int line_offset = 1;
         werase(w_profession);
 	werase(w_location);
-        //mvwprintz(w_profession, 0, 0, COL_HEADER, _("Scenario Profession:"));
+        mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
         /*for (size_t i = 0; i < scen_items.size() && line_offset + i < getmaxy(w_items); i++) {
             itype *it = item_controller->find_template(scen_items[i]);
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
                              it->nname(1)) - 1;
         }*/
-	//wprintz(w_profession, c_ltgray,_("\n"));
-	//wprintz(w_profession, c_ltgray,_(sorted_scens[cur_id]->prof()->gender_appropriate_name(u->male).c_str()));
-	mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenarion Location:"));
+	wprintz(w_profession, c_ltgray,_("\n"));
+	if (sorted_scens[cur_id]->profsize() > 0){wprintz(w_profession, c_ltgray,_("Limited"));}
+	else {wprintz(w_profession, c_ltgray,_("All"));}
+	mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
 	wprintz(w_location, c_ltgray,_("\n"));
 	wprintz(w_location, c_ltgray,_(sorted_scens[cur_id]->start_name().c_str()));
 
