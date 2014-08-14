@@ -4901,6 +4901,7 @@ void map::build_transparency_cache()
       case fd_weedsmoke:
       case fd_cracksmoke:
       case fd_methsmoke:
+      case fd_relax_gas:
           transparency_cache[x][y] *= 0.7;
           break;
       case fd_smoke:

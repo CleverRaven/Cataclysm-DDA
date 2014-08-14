@@ -76,7 +76,12 @@ void event::actualize()
    if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
     mtype *robot_type = GetMType("mon_tripod");
     if (faction_id == 0) { // The cops!
-     robot_type = GetMType("mon_copbot");
+     if (one_in(2)) {
+         robot_type = GetMType("mon_copbot");
+     } else {
+         robot_type = GetMType("mon_riotbot");
+     }
+
      g->u.add_memorial_log(pgettext("memorial_male", "Became wanted by the police!"),
                            pgettext("memorial_female", "Became wanted by the police!"));
     }
