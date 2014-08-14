@@ -194,7 +194,8 @@ void construction_menu()
             }
 
             // Print instructions for toggling recipe hiding.
-            mvwprintz(w_con, iMaxY - 2, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
+            mvwprintz(w_con, iMaxY - 3, 31, c_white, _("Press %s to toggle unavailable constructions."), ctxt.get_desc("TOGGLE_UNAVAILABLE_CONSTRUCTIONS").c_str());
+            mvwprintz(w_con, iMaxY - 2, 31, c_white, _("Press %s to view and edit key-bindings."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
 
             // Print construction name
             mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
