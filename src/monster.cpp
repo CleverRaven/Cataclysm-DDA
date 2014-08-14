@@ -1023,16 +1023,22 @@ void monster::explode()
                 }
 
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tarx, tary, 3 ) ) {
+                    g->m.bash( tarx, tary, 3 );
+                    if( g->m.move_cost( tarx, tary ) == 0 ) {
+                        // Target is obstacle, not destroyed by bashing,
+                        // stop trajectory in front of it, if this is the first
+                        // point (e.g. wall adjacent to monster) , make it invalid.
                         if( j > 0 ) {
                             tarx = traj[j - 1].x;
                             tary = traj[j - 1].y;
+                        } else {
+                            tarx = -1;
                         }
                         done = true;
                     }
                 }
             }
-            if( meat != "null" ) {
+            if( meat != "null" && tarx != -1 ) {
                 g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
             }
         }
