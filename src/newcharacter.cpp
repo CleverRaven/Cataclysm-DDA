@@ -1123,8 +1123,8 @@ int set_profession(WINDOW *w, player *u, int &points)
         calcStartPos(iStartPos, cur_id, iContentHeight, sorted_profs.size());
         //Draw options
 	if (sorted_profs.size() > 1){
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > profession::count()) ?
-             profession::count() : iContentHeight); i++) {
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > sorted_profs.size()) ?
+             sorted_profs.size() : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
@@ -1144,6 +1144,7 @@ int set_profession(WINDOW *w, player *u, int &points)
 		mvwprintz(w, 5 - iStartPos, 2, col,
 		sorted_profs[0]->gender_appropriate_name(u->male).c_str());
 	}
+	//debugmsg("GOT PAST HERE");
         std::vector<std::string> prof_items = sorted_profs[cur_id]->items();
         std::vector<std::string> prof_gender_items;
         if (u->male) {

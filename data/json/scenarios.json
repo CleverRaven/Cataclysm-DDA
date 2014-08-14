@@ -47,6 +47,15 @@
 	    "start_location": "s_garage",
 	    "start_name": "Auto Repair Center",
 	    "professions" : ["mechanic"]
+	},
+	{    "type" : "scenario",
+	     "ident" : "lab_stuff",
+	     "name" : "Escape!",
+	     "points" : 0,
+	     "description" : "You were locked in the lab when the cataclysm broke out, and now you want to get out. P.S. The lab is a house.",
+	     "start_location" : "house",
+ 	     "start_name" : "Lab",
+	     "professions" : ["escapist","lab_expert"]
 	}
 ]
     

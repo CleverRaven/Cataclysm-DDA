@@ -2454,5 +2454,72 @@
                 "panties"
             ]
         }
+    },
+    {
+	"type": "profession",
+	"ident": "escapist",
+	"name" : "Escaped Lab Expirement",
+	"description" : "After years of begging and failures, you've finally manage to cobble together your own plastic explosives! Now that all the scientists are dead/evacuated, it might be a good time to make your grand escape. P.S. Your explosives are actually socks.",
+	"points" : 0,
+	"items": {
+            "both": [
+                "jeans",
+		"socks"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+	"flags" : ["SCEN_ONLY"]
+    },
+    {
+	"type": "profession",
+	"ident": "lab_expert",
+	"name" : "Lab Executive",
+	"description" : "One of the top minds on the planet, you were one of the head scientists at one of the government labs. Performing expirements in an external-stimuli prevention chamber, you missed the evacuation, and now must escape from your own creations.",
+	"points" : 4,
+	"skills": [
+            {
+                "level": 5,
+                "name": "computer"
+            },
+            {
+                "level": 5,
+                "name": "cooking"
+            },
+            {
+                "level": 5,
+                "name": "electronics"
+            },
+            {
+                "level": 5,
+                "name": "mechanics"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "dress_shirt",
+                "pants",
+                "socks",
+                "boots",
+                "coat_lab",
+                "gloves_rubber",
+                "glasses_safety",
+                "chemistry_set"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+	"flags" : ["SCEN_ONLY"]
     }
 ]
