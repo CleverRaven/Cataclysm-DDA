@@ -10,7 +10,7 @@
 const double tau = 2 * std::acos(-1);
 
 weather_generator::weather_generator() { }
-weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
+weather_generator::weather_generator(unsigned seed) : SEED(seed) { this->test_weather(); }
 
 w_point weather_generator::get_weather(const point &location, const calendar &t)
 {
@@ -25,7 +25,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
 //    } else if(ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
 //        initial_season = 3;
 //    }
-    const double z( double( t.get_turn() ) / 2000.0); // Integer turn / widening factor of the Perlin function.
+    const double z( double( t.get_turn() + DAYS(t.season_length()) ) / 2000.0); // Integer turn / widening factor of the Perlin function.
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors
@@ -34,7 +34,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     double H2(raw_noise_4d(x, y, z, SEED + 151) / 4);
     double P(raw_noise_4d(x, y, z / 3, SEED + 211) * 70);
 
-    const double now( (double( t.turn_of_year() )) / double(t.year_turns()) ); // [0,1)
+    const double now( (double( t.turn_of_year() + DAYS(t.season_length()) )) / double(t.year_turns()) ); // [0,1)
     const double ctn(cos(tau * now));
 
     // Temperature variation
