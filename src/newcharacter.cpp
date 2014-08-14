@@ -1044,7 +1044,7 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-	if ((g->scen->profsize() == 0) || g->scen->profquery(&(iter->second)) == true){
+	if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) || g->scen->profquery(&(iter->second)) == true){
         sorted_profs.push_back(&(iter->second));}
     }
 
@@ -1120,7 +1120,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        sorted_profs[cur_id]->description(u->male));
 
-        calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
+        calcStartPos(iStartPos, cur_id, iContentHeight, sorted_profs.size());
         //Draw options
 	if (sorted_profs.size() > 1){
         for (int i = iStartPos; i < iStartPos + ((iContentHeight > profession::count()) ?
@@ -1200,7 +1200,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                   sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
         //Draw Scrollbar
-        draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
+        draw_scrollbar(w, cur_id, iContentHeight, sorted_profs.size(), 5);
 
         wrefresh(w);
         wrefresh(w_description);
