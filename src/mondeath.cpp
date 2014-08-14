@@ -617,9 +617,11 @@ void make_gibs(monster *z, int amount)
         const int gibY = zposy + rng(0, 6) - 3;
         const int gibDensity = rng(1, i + 1);
         int junk;
-        if( g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
-            // Only place gib if there's a clear path for it to get there.
-            g->m.add_field(gibX, gibY, z->gibType(), gibDensity);
+        if( z->gibType() != fd_null ) {
+            if(  g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
+                // Only place gib if there's a clear path for it to get there.
+                g->m.add_field( gibX, gibY, z->gibType(), gibDensity );
+            }
         }
         if( type_blood != fd_null ) {
             const int bloodX = zposx + (rng(0, 2) - 1);

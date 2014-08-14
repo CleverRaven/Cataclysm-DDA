@@ -181,8 +181,8 @@ struct mtype {
         bool in_category(std::string category) const;
         bool in_species(std::string _species) const;
         //Used for corpses.
-        field_id bloodType ();
-        field_id gibType ();
+        field_id bloodType () const;
+        field_id gibType () const;
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
