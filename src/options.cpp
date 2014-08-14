@@ -561,6 +561,7 @@ void initOptions()
     // Note: language names are in their own language and are *not* translated at all.
     optionNames["cs"] = "Čeština";
     optionNames["en"] = "English";
+    optionNames["fi"] = "Suomi";
     optionNames["fr_FR"] =  "Français (France)";
     optionNames["de_DE"] = "Deutsch (Deutschland)";
     optionNames["it"] = "Italiano";
@@ -576,7 +577,7 @@ void initOptions()
     optionNames["zh_CN"] = "中文(中华人民共和国)";
     optionNames["zh_TW"] = "中文(台灣)";
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fi,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                ""
                               );
 
