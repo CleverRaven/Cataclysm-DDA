@@ -985,7 +985,8 @@ void monster::explode()
     // Send body parts and blood all over!
     const itype_id meat = type->get_meat_itype();
     const field_id type_blood = bloodType();
-    if( meat != "null" || type_blood != fd_null ) {
+    const field_id type_gib = gibType();
+    if( meat != "null" || type_blood != fd_null || type_gib != fd_null ) {
         // Only create chunks if we know what kind to make.
         int num_chunks = 0;
         switch( type->size ) {
@@ -1017,7 +1018,9 @@ void monster::explode()
                 if( type_blood != fd_null ) {
                     g->m.add_field( tarx, tary, type_blood, 1 );
                 }
-                g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), gibType(), rng( 1, j + 1 ) );
+                if( type_gib != fd_null ) {
+                    g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), type_gib, rng( 1, j + 1 ) );
+                }
 
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
                     if( !g->m.bash( tarx, tary, 3 ) ) {
@@ -1232,29 +1235,10 @@ bool monster::is_hallucination() const
 }
 
 field_id monster::bloodType() const {
-    if (has_flag(MF_ACID_BLOOD))
-        //A monster that has the death effect "ACID" does not need to have acid blood.
-        return fd_acid;
-    if (has_flag(MF_BILE_BLOOD))
-        return fd_bile;
-    if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD))
-        return fd_blood_invertebrate;
-    if (made_of("veggy"))
-        return fd_blood_veggy;
-    if (made_of("iflesh"))
-        return fd_blood_insect;
-    if (has_flag(MF_WARM))
-        return fd_blood;
-    return fd_null; //Please update the corpse blood type code at mtypedef.cpp modifying these rules!
+    return type->bloodType();
 }
 field_id monster::gibType() const {
-    if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))
-        return fd_gibs_invertebrate;
-    if (made_of("veggy"))
-        return fd_gibs_veggy;
-    if (made_of("iflesh"))
-        return fd_gibs_insect;
-    return fd_gibs_flesh; //Please update the corpse gib type code at mtypedef.cpp modifying these rules!
+    return type->gibType();
 }
 
 m_size monster::get_size() const {
