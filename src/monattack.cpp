@@ -2926,7 +2926,16 @@ void mattack::riotbot(monster *z)
             handcuffs.item_vars["HANDCUFFS_X"] = string_format("%d", g->u.posx);
             handcuffs.item_vars["HANDCUFFS_Y"] = string_format("%d", g->u.posy);
 
-            if (g->u.uncanny_dodge() && one_in(3)) {
+            const bool is_uncanny = g->u.has_active_bionic("bio_uncanny_dodge") && g->u.power_level > 74 &&
+                                    !one_in(3);
+            const bool is_dex = g->u.dex_cur > 13 && !one_in(g->u.dex_cur - 11);
+
+            if (is_uncanny || is_dex) {
+
+                if (is_uncanny) {
+                    g->u.power_level -= 75;
+                }
+
                 add_msg(m_good,
                         _("An incredible way you quietly gets out of the handcuffs, the robot did not even notice this!"));
                 g->u.i_add(handcuffs);

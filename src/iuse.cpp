@@ -9173,28 +9173,25 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
-        if (calendar::turn % 10 == 0) {
-            g->sound(pos.x, pos.y, 10, _("a police siren, whoop WHOOP."));
-        }
-
-        const int x = atoi(it->item_vars["HANDCUFFS_X"].c_str());
-        const int y = atoi(it->item_vars["HANDCUFFS_Y"].c_str());
-
-        if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
-
+        if (p->has_item(it)) {
             if (p->has_active_bionic("bio_shock") && p->power_level >= 2 && one_in(5)) {
                 p->power_level -= 2;
 
                 it->item_tags.erase("NO_UNWIELD");
                 it->charges = 0;
                 it->active = false;
-                add_msg(m_good, _("You shocked your %s with bionic and it turned off!"), it->tname().c_str());
+                add_msg(m_good, _("%s is shocked off by your bionic!"), it->tname().c_str());
 
                 return it->type->charges_to_use();
-
             }
-
         }
+
+        if (calendar::turn % 10 == 0) {
+            g->sound(pos.x, pos.y, 10, _("a police siren, whoop WHOOP."));
+        }
+
+        const int x = atoi(it->item_vars["HANDCUFFS_X"].c_str());
+        const int y = atoi(it->item_vars["HANDCUFFS_Y"].c_str());
 
         if (x != pos.x || y != pos.y) {
 
