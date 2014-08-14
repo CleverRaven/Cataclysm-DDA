@@ -499,5 +499,8 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
+    if( ACTIVE_WORLD_OPTIONS.empty() ) {
+        return 14; // default
+    }
     return int(ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
 }
