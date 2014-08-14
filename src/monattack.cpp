@@ -2869,7 +2869,8 @@ void mattack::riotbot(monster *z)
         z->anger = 0;
 
         if (calendar::turn % 25 == 0) {
-            g->sound(monx, mony, 10, _("Halt and submit to arrest, citizen! The police will be here any moment."));
+            g->sound(monx, mony, 10,
+                     _("Halt and submit to arrest, citizen! The police will be here any moment."));
         }
 
         return;
@@ -2917,6 +2918,8 @@ void mattack::riotbot(monster *z)
         const int choice = amenu.ret;
 
         if (choice == ur_arrest) {
+            z->anger = 0;
+
             item handcuffs("e_handcuffs", 0);
             handcuffs.item_tags.insert("NO_UNWIELD");
             handcuffs.charges = handcuffs.type->maximum_charges();
@@ -2924,9 +2927,17 @@ void mattack::riotbot(monster *z)
             handcuffs.item_vars["HANDCUFFS_X"] = string_format("%d", g->u.posx);
             handcuffs.item_vars["HANDCUFFS_Y"] = string_format("%d", g->u.posy);
 
-            g->u.wield(&(g->u.i_add(handcuffs)));
+            if (g->u.uncanny_dodge() && one_in(3)) {
+                add_msg(m_good,
+                        _("An incredible way you quietly gets out of the handcuffs, the robot did not even notice this!"));
+                handcuffs.item_tags.erase("NO_UNWIELD");
+                g->u.i_add(handcuffs);
+                g->u.moves += 300;
+            } else {
+                g->u.wield(&(g->u.i_add(handcuffs)));
+                add_msg(_("The robot puts handcuffs on you."));
+            }
 
-            add_msg(_("The robot puts handcuffs on you."));
             g->sound(z->posx(), z->posy(), 5,
                      _("You are under arrest, citizen.  You have the right to remain silent.  If you do not remain silent, anything you say may be used against you in a court of law."));
             g->sound(z->posx(), z->posy(), 5,
