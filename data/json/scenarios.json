@@ -3,42 +3,46 @@
 	    "type": "scenario",
 	    "ident": "evacuee",
 	    "name": "Evacuee",
+	    "points" : 0,
 	    "description": "You have survived the initial wave of panic, and have achieved (relative) safety. What you do now is up to you.",
 	    "start_location": "shelter",
-	    "start_name": "Evac Center",
-	    "professions" : ["unemployed"]
+	    "start_name": "Evac Center"
+
 	},
 	{
 	    "type": "scenario",
 	    "ident": "homealone",
 	    "name": "Missed",
+	    "points" : 0,
 	    "description": "Whether by choice, situation, or just bad luck. You missed the evacuation, and now you're stuck in a city full of the risen dead.",
 	    "start_location": "house",
-	    "start_name": "My House",
-	    "flags" : ["ALL_PROFS"]
+	    "start_name": "My House"
 	},
 	{
 	    "type": "scenario",
 	    "ident": "summer",
 	    "name": "Fun in the Summer",
+	    "points" : 1,
 	    "description": "It's Summer TIME! And that can mean only one thing! The risen dead and the hottest vacation spot around!",
 	    "start_location": "shelter",
 	    "start_name": "Summer Vacation Spot",
-	    "flags" : ["ALL_PROFS","SUM_START"]
+	    "flags" : ["SUM_START"]
 	},
 	{
 	    "type": "scenario",
 	    "ident": "bitten",
 	    "name": "Ow...",
+	    "points" : -4,
 	    "description": "You dun messed up A-Aron, you went and got yo' ass bitten.",
 	    "start_location": "shelter",
 	    "start_name": "Shelter",
-	    "flags" : ["ALL_PROFS","INFECTED"]
+	    "flags" : ["INFECTED"]
 	},
 	{
 	    "type": "scenario",
 	    "ident": "mechanic",
 	    "name": "Mechanic",
+	    "points" : 0,
 	    "description": "Working in the shop, you were so focused on the task at hand you missed the evacuation!",
 	    "start_location": "s_garage",
 	    "start_name": "Auto Repair Center",

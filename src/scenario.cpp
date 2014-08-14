@@ -10,7 +10,7 @@
 #include "item_factory.h"
 #include "bionics.h"
 #include "start_location.h"
-
+#include "game.h"
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),
      _description_male("null"), _description_female("null"), _start_location("null")
@@ -32,6 +32,7 @@ scenario::scenario(std::string ident, std::string name, std::string description,
     _profession = prof;
     _mission = mission;
     _start_name = start_location;
+    _point_cost = 0;
 }
 
 scenmap scenario::_all_scens;
@@ -69,7 +70,8 @@ void scenario::load_scenario(JsonObject &jsobj)
    // scen._profession = profession::prof(pgettext("profession",proffe.c_str()));
     
     //scen._mission = jsobj.get_int("mission_id");    
-    
+    scen._point_cost = jsobj.get_int("points");
+
     JsonObject items_obj=jsobj.get_object("items");
     scen.add_items_from_jsonarray(items_obj.get_array("both"), "both");
     scen.add_items_from_jsonarray(items_obj.get_array("male"), "male");
@@ -235,7 +237,7 @@ std::string scenario::description(bool male) const
 
 signed int scenario::point_cost() const
 {
-    return 0;
+    return _point_cost;
 }
 
 std::string scenario::start_location() const
@@ -285,7 +287,9 @@ bool scenario::has_flag(std::string flag) const
 
 bool scenario::can_pick(player* u, int points) const
 {
-    //Not Going to Cost points, so leaving this here in case future restricions arise
+    if (point_cost() - g->scen->point_cost() > points) {
+        return false;
+    }
 
     return true;
 }

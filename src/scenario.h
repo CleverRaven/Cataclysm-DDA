@@ -31,7 +31,7 @@ private:
     std::set<std::string> _allowed_professions;
     int _mission;
     std::vector<std::string> traits;
- 
+    int _point_cost;
 //Gender variations left in for translation purposes
     std::vector<std::string> _starting_items;
     std::vector<std::string> _starting_items_male;
@@ -93,7 +93,7 @@ public:
     bool has_flag(std::string flag) const;
 
     /**
-     * Scenario's won't cost points, keeping this here in case traits/professions limit you.
+     * 
      */
     bool can_pick(player* u, int points) const;
 

@@ -1430,6 +1430,8 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
+
+	int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
         bool can_pick = sorted_scens[cur_id]->can_pick(u, points);
         // Magic number. Strongly related to window width (w_width - borders).
         const std::string empty_line(78, ' ');
@@ -1438,7 +1440,37 @@ int set_scenario(WINDOW *w, player *u, int &points)
         werase(w_description);
         mvwprintz(w, 3, 1, c_ltgray, empty_line.c_str());
 
-	
+        int pointsForScen = sorted_scens[cur_id]->point_cost();
+        bool negativeScen = pointsForScen < 0;
+        if (negativeScen) {
+                  pointsForScen *=-1;
+        }
+	//debugmsg("GOT past here");
+        // Draw header.
+        std::string points_msg = string_format(_("Points left: %2d"), points);
+        int pMsg_length = utf8_width(_(points_msg.c_str()));
+        if (netPointCost > 0) {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+            mvwprintz(w, 3, pMsg_length + 2, c_red, "(-%d)", abs(netPointCost));
+        } else if (netPointCost == 0) {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+        } else {
+            mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
+            mvwprintz(w, 3, pMsg_length + 2, c_green, "(+%d)", abs(netPointCost));
+        }
+
+        std::string scen_msg_temp;
+        if (negativeScen) {
+            //~ 1s - profession name, 2d - current character points.
+            scen_msg_temp = ngettext("Scenario %1$s earns %2$d point",
+                                     "Scenario %1$s earns %2$d points",
+                                     pointsForScen);
+        } else {
+            //~ 1s - profession name, 2d - current character points.
+            scen_msg_temp = ngettext("Scenario %1$s cost %2$d point",
+                                     "Scenario %1$s cost %2$d points",
+                                     pointsForScen);
+        }
         // Draw header.
 	// Net point cost for scenarios should always be 0
 	/*netPointCost = 0;
@@ -1454,7 +1486,6 @@ int set_scenario(WINDOW *w, player *u, int &points)
             mvwprintz(w, 3, pMsg_length + 2, c_green, "(+%d)", abs(netPointCost));
         }*/
 
-        std::string scen_msg_temp;
        /* if (negativeScen) {
             //~ 1s - profession name, 2d - current character points.
             prof_msg_temp = ngettext("Profession %1$s earns %2$d point",
@@ -1466,10 +1497,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
                                      "Profession %1$s cost %2$d points",
                                      pointsForProf);
         } */
-        /* This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
-        mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green:c_ltred, prof_msg_temp.c_str(),
+        ///* This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
+        mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green:c_ltred, scen_msg_temp.c_str(),
                   sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str(),
-                  pointsForScen);*/
+                  pointsForScen);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        sorted_scens[cur_id]->description(u->male));
@@ -1578,7 +1609,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
 		u->start_location = sorted_scens[cur_id]->start_location();
 		//u->prof = sorted_scens[cur_id]->prof();
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
-		
+		points -= netPointCost;
 		/*u->active_missions.resize(1);
 		u->active_missions[0] = sorted_scens[cur_id]->mission();
 		u->active_mission = sorted_scens[cur_id]->mission();*/
