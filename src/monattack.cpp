@@ -2578,7 +2578,7 @@ void mattack::riotbot(monster *z)
         z->anger = 0;
 
         if (calendar::turn % 25 == 0) {
-            g->sound(monx, mony, 10, _("Wait arrest, citizen! The police will be here any moment."));
+            g->sound(monx, mony, 10, _("Halt and submit to arrest, citizen! The police will be here any moment."));
         }
 
         return;
@@ -2614,12 +2614,12 @@ void mattack::riotbot(monster *z)
         //arrest!
         uimenu amenu;
         amenu.selected = 0;
-        amenu.text = _("The bot asks you to give a hands to arrest.");
+        amenu.text = _("The riotbot orders you to present your hands and be cuffed.");
 
-        amenu.addentry(ur_arrest, true, 'a', _("Allow yourself to be arrested"));
-        amenu.addentry(ur_resist, true, 'r', _("Resist to arrest"));
+        amenu.addentry(ur_arrest, true, 'a', _("Allow yourself to be arrested."));
+        amenu.addentry(ur_resist, true, 'r', _("Resist arrest!"));
         if (g->u.int_cur > 12 || (g->u.int_cur > 10 && !one_in(g->u.int_cur - 8))) {
-            amenu.addentry(ur_trick, true, 't', _("Feign death"));
+            amenu.addentry(ur_trick, true, 't', _("Feign death."));
         }
 
         amenu.query();
@@ -2637,7 +2637,7 @@ void mattack::riotbot(monster *z)
 
             add_msg(_("The robot puts handcuffs on you."));
             g->sound(z->posx(), z->posy(), 5,
-                     _("Now you are under arrest, citizen.  Do not attempt to flee or to remove the handcuffs, it can be dangerous to your health."));
+                     _("You are under arrest, citizen.  Do not attempt to flee or to remove the handcuffs.  That can be dangerous to your health."));
 
             g->u.moves -= 300;
             z->moves -= 300;
@@ -2652,13 +2652,13 @@ void mattack::riotbot(monster *z)
             if (!one_in(g->u.int_cur - 10)) {
 
                 add_msg(m_good,
-                        _("You fall on the ground, represent the convulsive attack and pretend to be dead. The robot causes tries to call an ambulance."));
+                        _("You fall to the ground and feign a sudden convulsive attack.  Though you're obviously still alive, the riotbot cannot tell the difference between your 'attack' and a potentially fatal medical condition.  It backs off, signaling for medical help."));
 
                 z->moves -= 300;
                 z->anger = -rng(0, 50);
                 return;
             } else {
-                add_msg(m_bad, _("You're a bad actor, make awkward movements."));
+                add_msg(m_bad, _("Your awkward movements do not fool the riotbot."));
                 g->u.moves -= 100;
                 bad_trick = true;
             }
@@ -2686,7 +2686,7 @@ void mattack::riotbot(monster *z)
     }
 
     if (calendar::turn % 5 == 0) {
-        g->sound(monx, mony, 25, _("Empty your hands and hold position, citizen!"));
+        g->sound(monx, mony, 25, _("Empty your hands and hold your position, citizen!"));
     }
 
     if (dist > 5 && dist < 18 && one_in(10)) {

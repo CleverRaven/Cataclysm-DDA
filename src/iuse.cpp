@@ -9184,13 +9184,13 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
 
             if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
 
-                add_msg(m_bad, _("Ouch, your hands is electrocuted!"));
+                add_msg(m_bad, _("Ouch, the cuffs shock you!"));
 
                 p->apply_damage(nullptr, bp_arm_l, rng(0, 2));
                 p->apply_damage(nullptr, bp_arm_r, rng(0, 2));
 
             } else {
-                add_msg(m_bad, _("%s is sparkle!"), it->tname().c_str());
+                add_msg(m_bad, _("The %s spark with electricity!"), it->tname().c_str());
             }
 
             it->charges -= 50;
@@ -9210,9 +9210,9 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
     }
 
     if (it->active) {
-        add_msg("%s sitting tightly on the skin, you can't take them off.", it->tname().c_str());
+        add_msg("Your %s are clamped tightly on your limbs.  You can't take them off.", it->tname().c_str());
     } else {
-        add_msg("%s discharged and can be taken off.", it->tname().c_str());
+        add_msg("The %s have discharged and can be taken off.", it->tname().c_str());
     }
 
     return it->type->charges_to_use();

@@ -1405,7 +1405,7 @@
     "color": "green",
     "name": "broken riot control bot",
     "category": "other",
-    "description": "A broken riot control bot.  Much less threatening now that it's quiet and still.  Could be gutted for parts.",
+    "description": "A broken riot control bot.  Much less threatening now that it's out of gas.  Could be gutted for parts.",
     "price": 30000,
     "material": ["steel", "plastic"],
     "weight": 14003,

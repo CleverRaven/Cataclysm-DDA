@@ -7822,7 +7822,7 @@
     "symbol": ";",
     "color": "white",
     "name": "electronic handcuffs",
-    "description": "A electronic handcuffs.  If they're is turned on and wearing on your hands, you sinners before the law and managed to catch.  They continuously emit a siren signal that serves as an invitation for the police.  Wait for their arrival, don't try to escape or to take them down - you will receive a electric shock.  Of course, the world does not remain the police and no one will take it, you only have to wait when they will drain the batteries or to be smart...",
+    "description": "A pair of electronic handcuffs, used by police & riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative...",
     "flags": ["ALWAYS_TWOHAND"],
     "price": 1000,
     "material": ["plastic", "steel"],

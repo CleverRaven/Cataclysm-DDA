@@ -1481,7 +1481,7 @@ void map::step_in_field(int x, int y)
             if (cur->getFieldDensity() > 1 || one_in(5)){
                 g->u.add_env_effect("blind", bp_eyes, 10, 10);
             } else{
-                g->u.add_env_effect("blind", bp_eyes, 1, 1);
+                g->u.add_env_effect("blind", bp_eyes, 2, 2);
             }
             break;
 
