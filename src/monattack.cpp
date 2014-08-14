@@ -2921,7 +2921,6 @@ void mattack::riotbot(monster *z)
             z->anger = 0;
 
             item handcuffs("e_handcuffs", 0);
-            handcuffs.item_tags.insert("NO_UNWIELD");
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.item_vars["HANDCUFFS_X"] = string_format("%d", g->u.posx);
@@ -2930,11 +2929,11 @@ void mattack::riotbot(monster *z)
             if (g->u.uncanny_dodge() && one_in(3)) {
                 add_msg(m_good,
                         _("An incredible way you quietly gets out of the handcuffs, the robot did not even notice this!"));
-                handcuffs.item_tags.erase("NO_UNWIELD");
                 g->u.i_add(handcuffs);
-                g->u.moves += 300;
             } else {
+                handcuffs.item_tags.insert("NO_UNWIELD");
                 g->u.wield(&(g->u.i_add(handcuffs)));
+                g->u.moves -= 300;
                 add_msg(_("The robot puts handcuffs on you."));
             }
 
@@ -2947,7 +2946,6 @@ void mattack::riotbot(monster *z)
             g->sound(z->posx(), z->posy(), 5,
                      _("Do not attempt to flee or to remove the handcuffs, citizen.  That can be dangerous to your health."));
 
-            g->u.moves -= 300;
             z->moves -= 300;
 
             return;
