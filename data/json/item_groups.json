@@ -38,7 +38,8 @@
       ["fairy_tales", 20],
       ["mag_comic", 20],
       ["candycigarette", 10],
-      ["radio_car_box", 1]
+      ["radio_car_box", 1],
+      ["radiocontrol", 5]
     ]
   },{
     "type" : "item_group",
@@ -268,7 +269,8 @@
       ["leathersandals", 25],
       ["phonebook", 5],
       ["survnote", 1],
-      ["radio_car_box", 2]
+      ["radio_car_box", 2],
+      ["radiocontrol", 5]
     ]
   },{
     "type" : "item_group",
@@ -1829,7 +1831,8 @@
       ["camera", 15],
       ["camera_pro", 5],
       ["wristwatch", 15],
-      ["radio_car_box", 3]
+      ["radio_car_box", 3],
+      ["radiocontrol", 15]
     ]
   },{
     "type" : "item_group",
@@ -4055,7 +4058,8 @@
       ["football", 5],
       ["roller_blades", 20],
       ["survnote", 3],
-      ["radio_car_box", 3]
+      ["radio_car_box", 3],
+      ["radiocontrol", 10]
     ]
   },{
     "type" : "item_group",
@@ -4548,7 +4552,8 @@
       ["rifle_flintlock", 1],
       ["pistol_flintlock", 1],
       ["survnote", 5],
-      ["radio_car_box", 1]
+      ["radio_car_box", 1],
+      ["radiocontrol", 3]
     ]
   },{
     "type" : "item_group",
@@ -5103,7 +5108,8 @@
       ["usb_drive", 5],
       ["software_useless", 10],
       ["vac_sealer", 10],
-      ["radio_car_box", 3]
+      ["radio_car_box", 3],
+      ["radiocontrol", 25]
     ]
   },{
     "type" : "item_group",
@@ -6228,7 +6234,8 @@
       ["caff_gum", 8],
       ["toolbox", 1],
       ["nic_gum", 5],
-      ["radio_car_box", 2]
+      ["radio_car_box", 2],
+      ["radiocontrol", 15]
     ]
   },{
     "type" : "item_group",
@@ -7393,7 +7400,8 @@
       ["textbook_armwest", 2],
       ["textbook_armeast", 2],
       ["radio_book", 22],
-      ["radio_car_box", 1]
+      ["radio_car_box", 1],
+      ["radiocontrol", 5]
     ]
   },{
     "type" : "item_group",
