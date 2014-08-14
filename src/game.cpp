@@ -11074,6 +11074,16 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
+    if (u.has_effect("relax_gas")) {
+        if (one_in(5)) {
+            add_msg(m_good, _("Your eyes steel, and you eaise your weapon!"));
+        }
+        else {
+            u.moves -= rng(2, 5) * 10;
+            add_msg(m_bad, _("You can't fire your weapon, it's too heavy..."));
+            return;
+        }
+    }
     // draw pistol from a holster if unarmed
     if (!u.is_armed()) {
         // get a list of holsters from worn items
