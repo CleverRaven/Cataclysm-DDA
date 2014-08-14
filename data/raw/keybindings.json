@@ -511,10 +511,6 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"S"
-            },
-            {
-                "input_method":"keyboard",
                 "key":"s"
             }
         ]
@@ -551,7 +547,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"?"
+                "key":"*"
             }
         ]
     },
@@ -634,7 +630,7 @@
             },
             {
                 "input_method":"keyboard",
-                "key":" "
+                "key":"SPACE"
             },
             {
                 "input_method":"gamepad",
@@ -745,10 +741,6 @@
         "id": "NEXT_TAB",
         "name": "Go to next tab",
         "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"TAB"
-            },
             {
                 "input_method":"keyboard",
                 "key":"NPAGE"
@@ -863,7 +855,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"?"
+                "key":"*"
             }
         ]
     },

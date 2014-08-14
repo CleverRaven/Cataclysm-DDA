@@ -754,6 +754,17 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         }
     }
 
+    input_context ctxt("MODMANAGER_DIALOG");
+    ctxt.register_cardinal();
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("ADD_MOD");
+    ctxt.register_action("REMOVE_MOD");
+    ctxt.register_action("SAVE_DEFAULT_MODS");
+
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
@@ -768,7 +779,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                        FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX);
     w_description = newwin(4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX);
 
-    draw_modselection_borders(win);
+    draw_modselection_borders(win, &ctxt);
     std::vector<std::string> headers;
     headers.push_back(_("Mod List"));
     headers.push_back(_("Mod Load Order"));
@@ -789,17 +800,6 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     bool redraw_list = true;
     bool redraw_active = true;
     bool selection_changed = false;
-
-    input_context ctxt("MODMANAGER_DIALOG");
-    ctxt.register_cardinal();
-    ctxt.register_action("HELP_KEYBINDINGS");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("NEXT_TAB");
-    ctxt.register_action("PREV_TAB");
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("ADD_MOD");
-    ctxt.register_action("REMOVE_MOD");
-    ctxt.register_action("SAVE_DEFAULT_MODS");
 
     while (tab_output == 0) {
         if (redraw_headers) {
@@ -996,7 +996,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         } else if (action == "SAVE_DEFAULT_MODS") {
             if(mman->set_default_mods(active_mod_order)) {
                 popup(_("Saved list of active mods as default"));
-                draw_modselection_borders(win);
+                draw_modselection_borders(win, &ctxt);
                 redraw_headers = true;
             }
         } else if (action == "QUIT") {
@@ -1070,9 +1070,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     int line = 1;
     bool noname = false;
     input_context ctxt("WORLDGEN_CONFIRM_DIALOG");
-    // Disabled because it conflicts with the "pick random world name" option,
-    // feel free to enable it and change its keybinding in keybindings.json
-    // ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("NEXT_TAB");
@@ -1084,10 +1082,10 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
         mvwprintz(w_confirmation, namebar_y, 2, c_white, _("World Name:"));
         mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
         fold_and_print(w_confirmation, 3, 2, 76, c_ltgray,
-                       _("Press <color_yellow>?</color> to pick a random name for your world."));
+                       _("Press <color_yellow>%s</color> to pick a random name for your world."), ctxt.get_desc("PICK_RANDOM_WORLDNAME").c_str());
         fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_ltgray, _("\
-Press <color_yellow>></color> when you are satisfied with the world as it is and are ready \
-to continue, or <color_yellow><</color> to go back and review your world."));
+Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready \
+to continue, or <color_yellow>%s</color> to go back and review your world."), ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
         if (!noname) {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
             if (line == 1) {
@@ -1176,7 +1174,7 @@ to continue, or <color_yellow><</color> to go back and review your world."));
     return 0;
 }
 
-void worldfactory::draw_modselection_borders(WINDOW *win)
+void worldfactory::draw_modselection_borders(WINDOW *win, input_context *ctxtp)
 {
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     int xs[] = {1, 1, (FULL_SCREEN_WIDTH / 2) + 2, (FULL_SCREEN_WIDTH / 2) - 4,
@@ -1220,7 +1218,10 @@ void worldfactory::draw_modselection_borders(WINDOW *win)
 
     // Add tips & hints
     fold_and_print(win, FULL_SCREEN_HEIGHT - 7, 2, getmaxx(win) - 4, c_green,
-                   _("Press 's' to save the list of active mods as default. Press '?' for help."));
+                   _("Press %s to save the list of active mods as default. Press %s for help."),
+                   ctxtp->get_desc("SAVE_DEFAULT_MODS").c_str(),
+                   ctxtp->get_desc("HELP_KEYBINDINGS").c_str()
+                  );
     wrefresh(win);
     refresh();
 }
@@ -1260,7 +1261,7 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
 {
     std::string msg;
 
-    if (name == "save") {
+    if (name == "save" || name == "TUTORIAL" || name == "DEFENSE") {
         msg = string_format(_("%s is not a valid world name, it is a reserved name"), name.c_str());
     } else if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end()) {
         return true;

@@ -11068,7 +11068,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
     if (u.has_effect("relax_gas")) {
         if (one_in(5)) {
-            add_msg(m_good, _("Your eyes steel, and you eaise your weapon!"));
+            add_msg(m_good, _("Your eyes steel, and you raise your weapon!"));
         }
         else {
             u.moves -= rng(2, 5) * 10;
