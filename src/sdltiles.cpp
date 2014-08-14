@@ -278,14 +278,14 @@ bool WinCreate()
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
         renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
-                                       SDL_RENDERER_PRESENTVSYNC );
+                                       SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE );
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
             software_renderer = true;
         }
     }
     if( software_renderer ) {
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE );
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE );
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;

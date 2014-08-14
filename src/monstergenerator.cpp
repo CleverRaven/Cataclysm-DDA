@@ -384,7 +384,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sp_attack = get_attack_function(jo, "special_attack");
         newmon->sp_defense = get_defense_function(jo, "special_when_hit");
 
-        std::set<std::string> flags, anger_trig, placate_trig, fear_trig, cats;
+        std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");
         anger_trig = jo.get_tags("anger_triggers");
         placate_trig = jo.get_tags("placate_triggers");

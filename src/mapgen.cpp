@@ -534,10 +534,10 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
 /*
  * place special map terrains
  */
-void mapgen_function_json::setup_place_special(JsonArray &parray ) {
+void mapgen_function_json::setup_place_special(JsonArray &parray )
+{
 
     std::string tmpval="";
-    std::string err = "";
 
     while ( parray.has_more() ) {
         jmapgen_int tmp_x(0,0);

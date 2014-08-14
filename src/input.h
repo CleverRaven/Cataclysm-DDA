@@ -413,7 +413,7 @@ class input_context
         /**
          * Get the human-readable name for an action.
          */
-        const std::string &get_action_name(const std::string &action_id) const;
+        const std::string get_action_name(const std::string &action_id) const;
 
         /* For the future, something like this might be nice:
          * const std::string register_action(const std::string& action_descriptor, x, y, width, height);

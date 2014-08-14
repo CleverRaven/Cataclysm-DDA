@@ -255,7 +255,6 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
 void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
 {
     char ch;
-    std::string type = "";
     jsin.eat_whitespace();
     // examine first non-whitespace char
     ch = jsin.peek();

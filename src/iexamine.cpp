@@ -1696,7 +1696,7 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy)
         p->hunger -= 15;
     }
     if (calendar::turn.get_season() != AUTUMN) {
-        add_msg( m_info, "The fruits ripen in autumn.");
+        add_msg( m_info, _("The fruits ripen in autumn."));
         return;
     }
     if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
@@ -1709,7 +1709,7 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy)
 void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy)
 {
     if (calendar::turn.get_season() != SUMMER) {
-        add_msg( m_info, "Blueberries ripen in summer.");
+        add_msg( m_info, _("Blueberries ripen in summer."));
         return;
     }
     pick_plant(p, m, examx, examy, "blueberries", t_shrub, true);
@@ -1718,7 +1718,7 @@ void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy)
 void iexamine::shrub_strawberry(player *p, map *m, int examx, int examy)
 {
     if (calendar::turn.get_season() != SUMMER) {
-        add_msg( m_info, "Strawberries ripen in summer.");
+        add_msg( m_info, _("Strawberries ripen in summer."));
         return;
     }
     pick_plant(p, m, examx, examy, "strawberries", t_shrub, true);

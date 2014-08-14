@@ -442,7 +442,7 @@ void mattack::growplants(monster *z)
                                 if (one_in(2)) {
                                     hit = bp_foot_l;
                                 } else {
-                                    hit = bp_foot_l;
+                                    hit = bp_foot_r;
                                 }
                             }
                             //~ %s is bodypart name in accusative.

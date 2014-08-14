@@ -505,7 +505,6 @@ void load_region_settings( JsonObject &jo )
         }
         tmpval = 0.0f;
         if ( pjo.has_object("other") ) {
-            std::string tmpstr = "";
             JsonObject opjo = pjo.get_object("other");
             std::set<std::string> keys = opjo.get_member_names();
             for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {
@@ -528,7 +527,6 @@ void load_region_settings( JsonObject &jo )
             }
             new_region.field_coverage.boosted_other_mpercent = (int)(tmpval * 10000.0);
             if ( pjo.has_object("boosted_other") ) {
-                std::string tmpstr = "";
                 JsonObject opjo = pjo.get_object("boosted_other");
                 std::set<std::string> keys = opjo.get_member_names();
                 for(std::set<std::string>::iterator it = keys.begin(); it != keys.end(); ++it) {

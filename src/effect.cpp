@@ -9,13 +9,13 @@ std::map<std::string, effect_type> effect_types;
 effect_type::effect_type() {}
 effect_type::effect_type(const effect_type &) {}
 
-std::string effect_type::get_name() const
+std::string effect_type::get_name()
 {
-    return name;
+    return _(name.c_str());
 }
-std::string effect_type::get_desc() const
+std::string effect_type::get_desc()
 {
-    return desc;
+    return _(desc.c_str());
 }
 effect_rating effect_type::get_rating() const
 {

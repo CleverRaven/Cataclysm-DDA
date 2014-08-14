@@ -555,7 +555,6 @@ void mdeath::darkman(monster *z)
 
 void mdeath::gas(monster *z)
 {
-    std::string tmp;
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     g->sound(z->posx(), z->posy(), 24, explode);
     for (int i = -2; i <= 2; i++) {
@@ -572,7 +571,6 @@ void mdeath::gas(monster *z)
 
 void mdeath::smokeburst(monster *z)
 {
-    std::string tmp;
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     g->sound(z->posx(), z->posy(), 24, explode);
     for (int i = -1; i <= 1; i++) {
