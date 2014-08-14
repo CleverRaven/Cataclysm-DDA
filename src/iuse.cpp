@@ -9193,7 +9193,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
         const int x = atoi(it->item_vars["HANDCUFFS_X"].c_str());
         const int y = atoi(it->item_vars["HANDCUFFS_Y"].c_str());
 
-        if (x != pos.x || y != pos.y) {
+        if (it->charges > it->type->maximum_charges() - 1000 && x != pos.x || y != pos.y) {
 
             if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
 
