@@ -2637,7 +2637,13 @@ void mattack::riotbot(monster *z)
 
             add_msg(_("The robot puts handcuffs on you."));
             g->sound(z->posx(), z->posy(), 5,
-                     _("You are under arrest, citizen.  Do not attempt to flee or to remove the handcuffs.  That can be dangerous to your health."));
+                     _("You are under arrest, citizen.  You have the right to remain silent.  If you do not remain silent, anything you say may be used against you in a court of law."));
+            g->sound(z->posx(), z->posy(), 5,
+                     _("You have the right to an attorney.  If you cannot afford an attorney, one will be provided at no cost to you.  You may have your attorney present during any questioning."));
+            g->sound(z->posx(), z->posy(), 5,
+                     _("If you do not understand these rights, an officer will explain them in greater detail when taking you into custody."));
+            g->sound(z->posx(), z->posy(), 5,
+                     _("Do not attempt to flee or to remove the handcuffs, citizen.  That can be dangerous to your health."));
 
             g->u.moves -= 300;
             z->moves -= 300;
@@ -2701,6 +2707,7 @@ void mattack::riotbot(monster *z)
         int x = g->u.posx + rng(0, delta) - rng(0, delta);
         int y = g->u.posy + rng(0, delta) - rng(0, delta);
 
+        //~ Sound of a riotbot using its blinding flash
         g->sound(x, y, 3, _("fzzzzzt"));
 
         g->m.add_field(x, y, fd_dazzling, 1);
