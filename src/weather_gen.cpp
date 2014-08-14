@@ -10,7 +10,7 @@
 const double tau = 2 * std::acos(-1);
 
 weather_generator::weather_generator() { }
-weather_generator::weather_generator(unsigned seed) : SEED(seed) { this->test_weather(); }
+weather_generator::weather_generator(unsigned seed) : SEED(seed) { }
 
 w_point weather_generator::get_weather(const point &location, const calendar &t)
 {
