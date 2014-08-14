@@ -77,6 +77,7 @@ public:
     std::string start_name() const;
     //profession* prof() const;
     bool profquery(const profession* proff) const;
+    int profsize() const;
     int mission() const;
     signed int point_cost() const;
     std::vector<std::string> items() const;

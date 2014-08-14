@@ -1044,7 +1044,7 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-	if (g->scen->has_flag("ALL_PROFS") || g->scen->profquery(&(iter->second)) == true){
+	if (g->scen->profsize() == 0 || g->scen->profquery(&(iter->second)) == true){
         sorted_profs.push_back(&(iter->second));}
     }
 

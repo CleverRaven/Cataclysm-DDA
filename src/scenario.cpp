@@ -274,6 +274,10 @@ bool scenario::profquery(const profession* proff) const
 {
     return _allowed_professions.count(proff->ident()) != 0;
 }
+int scenario::profsize() const
+{
+    return _allowed_professions.size();
+}
 bool scenario::has_flag(std::string flag) const
 {
     return flags.count(flag) != 0;
