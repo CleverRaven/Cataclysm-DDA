@@ -1748,152 +1748,208 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
 // map::destroy is only called (?) if the terrain is NOT bashable.
 void map::destroy(const int x, const int y, const bool makesound)
 {
- if (has_furn(x, y))
-  furn_set(x, y, f_null);
+    if (has_furn(x, y)) {
+        furn_set(x, y, f_null);
+    }
 
     const ter_id t = ter( x, y );
     if( t == t_gas_pump) {
-  if (makesound && one_in(3))
-   g->explosion(x, y, 40, 0, true);
-  else {
-   for (int i = x - 2; i <= x + 2; i++) {
-    for (int j = y - 2; j <= y + 2; j++) {
-       if(move_cost(i, j) == 0) continue;
-       if (one_in(3)) spawn_item(i, j, "gasoline");
-       if (one_in(6)) spawn_item(i, j, "steel_chunk", 0, 3);
-    }
-   }
-  }
-  ter_set(x, y, t_rubble);
+        if (makesound && one_in(3))
+            g->explosion(x, y, 40, 0, true);
+        else {
+            for (int i = x - 2; i <= x + 2; i++) {
+                for (int j = y - 2; j <= y + 2; j++) {
+                    if(move_cost(i, j) == 0) {
+                        continue;
+                    }
+                    if (one_in(3)) {
+                        spawn_item(i, j, "gasoline");
+                    }
+                    if (one_in(6)) {
+                        spawn_item(i, j, "steel_chunk", 0, 3);
+                    }
+                }
+            }
+        }
+        ter_set(x, y, t_rubble);
     } else if( t == t_door_c || t == t_door_b || t == t_door_locked || t == t_door_boarded ) {
-  ter_set(x, y, t_door_frame);
-  for (int i = x - 2; i <= x + 2; i++) {
-   for (int j = y - 2; j <= y + 2; j++) {
-       if(move_cost(i, j) == 0) continue;
-       if (one_in(6)) spawn_item(i, j, "2x4");
-       if (one_in(6)) spawn_item(i, j, "nail", 0, 3);
-   }
-  }
+        ter_set(x, y, t_door_frame);
+        for (int i = x - 2; i <= x + 2; i++) {
+            for (int j = y - 2; j <= y + 2; j++) {
+                if(move_cost(i, j) == 0) {
+                    continue;
+                }
+                if (one_in(6)) {
+                    spawn_item(i, j, "2x4");
+                }
+                if (one_in(6)) {
+                    spawn_item(i, j, "nail", 0, 3);
+                }
+            }
+        }
     } else if( t == t_pavement || t == t_pavement_y || t == t_sidewalk ) {
-  for (int i = x - 2; i <= x + 2; i++) {
-   for (int j = y - 2; j <= y + 2; j++) {
-    if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, "rock");
-    ter_set(x, y, t_rubble);
-   }
-  }
+        for (int i = x - 2; i <= x + 2; i++) {
+            for (int j = y - 2; j <= y + 2; j++) {
+                if (move_cost(i, j) > 0 && one_in(5)) {
+                    spawn_item(i, j, "rock");
+                }
+                ter_set(x, y, t_rubble);
+            }
+        }
     } else if( t == t_floor ) {
- g->sound(x, y, 20, _("SMASH!!"));
-  for (int i = x - 2; i <= x + 2; i++) {
-   for (int j = y - 2; j <= y + 2; j++) {
-       if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) { spawn_item(i, j, "splinter"); }
-       if (one_in(6)) { spawn_item(i, j, "nail", 0, 3); }
-       if (one_in(100)) { spawn_item(x, y, "cu_pipe"); }
-   }
-  }
-  ter_set(x, y, t_rubble);
-  for (int i = x - 1; i <= x + 1; i++) {
-   for (int j = y - 1; j <= y + 1; j++) {
-    if (one_in(2)) {
-      if (!has_flag("NOITEM", x, y)) {
-       if (!(field_at(i, j).findField(fd_rubble))) {
-        add_field(i, j, fd_rubble, rng(1,3));
-        field_effect(i, j);
-       }
-      }
-    }
-   }
-  }
-   //TODO: Make rubble decay into smoke
-  for (int i = x - 1; i <= x + 1; i++)
-   for (int j = y - 1; j <= y + 1; j++) {
-    if ((i == x && j == y) || !has_flag("COLLAPSES", i, j))
-      continue;
-     int num_supports = -1;
-     for (int k = i - 1; k <= i + 1; k++)
-       for (int l = j - 1; l <= j + 1; l++) {
-       if (k == i && l == j)
-        continue;
-       if (has_flag("COLLAPSES", k, l))
-        num_supports++;
-       else if (has_flag("SUPPORTS_ROOF", k, l))
-        num_supports += 2;
-       }
-     if (one_in(num_supports))
-      destroy (i, j, false);
-   }
+        g->sound(x, y, 20, _("SMASH!!"));
+        for (int i = x - 2; i <= x + 2; i++) {
+            for (int j = y - 2; j <= y + 2; j++) {
+                if(move_cost(i, j) == 0) {
+                    continue;
+                }
+                if (one_in(5)) {
+                    spawn_item(i, j, "splinter");
+                }
+                if (one_in(6)) {
+                    spawn_item(i, j, "nail", 0, 3);
+                }
+                if (one_in(100)) {
+                    spawn_item(x, y, "cu_pipe");
+                }
+            }
+        }
+        ter_set(x, y, t_rubble);
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (one_in(2)) {
+                    if (!has_flag("NOITEM", x, y)) {
+                        if (!(field_at(i, j).findField(fd_rubble))) {
+                            add_field(i, j, fd_rubble, rng(1,3));
+                            field_effect(i, j);
+                        }
+                    }
+                }
+            }
+        }
+        //TODO: Make rubble decay into smoke
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if ((i == x && j == y) || !has_flag("COLLAPSES", i, j)) {
+                    continue;
+                }
+                int num_supports = -1;
+                for (int k = i - 1; k <= i + 1; k++) {
+                    for (int l = j - 1; l <= j + 1; l++) {
+                        if (k == i && l == j) {
+                            continue;
+                        }
+                        if (has_flag("COLLAPSES", k, l)) {
+                            num_supports++;
+                        } else if (has_flag("SUPPORTS_ROOF", k, l)) {
+                            num_supports += 2;
+                        }
+                    }
+                }
+                if (one_in(num_supports)) {
+                    destroy (i, j, false);
+                }
+            }
+        }
     } else if( t == t_concrete_v || t == t_concrete_h || t == t_wall_v || t == t_wall_h ) {
- g->sound(x, y, 20, _("SMASH!!"));
-  for (int i = x - 2; i <= x + 2; i++) {
-   for (int j = y - 2; j <= y + 2; j++) {
-       if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) spawn_item(i, j, "rock");
-       if (one_in(4)) spawn_item(i, j, "splinter");
-       if (one_in(3)) spawn_item(i, j, "rebar");
-       if (one_in(6)) spawn_item(i, j, "nail", 0, 3);
-   }
-  }
-  ter_set(x, y, t_rubble);
-  for (int i = x - 1; i <= x + 1; i++) {
-   for (int j = y - 1; j <= y + 1; j++) {
-    if (one_in(2)) {
-      if (!has_flag("NOITEM", x, y)) {
-       if (!(field_at(i, j).findField(fd_rubble))) {
-        add_field(i, j, fd_rubble, rng(1,3));
-        field_effect(i, j);
-      }
-      }
-    }
-   }
-  }
-  //TODO: Make rubble decay into smoke
-  for (int i = x - 1; i <= x + 1; i++)
-   for (int j = y - 1; j <= y + 1; j++) {
-    if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j))
-      continue;
-     int num_supports = 0;
-     for (int k = i - 1; k <= i + 1; k++)
-      for (int l = j - 1; l <= j + 1; l++) {
-       if (k == i && l == j)
-        continue;
-       if (has_flag("COLLAPSES", i, j)) {
-        if (has_flag("COLLAPSES", k, l))
-         num_supports++;
-        else if (has_flag("SUPPORTS_ROOF", k, l))
-         num_supports += 2;
-       } else if (has_flag("SUPPORTS_ROOF", i, j))
-        if (has_flag("SUPPORTS_ROOF", k, l) && !has_flag("COLLAPSES", k, l))
-         num_supports += 3;
-      }
-     if (one_in(num_supports))
-      destroy (i, j, false);
-   }
+        g->sound(x, y, 20, _("SMASH!!"));
+        for (int i = x - 2; i <= x + 2; i++) {
+            for (int j = y - 2; j <= y + 2; j++) {
+                if(move_cost(i, j) == 0) {
+                    continue;
+                }
+                if (one_in(5)) {
+                    spawn_item(i, j, "rock");
+                }
+                if (one_in(4)) {
+                    spawn_item(i, j, "splinter");
+                }
+                if (one_in(3)) {
+                    spawn_item(i, j, "rebar");
+                }
+                if (one_in(6)) {
+                    spawn_item(i, j, "nail", 0, 3);
+                }
+            }
+        }
+        ter_set(x, y, t_rubble);
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (one_in(2)) {
+                    if (!has_flag("NOITEM", x, y)) {
+                        if (!(field_at(i, j).findField(fd_rubble))) {
+                            add_field(i, j, fd_rubble, rng(1,3));
+                            field_effect(i, j);
+                        }
+                    }
+                }
+            }
+        }
+        //TODO: Make rubble decay into smoke
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j))
+                    continue;
+                int num_supports = 0;
+                for (int k = i - 1; k <= i + 1; k++) {
+                    for (int l = j - 1; l <= j + 1; l++) {
+                        if (k == i && l == j) {
+                            continue;
+                        }
+                        if (has_flag("COLLAPSES", i, j)) {
+                            if (has_flag("COLLAPSES", k, l)) {
+                                num_supports++;
+                            } else if (has_flag("SUPPORTS_ROOF", k, l)) {
+                                num_supports += 2;
+                            }
+                        } else if (has_flag("SUPPORTS_ROOF", i, j)) {
+                            if (has_flag("SUPPORTS_ROOF", k, l) && !has_flag("COLLAPSES", k, l)) {
+                                num_supports += 3;
+                            }
+                        }
+                    }
+                }
+                if (one_in(num_supports)) {
+                    destroy (i, j, false);
+                }
+            }
+        }
     } else if( t == t_palisade || t == t_palisade_gate ) {
-      g->sound(x, y, 16, _("CRUNCH!!"));
-      for (int i = x - 1; i <= x + 1; i++)
-      {
-          for (int j = y - 1; j <= y + 1; j++)
-          {
-              if(move_cost(i, j) == 0) continue;
-              if (one_in(3)) spawn_item(i, j, "rope_6");
-              if (one_in(2)) spawn_item(i, j, "splinter");
-              if (one_in(3)) spawn_item(i, j, "stick");
-              if (one_in(6)) spawn_item(i, j, "2x4");
-              if (one_in(9)) spawn_item(i, j, "log");
-          }
-      }
-      ter_set(x, y, t_dirt);
-      add_trap(x, y, tr_pit);
+        g->sound(x, y, 16, _("CRUNCH!!"));
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if(move_cost(i, j) == 0) {
+                    continue;
+                }
+                if (one_in(3)) {
+                    spawn_item(i, j, "rope_6");
+                }
+                if (one_in(2)) {
+                    spawn_item(i, j, "splinter");
+                }
+                if (one_in(3)) {
+                    spawn_item(i, j, "stick");
+                }
+                if (one_in(6)) {
+                    spawn_item(i, j, "2x4");
+                }
+                if (one_in(9)) {
+                    spawn_item(i, j, "log");
+                }
+            }
+        }
+        ter_set(x, y, t_dirt);
+        add_trap(x, y, tr_pit);
     } else {
-  if (makesound && has_flag("EXPLODES", x, y) && one_in(2)) {
-   g->explosion(x, y, 40, 0, true);
-  }
-  ter_set(x, y, t_rubble);
- }
+        if (makesound && has_flag("EXPLODES", x, y) && one_in(2)) {
+            g->explosion(x, y, 40, 0, true);
+        }
+        ter_set(x, y, t_rubble);
+    }
 
- if (makesound)
-  g->sound(x, y, 40, _("SMASH!!"));
+    if (makesound) {
+        g->sound(x, y, 40, _("SMASH!!"));
+    }
 }
 
 void map::shoot(const int x, const int y, int &dam,
