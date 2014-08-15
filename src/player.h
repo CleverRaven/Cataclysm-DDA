@@ -555,7 +555,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the ranged attack perception mod */
         int ranged_per_mod() const;
         /** Returns the throwing attack dexterity mod */
-        int throw_dex_mod() const;
+        int throw_dex_mod(bool return_stat_effect = true) const;
         int aim_per_time( item *gun ) const;
 
         // Mental skills and stats
