@@ -265,13 +265,13 @@ bool player::create(character_type type, std::string tempname)
         werase(w);
         wrefresh(w);
         switch (tab) {
-            case 0:
+            case 1:
                 tab += set_stats      (w, this, points);
                 break;
             case 2:
                 tab += set_traits     (w, this, points, max_trait_points);
                 break;
-	    case 1:
+	    case 0:
 		tab += set_scenario   (w, this, points);
 		break;
             case 3:
@@ -556,8 +556,9 @@ void draw_tabs(WINDOW *w, std::string sTab)
         }
     }
     std::vector<std::string> tab_captions;
-    tab_captions.push_back(_("STATS"));
     tab_captions.push_back(_("SCENARIO"));
+    tab_captions.push_back(_("STATS"));
+    
     tab_captions.push_back(_("TRAITS"));
     tab_captions.push_back(_("PROFESSION"));
     tab_captions.push_back(_("SKILLS")); 
@@ -774,9 +775,8 @@ int set_stats(WINDOW *w, player *u, int &points)
                 }
                 u->per_max++;
             }
-        } else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
-            delwin(w_description);
-            return -1;
+        } else if (action == "PREV_TAB") {
+                return -1;
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
@@ -1538,8 +1538,9 @@ int set_scenario(WINDOW *w, player *u, int &points)
 		points = OPTIONS["INITIAL_POINTS"] - netPointCost;
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
 
-        } else if (action == "PREV_TAB") {
-                retval = -1;
+        }else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
+            delwin(w_description);
+            return -1;
         } else if (action == "NEXT_TAB") {
                 retval = 1;
         }

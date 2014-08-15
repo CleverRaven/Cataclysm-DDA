@@ -2549,7 +2549,8 @@
 		"rucksack",
 		"scar_h",
 		"762_51",
-		"katana"
+		"katana",
+	        "scabbard"
             ],
             "male": [
                 "boxer_shorts"
