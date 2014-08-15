@@ -90,13 +90,6 @@ void game::init_fields()
         },
 
         {
-            "fd_rubble",
-            {_("rubble heap"), _("rubble pile"), _("mountain of rubble")}, '#', 2,
-            {c_dkgray, c_dkgray, c_dkgray}, {true, true, false},{false, false, false},  0,
-            {0,0,0}
-        },
-
-        {
             "fd_smoke",
             {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
             {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true},  300,
@@ -489,8 +482,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_sludge:
                         break;
                     case fd_slime:
-                        break;
-                    case fd_rubble:
                         break;
                     case fd_plasma:
                         break;
@@ -1298,8 +1289,6 @@ void map::step_in_field(int x, int y)
     int veh_part; // vehicle part existing on this tile.
     vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
-    // For use in determining if we are in a rubble square or not, for the disease effect
-    bool no_rubble = true;
     //to modify power of a field based on... whatever is relevant for the effect.
     int adjusted_intensity;
 
@@ -1319,11 +1308,6 @@ void map::step_in_field(int x, int y)
         // Shouldn't happen unless you free memory of field entries manually
         // (hint: don't do that)... Pointer safety.
         if(cur == NULL) continue;
-
-        if (cur->getFieldType() == fd_rubble) {
-             //We found rubble, don't remove the players rubble disease at the end of function.
-            no_rubble = false;
-        }
 
         //Do things based on what field effect we are currently in.
         switch (cur->getFieldType()) {
@@ -1428,11 +1412,6 @@ void map::step_in_field(int x, int y)
                     g->u.add_effect("onfire", 5); //lasting fire damage only from the strongest fires.
                 }
             }
-            break;
-
-        case fd_rubble:
-            //You are walking on rubble. Slow down.
-            g->u.add_disease("bouldering", 0, false, cur->getFieldDensity(), 3);
             break;
 
         case fd_smoke:
@@ -1630,10 +1609,6 @@ void map::step_in_field(int x, int y)
         ++field_list_it;
     }
 
-    if(no_rubble) {
-        //After iterating through all fields, if we found no rubble, remove the rubble disease.
-        g->u.rem_disease("bouldering");
-    }
 }
 
 void map::mon_in_field(int x, int y, monster *z)
@@ -1737,12 +1712,6 @@ void map::mon_in_field(int x, int y, monster *z)
             }
             // Drop through to smoke no longer needed as smoke will exist in the same square now,
             // this would double apply otherwise.
-            break;
-
-        case fd_rubble:
-            if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC)) {
-                z->add_effect("bouldering", 1);
-            }
             break;
 
         case fd_smoke:

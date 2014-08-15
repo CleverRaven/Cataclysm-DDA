@@ -1817,19 +1817,6 @@ void map::destroy(const int x, const int y, const bool makesound)
         ter_set(x, y, t_rubble);
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                if (one_in(2)) {
-                    if (!has_flag("NOITEM", x, y)) {
-                        if (!(field_at(i, j).findField(fd_rubble))) {
-                            add_field(i, j, fd_rubble, rng(1,3));
-                            field_effect(i, j);
-                        }
-                    }
-                }
-            }
-        }
-        //TODO: Make rubble decay into smoke
-        for (int i = x - 1; i <= x + 1; i++) {
-            for (int j = y - 1; j <= y + 1; j++) {
                 if ((i == x && j == y) || !has_flag("COLLAPSES", i, j)) {
                     continue;
                 }
@@ -1873,19 +1860,6 @@ void map::destroy(const int x, const int y, const bool makesound)
             }
         }
         ter_set(x, y, t_rubble);
-        for (int i = x - 1; i <= x + 1; i++) {
-            for (int j = y - 1; j <= y + 1; j++) {
-                if (one_in(2)) {
-                    if (!has_flag("NOITEM", x, y)) {
-                        if (!(field_at(i, j).findField(fd_rubble))) {
-                            add_field(i, j, fd_rubble, rng(1,3));
-                            field_effect(i, j);
-                        }
-                    }
-                }
-            }
-        }
-        //TODO: Make rubble decay into smoke
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j))
