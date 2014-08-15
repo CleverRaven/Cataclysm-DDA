@@ -2528,7 +2528,7 @@
     "special_freq":15,
     "death_function":"MELT",
     "special_attack":"LUNGE",
-    "description":"This rotting corpse seaps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
+    "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
     },{
         "type" : "MONSTER",
@@ -2561,7 +2561,7 @@
     "special_freq":10,
     "death_function":"MELT",
     "special_attack":"LUNGE",
-    "description":"This rotting corpse seaps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
+    "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
     },{
         "type" : "MONSTER",
@@ -2594,7 +2594,7 @@
     "special_freq":5,
     "death_function":"MELT",
     "special_attack":"LUNGE",
-    "description":"This rotting corpse seaps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
+    "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
     },{
         "type" : "MONSTER",
@@ -2627,7 +2627,7 @@
     "special_freq":8,
     "death_function":"MELT",
     "special_attack":"LONGSWIPE",
-    "description":"Intense radiation has spured a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
+    "description":"Intense radiation has spurred a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS50"]
     },{
         "type" : "MONSTER",
