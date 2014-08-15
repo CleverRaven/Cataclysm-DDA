@@ -1419,7 +1419,7 @@ void npc::pick_up_item()
         if (itval < worst_item_value) {
             worst_item_value = itval;
         }
-        i_add((*items)[pickup[i]]);
+        i_add((*items)[i]);
     }
     for (auto &i : pickup) {
         g->m.i_rem(itx, ity, i);
