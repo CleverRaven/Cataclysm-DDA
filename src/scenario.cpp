@@ -50,7 +50,7 @@ void scenario::load_scenario(JsonObject &jsobj)
         scen._name_female = pgettext("scenario_female", name_obj.get_string("female").c_str());
     }
     else {
-        // Same profession names for male and female in English.
+        // Same scenario names for male and female in English.
         // Still need to different names in other languages.
         const std::string name = jsobj.get_string("name");
         scen._name_female = pgettext("scenario_female", name.c_str());
@@ -66,10 +66,7 @@ void scenario::load_scenario(JsonObject &jsobj)
     const std::string stame = jsobj.get_string("start_name").c_str();
     scen._start_name = pgettext("start_name", stame.c_str());
 
-   // const std::string proffe = jsobj.get_string("profession").c_str();
-   // scen._profession = profession::prof(pgettext("profession",proffe.c_str()));
-    
-    //scen._mission = jsobj.get_int("mission_id");    
+   
     scen._point_cost = jsobj.get_int("points");
 
     JsonObject items_obj=jsobj.get_object("items");
@@ -114,8 +111,8 @@ scenario* scenario::generic()
     return scenario::scen("evacuee");
 }
 
-// Strategy: a third of the time, return the generic profession.  Otherwise, return a profession,
-// weighting 0 cost professions more likely--the weight of a profession with cost n is 2/(|n|+2),
+// Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
+// weighting 0 cost scenario more likely--the weight of a scenario with cost n is 2/(|n|+2),
 // e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
 scenario* scenario::weighted_random()
 {
@@ -252,12 +249,6 @@ std::string scenario::start_name() const
 {
     return _start_name;
 }
-
-/*profession* scenario::prof() const
-{
-    return _profession;
-}*/
-
 int scenario::mission() const
 {
     return _mission;

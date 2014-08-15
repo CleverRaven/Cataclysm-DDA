@@ -52,10 +52,10 @@ public:
     scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission);
     static void load_scenario(JsonObject &jsobj);
 
-    // these should be the only ways used to get at professions
+    // these should be the only ways used to get at scenario
     static scenario* scen(std::string ident);
     static scenario* generic(); // points to the generic, default profession
-    // return a random profession, weighted for use w/ random character creation or npcs
+    // return a random scenario, weighted for use w/ random character creation
     static scenario* weighted_random();
     static bool exists(std::string ident);
     static scenmap::const_iterator begin();
@@ -76,7 +76,6 @@ public:
     std::string gender_req() const;
     std::string start_location() const;
     std::string start_name() const;
-    //profession* prof() const;
     bool profquery(const profession* proff) const;
     bool traitquery(std::string trait) const;
     int profsize() const;
@@ -88,7 +87,7 @@ public:
 
 
     /**
-     * Check if this type of profession has a certain flag set.
+     * Check if this type of scenario has a certain flag set.
      *
      * Current flags: none
      */
