@@ -1108,6 +1108,8 @@ bool advanced_inventory::move_all_items()
                         add_msg(m_info, _("Unable to move item, the destination is too full."));
                         ++it;
                         continue;
+                    } else {
+                        u.moves -= 100;
                     }
 
                     // if it's a normal square, try to move it there. If not, just continue
@@ -1116,6 +1118,8 @@ bool advanced_inventory::move_all_items()
                         add_msg(m_info, _("Unable to move item, the destination is too full."));
                         ++it;
                         continue;
+                    } else {
+                        u.moves -= 100;
                     }
                 }
 
