@@ -83,6 +83,10 @@ void scenario::load_scenario(JsonObject &jsobj)
     while (jsarr.has_more()) {
         scen._allowed_traits.insert(jsarr.next_string());
     }
+    jsarr = jsobj.get_array("forced_traits");
+    while (jsarr.has_more()) {
+        scen._forced_traits.insert(jsarr.next_string());
+    }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
         scen.flags.insert(jsarr.next_string());
@@ -274,6 +278,10 @@ bool scenario::profquery(const profession* proff) const
 bool scenario::traitquery(std::string trait) const
 {
     return _allowed_traits.count(trait) != 0;
+}
+bool scenario::locked_traits(std::string trait) const
+{
+    return _forced_traits.count(trait) != 0;
 }
 int scenario::profsize() const
 {

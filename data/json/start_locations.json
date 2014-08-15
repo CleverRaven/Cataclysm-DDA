@@ -11,9 +11,14 @@
     "target" : "house"
   },{
     "type" : "start_location",
-    "ident" : "s_garage",
-    "name" : "Garage",
-    "target" : "s_garage"
+    "ident" : "cabin",
+    "name" : "Cabin",
+    "target" : "cabin"
 
+  },{
+    "type" : "start_location",
+    "ident" : "lab",
+    "name" : "science lab",
+    "target" : "lab"
   }
 ]

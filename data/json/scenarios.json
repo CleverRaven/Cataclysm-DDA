@@ -4,59 +4,48 @@
 	    "ident": "evacuee",
 	    "name": "Evacuee",
 	    "points" : 0,
-	    "description": "You have survived the initial wave of panic, and have achieved (relative) safety. What you do now is up to you.",
+	    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
 	    "start_location": "shelter",
 	    "start_name": "Evac Center"
 
 	},
 	{
 	    "type": "scenario",
-	    "ident": "homealone",
+	    "ident": "missed",
 	    "name": "Missed",
 	    "points" : 0,
-	    "description": "Whether by choice, situation, or just bad luck. You missed the evacuation, and now you're stuck in a city full of the risen dead.",
+	    "description": "Whether due to stubborness,ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
 	    "start_location": "house",
-	    "start_name": "My House"
+	    "start_name": "Your House"
 	},
 	{
 	    "type": "scenario",
-	    "ident": "summer",
-	    "name": "Fun in the Summer",
-	    "points" : 1,
-	    "description": "It's Summer TIME! And that can mean only one thing! The risen dead and the hottest vacation spot around!",
-	    "start_location": "shelter",
-	    "start_name": "Summer Vacation Spot",
-	    "flags" : ["SUM_START"]
-	},
-	{
-	    "type": "scenario",
-	    "ident": "bitten",
-	    "name": "Ow...",
+	    "ident": "infected",
+	    "name": "Infected",
 	    "points" : -4,
-	    "description": "You dun messed up A-Aron, you went and got yo' ass bitten.",
+	    "description": "In the chaos and panic of evacuation, you got bitten by something! You didn't get proper medical care, and now the wound has started turning green.",
 	    "start_location": "shelter",
-	    "start_name": "Shelter",
-	    "flags" : ["INFECTED"]
+	    "start_name": "Evac Center"
+	},
+        {
+	    "type": "scenario",
+	    "ident": "lab_chal",
+	    "name": "Challenge-Lab",
+	    "points" : -8,
+	    "description": "You've been locked in a lab with no way out! Survive as long as you can! Brag about it on the forums! (Pics or it didn't happen)",
+	    "start_location": "lab",
+	    "start_name": "Locked Lab"
 	},
 	{
 	    "type": "scenario",
-	    "ident": "mechanic",
-	    "name": "Mechanic",
+	    "ident": "ambushed",
+	    "name": "Ambush",
 	    "points" : 0,
-	    "description": "Working in the shop, you were so focused on the task at hand you missed the evacuation!",
-	    "start_location": "s_garage",
-	    "start_name": "Auto Repair Center",
-	    "professions" : ["mechanic"]
-	},
-	{    "type" : "scenario",
-	     "ident" : "lab_stuff",
-	     "name" : "Escape!",
-	     "points" : 0,
-	     "description" : "You were locked in the lab when the cataclysm broke out, and now you want to get out. P.S. The lab is a house.",
-	     "start_location" : "house",
- 	     "start_name" : "Lab",
-	     "professions" : ["escapist","lab_expert"],
-	     "traits" : ["ROBUST","GILLS","Slimy"]
+	    "description": "It is the winter after zero hour, cold and weary you ducked into a small cabin for the night. The next morning, you awoke to the sound of lots of movement in the woods.",
+	    "start_location": "cabin",
+	    "start_name": "Abandoned Cabin",
+	    "flags" : ["SUR_START","WIN_START"],
+	    "professions" : ["winter_survivor","winter_scavenger","unemployed"]
 	}
 ]
     

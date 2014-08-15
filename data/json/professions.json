@@ -2457,20 +2457,53 @@
     },
     {
 	"type": "profession",
-	"ident": "escapist",
-	"name" : "Escaped Lab Expirement",
-	"description" : "After years of begging and failures, you've finally manage to cobble together your own plastic explosives! Now that all the scientists are dead/evacuated, it might be a good time to make your grand escape. P.S. Your explosives are actually socks.",
-	"points" : 0,
-	"items": {
+	"ident": "winter_survivor",
+	"name" : "Hardened Survivor",
+	"description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large city.",
+	"points" : 6,
+	"skills": [
+            {
+                "level": 5,
+                "name": "survival"
+            },
+            {
+                "level": 5,
+                "name": "fabrication"
+            },
+            {
+                "level": 5,
+                "name": "melee"
+            },
+	    {
+		"level" : 4,
+		"name" : "tailor"
+	    },
+            {
+                "level": 3,
+                "name": "archery"
+            }
+        ],
+
+        "items": {
             "both": [
-                "jeans",
-		"socks"
+                "survivor_vest",
+                "wsurvivor_suit",
+                "socks",
+                "boots_wsurvivor",
+                "hood_wsurvivor",
+                "gloves_wsurvivor",
+		"quiver_large",
+		"crossbow",
+		"bolt_wood",
+		"bolt_wood",
+		"mess_kit",
+		"knife_combat"
             ],
             "male": [
                 "boxer_shorts"
             ],
             "female": [
-                "bra",
+                "sports_bra",
                 "panties"
             ]
         },
@@ -2478,45 +2511,51 @@
     },
     {
 	"type": "profession",
-	"ident": "lab_expert",
-	"name" : "Lab Executive",
-	"description" : "One of the top minds on the planet, you were one of the head scientists at one of the government labs. Performing expirements in an external-stimuli prevention chamber, you missed the evacuation, and now must escape from your own creations.",
-	"points" : 4,
+	"ident": "winter_scavenger",
+	"name" : "Hardened Scavenger",
+	"description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others. Whether by force, guile, or luck, you've obtained the best gear you could find.",
+	"points" : 8,
 	"skills": [
             {
                 "level": 5,
-                "name": "computer"
+                "name": "melee"
             },
             {
                 "level": 5,
-                "name": "cooking"
+                "name": "gun"
             },
             {
-                "level": 5,
-                "name": "electronics"
+                "level": 3,
+                "name": "dodge"
             },
+	    {
+		"level" : 4,
+		"name" : "mechanics"
+	    },
             {
-                "level": 5,
-                "name": "mechanics"
+                "level": 3,
+                "name": "rifle"
             }
         ],
 
         "items": {
             "both": [
-                "dress_shirt",
-                "pants",
+                "pants_army",
+                "sleeveless_trenchcoat",
                 "socks",
-                "boots",
-                "coat_lab",
-                "gloves_rubber",
-                "glasses_safety",
-                "chemistry_set"
+                "boots_combat",
+                "tac_helmet",
+                "gloves_tactical",
+		"rucksack",
+		"scar_h",
+		"762_51",
+		"katana"
             ],
             "male": [
-                "briefs"
+                "boxer_shorts"
             ],
             "female": [
-                "bra",
+                "sports_bra",
                 "panties"
             ]
         },

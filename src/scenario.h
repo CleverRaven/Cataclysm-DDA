@@ -30,6 +30,7 @@ private:
     profession* _profession;
     std::set<std::string> _allowed_professions;
     std::set<std::string> _allowed_traits;
+    std::set<std::string> _forced_traits;
     int _mission;
     std::vector<std::string> traits;
     int _point_cost;
@@ -78,6 +79,7 @@ public:
     std::string start_name() const;
     bool profquery(const profession* proff) const;
     bool traitquery(std::string trait) const;
+    bool locked_traits(std::string trait) const;
     int profsize() const;
     int mission() const;
     signed int point_cost() const;
