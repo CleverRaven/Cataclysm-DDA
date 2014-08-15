@@ -5525,8 +5525,10 @@ void player::suffer()
         }
     }
 
-    for (auto &i : illness) {
-        dis_effect(*this, i);
+    for( size_t i = 0; i < illness.size(); ++i ) {
+        // Note: dis_effect might add or remove disease (DI_LYING_DOWN adds DI_SLEEP).
+        // therefor no iterator, no range-based iteration.
+        dis_effect( *this, illness[i] );
     }
 
     // Diseases may remove themselves as part of applying (MA buffs do) so do a
