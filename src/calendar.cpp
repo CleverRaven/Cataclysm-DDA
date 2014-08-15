@@ -46,11 +46,11 @@ calendar::calendar(int turn)
     int minute_param = int(turn / 10);
     int hour_param = minute_param / 60;
     int day_param = hour_param / 24;
-    int season_param = int(day_param / season_length());
+    int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
     second = 6 * (turn % 10);
     minute = minute_param % 60;
     hour = hour_param % 24;
-    day = 1 + day_param % season_length();
+    day = 1 + day_param % (int)OPTIONS["SEASON_LENGTH"];
     season = season_type(season_param % 4);
     year = season_param / 4;
 }
@@ -87,12 +87,12 @@ calendar &calendar::operator =(int rhs)
     int minute_param = int(rhs / 10);
     int hour_param = minute_param / 60;
     int day_param = hour_param / 24;
-    int season_param = int(day_param / season_length());
+    int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
     turn_number = rhs;
     second = 6 * (rhs % 10);
     minute = minute_param % 60;
     hour = hour_param % 24;
-    day = day_param % season_length();
+    day = day_param % (int)OPTIONS["SEASON_LENGTH"];
     season = season_type(season_param % 4);
     year = season_param / 4;
     return *this;
@@ -222,9 +222,9 @@ void calendar::standardize()
         hour %= 24;
     }
     int tmpseason = int(season);
-    if (day >= season_length()) {
-        tmpseason += int(day / season_length());
-        day %= season_length();
+    if (day >= OPTIONS["SEASON_LENGTH"]) {
+        tmpseason += int(day / OPTIONS["SEASON_LENGTH"]);
+        day %= (int)OPTIONS["SEASON_LENGTH"];
     }
     if (tmpseason >= 4) {
         year += tmpseason / 4;
@@ -242,7 +242,7 @@ int calendar::minutes_past_midnight() const
 
 moon_phase calendar::moon() const
 {
-    int phase = int(day / (season_length() / 4));
+    int phase = int(day / (OPTIONS["SEASON_LENGTH"] / 4));
     //phase %= 4;   Redundant?
     if (phase == 3) {
         return MOON_HALF;
@@ -273,7 +273,7 @@ calendar calendar::sunrise() const
         end_hour   = SUNRISE_SOLSTICE;
         break;
     }
-    double percent = double(double(day) / season_length());
+    double percent = double(double(day) / OPTIONS["SEASON_LENGTH"]);
     double time = double(start_hour) * (1. - percent) + double(end_hour) * percent;
 
     ret.hour = int(time);
@@ -305,7 +305,7 @@ calendar calendar::sunset() const
         end_hour   = SUNSET_SOLSTICE;
         break;
     }
-    double percent = double(double(day) / season_length());
+    double percent = double(double(day) / OPTIONS["SEASON_LENGTH"]);
     double time = double(start_hour) * (1. - percent) + double(end_hour) * percent;
 
     ret.hour = int(time);

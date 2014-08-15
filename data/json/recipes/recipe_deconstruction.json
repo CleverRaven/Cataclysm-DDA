@@ -1858,5 +1858,27 @@
       [ [ "e_scrap", 8 ] ],
       [ [ "lens", 2 ] ]
     ]
+  },
+  {
+  "type" : "recipe",
+  "result": "radio_car_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "radio_car", 1 ]
+    ],
+    [
+      [ "radiocontrol", 1 ]
+    ],
+    [
+      [ "battery", 200 ]
+    ]
+  ]
   }
 ]

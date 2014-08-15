@@ -1998,7 +1998,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_29",
-        "name" : "mall - good court",
+        "name" : "mall - food court",
         "rotate" : true,
         "sym" : 77,
         "color" : "i_ltred",
