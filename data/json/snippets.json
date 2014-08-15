@@ -126,11 +126,11 @@
     },{
         "type" : "snippet",
         "category" : "flier",
-        "text" : "This is a message from an unnamed source.  Its message, photocopied from a spidery handwritten copy, reads: The Green Fever shall purge the land for His Chosen children.  I have seen His black fire shining in the eyes of the afflicted and eagerly await the day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn."
+        "text" : "This is a public warning from the United States Army.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law affecting the entire nation.  Shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  This curfew will remain in effect until further notice.  Stay indoors.  Violators will be shot on sight."
     },{
         "type" : "snippet",
-        "category" : "flier",
-        "text" : "This is a public warning from the United States Army.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law affecting the entire nation.  Shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  This curfew will remain in effect until further notice.  Stay indoors.  Violators will be shot on sight."
+        "category" : "note",
+        "text" : "The Green Fever shall purge the land for His Chosen children.  I have seen His black fire shining in the eyes of the afflicted and eagerly await the day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn."
     },{
 	        "type" : "snippet",
         "category" : "note",
