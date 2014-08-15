@@ -7216,7 +7216,7 @@ void game::emp_blast(int x, int y)
             u.weapon.item_tags.erase("NO_UNWIELD");
             u.weapon.charges = 0;
             u.weapon.active = false;
-			add_msg(m_good, _("%s on your hands opened!"), u.weapon.tname().c_str());
+            add_msg(m_good, _("The %s on your wrists spark briefly, then release your hands!"), u.weapon.tname().c_str());
         }
     }
     // Drain any items of their battery charge

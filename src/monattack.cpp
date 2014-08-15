@@ -2646,7 +2646,7 @@ void mattack::riotbot(monster *z)
                 }
 
                 add_msg(m_good,
-                        _("An incredible way you quietly gets out of the handcuffs, the robot did not even notice this!"));
+                        _("You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!"));
                 g->u.i_add(handcuffs);
             } else {
                 handcuffs.item_tags.insert("NO_UNWIELD");
