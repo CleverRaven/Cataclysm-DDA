@@ -1589,11 +1589,15 @@ void advanced_inventory::display(player *pp)
                         if( squares[destarea].veh->add_item( squares[destarea].vstor, new_item ) == false) {
                             popup(_("Destination area is full.  Remove some items first"));
                             continue;
+                        } else {
+                            u.moves -= 100;
                         }
                     } else {
                         if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, new_item, 0 ) == false ) {
                             popup(_("Destination area is full.  Remove some items first"));
                             continue;
+                        } else {
+                            u.moves -= 100;
                         }
                     }
                     if ( trycharges > 0 ) {
