@@ -268,10 +268,10 @@ bool player::create(character_type type, std::string tempname)
             case 0:
                 tab += set_stats      (w, this, points);
                 break;
-            case 1:
+            case 2:
                 tab += set_traits     (w, this, points, max_trait_points);
                 break;
-	    case 2:
+	    case 1:
 		tab += set_scenario   (w, this, points);
 		break;
             case 3:
@@ -557,8 +557,8 @@ void draw_tabs(WINDOW *w, std::string sTab)
     }
     std::vector<std::string> tab_captions;
     tab_captions.push_back(_("STATS"));
-    tab_captions.push_back(_("TRAITS"));
     tab_captions.push_back(_("SCENARIO"));
+    tab_captions.push_back(_("TRAITS"));
     tab_captions.push_back(_("PROFESSION"));
     tab_captions.push_back(_("SKILLS")); 
     tab_captions.push_back(_("DESCRIPTION"));
@@ -796,7 +796,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     std::vector<std::string> vStartingTraits[2];
 
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
-        if (iter->second.startingtrait) {
+        if (iter->second.startingtrait || g->scen->traitquery(iter->first) == true) {
             if (iter->second.points >= 0) {
                 vStartingTraits[0].push_back(iter->first);
 
@@ -1610,9 +1610,16 @@ int set_scenario(WINDOW *w, player *u, int &points)
         } else if (action == "CONFIRM") {
                 //u->scen = scenario::scen(sorted_scens[cur_id]->ident()); // we've got a const*
 		u->start_location = sorted_scens[cur_id]->start_location();
+		u->prof = profession::generic();
+		u->str_max = 8;
+		u->dex_max = 8;
+		u->int_max = 8;
+		u->per_max = 8;
+		u->empty_traits();
+		points = OPTIONS["INITIAL_POINTS"] - netPointCost;
 		//u->prof = sorted_scens[cur_id]->prof();
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
-		points -= netPointCost;
+		//points -= netPointCost;
 		/*u->active_missions.resize(1);
 		u->active_missions[0] = sorted_scens[cur_id]->mission();
 		u->active_mission = sorted_scens[cur_id]->mission();*/
@@ -1920,6 +1927,12 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 std::unordered_set<std::string> player::get_traits() const
 {
     return my_traits;
+}
+void player::empty_traits()
+{
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+	if (has_trait(iter->first)){toggle_trait(iter->first);}
+	}
 }
 
 std::string player::random_good_trait()

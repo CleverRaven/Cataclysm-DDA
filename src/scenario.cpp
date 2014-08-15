@@ -82,6 +82,10 @@ void scenario::load_scenario(JsonObject &jsobj)
     while (jsarr.has_more()) {
         scen._allowed_professions.insert(jsarr.next_string());
     }
+    jsarr = jsobj.get_array("traits");
+    while (jsarr.has_more()) {
+        scen._allowed_traits.insert(jsarr.next_string());
+    }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
         scen.flags.insert(jsarr.next_string());
@@ -275,6 +279,10 @@ std::vector<std::string> scenario::items_female() const
 bool scenario::profquery(const profession* proff) const
 {
     return _allowed_professions.count(proff->ident()) != 0;
+}
+bool scenario::traitquery(std::string trait) const
+{
+    return _allowed_traits.count(trait) != 0;
 }
 int scenario::profsize() const
 {

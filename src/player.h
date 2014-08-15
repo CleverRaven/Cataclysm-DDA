@@ -365,7 +365,7 @@ public:
  void ma_onblock_effects();
  /** Fires all get hit-triggered martial arts events */
  void ma_ongethit_effects();
-
+ void empty_traits();
  /** Returns true if the player has any martial arts buffs attached */
  bool has_mabuff(mabuff_id buff_id);
  /** Returns true if the player has access to the entered martial art */
