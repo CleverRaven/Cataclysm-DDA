@@ -9180,7 +9180,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
                 it->item_tags.erase("NO_UNWIELD");
                 it->charges = 0;
                 it->active = false;
-                add_msg(m_good, _("%s is shocked off by your bionic!"), it->tname().c_str());
+                add_msg(m_good, _("The %s crackle with electricity from your bionic, then come off your hands!"), it->tname().c_str());
 
                 return it->type->charges_to_use();
             }
@@ -9233,7 +9233,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
     }
 
     if (it->active) {
-        add_msg("Your %s are clamped tightly on your limbs.  You can't take them off.",
+        add_msg("The %s are clamped tightly on your wrists.  You can't take them off.",
                 it->tname().c_str());
     } else {
         add_msg("The %s have discharged and can be taken off.", it->tname().c_str());
