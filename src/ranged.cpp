@@ -902,7 +902,7 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
     if( t[target]->xpos() != x || t[target]->ypos() != y ) {
-        for (int i = 0; i < t.size(); i++) {
+        for (int i = 0; i < (int)t.size(); i++) {
             if (t[i]->xpos() == x && t[i]->ypos() == y) {
                 target = i;
                 // TODO: find radial offset between targets and
