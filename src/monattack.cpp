@@ -2789,7 +2789,7 @@ void mattack::bio_op_takedown(monster *z)
 
 void mattack::suicide(monster *z)
 {
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 3) {
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 2) {
         return; //commit suicide when close enough to player
     }
     z->die(z);
