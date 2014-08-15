@@ -1127,7 +1127,7 @@ nc_color item::color(player *u) const
     } else if (is_book() && u->has_identified( type->id ) ) {
         it_book* tmp = dynamic_cast<it_book*>(type);
         if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
-                (tmp->intel == 0)) &&
+                tmp->intel == 0) &&
                 (u->skillLevel(tmp->type) >= (int)tmp->req) &&
                 (u->skillLevel(tmp->type) < (int)tmp->level)) {
             ret = c_ltblue;
