@@ -74,9 +74,9 @@ class calendar
 
         void increment();   // Add one turn / 6 seconds
 
-        void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
-
         int getHour(); // return hour
+        
+        void sync(); // Synchronize all variables to the turn_number
 
         // Sunlight and day/night calcuations
         int minutes_past_midnight() const; // Useful for sunrise/set calculations
@@ -123,11 +123,11 @@ class calendar
         {
             return DAYS(year_length());
         }
-        static int year_length()
+        static int year_length() // In days
         {
             return season_length() * 4;
         }
-        static int season_length();
+        static int season_length(); // In days
 
         int turn_of_year() const
         {
