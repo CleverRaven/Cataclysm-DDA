@@ -34,7 +34,8 @@
 	    "points" : -8,
 	    "description": "You've been locked in a lab with no way out! Survive as long as you can! Brag about it on the forums! (Pics or it didn't happen)",
 	    "start_location": "lab_stairs",
-	    "start_name": "Locked Lab"
+	    "start_name": "Locked Lab",
+	    "professions" : ["unemployed"]
 	},
 	{
 	    "type": "scenario",
@@ -50,7 +51,7 @@
 	{
 	    "type": "scenario",
 	    "ident" : "mutant",
-	    "name" : "Expirement",
+	    "name" : "Experiment",
 	    "points" : 3,
 	    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not. Now that the apocalypse has struck, it's time to see if it did you any good.",
 	    "start_location" : "shelter",

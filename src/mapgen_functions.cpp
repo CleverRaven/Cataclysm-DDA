@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "monstergenerator.h"
 #include "options.h"
+#include "game.h"
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
@@ -3576,7 +3577,7 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                                    mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
         computer * tmpcomp = m->add_computer(SEEX + 6, 5, _("Evac shelter computer"), 0);
         tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
-        if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"]) {
+        if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START")) {
             //place zombies outside
             m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
             m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
