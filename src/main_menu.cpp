@@ -26,6 +26,9 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
 
+static std::vector<std::string> motd;
+static std::vector<std::string> credits;
+
 void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                       bool bShowDDA)
 {
@@ -144,7 +147,6 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     }
 }
 
-
 std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
 {
     std::ifstream stream( path.c_str() );
@@ -241,10 +243,8 @@ bool game::opening_screen()
     bool start = false;
 
     // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
-    static std::vector<std::string> motd = load_file(
-            PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ) , _( "No message today." ) );
-    static std::vector<std::string> credits = load_file(
-                PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
+    motd = load_file(PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ), _( "No message today." ) );
+    credits = load_file(PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
 
     u = player();
 
