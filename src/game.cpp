@@ -546,9 +546,6 @@ void game::setup()
     Messages::clear_messages();
     events.clear();
 
-    calendar::turn.set_season(
-        SUMMER);    // ... with winter conveniently a long ways off   (not sure if we need this...)
-
     SCT.vSCT.clear(); //Delete pending messages
 
     // reset kill counts

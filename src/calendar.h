@@ -112,11 +112,6 @@ class calendar
             return year;
         }
 
-        void set_season(season_type new_season)
-        {
-            season = new_season;
-        }
-
         // Season and year lenght stuff
 
         static int year_turns()
