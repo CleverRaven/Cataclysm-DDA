@@ -26,8 +26,8 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
 
-static std::vector<std::string> motd;
-static std::vector<std::string> credits;
+static std::vector<std::string> mmenu_motd;
+static std::vector<std::string> mmenu_credits;
 
 void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                       bool bShowDDA)
@@ -164,6 +164,16 @@ std::vector<std::string> load_file( const std::string &path, const std::string &
     return result;
 }
 
+void game::mmenu_refresh_motd()
+{
+    mmenu_motd = load_file(PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ), _( "No message today." ) );
+}
+
+void game::mmenu_refresh_credits()
+{
+    mmenu_credits = load_file(PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
+}
+
 bool game::opening_screen()
 {
     // Play title music, whoo!
@@ -243,8 +253,8 @@ bool game::opening_screen()
     bool start = false;
 
     // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
-    motd = load_file(PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ), _( "No message today." ) );
-    credits = load_file(PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
+    mmenu_refresh_motd();
+    mmenu_refresh_credits();
 
     u = player();
 
@@ -253,15 +263,15 @@ bool game::opening_screen()
 
         if (layer == 1) {
             if (sel1 == 0) { // Print the MOTD.
-                for (size_t i = 0; i < motd.size() && i < 16; i++) {
-                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, motd[i].c_str());
+                for (size_t i = 0; i < mmenu_motd.size() && i < 16; i++) {
+                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, mmenu_motd[i].c_str());
                 }
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) { // Print the Credits.
-                for (size_t i = 0; i < credits.size() && i < 16; i++) {
-                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, credits[i].c_str());
+                for (size_t i = 0; i < mmenu_credits.size() && i < 16; i++) {
+                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, mmenu_credits[i].c_str());
                 }
 
                 wrefresh(w_open);
