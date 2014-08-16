@@ -1108,7 +1108,6 @@ int set_profession(WINDOW *w, player *u, int &points)
                                      "Profession %1$s cost %2$d points",
                                      pointsForProf);
         }
-	//debugmsg("Got Past here");
         // This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
         mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green:c_ltred, prof_msg_temp.c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
@@ -1119,29 +1118,23 @@ int set_profession(WINDOW *w, player *u, int &points)
 
         calcStartPos(iStartPos, cur_id, iContentHeight, sorted_profs.size());
         //Draw options
-	if (sorted_profs.size() > 1){
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > sorted_profs.size()) ?
-             sorted_profs.size() : iContentHeight); i++) {
-            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
-                                             "); // Clear the line
-            nc_color col;
-            if (u->prof != sorted_profs[i]) {
-                col = (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray);
-            } else {
-                col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
-            }
-            mvwprintz(w, 5 + i - iStartPos, 2, col,
-                      sorted_profs[i]->gender_appropriate_name(u->male).c_str());
-        }
+	for (int i = iStartPos; i < iStartPos + ((iContentHeight > sorted_profs.size()) ?
+		     sorted_profs.size() : iContentHeight); i++) 
+	{
+	     mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+		                                     "); // Clear the line
+	     nc_color col;
+	     if (u->prof != sorted_profs[i]) 
+		{
+		        col = (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray);
+		} 
+		else 
+		{
+		        col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
+		}
+		mvwprintz(w, 5 + i - iStartPos, 2, col,
+		              sorted_profs[i]->gender_appropriate_name(u->male).c_str());
 	}
-	else{
-		mvwprintz(w, 5 - iStartPos, 2, c_ltgray, "\							");
-		nc_color col;
-		col = (sorted_profs[0] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
-		mvwprintz(w, 5 - iStartPos, 2, col,
-		sorted_profs[0]->gender_appropriate_name(u->male).c_str());
-	}
-	//debugmsg("GOT PAST HERE");
         std::vector<std::string> prof_items = sorted_profs[cur_id]->items();
         std::vector<std::string> prof_gender_items;
         if (u->male) {
