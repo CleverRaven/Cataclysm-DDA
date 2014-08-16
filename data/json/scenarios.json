@@ -33,7 +33,7 @@
 	    "name": "Challenge-Lab",
 	    "points" : -8,
 	    "description": "You've been locked in a lab with no way out! Survive as long as you can! Brag about it on the forums! (Pics or it didn't happen)",
-	    "start_location": "lab",
+	    "start_location": "lab_stairs",
 	    "start_name": "Locked Lab"
 	},
 	{
@@ -46,6 +46,16 @@
 	    "start_name": "Abandoned Cabin",
 	    "flags" : ["SUR_START","WIN_START"],
 	    "professions" : ["winter_survivor","winter_scavenger","unemployed"]
+	},
+	{
+	    "type": "scenario",
+	    "ident" : "mutant",
+	    "name" : "Expirement",
+	    "points" : 3,
+	    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not. Now that the apocalypse has struck, it's time to see if it did you any good.",
+	    "start_location" : "shelter",
+	    "start_name" : "Evac Shelter",
+	    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","GENETICALLY_UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","HEAT_DEPENDENT","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"]
 	}
 ]
     

@@ -17,8 +17,8 @@
 
   },{
     "type" : "start_location",
-    "ident" : "lab",
+    "ident" : "lab_stairs",
     "name" : "science lab",
-    "target" : "lab"
+    "target" : "lab_stairs"
   }
 ]
