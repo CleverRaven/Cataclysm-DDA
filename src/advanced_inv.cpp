@@ -1146,7 +1146,6 @@ void advanced_inventory::display(player *pp)
     category_index_start.reserve(NUM_SORTBY);
 
     input_context ctxt("ADVANCED_INVENTORY");
-    ctxt.register_updown();
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
     ctxt.register_action("UP");
