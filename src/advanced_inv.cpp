@@ -1224,8 +1224,6 @@ void advanced_inventory::display(player *pp)
 
         const std::string action = ctxt.handle_input();
 
-//        int c = lastCh ? lastCh : getch();
-//        lastCh = 0;
         int changeSquare;
 
         changeSquare = getsquare(action, panes[src].offx, panes[src].offy,
@@ -1689,12 +1687,9 @@ void advanced_inventory::display(player *pp)
             }
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;
-//                lastCh = 'e';
             } else if ( ret == KEY_PPAGE || ret == KEY_UP ) {
                 changey += -1;
-//                lastCh = 'e';
             } else {
-//                lastCh = 0;
                 redraw = true;
             };
         } else if(action == "QUIT") {
