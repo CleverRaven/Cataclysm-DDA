@@ -1,6 +1,5 @@
 #include "player.h"
 #include "profession.h"
-#include "scenario.h"
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"

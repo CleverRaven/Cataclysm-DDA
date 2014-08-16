@@ -265,15 +265,15 @@ bool player::create(character_type type, std::string tempname)
         werase(w);
         wrefresh(w);
         switch (tab) {
+	    case 0:
+		tab += set_scenario   (w, this, points);
+		break;
             case 1:
                 tab += set_stats      (w, this, points);
                 break;
             case 2:
                 tab += set_traits     (w, this, points, max_trait_points);
                 break;
-	    case 0:
-		tab += set_scenario   (w, this, points);
-		break;
             case 3:
                 tab += set_profession (w, this, points);
                 break;
@@ -449,7 +449,6 @@ bool player::create(character_type type, std::string tempname)
     else if (has_trait("HYPEROPIC")) {
         prof_items.push_back("glasses_reading");
     }
-//LOOK HERE FOR ITEM STUFF!
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
         // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
@@ -558,10 +557,9 @@ void draw_tabs(WINDOW *w, std::string sTab)
     std::vector<std::string> tab_captions;
     tab_captions.push_back(_("SCENARIO"));
     tab_captions.push_back(_("STATS"));
-    
     tab_captions.push_back(_("TRAITS"));
     tab_captions.push_back(_("PROFESSION"));
-    tab_captions.push_back(_("SKILLS")); 
+    tab_captions.push_back(_("SKILLS"));
     tab_captions.push_back(_("DESCRIPTION"));
     std::vector<int> tab_pos(tab_captions.size() + 1, 0);
     tab_pos[0] = 2;
@@ -1050,8 +1048,7 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     // Sort professions by name.
     // profession_display_sort() keeps "unemployed" at the top.
-    if (sorted_profs.size() > 1){
-    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);}
+    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);
 
     // Select the current profession, if possible.
     for (size_t i = 0; i < sorted_profs.size(); ++i) {
