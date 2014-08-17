@@ -875,6 +875,27 @@ Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
  80      -29C / -20.2F               -59C / -74.2F
  90      -35C / -31.0F               -65C / -85.0F
 100      -41C / -41.8F               -71C / -95.8F
+
+WIND POWER
+
+Except for the last entry, pressures are sort of made up...
+
+Breeze : 5mph (1015 hPa)
+Strong Breeze : 20 mph (1000 hPa)
+Moderate Gale : 30 mph (990 hPa)
+Storm : 50 mph (970 hPa)
+Hurricane : 100 mph (920 hPa)
+HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
+
+Wind chill is calculated via the equation developped by the US Navy
+Wind is determined by current pressure. Chart below.
+Wind chill is negated by clothing and being indoors.
+TODO:
+Frostbite should be affected by windchill
+Wind direction... will have to wait until a proper wind map can be done.. :x
+    > It will influence fire spread
+    > It will make items tumble
+
 */
 
 void player::update_bodytemp()
@@ -882,6 +903,9 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
+    int pressure = g->weatherGen.get_weather(pos(), calendar::turn).pressure;
+    int relativeHumidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
+    int windPower = std::max(0, 1020 - pressure);
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -984,13 +1008,37 @@ void player::update_bodytemp()
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
+        int bpWindPower = (float)(windPower*0.44704);
+        int bpRelHum = relativeHumidity;
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
+        // WIND CHILL
+        // Modify wind power
+        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0)
+        {
+            bpWindPower = 0;
+        }
+        const oter_id &cur_om_ter = overmap_buffer.ter(g->om_global_location());
+        std::string omtername = otermap[cur_om_ter].name;
+        if ( omtername == "forest_water")
+            bpWindPower *= 0.7;
+        else if ( omtername == "forest" )
+            bpWindPower *= 0.5;
+        else if ( omtername == "forest_thick" || omtername == "hive")
+            bpWindPower *= 0.4;
+        bpWindPower = (float)bpWindPower*(1 - get_wind_resistance(body_part(i))/100.0);
+        // Modify relative humidity
+        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0)
+        {
+            bpRelHum = relativeHumidity * (100 - relativeHumidity) / 100 + relativeHumidity; // norm for a house?
+        }
+        /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
+        int windChill = (0.33 * ((bpRelHum / 100.00) * 6.105 * exp((17.27 * Ctemperature/100)/(237.70 + Ctemperature/100))) - 0.70*bpWindPower - 4.00);
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
-        temp_conv[i] = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
+        temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windChill*100 + clothing_warmth_adjustement;
         // HUNGER
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
@@ -2490,21 +2538,21 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                              _("R. Foot")};
     body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
                              bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
-    int iEnc, iArmorEnc, iWarmth;
+    int iEnc, iArmorEnc, iBodyTempInt;
     double iLayers;
 
     const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
     mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
     for (int i = 0; i < 8; i++) {
         iLayers = iArmorEnc = 0;
-        iWarmth = warmth(body_part(i));
+        iBodyTempInt = temp_conv[i] / 100.0;
         iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
         mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s", asText[i].c_str());
         mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", iLayers);
         mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
                   " ", iArmorEnc, "+", iEnc - iArmorEnc);
         wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-        wprintz(w_encumb, bodytemp_color(i), " (%3d)", iWarmth);
+        wprintz(w_encumb, bodytemp_color(i), " (%3d)", iBodyTempInt);
     }
     wrefresh(w_encumb);
 
@@ -2844,7 +2892,7 @@ detecting traps and other things of interest."));
 
             for (unsigned i = min; i < max; i++) {
                 iLayers = iArmorEnc = 0;
-                iWarmth = warmth(body_part(i));
+                iBodyTempInt = temp_conv[i] / 100;
                 iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
                 if (line == i) {
                     mvwprintz(w_encumb, i + 1 - min, 1, h_ltgray, "%s", asText[i].c_str());
@@ -2855,7 +2903,7 @@ detecting traps and other things of interest."));
                 mvwprintz(w_encumb, i + 1 - min, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
                           " ", iArmorEnc, "+", iEnc - iArmorEnc);
                 wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-                wprintz(w_encumb, bodytemp_color(i), " (%3d)", iWarmth);
+                wprintz(w_encumb, bodytemp_color(i), " (%3d)", iBodyTempInt);
             }
             draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
 
@@ -6486,7 +6534,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                 // The existing bonus is above the new cap.  Reduce it.
                 i.bonus = max_bonus;
             }
-            
+
             //Found a match, so no need to check further
             break;
         }
@@ -10109,6 +10157,47 @@ float player::fine_detail_vision_mod()
 
     if (vision_ii < 1) { vision_ii = 1; }
     return vision_ii;
+}
+
+int player::get_wind_resistance(body_part bp) const
+{
+    const it_armor* armor = NULL;
+    int coverage = 0;
+    float totalExposed = 1.0;
+    int totalCoverage = 0;
+    int penalty = 100;
+
+    for (auto &i : worn)
+    {
+        armor = dynamic_cast<const it_armor*>(i.type);
+
+        if (i.covers.test(bp))
+        {
+            if (i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") || i.made_of("chitin") || i.made_of("nomex"))
+            {
+                penalty = 10; // 90% effective
+            }
+            else if (i.made_of("cotton"))
+            {
+                penalty = 30;
+            }
+            else if (i.made_of("wool"))
+            {
+                penalty = 40;
+            }
+            else
+            {
+                penalty = 1; // 99% effective
+            }
+
+            coverage = std::max(0, armor->coverage - penalty);
+            totalExposed *= (1.0 - coverage/100.0); // Coverage is between 0 and 1?
+        }
+    }
+
+    totalCoverage = 100 - totalExposed*100;
+
+    return totalCoverage;
 }
 
 int player::warmth(body_part bp) const
