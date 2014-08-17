@@ -1124,16 +1124,19 @@ nc_color item::color(player *u) const
                 ret = c_green;
             }
         }
-    } else if (is_book() && u->has_identified( type->id ) ) {
-        it_book* tmp = dynamic_cast<it_book*>(type);
-        if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
-                (tmp->intel == 0 || !u->has_trait("ILLITERATE")) &&
-                (u->skillLevel(tmp->type) >= (int)tmp->req) &&
-                (u->skillLevel(tmp->type) < (int)tmp->level)) {
-            ret = c_ltblue;
-        } else if (!u->studied_all_recipes(tmp) && !u->has_trait("ILLITERATE")) {
-          ret = c_yellow;
-        }
+    } else if (is_book()) {
+    	if(u->has_identified( type->id )) {
+	    it_book* tmp = dynamic_cast<it_book*>(type);
+	    if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
+		 (u->skillLevel(tmp->type) >= (int)tmp->req) &&
+		 (u->skillLevel(tmp->type) < (int)tmp->level)) {
+	        ret = c_ltblue;
+	    } else if (!u->studied_all_recipes(tmp)) {
+	        ret = c_yellow;
+	    }
+	} else {
+		ret = c_red;
+	}
     }
     return ret;
 }

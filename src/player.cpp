@@ -898,7 +898,7 @@ void player::update_bodytemp()
     int floor_bedding_warmth = 0;
     // If the PC has fur, etc, that'll apply too
     int floor_mut_warmth = 0;
-    if ( has_disease("sleep") ) {
+    if ( has_disease("sleep") || has_disease("lying_down")) {
         // Search the floor for items
         std::vector<item>& floor_item = g->m.i_at(posx, posy);
         it_armor* floor_armor = NULL;
@@ -5525,8 +5525,10 @@ void player::suffer()
         }
     }
 
-    for (auto &i : illness) {
-        dis_effect(*this, i);
+    for( size_t i = 0; i < illness.size(); ++i ) {
+        // Note: dis_effect might add or remove disease (DI_LYING_DOWN adds DI_SLEEP).
+        // therefor no iterator, no range-based iteration.
+        dis_effect( *this, illness[i] );
     }
 
     // Diseases may remove themselves as part of applying (MA buffs do) so do a
