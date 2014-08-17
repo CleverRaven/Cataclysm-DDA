@@ -45,7 +45,8 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop waiting?"), _(" Stop using first aid?"),
         _(" Stop fishing?"), _(" Stop mining?"),
         _(" Stop smashing?"), _(" Stop de-stressing?"),
-        _(" Stop cutting tissues?")
+        _(" Stop cutting tissues?"), _(" Stop dropping?"),
+        _(" Stop stashing?"), _(" Stop picking up?")
     };
     return stop_phrase[type];
 }
@@ -63,6 +64,9 @@ bool player_activity::is_abortable() const
     case ACT_PICKAXE:
     case ACT_PULP:
     case ACT_MAKE_ZLAVE:
+    case ACT_DROP:
+    case ACT_STASH:
+    case ACT_PICKUP:
         return true;
     default:
         return false;
@@ -76,6 +80,9 @@ bool player_activity::is_suspendable() const
     case ACT_RELOAD:
     case ACT_DISASSEMBLE:
     case ACT_MAKE_ZLAVE:
+    case ACT_DROP:
+    case ACT_STASH:
+    case ACT_PICKUP:
         return false;
     default:
         return true;

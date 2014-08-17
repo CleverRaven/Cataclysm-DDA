@@ -1556,6 +1556,15 @@ void game::activity_on_turn()
         u.activity.moves_left -= u.moves;
         u.moves = 0;
         break;
+    case ACT_DROP:
+        activity_on_turn_drop();
+        break;
+    case ACT_STASH:
+        activity_on_turn_stash();
+        break;
+    case ACT_PICKUP:
+        activity_on_turn_pickup();
+        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
@@ -6682,8 +6691,8 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player &&
-          (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-          (g->u.footwear_factor() == .5 && one_in(2)))) {
+          (!u.has_trait("LEG_TENT_BRACE") || u.footwear_factor() == 1 ||
+          (u.footwear_factor() == .5 && one_in(2)))) {
         add_msg(m_bad, _("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
     }
@@ -6898,8 +6907,8 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                                 targ->name.c_str());
                     }
                 } else if (u.posx == traj.front().x && u.posy == traj.front().y &&
-                           (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-                            (g->u.footwear_factor() == .5 && one_in(2))))) {
+                           (u.has_trait("LEG_TENT_BRACE") && (!u.footwear_factor() ||
+                            (u.footwear_factor() == .5 && one_in(2))))) {
                     add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
                     force_remaining = 1;
                 } else if (u.posx == traj.front().x && u.posy == traj.front().y) {
@@ -8086,7 +8095,7 @@ void game::open_gate(const int examx, const int examy, const ter_id handle_type)
     }
 
     add_msg(pull_message);
-    g->u.moves -= 900;
+    u.moves -= 900;
 
     bool open = false;
     bool close = false;
@@ -10704,12 +10713,7 @@ void game::drop(int pos)
     std::vector<item> dropped_worn;
     int freed_volume_capacity = 0;
     if (pos == INT_MIN) {
-        dropped = multidrop(dropped_worn, freed_volume_capacity);
-    } else if (pos <= -2) {
-        if (!u.takeoff(pos, false, &dropped_worn)) {
-            return;
-        }
-        u.moves -= 250; // same as game::takeoff
+        make_drop_activity( ACT_DROP, u.pos() );
     } else if (pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot drop your %s."), u.weapon.tname().c_str());
         return;
@@ -10731,10 +10735,7 @@ void game::drop_in_direction()
         return;
     }
 
-    int freed_volume_capacity = 0;
-    std::vector<item> dropped_worn;
-    std::vector<item> dropped = multidrop(dropped_worn, freed_volume_capacity);
-    drop(dropped, dropped_worn, freed_volume_capacity, dirx, diry);
+    make_drop_activity( ACT_DROP, point(dirx, diry) );
 }
 
 bool compare_items_by_lesser_volume(const item &a, const item &b)
