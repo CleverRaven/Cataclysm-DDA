@@ -88,35 +88,12 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["DEEP_WATER"]              = TFLAG_DEEP_WATER;     // Deep enough to submerge things
 }
 
-
-bool jsonint(JsonObject &jsobj, std::string key, int & var) {
-    if ( jsobj.has_int(key) ) {
-        var = jsobj.get_int(key);
-        return true;
-    }
-    return false;
-}
-
-bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
-    if ( jsobj.has_string(key) ) {
-        var = jsobj.get_string(key);
-        return true;
-    }
-    return false;
-}
-
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
     while ( ja.has_more() ) {
         JsonObject jio = ja.next_object();
-        if ( jio.has_int("minamount") ) {
-            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
-            jsonint(jio, "chance", drop.chance);
-            items.push_back(drop);
-        } else {
-            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
-            jsonint(jio, "chance", drop.chance);
-            items.push_back(drop);
-        }
+        map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount", -1) );
+        drop.chance = jio.get_int("chance", -1);
+        items.push_back(drop);
     }
 }
 
@@ -161,7 +138,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
         return false;
     }
     JsonObject j = jsobj.get_object(member);
-    jsonstring(j, "furn_set", furn_set );
+    furn_set = j.get_string("furn_set", "");
     if (!isfurniture) {
         ter_set = j.get_string("ter_set");
     }
