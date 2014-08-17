@@ -74,6 +74,7 @@ class inventory
         std::list<item> reduce_stack(const itype_id &type, int quantity);
         item reduce_charges(int position, long quantity);
         item reduce_charges(const itype_id &type, long quantity);
+        item reduce_charges(const item *ptr, long quantity);
 
         // amount of -1 removes the entire stack.
         template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
