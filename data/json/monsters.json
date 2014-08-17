@@ -5159,7 +5159,7 @@
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
     "type" : "MONSTER",
-    "id" : "mon_turret_BMG",
+    "id" : "mon_turret_bmg",
     "name": "antimateriel turret",
     "species":"ROBOT",
     "symbol":"2",

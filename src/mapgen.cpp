@@ -12820,11 +12820,22 @@ void map::add_extra(map_extra type)
 
     // Vehicles to N/S
     bool mil = false;
-    if (one_in(2)) {
+    if (one_in(1)) {
         mil = true;
     }
     if (mil) {
-        add_vehicle("military_cargo_truck", 11, SEEY * 2 - 5, 0);
+        if (one_in(3)) {  // Looks like Chicken
+            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
+            add_spawn("mon_chickenbot", 1, 12, 12);
+        } else if (one_in(1)) {  // TAAANK
+            // The truck's wrecked...with fuel.  Explosive barrel?
+            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0, 70, -1);
+            add_spawn("mon_tankbot", 1, 12, 12);
+        } else {  // Truck & turrets
+            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
+            add_spawn("mon_turret_bmg", 1, 12, 12);
+            add_spawn("mon_turret_rifle", 1, 9, 12);
+        }
 
         int num_bodies = dice(2, 5);
         for (int i = 0; i < num_bodies; i++) {

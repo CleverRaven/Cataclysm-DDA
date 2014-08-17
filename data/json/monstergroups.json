@@ -897,6 +897,14 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_TURRET",
+    "default" : "mon_turret",
+    "monsters" : [
+      { "monster" : "mon_turret_rifle", "freq" : 300, "cost_multiplier" : 1 },
+      { "monster" : "mon_turret_bmg", "freq" : 50, "cost_multiplier" : 2 }
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_POLICE", "_comment" : "+30% cops",
     "default" : "mon_zombie",
     "monsters" : [
