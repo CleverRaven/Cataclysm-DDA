@@ -1804,7 +1804,7 @@ void mattack::frag_tur(monster *z) // This is for the bots, not a standalone tur
     // Make sure our ammo isn't weird.
     if (z->ammo > 100) {
         z->ammo = 100;
-        debugmsg("Generated too much ammo (%d) for %s in mattack::bmg_tur", z->ammo, z->name().c_str());
+        debugmsg("Generated too much ammo (%d) for %s in mattack::frag_tur", z->ammo, z->name().c_str());
     }
     int fire_t = 0;
 
@@ -1845,7 +1845,7 @@ void mattack::frag_tur(monster *z) // This is for the bots, not a standalone tur
             return;
         }
         if (!z->has_effect("targeted")) {
-            g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
+            g->sound(z->posx(), z->posy(), 10, _("Targeting."));
             z->add_effect("targeted", 8);
             z->moves -= 100;
             return;
@@ -1863,7 +1863,7 @@ void mattack::frag_tur(monster *z) // This is for the bots, not a standalone tur
         return;
     }
     if (g->u_see(z->posx(), z->posy())) {
-        add_msg(m_warning, _("The %s aims and fires!"), z->name().c_str());
+        add_msg(m_warning, _("The %s's grenade launcher fires!"), z->name().c_str());
     }
     tmp.weapon = item("mgl", 0);
     tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["40mm_frag"]);
@@ -2002,6 +2002,11 @@ void mattack::tank_tur(monster *z)
             return;
         }
         if (!z->has_effect("targeted")) {
+            if (g->u_see(z->posx(), z->posy())) {
+                //~Premonition: there will be a 120mm HEAT shell sent at high speed to your location next turn.
+                add_msg(m_warning, _("The %s's cannon looks awfully interested in you..."), z->name().c_str());
+            }
+            //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
             z->add_effect("targeted", 4);
             z->moves -= 100;
@@ -2020,7 +2025,7 @@ void mattack::tank_tur(monster *z)
         return;
     }
     if (g->u_see(z->posx(), z->posy())) {
-        add_msg(m_warning, _("The %s aims and fires!"), z->name().c_str());
+        add_msg(m_warning, _("The %s's 120mm cannon fires!"), z->name().c_str());
     }
     tmp.weapon = item("TANK", 0);
     tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["120mm_HEAT"]);

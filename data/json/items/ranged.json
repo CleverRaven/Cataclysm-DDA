@@ -2459,7 +2459,6 @@
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
     "price": 99999999,
     "material": "steel",
-    "flags": ["BACKBLAST", "NEVER_JAMS"],
     "skill": "launcher",
     "ammo": "120mm",
     "weight": 2500,
