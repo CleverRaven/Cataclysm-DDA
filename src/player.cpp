@@ -6933,6 +6933,11 @@ item player::reduce_charges(int position, long quantity) {
     }
 }
 
+item player::reduce_charges( item *it, long quantity )
+{
+    return reduce_charges( get_item_position( it ), quantity );
+}
+
 item player::i_rem(int pos)
 {
  item tmp;

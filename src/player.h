@@ -763,6 +763,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item remove_weapon();
         void remove_mission_items(int mission_id);
         item reduce_charges(int position, long quantity);
+        item reduce_charges(item *it, long quantity);
         item &i_at(int position);  // Returns the item with a given inventory position.
         item &i_of_type(itype_id type); // Returns the first item with this type
         /** Return the item position of the item with given invlet, return INT_MIN if
