@@ -82,7 +82,22 @@ class advanced_inventory_pane
 
 class advanced_inventory
 {
+
     public:
+        advanced_inventory() :
+            head_height(5),
+            min_w_height(10),
+            min_w_width(FULL_SCREEN_WIDTH),
+            max_w_width(120),
+            left(0),
+            right(1),
+            isinventory(0),
+            isall(10),
+            isdrag(11)
+        {
+        }
+        void display(player *pp);
+    private:
         player *p;
 
         const int head_height;
@@ -121,26 +136,12 @@ class advanced_inventory
         advanced_inventory_pane panes[2];
         advanced_inv_area squares[12];
 
-        advanced_inventory() :
-            head_height(5),
-            min_w_height(10),
-            min_w_width(FULL_SCREEN_WIDTH),
-            max_w_width(120),
-            left(0),
-            right(1),
-            isinventory(0),
-            isall(10),
-            isdrag(11)
-        {
-        }
         std::string get_sortname(int sortby);
         bool move_all_items();
-        void display(player *pp);
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(int i);
         void redraw_pane(int i);
         void init(player *pp);
-    private:
         bool isDirectionalDragged(int area1, int area2);
 };
 

@@ -884,8 +884,10 @@ bool advanced_inventory::move_all_items()
                         std::list<item> moving_items = u.inv.reduce_stack(ip, amount);
                         bool chargeback = false; // in case we need to give back items.
                         int moved = 0;
-                        // loop over the items we're trying to move, add them one by one to the destination
-                        for (std::list<item>::iterator iter = moving_items.begin(); iter != moving_items.end(); ++iter) {
+                        // loop over the items we're trying to move,
+                        // add them one by one to the destination
+                        for( std::list<item>::iterator iter = moving_items.begin();
+                             iter != moving_items.end(); ++iter ) {
                             if (chargeback == true) {
                                 u.i_add(*iter); // we give back the rest of the item
                             } else {
