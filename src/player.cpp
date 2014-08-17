@@ -903,9 +903,14 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
-    int pressure = g->weatherGen.get_weather(pos(), calendar::turn).pressure;
-    int relativeHumidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
-    int windPower = std::max(0, 1020 - pressure);
+    w_point weather = g->weatherGen.get_weather(pos(), calendar::turn);
+    int pressure = weather.pressure;
+    int relativeHumidity = weather.humidity;
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at (posx, posy, vpart);
+    int vehwindspeed = 0;
+    if (veh) vehwindspeed = veh->velocity;
+    int windPower = std::max(0, 1020 - pressure) + vehwindspeed;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
@@ -943,8 +948,6 @@ void player::update_bodytemp()
         }
 
         // Search the floor for bedding
-        int vpart = -1;
-        vehicle *veh = g->m.veh_at (posx, posy, vpart);
         if      (furn_at_pos == f_bed)
         {
             floor_bedding_warmth += 1000;
@@ -1017,7 +1020,7 @@ void player::update_bodytemp()
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // WIND CHILL
         // Modify wind power
-        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0)
+        if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0 || veh->is_inside(vpart))
         {
             bpWindPower = 0;
         }
@@ -1034,6 +1037,10 @@ void player::update_bodytemp()
         if (!g->m.is_outside(pos().x, pos().y) || g->levz < 0)
         {
             bpRelHum = relativeHumidity * (100 - relativeHumidity) / 100 + relativeHumidity; // norm for a house?
+        }
+        else if (g->weather == WEATHER_RAINY || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_THUNDER || g->weather == WEATHER_LIGHTNING)
+        {
+            bpRelHum = 100;
         }
         /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         int windChill = (0.33 * ((bpRelHum / 100.00) * 6.105 * exp((17.27 * Ctemperature/100)/(237.70 + Ctemperature/100))) - 0.70*bpWindPower - 4.00);
