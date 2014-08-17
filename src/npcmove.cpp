@@ -1015,12 +1015,6 @@ void npc::move_to(int x, int y)
         moves -= 100;
         return;
     }
-    if (has_disease("bouldering")) {
-        moves -= 20;
-        if (moves < 0) {
-            moves = 0;
-        }
-    }
     if (recoil > 0) { // Start by dropping recoil a little
         if (int(str_cur / 2) + skillLevel("gun") >= (int)recoil) {
             recoil = 0;

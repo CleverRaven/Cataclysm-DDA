@@ -103,7 +103,7 @@
         "symbol": "^",
         "color": "ltgray",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "ROUGH", "DIGGABLE", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "DIGGABLE", "MOUNTABLE"],
         "examine_action": "rubble"
     },{
         "type" : "terrain",
@@ -121,7 +121,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM"],
         "examine_action": "wreckage"
     },{
         "type" : "terrain",
@@ -131,7 +131,7 @@
         "color": "cyan",
         "move_cost": 5,
         "max_volume": 3000,
-        "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE"],
         "examine_action": "wreckage"
     },{
         "type" : "terrain",

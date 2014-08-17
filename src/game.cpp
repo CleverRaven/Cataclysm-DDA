@@ -12773,21 +12773,24 @@ bool game::plmove(int dx, int dy)
             }
         }
         if (m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2))
-            && (!u.in_vehicle)) {
-            if (!u.has_trait("PARKOUR") || one_in(4)) {
-                body_part bp = random_body_part();
-                if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
-                    //~ 1$s - bodypart name in accusative, 2$s is terrain name.
-                    add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
-                                body_part_name_accusative(bp).c_str(),
-                                m.tername(x, y).c_str());
-                }
-                if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
-                    u.add_disease("tetanus", 1, true);
-                } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
-                    u.add_disease("tetanus", 1, true);
-                }
+              && (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4))) {
+            body_part bp = random_body_part();
+            if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
+                //~ 1$s - bodypart name in accusative, 2$s is terrain name.
+                add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
+                            body_part_name_accusative(bp).c_str(),
+                            m.tername(x, y).c_str());
             }
+            if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+                u.add_disease("tetanus", 1, true);
+            } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
+                u.add_disease("tetanus", 1, true);
+            }
+        }
+        if (m.has_flag("UNSTABLE", x, y)) {
+            u.add_effect("bouldering", 1, 1, true);
+        } else if (u.has_effect("bouldering")) {
+            u.remove_effect("bouldering");
         }
         if (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
               (g->u.footwear_factor() == .5 && one_in(2)))) {

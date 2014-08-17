@@ -64,6 +64,7 @@ std::ostream & operator<<(std::ostream & out, const submap & sm)
 void init_ter_bitflags_map() {
     ter_bitflags_map["DESTROY_ITEM"]            = TFLAG_DESTROY_ITEM;   // add/spawn_item*()
     ter_bitflags_map["ROUGH"]                   = TFLAG_ROUGH;          // monmove
+    ter_bitflags_map["UNSTABLE"]                = TFLAG_UNSTABLE;       // monmove
     ter_bitflags_map["LIQUID"]                  = TFLAG_LIQUID;         // *move(), add/spawn_item*()
     ter_bitflags_map["FIRE_CONTAINER"]          = TFLAG_FIRE_CONTAINER; // fire
     ter_bitflags_map["DIGGABLE"]                = TFLAG_DIGGABLE;       // monmove

@@ -23,7 +23,6 @@ enum monster_effect_type {
     ME_DOCILE,          // Don't attack other monsters--for tame monster
     ME_HIT_BY_PLAYER,   // We shot or hit them
     ME_RUN,             // For hit-and-run monsters; we're running for a bit;
-    ME_BOULDERING,      // Monster is moving over rubble
     ME_BOUNCED,
     NUM_MONSTER_EFFECTS
 };

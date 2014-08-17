@@ -170,37 +170,46 @@ int player::get_hit_base() const
 
 int player::hit_roll() const
 {
-// apply martial arts bonuses
+    //Unstable ground chance of failure
+    if (has_effect("bouldering")) {
+        if(one_in(get_dex())) {
+            add_msg_if_player(m_bad, _("The ground shifts beneath your feet!"));
+            return 0;
+        }
+    }
 
- int numdice = get_hit();
+    // apply martial arts bonuses
+    int numdice = get_hit();
 
- int sides = 10 - encumb(bp_torso);
- int best_bonus = 0;
- if (sides < 2)
-  sides = 2;
+    int sides = 10 - encumb(bp_torso);
+    int best_bonus = 0;
+    if (sides < 2) {
+        sides = 2;
+    }
 
- numdice += best_bonus; // Use whichever bonus is best.
+    numdice += best_bonus; // Use whichever bonus is best.
 
-// Drunken master makes us hit better
- if (has_trait("DRUNKEN")) {
-  if (unarmed_attack())
-   numdice += int(disease_duration("drunk") / 300);
-  else
-   numdice += int(disease_duration("drunk") / 400);
- }
+    // Drunken master makes us hit better
+    if (has_trait("DRUNKEN")) {
+        if (unarmed_attack()) {
+            numdice += int(disease_duration("drunk") / 300);
+        } else {
+            numdice += int(disease_duration("drunk") / 400);
+        }
+    }
 
-// Farsightedness makes us hit worse
- if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-     && !is_wearing("glasses_bifocal")) {
-  numdice -= 2;
- }
+    // Farsightedness makes us hit worse
+    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
+          && !is_wearing("glasses_bifocal")) {
+        numdice -= 2;
+    }
 
- if (numdice < 1) {
-  numdice = 1;
-  sides = 8 - encumb(bp_torso);
- }
-
- return dice(numdice, sides);
+    if (numdice < 1) {
+        numdice = 1;
+        sides = 8 - encumb(bp_torso);
+    }
+    
+    return dice(numdice, sides);
 }
 
 void reason_weight_list::add_item(const char *reason, unsigned int weight)
@@ -553,6 +562,14 @@ int player::dodge_roll()
         }
         add_disease("downed", 3);
     }
+    if (has_effect("bouldering")) {
+        if(one_in(get_dex())) {
+            add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
+            add_disease("downed", 3);
+            return 0;
+        }
+    }
+    
     int dodge_stat = get_dodge();
 
     if (dodges_left <= 0) { // We already dodged this turn

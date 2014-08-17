@@ -1090,22 +1090,30 @@ std::string map::tername(const int x, const int y) const
 
 std::string map::features(const int x, const int y)
 {
-// This is used in an info window that is 46 characters wide, and is expected
-// to take up one line.  So, make sure it does that.
-// FIXME: can't control length of localized text.
-// Make the caller wrap properly, if it does not already.
- std::string ret;
- if (has_flag("BASHABLE", x, y))
-  ret += _("Smashable. ");
- if (has_flag("DIGGABLE", x, y))
-  ret += _("Diggable. ");
- if (has_flag("ROUGH", x, y))
-  ret += _("Rough. ");
- if (has_flag("SHARP", x, y))
-  ret += _("Sharp. ");
- if (has_flag("FLAT", x, y))
-  ret += _("Flat. ");
- return ret;
+    // This is used in an info window that is 46 characters wide, and is expected
+    // to take up one line.  So, make sure it does that.
+    // FIXME: can't control length of localized text.
+    // Make the caller wrap properly, if it does not already.
+    std::string ret;
+    if (has_flag("BASHABLE", x, y)) {
+        ret += _("Smashable. ");
+    }
+    if (has_flag("DIGGABLE", x, y)) {
+        ret += _("Diggable. ");
+    }
+    if (has_flag("ROUGH", x, y)) {
+        ret += _("Rough. ");
+    }
+    if (has_flag("UNSTABLE", x, y)) {
+        ret += _("Unstable. ");
+    }
+    if (has_flag("SHARP", x, y)) {
+        ret += _("Sharp. ");
+    }
+    if (has_flag("FLAT", x, y)) {
+        ret += _("Flat. ");
+    }
+    return ret;
 }
 
 int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) const

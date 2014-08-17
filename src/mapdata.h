@@ -86,7 +86,6 @@ struct map_deconstruct_info {
  * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
  * SWIMMABLE - Player and monsters can swim through it
  * SHARP - May do minor damage to players/monsters passing thruogh it
- * PAINFUL - May cause a small amount of pain
  * ROUGH - May hurt the player's feet
  * SEALED - Can't use 'e' to retrieve items, must smash open first
  * NOITEM - Items 'fall off' this space
@@ -154,6 +153,7 @@ enum ter_bitflags {
     TFLAG_SHARP,
     TFLAG_DIGGABLE,
     TFLAG_ROUGH,
+    TFLAG_UNSTABLE,
     TFLAG_WALL,
     TFLAG_DEEP_WATER
 };

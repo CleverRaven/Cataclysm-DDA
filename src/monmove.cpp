@@ -312,12 +312,6 @@ void monster::move()
         moves = 0;
         return;
     }
-    if (has_effect("bouldering")) {
-        moves -= 20;
-        if (moves < 0) {
-            return;
-        }
-    }
     if (friendly != 0) {
         if (friendly > 0) {
             friendly--;
@@ -804,6 +798,11 @@ int monster::move_to(int x, int y, bool force)
     }
     if (type->size != MS_TINY && g->m.has_flag("ROUGH", posx(), posy()) && one_in(6)) {
         apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
+    }
+    if (g->m.has_flag("UNSTABLE", x, y)) {
+        add_effect("bouldering", 1, 1, true);
+    } else if (has_effect("bouldering")) {
+        remove_effect("bouldering");
     }
     if (!digging() && !has_flag(MF_FLIES) &&
           g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
