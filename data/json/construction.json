@@ -396,7 +396,7 @@
     },{
         "type" : "construction",
         "description" : "Build Palisade Wall",
-        "difficulty" : 2,
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -436,7 +436,7 @@
     },{
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
-        "difficulty" : 2,
+        "difficulty" : 4,
         "time" : 5,
         "components" : [
             [ [ "rope_30", 1 ] ],
@@ -447,7 +447,7 @@
     },{
         "type" : "construction",
         "description" : "Build Palisade Gate",
-        "difficulty" : 2,
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -528,7 +528,7 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Door",
-        "difficulty" : 9,
+        "difficulty" : 8,
         "time" : 15,
         "qualities": [ 
 		    [
@@ -547,7 +547,7 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Door",
-        "difficulty" : 9,
+        "difficulty" : 8,
         "time" : 15,
         "qualities": [ 
 		    [
