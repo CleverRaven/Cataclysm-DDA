@@ -1550,6 +1550,7 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
  * of the data vector fits into one cell.
  * @param title The title text, displayed on top.
  * @param w The window to draw this in, the whole widow is used.
+ * @param data Text data to fill.
  */
 void display_table(WINDOW *w, const std::string &title, int columns,
                    const std::vector<std::string> &data)

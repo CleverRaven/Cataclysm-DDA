@@ -7,8 +7,7 @@
 #include "messages.h"
 
 /**
- * @defgroup Weather
- * Weather and its implications.
+ * \defgroup Weather "Weather and its implications."
  * @{
  */
 

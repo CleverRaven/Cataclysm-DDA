@@ -769,7 +769,7 @@ void uimenu::addentry(int r, bool e, int k, const char *format, ...)
     entries.push_back(uimenu_entry(r, e, k, text));
 }
 
-void::uimenu::settext(std::string str)
+void uimenu::settext(std::string str)
 {
     text = str;
 }
