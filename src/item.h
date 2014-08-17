@@ -194,8 +194,11 @@ public:
   * Consume a specific amount of items of a specific type.
   * This includes this item, and any of its contents (recursively).
   * @see item::use_charges - this is similar for items, not charges.
+  * @param it Type of consumable item.
+  * @param quantity How much to consumed.
   * @param use_container If the contents of an item are used, also use the
   * container it was in.
+  * @param On success all consumed items will be stored here.
   */
  bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
 
