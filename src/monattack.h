@@ -45,11 +45,14 @@ class mattack
         void smg                (monster *z); // Automated MP5
         void laser              (monster *z);
         void rifle_tur          (monster *z); // Automated M4
+        void frag_tur           (monster *z); // Automated MGL
         void bmg_tur            (monster *z); // Automated M107 >:-D
+        void tank_tur            (monster *z); // Tankbot primary.
         void searchlight        (monster *z);
         void flamethrower       (monster *z);
         void copbot             (monster *z);
-        void multi_robot        (monster *z); // Pick from tazer, smg, flame
+        void chickenbot         (monster *z); // Pick from tazer, M4, MGL
+        void multi_robot        (monster *z); // Tazer, flame, M4, MGL, or 120mm!
         void ratking            (monster *z);
         void generator          (monster *z);
         void upgrade            (monster *z);

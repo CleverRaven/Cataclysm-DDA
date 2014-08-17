@@ -12824,10 +12824,10 @@ void map::add_extra(map_extra type)
         mil = true;
     }
     if (mil) {
-        if (one_in(3)) {  // Looks like Chicken
+        if (one_in(3)) {  // Chicken delivvery truck
             add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
             add_spawn("mon_chickenbot", 1, 12, 12);
-        } else if (one_in(1)) {  // TAAANK
+        } else if (one_in(2)) {  // TAAANK
             // The truck's wrecked...with fuel.  Explosive barrel?
             add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0, 70, -1);
             add_spawn("mon_tankbot", 1, 12, 12);
@@ -12851,8 +12851,12 @@ void map::add_extra(map_extra type)
                     add_spawn("mon_zombie_soldier", 1, x, y);
                 } else {
                     place_items("map_extra_military", 100, x, y, x, y, true, 0);
+                } int splatter_range = rng(1, 3);
+                    for (int j = 0; j <= splatter_range; j++) {
+                        add_field(x + (j * 1), y + (j * 1),
+                                  fd_blood, 1);
+                    }
                 }
-            }
 
             }
         }

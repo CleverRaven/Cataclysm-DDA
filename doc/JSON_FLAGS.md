@@ -434,6 +434,7 @@ The chambering of weapons that this ammo can be loaded into.
 - ```3006``` 30.06
 - ```40mm``` 40mm Grenade
 - ```66mm``` 66mm HEAT
+- ```120mm``` 120mm HEAT
 - ```84x246mm``` 84x246mm HE
 - ```m235``` M235 TPA (66mm Incendiary Rocket)
 - ```battery``` Battery

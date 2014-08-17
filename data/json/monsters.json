@@ -5019,7 +5019,7 @@
     "special_freq":5,
     "death_function":"EXPLODE",
     "special_attack":"SMG",
-    "description":"The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40 mm Bofors gun, it is an effective automated sentry, though production was limited due to a legal dispute.",
+    "description":"The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
     "flags":["SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC"]
     },{
         "type" : "MONSTER",
@@ -5039,8 +5039,8 @@
     "melee_dice_sides":0,
     "melee_cut":0,
     "dodge":0,
-    "armor_bash":22,
-    "armor_cut":20,
+    "armor_bash":24,
+    "armor_cut":30,
     "item_chance":92,
     "death_drops": {
         "groups": [
@@ -5053,7 +5053,7 @@
     "special_freq":4,
     "death_function":"BROKEN",
     "special_attack":"MULTI_ROBOT",
-    "description":"The Northrop Emancipator is the first and only model of automated tank, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
+    "description":"The Northrop Emancipator is the first and only automated tank ever produced, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
     "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC"]
     },{
         "type" : "MONSTER",
