@@ -1949,7 +1949,7 @@ void map::crush(const int x, const int y)
     //If there's a PC at (x,y) and he's not in a covered vehicle...
     if (g->u.posx == x && g->u.posy == y && !pc_inside) {
         //This is the roof coming down on top of us, no chance to dodge
-        add_msg(m_bad, _("You are hit by the falling debris!"));
+        add_msg(m_bad, _("You are crushed by the falling debris!"));
         int dam = rng(0, 70);
         // Torso and head take the brunt of the blow
         body_part hit = bp_head;
@@ -1981,7 +1981,7 @@ void map::crush(const int x, const int y)
         }
         if (!npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
             //This is the roof coming down on top of us, no chance to dodge
-            add_msg(m_bad, _("1$s is hit by the falling debris!"), npc_hit->name.c_str());
+            add_msg(m_bad, _("1$s is crushed by the falling debris!"), npc_hit->name.c_str());
             int dam = rng(0, 60);
             // Torso and head take the brunt of the blow
             body_part hit = bp_head;
