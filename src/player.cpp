@@ -898,7 +898,7 @@ void player::update_bodytemp()
     int floor_bedding_warmth = 0;
     // If the PC has fur, etc, that'll apply too
     int floor_mut_warmth = 0;
-    if ( has_disease("sleep") ) {
+    if ( has_disease("sleep") || has_disease("lying_down")) {
         // Search the floor for items
         std::vector<item>& floor_item = g->m.i_at(posx, posy);
         it_armor* floor_armor = NULL;
