@@ -1057,7 +1057,6 @@ int set_profession(WINDOW *w, player *u, int &points)
             break;
         }
     }
-    //debugmsg("Got past here");
 
     input_context ctxt("NEW_CHAR_PROFESSIONS");
     ctxt.register_cardinal();
@@ -1082,7 +1081,6 @@ int set_profession(WINDOW *w, player *u, int &points)
         if (negativeProf) {
                   pointsForProf *=-1;
         }
-	//debugmsg("GOT past here");
         // Draw header.
         std::string points_msg = string_format(_("Points left: %2d"), points);
         int pMsg_length = utf8_width(_(points_msg.c_str()));
@@ -1152,9 +1150,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
                              it->nname(1)) - 1;
         }
-
         werase(w_skills);
-	//debugmsg("Got Past here");
         profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
         mvwprintz(w_skills, 0, 0, COL_HEADER, _("Profession skills:\n"));
         if (!prof_skills.empty()) {
@@ -1525,7 +1521,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
 		u->int_max = 8;
 		u->per_max = 8;
 		u->empty_traits();
-		points = OPTIONS["INITIAL_POINTS"] - netPointCost;
+		points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
 
         }else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
