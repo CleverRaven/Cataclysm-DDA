@@ -398,6 +398,7 @@ void add_corpse(int x, int y);
  // spawn items from the list, see map_bash_item_drop
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
  void destroy(const int x, const int y, const bool makesound);
+ void crush(const int x, const int y);
  void shoot(const int x, const int y, int &dam, const bool hit_items,
             const std::set<std::string>& ammo_effects);
  bool hit_with_acid(const int x, const int y);
@@ -483,7 +484,6 @@ void add_corpse(int x, int y);
  bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
  void step_in_field(const int x, const int y); // See fields.cpp
  void mon_in_field(const int x, const int y, monster *z); // See fields.cpp
- void field_effect(int x, int y); //See fields.cpp
 
 // Computers
  computer* computer_at(const int x, const int y);

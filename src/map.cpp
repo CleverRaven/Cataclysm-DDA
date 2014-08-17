@@ -1823,6 +1823,9 @@ void map::destroy(const int x, const int y, const bool makesound)
             }
         }
         ter_set(x, y, t_rubble);
+        //Check for crushing
+        crush(x, y);
+        
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 if ((i == x && j == y) || !has_flag("COLLAPSES", i, j)) {
@@ -1868,6 +1871,7 @@ void map::destroy(const int x, const int y, const bool makesound)
             }
         }
         ter_set(x, y, t_rubble);
+        crush(x, y);
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
                 if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j))
@@ -1931,6 +1935,87 @@ void map::destroy(const int x, const int y, const bool makesound)
 
     if (makesound) {
         g->sound(x, y, 40, _("SMASH!!"));
+    }
+}
+
+void map::crush(const int x, const int y)
+{   
+    int veh_part;
+    bool pc_inside = false;
+    if (g->u.in_vehicle) {
+        vehicle *veh = veh_at(x, y, veh_part);
+        pc_inside = (veh && veh->is_inside(veh_part));
+    }
+    //If there's a PC at (x,y) and he's not in a covered vehicle...
+    if (g->u.posx == x && g->u.posy == y && !pc_inside) {
+        //This is the roof coming down on top of us, no chance to dodge
+        add_msg(m_bad, _("You are hit by the falling debris!"));
+        int dam = rng(0, 70);
+        // Torso and head take the brunt of the blow
+        body_part hit = bp_head;
+        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
+        hit = bp_torso;
+        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
+        // Legs take the next most through transfered force
+        hit = bp_leg_l;
+        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
+        hit = bp_leg_r;
+        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
+        // Arms take the least
+        hit = bp_arm_l;
+        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
+        hit = bp_arm_r;
+        g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
+        
+        // Add crushed pinning effect once effect processing is updated
+    }
+
+    //The index of the NPC at (x,y), or -1 if there isn't one
+    int npc_index = g->npc_at(x, y);
+    if (npc_index != -1) {
+        npc *npc_hit = g->active_npc[npc_index];
+        bool npc_inside = false;
+        if (npc_hit->in_vehicle) {
+            vehicle *veh = veh_at(x, y, veh_part);
+            npc_inside = (veh && veh->is_inside(veh_part));
+        }
+        if (!npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
+            //This is the roof coming down on top of us, no chance to dodge
+            add_msg(m_bad, _("1$s is hit by the falling debris!"), npc_hit->name.c_str());
+            int dam = rng(0, 60);
+            // Torso and head take the brunt of the blow
+            body_part hit = bp_head;
+            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .25 ) );
+            hit = bp_torso;
+            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .45 ) );
+            // Legs take the next most through transfered force
+            hit = bp_leg_l;
+            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
+            hit = bp_leg_r;
+            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .10 ) );
+            // Arms take the least
+            hit = bp_arm_l;
+            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
+            hit = bp_arm_r;
+            npc_hit->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
+            
+            // Add crushed pinning effect once effect processing is updated
+        }
+    }
+
+    //The index of the monster at (x,y), or -1 if there isn't one
+    int mon = g->mon_at(x, y);
+    if (mon != -1 && size_t(mon) < g->num_zombies()) {  //If there's a monster at (x,y)...
+        monster* monhit = &(g->zombie(mon));
+        // 25 ~= 60 * .45 (torso)
+        monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
+        
+        // Add crushed pinning effect once effect processing is updated
+    }
+    
+    vehicle *veh = veh_at(x, y, veh_part);
+    if (veh) {
+        veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), 1, false);
     }
 }
 
