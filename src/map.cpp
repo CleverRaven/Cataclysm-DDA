@@ -1582,7 +1582,6 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                         }
                     }
                 } else {
-                    // todo; bash->sound_too_weak = "feeble whump" ?
                     success = false;
                 }
             }

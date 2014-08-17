@@ -7575,7 +7575,7 @@ void game::smash()
 {
     const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
-    int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
+    int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
     int smashx, smashy;
 
     if (!choose_adjacent(_("Smash where?"), smashx, smashy)) {

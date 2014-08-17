@@ -329,7 +329,7 @@
     },{
 
         "type" : "construction",
-        "description" : "Build Wall",
+        "description" : "Build Wooden Wall",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
@@ -343,7 +343,7 @@
         "post_terrain" : "t_wall_half"
     },{
         "type" : "construction",
-        "description" : "Build Wall",
+        "description" : "Build Wooden Wall",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
@@ -357,7 +357,7 @@
         "post_terrain" : "t_wall_half"
     },{
         "type" : "construction",
-        "description" : "Build Wall",
+        "description" : "Build Wooden Wall",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
