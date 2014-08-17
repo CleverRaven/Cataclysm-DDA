@@ -1957,8 +1957,8 @@ void mattack::bmg_tur(monster *z)
 void mattack::tank_tur(monster *z)
 {
     // Make sure our ammo isn't weird.
-    if (z->ammo > 10) {
-        z->ammo = 10;
+    if (z->ammo > 20) {
+        z->ammo = 20;
         debugmsg("Generated too much ammo (%d) for %s in mattack::tank_tur", z->ammo, z->name().c_str());
     }
     int fire_t = 0;
