@@ -5159,6 +5159,40 @@
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
     "type" : "MONSTER",
+    "id" : "mon_turret_BMG",
+    "name": "antimateriel turret",
+    "species":"ROBOT",
+    "symbol":"2",
+    "color":"green",
+    "size":"MEDIUM",
+    "material":"steel",
+    "diff":30,
+    "aggression":100,
+    "morale":100,
+    "speed":100,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":14,
+    "armor_cut":16,
+    "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 9 ],
+            [ "turret_bmg", 2 ]
+        ]
+    },
+    "luminance":40,
+    "hp":40,
+    "special_freq":1,
+    "death_function":"EXPLODE",
+    "special_attack":"BMG_TUR",
+    "description":"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel rifle.  Credited with forestalling countless car-bombing attempts, it has always been kept under extremely tight control, so as to itself maintain extremely tight control of its area.  And then the Cataclysm struck.",
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    },{
+    "type" : "MONSTER",
     "id" : "mon_turret_searchlight",
     "name": "milspec searchlight",
     "species":"ROBOT",

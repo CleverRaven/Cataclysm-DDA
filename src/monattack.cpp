@@ -1799,6 +1799,84 @@ void mattack::rifle_tur(monster *z)
     }
 }
 
+void mattack::bmg_tur(monster *z)
+{
+    // Make sure our ammo isn't weird.
+    if (z->ammo > 500) {
+        z->ammo = 500;
+        debugmsg("Generated too much ammo (%d) for %s in mattack::bmg_tur", z->ammo, z->name().c_str());
+    }
+    int fire_t = 0;
+
+    npc tmp;
+    tmp.name = _("The ") + z->name();
+    tmp.set_fake(true);
+    tmp.skillLevel("rifle").level(8);
+    tmp.skillLevel("gun").level(6);
+    tmp.recoil = 0;
+    tmp.posx = z->posx();
+    tmp.posy = z->posy();
+    tmp.str_cur = 16;
+    tmp.dex_cur = 10;
+    tmp.per_cur = 12;
+
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    Creature *target = NULL;
+
+    if (z->friendly != 0) {
+        // Attacking monsters, not the player!
+        int boo_hoo;
+        target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
+        if (target == NULL) {// Couldn't find any targets!
+            if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
+                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
+                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                            boo_hoo),
+                        z->name().c_str(), boo_hoo);
+            }
+            return;
+        }
+    } else {
+        // Not friendly; hence, firing at the player
+        if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40 ||
+            !g->sees_u(z->posx(), z->posy(), fire_t)) {
+            // Can't see and can't reach the player
+            // (Be grateful for safety precautions.  50BMG has range 90.)
+            return;
+        }
+        if (!z->has_effect("targeted")) {
+            g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
+            z->add_effect("targeted", 8);
+            z->moves -= 100;
+            return;
+        }
+        target = &g->u;
+    }
+    z->moves -= 150;   // It takes a while
+
+    if (z->ammo <= 0) {
+        if (one_in(3)) {
+            g->sound(z->posx(), z->posy(), 2, _("a chk!"));
+        } else if (one_in(4)) {
+            g->sound(z->posx(), z->posy(), 6, _("boop!"));
+        }
+        return;
+    }
+    g->sound(z->posx(), z->posy(), 10, _("Interdicting target."));
+    if (g->u_see(z->posx(), z->posy())) {
+        add_msg(m_warning, _("The %s aims and fires!"), z->name().c_str());
+    }
+    tmp.weapon = item("m107a1", 0);
+    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["50bmg"]);
+    tmp.weapon.charges = std::max(z->ammo, 30);
+    z->ammo -= tmp.weapon.charges;
+    tmp.fire_gun(target->xpos(), target->ypos(), false);
+    z->ammo += tmp.weapon.charges;
+    if (target == &g->u) {
+        z->add_effect("targeted", 3);
+    }
+}
+
 void mattack::searchlight(monster *z)
 {
 
