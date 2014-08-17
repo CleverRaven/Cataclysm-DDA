@@ -55,13 +55,13 @@ enum oter_dir {
 map_extras no_extras(0);
 map_extras road_extras(
     // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    5, 40, 25, 60, 200, 30, 10,  5, 80, 10,  8,  2,  3);
+    75, 40, 25, 60, 200, 30, 10,  5, 80, 10,  8,  2,  3);
 map_extras field_extras(
     // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
     90, 40, 8, 20, 80, 0, 10,  3, 50, 10,  8,  1,  3);
 map_extras subway_extras(
     // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 20,  1,  3);
+    75,  0,  5, 12,  5,  0,  0,  7,  0,  0, 20,  1,  3);
 map_extras build_extras(
     // %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
     90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3);
