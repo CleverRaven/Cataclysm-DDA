@@ -181,6 +181,7 @@
 		<Unit filename="src/SDLMain.h" />
 		<Unit filename="src/action.cpp" />
 		<Unit filename="src/action.h" />
+		<Unit filename="src/activity_item_handling.cpp" />
 		<Unit filename="src/addiction.cpp" />
 		<Unit filename="src/addiction.h" />
 		<Unit filename="src/advanced_inv.cpp" />
