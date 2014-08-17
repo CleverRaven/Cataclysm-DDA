@@ -123,39 +123,36 @@ void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
-
-        if ( jsonint(j, "num_tests", num_tests ) == false ) {
-           if ( jsonint(j, "str_min", str_min ) && jsonint(j, "str_max", str_max ) ) {
-               num_tests = 1;
-           }
-        } else if ( num_tests > 0 ) {
-           str_min = j.get_int("str_min");
-           str_max = j.get_int("str_max");
-        }
-
-        jsonint(j, "str_min_blocked", str_min_blocked );
-        jsonint(j, "str_max_blocked", str_max_blocked );
-        jsonint(j, "str_min_roll", str_min_roll );
-        jsonint(j, "explosive", explosive );
-        jsonint(j, "chance", chance );
-        jsonstring(j, "sound", sound );
-        jsonstring(j, "sound_fail", sound_fail );
-        jsonstring(j, "furn_set", furn_set );
-
-        if ( jsonstring(j, "ter_set", ter_set ) == false && isfurniture == false ) {
-           ter_set = "t_rubble";
-           debugmsg("terrain[\"%s\"].bash.ter_set is not set!",jsobj.get_string("id").c_str() );
+        num_tests = j.get_int("num_tests", 1);
+        str_min = j.get_int("str_min", 0);
+        str_max = j.get_int("str_max");
+        
+        str_min_blocked = j.get_int("str_min_blocked", -1);
+        str_max_blocked = j.get_int("str_max_blocked", -1);
+        
+        str_min_roll = j.get_int("str_min_roll", 0);
+        str_max_roll = j.get_int("str_min_roll", str_max);
+        
+        explosive = j.get_int("explosive", -1);
+        chance = j.get_int("chance", -1);
+        
+        sound = j.get_string("sound", _("smash!"));
+        sound = j.get_string("sound)fail", _("thump!"));
+        
+        if (isfurniture) {
+            furn_set = j.get_string("furn_set", "f_null");
+        } else {
+            ter_set = j.get_string("ter_set");
         }
 
         if ( j.has_array("items") ) {
             load_map_bash_item_drop_list(j.get_array("items"), items);
         }
 
-//debugmsg("%d/%d %s %s/%s %d",str_min,str_max, ter_set.c_str(), sound.c_str(), sound_fail.c_str(), items.size() );
-    return true;
-  } else {
-    return false;
-  }
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)

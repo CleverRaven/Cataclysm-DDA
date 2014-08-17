@@ -1534,16 +1534,16 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
         smashed_something = true;
     } else {
         // Else smash furniture or terrain
-        bool jsfurn = false;
-        bool jster = false;
+        bool smash_furn = false;
+        bool smash_ter = false;
         map_bash_info *bash = NULL;
 
         if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
             bash = &(furn_at(x,y).bash);
-            jsfurn = true;
+            smash_furn = true;
         } else if ( ter_at(x, y).bash.str_max != -1 ) {
             bash = &(ter_at(x,y).bash);
-            jster = true;
+            smash_ter = true;
         }
         if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED)) {
             g->sound(x, y, 40, _("An alarm sounds!"));
@@ -1568,15 +1568,8 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                     }
                 }
                 if ( str >= smin ) {
-                    smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : smin );
-                    // min_str is a qualifier, but roll 0-max; same delay as before
-
                     for( int i = 0; i < bash->num_tests; i++ ) {
-                        result = rng(smin, smax);
-                        if (i == 0 && res) {
-                            *res = result;
-                        }
-                        if (str < result) {
+                        if (str < rng(bash->str_min_roll, bash->str_max_roll)) {
                             success = false;
                             break;
                         }
@@ -1585,28 +1578,25 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                     success = false;
                 }
             }
-            if ( success == true ) {
-                sound_volume = smin * 1.5;
+            
+            if (success == true) {
+                sound_volume = std::min(int(smin * 1.5), smax);
                 sound = _(bash->sound.c_str());
-                if ( jsfurn == true ) {
-                    if ( !bash->furn_set.empty() ) {
-                        furn_set( x, y, bash->furn_set );
-                    } else {
-                        furn_set( x, y, f_null );
-                    }
+                if (smash_furn == true) {
+                    furn_set(x, y, bash->furn_set);
                     // Hack alert.
                     // Signs have cosmetics associated with them on the submap since
                     // furniture can't store dynamic data to disk. To prevent writing
                     // mysteriously appearing for a sign later built here, remove the
                     // writing from the submap.
                     g->m.delete_signage(x, y);
-                }
-                if ( !bash->ter_set.empty() ) {
-                    ter_set( x, y, bash->ter_set );
-                } else if ( jster == true ) {
+                } else if (smash_ter == true) {
+                    ter_set(x, y, bash->ter_set);
+                } else {
                     debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                               ter_at(x,y).id.c_str() );
                 }
+                
                 spawn_item_list(bash->items, x, y);
                 if (bash->explosive > 0) {
                     g->explosion(x, y, bash->explosive, 0, false);
