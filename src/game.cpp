@@ -12738,14 +12738,6 @@ bool game::plmove(int dx, int dy)
                 u.recoil = int(u.recoil / 2);
             }
         }
-        if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
-            ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 4    )) {
-            if (veh1 && m.move_cost(x, y) != 2) {
-                add_msg(m_warning, _("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
-            } else {
-                add_msg(m_warning, _("Moving past this %s is slow!"), m.name(x, y).c_str());
-            }
-        }
         if (veh1) {
             vehicle_part *part = &(veh1->parts[vpart1]);
             std::string label = veh1->get_label(part->mount_dx, part->mount_dy);
