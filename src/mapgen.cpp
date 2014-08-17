@@ -12820,10 +12820,14 @@ void map::add_extra(map_extra type)
 
     // Vehicles to N/S
     bool mil = false;
-    if (one_in(1)) {
+    if (one_in(3)) {
         mil = true;
     }
-    if (mil) {
+    if (mil) { //Military doesn't joke around with their barricades!
+        line(this, t_fence_barbed, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
+        line(this, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
+        line(this, t_fence_barbed, 3, 4, 3, 10);
+        line(this, t_fence_barbed, 1, 13, 1, 19);
         if (one_in(3)) {  // Chicken delivvery truck
             add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
             add_spawn("mon_chickenbot", 1, 12, 12);
@@ -12853,11 +12857,36 @@ void map::add_extra(map_extra type)
                     place_items("map_extra_military", 100, x, y, x, y, true, 0);
                 } int splatter_range = rng(1, 3);
                     for (int j = 0; j <= splatter_range; j++) {
-                        add_field(x + (j * 1), y + (j * 1),
-                                  fd_blood, 1);
+                        add_field( x - (j * 1), y + (j * 1), fd_blood, 1);
                     }
                 }
 
+            }
+        } else { // Police roadblock
+            add_vehicle("policecar", 8, 5, 20);
+            add_vehicle("policecar", 16, SEEY * 2 - 5, 145);
+            add_spawn("mon_turret", 1, 1, 12);
+            add_spawn("mon_turret", 1, SEEX * 2 - 1, 12);
+            
+            int num_bodies = dice(1, 6);
+        for (int i = 0; i < num_bodies; i++) {
+            int x, y, tries = 0;;
+            do { // Loop until we find a valid spot to dump a body, or we give up
+                x = rng(0, SEEX * 2 - 1);
+                y = rng(0, SEEY * 2 - 1);
+                tries++;
+            } while (tries < 10 && move_cost(x, y) == 0);
+
+            if (tries < 10) { // We found a valid spot!
+                if (one_in(8)) {
+                    add_spawn("mon_zombie_cop", 1, x, y);
+                } else {
+                    place_items("map_extra_police", 100, x, y, x, y, true, 0);
+                } int splatter_range = rng(1, 3);
+                    for (int j = 0; j <= splatter_range; j++) {
+                        add_field( x +(j * 1), y - (j * 1), fd_blood, 1);
+                    }
+                }
             }
         }
     }

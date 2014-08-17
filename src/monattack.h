@@ -47,7 +47,7 @@ class mattack
         void rifle_tur          (monster *z); // Automated M4
         void frag_tur           (monster *z); // Automated MGL
         void bmg_tur            (monster *z); // Automated M107 >:-D
-        void tank_tur            (monster *z); // Tankbot primary.
+        void tank_tur           (monster *z); // Tankbot primary.
         void searchlight        (monster *z);
         void flamethrower       (monster *z);
         void copbot             (monster *z);
