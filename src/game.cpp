@@ -5223,9 +5223,10 @@ void game::draw_sidebar()
     } else if (display_temp > 32) {
         col_temp = c_ltblue;
     }
-    int pressure = 1020 - weatherGen.get_weather(u.pos(), calendar::turn).pressure;
+    w_point weatherPoint = weatherGen.get_weather(u.pos(), calendar::turn);
+    int pressure = 1020 - weatherPoint.pressure;
     int windSpeed = std::max(0, pressure);
-    int relHum = weatherGen.get_weather(u.pos(), calendar::turn).humidity;
+    int relHum = weatherPoint.humidity;
 
     wprintz( w_location, col_temp, " %s, %d mph, %d\%", print_temperature( display_temp ).c_str(), windSpeed, relHum );
     wrefresh(w_location);
