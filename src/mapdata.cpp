@@ -100,14 +100,13 @@ void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
-        num_tests = j.get_int("num_tests", 1);
         str_min = j.get_int("str_min", 0);
         str_max = j.get_int("str_max");
         
         str_min_blocked = j.get_int("str_min_blocked", -1);
         str_max_blocked = j.get_int("str_max_blocked", -1);
         
-        str_min_roll = j.get_int("str_min_roll", 0);
+        str_min_roll = j.get_int("str_min_roll", str_min);
         str_max_roll = j.get_int("str_min_roll", str_max);
         
         explosive = j.get_int("explosive", -1);

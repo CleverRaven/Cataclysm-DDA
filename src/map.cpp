@@ -1552,7 +1552,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
 
-        if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
+        if ( bash != NULL && bash->str_min != -1 ) {
             bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
             int smin = bash->str_min;
             int smax = bash->str_max;
@@ -1567,12 +1567,8 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                         }
                     }
                 }
-                if ( str >= smin ) {
-                    for( int i = 0; i < bash->num_tests; i++ ) {
-                        if (str < rng(bash->str_min_roll, bash->str_max_roll)) {
-                            success = false;
-                            break;
-                        }
+                if ( str >= smin && str < rng(bash->str_min_roll, bash->str_max_roll)) {
+                        success = false;
                     }
                 } else {
                     success = false;

@@ -607,6 +607,26 @@
         "post_terrain" : "t_fence_v"
     },{
         "type" : "construction",
+        "description" : "Build Fence Gate",
+        "difficulty" : 2,
+        "time" : 15,
+        "qualities": [ 
+		    [
+            { "id": "HAMMER", "level": 2 }
+            ],
+		    [
+            { "id": "DIG", "level": 2 }
+            ]
+			],
+        "components" : [
+            [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ],
+            [ [ "2x4", 5 ] ],
+            [ [ "nail", 12 ] ]
+        ],
+        "pre_flags" : "DIGGABLE",
+        "post_terrain" : "t_fence_h"
+    },{
+        "type" : "construction",
         "description" : "Realign Fence",
         "difficulty" : 0,
         "time" : 1,
