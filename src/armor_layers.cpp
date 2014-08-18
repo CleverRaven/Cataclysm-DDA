@@ -186,7 +186,7 @@ void player::sort_armor()
             mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d = ", armorenc,
                       enc - armorenc);
             wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
-            int bodyTempInt = temp_conv[i] / 100.0;
+            int bodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
             mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6,
                       bodytemp_color(i), "(%3d)", bodyTempInt);
         }
