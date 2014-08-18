@@ -938,7 +938,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 iCurWorkingPage = 0;
             }
         } else if (action == "UP") {
-                if (iCurrentLine[iCurWorkingPage] == 1) {
+                if (iCurrentLine[iCurWorkingPage] == 0) {
                     iCurrentLine[iCurWorkingPage] = vStartingTraits[iCurWorkingPage].size() - 1;
                 } else {
                     iCurrentLine[iCurWorkingPage]--;
