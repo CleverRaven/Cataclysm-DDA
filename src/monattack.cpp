@@ -1928,7 +1928,7 @@ void mattack::bmg_tur(monster *z)
         if (!z->has_effect("targeted")) {
             if (g->u_see(z->posx(), z->posy())) {
                 //~Premonition: there will be a .50BMG shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("Watch out for snipers...");
+                add_msg(m_warning, _("Watch out for snipers..."));
             }
             g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
             z->add_effect("targeted", 8);
