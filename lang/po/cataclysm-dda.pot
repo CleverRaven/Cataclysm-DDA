@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-11 10:27+0400\n"
+"POT-Creation-Date: 2014-08-18 09:19+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5927,6 +5927,21 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "tricorne"
+msgid_plural "tricornes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A classic design, the \"tricorne\", or three-cornered hat, simply pins a "
+"large and floppy brim out of the way, though this exammple adds well-"
+"emboridered designs and is oiled against water.  Whether you're the \"guvnah"
+"\" of a settlement, or the captain of a post-apocalyptic crew, this is the "
+"hat for you."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "backpack"
 msgid_plural "backpacks"
 msgstr[0] ""
@@ -8551,9 +8566,9 @@ msgstr[1] ""
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Compact Bionics Module that upgrades your power capacity by 4 units.  Having "
-"at least one of these is a prerequisite to using powered bionics.  You will "
-"also need a power supply, found in another CBM."
+"Compact Bionics Module that upgrades your power capacity by 100 units.  "
+"Having at least one of these is a prerequisite to using powered bionics.  "
+"You will also need a power supply, found in another CBM."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -8566,7 +8581,7 @@ msgstr[1] ""
 msgid ""
 "Compact Bionics Module developed at DoubleTech Industries as a replacement "
 "for the highly successful Power Storage CBM.  Increases your power capacity "
-"by 10 units."
+"by 250 units."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -12121,8 +12136,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "european pilsner"
-msgid_plural "european pilsners"
+msgid "European pilsner"
+msgid_plural "European pilsners"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -12133,8 +12148,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "american pale ale"
-msgid_plural "american pale ales"
+msgid "American pale ale"
+msgid_plural "American pale ales"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -12145,8 +12160,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "india pale ale"
-msgid_plural "india pale ales"
+msgid "India pale ale"
+msgid_plural "India pale ales"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -12167,8 +12182,8 @@ msgid "A tasty craft beer, as dark in color as the days ahead."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "belgian ale"
-msgid_plural "belgian ales"
+msgid "Belgian ale"
+msgid_plural "Belgian ales"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -17434,7 +17449,7 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"This device has many ports attached, allowing to to connect to almost any "
+"This device has many ports attached, allowing it to connect to almost any "
 "control panel or other electronic machine (but not computers).  With a "
 "little skill, it can be used to crack passwords and more."
 msgstr ""
@@ -18291,6 +18306,18 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A broken police bot.  Much less threatening now that it's quiet and still.  "
+"Could be gutted for parts."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken riot control bot"
+msgid_plural "broken riot control bots"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A broken riot control bot.  Much less threatening now that it's out of gas.  "
 "Could be gutted for parts."
 msgstr ""
 
@@ -19699,6 +19726,52 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "SD-Memory card"
+msgid_plural "SD-Memory cards"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "A memory card, used.  Might be worth a look."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "SD-Memory card (clean)"
+msgid_plural "SD-Memory cards (clean)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This memory card is either unused or has been wiped clean.  You could use it "
+"to store your data, though!"
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "SD-Memory card (encrypted)"
+msgid_plural "SD-Memory cards (encrypted)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This memory card appears to have the firmware encryption set.  Hopefully it "
+"contains something worth encrypting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "Science SD-Memory card"
+msgid_plural "Science SD-Memory cards"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This memory card appears to be related to 'XEDRA', and is certainly "
+"encrypted.  Looks * Interesting *, though..."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "fishing hook"
 msgid_plural "fishing hooks"
 msgstr[0] ""
@@ -19706,6 +19779,18 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A simple fishing hook."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "Radio car box"
+msgid_plural "Radio car boxes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A RC car, with radio-control and batteries included!  Disassemble to unpack "
+"and enjoy."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -20313,18 +20398,6 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "Oars for a boat"
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "Radio car box"
-msgid_plural "Radio car boxes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A RC car, with radio-control and batteries included!  Disassemble to unpack "
-"and enjoy."
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -22014,8 +22087,9 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A bolt-action sniper rifle chambered in the powerful .300 Winchester Magnum "
-"round.  The M2010 had completely replaced the M24 rifle series by 2017."
+"A bolt-action, box-magazine-fed, sniper rifle chambered in the powerful .300 "
+"Winchester Magnum round.  The M2010 had completely replaced the M24 rifle "
+"series by 2017."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -23195,12 +23269,14 @@ msgid "Removes survivor armor."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Remote-Controlled Items."
+msgid "Remote-Controlled Items. (obsolete)"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid ""
-"This mod contains remote controlled items: bombs, cars, cars with bombs..."
+"The contents of this mod have been integrated into the game. This mod pack "
+"is deprecated and will eventually be removed. This mod contains remote "
+"controlled items: bombs, cars, cars with bombs..."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -24378,12 +24454,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid ""
-"This rotting corpse seaps a glowing ooze from its lesions.  A strange "
-"tattered jumpsuit marks it as an oddity across the wasteland."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "charred nightmare"
 msgid_plural "charred nightmares"
 msgstr[0] ""
@@ -24391,7 +24461,7 @@ msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"Intense radiation has spured a unique form of necrosis and regeneration, it "
+"Intense radiation has spurred a unique form of necrosis and regeneration, it "
 "is impossible to tell if this creature was ever human."
 msgstr ""
 
@@ -25450,6 +25520,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "milspec searchlight"
+msgid_plural "milspec searchlights"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Three high-powered searchlights with automated search AI and mounting, "
+"continually seeking targets."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "exploder"
 msgid_plural "exploders"
 msgstr[0] ""
@@ -25679,6 +25761,20 @@ msgid ""
 "The funk of forty thousand years, \n"
 "And grisly ghouls from every tomb, \n"
 "Are closing in to seal your doom!"
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "riot control bot"
+msgid_plural "riot control bots"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Nonviolent riot-control bot.  Designed to suppress riots and make mass "
+"arrests of those participating.  Though its relaxation gas is by far its "
+"best-known weapon, it carries a blinding flash and a low-powered stungun for "
+"self-defense--in addition to its supply of electronic handcuffs."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -29848,7 +29944,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "refillable lighter (lit)"
-msgid_plural "refillable lighter (lit)s"
+msgid_plural "refillable lighters (lit)"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -30332,60 +30428,61 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "silver gas discount card"
-msgid_plural "silver gas discount cards"
+msgid "E-Ink Tablet PC"
+msgid_plural "E-Ink Tablet PCs"
 msgstr[0] ""
 msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-msgid "This card gives you a little discount on the purchase of gasoline."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "gold gas discount card"
-msgid_plural "gold gas discount cards"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-msgid "This card gives you a good discount on the purchase of gasoline."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "platinum gas discount card"
-msgid_plural "platinum gas discount cards"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-msgid "This card gives you a splendid discount on the purchase of gasoline."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py lang/json/vehicle_from_json.py
-msgid "inflatable boat"
-msgid_plural "inflatable boats"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/TOOL_from_json.py
-#, no-python-format
-msgid "You painstakingly unfold, inflate, and launch the %s."
-msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This rubber rowboat (oars included) is deflated for storage.  Activate it "
-"(having an air pump in inventory) to inflate and launch."
+"A tablet PC using an efficient color e-ink display.  Before the cataclysm, "
+"these were nifty gadgets; now, it's an almost priceless resource.  Runs on "
+"conventional batteries."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "hand pump"
-msgid_plural "hand pumps"
+msgid "camera"
+msgid_plural "cameras"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
-msgid "This pump is suitable for pumping air into inflatable objects."
+msgid ""
+"A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-"
+"sight', and flash.  You can look at your photos on the digital screen, or "
+"transfer them with a memory card.  Takes conventional batteries."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "camera pro"
+msgid_plural "camera pros"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A 35mm digital SLR (single-lens reflex) camera, with optical and digital "
+"viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can "
+"view your photos on it or transfer them with a memory card; it runs on "
+"conventional batteries.  Before the cataclysm, you could have taken "
+"professional-grade photos using this."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "electronic handcuffs"
+msgid_plural "electronic handcuffss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A pair of electronic handcuffs, used by police & riot bots to detain "
+"captives.  Their continuous siren clearly identifies the wearer as an "
+"arrested criminal and alerts human police.  Wait for their arrival, don't "
+"try to escape or to remove the cuffs - they will administer an electric "
+"shock.\n"
+"However, since the only police likely to respond are undead, you may have a "
+"long wait ahead, unless you get creative..."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -30490,7 +30587,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "RC car (on)"
-msgid_plural "RC car (on)s"
+msgid_plural "RC cars (on)"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -30511,6 +30608,63 @@ msgid ""
 "A remote control for RC cars, with joystick to steer the car and colorful "
 "buttons that don't seem to do anything.  Perhaps they were for the deluxe "
 "model?"
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "silver gas discount card"
+msgid_plural "silver gas discount cards"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "This card gives you a little discount on the purchase of gasoline."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "gold gas discount card"
+msgid_plural "gold gas discount cards"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "This card gives you a good discount on the purchase of gasoline."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "platinum gas discount card"
+msgid_plural "platinum gas discount cards"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "This card gives you a splendid discount on the purchase of gasoline."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py lang/json/vehicle_from_json.py
+msgid "inflatable boat"
+msgid_plural "inflatable boats"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+#, no-python-format
+msgid "You painstakingly unfold, inflate, and launch the %s."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This rubber rowboat (oars included) is deflated for storage.  Activate it "
+"(having an air pump in inventory) to inflate and launch."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "hand pump"
+msgid_plural "hand pumps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "This pump is suitable for pumping air into inflatable objects."
 msgstr ""
 
 #: lang/json/VAR_VEH_PART_from_json.py
@@ -32894,6 +33048,21 @@ msgstr ""
 msgid "You feel lightheaded."
 msgstr ""
 
+#: lang/json/effects_from_json.py
+msgid "Relaxation gas"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid ""
+"Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\n"
+"You are thoroughly relaxed and don't feel like moving.  Fighting? Too much "
+"effort."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "You inhale sweetish gas."
+msgstr ""
+
 #: lang/json/faction_from_json.py
 msgid "Your Followers"
 msgstr ""
@@ -35266,7 +35435,7 @@ msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid ""
-"A dance-like style with its roots in Brazilian slavery, capoeira is focused "
+"A dance-like style with its roots in Brazilian slavery, Capoeira is focused "
 "on fluid movement and sweeping kicks. Moving a tile will boost attack and "
 "damage and attacking boosts dodge. These bonuses stack up to three times "
 "each."
@@ -35628,7 +35797,7 @@ msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid ""
-"A legacy of the Five Deadly Venoms.  Viper Style has a uniqe three-part "
+"A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part "
 "combo, which initiates on a dodge, then counters with a stunning chop and "
 "the legendary Viper Strike."
 msgstr ""
@@ -39902,10 +40071,6 @@ msgid "mall - food court"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "mall - good court"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "abandoned store"
 msgstr ""
 
@@ -41997,28 +42162,6 @@ msgid ""
 "plant at a time."
 msgstr ""
 
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
-msgid "RADIO CARS TESTER"
-msgstr ""
-
-#. ~ Profession (male RADIO CARS TESTER) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid "Test with radiocars and bombs"
-msgstr ""
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "RADIO CARS TESTER"
-msgstr ""
-
-#. ~ Profession (female RADIO CARS TESTER) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid "Test with radiocars and bombs"
-msgstr ""
-
 #: lang/json/skill_from_json.py
 msgid "bartering"
 msgstr ""
@@ -42548,6 +42691,64 @@ msgid ""
 "Young children are at play and older ones tend a large vegetable garden.  "
 "The caption reads: \"A well-armed community is a SAFE community.  Leadworks, "
 "LLC.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public notice from the Centers for Disease Control.  Its message, "
+"repeated in several languages, reads: Due to the rising threat of so-called "
+"\"Green Fever\" the CDC would like to remind the public to cover your nose "
+"and mouth with a tissue when you cough or sneeze and wash your hands "
+"frequently with soap and water.  In light of recent events, the CDC also "
+"recommends an annual flu vaccine for everyone 6 months of age and older."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public message from the Federal Emergency Management Agency.  Its "
+"message, repeated in several languages, reads: STAY IN YOUR HOMES!  The US "
+"government is taking steps to halt the current epidemic of \"Green Fever\" "
+"and help is currently on its way to afflicted areas.  In the name of public "
+"safety you are hereby ordered to remain in your homes until evacuated to a "
+"treatment camp by authorized agents of the United States military.  Thank "
+"you for your compliance."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public warning from an unnamed source.  Its rambling message, "
+"poorly-photocopied onto both sides of the page, reads: Don't believe the "
+"lies!  The Army is rounding up people in death camps while the Green Fever "
+"spreads like wildfire.  Do not believe what the mainstream news-media is "
+"reporting.  All official evacuation points are death-traps.  Secure supplies "
+"and escape the cities while there is still time."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public message from an unnamed source.  Its message, photocopied "
+"from a scrawled handwritten copy, reads: REPENT YOUR SINS O BABYLON FOR THE "
+"TIME OF HIS JUDGEMENT IS NIGH!  LOOK UPON YOUR DESTRUCTION AND KNOW THAT IT "
+"IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD "
+"UNTO THE VERY LAST SINNER!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public warning from the United States Army.  Its brief message, "
+"repeated in several languages, reads:  The President of the United States "
+"has declared unilateral martial law affecting the entire nation.  Shelter in "
+"place until evacuated to an appropriate emergency management camp by "
+"authorized military personnel.  This curfew will remain in effect until "
+"further notice.  Stay indoors.  Violators will be shot on sight."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"The Green Fever shall purge the land for His Chosen children.  I have seen "
+"His black fire shining in the eyes of the afflicted and eagerly await the "
+"day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl "
+"fhtagn."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -45142,7 +45343,7 @@ msgstr ""
 
 #: lang/json/technique_from_json.py
 #, python-format
-msgid "<npcname> catches ans spins %s!"
+msgid "<npcname> catches and spins %s!"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -45958,6 +46159,10 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "flat roof"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "plutonium generator"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -46884,7 +47089,8 @@ msgstr ""
 #: src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
 #: src/iuse.cpp
 #: src/iuse.cpp src/player.cpp
-#: src/player.cpp src/veh_interact.cpp src/vehicle.cpp
+#: src/player.cpp src/veh_interact.cpp
+#: src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -47126,19 +47332,19 @@ msgid "name"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "volume"
-msgstr ""
-
-#: src/advanced_inv.cpp
 msgid "weight"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "category"
+msgid "volume"
 msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "charges"
+msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "category"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -49812,7 +50018,13 @@ msgid "Move cursor down"
 msgstr ""
 
 #: src/construction.cpp
-msgid "Press ';' to toggle unavailable constructions."
+#, c-format
+msgid "Press %s to toggle unavailable constructions."
+msgstr ""
+
+#: src/construction.cpp
+#, c-format
+msgid "Press %s to view and edit key-bindings."
 msgstr ""
 
 #: src/construction.cpp
@@ -54812,6 +55024,14 @@ msgid "intense beam of light"
 msgstr ""
 
 #: src/field.cpp
+msgid "spotlight"
+msgstr ""
+
+#: src/field.cpp
+msgid "dazzing"
+msgstr ""
+
+#: src/field.cpp
 msgid "plant sap splatter"
 msgstr ""
 
@@ -54933,6 +55153,14 @@ msgstr ""
 
 #: src/field.cpp
 msgid "airborne incendiary"
+msgstr ""
+
+#: src/field.cpp
+msgid "relaxation gas"
+msgstr ""
+
+#: src/field.cpp
+msgid "sedative gas"
 msgstr ""
 
 #: src/field.cpp
@@ -56097,11 +56325,6 @@ msgid "%s, day %d"
 msgstr ""
 
 #: src/game.cpp
-#, c-format
-msgid "Written here: %s"
-msgstr ""
-
-#: src/game.cpp
 msgid "L ARM"
 msgstr ""
 
@@ -56398,7 +56621,7 @@ msgstr ""
 msgid "Close where?"
 msgstr ""
 
-#: src/game.cpp
+#: src/game.cpp src/iuse.cpp
 #, c-format
 msgid "There's a %s in the way!"
 msgstr ""
@@ -56479,8 +56702,9 @@ msgstr ""
 #: src/game.cpp
 #: src/iexamine.cpp src/iuse.cpp
 #: src/iuse.cpp
-#: src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp
+#: src/iuse.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp
+#: src/player.cpp
 msgid "Never mind."
 msgstr ""
 
@@ -57134,8 +57358,24 @@ msgid "That's part of your body, you can't throw that!"
 msgstr ""
 
 #: src/game.cpp
+msgid "You concentrate mightily, and your body obeys!"
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't muster up the effort to throw anything..."
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "Really attack %s?"
+msgstr ""
+
+#: src/game.cpp
+msgid "Your eyes steel, and you raise your weapon!"
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't fire your weapon, it's too heavy..."
 msgstr ""
 
 #: src/game.cpp
@@ -57509,6 +57749,14 @@ msgid "Click directly on monster to attack."
 msgstr ""
 
 #: src/game.cpp
+msgid "Your willpower asserts itself, and so do you!"
+msgstr ""
+
+#: src/game.cpp
+msgid "You're too pacified to strike anything..."
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "%s moves out of the way."
 msgstr ""
@@ -57655,6 +57903,11 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "The sign says: %s"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Written here: %s"
 msgstr ""
 
 #: src/game.cpp
@@ -60075,8 +60328,20 @@ msgid "You find a flower and drink some nectar."
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "The fruits ripen in autumn."
+msgstr ""
+
+#: src/iexamine.cpp
 #, c-format
 msgid "Harvest from the %s?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Blueberries ripen in summer."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Strawberries ripen in summer."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -61272,6 +61537,20 @@ msgstr ""
 msgid "other"
 msgstr ""
 
+#: src/item_factory.cpp
+msgid "Test which group?"
+msgstr ""
+
+#. ~ Spawn group menu: Menu entry to exit menu
+#: src/item_factory.cpp src/iuse.cpp
+#: src/iuse.cpp
+msgid "cancel"
+msgstr ""
+
+#: src/item_factory.cpp
+msgid "Result of 100 spawns:"
+msgstr ""
+
 #: src/itypedef.cpp
 msgid "A dead body."
 msgstr ""
@@ -62342,10 +62621,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "extinguish"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "cancel"
 msgstr ""
 
 #: src/iuse.cpp
@@ -65066,6 +65341,291 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "A following %s goes into combat mode."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You download %d new photo into internal memory."
+msgid_plural "You download %d new photos into internal memory."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You download %d new song into internal memory."
+msgid_plural "You download %d new songs into internal memory."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You download a recipe for %s into the tablet's memory."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your tablet already has a recipe for %s."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You have updated your monster collection."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This memory card does not contain any new data."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "awful"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "bad"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "exceptional"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "fine"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "good"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "not bad"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Choose menu option:"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Photos [%d]"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "No photos on device"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Turn music off"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Turn music on [%d]"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "No music on device"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Recipe: %s"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "View recipe on E-ink screen"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your collection of monsters"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Collection of monsters is empty"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Download data from memory card"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Decrypt memory card"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Decrypt memory card (low skill)"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Wasted time, these pictures do not provoke your senses."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You used to have a dog like this..."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Ha-ha! An amusing cat photo."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Excellent pictures of nature."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Food photos...your stomach rumbles!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Some very interesting travel photos."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Pictures of a concert of popular band."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Photos of someone's luxurious house."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You feel nostalgic as you stare at the photo."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You turned off music on your %s."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You turned on music on your %s."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Choose recipe to view:"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You change the e-ink screen to show a recipe for %s."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your collection of monsters:"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Insert memory card"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This is not a compatible memory card."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This memory card is encrypted."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This memory card is not encrypted."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You successfully decrypted content on %s!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You failed to decrypt the %s."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You tripped the firmware protection, and the card deleted its data!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "What to do with camera?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Take a photo"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "List photos"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Upload photos to memory card"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "No photos in memory"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You decide not to flash yourself."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "There's nothing particularly interesting there."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s looks blinded."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Strange...there's nothing in the picture?"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You took a %s photo of %s."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This photo is better than the previous one."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Critter photos saved on camera:"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This memory card is encrypted. Format and clear data?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Are you sure you want to clear the old data on the card?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You upload monster photos to memory card."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s automatically turned off!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s on your hands opened!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "a police siren, whoop WHOOP."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Ouch, the cuffs shock you!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "The %s spark with electricity!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -69069,6 +69629,11 @@ msgid "Dependencies: [NONE]\n"
 msgstr ""
 
 #: src/mod_manager_ui.cpp
+#, c-format
+msgid "Description: %s\n"
+msgstr ""
+
+#: src/mod_manager_ui.cpp
 msgid "Description: [NONE]\n"
 msgstr ""
 
@@ -69772,6 +70337,89 @@ msgid "but you deftly spin out of its grasp!"
 msgstr ""
 
 #: src/monattack.cpp
+msgid "Halt and submit to arrest, citizen! The police will be here any moment."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Please stay in place, citizen, do not make any movements!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "The robot carefully scans you."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "The riotbot orders you to present your hands and be cuffed."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Allow yourself to be arrested."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Resist arrest!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Feign death."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "The robot puts handcuffs on you."
+msgstr ""
+
+#: src/monattack.cpp
+msgid ""
+"You are under arrest, citizen.  You have the right to remain silent.  If you "
+"do not remain silent, anything you say may be used against you in a court of "
+"law."
+msgstr ""
+
+#: src/monattack.cpp
+msgid ""
+"You have the right to an attorney.  If you cannot afford an attorney, one "
+"will be provided at no cost to you.  You may have your attorney present "
+"during any questioning."
+msgstr ""
+
+#: src/monattack.cpp
+msgid ""
+"If you do not understand these rights, an officer will explain them in "
+"greater detail when taking you into custody."
+msgstr ""
+
+#: src/monattack.cpp
+msgid ""
+"Do not attempt to flee or to remove the handcuffs, citizen.  That can be "
+"dangerous to your health."
+msgstr ""
+
+#: src/monattack.cpp
+msgid ""
+"You fall to the ground and feign a sudden convulsive attack.  Though you're "
+"obviously still alive, the riotbot cannot tell the difference between your "
+"'attack' and a potentially fatal medical condition.  It backs off, signaling "
+"for medical help."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Your awkward movements do not fool the riotbot."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "The robot sprays tear gas!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Empty your hands and hold your position, citizen!"
+msgstr ""
+
+#. ~ Sound of a riotbot using its blinding flash
+#: src/monattack.cpp
+msgid "fzzzzzt"
+msgstr ""
+
+#: src/monattack.cpp
 #, c-format
 msgid "The %s mechanically grabs at you!"
 msgstr ""
@@ -69893,6 +70541,10 @@ msgstr ""
 
 #: src/mondeath.cpp
 msgid "Your obsession with the fault fades away..."
+msgstr ""
+
+#: src/mondeath.cpp
+msgid "As the final light is destroyed, it erupts in a blinding flare!"
 msgstr ""
 
 #: src/mondeath.cpp
@@ -70296,12 +70948,17 @@ msgstr ""
 
 #: src/newcharacter.cpp
 #, c-format
-msgid "%s Takes you to the next tab."
+msgid "%s lets you view and alter keybindings."
 msgstr ""
 
 #: src/newcharacter.cpp
 #, c-format
-msgid "%s Returns you to the main menu."
+msgid "%s takes you to the next tab."
+msgstr ""
+
+#: src/newcharacter.cpp
+#, c-format
+msgid "%s returns you to the main menu."
 msgstr ""
 
 #: src/newcharacter.cpp
@@ -70475,8 +71132,8 @@ msgstr[1] ""
 #. ~ 1s - profession name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
-msgid "Profession %1$s cost %2$d point"
-msgid_plural "Profession %1$s cost %2$d points"
+msgid "Profession %1$s costs %2$d point"
+msgid_plural "Profession %1$s costs %2$d points"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -72397,7 +73054,7 @@ msgid "Ma'am"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Rough out there isn't it."
+msgid "Rough out there, isn't it?"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -73566,7 +74223,7 @@ msgid "So no negotiating? No, 'If you do this quest then we'll let you in?'"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "I don't like you're attitude."
+msgid "I don't like your attitude."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -73674,7 +74331,7 @@ msgid "Sorry, I didn't mean to offend you..."
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Get bent traitor!"
+msgid "Get bent, traitor!"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -74250,9 +74907,13 @@ msgstr ""
 #: src/npctalk.cpp
 #, c-format
 msgid ""
+"I'm willing to pay $%.2f per serving. You have %d serving for a total of $"
+"%.2f. No questions asked, here is your cash."
+msgid_plural ""
 "I'm willing to pay $%.2f per serving. You have %d servings for a total of $"
-"%.2f.  No questions asked, here is your cash."
-msgstr ""
+"%.2f. No questions asked, here is your cash."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/npctalk.cpp
 msgid "Pleasure doing business!"
@@ -74400,6 +75061,11 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "You'll be helpless! Proceed?"
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "<you say something>You: %s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -74662,70 +75328,6 @@ msgstr ""
 
 #: src/options.cpp
 msgid "System language"
-msgstr ""
-
-#: src/options.cpp
-msgid "Czech"
-msgstr ""
-
-#: src/options.cpp
-msgid "English"
-msgstr ""
-
-#: src/options.cpp
-msgid "French"
-msgstr ""
-
-#: src/options.cpp
-msgid "German"
-msgstr ""
-
-#: src/options.cpp
-msgid "Italian"
-msgstr ""
-
-#: src/options.cpp
-msgid "Spanish"
-msgstr ""
-
-#: src/options.cpp
-msgid "Japanese"
-msgstr ""
-
-#: src/options.cpp
-msgid "Korean"
-msgstr ""
-
-#: src/options.cpp
-msgid "Polish"
-msgstr ""
-
-#: src/options.cpp
-msgid "Brazilian Portuguese"
-msgstr ""
-
-#: src/options.cpp
-msgid "Portuguese, Portugal"
-msgstr ""
-
-#: src/options.cpp
-msgid "Russian"
-msgstr ""
-
-#: src/options.cpp
-msgid "Serbian"
-msgstr ""
-
-#: src/options.cpp
-msgid "Vietnamese"
-msgstr ""
-
-#: src/options.cpp
-msgid "Simplified Chinese"
-msgstr ""
-
-#: src/options.cpp
-msgid "Traditional Chinese"
 msgstr ""
 
 #: src/options.cpp
@@ -75416,6 +76018,10 @@ msgid " - List notes"
 msgstr ""
 
 #: src/overmap.cpp
+msgid " - Change keys"
+msgstr ""
+
+#: src/overmap.cpp
 msgid " - Return to game"
 msgstr ""
 
@@ -75647,6 +76253,10 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Supported"
+msgstr ""
+
+#: src/player.cpp
+msgid "Looked at photos"
 msgstr ""
 
 #: src/player.cpp
@@ -77799,7 +78409,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your skill level won't improve, but %s has more recipes for yo"
+msgid "Your skill level won't improve, but %s has more recipes for you."
 msgstr ""
 
 #: src/player.cpp
@@ -80083,14 +80693,16 @@ msgid "World Name:"
 msgstr ""
 
 #: src/worldfactory.cpp
-msgid "Press <color_yellow>?</color> to pick a random name for your world."
+#, c-format
+msgid "Press <color_yellow>%s</color> to pick a random name for your world."
 msgstr ""
 
 #: src/worldfactory.cpp
+#, c-format
 msgid ""
-"Press <color_yellow>></color> when you are satisfied with the world as it is "
-"and are ready to continue, or <color_yellow><</color> to go back and review "
-"your world."
+"Press <color_yellow>%s</color> when you are satisfied with the world as it "
+"is and are ready to continue, or <color_yellow>%s</color> to go back and "
+"review your world."
 msgstr ""
 
 #: src/worldfactory.cpp
@@ -80102,8 +80714,8 @@ msgid "Are you SURE you're finished? World name will be randomly generated."
 msgstr ""
 
 #: src/worldfactory.cpp
-msgid ""
-"Press 's' to save the list of active mods as default. Press '?' for help."
+#, c-format
+msgid "Press %s to save the list of active mods as default. Press %s for help."
 msgstr ""
 
 #: src/worldfactory.cpp
