@@ -1,0 +1,62 @@
+Source: cataclysm-dda
+Section: universe/games
+Priority: optional
+Maintainer: <NO_MAINTAINER>
+Build-Depends: debhelper (>= 8.0.0), libncursesw5-dev, lua5.1, libsdl2-dev, libsdl2-image-dev, libsdl2-ttf-dev, liblua5.1-dev 
+Standards-Version: 3.9.4
+Homepage: http://en.cataclysmdda.com/
+
+Package: cataclysm-dda
+Architecture: any
+Depends: ${shlibs:Depends}, cataclysm-dda-common (>= 0.A)
+Description: Cataclysm: Dark Days Ahead, a text-based zombie survival game.
+ Cataclysm is a grim game set in a grim world where for all intents and purposes
+ hell has assaulted earth and established a beachhead with intent to occupy.
+ You stand alone, afraid, likely alive by coincidence alone, in a situation which
+ imminently threatens not only your personal survival but the survival of humanity
+ and our earth as we know it. Beset on all sides by shambling, shrieking,
+ pus-dripping horrors straight out of the nightmares of Humanity's collective
+ unconscious, you make your way through this desolation that used to be a world.
+ .
+ This is the console version, for tiles, use cataclysm-dda-tiles instead.
+       
+Package: cataclysm-dda-tiles
+Architecture: any
+Depends: ${shlibs:Depends}, cataclysm-dda-common (>= 0.A), cataclysm-dda-gfx (>= 0.A)
+Description: Cataclysm: Dark Days Ahead, a text-based zombie survival game.
+ Cataclysm is a grim game set in a grim world where for all intents and purposes
+ hell has assaulted earth and established a beachhead with intent to occupy.
+ You stand alone, afraid, likely alive by coincidence alone, in a situation which
+ imminently threatens not only your personal survival but the survival of humanity
+ and our earth as we know it. Beset on all sides by shambling, shrieking,
+ pus-dripping horrors straight out of the nightmares of Humanity's collective
+ unconscious, you make your way through this desolation that used to be a world.
+ .
+ This is the SDL version, with tile-based graphics and sound support.
+ For the console version use cataclysm-dda.
+
+Package: cataclysm-dda-common
+Architecture: all
+Description: Cataclysm: Dark Days Ahead, a text-based zombie survival game.
+ Cataclysm is a grim game set in a grim world where for all intents and purposes
+ hell has assaulted earth and established a beachhead with intent to occupy.
+ You stand alone, afraid, likely alive by coincidence alone, in a situation which
+ imminently threatens not only your personal survival but the survival of humanity
+ and our earth as we know it. Beset on all sides by shambling, shrieking,
+ pus-dripping horrors straight out of the nightmares of Humanity's collective
+ unconscious, you make your way through this desolation that used to be a world.
+ .
+ Shared data files and translations for the game.
+
+Package: cataclysm-dda-gfx
+Architecture: all
+Description: Cataclysm: Dark Days Ahead, a text-based zombie survival game.
+ Cataclysm is a grim game set in a grim world where for all intents and purposes
+ hell has assaulted earth and established a beachhead with intent to occupy.
+ You stand alone, afraid, likely alive by coincidence alone, in a situation which
+ imminently threatens not only your personal survival but the survival of humanity
+ and our earth as we know it. Beset on all sides by shambling, shrieking,
+ pus-dripping horrors straight out of the nightmares of Humanity's collective
+ unconscious, you make your way through this desolation that used to be a world.
+ .
+ Tilesets and fonts for the game.

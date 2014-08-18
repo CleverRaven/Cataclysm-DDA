@@ -1,0 +1,6 @@
+cataclysm-tiles usr/games
+data/sound/ usr/share/cataclysm-dda
+data/font/ usr/share/cataclysm-dda
+data/fontdata.json usr/share/cataclysm-dda
+data/fd-icons/hicolor/ usr/share/icons
+data/cataclysm-dda.desktop usr/share/applications
