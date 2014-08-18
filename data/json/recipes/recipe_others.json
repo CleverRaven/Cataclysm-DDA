@@ -1928,6 +1928,51 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "wheel_wood",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 6000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+	{"id":"SAW_W","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 5 ]
+    ],
+    [
+      [ "nail", 20 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "wheel_wood_b",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+	{"id":"SAW_W","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 5 ]
+    ],
+    [
+      [ "nail", 30 ]
+    ],
+    [
+      [ "scrap", 5 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "sheet_metal",
   "category": "CC_OTHER",
