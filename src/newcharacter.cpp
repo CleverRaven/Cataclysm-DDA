@@ -788,7 +788,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     std::vector<std::string> vStartingTraits[2];
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    for (auto iter = traits.begin(); iter != traits.end(); ++iter) {
         if (iter->second.startingtrait) {
             if (iter->second.points >= 0) {
                 vStartingTraits[0].push_back(iter->first);
