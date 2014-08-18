@@ -906,7 +906,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   samples from each operational leache system to the following\n\
   addresses:\n\
   \n\
-  CDC Bioterrism Lab \n\
+  CDC Bioterrorism Lab \n\
   Building 10\n\
   Corporate Square Boulevard\n\
   Atlanta, GA 30329\n\
