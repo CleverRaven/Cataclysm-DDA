@@ -457,7 +457,7 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
                     }
                     tmp_i.val = trapmap[ tmpid ];
                 } break;
-                
+
                 default:
                     //Suppress warnings
                     break;
@@ -966,7 +966,7 @@ bool jmapgen_setmap::apply( map *m ) {
                         }
                     }
                 } break;
-                
+
                 default:
                     //Suppress warnings
                     break;
@@ -12809,84 +12809,86 @@ void map::add_extra(map_extra type)
     }
     break;
 
-    case mx_stash: {
-        // 2014 June 21
-        // Disabled stashes here. Allows previous weights to be kept and
-        // stashes, if "created" will be ignored.
-//        int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-//        if (move_cost(x, y) != 0) {
-//            ter_set(x, y, t_dirt);
-//        }
-//
-//        int size = 0;
-//        items_location stash;
-//        switch (rng(1, 6)) { // What kind of stash?
-//        case 1:
-//            stash = "stash_food";
-//            size = 90;
-//            break;
-//        case 2:
-//            stash = "stash_ammo";
-//            size = 80;
-//            break;
-//        case 3:
-//            stash = "rare";
-//            size = 70;
-//            break;
-//        case 4:
-//            stash = "stash_wood";
-//            size = 90;
-//            break;
-//        case 5:
-//            stash = "stash_drugs";
-//            size = 85;
-//            break;
-//        case 6:
-//            stash = "trash";
-//            size = 92;
-//            break;
-//        }
-//
-//        if (move_cost(x, y) == 0) {
-//            ter_set(x, y, t_dirt);
-//        }
-//        place_items(stash, size, x, y, x, y, true, 0);
-//
-//        // Now add traps around that stash
-//        for (int i = x - 4; i <= x + 4; i++) {
-//            for (int j = y - 4; j <= y + 4; j++) {
-//                if (i >= 0 && j >= 0 && i < SEEX * 2 && j < SEEY * 2 && one_in(4)) {
-//                    trap_id placed = tr_null;
-//                    switch (rng(1, 7)) {
-//                    case 1:
-//                    case 2:
-//                    case 3:
-//                        placed = tr_beartrap;
-//                        break;
-//                    case 4:
-//                        placed = tr_caltrops;
-//                        break;
-//                    case 5:
-//                        placed = tr_nailboard;
-//                        break;
-//                    case 6:
-//                        placed = tr_crossbow;
-//                        break;
-//                    case 7:
-//                        placed = tr_shotgun_2;
-//                        break;
-//                    }
-//                    if (placed == tr_beartrap && has_flag("DIGGABLE", i, j)) {
-//                        if (one_in(8)) {
-//                            placed = tr_landmine_buried;
-//                        } else {
-//                            placed = tr_beartrap_buried;
-//                        }
-//                    }
-//                    add_trap(i, j,  placed);
-//                }
-//            }
-//        }
+    case mx_roadblock: {
+    // OK, if there's a way to get ajacent road tiles w/o bringing in
+    // the overmap-scan I'm not seeing it.  So gonna make it Generic.
+    // Barricades to E/W
+    line_furn(this, f_barricade_road, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
+    line_furn(this, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
+    line_furn(this, f_barricade_road, 3, 4, 3, 10);
+    line_furn(this, f_barricade_road, 1, 13, 1, 19);
+
+    // Vehicles to N/S
+    bool mil = false;
+    if (one_in(3)) {
+        mil = true;
+    }
+    if (mil) { //Military doesn't joke around with their barricades!
+        line(this, t_fence_barbed, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
+        line(this, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
+        line(this, t_fence_barbed, 3, 4, 3, 10);
+        line(this, t_fence_barbed, 1, 13, 1, 19);
+        if (one_in(3)) {  // Chicken delivvery truck
+            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
+            add_spawn("mon_chickenbot", 1, 12, 12);
+        } else if (one_in(2)) {  // TAAANK
+            // The truck's wrecked...with fuel.  Explosive barrel?
+            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0, 70, -1);
+            add_spawn("mon_tankbot", 1, 12, 12);
+        } else {  // Truck & turrets
+            add_vehicle("military_cargo_truck", 12, SEEY * 2 - 5, 0);
+            add_spawn("mon_turret_bmg", 1, 12, 12);
+            add_spawn("mon_turret_rifle", 1, 9, 12);
+        }
+
+        int num_bodies = dice(2, 5);
+        for (int i = 0; i < num_bodies; i++) {
+            int x, y, tries = 0;;
+            do { // Loop until we find a valid spot to dump a body, or we give up
+                x = rng(0, SEEX * 2 - 1);
+                y = rng(0, SEEY * 2 - 1);
+                tries++;
+            } while (tries < 10 && move_cost(x, y) == 0);
+
+            if (tries < 10) { // We found a valid spot!
+                if (one_in(8)) {
+                    add_spawn("mon_zombie_soldier", 1, x, y);
+                } else {
+                    place_items("map_extra_military", 100, x, y, x, y, true, 0);
+                } int splatter_range = rng(1, 3);
+                    for (int j = 0; j <= splatter_range; j++) {
+                        add_field( x - (j * 1), y + (j * 1), fd_blood, 1);
+                    }
+                }
+
+            }
+        } else { // Police roadblock
+            add_vehicle("policecar", 8, 5, 20);
+            add_vehicle("policecar", 16, SEEY * 2 - 5, 145);
+            add_spawn("mon_turret", 1, 1, 12);
+            add_spawn("mon_turret", 1, SEEX * 2 - 1, 12);
+            
+            int num_bodies = dice(1, 6);
+        for (int i = 0; i < num_bodies; i++) {
+            int x, y, tries = 0;;
+            do { // Loop until we find a valid spot to dump a body, or we give up
+                x = rng(0, SEEX * 2 - 1);
+                y = rng(0, SEEY * 2 - 1);
+                tries++;
+            } while (tries < 10 && move_cost(x, y) == 0);
+
+            if (tries < 10) { // We found a valid spot!
+                if (one_in(8)) {
+                    add_spawn("mon_zombie_cop", 1, x, y);
+                } else {
+                    place_items("map_extra_police", 100, x, y, x, y, true, 0);
+                } int splatter_range = rng(1, 3);
+                    for (int j = 0; j <= splatter_range; j++) {
+                        add_field( x +(j * 1), y - (j * 1), fd_blood, 1);
+                    }
+                }
+            }
+        }
     }
     break;
 

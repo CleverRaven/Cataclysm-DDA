@@ -5019,7 +5019,7 @@
     "special_freq":5,
     "death_function":"EXPLODE",
     "special_attack":"SMG",
-    "description":"The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40 mm Bofors gun, it is an effective automated sentry, though production was limited due to a legal dispute.",
+    "description":"The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
     "flags":["SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC"]
     },{
         "type" : "MONSTER",
@@ -5039,8 +5039,8 @@
     "melee_dice_sides":0,
     "melee_cut":0,
     "dodge":0,
-    "armor_bash":22,
-    "armor_cut":20,
+    "armor_bash":24,
+    "armor_cut":30,
     "item_chance":92,
     "death_drops": {
         "groups": [
@@ -5053,7 +5053,7 @@
     "special_freq":4,
     "death_function":"BROKEN",
     "special_attack":"MULTI_ROBOT",
-    "description":"The Northrop Emancipator is the first and only model of automated tank, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
+    "description":"The Northrop Emancipator is the first and only automated tank ever produced, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
     "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC"]
     },{
         "type" : "MONSTER",
@@ -5156,6 +5156,40 @@
     "death_function":"EXPLODE",
     "special_attack":"RIFLE_TUR",
     "description":"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_turret_bmg",
+    "name": "antimateriel turret",
+    "species":"ROBOT",
+    "symbol":"2",
+    "color":"green",
+    "size":"MEDIUM",
+    "material":"steel",
+    "diff":30,
+    "aggression":100,
+    "morale":100,
+    "speed":100,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":14,
+    "armor_cut":16,
+    "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 9 ],
+            [ "turret_bmg", 2 ]
+        ]
+    },
+    "luminance":40,
+    "hp":40,
+    "special_freq":1,
+    "death_function":"EXPLODE",
+    "special_attack":"BMG_TUR",
+    "description":"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel rifle.  Credited with forestalling countless car-bombing attempts, it has always been kept under extremely tight control, so as to itself maintain extremely tight control of its area.  And then the Cataclysm struck.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
     "type" : "MONSTER",

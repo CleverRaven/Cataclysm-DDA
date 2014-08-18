@@ -6662,6 +6662,12 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "turret_bmg",
+    "items":[
+      ["50bmg", 8]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "turret_searchlight",
     "items":[
       ["lens", 15]
