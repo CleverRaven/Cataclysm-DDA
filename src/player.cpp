@@ -1044,6 +1044,7 @@ void player::update_bodytemp()
         }
         /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         int windChill = (0.33 * ((bpRelHum / 100.00) * 6.105 * exp((17.27 * Ctemperature/100)/(237.70 + Ctemperature/100))) - 0.70*bpWindPower - 4.00);
+        int felt_air_temperature = Ctemperature/100 + windChill;
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windChill*100 + clothing_warmth_adjustement;
         // HUNGER
@@ -1291,18 +1292,15 @@ void player::update_bodytemp()
         if      (temp_cur[i] < BODYTEMP_FREEZING)
         {
             add_disease("cold", 1, false, 3, 3, 0, 1, (body_part)i, false);
-            frostbite_timer[i] += 3;
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
             add_disease("cold", 1, false, 2, 2, 0, 1, (body_part)i, false);
-            frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
             add_disease("cold", 1, false, 1, 1, 0, 1, (body_part)i, false);
-            frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
@@ -1351,34 +1349,65 @@ void player::update_bodytemp()
                     break;
             }
         }
-        // FROSTBITE (level 1 after 2 hours, level 2 after 4 hours)
-        if      (frostbite_timer[i] >   0)
-        {
-            frostbite_timer[i]--;
-        }
+        // FROSTBITE - only occurs to hands, feet, face
+        /**
+        If it is above  35C, - 9 timer (recover from frostbite)
+        If it is above  25C, - 3 timer (recover from frostbite)
+        If it is above   0C, - 1 timer (recover from frostbite)
+        If it is under -25C, + 3 timer (30 minutes)
+        If it is under -35C, + 9 timer (10 minutes)
+        If it is under -60C, +18 timer ( 5 minutes)
+        
+         5 minutes = 50 turns  (+18 tics will reach 900 total tics in  5 in game minutes)
+        10 minutes = 100 turns (+ 9 tics will reach 900 total tics in 10 in game minutes)
+        30 minutes = 300 turns (+ 3 tics will reach 900 total tics in 30 in game minutes)
+        
+        Let's say frostnip @ 450 tics, frostbite @ 900 tics
+        
+        Temperature and wind chill are main factors, mitigated by clothing warmth. Each 10 warmth protects against 2C of cold.
+        
+        TODO : Have to be able to distinguish from recoving or sucumbing to frostbite to be able to simulate pain from thawing appendages...
+        **/
+        
         if ( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l)
         {
-            if      (frostbite_timer[i] >= 2400 && g->get_temperature() < 32)
+            frostbite_temperature = felt_air_temperature + warmth((body_part)i)*0.2;
+            if (frostbite_temperature +  < -60)
             {
-                // Warning message for the player
-                if (frostbite_timer[i] == 2400 && temp_cur[i] < BODYTEMP_VERY_COLD)
-                {
-                    //~ %s is bodypart
-                    add_msg(m_bad, _("Your %s hardens from the frostbite!"),
-                                    body_part_name(body_part(i)).c_str());
-                }
-                add_disease("frostbite", 1, false, 2, 2, 0, 1, (body_part)i, false);
+                if (one_in(100)) add_msg(m_bad, _("You feel your %s turning to ice!!"), body_part_name(body_part(i)).c_str());
+                frostbite_timer[i] += 18; 
             }
-            else if (frostbite_timer[i] >= 1200 && g->get_temperature() < 32)
+            else if (frostbite_temperature < -35)
             {
-                // Warning message for the player
-                if (frostbite_timer[i] == 1200 && temp_cur[i] < BODYTEMP_VERY_COLD)
-                {
-                    //~ %s is bodypart
-                    add_msg(m_bad, _("You lose sensation in your %s."),
-                        body_part_name(body_part(i)).c_str());
-                }
-                add_disease("frostbite", 1, false, 1, 1, 0, 1, (body_part)i, false);
+                if (one_in(100)) add_msg(m_bad, _("You feel your %s hardening from the freezing cold!"), body_part_name(body_part(i)).c_str());
+                frostbite_timer[i] +=  9;
+            }
+            else if (frostbite_temperature < -25)
+            {
+                if (one_in(100)) add_msg(m_bad, _("You begin to lose feeling in your %s from the intense cold!"), body_part_name(body_part(i)).c_str());
+                if (frostbite_timer[i] < 500) frostbite_timer[i] +=  3; // Can only get frostnip in these temperatures
+            }
+            else if (frostbite_temperature > 35 && frostbite_timer[i] > 0)
+                frostbite_timer[i] -=  8;
+            else if (frostbite_temperature > 25 && frostbite_timer[i] > 0)
+                frostbite_timer[i] -=  2;
+            if (frostbite_temperature > 0 && frostbite_timer[i] > 0)
+            {
+                if (one_in(100)) add_msg(m_good, _("You begin to regain feeling in your %s."), body_part_name(body_part(i)).c_str());
+                frostbite_timer[i] -=  1;        
+            }
+
+            if (frostbite_timer[i] >= 900)
+            {
+                add_disease("frostbite", 1, true, 2, 2, 0, 1, (body_part)i, false);
+            }
+            else if (frostbite_timer[i] >= 500)
+            {
+                add_disease("frostbite", 1, true, 1, 1, 0, 1, (body_part)i, false);
+            }
+            else if (frostbite_timer[i] == 0)
+            {
+                rem_disease("frostbite", (body_part)i);
             }
         }
         // Warn the player if condition worsens
