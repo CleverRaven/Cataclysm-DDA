@@ -189,10 +189,11 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
                                   _("<npcname>'s %s malfunctions!"),
                                   weapon.tname().c_str());
             if ((weapon.damage < 4) && one_in(4 * firing->durability)) {
-                weapon.damage++;
                 add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
                                       _("<npcname>'s %s is damaged by the mechanical malfunction!"),
                                       weapon.tname().c_str());
+                // Don't increment until after the message
+                weapon.damage++;
             }
             return false;
             // Here we check for a chance for the weapon to suffer a misfire due to
@@ -212,10 +213,11 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
                                   _("<npcname>'s %s misfires with a muffled click!"),
                                   weapon.tname().c_str());
             if ((weapon.damage < 4) && one_in(firing->durability)) {
-                weapon.damage++;
                 add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
                                       _("<npcname>'s %s is damaged by the misfired round!"),
                                       weapon.tname().c_str());
+                // Don't increment until after the message
+                weapon.damage++;
             }
             return false;
         }
