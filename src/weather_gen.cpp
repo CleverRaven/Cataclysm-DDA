@@ -34,7 +34,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
     double H2(raw_noise_4d(x, y, z, SEED + 151) / 4);
     double P(raw_noise_4d(x, y, z / 3, SEED + 211) * 70);
 
-    const double now( (double( t.turn_of_year() + DAYS(t.season_length()) )) / double(t.year_turns()) ); // [0,1)
+    const double now( double( t.turn_of_year() + DAYS(t.season_length()) / 2 ) / double(t.year_turns()) ); // [0,1)
     const double ctn(cos(tau * now));
 
     // Temperature variation
