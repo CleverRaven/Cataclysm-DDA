@@ -546,9 +546,6 @@ void game::setup()
     Messages::clear_messages();
     events.clear();
 
-    calendar::turn.set_season(
-        SUMMER);    // ... with winter conveniently a long ways off   (not sure if we need this...)
-
     SCT.vSCT.clear(); //Delete pending messages
 
     // reset kill counts
@@ -868,10 +865,7 @@ void game::cleanup_at_end()
         std::string sTemp = _("Survived:");
         mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH / 2) - 5, c_ltgray, sTemp.c_str());
 
-        int minute_param = int(calendar::turn.get_turn() / 10);
-        int hour_param = minute_param / 60;
-        int day_param = hour_param / 24;
-        int iDays = day_param / (int)OPTIONS["SEASON_LENGTH"];
+        int iDays = int(calendar::turn.get_turn() / DAYS(1));
 
         std::stringstream ssTemp;
         ssTemp << iDays;
