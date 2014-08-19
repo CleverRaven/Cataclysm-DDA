@@ -368,7 +368,7 @@ std::string calendar::day_of_week() const
     };
 
     // calendar::day gets mangled by season transitions, so recalculate days since start.
-    int current_day = int(turn_number / DAYS(1)) % 7;
+    int current_day = turn_number / DAYS(1) % 7;
 
     std::string day_string;
 
@@ -409,10 +409,10 @@ int calendar::season_length()
 
 void calendar::sync()
 {
-    year = int(turn_number / year_turns());
-    season = season_type(int(turn_number / DAYS(season_length())) % 4);
-    day = int(turn_number / DAYS(1)) % season_length();
-    hour = int(turn_number / HOURS(1)) % 24;
-    minute = int(turn_number / MINUTES(1)) % 60;
+    year = turn_number / year_turns();
+    season = season_type(turn_number / DAYS(season_length()) % 4);
+    day = turn_number / DAYS(1) % season_length();
+    hour = turn_number / HOURS(1) % 24;
+    minute = turn_number / MINUTES(1) % 60;
     second = (turn_number * 6) % 60;
 }
