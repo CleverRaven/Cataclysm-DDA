@@ -1011,15 +1011,13 @@ void monster::explode()
             int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
             std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
 
-            bool done = false;
-            for( size_t j = 0; j < traj.size() && !done; j++ ) {
+            for( size_t j = 0; j < traj.size(); j++ ) {
                 tarx = traj[j].x;
                 tary = traj[j].y;
-                if( type_blood != fd_null ) {
+                if( one_in( 2 ) && type_blood != fd_null ) {
                     g->m.add_field( tarx, tary, type_blood, 1 );
-                }
-                if( type_gib != fd_null ) {
-                    g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), type_gib, rng( 1, j + 1 ) );
+                } else if( type_gib != fd_null ) {
+                    g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
                 }
 
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
@@ -1034,7 +1032,7 @@ void monster::explode()
                         } else {
                             tarx = -1;
                         }
-                        done = true;
+                        break;
                     }
                 }
             }
