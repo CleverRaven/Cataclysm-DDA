@@ -1567,10 +1567,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                         }
                     }
                 }
-                if ( str >= smin && str < rng(bash->str_min_roll, bash->str_max_roll)) {
-                        success = false;
-                    }
-                } else {
+                if ( str <= smin || str < rng(bash->str_min_roll, bash->str_max_roll)) {
                     success = false;
                 }
             }
@@ -1652,9 +1649,8 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                     sound = _("slap!");
                     smashed_something = true;
                 }
-            }
             // Made furniture seperate from the other tent to facilitate destruction
-            else if (furnid == f_center_groundsheet || furnid == f_large_groundsheet ||
+            } else if (furnid == f_center_groundsheet || furnid == f_large_groundsheet ||
                      furnid == f_large_canvas_door || furnid == f_large_canvas_wall ||
                      furnid == f_large_canvas_door_o) {
                 result = rng(0, 6);
