@@ -788,7 +788,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
     std::vector<std::string> vStartingTraits[2];
 
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+    for (auto iter = traits.begin(); iter != traits.end(); ++iter) {
         if (iter->second.startingtrait) {
             if (iter->second.points >= 0) {
                 vStartingTraits[0].push_back(iter->first);
@@ -822,6 +822,10 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     int iCurrentLine[2];
     iCurrentLine[0] = 0;
     iCurrentLine[1] = 0;
+
+    size_t traits_size[2];
+    traits_size[0] = vStartingTraits[0].size();
+    traits_size[1] = vStartingTraits[1].size();
 
     input_context ctxt("NEW_CHAR_TRAITS");
     ctxt.register_cardinal();
@@ -858,13 +862,13 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
             }
 
             calcStartPos(iStartPos[iCurrentPage], iCurrentLine[iCurrentPage], iContentHeight,
-                         vStartingTraits[iCurrentPage].size());
+                         traits_size[iCurrentPage]);
 
             //Draw Traits
-            for (int i = iStartPos[iCurrentPage]; i < (int)vStartingTraits[iCurrentPage].size(); i++) {
+            for (int i = iStartPos[iCurrentPage]; i < (int)traits_size[iCurrentPage]; i++) {
                 if (i >= iStartPos[iCurrentPage] && i < iStartPos[iCurrentPage] +
-                    (int)((iContentHeight > vStartingTraits[iCurrentPage].size()) ?
-                     vStartingTraits[iCurrentPage].size() : iContentHeight)) {
+                    (int)((iContentHeight > traits_size[iCurrentPage]) ?
+                     traits_size[iCurrentPage] : iContentHeight)) {
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 41, c_ltgray,
                                   "                                      ");
@@ -917,11 +921,10 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
             }
 
             //Draw Scrollbar Good Traits
-            draw_scrollbar(w, iCurrentLine[0], iContentHeight, vStartingTraits[0].size(), 5);
+            draw_scrollbar(w, iCurrentLine[0], iContentHeight, traits_size[0], 5);
 
             //Draw Scrollbar Bad Traits
-            draw_scrollbar(w, iCurrentLine[1], iContentHeight,
-                           vStartingTraits[1].size(), 5, getmaxx(w) - 1);
+            draw_scrollbar(w, iCurrentLine[1], iContentHeight, traits_size[1], 5, getmaxx(w) - 1);
         }
 
         wrefresh(w);
@@ -938,14 +941,14 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 iCurWorkingPage = 0;
             }
         } else if (action == "UP") {
-                if (iCurrentLine[iCurWorkingPage] == 1) {
-                    iCurrentLine[iCurWorkingPage] = vStartingTraits[iCurWorkingPage].size() - 1;
+                if (iCurrentLine[iCurWorkingPage] == 0) {
+                    iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
                 } else {
                     iCurrentLine[iCurWorkingPage]--;
                 }
         } else if (action == "DOWN") {
                 iCurrentLine[iCurWorkingPage]++;
-                if ((size_t) iCurrentLine[iCurWorkingPage] >= vStartingTraits[iCurWorkingPage].size()) {
+                if ((size_t) iCurrentLine[iCurWorkingPage] >= traits_size[iCurWorkingPage]) {
                     iCurrentLine[iCurWorkingPage] = 0;
                 }
         } else if (action == "CONFIRM") {
