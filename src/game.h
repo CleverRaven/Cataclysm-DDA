@@ -540,6 +540,7 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove(int dx, int dy);
+        void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
         void close(int closex = -1, int closey = -1); // Close a door  'c'
