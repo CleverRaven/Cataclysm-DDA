@@ -5981,6 +5981,12 @@ void player::suffer()
         add_msg(m_bad, _("You suffer a painful electrical discharge!"));
         mod_pain(1);
         moves -= 150;
+
+        if (weapon.type->id == "e_handcuffs" && weapon.charges > 0) {
+            weapon.charges -= rng(1, 3) * 50;
+            if (weapon.charges < 1) weapon.charges = 1;
+            add_msg(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
+        }
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {
         add_msg(m_bad, _("You suffer a burning acidic discharge!"));

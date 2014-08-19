@@ -2869,7 +2869,8 @@ void mattack::riotbot(monster *z)
         z->anger = 0;
 
         if (calendar::turn % 25 == 0) {
-            g->sound(monx, mony, 10, _("Halt and submit to arrest, citizen! The police will be here any moment."));
+            g->sound(monx, mony, 10,
+                     _("Halt and submit to arrest, citizen! The police will be here any moment."));
         }
 
         return;
@@ -2917,16 +2918,34 @@ void mattack::riotbot(monster *z)
         const int choice = amenu.ret;
 
         if (choice == ur_arrest) {
+            z->anger = 0;
+
             item handcuffs("e_handcuffs", 0);
-            handcuffs.item_tags.insert("NO_UNWIELD");
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.item_vars["HANDCUFFS_X"] = string_format("%d", g->u.posx);
             handcuffs.item_vars["HANDCUFFS_Y"] = string_format("%d", g->u.posy);
 
-            g->u.wield(&(g->u.i_add(handcuffs)));
+            const bool is_uncanny = g->u.has_active_bionic("bio_uncanny_dodge") && g->u.power_level > 74 &&
+                                    !one_in(3);
+            const bool is_dex = g->u.dex_cur > 13 && !one_in(g->u.dex_cur - 11);
 
-            add_msg(_("The robot puts handcuffs on you."));
+            if (is_uncanny || is_dex) {
+
+                if (is_uncanny) {
+                    g->u.power_level -= 75;
+                }
+
+                add_msg(m_good,
+                        _("You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!"));
+                g->u.i_add(handcuffs);
+            } else {
+                handcuffs.item_tags.insert("NO_UNWIELD");
+                g->u.wield(&(g->u.i_add(handcuffs)));
+                g->u.moves -= 300;
+                add_msg(_("The robot puts handcuffs on you."));
+            }
+
             g->sound(z->posx(), z->posy(), 5,
                      _("You are under arrest, citizen.  You have the right to remain silent.  If you do not remain silent, anything you say may be used against you in a court of law."));
             g->sound(z->posx(), z->posy(), 5,
@@ -2936,7 +2955,6 @@ void mattack::riotbot(monster *z)
             g->sound(z->posx(), z->posy(), 5,
                      _("Do not attempt to flee or to remove the handcuffs, citizen.  That can be dangerous to your health."));
 
-            g->u.moves -= 300;
             z->moves -= 300;
 
             return;
