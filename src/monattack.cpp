@@ -1847,7 +1847,7 @@ void mattack::frag_tur(monster *z) // This is for the bots, not a standalone tur
         if (!z->has_effect("targeted")) {
             if (g->u_see(z->posx(), z->posy())) {
                 //~Potential grenading detected.
-                add_msg(m_warning, _("The %s's grenade launcher is looking your way..."), z->name().c_str());
+                add_msg(m_warning, _("Those laser dots don't seem very friendly...") );
             }
             g->sound(z->posx(), z->posy(), 10, _("Targeting."));
             z->add_effect("targeted", 8);
@@ -1927,8 +1927,8 @@ void mattack::bmg_tur(monster *z)
         }
         if (!z->has_effect("targeted")) {
             if (g->u_see(z->posx(), z->posy())) {
-                //~Premonition: there will be a .50BMG shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("Watch out for snipers..."));
+                //~There will be a .50BMG shell sent at high speed to your location next turn.
+                add_msg(m_warning, _("Why is there a laser dot on your torso..?"));
             }
             g->sound(z->posx(), z->posy(), 10, _("Hostile detected."));
             z->add_effect("targeted", 8);
@@ -2011,8 +2011,8 @@ void mattack::tank_tur(monster *z)
         }
         if (!z->has_effect("targeted")) {
             if (g->u_see(z->posx(), z->posy())) {
-                //~Premonition: there will be a 120mm HEAT shell sent at high speed to your location next turn.
-                add_msg(m_warning, _("The %s's cannon looks awfully interested in you..."), z->name().c_str());
+                //~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
+                add_msg(m_warning, _("You're not sure why you've got a laser dot on you...") );
             }
             //~ Sound of a tank turret swiveling into place
             g->sound(z->posx(), z->posy(), 10, _("whirrrrrclick."));
