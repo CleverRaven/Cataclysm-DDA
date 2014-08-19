@@ -1493,8 +1493,9 @@ void map::mop_spills(const int x, const int y) {
     }
 }
 
-bool map::bash(const int x, const int y, const int str, bool silent, int *res)
+std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool silent)
 {
+    bool success = false;
     int sound_volume = 0;
     std::string sound;
     bool smashed_something = false;
@@ -1524,7 +1525,6 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
     bashed_items.insert( bashed_items.end(), smashed_contents.begin(), smashed_contents.end() );
 
     // Smash vehicle if present
-    int result = -1;
     int vpart;
     vehicle *veh = veh_at(x, y, vpart);
     if (veh) {
@@ -1567,7 +1567,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                         }
                     }
                 }
-                if ( str <= smin || str < rng(bash->str_min_roll, bash->str_max_roll)) {
+                if ( str < smin || str < rng(bash->str_min_roll, bash->str_max_roll)) {
                     success = false;
                 }
             }
@@ -1595,6 +1595,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                     g->explosion(x, y, bash->explosive, 0, false);
                 }
                 smashed_something = true;
+                success = true;
             } else {
                 sound_volume = 12;
                 sound = _(bash->sound_fail.c_str());
@@ -1605,11 +1606,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
             if ( furnid == f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
                  furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
                  furnid == f_canvas_door_o || furnid == f_groundsheet) {
-                result = rng(0, 6);
-                if (res) {
-                    *res = result;
-                }
-                if (str >= result) {
+                if (str >= rng(0, 6)) {
                     // Special code to collapse the tent if destroyed
                     int tentx = -1, tenty = -1;
                     // Find the center of the tent
@@ -1644,6 +1641,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                     sound_volume = 8;
                     sound = _("rrrrip!");
                     smashed_something = true;
+                    success = true;
                 } else {
                     sound_volume = 8;
                     sound = _("slap!");
@@ -1653,11 +1651,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
             } else if (furnid == f_center_groundsheet || furnid == f_large_groundsheet ||
                      furnid == f_large_canvas_door || furnid == f_large_canvas_wall ||
                      furnid == f_large_canvas_door_o) {
-                result = rng(0, 6);
-                if (res) {
-                    *res = result;
-                }
-                if (str >= result) {
+                if (str >= rng(0, 6)) {
                     // Special code to collapse the tent if destroyed
                     int tentx = -1, tenty = -1;
                     // Find the center of the tent
@@ -1686,6 +1680,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                     sound_volume = 8;
                     sound = _("rrrrip!");
                     smashed_something = true;
+                    success = true;
                 } else {
                     sound_volume = 8;
                     sound = _("slap!");
@@ -1693,9 +1688,6 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                 }
             }
         }
-    }
-    if( res ) {
-        *res = result;
     }
     if( move_cost(x, y) <= 0  && !smashed_something ) {
         sound = _("thump!");
@@ -1706,7 +1698,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
         g->sound( x, y, sound_volume, sound);
     }
 
-    return smashed_something;// If we kick empty space, the action is cancelled
+    return std::pair<bool, bool> (smashed_something, success);
 }
 
 void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y) {

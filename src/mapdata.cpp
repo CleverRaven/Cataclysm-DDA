@@ -113,7 +113,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         chance = j.get_int("chance", -1);
         
         sound = j.get_string("sound", _("smash!"));
-        sound = j.get_string("sound)fail", _("thump!"));
+        sound_fail = j.get_string("sound_fail", _("thump!"));
         
         if (isfurniture) {
             furn_set = j.get_string("furn_set", "f_null");

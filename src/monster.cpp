@@ -1040,7 +1040,7 @@ void monster::explode()
                 g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), gibType(), rng( 1, j + 1 ) );
 
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tarx, tary, 3 ) ) {
+                    if( !g->m.bash( tarx, tary, 3 ).second ) {
                         if( j > 0 ) {
                             tarx = traj[j - 1].x;
                             tary = traj[j - 1].y;

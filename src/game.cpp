@@ -7598,7 +7598,7 @@ void game::smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    didit = m.bash(smashx, smashy, smashskill);
+    didit = m.bash(smashx, smashy, smashskill).first;
 
     if (didit) {
         u.handle_melee_wear();
@@ -13237,7 +13237,8 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             vehicle *veh = m.veh_at(x, y, vpart);
             dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
             if (m.has_flag("BASHABLE", x, y)) {
-                thru = m.bash(x, y, flvel);
+                // Only go through if we successfully destroy what we hit
+                thru = m.bash(x, y, flvel).second;
             } else {
                 thru = false;
             }
