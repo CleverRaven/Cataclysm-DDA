@@ -28,6 +28,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         std::string adv_inv_rightfilter;
 
         bool editmap_nsa_viewmode;        // true: ignore LOS and lighting
+        bool overmap_blinking;            // toggles active blinking of overlays.
+        bool overmap_show_overlays;       // whether overlays are shown or not.
         bool debug_ranged;
         point adv_inv_last_coords;
         int last_inv_start, last_inv_sel;
@@ -66,6 +68,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             adv_inv_leftfilter = "";
             adv_inv_rightfilter = "";
             editmap_nsa_viewmode = false;
+            overmap_blinking = true;
+            overmap_show_overlays = false;
             last_inv_start = -2;
             last_inv_sel = -2;
             list_item_mon = 1;
@@ -98,6 +102,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("adv_inv_rightarea", adv_inv_rightarea);
             json.member("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
             json.member("editmap_nsa_viewmode", editmap_nsa_viewmode);
+            json.member("overmap_blinking", overmap_blinking);
+            json.member("overmap_show_overlays", overmap_show_overlays);
             json.member("list_item_mon", list_item_mon);
 
             json.member("input_history");
@@ -133,7 +139,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("adv_inv_leftarea", adv_inv_leftarea);
             jo.read("adv_inv_rightarea", adv_inv_rightarea);
             jo.read("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
-            jo.read("editmap_nsa_viewmode", editmap_nsa_viewmode);
+            jo.read("overmap_blinking", overmap_blinking);
+            jo.read("overmap_show_overlays", overmap_show_overlays);
             jo.read("list_item_mon", list_item_mon);
 
             JsonObject inhist = jo.get_object("input_history");

@@ -22,6 +22,7 @@
 #include <queue>
 #include "mapdata.h"
 #include "mapgen.h"
+#include "uistate.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
@@ -1733,10 +1734,14 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
                   _(" - Delete a note")).c_str());
         mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
-                  _(" - List notes")).c_str());
-        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
+                  _(" - List notes")).c_str());        
+        mvwprintz(w, 21, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_BLINKING") +
+                  _(" - Toggle Blinking")).c_str());
+        mvwprintz(w, 22, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("TOGGLE_OVERLAYS") +
+                  _(" - Toggle Overlays")).c_str());
+        mvwprintz(w, 23, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
-        fold_and_print(w, 22, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
+        fold_and_print(w, 24, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
                        _(" - Return to game")).c_str());
     }
     point omt(cursx, cursy);
@@ -1763,7 +1768,6 @@ tripoint overmap::draw_overmap(int z)
 tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
 {
     WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
-    bool blink = true;
 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
@@ -1787,11 +1791,13 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     ictxt.register_action("DELETE_NOTE");
     ictxt.register_action("SEARCH");
     ictxt.register_action("LIST_NOTES");
+    ictxt.register_action("TOGGLE_BLINKING");
+    ictxt.register_action("TOGGLE_OVERLAYS");
     ictxt.register_action("QUIT");
     std::string action;
     do {
         timeout( BLINK_SPEED );
-        draw(w_map, curs, orig, blink, &ictxt, debug_mongroup, iZoneIndex);
+        draw(w_map, curs, orig, uistate.overmap_show_overlays, &ictxt, debug_mongroup, iZoneIndex);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1827,6 +1833,10 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                 curs.x = p.x;
                 curs.y = p.y;
             }
+        } else if (action == "TOGGLE_BLINKING") {
+            uistate.overmap_blinking = !uistate.overmap_blinking;
+        } else if (action == "TOGGLE_OVERLAYS") {
+            uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
         } else if (action == "SEARCH") {
             std::string term = string_input_popup(_("Search term:"));
             if(term.empty()) {
@@ -1862,7 +1872,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             do {
                 tmp.x = om.pos().x * OMAPX + terlist[i].x;
                 tmp.y = om.pos().y * OMAPY + terlist[i].y;
-                draw(w_map, tmp, orig, blink, NULL);
+                draw(w_map, tmp, orig, uistate.overmap_show_overlays, NULL);
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
@@ -1875,7 +1885,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
                 timeout( BLINK_SPEED );
                 action = ctxt.handle_input();
                 timeout(-1);
-                blink = !blink;
+                if (uistate.overmap_blinking) {
+                    uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                }
                 if (action == "NEXT_TAB") {
                     i = (i + 1) % terlist.size();
                 } else if (action == "PREV_TAB") {
@@ -1887,9 +1899,13 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             delwin(w_search);
             action = "";
         } else if (action == "TIMEOUT") {
-            blink = !blink;
+            if (uistate.overmap_blinking) {
+                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+            }
         } else if (action == "ANY_INPUT") {
-            blink = !blink;
+            if (uistate.overmap_blinking) {
+                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+            }
             input_event e = ictxt.get_raw_input();
             if(e.type == CATA_INPUT_KEYBOARD && e.get_first_input() == 'm') {
                 action = "QUIT";
