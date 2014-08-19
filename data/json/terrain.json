@@ -2484,13 +2484,14 @@
         "flags": ["TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT"],
         "examine_action": "atm",
         "bash": {
-            "str_min": 30, "str_max": 180,
+            "str_min": 40, "str_max": 210,
             "explosive" : 5,
             "sound": "Critical failure imminent, self destruct activated. Have a nice day!",
-            "ter_set": "t_floor",
             "sound_fail": "clang!",
+            "ter_set": "t_floor",
             "items": [
-                { "item": "scrap", "amount": 16, "minamount": 4},
+                { "item": "steel_chunk", "amount": 3, "minamount": 1 },
+                { "item": "scrap", "amount": 8, "minamount": 4},
                 { "item": "steel_chunk", "amount": 6, "minamount": 1}
             ]
         }
@@ -2501,7 +2502,18 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
+        "bash": {
+            "str_min": 20, "str_max": 150,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_pavement",
+            "items": [
+                { "item": "steel_lump", "amount": 1, "chance": 50 },
+                { "item": "steel_chunk", "amount": 4, "minamount": 1 },
+                { "item": "scrap", "amount": 7, "minamount": 3 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_missile",
