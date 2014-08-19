@@ -602,6 +602,30 @@
     },
     {
         "type" : "keybinding",
+        "id":"TOGGLE_BLINKING",
+        "category":"OVERMAP",
+        "name":"Toggle Blinking",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"B"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TOGGLE_OVERLAYS",
+        "category":"OVERMAP",
+        "name":"Toggle Overlays",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"O"
+            }
+        ]
+    },    
+    {
+        "type" : "keybinding",
         "id":"SEARCH",
         "name":"Search",
         "bindings":[
