@@ -1357,25 +1357,25 @@ void player::update_bodytemp()
         If it is under -25C, + 3 timer (30 minutes)
         If it is under -35C, + 9 timer (10 minutes)
         If it is under -60C, +18 timer ( 5 minutes)
-        
+
          5 minutes = 50 turns  (+18 tics will reach 900 total tics in  5 in game minutes)
         10 minutes = 100 turns (+ 9 tics will reach 900 total tics in 10 in game minutes)
         30 minutes = 300 turns (+ 3 tics will reach 900 total tics in 30 in game minutes)
-        
+
         Let's say frostnip @ 450 tics, frostbite @ 900 tics
-        
+
         Temperature and wind chill are main factors, mitigated by clothing warmth. Each 10 warmth protects against 2C of cold.
-        
+
         TODO : Have to be able to distinguish from recoving or sucumbing to frostbite to be able to simulate pain from thawing appendages...
         **/
-        
+
         if ( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l)
         {
-            frostbite_temperature = felt_air_temperature + warmth((body_part)i)*0.2;
-            if (frostbite_temperature +  < -60)
+            int frostbite_temperature = felt_air_temperature + warmth((body_part)i)*0.2;
+            if (frostbite_temperature < -60)
             {
                 if (one_in(100)) add_msg(m_bad, _("You feel your %s turning to ice!!"), body_part_name(body_part(i)).c_str());
-                frostbite_timer[i] += 18; 
+                frostbite_timer[i] += 18;
             }
             else if (frostbite_temperature < -35)
             {
@@ -1394,7 +1394,7 @@ void player::update_bodytemp()
             if (frostbite_temperature > 0 && frostbite_timer[i] > 0)
             {
                 if (one_in(100)) add_msg(m_good, _("You begin to regain feeling in your %s."), body_part_name(body_part(i)).c_str());
-                frostbite_timer[i] -=  1;        
+                frostbite_timer[i] -=  1;
             }
 
             if (frostbite_timer[i] >= 900)
