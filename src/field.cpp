@@ -673,7 +673,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // Consume the terrain we're on
                             if (has_flag("EXPLODES", x, y)) {
                                 //This is what destroys houses so fast.
-                                ter_set(x, y, ter_id(int(ter(x, y)) + 1));
                                 cur->setFieldAge(0); //Fresh level 3 fire.
                                 cur->setFieldDensity(3);
                                 g->explosion(x, y, 40, 0, true); //Boom.
@@ -810,10 +809,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         spread_chance = 50 + spread_chance / 2;
                                     }
                                     if (has_flag("EXPLODES", fx, fy) &&
-                                        one_in(8 - cur->getFieldDensity()) &&
-                                        tr_brazier != tr_at(x, y) &&
-                                        (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
-                                        ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
+                                          one_in(8 - cur->getFieldDensity()) &&
+                                          tr_brazier != tr_at(x, y) &&
+                                          (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
                                         g->explosion(fx, fy, 40, 0, true);
                                         //Nearby explodables? blow em up.
                                     } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
