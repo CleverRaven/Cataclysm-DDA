@@ -672,7 +672,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                            (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
                             if (has_flag("EXPLODES", x, y)) {
-                                //This is what destroys houses so fast.
                                 cur->setFieldAge(0); //Fresh level 3 fire.
                                 cur->setFieldDensity(3);
                                 g->explosion(x, y, 40, 0, true); //Boom.
