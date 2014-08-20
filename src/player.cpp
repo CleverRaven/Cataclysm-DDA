@@ -590,7 +590,8 @@ void player::process_turn()
     }
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
-    if (has_trait("CHLOROMORPH")) {
+    // Or maybe you're debugging and would rather not be smelled.
+    if (has_trait("CHLOROMORPH") || has_trait("DEBUG_NOSCENT")) {
         norm_scent = 0;
     }
 

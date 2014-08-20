@@ -3783,5 +3783,29 @@
         "valid" : false,
         "description" : "If you see this, you'd best be debugging something.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_LS",
+        "name" : "Debug Life Support",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Holds hunger, thirst, and fatigue stable.  You can debug all year long with this one!",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_NOSCENT",
+        "name" : "Debug Deodorizer",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Smell that bug?  Smell's certainly not coming from you!",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_SILENT",
+        "name" : "Debug Silent Walk",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Be vewwy vewwy quiet.  We're hunting bugs.",
+        "threshold" : true
     }
 ]
