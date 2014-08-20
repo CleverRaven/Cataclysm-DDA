@@ -897,12 +897,33 @@
             { "id": "HAMMER", "level": 2 }
         ] ],
         "components" : [
-            [ [ "2x4", 10 ] ],
-            [ [ "nail", 8 ] ],
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 6 ] ],
             [ [ "blanket", 1 ], [ "sheet", 1 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
+    },{
+        "type" : "construction",
+        "description" : "Build Bed",
+        "difficulty" : 3,
+        "time" : 20,
+        "qualities": [
+		    [
+            { "id": "HAMMER", "level": 2 }
+            ],
+		    [
+            { "id": "SAW_W", "level": 1 }
+            ]
+			],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "nail", 10 ] ],
+            [ [ "sheet", 10 ] ],
+            [ [ "blanket", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_bed"
     },{
         "type" : "construction",
         "description" : "Build Armchair",

@@ -24,7 +24,7 @@
             ]
         },
         "bash": {
-            "str_min": 3, "str_max": 45,
+            "str_min": 3, "str_max": 40,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -46,17 +46,17 @@
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 4 },
-                { "item": "nail", "amount": 10, "minamount": 6 }
+                { "item": "nail", "amount": 8, "minamount": 4 }
             ]
         },
         "bash": {
-            "str_min": 3, "str_max": 45,
+            "str_min": 3, "str_max": 40,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
-                { "item": "2x4", "amount": 6, "minamount": 2},
-                { "item": "nail", "amount": 12, "minamount": 4},
-                { "item": "splinter", "amount": 1 }
+                { "item": "2x4", "amount": 3, "minamount": 0 },
+                { "item": "nail", "amount": 6, "minamount": 4 },
+                { "item": "splinter", "amount": 4, "minamount": 1 }
             ]
         }
     },{
@@ -70,7 +70,7 @@
         "max_volume": 2000,
         "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
         "bash": {
-            "str_min": 2, "str_max": 30,
+            "str_min": 2, "str_max": 18,
             "sound": "smash!",
             "sound_fail": "whump.",
             "items": [
@@ -94,7 +94,18 @@
         },
         "max_volume": 4000,
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH",
-                  "PLACE_ITEM", "ORGANIC", "MOUNTABLE"]
+                  "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 8, "minamount": 3 },
+                { "item": "nail", "amount": 10, "minamount": 6 },
+                { "item": "splinter", "amount": 6, "minamount": 3 },
+                { "item": "rag", "amount": 40, "minamount": 20 },
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_toilet",
@@ -106,12 +117,11 @@
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "MOUNTABLE"],
         "examine_action": "toilet",
         "bash": {
-            "str_min": 2, "str_max": 30,
-            "comment": "originally result = dice(8, 4) - 8;",
+            "str_min": 6, "str_max": 20,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
-                { "item": "cu_pipe", "amount": 1, "minamount": 0 }
+                { "item": "cu_pipe", "amount": 1, "chance": 50 }
             ]
         }
     },{
@@ -130,7 +140,18 @@
             ]
         },
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"]
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 0 },
+                { "item": "nail", "amount": 6, "minamount": 2 },
+                { "item": "splinter", "amount": 4, "minamount": 1 },
+                { "item": "rag", "amount": 12, "minamount": 6 },
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_sink",
@@ -141,8 +162,7 @@
         "required_str": 18,
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "bash": {
-            "str_min": 2, "str_max": 30,
-            "comment": "originally result = dice(8, 4) - 8;",
+            "str_min": 6, "str_max": 20,
             "sound": "porcelain breaking!",
             "sound_fail": "whunk!",
             "items": [
@@ -171,7 +191,7 @@
         },
         "max_volume": 4000,
         "bash": {
-            "str_min": 2, "str_max": 30,
+            "str_min": 8, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
@@ -192,7 +212,16 @@
         "move_cost_mod": 2,
         "required_str": 10,
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE"]
+        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE"],
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 6, "minamount": 3},
+                { "item": "pipe", "amount": 1, "chance": 50}
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_fireplace",
