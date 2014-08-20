@@ -5625,7 +5625,7 @@
     "armor_cut":0,
     "luminance":0,
     "hp":65,
-    "special_freq":0,
+    "special_freq":10,
     "death_function":"NORMAL",
     "special_attack":"LEAP",
     "description":"An otherwise normal-looking cougar, except that its hind legs are swollen, and its eyes bulge with black goo.",
