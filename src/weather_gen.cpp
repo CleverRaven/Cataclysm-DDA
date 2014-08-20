@@ -48,7 +48,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
                                  season_dispersion); // Day-night temperature variation.
 
     T += current_t; // Add baseline to the noise.
-    T += seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 20 - 0.5,
+    T += seasonal_variation * 12 * exp(-pow(current_t * 2.7 / 10 - 0.5,
                                             2)); // Add season curve offset to account for the winter-summer difference in day-night difference.
     T += daily_variation * 10 * exp(-pow(current_t / 30,
                                          2)); // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
@@ -97,7 +97,7 @@ weather_type weather_generator::get_weather_conditions(const w_point &w) const
         r = WEATHER_LIGHTNING;
     }
 
-    if (w.temperature <= 0) {
+    if (w.temperature <= 32) {
         if (r == WEATHER_DRIZZLE) {
             r = WEATHER_FLURRIES;
         } else if (r > WEATHER_DRIZZLE) {
