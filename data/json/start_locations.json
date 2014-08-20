@@ -9,5 +9,10 @@
     "ident" : "house",
     "name" : "House",
     "target" : "house"
+  },{
+    "type" : "start_location",
+    "ident" : "lmoe",
+    "name" : "LMOE Shelter",
+    "target" : "lmoe"
   }
 ]
