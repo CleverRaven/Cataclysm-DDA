@@ -1944,7 +1944,7 @@
     {
         "type" : "ARMOR",
         "id" : "beekeeping_suit",
-        "name" : "beekeeping_suit",
+        "name" : "beekeeping suit",
         "weight" : 1587,
         "color" : "white", 
         "covers" : ["LEGS", "TORSO", "ARMS"],
