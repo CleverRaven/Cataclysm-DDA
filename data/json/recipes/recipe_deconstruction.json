@@ -1130,6 +1130,30 @@
     ]
 },{
     "type" : "recipe",
+    "result": "broken_riotbot",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": 120000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
+        [ [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
+    ], "components": [
+        [ [ "power_supply", 4 ] ],
+        [ [ "solar_cell", 2 ] ],
+        [ [ "motor", 1 ] ],
+        [ [ "canister_empty", 1 ] ],
+        [ [ "e_scrap", 3 ] ],
+        [ [ "steel_chunk", 12 ] ]
+    ]
+},{
+    "type" : "recipe",
     "result": "broken_molebot",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
