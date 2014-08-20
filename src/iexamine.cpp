@@ -539,8 +539,10 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
         // "Replace"
         if(m->ter(examx, examy) == t_rubble) {
             item rock("rock", calendar::turn);
-            m->add_item_or_charges(p->posx, p->posy, rock);
-            m->add_item_or_charges(p->posx, p->posy, rock);
+            int rock_count = rng(1,3);
+            for (i = 0; i < rock_count; i++) {
+                m->add_item_or_charges(p->posx, p->posy, rock);
+            }
         }
 
         // "Refloor"
