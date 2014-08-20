@@ -4,6 +4,7 @@
 # ALZID ANARHIEL <alzid@bk.ru>, 2014
 # dagner, 2014
 # dub <atrusov@gmail.com>, 2013-2014
+# Rascher <dlaunet@yandex.ua>, 2014
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013
 # Gorodilov Anatoly <jarmush666@gmail.com>, 2014
 # mad_ookami <gureev.egor@gmail.com>, 2013-2014
@@ -23,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-11 10:27+0400\n"
-"PO-Revision-Date: 2014-08-12 10:02+0000\n"
+"POT-Creation-Date: 2014-08-18 09:19+0400\n"
+"PO-Revision-Date: 2014-08-19 10:03+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/cataclysm-dda/"
 "language/ru/)\n"
@@ -4081,6 +4082,15 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
+"A classic design, the \"tricorne\", or three-cornered hat, simply pins a "
+"large and floppy brim out of the way, though this exammple adds well-"
+"emboridered designs and is oiled against water.  Whether you're the \"guvnah"
+"\" of a settlement, or the captain of a post-apocalyptic crew, this is the "
+"hat for you."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
 "A collar made from round and lustrous pearls, its former owner must be a "
 "wealthy individual."
 msgstr ""
@@ -7573,9 +7583,9 @@ msgstr[2] "шлемов тяжёлого силового доспеха"
 #: lang/json/ARMOR_from_json.py
 msgid "heavy survivor duffel bag"
 msgid_plural "heavy survivor duffel bags"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "тяжелый вещевой мешок выживальщика"
+msgstr[1] "тяжелые вещевые мешки выживальщика"
+msgstr[2] "тяжелых вещевых мешков выживальщика"
 
 #: lang/json/ARMOR_from_json.py
 msgid "heavy survivor helmet"
@@ -9398,6 +9408,13 @@ msgstr[1] "плаща"
 msgstr[2] "плащей"
 
 #: lang/json/ARMOR_from_json.py
+msgid "tricorne"
+msgid_plural "tricornes"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "turnout coat"
 msgid_plural "turnout coats"
 msgstr[0] "пожарная куртка"
@@ -9477,9 +9494,9 @@ msgstr[2] "белых поясов"
 #: lang/json/ARMOR_from_json.py
 msgid "white glove"
 msgid_plural "white gloves"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "белая перчатка"
+msgstr[1] "белые перчатки"
+msgstr[2] "белые перчатки"
 
 #: lang/json/ARMOR_from_json.py
 msgid "winter coat"
@@ -9768,21 +9785,15 @@ msgstr[2] "КБМ: Модуль ближнего боя"
 msgid ""
 "Compact Bionics Module developed at DoubleTech Industries as a replacement "
 "for the highly successful Power Storage CBM.  Increases your power capacity "
-"by 10 units."
+"by 250 units."
 msgstr ""
-"Компактный биомодуль, разработанный DoubleTech Industries в качестве замены "
-"успешному КБМ: Доп.аккумулятор. Увеличивает энергетическую ёмкость на 10 "
-"единиц."
 
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
-"Compact Bionics Module that upgrades your power capacity by 4 units.  Having "
-"at least one of these is a prerequisite to using powered bionics.  You will "
-"also need a power supply, found in another CBM."
+"Compact Bionics Module that upgrades your power capacity by 100 units.  "
+"Having at least one of these is a prerequisite to using powered bionics.  "
+"You will also need a power supply, found in another CBM."
 msgstr ""
-"Компактный модуль, который увеличивает ёмкость вашего аккумулятора на 4. "
-"Чтобы использовать бионику, требуется установить хотя бы один такой модуль. "
-"Вам также потребуется установить бионику с источником питания."
 
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Cranial Flashlight CBM"
@@ -15143,6 +15154,13 @@ msgid "America's most popular wine, and for good reason."
 msgstr "Заслуженно самое популярное вино Америки."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "American pale ale"
+msgid_plural "American pale ales"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "An apple a day keeps the doctor away."
 msgstr "Съедая по яблоку в день, ты экономишь на враче."
 
@@ -15411,6 +15429,13 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Baby cow food, appropriated for adult humans.  Spoils rapidly."
 msgstr "Пища телят, приготовленная для взрослых людей. Быстро портится."
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Belgian ale"
+msgid_plural "Belgian ales"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -15811,6 +15836,13 @@ msgstr ""
 "для оздоровления всего тела и иммунной системы."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "European pilsner"
+msgid_plural "European pilsners"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Fancy mineral water in a fancy bottle, so fancy it makes you feel fancy just "
 "holding the bottle."
@@ -16008,6 +16040,13 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "In Soviet Russia, vodka drinks you!"
 msgstr "В Советской России водка пьёт тебя!"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "India pale ale"
+msgid_plural "India pale ales"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -17238,13 +17277,6 @@ msgstr[1] "сыворотки альфа"
 msgstr[2] "сывороток альфа"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "american pale ale"
-msgid_plural "american pale ales"
-msgstr[0] "американский светлый эль"
-msgstr[1] "американских светлых эля"
-msgstr[2] "американских светлых элей"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "ammonia"
 msgid_plural "ammonia"
 msgstr[0] "аммиак"
@@ -17425,13 +17457,6 @@ msgid_plural "beer worts"
 msgstr[0] "пивное сусло"
 msgstr[1] "пивное сусло"
 msgstr[2] "пивное сусло"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "belgian ale"
-msgid_plural "belgian ales"
-msgstr[0] "бельгийский эль"
-msgstr[1] "бельгийских эля"
-msgstr[2] "бельгийских элей"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "bird egg"
@@ -18491,13 +18516,6 @@ msgstr[1] "энергетика"
 msgstr[2] "энергетиков"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "european pilsner"
-msgid_plural "european pilsners"
-msgstr[0] "европейский пилснер"
-msgstr[1] "европейских пилснера"
-msgstr[2] "европейских пилснеров"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "fast noodles"
 msgid_plural "fast noodles"
 msgstr[0] "доширак"
@@ -18811,13 +18829,6 @@ msgid_plural "imperial stouts"
 msgstr[0] "имперский стаут"
 msgstr[1] "имперских стаута"
 msgstr[2] "имперских стаутов"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "india pale ale"
-msgid_plural "india pale ales"
-msgstr[0] "индийский светлый эль"
-msgstr[1] "индийских светлых эля"
-msgstr[2] "индийских светлых элей"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "insect mutagen"
@@ -21218,6 +21229,12 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
+"A broken riot control bot.  Much less threatening now that it's out of gas.  "
+"Could be gutted for parts."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
 "A broken shard of glass covered in sharp edges.  You could use it as a "
 "weapon, but you might want to wear gloves."
 msgstr ""
@@ -21737,6 +21754,10 @@ msgstr ""
 "Средневековое оружие, состоящее из деревянной ручки и тяжёлого "
 "металлического шара, покрытого шипами, на конце. Наносит огромный дробящий "
 "урон, плюс немного колющего."
+
+#: lang/json/GENERIC_from_json.py
+msgid "A memory card, used.  Might be worth a look."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A metal faucet that can be attached to a water tank for easy access."
@@ -22711,6 +22732,34 @@ msgstr[1] "коробки с радиомашинками"
 msgstr[2] "коробок с радиомашинками"
 
 #: lang/json/GENERIC_from_json.py
+msgid "SD-Memory card"
+msgid_plural "SD-Memory cards"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "SD-Memory card (clean)"
+msgid_plural "SD-Memory cards (clean)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "SD-Memory card (encrypted)"
+msgid_plural "SD-Memory cards (encrypted)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "Science SD-Memory card"
+msgid_plural "Science SD-Memory cards"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid ""
 "Several bits of thin scrap metal crudely beat into the semblance of an edge "
 "over a wooden sword.  The added weight is unbalanced, but the jagged edge "
@@ -22801,14 +22850,10 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"This device has many ports attached, allowing to to connect to almost any "
+"This device has many ports attached, allowing it to connect to almost any "
 "control panel or other electronic machine (but not computers).  With a "
 "little skill, it can be used to crack passwords and more."
 msgstr ""
-"Это устройство имеет множество портов, позволяющих подключить его "
-"практически к любой панели управления или другому электронному устройству "
-"(но не к компьютеру). Применив немного умения, его можно использовать для "
-"взлома пароля и многих других вещей."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -22865,6 +22910,24 @@ msgstr ""
 msgid "This is a spent magnesium flare.  It is essentially trash."
 msgstr ""
 "Это использованный магниевый осветительный снаряд. Более никуда не годен."
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This memory card appears to be related to 'XEDRA', and is certainly "
+"encrypted.  Looks * Interesting *, though..."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This memory card appears to have the firmware encryption set.  Hopefully it "
+"contains something worth encrypting."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This memory card is either unused or has been wiped clean.  You could use it "
+"to store your data, though!"
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -23103,6 +23166,13 @@ msgid_plural "broken police bots"
 msgstr[0] "сломанный робот-полицейский"
 msgstr[1] "сломанных робота-полицейских"
 msgstr[2] "сломанных роботов-полицейских"
+
+#: lang/json/GENERIC_from_json.py
+msgid "broken riot control bot"
+msgid_plural "broken riot control bots"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "broken skitterbot"
@@ -25473,8 +25543,9 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A bolt-action sniper rifle chambered in the powerful .300 Winchester Magnum "
-"round.  The M2010 had completely replaced the M24 rifle series by 2017."
+"A bolt-action, box-magazine-fed, sniper rifle chambered in the powerful .300 "
+"Winchester Magnum round.  The M2010 had completely replaced the M24 rifle "
+"series by 2017."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -28087,7 +28158,7 @@ msgid "Prevent Zombie Revivication"
 msgstr "Запрет перерождения зомби"
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "Remote-Controlled Items."
+msgid "Remote-Controlled Items. (obsolete)"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -28143,7 +28214,9 @@ msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid ""
-"This mod contains remote controlled items: bombs, cars, cars with bombs..."
+"The contents of this mod have been integrated into the game. This mod pack "
+"is deprecated and will eventually be removed. This mod contains remote "
+"controlled items: bombs, cars, cars with bombs..."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -29403,7 +29476,7 @@ msgstr[2] "Галлимимов"
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"Intense radiation has spured a unique form of necrosis and regeneration, it "
+"Intense radiation has spurred a unique form of necrosis and regeneration, it "
 "is impossible to tell if this creature was ever human."
 msgstr ""
 
@@ -29456,6 +29529,14 @@ msgstr "Посмотри какая ПАСТЬ!"
 #: lang/json/MONSTER_from_json.py
 msgid "Mom?"
 msgstr "Мама?"
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Nonviolent riot-control bot.  Designed to suppress riots and make mass "
+"arrests of those participating.  Though its relaxation gas is by far its "
+"best-known weapon, it carries a blinding flash and a low-powered stungun for "
+"self-defense--in addition to its supply of electronic handcuffs."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -29943,12 +30024,6 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"This rotting corpse seaps a glowing ooze from its lesions.  A strange "
-"tattered jumpsuit marks it as an oddity across the wasteland."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid ""
 "This rotting corpse seeps a glowing ooze from its lesions.  A strange "
 "tattered jumpsuit marks it as an oddity across the wasteland."
 msgstr ""
@@ -29960,6 +30035,12 @@ msgid ""
 msgstr ""
 "Голова и тело этого зомби полностью облачено в защитный костюм. Пошатываясь, "
 "он бродит по округе."
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Three high-powered searchlights with automated search AI and mounting, "
+"continually seeking targets."
+msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Thriller"
@@ -30817,6 +30898,13 @@ msgstr[1] "ми-го"
 msgstr[2] "ми-го"
 
 #: lang/json/MONSTER_from_json.py
+msgid "milspec searchlight"
+msgid_plural "milspec searchlights"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "milspec turret"
 msgid_plural "milspec turrets"
 msgstr[0] ""
@@ -30934,6 +31022,13 @@ msgid_plural "rattlesnakes"
 msgstr[0] "гремучая змея"
 msgstr[1] "гремучие змеи"
 msgstr[2] "гремучих змей"
+
+#: lang/json/MONSTER_from_json.py
+msgid "riot control bot"
+msgid_plural "riot control bots"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "rot-weiler"
@@ -31976,6 +32071,15 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
+"A 35mm digital SLR (single-lens reflex) camera, with optical and digital "
+"viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can "
+"view your photos on it or transfer them with a memory card; it runs on "
+"conventional batteries.  Before the cataclysm, you could have taken "
+"professional-grade photos using this."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
 "A bottle of flammable liquid with a flaming rag inserted.  Throwing it will "
 "cause the bottle to break, spreading fire.  The flame may go out shortly if "
 "you do not throw it.  Dropping it while lit is not safe."
@@ -32134,6 +32238,24 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
+"A pair of electronic handcuffs, used by police & riot bots to detain "
+"captives.  Their continuous siren clearly identifies the wearer as an "
+"arrested criminal and alerts human police.  Wait for their arrival, don't "
+"try to escape or to remove the cuffs - they will administer an electric "
+"shock.\n"
+"However, since the only police likely to respond are undead, you may have a "
+"long wait ahead, unless you get creative..."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-"
+"sight', and flash.  You can look at your photos on the digital screen, or "
+"transfer them with a memory card.  Takes conventional batteries."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
 "A professional-grade multi-cooker, with a battery slot for camping trips or "
 "tailgating.  Its multitude of settings and features promise to handle any "
 "sort of cooking, from parboiling potatoes to cooking curry to popping "
@@ -32193,6 +32315,13 @@ msgstr ""
 "Петарда с коротким запалом. Активируйте, чтобы поджечь запал. Для этого "
 "потребуется зажигалка или спички. Вскоре после поджога запала она взорвётся, "
 "поэтому бросьте её как можно быстрее!"
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A tablet PC using an efficient color e-ink display.  Before the cataclysm, "
+"these were nifty gadgets; now, it's an almost priceless resource.  Runs on "
+"conventional batteries."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "A tool similar to a chisel, designed to remove paint."
@@ -32295,6 +32424,13 @@ msgid ""
 "Dynamite with a radio detonator.  Activate it to arm, then plant or attach "
 "to a RC car, and use the remote detonator."
 msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "E-Ink Tablet PC"
+msgid_plural "E-Ink Tablet PCs"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "EMP grenade"
@@ -32438,7 +32574,7 @@ msgstr[2] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "RC car (on)"
-msgid_plural "RC car (on)s"
+msgid_plural "RC cars (on)"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -35286,6 +35422,20 @@ msgstr[1] "ножа мясника"
 msgstr[2] "ножей мясника"
 
 #: lang/json/TOOL_from_json.py
+msgid "camera"
+msgid_plural "cameras"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "camera pro"
+msgid_plural "camera pros"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "candle"
 msgid_plural "candles"
 msgstr[0] "свеча"
@@ -35585,6 +35735,13 @@ msgid_plural "electric forges"
 msgstr[0] "электрокузня"
 msgstr[1] "электрокузни"
 msgstr[2] "электрокузен"
+
+#: lang/json/TOOL_from_json.py
+msgid "electronic handcuffs"
+msgid_plural "electronic handcuffss"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "emergency oxygen pack"
@@ -36477,10 +36634,10 @@ msgstr[2] "заправляемых зажигалок"
 
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "refillable lighter (lit)"
-msgid_plural "refillable lighter (lit)s"
-msgstr[0] "заправляемая зажигалка (горит)"
-msgstr[1] "заправляемые зажигалки (горят)"
-msgstr[2] "заправляемых зажигалок (горят)"
+msgid_plural "refillable lighters (lit)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "restaurant guide"
@@ -39444,6 +39601,10 @@ msgctxt "memorial_male"
 msgid "Recovered from an infection... this time."
 msgstr "Вылечил инфекцию… в этот раз."
 
+#: lang/json/effects_from_json.py
+msgid "Relaxation gas"
+msgstr ""
+
 #: lang/json/effects_from_json.py src/faction.cpp
 msgid "Smoke"
 msgstr "Надышался дымом"
@@ -39471,6 +39632,13 @@ msgstr ""
 "Периодический кашель, замедляющий и шумный.\n"
 "Сила -2; Ловкость -2; Интеллект -1; Восприятие -4;\n"
 "Потеря здоровья - Торс"
+
+#: lang/json/effects_from_json.py
+msgid ""
+"Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\n"
+"You are thoroughly relaxed and don't feel like moving.  Fighting? Too much "
+"effort."
+msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Stuck in beartrap"
@@ -39563,6 +39731,10 @@ msgstr "Вы вдохнули полные легкие слезоточивог
 #: lang/json/effects_from_json.py
 msgid "You inhale a lungful of thick smoke."
 msgstr "Вы вдохнули полные легкие густого дыма."
+
+#: lang/json/effects_from_json.py
+msgid "You inhale sweetish gas."
+msgstr ""
 
 #: lang/json/effects_from_json.py src/disease.cpp
 msgid "You lie down to go to sleep..."
@@ -42333,25 +42505,18 @@ msgstr "+4 к скорости атаки."
 
 #: lang/json/martial_art_from_json.py
 msgid ""
-"A dance-like style with its roots in Brazilian slavery, capoeira is focused "
+"A dance-like style with its roots in Brazilian slavery, Capoeira is focused "
 "on fluid movement and sweeping kicks. Moving a tile will boost attack and "
 "damage and attacking boosts dodge. These bonuses stack up to three times "
 "each."
 msgstr ""
-"Танцеподобный стиль, берущий свои корни в Бразилии. Бойцы капоэйра "
-"используют плавные движения и широкие удары ногой. Передвижение на одну "
-"клетку усилит атаку и увеличит шанс увернуться. Бонусы могут накапливаться "
-"вплоть до трёх раз."
 
 #: lang/json/martial_art_from_json.py
 msgid ""
-"A legacy of the Five Deadly Venoms.  Viper Style has a uniqe three-part "
+"A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part "
 "combo, which initiates on a dodge, then counters with a stunning chop and "
 "the legendary Viper Strike."
 msgstr ""
-"Один из пяти смертельных ядов. Стиль Гадюки имеет уникальную комбинацию из "
-"трёх действий: сначала уворот, потом контратакующий оглушающий удар и, "
-"наконец, легендарный удар Гадюки."
 
 #: lang/json/martial_art_from_json.py
 msgid ""
@@ -47609,10 +47774,6 @@ msgid "mall - food court"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "mall - good court"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "mall - loading bay"
 msgstr ""
 
@@ -48876,16 +49037,6 @@ msgid "Punk Rock Girl"
 msgstr "Панк-рокерша"
 
 #: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "RADIO CARS TESTER"
-msgstr ""
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
-msgid "RADIO CARS TESTER"
-msgstr ""
-
-#: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Razor Boy"
 msgstr "Кибер-убийца"
@@ -49067,18 +49218,6 @@ msgid ""
 "Tailoring may not seem like the most useful skill when the world has ended.  "
 "Most people wouldn't expect a simple tailor to live long.  This is your "
 "opportunity to prove them wrong."
-msgstr ""
-
-#. ~ Profession (female RADIO CARS TESTER) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid "Test with radiocars and bombs"
-msgstr ""
-
-#. ~ Profession (male RADIO CARS TESTER) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid "Test with radiocars and bombs"
 msgstr ""
 
 #. ~ Profession (female Lab Technician) description
@@ -50822,7 +50961,65 @@ msgid "\"the eye it watches me it follows me everywhere help\""
 msgstr "\"этот глаз смотрит за мной следует за мной везде помогите\""
 
 #: lang/json/snippet_from_json.py
+msgid ""
+"The Green Fever shall purge the land for His Chosen children.  I have seen "
+"His black fire shining in the eyes of the afflicted and eagerly await the "
+"day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl "
+"fhtagn."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "There is a splotch of blood on it. \"blood of the zombie king\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public message from an unnamed source.  Its message, photocopied "
+"from a scrawled handwritten copy, reads: REPENT YOUR SINS O BABYLON FOR THE "
+"TIME OF HIS JUDGEMENT IS NIGH!  LOOK UPON YOUR DESTRUCTION AND KNOW THAT IT "
+"IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD "
+"UNTO THE VERY LAST SINNER!"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public message from the Federal Emergency Management Agency.  Its "
+"message, repeated in several languages, reads: STAY IN YOUR HOMES!  The US "
+"government is taking steps to halt the current epidemic of \"Green Fever\" "
+"and help is currently on its way to afflicted areas.  In the name of public "
+"safety you are hereby ordered to remain in your homes until evacuated to a "
+"treatment camp by authorized agents of the United States military.  Thank "
+"you for your compliance."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public notice from the Centers for Disease Control.  Its message, "
+"repeated in several languages, reads: Due to the rising threat of so-called "
+"\"Green Fever\" the CDC would like to remind the public to cover your nose "
+"and mouth with a tissue when you cough or sneeze and wash your hands "
+"frequently with soap and water.  In light of recent events, the CDC also "
+"recommends an annual flu vaccine for everyone 6 months of age and older."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public warning from an unnamed source.  Its rambling message, "
+"poorly-photocopied onto both sides of the page, reads: Don't believe the "
+"lies!  The Army is rounding up people in death camps while the Green Fever "
+"spreads like wildfire.  Do not believe what the mainstream news-media is "
+"reporting.  All official evacuation points are death-traps.  Secure supplies "
+"and escape the cities while there is still time."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is a public warning from the United States Army.  Its brief message, "
+"repeated in several languages, reads:  The President of the United States "
+"has declared unilateral martial law affecting the entire nation.  Shelter in "
+"place until evacuated to an appropriate emergency management camp by "
+"authorized military personnel.  This curfew will remain in effect until "
+"further notice.  Stay indoors.  Violators will be shot on sight."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -52331,7 +52528,7 @@ msgstr ""
 
 #: lang/json/technique_from_json.py
 #, python-format
-msgid "<npcname> catches ans spins %s!"
+msgid "<npcname> catches and spins %s!"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -53857,6 +54054,10 @@ msgstr "яма"
 
 #: lang/json/terrain_from_json.py
 msgid "plunk."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "plutonium generator"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -57259,7 +57460,7 @@ msgstr "правая рука"
 
 #: src/bodypart.cpp
 msgid "right foot"
-msgstr ""
+msgstr "прав. стопа"
 
 #: src/bodypart.cpp
 msgctxt "bodypart_accusative"
@@ -58426,8 +58627,14 @@ msgid "Move cursor up"
 msgstr ""
 
 #: src/construction.cpp
-msgid "Press ';' to toggle unavailable constructions."
-msgstr "Нажмите ';' для выбора недоступных конструкций."
+#, c-format
+msgid "Press %s to toggle unavailable constructions."
+msgstr ""
+
+#: src/construction.cpp
+#, c-format
+msgid "Press %s to view and edit key-bindings."
+msgstr ""
 
 #: src/construction.cpp
 msgid "Press a direction for the tree to fall in:"
@@ -59526,7 +59733,7 @@ msgstr "Зомби"
 #: src/disease.cpp
 #, c-format
 msgid "%1$s starts scratching their %2$s!"
-msgstr ""
+msgstr "%1$s начал чесать %2$s!"
 
 #: src/disease.cpp
 msgid "... oh, there they go."
@@ -59620,35 +59827,35 @@ msgstr "Кровотечение - "
 
 #: src/disease.cpp
 msgid "Blisters - Left Arm"
-msgstr ""
+msgstr "Пузыри - лев. рука"
 
 #: src/disease.cpp
 msgid "Blisters - Left Foot"
-msgstr ""
+msgstr "Пузыри - лев. стопа"
 
 #: src/disease.cpp
 msgid "Blisters - Left Hand"
-msgstr ""
+msgstr "Пузыри - лев. ладонь"
 
 #: src/disease.cpp
 msgid "Blisters - Left Leg"
-msgstr ""
+msgstr "Пузыри - лев. нога"
 
 #: src/disease.cpp
 msgid "Blisters - Right Arm"
-msgstr ""
+msgstr "Пузыри - прав. рука"
 
 #: src/disease.cpp
 msgid "Blisters - Right Foot"
-msgstr ""
+msgstr "Пузыри - прав. стопа"
 
 #: src/disease.cpp
 msgid "Blisters - Right Hand"
-msgstr ""
+msgstr "Пузыри - прав. ладонь"
 
 #: src/disease.cpp
 msgid "Blisters - Right Leg"
-msgstr ""
+msgstr "Пузыри - прав. нога"
 
 #: src/disease.cpp
 msgid "Blisters - face"
@@ -59676,7 +59883,7 @@ msgstr "Химическая лихорадка"
 
 #: src/disease.cpp
 msgid "Chilly arm"
-msgstr ""
+msgstr "Озябшая рука"
 
 #: src/disease.cpp
 msgid "Chilly face"
@@ -59684,11 +59891,11 @@ msgstr "Озябшее лицо"
 
 #: src/disease.cpp
 msgid "Chilly foot"
-msgstr ""
+msgstr "Озябшая стопа"
 
 #: src/disease.cpp
 msgid "Chilly hand"
-msgstr ""
+msgstr "Озябшая ладонь"
 
 #: src/disease.cpp
 msgid "Chilly head"
@@ -59696,7 +59903,7 @@ msgstr "Озябшая голова"
 
 #: src/disease.cpp
 msgid "Chilly leg"
-msgstr ""
+msgstr "Озябшая нога"
 
 #: src/disease.cpp
 msgid "Chilly torso"
@@ -59708,7 +59915,7 @@ msgstr "Холодно"
 
 #: src/disease.cpp
 msgid "Cold arm!"
-msgstr ""
+msgstr "Холодная рука!"
 
 #: src/disease.cpp
 msgid "Cold face!"
@@ -59716,11 +59923,11 @@ msgstr "Холодное лицо!"
 
 #: src/disease.cpp
 msgid "Cold foot!"
-msgstr ""
+msgstr "Холодная стопа!"
 
 #: src/disease.cpp
 msgid "Cold hand!"
-msgstr ""
+msgstr "Холодная ладонь!"
 
 #: src/disease.cpp
 msgid "Cold head!"
@@ -59728,7 +59935,7 @@ msgstr "Холодная голова!"
 
 #: src/disease.cpp
 msgid "Cold leg!"
-msgstr ""
+msgstr "Холодная нога!"
 
 #: src/disease.cpp
 msgid "Cold torso!"
@@ -59863,7 +60070,7 @@ msgstr "Фрактальные узоры танцуют у вас перед г
 
 #: src/disease.cpp
 msgid "Freezing arm!!"
-msgstr ""
+msgstr "Замёрзшая рука!!"
 
 #: src/disease.cpp
 msgid "Freezing face!!"
@@ -59871,11 +60078,11 @@ msgstr "Замёрзшее лицо!!"
 
 #: src/disease.cpp
 msgid "Freezing foot!!"
-msgstr ""
+msgstr "Замёрзшая стопа!"
 
 #: src/disease.cpp
 msgid "Freezing hand!!"
-msgstr ""
+msgstr "Замёрзшая ладонь!!"
 
 #: src/disease.cpp
 msgid "Freezing head!!"
@@ -59883,7 +60090,7 @@ msgstr "Замёрзшая голова!!"
 
 #: src/disease.cpp
 msgid "Freezing leg!!"
-msgstr ""
+msgstr "Замёрзшая нога!"
 
 #: src/disease.cpp
 msgid "Freezing torso!!"
@@ -59899,11 +60106,11 @@ msgstr "Отморожено - лицо"
 
 #: src/disease.cpp
 msgid "Frostbite - foot"
-msgstr ""
+msgstr "Отморожена - стопа"
 
 #: src/disease.cpp
 msgid "Frostbite - hand"
-msgstr ""
+msgstr "Отморожено - ладонь"
 
 #: src/disease.cpp
 msgid "Frostnip - face"
@@ -59911,11 +60118,11 @@ msgstr "Окоченение - лицо"
 
 #: src/disease.cpp
 msgid "Frostnip - foot"
-msgstr ""
+msgstr "Окоченение - стопа"
 
 #: src/disease.cpp
 msgid "Frostnip - hand"
-msgstr ""
+msgstr "Окоченение - ладонь"
 
 #: src/disease.cpp
 msgid "Glowing lights surround you, and you teleport."
@@ -59951,7 +60158,7 @@ msgstr "Жарко"
 
 #: src/disease.cpp
 msgid "Hot arm!"
-msgstr ""
+msgstr "Горячая рука!"
 
 #: src/disease.cpp
 msgid "Hot face!"
@@ -59959,11 +60166,11 @@ msgstr "Горячее лицо!"
 
 #: src/disease.cpp
 msgid "Hot foot!"
-msgstr ""
+msgstr "Горячая стопа!"
 
 #: src/disease.cpp
 msgid "Hot hand!"
-msgstr ""
+msgstr "Горячая ладонь!"
 
 #: src/disease.cpp
 msgid "Hot head!"
@@ -59971,7 +60178,7 @@ msgstr "Горячая голова!"
 
 #: src/disease.cpp
 msgid "Hot leg!"
-msgstr ""
+msgstr "Горячая нога!"
 
 #: src/disease.cpp
 msgid "Hot torso!"
@@ -60192,7 +60399,7 @@ msgstr "Наука это… погодите, о чём я говорил?"
 
 #: src/disease.cpp
 msgid "Scorching arm!!"
-msgstr ""
+msgstr "Опаление руки!!"
 
 #: src/disease.cpp
 msgid "Scorching face!!"
@@ -60200,11 +60407,11 @@ msgstr "Опаление лица!!"
 
 #: src/disease.cpp
 msgid "Scorching foot!!"
-msgstr ""
+msgstr "Опаление стопы!!"
 
 #: src/disease.cpp
 msgid "Scorching hand!!"
-msgstr ""
+msgstr "Опаление ладони!!"
 
 #: src/disease.cpp
 msgid "Scorching head!!"
@@ -60212,7 +60419,7 @@ msgstr "Опаление головы!!"
 
 #: src/disease.cpp
 msgid "Scorching leg!!"
-msgstr ""
+msgstr "Опаление ноги!!"
 
 #: src/disease.cpp
 msgid "Scorching torso!!"
@@ -60448,7 +60655,7 @@ msgstr "Свет будит вас."
 
 #: src/disease.cpp
 msgid "The possibility of physical and mental collapse is now very real."
-msgstr ""
+msgstr "Возможность физического и ментального коллапса сейчас очень высока."
 
 #: src/disease.cpp
 msgid "The sap's too sticky for you to fight effectively."
@@ -60464,7 +60671,7 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "The webs constrict your movement."
-msgstr ""
+msgstr "Паутина ухудшает движение."
 
 #: src/disease.cpp
 msgid "The world takes on a dreamlike quality."
@@ -60504,7 +60711,7 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Warm arm"
-msgstr ""
+msgstr "Тёплая рука"
 
 #: src/disease.cpp
 msgid "Warm face"
@@ -60512,11 +60719,11 @@ msgstr "Теплое лицо"
 
 #: src/disease.cpp
 msgid "Warm foot"
-msgstr ""
+msgstr "Тёплая стопа"
 
 #: src/disease.cpp
 msgid "Warm hand"
-msgstr ""
+msgstr "Тёплая ладонь"
 
 #: src/disease.cpp
 msgid "Warm head"
@@ -60524,7 +60731,7 @@ msgstr "Теплая голова"
 
 #: src/disease.cpp
 msgid "Warm leg"
-msgstr ""
+msgstr "Тёплая нога"
 
 #: src/disease.cpp
 msgid "Warm torso"
@@ -60605,7 +60812,7 @@ msgstr "Вы тяжело кашляете."
 
 #: src/disease.cpp
 msgid "You don't have energy to fight."
-msgstr ""
+msgstr "У вас нет энергии драться."
 
 #: src/disease.cpp
 msgid "You ever see the back of a twenty dollar bill... on weed?"
@@ -60621,7 +60828,7 @@ msgstr "Вы чувствуете себя немного странно."
 
 #: src/disease.cpp src/player.cpp
 msgid "You feel bad inside."
-msgstr ""
+msgstr "Вы чувствуете что-то плохое внутри."
 
 #. ~ %s is bodypart name.
 #: src/disease.cpp
@@ -60658,7 +60865,7 @@ msgstr "У вас паранойя. Они наблюдают за вами."
 
 #: src/disease.cpp
 msgid "You feel sick inside."
-msgstr ""
+msgstr "Вы чувствует слабость внутри"
 
 #: src/disease.cpp
 msgid "You feel sick to your stomach."
@@ -60819,7 +61026,7 @@ msgstr "Вы ворочаетесь и перекатываетесь в поп�
 
 #: src/disease.cpp
 msgid "You tremble."
-msgstr ""
+msgstr "Вы дрожите."
 
 #: src/disease.cpp
 msgid "You try to sleep, but can't..."
@@ -60949,7 +61156,7 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your body longs for more chemicals."
-msgstr ""
+msgstr "Ваше тело жаждет химикаты."
 
 #: src/disease.cpp
 msgid "Your bones feel like rubber as they melt and remend."
@@ -61102,34 +61309,36 @@ msgstr "Болят суставы."
 
 #: src/disease.cpp
 msgid "Your left arm feels warm."
-msgstr ""
+msgstr "Ваша левая рука чувствует тепло."
 
 #: src/disease.cpp
 msgid "Your left arm is blistering from the intense heat."
-msgstr ""
+msgstr "Ваша левая рука покрывается пузырями от сильной жары."
 
 #: src/disease.cpp
 msgid ""
 "Your left arm is blistering from the intense heat. It is extremely painful."
-msgstr ""
+msgstr "Ваша левая рука пузырится от сильной жары. Это ужасно больно."
 
 #: src/disease.cpp
 msgid "Your left arm is dangerously cold. Your arm is shivering uncontrollably"
-msgstr ""
+msgstr "Вашей левой руке угрожающе холодно, она бесконтрольна"
 
 #: src/disease.cpp
 msgid "Your left arm is exposed to the cold."
-msgstr ""
+msgstr "Вашей левой руке холодно."
 
 #: src/disease.cpp
 msgid "Your left arm is frostbitten from prolonged exposure to the cold."
-msgstr ""
+msgstr "От долгого пребывания на холоде ваша левая рука замёрзла и онемела."
 
 #: src/disease.cpp
 msgid ""
 "Your left arm is frostbitten from prolonged exposure to the cold. It is "
 "extremely painful."
 msgstr ""
+"Ваша левая рука отморожена от долгого воздействия холода. Это чрезвычайно "
+"болезненно."
 
 #: src/disease.cpp
 msgid "Your left arm is shivering."
@@ -61137,15 +61346,15 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your left arm is sweating from the heat."
-msgstr ""
+msgstr "Ваша левая рука потеет от жары."
 
 #: src/disease.cpp
 msgid "Your left arm is sweating profusely. Your muscles are cramping."
-msgstr ""
+msgstr "Ваша левая рука сильно потеет. Мышцы болят от спазмов."
 
 #: src/disease.cpp
 msgid "Your left arm is very exposed to the cold. Your arm is shivering."
-msgstr ""
+msgstr "Вашей левой руки очень холодно. Она дрожит."
 
 #: src/disease.cpp
 msgid "Your left arm trembles from the cold."
@@ -61157,7 +61366,7 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your left foot feels warm."
-msgstr ""
+msgstr "Ваша левая стопа чувствует тепло."
 
 #: src/disease.cpp
 msgid "Your left foot is as nimble as a block of ice."
@@ -61165,38 +61374,42 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your left foot is blistering from the intense heat."
-msgstr ""
+msgstr "Ваша левая стопа покрывается пузырями от сильной жары."
 
 #: src/disease.cpp
 msgid ""
 "Your left foot is blistering from the intense heat. It is extremely painful."
-msgstr ""
+msgstr "Ваша левая стопа пузырится от жары. Это ужасно больно."
 
 #: src/disease.cpp
 msgid "Your left foot is dangerously cold. Your strength is sapped."
-msgstr ""
+msgstr "Вашей левой стопе угрожающе холодно. Ваша сила улетучивается."
 
 #: src/disease.cpp
 msgid "Your left foot is exposed to the cold."
-msgstr ""
+msgstr "Вашей левой стопе холодно."
 
 #: src/disease.cpp
 msgid ""
 "Your left foot is frostbitten from the prolonged exposure to the cold. The "
 "tissues in your foot is frozen."
 msgstr ""
+"Ваша левая стопа отморожена от долгого воздействия холода. Ткань стопы "
+"заморожена."
 
 #: src/disease.cpp
 msgid ""
 "Your left foot is frostnipped from the prolonged exposure to the cold and "
 "have gone numb."
-msgstr ""
+msgstr "От долгого пребывания на холоде ваша левая стопа замёрзла и онемела."
 
 #: src/disease.cpp
 msgid ""
 "Your left foot is frostnipped from the prolonged exposure to the cold and "
 "have gone numb. When the blood begins to flow, it will be painful."
 msgstr ""
+"Из-за холода левая стопа задубела. Будет больно, когда кровь снова прильёт к "
+"ладони."
 
 #: src/disease.cpp
 msgid "Your left foot is swelling in the heat."
@@ -61204,19 +61417,19 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your left foot is swollen due to the heat."
-msgstr ""
+msgstr "Ваша левая стопа мучительно раздута от жары."
 
 #: src/disease.cpp
 msgid "Your left foot is very exposed to the cold. Your strength is sapped."
-msgstr ""
+msgstr "Ваша левой стопе очень холодно. Ваша сила улетучивается."
 
 #: src/disease.cpp
 msgid "Your left hand feels disgustingly hot and is very uncoordinated."
-msgstr ""
+msgstr "Ваша левая ладонь страдает от жары и ей очень трудно управлять."
 
 #: src/disease.cpp
 msgid "Your left hand feels hot and uncoordinated."
-msgstr ""
+msgstr "Вашей левой ладони жарко и ей трудно управлять."
 
 #: src/disease.cpp
 msgid "Your left hand feels like ice."
@@ -61224,46 +61437,50 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your left hand feels warm."
-msgstr ""
+msgstr "Ваша левая ладонь чувствует тепло."
 
 #: src/disease.cpp
 msgid "Your left hand is blistering from the intense heat."
-msgstr ""
+msgstr "Ваша левая ладонь покрывается пузырями от сильной жары."
 
 #: src/disease.cpp
 msgid ""
 "Your left hand is blistering from the intense heat. It is extremely painful."
-msgstr ""
+msgstr "Ваша левая ладонь пузырится от сильной жары. Это ужасно больно."
 
 #: src/disease.cpp
 msgid "Your left hand is exposed to the cold."
-msgstr ""
+msgstr "Вашей левой ладони холодно."
 
 #: src/disease.cpp
 msgid ""
 "Your left hand is frostbitten from the prolonged exposure to the cold. The "
 "tissues in your hand is frozen."
 msgstr ""
+"Ваша левая ладонь отморожена от долгого воздействия холода. Ткань ладони "
+"заморожена."
 
 #: src/disease.cpp
 msgid ""
 "Your left hand is frostnipped from the prolonged exposure to the cold and "
 "have gone numb."
-msgstr ""
+msgstr "От долгого пребывания на холоде ваша левая ладонь замёрзла и онемела."
 
 #: src/disease.cpp
 msgid ""
 "Your left hand is frostnipped from the prolonged exposure to the cold and "
 "have gone numb. When the blood begins to flow, it will be painful."
 msgstr ""
+"Из-за холода левая ладонь задубела. Будет больно, когда кровь снова прильёт "
+"к ладони."
 
 #: src/disease.cpp
 msgid "Your left hand is shivering from the cold."
-msgstr ""
+msgstr "Ваша левая ладонь дрожит от холода."
 
 #: src/disease.cpp
 msgid "Your left hand is shivering uncontrollably from the extreme cold."
-msgstr ""
+msgstr "Ваша левая ладонь бесконтрольно трясётся от сильного холода."
 
 #: src/disease.cpp
 msgid "Your left hand quivers in the cold."
@@ -61275,16 +61492,16 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your left leg feels warm."
-msgstr ""
+msgstr "Ваша левая нога чувствует тепло."
 
 #: src/disease.cpp
 msgid "Your left leg is blistering from the intense heat."
-msgstr ""
+msgstr "Ваша левая нога покрывается пузырями от сильной жары."
 
 #: src/disease.cpp
 msgid ""
 "Your left leg is blistering from the intense heat. It is extremely painful."
-msgstr ""
+msgstr "Ваша левая нога пузырится от сильной жары. Это ужасно больно."
 
 #: src/disease.cpp
 msgid "Your left leg is cramping up."
@@ -61292,33 +61509,35 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your left leg is dangerously cold. Your strength is sapped."
-msgstr ""
+msgstr "Вашей левой ноги угрожающе холодно. Ваша сила улетучивается."
 
 #: src/disease.cpp
 msgid "Your left leg is exposed to the cold."
-msgstr ""
+msgstr "Вашей левой ноге холодно."
 
 #: src/disease.cpp
 msgid "Your left leg is frostbitten from prolonged exposure to the cold."
-msgstr ""
+msgstr "От долгого пребывания на холоде ваша левая нога замёрзла и онемела."
 
 #: src/disease.cpp
 msgid ""
 "Your left leg is frostbitten from prolonged exposure to the cold. It is "
 "extremely painful."
 msgstr ""
+"Ваша левая нога отморожена от долгого воздействия холода. Это чрезвычайно "
+"болезненно."
 
 #: src/disease.cpp
 msgid "Your left leg is sweating from the heat."
-msgstr ""
+msgstr "Ваша левая нога потеет от жары."
 
 #: src/disease.cpp
 msgid "Your left leg is sweating profusely. Your muscles are cramping."
-msgstr ""
+msgstr "Ваша левая нога сильно потеет. Мышцы болят из-за спазмов."
 
 #: src/disease.cpp
 msgid "Your left leg is very exposed to the cold. Your strength is sapped."
-msgstr ""
+msgstr "Вашей левой ноге очень холодно. Ваша сила улетучивается."
 
 #: src/disease.cpp
 msgid "Your left leg trembles against the relentless cold."
@@ -61334,39 +61553,41 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your muscles are locking up and you can't fight effectively."
-msgstr ""
+msgstr "Ваши мускулы забились и не дают эффективно драться."
 
 #: src/disease.cpp
 msgid "Your right arm feels warm."
-msgstr ""
+msgstr "Ваша правая рука чувствует тепло."
 
 #: src/disease.cpp
 msgid "Your right arm is blistering from the intense heat."
-msgstr ""
+msgstr "Ваша правая рука покрывается пузырями от сильной жары."
 
 #: src/disease.cpp
 msgid ""
 "Your right arm is blistering from the intense heat. It is extremely painful."
-msgstr ""
+msgstr "Ваша правая рука пузырится от сильной жары. Это ужасно больно."
 
 #: src/disease.cpp
 msgid ""
 "Your right arm is dangerously cold. Your arm is shivering uncontrollably"
-msgstr ""
+msgstr "Вашей правой руке угрожающе холодно, она бесконтрольна"
 
 #: src/disease.cpp
 msgid "Your right arm is exposed to the cold."
-msgstr ""
+msgstr "Вашей правой руке холодно."
 
 #: src/disease.cpp
 msgid "Your right arm is frostbitten from prolonged exposure to the cold."
-msgstr ""
+msgstr "От долгого пребывания на холоде ваша правая рука замёрзла и онемела."
 
 #: src/disease.cpp
 msgid ""
 "Your right arm is frostbitten from prolonged exposure to the cold. It is "
 "extremely painful."
 msgstr ""
+"Ваша правая рука отморожена от долгого воздействия холода. Это чрезвычайно "
+"болезненно."
 
 #: src/disease.cpp
 msgid "Your right arm is shivering."
@@ -61374,15 +61595,15 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your right arm is sweating from the heat."
-msgstr ""
+msgstr "Ваша правая рука потеет от жары."
 
 #: src/disease.cpp
 msgid "Your right arm is sweating profusely. Your muscles are cramping."
-msgstr ""
+msgstr "Ваша правая рука сильно потеет. Мышцы болят от спазмов."
 
 #: src/disease.cpp
 msgid "Your right arm is very exposed to the cold. Your arm is shivering."
-msgstr ""
+msgstr "Вашей правой руке очень холодно. Она дрожит."
 
 #: src/disease.cpp
 msgid "Your right arm trembles from the cold."
@@ -61394,7 +61615,7 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your right foot feels warm."
-msgstr ""
+msgstr "Ваша правая стопа чувствует тепло."
 
 #: src/disease.cpp
 msgid "Your right foot is as nimble as a block of ice."
@@ -61402,38 +61623,42 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your right foot is blistering from the intense heat."
-msgstr ""
+msgstr "Ваша правая стопа покрывается пузырями от сильной жары."
 
 #: src/disease.cpp
 msgid ""
 "Your right foot is blistering from the intense heat. It is extremely painful."
-msgstr ""
+msgstr "Ваша правая стопа пузырится от сильной жары. Это ужасно больно."
 
 #: src/disease.cpp
 msgid "Your right foot is dangerously cold. Your strength is sapped."
-msgstr ""
+msgstr "Вашей правой стопе угрожающе холодно. Ваша сила улетучивается."
 
 #: src/disease.cpp
 msgid "Your right foot is exposed to the cold."
-msgstr ""
+msgstr "Вашей правой стопе холодно."
 
 #: src/disease.cpp
 msgid ""
 "Your right foot is frostbitten from the prolonged exposure to the cold. The "
 "tissues in your foot is frozen."
 msgstr ""
+"Ваша правая стопа отморожена от долгого воздействия холода. Ткань стопы "
+"заморожена."
 
 #: src/disease.cpp
 msgid ""
 "Your right foot is frostnipped from the prolonged exposure to the cold and "
 "have gone numb."
-msgstr ""
+msgstr "От долгого пребывания на холоде ваша правая стопа замёрзла и онемела."
 
 #: src/disease.cpp
 msgid ""
 "Your right foot is frostnipped from the prolonged exposure to the cold and "
 "have gone numb. When the blood begins to flow, it will be painful."
 msgstr ""
+"Из-за холода правая стопа задубела. Будет больно, когда кровь снова прильёт "
+"к ладони."
 
 #: src/disease.cpp
 msgid "Your right foot is swelling in the heat."
@@ -61441,19 +61666,19 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your right foot is swollen due to the heat."
-msgstr ""
+msgstr "Ваша правая стопа мучительно раздута от жары."
 
 #: src/disease.cpp
 msgid "Your right foot is very exposed to the cold. Your strength is sapped."
-msgstr ""
+msgstr "Вашей правой стопе очень холодно. Ваша сила улетучивается."
 
 #: src/disease.cpp
 msgid "Your right hand feels disgustingly hot and is very uncoordinated."
-msgstr ""
+msgstr "Вашей правой руке очень жарко и ей очень трудно управлять"
 
 #: src/disease.cpp
 msgid "Your right hand feels hot and uncoordinated."
-msgstr ""
+msgstr "Вашей правой ладони жарко. Ей сложно управлять."
 
 #: src/disease.cpp
 msgid "Your right hand feels like ice."
@@ -61461,46 +61686,50 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your right hand feels warm."
-msgstr ""
+msgstr "Ваша правая ладонь чувствует тепло."
 
 #: src/disease.cpp
 msgid "Your right hand is blistering from the intense heat."
-msgstr ""
+msgstr "Ваша правая ладонь покрывается пузырями от сильной жары."
 
 #: src/disease.cpp
 msgid ""
 "Your right hand is blistering from the intense heat. It is extremely painful."
-msgstr ""
+msgstr "Ваша правая ладонь пузырится от сильной жары. Это ужасно больно."
 
 #: src/disease.cpp
 msgid "Your right hand is exposed to the cold."
-msgstr ""
+msgstr "Вашей правой ладони холодно."
 
 #: src/disease.cpp
 msgid ""
 "Your right hand is frostbitten from the prolonged exposure to the cold. The "
 "tissues in your hand is frozen."
 msgstr ""
+"Ваша правая ладонь отморожена от долгого воздействия холода. Ткань ладони "
+"заморожена."
 
 #: src/disease.cpp
 msgid ""
 "Your right hand is frostnipped from the prolonged exposure to the cold and "
 "have gone numb."
-msgstr ""
+msgstr "От долгого пребывания на холоде ваша правая ладонь замёрзла и онемела."
 
 #: src/disease.cpp
 msgid ""
 "Your right hand is frostnipped from the prolonged exposure to the cold and "
 "have gone numb. When the blood begins to flow, it will be painful."
 msgstr ""
+"Из-за холода правая ладонь задубела. Будет больно, когда кровь снова прильёт "
+"к ладони."
 
 #: src/disease.cpp
 msgid "Your right hand is shivering from the cold."
-msgstr ""
+msgstr "Ваша правая ладонь дрожит от холода."
 
 #: src/disease.cpp
 msgid "Your right hand is shivering uncontrollably from the extreme cold."
-msgstr ""
+msgstr "Ваша правая ладонь бесконтрольно трясётся от сильного холода."
 
 #: src/disease.cpp
 msgid "Your right hand trembles in the cold."
@@ -61512,16 +61741,16 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your right leg feels warm."
-msgstr ""
+msgstr "Ваша правая нога чувствует тепло."
 
 #: src/disease.cpp
 msgid "Your right leg is blistering from the intense heat."
-msgstr ""
+msgstr "Ваша правая нога покрывается пузырями от сильной жары."
 
 #: src/disease.cpp
 msgid ""
 "Your right leg is blistering from the intense heat. It is extremely painful."
-msgstr ""
+msgstr "Ваша правая нога пузырится от сильной жары. Это ужасно больно."
 
 #: src/disease.cpp
 msgid "Your right leg is cramping up."
@@ -61529,33 +61758,35 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your right leg is dangerously cold. Your strength is sapped."
-msgstr ""
+msgstr "Вашей правой ноге угрожающе холодно. Ваша сила улетучивается."
 
 #: src/disease.cpp
 msgid "Your right leg is exposed to the cold."
-msgstr ""
+msgstr "Вашей правой ноге холодно."
 
 #: src/disease.cpp
 msgid "Your right leg is frostbitten from prolonged exposure to the cold."
-msgstr ""
+msgstr "От долгого пребывания на холоде ваша правая нога замёрзла и онемела."
 
 #: src/disease.cpp
 msgid ""
 "Your right leg is frostbitten from prolonged exposure to the cold. It is "
 "extremely painful."
 msgstr ""
+"Ваша правая нога отморожена от долгого воздействия холода. Это чрезвычайно "
+"болезненно."
 
 #: src/disease.cpp
 msgid "Your right leg is sweating from the heat."
-msgstr ""
+msgstr "Ваша правая нога потеет от жары."
 
 #: src/disease.cpp
 msgid "Your right leg is sweating profusely. Your muscles are cramping."
-msgstr ""
+msgstr "Ваша правая нога сильно потеет. Мышцы болят из-за спазмов."
 
 #: src/disease.cpp
 msgid "Your right leg is very exposed to the cold. Your strength is sapped."
-msgstr ""
+msgstr "Вашей правой ноге очень холодно. Ваша сила улетучивается."
 
 #: src/disease.cpp
 msgid "Your right leg trembles against the relentless cold."
@@ -61567,7 +61798,7 @@ msgstr ""
 
 #: src/disease.cpp
 msgid "Your stomach bothers you."
-msgstr ""
+msgstr "Ваш желудок беспокоит вас."
 
 #: src/disease.cpp
 msgid "Your thoughts are unclear."
@@ -63415,6 +63646,10 @@ msgid "crack smoke"
 msgstr "дым кокаина"
 
 #: src/field.cpp
+msgid "dazzing"
+msgstr ""
+
+#: src/field.cpp
 msgid "electric cloud"
 msgstr "наэлектризованное облако"
 
@@ -63547,6 +63782,10 @@ msgid "raging fire"
 msgstr "бушующий огонь"
 
 #: src/field.cpp
+msgid "relaxation gas"
+msgstr ""
+
+#: src/field.cpp
 msgid "rubble heap"
 msgstr "кучка щебня"
 
@@ -63561,6 +63800,10 @@ msgstr "брызги растительного сока"
 #: src/field.cpp
 msgid "scraps of flesh"
 msgstr "куски плоти"
+
+#: src/field.cpp
+msgid "sedative gas"
+msgstr ""
 
 #: src/field.cpp
 msgid "shards of chitin"
@@ -63605,6 +63848,10 @@ msgstr "несколько пчел"
 #: src/field.cpp
 msgid "sparks"
 msgstr "искры"
+
+#: src/field.cpp
+msgid "spotlight"
+msgstr ""
 
 #: src/field.cpp
 msgid "swarm of bees"
@@ -65550,7 +65797,7 @@ msgstr "Тут нет машины."
 msgid "There's a %s in the way that is too big to just nudge out of the way."
 msgstr "На пути %s и это слишком большое, чтобы просто оттолкнуть его."
 
-#: src/game.cpp
+#: src/game.cpp src/iuse.cpp
 #, c-format
 msgid "There's a %s in the way!"
 msgstr "%s на пути!"
@@ -65874,6 +66121,10 @@ msgid "You can't drive the vehicle from here. You need controls!"
 msgstr "Здесь нет руля, чтобы управления транспортом!"
 
 #: src/game.cpp
+msgid "You can't fire your weapon, it's too heavy..."
+msgstr ""
+
+#: src/game.cpp
 msgid "You can't go down here!"
 msgstr "Вы не можете здесь спуститься!"
 
@@ -65890,6 +66141,10 @@ msgstr "Вы не можете смешивать содержимое в ваш
 #, c-format
 msgid "You can't move %s while standing on it!"
 msgstr "Вы не можете  двигать %s, пока стоите на нём!"
+
+#: src/game.cpp
+msgid "You can't muster up the effort to throw anything..."
+msgstr ""
 
 #: src/game.cpp
 msgid "You can't place items there!"
@@ -65970,6 +66225,10 @@ msgstr "Вы врезались в кого-то и отправили его в
 #: src/game.cpp
 msgid "You collided with something and sent it flying!"
 msgstr "Вы врезались во что-то и отправили это в полёт!"
+
+#: src/game.cpp
+msgid "You concentrate mightily, and your body obeys!"
+msgstr ""
 
 #: src/game.cpp
 msgid ""
@@ -66757,6 +67016,10 @@ msgid "You're not wielding anything."
 msgstr "Вы не вооружены."
 
 #: src/game.cpp
+msgid "You're too pacified to strike anything..."
+msgstr ""
+
+#: src/game.cpp
 msgid "You're too tired to continue."
 msgstr ""
 
@@ -66845,6 +67108,10 @@ msgstr ""
 "мозг."
 
 #: src/game.cpp
+msgid "Your eyes steel, and you raise your weapon!"
+msgstr ""
+
+#: src/game.cpp
 msgid "Your heart races as you recall your most recent hunt."
 msgstr "Ваше сердцебиение учащается, когда вы вспоминаете недавнюю охоту."
 
@@ -66903,6 +67170,10 @@ msgstr "Пустой желудок напоминает о себе…"
 #: src/game.cpp
 msgid "Your tentacles stick to the ground, but you pull them free."
 msgstr "Ваши щупальца присосались к земле, но вы оттянули их обратно."
+
+#: src/game.cpp
+msgid "Your willpower asserts itself, and so do you!"
+msgstr ""
 
 #: src/game.cpp
 msgid "Zones manager"
@@ -68546,6 +68817,10 @@ msgid "Beloved customer"
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "Blueberries ripen in summer."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Bulletin Board"
 msgstr "Доска объявлений"
 
@@ -68902,6 +69177,10 @@ msgid "Store which drink?"
 msgstr ""
 
 #: src/iexamine.cpp
+msgid "Strawberries ripen in summer."
+msgstr ""
+
+#: src/iexamine.cpp
 msgid "Swipe your ID card?"
 msgstr "Вставить ID карту?"
 
@@ -68951,6 +69230,10 @@ msgstr "%s полностью заполнен."
 #, c-format
 msgid "The %s is now ready for bottling."
 msgstr "%s готов для розлива."
+
+#: src/iexamine.cpp
+msgid "The fruits ripen in autumn."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "The nearby doors slide into the floor."
@@ -70359,6 +70642,14 @@ msgid "yellow"
 msgstr "жёлтый"
 
 #: src/item_factory.cpp
+msgid "Result of 100 spawns:"
+msgstr ""
+
+#: src/item_factory.cpp
+msgid "Test which group?"
+msgstr ""
+
+#: src/item_factory.cpp
 msgid "ammo"
 msgstr "боеприпасы"
 
@@ -70369,6 +70660,11 @@ msgstr "бионика"
 #: src/item_factory.cpp
 msgid "books"
 msgstr "книги"
+
+#. ~ Spawn group menu: Menu entry to exit menu
+#: src/item_factory.cpp src/iuse.cpp
+msgid "cancel"
+msgstr "отмена"
 
 #: src/item_factory.cpp
 msgid "clothing"
@@ -70432,8 +70728,23 @@ msgstr "Медицинские данные о крови зомби."
 
 #: src/iuse.cpp
 #, c-format
+msgid "%s automatically turned off!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s looks blinded."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
 msgid "%s on what?"
 msgstr "%s на что?"
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s on your hands opened!"
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -70669,6 +70980,10 @@ msgstr "На предмете"
 
 #: src/iuse.cpp
 msgid "And when you gaze long into a screen, the screen also gazes into you."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Are you sure you want to clear the old data on the card?"
 msgstr ""
 
 #. ~ Single-spaced & lowercase are intentional, conveying hurried speech-KA101
@@ -70912,6 +71227,14 @@ msgid "Choose desired meal:"
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Choose menu option:"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Choose recipe to view:"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Chop up what?"
 msgstr "Что разрубить?"
 
@@ -70922,6 +71245,10 @@ msgstr "Клац! Клац!"
 #: src/iuse.cpp
 msgid "Click."
 msgstr "Клац!"
+
+#: src/iuse.cpp
+msgid "Collection of monsters is empty"
+msgstr ""
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
@@ -70948,6 +71275,10 @@ msgid "Container"
 msgstr "Контейнер"
 
 #: src/iuse.cpp
+msgid "Critter photos saved on camera:"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Cut 'em up!"
 msgstr "Резать!"
 
@@ -70971,6 +71302,14 @@ msgstr "Das Feuer um deine Schwertklinge leuchtet hell!"
 #: src/iuse.cpp
 msgid "Daybreak"
 msgstr "Рассвет"
+
+#: src/iuse.cpp
+msgid "Decrypt memory card"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Decrypt memory card (low skill)"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
@@ -71019,6 +71358,10 @@ msgstr "Что сделать с колчаном?"
 #: src/iuse.cpp
 msgid "Don't do anything rash.."
 msgstr "Не делай ничего в спешке…"
+
+#: src/iuse.cpp
+msgid "Download data from memory card"
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -71080,6 +71423,10 @@ msgid ""
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Excellent pictures of nature."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Feels like you're on fire, but you're OK."
 msgstr "Такое чувство, будто вы горите, но вы в порядке."
 
@@ -71106,6 +71453,10 @@ msgstr "Где рыбачить?"
 #: src/iuse.cpp
 msgid "Flies buzz around you."
 msgstr "Вокруг вас жужжат мухи."
+
+#: src/iuse.cpp
+msgid "Food photos...your stomach rumbles!"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "For a heartbeat, your body cools down."
@@ -71164,6 +71515,10 @@ msgstr "Появились гигантские осы!"
 #: src/iuse.cpp
 msgid "HOOOOONK!"
 msgstr "ГГУУУУУУУ!"
+
+#: src/iuse.cpp
+msgid "Ha-ha! An amusing cat photo."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Hammers can only remove boards from windows, doors and fences."
@@ -71251,6 +71606,10 @@ msgid "Injected purifier."
 msgstr "Сделал инъекцию пурификатора."
 
 #: src/iuse.cpp
+msgid "Insert memory card"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Insufficient power"
 msgstr "Недостаточно энергии."
 
@@ -71310,6 +71669,10 @@ msgstr "Зажечь что-нибудь"
 #: src/iuse.cpp
 msgid "Light where?"
 msgstr "Что поджечь?"
+
+#: src/iuse.cpp
+msgid "List photos"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Living black goo emerges from the canister!"
@@ -71430,6 +71793,18 @@ msgid "No enemy robots in range."
 msgstr "Нет злых роботов в округе."
 
 #: src/iuse.cpp
+msgid "No music on device"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "No photos in memory"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "No photos on device"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "No strength to fight!"
 msgstr "Нет сил драться!"
 
@@ -71463,6 +71838,10 @@ msgid "Oops.  You must've blacked out for a minute there."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Ouch, the cuffs shock you!"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Override IFF protocols"
 msgstr "Обойти протоколы IFF"
 
@@ -71478,6 +71857,19 @@ msgstr "Percer dans quelle direction?"
 #: src/iuse.cpp
 msgid "Perform peasant work?"
 msgstr "Выполнить крестьянскую работу?"
+
+#: src/iuse.cpp
+#, c-format
+msgid "Photos [%d]"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Photos of someone's luxurious house."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Pictures of a concert of popular band."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Pitch the tent towards where (3x3 clear area)?"
@@ -71588,6 +71980,11 @@ msgstr "Осуществил мечту."
 
 #: src/iuse.cpp
 msgid "Really stop cooking?"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Recipe: %s"
 msgstr ""
 
 #: src/iuse.cpp
@@ -71739,6 +72136,10 @@ msgid "Sokoban"
 msgstr "Сокобан"
 
 #: src/iuse.cpp
+msgid "Some very interesting travel photos."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Something strains mightily for a moment...and then..you're...FREE!"
 msgstr ""
 
@@ -71787,6 +72188,10 @@ msgid "Store which arrows?"
 msgstr "Какие стеры положить?"
 
 #: src/iuse.cpp
+msgid "Strange...there's nothing in the picture?"
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "Sure you want to eat the %s? You could plant it in a mound of dirt."
 msgstr ""
@@ -71795,6 +72200,10 @@ msgstr ""
 #: src/iuse.cpp
 msgid "TATATATATATATAT!"
 msgstr "ТРАТАТАТАТАТА!"
+
+#: src/iuse.cpp
+msgid "Take a photo"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Take control of RC car."
@@ -71946,6 +72355,11 @@ msgstr "Похоже, %s нисколько это не впечатлило!"
 #: src/iuse.cpp
 #, c-format
 msgid "The %s short circuits as you attempt to reprogram it!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "The %s spark with electricity!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -72287,6 +72701,10 @@ msgid "There's no vehicle there."
 msgstr "Тут нет машины."
 
 #: src/iuse.cpp
+msgid "There's nothing particularly interesting there."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "There's nothing to light there."
 msgstr "Здесь нечего поджечь."
 
@@ -72331,11 +72749,31 @@ msgid "This can be used to repair other items, not itself."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "This is not a compatible memory card."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "This looks unhealthy, sure you want to drink it?"
 msgstr ""
 
 #: src/iuse.cpp
 msgid "This looks unhealthy, sure you want to eat it?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This memory card does not contain any new data."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This memory card is encrypted."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This memory card is encrypted. Format and clear data?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "This memory card is not encrypted."
 msgstr ""
 
 #: src/iuse.cpp
@@ -72346,6 +72784,10 @@ msgstr "Этот мод можно использовать только на и
 msgid ""
 "This object is too small to salvage a meaningful quantity of anything from!"
 msgstr "Оно слишком маленькое, чтобы получилось что-то полезное."
+
+#: src/iuse.cpp
+msgid "This photo is better than the previous one."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "This stuff takes you back. Downright primordial!"
@@ -72395,6 +72837,15 @@ msgstr "Выкл. постоянный скан"
 #: src/iuse.cpp
 msgid "Turn continuous scan on"
 msgstr "Вкл. постоянный скан"
+
+#: src/iuse.cpp
+msgid "Turn music off"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Turn music on [%d]"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Turn off"
@@ -72447,6 +72898,10 @@ msgid "Upgrade multi-cooker"
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Upload photos to memory card"
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "Use %s:"
 msgstr "Применить %s:"
@@ -72484,6 +72939,10 @@ msgid "Using soldering item:"
 msgstr ""
 
 #: src/iuse.cpp
+msgid "View recipe on E-ink screen"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Vision enhancement system:      ONLINE."
 msgstr "система улучшения зрения: АКТИВИРОВАНО"
 
@@ -72496,6 +72955,10 @@ msgstr "Vous ne pouvez pas percer la-bas.."
 #: src/iuse.cpp
 msgid "Was willst du tun?"
 msgstr "Was willst du tun?"
+
+#: src/iuse.cpp
+msgid "Wasted time, these pictures do not provoke your senses."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Welcome to hackPRO!:"
@@ -72530,6 +72993,10 @@ msgstr ""
 #: src/iuse.cpp
 msgid "What do you want to play?"
 msgstr "Во что вы хотите сыграть?"
+
+#: src/iuse.cpp
+msgid "What to do with camera?"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "What will thou do?"
@@ -72893,6 +73360,11 @@ msgstr "Вы прижгли свою рану."
 
 #: src/iuse.cpp
 #, c-format
+msgid "You change the e-ink screen to show a recipe for %s."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
 msgid "You chew your %s."
 msgstr "Вы пожевали %s. Теперь время надрать задницы."
 
@@ -72980,6 +73452,10 @@ msgid "You damage your %s!"
 msgstr "Вы повредили %s!"
 
 #: src/iuse.cpp
+msgid "You decide not to flash yourself."
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "You deftly draw your %s from the %s."
 msgstr "Вы ловко достаёте %s из %s."
@@ -73061,6 +73537,27 @@ msgstr "Ёмкость батарей %s удвоена!"
 
 #: src/iuse.cpp
 #, c-format
+msgid "You download %d new photo into internal memory."
+msgid_plural "You download %d new photos into internal memory."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You download %d new song into internal memory."
+msgid_plural "You download %d new songs into internal memory."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You download a recipe for %s into the tablet's memory."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
 msgid "You draw your %s from the %s."
 msgstr "Вы достаёте %s из %s."
 
@@ -73088,6 +73585,11 @@ msgstr "Вам не удалось остановить кровотечение
 #: src/iuse.cpp
 msgid "You fail to write a message here."
 msgstr "У вас не получается писать на этом месте."
+
+#: src/iuse.cpp
+#, c-format
+msgid "You failed to decrypt the %s."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You feel Bugged."
@@ -73171,6 +73673,10 @@ msgid "You feel much closer to nature."
 msgstr "Вы чувствуете себя гораздо ближе к природе."
 
 #: src/iuse.cpp
+msgid "You feel nostalgic as you stare at the photo."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You feel tough."
 msgstr "Вы чувствуете себя здоровее."
 
@@ -73219,6 +73725,10 @@ msgstr ""
 #: src/iuse.cpp
 msgid "You have a vision of the surrounding area..."
 msgstr "У вас появилось знание об окружающей территории…"
+
+#: src/iuse.cpp
+msgid "You have updated your monster collection."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You hear buzzing, and feel your body harden."
@@ -73817,6 +74327,11 @@ msgid "You string up the tripwire."
 msgstr "Вы натягиваете растяжку."
 
 #: src/iuse.cpp
+#, c-format
+msgid "You successfully decrypted content on %s!"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You successfully light a fire."
 msgstr "Вы успешно разожгли огонь."
 
@@ -73893,6 +74408,11 @@ msgid "You take your %s in, improving the fit."
 msgstr "Вы ушиваете %s, подгоняя вещь по фигуре."
 
 #: src/iuse.cpp
+#, c-format
+msgid "You took a %s photo of %s."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You took that shot like a champ!"
 msgstr ""
 
@@ -73900,6 +74420,10 @@ msgstr ""
 #, c-format
 msgid "You trigger a %s!"
 msgstr "Вы активируете %s!"
+
+#: src/iuse.cpp
+msgid "You tripped the firmware protection, and the card deleted its data!"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You try to hit yourself with the hammer."
@@ -73930,7 +74454,17 @@ msgid "You turn the radio on."
 msgstr "Вы включили радио."
 
 #: src/iuse.cpp
+#, c-format
+msgid "You turned off music on your %s."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You turned off your RC car"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You turned on music on your %s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -73959,6 +74493,10 @@ msgid "You unroll the mat and lay it on the ground."
 msgstr "Вы расстилаете коврик и кладете его на землю."
 
 #: src/iuse.cpp
+msgid "You upload monster photos to memory card."
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "You use the %s to clean yourself off, saturating it with slime!"
 msgstr ""
@@ -73976,6 +74514,10 @@ msgstr "Вы используете ваш %s."
 #: src/iuse.cpp
 msgid "You use your fungicide."
 msgstr "Вы используете свой фунгицид."
+
+#: src/iuse.cpp
+msgid "You used to have a dog like this..."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You want to power a UPS with another UPS?  Very clever."
@@ -74217,6 +74759,14 @@ msgid "Your circular saw powers off."
 msgstr "Ваша дисковая пила выключается."
 
 #: src/iuse.cpp
+msgid "Your collection of monsters"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your collection of monsters:"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Your combat chainsaw goes quiet."
 msgstr "Ваша боевая бензопила затихает."
 
@@ -74337,6 +74887,11 @@ msgid "Your sword hisses in the water and goes out."
 msgstr "Ваш меч шипит в воде и выключается."
 
 #: src/iuse.cpp
+#, c-format
+msgid "Your tablet already has a recipe for %s."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Your tactical tonfa is out of power"
 msgstr "В тактической тонфе кончился заряд."
 
@@ -74370,17 +74925,25 @@ msgstr "Ткнуть что-нибудь"
 msgid "a funky bassline."
 msgstr "басовую партию в стиле фанк."
 
+#: src/iuse.cpp
+msgid "a police siren, whoop WHOOP."
+msgstr ""
+
 #: src/iuse.cpp src/vehicle.cpp
 msgid "a sweet guitar solo!"
 msgstr "приятное гитарное соло!"
 
 #: src/iuse.cpp
-msgid "but alas. You are just too miserly."
-msgstr "но увы. Вы слишком бедны."
+msgid "awful"
+msgstr ""
 
 #: src/iuse.cpp
-msgid "cancel"
-msgstr "отмена"
+msgid "bad"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "but alas. You are just too miserly."
+msgstr "но увы. Вы слишком бедны."
 
 #. ~ sound of a multi-cooker finishing its cycle!
 #: src/iuse.cpp
@@ -74396,8 +74959,20 @@ msgid "everyanimalthateverlived..bursting.from.YOU!"
 msgstr "любоеживущееживотное…живёт.внутри.ТЕБЯ!"
 
 #: src/iuse.cpp
+msgid "exceptional"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "extinguish"
 msgstr "потушить"
+
+#: src/iuse.cpp
+msgid "fine"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "good"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "grnd grnd grnd"
@@ -74414,6 +74989,10 @@ msgstr "кевларовые пластины"
 #: src/iuse.cpp
 msgid "light something"
 msgstr "поджечь что-нибудь"
+
+#: src/iuse.cpp
+msgid "not bad"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "permanent_marker"
@@ -78447,6 +79026,11 @@ msgstr[1] "Зависимости: %s\n"
 msgstr[2] "Зависимости: %s\n"
 
 #: src/mod_manager_ui.cpp
+#, c-format
+msgid "Description: %s\n"
+msgstr ""
+
+#: src/mod_manager_ui.cpp
 msgid "Description: [NONE]\n"
 msgstr ""
 
@@ -78582,12 +79166,40 @@ msgid "A tree bursts forth from the earth and pierces your %s!"
 msgstr "Дерево прорывается из земли и пронзает ваш %s!"
 
 #: src/monattack.cpp
+msgid "Allow yourself to be arrested."
+msgstr ""
+
+#: src/monattack.cpp
 #, c-format
 msgid "Bile splatters on the %s!"
 msgstr "Брызги желчи на %s!"
 
 #: src/monattack.cpp
+msgid ""
+"Do not attempt to flee or to remove the handcuffs, citizen.  That can be "
+"dangerous to your health."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Empty your hands and hold your position, citizen!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Feign death."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Halt and submit to arrest, citizen! The police will be here any moment."
+msgstr ""
+
+#: src/monattack.cpp
 msgid "He's brandishing a knife!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid ""
+"If you do not understand these rights, an officer will explain them in "
+"greater detail when taking you into custody."
 msgstr ""
 
 #: src/monattack.cpp
@@ -78599,6 +79211,10 @@ msgstr "Под кожу введены яйца дерматика."
 msgctxt "memorial_male"
 msgid "Injected with dermatik eggs."
 msgstr "Под кожу введены яйца дерматика."
+
+#: src/monattack.cpp
+msgid "Please stay in place, citizen, do not make any movements!"
+msgstr ""
 
 #: src/monattack.cpp
 #, c-format
@@ -78617,6 +79233,10 @@ msgstr "Пфф!"
 
 #: src/monattack.cpp
 msgid "Quiet, quiet"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Resist arrest!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -78951,6 +79571,22 @@ msgid "The flip does shock you..."
 msgstr ""
 
 #: src/monattack.cpp
+msgid "The riotbot orders you to present your hands and be cuffed."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "The robot carefully scans you."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "The robot puts handcuffs on you."
+msgstr ""
+
+#: src/monattack.cpp
+msgid "The robot sprays tear gas!"
+msgstr ""
+
+#: src/monattack.cpp
 msgid "The root walls creak around you."
 msgstr ""
 
@@ -79008,6 +79644,13 @@ msgid "Underbrush grows into a tree, and it pierces %1$s's %2$s!"
 msgstr "Подлесок вырастает в дерево и прорастает сквозь %2$s %1$s!"
 
 #: src/monattack.cpp
+msgid ""
+"You are under arrest, citizen.  You have the right to remain silent.  If you "
+"do not remain silent, anything you say may be used against you in a court of "
+"law."
+msgstr ""
+
+#: src/monattack.cpp
 msgid "You deftly maintain your footing!"
 msgstr "Вы ловко устояли на ногах!"
 
@@ -79027,6 +79670,14 @@ msgstr "Вы уворачиваетесь!"
 msgid "You evade it!"
 msgstr ""
 
+#: src/monattack.cpp
+msgid ""
+"You fall to the ground and feign a sudden convulsive attack.  Though you're "
+"obviously still alive, the riotbot cannot tell the difference between your "
+"'attack' and a potentially fatal medical condition.  It backs off, signaling "
+"for medical help."
+msgstr ""
+
 #: src/monattack.cpp src/player.cpp
 msgid "You feel poison enter your body!"
 msgstr "Вы чувствуете, что яд попал в ваш организм!"
@@ -79034,6 +79685,13 @@ msgstr "Вы чувствуете, что яд попал в ваш органи
 #: src/monattack.cpp
 msgid "You get pins and needles all over."
 msgstr "Вас пронзает как иголкой."
+
+#: src/monattack.cpp
+msgid ""
+"You have the right to an attorney.  If you cannot afford an attorney, one "
+"will be provided at no cost to you.  You may have your attorney present "
+"during any questioning."
+msgstr ""
 
 #: src/monattack.cpp
 #, c-format
@@ -79087,6 +79745,10 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "Your %1$s is slashed for %2$d damage!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid "Your awkward movements do not fool the riotbot."
 msgstr ""
 
 #. ~ %d is damage value.
@@ -79170,6 +79832,11 @@ msgstr ""
 msgid "but you grab its arm and flip it to the ground!"
 msgstr ""
 
+#. ~ Sound of a riotbot using its blinding flash
+#: src/monattack.cpp
+msgid "fzzzzzt"
+msgstr ""
+
 #: src/monattack.cpp
 msgid "thu-THUMP."
 msgstr ""
@@ -79181,6 +79848,10 @@ msgid ""
 "After killing so many bloody %s you no longer care about their deaths "
 "anymore."
 msgstr "После убийства множества %s, вас больше не беспокоит их смерть."
+
+#: src/mondeath.cpp
+msgid "As the final light is destroyed, it erupts in a blinding flare!"
+msgstr ""
 
 #: src/mondeath.cpp
 msgid "Culling the weak is distasteful, but necessary."
@@ -79641,13 +80312,18 @@ msgstr[2] "%s %s %d очков"
 
 #: src/newcharacter.cpp
 #, c-format
-msgid "%s Returns you to the main menu."
-msgstr "%s Вернуться в главное меню."
+msgid "%s lets you view and alter keybindings."
+msgstr ""
 
 #: src/newcharacter.cpp
 #, c-format
-msgid "%s Takes you to the next tab."
-msgstr "%s Переход к следующей вкладке."
+msgid "%s returns you to the main menu."
+msgstr ""
+
+#: src/newcharacter.cpp
+#, c-format
+msgid "%s takes you to the next tab."
+msgstr ""
 
 #: src/newcharacter.cpp
 msgid "(Top 8)"
@@ -79831,11 +80507,11 @@ msgstr "Нажмите %s для смены пола"
 #. ~ 1s - profession name, 2d - current character points.
 #: src/newcharacter.cpp
 #, c-format
-msgid "Profession %1$s cost %2$d point"
-msgid_plural "Profession %1$s cost %2$d points"
-msgstr[0] "Профессия «%1$s» стоит %2$d очко"
-msgstr[1] "Профессия «%1$s» стоит %2$d очка"
-msgstr[2] "Профессия «%1$s» стоит %2$d очков"
+msgid "Profession %1$s costs %2$d point"
+msgid_plural "Profession %1$s costs %2$d points"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #. ~ 1s - profession name, 2d - current character points.
 #: src/newcharacter.cpp
@@ -81092,6 +81768,11 @@ msgid "<very> <very>"
 msgstr "<very> <very>"
 
 #: src/npctalk.cpp
+#, c-format
+msgid "<you say something>You: %s"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid ""
 "A steady diet of cooked meat and clean water will keep you alive forever, "
 "but your taste buds and your colon may start to get angry at you. Eat a "
@@ -81436,7 +82117,7 @@ msgid "Fine... *coughupyourscough*"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Get bent traitor!"
+msgid "Get bent, traitor!"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -81814,7 +82495,7 @@ msgid "I don't kowtow to any group, <okay>?"
 msgstr "Я не пресмыкаюсь перед какой-либо группой, <okay>?"
 
 #: src/npctalk.cpp
-msgid "I don't like you're attitude."
+msgid "I don't like your attitude."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -82235,9 +82916,14 @@ msgstr "Я без фракции."
 #: src/npctalk.cpp
 #, c-format
 msgid ""
+"I'm willing to pay $%.2f per serving. You have %d serving for a total of $"
+"%.2f. No questions asked, here is your cash."
+msgid_plural ""
 "I'm willing to pay $%.2f per serving. You have %d servings for a total of $"
-"%.2f.  No questions asked, here is your cash."
-msgstr ""
+"%.2f. No questions asked, here is your cash."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: src/npctalk.cpp
 msgid "I've heard that cougars sometimes leap. Maybe it's just a myth."
@@ -82738,7 +83424,7 @@ msgid "Right, right, I'll ask later."
 msgstr "Да, точно. Я спрошу позже."
 
 #: src/npctalk.cpp
-msgid "Rough out there isn't it."
+msgid "Rough out there, isn't it?"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -83993,10 +84679,6 @@ msgstr "Автосмещение взгляда при вождении"
 msgid "Autumn"
 msgstr "Осень"
 
-#: src/options.cpp
-msgid "Brazilian Portuguese"
-msgstr "Бразильский португальский"
-
 #. ~ capped at a value
 #: src/options.cpp
 msgid "Capped"
@@ -84045,10 +84727,6 @@ msgstr "Закрывать расширенный инвентарь на 'дв�
 #: src/options.cpp
 msgid "Current world"
 msgstr "Текущий мир"
-
-#: src/options.cpp
-msgid "Czech"
-msgstr "Чешский"
 
 #: src/options.cpp
 msgid "Dangerous pickups"
@@ -84138,20 +84816,12 @@ msgstr ""
 "подбора в меню помощи (?3)."
 
 #: src/options.cpp
-msgid "English"
-msgstr "Английский"
-
-#: src/options.cpp
 msgid "Fahrenheit"
 msgstr "Фаренгейт"
 
 #: src/options.cpp
 msgid "Force Y/N in prompts"
 msgstr "Большие Y/N в запросах"
-
-#: src/options.cpp
-msgid "French"
-msgstr "Французский"
 
 #: src/options.cpp
 msgid "Fullscreen"
@@ -84164,10 +84834,6 @@ msgstr "Кол-во ходов между сохранениями"
 #: src/options.cpp
 msgid "General"
 msgstr "Общие"
-
-#: src/options.cpp
-msgid "German"
-msgstr "Немецкий"
 
 #: src/options.cpp
 msgid "Graphics"
@@ -84400,20 +85066,8 @@ msgid "Invalid input: not a number"
 msgstr "Неправильный ввод: это не число"
 
 #: src/options.cpp
-msgid "Italian"
-msgstr "Итальянский"
-
-#: src/options.cpp
 msgid "Item spawn scaling factor"
 msgstr "Множитель генерации предметов"
-
-#: src/options.cpp
-msgid "Japanese"
-msgstr "Японский"
-
-#: src/options.cpp
-msgid "Korean"
-msgstr "Корейский"
 
 #: src/options.cpp
 msgid "Language"
@@ -84503,14 +85157,6 @@ msgid "Periodically autosave"
 msgstr "Периодическое автосохранение"
 
 #: src/options.cpp
-msgid "Polish"
-msgstr "Польский"
-
-#: src/options.cpp
-msgid "Portuguese, Portugal"
-msgstr "Португальский"
-
-#: src/options.cpp
 msgid "Query"
 msgstr "Спросить"
 
@@ -84535,10 +85181,6 @@ msgid "Real minutes between autosaves"
 msgstr "Реал. минут между автосейвами"
 
 #: src/options.cpp
-msgid "Russian"
-msgstr "Русский"
-
-#: src/options.cpp
 msgid "SCT animation"
 msgstr ""
 
@@ -84561,10 +85203,6 @@ msgstr "Длительность сезона"
 #: src/options.cpp
 msgid "Season length, in days."
 msgstr "Длительность сезона в днях."
-
-#: src/options.cpp
-msgid "Serbian"
-msgstr "Сербский"
 
 #: src/options.cpp
 msgid ""
@@ -84608,10 +85246,6 @@ msgid "Sidebar style"
 msgstr "Стиль боковой панели"
 
 #: src/options.cpp
-msgid "Simplified Chinese"
-msgstr "Упрощённый китайский"
-
-#: src/options.cpp
 msgid "Size of cities"
 msgstr "Размер городов"
 
@@ -84630,10 +85264,6 @@ msgstr "Программный рендеринг"
 #: src/options.cpp
 msgid "Some of these options may produce unexpected results if changed."
 msgstr "Изменения этих настроек могут привести к непредвиденным результатам."
-
-#: src/options.cpp
-msgid "Spanish"
-msgstr "Испанский"
 
 #: src/options.cpp
 msgid "Spawn rate scaling factor"
@@ -84732,10 +85362,6 @@ msgid "To edge"
 msgstr "К краю"
 
 #: src/options.cpp
-msgid "Traditional Chinese"
-msgstr "Традиционный китайский"
-
-#: src/options.cpp
 msgid "Turns to reenable safemode"
 msgstr "Задержка включения безопасного режима"
 
@@ -84764,10 +85390,6 @@ msgstr "Детали транспорта меняют цвет"
 #: src/options.cpp
 msgid "Vertical"
 msgstr "Вертикальное"
-
-#: src/options.cpp
-msgid "Vietnamese"
-msgstr "Вьетнамский"
 
 #: src/options.cpp
 msgid "Wander spawns"
@@ -84834,6 +85456,10 @@ msgstr "- Добавить/изменить заметку"
 #: src/overmap.cpp
 msgid " - Center map on character"
 msgstr " - Курсор на персонажа"
+
+#: src/overmap.cpp
+msgid " - Change keys"
+msgstr ""
 
 #: src/overmap.cpp
 msgid " - Delete a note"
@@ -85818,6 +86444,10 @@ msgstr "Получен способ создания %s из %s."
 #: src/player.cpp
 msgid "Lifetime Stats"
 msgstr "Статистика прожитой жизни"
+
+#: src/player.cpp
+msgid "Looked at photos"
+msgstr ""
 
 #: src/player.cpp
 msgid "Marloss Bliss"
@@ -87352,7 +87982,7 @@ msgstr "Ваш навык %s увеличился до %d!"
 
 #: src/player.cpp
 #, c-format
-msgid "Your skill level won't improve, but %s has more recipes for yo"
+msgid "Your skill level won't improve, but %s has more recipes for you."
 msgstr ""
 
 #: src/player.cpp
@@ -89656,24 +90286,22 @@ msgid "Pick a world to enter game"
 msgstr "Выберите мир, чтобы начать игру"
 
 #: src/worldfactory.cpp
-msgid ""
-"Press 's' to save the list of active mods as default. Press '?' for help."
+#, c-format
+msgid "Press %s to save the list of active mods as default. Press %s for help."
 msgstr ""
-"Нажмите 's' для сохранения списка активных модов, как активируемых по-"
-"умолчанию. Нажмите '?' для справки."
 
 #: src/worldfactory.cpp
-msgid ""
-"Press <color_yellow>></color> when you are satisfied with the world as it is "
-"and are ready to continue, or <color_yellow><</color> to go back and review "
-"your world."
+#, c-format
+msgid "Press <color_yellow>%s</color> to pick a random name for your world."
 msgstr ""
-"Нажмите  <color_yellow>></color>, когда вы закончите работу с миром и будете "
-"готовы продолжить или <color_yellow><</color>, чтобы вернуться."
 
 #: src/worldfactory.cpp
-msgid "Press <color_yellow>?</color> to pick a random name for your world."
-msgstr "Нажмите <color_yellow>?</color> чтобы выбрать случайное имя."
+#, c-format
+msgid ""
+"Press <color_yellow>%s</color> when you are satisfied with the world as it "
+"is and are ready to continue, or <color_yellow>%s</color> to go back and "
+"review your world."
+msgstr ""
 
 #: src/worldfactory.cpp
 msgid "Saved list of active mods as default"
