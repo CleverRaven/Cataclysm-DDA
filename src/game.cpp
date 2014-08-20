@@ -1202,7 +1202,8 @@ bool game::do_turn()
 
     if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
         if ((!u.has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!u.has_bionic("bio_recycler") || calendar::turn % 300 == 0)) {
+            (!u.has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
+            !(u.has_trait("DEBUG_LS"))) {
             u.hunger++;
             if (u.has_trait("HUNGER")) {
                 if (one_in(2)) {
@@ -1220,7 +1221,8 @@ bool game::do_turn()
             }
         }
         if ((!u.has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
-            (!u.has_trait("PLANTSKIN") || !one_in(5))) {
+            (!u.has_trait("PLANTSKIN") || !one_in(5)) &&
+            (!u.has_trait("DEBUG_LS")) ) {
             u.thirst++;
             if (u.has_trait("THIRST")) {
                 if (one_in(2)) {
@@ -1238,7 +1240,8 @@ bool game::do_turn()
             }
         }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-        if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+        if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down")) &&
+          (!u.has_trait("DEBUG_LS")) ) {
             u.fatigue++;
             // Wakeful folks don't always gain fatigue!
             if (u.has_trait("WAKEFUL")) {
@@ -12795,7 +12798,8 @@ bool game::plmove(int dx, int dy)
                 u.fatigue++;
             }
         }
-        if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES")) {
+        if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
+          !u.has_trait("DEBUG_SILENT")) {
             if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
                 sound(x, y, 2, "");    // Sound of footsteps may awaken nearby monsters
             } else if (u.has_trait("CLUMSY")) {
@@ -14677,7 +14681,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
         case AEP_SPEED_DOWN:
             break; // Handled in player::current_speed()
-        
+
         default:
             //Suppress warnings
             break;
