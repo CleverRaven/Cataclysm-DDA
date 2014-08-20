@@ -88,7 +88,7 @@ build a release version, use curses and gettext supplied by Macports:
 Description of the options used above. Tweak until things work. More notes are in the `Makefile`.
 
 * `FRAMEWORK=1` attempt to link to libraries under the OS X `Frameworks` folders; omit to use the usual libsdl, libsdl\_image, libsdl\_ttf (e.g. leave out when you `brew install` the packages).
-* `LOCALIZED=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
+* `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
 * `NATIVE=osx` build for OS X.
 * `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5.
 * `RELEASE=1` build an optimized 'release' version; omit for debug build.
