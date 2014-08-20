@@ -2293,9 +2293,9 @@ void mattack::chickenbot(monster *z)
         mode = 1;
     } else if ((rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 12) ||
         (g->u.in_vehicle &&
-         (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 8)) ) {
+         (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 6)) ) {
         mode = 3;
-    } else if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 8) {
+    } else if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) >= 4) {
         mode = 2;
     }
 
