@@ -150,7 +150,7 @@
             {
                 "name": "survival",
                 "level": 2
-            }
+            },
             {
             	"name": "carpentry",
             	"level": 1
@@ -164,7 +164,7 @@
                 "beekeeping_gloves",
                 "socks",
                 "boots",
-                "tank_top"
+                "tank_top",
                 "royal_jelly"
                 
             ],
