@@ -100,7 +100,7 @@
             ],
             "comment": "randomly picked from a group ---v",
             "place_groups": [
-                { "vehicle": "car", "x": 17, "y": 6, "rotation": 90, "chance": 15, "fuel": 100, "status": 0 },
+                { "vehicle": "car", "x": 17, "y": 6, "rotation": 90, "chance": 15, "fuel": 80, "status": 0 },
                 { "item": "bedroom", "chance": 80, "x": [ 15, 21 ], "y": [ 18, 21 ] },
                 { "item": "livingroom", "chance": 80, "x": [ 7,13 ], "y": [ 18,21 ] },
                 { "item": "homeguns", "chance": 5, "x": [ 15,21 ], "y": [ 18,21 ] },
