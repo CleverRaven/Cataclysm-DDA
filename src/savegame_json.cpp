@@ -327,8 +327,8 @@ void player::serialize(JsonOut &json, bool save_contents) const
     if ( prof != NULL ) {
         json.member( "profession", prof->ident() );
     }
-    if ( scen != NULL ) {
-	json.member( "scenario", scen->ident() );
+    if ( g->scen != NULL ) {
+	json.member( "scenario", g->scen->ident() );
     }
     // someday, npcs may drive
     json.member( "driving_recoil", int(driving_recoil) );
@@ -445,7 +445,7 @@ void player::deserialize(JsonIn &jsin)
     drench_mut_calc();
     std::string scen_ident="(null)";
     if ( data.read("scenario",scen_ident) && scenario::exists(scen_ident) ) {
-        scen = scenario::scen(scen_ident);
+        g->scen = scenario::scen(scen_ident);
     } else {
         debugmsg("Tried to use non-existent scenario '%s'", scen_ident.c_str());
     }
