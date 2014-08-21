@@ -1117,18 +1117,17 @@ int set_profession(WINDOW *w, player *u, int &points)
         calcStartPos(iStartPos, cur_id, iContentHeight, sorted_profs.size());
         //Draw options
 	for (int i = iStartPos; i < iStartPos + ((iContentHeight > sorted_profs.size()) ?
-		     sorted_profs.size() : iContentHeight); i++) 
-	{
+		     sorted_profs.size() : iContentHeight); i++){
 	     mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
 		                                     "); // Clear the line
 	     nc_color col;
 	     if (u->prof != sorted_profs[i]) 
 		{
-		        col = (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray);
+		    col = (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray);
 		} 
 		else 
 		{
-		        col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
+		    col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
 		}
 		mvwprintz(w, 5 + i - iStartPos, 2, col,
 		              sorted_profs[i]->gender_appropriate_name(u->male).c_str());
@@ -1205,7 +1204,6 @@ int set_profession(WINDOW *w, player *u, int &points)
         } else if (action == "UP") {
                 cur_id--;
                 if (cur_id < 0) {
-                    //cur_id = profession::count() - 1;
 		    cur_id = sorted_profs.size() - 1;
                 }
         } else if (action == "CONFIRM") {
