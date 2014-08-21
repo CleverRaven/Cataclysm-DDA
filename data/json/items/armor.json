@@ -336,7 +336,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, but they make it difficult to move on rough terrain.",
+        "description" : "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
         "price" : 8500,
         "material" : ["leather", "steel"],
         "volume" : 12,
