@@ -64,22 +64,23 @@ bool will_flood_stop(map *m, bool (&fill)[SEEX *MAPSIZE][SEEY *MAPSIZE],
                      int x, int y);
 
 static void load_available_constructions( std::vector<std::string> &available,
-                                          bool hide_unconstructable )
+                                            std::map<std::string, std::vector<std::string>> &cat_available,
+                                            bool hide_unconstructable )
 {
+    cat_available.clear();
     available.clear();
-    for(std::vector<construction *>::iterator it = constructions.begin();
-        it != constructions.end(); ++it ) {
-        if( !hide_unconstructable || can_construct(*it) ) {
+    for( auto &it : constructions ) {
+        if( !hide_unconstructable || can_construct(it) ) {
             bool already_have_it = false;
-            for(std::vector<std::string>::iterator avail_it = available.begin();
-                avail_it != available.end(); ++avail_it ) {
-                if (*avail_it == (*it)->description) {
+            for(auto &avail_it : available ) {
+                if (avail_it == it->description) {
                     already_have_it = true;
                     break;
                 }
             }
             if (!already_have_it) {
-                available.push_back((*it)->description);
+                available.push_back(it->description);
+                cat_available[it->category].push_back(it->description);
             }
         }
     }
@@ -90,7 +91,8 @@ void construction_menu()
     static bool hide_unconstructable = false;
     // only display constructions the player can theoretically perform
     std::vector<std::string> available;
-    load_available_constructions( available, hide_unconstructable );
+    std::map<std::string, std::vector<std::string>> cat_available;
+    load_available_constructions( available, cat_available, hide_unconstructable );
 
     if(available.empty()) {
         popup(_("You can not construct anything here."));
@@ -115,22 +117,41 @@ void construction_menu()
     for( int i = 1; i < iMaxY - 1; ++i ) {
         mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
     }
+    for (int i = 1; i < 30; ++i) {
+        mvwputch(w_con, 2, i, c_ltgray, LINE_OXOX);
+    }
+    mvwputch(w_con, 2, 0, c_ltgray, LINE_XXXO);
+    mvwputch(w_con, 2, 30, c_ltgray, LINE_XOXX);
 
     wrefresh(w_con);
 
+    //tabcount needs to be increased to add more categories
+    int tabcount = 9;
+    //Must be 24 or less characters
+    std::string construct_cat[] = {_("All"), _("Constructions"), _("Furniture"), _("Digging and Mining"),
+                                    _("Repairing"), _("Reinforcing"), _("Decorative"),
+                                    _("Farming and Woodcutting"), _("Others")
+                                };
+
     bool update_info = true;
+    bool update_cat = true;
+    int tabindex = 0;
     int select = 0;
     int oldselect = 0;
     int chosen = 0;
     int offset = 0;
     int oldoffset = 0;
     bool exit = false;
+    std::string category_name = "";
+    std::vector<std::string> constructs;
 
     inventory total_inv = g->crafting_inventory(&(g->u));
 
     input_context ctxt("CONSTRUCTION");
     ctxt.register_action("UP", _("Move cursor up"));
     ctxt.register_action("DOWN", _("Move cursor down"));
+    ctxt.register_action("RIGHT", _("Move tab right"));
+    ctxt.register_action("LEFT", _("Move tab left"));
     ctxt.register_action("PAGE_UP");
     ctxt.register_action("PAGE_DOWN");
     ctxt.register_action("CONFIRM");
@@ -142,21 +163,56 @@ void construction_menu()
     std::string hotkeys = ctxt.get_available_single_char_hotkeys();
 
     do {
+        if (update_cat) {
+            update_cat = false;
+            if (construct_cat[tabindex] == "All") {
+                category_name = "ALL";
+            } else if (construct_cat[tabindex] == "Constructions") {
+                category_name = "CONSTRUCT";
+            } else if (construct_cat[tabindex] == "Furniture") {
+                category_name = "FURN";
+            } else if (construct_cat[tabindex] == "Digging and Mining") {
+                category_name = "DIG";
+            } else if (construct_cat[tabindex] == "Repairing") {
+                category_name = "REPAIR";
+            } else if (construct_cat[tabindex] == "Reinforcing") {
+                category_name = "REINFORCE";
+            } else if (construct_cat[tabindex] == "Decorative") {
+                category_name = "DECORATIVE";
+            } else if (construct_cat[tabindex] == "Farming and Woodcutting") {
+                category_name = "FARM&WOOD";
+            } else if (construct_cat[tabindex] == "Others") {
+                category_name = "OTHER";
+            }
+            
+            if (category_name == "ALL") {
+                constructs = available;
+            } else {
+                constructs = cat_available[category_name];
+            }
+        }
+        // Erase existing tab selection
+        for( int j = 1; j < 30; j++ ) {
+            mvwputch(w_con, 1, j, c_black, ' ');
+        }
+        //Print new tab listing
+        mvwprintz(w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex].c_str());
+        
         // Erase existing list of constructions
-        for( int i = 1; i < iMaxY - 1; i++ ) {
+        for( int i = 3; i < iMaxY - 1; i++ ) {
             for( int j = 1; j < 30; j++ ) {
                 mvwputch(w_con, i, j, c_black, ' ');
             }
         }
         // Determine where in the master list to start printing
         if( OPTIONS["MENU_SCROLL"] ) {
-            if ((int)available.size() > iMaxY) {
+            if ((int)constructs.size() > iMaxY) {
                 offset = select - (iMaxY - 1) / 2;
 
                 if (offset < 0) {
                     offset = 0;
-                } else if (offset + iMaxY -2 > (int)available.size()) {
-                    offset = available.size() - iMaxY + 2;
+                } else if (offset + iMaxY -2 > (int)constructs.size()) {
+                    offset = constructs.size() - iMaxY + 4;
                 }
              }
         } else {
@@ -167,25 +223,25 @@ void construction_menu()
             }
         }
         // Print the constructions between offset and max (or how many will fit)
-        for (size_t i = 0; (int)i < iMaxY - 2 && (i + offset) < available.size(); i++) {
+        for (size_t i = 0; (int)i < iMaxY - 4 && (i + offset) < constructs.size(); i++) {
             int current = i + offset;
-            nc_color col = ( player_can_build(g->u, total_inv, available[current]) &&
-                             can_construct( available[current] ) ) ? c_white : c_dkgray;
+            nc_color col = ( player_can_build(g->u, total_inv, constructs[current]) &&
+                             can_construct( constructs[current] ) ) ? c_white : c_dkgray;
             if (current == select) {
                 col = hilite(col);
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
             // If we run out of hotkeys, just stop assigning them.
-            std::string cur_name = available[current].c_str();
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s",
+            std::string cur_name = constructs[current].c_str();
+            mvwprintz(w_con, 3 + i, 1, col, "%c %s",
                       (current < (int)hotkeys.size()) ? hotkeys[current] : ' ',
                       utf8_truncate(cur_name, 27).c_str());
         }
 
         if (update_info) {
             update_info = false;
-            std::string current_desc = available[select];
+            std::string current_desc = constructs[select];
             // Clear out lines for tools & materials
             for (int i = 1; i < iMaxY - 1; i++) {
                 for (int j = 31; j < 79; j++) {
@@ -252,14 +308,14 @@ void construction_menu()
 
         //Draw Scrollbar.
         //Doing it here lets us refresh the entire window all at once.
-        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
+        draw_scrollbar(w_con, select, iMaxY - 4, constructs.size(), 3);
 
         const std::string action = ctxt.handle_input();
         const long raw_input_char = ctxt.get_raw_input().get_first_input();
 
         if (action == "DOWN") {
             update_info = true;
-            if (select < (int)available.size() - 1) {
+            if (select < (int)constructs.size() - 1) {
                 select++;
             } else {
                 select = 0;
@@ -269,13 +325,26 @@ void construction_menu()
             if (select > 0) {
                 select--;
             } else {
-                select = available.size() - 1;
+                select = constructs.size() - 1;
             }
+        } else if (action == "LEFT") {
+            update_info = true;
+            update_cat = true;
+            select = 0;
+            tabindex--;
+            if (tabindex < 0) {
+                tabindex = tabcount - 1;
+            }
+        } else if (action == "RIGHT") {
+            update_info = true;
+            update_cat = true;
+            select = 0;
+            tabindex = (tabindex + 1) % tabcount;
         } else if (action == "PAGE_DOWN") {
             update_info = true;
             select += 15;
-            if ( select > (int)available.size() - 1 ) {
-                select = available.size() - 1;
+            if ( select > (int)constructs.size() - 1 ) {
+                select = constructs.size() - 1;
             }
         } else if (action == "PAGE_UP") {
             update_info = true;
@@ -292,7 +361,7 @@ void construction_menu()
             hide_unconstructable = !hide_unconstructable;
             std::swap(select, oldselect);
             std::swap(offset, oldoffset);
-            load_available_constructions( available, hide_unconstructable );
+            load_available_constructions( available, cat_available, hide_unconstructable );
         } else if (action == "ANY_INPUT" || action == "CONFIRM") {
             if (action == "CONFIRM") {
                 chosen = select;
@@ -303,9 +372,9 @@ void construction_menu()
                     continue;
                 }
             }
-            if (chosen < (int)available.size()) {
-                if (player_can_build(g->u, total_inv, available[chosen])) {
-                    place_construction(available[chosen]);
+            if (chosen < (int)constructs.size()) {
+                if (player_can_build(g->u, total_inv, constructs[chosen])) {
+                    place_construction(constructs[chosen]);
                     exit = true;
                 } else {
                     popup(_("You can't build that!"));
@@ -1311,6 +1380,7 @@ void load_construction(JsonObject &jo)
     con->description = _(jo.get_string("description").c_str());
     con->skill = jo.get_string("skill", "carpentry");
     con->difficulty = jo.get_int("difficulty");
+    con->category = jo.get_string("category", "OTHER");
     con->load(jo);
     // constructions use different time units in json, this makes it compatible
     // with recipes/requirements, TODO: should be changed in json
