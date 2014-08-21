@@ -218,8 +218,8 @@ void construction_menu()
         } else {
             if( select < offset ) {
                 offset = select;
-            } else if( select >= offset + iMaxY -2 ) {
-                offset = 1 + select - iMaxY + 2;
+            } else if( select >= offset + iMaxY - 4 ) {
+                offset = 1 + select - iMaxY + 4;
             }
         }
         // Print the constructions between offset and max (or how many will fit)
