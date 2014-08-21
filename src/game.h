@@ -311,18 +311,8 @@ class game
         int inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single);
         int display_slice(indexed_invslice &, const std::string &, const int &position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
-        // Same as other multidrop, only the dropped_worn vector
-        // is merged into the result.
-        std::vector<item> multidrop();
-        // Select items to drop, removes those items from the players
-        // inventory, takes of the selected armor, unwields weapon (if
-        // selected).
-        // Selected items that had been worn are taken off and put into dropped_worn.
-        // Selected items from main inventory and the weapon are returned directly.
-        // removed_storage_space contains the summed up storage of the taken
-        // of armor. This includes the storage space of the items in dropped_worn
-        // and the items that have been autodropped while taking them off.
-        std::vector<item> multidrop(std::vector<item> &dropped_worn, int &removed_storage_space);
+        // Select items to drop.  Returns a list of pairs of position, quantity.
+        std::list<std::pair<int, int>> multidrop();
         faction *list_factions(std::string title = "FACTIONS:");
         point find_item(item *it);
         void remove_item(item *it);
