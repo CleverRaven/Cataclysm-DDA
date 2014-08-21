@@ -315,6 +315,14 @@ void load_overmap_terrain(JsonObject &jo)
     oter.loadid_base = start_iid;
     oter.directional_peers.clear();
 
+    if( jo.has_object( "spawns" ) ) {
+        JsonObject spawns = jo.get_object( "spawns" );
+        oter.static_spawns.group = spawns.get_string( "group" );
+        oter.static_spawns.min_population = spawns.get_array( "population" ).get_int( 0 );
+        oter.static_spawns.max_population = spawns.get_array( "population" ).get_int( 1 );
+        oter.static_spawns.chance = spawns.get_int( "chance" );
+    }
+
     oter.is_road = isroad(id_base);
     oter.is_river = (id_base.compare(0, 5, "river", 5) == 0 ||
                      id_base.compare(0, 6, "bridge", 6) == 0);
@@ -3599,24 +3607,6 @@ void overmap::place_mongroups()
                          rng(20, 40), rng(30, 50)));
         }
     }
-
-    // Forest groups cover the entire map
-    mongroup m("GROUP_FOREST", OMAPX / 2, OMAPY / 2, 0,
-                           OMAPY, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", OMAPX / 2, (OMAPY * 3) / 2, 0,
-                           OMAPY, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", (OMAPX * 3) / 2, OMAPY / 2, 0,
-                           OMAPX, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", (OMAPX * 3) / 2, (OMAPY * 3) / 2, 0,
-                           OMAPX, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
 }
 
 int overmap::get_top_border()

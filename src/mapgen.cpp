@@ -124,6 +124,31 @@ void map::generate(const int x, const int y, const int z, const int turn)
         }
     }
 
+
+    const overmap_spawns &spawns = terrain_type.t().static_spawns;
+    if( spawns.group != "GROUP_NULL" && x_in_y( spawns.chance, 100 ) ) {
+        int pop = rng( spawns.min_population, spawns.max_population );
+        // place_spawns currently depends on the STATIC_SPAWN world option, this
+        // must bypass it.
+        for( ; pop > 0; pop-- ) {
+            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+            if( spawn_details.name == "mon_null" ) {
+                continue;
+            }
+            int tries = 10;
+            int monx = 0;
+            int mony = 0;
+            do {
+                monx = rng( 0, SEEX * 2 - 1 );
+                mony = rng( 0, SEEY * 2 - 1 );
+                tries--;
+            } while( move_cost( monx, mony ) == 0 && tries > 0 );
+            if( tries > 0 ) {
+                add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
+            }
+        }
+    }
+
     post_process(zones);
 
     // Okay, we know who are neighbors are.  Let's draw!

@@ -46,6 +46,7 @@
         "color" : "brown",
         "see_cost" : 2,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 },
         "allow_road" : true
     },{
         "type" : "overmap_terrain",
@@ -55,6 +56,7 @@
         "color" : "green",
         "see_cost" : 3,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 3], "chance": 80 },
         "allow_road" : true
     },{
         "type" : "overmap_terrain",
@@ -64,6 +66,7 @@
         "color" : "green",
         "see_cost" : 4,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 6], "chance": 90 },
         "allow_road" : true,
         "mapgen": [
             { "method": "builtin", "name": "forest" }
@@ -76,6 +79,7 @@
         "color" : "cyan",
         "see_cost" : 4,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_SWAMP", "population": [1, 4], "chance": 100 },
         "allow_road" : true,
         "mapgen": [
             { "method": "builtin", "name": "forest" }
