@@ -137,10 +137,8 @@ void construction_menu()
     bool update_cat = true;
     int tabindex = 0;
     int select = 0;
-    int oldselect = 0;
     int chosen = 0;
     int offset = 0;
-    int oldoffset = 0;
     bool exit = false;
     std::string category_name = "";
     std::vector<std::string> constructs;
@@ -360,9 +358,10 @@ void construction_menu()
             hotkeys = ctxt.get_available_single_char_hotkeys();
         } else if (action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS") {
             update_info = true;
+            update_cat = true;
             hide_unconstructable = !hide_unconstructable;
-            std::swap(select, oldselect);
-            std::swap(offset, oldoffset);
+            select = 0;
+            offset = 0;
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if (action == "ANY_INPUT" || action == "CONFIRM") {
             if (action == "CONFIRM") {
