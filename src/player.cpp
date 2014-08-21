@@ -1588,11 +1588,11 @@ int player::run_cost(int base_cost, bool diag)
 	// Quad skates might be more stable than inlines, but that also translates into a slower speed when on good surfaces.
     if ( (is_wearing("rollerskates")) && !(is_on_ground())) {
         if (offroading) {
-            movecost *= 1.0f + (0.20f * shoe_type_count("rollerskates"));
+            movecost *= 1.0f + (0.15f * shoe_type_count("rollerskates"));
         } else if (flatground) {
-            movecost *= 1.0f - (0.20f * shoe_type_count("rollerskates"));
+            movecost *= 1.0f - (0.15f * shoe_type_count("rollerskates"));
         } else {
-            movecost *= 1.4f;
+            movecost *= 1.3f;
         }
     }
 
