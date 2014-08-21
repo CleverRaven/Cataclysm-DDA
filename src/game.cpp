@@ -8394,41 +8394,11 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        int dummy;
-        std::vector<item> dropped_worn;
-        std::vector<item> result = g->multidrop(dropped_worn, dummy);
-        result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
-
-        if (result.size() == 0) {
-            add_msg(_("Never mind."));
-        } else {
-            add_msg(_("You stash some gear in your %s's %s."),
-                    pet_name.c_str(), it->tname(1).c_str() );
-            for (auto &i : result) {
-
-                int vol = i.volume();
-                int weight = i.weight();
-                bool too_heavy = max_weight - weight < 0;
-                bool too_big = max_cap - vol < 0;
-
-                if( !too_heavy && !too_big ) {
-                    z->inv.push_back(i);
-                    max_cap -= vol;
-                    max_weight -= weight;
-                } else {
-                    g->m.add_item_or_charges(z->xpos(), z->ypos(), i, 1);
-                    if( too_big ) {
-                        g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
-                                               i.display_name().c_str());
-                    } else {
-                        g->u.add_msg_if_player(m_bad, _("%s is too heavy and fell to the ground!"),
-                                               i.display_name().c_str());
-                    }
-                }
-            }
+        bool success = g->make_drop_activity( ACT_STASH, z->pos() );
+        if( success ) {
+            z->add_effect("controlled", 5);
         }
-
-        return true;
+        return success;
     }
 
     if (pheromone == choice && query_yn(_("Really kill the zombie slave?"))) {
@@ -10709,18 +10679,24 @@ int game::move_liquid(item &liquid)
 
 void game::drop(int pos)
 {
-    std::vector<item> dropped;
-    std::vector<item> dropped_worn;
-    int freed_volume_capacity = 0;
     if (pos == INT_MIN) {
         make_drop_activity( ACT_DROP, u.pos() );
     } else if (pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot drop your %s."), u.weapon.tname().c_str());
         return;
     } else {
-        dropped.push_back(u.i_rem(pos));
+        std::vector<item> dropped;
+        std::vector<item> dropped_worn;
+        if (pos <= -2) {
+            if (!u.takeoff(pos, false, &dropped_worn)) {
+                return;
+            }
+            u.moves -= 250; // same as game::takeoff
+        } else {
+            dropped.push_back(u.i_rem(pos));
+        }
+        drop(dropped, dropped_worn, 0, u.posx, u.posy);
     }
-    drop(dropped, dropped_worn, freed_volume_capacity, u.posx, u.posy);
 }
 
 void game::drop_in_direction()
