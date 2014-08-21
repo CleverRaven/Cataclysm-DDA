@@ -178,9 +178,9 @@ void construction_menu()
             } else if (construct_cat[tabindex] == "Reinforcing") {
                 category_name = "REINFORCE";
             } else if (construct_cat[tabindex] == "Decorative") {
-                category_name = "DECORATIVE";
+                category_name = "DECORATE";
             } else if (construct_cat[tabindex] == "Farming and Woodcutting") {
-                category_name = "FARM&WOOD";
+                category_name = "FARM_WOOD";
             } else if (construct_cat[tabindex] == "Others") {
                 category_name = "OTHER";
             }
@@ -249,60 +249,62 @@ void construction_menu()
                 }
             }
 
-            // Print instructions for toggling recipe hiding.
-            mvwprintz(w_con, iMaxY - 3, 31, c_white, _("Press %s to toggle unavailable constructions."), ctxt.get_desc("TOGGLE_UNAVAILABLE_CONSTRUCTIONS").c_str());
-            mvwprintz(w_con, iMaxY - 2, 31, c_white, _("Press %s to view and edit key-bindings."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
+            if (!constructs.empty()) {
+                // Print instructions for toggling recipe hiding.
+                mvwprintz(w_con, iMaxY - 3, 31, c_white, _("Press %s to toggle unavailable constructions."), ctxt.get_desc("TOGGLE_UNAVAILABLE_CONSTRUCTIONS").c_str());
+                mvwprintz(w_con, iMaxY - 2, 31, c_white, _("Press %s to view and edit key-bindings."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
 
-            // Print construction name
-            mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
+                // Print construction name
+                mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
-            // Print stages and their requirement
-            int posy = 1;
-            std::vector<construction *> options = constructions_by_desc(current_desc);
-            for(std::vector<construction *>::iterator it = options.begin();
-                it != options.end(); ++it) {
-                construction *current_con = *it;
-                if( hide_unconstructable && !can_construct(current_con) ) {
-                    continue;
-                }
-                nc_color color_stage = c_white;
-
-                // display required skill and difficulty
-                int pskill = g->u.skillLevel(current_con->skill);
-                int diff = (current_con->difficulty > 0) ? current_con->difficulty : 0;
-                posy++;
-                mvwprintz(w_con, posy, 31, c_white,
-                          _("Skill: %s"), Skill::skill(current_con->skill)->name().c_str());
-                posy++;
-                mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
-                          _("Difficulty: %d"), diff);
-                // display required terrain
-                if (current_con->pre_terrain != "") {
-                    posy++;
-                    if (current_con->pre_is_furniture) {
-                        mvwprintz(w_con, posy, 31, color_stage, _("Replaces: %s"),
-                                  furnmap[current_con->pre_terrain].name.c_str());
-                    } else {
-                        mvwprintz(w_con, posy, 31, color_stage, _("Replaces: %s"),
-                                  termap[current_con->pre_terrain].name.c_str());
+                // Print stages and their requirement
+                int posy = 1;
+                std::vector<construction *> options = constructions_by_desc(current_desc);
+                for(std::vector<construction *>::iterator it = options.begin();
+                    it != options.end(); ++it) {
+                    construction *current_con = *it;
+                    if( hide_unconstructable && !can_construct(current_con) ) {
+                        continue;
                     }
-                }
-                // display result
-                if (current_con->post_terrain != "") {
+                    nc_color color_stage = c_white;
+
+                    // display required skill and difficulty
+                    int pskill = g->u.skillLevel(current_con->skill);
+                    int diff = (current_con->difficulty > 0) ? current_con->difficulty : 0;
                     posy++;
-                    if (current_con->post_is_furniture) {
-                        mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"),
-                                  furnmap[current_con->post_terrain].name.c_str());
-                    } else {
-                        mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"),
-                                  termap[current_con->post_terrain].name.c_str());
+                    mvwprintz(w_con, posy, 31, c_white,
+                              _("Skill: %s"), Skill::skill(current_con->skill)->name().c_str());
+                    posy++;
+                    mvwprintz(w_con, posy, 31, (pskill >= diff ? c_white : c_red),
+                              _("Difficulty: %d"), diff);
+                    // display required terrain
+                    if (current_con->pre_terrain != "") {
+                        posy++;
+                        if (current_con->pre_is_furniture) {
+                            mvwprintz(w_con, posy, 31, color_stage, _("Replaces: %s"),
+                                      furnmap[current_con->pre_terrain].name.c_str());
+                        } else {
+                            mvwprintz(w_con, posy, 31, color_stage, _("Replaces: %s"),
+                                      termap[current_con->pre_terrain].name.c_str());
+                        }
                     }
+                    // display result
+                    if (current_con->post_terrain != "") {
+                        posy++;
+                        if (current_con->post_is_furniture) {
+                            mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"),
+                                      furnmap[current_con->post_terrain].name.c_str());
+                        } else {
+                            mvwprintz(w_con, posy, 31, color_stage, _("Result: %s"),
+                                      termap[current_con->post_terrain].name.c_str());
+                        }
+                    }
+                    // display time needed
+                    posy++;
+                    posy += current_con->print_time(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage);
+                    posy += current_con->print_tools(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
+                    posy += current_con->print_components(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
                 }
-                // display time needed
-                posy++;
-                posy += current_con->print_time(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage);
-                posy += current_con->print_tools(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
-                posy += current_con->print_components(w_con, posy, 31, FULL_SCREEN_WIDTH - 31 - 1, color_stage, total_inv);
             }
         } // Finished updating
 
