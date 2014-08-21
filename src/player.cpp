@@ -9094,6 +9094,11 @@ hint_rating player::rate_action_takeoff(item *it) {
     return HINT_IFFY;
 }
 
+bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
+{
+    return takeoff( get_item_position( target ), autodrop, items );
+}
+
 bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
 {
     bool taken_off = false;
