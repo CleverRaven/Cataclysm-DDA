@@ -411,6 +411,9 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         jmapgen_int tmp_repeat(1,1);
         int tmp_chance = 1;
         int tmp_rotation = 0;
+        int tmp_fuel = -1;
+        int tmp_status = -1;
+
         if ( ! load_jmapgen_int(pjo, "x", tmp_x.val, tmp_x.valmax) ) {
             err = string_format("set %s: bad/missing value for 'x'",tmpval.c_str() ); throw err;
         }
@@ -467,7 +470,9 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         load_jmapgen_int(pjo, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
         pjo.read("chance", tmp_chance );
         pjo.read("rotation", tmp_rotation );
-        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat, tmp_rotation );
+        pjo.read("fuel", tmp_fuel );
+        pjo.read("status", tmp_status );
+        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back(tmp);
         tmpval = "";
@@ -493,6 +498,9 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          int tmp_chance = 1;
          float tmp_density = -1.0;
          int tmp_rotation = 0;
+         int tmp_fuel = -1;
+         int tmp_status = -1;
+
          if ( jsi.read("item", tmpval ) ) {
              tmpop = JMAPGEN_PLACEGROUP_ITEM;
              if ( item_controller->id_from(tmpval) == "MISSING_ITEM" ) {
@@ -520,13 +528,19 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          if ( ! jsi.read("rotation", tmp_rotation ) ) {
              err = string_format("place_group: missing \"x\": int (%s)", tmpop == JMAPGEN_PLACEGROUP_ITEM ? "percent chance" : "one_in int chance" );
          }
+         if ( ! jsi.read("fuel", tmp_fuel ) ) {
+             err = string_format("place_group: missing \"x\": int (%s)", tmpop == JMAPGEN_PLACEGROUP_ITEM ? "percent chance" : "one_in int chance" );
+         }
+         if ( ! jsi.read("status", tmp_status ) ) {
+             err = string_format("place_group: missing \"x\": int (%s)", tmpop == JMAPGEN_PLACEGROUP_ITEM ? "percent chance" : "one_in int chance" );
+         }
          if ( tmpop == JMAPGEN_PLACEGROUP_MONSTER && jsi.has_float("density") ) {
               tmp_density = jsi.get_float("density");
          }
 
          load_jmapgen_int(jsi, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
 
-         jmapgen_place_group new_placegroup( tmp_x, tmp_y, tmpval, tmpop, tmp_chance, tmp_density, tmp_repeat, tmp_rotation);
+         jmapgen_place_group new_placegroup( tmp_x, tmp_y, tmpval, tmpop, tmp_chance, tmp_density, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status);
          place_groups.push_back( new_placegroup );
          tmpval = "";
      }
@@ -838,7 +852,7 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
         case JMAPGEN_PLACEGROUP_VEHICLE: {
             for (int i = 0; i < trepeat; i++) {
                 if (x_in_y(chance, 100)) {
-                    m->add_vehicle (gid, x.val, y.val, rotation);
+                    m->add_vehicle (gid, x.val, y.val, rotation, fuel, status);
                 }
             }
         } break;
@@ -12867,7 +12881,7 @@ void map::add_extra(map_extra type)
             add_vehicle("policecar", 16, SEEY * 2 - 5, 145);
             add_spawn("mon_turret", 1, 1, 12);
             add_spawn("mon_turret", 1, SEEX * 2 - 1, 12);
-            
+
             int num_bodies = dice(1, 6);
         for (int i = 0; i < num_bodies; i++) {
             int x, y, tries = 0;;

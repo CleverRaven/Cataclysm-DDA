@@ -11390,8 +11390,7 @@ void game::butcher()
     if (dis_item.corpse == NULL) {
         recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
         assert(cur_recipe != NULL); // tested above
-        if (OPTIONS["QUERY_DISASSEMBLE"] &&
-            !(query_yn(_("Really disassemble the %s?"), dis_item.tname().c_str()))) {
+        if( !query_dissamble( dis_item ) ) {
             return;
         }
         u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
