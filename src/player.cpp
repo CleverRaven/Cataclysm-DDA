@@ -11154,7 +11154,7 @@ void player::cancel_activity()
     if (activity.is_suspendable()) {
         backlog = activity;
     }
-    activity.type = ACT_NULL;
+    activity = player_activity();
 }
 
 std::vector<item*> player::has_ammo(ammotype at)
