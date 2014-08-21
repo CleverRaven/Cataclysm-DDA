@@ -126,7 +126,7 @@ recipe *recipe_by_name(std::string name);
 void finalize_recipes();
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.
-bool query_dissamble(const recipe *cur_recipe, const item &dis_item);
+bool query_dissamble(const item &dis_item);
 
 extern recipe_map recipes; // The list of valid recipes
 

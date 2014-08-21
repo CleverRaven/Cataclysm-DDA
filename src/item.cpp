@@ -817,6 +817,19 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
     if (!components.empty()) {
         dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Made from: %s"), components_to_string().c_str() ) ) );
+    } else {
+        recipe *dis_recipe = g->get_disassemble_recipe( type->id );
+        if( dis_recipe != nullptr ) {
+            std::ostringstream buffer;
+            for( auto it = dis_recipe->components.begin(); it != dis_recipe->components.end(); ++it ) {
+                if( it != dis_recipe->components.begin() ) {
+                    buffer << _(", ");
+                }
+                buffer << it->front().to_string();
+            }
+            dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Dissasembing this item might yield %s"),
+                                                                     buffer.str().c_str() ) ) );
+        }
     }
 
     if ( !type->qualities.empty()){
