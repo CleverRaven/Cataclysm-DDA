@@ -163,24 +163,34 @@ void construction_menu()
     do {
         if (update_cat) {
             update_cat = false;
-            if (construct_cat[tabindex] == "All") {
-                category_name = "ALL";
-            } else if (construct_cat[tabindex] == "Constructions") {
-                category_name = "CONSTRUCT";
-            } else if (construct_cat[tabindex] == "Furniture") {
-                category_name = "FURN";
-            } else if (construct_cat[tabindex] == "Digging and Mining") {
-                category_name = "DIG";
-            } else if (construct_cat[tabindex] == "Repairing") {
-                category_name = "REPAIR";
-            } else if (construct_cat[tabindex] == "Reinforcing") {
-                category_name = "REINFORCE";
-            } else if (construct_cat[tabindex] == "Decorative") {
-                category_name = "DECORATE";
-            } else if (construct_cat[tabindex] == "Farming and Woodcutting") {
-                category_name = "FARM_WOOD";
-            } else if (construct_cat[tabindex] == "Others") {
-                category_name = "OTHER";
+            switch (tabindex) {
+                case 0:
+                    category_name = "ALL";
+                    break;
+                case 1:
+                    category_name = "CONSTRUCT";
+                    break;
+                case 2:
+                    category_name = "FURN";
+                    break;
+                case 3:
+                    category_name = "DIG";
+                    break;
+                case 4:
+                    category_name = "REPAIR";
+                    break;
+                case 5:
+                    category_name = "REINFORCE";
+                    break;
+                case 6:
+                    category_name = "DECORATE";
+                    break;
+                case 7:
+                    category_name = "FARM_WOOD";
+                    break;
+                case 8:
+                    category_name = "OTHER";
+                    break;
             }
             
             if (category_name == "ALL") {
