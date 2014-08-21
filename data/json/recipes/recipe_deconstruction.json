@@ -1047,7 +1047,7 @@
     {"id":"SAW_M","level":1,"amount":1}
     
     ], "components": [
-        [ [ "scrap", 6 ] ]
+        [ [ "scrap", 11 ] ]
     ]
 },{
         "type" : "recipe",
