@@ -1282,12 +1282,23 @@
             "both": [
                 "tac_fullhelmet",
                 "chestrig",
+                "pants_cargo",
+                "under_armor",
+                "socks",
+                "boots",
                 "badge_deputy",
                 "holster",
                 "l_mp_9mm",
                 "9mmP",
                 "9mmP",
                 "spare_mag"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
             ]
         }
     },
