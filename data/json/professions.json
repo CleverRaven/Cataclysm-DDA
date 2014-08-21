@@ -140,6 +140,42 @@
                 "panties"
             ]
         }
+    },{
+        "type": "profession",
+        "ident": "beekeeper",
+        "name": "Beekeeper",
+        "description": "You used to be a professional beekeeper. You had to abandon your precious bees, when the cataclysm struck, but at least you managed to grab some utensils and royal jelly.",
+        "points": 2,
+        "skills": [
+            {
+                "name": "survival",
+                "level": 2
+            },
+            {
+            	"name": "carpentry",
+            	"level": 1
+            }
+        ],
+        "items": {
+            "both": [
+                "honey_scraper",
+                "beekeeping_hood",
+                "beekeeping_suit",
+                "beekeeping_gloves",
+                "socks",
+                "boots",
+                "tank_top",
+                "royal_jelly"
+                
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type": "profession",

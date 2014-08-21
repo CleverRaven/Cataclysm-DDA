@@ -2414,6 +2414,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "honey_scraper",
+        "name" : "honey scraper",
+        "description" : "A sharp, knife-like tool used in harvesting honey from beehives. Makes a passable melee weapon.",
+        "weight" : 580,
+        "to_hit" : 0,
+        "color" : "dark_gray",
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "cutting" : 8,
+        "flags" : ["STAB", "SHEATH_KNIFE"],
+        "price" : 10000,
+        "qualities": [["CUT", 1]]
+    },
+    {
+        "type":"GENERIC",
         "id" : "cane",
         "name" : "walking cane",
         "description" : "Handicapped or not, you always walk in style.  Consisting of a metal headpiece and a wooden body, this makes a great bashing weapon in a pinch.",
