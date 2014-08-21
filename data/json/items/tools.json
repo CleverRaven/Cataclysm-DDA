@@ -263,6 +263,23 @@
     "revert_to": "null",
     "use_action": "EXTINGUISHER"
   },
+  {
+        "id" : "honey_scraper",
+        "type":"TOOL,
+        "name" : "honey scraper",
+        "description" : "A sharp, knife-like tool used in harvesting honey from beehives. Makes a passable melee weapon.",
+        "weight" : 580,
+        "to_hit" : 0,
+        "color" : "dark_gray",
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "cutting" : 8,
+        "flags" : ["STAB", "SHEATH_KNIFE"],
+        "price" : 10000,
+        "qualities": [["CUT", 1]]
+  },
 
   {
     "id": "oxygen_tank",
