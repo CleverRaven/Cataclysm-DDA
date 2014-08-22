@@ -1034,6 +1034,23 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pipe",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "mechanics",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+    
+    ], "components": [
+        [ [ "scrap", 7 ] ]
+    ]
+},{
+        "type" : "recipe",
   "result": "broken_manhack",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
