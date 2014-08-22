@@ -1044,7 +1044,6 @@ void player::update_bodytemp()
         }
         /// Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         int windChill = (0.33 * ((bpRelHum / 100.00) * 6.105 * exp((17.27 * Ctemperature/100)/(237.70 + Ctemperature/100))) - 0.70*bpWindPower - 4.00);
-        int felt_air_temperature = Ctemperature/100 + windChill;
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windChill*100 + clothing_warmth_adjustement;
         // HUNGER
@@ -1381,28 +1380,28 @@ void player::update_bodytemp()
         {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int Ftemperature = g->get_temperature() + warmth((body_part)i*0.2; // Warmth gives a slight buff to temperature resistance
+            int Ftemperature = g->get_temperature() + warmth((body_part)i)*0.2; // Warmth gives a slight buff to temperature resistance
             int FBwindPower = windPower * (1 - get_wind_resistance(body_part(i))/100.0); // Windchill reduced by your armor
             // This has been broken down into 8 zones
             // Low risk zones
-            if ((Ftemperature < 30 && Ftemperature >= 10) || 
-                (Ftemperature < 10 && Ftemperature >= -5 && windPower < 20 && -4*Ftemperature + 3*windPower - 20 >= 0) )
+            if ((Ftemperature < 30 && Ftemperature >= 10) ||
+                (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 >= 0) )
             {
                 frostbite_timer[i] += 3;
                 if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten in the next few hours."), body_part_name(body_part(i)).c_str());
             }
             // Medium risk zones
-            else if ((Ftemperature < 10 && Ftemperature >= -5 && windPower < 20 && -4*Ftemperature + 3*windPower - 20 < 0) ||
-                     (Ftemperature < 10 && Ftemperature >= -5 && windPower >= 20) ||
-                     (Ftemperature < -5 && windPower < 10) ||
-                     (Ftemperature < -5 && windPower >= 10 && -4*Ftemperature + 3*windPower - 170 >= 0) )
+            else if ((Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 && -4*Ftemperature + 3*FBwindPower - 20 < 0) ||
+                     (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20) ||
+                     (Ftemperature < -5 && FBwindPower < 10) ||
+                     (Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 >= 0) )
             {
                 frostbite_timer[i] += 8;
                 if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten within the hour!"), body_part_name(body_part(i)).c_str());
             }
             // High risk zones
-            else if ((Ftemperature < -5 && windPower >= 10 && -4*Ftemperature + 3*windPower - 170 < 0) ||
-                     (Ftemperature < -35 && windPower >= 10) )
+            else if ((Ftemperature < -5 && FBwindPower >= 10 && -4*Ftemperature + 3*FBwindPower - 170 < 0) ||
+                     (Ftemperature < -35 && FBwindPower >= 10) )
             {
                 frostbite_timer[i] += 72;
                 if (one_in(100)) add_msg(m_bad, _("Your %s will be frostbitten any minute now!!"), body_part_name(body_part(i)).c_str());
@@ -1411,7 +1410,7 @@ void player::update_bodytemp()
             else
             {
                 frostbite_timer[i] -= 3;
-            }            
+            }
 
             // Handle the bestowing of frostbite
             if (frostbite_timer[i] < 0) frostbite_timer[i] = 0;
