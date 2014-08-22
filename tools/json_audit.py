@@ -21,6 +21,8 @@ SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
 JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "../data/json"))
 FILE_MATCH = "*.json"
 SEARCH_KEY = "material"
+WHERE_KEY = None
+WHERE_VALUE = None
 
 # What can I say? I am sorry, I just do not like the idea of having 2 different scripts. Again, I am sorry.
 try:
@@ -76,6 +78,16 @@ print("Which JSON key should we aggregate and count?")
 userin = input("[default: '%s', or 'list-keys' to list keys on blobs]\n" % SEARCH_KEY)
 SEARCH_KEY = userin.strip() or SEARCH_KEY
 
+# Offer a where clause for non-describe searches 
+if SEARCH_KEY != "list-keys":
+    print("Add a where clause, or just hit return for select * equivalent.")
+    userin = input("[default: %s or list a key to compare]\n" % WHERE_KEY)
+    WHERE_KEY = userin.strip() or WHERE_KEY
+    if WHERE_KEY:
+        print("Which value should '%s' be equal to?" % WHERE_KEY)
+        userin = input("[default: %s]\n" % WHERE_VALUE) 
+        WHERE_VALUE = userin or WHERE_VALUE
+
 if SEARCH_KEY == "list-keys":
     # special case, handle and exit
     all_keys = set()
@@ -93,10 +105,44 @@ if SEARCH_KEY == "list-keys":
         iters += 1
         if iters % cols == 0:
             print("")
+    print("")
     sys.exit()
 
+def matches_where(item, where_key, where_value):
+    """True if:
+    where_key exists AND
+    where_value somehow matches (either directly or guesstimated).
 
-def value_counter(search_key, data):
+    False if:
+    no where_key passed in
+    where_key not in item
+    where_key in item but where_value does not match
+    """
+    if not where_key:
+        return True
+    if where_key not in item:
+        return False
+    # So we have some value.
+    item_value = item[where_key]
+    # Matching interpolation for keyboard constrained input.
+    if type(item_value) == str or type(item_value) == unicode:
+        # Direct match
+        return where_value == item_value
+    elif type(item_value) == int or type(item_value) == float:
+        # via a string match
+        return where_value == str(item_value)
+    elif type(item_value) == list:
+        # 1 level deep search at the moment
+        return where_value in item_value
+    elif type(item_value) == dict:
+        # Perhaps not the correct logic...
+        return where_value in item_value
+    else:
+        return False
+
+    
+
+def value_counter(search_key, data, where_key, where_value):
     """Takes a search_key {str}, and for values found in data {list of dicts}
     with those keys, counts the values.
     
@@ -106,7 +152,7 @@ def value_counter(search_key, data):
     # Which blobs had our search key?
     blobs_matched = 0
     for item in data:
-        if search_key in item:
+        if search_key in item and matches_where(item, where_key, where_value):
             v = item[search_key]
             blobs_matched += 1
             if type(v) == list:
@@ -121,7 +167,7 @@ def value_counter(search_key, data):
     return "Count of %s values in item definitions" % search_key, stats, blobs_matched
 
 
-title, stats, matches = value_counter(SEARCH_KEY, JSON_DATA)
+title, stats, matches = value_counter(SEARCH_KEY, JSON_DATA, WHERE_KEY, WHERE_VALUE)
 if not stats:
     print("Sorry, didn't find any stats for '%s' in the JSON." % SEARCH_KEY)
     sys.exit()
