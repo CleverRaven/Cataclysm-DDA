@@ -15,9 +15,10 @@ _TEMPLATE_FUNC_STR_FORMAT = "string_format"
 
 
 def division_split(div, single_list):
-    "Divides a list into a list of lists each containing div amount of "
-    "elements.  The last list will contain less than the div amount if the "
-    "list has a non-divisable amount of elements."
+    '''Divides a list into a list of lists each containing div amount of
+    elements.  The last list will contain less than the div amount if the
+    list has a non-divisable amount of elements.
+    '''
 
     ret_list = []
     while single_list:
@@ -28,9 +29,10 @@ def division_split(div, single_list):
 
 
 def internal_append(list_of_lists, appends):
-    "Returns the list created when each element of appends is put into its "
-    "corresponding list in list_of_lists (Corresponding by index).  Stops when"
-    " shortest list is exhausted."
+    '''Returns the list created when each element of appends is put into its
+    corresponding list in list_of_lists (Corresponding by index).  Stops when
+    shortest list is exhausted.
+    '''
 
     return [l + [a] for l, a in zip(list_of_lists, appends)]
 
@@ -89,10 +91,11 @@ def get_map_cells(infile, cell_size):
 
 
 def recursive_dict_update(info_dict, list_path, data):
-    "Recurses through the info_dict using the sequence in list_path until "
-    "reaching the end, where data replaces whatever is currently in that part "
-    "of the dict.  This function uses a modifier that has effects beyond the "
-    "scope of the function."
+    '''Recurses through the info_dict using the sequence in list_path until
+    reaching the end, where data replaces whatever is currently in that part
+    of the dict.  This function uses a modifier that has effects beyond the
+    scope of the function.
+    '''
     if list_path == []:
         return data
     else:
