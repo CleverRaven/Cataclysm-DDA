@@ -13883,7 +13883,7 @@
         "nutrition" : 35,
         "description" : "A citrus fruit, whose taste ranges from sour to semi-sweet.",
         "price" : 1800,
-        "material" : "veggy",
+        "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
