@@ -1381,7 +1381,8 @@ void player::update_bodytemp()
         {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int Ftemperature = g->get_temperature();
+            int Ftemperature = g->get_temperature() + warmth((body_part)i*0.2; // Warmth gives a slight buff to temperature resistance
+            int FBwindPower = windPower * (1 - get_wind_resistance(body_part(i))/100.0); // Windchill reduced by your armor
             // This has been broken down into 8 zones
             // Low risk zones
             if ((Ftemperature < 30 && Ftemperature >= 10) || 
