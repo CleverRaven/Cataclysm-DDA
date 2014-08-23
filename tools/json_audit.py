@@ -23,6 +23,7 @@ FILE_MATCH = "*.json"
 SEARCH_KEY = "material"
 WHERE_KEY = None
 WHERE_VALUE = None
+RAW_OUTPUT = False
 
 # What can I say? I am sorry, I just do not like the idea of having 2 different scripts. Again, I am sorry.
 try:
@@ -78,6 +79,10 @@ print("Which JSON key should we aggregate and count?")
 userin = input("[default: '%s', or 'list-keys' to list keys on blobs]\n" % SEARCH_KEY)
 SEARCH_KEY = userin.strip() or SEARCH_KEY
 
+print("Would you also like raw output in addition to formatted output?")
+userin = input("[default: '%s', type something for yes, type nothing for no]\n" % RAW_OUTPUT) 
+RAW_OUTPUT = True if userin.strip() else False 
+
 # Offer a where clause for non-describe searches 
 if SEARCH_KEY != "list-keys":
     print("Add a where clause, or just hit return for select * equivalent.")
@@ -99,6 +104,7 @@ if SEARCH_KEY == "list-keys":
     cols = 80/key_field_len
     iters = 0
     all_keys = sorted(all_keys)
+    all_keys_copy = all_keys[:] # for raw output
     while all_keys:
         key = all_keys.pop(0)
         print(key.ljust(key_field_len), end=' ')
@@ -106,6 +112,10 @@ if SEARCH_KEY == "list-keys":
         if iters % cols == 0:
             print("")
     print("")
+    if RAW_OUTPUT:
+        print("\n\nAnd here is your raw output\n")
+        print(json.dumps(list(all_keys_copy)))
+        print("")
     sys.exit()
 
 def matches_where(item, where_key, where_value):
@@ -188,3 +198,6 @@ key_field_len = len(max(list(stats.keys()), key=len))+1
 output_template = "%%-%ds: %%s" % key_field_len
 for k_v in key_vals:
     print(output_template % k_v)
+if RAW_OUTPUT:
+    print("\n\nAnd here is your raw output:\n")
+    print(json.dumps(key_vals))
