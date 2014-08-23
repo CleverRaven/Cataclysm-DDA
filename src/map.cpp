@@ -4683,6 +4683,24 @@ void map::spawn_monsters()
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++) {
         for (int gy = 0; gy < my_MAPSIZE; gy++) {
+            auto groups = overmap_buffer.groups_at( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
+            for( auto &mgp : groups ) {
+                int group = mgp->population;
+                for( int g = 0; g < group; g++ ) {
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgp->type, &group );
+                    if( spawn_details.name == "mon_null" ) {
+                        continue;
+                    }
+                    // Spawn points can be added everywhere, the actual spawn code
+                    // places the monster at a suitable point.
+                    int monx = rng( 0, SEEX - 1 ) + SEEX * gx;
+                    int mony = rng( 0, SEEY - 1 ) + SEEY * gy;
+                    add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
+                }
+                // indicates the group is empty, and can be removed later
+                mgp->population = 0;
+            }
+
             submap * const current_submap = get_submap_at_grid(gx, gy);
             for (auto &i : current_submap->spawns) {
                 for (int j = 0; j < i.count; j++) {
