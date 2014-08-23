@@ -861,11 +861,7 @@ void mattack::fungus_inject(monster *z)
                 body_part_name_accusative(hit).c_str());
 
         if(one_in(10 - dam)) {
-            if (g->u.has_disease("fungus", hit)) {
-                g->u.add_disease("fungus", 100, false, 1, 1, 0, -1, hit, true);
-            } else {
-                g->u.add_disease("fungus", 100, false, 1, 1, 0, 0, hit, true); //6 hours + 1 "tick"
-            }
+            g->u.add_disease("fungus", 100, false, 1, 1, 0, -1);
             add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
         }
     } else {
@@ -875,7 +871,7 @@ void mattack::fungus_inject(monster *z)
     }
 
     g->u.practice( "dodge", z->type->melee_skill );
-    
+
 }
 void mattack::fungus_growth(monster *z)
 {

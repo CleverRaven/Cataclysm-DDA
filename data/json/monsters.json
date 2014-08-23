@@ -3044,7 +3044,7 @@
     "item_chance":0,
     "luminance":0,
     "hp":30,
-    "special_freq":1,
+    "special_freq":10,
     "death_function":"FUNGUS",
     "special_attack":"FUNGUS_INJECT",
     "description":"A long and delicate-looking tendril with a sharp tip.",
