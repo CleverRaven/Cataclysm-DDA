@@ -58,6 +58,7 @@ public:
     int flusleep            (player*, item*, bool);
     int inhaler             (player*, item*, bool);
     int blech               (player*, item*, bool);
+    int plantblech          (player*, item*, bool);
     int chew                (player*, item*, bool);
     int mutagen             (player*, item*, bool);
     int mut_iv              (player*, item*, bool);

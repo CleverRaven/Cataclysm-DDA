@@ -1446,6 +1446,40 @@ int iuse::blech(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::plantblech(player *p, item *it, bool)
+{
+    std::string highcat = p->get_highest_category();
+    int highest = p->mutation_category_level[highcat];
+    double multiplier = 0;
+
+    if (highcat == "MUTCAT_PLANT") {
+        if (highest < 20) {
+            multiplier = -1.2;
+            p->add_msg_if_player(m_good, _("Oddly enough, this doesn't taste so bad."));
+        } else if (highest >= 20 && highest < 35) {
+            multiplier = -1.5;
+            p->add_msg_if_player(m_good, _("This tastes good."));
+        } else if (highest >= 35 && highest < 50) {
+            multiplier = -2;
+            p->add_msg_if_player(m_good, _("This tastes great."));
+        } else if (highest >= 50) {
+            multiplier = -3;
+            p->add_msg_if_player(m_good, _("The meal is revitalizing."));
+        }
+    it_comest *food = dynamic_cast<it_comest*>(it->type);
+    //reverses the harmful values of drinking fertilizer
+    p->thirst -= food->quench * multiplier;
+    p->mod_healthy_mod(food->healthy * multiplier);
+    p->add_morale(MORALE_FOOD_BAD, food->fun *-1, food->fun * 6, 60, 30, false, food);
+    p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
+    return it->type->charges_to_use();
+    }
+    else {
+    //return it->type->charges_to_use();
+    return blech(p,it,true);
+    }
+}
+
 int iuse::chew(player *p, item *it, bool)
 {
     // TODO: Add more effects?
