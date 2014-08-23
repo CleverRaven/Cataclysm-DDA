@@ -278,6 +278,13 @@ void game::init_fields()
             {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
             { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
             {0,0,0}
+        },
+        
+        {
+            "fd_fungal_haze",
+            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
+            { c_white, c_yellow, c_yellow }, { true, true, false }, { true, true, true }, 25,
+            {0,0,0}
         }
 
     };
@@ -897,6 +904,24 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_relax_gas:
                         spread_gas( this, cur, x, y, curtype, 25, 50 );
+                        break;
+                    
+                    case fd_fungal_haze:
+                        spread_gas( this, cur, x, y, curtype, 33,  5);
+                        mondex = g->mon_at(x, y);
+                        if (g->m.move_cost(x, y) > 0) {
+                            if (mondex != -1) { // Haze'd!
+                                if (g->u_see(sporex, sporey) &&
+                                !g->zombie(mondex).type->in_species("FUNGUS") && !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
+                                    add_msg(m_info, _("The %s inhales thousands of live spores!"),
+                                    g->zombie(mondex).name().c_str());
+                                }
+                            monster &critter = g->zombie( mondex );
+                            if( !critter.make_fungus() ) {
+                                critter.die( z ); // counts as kill by monster z
+                            }
+                            }
+                        }
                         break;
 
                     case fd_toxic_gas:
