@@ -1450,7 +1450,7 @@ int iuse::plantblech(player *p, item *it, bool)
 {
     std::string highcat = p->get_highest_category();
     int highest = p->mutation_category_level[highcat];
-    int multiplier = 0;
+    double multiplier = 0;
 
     if (highcat == "MUTCAT_PLANT") {
         if (highest < 20) {
