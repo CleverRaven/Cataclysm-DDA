@@ -9,23 +9,12 @@
 //Pickup object
 static Pickup pickup_obj;
 
-// Pick up items at (posx, posy).
-void Pickup::pick_up(int posx, int posy, int min)
+// Handles interactions with a vehicle in the examine menu.
+// Returns the part number that wil accept items if any, or -1 to indicate no cargo part.
+// Returns -2 if a special interaction was performed and the menu should exit.
+int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part )
 {
-    //min == -1 is Autopickup
-
-    if (g->m.has_flag("SEALED", posx, posy)) {
-        return;
-    }
-
-    if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
-        return;
-    }
-
-    bool weight_is_okay = (g->u.weight_carried() <= g->u.weight_capacity());
-    bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity() -  2);
     pickup_obj.from_veh = false;
-    int veh_root_part = 0;
 
     int k_part = 0;
     int wtr_part = 0;
@@ -37,9 +26,8 @@ void Pickup::pick_up(int posx, int posy, int min)
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
 
-    vehicle *veh = g->m.veh_at (posx, posy, veh_root_part);
     std::vector<item> here_ground = g->m.i_at(posx, posy);
-    if (min != -1 && veh) {
+    if( veh ) {
         k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
         wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
         w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
@@ -100,7 +88,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         }
 
         if(choice < 0) {
-            return;
+            return -2;
         }
         if(menu_items[choice] == _("Use the hotplate")) {
             //Will be -1 if no battery at all
@@ -115,7 +103,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     veh->refill( "battery", tmp_hotplate.charges );
                 }
             }
-            return;
+            return -2;
         }
 
         if(menu_items[choice] == _("Fill a container with water")) {
@@ -128,7 +116,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             } else {
                 veh->refill("water", amt);
             }
-            return;
+            return -2;
         }
 
         if(menu_items[choice] == _("Have a drink")) {
@@ -136,7 +124,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             item water( "water_clean", 0 );
             g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
             g->u.moves -= 250;
-            return;
+            return -2;
         }
 
         if(menu_items[choice] == _("Use the welding rig?")) {
@@ -152,7 +140,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     veh->refill( "battery", tmp_welder.charges );
                 }
             }
-            return;
+            return -2;
         }
 
         if(menu_items[choice] == _("Use the water purifier?")) {
@@ -168,23 +156,51 @@ void Pickup::pick_up(int posx, int posy, int min)
                     veh->refill( "battery", tmp_purifier.charges );
                 }
             }
-            return;
+            return -2;
         }
 
         if(menu_items[choice] == _("Control vehicle")) {
             veh->use_controls();
-            return;
+            return -2;
         }
 
         if(menu_items[choice] == _("Examine vehicle")) {
             g->exam_vehicle(*veh, posx, posy);
-            return;
+            return -2;
         }
 
         if(menu_items[choice] == _("Get items on the ground")) {
             pickup_obj.from_veh = false;
         }
+    }
+    return cargo_part;
+}
 
+// Pick up items at (posx, posy).
+void Pickup::pick_up(int posx, int posy, int min)
+{
+    //min == -1 is Autopickup
+
+    if (g->m.has_flag("SEALED", posx, posy)) {
+        return;
+    }
+
+    if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
+        return;
+    }
+
+    bool weight_is_okay = (g->u.weight_carried() <= g->u.weight_capacity());
+    bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity() -  2);
+    int veh_root_part = 0;
+    int cargo_part = -1;
+
+    vehicle *veh = g->m.veh_at (posx, posy, veh_root_part);
+
+    if( min != -1 ) {
+        cargo_part = interact_with_vehicle( veh, posx, posy, veh_root_part );
+        if( cargo_part == -2 ) {
+            return;
+        }
     }
 
     if (!pickup_obj.from_veh) {

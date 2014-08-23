@@ -18,6 +18,8 @@ class Pickup
         bool from_veh;
 
         // Pickup helper functions
+        static int interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part );
+
         static int handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement,
                                            bool &picked_up);
         void remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int cargo_part,
