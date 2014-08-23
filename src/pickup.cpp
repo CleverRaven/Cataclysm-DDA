@@ -176,6 +176,51 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
     return cargo_part;
 }
 
+static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> &getitem )
+{
+    bool bFoundSomething = false;
+
+    //Loop through Items lowest Volume first
+    bool bPickup = false;
+
+    for(size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
+        for (size_t i = 0; i < here.size(); i++) {
+            bPickup = false;
+            if (here[i].volume() == (int)iVol) {
+                iNumChecked++;
+
+                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
+                if (OPTIONS["AUTO_PICKUP_ZERO"]) {
+                    if (here[i].volume() == 0 &&
+                        here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
+                        checkExcludeRules(here[i].tname())) {
+                        bPickup = true;
+                    }
+                }
+
+                //Check the Pickup Rules
+                if ( mapAutoPickupItems[here[i].tname()] == "true" ) {
+                    bPickup = true;
+                } else if ( mapAutoPickupItems[here[i].tname()] != "false" ) {
+                    //No prematched pickup rule found
+                    //items with damage, (fits) or a container
+                    createPickupRules(here[i].tname());
+
+                    if ( mapAutoPickupItems[here[i].tname()] == "true" ) {
+                        bPickup = true;
+                    }
+                }
+            }
+
+            if (bPickup) {
+                getitem[i] = bPickup;
+                bFoundSomething = true;
+            }
+        }
+    }
+    return bFoundSomething;
+}
+
 // Pick up items at (posx, posy).
 void Pickup::pick_up(int posx, int posy, int min)
 {
@@ -401,48 +446,8 @@ void Pickup::pick_up(int posx, int posy, int min)
     std::map<int, unsigned int> pickup_count; // Count of how many we'll pick up from each stack
 
     if (min == -1) { //Auto Pickup, select matching items
-        bool bFoundSomething = false;
-
-        //Loop through Items lowest Volume first
-        bool bPickup = false;
-
-        for(size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
-            for (size_t i = 0; i < here.size(); i++) {
-                bPickup = false;
-                if (here[i].volume() == (int)iVol) {
-                    iNumChecked++;
-
-                    //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
-                    if (OPTIONS["AUTO_PICKUP_ZERO"]) {
-                        if (here[i].volume() == 0 &&
-                            here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
-                            checkExcludeRules(here[i].tname())) {
-                            bPickup = true;
-                        }
-                    }
-
-                    //Check the Pickup Rules
-                    if ( mapAutoPickupItems[here[i].tname()] == "true" ) {
-                        bPickup = true;
-                    } else if ( mapAutoPickupItems[here[i].tname()] != "false" ) {
-                        //No prematched pickup rule found
-                        //items with damage, (fits) or a container
-                        createPickupRules(here[i].tname());
-
-                        if ( mapAutoPickupItems[here[i].tname()] == "true" ) {
-                            bPickup = true;
-                        }
-                    }
-                }
-
-                if (bPickup) {
-                    getitem[i] = bPickup;
-                    bFoundSomething = true;
-                }
-            }
-        }
-
-        if (!bFoundSomething) {
+        if( !select_autopickup_items( here, getitem) ) {
+            // If we didn't find anything, bail out now.
             return;
         }
     } else {
