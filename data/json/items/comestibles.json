@@ -14036,7 +14036,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "grapes",
-        "name" : "grapes",
+        "name" : "grape",
         "name_plural" : "grapes",
         "weight" : 300,
         "color" : "light_green",
