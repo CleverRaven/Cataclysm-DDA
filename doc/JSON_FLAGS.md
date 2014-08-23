@@ -606,6 +606,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FLUSLEEP``` Adds disease `took_flumed` and increases fatigue.
 - ```INHALER``` Removes disease `asthma`.
 - ```BLECH``` Causes vomiting.
+- ```PLANTBLECH``` Causes vomiting if player does not contain plant mutations
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
 - ```MUTAGEN``` Causes mutation.
 - ```PURIFIER``` Removes negative mutations.
