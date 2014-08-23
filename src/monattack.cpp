@@ -835,6 +835,8 @@ void mattack::fungus_inject(monster *z)
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
+    
+    z->sp_timeout = z->type->sp_freq; // Reset timer    
     add_msg(m_warning, _("The %s jabs at you with a needlelike point!"), z->name().c_str());
     z->moves -= 150;
 
