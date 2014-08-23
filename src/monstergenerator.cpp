@@ -173,6 +173,7 @@ void MonsterGenerator::init_attack()
     attack_map["SPIT_SAP"] = &mattack::spit_sap;
     attack_map["TRIFFID_HEARTBEAT"] = &mattack::triffid_heartbeat;
     attack_map["FUNGUS"] = &mattack::fungus;
+    attack_map["FUNGUS_INJECT"] = &mattack::fungus_inject;
     attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
     attack_map["LEAP"] = &mattack::leap;

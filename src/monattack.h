@@ -21,6 +21,7 @@ class mattack
         void spit_sap           (monster *z);
         void triffid_heartbeat  (monster *z);
         void fungus             (monster *z);
+        void fungus_inject      (monster *z); // Directly inject the spores
         void fungus_growth      (monster *z);
         void fungus_sprout      (monster *z);
         void leap               (monster *z);

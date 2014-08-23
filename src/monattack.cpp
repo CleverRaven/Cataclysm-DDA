@@ -830,6 +830,53 @@ void mattack::fungus(monster *z)
     }
 }
 
+void mattack::fungus_inject(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return;
+    }
+    add_msg(m_warning, _("The %s jabs at you with a needlelike point!"), z->name().c_str());
+    z->moves -= 150;
+
+    if (g->u.uncanny_dodge()) {
+        return;
+    }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        add_msg(_("You dodge it!"));
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
+        g->u.ma_ondodge_effects();
+        return;
+    }
+
+    body_part hit = random_body_part();
+    int dam = rng(5, 11);
+    dam = g->u.deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+
+    if (dam > 0) {
+        //~ 1$s is monster name, 2$s bodypart in accusative
+        add_msg(m_bad, _("The %1$s sinks its point into your %2$s!"), z->name().c_str(),
+                body_part_name_accusative(hit).c_str());
+
+        if(one_in(10 - dam)) {
+            if (g->u.has_disease("fungus", hit)) {
+                g->u.add_disease("fungus", 100, false, 1, 1, 0, -1, hit, true);
+            } else {
+                g->u.add_disease("fungus", 100, false, 1, 1, 0, 0, hit, true); //6 hours + 1 "tick"
+            }
+            add_msg(m_warning, _("You feel thousands of live spores pumping into you..."));
+        }
+    } else {
+        //~ 1$s is monster name, 2$s bodypart in accusative
+        add_msg(_("The %1$s strikes your %2$s, but your armor protects you."), z->name().c_str(),
+                body_part_name_accusative(hit).c_str());
+    }
+
+    g->u.practice( "dodge", z->type->melee_skill );
+    
+}
 void mattack::fungus_growth(monster *z)
 {
     // Young fungaloid growing into an adult
