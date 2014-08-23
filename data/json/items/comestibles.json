@@ -6524,7 +6524,7 @@
         "nutrition" : 30,
         "description" : "Some peanut butter smothered between two pieces of bread.  Not very filling and will stick to the roof of your mouth like glue.",
         "price" : 1500,
-        "material" : ["wheat"],
+        "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
