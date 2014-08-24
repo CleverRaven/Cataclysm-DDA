@@ -4393,6 +4393,9 @@ void game::debug()
         if (tmp != overmap::invalid_tripoint) {
             //First offload the active npcs.
             active_npc.clear();
+            while( num_zombies() > 0 ) {
+                despawn_monster( 0 );
+            }
             m.clear_vehicle_cache();
             m.vehicle_list.clear();
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
@@ -4402,8 +4405,6 @@ void game::debug()
             levy = nlevy - cur_om->pos().y * OMAPY * 2;
             levz = tmp.z;
             m.load(levx, levy, levz, true, cur_om);
-            // TODO: make this use the normal map shifting function all the time?
-            shift_monsters( nlevx - levx, nlevy - levy, tmp.z - levz );
             load_npcs();
             m.spawn_monsters(); // Static monsters
             update_overmap_seen();

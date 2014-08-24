@@ -315,6 +315,14 @@ void load_overmap_terrain(JsonObject &jo)
     oter.loadid_base = start_iid;
     oter.directional_peers.clear();
 
+    if( jo.has_object( "spawns" ) ) {
+        JsonObject spawns = jo.get_object( "spawns" );
+        oter.static_spawns.group = spawns.get_string( "group" );
+        oter.static_spawns.min_population = spawns.get_array( "population" ).get_int( 0 );
+        oter.static_spawns.max_population = spawns.get_array( "population" ).get_int( 1 );
+        oter.static_spawns.chance = spawns.get_int( "chance" );
+    }
+
     oter.is_road = isroad(id_base);
     oter.is_river = (id_base.compare(0, 5, "river", 5) == 0 ||
                      id_base.compare(0, 6, "bridge", 6) == 0);
@@ -2424,7 +2432,6 @@ bool overmap::build_lab(int x, int y, int z, int s)
                  && ter(finalex, finaley, z) != "lab_core");
         ter(finalex, finaley, z) = "lab_finale";
     }
-    add_mon_group(mongroup("GROUP_LAB", (x * 2), (y * 2), z, s, 400));
 
     return numstairs > 0;
 }
@@ -2490,7 +2497,6 @@ bool overmap::build_ice_lab(int x, int y, int z, int s)
                  && ter(finalex, finaley, z) != "ice_lab_core");
         ter(finalex, finaley, z) = "ice_lab_finale";
     }
-    add_mon_group(mongroup("GROUP_ICE_LAB", (x * 2), (y * 2), z, s, 400));
 
     return numstairs > 0;
 }
@@ -3599,24 +3605,6 @@ void overmap::place_mongroups()
                          rng(20, 40), rng(30, 50)));
         }
     }
-
-    // Forest groups cover the entire map
-    mongroup m("GROUP_FOREST", OMAPX / 2, OMAPY / 2, 0,
-                           OMAPY, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", OMAPX / 2, (OMAPY * 3) / 2, 0,
-                           OMAPY, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", (OMAPX * 3) / 2, OMAPY / 2, 0,
-                           OMAPX, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
-    m = mongroup("GROUP_FOREST", (OMAPX * 3) / 2, (OMAPY * 3) / 2, 0,
-                           OMAPX, rng(2000, 12000));
-    m.diffuse = true;
-    add_mon_group( m );
 }
 
 int overmap::get_top_border()
@@ -3951,9 +3939,10 @@ void overmap::add_mon_group(const mongroup &group)
         zg.insert(std::pair<tripoint, mongroup>( tripoint( group.posx, group.posy, group.posz ), group ) );
         return;
     }
-    const int rad = group.radius;
-    const double total_area = rad * rad * M_PI;
-    const double pop = group.population;
+    // diffuse groups use a circular area, non-diffuse groups use a rectangular area
+    const int rad = std::max<int>( 0, group.radius );
+    const double total_area = group.diffuse ? std::pow( rad + 1, 2 ) : ( rad * rad * M_PI + 1 );
+    const double pop = std::max<int>( 1, group.population );
     int xpop = 0;
     for( int x = -rad; x <= rad; x++ ) {
         for( int y = -rad; y <= rad; y++ ) {
@@ -3963,13 +3952,18 @@ void overmap::add_mon_group(const mongroup &group)
             }
             // Population on a single submap, *not* a integer
             double pop_here;
-            if( group.diffuse ) {
+            if( rad == 0 ) {
+                pop_here = pop;
+            } else if( group.diffuse ) {
                 pop_here = pop / total_area;
             } else {
                 // non-diffuse groups are more dense towards the center.
                 pop_here = ( 1.0 - static_cast<double>( dist ) / rad ) * pop / total_area;
             }
-            int p = std::floor( pop_here );
+            if( pop_here > pop || pop_here < 0 ) {
+                DebugLog( D_ERROR, D_GAME ) << group.type << ": invalid population here: " << pop_here;
+            }
+            int p = std::max<int>( 0, std::floor( pop_here ) );
             if( pop_here - p != 0 ) {
                 // in case the population is something like 0.2, randomly add a
                 // single population unit, this *should* on average give the correct
