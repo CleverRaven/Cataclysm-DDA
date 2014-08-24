@@ -404,6 +404,11 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
                     it_ref->item_counter = tmpcounter;
                     newit.item_counter = tmpcounter;
                 }
+                if (it_ref->is_food() && it_ref->has_flag("COLD")) {
+                    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
+                    it_ref->item_counter = tmpcounter;
+                    newit.item_counter = tmpcounter;
+                }
                 newit.invlet = it_ref->invlet;
                 iter->push_back(newit);
                 return iter->back();
