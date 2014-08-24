@@ -517,6 +517,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         bool destroyed = false; //Is the item destroyed?
                         // Volume, Smoke generation probability, consumed items count
                         int vol = 0, smoke = 0, consumed = 0;
+                        // Needs to consume at least cur->getFieldDensity() * 2
                         for (auto it = items_here.begin(); it != items_here.end() &&
                                  consumed < cur->getFieldDensity() * 2;) {
                             // Stop when we hit the end of the item buffer OR we consumed
@@ -528,50 +529,52 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if (it->is_ammo()) {
                                 ammo_type = dynamic_cast<it_ammo *>(it->type);
                             }
+                            // Types of ammo with special effects.
+                            bool cookoff = false;
+                            bool special = false;
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
                             if( ammo_type != NULL && ammo_type->id != "gasoline") {
-                                bool cookoff = false;
-                                bool special = false;
-                                // Types with special effects.
-                                if( ammo_type->ammo_effects.count("FRAG") ||
-                                    ammo_type->ammo_effects.count("NAPALM") ||
-                                    ammo_type->ammo_effects.count("NAPALM_BIG") ||
-                                    ammo_type->ammo_effects.count("EXPLOSIVE") ||
-                                    ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
-                                    ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
-                                    ammo_type->ammo_effects.count("TEARGAS") ||
-                                    ammo_type->ammo_effects.count("SMOKE") ||
-                                    ammo_type->ammo_effects.count("SMOKE_BIG") ||
-                                    ammo_type->ammo_effects.count("FLASHBANG") ) {
-                                    special = true;
-                                } else if( ammo_type->ammo_effects.count("INCENDIARY") ||
-                                           ammo_type->ammo_effects.count("COOKOFF") ) {
-                                    cookoff = true;
-                                }
-                                if( special || cookoff ) {
-                                    const long rounds_exploded = rng( 1, it->charges );
-                                    // cook off ammo instead of just burning it.
-                                    for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
-                                        if( cookoff ) {
-                                            // Ammo that cooks off, but doesn't have a
-                                            // large intrinsic effect blows up with half
-                                            // the ammos damage in force, for each bullet,
-                                            // just creating shrapnel.
-                                            g->explosion( x, y, ammo_type->damage / 2,
-                                                          true, false, false );
-                                        } else if( special ) {
-                                            // If it has a special effect just trigger it.
-                                            ammo_effects( x, y, ammo_type->ammo_effects );
-                                        }
-                                    }
-                                    it->charges -= rounds_exploded; //Get rid of the spent ammo.
-                                    if( it->charges == 0 ) {
-                                        destroyed = true;    //No more ammo, item should be removed.
+                                cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
+                                          ammo_type->ammo_effects.count("COOKOFF");
+                                special = ammo_type->ammo_effects.count("FRAG") ||
+                                          ammo_type->ammo_effects.count("NAPALM") ||
+                                          ammo_type->ammo_effects.count("NAPALM_BIG") ||
+                                          ammo_type->ammo_effects.count("EXPLOSIVE") ||
+                                          ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
+                                          ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
+                                          ammo_type->ammo_effects.count("TEARGAS") ||
+                                          ammo_type->ammo_effects.count("SMOKE") ||
+                                          ammo_type->ammo_effects.count("SMOKE_BIG") ||
+                                          ammo_type->ammo_effects.count("FLASHBANG");
+                            }
+                            if( special || cookoff ) {
+                                const long rounds_exploded = rng( 1, it->charges );
+                                // cook off ammo instead of just burning it.
+                                for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
+                                    if( cookoff ) {
+                                        // Ammo that cooks off, but doesn't have a
+                                        // large intrinsic effect blows up with half
+                                        // the ammos damage in force, for each bullet,
+                                        // just creating shrapnel.
+                                        g->explosion( x, y, ammo_type->damage / 2,
+                                                      true, false, false );
+                                    } else if( special ) {
+                                        // If it has a special effect just trigger it.
+                                        ammo_effects( x, y, ammo_type->ammo_effects );
                                     }
                                 }
+                                it->charges -= rounds_exploded; //Get rid of the spent ammo.
+                                if( it->charges == 0 ) {
+                                    destroyed = true;    //No more ammo, item should be removed.
+                                }
+
                             } else if (it->made_of("paper")) {
-                                //paper items feed the fire moderatly.
-                                destroyed = it->burn(cur->getFieldDensity() * 3);
+                                //paper items feed the fire moderately.
+                                if (ammo_type != NULL) {
+                                    it->charges -= cur->getFieldDensity() * 3;
+                                } else {
+                                    destroyed = it->burn(cur->getFieldDensity() * 3);
+                                }
                                 consumed++;
                                 if (cur->getFieldDensity() == 1) {
                                     cur->setFieldAge(cur->getFieldAge() - vol * 10);
@@ -587,8 +590,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     cur->getFieldDensity() == 3) {
                                     // A single wood item will just maintain at the current level.
                                     cur->setFieldAge(cur->getFieldAge() - 1);
-                                    if( one_in(50) ) {
-                                        destroyed = it->burn(cur->getFieldDensity());
+                                    if (ammo_type != NULL) {
+                                        if (one_in(30)) { // ammo has less surface area, right?
+                                            it->charges -= cur->getFieldDensity();
+                                        }
+                                    } else {
+                                        if (one_in(50)) {
+                                            destroyed = it->burn(cur->getFieldDensity());
+                                        }
                                     }
                                     smoke++;
                                     consumed++;
@@ -598,14 +607,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
 
                             } else if ((it->made_of("cotton") || it->made_of("wool"))) {
-                                //Cotton and Wool burn slowly but don't feed the fire much.
+                                //Cotton and wool burn slowly but don't feed the fire much.
                                 if (vol <= cur->getFieldDensity() * 5 || cur->getFieldDensity() == 3) {
                                     cur->setFieldAge(cur->getFieldAge() - 1);
-                                    destroyed = it->burn(cur->getFieldDensity());
+                                    if (ammo_type != NULL) {
+                                        it->charges -= cur->getFieldDensity();
+                                    } else {
+                                        destroyed = it->burn(cur->getFieldDensity());
+                                    }
                                     smoke++;
                                     consumed++;
                                 } else if (it->burnt < cur->getFieldDensity()) {
-                                    destroyed = it->burn(1);
+                                    if (ammo_type != NULL) {
+                                        it->charges -= 1;
+                                    } else {
+                                        destroyed = it->burn(1);
+                                    }
                                     smoke++;
                                 }
 
@@ -615,12 +632,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if (vol <= cur->getFieldDensity() * 5 ||
                                     (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
                                     cur->setFieldAge(cur->getFieldAge() - 1);
-                                    destroyed = it->burn(cur->getFieldDensity());
+                                    if (ammo_type != NULL) {
+                                        it->charges -= cur->getFieldDensity();
+                                    } else {
+                                        destroyed = it->burn(cur->getFieldDensity());
+                                    }
                                     smoke += 3;
                                     consumed++;
                                 } else if (it->burnt < cur->getFieldDensity() * 5 ||
                                            cur->getFieldDensity() >= 2) {
-                                    destroyed = it->burn(1);
+                                    if (ammo_type != NULL) {
+                                        it->charges -= 1;
+                                    } else {
+                                        destroyed = it->burn(1);
+                                    }
                                     smoke++;
                                 }
 
@@ -641,6 +666,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     destroyed = true;
                                 }
                                 consumed++;
+
                             } else if (it->made_of("powder")) {
                                 // Any powder will fuel the fire as much as its volume
                                 // but be immediately destroyed.
@@ -653,14 +679,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 smoke += 3;
                                 if (it->burnt <= cur->getFieldDensity() * 2 ||
                                     (cur->getFieldDensity() == 3 && one_in(vol))) {
-                                    destroyed = it->burn(cur->getFieldDensity());
-                                    if (one_in(vol + it->burnt)) {
+                                    int chance = vol;
+                                    if (ammo_type != NULL) {
+                                        it->charges -= cur->getFieldDensity();
+                                        chance = vol;
+                                    } else {
+                                        destroyed = it->burn(cur->getFieldDensity());
+                                        chance += it->burnt;
+                                    }
+                                    if (one_in(chance)) {
                                         cur->setFieldAge(cur->getFieldAge() - 1);
                                     }
                                 }
                             }
 
-                            if (destroyed) {
+                            if (destroyed || (ammo_type != NULL && it->charges <= 0)) {
                                 //If we decided the item was destroyed by fire, remove it.
                                 new_content.insert( new_content.end(), it->contents.begin(), it->contents.end() );
                                 it = items_here.erase( it );
