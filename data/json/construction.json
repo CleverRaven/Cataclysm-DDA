@@ -1525,5 +1525,27 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_anvil"
+    },{
+        "type" : "construction",
+        "description" : "Place forge",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 1,
+        "components" : [
+            [ [ "forge", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_forge"
+    },{
+        "type" : "construction",
+        "description" : "Place still",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 1,
+        "components" : [
+            [ [ "still", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_still"
     }
 ]

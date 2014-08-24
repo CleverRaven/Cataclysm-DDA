@@ -2182,7 +2182,7 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL"],
         "bash": {
-            "str_min": 60, "str_max": 180,
+            "str_min": 30, "str_max": 180,
             "sound": "crunch!",
             "sound_fail": "poof!",
             "ter_set": "t_fungus"
@@ -2196,7 +2196,7 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL"],
         "bash": {
-            "str_min": 60, "str_max": 180,
+            "str_min": 30, "str_max": 180,
             "sound": "crunch!",
             "sound_fail": "poof!",
             "ter_set": "t_fungus"
@@ -2210,7 +2210,7 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL"],
         "bash": {
-            "str_min": 60, "str_max": 180,
+            "str_min": 30, "str_max": 180,
             "sound": "crunch!",
             "sound_fail": "poof!",
             "ter_set": "t_fungus"
@@ -2254,7 +2254,7 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT"],
         "bash": {
-            "str_min": 80, "str_max": 180,
+            "str_min": 40, "str_max": 180,
             "sound": "crunch!",
             "sound_fail": "poof!",
             "ter_set": "t_fungus"
@@ -2427,7 +2427,7 @@
         },
         "flags": ["TRANSPARENT", "WALL"],
         "bash": {
-            "str_min": 3, "str_max": 45,
+            "str_min": 8, "str_max": 45,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_pavement",
