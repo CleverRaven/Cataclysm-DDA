@@ -1267,6 +1267,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1275,6 +1276,7 @@
         "sym" : 76,
         "color" : "blue",
         "see_cost" : 5,
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
         "known_down" : true
     },{
         "type" : "overmap_terrain",
@@ -1282,6 +1284,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 8], "chance": 30 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1289,6 +1292,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "cyan",
+        "spawns" : { "group": "GROUP_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1296,6 +1300,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 5], "chance": 20 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1304,6 +1309,7 @@
         "sym" : 76,
         "color" : "blue",
         "see_cost" : 5,
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 5], "chance": 20 },
         "known_down" : true
     },{
         "type" : "overmap_terrain",
@@ -1311,6 +1317,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 8], "chance": 30 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1318,6 +1325,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "cyan",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",

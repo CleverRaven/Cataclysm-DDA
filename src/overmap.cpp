@@ -2432,7 +2432,6 @@ bool overmap::build_lab(int x, int y, int z, int s)
                  && ter(finalex, finaley, z) != "lab_core");
         ter(finalex, finaley, z) = "lab_finale";
     }
-    add_mon_group(mongroup("GROUP_LAB", (x * 2), (y * 2), z, s, 400));
 
     return numstairs > 0;
 }
@@ -2498,7 +2497,6 @@ bool overmap::build_ice_lab(int x, int y, int z, int s)
                  && ter(finalex, finaley, z) != "ice_lab_core");
         ter(finalex, finaley, z) = "ice_lab_finale";
     }
-    add_mon_group(mongroup("GROUP_ICE_LAB", (x * 2), (y * 2), z, s, 400));
 
     return numstairs > 0;
 }
