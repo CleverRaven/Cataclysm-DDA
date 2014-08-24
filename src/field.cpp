@@ -908,10 +908,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     
                     case fd_fungal_haze:
                         spread_gas( this, cur, x, y, curtype, 33,  5);
+                        int mondex;
                         mondex = g->mon_at(x, y);
                         if (g->m.move_cost(x, y) > 0) {
                             if (mondex != -1) { // Haze'd!
-                                if (g->u_see(sporex, sporey) &&
+                                if (g->u_see(x, y) &&
                                 !g->zombie(mondex).type->in_species("FUNGUS") && !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
                                     add_msg(m_info, _("The %s inhales thousands of live spores!"),
                                     g->zombie(mondex).name().c_str());
@@ -921,6 +922,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 critter.die( z ); // counts as kill by monster z
                             }
                             }
+                            // Haze'd ..the player D:
+                        } else if (g->u.posx == x && g->u.posy == y) {
+                            g->u.infect("fungus", bp_mouth, 3, 100, true, 2, 4, 1, 1);
+                            g->u.infect("fungus", bp_eyes, 3, 100, true, 2, 4, 1, 1);
+                        // Haze'd the terrain
+                        } if (one_in(5 - cur->getFieldDensity())) {
+                            game.spread_fungus(x, y)
                         }
                         break;
 
