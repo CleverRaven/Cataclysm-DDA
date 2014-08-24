@@ -5,7 +5,7 @@
     "name" : "serving area interface",
     "rotate" : true,
     "sym" : 94,
-    "color" : "i_ltblue",
+    "color" : "i_ltcyan",
     "see_cost" : 5,
     "extras" : "build",
     "mondensity" : 2,

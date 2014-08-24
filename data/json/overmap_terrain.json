@@ -4359,7 +4359,7 @@
         "id" : "sai",
         "name" : "serving area interface",
         "sym" : 94,
-        "color" : "i_ltblue",
+        "color" : "i_ltcyan",
         "see_cost" : 5
     }
 ]
