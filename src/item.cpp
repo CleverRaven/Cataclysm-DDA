@@ -1266,8 +1266,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 ret << _(" (fresh)");
             }
         }
-        if (food->has_flag("HOT"))
+        if (food->has_flag("HOT")) {
             ret << _(" (hot)");
+            }
+        if (food->has_flag("COLD")) {
+            ret << _(" (cold)");
+            }
     }
 
     if (has_flag("FIT")) {

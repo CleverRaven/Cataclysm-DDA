@@ -6715,6 +6715,14 @@ bool player::process_single_active_item(item *it)
                     it->item_tags.erase("HOT");
                 }
             }
+            if (it->has_flag("COLD"))
+            {
+                it->item_counter--;
+                if (it->item_counter == 0)
+                {
+                    it->item_tags.erase("COLD");
+                }
+            }
         }
         else if (it->is_food_container())
         {
@@ -6725,6 +6733,14 @@ bool player::process_single_active_item(item *it)
                 if (it->contents[0].item_counter == 0)
                 {
                     it->contents[0].item_tags.erase("HOT");
+                }
+            }
+            if (it->contents[0].has_flag("COLD"))
+            {
+                it->contents[0].item_counter--;
+                if (it->contents[0].item_counter == 0)
+                {
+                    it->contents[0].item_tags.erase("COLD");
                 }
             }
         }
@@ -8234,6 +8250,12 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     }
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
+    }
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 3, 60, 30, false, comest);
+    }
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun <= 0) {
+            comest->fun = 1;
     }
     if (has_trait("GOURMAND")) {
         if (comest->fun < -2) {

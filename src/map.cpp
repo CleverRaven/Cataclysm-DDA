@@ -2436,6 +2436,11 @@ itemslice map::i_stacked(std::vector<item>& items)
                         first_item->item_counter = tmpcounter;
                         it->item_counter = tmpcounter;
                     }
+                    else if (first_item->is_food() && first_item->has_flag("COLD")) {
+                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
+                        first_item->item_counter = tmpcounter;
+                        it->item_counter = tmpcounter;
+                    }
 
                     //add it to the existing list
                     curr->push_back(&*it);
@@ -2804,8 +2809,16 @@ static void apply_in_fridge(item &it)
     if (it.is_food() && it.fridge == 0) {
         it.fridge = (int) calendar::turn;
         // cool down of the HOT flag, is unsigned, don't go below 1
-        if (it.item_counter > 10) {
+        if ((it.has_flag("HOT")) && (it.item_counter > 10)) {
             it.item_counter -= 10;
+        }
+        // This sets the COLD flag, and doesn't go above 600
+        if ((it.has_flag("EATEN_COLD")) && (!it.has_flag("COLD"))) {
+            it.item_tags.insert("COLD");
+            it.active = true;
+        }
+		if ((it.has_flag("COLD")) && (it.item_counter <= 590) && it.fridge > 0) {
+            it.item_counter += 10;
         }
     }
     if (it.is_container()) {
@@ -2995,12 +3008,26 @@ bool map::process_active_item(item *it, submap *const current_submap,
                     current_submap->active_item_count--;
                 }
             }
+            else if (it->has_flag("COLD")) {
+                it->item_counter--;
+                if (it->item_counter == 0) {
+                    it->item_tags.erase("COLD");
+                    current_submap->active_item_count--;
+                }
+            }
         } else if (it->is_food_container()) { // food in containers
             it->contents[0].calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
             if (it->contents[0].has_flag("HOT")) {
                 it->contents[0].item_counter--;
                 if (it->contents[0].item_counter == 0) {
                     it->contents[0].item_tags.erase("HOT");
+                    current_submap->active_item_count--;
+                }
+            }
+            else if (it->contents[0].has_flag("COLD")) {
+                it->contents[0].item_counter--;
+                if (it->contents[0].item_counter == 0) {
+                    it->contents[0].item_tags.erase("COLD");
                     current_submap->active_item_count--;
                 }
             }
