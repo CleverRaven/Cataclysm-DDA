@@ -137,3 +137,14 @@ def ui_values_to_columns(values, screen_width=80):
         if iters % cols == 0:
             print("")
     print("")
+
+def ui_counts_to_columns(counts):
+    """Take a Counter instance and display in single fixed width key:value
+    column.
+    """
+    # Values in left column, counts in right, left column as wide as longest string length.
+    key_vals = counts.most_common()
+    key_field_len = len(max(list(counts.keys()), key=len))+1
+    output_template = "%%-%ds: %%s" % key_field_len
+    for k_v in key_vals:
+        print(output_template % k_v)

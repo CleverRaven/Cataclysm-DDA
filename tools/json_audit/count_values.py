@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 """Grep data from cataclysm data and grab count of number of occurences of
-values.
+values within a field. Friendly to some different fields types (numbers, strings,
+arrays/lists).
 
-    python json_audit.py
+Usage:
 
-Updated by mafagafogigante @ 29/07/2014
+    python count_values.py <key> [where-key] [where-value] [--json]
 """
 
 from __future__ import print_function
@@ -12,58 +13,71 @@ from __future__ import print_function
 import sys
 import os
 import json
-from util import ui_import_data, value_counter, JSON_DIR, JSON_FNMATCH
+from util import import_data, ui_import_data, value_counter, ui_counts_to_columns
 
-# Normalize between Python 2.x and 3.x.
-try:
-    input = raw_input
-except NameError:
-    pass
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        # Count values associated with key, human friendly output.
+        search_key = sys.argv[1]
+        where_key = None
+        where_value = None
 
-search_key = "material"
-where_key = None
-where_value = None
-raw_output = False
+        json_data = ui_import_data()
 
-print("\nAssuming Cataclysm DDA JSON directory is:", JSON_DIR)
-print("Assuming files match glob expression: ", JSON_FNMATCH)
+        stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
+        if not stats:
+            print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
+            sys.exit(1)
 
-json_data = ui_import_data()
+        title = "Count of values from field '%s'" % search_key
+        print("\n\n%s" % title)
+        print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
+        print("-" * len(title))
+        ui_counts_to_columns(stats)
+    elif len(sys.argv) == 3 and sys.argv[2] == "--json":
+        # Count values associated with key, machine output.
+        search_key = sys.argv[1]
+        where_key = None
+        where_value = None
 
-print("Which JSON key should we aggregate and count?")
-userin = input("[default: '%s']\n" % search_key)
-search_key = userin.strip() or search_key
+        json_data = import_data()[0]
+        stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
+        if not stats:
+            # Still JSON parser friendly, indicator of fail with emptiness.
+            print(json.dumps([]))
+            sys.exit(1)
+        else:
+            print(json.dumps(stats))
+    elif len(sys.argv) == 4:
+        # Count values associated with key, filter, human friendly output.
+        search_key = sys.argv[1]
+        where_key = sys.argv[2]
+        where_value = sys.argv[3]
 
-print("Include raw output?")
-userin = input("[default: '%s', type something for yes, just hit return for no]\n" % raw_output)
-raw_output = True if userin.strip() else False
+        json_data = import_data()[0]
+        stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
+        if not stats:
+            print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
+            sys.exit(1)
 
-print("Add a where clause to filter, or hit return to skip filtering.")
-userin = input("[default: %s or list a key to compare]\n" % where_key)
-where_key = userin.strip() or where_key
-if where_key:
-    print("Which value should '%s' be equal to?" % where_key)
-    userin = input("[default: %s]\n" % where_value)
-    where_value = userin or where_value
+        title = "Count of values from field '%s' filtered by [%s=%s]" % (search_key, where_key, where_value)
+        print("\n\n%s" % title)
+        print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
+        print("-" * len(title))
+        ui_counts_to_columns(stats)
+    elif len(sys.argv) == 5 and sys.argv[4] == "--json":
+        search_key = sys.argv[1]
+        where_key = sys.argv[2]
+        where_value = sys.argv[3]
 
-stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
-if not stats:
-    print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
-    sys.exit()
-
-# Display, assuming a counter
-key_vals = stats.most_common()
-
-title = "Count of values from field '%s'" % search_key
-print("\n\n%s" % title)
-print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
-print("-" * len(title))
-# Values in left column, counts in right, left column as wide as longest string length.
-key_field_len = len(max(list(stats.keys()), key=len))+1
-output_template = "%%-%ds: %%s" % key_field_len
-for k_v in key_vals:
-    print(output_template % k_v)
-
-if raw_output:
-    print("\n\nAnd here is your raw output:\n")
-    print(json.dumps(key_vals))
+        json_data = import_data()[0]
+        stats, num_matches = value_counter(search_key, json_data, where_key, where_value)
+        if not stats:
+            # Still JSON parser friendly, indicator of fail with emptiness.
+            print(json.dumps([]))
+            sys.exit(1)
+        else:
+            print(json.dumps(stats))
+    else:
+        print("\n%s" % __doc__)
+        sys.exit(1)
