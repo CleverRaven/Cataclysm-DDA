@@ -221,6 +221,51 @@
         "post_terrain" : "t_door_boarded"
     },{
         "type" : "construction",
+        "description" : "Board Up Damaged Door",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_flags" : "BARRICADABLE_DOOR_DAMAGED",
+        "post_terrain" : "t_door_boarded_damaged"
+    },{
+        "type" : "construction",
+        "description" : "Board Up Reinforced Door",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 8,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_flags" : "BARRICADABLE_DOOR_REINFORCED",
+        "post_terrain" : "t_rdoor_boarded"
+    },{
+        "type" : "construction",
+        "description" : "Board Up Damaged Reinforced Door",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_flags" : "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
+        "post_terrain" : "t_rdoor_boarded_damaged"
+    },{
+        "type" : "construction",
         "description" : "Reinforce Wood Door",
         "category" : "REINFORCE",
         "difficulty" : 5,

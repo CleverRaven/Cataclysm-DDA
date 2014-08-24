@@ -1765,7 +1765,9 @@ void map::destroy(const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
-    } else if( t == t_door_c || t == t_door_b || t == t_door_locked || t == t_door_boarded ) {
+    } else if( t == t_door_c || t == t_door_b || t == t_door_locked
+            || t == t_door_boarded || t == t_door_boarded_damaged
+            || t == t_rdoor_boarded || t == t_rdoor_boarded_damaged ) {
   ter_set(x, y, t_door_frame);
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1940,7 +1942,10 @@ void map::shoot(const int x, const int y, int &dam,
             g->sound(x, y, 10, _("smash!"));
             ter_set(x, y, t_door_b);
         }
-    } else if( 0 == terrain.id.compare("t_door_boarded") ) {
+    } else if( 0 == terrain.id.compare("t_door_boarded") ||
+               0 == terrain.id.compare("t_door_boarded_damaged") ||
+               0 == terrain.id.compare("t_rdoor_boarded") ||
+               0 == terrain.id.compare("t_rdoor_boarded_damaged") ) {
         dam -= rng(15, 35);
         if (dam > 0) {
             g->sound(x, y, 10, _("crash!"));
