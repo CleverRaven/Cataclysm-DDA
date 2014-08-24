@@ -3072,7 +3072,7 @@
     "item_chance":0,
     "luminance":20,
     "hp":30,
-    "special_freq":30,
+    "special_freq":25,
     "death_function":"FUNGUS",
     "special_attack":"FUNGUS_HAZE",
     "description":"A broad fungus, looking like a glowing fungal sunflower.  It appears to emit finer spores than the typical fungal emission.",

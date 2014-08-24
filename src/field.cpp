@@ -279,11 +279,11 @@ void game::init_fields()
             { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
             {0,0,0}
         },
-        
+
         {
             "fd_fungal_haze",
             {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
-            { c_white, c_yellow, c_yellow }, { true, true, false }, { true, true, true }, 25,
+            { c_white, c_yellow, c_yellow }, { true, true, false }, { true, true, true }, 30,
             {0,0,0}
         }
 
@@ -905,7 +905,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_relax_gas:
                         spread_gas( this, cur, x, y, curtype, 25, 50 );
                         break;
-                    
+
                     case fd_fungal_haze:
                         spread_gas( this, cur, x, y, curtype, 33,  5);
                         int mondex;
@@ -919,16 +919,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             monster &critter = g->zombie( mondex );
                             if( !critter.make_fungus() ) {
-                                critter.die( z ); // counts as kill by monster z
+                                critter.hp = 0; // critter.die wasn't taking a nullptr
                             }
                             }
-                            // Haze'd ..the player D:
-                        } else if (g->u.posx == x && g->u.posy == y) {
-                            g->u.infect("fungus", bp_mouth, 3, 100, true, 2, 4, 1, 1);
-                            g->u.infect("fungus", bp_eyes, 3, 100, true, 2, 4, 1, 1);
-                        // Haze'd the terrain
                         } if (one_in(5 - cur->getFieldDensity())) {
-                            g->spread_fungus(x, y)
+                            g->spread_fungus(x, y); //Haze'd terrain
                         }
                         break;
 
@@ -1506,6 +1501,13 @@ void map::step_in_field(int x, int y)
             if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
             {
                 g->u.add_env_effect("relax_gas", bp_mouth, cur->getFieldDensity() * 2, 3);
+            }
+            break;
+
+        case fd_fungal_haze:
+            if (!inside || (inside && one_in(4)) ) {
+                g->u.infect("fungus", bp_mouth, 3, 100, true, 2, 4, 1, 1);
+                g->u.infect("fungus", bp_eyes, 3, 100, true, 2, 4, 1, 1);
             }
             break;
 

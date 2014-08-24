@@ -833,11 +833,15 @@ void mattack::fungus(monster *z)
 void mattack::fungus_haze(monster *z)
 {
     z->sp_timeout = z->type->sp_freq; // Reset timer
-    add_msg(m_info, _("The %s pulses, and fresh fungal material bursts forth."), z->name().c_str());
+    //~ That spore sound again
+    g->sound(z->posx(), z->posy(), 10, _("Pouf!"));
+    if (g->u_see(z->posx(), z->posy())) {
+        add_msg(m_info, _("The %s pulses, and fresh fungal material bursts forth."), z->name().c_str());
+    }
     z->moves -= 150;
     for (int i = z->posx() - 3; i <= z->posx() + 3; i++) {
         for (int j = z->posy() - 3; j <= z->posy() + 3; j++) {
-            g->m.add_field(monx + i, mony + j, fd_fungal_haze, rng(1, 2));
+            g->m.add_field( i, j, fd_fungal_haze, rng(1, 2));
         }
     }
 }
@@ -847,7 +851,7 @@ void mattack::fungus_inject(monster *z)
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
         return;
     }
-    
+
     z->sp_timeout = z->type->sp_freq; // Reset timer
     add_msg(m_warning, _("The %s jabs at you with a needlelike point!"), z->name().c_str());
     z->moves -= 150;
