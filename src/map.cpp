@@ -1493,6 +1493,60 @@ void map::mop_spills(const int x, const int y) {
     }
 }
 
+void map::create_spores(int x, int y, Creature* source)
+{
+    // TODO: Infect NPCs?
+    monster spore(GetMType("mon_spore"));
+    int mondex;
+    add_msg(_("The %s crumbles into spores!"), furnname(x, y).c_str());
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            mondex = g->mon_at(i, j);
+            if (move_cost(i, j) > 0 || (i == x && j == y)) {
+                if (mondex != -1) { // Spores hit a monster
+                    if (g->u_see(i, j) &&
+                        !g->zombie(mondex).type->in_species("FUNGUS")) {
+                        add_msg(_("The %s is covered in tiny spores!"),
+                                g->zombie(mondex).name().c_str());
+                    }
+                    monster &critter = g->zombie( mondex );
+                    if( !critter.make_fungus() ) {
+                        critter.die( source ); // counts as kill by player
+                    }
+                } else if (g->u.posx == i && g->u.posy == j) {
+                    // Spores hit the player
+                    bool hit = false;
+                    if (one_in(4) && g->u.infect("spores", bp_head, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(2) && g->u.infect("spores", bp_torso, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arm_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_arm_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_leg_l, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (one_in(4) && g->u.infect("spores", bp_leg_r, 3, 90, false, 1, 3, 120, 1, true)) {
+                        hit = true;
+                    }
+                    if (hit) {
+                        add_msg(m_warning, _("You're covered in tiny spores!"));
+                    }
+                } else if (((i == x && j == y) || one_in(4)) &&
+                           g->num_zombies() <= 1000) { // Spawn a spore
+                    spore.spawn(i, j);
+                    g->add_zombie(spore);
+                }
+            }
+        }
+    }
+}
+
 std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool silent)
 {
     bool success = false;
@@ -1573,6 +1627,13 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
             }
             
             if (success == true) {
+                // Clear out any partially grown seeds
+                if (has_flag_ter_or_furn("PLANT", x, y)) {
+                    for (size_t i = 0; i < i_at(x, y).size(); i++) {
+                        i_rem(x, y, i);
+                    }
+                }
+                
                 sound_volume = std::min(int(smin * 1.5), smax);
                 sound = _(bash->sound.c_str());
                 if (smash_furn == true) {

@@ -393,6 +393,8 @@ void add_corpse(int x, int y);
  void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
  bool close_door(const int x, const int y, const bool inside, const bool check_only);
  bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
+ /** Makes spores at the respective x and y. source is used for kill counting */
+ void create_spores(int x, int y, Creature* source = NULL);
  /** Returns a pair where first is whether something was smashed and second is if it was a success */
  std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false);
  // spawn items from the list, see map_bash_item_drop
