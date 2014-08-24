@@ -904,7 +904,7 @@
             "str_min": 10, "str_max": 40, "str_min_blocked": 9, "str_max_blocked": 50,
             "sound": "crash!",
             "sound_fail": "wham!",
-            "ter_set": "t_door_b",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "amount": 6, "minamount": 1},
                 { "item": "nail", "amount": 12, "minamount": 2},
@@ -942,7 +942,7 @@
             "str_min": 20, "str_max": 50, "str_min_blocked": 24, "str_max_blocked": 60,
             "sound": "crash!",
             "sound_fail": "wham!",
-            "ter_set": "t_rdoor_b",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "amount": 6, "minamount": 1},
                 { "item": "nail", "amount": 12, "minamount": 2},
