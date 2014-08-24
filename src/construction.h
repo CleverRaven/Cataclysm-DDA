@@ -14,6 +14,8 @@ struct construct;
 struct construction : public requirements
 {
     int id; // arbitrary internal identifier
+    
+    std::string category; //Construction type category
 
     std::string description; // how the action is displayed to the player
     std::string skill;

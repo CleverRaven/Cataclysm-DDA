@@ -64,7 +64,7 @@ class inventory_selector
     public:
         typedef std::vector<itemstack_or_category> itemstack_vector;
         /**
-         * Extracts @ref slice into @ref items, adding category entries.
+         * Extracts <B>slice</B> into @ref items, adding category entries.
          * For each item in the slice an entry that points to it is added to @ref items.
          * For a consecutive sequence of items of the same category a single
          * category entry is added in front of them.

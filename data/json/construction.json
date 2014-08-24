@@ -2,6 +2,7 @@
     {
         "type" : "construction",
         "description" : "Dig Pit",
+        "category" : "DIG",
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
@@ -10,6 +11,7 @@
     },{
         "type" : "construction",
         "description" : "Dig Pit",
+        "category" : "DIG",
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
@@ -18,6 +20,7 @@
     },{
         "type" : "construction",
         "description" : "Spike Pit",
+        "category" : "DIG",
         "difficulty" : 0,
         "time" : 5,
         "components" : [
@@ -28,6 +31,7 @@
     },{
         "type" : "construction",
         "description" : "Fill Pit",
+        "category" : "DIG",
         "difficulty" : 0,
         "time" : 5,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
@@ -36,6 +40,7 @@
     },{
         "type" : "construction",
         "description" : "Fill Pit",
+        "category" : "DIG",
         "difficulty" : 0,
         "time" : 5,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
@@ -44,6 +49,7 @@
     },{
         "type" : "construction",
         "description" : "Fill Pit",
+        "category" : "DIG",
         "difficulty" : 0,
         "time" : 5,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
@@ -52,6 +58,7 @@
     },{
         "type" : "construction",
         "description" : "Till Soil",
+        "category" : "FARM_WOOD",
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
@@ -60,6 +67,7 @@
     },{
         "type" : "construction",
         "description" : "Tamp ground",
+        "category" : "FARM_WOOD",
         "difficulty" : 0,
         "time" : 5,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
@@ -68,6 +76,7 @@
     },{
         "type" : "construction",
         "description" : "Chop Down Tree",
+        "category" : "FARM_WOOD",
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
@@ -77,6 +86,7 @@
     },{
         "type" : "construction",
         "description" : "Chop Tree trunk into logs",
+        "category" : "FARM_WOOD",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
@@ -86,6 +96,7 @@
     },{
         "type" : "construction",
         "description" : "Chop Tree trunk into planks",
+        "category" : "FARM_WOOD",
         "difficulty" : 0,
         "time" : 23,
         "qualities": [ [
@@ -97,6 +108,7 @@
     },{
         "type" : "construction",
         "description" : "Clean Broken Window",
+        "category" : "REPAIR",
         "difficulty" : 0,
         "time" : 5,
         "pre_terrain" : "t_window_frame",
@@ -104,6 +116,7 @@
     },{
         "type" : "construction",
         "description" : "Create Sign",
+        "category" : "CONSTRUCT",
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [
@@ -118,6 +131,7 @@
     },{
         "type" : "construction",
         "description" : "Repair Door",
+        "category" : "REPAIR",
         "difficulty" : 1,
         "time" : 10,
         "qualities": [ [
@@ -132,6 +146,7 @@
     },{
         "type" : "construction",
         "description" : "Repair Damaged Wood Wall",
+        "category" : "REPAIR",
         "difficulty" : 1,
         "time" : 10,
         "qualities": [ [
@@ -146,6 +161,7 @@
     },{
         "type" : "construction",
         "description" : "Repair Broken Wood Wall",
+        "category" : "REPAIR",
         "difficulty" : 1,
         "time" : 10,
         "qualities": [ [
@@ -160,6 +176,7 @@
     },{
         "type" : "construction",
         "description" : "Repair Damaged Log Wall",
+        "category" : "REPAIR",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
@@ -174,6 +191,7 @@
     },{
         "type" : "construction",
         "description" : "Repair Broken Log Wall",
+        "category" : "REPAIR",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
@@ -189,6 +207,7 @@
     },{
         "type" : "construction",
         "description" : "Board Up Door",
+        "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 8,
         "qualities": [ [
@@ -203,6 +222,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Wood Door",
+        "category" : "REINFORCE",
         "difficulty" : 5,
         "time" : 30,
         "qualities": [ [
@@ -217,6 +237,7 @@
     },{
         "type" : "construction",
         "description" : "Repair Reinforced Wood Door",
+        "category" : "REPAIR",
         "difficulty" : 2,
         "time" : 15,
         "qualities": [ [
@@ -231,6 +252,7 @@
     },{
         "type" : "construction",
         "description" : "Board Up Window",
+        "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
         "qualities": [ [
@@ -245,6 +267,7 @@
     },{
         "type" : "construction",
         "description" : "Board Up Empty Window",
+        "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
         "qualities": [ [
@@ -259,6 +282,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Up Window",
+        "category" : "REINFORCE",
         "difficulty" : 4,
         "time" : 10,
         "qualities": [ [
@@ -273,6 +297,7 @@
     },{
         "type" : "construction",
         "description" : "Reinforce Boarded Up Empty Window",
+        "category" : "REINFORCE",
         "difficulty" : 4,
         "time" : 10,
         "qualities": [ [
@@ -287,6 +312,7 @@
     },{
         "type" : "construction",
         "description" : "Armor Reinforced Boarded Up Window",
+        "category" : "REINFORCE",
         "difficulty" : 7,
         "time" : 30,
         "qualities": [ [
@@ -301,6 +327,7 @@
     },{
         "type" : "construction",
         "description" : "Armor Reinforced Boarded Up Empty Window",
+        "category" : "REINFORCE",
         "difficulty" : 7,
         "time" : 30,
         "qualities": [ [
@@ -315,6 +342,7 @@
     },{
         "type" : "construction",
         "description" : "Board Up Broken Window Frame",
+        "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [
@@ -330,6 +358,7 @@
 
         "type" : "construction",
         "description" : "Build Wooden Wall",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
@@ -344,6 +373,7 @@
     },{
         "type" : "construction",
         "description" : "Build Wooden Wall",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
@@ -358,6 +388,7 @@
     },{
         "type" : "construction",
         "description" : "Build Wooden Wall",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
@@ -372,6 +403,7 @@
     },{
         "type" : "construction",
         "description" : "Build Log Wall",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
@@ -384,6 +416,7 @@
     },{
         "type" : "construction",
         "description" : "Build Log Wall",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
@@ -396,7 +429,8 @@
     },{
         "type" : "construction",
         "description" : "Build Palisade Wall",
-        "difficulty" : 2,
+        "category" : "CONSTRUCT",
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -408,6 +442,7 @@
     },{
         "type" : "construction",
         "description" : "Build Stone Wall",
+        "category" : "CONSTRUCT",
         "difficulty" : 6,
         "time" : 90,
         "qualities": [ [
@@ -422,6 +457,7 @@
     },{
         "type" : "construction",
         "description" : "Build Stone Wall",
+        "category" : "CONSTRUCT",
         "difficulty" : 6,
         "time" : 90,
         "qualities": [ [
@@ -436,7 +472,8 @@
     },{
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
-        "difficulty" : 2,
+        "category" : "CONSTRUCT",
+        "difficulty" : 4,
         "time" : 5,
         "components" : [
             [ [ "rope_30", 1 ] ],
@@ -447,7 +484,8 @@
     },{
         "type" : "construction",
         "description" : "Build Palisade Gate",
-        "difficulty" : 2,
+        "category" : "CONSTRUCT",
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -460,6 +498,7 @@
     },{
         "type" : "construction",
         "description" : "Build Window",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 10,
         "qualities": [ [
@@ -474,6 +513,7 @@
     },{
         "type" : "construction",
         "description" : "Build Window",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 5,
         "components" : [
@@ -484,6 +524,7 @@
     },{
         "type" : "construction",
         "description" : "Build Window",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 5,
         "qualities": [ [
@@ -500,6 +541,7 @@
     },{
         "type" : "construction",
         "description" : "Build Door",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 15,
         "qualities": [ [
@@ -514,6 +556,7 @@
     },{
         "type" : "construction",
         "description" : "Build Door",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 15,
         "qualities": [ [
@@ -528,7 +571,8 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Door",
-        "difficulty" : 9,
+        "category" : "CONSTRUCT",
+        "difficulty" : 8,
         "time" : 15,
         "qualities": [ 
 		    [
@@ -547,7 +591,8 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Door",
-        "difficulty" : 9,
+        "category" : "CONSTRUCT",
+        "difficulty" : 8,
         "time" : 15,
         "qualities": [ 
 		    [
@@ -569,6 +614,7 @@
     },{
         "type" : "construction",
         "description" : "Fence Posts",
+        "category" : "CONSTRUCT",
         "difficulty" : 0,
         "time" : 5,
         "qualities": [ 
@@ -587,6 +633,7 @@
     },{
         "type" : "construction",
         "description" : "Build Fence",
+        "category" : "CONSTRUCT",
         "difficulty" : 1,
         "time" : 5,
         "qualities": [ [
@@ -601,6 +648,7 @@
     },{
         "type" : "construction",
         "description" : "Realign Fence",
+        "category" : "OTHER",
         "difficulty" : 0,
         "time" : 1,
         "pre_terrain" : "t_fence_h",
@@ -628,6 +676,7 @@
     },{
         "type" : "construction",
         "description" : "Realign Fence",
+        "category" : "OTHER",
         "difficulty" : 0,
         "time" : 1,
         "pre_terrain" : "t_fence_v",
@@ -635,6 +684,7 @@
     },{
         "type" : "construction",
         "description" : "Build Wire Fence",
+        "category" : "CONSTRUCT",
         "difficulty" : 3,
         "time" : 20,
         "qualities": [ [
@@ -649,6 +699,7 @@
     },{
         "type" : "construction",
         "description" : "Build Wire Fence",
+        "category" : "CONSTRUCT",
         "difficulty" : 3,
         "time" : 20,
         "components" : [
@@ -659,6 +710,7 @@
     },{
         "type" : "construction",
         "description" : "Realign Fence",
+        "category" : "OTHER",
         "difficulty" : 0,
         "time" : 1,
         "pre_terrain" : "t_chainfence_h",
@@ -666,6 +718,7 @@
     },{
         "type" : "construction",
         "description" : "Realign Fence",
+        "category" : "OTHER",
         "difficulty" : 0,
         "time" : 1,
         "pre_terrain" : "t_chainfence_v",
@@ -673,6 +726,7 @@
     },{
         "type" : "construction",
         "description" : "Build Wire Gate",
+        "category" : "CONSTRUCT",
         "difficulty" : 3,
         "time" : 10,
         "components" : [
@@ -685,6 +739,7 @@
     },{
         "type" : "construction",
         "description" : "Build Roof",
+        "category" : "CONSTRUCT",
         "difficulty" : 3,
         "time" : 40,
         "qualities": [ [
@@ -699,6 +754,7 @@
     },{
         "type" : "construction",
         "description" : "Build Log & Sod Roof",
+        "category" : "CONSTRUCT",
         "difficulty" : 3,
         "time" : 40,
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -711,6 +767,7 @@
     },{
         "type" : "construction",
         "description" : "Tape up window",
+        "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 2,
         "components" : [
@@ -721,6 +778,7 @@
     },{
         "type" : "construction",
         "description" : "Tape up window",
+        "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 2,
         "components" : [
@@ -731,6 +789,7 @@
     },{
         "type" : "construction",
         "description" : "Tape up window",
+        "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 2,
         "components" : [
@@ -741,6 +800,7 @@
     },{
         "type" : "construction",
         "description" : "Build Bulletin board",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ 
@@ -760,6 +820,7 @@
     },{
         "type" : "construction",
         "description" : "Build Dresser",
+        "category" : "FURN",
         "difficulty" : 1,
         "time" : 20,
         "qualities": [ 
@@ -779,6 +840,7 @@
     },{
         "type" : "construction",
         "description" : "Build Bookcase",
+        "category" : "FURN",
         "difficulty" : 1,
         "time" : 20,
         "qualities": [ 
@@ -798,6 +860,7 @@
     },{
         "type" : "construction",
         "description" : "Build Locker",
+        "category" : "FURN",
         "difficulty" : 1,
         "time" : 20,
         "qualities": [ 
@@ -817,6 +880,7 @@
     },{
         "type" : "construction",
         "description" : "Build Metal Rack",
+        "category" : "FURN",
         "difficulty" : 1,
         "time" : 20,
         "qualities": [ 
@@ -835,6 +899,7 @@
     },{
         "type" : "construction",
         "description" : "Build Cupboard",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ [
@@ -849,6 +914,7 @@
     },{
         "type" : "construction",
         "description" : "Build Counter",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ [
@@ -863,6 +929,7 @@
     },{
         "type" : "construction",
         "description" : "Build Table",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ [
@@ -877,6 +944,7 @@
     },{
         "type" : "construction",
         "description" : "Build Chair",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ [
@@ -891,6 +959,7 @@
     },{
         "type" : "construction",
         "description" : "Build Makeshift Bed",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ [
@@ -927,6 +996,7 @@
     },{
         "type" : "construction",
         "description" : "Build Armchair",
+        "category" : "FURN",
         "difficulty" : 2,
         "time" : 20,
         "qualities": [ 
@@ -947,6 +1017,7 @@
     },{
         "type" : "construction",
         "description" : "Build Sofa",
+        "category" : "FURN",
         "difficulty" : 3,
         "time" : 20,
         "qualities": [ 
@@ -967,6 +1038,7 @@
     },{
         "type" : "construction",
         "description" : "Build Wood Stove",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [
@@ -981,6 +1053,7 @@
     },{
         "type" : "construction",
         "description" : "Build Stone Fireplace",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 40,
         "qualities": [ 
@@ -999,6 +1072,7 @@
     },{
         "type" : "construction",
         "description" : "Build Fermenting Vat",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ 
@@ -1019,6 +1093,7 @@
     },{
         "type" : "construction",
         "description" : "Build Wooden Keg",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ 
@@ -1039,6 +1114,7 @@
     },{
         "type" : "construction",
         "description" : "Build Water Well",
+        "category" : "CONSTRUCT",
         "difficulty" : 9,
         "time" : 480,
         "qualities": [ 
@@ -1059,6 +1135,7 @@
     },{
         "type" : "construction",
         "description" : "Build Water Well",
+        "category" : "CONSTRUCT",
         "difficulty" : 5,
         "time" : 120,
         "qualities": [ 
@@ -1078,6 +1155,7 @@
     },{
         "type" : "construction",
         "description" : "Deconstruct Furniture",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
         "qualities": [ 
@@ -1093,6 +1171,7 @@
     },{
         "type" : "construction",
         "description" : "Start Vehicle Construction",
+        "category" : "OTHER",
         "difficulty" : 0,
         "time" : 10,
         "components" : [
@@ -1109,6 +1188,7 @@
     {
         "type" : "construction",
         "description" : "Paint Horizontal Wall Red",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1122,6 +1202,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Vertical Wall Red",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1135,6 +1216,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Horizontal Wall Blue",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1148,6 +1230,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Vertical Wall Blue",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1161,6 +1244,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Horizontal Wall white",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1174,6 +1258,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Vertical Wall white",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
           "tools" : [
@@ -1187,6 +1272,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Horizontal Wall Green",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1200,6 +1286,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Vertical Wall Green",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1213,6 +1300,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Horizontal Wall Purple",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1226,6 +1314,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Vertical Wall Purple",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1239,6 +1328,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Horizontal Wall Yellow",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1252,6 +1342,7 @@
     },{
         "type" : "construction",
         "description" : "Paint Vertical Wall Yellow",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 40,
         "tools" : [
@@ -1265,6 +1356,7 @@
     },{
         "type" : "construction",
         "description" : "Take Paint Off Vertical Wall",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 80,
         "tools" : [
@@ -1275,6 +1367,7 @@
     },{
         "type" : "construction",
         "description" : "Take Paint off Horizontal Wall",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 80,
         "tools" : [
@@ -1285,6 +1378,7 @@
     },{
         "type" : "construction",
         "description" : "Remove Carpet",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 30,
         "qualities": [ [
@@ -1295,6 +1389,7 @@
     },{
         "type" : "construction",
         "description" : "Carpet Floor Red",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 30,
         "qualities": [ [
@@ -1309,6 +1404,7 @@
     },{
         "type" : "construction",
         "description" : "Carpet Floor Purple",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 30,
         "qualities": [ [
@@ -1323,6 +1419,7 @@
     },{
         "type" : "construction",
         "description" : "Carpet Floor Yellow",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 30,
         "qualities": [ [
@@ -1337,6 +1434,7 @@
     },{
         "type" : "construction",
         "description" : "Carpet Floor Green",
+        "category" : "DECORATE",
         "difficulty" : 0,
         "time" : 30,
         "qualities": [ [
@@ -1351,6 +1449,7 @@
     },{
         "type" : "construction",
         "description" : "Dig Downstair",
+        "category" : "DIG",
         "difficulty" : 5,
         "time" : 420,
         "qualities": [ [ { "id": "AXE", "level": 2 } ], 
@@ -1369,6 +1468,7 @@
     },{
         "type" : "construction",
         "description" : "Mine Downstair",
+        "category" : "DIG",
         "difficulty" : 6,
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ], 
@@ -1390,6 +1490,7 @@
     },{
         "type" : "construction",
         "description" : "Mine Upstair",
+        "category" : "DIG",
         "difficulty" : 6,
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ], 
@@ -1414,6 +1515,7 @@
     },{
         "type" : "construction",
         "description" : "Place anvil",
+        "category" : "FURN",
         "difficulty" : 0,
         "time" : 1,
         "components" : [

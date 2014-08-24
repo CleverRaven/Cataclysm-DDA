@@ -1446,6 +1446,40 @@ int iuse::blech(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::plantblech(player *p, item *it, bool)
+{
+    std::string highcat = p->get_highest_category();
+    int highest = p->mutation_category_level[highcat];
+    double multiplier = 0;
+
+    if (highcat == "MUTCAT_PLANT") {
+        if (highest < 20) {
+            multiplier = -1.2;
+            p->add_msg_if_player(m_good, _("Oddly enough, this doesn't taste so bad."));
+        } else if (highest >= 20 && highest < 35) {
+            multiplier = -1.5;
+            p->add_msg_if_player(m_good, _("This tastes good."));
+        } else if (highest >= 35 && highest < 50) {
+            multiplier = -2;
+            p->add_msg_if_player(m_good, _("This tastes great."));
+        } else if (highest >= 50) {
+            multiplier = -3;
+            p->add_msg_if_player(m_good, _("The meal is revitalizing."));
+        }
+    it_comest *food = dynamic_cast<it_comest*>(it->type);
+    //reverses the harmful values of drinking fertilizer
+    p->thirst -= food->quench * multiplier;
+    p->mod_healthy_mod(food->healthy * multiplier);
+    p->add_morale(MORALE_FOOD_BAD, food->fun *-1, food->fun * 6, 60, 30, false, food);
+    p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
+    return it->type->charges_to_use();
+    }
+    else {
+    //return it->type->charges_to_use();
+    return blech(p,it,true);
+    }
+}
+
 int iuse::chew(player *p, item *it, bool)
 {
     // TODO: Add more effects?
@@ -9173,6 +9207,19 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
             return it->type->charges_to_use();
         }
 
+        if (p->has_item(it)) {
+            if (p->has_active_bionic("bio_shock") && p->power_level >= 2 && one_in(5)) {
+                p->power_level -= 2;
+
+                it->item_tags.erase("NO_UNWIELD");
+                it->charges = 0;
+                it->active = false;
+                add_msg(m_good, _("The %s crackle with electricity from your bionic, then come off your hands!"), it->tname().c_str());
+
+                return it->type->charges_to_use();
+            }
+        }
+
         if (calendar::turn % 10 == 0) {
             g->sound(pos.x, pos.y, 10, _("a police siren, whoop WHOOP."));
         }
@@ -9180,14 +9227,24 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
         const int x = atoi(it->item_vars["HANDCUFFS_X"].c_str());
         const int y = atoi(it->item_vars["HANDCUFFS_Y"].c_str());
 
-        if (x != pos.x || y != pos.y) {
+        if ((it->charges > it->type->maximum_charges() - 1000) && (x != pos.x || y != pos.y)) {
 
             if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
 
-                add_msg(m_bad, _("Ouch, the cuffs shock you!"));
+                if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) ||
+                    g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
+                    add_msg(_("The electricity flows around you."));
+                } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Artifact or bionic stops electricity.
+                    add_msg(_("Your armor safely grounds the electrical discharge."));
+                } else {
 
-                p->apply_damage(nullptr, bp_arm_l, rng(0, 2));
-                p->apply_damage(nullptr, bp_arm_r, rng(0, 2));
+                    add_msg(m_bad, _("Ouch, the cuffs shock you!"));
+
+                    p->apply_damage(nullptr, bp_arm_l, rng(0, 2));
+                    p->apply_damage(nullptr, bp_arm_r, rng(0, 2));
+                    g->u.mod_pain(rng(2, 5));
+
+                }
 
             } else {
                 add_msg(m_bad, _("The %s spark with electricity!"), it->tname().c_str());
@@ -9210,7 +9267,8 @@ int iuse::ehandcuffs(player *p, item *it, bool t)
     }
 
     if (it->active) {
-        add_msg("Your %s are clamped tightly on your limbs.  You can't take them off.", it->tname().c_str());
+        add_msg("The %s are clamped tightly on your wrists.  You can't take them off.",
+                it->tname().c_str());
     } else {
         add_msg("The %s have discharged and can be taken off.", it->tname().c_str());
     }

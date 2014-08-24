@@ -40,69 +40,71 @@ bool player::is_armed() const
 
 bool player::handle_melee_wear()
 {
-// Here is where we handle wear and tear on things we use as melee weapons or shields.
+    // Here is where we handle wear and tear on things we use as melee weapons or shields.
     int material_factor = 1;
     int damage_chance = dex_cur + ( 2 * get_skill_level("melee") ) + ( 128 / std::max(str_cur,1) );
-  // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
-  if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
-    // Here we're checking the weapon's material(s) and using the best one to determine how durable it is.
-    if (weapon.made_of("plastic")) {
-                material_factor = 2;
-    }
-    if (weapon.made_of("leather")) {
-                material_factor = 3;
-    }
-    if (weapon.made_of("bone") || weapon.made_of("chitin") || weapon.made_of("wood")) {
-                material_factor = 4;
-    }
-    if (weapon.made_of("stone") || weapon.made_of("silver") || weapon.made_of("gold") || weapon.made_of("lead")) {
-                material_factor = 6;
-    }
-    if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("aluminum")) {
-                material_factor = 8;
-    }
-    if (weapon.made_of("steel") ) {
-                material_factor = 10;
-    }
-    if (weapon.made_of("hardsteel")) {
-                material_factor = 12;
-    }
-    if (weapon.made_of("ceramic")) {
-                material_factor = 40;
-    }
-    if (weapon.made_of("superalloy") || weapon.made_of("diamond")){
-                material_factor = 100;
-    }
-    // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
-    // than other weapons made of the same materials.
-    if (weapon.has_flag("DURABLE_MELEE")) {
-                material_factor *= 4;
-    }
-    // The weapon's current state of damage can make it more susceptible to further damage.
-    damage_chance -= weapon.damage * 6;
+    // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
+    if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
+        // Here we're checking the weapon's material(s) and using the best one to determine how durable it is.
+        if (weapon.made_of("plastic")) {
+                    material_factor = 2;
+        }
+        if (weapon.made_of("leather")) {
+                    material_factor = 3;
+        }
+        if (weapon.made_of("bone") || weapon.made_of("chitin") || weapon.made_of("wood")) {
+                    material_factor = 4;
+        }
+        if (weapon.made_of("stone") || weapon.made_of("silver") || weapon.made_of("gold") || weapon.made_of("lead")) {
+                    material_factor = 6;
+        }
+        if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("aluminum")) {
+                    material_factor = 8;
+        }
+        if (weapon.made_of("steel") ) {
+                    material_factor = 10;
+        }
+        if (weapon.made_of("hardsteel")) {
+                    material_factor = 12;
+        }
+        if (weapon.made_of("ceramic")) {
+                    material_factor = 40;
+        }
+        if (weapon.made_of("superalloy") || weapon.made_of("diamond")){
+                    material_factor = 100;
+        }
+        // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
+        // than other weapons made of the same materials.
+        if (weapon.has_flag("DURABLE_MELEE")) {
+                    material_factor *= 4;
+        }
+        // The weapon's current state of damage can make it more susceptible to further damage.
+        damage_chance -= weapon.damage * 6;
 
-    if (damage_chance < 2) {
-        damage_chance = 2;
+        if (damage_chance < 2) {
+            damage_chance = 2;
+        }
+
+        damage_chance *= material_factor;
+
+        if (weapon.damage < 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
+            add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
+                                    _("<npcname>'s %s is damaged by the force of the blow!"),
+                                    weapon.tname().c_str());
+            //Don't increment until after the message is displayed
+            weapon.damage++;
+        } else if (weapon.damage >= 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))) {
+            add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
+                                    _("<npcname>'s %s is destroyed by the blow!"),
+                                    weapon.tname().c_str());
+            // Dump its contents on the ground
+            for (size_t i = 0; i < weapon.contents.size(); i++) {
+                g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
+            }
+            remove_weapon();
+        }
     }
-
-    damage_chance *= material_factor;
-
-    if (weapon.damage < 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
-     weapon.damage++;
-     add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
-                                   _("<npcname>'s %s is damaged by the force of the blow!"),
-                                   weapon.tname().c_str());
-    } else if (weapon.damage >= 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
-      add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
-      _("<npcname>'s %s is destroyed by the blow!"),
-      weapon.tname().c_str());
-  // Dump its contents on the ground
-  for (size_t i = 0; i < weapon.contents.size(); i++)
-   g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
-   remove_weapon();
-      }
-  }
-  return true;
+    return true;
 }
 
 bool player::unarmed_attack() const {
@@ -562,6 +564,13 @@ int player::dodge_roll()
         }
         add_disease("downed", 3);
     }
+    //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
+    if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
+        if (!has_disease("downed")) {
+            add_msg_if_player(_("Fighting on wheels is hard!"));
+        }
+        add_disease("downed", 3);
+    }
     if (has_effect("bouldering")) {
         if(one_in(get_dex())) {
             add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
@@ -569,7 +578,6 @@ int player::dodge_roll()
             return 0;
         }
     }
-    
     int dodge_stat = get_dodge();
 
     if (dodges_left <= 0) { // We already dodged this turn

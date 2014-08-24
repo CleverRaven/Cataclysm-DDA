@@ -816,25 +816,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     }
 
     if (!components.empty()) {
-        typedef std::map<std::string, int> t_count_map;
-        t_count_map counts;
-        for(t_item_vector::const_iterator a = components.begin(); a != components.end(); ++a) {
-            const std::string name = a->display_name();
-            counts[name]++;
-        }
-        std::ostringstream buffer;
-        buffer << _("Made from: ");
-        for(t_count_map::const_iterator a = counts.begin(); a != counts.end(); ++a) {
-            if (a != counts.begin()) {
-                buffer << _(", ");
+        dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Made from: %s"), components_to_string().c_str() ) ) );
+    } else {
+        recipe *dis_recipe = g->get_disassemble_recipe( type->id );
+        if( dis_recipe != nullptr ) {
+            std::ostringstream buffer;
+            for( auto it = dis_recipe->components.begin(); it != dis_recipe->components.end(); ++it ) {
+                if( it != dis_recipe->components.begin() ) {
+                    buffer << _(", ");
+                }
+                buffer << it->front().to_string();
             }
-            if (a->second != 1) {
-                buffer << string_format(_("%d x %s"), a->second, a->first.c_str());
-            } else {
-                buffer << a->first;
-            }
+            dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Dissasembing this item might yield %s"),
+                                                                     buffer.str().c_str() ) ) );
         }
-        dump->push_back(iteminfo("DESCRIPTION", buffer.str()));
     }
 
     if ( !type->qualities.empty()){
@@ -3533,4 +3528,26 @@ void item::mark_as_used_by_player(const player &p)
     }
     // and always end with a ';'
     used_by_ids += string_format( "%d;", p.getID() );
+}
+
+std::string item::components_to_string() const
+{
+    typedef std::map<std::string, int> t_count_map;
+    t_count_map counts;
+    for(t_item_vector::const_iterator a = components.begin(); a != components.end(); ++a) {
+        const std::string name = a->display_name();
+        counts[name]++;
+    }
+    std::ostringstream buffer;
+    for(t_count_map::const_iterator a = counts.begin(); a != counts.end(); ++a) {
+        if (a != counts.begin()) {
+            buffer << _(", ");
+        }
+        if (a->second != 1) {
+            buffer << string_format(_("%d x %s"), a->second, a->first.c_str());
+        } else {
+            buffer << a->first;
+        }
+    }
+    return buffer.str();
 }

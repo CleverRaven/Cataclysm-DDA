@@ -590,7 +590,8 @@ void player::process_turn()
     }
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
-    if (has_trait("CHLOROMORPH")) {
+    // Or maybe you're debugging and would rather not be smelled.
+    if (has_trait("CHLOROMORPH") || has_trait("DEBUG_NOSCENT")) {
         norm_scent = 0;
     }
 
@@ -1582,6 +1583,16 @@ int player::run_cost(int base_cost, bool diag)
             movecost *= 1.0f - (0.25f * shoe_type_count("roller_blades"));
         } else {
             movecost *= 1.5f;
+        }
+    }
+	// Quad skates might be more stable than inlines, but that also translates into a slower speed when on good surfaces.
+    if ( (is_wearing("rollerskates")) && !(is_on_ground())) {
+        if (offroading) {
+            movecost *= 1.0f + (0.15f * shoe_type_count("rollerskates"));
+        } else if (flatground) {
+            movecost *= 1.0f - (0.15f * shoe_type_count("rollerskates"));
+        } else {
+            movecost *= 1.3f;
         }
     }
 
@@ -5981,6 +5992,12 @@ void player::suffer()
         add_msg(m_bad, _("You suffer a painful electrical discharge!"));
         mod_pain(1);
         moves -= 150;
+
+        if (weapon.type->id == "e_handcuffs" && weapon.charges > 0) {
+            weapon.charges -= rng(1, 3) * 50;
+            if (weapon.charges < 1) weapon.charges = 1;
+            add_msg(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
+        }
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {
         add_msg(m_bad, _("You suffer a burning acidic discharge!"));

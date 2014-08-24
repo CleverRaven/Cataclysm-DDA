@@ -129,6 +129,10 @@
         "text" : "This is a public warning from the United States Army.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law affecting the entire nation.  Shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  This curfew will remain in effect until further notice.  Stay indoors.  Violators will be shot on sight."
     },{
         "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is an advertisement for Rivtech's 'ATOMIC POWER THIRST' energy drink.  While intended to advertise a new flavor called Isotope RU-238 'FRUIT', most of the text is dedicated to a long list of possible side effects: anxiety, insomnia, severe insomnia, dizziness, tremors, nausea, headache, vomiting, delusions, hallucinations, rhabdomyolysis, internal burns, thyroid cancer, extensive internal bleeding, upper gastrointestinal bleeding, diarrhea, cardiac dysrhythmia, cardiovascular collapse, suicidal ideation, seizures, ataxia, amnesia, mania, stroke, neurodegeneration, malignalitaloptereosis, necrotizing fasciitis, recurrent flu, and pinkeye."
+    },{
+        "type" : "snippet",
         "category" : "note",
         "text" : "The Green Fever shall purge the land for His Chosen children.  I have seen His black fire shining in the eyes of the afflicted and eagerly await the day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn."
     },{
@@ -211,6 +215,10 @@
 			"type" : "snippet",
         "category" : "note",
         "text" : "\"Gas mask is nice and all, but I can hardly run with it on.\""
+    },{
+      "type" : "snippet",
+        "category" : "note",
+        "text" : "\"One of those robot tanks was blocking the way out.  Got some sort of sweetspot, though, where it can't decide what to shoot with, maybe 30 yards or so?  Made it to the truck and just drove.\""
     },{
 			"type" : "snippet",
         "category" : "note",

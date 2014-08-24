@@ -2044,6 +2044,43 @@
             {"item": "scrap", "min": 1, "max": 2}]
     },{
         "type" : "vehicle_part",
+        "id" : "wheel_wood",
+        "name" : "wooden cart wheel",
+        "symbol" : "|",
+        "color" : "brown",
+        "broken_symbol" : "x",
+        "broken_color" : "brown",
+        "damage_modifier" : 50,
+        "durability" : 30,
+        "wheel_width" : 2,
+        "item" : "wheel_wood",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "2x4", "min": 0, "max": 4},
+            {"item": "nail", "min": 5, "max": 15}]
+    },{
+        "type" : "vehicle_part",
+        "id" : "wheel_wood_b",
+        "name" : "banded wooden cart wheel",
+        "symbol" : "|",
+        "color" : "brown",
+        "broken_symbol" : "x",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 60,
+        "wheel_width" : 2,
+        "item" : "wheel_wood_b",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "2x4", "min": 0, "max": 4},
+            {"item": "nail", "min": 5, "max": 15},
+			{"item": "scrap", "min": 1, "max": 2}]
+    },{
+        "type" : "vehicle_part",
         "id" : "engine_1cyl",
         "name" : "1-cylinder engine",
         "symbol" : "*",

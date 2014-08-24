@@ -126,6 +126,9 @@ class game
         void draw_veh_dir_indicator(void);
         /**
          * Add an entry to @ref events. For further information see event.h
+         * @param type Type of event.
+         * @param on_turn On which turn event should be happened.
+         * @param faction_id Faction of event.
          * @param x,y global submap coordinates.
          */
         void add_event(event_type type, int on_turn, int faction_id = -1,
@@ -133,6 +136,9 @@ class game
         bool event_queued(event_type type);
         /**
          * Sound at (x, y) of intensity (vol)
+         * @param x x-position of sound.
+         * @param y y-position of sound.
+         * @param vol Volume of sound.
          * @param description Description of the sound for the player,
          * if non-empty string a message is generated.
          * @param ambient If false, the sound interrupts player activities.
@@ -534,6 +540,7 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove(int dx, int dy);
+        void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
         void close(int closex = -1, int closey = -1); // Close a door  'c'

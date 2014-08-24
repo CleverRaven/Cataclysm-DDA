@@ -83,7 +83,7 @@ bool mtype::in_species(std::string spec) const
     return (species.find(spec) != species.end());
 }
 
-field_id mtype::bloodType()
+field_id mtype::bloodType() const
 {
     if (has_flag(MF_ACID_BLOOD))
         //A monster that has the death effect "ACID" does not need to have acid blood.
@@ -102,12 +102,13 @@ field_id mtype::bloodType()
     if (mat == "iflesh") {
         return fd_blood_insect;
     }
-    if (has_flag(MF_WARM)) {
+    if( has_flag( MF_WARM ) && mat == "flesh" ) {
         return fd_blood;
     }
-    return fd_null; //Please update the monster blood type code at bloodType() in monster.cpp when modifying these rules!
+    return fd_null;
 }
-field_id mtype::gibType()
+
+field_id mtype::gibType() const
 {
     if (has_flag(MF_LARVA) || in_species("MOLLUSK")) {
         return fd_gibs_invertebrate;
@@ -118,7 +119,11 @@ field_id mtype::gibType()
     if (mat == "iflesh") {
         return fd_gibs_insect;
     }
-    return fd_gibs_flesh; //Please update the monster blood type code at gibType() in monster.cpp when modifying these rules!
+    if (mat == "flesh") {
+        return fd_gibs_flesh;
+    }
+    // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
+    return fd_null;
 }
 
 itype_id mtype::get_meat_itype() const
