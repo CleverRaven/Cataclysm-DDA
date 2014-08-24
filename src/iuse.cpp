@@ -2975,6 +2975,7 @@ int iuse::hammer(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("There's nothing to pry there."));
         return 0;
     }
+    p->practice("carpentry", 1, 1);
     p->moves -= 500;
     g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
     g->m.spawn_item(p->posx, p->posy, "2x4", boards);
@@ -3949,6 +3950,7 @@ int iuse::crowbar(player *p, item *it, bool)
             p->add_msg_if_player(m_info, _("There's nothing to pry there."));
             return 0;
         }
+        p->practice("carpentry", 1, 1);
         p->moves -= 500;
         g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
         g->m.spawn_item(p->posx, p->posy, "2x4", boards);
