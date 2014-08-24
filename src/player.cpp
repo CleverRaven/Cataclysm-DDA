@@ -880,6 +880,12 @@ Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
 
 void player::update_bodytemp()
 {
+    if (has_trait("DEBUG_NOTEMP")){
+        for (int i = 0 ; i < num_bp ; i++) {
+            temp_cur[i] = BODYTEMP_NORM;
+        }
+        return;
+    }
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
@@ -6183,7 +6189,8 @@ void player::vomit()
 void player::drench(int saturation, int flags)
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if ( (is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy))) ) {
+    if ( (has_trait("DEBUG_NOTEMP")) || ((is_waterproof(flags)) &&
+        (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy)))) ) {
         return;
     }
 
