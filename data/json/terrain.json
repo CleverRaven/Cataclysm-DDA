@@ -887,8 +887,8 @@
             "sound_fail": "wham!",
             "ter_set": "t_door_b",
             "items": [
-                { "item": "2x4", "amount": 6, "minamount": 1},
-                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "2x4", "amount": 4, "minamount": 1},
+                { "item": "nail", "amount": 8, "minamount": 1},
                 { "item": "splinter", "amount": 1 }
             ]
         }
@@ -906,8 +906,8 @@
             "sound_fail": "wham!",
             "ter_set": "t_door_frame",
             "items": [
-                { "item": "2x4", "amount": 6, "minamount": 1},
-                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "2x4", "amount": 8, "minamount": 1},
+                { "item": "nail", "amount": 20, "minamount": 2},
                 { "item": "splinter", "amount": 1 }
             ]
         }
@@ -925,8 +925,8 @@
             "sound_fail": "wham!",
             "ter_set": "t_rdoor_b",
             "items": [
-                { "item": "2x4", "amount": 6, "minamount": 1},
-                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "2x4", "amount": 4, "minamount": 1},
+                { "item": "nail", "amount": 8, "minamount": 1},
                 { "item": "splinter", "amount": 1 }
             ]
         }
@@ -942,10 +942,10 @@
             "str_min": 20, "str_max": 50, "str_min_blocked": 24, "str_max_blocked": 60,
             "sound": "crash!",
             "sound_fail": "wham!",
-            "ter_set": "t_door_frame",
+            "ter_set": "t_door_b",
             "items": [
-                { "item": "2x4", "amount": 6, "minamount": 1},
-                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "2x4", "amount": 16, "minamount": 2},
+                { "item": "nail", "amount": 54, "minamount": 6},
                 { "item": "splinter", "amount": 1 }
             ]
         }
