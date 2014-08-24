@@ -79,7 +79,6 @@ public:
     int scissors            (player *, item *, bool);
     int extinguisher        (player *, item *, bool);
     int hammer              (player *, item *, bool);
-    int crowbar             (player *, item *, bool);
     int solder_weld         (player *, item *, bool);
     int water_purifier      (player *, item *, bool);
     int two_way_radio       (player *, item *, bool);
@@ -96,6 +95,7 @@ public:
     int touristmap          (player *, item *, bool);
     int ma_manual           (player *, item *, bool);
     int picklock            (player *, item *, bool);
+    int crowbar             (player *, item *, bool);
     int makemound           (player *, item *, bool);
     int dig                 (player *, item *, bool);
     int siphon              (player *, item *, bool);
