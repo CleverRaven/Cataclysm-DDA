@@ -7434,7 +7434,7 @@ static bool heat_item(player *p)
         return false;
     }
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if (target->type->is_food()) {
+    if ((target->type->is_food()) && (target->has_flag("EATEN_HOT"))) {
         p->moves -= 300;
         add_msg(_("You heat up the food."));
         target->item_tags.insert("HOT");
