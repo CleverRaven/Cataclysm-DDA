@@ -2967,7 +2967,7 @@ int iuse::hammer(player *p, item *it, bool)
             newter = t_door_b;
         } else if (type == t_rdoor_boarded) {
             newter = t_rdoor_c;
-        } else { // if (type == t_rdoor_boarded_damaged)
+        } else if (type == t_rdoor_boarded_damaged) {
             newter = t_rdoor_b;
         }
         p->add_msg_if_player(_("You pry the boards from the door."));
@@ -3942,7 +3942,7 @@ int iuse::crowbar(player *p, item *it, bool)
                 newter = t_door_b;
             } else if (type == t_rdoor_boarded) {
                 newter = t_rdoor_c;
-            } else { // if (type == t_rdoor_boarded_damaged)
+            } else if (type == t_rdoor_boarded_damaged) {
                 newter = t_rdoor_b;
             }
             p->add_msg_if_player(_("You pry the boards from the door."));
