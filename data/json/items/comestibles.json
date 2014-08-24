@@ -2238,7 +2238,7 @@
         "healthy" : -2,
         "addiction_potential" : 0,
         "nutrition" : 30,
-        "description" : "A nutrient rich elixir for plants",
+        "description" : "A nutrient rich elixir for plants.",
         "price" : 1000,
         "material" : "null",
         "tool" : "null",
