@@ -928,7 +928,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             g->u.infect("fungus", bp_eyes, 3, 100, true, 2, 4, 1, 1);
                         // Haze'd the terrain
                         } if (one_in(5 - cur->getFieldDensity())) {
-                            game.spread_fungus(x, y)
+                            g->spread_fungus(x, y)
                         }
                         break;
 
