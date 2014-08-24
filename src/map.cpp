@@ -1579,7 +1579,7 @@ void map::collapse_at(const int x, const int y)
     }
 }
 
-std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool silent)
+std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool silent, bool destroy)
 {
     bool success = false;
     int sound_volume = 0;
@@ -1658,7 +1658,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                 }
             }
             
-            if (success == true) {
+            if (success || destroy) {
                 // Clear out any partially grown seeds
                 if (has_flag_ter_or_furn("PLANT", x, y)) {
                     for (size_t i = 0; i < i_at(x, y).size(); i++) {
@@ -1713,7 +1713,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
             if ( furnid == f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
                  furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
                  furnid == f_canvas_door_o || furnid == f_groundsheet || furnid == f_fema_groundsheet) {
-                if (str >= rng(0, 6)) {
+                if (str >= rng(0, 6) || destroy) {
                     // Special code to collapse the tent if destroyed
                     int tentx = -1, tenty = -1;
                     // Find the center of the tent
@@ -1765,7 +1765,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
             } else if (furnid == f_center_groundsheet || furnid == f_large_groundsheet ||
                      furnid == f_large_canvas_door || furnid == f_large_canvas_wall ||
                      furnid == f_large_canvas_door_o) {
-                if (str >= rng(0, 6)) {
+                if (str >= rng(0, 6) || destroy) {
                     // Special code to collapse the tent if destroyed
                     int tentx = -1, tenty = -1;
                     // Find the center of the tent
@@ -1848,50 +1848,7 @@ void map::destroy(const int x, const int y, const bool makesound)
     }
 
     const ter_id t = ter( x, y );
-    if( t == t_gas_pump) {
-        if (makesound && one_in(3))
-            g->explosion(x, y, 40, 0, true);
-        else {
-            for (int i = x - 2; i <= x + 2; i++) {
-                for (int j = y - 2; j <= y + 2; j++) {
-                    if(move_cost(i, j) == 0) {
-                        continue;
-                    }
-                    if (one_in(3)) {
-                        spawn_item(i, j, "gasoline");
-                    }
-                    if (one_in(6)) {
-                        spawn_item(i, j, "steel_chunk", 0, 3);
-                    }
-                }
-            }
-        }
-        ter_set(x, y, t_rubble);
-    } else if( t == t_door_c || t == t_door_b || t == t_door_locked || t == t_door_boarded ) {
-        ter_set(x, y, t_door_frame);
-        for (int i = x - 2; i <= x + 2; i++) {
-            for (int j = y - 2; j <= y + 2; j++) {
-                if(move_cost(i, j) == 0) {
-                    continue;
-                }
-                if (one_in(6)) {
-                    spawn_item(i, j, "2x4");
-                }
-                if (one_in(6)) {
-                    spawn_item(i, j, "nail", 0, 3);
-                }
-            }
-        }
-    } else if( t == t_pavement || t == t_pavement_y || t == t_sidewalk ) {
-        for (int i = x - 2; i <= x + 2; i++) {
-            for (int j = y - 2; j <= y + 2; j++) {
-                if (move_cost(i, j) > 0 && one_in(5)) {
-                    spawn_item(i, j, "rock");
-                }
-                ter_set(x, y, t_rubble);
-            }
-        }
-    } else if( t == t_floor ) {
+    if( t == t_floor ) {
         g->sound(x, y, 20, _("SMASH!!"));
         for (int i = x - 2; i <= x + 2; i++) {
             for (int j = y - 2; j <= y + 2; j++) {
@@ -1911,59 +1868,7 @@ void map::destroy(const int x, const int y, const bool makesound)
         }
         ter_set(x, y, t_rubble);
         collapse_at(x,y);
-    } else if( t == t_concrete_v || t == t_concrete_h || t == t_wall_v || t == t_wall_h ) {
-        g->sound(x, y, 20, _("SMASH!!"));
-        for (int i = x - 2; i <= x + 2; i++) {
-            for (int j = y - 2; j <= y + 2; j++) {
-                if(move_cost(i, j) == 0) {
-                    continue;
-                }
-                if (one_in(5)) {
-                    spawn_item(i, j, "rock");
-                }
-                if (one_in(4)) {
-                    spawn_item(i, j, "splinter");
-                }
-                if (one_in(3)) {
-                    spawn_item(i, j, "rebar");
-                }
-                if (one_in(6)) {
-                    spawn_item(i, j, "nail", 0, 3);
-                }
-            }
-        }
-        ter_set(x, y, t_rubble);
-        collapse_at(x,y);
-    } else if( t == t_palisade || t == t_palisade_gate ) {
-        g->sound(x, y, 16, _("CRUNCH!!"));
-        for (int i = x - 1; i <= x + 1; i++) {
-            for (int j = y - 1; j <= y + 1; j++) {
-                if(move_cost(i, j) == 0) {
-                    continue;
-                }
-                if (one_in(3)) {
-                    spawn_item(i, j, "rope_6");
-                }
-                if (one_in(2)) {
-                    spawn_item(i, j, "splinter");
-                }
-                if (one_in(3)) {
-                    spawn_item(i, j, "stick");
-                }
-                if (one_in(6)) {
-                    spawn_item(i, j, "2x4");
-                }
-                if (one_in(9)) {
-                    spawn_item(i, j, "log");
-                }
-            }
-        }
-        ter_set(x, y, t_dirt);
-        add_trap(x, y, tr_pit);
     } else {
-        if (makesound && has_flag("EXPLODES", x, y) && one_in(2)) {
-            g->explosion(x, y, 40, 0, true);
-        }
         ter_set(x, y, t_rubble);
     }
 

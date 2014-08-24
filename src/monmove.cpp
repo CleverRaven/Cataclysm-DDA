@@ -658,6 +658,9 @@ int monster::bash_at(int x, int y) {
     bool can_bash = g->m.has_flag("BASHABLE", x, y) && has_flag(MF_BASHES);
     if(try_bash && can_bash) {
         int bashskill = int(type->melee_dice * type->melee_sides);
+        if (has_flag(MF_DESTROYS)) {
+            bashskill *= 2.5;
+        }
 
         // pileup = more bashskill, but only help bashing mob directly infront of target
         const int max_helper_depth = 5;
@@ -674,6 +677,9 @@ int monster::bash_at(int x, int y) {
                     // helpers lined up behind primary basher add full strength,
                     // so do those at either shoulder, others add 50%
                     int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
+                    if (helpermon.has_flag(MF_DESTROYS)) {
+                        addbash *= 2.5;
+                    }
                     // helpers lined up behind primary basher add full strength, others 50%
                     addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) ||
                                  ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
@@ -686,11 +692,6 @@ int monster::bash_at(int x, int y) {
 
         g->m.bash( x, y, bashskill );
         moves -= 100;
-        return 1;
-    } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
-        g->m.destroy(x, y, true);
-        //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
-        moves -= 250;
         return 1;
     }
     return 0;

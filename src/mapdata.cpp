@@ -83,7 +83,6 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["NOITEM"]                  = TFLAG_NOITEM;         // add/spawn_item*()
     ter_bitflags_map["FLAMMABLE_ASH"]           = TFLAG_FLAMMABLE_ASH;  // oh hey fire. again.
     ter_bitflags_map["PLANT"]                   = TFLAG_PLANT;          // full map iteration
-    ter_bitflags_map["EXPLODES"]                = TFLAG_EXPLODES;       // guess who? smokey the bear -warned- you
     ter_bitflags_map["WALL"]                    = TFLAG_WALL;           // smells
     ter_bitflags_map["DEEP_WATER"]              = TFLAG_DEEP_WATER;     // Deep enough to submerge things
 }

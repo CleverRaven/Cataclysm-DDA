@@ -398,7 +398,7 @@ void add_corpse(int x, int y);
  /** Causes a collapse at (x, y), such as from destroying a wall */
  void collapse_at(const int x, const int y);
  /** Returns a pair where first is whether something was smashed and second is if it was a success */
- std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false);
+ std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false, bool destroy = false);
  // spawn items from the list, see map_bash_item_drop
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
  void destroy(const int x, const int y, const bool makesound);

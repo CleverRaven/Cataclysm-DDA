@@ -2444,7 +2444,7 @@
         "symbol": "&",
         "color": "red",
         "move_cost": 0,
-        "flags": ["BASHABLE", "TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"],
+        "flags": ["BASHABLE", "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"],
         "examine_action": "gaspump",
         "bash": {
             "str_min": 8, "str_max": 150,
@@ -2465,6 +2465,7 @@
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT"],
         "bash": {
             "str_min": 20, "str_max": 150,
+            "explosive": 40,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_pavement",

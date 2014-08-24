@@ -671,13 +671,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if((tr_brazier != tr_at(x, y)) &&
                            (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
-                            if (has_flag("EXPLODES", x, y)) {
-                                cur->setFieldAge(0); //Fresh level 3 fire.
-                                cur->setFieldDensity(3);
-                                g->explosion(x, y, 40, 0, true); //Boom.
-
-                            } else if (has_flag("FLAMMABLE", x, y) &&
-                                       one_in(32 - cur->getFieldDensity() * 10)) {
+                            if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
                                                  cur->getFieldDensity() * 40);
@@ -807,26 +801,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     if (nearwebfld) {
                                         spread_chance = 50 + spread_chance / 2;
                                     }
-                                    if (has_flag("EXPLODES", fx, fy) &&
-                                          one_in(8 - cur->getFieldDensity()) &&
-                                          tr_brazier != tr_at(x, y) &&
-                                          (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
-                                        g->explosion(fx, fy, 40, 0, true);
-                                        //Nearby explodables? blow em up.
-                                    } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
-                                               cur->getFieldAge() < 200 &&
-                                               tr_brazier != tr_at(x, y) &&
-                                               (has_flag("FIRE_CONTAINER", x, y) != true ) &&
-                                               (in_pit == (ter(fx, fy) == t_pit)) &&
-                                               (
-                                                   (cur->getFieldDensity() >= 2 &&
-                                                    (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
-                                                   (cur->getFieldDensity() >= 2  &&
-                                                    (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
-                                                   (cur->getFieldDensity() == 3  &&
-                                                    (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
-                                                   flammable_items_at(fx, fy) ||
-                                                   nearwebfld )) {
+                                    if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
+                                          cur->getFieldAge() < 200 && tr_brazier != tr_at(x, y) &&
+                                          (has_flag("FIRE_CONTAINER", x, y) != true ) &&
+                                          (in_pit == (ter(fx, fy) == t_pit)) &&
+                                          ((cur->getFieldDensity() >= 2 && (has_flag("FLAMMABLE", fx, fy) && one_in(20))) ||
+                                          (cur->getFieldDensity() >= 2  && (has_flag("FLAMMABLE_ASH", fx, fy) && one_in(10))) ||
+                                          (cur->getFieldDensity() == 3  && (has_flag("FLAMMABLE_HARD", fx, fy) && one_in(10))) ||
+                                          flammable_items_at(fx, fy) || nearwebfld )) {
                                         add_field(fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
                                         tmpfld = nearby_field.findField(fd_fire);
                                         if(tmpfld) {
@@ -1219,9 +1201,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         { //Needed for variable scope
                             int offset_x = x + rng(-1,1);
                             int offset_y = y + rng(-1,1); //pick a random adjacent tile and attempt to set that on fire
-                            if (has_flag("EXPLODES", offset_x, offset_y) || has_flag("FLAMMABLE", offset_x, offset_y) ||
-                            has_flag("FLAMMABLE_ASH",offset_x, offset_y) || has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
-                                    add_field(offset_x, offset_y , fd_fire, 1);
+                            if (has_flag("FLAMMABLE", offset_x, offset_y) ||
+                                  has_flag("FLAMMABLE_ASH",offset_x, offset_y) ||
+                                  has_flag("FLAMMABLE_HARD", offset_x, offset_y) ) {
+                                add_field(offset_x, offset_y , fd_fire, 1);
                             }
 
                             //check piles for flammable items and set those on fire
