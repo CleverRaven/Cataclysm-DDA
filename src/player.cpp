@@ -6503,7 +6503,6 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                 // The existing bonus is above the new cap.  Reduce it.
                 i.bonus = max_bonus;
             }
-            
             //Found a match, so no need to check further
             break;
         }
@@ -8100,7 +8099,10 @@ bool player::eat(item *eaten, it_comest *comest)
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power(rng(75, 300));
     }
-
+    //eating plant fertilizer stops here
+    if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )){
+        return true;
+    }
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
     // Sapiovores don't recognize humans as the same species.
     // It's not cannibalism if you're not eating your own kind.
@@ -8174,6 +8176,9 @@ bool player::eat(item *eaten, it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
+    if (has_trait("THRESH_PLANT") && eaten->type->id == "fertilizer_liquid") {
+    return;
+    }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
