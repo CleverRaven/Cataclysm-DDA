@@ -2957,16 +2957,22 @@ int iuse::hammer(player *p, item *it, bool)
         boards = 4;
         newter = t_window_empty;
         p->add_msg_if_player(_("You pry the boards from the window frame."));
-    } else if (type == t_door_boarded) {
+    } else if ( type == t_door_boarded || type == t_door_boarded_damaged
+    		|| type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ) {
         nails = 8;
         boards = 4;
-        // FIXME: boards go across a door FRAME;
-        // the door itself should be as good as it was before it was boarded up.
-        newter = t_door_b;
+    	if (type == t_door_boarded) {
+    		newter = t_door_c;
+    	} else if (type == t_door_boarded_damaged) {
+            newter = t_door_b;
+    	} else if (type == t_rdoor_boarded) {
+            newter = t_rdoor_c;
+    	} else if (type == t_rdoor_boarded_damaged) {
+            newter = t_rdoor_b;
+    	}
         p->add_msg_if_player(_("You pry the boards from the door."));
-    } else {
-        p->add_msg_if_player(m_info, _("Hammers can only remove boards from windows, doors and fences."));
-        p->add_msg_if_player(m_info, _("To board up a window or door, press *"));
+	} else {
+        p->add_msg_if_player(m_info, _("There's nothing to pry there."));
         return 0;
     }
     p->moves -= 500;
@@ -3925,18 +3931,24 @@ int iuse::crowbar(player *p, item *it, bool)
             boards = 4;
             newter = t_window_empty;
             p->add_msg_if_player(_("You pry the boards from the window frame."));
-        } else if (type == t_door_boarded) {
+        } else if ( type == t_door_boarded || type == t_door_boarded_damaged
+        		|| type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ) {
             nails = 8;
             boards = 4;
-            // FIXME: boards go across a door FRAME;
-            // the door itself should be as good as it was before it was boarded up.
-            newter = t_door_b;
+        	if (type == t_door_boarded) {
+        		newter = t_door_c;
+        	} else if (type == t_door_boarded_damaged) {
+                newter = t_door_b;
+        	} else if (type == t_rdoor_boarded) {
+                newter = t_rdoor_c;
+        	} else if (type == t_rdoor_boarded_damaged) {
+                newter = t_rdoor_b;
+        	}
             p->add_msg_if_player(_("You pry the boards from the door."));
-        } else {
+    	} else {
             p->add_msg_if_player(m_info, _("There's nothing to pry there."));
             return 0;
         }
-        p->practice("carpentry", 1, 1);
         p->moves -= 500;
         g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
         g->m.spawn_item(p->posx, p->posy, "2x4", boards);

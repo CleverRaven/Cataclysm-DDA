@@ -631,7 +631,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_DAMAGED"
         ],
         "bash": {
             "str_min": 5, "str_max": 30, "str_min_blocked": 7, "str_max_blocked": 40,
@@ -672,7 +672,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR_REINFORCED"
         ],
         "open": "t_rdoor_o",
         "deconstruct": {
@@ -697,7 +697,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_REINFORCED_DAMAGED"
         ],
         "bash": {
             "str_min": 15, "str_max": 50, "str_min_blocked": 25, "str_max_blocked": 60,
@@ -719,7 +719,7 @@
         "move_cost": 2,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
-            "FLAT", "BARRICADABLE_DOOR"
+            "FLAT", "BARRICADABLE_DOOR_REINFORCED"
         ],
         "deconstruct": {
             "ter_set": "t_door_c",
@@ -736,10 +736,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
-            "REDUCE_SCENT", "BARRICADABLE_DOOR"
-        ],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
         "bash": {
             "str_min": 5, "str_max": 30, "str_min_blocked": 7, "str_max_blocked": 40,
             "sound": "crash!",
@@ -760,7 +757,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
-            "OPENCLOSE_INSIDE", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+            "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
         "open": "t_door_o",
         "bash": {
@@ -777,7 +774,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR", "REDUCE_SCENT"],
+            "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
         "bash": {
             "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
             "sound": "smash!",
@@ -889,6 +886,63 @@
             "sound": "crash!",
             "sound_fail": "wham!",
             "ter_set": "t_door_b",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_boarded_damaged",
+        "name": "boarded up damaged door",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 10, "str_max": 40, "str_min_blocked": 9, "str_max_blocked": 50,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_b",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_boarded",
+        "name": "boarded up reinforced door",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 25, "str_max": 60, "str_min_blocked": 32, "str_max_blocked": 70,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_rdoor_b",
+            "items": [
+                { "item": "2x4", "amount": 6, "minamount": 1},
+                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_boarded_damaged",
+        "name": "boarded up damaged reinforced door",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 20, "str_max": 50, "str_min_blocked": 24, "str_max_blocked": 60,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_rdoor_b",
             "items": [
                 { "item": "2x4", "amount": 6, "minamount": 1},
                 { "item": "nail", "amount": 12, "minamount": 2},
