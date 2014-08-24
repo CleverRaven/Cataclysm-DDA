@@ -1039,6 +1039,7 @@ void monster::explode()
                 } else if( type_gib != fd_null ) {
                     g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
                 }
+                if( g->m.move_cost( tarx, tary ) == 0 ) {
                     if( !g->m.bash( tarx, tary, 3 ).second ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
