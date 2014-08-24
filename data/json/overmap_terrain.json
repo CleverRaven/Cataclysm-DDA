@@ -4354,6 +4354,13 @@
         "color" : "green",
         "see_cost" : 5,
         "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sai",
+        "name" : "serving area interface",
+        "sym" : 94,
+        "color" : "i_ltblue",
+        "see_cost" : 5
     }
 ]
 
