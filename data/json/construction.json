@@ -656,6 +656,7 @@
     },{
         "type" : "construction",
         "description" : "Build Fence Gate",
+        "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 15,
         "qualities": [ 
@@ -975,6 +976,7 @@
     },{
         "type" : "construction",
         "description" : "Build Bed",
+        "category" : "FURN",
         "difficulty" : 3,
         "time" : 20,
         "qualities": [

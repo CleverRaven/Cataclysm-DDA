@@ -2528,7 +2528,8 @@
             "sound_fail": "clang!",
             "ter_set": "t_missile_exploded",
             "items": [
-                { "item": "scrap", "amount": 8, "minamount": 4}
+                { "item": "scrap", "amount": 8, "minamount": 4},
+                { "item": "plut_cell", "amount": 3, "minamount": 0}
             ]
         }
     },{
@@ -3666,9 +3667,10 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT"],
         "bash": {
-            "str_min": 16, "str_max": 160,
-            "explosive" : 3,
+            "str_min": 50, "str_max": 400,
+            "explosive" : 25,
             "ter_set": "t_floor",
+            "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [
                 { "item": "scrap", "amount": 16, "minamount": 4},
