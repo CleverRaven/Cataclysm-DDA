@@ -394,7 +394,9 @@ void add_corpse(int x, int y);
  bool close_door(const int x, const int y, const bool inside, const bool check_only);
  bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
  /** Makes spores at the respective x and y. source is used for kill counting */
- void create_spores(int x, int y, Creature* source = NULL);
+ void create_spores(const int x, const int y, Creature* source = NULL);
+ /** Causes a collapse at (x, y), such as from destroying a wall */
+ void collapse_at(const int x, const int y);
  /** Returns a pair where first is whether something was smashed and second is if it was a success */
  std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false);
  // spawn items from the list, see map_bash_item_drop

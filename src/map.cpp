@@ -1493,12 +1493,11 @@ void map::mop_spills(const int x, const int y) {
     }
 }
 
-void map::create_spores(int x, int y, Creature* source)
+void map::create_spores(const int x, const int y, Creature* source)
 {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
     int mondex;
-    add_msg(_("The %s crumbles into spores!"), furnname(x, y).c_str());
     for (int i = x - 1; i <= x + 1; i++) {
         for (int j = y - 1; j <= y + 1; j++) {
             mondex = g->mon_at(i, j);
@@ -1542,6 +1541,39 @@ void map::create_spores(int x, int y, Creature* source)
                     spore.spawn(i, j);
                     g->add_zombie(spore);
                 }
+            }
+        }
+    }
+}
+
+void map::collapse_at(const int x, const int y)
+{
+    crush(x, y);
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j))
+                continue;
+            int num_supports = 0;
+            for (int k = i - 1; k <= i + 1; k++) {
+                for (int l = j - 1; l <= j + 1; l++) {
+                    if (k == i && l == j) {
+                        continue;
+                    }
+                    if (has_flag("COLLAPSES", i, j)) {
+                        if (has_flag("COLLAPSES", k, l)) {
+                            num_supports++;
+                        } else if (has_flag("SUPPORTS_ROOF", k, l)) {
+                            num_supports += 2;
+                        }
+                    } else if (has_flag("SUPPORTS_ROOF", i, j)) {
+                        if (has_flag("SUPPORTS_ROOF", k, l) && !has_flag("COLLAPSES", k, l)) {
+                            num_supports += 3;
+                        }
+                    }
+                }
+            }
+            if (one_in(num_supports)) {
+                destroy (i, j, false);
             }
         }
     }
@@ -1634,6 +1666,16 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                     }
                 }
                 
+                if (smash_furn) {
+                    if (has_flag_furn("FUNGUS", x, y)) {
+                        create_spores(x, y);
+                    }
+                } else if (smash_ter) {
+                    if (has_flag_ter("FUNGUS", x, y)) {
+                        create_spores(x, y);
+                    }
+                }
+                
                 sound_volume = std::min(int(smin * 1.5), smax);
                 sound = _(bash->sound.c_str());
                 if (smash_furn == true) {
@@ -1654,6 +1696,10 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                 spawn_item_list(bash->items, x, y);
                 if (bash->explosive > 0) {
                     g->explosion(x, y, bash->explosive, 0, false);
+                }
+                
+                if (has_flag("COLLAPSES", x, y)) {
+                    collapse_at(x, y);
                 }
                 smashed_something = true;
                 success = true;
@@ -1864,32 +1910,7 @@ void map::destroy(const int x, const int y, const bool makesound)
             }
         }
         ter_set(x, y, t_rubble);
-        //Check for crushing
-        crush(x, y);
-        
-        for (int i = x - 1; i <= x + 1; i++) {
-            for (int j = y - 1; j <= y + 1; j++) {
-                if ((i == x && j == y) || !has_flag("COLLAPSES", i, j)) {
-                    continue;
-                }
-                int num_supports = -1;
-                for (int k = i - 1; k <= i + 1; k++) {
-                    for (int l = j - 1; l <= j + 1; l++) {
-                        if (k == i && l == j) {
-                            continue;
-                        }
-                        if (has_flag("COLLAPSES", k, l)) {
-                            num_supports++;
-                        } else if (has_flag("SUPPORTS_ROOF", k, l)) {
-                            num_supports += 2;
-                        }
-                    }
-                }
-                if (one_in(num_supports)) {
-                    destroy (i, j, false);
-                }
-            }
-        }
+        collapse_at(x,y);
     } else if( t == t_concrete_v || t == t_concrete_h || t == t_wall_v || t == t_wall_h ) {
         g->sound(x, y, 20, _("SMASH!!"));
         for (int i = x - 2; i <= x + 2; i++) {
@@ -1912,35 +1933,7 @@ void map::destroy(const int x, const int y, const bool makesound)
             }
         }
         ter_set(x, y, t_rubble);
-        crush(x, y);
-        for (int i = x - 1; i <= x + 1; i++) {
-            for (int j = y - 1; j <= y + 1; j++) {
-                if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j))
-                    continue;
-                int num_supports = 0;
-                for (int k = i - 1; k <= i + 1; k++) {
-                    for (int l = j - 1; l <= j + 1; l++) {
-                        if (k == i && l == j) {
-                            continue;
-                        }
-                        if (has_flag("COLLAPSES", i, j)) {
-                            if (has_flag("COLLAPSES", k, l)) {
-                                num_supports++;
-                            } else if (has_flag("SUPPORTS_ROOF", k, l)) {
-                                num_supports += 2;
-                            }
-                        } else if (has_flag("SUPPORTS_ROOF", i, j)) {
-                            if (has_flag("SUPPORTS_ROOF", k, l) && !has_flag("COLLAPSES", k, l)) {
-                                num_supports += 3;
-                            }
-                        }
-                    }
-                }
-                if (one_in(num_supports)) {
-                    destroy (i, j, false);
-                }
-            }
-        }
+        collapse_at(x,y);
     } else if( t == t_palisade || t == t_palisade_gate ) {
         g->sound(x, y, 16, _("CRUNCH!!"));
         for (int i = x - 1; i <= x + 1; i++) {

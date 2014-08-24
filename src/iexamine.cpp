@@ -1158,6 +1158,7 @@ void iexamine::egg_sackws( player *p, map *m, int examx, int examy )
 
 void iexamine::fungus(player *p, map *m, int examx, int examy)
 {
+    add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
     m->create_spores(examx, examy, p);
     m->furn_set(examx, examy, f_null);
     p->moves -= 50;
