@@ -3807,5 +3807,13 @@
         "valid" : false,
         "description" : "Be vewwy vewwy quiet.  We're hunting bugs.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_NOTEMP",
+        "name" : "Debug HVAC",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Temperature and weather won't bug you.",
+        "threshold" : true
     }
 ]
