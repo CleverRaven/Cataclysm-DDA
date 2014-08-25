@@ -1193,15 +1193,22 @@ bool monster::make_fungus()
 {
     char polypick = 0;
     std::string tid = type->id;
-    if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" || tid == "mon_bee" || tid == "mon_dermatik")
-    {
+    if (type->in_species("FUNGUS")) { // No friendly-fungalizing ;-)
+        return true;
+    }
+    if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" ||
+      tid == "mon_bee" || tid == "mon_dermatik") {
         polypick = 1;
-    }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" ||
-              tid == "mon_zombie_brute" || tid == "mon_zombie_hulk"){
+    } else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" ||
+      tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" || tid == "mon_zombie_brute" ||
+      tid == "mon_zombie_hulk" || tid == "mon_zombie_soldier" || tid == "mon_zombie_tough" ||
+      tid == "mon_zombie_scientist" || tid == "mon_zombie_hunter" || tid == "mon_zombie_child"||
+      tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
+      tid == "mon_zombie_cop" || tid == "mon_zombie_fat") {
         polypick = 2;
-    }else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag"){
+    } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag") {
         polypick = 3;
-    }else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen"){
+    } else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen") {
         polypick = 4;
     }
     switch (polypick) {
@@ -1218,7 +1225,7 @@ bool monster::make_fungus()
             poly(GetMType("mon_fungaloid"));
             return true;
         default:
-            return true;
+            return false;
     }
 }
 

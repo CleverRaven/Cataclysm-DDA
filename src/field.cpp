@@ -912,18 +912,20 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         mondex = g->mon_at(x, y);
                         if (g->m.move_cost(x, y) > 0) {
                             if (mondex != -1) { // Haze'd!
-                                if (g->u_see(x, y) &&
-                                !g->zombie(mondex).type->in_species("FUNGUS") && !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
-                                    add_msg(m_info, _("The %s inhales thousands of live spores!"),
+                                if (!g->zombie(mondex).type->in_species("FUNGUS") &&
+                                  !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
+                                    if (g->u_see(x, y)) {
+                                        add_msg(m_info, _("The %s inhales thousands of live spores!"),
                                     g->zombie(mondex).name().c_str());
+                                    }
+                                    monster &critter = g->zombie( mondex );
+                                    if( !critter.make_fungus() ) {
+                                        critter.die(nullptr);
+                                    }
                                 }
-                            monster &critter = g->zombie( mondex );
-                            if( !critter.make_fungus() ) {
-                                critter.hp = 0; // critter.die wasn't taking a nullptr
-                            }
-                            }
                         } if (one_in(5 - cur->getFieldDensity())) {
                             g->spread_fungus(x, y); //Haze'd terrain
+                        }
                         }
                         break;
 
