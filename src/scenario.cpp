@@ -16,11 +16,6 @@ scenario::scenario()
      _description_male("null"), _description_female("null"), _start_location("null")
 {
 }
-scenario::scenario(std::string scen)
-{
-
-    
-}
 scenario::scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission)
 {
     _ident = ident;
@@ -292,7 +287,7 @@ bool scenario::has_flag(std::string flag) const
     return flags.count(flag) != 0;
 }
 
-bool scenario::can_pick(player* u, int points) const
+bool scenario::can_pick(int points) const
 {
     if (point_cost() - g->scen->point_cost() > points) {
         return false;
