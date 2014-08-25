@@ -120,7 +120,7 @@ def is_list_of_lists(param):
             isinstance(param[0], list))
 
 
-def template_update(full_dict, settings, data):
+def template_function_exec(full_dict, settings, data):
     # OBJ_REPLACE completely replaces the old value with the new value
     paths = settings.get(_TEMPLATE_FUNC_OBJ_REPLACE, [])
     if paths != []:
@@ -151,12 +151,14 @@ def complete_json_file(template_file, all_cells, remove_template=True):
 
     for cell_no, cell in enumerate(all_cells, 1):
         copy_of_template = copy.deepcopy(json_template)
-        template_update(copy_of_template,
-                        template_settings.get(_TEMPLATE_TYPE_CELL_MAP, {}),
-                        cell)
-        template_update(copy_of_template,
-                        template_settings.get(_TEMPLATE_TYPE_CELL_NUM, {}),
-                        cell_no)
+        template_function_exec(
+            copy_of_template,
+            template_settings.get(_TEMPLATE_TYPE_CELL_MAP, {}),
+            cell)
+        template_function_exec(
+            copy_of_template,
+            template_settings.get(_TEMPLATE_TYPE_CELL_NUM, {}),
+            cell_no)
 
         json_list.append(copy_of_template)
 
