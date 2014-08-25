@@ -137,18 +137,16 @@ def template_function_exec(full_dict, settings, data):
 
     # FUNC_OBJ_REPLACE
     paths = settings.get(_TEMPLATE_FUNC_OBJ_REPLACE, [])
-    if paths != []:
-        # TODO: this is ugly, find a better way
-        if isinstance(paths[0], list):
-            for path in paths:
-                recursive_dict_update(full_dict, path, data)
-        else:
-            recursive_dict_update(full_dict, paths, data)
+
+    if is_list_of_lists(paths):
+        for path in paths:
+            recursive_dict_update(full_dict, path, data)
+    else:
+        recursive_dict_update(full_dict, paths, data)
 
     # FUNC_STR_FORMAT
     for string, paths in settings.get(_TEMPLATE_FUNC_STR_FORMAT, {}).items():
-        # TODO: this is ugly, find a better way
-        if isinstance(paths[0], list):
+        if is_list_of_lists(paths):
             for path in paths:
                 recursive_dict_update(full_dict, path, string % data)
         else:
