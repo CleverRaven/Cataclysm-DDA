@@ -1481,7 +1481,6 @@ int set_scenario(WINDOW *w, player *u, int &points)
             scen_gender_items = sorted_scens[cur_id]->items_female();
         }
         scen_items.insert( scen_items.end(), scen_gender_items.begin(), scen_gender_items.end() );
-        int line_offset = 1;
         werase(w_profession);
 	werase(w_location);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
@@ -1492,9 +1491,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
 	mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
 	wprintz(w_location, c_ltgray,_("\n"));
 	wprintz(w_location, c_ltgray,_(sorted_scens[cur_id]->start_name().c_str()));
-
         draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
-
         wrefresh(w);
         wrefresh(w_description);
         wrefresh(w_profession);
