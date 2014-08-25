@@ -7092,5 +7092,78 @@
       [ "water_clean", 1 ]
     ]
   ]
+},{
+        "type" : "recipe",
+  "result": "veggy_salad",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "pockknife", -1 ],
+      [ "knife_butcher", -1 ],
+      [ "knife_combat", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cucumber", 1 ],
+      [ "irradiated_cucumber", 1],
+      [ "tomato", 1],
+      [ "irradiated_tomato", 1],
+      [ "broccoli", 1],
+      [ "irradiated_broccoli", 1]
+    ],
+    [
+      [ "cucumber", 1 ],
+      [ "irradiated_cucumber", 1],
+      [ "tomato", 1],
+      [ "irradiated_tomato", 1],
+      [ "broccoli", 1],
+      [ "irradiated_broccoli", 1],
+      [ "carrot", 1],
+      [ "irradiated_carrot", 1],
+      [ "celery", 1],
+      [ "irradiated_celery", 1],
+      [ "pineapple", 1],
+      [ "irradiated_pineapple", 1],
+      [ "cranberries", 2],
+      [ "raspberries", 2],
+      [ "blackberries", 2]
+    ],
+    [
+      [ "sugar", 2],
+      [ "ketchup", 1 ],
+      [ "mustard", 1],
+      [ "mayonnaise", 1],
+      [ "seasoning_salt", 3]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "insta_salad",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "dried_salad", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
 }
 ]
