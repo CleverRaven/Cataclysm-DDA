@@ -1122,8 +1122,8 @@ int set_profession(WINDOW *w, player *u, int &points)
 
         calcStartPos(iStartPos, cur_id, iContentHeight, sorted_profs.size());
         //Draw options
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > sorted_profs.size()) ?
-          sorted_profs.size() : iContentHeight); i++) {
+        for (int i = iStartPos; i < (int)iStartPos + ((iContentHeight > (int)sorted_profs.size()) ?
+          (int)sorted_profs.size() : (int)iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
@@ -1201,7 +1201,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
                 cur_id++;
-                if (cur_id > sorted_profs.size() - 1) {
+                if (cur_id > (int)sorted_profs.size() - 1) {
                     cur_id = 0;
                 }
         } else if (action == "UP") {
