@@ -12,7 +12,7 @@
         "dispersion_modifier" : 0,
         "price" : 30000,
         "clip_size_modifier" : 0,
-        "description" : "Mechanism that allows your CW-24 rifle fire in fully automatic mode. It is handmade.",
+        "description" : "Mechanism that allows your CW-24 rifle to fire in fully automatic mode. It is handmade.",
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 1,
