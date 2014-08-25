@@ -1197,7 +1197,7 @@ void player::update_bodytemp()
         else if (has_trait("RADIOACTIVE3")) { temp_conv[i] += 1500; }
         // Chemical Imbalance
         // Added line in player::suffer()
-        // FINAL CALCULATION : Increments current body temperature towards convergant.
+        // FINAL CALCULATION : Increments current body temperature towards convergent.
         if ( has_disease("sleep") || has_disease("lying_down")) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
             // Too warm, don't need items on the floor
@@ -1225,7 +1225,7 @@ void player::update_bodytemp()
         }
         if (temp_cur[i] != temp_conv[i])
         {
-            // If you're standing in deep water, you approach convergeant temp fast
+            // If you're standing in deep water, you approach convergent temp fast
             // If you're standing in shallow water, only your feet and legs converge faster
             if      ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool ||
                       ter_at_pos == t_swater_dp) ||
@@ -6911,7 +6911,7 @@ item player::reduce_charges(int position, long quantity) {
 
         if (quantity > weapon.charges)
         {
-            debugmsg("Charges: Tried to remove charges that does not exist, \
+            debugmsg("Charges: Tried to remove charges that do not exist, \
                       removing maximum available charges instead");
             quantity = weapon.charges;
         }
