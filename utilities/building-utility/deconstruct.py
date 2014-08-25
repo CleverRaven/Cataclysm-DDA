@@ -160,7 +160,7 @@ def complete_json_file(template_file, all_cells, remove_template=True):
     cells and template, putting template_function_exec output into a list.
     Finally writes out each json template list.
     '''
-    json_list = []
+    json_output_list = []
     json_template = json.load(template_file)
 
     template_settings = json_template.get(_TEMPLATE_JSON_SECTION)
@@ -178,11 +178,11 @@ def complete_json_file(template_file, all_cells, remove_template=True):
             template_settings.get(_TEMPLATE_TYPE_CELL_NUM, {}),
             cell_no)
 
-        json_list.append(copy_of_template)
+        json_output_list.append(copy_of_template)
 
     # TODO: better output file names
     with open("output_" + template_file.name, "w") as outfile:
-        json.dump(json_list, outfile, indent=4, separators=(",", ": "),
+        json.dump(json_output_list, outfile, indent=4, separators=(",", ": "),
                   sort_keys=True)
 
 
