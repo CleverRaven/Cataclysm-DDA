@@ -344,7 +344,9 @@ void player::serialize(JsonOut &json, bool save_contents) const
     if ( prof != NULL ) {
         json.member( "profession", prof->ident() );
     }
-
+    if ( g->scen != NULL ) {
+	json.member( "scenario", g->scen->ident() );
+    }
     // someday, npcs may drive
     json.member( "driving_recoil", int(driving_recoil) );
     json.member( "controlling_vehicle", controlling_vehicle );
@@ -464,7 +466,12 @@ void player::deserialize(JsonIn &jsin)
 
     set_highest_cat_level();
     drench_mut_calc();
-
+    std::string scen_ident="(null)";
+    if ( data.read("scenario",scen_ident) && scenario::exists(scen_ident) ) {
+        g->scen = scenario::scen(scen_ident);
+    } else {
+        debugmsg("Tried to use non-existent scenario '%s'", scen_ident.c_str());
+    }
     parray = data.get_array("temp_cur");
     for(int i = 0; i < num_bp; i++) {
         temp_cur[i] = 5000;

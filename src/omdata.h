@@ -14,6 +14,15 @@
 
 class overmap;
 
+struct overmap_spawns {
+    overmap_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+        chance(0) {};
+    std::string group;
+    int min_population;
+    int max_population;
+    int chance;
+};
+
 struct oter_t {
     std::string id;      // definitive identifier
     unsigned loadid;          // position in termap / terlist
@@ -39,31 +48,8 @@ struct oter_t {
     bool line_drawing; // lazy for; directional_peers.size() == 8
     std::string id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
 
-    oter_t &operator=(const oter_t right)
-    {
-        id = right.id;
-        loadid = right.loadid;
-        name = right.name;
-        id_base = right.id_base;
-        sym = right.sym;
-        color = right.color;
-        see_cost = right.see_cost;
-        extras = right.extras;
-        known_down = right.known_down;
-        known_up = right.known_up;
-        mondensity = right.mondensity;
-        sidewalk = right.sidewalk;
-        allow_road = right.allow_road;
-        is_river = right.is_river;
-        is_road = right.is_road;
-        //disable_default_mapgen = right.disable_default_mapgen;
-        loadid_base = right.loadid_base;
-        directional_peers = right.directional_peers;
-        rotates = right.rotates;
-        line_drawing = right.line_drawing;
-        id_mapgen = right.id_mapgen;
-        return *this;
-    }
+    // Spawns are added to the submaps *once* upon mapgen of the submaps
+    overmap_spawns static_spawns;
 };
 
 struct oter_id {

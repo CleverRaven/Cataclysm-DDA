@@ -376,6 +376,12 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             intr = 0;
             buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
             mongroup mg( cstr, cx, cy, cz, cs, cp );
+            // Bugfix for old saves: population of 2147483648 is far too much and will
+            // crash the game. This specific number was caused by a bug in
+            // overmap::add_mon_group.
+            if( mg.population == 2147483648ul ) {
+                mg.population = rng( 1, 10 );
+            }
             mg.diffuse = cd;
             mg.dying = cdying;
             mg.horde = horde;
@@ -536,7 +542,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 }
 
 // Note: this may throw io errors from std::ofstream
-void overmap::save()
+void overmap::save() const
 {
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);

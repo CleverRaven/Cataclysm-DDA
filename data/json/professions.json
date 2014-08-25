@@ -333,7 +333,7 @@
                 "sneakers",
                 "sports_drink",
                 "fanny",
-                "fancy_sunglasses"               
+                "fancy_sunglasses"
             ],
             "male": [
                 "briefs"
@@ -2546,5 +2546,112 @@
                 "panties"
             ]
         }
+    },
+    {
+	"type": "profession",
+	"ident": "winter_survivor",
+	"name" : "Hardened Survivor",
+	"description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large city.",
+	"points" : 6,
+	"skills": [
+            {
+                "level": 5,
+                "name": "survival"
+            },
+            {
+                "level": 5,
+                "name": "fabrication"
+            },
+            {
+                "level": 5,
+                "name": "melee"
+            },
+	    {
+		"level" : 4,
+		"name" : "tailor"
+	    },
+            {
+                "level": 3,
+                "name": "archery"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "survivor_vest",
+                "wsurvivor_suit",
+                "socks",
+                "boots_wsurvivor",
+                "hood_wsurvivor",
+                "gloves_wsurvivor",
+		"quiver_large",
+		"crossbow",
+		"bolt_wood",
+		"bolt_wood",
+		"mess_kit",
+		"knife_combat"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        },
+	"flags" : ["SCEN_ONLY"]
+    },
+    {
+	"type": "profession",
+	"ident": "winter_scavenger",
+	"name" : "Hardened Scavenger",
+	"description" : "One of the lucky few who escaped the cataclysm, you made a life for yourself on the ruins of others. Whether by force, guile, or luck, you've obtained the best gear you could find.",
+	"points" : 8,
+	"skills": [
+            {
+                "level": 5,
+                "name": "melee"
+            },
+            {
+                "level": 5,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "dodge"
+            },
+	    {
+		"level" : 4,
+		"name" : "mechanics"
+	    },
+            {
+                "level": 3,
+                "name": "rifle"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "pants_army",
+                "sleeveless_trenchcoat",
+                "socks",
+                "boots_combat",
+                "tac_helmet",
+                "gloves_tactical",
+		"rucksack",
+		"scar_h",
+		"762_51",
+		"katana",
+	        "scabbard"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        },
+	"flags" : ["SCEN_ONLY"]
     }
 ]

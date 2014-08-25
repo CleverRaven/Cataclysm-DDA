@@ -9,5 +9,16 @@
     "ident" : "house",
     "name" : "House",
     "target" : "house"
+  },{
+    "type" : "start_location",
+    "ident" : "cabin",
+    "name" : "Cabin",
+    "target" : "cabin"
+
+  },{
+    "type" : "start_location",
+    "ident" : "lab_stairs",
+    "name" : "science lab",
+    "target" : "lab_stairs"
   }
 ]

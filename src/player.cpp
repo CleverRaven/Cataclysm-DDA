@@ -153,6 +153,7 @@ player::player() : Character(), name("")
  scent = 500;
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
+
  start_location = "shelter";
  moves = 100;
  movecounter = 0;
@@ -246,6 +247,7 @@ player& player::operator= (const player & rhs)
  name = rhs.name;
  male = rhs.male;
  prof = rhs.prof;
+
  start_location = rhs.start_location;
 
  sight_max = rhs.sight_max;
@@ -880,6 +882,12 @@ Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
 
 void player::update_bodytemp()
 {
+    if (has_trait("DEBUG_NOTEMP")){
+        for (int i = 0 ; i < num_bp ; i++) {
+            temp_cur[i] = BODYTEMP_NORM;
+        }
+        return;
+    }
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
@@ -1189,7 +1197,7 @@ void player::update_bodytemp()
         else if (has_trait("RADIOACTIVE3")) { temp_conv[i] += 1500; }
         // Chemical Imbalance
         // Added line in player::suffer()
-        // FINAL CALCULATION : Increments current body temperature towards convergant.
+        // FINAL CALCULATION : Increments current body temperature towards convergent.
         if ( has_disease("sleep") || has_disease("lying_down")) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
             // Too warm, don't need items on the floor
@@ -1217,7 +1225,7 @@ void player::update_bodytemp()
         }
         if (temp_cur[i] != temp_conv[i])
         {
-            // If you're standing in deep water, you approach convergeant temp fast
+            // If you're standing in deep water, you approach convergent temp fast
             // If you're standing in shallow water, only your feet and legs converge faster
             if      ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool ||
                       ter_at_pos == t_swater_dp) ||
@@ -6183,7 +6191,8 @@ void player::vomit()
 void player::drench(int saturation, int flags)
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if ( (is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy))) ) {
+    if ( (has_trait("DEBUG_NOTEMP")) || ((is_waterproof(flags)) &&
+        (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy)))) ) {
         return;
     }
 
@@ -6503,7 +6512,6 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                 // The existing bonus is above the new cap.  Reduce it.
                 i.bonus = max_bonus;
             }
-            
             //Found a match, so no need to check further
             break;
         }
@@ -6716,6 +6724,14 @@ bool player::process_single_active_item(item *it)
                     it->item_tags.erase("HOT");
                 }
             }
+            if (it->has_flag("COLD"))
+            {
+                it->item_counter--;
+                if (it->item_counter == 0)
+                {
+                    it->item_tags.erase("COLD");
+                }
+            }
         }
         else if (it->is_food_container())
         {
@@ -6726,6 +6742,14 @@ bool player::process_single_active_item(item *it)
                 if (it->contents[0].item_counter == 0)
                 {
                     it->contents[0].item_tags.erase("HOT");
+                }
+            }
+            if (it->contents[0].has_flag("COLD"))
+            {
+                it->contents[0].item_counter--;
+                if (it->contents[0].item_counter == 0)
+                {
+                    it->contents[0].item_tags.erase("COLD");
                 }
             }
         }
@@ -6887,7 +6911,7 @@ item player::reduce_charges(int position, long quantity) {
 
         if (quantity > weapon.charges)
         {
-            debugmsg("Charges: Tried to remove charges that does not exist, \
+            debugmsg("Charges: Tried to remove charges that do not exist, \
                       removing maximum available charges instead");
             quantity = weapon.charges;
         }
@@ -8100,7 +8124,10 @@ bool player::eat(item *eaten, it_comest *comest)
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power(rng(75, 300));
     }
-
+    //eating plant fertilizer stops here
+    if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )){
+        return true;
+    }
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
     // Sapiovores don't recognize humans as the same species.
     // It's not cannibalism if you're not eating your own kind.
@@ -8174,6 +8201,9 @@ bool player::eat(item *eaten, it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
+    if (has_trait("THRESH_PLANT") && eaten->type->id == "fertilizer_liquid") {
+    return;
+    }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
@@ -8229,6 +8259,12 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     }
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
+    }
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 3, 60, 30, false, comest);
+    }
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun <= 0) {
+            comest->fun = 1;
     }
     if (has_trait("GOURMAND")) {
         if (comest->fun < -2) {
