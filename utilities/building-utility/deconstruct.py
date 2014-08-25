@@ -154,6 +154,12 @@ def template_function_exec(full_dict, settings, data):
 
 
 def complete_json_file(template_file, all_cells, remove_template=True):
+    '''Combines json template with cell list and writes out results.
+
+    Reads and separates json template from template settings.  Then combines
+    cells and template, putting template_function_exec output into a list.
+    Finally writes out each json template list.
+    '''
     json_list = []
     json_template = json.load(template_file)
 
