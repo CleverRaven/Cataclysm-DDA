@@ -5,6 +5,7 @@ from __future__ import division
 import argparse
 import copy
 import json
+import os.path
 
 _MAP_CELL_SIZE = 24
 _TEMPLATE_JSON_SECTION = "_Building_Utility"
@@ -181,7 +182,8 @@ def complete_json_file(template_file, all_cells, remove_template=True):
         json_output_list.append(copy_of_template)
 
     # TODO: better output file names
-    with open("output_" + template_file.name, "w") as outfile:
+    with open("output_" + os.path.basename(template_file.name),
+              "w") as outfile:
         json.dump(json_output_list, outfile, indent=4, separators=(",", ": "),
                   sort_keys=True)
 
