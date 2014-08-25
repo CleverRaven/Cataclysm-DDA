@@ -575,7 +575,9 @@ extern ter_id t_null,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     // Power station stuff
-    t_pwr_sb_support_l, t_oil_circ_brkr_l, t_pwr_sb_support_s, t_oil_circ_brkr_s, t_pwr_sb_switchgear_l, t_pwr_sb_switchgear_s,
+    t_pwr_sb_support_l, t_oil_circ_brkr_l, t_pwr_sb_support_s, t_oil_circ_brkr_s,
+    t_pwr_sb_switchgear_l, t_pwr_sb_switchgear_s, t_lgtn_arrest, t_station_disc,
+    t_current_trans, t_potential_trans, t_primary_trans,
     num_terrain_types;
 
 
