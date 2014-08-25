@@ -1162,8 +1162,8 @@
     "default" : "mon_zombie_technician",
     "monsters" : [
       { "monster" : "mon_zombie_technician", "freq" : 28, "cost_multiplier": 5, "pack_size": [2,4]},
-      { "monster" : "mon_zombie_electric", "freq" : 50, "cost_multiplier": 0},
-      { "monster" : "mon_zombie_tough", "freq" : 20, "cost_multiplier" : 0} ,
+      { "monster" : "mon_zombie_electric", "freq" : 22, "cost_multiplier": 0},
+      { "monster" : "mon_zombie_tough", "freq" : 20, "cost_multiplier" : 0}
     ]
   }
 ]

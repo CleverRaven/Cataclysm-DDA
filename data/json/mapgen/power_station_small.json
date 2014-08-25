@@ -1,48 +1,37 @@
 [
-  {
-    "type": "overmap_terrain",
-    "id": "pwr_sub_s",
-    "name": "small power substation ",
-    "rotate": true,
-    "sym": 72,
-    "color": "lt_cyan",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "sidewalk": false,
-    "mapgen": [
-      {
-        "method": "json",
-        "weight": 500,
-        "object": {
-          "fill_ter": "t_concrete",
-          "rows": [
+    {
+		"type" : "mapgen",
+		"om_terrain" : ["pwr_sub_s"],
+		"method": "json",
+		"weight": 10,
+		"object": {
+            "rows": [
             "........................",
             ".x--------------------x.",
             ".|                    |.",
             ".| T   T              |.",
-            ".|  B   B             |.",
+            ".|  BSB               |.",
             ".| T   T     t    t   |.",
             ".|  B            bs   |.",
-            ".|  B        t    t   |.",
+            ".|  S        t    t   |.",
             ".| T   T     s   bs   |.",
             ".|  B        t    t   |.",
-            ".|  B            bs   |.",
+            ".|  S            bs   |.",
             ".| T   T     t    t   |.",
             ".|  B        s        |.",
-            ".|  B        s        |.",
+            ".|  S        s        |.",
             ".| T   T     t    t   |.",
             ".|  B   B             |.",
-            ".|  B   B hhhh        |.",
-            ".| T   T  v  d        |.",
-            ".|  B     v  v        |.",
+            ".|  S   B hhhh        |.",
+            ".| T   T  v,,d        |.",
+            ".|  S     v,,v        |.",
             ".|  B     vCCv x++----x.",
             ".| T   T  hhhh |  ......",
             ".|             |  ......",
             ".x-------------x  ......",
             "........................"
-          ],
-          "terrain": {
+            ],
+            "terrain": {
             ".": "t_grass",
             " ": "t_concrete",
             "-": "t_chainfence_h",
@@ -58,9 +47,10 @@
             "h": "t_wall_h",
             "v": "t_wall_v",
             "d": "t_door_locked",
-            "C": "t_console_broken"
-          },
-          "furniture": {
+            "C": "t_console_broken",
+            ",": "t_floor"
+            },
+            "furniture": {
             ".": "f_null",
             " ": "f_null",
             "-": "f_null",
@@ -76,10 +66,9 @@
             "h": "f_null",
             "v": "f_null",
             "d": "f_null",
-            "C": "f_null"
-          }
+            "C": "f_null",
+            ",": "f_null"
+            }
         }
-      }
-    ]
-  }
+    }
 ]

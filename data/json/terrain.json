@@ -2714,5 +2714,95 @@
                 { "item": "plut_cell", "amount": 3, "minamount": 0}
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_support_l",
+        "name": "large metal support",
+        "symbol": "T",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_oil_circ_brkr_l",
+        "name": "HV oil circuit breaker",
+        "symbol": "B",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 6,
+            "sound": "pow!",
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 8},
+                { "item": "steel_chunk", "amount": 6, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_support_s",
+        "name": "small metal support",
+        "symbol": "l",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_oil_circ_brkr_s",
+        "name": "small HV oil circuit breaker",
+        "symbol": "b",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 4,
+            "sound": "pow!",
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 6},
+                { "item": "steel_chunk", "amount": 3, "minamount": 1}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_switchgear_l",
+        "name": "large switchgear",
+        "symbol": "H",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 3,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 10, "minamount": 5},
+                { "item": "steel_chunk", "amount": 4, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_switchgear_s",
+        "name": "small switchgear",
+        "symbol": "L",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 2,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 4},
+                { "item": "steel_chunk", "amount": 2, "minamount": 1}
+            ]
+        }
     }
 ]
