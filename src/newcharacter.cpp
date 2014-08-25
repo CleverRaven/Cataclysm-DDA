@@ -1412,7 +1412,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
     do {
 
 	int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
-        bool can_pick = sorted_scens[cur_id]->can_pick(u, points);
+        bool can_pick = sorted_scens[cur_id]->can_pick(points);
         // Magic number. Strongly related to window width (w_width - borders).
         const std::string empty_line(78, ' ');
 

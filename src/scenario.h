@@ -48,7 +48,6 @@ private:
 public:
     //these three aren't meant for external use, but had to be made public regardless
     scenario();
-    scenario(std::string scen);
     scenario(std::string ident, std::string name, std::string description);
     scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission);
     static void load_scenario(JsonObject &jsobj);
@@ -98,7 +97,7 @@ public:
     /**
      * 
      */
-    bool can_pick(player* u, int points) const;
+    bool can_pick(int points) const;
 
 };
 
