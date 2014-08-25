@@ -104,9 +104,9 @@ def recursive_dict_update(info_dict, list_path, data):
     if list_path == []:
         return data
     else:
-        info_dict[list_path[0]] = \
-            recursive_dict_update(info_dict.get(list_path[0], {}),
-                                  list_path[1:], data)
+        info_dict[list_path[0]] = recursive_dict_update(
+            info_dict.get(list_path[0], {}),
+            list_path[1:], data)
         return info_dict
 
 
