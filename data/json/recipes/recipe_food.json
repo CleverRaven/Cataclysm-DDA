@@ -7105,6 +7105,7 @@
   "qualities":[
     {"id":"CUT","level":1,"amount":1}],
     {"id":"CONTAIN","level":1,"amount":1}
+    ],
   "components": [
     [
       [ "cucumber", 1 ],
@@ -7151,7 +7152,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"CONTAIN","level":1,"amount":1}
-  ], "components": [
+  ], 
+  "components": [
     [
       [ "dried_salad", 1 ]
     ],
