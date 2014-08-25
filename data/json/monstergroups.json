@@ -1161,8 +1161,8 @@
     "name" : "GROUP_POWER_WORKERS",
     "default" : "mon_zombie_technician",
     "monsters" : [
-      { "monster" : "mon_zombie_technician", "freq" : 28, "cost_multiplier": 5, "pack_size": [2,4]},
-      { "monster" : "mon_zombie_electric", "freq" : 28, "cost_multiplier": 2, "pack_size": [1,2]},
+      { "monster" : "mon_zombie_technician", "freq" : 20, "cost_multiplier": 5, "pack_size": [2,4]},
+      { "monster" : "mon_zombie_electric", "freq" : 21, "cost_multiplier": 4, "pack_size": [1,2]},
       { "monster" : "mon_zombie_tough", "freq" : 22, "cost_multiplier" : 0}
     ]
   }

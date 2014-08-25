@@ -53,7 +53,7 @@
             "{": "t_current_trans",
             "8": "t_potential_trans",
             "9": "t_primary_trans",
-            "W": "t_window_reinforced"
+            "W": "t_window"
             },
             "furniture": {
             ".": "f_null",
@@ -69,7 +69,7 @@
             "w": "f_null",
             "v": "f_null",
             "d": "f_null",
-            "C": "f_counter",
+            "C": "f_null",
             "*": "f_null",
             "c": "f_counter",
             "}": "f_null",
