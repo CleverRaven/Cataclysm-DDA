@@ -7103,15 +7103,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "bowl_plastic", -1 ],
-      [ "bowl_pewter", -1 ],
-      [ "ceramic_bowl", -1 ],
-      [ "glass_bowl", -1 ]
-    ]
-  ],
+    {"id":"CUT","level":1,"amount":1}],
+    {"id":"CONTAIN","level":1,"amount":1}
   "components": [
     [
       [ "cucumber", 1 ],
