@@ -110,6 +110,16 @@ def recursive_dict_update(info_dict, list_path, data):
         return info_dict
 
 
+def is_list_of_lists(param):
+    '''Returns true if x is a list of lists. False otherwise.  Assumes lists
+    are homomorphic.
+    '''
+
+    return (isinstance(param, list) and
+            len(param) > 0 and
+            isinstance(param[0], list))
+
+
 def template_update(full_dict, settings, data):
     # OBJ_REPLACE completely replaces the old value with the new value
     paths = settings.get(_TEMPLATE_FUNC_OBJ_REPLACE, [])
