@@ -97,7 +97,7 @@ public:
     /**
      * 
      */
-    bool can_pick(player* u, int points) const;
+    bool can_pick(int points) const;
 
 };
 
