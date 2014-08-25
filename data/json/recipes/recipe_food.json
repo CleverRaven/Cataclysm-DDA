@@ -7103,12 +7103,13 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
-      [ "pockknife", -1 ],
-      [ "knife_butcher", -1 ],
-      [ "knife_combat", -1 ]
+      [ "bowl_plastic", -1 ],
+      [ "bowl_pewter", -1 ],
+      [ "ceramic_bowl", -1 ],
+      [ "glass_bowl", -1 ]
     ]
   ],
   "components": [
