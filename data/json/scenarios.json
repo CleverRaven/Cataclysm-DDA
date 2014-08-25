@@ -26,6 +26,7 @@
 	    "description": "In the chaos and panic of evacuation, you got bitten by something! You didn't get proper medical care, and now the wound has started turning green.",
 	    "start_location": "shelter",
 	    "start_name": "Evac Center"
+      "flags" : ["INFECTED"] 
 	},
         {
 	    "type": "scenario",

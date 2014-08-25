@@ -460,7 +460,7 @@ bool player::create(character_type type, std::string tempname)
             }
             // If wearing an item fails we fail silently.
             wear_item(&tmp, false);
-            
+
             // If item is part of a pair give a second one for the other side
             if (tmp.has_flag("PAIRED")) {
                 tmp2 = item(*iter, 0, false, RIGHT);
@@ -1122,8 +1122,8 @@ int set_profession(WINDOW *w, player *u, int &points)
 
         calcStartPos(iStartPos, cur_id, iContentHeight, sorted_profs.size());
         //Draw options
-        for (unsigned i = iStartPos; (int)i < iStartPos + ((iContentHeight > profession::count()) ?
-             profession::count() : iContentHeight); i++) {
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > sorted_profs.size()) ?
+          sorted_profs.size() : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
