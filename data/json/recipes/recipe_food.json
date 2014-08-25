@@ -7103,7 +7103,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}],
+    {"id":"CUT","level":1,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
     ],
   "components": [
