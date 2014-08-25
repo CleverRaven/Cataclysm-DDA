@@ -121,7 +121,21 @@ def is_list_of_lists(param):
 
 
 def template_function_exec(full_dict, settings, data):
-    # OBJ_REPLACE completely replaces the old value with the new value
+    '''Modifies a dictionary based on the setting functions passed in,
+    inserting data in specified ways.
+
+    Currently two setting functions:
+        _TEMPLATE_FUNC_OBJ_REPLACE completely replaces the old value with the
+        new value.
+
+        _TEMPLATE_FUNC_STR_FORMAT uses printf (%) formatting to change the
+        string in the dict.
+
+    Settings format is specified in help. Basically, can be a path or list of
+    paths per function to where the function should modify.
+    '''
+
+    # FUNC_OBJ_REPLACE
     paths = settings.get(_TEMPLATE_FUNC_OBJ_REPLACE, [])
     if paths != []:
         # TODO: this is ugly, find a better way
@@ -131,7 +145,7 @@ def template_function_exec(full_dict, settings, data):
         else:
             recursive_dict_update(full_dict, paths, data)
 
-    # STR_FORMAT uses printf formatting to change the string in the dict
+    # FUNC_STR_FORMAT
     for string, paths in settings.get(_TEMPLATE_FUNC_STR_FORMAT, {}).items():
         # TODO: this is ugly, find a better way
         if isinstance(paths[0], list):
