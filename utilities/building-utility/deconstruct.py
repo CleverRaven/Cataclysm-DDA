@@ -153,9 +153,9 @@ def complete_json_file(template_file, all_cells, remove_template=True):
                   sort_keys=True)
 
 
-if __name__ == "__main__":
+def cli_interface():
     # TODO: epilog needs actual formatting. see argparse formatterclass
-    main_parser = argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(
         description="A script for combining multi-cell maps with their json "
         "data.",
         epilog="To format the json template, add the key '{section}' to the "
@@ -178,14 +178,14 @@ if __name__ == "__main__":
             obj_repl=_TEMPLATE_FUNC_OBJ_REPLACE,
             str_form=_TEMPLATE_FUNC_STR_FORMAT))
 
-    main_parser.add_argument(
+    parser.add_argument(
         "map_file",
         metavar="map-file",
         type=argparse.FileType("r"),
         help="A file that contains an ascii representation of one or more map "
              "cells.")
 
-    main_parser.add_argument(
+    parser.add_argument(
         "json_templates",
         metavar="json-file",
         nargs="+",
@@ -194,7 +194,11 @@ if __name__ == "__main__":
              "properly formatted json map file.  See below for templating "
              "format.")
 
-    args = main_parser.parse_args()
+    return parser
+
+
+def main(parser):
+    args = parser.parse_args()
 
     with args.map_file:
         all_cells = get_map_cells(args.map_file, _MAP_CELL_SIZE)
@@ -204,9 +208,12 @@ if __name__ == "__main__":
             try:
                 complete_json_file(json_template, all_cells)
             except ValueError as val_err:
-                main_parser.exit(1,
-                                 "Could not parse json in file {file_name}\n"
-                                 "{json_err}\n".format(
-                                     file_name=json_template.name,
-                                     json_err=str(val_err)))
+                parser.exit(1,
+                            "Could not parse json in file {file_name}\n"
+                            "{json_err}\n".format(
+                                file_name=json_template.name,
+                                json_err=str(val_err)))
+
+if __name__ == "__main__":
+    main(cli_interface())
 
