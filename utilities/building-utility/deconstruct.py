@@ -64,7 +64,8 @@ def get_map_cells(infile, cell_size):
             assert cells_per_line == len(line) // cell_size, \
                 "Map {infile} starts new cells before finishing cells " \
                 "{cell_begin} to {cell_end}. Error occured on line " \
-                "{line_no}.".format(infile=infile.name,
+                "{line_no}.".format(
+                    infile=infile.name,
                     cell_begin=len(all_cells) + 1,
                     cell_end=len(all_cells) + cells_per_line,
                     line_no=line_no)
@@ -83,7 +84,8 @@ def get_map_cells(infile, cell_size):
     if line_no is not None:
         assert line_no % cell_size == 0, \
             "Map {infile} reaches EOF before the completion of cells " \
-            "{cell_begin} to {cell_end}.".format(infile=infile.name,
+            "{cell_begin} to {cell_end}.".format(
+                infile=infile.name,
                 cell_begin=len(all_cells) + 1,
                 cell_end=len(all_cells) + cells_per_line)
 
@@ -153,8 +155,9 @@ def complete_json_file(template_file, all_cells, remove_template=True):
 
 if __name__ == "__main__":
     # TODO: epilog needs actual formatting. see argparse formatterclass
-    main_parser = argparse.ArgumentParser(description=
-        "A script for combining multi-cell maps with their json data.",
+    main_parser = argparse.ArgumentParser(
+        description="A script for combining multi-cell maps with their json "
+        "data.",
         epilog="To format the json template, add the key '{section}' to the "
         "root dictionary.  In that section, create a dictionary with one or "
         "more template type keys.  Each type key should have a dictionary of "
@@ -169,22 +172,27 @@ if __name__ == "__main__":
         "strings as keys which have keypath or list of keypaths as values.  "
         "The value at the end of the keypath(s) will be replaced with the "
         "string formatted with the type as input.".format(
-            section=_TEMPLATE_JSON_SECTION, cell_map=_TEMPLATE_TYPE_CELL_MAP,
+            section=_TEMPLATE_JSON_SECTION,
+            cell_map=_TEMPLATE_TYPE_CELL_MAP,
             cell_num=_TEMPLATE_TYPE_CELL_NUM,
             obj_repl=_TEMPLATE_FUNC_OBJ_REPLACE,
             str_form=_TEMPLATE_FUNC_STR_FORMAT))
 
-    main_parser.add_argument("map_file", metavar="map-file",
-                        type=argparse.FileType("r"),
-                        help="A file that contains an ascii representation "
-                        "of one or more map cells.")
+    main_parser.add_argument(
+        "map_file",
+        metavar="map-file",
+        type=argparse.FileType("r"),
+        help="A file that contains an ascii representation of one or more map "
+             "cells.")
 
-    main_parser.add_argument("json_templates", metavar="json-file",
-                        nargs="+",
-                        type=argparse.FileType("r"),
-                        help="A json template that will be combined with the "
-                        "map cells to a properly formatted json map file.  "
-                        "See below for templating format.")
+    main_parser.add_argument(
+        "json_templates",
+        metavar="json-file",
+        nargs="+",
+        type=argparse.FileType("r"),
+        help="A json template that will be combined with the map cells to a "
+             "properly formatted json map file.  See below for templating "
+             "format.")
 
     args = main_parser.parse_args()
 
@@ -196,7 +204,9 @@ if __name__ == "__main__":
             try:
                 complete_json_file(json_template, all_cells)
             except ValueError as val_err:
-                main_parser.exit(1, "Could not parse json in file {file_name}"
-                "\n{json_err}\n".format(file_name=json_template.name,
-                                        json_err=str(val_err)))
+                main_parser.exit(1,
+                                 "Could not parse json in file {file_name}\n"
+                                 "{json_err}\n".format(
+                                     file_name=json_template.name,
+                                     json_err=str(val_err)))
 
