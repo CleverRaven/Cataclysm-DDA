@@ -1119,7 +1119,7 @@
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
-        "spawns" : { "group" : "GROUP_POWER_WORKERS", "population":[4, 10], "radius":[2, 6] }
+        "spawns" : { "group" : "GROUP_POWER_WORKERS", "population":[4, 10], "radius":[2, 4] }
     }
 ]
 

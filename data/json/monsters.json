@@ -5843,6 +5843,6 @@
     "death_function":["NORMAL"],
     "special_attack":"BITE",
     "description":"Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS45", "REVIVES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS45", "REVIVES", "CBM_TECH"]
     }
 ]
