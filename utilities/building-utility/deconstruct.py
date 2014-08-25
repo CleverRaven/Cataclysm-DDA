@@ -38,6 +38,9 @@ def internal_append(list_of_lists, appends):
 
 
 def get_map_cells(infile, cell_size):
+    '''Converts an ascii map file into a list of cells of size cell_size.
+    Raises an Assertion Error if any cell is not the correct size.
+    '''
     cell_line_no = 1
     cells_per_line = None
     line_no = None
@@ -154,6 +157,8 @@ def complete_json_file(template_file, all_cells, remove_template=True):
 
 
 def cli_interface():
+    '''Sets up command-line parser, including user documentation and help.'''
+
     # TODO: epilog needs actual formatting. see argparse formatterclass
     parser = argparse.ArgumentParser(
         description="A script for combining multi-cell maps with their json "
@@ -198,6 +203,12 @@ def cli_interface():
 
 
 def main(parser):
+    '''Combines ascii map file with json template(s).
+
+    Takes a parser that yields a map_file and a list of json_templates.  The
+    map_file is split into cells using get_map_cells.  The json_templates are
+    combined with the cells using complete_json_file.
+    '''
     args = parser.parse_args()
 
     with args.map_file:
