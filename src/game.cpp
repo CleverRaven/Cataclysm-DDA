@@ -28,6 +28,7 @@
 #include "help.h"
 #include "action.h"
 #include "monstergenerator.h"
+#include "monattack.h"
 #include "worldfactory.h"
 #include "file_finder.h"
 #include "mod_manager.h"
@@ -569,14 +570,7 @@ void game::start_game(std::string worldname)
     }
 
     calendar::turn = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
-    if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
-    else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
-        calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
-    } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
-        calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
-    } else {
-        calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
-    }
+    determine_starting_season();
     nextweather = calendar::turn;
     weatherSeed = rand();
     run_mode = (OPTIONS["SAFEMODE"] ? 1 : 0);
@@ -601,7 +595,7 @@ void game::start_game(std::string worldname)
     player_start.load( player_location.x, player_location.y, levz, false, cur_om );
     player_start.translate( t_window_domestic, t_curtains );
     player_start.save();
-
+    if (g->scen->has_flag("INFECTED")){u.add_disease("infected",100,false,1,1,0, -1, random_body_part(), true);}
     levx -= int(int(MAPSIZE / 2) / 2);
     levy -= int(int(MAPSIZE / 2) / 2);
     levz = 0;
@@ -14693,7 +14687,27 @@ void game::process_artifact(item *it, player *p, bool wielded)
     p->dex_cur = p->get_dex();
     p->per_cur = p->get_per();
 }
-
+void game::determine_starting_season()
+{
+	if (g->scen->has_flag("SPR_START") || g->scen->has_flag("SUM_START") || g->scen->has_flag("AUT_START") || g->scen->has_flag("WIN_START"))
+	{
+		if (g->scen->has_flag("SPR_START"));
+		else if (g->scen->has_flag("SUM_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);}
+		else if (g->scen->has_flag("AUT_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);}
+		else if (g->scen->has_flag("WIN_START")){calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);}
+		else {debugmsg("The Unicorn");}
+	}
+    	else{
+	    if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring");
+	    else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+	    } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn") {
+		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+	    } else {
+		calendar::turn += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+	    }
+	}
+}
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
     int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
