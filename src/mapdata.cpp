@@ -661,12 +661,12 @@ void set_ter_ids() {
     t_water_pump=terfind("t_water_pump");
     t_open_air=terfind("t_open_air");
     t_plut_generator = terfind("t_plut_generator");
-    t_pwr_sb_support_l=terfind("t_pwr_sb_support_l");
-    t_oil_circ_brkr_l=terfind("t_oil_circ_brkr_l");
-    t_pwr_sb_support_s=terfind("t_pwr_sb_support_s");
-    t_oil_circ_brkr_s=terfind("t_oil_circ_brkr_s");
-    t_pwr_sb_switchgear_l=terfind("t_pwr_sb_switchgear_l");
-    t_pwr_sb_switchgear_s=terfind("t_pwr_sb_switchgear_s");
+    t_pwr_sb_support_l=terfind("t_pwr_sb_support_l"); // Power substation stuff
+    t_oil_circ_brkr_l=terfind("t_oil_circ_brkr_l"); // Power substation stuff
+    t_pwr_sb_support_s=terfind("t_pwr_sb_support_s"); // Power substation stuff
+    t_oil_circ_brkr_s=terfind("t_oil_circ_brkr_s"); // Power substation stuff
+    t_pwr_sb_switchgear_l=terfind("t_pwr_sb_switchgear_l"); // Power substation stuff
+    t_pwr_sb_switchgear_s=terfind("t_pwr_sb_switchgear_s"); // Power substation stuffs
     num_terrain_types = terlist.size();
 };
 
