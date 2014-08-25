@@ -1,20 +1,10 @@
 [
-  {
- "type" : "overmap_terrain",
-    "id" : "sai",
-    "name" : "serving area interface",
-    "rotate" : true,
-    "sym" : 94,
-    "color" : "i_ltcyan",
-    "see_cost" : 5,
-    "extras" : "build",
-    "mondensity" : 2,
-    "sidewalk" : false,
-    "mapgen": [ {
-            "method": "json",
-            "weight": 500,
-            "object": {
-            "fill_ter": "t_concrete",
+    {
+        "type" : "mapgen",
+        "om_terrain" : ["sai"],
+        "method": "json",
+        "weight": 10,
+        "object": {
             "rows": [
             "........................",
             "........................",
@@ -57,9 +47,7 @@
             "|": "f_null",
             "#": "f_null",
             "+": "f_null"
-            } 
-}
-}
-]
-}
+            }
+        }
+    }
 ]

@@ -4358,10 +4358,8 @@
         "type" : "overmap_terrain",
         "id" : "sai",
         "name" : "serving area interface",
-        "sym" : 94,
-        "color" : "i_ltcyan",
+        "sym" : 48,
+        "color" : "i_magenta",
         "see_cost" : 5
     }
 ]
-
-
