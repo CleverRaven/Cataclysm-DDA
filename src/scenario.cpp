@@ -19,7 +19,7 @@ scenario::scenario()
 scenario::scenario(std::string scen)
 {
 
-    
+
 }
 scenario::scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission)
 {
@@ -66,7 +66,7 @@ void scenario::load_scenario(JsonObject &jsobj)
     const std::string stame = jsobj.get_string("start_name").c_str();
     scen._start_name = pgettext("start_name", stame.c_str());
 
-   
+
     scen._point_cost = jsobj.get_int("points");
 
     JsonObject items_obj=jsobj.get_object("items");
