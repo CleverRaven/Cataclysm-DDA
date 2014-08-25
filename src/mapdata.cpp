@@ -432,6 +432,8 @@ ter_id t_null,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
+    // Power Station stuff
+    t_pwr_sb_support_l, t_oil_circ_brkr_l, t_pwr_sb_support_s, t_oil_circ_brkr_s, t_pwr_sb_switchgear_l, t_pwr_sb_switchgear_s,
     num_terrain_types;
 
 void set_ter_ids() {
@@ -659,6 +661,12 @@ void set_ter_ids() {
     t_water_pump=terfind("t_water_pump");
     t_open_air=terfind("t_open_air");
     t_plut_generator = terfind("t_plut_generator");
+    t_pwr_sb_support_l=terfind("t_pwr_sb_support_l");
+    t_oil_circ_brkr_l=terfind("t_oil_circ_brkr_l");
+    t_pwr_sb_support_s=terfind("t_pwr_sb_support_s");
+    t_oil_circ_brkr_s=terfind("t_oil_circ_brkr_s");
+    t_pwr_sb_switchgear_l=terfind("t_pwr_sb_switchgear_l");
+    t_pwr_sb_switchgear_s=terfind("t_pwr_sb_switchgear_s");
     num_terrain_types = terlist.size();
 };
 

@@ -1,0 +1,85 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "pwr_sub_s",
+    "name": "small power substation ",
+    "rotate": true,
+    "sym": 72,
+    "color": "lt_cyan",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "sidewalk": false,
+    "mapgen": [
+      {
+        "method": "json",
+        "weight": 500,
+        "object": {
+          "fill_ter": "t_concrete",
+          "rows": [
+            "........................",
+            ".x--------------------x.",
+            ".|                    |.",
+            ".| T   T              |.",
+            ".|  B   B             |.",
+            ".| T   T     t    t   |.",
+            ".|  B            bs   |.",
+            ".|  B        t    t   |.",
+            ".| T   T     s   bs   |.",
+            ".|  B        t    t   |.",
+            ".|  B            bs   |.",
+            ".| T   T     t    t   |.",
+            ".|  B        s        |.",
+            ".|  B        s        |.",
+            ".| T   T     t    t   |.",
+            ".|  B   B             |.",
+            ".|  B   B hhhh        |.",
+            ".| T   T  v  d        |.",
+            ".|  B     v  v        |.",
+            ".|  B     vCCv x++----x.",
+            ".| T   T  hhhh |  ......",
+            ".|             |  ......",
+            ".x-------------x  ......",
+            "........................"
+          ],
+          "terrain": {
+            ".": "t_grass",
+            " ": "t_concrete",
+            "-": "t_chainfence_h",
+            "|": "t_chainfence_v",
+            "x": "t_chainfence_posts",
+            "+": "t_chaingate_c",
+            "T": "t_pwr_sb_support_l",
+            "B": "t_oil_circ_brkr_l",
+            "t": "t_pwr_sb_support_s",
+            "b": "t_oil_circ_brkr_s",
+            "S": "t_pwr_sb_switchgear_l",
+            "s": "t_pwr_sb_switchgear_s",
+            "h": "t_wall_h",
+            "v": "t_wall_v",
+            "d": "t_door_locked",
+            "C": "t_console_broken"
+          },
+          "furniture": {
+            ".": "f_null",
+            " ": "f_null",
+            "-": "f_null",
+            "|": "f_null",
+            "x": "f_null",
+            "+": "f_null",
+            "T": "f_null",
+            "B": "f_null",
+            "t": "f_null",
+            "b": "f_null",
+            "S": "f_null",
+            "s": "f_null",
+            "h": "f_null",
+            "v": "f_null",
+            "d": "f_null",
+            "C": "f_null"
+          }
+        }
+      }
+    ]
+  }
+]
