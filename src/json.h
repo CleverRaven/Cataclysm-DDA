@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <string>
 #include <vector>
+#include <list>
 #include <bitset>
 
 /* Cataclysm-DDA homegrown JSON tools
@@ -221,6 +222,27 @@ class JsonIn
                 return false;
             }
         }
+        template <typename T> bool read(std::list<T> &v)
+        {
+            if (!test_array()) {
+                return false;
+            }
+            try {
+                start_array();
+                v.clear();
+                while (!end_array()) {
+                    T element;
+                    if (read(element)) {
+                        v.push_back(element);
+                    } else {
+                        skip_value();
+                    }
+                }
+                return true;
+            } catch (std::string e) {
+                return false;
+            }
+        }
         // array ~> set
         template <typename T> bool read(std::set<T> &v)
         {
@@ -389,6 +411,15 @@ class JsonOut
         {
             start_array();
             for (typename std::vector<T>::const_iterator it = v.begin();
+                 it != v.end(); ++it) {
+                write(*it);
+            }
+            end_array();
+        }
+        template <typename T> void write(const std::list<T> &v)
+        {
+            start_array();
+            for (typename std::list<T>::const_iterator it = v.begin();
                  it != v.end(); ++it) {
                 write(*it);
             }
