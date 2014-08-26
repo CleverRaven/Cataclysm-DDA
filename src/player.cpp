@@ -1299,7 +1299,6 @@ void player::update_bodytemp()
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
-            // Frostbite timer does not go down if you are still cold.
             add_disease("cold", 1, false, 1, 1, 0, 1, (body_part)i, false);
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
