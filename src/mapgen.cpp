@@ -10879,7 +10879,7 @@ void map::post_process(unsigned zones)
             for (int x = center.x - radius; x <= center.x + radius; x++) {
                 for (int y = center.y - radius; y <= center.y + radius; y++) {
                     if (rl_dist(x, y, center.x, center.y) <= rng(1, radius)) {
-                        destroy(x, y, false);
+                        destroy(x, y, true);
                     }
                 }
             }
@@ -11202,7 +11202,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
             }
 
             //There's a wall or other obstacle here; destroy it
-            destroy(px, py, false);
+            destroy(px, py, true);
 
             //Then smash up the vehicle
             if(!veh_smashed) {
@@ -13057,7 +13057,7 @@ void map::add_extra(map_extra type)
                 items_created += place_items(item_group, 80, x, y, x, y, true, 0);
             }
             if (i_at(x, y).empty()) {
-                destroy(x, y, false);
+                destroy(x, y, true);
             }
         }
     }
@@ -13111,7 +13111,7 @@ void map::add_extra(map_extra type)
                 //If we're using circular distances, make circular craters
                 //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
                 if(!trigdist || (((i - x) * (i - x) + (j - y) * (j - y)) <= size_squared)) {
-                    destroy(i, j, false);
+                    destroy(i, j, true);
                     adjust_radiation(i, j, rng(20, 40));
                 }
             }

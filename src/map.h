@@ -401,7 +401,7 @@ void add_corpse(int x, int y);
  std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false, bool destroy = false);
  // spawn items from the list, see map_bash_item_drop
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
- void destroy(const int x, const int y, const bool makesound);
+ void destroy(const int x, const int y, const bool silent);
  void crush(const int x, const int y);
  void shoot(const int x, const int y, int &dam, const bool hit_items,
             const std::set<std::string>& ammo_effects);

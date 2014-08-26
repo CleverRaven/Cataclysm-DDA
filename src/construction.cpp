@@ -627,7 +627,7 @@ void construct::done_tree(point p)
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
     for (std::vector<point>::iterator it = tree.begin();
          it != tree.end(); ++it) {
-        g->m.destroy(it->x, it->y, true);
+        g->m.destroy(it->x, it->y, false);
         g->m.ter_set(it->x, it->y, t_trunk);
     }
 }

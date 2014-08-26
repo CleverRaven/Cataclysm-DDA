@@ -3237,7 +3237,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                     }
                     break;
                 case veh_coll_destructable:
-                    g->m.destroy(x, y, false);
+                    g->m.destroy(x, y, true);
                     snd = _("crash!");
                     break;
                 case veh_coll_other:

@@ -6521,7 +6521,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             m.bash(i, j, dam);
             m.bash(i, j, dam); // Double up for tough doors, etc.
             if (m.is_destructable(i, j) && rng(25, 100) < dam) {
-                m.destroy(i, j, false);
+                m.destroy(i, j, true);
             }
 
             int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
@@ -7109,7 +7109,7 @@ void game::resonance_cascade(int x, int y)
             case 16:
             case 17:
             case 18:
-                m.destroy(i, j, true);
+                m.destroy(i, j, false);
                 break;
             case 19:
                 explosion(i, j, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4));

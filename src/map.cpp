@@ -1639,7 +1639,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
         }
 
         if ( bash != NULL && bash->str_min != -1 ) {
-            bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
+            success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
             int smin = bash->str_min;
             int smax = bash->str_max;
             if ( success == true ) {
@@ -1811,7 +1811,6 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
     if( !sound.empty() && !silent) {
         g->sound( x, y, sound_volume, sound);
     }
-
     return std::pair<bool, bool> (smashed_something, success);
 }
 
@@ -1841,39 +1840,14 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
 }
 
 // map::destroy is only called (?) if the terrain is NOT bashable.
-void map::destroy(const int x, const int y, const bool makesound)
+void map::destroy(const int x, const int y, const bool silent)
 {
-    if (has_furn(x, y)) {
-        furn_set(x, y, f_null);
-    }
-
-    const ter_id t = ter( x, y );
-    if( t == t_floor ) {
-        g->sound(x, y, 20, _("SMASH!!"));
-        for (int i = x - 2; i <= x + 2; i++) {
-            for (int j = y - 2; j <= y + 2; j++) {
-                if(move_cost(i, j) == 0) {
-                    continue;
-                }
-                if (one_in(5)) {
-                    spawn_item(i, j, "splinter");
-                }
-                if (one_in(6)) {
-                    spawn_item(i, j, "nail", 0, 3);
-                }
-                if (one_in(100)) {
-                    spawn_item(x, y, "cu_pipe");
-                }
-            }
-        }
-        ter_set(x, y, t_rubble);
-        collapse_at(x,y);
-    } else {
-        ter_set(x, y, t_rubble);
-    }
-
-    if (makesound) {
-        g->sound(x, y, 40, _("SMASH!!"));
+    bool temp = true;
+    std::pair<bool, bool> test;
+    while (temp) {
+        test = bash(x, y, 999, silent, true);
+        temp = test.second;
+        debugmsg("smashed something: %d, success: %d", test.first, test.second);
     }
 }
 

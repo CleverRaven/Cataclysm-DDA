@@ -677,7 +677,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3) {
-                                    destroy(x, y, false);
+                                    destroy(x, y, true);
                                 }
 
                             } else if (has_flag("FLAMMABLE_ASH", x, y) &&
@@ -700,7 +700,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                                  cur->getFieldDensity() * 30);
                                 smoke += 10;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    destroy(x, y, false);
+                                    destroy(x, y, true);
                                 }
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
