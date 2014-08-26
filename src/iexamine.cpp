@@ -1301,32 +1301,67 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy)
             if (plantCount >= 12) {
                 plantCount = 12;
             }
-
             m->spawn_item(examx, examy, seedType.substr(5), plantCount, 0, calendar::turn);
             if(item_controller->find_template(seedType)->count_by_charges()) {
                 m->spawn_item(examx, examy, seedType, 1, rng(plantCount / 4, plantCount / 2));
             } else {
                 m->spawn_item(examx, examy, seedType, rng(plantCount / 4, plantCount / 2));
             }
-
             p->moves -= 500;
         }
-    } else if (m->furn(examx, examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1 &&
-               p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
-        //Reduce the amount of time it takes until the next stage of the plant by 20% of a seasons length. (default 2.8 days).
-        WORLDPTR world = world_generator->active_world;
-        int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
-        if (!world->world_options.empty()) {
-            fertilizerEpoch = 14400 * (world->world_options["SEASON_LENGTH"] * 0.2) ;
+    } else if (m->furn(examx, examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1){
+        if ( !p->has_item_with_flag("FERTILIZER") ) {
+        add_msg(m_info, _("You have no fertilizer."));
+        return;
         }
-
-        if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
-            m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
-        } else {
-            m->i_at(examx, examy)[0].bday = 0;
-        }
-        p->use_charges("fertilizer_liquid", 1);
+        if (query_yn(_("Fertilize plant"))) {
+        std::vector<item *> f_inv = p->inv.all_items_with_flag("FERTILIZER");
+            if (g->u.weapon.contains_with_flag("FERTILIZER")) {
+            f_inv.push_back(&g->u.weapon.contents[0]);
+            }
+        std::vector<itype_id> f_types;
+        std::vector<std::string> f_names;
+            for (std::vector<item *>::iterator it = f_inv.begin() ; it != f_inv.end(); it++) {
+                if (std::find(f_types.begin(), f_types.end(), (*it)->typeId()) == f_types.end()) {
+                    f_types.push_back((*it)->typeId());
+                    f_names.push_back((*it)->tname());
+                }
+            }
+            // Choose fertilizer from list
+            int f_index = 0;
+            if (f_types.size() > 1) {
+                f_names.push_back("Cancel");
+                f_index = menu_vec(false, _("Use which fertilizer?"), f_names) - 1;
+                if (f_index == (int)f_names.size() - 1) {
+                    f_index = -1;
+                }
+            } else {
+                    f_index = 0;
+            }
+            if (f_index < 0) {
+                return;
+            }
+            std::list<item> planted = p->inv.use_charges(f_types[f_index], 1);
+            if (planted.empty()) { // nothing was removed from inv => weapon is the SEED
+                if (g->u.weapon.charges > 1) {
+                    g->u.weapon.charges--;
+                } else {
+                    g->u.remove_weapon();
+                }
+            }
+            //Reduce the amount of time it takes until the next stage of the plant by 20% of a seasons length. (default 2.8 days).
+            WORLDPTR world = world_generator->active_world;
+            int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
+            if (!world->world_options.empty()) {
+                fertilizerEpoch = 14400 * (world->world_options["SEASON_LENGTH"] * 0.2) ;
+            }
+            if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
+                m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
+            } else {
+                m->i_at(examx, examy)[0].bday = 0;
+            }
         m->i_at(examx, examy).push_back(item("fertilizer", (int) calendar::turn));
+        }
     }
 }
 

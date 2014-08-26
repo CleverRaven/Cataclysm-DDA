@@ -1684,7 +1684,8 @@
       ["fungicide", 5],
       ["charcoal", 5],
       ["sheath", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["fertilizer_commercial",30]
     ]
   },{
     "type" : "item_group",
@@ -8285,6 +8286,7 @@
       ["boots", 60],
       ["gloves_rubber", 60],
       ["fertilizer_liquid", 20],
+      ["fertilizer_commercial"", 50]
       ["sickle", 40],
       ["toolbox", 10],
       ["bullwhip", 30],
