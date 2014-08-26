@@ -1,4 +1,9 @@
 #! /usr/bin/env python
+'''Tool to combine ascii map cells with json templates.
+
+Original design and implementation: acidia (https://github.com/acidia)
+Current design and implementation: wormingdead (https://github.com/wormingdead)
+'''
 
 from __future__ import division
 
