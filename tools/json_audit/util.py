@@ -6,12 +6,15 @@ from __future__ import print_function
 import sys
 import os
 import json
-from collections import Counter
+import re
+from collections import Counter, OrderedDict
 from fnmatch import fnmatch
 
 SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
 JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "json"))
 JSON_FNMATCH = "*.json"
+
+
 
 def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
     """Use a UNIX like file match expression to weed out the JSON files.
@@ -21,6 +24,7 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
     """
     data = []
     errors = []
+    candidates = None
     for d_descriptor in os.walk(json_dir):
         d = d_descriptor[0]
         for f in d_descriptor[2]:
@@ -28,7 +32,7 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
                 json_file = os.path.join(d, f)
                 with open(json_file, "r") as file:
                     try:
-                        candidates = json.load(file)
+                        candidates = json.load(file, object_pairs_hook=OrderedDict)
                     except Exception as err:
                         errors.append("Problem reading file %s, reason: %s" % (json_file, err))
                     if type(candidates) != list:
@@ -36,6 +40,21 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
                     else:
                         data += candidates
     return (data, errors)
+
+
+
+def match_primitive_values(item_value, where_value):
+    """Perform any odd logic on item matching.
+    """
+    # Matching interpolation for keyboard constrained input.
+    if type(item_value) == str or type(item_value) == unicode:
+        # Direct match, and don't convert unicode in Python 2.
+        return bool(re.search(re.escape(where_value), item_value))
+    elif type(item_value) == int or type(item_value) == float:
+        # match after string conversion
+        return bool(re.search(re.escape(where_value), str(item_value)))
+    else:
+        return False
 
 
 
@@ -56,24 +75,37 @@ def matches_where(item, where_key, where_value):
     # So we have some value.
     item_value = item[where_key]
     # Matching interpolation for keyboard constrained input.
-    if type(item_value) == str or type(item_value) == unicode:
-        # Direct match
-        return where_value == item_value
-    elif type(item_value) == int or type(item_value) == float:
-        # via a string match
-        return where_value == str(item_value)
-    elif type(item_value) == list:
-        # 1 level deep search at the moment
-        return where_value in item_value
-    elif type(item_value) == dict:
-        # Perhaps not the correct logic...
-        return where_value in item_value
-    else:
+    if type(item_value) == list:
+        # 1 level deep.
+        for next_level in item_value:
+            if match_primitive_values(next_level, where_value):
+                return True
+        # else...
         return False
+    elif type(item_value) == dict:
+        # Match against the keys of the dictionary... I question my logic.
+        # 1 level deep.
+        for next_level in item_value:
+            if match_primitive_values(next_level, where_value):
+                return True
+        # else...
+        return False
+    else:
+        return match_primitive_values(item_value, where_value)
+
+
+def distinct_keys(data):
+    """Return a sorted-ascending list of keys scraped from the list of data
+    assumed to be dictionaries.
+    """
+    all_keys = set()
+    for d in data:
+        all_keys.update(list(d.keys()))
+    return sorted(all_keys)
 
 
 
-def value_counter(search_key, data, where_key, where_value):
+def value_counter(data, search_key, where_key=None, where_value=None):
     """Takes a search_key {str}, and for values found in data {list of dicts}
     with those keys, counts the values.
 
@@ -125,6 +157,8 @@ def ui_import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
     print("Found %s blobs of JSON data." % len(json_data))
     return json_data
 
+
+
 def ui_values_to_columns(values, screen_width=80):
     """Take a list of strings and output in fixed width columns.
     """
@@ -137,6 +171,8 @@ def ui_values_to_columns(values, screen_width=80):
         if iters % cols == 0:
             print("")
     print("")
+
+
 
 def ui_counts_to_columns(counts):
     """Take a Counter instance and display in single fixed width key:value

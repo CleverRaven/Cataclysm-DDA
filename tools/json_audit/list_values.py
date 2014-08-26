@@ -5,7 +5,7 @@ arrays/lists).
 
 Usage:
 
-    python count_values.py <key> [where-key] [where-value] [--json]
+    python list_values.py <key> [where-key] [where-value] [--json]
 """
 
 from __future__ import print_function
@@ -13,7 +13,7 @@ from __future__ import print_function
 import sys
 import os
 import json
-from util import import_data, ui_import_data, value_counter, ui_counts_to_columns
+from util import import_data, ui_import_data, value_counter, ui_values_to_columns
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
@@ -29,11 +29,11 @@ if __name__ == "__main__":
             print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
             sys.exit(1)
 
-        title = "Count of values from field '%s'" % search_key
+        title = "List of values from field '%s'" % search_key
         print("\n\n%s" % title)
         print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
         print("-" * len(title))
-        ui_counts_to_columns(stats)
+        ui_values_to_columns(sorted(stats.keys()))
     elif len(sys.argv) == 3 and sys.argv[2] == "--json":
         # Count values associated with key, machine output.
         search_key = sys.argv[1]
@@ -47,7 +47,7 @@ if __name__ == "__main__":
             print(json.dumps([]))
             sys.exit(1)
         else:
-            print(json.dumps(stats))
+            print(json.dumps(sorted(stats.keys())))
     elif len(sys.argv) == 4:
         # Count values associated with key, filter, human friendly output.
         search_key = sys.argv[1]
@@ -60,11 +60,11 @@ if __name__ == "__main__":
             print("Sorry, didn't find any stats for '%s' in the JSON." % search_key)
             sys.exit(1)
 
-        title = "Count of values from field '%s' filtered by [%s=%s]" % (search_key, where_key, where_value)
+        title = "List of values from field '%s' filtered by [%s=%s]" % (search_key, where_key, where_value)
         print("\n\n%s" % title)
         print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
         print("-" * len(title))
-        ui_counts_to_columns(stats)
+        ui_values_to_columns(sorted(stats.keys()))
     elif len(sys.argv) == 5 and sys.argv[4] == "--json":
         search_key = sys.argv[1]
         where_key = sys.argv[2]
@@ -77,7 +77,7 @@ if __name__ == "__main__":
             print(json.dumps([]))
             sys.exit(1)
         else:
-            print(json.dumps(stats))
+            print(json.dumps(sorted(stats.keys())))
     else:
         print("\n%s" % __doc__)
         sys.exit(1)
