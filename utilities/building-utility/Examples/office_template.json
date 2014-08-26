@@ -4,13 +4,13 @@
     "method": "json",
     "weight": 250,
     "_Building_Utility": {
-        "CELL_MAP": {
+        "cell_map": {
             "object_replace": [
                 "object",
                 "rows"
             ]
         },
-        "CELL_NUM": {
+        "cell_num": {
             "string_format": {
                 "office_tower_%s": [
                     "om_terrain"

@@ -26,6 +26,7 @@
 	    "description": "In the chaos and panic of evacuation, you got bitten by something! You didn't get proper medical care, and now the wound has started turning green.",
 	    "start_location": "shelter",
 	    "start_name": "Evac Center",
+      "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "pizzaboy", "archaeologist", "rollerderby", "farmer"],
       "flags" : ["INFECTED"]
 	},
         {
