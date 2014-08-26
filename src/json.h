@@ -222,6 +222,7 @@ class JsonIn
                 return false;
             }
         }
+        // array ~> list
         template <typename T> bool read(std::list<T> &v)
         {
             if (!test_array()) {
