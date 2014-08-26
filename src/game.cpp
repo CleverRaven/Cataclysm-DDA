@@ -6572,8 +6572,10 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
 
     if (power >= 30) {
         sound(x, y, noise, _("a huge explosion!"));
-    } else {
+    } else if (power >= 4) {
         sound(x, y, noise, _("an explosion!"));
+    } else {
+        sound(x, y, 3, _("a loud pop!"));
     }
     if (blast) {
         do_blast(x, y, power, radius, fire);
@@ -6582,7 +6584,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
     }
 
     // The rest of the function is shrapnel
-    if (shrapnel <= 0) {
+    if (shrapnel <= 0 || power < 4) {
         return;
     }
     int sx, sy, t, tx, ty;

@@ -574,10 +574,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         ammo_effects( x, y, ammo_type->ammo_effects );
                                     }
                                 }
-                                it->charges -= rounds_exploded; //Get rid of the spent ammo.
-                                if( it->charges == 0 ) {
-                                    destroyed = true;    //No more ammo, item should be removed.
-                                }
+                                burn_amt = rounds_exploded;
 
                             } else if (it->made_of("paper")) {
                                 //paper items feed the fire moderately.
@@ -666,16 +663,17 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                             }
-
-                            if (ammo_type != NULL) {
-                                if (burn_amt > it->charges) {
-                                    burn_amt = it->charges;
+                            if (!destroyed) {
+                                if (ammo_type != NULL) {
+                                    if (burn_amt > it->charges) {
+                                        burn_amt = it->charges;
+                                    }
+                                    it->charges -= burn_amt;
+                                    consumed += burn_amt / base_burn_amt;
+                                    destroyed = it->charges <= 0;
+                                } else {
+                                    destroyed = it->burn(burn_amt);
                                 }
-                                it->charges -= burn_amt;
-                                consumed += burn_amt / base_burn_amt;
-                                destroyed = it->charges <= 0;
-                            } else {
-                                destroyed = it->burn(burn_amt);
                             }
 
                             //lower age is a longer lasting fire
