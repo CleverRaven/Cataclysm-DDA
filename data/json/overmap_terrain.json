@@ -4373,5 +4373,13 @@
         "sym" : 48,
         "color" : "i_magenta",
         "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_sub_s",
+        "name" : "small power substation",
+        "sym" : 72,
+        "color" : "light_cyan",
+        "see_cost" : 5,
+        "extras" : "field"
     }
 ]

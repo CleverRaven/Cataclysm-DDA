@@ -435,6 +435,10 @@ ter_id t_null,
     // SAI Stuff
     t_sai_box_damaged,
     t_sai_box,
+    // Power Station stuff
+    t_pwr_sb_support_l, t_oil_circ_brkr_l, t_pwr_sb_support_s, t_oil_circ_brkr_s,
+    t_pwr_sb_switchgear_l, t_pwr_sb_switchgear_s, t_lgtn_arrest, t_station_disc,
+    t_current_trans, t_potential_trans, t_primary_trans,
     num_terrain_types;
 
 void set_ter_ids() {
@@ -664,6 +668,17 @@ void set_ter_ids() {
     t_sai_box_damaged=terfind("t_sai_box_damaged");
     t_open_air=terfind("t_open_air");
     t_plut_generator = terfind("t_plut_generator");
+    t_pwr_sb_support_l=terfind("t_pwr_sb_support_l"); // Power substation stuff
+    t_oil_circ_brkr_l=terfind("t_oil_circ_brkr_l"); // Power substation stuff
+    t_pwr_sb_support_s=terfind("t_pwr_sb_support_s"); // Power substation stuff
+    t_oil_circ_brkr_s=terfind("t_oil_circ_brkr_s"); // Power substation stuff
+    t_pwr_sb_switchgear_l=terfind("t_pwr_sb_switchgear_l"); // Power substation stuff
+    t_pwr_sb_switchgear_s=terfind("t_pwr_sb_switchgear_s"); // Power substation stuffs
+    t_lgtn_arrest=terfind("t_lgtn_arrest"); // Power substation stuff
+    t_station_disc=terfind("t_station_disc"); // Power substation stuff
+    t_current_trans=terfind("t_current_trans"); // Power substation stuff
+    t_potential_trans=terfind("t_potential_trans"); // Power substation stuff
+    t_primary_trans=terfind("t_primary_trans"); // Power substation stuff
     num_terrain_types = terlist.size();
 };
 

@@ -5386,7 +5386,7 @@
       ["bio_torsionratchet", 10]
     ]
   },{
-      "type" : "item_group",
+    "type" : "item_group",
     "id" : "bionics_sci",
     "note" : "High-tech bionics, handy for the harried researcher. They get access to classified toys too.",
     "items":[
@@ -8433,6 +8433,34 @@
       { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
       { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
       { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_shirts",
+    "items":[
+      ["technician_shirt_blue", 20],
+      ["technician_shirt_ltblue", 15],
+      ["technician_shirt_gray", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_pants",
+    "items":[
+      ["technician_pants_blue", 20],
+      ["technician_pants_ltblue", 15],
+      ["technician_pants_gray", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bionics_tech",
+    "note" : "Bionics used by technicians.",
+    "items":[
+      ["bio_torsionratchet", 20],
+      ["bio_memory", 20],
+      ["bio_sunglasses", 20],
+      ["bio_heatsink", 20],
+      ["bio_watch", 20],
+      ["bio_faraday", 20]
     ]
   }
 ]
