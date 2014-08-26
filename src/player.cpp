@@ -11125,11 +11125,11 @@ void player::learn_recipe(recipe *rec)
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
-    if (backlog.type == type && backlog.index == index && backlog.position == pos &&
-        backlog.name == name) {
+    if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
+        backlog.front().position == pos && backlog.front().name == name ) {
         add_msg_if_player( _("You resume your task."));
-        activity = backlog;
-        backlog = player_activity();
+        activity = backlog.front();
+        backlog.pop_front();
     } else {
         activity = player_activity(type, moves, index, pos, name);
     }
@@ -11152,7 +11152,7 @@ bool player::has_activity(const activity_type type) const
 void player::cancel_activity()
 {
     if (activity.is_suspendable()) {
-        backlog = activity;
+        backlog.push_front( activity );
     }
     activity = player_activity();
 }

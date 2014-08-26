@@ -858,7 +858,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         point grab_point;
         object_type grab_type;
         player_activity activity;
-        player_activity backlog;
+        std::list<player_activity> backlog;
         // _missions vectors are of mission IDs
         std::vector<int> active_missions;
         std::vector<int> completed_missions;

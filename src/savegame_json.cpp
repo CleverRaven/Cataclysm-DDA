@@ -444,7 +444,15 @@ void player::deserialize(JsonIn &jsin)
     }
 
     data.read("activity", activity);
-    data.read("backlog", backlog);
+    // Changed from a single element to a list, handle either.
+    // Can deprecate once we stop handling pre-0.B saves.
+    if( data.has_array("backlog") ) {
+        data.read("backlog", backlog);
+    } else {
+        player_activity temp;
+        data.read("backlog", temp);
+        backlog.push_front( temp );
+    }
 
     data.read("driving_recoil", driving_recoil);
     data.read("controlling_vehicle", controlling_vehicle);
