@@ -39,6 +39,7 @@
       ["mag_comic", 20],
       ["candycigarette", 10],
       ["radio_car_box", 1],
+      ["basketball"],
       ["radiocontrol", 5]
     ]
   },{
@@ -1054,7 +1055,8 @@
       ["maid_dress", 3],
       ["maid_hat", 3],
       ["knitting_needles", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["b_shorts", 15]
     ]
   },{
     "type" : "item_group",
@@ -1877,6 +1879,7 @@
       ["headgear", 35],
       ["jersey", 30],
       ["puck", 30],
+      ["basketball", 25],
       ["golf_club", 35],
       ["glasses_safety", 40],
       ["armguard_soft", 40],
@@ -2055,6 +2058,7 @@
       ["football_armor", 10],
       ["helmet_football", 10],
       ["football", 30],
+      ["basketball", 20],
       ["sneakers", 80],
       ["socks", 70],
       ["tshirt", 80],
@@ -2693,7 +2697,8 @@
       ["dress", 70],
       ["sundress", 50],
       ["dress_wedding", 1],
-      ["postman_shorts", 5]
+      ["postman_shorts", 5],
+      ["b_shorts", 15]
     ]
   },{
     "type" : "item_group",
