@@ -2716,7 +2716,6 @@
         }
     },{
         "type" : "terrain",
-<<<<<<< HEAD
         "id" : "t_sai_box",
         "name": "telecom cabinet",
         "symbol": "#",
