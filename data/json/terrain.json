@@ -1104,7 +1104,7 @@
     },{
         "type" : "terrain",
         "id" : "t_door_boarded_damaged",
-        "name": "damaged boarded up door",
+        "name": "boarded up damaged door",
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
@@ -1123,7 +1123,7 @@
     },{
         "type" : "terrain",
         "id" : "t_rdoor_boarded",
-        "name": "reinforced door",
+        "name": "boarded up reinforced door",
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
@@ -1142,7 +1142,7 @@
     },{
         "type" : "terrain",
         "id" : "t_rdoor_boarded_damaged",
-        "name": "damaged reinforced door",
+        "name": "boarded up damaged reinforced door",
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
