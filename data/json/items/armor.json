@@ -2130,7 +2130,7 @@
         "material" : ["cotton", "plastic"],
         "volume" : 3,
         "cutting" : 0,
-        "warmth" : 0,
+        "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 0,
         "encumbrance" : 0,
