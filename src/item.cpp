@@ -446,36 +446,29 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
         dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(contents[0].charges))));
 
-    } else if (is_ammo()) {
-        // added charge display for debugging
-        it_ammo* ammo = dynamic_cast<it_ammo*>(type);
-
+    }
+    const it_ammo* ammo = nullptr;
+    if( is_ammo() ) {
+        ammo = dynamic_cast<const it_ammo*>( type );
+    } else if( is_ammo_container() ) {
+        ammo = dynamic_cast<const it_ammo*>( contents[0].type );
+    }
+    if( ammo != nullptr ) {
         if (ammo->type != "NULL") {
             dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
         }
-        dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, true));
+        dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, false));
         dump->push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "",
-                                 ammo->pierce, true, "", true, true));
+                                 ammo->pierce, true, "", true, false));
         dump->push_back(iteminfo("AMMO", _("Range: "), "",
-                                 ammo->range, true, "", false, true));
+                                 ammo->range, true, "", false, false));
         dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
                                  ammo->dispersion, true, "", true, true));
         dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Count: "), "", ammo->count));
-    } else if (is_ammo_container()) {
-        it_ammo* ammo = dynamic_cast<it_ammo*>(contents[0].type);
+        dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->count, true, "", false, false));
+    }
 
-        dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
-        dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, true));
-        dump->push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "",
-                                 ammo->pierce, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range, true, "", false, true));
-        dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
-                                 ammo->dispersion, true, "", false, true));
-        dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Count: "), "", contents[0].charges));
-
-    } else if (is_gun()) {
+    if (is_gun()) {
         it_gun* gun = dynamic_cast<it_gun*>(type);
         int ammo_dam = 0;
         int ammo_range = 0;
@@ -539,9 +532,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             temp1 << (ammo_range >= 0 ? "+" : "" );
             // ammo_dispersion and sum_of_dispersion don't need to translate.
             dump->push_back(iteminfo("GUN", "ammo_dispersion", "",
-                                     ammo_dispersion, true, temp1.str(), false, false, false));
+                                     ammo_dispersion, true, temp1.str(), false, true, false));
             dump->push_back(iteminfo("GUN", "sum_of_dispersion", _(" = <num>"),
-                                     dispersion() + ammo_dispersion, true, "", true, false, false));
+                                     dispersion() + ammo_dispersion, true, "", true, true, false));
         }
 
         //recoil of gun
