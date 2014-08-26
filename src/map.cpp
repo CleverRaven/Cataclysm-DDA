@@ -1842,13 +1842,7 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
 // map::destroy is only called (?) if the terrain is NOT bashable.
 void map::destroy(const int x, const int y, const bool silent)
 {
-    bool temp = true;
-    std::pair<bool, bool> test;
-    while (temp) {
-        test = bash(x, y, 999, silent, true);
-        temp = test.second;
-        debugmsg("smashed something: %d, success: %d", test.first, test.second);
-    }
+    while (bash(x, y, 999, silent, true).second);
 }
 
 void map::crush(const int x, const int y)
