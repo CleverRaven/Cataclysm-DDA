@@ -12540,7 +12540,8 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
         m->place_items("fridge",  80, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1, false, 0);
 
         m->furn_set(cx_hi + 2, cy_hi, f_oven);
-
+        m->place_items("oven", 70,  cx_hi + 2, cy_hi, cx_hi + 2, cy_hi, false, 0);
+        
         line_furn(m, f_rack, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1);
         m->place_items("cannedfood",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
         m->place_items("pasta",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
