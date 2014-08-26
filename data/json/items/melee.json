@@ -1828,6 +1828,21 @@
   },
   {
     "type":"GENERIC",
+    "id": "basketball",
+    "symbol": "*",
+    "color": "brown",
+    "name": "basketball",
+    "description": "A high-quality indoor basketball. You may throw it at zombies. ",
+    "price": 1200,
+    "material": "leather",
+    "weight": 800,
+    "volume": 4,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": 4
+  },
+  {
+    "type":"GENERIC",
     "id":"fertilizer",
     "symbol": "*",
     "color": "green",
