@@ -1126,8 +1126,11 @@ void npc::starting_weapon(npc_class type)
     if (weapon.is_gun())
     {
         it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-        weapon.charges = gun->clip;
-        weapon.curammo = dynamic_cast<it_ammo*>(itypes[default_ammo(gun->ammo)]);
+        const std::string tmp = default_ammo( gun->ammo );
+        if( tmp != "" ) {
+            weapon.charges = gun->clip;
+            weapon.curammo = dynamic_cast<it_ammo*>( itypes[tmp] );
+        }
     }
 }
 
