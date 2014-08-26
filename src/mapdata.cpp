@@ -432,6 +432,9 @@ ter_id t_null,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
+    // SAI Stuff
+    t_sai_box_damaged,
+    t_sai_box,
     num_terrain_types;
 
 void set_ter_ids() {
@@ -657,6 +660,8 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_sai_box=terfind("t_sai_box");
+    t_sai_box_damaged=terfind("t_sai_box_damaged");
     t_open_air=terfind("t_open_air");
     t_plut_generator = terfind("t_plut_generator");
     num_terrain_types = terlist.size();

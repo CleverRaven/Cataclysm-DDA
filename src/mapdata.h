@@ -574,6 +574,9 @@ extern ter_id t_null,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
     t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
+    // SAI Stuff
+    t_sai_box_damaged,
+    t_sai_box,
     num_terrain_types;
 
 

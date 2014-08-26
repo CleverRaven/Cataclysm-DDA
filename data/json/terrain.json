@@ -2714,5 +2714,40 @@
                 { "item": "plut_cell", "amount": 3, "minamount": 0}
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_sai_box",
+        "name": "telecom cabinet",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 8, "str_max": 80,
+            "sound": "whack!",
+            "sound_fail": "clang!",
+            "ter_set": "t_sai_box_damaged"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_sai_box_damaged",
+        "name": "damaged telecom cabinet",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 6, "str_max": 80,
+            "sound": "whack!",
+            "sound_fail": "clang!",
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "cable", "amount": 8, "minamount": 4, "chance": 80 },
+                { "item": "e_scrap", "amount": 8, "minamount": 2, "chance": 60  },
+                { "item": "circuit", "amount": 6, "minamount": 1, "chance": 50 },
+                { "item": "amplifier", "amount": 4, "minamount": 1, "chance": 50 },
+                { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 }
+            ]
+        }
     }
 ]
