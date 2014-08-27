@@ -2323,6 +2323,7 @@ std::string item::clothing_lvl_description(bool short_desc) const
         description = short_desc ? _("underwear") : _("This is worn next to the skin.");
         break;
     case REGULAR_LAYER:
+        description = short_desc ? _("regular layer") : "";
         break;
     case OUTER_LAYER:
         description = short_desc ? _("outerwear") : _("This is worn over your other clothes.");

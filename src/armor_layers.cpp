@@ -57,13 +57,15 @@ void player::sort_armor()
     int selected       = -1;
 
     int arrangementListSize;
+    int arrangementListIndex  = 0;
     int arrangementListOffset = 0;
 
     item tmp_item;
     std::vector<item *> tmp_worn;
+    std::vector<item *> tmp_arr;
     std::string tmp_str;
 
-    std::string  armor_cat[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"),
+    std::string  armor_cat[] = { _("Head"), _("Eyes"), _("Mouth"), _("Torso"),
                                 _("L. Arm"), _("R. Arm"), _("L. Hand"), _("R. Hand"),
                                 _("L. Leg"), _("R. Leg"), _("L. Foot"), _("R. Foot"),
                                 _("All")
@@ -123,31 +125,35 @@ void player::sort_armor()
             each_armor = dynamic_cast<it_armor *>(tmp_worn[itemindex]->type);
 
             if (itemindex == obsoleteListIndex) {
-                mvwprintz(w_obsolete, drawindex + 1, 0, c_yellow, ">>");
+                mvwprintz(w_obsolete, drawindex, 0, c_yellow, ">");
             }
 
             if (itemindex == selected) {
-                mvwprintz(w_obsolete, drawindex + 1, 3, dam_color[int(tmp_worn[itemindex]->damage + 1)],
-                          each_armor->nname(1).c_str());
+                mvwprintz(w_obsolete, drawindex, 2, c_dkgray, each_armor->nname(1).c_str());
             } else {
-                mvwprintz(w_obsolete, drawindex + 1, 2, dam_color[int(tmp_worn[itemindex]->damage + 1)],
-                          each_armor->nname(1).c_str());
+                mvwprintz(w_obsolete, drawindex, 1, c_dkgray, each_armor->nname(1).c_str());
             }
         }
 
-        // Items stats
-        if (obsoleteListSize) {
-            draw_description_pane(w_description, tmp_worn[obsoleteListIndex]);
-        } else {
-            mvwprintz(w_description, 0, 1, c_white, _("Nothing to see here!"));
+/*        // Last Night Changes, vector of arr. list indexes full of obsoleteListIndexes
+        for (int cover = 0; cover < num_bp; cover++) {
+            for (int ijk = 0; ijk < obsoleteListSize; ijk++) {
+                if (tmp_worn[ijk]->covers.test(bp_order[cover])) {
+                    arrangeList.push_back(ijk);
+                }
+            }
         }
+*/
 
+        tmp_arr.clear();
         // arrangement list
         arrangementListSize = 0;
         for (int cover = 0, pos = 0; cover < num_bp; cover++) {
             if (arrangementListSize >= arrangementListOffset && pos <= content_h - 2) {
+
+                // Category Name
                 mvwprintz(w_arrangement, pos, 2, (cover == tabindex) ? c_yellow : c_white,
-                          "%s:", armor_cat[ bp_order[cover] ].c_str());
+                          "%s:", armor_cat[ cover ].c_str());
 
                 // Warmth
                 if (bp_order[cover] != bp_eyes) {
@@ -159,39 +165,47 @@ void player::sort_armor()
                 int armorenc = 0;
                 double layers = 0.0;
                 int enc = encumb(body_part(bp_order[cover]), layers, armorenc);
-                std::string enc_details = string_format("%d = %d + %d",
-                                                        enc, enc - armorenc, armorenc);
-
+                std::string enc_details = string_format(" = %d + %d",
+                                                        enc - armorenc, armorenc);
                 nc_color text_color = ( (enc > 0) ? c_white : c_ltgray);
-                mvwprintz(w_arrangement, pos, arrangement_w - utf8_width(enc_details.c_str()) - 1,
-                text_color, enc_details.c_str());
 
-                 if (enc > 0) {
-                    //Hack: overwrite the total encumbrance by colored duplicate
-                    mvwprintz(w_arrangement, pos, arrangement_w - utf8_width(enc_details.c_str()) - 1,
-                              c_yellow, "%d", enc);
-                 }
+                //Components of encumbrance
+                mvwprintz(w_arrangement, pos, arrangement_w - utf8_width(enc_details.c_str()) - 1,
+                          text_color, enc_details.c_str());
+
+                //Total encumbrance
+                mvwprintz(w_arrangement, pos, arrangement_w - utf8_width(enc_details.c_str()) - 3,
+                          encumb_color(enc), "%2d", enc);
                 pos++;
             }
             arrangementListSize++;
-            for (auto it = worn.begin(); it != worn.end(); ++it) {
+
+            // Print all items for current bodypart
+            for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it) {
                 each_armor = dynamic_cast<it_armor *>(it->type);
                 if (it->covers.test(bp_order[cover])) {
-                    if (arrangementListSize >= arrangementListOffset && pos <= content_h - 2) {
+                    tmp_arr.push_back(&*it);
+
+                    if (arrangementListSize >= arrangementListOffset && pos <= content_h - 1) {
 
                         int lvl = it->clothing_lvl() + 2;
-                        // For debug purposes only. Remove before release:
-                        if (true) {
+
+                        // TODO: update the condition
+                        if (arrangementListIndex == 0) {
                             mvwhline(w_arrangement, pos, 1, '>', lvl/*, c_yellow*/);
                         }
 
+                        // Item Name
                         mvwprintz(w_arrangement, pos, lvl + 1, dam_color[int(it->damage + 1)],
                                   each_armor->nname(1).c_str());
-                        // Storage
+
+                        // Storage Value
                         int storage_val = int(each_armor->storage);
                         if (storage_val > 0) {
                             wprintz(w_arrangement, c_ltgray, " [%d]", storage_val);
                         }
+
+                        // Item Encumbrance Value
                         mvwprintz(w_arrangement, pos, arrangement_w - 2, c_ltgray, "%d",
                                   (it->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1)
                                   : int(each_armor->encumber));
@@ -203,11 +217,26 @@ void player::sort_armor()
             }
         }
 
-        // arrangement footer
-        if (arrangementListSize > content_h - 2) {
-            mvwprintz(w_arrangement, content_h - 1, arrangement_w - utf8_width(_("<more>")) - 1,
-                      c_yellow, _("<more>"));
+        // Items stats
+        if (!tmp_worn.empty()) {
+            draw_description_pane(w_description, tmp_worn[obsoleteListIndex]);
+        } else {
+            mvwprintz(w_description, 0, 1, c_white, _("Nothing to see here!"));
         }
+
+        // ScrollBar
+        draw_scrollbar(w_arrangement, arrangementListOffset /*<--temp*/, content_h, arrangementListSize, 0, 0);
+
+        // Scroll-up is available
+        if (arrangementListOffset > 0) {
+            mvwprintz(w_arrangement, content_h - 1, arrangement_w - 6, c_yellow, "^");
+        }
+
+        // Scroll-down is available
+        if (arrangementListSize > content_h - 2) {
+            mvwprintz(w_arrangement, content_h - 1, arrangement_w - 5, c_yellow, "v");
+        }
+
         // F5
         wrefresh(w_title);
         wrefresh(w_obsolete);
@@ -283,8 +312,8 @@ void player::sort_armor()
             selected = -1;
         } else if (action == "NEXT_TAB") {
             arrangementListOffset++;
-            if (arrangementListOffset + content_h - 2 > arrangementListSize) {
-                arrangementListOffset = arrangementListSize - content_h + 2;
+            if (arrangementListOffset + content_h - 1 > arrangementListSize) {
+                arrangementListOffset = arrangementListSize - content_h + 1;
             }
         } else if (action == "PREV_TAB") {
             arrangementListOffset--;
@@ -315,24 +344,37 @@ void player::sort_armor()
                 }
             }
         } else if (action == "HELP") {
+            /* Not enough space in Help window for this:
+\n\
+Indention of name of the item represents the clothing layer: \n\
+>>underwear\n\
+>>>regular layer\n\
+>>>>outerwear\n\
+>>>>>belted layer\n\
+            */
             popup_getkey(_("\
-Use the arrow- or keypad keys to navigate the obsolete list.\n\
+[General Description]: \n\
+Color of the item represents its condition: \
+green color means it's a brand new item, red color - a torn one.\n\
+ \n\
+Order of the items in the list for each bodypart is important: upper in the list means it closer to the body.\n\
+ \n\
+[Keybinding]: \n\
+Use the arrow- or keypad keys to navigate the list of items, use %s / %s to scroll it rapidly. \n\
 Press %s to select highlighted armor for reordering.\n\
-Use %s / %s to scroll the arrangement list.\n\
 Press %s to assign special inventory letters to clothing.\n\
  \n\
-[Encumbrance and Warmth] explanation:\n\
-The total value of encumbrance is shown in the left part of equation.\n\
-The first component of equation is the encumbrance caused by the number of clothing on that bodypart.\n\
-The second component of equation is the summed encumbrance from all clothing on that bodypart."),
-                         ctxt.get_desc("MOVE_ARMOR").c_str(),
+[Encumbrance]: \n\
+Total value of encumbrance is shown in the left side of equation. \n\
+The first component of equation is the encumbrance caused by the number of clothing on that bodypart, \
+and the second one is the summed encumbrance from all clothing on that bodypart."),
                          ctxt.get_desc("PREV_TAB").c_str(),
                          ctxt.get_desc("NEXT_TAB").c_str(),
+                         ctxt.get_desc("MOVE_ARMOR").c_str(),
                          ctxt.get_desc("ASSIGN_INVLETS").c_str()
                         );
-
             draw_background(w_main, arrangement_w, description_w);
-            wrefresh(w_main);
+
         } else if (action == "QUIT") {
             sorting = false;
         }
@@ -376,18 +418,27 @@ void draw_background(WINDOW *w, int sort_w, int desc_w)
 void draw_description_pane(WINDOW *w_description, item *worn_item)
 {
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
-    mvwprintz(w_description, 0, 1, c_white, each_armor->nname(1).c_str());
+
+    // Item Name
+    mvwprintz(w_description, 0, 1, dam_color[int(worn_item->damage + 1)], each_armor->nname(1).c_str());
+
+    // Layer
+    mvwprintz(w_description, 1, 2, c_white, worn_item->clothing_lvl_description(true).c_str());
+
     int description_w = getmaxx(w_description);
-    std::vector<std::string> props = clothing_properties(worn_item, description_w - 3);
     size_t i;
+
+    // Item Properties List
+    std::vector<std::string> props = clothing_properties(worn_item, description_w - 3);
     for (i = 0; i < props.size(); ++i) {
-        mvwprintz(w_description, i + 1, 2, c_ltgray, props[i].c_str());
+        mvwprintz(w_description, i + 3, 2, c_ltgray, props[i].c_str());
     }
 
-    i += 2;
+    i += 4;
     i += fold_and_print(w_description, i, 0, description_w, c_ltblue,
                         "%s", clothing_layer(worn_item).c_str());
 
+    // Item Description (based on flags)
     std::vector<std::string> desc = clothing_flags_description(worn_item);
     if (!desc.empty()) {
         for (size_t j = 0; j < desc.size(); ++j) {
