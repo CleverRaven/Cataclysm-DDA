@@ -135,17 +135,9 @@ void player::sort_armor()
             }
         }
 
-/*        // Last Night Changes, vector of arr. list indexes full of obsoleteListIndexes
-        for (int cover = 0; cover < num_bp; cover++) {
-            for (int ijk = 0; ijk < obsoleteListSize; ijk++) {
-                if (tmp_worn[ijk]->covers.test(bp_order[cover])) {
-                    arrangeList.push_back(ijk);
-                }
-            }
-        }
-*/
 
         tmp_arr.clear();
+
         // arrangement list
         arrangementListSize = 0;
         for (int cover = 0, pos = 0; cover < num_bp; cover++) {
@@ -387,7 +379,7 @@ and the second one is the summed encumbrance from all clothing on that bodypart.
     delwin(w_main);
 }
 
-void draw_background(WINDOW *w, int sort_w, int desc_w)
+void draw_background(WINDOW *w, int sort_w)
 {
     int win_w = getmaxx(w);
     int win_h = getmaxy(w);
