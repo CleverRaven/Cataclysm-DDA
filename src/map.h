@@ -356,6 +356,13 @@ class map
  bool has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain or furniture
  bool has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const; // checks terrain and furniture
 
+ /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at x,y */
+ bool is_bashable(const int x, const int y);
+ /** Returns true if the furniture or terrain at x,y is bashable */
+ bool is_bashable_ter_furn(const int x, const int y);
+ /** Returns max_str of the furniture or terrain at x,y */
+ int bash_strength(const int x, const int y);
+ 
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
  bool is_divable(const int x, const int y);

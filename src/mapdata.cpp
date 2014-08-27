@@ -109,7 +109,6 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         str_max_roll = j.get_int("str_min_roll", str_max);
         
         explosive = j.get_int("explosive", -1);
-        chance = j.get_int("chance", -1);
         
         sound = j.get_string("sound", _("smash!"));
         sound_fail = j.get_string("sound_fail", _("thump!"));

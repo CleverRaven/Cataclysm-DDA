@@ -1335,6 +1335,50 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
 }
 
 /////
+bool map::is_bashable(const int x, const int y)
+{
+    if (veh_in_active_range && veh_exists_at[x][y]) {
+        std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
+        if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
+            const int vpart = it->second.second;
+            vehicle *veh = it->second.first;
+            if (veh->parts[vpart].hp > 0 && // if there's a vehicle part here...
+                veh->part_with_feature (vpart, VPFLAG_OBSTACLE) >= 0) {// & it is obstacle...
+                const int p = veh->part_with_feature (vpart, VPFLAG_OPENABLE);
+                if (p < 0 || !veh->parts[p].open) { // and not open door
+                    return true;
+                }
+            }
+        }
+    }
+    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
+        return true;
+    } else if ( ter_at(x, y).bash.str_max != -1 ) {
+        return true;
+    }
+    return false;
+}
+
+bool map::is_bashable_ter_furn(const int x, const int y)
+{
+    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
+        return true;
+    } else if ( ter_at(x, y).bash.str_max != -1 ) {
+        return true;
+    }
+    return false;
+}
+
+int map::bash_strength(const int x, const int y)
+{
+    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
+        return furn_at(x, y).bash.str_max;
+    } else if ( ter_at(x, y).bash.str_max != -1 ) {
+        return ter_at(x, y).bash.str_max;
+    }
+    return -1;
+}
+
 bool map::is_destructable(const int x, const int y)
 {
  return has_flag("BASHABLE", x, y) || move_cost(x, y) == 0;
@@ -1639,23 +1683,20 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
         }
 
         if ( bash != NULL && bash->str_min != -1 ) {
-            success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
             int smin = bash->str_min;
             int smax = bash->str_max;
-            if ( success == true ) {
-                if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
-                    if( has_adjacent_furniture(x, y) ) {
-                        if ( bash->str_min_blocked != -1 ) {
-                            smin = bash->str_min_blocked;
-                        }
-                        if ( bash->str_max_blocked != -1 ) {
-                            smax = bash->str_max_blocked;
-                        }
+            if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
+                if( has_adjacent_furniture(x, y) ) {
+                    if ( bash->str_min_blocked != -1 ) {
+                        smin = bash->str_min_blocked;
+                    }
+                    if ( bash->str_max_blocked != -1 ) {
+                        smax = bash->str_max_blocked;
                     }
                 }
-                if ( str < smin || str < rng(bash->str_min_roll, bash->str_max_roll)) {
-                    success = false;
-                }
+            }
+            if ( str >= smin && str >= rng(bash->str_min_roll, bash->str_max_roll)) {
+                success = true;
             }
             
             if (success || destroy) {
@@ -1702,7 +1743,6 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                     collapse_at(x, y);
                 }
                 smashed_something = true;
-                success = true;
             } else {
                 sound_volume = 12;
                 sound = _(bash->sound_fail.c_str());
