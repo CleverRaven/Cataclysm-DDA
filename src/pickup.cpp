@@ -282,7 +282,8 @@ void Pickup::pick_up(int posx, int posy, int min)
             here.clear();
         }
 
-        if (OPTIONS["AUTO_PICKUP_ADJACENT"]) {
+        // Recursively pick up adjacent items if that option is on.
+        if( OPTIONS["AUTO_PICKUP_ADJACENT"] && g->u.posx == posx && g->u.posy == posy ) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
             for (int i = 0; i < 8; i++) {
@@ -298,12 +299,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 if( g->checkZone( "NO_AUTO_PICKUP", apos.x, apos.y ) ) {
                     continue;
                 }
-                const std::vector<item> &hereTemp = g->m.i_at( apos.x, apos.y );
-
-                for (auto &j : hereTemp) {
-                    vItemDir.push_back(adjacentDir[i]);
-                    here.push_back(j);
-                }
+                pick_up( apos.x, apos.y, min );
             }
         }
     }
