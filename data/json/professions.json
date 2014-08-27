@@ -309,6 +309,42 @@
     },
     {
         "type": "profession",
+        "ident": "basketball_player",
+        "name": "Basketball Player",
+        "description": "It was going to be your first major game, but then the cataclysm struck. Creatures unlike anything you've seen before, began attacking the attending crowd and only a handful of people managed to escape the carnage. Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodging"
+            },
+            {
+                "level": 3,
+                "name": "throwing"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "tank_top",
+		"jersey",
+                "b_shorts",
+                "socks",
+                "sneakers",
+                "basketball",
+ 		"sports_drink"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "cyclist",
         "name": "Professional Cyclist",
         "description": "You were a promising young cyclist with a bright career in front of you before this all happened.  Perhaps you'll never get to participate in the grand tours now, but as the saying goes: Life is like riding a bicycle, you got to keep moving.",
