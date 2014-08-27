@@ -1719,6 +1719,8 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                 
                 sound_volume = std::min(int(smin * 1.5), smax);
                 sound = _(bash->sound.c_str());
+                // Set this now in case the ter_set below changes this
+                bool collapses = has_flag("COLLAPSES", x, y);
                 if (smash_furn == true) {
                     furn_set(x, y, bash->furn_set);
                     // Hack alert.
@@ -1739,7 +1741,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                     g->explosion(x, y, bash->explosive, 0, false);
                 }
                 
-                if (has_flag("COLLAPSES", x, y)) {
+                if (collapses) {
                     collapse_at(x, y);
                 }
                 smashed_something = true;
