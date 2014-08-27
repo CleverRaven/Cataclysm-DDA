@@ -7308,12 +7308,10 @@ int player::butcher_factor() const
 {
     int lowest_factor = INT_MAX;
     if (has_bionic("bio_tools")) {
-        lowest_factor = 100;
+        item tmp( "toolset", 0 );
+        lowest_factor = tmp.butcher_factor();
     }
-    int inv_factor = inv.butcher_factor();
-    if (inv_factor < lowest_factor) {
-        lowest_factor = inv_factor;
-    }
+    lowest_factor = std::min( lowest_factor, inv.butcher_factor() );
     lowest_factor = std::min(lowest_factor, weapon.butcher_factor());
     for (std::vector<item>::const_iterator a = worn.begin(); a != worn.end(); ++a) {
         lowest_factor = std::min(lowest_factor, a->butcher_factor());

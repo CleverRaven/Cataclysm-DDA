@@ -3487,17 +3487,14 @@ int item::max_charges_from_flag(std::string flagName)
 
 int item::butcher_factor() const
 {
+    static const std::string BUTCHER_QUALITY_ID( "BUTCHER" );
+    const auto it = type->qualities.find( BUTCHER_QUALITY_ID );
+    if( it != type->qualities.end() ) {
+        return it->second;
+    }
     int butcher_factor = INT_MAX;
-    if (has_quality("CUT") && !has_flag("SPEAR")) {
-        int butcher_factor = volume() * 5 - weight() / 75 - damage_cut();
-        if (damage_cut() <= 20) {
-            butcher_factor *= 2;
-        }
-        return butcher_factor;
-    } else {
-        for(std::vector<item>::const_iterator a = contents.begin(); a != contents.end(); ++a) {
-            butcher_factor = std::min(butcher_factor, a->butcher_factor());
-        }
+    for( auto &itm : contents ) {
+        butcher_factor = std::min( butcher_factor, itm.butcher_factor() );
     }
     return butcher_factor;
 }

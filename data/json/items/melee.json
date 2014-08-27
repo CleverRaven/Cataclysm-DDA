@@ -686,7 +686,7 @@
     "flags" : ["DURABLE_MELEE","CHOP"],
     "to_hit": 1,
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1]]
+    "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", -16]]
   },
 
   {
@@ -2638,7 +2638,7 @@
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
         "price" : 0,
-        "qualities": [["CUT", 1]]
+        "qualities": [["CUT", 1], ["BUTCHER", -12]]
     },
     {
         "type":"GENERIC",
@@ -2656,7 +2656,7 @@
         "cutting" : 36,
         "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
         "price" : 0,
-        "qualities": [["CUT", 1]]
+        "qualities": [["CUT", 1], ["BUTCHER", -22]]
     },
     {
         "type":"GENERIC",
@@ -2673,7 +2673,7 @@
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE"],
         "price" : 10000,
-        "qualities": [["CUT", 1]]
+        "qualities": [["CUT", 1], ["BUTCHER", -14]]
     },
     {
         "type":"GENERIC",
@@ -2691,7 +2691,7 @@
         "cutting" : 6,
         "flags" : ["SLICE", "UNARMED_WEAPON", "DURABLE_MELEE"],
         "price" : 20000,
-        "qualities": [["CUT", 1]]
+        "qualities": [["CUT", 1], ["BUTCHER", -14]]
     },
   {
     "type":"GENERIC",
