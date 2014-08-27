@@ -472,14 +472,18 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     props.push_back(name_and_value(_("Encumbrance:"), string_format("%3d",
                                    (worn_item->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1) :
                                    int(each_armor->encumber)), width));
-    props.push_back(name_and_value(_("Bash Protection:"),
-                                   string_format("%3d", int(worn_item->bash_resist())), width));
-    props.push_back(name_and_value(_("Cut Protection:"),
-                                   string_format("%3d", int(worn_item->cut_resist())), width));
     props.push_back(name_and_value(_("Warmth:"),
                                    string_format("%3d", int(each_armor->warmth)), width));
     props.push_back(name_and_value(_("Storage:"),
                                    string_format("%3d", int(each_armor->storage)), width));
+    props.push_back("");
+    props.push_back("Protection:");
+    props.push_back(name_and_value(_(" - Bash:"),
+                                   string_format("%3d", int(worn_item->bash_resist())), width));
+    props.push_back(name_and_value(_(" - Cut:"),
+                                   string_format("%3d", int(worn_item->cut_resist())), width));
+    props.push_back(name_and_value(_(" - Environmental:"),
+                                   string_format("%3d", int(each_armor->env_resist)), width));
 
     return props;
 }
