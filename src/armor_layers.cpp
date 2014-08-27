@@ -46,7 +46,7 @@ void player::sort_armor()
     int content_h   = win_h - 6;
     int obsolete_w   = 8;
     int arrangement_w  = (win_w - 3) * 3 / 5;
-    int description_w = (win_w - 4) - obsolete_w - arrangement_w;
+    int description_w = (win_w - 3) - obsolete_w - arrangement_w;
 
     int tabindex = num_bp;
     int tabcount = num_bp + 1;
@@ -73,7 +73,7 @@ void player::sort_armor()
 
     // Layout window
     WINDOW *w_main = newwin(win_h, win_w, win_y, win_x);
-    draw_background(w_main, arrangement_w, description_w);
+    draw_background(w_main, arrangement_w);
 
     // Subwindows (between lines)
     WINDOW *w_title       = newwin(1, win_w - 4, win_y + 1, win_x + 2);
@@ -365,7 +365,7 @@ and the second one is the summed encumbrance from all clothing on that bodypart.
                          ctxt.get_desc("MOVE_ARMOR").c_str(),
                          ctxt.get_desc("ASSIGN_INVLETS").c_str()
                         );
-            draw_background(w_main, arrangement_w, description_w);
+            draw_background(w_main, arrangement_w);
 
         } else if (action == "QUIT") {
             sorting = false;
