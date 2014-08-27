@@ -840,7 +840,32 @@
         "coverage" : 40,
         "material_thickness" : 2
     },
-        {
+    {
+        "type" : "ARMOR",
+        "id" : "b_shorts",
+        "name" : "basketball shorts",
+        "name_plural" : "basketball shorts",
+        "weight" : 190,
+        "color" : "cyan",
+        "covers" : ["LEGS"],
+        "to_hit" : 1,
+        "storage" : 4,
+        "symbol" : "[",
+        "description" : "A pair of basketball shorts. Comfortable and light.",
+        "price" : 1300,
+        "material" : ["cotton", "null"],
+        "volume" : 4,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -4,
+        "flags" : ["VARSIZE"],
+        "coverage" : 50,
+        "material_thickness" : 1
+    },
+    {
         "type" : "ARMOR",
         "id" : "postman_shorts",
         "name" : "mail carrier shorts",
