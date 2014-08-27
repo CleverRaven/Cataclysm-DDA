@@ -282,7 +282,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                             picked_up = true;
                         }
                     } else if ( g->u.weapon.type->id != newit.type->id
-                            && query_yn(_("Drop your %s and pick up %s?"),
+                            && query_yn(_("No space for %s; wield it instead? (drops %s)"),
                                         g->u.weapon.display_name().c_str(),
                                         newit.display_name().c_str()) ) {
                         picked_up = true;
@@ -714,9 +714,9 @@ void Pickup::pick_up(int posx, int posy, int min)
                             }
                         } else if (!offered_swap) {
                             if ( g->u.weapon.type->id != here[i].type->id
-                                    && query_yn(_("Drop your %s and pick up %s?"),
-                                            g->u.weapon.display_name().c_str(),
-                                            here[i].display_name().c_str()) ) {
+                                    && query_yn(_("No space for %s; wield it instead? (drops %s)"),
+                                         g->u.weapon.display_name().c_str(),
+                                         here[i].display_name().c_str()) ) {
                                 picked_up = true;
                                 g->m.add_item_or_charges(posx, posy, g->u.remove_weapon(), 1);
                                 g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
