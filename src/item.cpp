@@ -3492,9 +3492,9 @@ int item::butcher_factor() const
     if( it != type->qualities.end() ) {
         return it->second;
     }
-    int butcher_factor = INT_MAX;
+    int butcher_factor = INT_MIN;
     for( auto &itm : contents ) {
-        butcher_factor = std::min( butcher_factor, itm.butcher_factor() );
+        butcher_factor = std::max( butcher_factor, itm.butcher_factor() );
     }
     return butcher_factor;
 }
