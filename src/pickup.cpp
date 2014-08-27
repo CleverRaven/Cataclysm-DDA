@@ -268,14 +268,8 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     // which items are we grabbing?
-    std::vector<item> here = pickup_obj.from_veh ? veh->parts[cargo_part].items : g->m.i_at(posx, posy);
-    std::vector<direction> vItemDir;
-    std::map<direction, int> vItemIndex;
-
-    vItemIndex[CENTER] = 0;
-    for (size_t i = 0; i < here.size(); ++i) {
-        vItemDir.push_back(CENTER);
-    }
+    std::vector<item> here = (pickup_obj.from_veh) ?
+        veh->parts[cargo_part].items : g->m.i_at(posx, posy);
 
     if (min == -1) {
         if (g->checkZone("NO_AUTO_PICKUP", posx, posy)) {
@@ -287,7 +281,6 @@ void Pickup::pick_up(int posx, int posy, int min)
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
             for (int i = 0; i < 8; i++) {
-                vItemIndex[adjacentDir[i]] = 0;
 
                 point apos = direction_XY(adjacentDir[i]);
                 apos.x += posx;
@@ -675,9 +668,9 @@ void Pickup::pick_up(int posx, int posy, int min)
     bool got_water = false; // Did we try to pick up water?
     bool offered_swap = false;
     std::map<std::string, int> mapPickup;
+    int offset = 0;
 
     for (size_t i = 0; i < here.size(); i++) {
-        const direction dirThisItem = vItemDir[i];
 
         if (getitem[i] && here[i].made_of(LIQUID)) {
             got_water = true;
@@ -754,7 +747,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                 } else {
                     g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                     g->u.wield(&(g->u.i_add(here[i])));
-                    add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet, g->u.weapon.display_name().c_str());
+                    add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet,
+                            g->u.weapon.display_name().c_str());
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
@@ -767,7 +761,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         g->u.is_suitable_weapon(here[i]))) {
                 g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                 g->u.weapon = here[i];
-                add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet, g->u.weapon.display_name().c_str());
+                add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet,
+                        g->u.weapon.display_name().c_str());
                 picked_up = true;
             } else {
                 g->u.i_add(here[i]);
@@ -776,10 +771,9 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
 
             if (picked_up) {
-                point pairDir = direction_XY(dirThisItem);
-                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.x, posy + pairDir.y, veh, cargo_part,
-                                                      moves_taken, vItemIndex[dirThisItem]);
-                vItemIndex[dirThisItem]--;
+                pickup_obj.remove_from_map_or_vehicle(posx, posy, veh, cargo_part,
+                                                      moves_taken, offset);
+                offset--;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !pickup_obj.from_veh;
 
@@ -792,7 +786,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
             }
         }
-        vItemIndex[dirThisItem]++;
+        offset++;
     }
 
     // Auto pickup item message
