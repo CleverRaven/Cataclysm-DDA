@@ -1845,7 +1845,7 @@
         ],
         "examine_action": "shrub_wildveggies",
         "bash": {
-            "str_min": 4, "str_max": 30, "chance": 75,
+            "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
             "ter_set": "t_dirt"
@@ -1861,7 +1861,7 @@
             "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB"
         ],
         "bash": {
-            "str_min": 4, "str_max": 60, "chance": 75,
+            "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "brush.",
             "ter_set": "t_underbrush"
@@ -1878,7 +1878,7 @@
         ],
         "examine_action": "shrub_blueberry",
         "bash": {
-            "str_min": 4, "str_max": 60, "chance": 75,
+            "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "brush.",
             "ter_set": "t_underbrush"
@@ -1895,7 +1895,7 @@
         ],
         "examine_action": "shrub_strawberry",
         "bash": {
-            "str_min": 4, "str_max": 60, "chance": 75,
+            "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "brush.",
             "ter_set": "t_underbrush"
@@ -2185,7 +2185,7 @@
         "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "FUNGUS", "SHRUB"],
         "examine_action": "shrub_marloss",
         "bash": {
-            "str_min": 4, "str_max": 60, "chance": 75,
+            "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "poof!",
             "ter_set": "t_fungus"
@@ -2294,7 +2294,7 @@
             "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS"
         ],
         "bash": {
-            "str_min": 4, "str_max": 60, "chance": 75,
+            "str_min": 4, "str_max": 60,
             "sound": "crunch.",
             "sound_fail": "poof!",
             "ter_set": "t_fungus"

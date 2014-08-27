@@ -29,9 +29,7 @@ enum veh_coll_type {
  veh_coll_nothing = 0,
  veh_coll_body,
  veh_coll_veh,
- veh_coll_thin_obstacle,
  veh_coll_bashable,
- veh_coll_destructable,
  veh_coll_other,
 
  num_veh_coll_types
