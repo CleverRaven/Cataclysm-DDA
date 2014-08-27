@@ -851,7 +851,7 @@
         "to_hit" : 1,
         "storage" : 4,
         "symbol" : "[",
-        "description" : "A pair of basketball shorts. Worn by athletes and thugs alike.",
+        "description" : "A pair of basketball shorts. Comfortable and light.",
         "price" : 1300,
         "material" : ["cotton", "null"],
         "volume" : 4,
