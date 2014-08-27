@@ -2067,8 +2067,8 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "fencing_hood",
-        "name" : "fencing hood",
+        "id" : "fencing_mask",
+        "name" : "fencing mask",
         "weight" : 520,
         "color" : "dark_gray",
         "covers" : ["HEAD", "MOUTH", "EYES"],
