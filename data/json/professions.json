@@ -316,11 +316,11 @@
         "skills": [
             {
                 "level": 2,
-                "name": "dodging"
+                "name": "dodge"
             },
             {
                 "level": 3,
-                "name": "throwing"
+                "name": "throw"
             }
         ],
 
