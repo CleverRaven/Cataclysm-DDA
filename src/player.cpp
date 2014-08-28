@@ -7935,8 +7935,15 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
-    if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat") && (!has_bionic("bio_digestion")) && !is_npc() &&
+    if (has_trait("ANTIWHEAT") && eaten->made_of("wheat") &&
+        (!has_bionic("bio_digestion")) && !is_npc() &&
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        return false;
+    }
+    if (has_trait("CARNIVORE") && !(eaten->made_of("flesh") || eaten->made_of("hflesh") ||
+        eaten->made_of("iflesh") || eaten->made_of("milk")) &&
+        (!has_bionic("bio_digestion")) && !is_npc() &&
+        !query_yn(_("Really eat that %s? It smells dry, tasteless, and inedible."), eaten->tname().c_str()) ) {
         return false;
     }
     if ((has_trait("SAPROPHAGE") && (!spoiled) && (!has_bionic("bio_digestion")) && !is_npc() &&
@@ -8164,9 +8171,15 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg_if_player(m_bad, _("Yuck! How can anybody eat this stuff?"));
         add_morale(MORALE_ANTIJUNK, -75, -400, 300, 240);
     }
-    if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat")) {
+    if (has_trait("ANTIWHEAT") && eaten->made_of("wheat")) {
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
+    } // Carnivores can handle partial-meat items, for example eating the meat & cheese
+      // off the pizza or slurping out the burrito.
+    if (has_trait("CARNIVORE") && !(eaten->made_of("flesh") || eaten->made_of("hflesh") ||
+      eaten->made_of("iflesh") || eaten->made_of("milk")) ) {
+        add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
+        add_morale(MORALE_NO_DIGEST, -75, -400, 300, 240);
     }
     if (has_trait("SAPROPHAGE") && !(spoiled)) {
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
