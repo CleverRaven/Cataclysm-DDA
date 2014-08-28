@@ -7,7 +7,7 @@
 #define START_COLUMN 1
 
 live_view::live_view() : compact_view(false), w_live_view(NULL),
-                         enabled(false), inuse(false), last_height(-1)
+    enabled(false), inuse(false), last_height(-1)
 {
 
 }
@@ -38,7 +38,7 @@ void live_view::show(const int x, const int y)
 
     bool did_hide = hide(false); // Clear window if it's visible
 
-    if (!g->u_see(x,y)) {
+    if (!g->u_see(x, y)) {
         if (did_hide) {
             wrefresh(w_live_view);
         }
@@ -55,7 +55,8 @@ void live_view::show(const int x, const int y)
 
     if (m.can_put_items(x, y) && m.sees_some_items(x, y, g->u)) {
         if(g->u.has_effect("blind")) {
-            mvwprintz(w_live_view, line++, START_COLUMN, c_yellow, _("There's something here, but you can't see what it is."));
+            mvwprintz(w_live_view, line++, START_COLUMN, c_yellow,
+                      _("There's something here, but you can't see what it is."));
         } else {
             print_items(m.i_at(x, y), line);
         }
@@ -128,7 +129,7 @@ void live_view::print_items(std::vector<item> &items, int &line) const
     }
 
     int last_line = height - START_LINE - 1;
-    bool will_overflow = line-1 + (ssize_t)item_names.size() > last_line;
+    bool will_overflow = line - 1 + (int)item_names.size() > last_line;
 
     for (std::map<std::string, int>::iterator it = item_names.begin();
          it != item_names.end() && (!will_overflow || line < last_line); it++) {

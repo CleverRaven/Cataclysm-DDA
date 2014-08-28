@@ -9,12 +9,12 @@
 #include "debug.h"
 #include "map.h"
 #include "output.h"
-#include "item_factory.h"
 #include "artifact.h"
 #include "mission.h"
 #include "faction.h"
 #include "overmapbuffer.h"
 #include "trap.h"
+#include "messages.h"
 #include "mapdata.h"
 #include "translations.h"
 #include <map>
@@ -27,6 +27,7 @@
 #include <vector>
 #include "debug.h"
 #include "weather.h"
+#include "mapsharing.h"
 
 #include "savegame.h"
 #include "tile_id_data.h"
@@ -35,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 17;
+const int savegame_version = 21;
 const int savegame_minver_game = 11;
 
 /*
@@ -46,15 +47,10 @@ const int savegame_minver_game = 11;
 int savegame_loading_version = savegame_version;
 
 ////////////////////////////////////////////////////////////////////////////////////////
-///// on runtime populate lookup tables. This is temporary: monster_ints
-std::map<std::string, int> monster_ints;
+///// on runtime populate lookup tables.
 std::map<std::string, int> obj_type_id;
 
 void game::init_savedata_translation_tables() {
-    monster_ints.clear();
-    for(int i=0; i < num_monsters; i++) {
-        monster_ints[ monster_names[i] ] = i;
-    }
     obj_type_id.clear();
     for(int i = 0; i < NUM_OBJECTS; i++) {
         obj_type_id[ obj_type_name[i] ] = i;
@@ -78,14 +74,10 @@ void game::serialize(std::ofstream & fout) {
 
         json.start_object();
         // basic game state information.
-        json.member( "turn", (int)turn );
+        json.member("turn", (int)calendar::turn);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)run_mode );
         json.member( "mostseen", mostseen );
-        json.member( "nextinv", (int)nextinv );
-        json.member( "next_npc_id", next_npc_id );
-        json.member( "next_faction_id", next_faction_id );
-        json.member( "next_mission_id", next_mission_id );
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
         json.member( "levx", levx );
@@ -129,6 +121,7 @@ void game::serialize(std::ofstream & fout) {
         json.end_object();
 
         json.member( "player", u );
+        Messages::serialize( json );
 
         json.end_object();
 }
@@ -192,7 +185,7 @@ void game::unserialize(std::ifstream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
+    int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -201,11 +194,6 @@ void game::unserialize(std::ifstream & fin)
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
-        data.read("nextinv", tmpinv);
-        nextinv = (char)tmpinv;
-        data.read("next_npc_id", next_npc_id);
-        data.read("next_faction_id", next_faction_id);
-        data.read("next_mission_id", next_mission_id);
         data.read("nextspawn",tmpspawn);
         data.read("levx",levx);
         data.read("levy",levy);
@@ -213,11 +201,11 @@ void game::unserialize(std::ifstream & fin)
         data.read("om_x",comx);
         data.read("om_y",comy);
 
-        turn = tmpturn;
+        calendar::turn = tmpturn;
         nextspawn = tmpspawn;
 
         cur_om = &overmap_buffer.get(comx, comy);
-        m.load(levx, levy, levz);
+        m.load(levx, levy, levz, true, cur_om);
 
         run_mode = tmprun;
         if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -250,7 +238,6 @@ void game::unserialize(std::ifstream & fin)
         while (vdata.has_more()) {
             monster montmp;
             vdata.read_next(montmp);
-            montmp.setkeep(true);
             add_zombie(montmp);
         }
 
@@ -270,6 +257,7 @@ void game::unserialize(std::ifstream & fin)
         }
 
         data.read("player", u);
+        Messages::deserialize( data );
 
     } catch (std::string jsonerr) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );
@@ -295,51 +283,24 @@ void game::load_weather(std::ifstream & fin) {
    if (fin.peek() == 'l') {
        std::string line;
        getline(fin, line);
-       lightning_active = ((*line.end()) == '1');
+       lightning_active = (line.compare("lightning: 1") == 0);
    } else {
        lightning_active = false;
    }
-
-     while(!fin.eof()) {
-        std::string data;
-        getline(fin, data);
-
-        std::stringstream wl;
-        wl.str(data);
-        int inturn, intemp, inweather, inzone;
-        wl >> inturn >> intemp >> inweather >> inzone;
-        weather_segment wtm;
-        wtm.weather = (weather_type)inweather;
-        wtm.temperature = intemp;
-        wtm.deadline = inturn;
-        if ( inzone == 0 ) {
-           weather_log[inturn] = wtm;
-        } else {
-           debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
-        }
-     }
-    std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(turn));
-    if ( w_it != weather_log.end() ) {
-        // lower_bound returns the smallest key, that
-        // is >= turn. (The key in that map is the deadline
-        // of the weather segment.) That is the current weather.
-        weather_segment cur = w_it->second;
-        weather = cur.weather;
-        temperature = cur.temperature;
-        nextweather = cur.deadline;
+    if (fin.peek() == 's') {
+        std::string line, label;
+        getline(fin, line);
+        int seed(0);
+        std::stringstream liness(line);
+        liness >> label >> seed;
+        weatherSeed = seed;
     }
 }
 
 void game::save_weather(std::ofstream & fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    const int climatezone = 0;
-    for( std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it ) {
-      fout << it->first
-        << " " << int(it->second.temperature)
-        << " " << it->second.weather
-        << " " << climatezone << std::endl;
-    }
+    fout << "seed: " << weatherSeed;
 }
 ///// overmap
 void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
@@ -382,11 +343,17 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
                             fin >> tmp_ter >> count;
-                            if (otermap.find(tmp_ter) == otermap.end()) {
+                            if( otermap.count( tmp_ter ) > 0 ) {
+                                tmp_otid = tmp_ter;
+                            } else if( tmp_ter.compare( 0, 7, "mall_a_" ) == 0 &&
+                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
+                                tmp_otid = tmp_ter + "_north";
+                            } else if( tmp_ter.compare( 0, 13, "necropolis_a_" ) == 0 &&
+                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
+                                tmp_otid = tmp_ter + "_north";
+                            } else {
                                 debugmsg("Loaded bad ter!  %s; ter %s", terfilename.c_str(), tmp_ter.c_str());
                                 tmp_otid = 0;
-                            } else {
-                                tmp_otid = tmp_ter;
                             }
                         }
                         count--;
@@ -408,13 +375,27 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             ty = 0;
             intr = 0;
             buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
-            zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
-            zg.back().diffuse = cd;
-            zg.back().dying = cdying;
-            zg.back().horde = horde;
-            zg.back().set_target(tx,ty);
-            zg.back().interest=intr;
+            mongroup mg( cstr, cx, cy, cz, cs, cp );
+            // Bugfix for old saves: population of 2147483647 is far too much and will
+            // crash the game. This specific number was caused by a bug in
+            // overmap::add_mon_group.
+            if( mg.population == 2147483647ul ) {
+                mg.population = rng( 1, 10 );
+            }
+            mg.diffuse = cd;
+            mg.dying = cdying;
+            mg.horde = horde;
+            mg.set_target( tx, ty );
+            mg.interest = intr;
+            add_mon_group( mg );
             nummg++;
+        } else if( datatype == 'M' ) {
+            monster_data mdata;
+            fin >> mdata.x >> mdata.y >> mdata.z;
+            std::string data;
+            getline( fin, data );
+            mdata.mon.deserialize( data );
+            monsters.push_back( std::move( mdata ) );
         } else if (datatype == 't') { // City
             fin >> cx >> cy >> cs;
             tmp.x = cx; tmp.y = cy; tmp.s = cs;
@@ -561,17 +542,12 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 }
 
 // Note: this may throw io errors from std::ofstream
-void overmap::save()
+void overmap::save() const
 {
-    if (layer == NULL) {
-        debugmsg("Tried to save a null overmap");
-        return;
-    }
-
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
-    std::string const plrfilename = player_filename(loc.x, loc.y);
-    std::string const terfilename = terrain_filename(loc.x, loc.y);
+    std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
+    std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
 
     // Player specific data
     fout.open(plrfilename.c_str());
@@ -600,15 +576,17 @@ void overmap::save()
         fout << count;
         fout << std::endl;
 
-        for (int i = 0; i < layer[z].notes.size(); i++) {
-            fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " <<
-                layer[z].notes[i].num << std::endl << layer[z].notes[i].text << std::endl;
+        for (auto &i : layer[z].notes) {
+            fout << "N " << i.x << " " << i.y << " " << i.num << std::endl << i.text << std::endl;
         }
     }
     fout.close();
 
     // World terrain data
-    fout.open(terfilename.c_str(), std::ios_base::trunc);
+    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
+    if(!fout.is_open()) {
+        return;
+    }
     fout << "# version " << savegame_version << std::endl;
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
@@ -644,18 +622,24 @@ void overmap::save()
     }
     fout << std::endl;
 
-    for (int i = 0; i < zg.size(); i++)
-        fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<
-            zg[i].posz << " " << int(zg[i].radius) << " " << zg[i].population << " " <<
-            zg[i].diffuse << " " << zg[i].dying << " " <<
-            zg[i].horde << " " << zg[i].tx << " " << zg[i].ty << " " << zg[i].interest << std::endl;
-    for (int i = 0; i < cities.size(); i++)
-        fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s << std::endl;
-    for (int i = 0; i < roads_out.size(); i++)
-        fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
-    for (int i = 0; i < radios.size(); i++)
-        fout << "T " << radios[i].x << " " << radios[i].y << " " << radios[i].strength <<
-            " " << radios[i].type << " " << std::endl << radios[i].message << std::endl;
+    for( auto &mgv : zg ) {
+        auto &mg = mgv.second;
+        fout << "Z " << mg.type << " " << mg.posx << " " << mg.posy << " " <<
+            mg.posz << " " << int(mg.radius) << " " << mg.population << " " <<
+            mg.diffuse << " " << mg.dying << " " <<
+            mg.horde << " " << mg.tx << " " << mg.ty << " " << mg.interest << std::endl;
+    }
+    for (auto &i : cities)
+        fout << "t " << i.x << " " << i.y << " " << i.s << std::endl;
+    for (auto &i : roads_out)
+        fout << "R " << i.x << " " << i.y << std::endl;
+    for (auto &i : radios)
+        fout << "T " << i.x << " " << i.y << " " << i.strength <<
+            " " << i.type << " " << std::endl << i.message << std::endl;
+
+    for( const auto &mdata : monsters ) {
+        fout << "M " << mdata.x << " " << mdata.y << " " << mdata.z << " " << mdata.mon.serialize() << std::endl;
+    }
 
     // store tracked vehicle locations and names
     for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
@@ -667,10 +651,10 @@ void overmap::save()
     }
 
     //saving the npcs
-    for (int i = 0; i < npcs.size(); i++)
-        fout << "n " << npcs[i]->save_info() << std::endl;
+    for (auto &i : npcs)
+        fout << "n " << i->save_info() << std::endl;
 
-    fout.close();
+    fclose_exclusive(fout, terfilename.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -737,15 +721,15 @@ void game::serialize_master(std::ofstream &fout) {
 
         json.member("active_missions");
         json.start_array();
-        for (int i = 0; i < active_missions.size(); ++i) {
-            active_missions[i].serialize(json);
+        for (auto &i : active_missions) {
+            i.serialize(json);
         }
         json.end_array();
 
         json.member("factions");
         json.start_array();
-        for (int i = 0; i < factions.size(); ++i) {
-            factions[i].serialize(json);
+        for (auto &i : factions) {
+            i.serialize(json);
         }
         json.end_array();
 

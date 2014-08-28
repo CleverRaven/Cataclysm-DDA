@@ -8,9 +8,10 @@
 #include "catacharset.h"
 #include "get_version.h"
 #include "help.h"
-#include "options.h"
 #include "worldfactory.h"
 #include "file_wrapper.h"
+#include "path_info.h"
+#include "mapsharing.h"
 
 #include <fstream>
 
@@ -22,8 +23,11 @@
 #include <dirent.h>
 #endif
 
-#define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
+
+static std::vector<std::string> mmenu_motd;
+static std::vector<std::string> mmenu_credits;
 
 void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                       bool bShowDDA)
@@ -52,23 +56,35 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
     const nc_color cColor2 = c_ltblue;
     const nc_color cColor3 = c_ltblue;
 
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "_________            __                   .__                            ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____  ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
-    mvwprintz(w_open, iLine++, iOffsetX1, cColor1, "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "_________            __                   .__                            ");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "\\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____  ");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "/    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\ ");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "\\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              " \\______  /(____  / |__|  (____  / \\___  >|____/ / ____|/____  >|__|_|  /");
+    mvwprintz(w_open, iLine++, iOffsetX1, cColor1,
+              "        \\/      \\/             \\/      \\/        \\/          \\/       \\/ ");
 
     if (bShowDDA) {
         if (FULL_SCREEN_HEIGHT > 24) {
             ++iLine;
         }
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__      ________                           ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  "________                   .__      ________                           ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2,
+                  "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
 
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "  /  _  \\  |  |__    ____  _____     __| _/");
@@ -92,15 +108,18 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
     vMenuItems.push_back(pgettext("Main Menu", "<Q>uit"));
 
     int menu_length = 0;
-    for (int pos = 0; pos < vMenuItems.size(); pos++) {
-        // adds (width + 2) if there are no shortcut symbols "<" & ">", and just width otherwise
-        menu_length += utf8_width(vMenuItems[pos].c_str()) +
-                       (vMenuItems[pos].find_first_of("<") == std::string::npos ? 2 : 0);
+    for( auto menu_item : vMenuItems ) {
+        // adds width if there are shortcut symbols "<" & ">", and width + 2 otherwise.
+        menu_length += utf8_width(menu_item.c_str()) +
+            (menu_item.find_first_of("<") != std::string::npos ? 0 : 2);
     }
-    int spacing = (window_width - menu_length) / vMenuItems.size() - 1;
-    spacing = (spacing < 1 ? 1 : spacing);
-    const int adj_offset = (window_width - menu_length - spacing * vMenuItems.size() ) / 2 - 1;
-    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX + adj_offset, spacing);
+    // Available free space. -1 width_pos != line_pos. line_pos == width - 1.
+    const int free_space = std::max(0, window_width - menu_length - 1 - iMenuOffsetX);
+    const int spacing = free_space / ((int)vMenuItems.size() - 1);
+    const int width_of_spacing = spacing * (vMenuItems.size() - 1);
+    const int adj_offset = std::max(0, (free_space - width_of_spacing) / 2);
+
+    print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, adj_offset, spacing);
 
     refresh();
     wrefresh(w_open);
@@ -112,7 +131,8 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
 {
     mvwprintz(w_in, iOffsetY, iOffsetX, c_black, "");
 
-    for (int i = 0; i < vItems.size(); i++) {
+    const int items_size = (int)vItems.size();
+    for (int i = 0; i < items_size; i++) {
         wprintz(w_in, c_ltgray, "[");
         if (iSel == i) {
             shortcut_print(w_in, h_white, h_white, vItems[i]);
@@ -120,14 +140,45 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
             shortcut_print(w_in, c_ltgray, c_white, vItems[i]);
         }
         wprintz(w_in, c_ltgray, "]");
-        for (int j = 0; j < spacing; j++) {
-            wprintz(w_in, c_ltgray, " ");
+        // Don't print spaces after last item.
+        if ( i != (items_size - 1)) {
+            wprintz(w_in, c_ltgray, std::string(spacing, ' ').c_str());
         }
     }
 }
 
+std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
+{
+    std::ifstream stream( path.c_str() );
+    std::vector<std::string> result;
+    std::string line;
+    while( std::getline( stream, line ) ) {
+        if( !line.empty() && line[0] == '#' ) {
+            continue;
+        }
+        result.push_back( line );
+    }
+    if( result.empty() ) {
+        result.push_back( alternative_text );
+    }
+    return result;
+}
+
+void game::mmenu_refresh_motd()
+{
+    mmenu_motd = load_file(PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ), _( "No message today." ) );
+}
+
+void game::mmenu_refresh_credits()
+{
+    mmenu_credits = load_file(PATH_INFO::find_translated_file( "creditsdir", ".credits", "credits" ), _( "No message today." ) );
+}
+
 bool game::opening_screen()
 {
+    // Play title music, whoo!
+    play_music("title");
+
     world_generator->set_active_world(NULL);
     // This actually _loads_ what worlds exist.
     world_generator->get_all_worlds();
@@ -158,7 +209,10 @@ bool game::opening_screen()
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
+    if(!MAP_SHARING::isSharing()) { // "Play Now" function doesn't play well together with shared maps
+        vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
+    }
+
 
     std::vector<std::string> vWorldSubItems;
     vWorldSubItems.push_back(pgettext("Main Menu|World", "<C>reate World"));
@@ -171,12 +225,16 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    if (!assure_dir_exist("save")) {
+    if (!assure_dir_exist(FILENAMES["savedir"])) {
         popup(_("Unable to make save directory. Check permissions."));
         return false;
     }
 
-    dir = opendir("data");
+    if (!assure_dir_exist(FILENAMES["templatedir"].c_str())) {
+        popup(_("Unable to make templates directory. Check permissions."));
+        return false;
+    }
+    dir = opendir(FILENAMES["templatedir"].c_str());
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;
         if (tmp.find(".template") != std::string::npos) {
@@ -186,47 +244,17 @@ bool game::opening_screen()
     closedir(dir);
 
     int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
-    InputEvent input;
-    int chInput;
+    input_context ctxt("MAIN_MENU");
+    ctxt.register_cardinal();
+    ctxt.register_action("QUIT");
+    ctxt.register_action("CONFIRM");
+    // for the menu shortcuts
+    ctxt.register_action("ANY_INPUT");
     bool start = false;
 
-    // Load MOTD and store it in a string
-    // Only load it once, it shouldn't change for the duration of the application being open
-    static std::vector<std::string> motd;
-    if (motd.empty()) {
-        std::ifstream motd_file;
-        motd_file.open("data/motd");
-        if (!motd_file.is_open()) {
-            motd.push_back(_("No message today."));
-        } else {
-            while (!motd_file.eof()) {
-                std::string tmp;
-                getline(motd_file, tmp);
-                if (!tmp.length() || tmp[0] != '#') {
-                    motd.push_back(tmp);
-                }
-            }
-        }
-    }
-
-    // Load Credits and store it in a string
-    // Only load it once, it shouldn't change for the duration of the application being open
-    static std::vector<std::string> credits;
-    if (credits.empty()) {
-        std::ifstream credits_file;
-        credits_file.open("data/credits");
-        if (!credits_file.is_open()) {
-            credits.push_back(_("No message today."));
-        } else {
-            while (!credits_file.eof()) {
-                std::string tmp;
-                getline(credits_file, tmp);
-                if (!tmp.length() || tmp[0] != '#') {
-                    credits.push_back(tmp);
-                }
-            }
-        }
-    }
+    // Load MOTD and Credits, load it once as it shouldn't change for the duration of the application being open
+    mmenu_refresh_motd();
+    mmenu_refresh_credits();
 
     u = player();
 
@@ -235,74 +263,73 @@ bool game::opening_screen()
 
         if (layer == 1) {
             if (sel1 == 0) { // Print the MOTD.
-                for (int i = 0; i < motd.size() && i < 16; i++) {
-                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, motd[i].c_str());
+                for (size_t i = 0; i < mmenu_motd.size() && i < 16; i++) {
+                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, mmenu_motd[i].c_str());
                 }
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) { // Print the Credits.
-                for (int i = 0; i < credits.size() && i < 16; i++) {
-                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, credits[i].c_str());
+                for (size_t i = 0; i < mmenu_credits.size() && i < 16; i++) {
+                    mvwprintz(w_open, i + 6, 8 + extra_w / 2, c_ltred, mmenu_credits[i].c_str());
                 }
 
                 wrefresh(w_open);
                 refresh();
             }
 
-            chInput = getch();
-
+            std::string action = ctxt.handle_input();
+            const long chInput = ctxt.get_raw_input().get_first_input();
             if (chInput == 'm' || chInput == 'M') {
                 // MOTD
                 sel1 = 0;
-                chInput = '\n';
+                action = "CONFIRM";
             } else if (chInput == 'n' || chInput == 'N') {
                 // New Game
                 sel1 = 1;
-                chInput = '\n';
+                action = "CONFIRM";
             } else if (chInput == 'a' || chInput == 'A') {
                 // Load Game
                 sel1 = 2;
-                chInput = '\n';
+                action = "CONFIRM";
             } else if (chInput == 'w' || chInput == 'W') {
                 // World
                 sel1 = 3;
-                chInput = '\n';
+                action = "CONFIRM";
             } else if (chInput == 's' || chInput == 'S') {
                 // Special Game
                 sel1 = 4;
-                chInput = '\n';
+                action = "CONFIRM";
             } else if (chInput == 'o' || chInput == 'O') {
                 // Options
                 sel1 = 5;
-                chInput = '\n';
+                action = "CONFIRM";
             } else if (chInput == 'e' || chInput == 'E' || chInput == '?') {
                 // Help
                 sel1 = 6;
-                chInput = '\n';
+                action = "CONFIRM";
             } else if (chInput == 'c' || chInput == 'C') {
                 // Credits
                 sel1 = 7;
-                chInput = '\n';
-            } else if (chInput == 'q' || chInput == 'Q' || chInput == KEY_ESCAPE) {
+                action = "CONFIRM";
+            } else if (action == "QUIT") {
                 // Quit
                 sel1 = 8;
-                chInput = '\n';
-            }
-
-            if (chInput == KEY_LEFT || chInput == 'h') {
+                action = "CONFIRM";
+            } else if (action == "LEFT") {
                 if (sel1 > 0) {
                     sel1--;
                 } else {
                     sel1 = 8;
                 }
-            } else if (chInput == KEY_RIGHT || chInput == 'l') {
+            } else if (action == "RIGHT") {
                 if (sel1 < 8) {
                     sel1++;
                 } else {
                     sel1 = 0;
                 }
-            } else if ((chInput == KEY_UP || chInput == 'k' || chInput == '\n') && sel1 > 0 && sel1 != 7) {
+            }
+            if ((action == "UP" || action == "CONFIRM") && sel1 > 0 && sel1 != 7) {
                 if (sel1 == 5) {
                     show_options();
                 } else if (sel1 == 6) {
@@ -320,41 +347,46 @@ bool game::opening_screen()
             }
         } else if (layer == 2) {
             if (sel1 == 1) { // New Character
+                if (MAP_SHARING::isSharing() &&
+                    world_generator->all_worlds.empty()) { //don't show anything when there are no worlds (will not work if there are special maps)
+                    layer = 1;
+                    sel1 = 1;
+                    continue;
+                }
+
                 print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
-                chInput = getch();
 
+                std::string action = ctxt.handle_input();
+                const long chInput = ctxt.get_raw_input().get_first_input();
                 if (chInput == 'c' || chInput == 'C') {
                     sel2 = 0;
-                    chInput = '\n'  ;
+                    action = "CONFIRM";
                 } else if (chInput == 'p' || chInput == 'P') {
                     sel2 = 1;
-                    chInput = '\n';
+                    action = "CONFIRM";
                 } else if (chInput == 'r' || chInput == 'R') {
                     sel2 = 2;
-                    chInput = '\n';
+                    action = "CONFIRM";
                 } else if (chInput == 'n' || chInput == 'N') {
                     sel2 = 3;
-                    chInput = '\n';
-                }
-
-                if (chInput == KEY_LEFT || chInput == 'h') {
+                    action = "CONFIRM";
+                } else if (action == "LEFT") {
                     sel2--;
                     if (sel2 < 0) {
                         sel2 = vSubItems.size() - 1;
                     }
-                }
-                if (chInput == KEY_RIGHT || chInput == 'l') {
+                } else if (action == "RIGHT") {
                     sel2++;
-                    if (sel2 >= vSubItems.size()) {
+                    if (sel2 >= (int)vSubItems.size()) {
                         sel2 = 0;
                     }
-                } else if (chInput == KEY_DOWN || chInput == 'j' || chInput == KEY_ESCAPE) {
+                } else if (action == "DOWN" || action == "QUIT") {
                     layer = 1;
                     sel1 = 1;
                 }
-                if (chInput == KEY_UP || chInput == 'k' || chInput == '\n') {
+                if (action == "UP" || action == "CONFIRM") {
                     if (sel2 == 0 || sel2 == 2 || sel2 == 3) {
                         // First load the mods, this is done by
                         // loading the world.
@@ -366,7 +398,7 @@ bool game::opening_screen()
                         world_generator->set_active_world(world);
                         setup();
                         if (!u.create((sel2 == 0) ? PLTYPE_CUSTOM :
-                                                    ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
+                                      ((sel2 == 2) ? PLTYPE_RANDOM : PLTYPE_NOW))) {
                             u = player();
                             continue;
                         }
@@ -386,36 +418,44 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                               c_red, _("No Worlds found!"));
                 } else {
-                    for (int i = 0; i < world_generator->all_worldnames.size(); ++i) {
+                    for (int i = 0; i < (int)world_generator->all_worldnames.size(); ++i) {
                       int line = iMenuOffsetY - 2 - i;
                       std::string world_name = world_generator->all_worldnames[i];
                       int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
+                      nc_color color1, color2;
+                      if(world_name == "TUTORIAL" || world_name == "DEFENSE") {
+                         color1 = c_ltcyan;
+                         color2 = h_ltcyan;
+                      } else {
+                         color1 = c_white;
+                         color2 = h_white;
+                      }
                       mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
-                                (sel2 == i ? h_white : c_white), "%s (%d)", world_name.c_str(), savegames_count);
+                                (sel2 == i ? color2 : color1 ), "%s (%d)",
+                                world_name.c_str(), savegames_count);
                     }
                 }
                 wrefresh(w_open);
                 refresh();
-                input = get_input();
-                if (world_generator->all_worldnames.empty() && (input == DirectionS || input == Confirm)) {
+                const std::string action = ctxt.handle_input();
+                if (world_generator->all_worldnames.empty() && (action == "DOWN" || action == "CONFIRM")) {
                     layer = 1;
-                } else if (input == DirectionS) {
+                } else if (action == "DOWN") {
                     if (sel2 > 0) {
                         sel2--;
                     } else {
                         sel2 = world_generator->all_worldnames.size() - 1;
                     }
-                } else if (input == DirectionN) {
-                    if (sel2 < world_generator->all_worldnames.size() - 1) {
+                } else if (action == "UP") {
+                    if (sel2 < (int)world_generator->all_worldnames.size() - 1) {
                         sel2++;
                     } else {
                         sel2 = 0;
                     }
-                } else if (input == DirectionW || input == Cancel) {
+                } else if (action == "LEFT" || action == "QUIT") {
                     layer = 1;
-                }
-                if (input == DirectionE || input == Confirm) {
-                    if (sel2 >= 0 && sel2 < world_generator->all_worldnames.size()) {
+                } else if (action == "RIGHT" || action == "CONFIRM") {
+                    if (sel2 >= 0 && sel2 < (int)world_generator->all_worldnames.size()) {
                         layer = 3;
                         sel3 = 0;
                     }
@@ -429,7 +469,13 @@ bool game::opening_screen()
 
                 // only show reset / destroy world if there is at least one valid world existing!
 
-                int world_subs_to_display = (!world_generator->all_worldnames.empty())? vWorldSubItems.size(): 1;
+                if(MAP_SHARING::isSharing() && !MAP_SHARING::isWorldmenu() && !MAP_SHARING::isAdmin()) {
+                    layer = 1;
+                    popup(_("Only the admin can change worlds."));
+                    continue;
+                }
+
+                int world_subs_to_display = (!world_generator->all_worldnames.empty()) ? vWorldSubItems.size() : 1;
                 std::vector<std::string> world_subs;
                 int xoffset = 25 + iMenuOffsetX + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
@@ -445,38 +491,37 @@ bool game::opening_screen()
                 print_menu_items(w_open, world_subs, sel2, yoffset, xoffset - (xlen / 4));
                 wrefresh(w_open);
                 refresh();
-                chInput = getch();
-                input = get_input(chInput);
+                std::string action = ctxt.handle_input();
+                const long chInput = ctxt.get_raw_input().get_first_input();
 
-                //shortcuts
                 if (chInput == 'c' || chInput == 'C') {
                     sel2 = 0;
-                    input = Confirm;
+                    action = "CONFIRM";
                 } else if ((chInput == 'd' || chInput == 'D') && (world_subs_to_display > 1)) {
                     sel2 = 1;
-                    input = Confirm;
+                    action = "CONFIRM";
                 } else if ((chInput == 'r' || chInput == 'R') && (world_subs_to_display > 1)) {
                     sel2 = 2;
-                    input = Confirm;
+                    action = "CONFIRM";
                 }
 
-                if (input == DirectionW) {
+                if (action == "LEFT") {
                     if (sel2 > 0) {
                         --sel2;
                     } else {
                         sel2 = world_subs_to_display - 1;
                     }
-                } else if (input == DirectionE) {
+                } else if (action == "RIGHT") {
                     if (sel2 < world_subs_to_display - 1) {
                         ++sel2;
                     } else {
                         sel2 = 0;
                     }
-                } else if (input == DirectionS || input == Cancel) {
+                } else if (action == "DOWN" || action == "QUIT") {
                     layer = 1;
                 }
 
-                if (input == DirectionN || input == Confirm) {
+                if (action == "UP" || action == "CONFIRM") {
                     if (sel2 == 0) { // Create world
                         // Open up world creation screen!
                         if (world_generator->make_new_world()) {
@@ -490,6 +535,12 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 4) { // Special game
+                if(MAP_SHARING::isSharing()) { // Thee can't save special games, therefore thee can't share them
+                    layer = 1;
+                    popup(_("Special games don't work with shared maps."));
+                    continue;
+                }
+
                 std::vector<std::string> special_names;
                 int xoffset = 32 + iMenuOffsetX  + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
@@ -504,23 +555,23 @@ bool game::opening_screen()
 
                 wrefresh(w_open);
                 refresh();
-                input = get_input();
-                if (input == DirectionW) {
+                std::string action = ctxt.handle_input();
+                if (action == "LEFT") {
                     if (sel2 > 0) {
                         sel2--;
                     } else {
                         sel2 = NUM_SPECIAL_GAMES - 2;
                     }
-                } else if (input == DirectionE) {
+                } else if (action == "RIGHT") {
                     if (sel2 < NUM_SPECIAL_GAMES - 2) {
                         sel2++;
                     } else {
                         sel2 = 0;
                     }
-                } else if (input == DirectionS || input == Cancel) {
+                } else if (action == "DOWN" || action == "QUIT") {
                     layer = 1;
                 }
-                if (input == DirectionN || input == Confirm) {
+                if (action == "UP" || action == "CONFIRM") {
                     if (sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1) {
                         delete gamemode;
                         gamemode = get_special_game( special_game_id(sel2 + 1) );
@@ -542,43 +593,58 @@ bool game::opening_screen()
                 }
             }
         } else if (layer == 3) {
+            bool available = false;
             if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
                 if (savegames.empty()) {
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                               c_red, _("No save games found!"));
                 } else {
-                    for (int i = 0; i < savegames.size(); i++) {
-                        int line = iMenuOffsetY - 2 - i;
-                        mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                                  (sel3 == i ? h_white : c_white),
-                                  base64_decode(savegames[i]).c_str());
+                    for( std::vector<std::string>::iterator it = savegames.begin();
+                         it != savegames.end(); ) {
+                        std::string savename = base64_decode(*it);
+                        if( MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername() ) {
+                            it = savegames.erase(it);
+                        } else {
+                            // calculates the index from distance between it and savegames.begin()
+                            int i = it - savegames.begin();
+                            available = true;
+                            int line = iMenuOffsetY - 2 - i;
+                            mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                                      (sel3 == i ? h_white : c_white),
+                                      base64_decode(*it).c_str());
+                            ++it;
+                        }
+                    }
+                    if (!available) {
+                        mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                                  c_red, _("No save games found!"));
                     }
                 }
                 wrefresh(w_open);
                 refresh();
-                input = get_input();
-                if (savegames.empty() && (input == DirectionS || input == Confirm)) {
+                std::string action = ctxt.handle_input();
+                if (savegames.empty() && (action == "DOWN" || action == "CONFIRM")) {
                     layer = 2;
-                } else if (input == DirectionS) {
+                } else if (action == "DOWN") {
                     if (sel3 > 0) {
                         sel3--;
                     } else {
                         sel3 = savegames.size() - 1;
                     }
-                } else if (input == DirectionN) {
-                    if (sel3 < savegames.size() - 1) {
+                } else if (action == "UP") {
+                    if (sel3 < (int)savegames.size() - 1) {
                         sel3++;
                     } else {
                         sel3 = 0;
                     }
-                } else if (input == DirectionW || input == Cancel) {
+                } else if (action == "LEFT" || action == "QUIT") {
                     layer = 2;
                     sel3 = 0;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 }
-                if (input == DirectionE || input == Confirm) {
-                    if (sel3 >= 0 && sel3 < savegames.size()) {
+                if (action == "RIGHT" || action == "CONFIRM") {
+                    if (sel3 >= 0 && sel3 < (int)savegames.size()) {
                         werase(w_background);
                         wrefresh(w_background);
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
@@ -596,33 +662,41 @@ bool game::opening_screen()
                      it != world_generator->all_worldnames.end(); ++it) {
                     int savegames_count = world_generator->all_worlds[*it]->world_saves.size();
                     int line = iMenuOffsetY - 4 - i;
+                    nc_color color1, color2;
+                    if(*it == "TUTORIAL" || *it == "DEFENSE") {
+                       color1 = c_ltcyan;
+                       color2 = h_ltcyan;
+                    } else {
+                       color1 = c_white;
+                       color2 = h_white;
+                    }
                     mvwprintz(w_open, line, 26 + iMenuOffsetX + extra_w / 2,
-                              (sel3 == i ? h_white : c_white), "%s (%d)", (*it).c_str(), savegames_count);
+                              (sel3 == i ? color2 : color1), "%s (%d)", (*it).c_str(), savegames_count);
                     ++i;
                 }
                 wrefresh(w_open);
                 refresh();
-                input = get_input();
+                std::string action = ctxt.handle_input();
 
-                if (input == DirectionS) {
+                if (action == "DOWN") {
                     if (sel3 > 0) {
                         --sel3;
                     } else {
                         sel3 = world_generator->all_worldnames.size() - 1;
                     }
-                } else if (input == DirectionN) {
-                    if (sel3 < world_generator->all_worldnames.size() - 1) {
+                } else if (action == "UP") {
+                    if (sel3 < (int)world_generator->all_worldnames.size() - 1) {
                         ++sel3;
                     } else {
                         sel3 = 0;
                     }
-                } else if (input == DirectionW || input == Cancel) {
+                } else if (action == "LEFT" || action == "QUIT") {
                     layer = 2;
 
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 }
-                if (input == DirectionE || input == Confirm) {
-                    if (sel3 >= 0 && sel3 < world_generator->all_worldnames.size()) {
+                if (action == "RIGHT" || action == "CONFIRM") {
+                    if (sel3 >= 0 && sel3 < (int)world_generator->all_worldnames.size()) {
                         bool query_yes = false;
                         bool do_delete = false;
                         if (sel2 == 1) { // Delete World
@@ -642,7 +716,6 @@ bool game::opening_screen()
 
                             savegames.clear();
                             MAPBUFFER.reset();
-                            MAPBUFFER.make_volatile();
                             overmap_buffer.clear();
 
                             layer = 2;
@@ -669,7 +742,7 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                               c_red, _("No templates found!"));
                 } else {
-                    for (int i = 0; i < templates.size(); i++) {
+                    for (int i = 0; i < (int)templates.size(); i++) {
                         int line = iMenuOffsetY - 4 - i;
                         mvwprintz(w_open, line, 20 + iMenuOffsetX + extra_w / 2,
                                   (sel3 == i ? h_white : c_white), templates[i].c_str());
@@ -677,28 +750,28 @@ bool game::opening_screen()
                 }
                 wrefresh(w_open);
                 refresh();
-                input = get_input();
-                if (input == DirectionS) {
+                std::string action = ctxt.handle_input();
+                if (action == "DOWN") {
                     if (sel3 > 0) {
                         sel3--;
                     } else {
                         sel3 = templates.size() - 1;
                     }
-                } else if (templates.empty() && (input == DirectionN || input == Confirm)) {
+                } else if (templates.empty() && (action == "UP" || action == "CONFIRM")) {
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
-                } else if (input == DirectionN) {
-                    if (sel3 < templates.size() - 1) {
+                } else if (action == "UP") {
+                    if (sel3 < (int)templates.size() - 1) {
                         sel3++;
                     } else {
                         sel3 = 0;
                     }
-                } else if (input == DirectionW  || input == Cancel || templates.empty()) {
+                } else if (action == "LEFT"  || action == "QUIT" || templates.empty()) {
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
-                } else if (input == DirectionE || input == Confirm) {
+                } else if (action == "RIGHT" || action == "CONFIRM") {
                     WORLDPTR world = world_generator->pick_world();
                     if (world == NULL) {
                         u = player();

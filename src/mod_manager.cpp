@@ -4,6 +4,7 @@
 #include "output.h"
 #include "file_wrapper.h"
 #include "worldfactory.h"
+#include "path_info.h"
 
 #include <math.h>
 #include <queue>
@@ -20,10 +21,7 @@
 #include <dirent.h>
 #endif
 
-#define MOD_SEARCH_PATH "./data"
 #define MOD_SEARCH_FILE "modinfo.json"
-#define MOD_DEV_DEFAULT_PATH "data/mods/dev-default-mods.json"
-#define MOD_USER_DEFAULT_PATH "data/mods/user-default-mods.json"
 
 mod_manager::mod_manager()
 {
@@ -54,7 +52,7 @@ void mod_manager::refresh_mod_list()
     clear();
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
-    load_mods_from(MOD_SEARCH_PATH);
+    load_mods_from(FILENAMES["moddir"]);
     if (set_default_mods("user:default")) {
     } else if(set_default_mods("dev:default")) {
     }
@@ -97,11 +95,11 @@ void mod_manager::load_mods_from(std::string path)
     for (size_t i = 0; i < mod_files.size(); ++i) {
         load_mod_info(mod_files[i]);
     }
-    if (file_exist(MOD_DEV_DEFAULT_PATH)) {
-        load_mod_info(MOD_DEV_DEFAULT_PATH);
+    if (file_exist(FILENAMES["mods-dev-default"])) {
+        load_mod_info(FILENAMES["mods-dev-default"]);
     }
-    if (file_exist(MOD_USER_DEFAULT_PATH)) {
-        load_mod_info(MOD_USER_DEFAULT_PATH);
+    if (file_exist(FILENAMES["mods-user-defaults"])) {
+        load_mod_info(FILENAMES["mods-user-defaults"]);
     }
 }
 
@@ -119,18 +117,25 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         return;
     }
     std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
-    std::string m_author = jo.get_string("author", _("Unknown Author"));
+    std::vector<std::string> m_authors;
+    if (jo.has_array("authors")) {
+        m_authors = jo.get_string_array("authors");
+    } else {
+        if(jo.has_string("author")) {
+            m_authors.push_back(jo.get_string("author"));
+        }
+    }
     std::string m_name = jo.get_string("name", "");
     if (m_name.empty()) {
         // "No name" gets confusing if many mods have no name
         //~ name of a mod that has no name entry, (%s is the mods identifier)
-        m_name = string_format("No name (%s)", m_ident.c_str());
+        m_name = string_format(_("No name (%s)"), m_ident.c_str());
     } else {
         m_name = _(m_name.c_str());
     }
     std::string m_desc = jo.get_string("description", "");
     if (m_desc.empty()) {
-        m_desc = _("No Description");
+        m_desc = _("No description");
     } else {
         m_desc = _(m_desc.c_str());
     }
@@ -180,7 +185,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     MOD_INFORMATION *modfile = new MOD_INFORMATION;
     modfile->ident = m_ident;
     modfile->_type = m_type;
-    modfile->author = m_author;
+    modfile->authors = m_authors;
     modfile->name = m_name;
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
@@ -192,9 +197,9 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 bool mod_manager::set_default_mods(const t_mod_list &mods)
 {
     default_mods = mods;
-    std::ofstream stream(MOD_USER_DEFAULT_PATH, std::ios::out | std::ios::binary);
+    std::ofstream stream(FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
     if(!stream) {
-        popup(_("Can not open %s for writing"), MOD_USER_DEFAULT_PATH);
+        popup(_("Can not open %s for writing"), FILENAMES["mods-user-defaults"].c_str());
         return false;
     }
     try {
@@ -209,7 +214,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
         return true;
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
-        popup(_("Failed to write default mods to %s"), MOD_USER_DEFAULT_PATH);
+        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-defaults"].c_str());
     } catch(std::string e) {
         // this should not happen, it comes from json-serialization
         debugmsg("%s", e.c_str());
@@ -227,10 +232,11 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
     std::vector<std::string> search_extensions;
     search_extensions.push_back(".json");
 
-    DebugLog() << "Copying mod contents into directory: " << output_base_path << "\n";
+    DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 
     if (!assure_dir_exist(output_base_path)) {
-        DebugLog() << "Unable to create or open mod directory at [" << output_base_path << "] for saving\n";
+        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" << output_base_path <<
+                                    "] for saving";
         return false;
     }
 
@@ -274,8 +280,8 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
         while (!dir_to_make.empty()) {
             if (!assure_dir_exist(dir_to_make.front())) {
-                DebugLog() << "Unable to create or open mod directory at [" << dir_to_make.front() <<
-                           "] for saving\n";
+                DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" <<
+                                            dir_to_make.front() << "] for saving";
             }
 
             dir_to_make.pop();
@@ -374,7 +380,7 @@ void mod_manager::save_mods_list(WORLDPTR world) const
         // this might happen and indicates an I/O-error
         popup(_("Failed to write to %s"), path.c_str());
     } catch (std::string e) {
-        DebugLog() << "worldfactory: failed to write list of mods to world folder\n";
+        popup( _( "Failed to write list of mods to %s: %s" ), path.c_str(), e.c_str() );
     }
 }
 
@@ -400,7 +406,7 @@ void mod_manager::load_mods_list(WORLDPTR world) const
             amo.push_back(mod);
         }
     } catch (std::string e) {
-        DebugLog() << "worldfactory: loading mods list failed: " << e;
+        DebugLog( D_ERROR, DC_ALL ) << "worldfactory: loading mods list failed: " << e;
     }
 }
 

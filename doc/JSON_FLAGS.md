@@ -156,11 +156,10 @@ Flags used to describe monsters and define their properties and abilities.
 - ```AMIGARA``` Removes hypnosis if the last one.
 - ```THING``` Turn into a full thing.
 - ```EXPLODE``` Damaging explosion.
-- ```BROKEN``` Spawns a broken robot.
+- ```BROKEN``` Spawns a broken robot item, its id calculated like this: the prefix "mon_" is removed from the monster id, than the prefix "broken_" is added. Example: mon_eyebot -> broken_eyebot
 - ```RATKING``` Cure verminitis.
 - ```KILL_BREATHERS``` All breathers die.
 - ```SMOKEBURST``` Explode like a huge smoke bomb.
-- ```ZOMBIE``` Generate proper clothing for zombies. (Also use NORMAL).
 - ```GAMEOVER``` Game over man! Game over! Defense mode.
 
 ### Flags
@@ -210,7 +209,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```LEATHER``` May produce leather when butchered.
 - ```FEATHER``` May produce feathers when butchered.
 - ```FAT``` May produce fat when butchered.
-- ```CBM``` May produce a cbm or two when butchered.
+- ```CBM_CIV``` May produce a common cbm or two when butchered.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
 - ```FRIENDLY_SPECIAL``` Use our special attack, even if friendly.
@@ -233,6 +232,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
+- ```CBM_SCI``` May produce a cbm or two from bionics_sci when butchered.
+- ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -240,6 +241,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```NONE``` No special attack.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
 - ```SHRIEK``` "a terrible shriek!"
+- ```HOWL``` "an ear-piercing howl!"
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```ACID``` Spit acid.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
@@ -273,6 +275,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```TAZER``` Shock the player.
 - ```SMG``` SMG turret fires.
 - ```LASER``` Laser turret fires.
+  ```RIFLE_TUR``` Rifle turret fires.
 - ```FLAMETHROWER``` Shoots a stream fire.
 - ```COPBOT``` Cop-bot alerts and then tazes the player.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower or SMG depending on distance.
@@ -431,6 +434,7 @@ The chambering of weapons that this ammo can be loaded into.
 - ```3006``` 30.06
 - ```40mm``` 40mm Grenade
 - ```66mm``` 66mm HEAT
+- ```120mm``` 120mm HEAT
 - ```84x246mm``` 84x246mm HE
 - ```m235``` M235 TPA (66mm Incendiary Rocket)
 - ```battery``` Battery
@@ -531,7 +535,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```FIT``` Reduces encumbrance by one.
 - ```VARSIZE``` Can be made to fit via tailoring.
-- ```SKINTIGHT``` Reduces clothing layering penalty.
+- ```SKINTIGHT``` Undergarment layer.
+- ```OUTER```  Outer garment layer.
+- ```BELTED``` Layer for belts and backpacks.
 - ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
@@ -600,6 +606,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FLUSLEEP``` Adds disease `took_flumed` and increases fatigue.
 - ```INHALER``` Removes disease `asthma`.
 - ```BLECH``` Causes vomiting.
+- ```PLANTBLECH``` Causes vomiting if player does not contain plant mutations
 - ```CHEW``` Displays message "You chew your %s", but otherwise does nothing.
 - ```MUTAGEN``` Causes mutation.
 - ```PURIFIER``` Removes negative mutations.
@@ -639,7 +646,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Containers
 
-- ```RIGID``` Unused?
+- ```RIGID``` Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container.
 - ```WATERTIGHT``` Can hold liquids.
 - ```SEALS``` Can be resealed.
 
@@ -655,6 +662,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
+- ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
+- ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
+- ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 
 ## Guns
 
@@ -672,6 +683,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FIRE_100``` Uses 100 shots per firing.
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
 - ```STR_RELOAD``` Reload speed is affected by strength.
+- ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
 
 ## Tools
 
@@ -682,7 +694,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```FIRE``` Counts as a fire for crafting purposes.
 - ```WRAP``` Unused?
-- ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station. 
+- ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 
 ### Use actions
 

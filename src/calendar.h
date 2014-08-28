@@ -43,6 +43,7 @@ class calendar
 {
     private:
         // The basic data; note that "second" should always be a multiple of 6
+        int turn_number;
         int second;
         int minute;
         int hour;
@@ -58,24 +59,24 @@ class calendar
         calendar(int turn);
         int get_turn() const;
         operator int() const; // Returns get_turn() for backwards compatibility
-        calendar &operator = (calendar &rhs);
+        calendar &operator = (const calendar &rhs);
         calendar &operator = (int rhs);
-        calendar &operator -=(calendar &rhs);
+        calendar &operator -=(const calendar &rhs);
         calendar &operator -=(int rhs);
-        calendar &operator +=(calendar &rhs);
+        calendar &operator +=(const calendar &rhs);
         calendar &operator +=(int rhs);
-        calendar  operator - (calendar &rhs);
-        calendar  operator - (int rhs);
-        calendar  operator + (calendar &rhs);
-        calendar  operator + (int rhs);
+        calendar  operator - (const calendar &rhs) const;
+        calendar  operator - (int rhs) const;
+        calendar  operator + (const calendar &rhs) const;
+        calendar  operator + (int rhs) const;
         bool      operator ==(int rhs) const;
-        bool      operator ==(calendar &rhs) const;
+        bool      operator ==(const calendar &rhs) const;
 
         void increment();   // Add one turn / 6 seconds
 
-        void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
-
         int getHour(); // return hour
+        
+        void sync(); // Synchronize all variables to the turn_number
 
         // Sunlight and day/night calcuations
         int minutes_past_midnight() const; // Useful for sunrise/set calculations
@@ -86,33 +87,57 @@ class calendar
         int sunlight() const;     // Current amount of sun/moonlight; uses preceding funcs
 
         // Basic accessors
-        int seconds() const {
+        int seconds() const
+        {
             return second;
         }
-        int minutes() const {
+        int minutes() const
+        {
             return minute;
         }
-        int hours() const {
+        int hours() const
+        {
             return hour;
         }
-        int days() const {
+        int days() const
+        {
             return day;
         }
-        season_type get_season() const {
+        season_type get_season() const
+        {
             return season;
         }
-        int years() const {
+        int years() const
+        {
             return year;
         }
 
-        void set_season(season_type new_season) {
-            season = new_season;
-        }
+        // Season and year lenght stuff
 
+        static int year_turns()
+        {
+            return DAYS(year_length());
+        }
+        static int year_length() // In days
+        {
+            return season_length() * 4;
+        }
+        static int season_length(); // In days
+
+        int turn_of_year() const
+        {
+            return turn_number % year_turns();
+        }
+        int day_of_year() const
+        {
+            return day + season_length() * season;
+        }
 
         // Print-friendly stuff
         std::string print_time(bool just_hour = false) const;
         std::string textify_period(); // "1 second" "2 hours" "two days"
         std::string day_of_week() const;
+
+        static   calendar turn;
 };
 #endif // _CALENDAR_H_

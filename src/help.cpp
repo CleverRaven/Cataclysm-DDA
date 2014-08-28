@@ -16,7 +16,8 @@ void help_draw_dir(WINDOW *win, int line_y)
 {
     action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
                              ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
+                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
+                            };
     mvwprintz(win, line_y + 1, 0, c_white, _("\
   \\ | /     \\ | /\n\
    \\|/       \\|/ \n\
@@ -408,7 +409,12 @@ tool set. All recipes require one or more ingredients. These ARE used up in craf
 To craft items, press %s. There are seven categories: \
 Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category \
 are several smaller sub-categories. While a few items require no particular skill \
-to create, the majority require you to have some knowledge:\n"),
+to create, the majority require you to have some knowledge. Sometimes a skilled \
+survivor will work out a given recipe from her or his knowledge of the skill, but \
+more often you will need reference material, commonly a book of some sort. Reading \
+such references gives a chance to memorize recipes outright, and you can also craft \
+while referring to the book: just have it handy when crafting. Different knowledge is \
+useful for different applications:\n"),
                                  press_x(ACTION_CRAFT, "", "").c_str()));
 
     text.push_back(_("\
@@ -578,8 +584,7 @@ or empty your hands, by pressing %s, then the key for the item you are currently
     text.push_back(string_format(_("\
 Most styles have a variety of special moves associated with them. Most have a skill requirement, \
 and will be unavailable until you reach a level of unarmed skill. You can check the moves by \
-examining your style via the inventory screen (%s key)."),
-                                 press_x(ACTION_INVENTORY, "", "").c_str()));
+pressing '?' in the pick style menu.")));
 
     text.push_back(_("\
 Many styles also have special effects unlocked under certain conditions. \
@@ -857,11 +862,11 @@ with the ! key. This ensures that the sudden appearance of a monster won't catch
 
     text.push_back(_("\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
-A: Lots of the food found in towns is perishable, and will only last a few days after \
-the start of a new game (early Spring). The electricity went out several days ago \
+A: Lots of the food found in towns is perishable and will only last a few days after \
+the start of a new game. The electricity went out several days ago \
 so fruit, milk and others are the first to go bad. \
 After the first couple of days, you should switch to canned food, jerky, and hunting. \
-Also, you should make sure to cook/purify any food or water you hunt up \
+Also, you should make sure to cook any food and purify any water you hunt up \
 as it may contain parasites or otherwise be unsafe."));
 
     text.push_back(_("\
@@ -916,8 +921,8 @@ your shotgun to escape, then just run from the zombies it attracts."));
     text.push_back(_("\
 Q: Help! I started a fire and now my house is burning down!\n\
 A: Fires will spread to nearby flammable tiles if they are able. Lighting a \
-stop fire in a set-up brazier, wood stove, stone fireplace, or pit will \
-it from spreading. Fire extinguishers can put out fires that get out of control."));
+fire in a set-up brazier, stove, wood stove, stone fireplace, or pit will \
+stop it from spreading. Fire extinguishers can put out fires that get out of control."));
 
     text.push_back(_("\
 Q: I'm cold and can't sleep at night!\n\
@@ -931,6 +936,8 @@ A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc cha
     return text;
 }
 
+extern input_context get_default_mode_input_context();
+
 void display_help()
 {
     WINDOW *w_help_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -940,12 +947,16 @@ void display_help()
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
     char ch;
+    bool needs_refresh = true;
     do {
-        draw_border(w_help_border);
-        center_print(w_help_border, 0, c_ltred, _(" HELP "));
-        wrefresh(w_help_border);
-        help_main(w_help);
-        refresh();
+        if (needs_refresh) {
+            draw_border(w_help_border);
+            center_print(w_help_border, 0, c_ltred, _(" HELP "));
+            wrefresh(w_help_border);
+            help_main(w_help);
+            refresh();
+            needs_refresh = false;
+        };
         ch = getch();
         switch (ch) {
         case 'a':
@@ -1029,106 +1040,8 @@ void display_help()
 
         // Keybindings
         case '1': {
-
-            // Remember what the keybindings were originally so we can restore them if player cancels.
-            std::map<char, action_id> keymap_old = keymap;
-
-            werase(w_help);
-            int offset = 1;
-            char remapch = ' ';
-            bool changed_keymap = false;
-            bool needs_refresh = true;
-            do {
-                if (needs_refresh) {
-                    werase(w_help);
-                    mvwprintz(w_help, 0, 50, c_white, _("Use the arrow keys"));
-                    mvwprintz(w_help, 1, 50, c_white, _("(or movement keys)"));
-                    mvwprintz(w_help, 2, 50, c_white, _("to scroll."));
-
-                    mvwprintz(w_help, 4, 50, c_white, _("Press ESC or q to return."));
-
-                    mvwprintz(w_help, 6, 50, c_white, _("Press - to remove all"));
-                    mvwprintz(w_help, 7, 50, c_white, _("keybindings from an action."));
-
-                    mvwprintz(w_help, 9, 50, c_white, _("Press + to add the"));
-                    mvwprintz(w_help, 10, 50, c_white, _("keybinding for an action."));
-                    needs_refresh = false;
-                }
-                // Clear the lines
-                for (int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++) {
-                    mvwprintz(w_help, i, 0, c_black, "                                                ");
-                }
-
-                //Draw Scrollbar
-                draw_scrollbar(w_help_border, offset - 1, FULL_SCREEN_HEIGHT - 2, NUM_ACTIONS - 20, 1);
-
-                for (int i = 0; i < FULL_SCREEN_HEIGHT - 2 && offset + i < NUM_ACTIONS; i++) {
-                    std::vector<char> keys = keys_bound_to( action_id(offset + i) );
-                    nc_color col = (keys.empty() ? c_ltred : c_white);
-                    mvwprintz(w_help, i, 3, col, "%s: ", action_name( action_id(offset + i) ).c_str());
-                    if (keys.empty()) {
-                        wprintz(w_help, c_red, _("Unbound!"));
-                    } else {
-                        for (size_t j = 0; j < keys.size(); j++) {
-                            wprintz(w_help, c_yellow, "%c", keys[j]);
-                            if (j < keys.size() - 1) {
-                                wprintz(w_help, c_white, _(" or "));
-                            }
-                        }
-                    }
-                }
-                wrefresh(w_help);
-                refresh();
-                remapch = input();
-                int sx = 0, sy = 0;
-                get_direction(sx, sy, remapch);
-                if (sy == -1 && offset > 1) {
-                    offset--;
-                }
-                if (sy == 1 && offset + 20 < NUM_ACTIONS) {
-                    offset++;
-                }
-                if (remapch == '-' || remapch == '+') {
-                    needs_refresh = true;
-                    for (int i = 0; i < FULL_SCREEN_HEIGHT - 2 && i + offset < NUM_ACTIONS; i++) {
-                        mvwprintz(w_help, i, 0, c_ltblue, "%c", 'a' + i);
-                        mvwprintz(w_help, i, 1, c_white, ":");
-                    }
-                    wrefresh(w_help);
-                    refresh();
-                    char actch = getch();
-                    if (actch >= 'a' && actch <= 'a' + 24 && actch - 'a' + offset < NUM_ACTIONS) {
-                        action_id act = action_id(actch - 'a' + offset);
-                        if (remapch == '-' && query_yn(_("Clear keys for %s?"),
-                                                       action_name(act).c_str())) {
-                            unbound_keymap.insert(act);
-                            clear_bindings(act);
-                            changed_keymap = true;
-                        } else if (remapch == '+') {
-                            char newbind = popup_getkey(_("New key for %s:"), action_name(act).c_str());
-                            if (keymap.find(newbind) == keymap.end()) { // It's not in use!  Good.
-                                keymap[ newbind ] = act;
-				unbound_keymap.erase(act);
-                                changed_keymap = true;
-                            } else {
-                                popup(_("%c is used for %s."), newbind,
-                                      action_name( keymap[newbind] ).c_str());
-                            }
-                        }
-                    }
-                }
-            } while (remapch != 'q' && remapch != 'Q' && remapch != KEY_ESCAPE);
-
-
-            if (changed_keymap) {
-                if(query_yn(_("Save changes?"))) {
-                    save_keymap();
-                } else {
-                    // Player wants to keep the old keybindings. Revert!
-                    keymap = keymap_old;
-                }
-            }
-
+            input_context ctxt = get_default_mode_input_context();
+            ctxt.display_help();
             werase(w_help);
         }
         break;
@@ -1158,7 +1071,11 @@ void display_help()
         case '7':
             multipage(w_help, text_faq());
             break;
-        }
+
+        default:
+            continue;
+        };
+        needs_refresh = true;
     } while (ch != 'q' && ch != KEY_ESCAPE);
     delwin(w_help);
     delwin(w_help_border);

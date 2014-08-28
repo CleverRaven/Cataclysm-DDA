@@ -1,6 +1,9 @@
 #include "mapdata.h"
 #include "color.h"
 #include "init.h"
+#include "item_factory.h"
+#include "game_constants.h"
+#include "debug.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;
@@ -101,6 +104,21 @@ bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
     return false;
 }
 
+void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
+    while ( ja.has_more() ) {
+        JsonObject jio = ja.next_object();
+        if ( jio.has_int("minamount") ) {
+            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
+            jsonint(jio, "chance", drop.chance);
+            items.push_back(drop);
+        } else {
+            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
+            jsonint(jio, "chance", drop.chance);
+            items.push_back(drop);
+        }
+    }
+}
+
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
@@ -129,31 +147,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         }
 
         if ( j.has_array("items") ) {
-           JsonArray ja = j.get_array("items");
-           if (!ja.empty()) {
-               int c=0;
-               while ( ja.has_more() ) {
-                   if ( ja.has_object(c) ) {
-                       JsonObject jio = ja.next_object();
-                       if ( jio.has_string("item") && jio.has_int("amount") ) {
-                           if ( jio.has_int("minamount") ) {
-                               map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
-                               jsonint(jio, "chance", drop.chance);
-                               items.push_back(drop);
-                           } else {
-                               map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
-                               jsonint(jio, "chance", drop.chance);
-                               items.push_back(drop);
-                           }
-                       } else {
-                           debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
-                       }
-                   } else {
-                       debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
-                   }
-                   c++;
-               }
-           }
+            load_map_bash_item_drop_list(j.get_array("items"), items);
         }
 
 //debugmsg("%d/%d %s %s/%s %d",str_min,str_max, ter_set.c_str(), sound.c_str(), sound_fail.c_str(), items.size() );
@@ -161,6 +155,22 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
   } else {
     return false;
   }
+}
+
+bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
+{
+    if (!jsobj.has_object(member)) {
+        return false;
+    }
+    JsonObject j = jsobj.get_object(member);
+    jsonstring(j, "furn_set", furn_set );
+    if (!isfurniture) {
+        ter_set = j.get_string("ter_set");
+    }
+    can_do = true;
+
+    load_map_bash_item_drop_list(j.get_array("items"), items);
+    return true;
 }
 
 furn_t null_furniture_t() {
@@ -178,6 +188,7 @@ furn_t null_furniture_t() {
   new_furniture.loadid = 0;
   new_furniture.open = "";
   new_furniture.close = "";
+  new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_furniture;
 };
 
@@ -196,6 +207,7 @@ ter_t null_terrain_t() {
   new_terrain.loadid = 0;
   new_terrain.open = "";
   new_terrain.close = "";
+  new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_terrain;
 };
 
@@ -229,6 +241,9 @@ void load_furniture(JsonObject &jsobj)
 
   new_furniture.movecost = jsobj.get_int("move_cost_mod");
   new_furniture.move_str_req = jsobj.get_int("required_str");
+  new_furniture.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
+
+  new_furniture.crafting_pseudo_item = jsobj.get_string("crafting_pseudo_item", "");
 
   new_furniture.transparent = false;
   new_furniture.bitflags = 0;
@@ -254,6 +269,7 @@ void load_furniture(JsonObject &jsobj)
       new_furniture.close = jsobj.get_string("close");
   }
   new_furniture.bash.load(jsobj, "bash", true);
+  new_furniture.deconstruct.load(jsobj, "deconstruct", true);
 
   new_furniture.loadid = furnlist.size();
   furnmap[new_furniture.id] = new_furniture;
@@ -293,6 +309,7 @@ void load_terrain(JsonObject &jsobj)
       new_terrain.trap_id_str = jsobj.get_string("trap");
   }
   new_terrain.trap = tr_null;
+  new_terrain.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
 
   new_terrain.transparent = false;
   new_terrain.bitflags = 0;
@@ -318,6 +335,7 @@ void load_terrain(JsonObject &jsobj)
       new_terrain.close = jsobj.get_string("close");
   }
   new_terrain.bash.load(jsobj, "bash", false);
+  new_terrain.deconstruct.load(jsobj, "deconstruct", false);
   new_terrain.loadid=terlist.size();
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
@@ -344,12 +362,13 @@ ter_id t_null,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
+    t_linoleum_white, t_linoleum_gray,
     t_grate,
     t_slime,
     t_bridge,
     t_covered_well,
     // Lighting related
-    t_skylight, t_emergency_light_flicker, t_emergency_light,
+    t_skylight, t_emergency_light_flicker, t_emergency_light, t_utility_light,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
@@ -362,8 +381,9 @@ ter_id t_null,
     t_wall_h_r,t_wall_h_w,t_wall_h_b,t_wall_h_g,t_wall_h_p,t_wall_h_y,
     t_wall_v_r,t_wall_v_w,t_wall_v_b,t_wall_v_g,t_wall_v_p,t_wall_v_y,
     t_door_c, t_door_b, t_door_o, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
-    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
-    t_door_metal_c, t_door_metal_o, t_door_metal_locked,
+    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+    t_door_boarded, t_door_boarded_damaged, t_rdoor_boarded, t_rdoor_boarded_damaged,
+    t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
     t_door_glass_c, t_door_glass_o,
     t_portcullis,
@@ -385,7 +405,7 @@ ter_id t_null,
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
     t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
     // Water, lava, etc.
-    t_water_sh, t_water_dp, t_water_pool, t_sewage,
+    t_water_sh, t_water_dp, t_swater_sh, t_swater_dp, t_water_pool, t_sewage,
     t_lava,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -411,7 +431,7 @@ ter_id t_null,
      t_pedestal_temple,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
     num_terrain_types;
 
 void set_ter_ids() {
@@ -444,12 +464,15 @@ void set_ter_ids() {
     t_carpet_yellow=terfind("t_carpet_yellow");
     t_carpet_purple=terfind("t_carpet_purple");
     t_carpet_green=terfind("t_carpet_green");
+    t_linoleum_white=terfind("t_linoleum_white");
+    t_linoleum_gray=terfind("t_linoleum_gray");
     t_grate=terfind("t_grate");
     t_slime=terfind("t_slime");
     t_bridge=terfind("t_bridge");
     t_skylight=terfind("t_skylight");
     t_emergency_light_flicker=terfind("t_emergency_light_flicker");
     t_emergency_light=terfind("t_emergency_light");
+    t_utility_light=terfind("t_utility_light");
     t_wall_log_half=terfind("t_wall_log_half");
     t_wall_log=terfind("t_wall_log");
     t_wall_log_chipped=terfind("t_wall_log_chipped");
@@ -494,13 +517,16 @@ void set_ter_ids() {
     t_door_locked=terfind("t_door_locked");
     t_door_locked_alarm=terfind("t_door_locked_alarm");
     t_door_frame=terfind("t_door_frame");
-    t_door_frame=terfind("t_mdoor_frame");
+    t_mdoor_frame=terfind("t_mdoor_frame");
     t_chaingate_l=terfind("t_chaingate_l");
     t_fencegate_c=terfind("t_fencegate_c");
     t_fencegate_o=terfind("t_fencegate_o");
     t_chaingate_c=terfind("t_chaingate_c");
     t_chaingate_o=terfind("t_chaingate_o");
     t_door_boarded=terfind("t_door_boarded");
+    t_door_boarded_damaged=terfind("t_door_boarded_damaged");
+    t_rdoor_boarded=terfind("t_rdoor_boarded");
+    t_rdoor_boarded_damaged=terfind("t_rdoor_boarded_damaged");
     t_door_metal_c=terfind("t_door_metal_c");
     t_door_metal_o=terfind("t_door_metal_o");
     t_door_metal_locked=terfind("t_door_metal_locked");
@@ -571,6 +597,8 @@ void set_ter_ids() {
     t_tree_fungal_young=terfind("t_tree_fungal_young");
     t_water_sh=terfind("t_water_sh");
     t_water_dp=terfind("t_water_dp");
+    t_swater_sh=terfind("t_swater_sh");
+    t_swater_dp=terfind("t_swater_dp");
     t_water_pool=terfind("t_water_pool");
     t_sewage=terfind("t_sewage");
     t_lava=terfind("t_lava");
@@ -629,6 +657,8 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_open_air=terfind("t_open_air");
+    t_plut_generator = terfind("t_plut_generator");
     num_terrain_types = terlist.size();
 };
 
@@ -642,6 +672,7 @@ furn_id furnfind(const std::string & id) {
 
 furn_id f_null,
     f_hay,
+    f_barricade_road,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
     f_bed, f_toilet, f_makeshift_bed,
@@ -654,20 +685,21 @@ furn_id f_null,
     f_washer, f_dryer,
     f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
-    f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
-    f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_bluebell,
+    f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet, f_large_groundsheet,
+    f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
+    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_datura,f_bluebell,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
-    f_statue,
+    f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_floor_canvas,
     num_furniture_types;
 
 void set_furn_ids() {
     f_null=furnfind("f_null");
     f_hay=furnfind("f_hay");
+    f_barricade_road=furnfind("f_barricade_road");
     f_bulletin=furnfind("f_bulletin");
     f_indoor_plant=furnfind("f_indoor_plant");
     f_indoor_plant_y=furnfind("f_indoor_plant_y");
@@ -707,9 +739,14 @@ void set_furn_ids() {
     f_crate_c=furnfind("f_crate_c");
     f_crate_o=furnfind("f_crate_o");
     f_canvas_wall=furnfind("f_canvas_wall");
+    f_large_canvas_wall=furnfind("f_large_canvas_wall");
     f_canvas_door=furnfind("f_canvas_door");
+    f_large_canvas_door=furnfind("f_large_canvas_door");
     f_canvas_door_o=furnfind("f_canvas_door_o");
+    f_large_canvas_door_o=furnfind("f_large_canvas_door_o");
     f_groundsheet=furnfind("f_groundsheet");
+    f_large_groundsheet=furnfind("f_large_groundsheet");
+    f_center_groundsheet=furnfind("f_center_groundsheet");
     f_fema_groundsheet=furnfind("f_fema_groundsheet");
     f_skin_wall=furnfind("f_skin_wall");
     f_skin_door=furnfind("f_skin_door");
@@ -721,6 +758,7 @@ void set_furn_ids() {
     f_flower_fungal=furnfind("f_flower_fungal");
     f_bluebell=furnfind("f_bluebell");
     f_dahlia=furnfind("f_dahlia");
+    f_datura=furnfind("f_datura");
     f_safe_c=furnfind("f_safe_c");
     f_safe_l=furnfind("f_safe_l");
     f_safe_o=furnfind("f_safe_o");
@@ -732,6 +770,9 @@ void set_furn_ids() {
     f_fvat_full=furnfind("f_fvat_full");
     f_wood_keg=furnfind("f_wood_keg");
     f_statue=furnfind("f_statue");
+    f_egg_sackbw=furnfind("f_egg_sackbw");
+    f_egg_sackws=furnfind("f_egg_sackws");
+    f_egg_sacke=furnfind("f_egg_sacke");
     f_floor_canvas=furnfind("f_floor_canvas");
     num_furniture_types = furnlist.size();
 }
@@ -744,3 +785,85 @@ ter_furn_id::ter_furn_id() {
     furn = (short)t_null;
 }
 */
+
+void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
+{
+    for(size_t i = 0; i < mbi.items.size(); i++) {
+        const std::string &it = mbi.items[i].itemtype;
+        if (!item_controller->has_template(it)) {
+            debugmsg("%s: bash result item %s does not exist", id.c_str(), it.c_str());
+        }
+    }
+    if (mbi.str_max != -1) {
+        if (is_terrain && mbi.ter_set.empty()) {
+            debugmsg("bash result terrain of %s is undefined/empty", id.c_str());
+        }
+        if (!mbi.ter_set.empty() && termap.count(mbi.ter_set) == 0) {
+            debugmsg("bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
+        }
+        if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
+            debugmsg("bash result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
+        }
+    }
+}
+
+void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, bool is_terrain)
+{
+    if (!mbi.can_do) {
+        return;
+    }
+    for(size_t i = 0; i < mbi.items.size(); i++) {
+        const std::string &it = mbi.items[i].itemtype;
+        if (!item_controller->has_template(it)) {
+            debugmsg("%s: deconstruct result item %s does not exist", id.c_str(), it.c_str());
+        }
+    }
+    if (is_terrain && mbi.ter_set.empty()) {
+        debugmsg("deconstruct result terrain of %s is undefined/empty", id.c_str());
+    }
+    if (!mbi.ter_set.empty() && termap.count(mbi.ter_set) == 0) {
+        debugmsg("deconstruct result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
+    }
+    if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
+        debugmsg("deconstruct result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
+    }
+}
+
+void check_furniture_and_terrain()
+{
+    for(std::vector<furn_t>::const_iterator a = furnlist.begin(); a != furnlist.end(); ++a) {
+        const furn_t &f = *a;
+        check_bash_items(f.bash, f.id, false);
+        check_decon_items(f.deconstruct, f.id, false);
+    }
+    for(std::vector<ter_t>::const_iterator a = terlist.begin(); a != terlist.end(); ++a) {
+        const ter_t &t = *a;
+        check_bash_items(t.bash, t.id, true);
+        check_decon_items(t.deconstruct, t.id, true);
+    }
+}
+
+submap::submap() : ter(), frn(), trp(), rad(),
+    active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
+    for (int x = 0; x < SEEX; x++) {
+        for (int y = 0; y < SEEY; y++) {
+            ter[x][y] = t_null;
+            set_furn(x, y, f_null);
+            set_trap(x, y, tr_null);
+            set_radiation(x, y, 0);
+        }
+    }
+}
+
+submap::~submap()
+{
+    delete_vehicles();
+}
+
+void submap::delete_vehicles()
+{
+    for(vehicle *veh : vehicles) {
+        delete veh;
+    }
+    vehicles.clear();
+}

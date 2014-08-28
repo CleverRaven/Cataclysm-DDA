@@ -22,13 +22,21 @@
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
+# Sound (requires SDL, so TILES must be enabled)
+#  make TILES=1 SOUND=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+# Install to system directories.
+#  make install
 # Enable lua debug support
 #  make LUA=1
+# Use user's home directory for save files.
+#  make USE_HOME_DIR=1
+# Use dynamic linking (requires system libraries).
+#  make DYNAMIC_LINKING=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -37,11 +45,15 @@
 # we don't check in code with new warnings, but we also have to disable some classes of warnings
 # for now as we get rid of them.  In non-release builds we want to show all the warnings,
 # even the ones we're allowing in release builds so they're visible to developers.
-RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
+RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
-DEBUG = -g
+ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+  DEBUG = -g
+else
+  DEBUG = -g -D_GLIBCXX_DEBUG
+endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
@@ -74,7 +86,10 @@ BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
 LUASRC_DIR = src/lua
+# if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
+LUA_BINARY = lua
 LOCALIZE = 1
+
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
@@ -91,16 +106,28 @@ RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
-  OTHERS += -O3 $(RELEASE_FLAGS)
+  ifeq ($(NATIVE), osx)
+    CXXFLAGS += -O3
+  else
+    CXXFLAGS += -Os
+    LDFLAGS += -s
+  endif
+  # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
+  # Strip symbols, generates smaller executable.
+  OTHERS += $(RELEASE_FLAGS)
   DEBUG =
 endif
 
 ifdef CLANG
+  ifeq ($(NATIVE), osx)
+    OTHERS += -stdlib=libc++
+  endif
   CXX = $(CROSS)clang++
   LD  = $(CROSS)clang++
-  OTHERS = --std=c++98
-  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
+  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
+
+OTHERS += --std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
@@ -137,9 +164,12 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
+    ifeq ($(MACPORTS), 1)
+      LDFLAGS += -L$(shell ncursesw5-config --libdir)
+    endif
   endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), Linux)
@@ -147,9 +177,17 @@ ifeq ($(NATIVE), osx)
   endif
 endif
 
-# Win32 (mingw32?)
+# Win32 (MinGW32 or MinGW-w64(32bit)?)
 ifeq ($(NATIVE), win32)
+# Any reason not to use -m32 on MinGW32?
   TARGETSYSTEM=WINDOWS
+else
+  # Win64 (MinGW-w64? 64bit isn't currently working.)
+  ifeq ($(NATIVE), win64)
+    CXXFLAGS += -m64
+    LDFLAGS += -m64
+    TARGETSYSTEM=WINDOWS
+  endif
 endif
 
 # MXE cross-compile to win32
@@ -165,12 +203,30 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static
+  ifdef DYNAMIC_LINKING
+    # Windows isn't sold with programming support, these are static to remove MinGW dependency.
+    LDFLAGS += -static-libgcc -static-libstdc++
+  else
+    LDFLAGS += -static
+  endif
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl -liconv
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
+  ifeq ($(NATIVE), win64)
+    RFLAGS += -F pe-x86-64
+  endif
+endif
+
+ifdef SOUND
+  ifndef TILES
+    $(error "SOUND=1 only works with TILES=1")
+  endif
+  CXXFLAGS += $(shell pkg-config --cflags SDL2_mixer)
+  CXXFLAGS += -DSDL_SOUND
+  LDFLAGS += $(shell pkg-config --libs SDL2_mixer)
+  LDFLAGS += -lvorbisfile -lvorbis -logg
 endif
 
 ifdef LUA
@@ -192,12 +248,13 @@ ifdef LUA
   BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
+ifdef SDL
+  TILES = 1
+endif
+
 ifdef TILES
   SDL = 1
   BINDIST_EXTRAS += gfx
-endif
-
-ifdef SDL
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       DEFINES += -DOSX_SDL_FW
@@ -216,11 +273,11 @@ ifdef SDL
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
-      CXXFLAGS += $(shell sdl-config --cflags) \
-		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
-      LDFLAGS += $(shell sdl-config --libs) -lSDL2_ttf
+      CXXFLAGS += $(shell sdl2-config --cflags) \
+		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
+      LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       ifdef TILES
-	LDFLAGS += -lSDL2_image
+        LDFLAGS += -lSDL2_image
       endif
     endif
   else # not osx
@@ -234,7 +291,14 @@ ifdef SDL
   endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lfreetype -lpng -lz
+    ifndef DYNAMIC_LINKING
+      # These differ depending on what SDL2 is configured to use.
+      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    else
+      # Currently none needed by the game itself (only used by SDL2 layer).
+      # Placeholder for future use (savegame compression, etc).
+      LDFLAGS +=
+    endif
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
@@ -251,7 +315,8 @@ else
         ifeq ($(NATIVE), osx)
             LDFLAGS += -lncurses
         else
-            LDFLAGS += -lncursesw
+            LDFLAGS += $(shell ncursesw5-config --libs)
+            CXXFLAGS += $(shell ncursesw5-config --cflags)
         endif
       endif
       # Work around Cygwin not including gettext support in glibc
@@ -286,32 +351,36 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-ifdef SDL
-  ifeq ($(NATIVE),osx)
-    OBJS += $(ODIR)/SDLMain.o
-  endif
-endif
-
 ifdef LANGUAGES
   L10N = localization
 endif
 
+ifeq ($(TARGETSYSTEM), LINUX)
+  ifneq ($(PREFIX),)
+    DEFINES += -DPREFIX="$(PREFIX)"
+  endif
+endif
 
+ifeq ($(USE_HOME_DIR),1)
+  DEFINES += -DUSE_HOME_DIR
+endif
 
 all: version $(TARGET) $(L10N)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) \
           $(OBJS) $(LDFLAGS)
 
-.PHONY: version
+.PHONY: version json-verify
 version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee $(SRC_DIR)/version.h ; fi \
          )
+json-verify:
+	$(LUA_BINARY) lua/json_verifier.lua
 
 $(ODIR):
 	mkdir -p $(ODIR)
@@ -331,7 +400,7 @@ $(ODIR)/SDLMain.o: $(SRC_DIR)/SDLMain.m
 version.cpp: version
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
-	cd $(LUASRC_DIR) && lua generate_bindings.lua
+	cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua
 
 $(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
 
@@ -339,7 +408,7 @@ localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
 $(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -361,6 +430,35 @@ distclean:
 	rm -f data/fontlist.txt
 
 bindist: $(BINDIST)
+
+ifeq ($(TARGETSYSTEM), LINUX)
+DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
+BIN_PREFIX=$(PREFIX)/bin
+LOCALE_DIR=$(PREFIX)/share/locale
+install: version $(TARGET)
+	mkdir -p $(DATA_PREFIX)
+	mkdir -p $(BIN_PREFIX)
+	install --mode=755 $(TARGET) $(BIN_PREFIX)
+	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+ifdef TILES
+	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+endif
+ifdef LUA
+	mkdir -p $(DATA_PREFIX)/lua
+	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
+endif
+	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
+                   README.txt LICENSE.txt -t $(DATA_PREFIX)
+	mkdir -p $(LOCALE_DIR)
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
+endif
+
 
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
@@ -387,7 +485,7 @@ check: tests
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests
+.PHONY: tests check ctags etags clean-tests install
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

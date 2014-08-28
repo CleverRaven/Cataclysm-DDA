@@ -1,10 +1,17 @@
 #ifndef _AUTO_PICKUP_H_
 #define _AUTO_PICKUP_H_
 
+#include <map>
 #include <string>
 #include <vector>
 #include <locale>
 #include <algorithm>
+
+enum apu_type {
+    APU_MERGED = 0,
+    APU_GLOBAL,
+    APU_CHARACTER
+};
 
 class cPickupRules
 {
@@ -13,13 +20,15 @@ class cPickupRules
         bool bActive;
         bool bExclude;
 
-        cPickupRules() {
+        cPickupRules()
+        {
             this->sRule = "";
             this->bActive = false;
             this->bExclude = false;
         }
 
-        cPickupRules(std::string sRuleIn, bool bActiveIn, bool bExcludeIn) {
+        cPickupRules(std::string sRuleIn, bool bActiveIn, bool bExcludeIn)
+        {
             this->sRule = sRuleIn;
             this->bActive = bActiveIn;
             this->bExclude = bExcludeIn;
@@ -38,6 +47,7 @@ bool hasPickupRule(std::string sRule);
 void addPickupRule(std::string sRule);
 void removePickupRule(std::string sRule);
 void createPickupRules(const std::string sItemNameIn = "");
+bool checkExcludeRules(const std::string sItemNameIn);
 void save_reset_changes(bool bReset);
 void show_auto_pickup();
 void load_auto_pickup(bool bCharacter);

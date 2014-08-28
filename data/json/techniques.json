@@ -1,15 +1,85 @@
 [
     {
         "type" : "technique",
+        "id" : "WBLOCK_1",
+        "name" : "Parry",
+        "dummy" : true,
+        "messages" : [
+            "You parry %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_2",
+        "name" : "Block",
+        "dummy" : true,
+        "messages" : [
+            "You block %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_3",
+        "name" : "Shield",
+        "dummy" : true,
+        "messages" : [
+            "You shield against %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "DEF_DISARM",
+        "name" : "", "comment": "not imeplemented -> empty name",
+        "messages" : [
+            "You disarm %s",
+            "<npcname> disarms %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "GRAB",
+        "name" : "", "comment": "not imeplemented -> empty name",
+        "messages" : [
+            "You grab %s",
+            "<npcname> grabs %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "SPIN",
+        "name" : "Spinning Strike",
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "min_melee" : 4,
+        "crit_tec" : true,
+        "messages" : [
+            "You swing through %s and everyone nearby",
+            "<npcname> swings through %s and everyone nearby"
+        ],
+        "aoe" : "spin"
+    },{
+        "type" : "technique",
         "id" : "WIDE",
         "name" : "Wide Strike",
         "unarmed_allowed" : true,
         "melee_allowed" : true,
+        "min_melee" : 3,
+        "crit_tec" : true,
         "messages" : [
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
         ],
         "aoe" : "wide"
+    },{
+        "type" : "technique",
+        "id" : "IMPALE",
+        "name" : "Impaling Strike",
+        "melee_allowed" : true,
+        "min_melee" : 4,
+        "crit_tec" : true,
+        "messages" : [
+            "You pierce straight through %s",
+            "<npcname> pierces through %s"
+        ],
+        "aoe" : "impale"
     },{
         "type" : "technique",
         "id" : "BRUTAL",
@@ -31,6 +101,8 @@
         "unarmed_allowed" : true,
         "melee_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly strike %s",
             "<npcname> quickly strikes %s"
@@ -70,6 +142,19 @@
             "<npcname> precisely hits %s"
         ],
         "stun_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "tec_counter",
+        "name" : "Counterattack",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "block_counter": true,
+        "dodge_counter": true,
+        "speed_mult" : 0.75,
+        "messages" : [
+            "You counter-attack %s",
+            "<npcname> counter-attacks %s"
+        ]
     },{
         "type" : "technique",
         "id" : "tec_feint",
@@ -120,8 +205,9 @@
             "You quickly jab %s",
             "<npcname> quickly jabs at %s"
         ],
-        "quick" : true,
-        "bash_mult" : 0.75
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
 
     },{
         "type" : "technique",
@@ -164,7 +250,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_karate_precise",
@@ -332,7 +420,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_feint",
@@ -461,7 +551,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_rapid_armed",
@@ -471,7 +563,9 @@
             "You quickly slash %s",
             "<npcname> quickly slashes %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_impale",
@@ -518,6 +612,19 @@
         "messages" : [
             "You stumble and leer at %s",
             "<npcname> stumbles and leers at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_zuiquan_counter",
+        "name" : "Drunk counter",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "dodge_counter" : true,
+        "speed_mult" : 0.75,
+        "bashing_mult" : 1.25,
+        "messages" : [
+            "You lurch, and your wild swing hits %s",
+            "<npcname> lurches, and hits %s"
         ]
     },{
         "type" : "technique",
@@ -708,6 +815,8 @@
         "min_unarmed" : 3,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly chop %s",
             "<npcname> quickly chops %s"
@@ -790,6 +899,8 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You swiftly hit %s",
             "<npcname> swiftly hits %s"
@@ -801,6 +912,8 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You swiftly jab %s",
             "<npcname> swiftly jabs %s"
@@ -871,9 +984,24 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly swipe at %s",
             "<npcname> quickly swipes at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_leopard_counter",
+        "name" : "Leopard Foresight",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "dodge_counter" : true,
+        "speed_mult" : 0.5,
+        "bash_mult" : 1.5,
+        "messages" : [
+            "You dodge the attack and swipe at %s's exposed flank!",
+            "<npcname> dodges and catches %s exposed!"
         ]
     },{
         "type" : "technique",
@@ -884,6 +1012,20 @@
         "messages" : [
             "You grab and knee %s!",
             "<npcname> grabs and knees %s!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_dragon_counter",
+        "name" : "Dragon's Vortex",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "block_counter" : true,
+        "dodge_counter" : true,
+        "speed_mult" : 0.7,
+        "stun_dur" : 2,
+        "messages" : [
+            "You catch the attack and send %s spinning!",
+            "<npcname> catches and spins %s!"
         ]
     },{
         "type" : "technique",
@@ -945,5 +1087,55 @@
             "<npcname> hand-pecks %s"
         ],
         "stun_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "tec_brawl_feint",
+        "name" : "Feint",
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "defensive" : true,
+        "miss_recovery" : true,
+        "messages" : [
+            "You fake a strike at %s",
+            "<npcname> feints at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_brawl_power",
+        "name" : "Power Hit",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "knockback_dist" : 1,
+        "messages" : [
+            "You send %s reeling",
+            "<npcname> sends %s reeling"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_brawl_counter",
+        "name" : "Hit Them Back",
+        "min_unarmed" : 5,
+        "unarmed_allowed" : true,
+        "block_counter": true,
+        "speed_mult" : 0.66,
+        "messages" : [
+            "You catch %s's attack, and hit back!",
+            "<npcname> catches %s, and counters!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_brawl_trip",
+        "name" : "Trip",
+        "min_unarmed" : 5,
+        "unarmed_allowed" : true,
+        "down_dur" : 2,
+        "messages" : [
+            "You trip %s",
+            "<npcname> trips %s"
+        ]
     }
 ]

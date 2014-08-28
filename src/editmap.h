@@ -19,16 +19,17 @@ struct editmap_hilight {
     nc_color color;
     std::map<point, char> points;
     nc_color(*getbg)(nc_color);
-    void setup() {
+    void setup()
+    {
         getbg = ( color == c_red ? &red_background :
-         ( color == c_magenta ? &magenta_background :
-           ( color == c_cyan ? &cyan_background :
-             ( color == c_yellow ? &yellow_background : &green_background )
-           )
-         )
-       );
+                  ( color == c_magenta ? &magenta_background :
+                    ( color == c_cyan ? &cyan_background :
+                      ( color == c_yellow ? &yellow_background : &green_background )
+                    )
+                  )
+                );
     };
-    void draw(editmap * em, bool update=false);
+    void draw(editmap *em, bool update = false);
 };
 
 class editmap
@@ -37,9 +38,9 @@ class editmap
         void uphelp(std::string txt1 = "", std::string txt2 = "", std::string title = "" );
         point pos2screen( const int x, const int y );
         point screen2pos( const int i, const int j );
-        bool eget_direction ( int &x, int &y, InputEvent &input, int ch );
+        bool eget_direction ( int &x, int &y, const std::string &action ) const;
         point edit();
-        void uber_draw_ter( WINDOW * w, map * m );
+        void uber_draw_ter( WINDOW *w, map *m );
         void update_view(bool update_info = false);
         int edit_ter();
 
@@ -50,7 +51,7 @@ class editmap
         int edit_npc();
         int edit_veh();
         int edit_mapgen();
-        void cleartmpmap( tinymap & tmpmap );
+        void cleartmpmap( tinymap &tmpmap );
         int mapgen_preview(real_coords &tc, uimenu &gmenu);
         int mapgen_retarget();
         int select_shape(shapetype shape, int mode = -1 );
@@ -71,7 +72,7 @@ class editmap
         int target_frn;
 
         point recalc_target(shapetype shape);
-        bool move_target( InputEvent &input, int ch, int moveorigin = -1 );
+        bool move_target( const std::string &action, int moveorigin = -1 );
         field *cur_field;
 
         trap_id cur_trap;
@@ -99,7 +100,6 @@ class editmap
 
         std::vector<point> target_list;
         std::map<std::string, editmap_hilight> hilights;
-        int lastop;
         bool blink;
         bool altblink;
         int tmaxx;
@@ -107,7 +107,8 @@ class editmap
         int zlevel;
         bool uberdraw;
         std::map<oter_id, int> oter_special;
-        editmap() {
+        editmap()
+        {
             width = TERMX - TERRAIN_WINDOW_TERM_WIDTH;
             height = TERMY;
             infoHeight = 0;
@@ -128,7 +129,6 @@ class editmap
             trset = -1;
             w_info = 0;
             w_help = 0;
-            lastop = 0;
             padding = std::string(width - 2, ' ');
             blink = false;
             altblink = false;
@@ -161,12 +161,9 @@ class editmap
             oter_special.clear();
             zlevel = g->levz;
             uberdraw = false;
-            for ( int i=0; i < NUM_OMSPECS; i++ ) {
-                oter_id key=overmap_specials[i].ter;
-                oter_special[key]=i;
-            }
         };
-        ~editmap() {
+        ~editmap()
+        {
             delwin(w_info);
             delwin(w_help);
         }

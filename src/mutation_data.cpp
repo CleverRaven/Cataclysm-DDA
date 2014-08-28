@@ -7,11 +7,6 @@
 #include <vector>
 #include <map>
 
-// mfb(n) converts a flag to its appropriate position in covers's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
-
 std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
 std::map<std::string, mutation_branch> mutation_data;
@@ -28,6 +23,7 @@ void load_mutation(JsonObject &jsobj)
     new_trait.visibility = jsobj.get_int("visibility", 0);
     new_trait.ugliness = jsobj.get_int("ugliness", 0);
     new_trait.startingtrait = jsobj.get_bool("starting_trait", false);
+    new_trait.mixed_effect = jsobj.get_bool("mixed_effect", false);
 
     traits[id] = new_trait;
 

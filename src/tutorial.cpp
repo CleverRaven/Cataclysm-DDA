@@ -5,6 +5,7 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "profession.h"
 
 std::vector<std::string> tut_text;
 
@@ -12,7 +13,7 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
- g->turn = HOURS(12); // Start at noon
+ calendar::turn = HOURS(12); // Start at noon
  for (int i = 0; i < NUM_LESSONS; i++)
   tutorials_seen[i] = false;
 // Set the scent map to 0
@@ -28,23 +29,37 @@ bool tutorial_game::init()
  g->u.per_cur = g->u.per_max;
  g->u.int_cur = g->u.int_max;
  g->u.dex_cur = g->u.dex_max;
+ 
+ for (int i = 0; i < num_hp_parts; i++) {
+        g->u.hp_cur[i] = g->u.hp_max[i];
+    }
+ 
  //~ default name for the tutorial
  g->u.name = _("John Smith");
- g->levx = 100;
- g->levy = 100;
- g->cur_om = &overmap_buffer.get(0, 0);
- g->cur_om->make_tutorial();
- g->cur_om->save();
+ g->u.prof = profession::generic();
+    int lx = 50, ly = 50; // overmap terrain coordinates
+    g->cur_om = &overmap_buffer.get(0, 0);
+    for (int i = 0; i < OMAPX; i++) {
+        for (int j = 0; j < OMAPY; j++) {
+            g->cur_om->ter( i, j, -1 ) = "rock";
+            // Start with the overmap revealed
+            g->cur_om->seen( i, j, 0 ) = true;
+        }
+    }
+    g->cur_om->ter(lx, ly, 0) = "tutorial";
+    g->cur_om->ter(lx, ly, -1) = "tutorial";
+    g->cur_om->clear_mon_groups();
+    // to submap coordinates as it is supposed to be
+    g->levx = lx * 2;
+    g->levy = ly * 2;
+
  g->u.toggle_trait("QUICK");
- g->u.inv.push_back(item(itypes["lighter"], 0, 'e'));
+ item lighter("lighter", 0);
+ lighter.invlet = 'e';
+ g->u.inv.add_item(lighter);
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
-// Start with the overmap revealed
- for (int x = 0; x < OMAPX; x++) {
-  for (int y = 0; y < OMAPY; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
- g->m.load(g->levx, g->levy, 0);
+ g->m.load(g->levx, g->levy, 0, true, g->cur_om);
  g->levz = 0;
  g->u.posx = 2;
  g->u.posy = 4;
@@ -56,10 +71,10 @@ bool tutorial_game::init()
 
 void tutorial_game::per_turn()
 {
- if (g->turn == HOURS(12)) {
+ if (calendar::turn == HOURS(12)) {
   add_message(LESSON_INTRO);
   add_message(LESSON_INTRO);
- } else if (g->turn == HOURS(12) + 3)
+ } else if (calendar::turn == HOURS(12) + 3)
   add_message(LESSON_INTRO);
 
  if (g->light_level() == 1) {

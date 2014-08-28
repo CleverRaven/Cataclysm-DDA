@@ -7,10 +7,12 @@
 #include <vector>
 
 #include "output.h"
+#include "input.h"
 #include "catacharset.h"
 #include "options.h"
 #include "debug.h"
 #include "iuse_software_sokoban.h"
+#include "path_info.h"
 
 sokoban_game::sokoban_game()
 {
@@ -56,10 +58,10 @@ bool sokoban_game::parse_level()
     vLevelDone.clear();
 
     std::ifstream fin;
-    fin.open("data/raw/sokoban.txt");
+    fin.open(std::string(FILENAMES["sokoban"]).c_str());
     if(!fin.is_open()) {
         fin.close();
-        debugmsg("Could not read ./data/raw/sokoban.txt");
+        debugmsg("Could not read \"%s\".", FILENAMES["sokoban"].c_str());
         return false;
     }
 
@@ -255,6 +257,15 @@ int sokoban_game::start_game()
     draw_border(w_sokoban);
     center_print(w_sokoban, 0, hilite(c_white), _("Sokoban"));
 
+    input_context ctxt("SOKOBAN");
+    ctxt.register_cardinal();
+    ctxt.register_action("NEXT");
+    ctxt.register_action("PREV");
+    ctxt.register_action("RESET");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("UNDO");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     std::vector<std::string> shortcuts;
     shortcuts.push_back(_("<+> next"));    // '+': next
     shortcuts.push_back(_("<-> prev"));    // '-': prev
@@ -272,8 +283,6 @@ int sokoban_game::start_game()
         shortcut_print(w_sokoban, i + 1, FULL_SCREEN_WIDTH - indent,
                        c_white, c_ltgreen, shortcuts[i]);
     }
-
-    int input = '.';
 
     int iPlayerY = 0;
     int iPlayerX = 0;
@@ -294,48 +303,29 @@ int sokoban_game::start_game()
 
         print_score(w_sokoban, iScore, iMoves);
 
+        std::string action;
         if (check_win()) {
             //we won yay
             if (!mAlreadyWon[iCurrentLevel]) {
                 iScore += 500;
                 mAlreadyWon[iCurrentLevel] = true;
             }
-            input = '+';
+            action = "NEXT";
 
         } else {
             draw_level(w_sokoban);
             wrefresh(w_sokoban);
 
             //Check input
-            input = getch();
+            action = ctxt.handle_input();
         }
 
         bMoved = false;
-        switch (input) {
-        case KEY_UP: /* up */
-            iDirY = -1;
-            iDirX = 0;
+        if (ctxt.get_direction(iDirX, iDirY, action)) {
             bMoved = true;
-            break;
-        case KEY_DOWN: /* down */
-            iDirY = 1;
-            iDirX = 0;
-            bMoved = true;
-            break;
-        case KEY_LEFT: /* left */
-            iDirY = 0;
-            iDirX = -1;
-            bMoved = true;
-            break;
-        case KEY_RIGHT: /* right */
-            iDirY = 0;
-            iDirX = 1;
-            bMoved = true;
-            break;
-        case 'q':
+        } else if (action == "QUIT") {
             return iScore;
-            break;
-        case 'u': {
+        } else if (action == "UNDO") {
             int iPlayerYNew = 0;
             int iPlayerXNew = 0;
             bool bUndoSkip = false;
@@ -359,7 +349,8 @@ int sokoban_game::start_game()
                 if (vUndo[vUndo.size() - 1].sTileOld == "$" ||
                     vUndo[vUndo.size() - 1].sTileOld == "*") {
                     mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == ".") ? "*" : "$";
-                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = (mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*") ? "." : " ";
+                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = (mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*") ?
+                            "." : " ";
 
                     vUndo.pop_back();
                 }
@@ -369,13 +360,10 @@ int sokoban_game::start_game()
                 iPlayerY = iPlayerYNew;
                 iPlayerX = iPlayerXNew;
             }
-        }
-        break;
-        case 'r':
+        } else if (action == "RESET") {
             //reset level
             bNewLevel = true;
-            break;
-        case '+':
+        } else if (action == "NEXT") {
             //next level
             clear_level(w_sokoban);
             iCurrentLevel++;
@@ -383,8 +371,7 @@ int sokoban_game::start_game()
                 iCurrentLevel = 0;
             }
             bNewLevel = true;
-            break;
-        case '-':
+        } else if (action == "PREV") {
             //prev level
             clear_level(w_sokoban);
             iCurrentLevel--;
@@ -392,9 +379,6 @@ int sokoban_game::start_game()
                 iCurrentLevel =  iNumLevel - 1;
             }
             bNewLevel = true;
-            break;
-        default:
-            break;
         }
 
         if (bMoved) {

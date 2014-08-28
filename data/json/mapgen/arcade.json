@@ -1,0 +1,113 @@
+[
+  {
+    "type":"monstergroup",
+    "name" : "GROUP_ARCADE",
+    "default" : "mon_null",
+    "monsters" : [
+      { "monster" : "mon_zombie_child", "freq" : 600, "cost_multiplier" : 1, "pack_size": [5,12] }
+                 ]
+	  },{
+        "type" : "overmap_terrain",
+        "id" : "s_arcade",
+        "name" : "arcade",
+        "rotate" : true,
+        "sym" : 65,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true,
+        "mapgen": [
+            { "weight": 250,
+            "method": "json",
+            "object": {
+                "rows":[
+            ".______________________.",
+            ".______________________.",
+            ".______________________.",
+            ".______________________.",
+            ".______________________.",
+            ".ssssssssssssssssssssss.",
+            ".ssssssssssssssssssssss.",
+            ".ssssssssssssssssssssss.",
+            ".ssssssssssssssssssllss.",
+            ".|---++-OOO-++--------|.",
+            ".|F                   |.",
+            ".|F                   |.",
+            ".|F  FF     FF        |.",
+            ".|F  FF  F  FF    ##  |.",
+            ".|F  FF  F  FF    #  T|.",
+            ".|F  FF     FF    #  T|.",
+            ".|F               #  T|.",
+            ".|F    x x x      #  T|.",
+            ".|FFFFFx x xFFFF  #  T|.",
+            ".|--------------------|.",
+            "........................",
+            "........................",
+            "........................",
+            "........................"
+            ],
+            "terrain": {
+            ".": "t_grass",
+            "_": "t_pavement",
+            ",": "t_pavement_y",
+            " ": "t_floor",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "O": "t_window",
+            "L": "t_door_locked_alarm",
+            "+": "t_door_c",
+            "M": "t_door_metal_locked",
+            "w": "t_gates_mech_control",
+            "c": "t_floor",
+            "#": "t_floor",
+            "r": "t_floor",
+            "^": "t_floor",
+            "l": "t_sidewalk",
+            "F": "t_floor",
+            "@": "t_floor",
+            ":": "t_floor",
+            "T": "t_floor",
+            "x": "t_floor",
+            "G": "t_floor",
+            "f": "t_floor",
+            "S": "t_floor",
+            "&": "t_door_metal_locked",
+            "s": "t_sidewalk"
+            },
+            "furniture": {
+            ".": "f_null",
+            "_": "f_null",
+            ",": "f_null",
+            " ": "f_null",
+            "-": "f_null",
+            "|": "f_null",
+            "O": "f_null",
+            "L": "f_null",
+            "+": "f_null",
+            "M": "f_null",
+            "w": "f_null",
+            "x": "f_pinball_machine",
+            "c": "f_chair",
+            "#": "f_counter",
+            "&": "f_counter",
+            "r": "f_rack",
+            "^": "f_indoor_plant",
+            "t": "f_table",
+            "F": "f_arcade_machine",
+            "@": "f_bed",
+            ":": "f_dresser",
+            "l": "f_vending_c",
+            "S": "f_sink",
+            "T": "f_locker"
+            },
+            "place_groups": [
+                { "monster": "GROUP_ARCADE", "x": [ 3, 17 ], "y": [ 16, 17 ], "chance": 100},
+                { "item": "vending_drink", "chance": 75, "x": 19, "y": 8 },
+                { "item": "vending_food", "chance": 75, "x": 20, "y": 8 },
+                { "item": "arcade_prizes", "chance": 95, "x": 21, "y": [ 14,18 ] }
+]
+}
+}
+]
+}
+		]

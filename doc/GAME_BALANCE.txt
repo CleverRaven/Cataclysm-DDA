@@ -15,6 +15,12 @@ Notable skill: 6 (competent/carnivore; bear, wolf, police/survivor zeds)
 Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
+Speeds:
+Zombies are a bit faster than "shambling". Zombified versions of fast critters
+will remain fast, but in general the process slows the undead version. Further,
+under no circumstances should a zed be more than 50% faster than base character
+speed. Currently, this means "capped at 150".
+
 Dodge System assumptions:
 Dodge chance is based on attacker's melee skill and target's dex stat and dodge skill.
 Successful dodges negate the attack and impose a cumulative penalty on dodges within the same turn.

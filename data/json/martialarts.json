@@ -4,8 +4,20 @@
         "id" : "style_none",
         "name" : "No style",
         "description" : "Not a martial art, this is just plain old punching and kicking.",
+        "arm_block" : 1
+    },{
+        "type" : "martial_art",
+        "id" : "style_brawling",
+        "name" : "Brawling",
+        "description" : "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
         "arm_block" : -1,
-        "leg_block" : -1
+        "leg_block" : 7,
+        "techniques" : [
+            "tec_brawl_feint",
+            "tec_brawl_power",
+            "tec_brawl_trip",
+            "tec_brawl_counter"
+        ]
     },{
         "type" : "martial_art",
         "id" : "style_karate",
@@ -135,7 +147,7 @@
         "type" : "martial_art",
         "id" : "style_capoeira",
         "name" : "Capoeira",
-        "description" : "A dance-like style with its roots in Brazilian slavery, capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
+        "description" : "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
         "onhit_buffs" : [
             {
                 "id" : "capoeira_hit_buff",
@@ -334,7 +346,7 @@
         ],
         "techniques" : [
             "tec_zuiquan_feint",
-            "tec_counter"
+            "tec_zuiquan_counter"
         ]
     },{
         "type" : "martial_art",
@@ -370,7 +382,7 @@
             "tec_silat_dirty"
         ],
         "weapons" : [
-            "baton",
+            "baton-extended",
             "bio_blade_weapon",
             "bowling_pin",
             "cudgel",
@@ -393,6 +405,7 @@
             "pipe",
             "pointy_stick",
             "pool_cue",
+            "PR24-extended",
             "primitive_knife",
             "q_staff",
             "rebar",
@@ -482,7 +495,7 @@
         ],
         "weapons" : [
             "2x4",
-            "baton",
+            "baton-extended",
             "bee_sting",
             "bio_blade_weapon",
             "bowling_pin",
@@ -542,7 +555,7 @@
                       "description" : "+2 Dodge",
                       "unarmed_allowed" : true,
                       "min_unarmed" : 2,
-                      "buff_duration" : 1,
+                      "buff_duration" : 2,
                       "dodge" : 2
                   }
         ],
@@ -570,17 +583,17 @@
             {
                 "id" : "dragon_move_buff",
                 "name" : "Dragon's Flight",
-                "description" : "+2 Acc/Dam",
+                "description" : "+2 Accuracy & Damage",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
-                "buff_duration" : 1,
+                "buff_duration" : 2,
                 "hit" : 2,
                 "bash" : 2
             }
         ],
         "techniques" : [
             "tec_dragon_grab",
-            "tec_counter",
+            "tec_dragon_counter",
             "tec_dragon_sweep",
             "tec_dragon_brutal"
         ]
@@ -602,17 +615,17 @@
         "onmove_buffs" : [
             {
                 "id" : "leopard_move_buff",
-                "name" : "Leopard Stalk",
+                "name" : "Leopard's Stalk",
                 "description" : "+2 Accuracy",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
-                "buff_duration" : 1,
+                "buff_duration" : 2,
                 "hit" : 2
             }
         ],
         "techniques" : [
             "tec_leopard_rapid",
-            "tec_counter",
+            "tec_leopard_counter",
             "tec_leopard_precise"
         ]
     },{
@@ -668,7 +681,7 @@
         "type" : "martial_art",
         "id" : "style_centipede",
         "name" : "Centipede Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increase your speed by 4.",
+        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your speed by 4.",
         "arm_block" : 3,
         "onhit_buffs" : [
             {
@@ -714,21 +727,22 @@
             {
                 "id" : "toad_static",
                 "name" : "Toad's Iron Skin",
-                "description" : "Gain +2 armor while standing still",
+                "description" : "Gain +3 armor while standing still",
+                "//" : "FWIW, this is the same amount of armor provided by bionic plating.",
                 "unarmed_allowed" : true,
-                "arm_bash": 2,
-                "arm_cut": 2
+                "arm_bash": 3,
+                "arm_cut": 3
             }
         ],
         "onmove_buffs": [
             {
                 "id" : "toad_armor_dissipate",
                 "name" : "Iron Skin Dissipation",
-                "description" : "Iron skin loses half its bonus per stack",
+                "description" : "Iron Skin softens when you move!",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "max_stacks" : 2,
+                "buff_duration" : 3,
+                "max_stacks" : 3,
                 "arm_bash" : -1,
                 "arm_cut" : -1
             }
@@ -743,13 +757,12 @@
         "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker. Lizard Style focuses on using walls to your advantage.",
         "arm_block" : 2,
         "techniques" : [
-            "tec_counter"
         ]
     },{
         "type" : "martial_art",
         "id" : "style_venom_snake",
         "name" : "Viper Kung Fu",
-        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
+        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
         "static_buffs" : [
             {
                 "id" : "venom_snake_static",

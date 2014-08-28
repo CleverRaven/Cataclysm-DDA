@@ -12,6 +12,11 @@ damage_instance damage_instance::physical(float bash, float cut, float stab, int
     d.add_damage(DT_STAB, stab, arpen);
     return d;
 }
+damage_instance::damage_instance(damage_type dt, float a, int rp, float rm)
+{
+    add_damage( dt, a, rp, rm );
+}
+
 void damage_instance::add_damage(damage_type dt, float a, int rp, float rm)
 {
     damage_unit du(dt, a, rp, rm);
@@ -50,7 +55,11 @@ float damage_instance::total_damage() const
     }
     return ret;
 }
-
+void damage_instance::clear()
+{
+    damage_units.clear();
+    effects.clear();
+}
 
 dealt_damage_instance::dealt_damage_instance() : dealt_dams(NUM_DT, 0) { }
 //TODO: add check to ensure length
@@ -76,6 +85,7 @@ resistances::resistances(item &armor) : resist_vals(NUM_DT, 0)
         set_resist(DT_BASH, armor.bash_resist());
         set_resist(DT_CUT, armor.cut_resist());
         set_resist(DT_STAB, 0.8 * armor.cut_resist()); // stab dam cares less bout armor
+        set_resist(DT_ACID, armor.acid_resist());
     }
 }
 resistances::resistances(monster &monster) : resist_vals(NUM_DT, 0)
@@ -105,7 +115,10 @@ float resistances::get_effective_resist(const damage_unit &du)
     case DT_STAB:
         effective_resist = std::max(type_resist(DT_STAB) - du.res_pen, 0) * du.res_mult;
         break;
-    default: // TODO: DT_ACID/HEAT vs env protection, DT_COLD vs warmth
+    case DT_ACID:
+        effective_resist = std::max(type_resist(DT_ACID) - du.res_pen, 0) * du.res_mult;
+        break;
+    default: // TODO: DT_HEAT vs env protection, DT_COLD vs warmth
         effective_resist = 0;
     }
     return effective_resist;
@@ -132,10 +145,10 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
     }
 
     if (effects.count("MININUKE_MOD")) {
-        g->explosion(x, y, 200, 0, false);
+        g->explosion(x, y, 300, 0, false);
         int junk;
-        for (int i = -4; i <= 4; i++) {
-            for (int j = -4; j <= 4; j++) {
+        for (int i = -6; i <= 6; i++) {
+            for (int j = -6; j <= 6; j++) {
                 if (g->m.sees(x, y, x + i, y + j, 3, junk) &&
                     g->m.move_cost(x + i, y + j) > 0) {
                     g->m.add_field(x + i, y + j, fd_nuke_gas, 3);

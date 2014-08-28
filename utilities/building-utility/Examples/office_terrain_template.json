@@ -1,0 +1,19 @@
+{
+        "type" : "overmap_terrain",
+        "id" : "office_tower_",
+        "name" : "Office Tower",
+        "sym" : 84,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true,
+        "_Building_Utility" : {
+                "cell_num" : {
+                        "string_format" : {
+                                "office_tower_%d" : [
+                                        "id"
+                                ]
+                        }
+                }
+        }
+}

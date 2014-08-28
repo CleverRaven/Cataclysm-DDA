@@ -1,0 +1,9 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "NoJamSpawn",
+    "name": "No Jam Spawn",
+    "description": "Prevents jam from spawning, but you can still make it.",
+    "path": ""
+}
+

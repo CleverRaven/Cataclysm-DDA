@@ -10,10 +10,7 @@ struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
-void init_translation();
-
-struct MonsterGroupEntry
-{
+struct MonsterGroupEntry {
     std::string name;
     int frequency;
     int cost_multiplier;
@@ -22,36 +19,39 @@ struct MonsterGroupEntry
     std::vector<std::string> conditions;
     int starts;
     int ends;
-    bool lasts_forever(){
+    bool lasts_forever()
+    {
         return (ends <= 0);
     }
 
     MonsterGroupEntry(std::string new_name, int new_freq, int new_cost,
                       int new_pack_max, int new_pack_min, int new_starts,
-                      int new_ends){
-      name = new_name;
-      frequency = new_freq;
-      cost_multiplier = new_cost;
-      pack_minimum = new_pack_min;
-      pack_maximum = new_pack_max;
-      starts = new_starts;
-      ends = new_ends;
+                      int new_ends)
+    {
+        name = new_name;
+        frequency = new_freq;
+        cost_multiplier = new_cost;
+        pack_minimum = new_pack_min;
+        pack_maximum = new_pack_max;
+        starts = new_starts;
+        ends = new_ends;
     }
 };
 
-struct MonsterGroupResult
-{
+struct MonsterGroupResult {
     std::string name;
     int pack_size;
 
-    MonsterGroupResult(){
-      name = "mon_null";
-      pack_size = 0;
+    MonsterGroupResult()
+    {
+        name = "mon_null";
+        pack_size = 0;
     }
 
-    MonsterGroupResult(std::string new_name, int new_pack_size){
-      name = new_name;
-      pack_size = new_pack_size;
+    MonsterGroupResult(std::string new_name, int new_pack_size)
+    {
+        name = new_name;
+        pack_size = new_pack_size;
     }
 };
 
@@ -64,7 +64,7 @@ struct MonsterGroup {
 struct mongroup {
     std::string type;
     int posx, posy, posz;
-    unsigned char radius;
+    unsigned int radius;
     unsigned int population;
     int tx, ty; //horde target
     int interest; //interest to target in percents
@@ -72,39 +72,48 @@ struct mongroup {
     bool horde;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
     mongroup( std::string ptype, int pposx, int pposy, int pposz,
-              unsigned char prad, unsigned int ppop ) {
+              unsigned int prad, unsigned int ppop )
+    {
         type = ptype;
         posx = pposx;
         posy = pposy;
         posz = pposz;
         radius = prad;
         population = ppop;
+        tx = 0;
+        ty = 0;
+        interest = 0;
         dying = false;
         diffuse = false;
         horde = false;
     }
-    bool is_safe() {
+    bool is_safe()
+    {
         return (type == "GROUP_NULL" ||
                 type == "GROUP_SAFE" );
     };
-    void set_target(int x,int y) {
+    void set_target(int x, int y)
+    {
         tx = x;
         ty = y;
     }
     void wander();
-    void inc_interest(int inc) {
+    void inc_interest(int inc)
+    {
         interest += inc;
         if (interest > 100) {
             interest = 100;
         }
     }
-    void dec_interest(int dec) {
+    void dec_interest(int dec)
+    {
         interest -= dec;
         if (interest < 15) {
             interest = 15;
         }
     }
-    void set_interest(int set) {
+    void set_interest(int set)
+    {
         if (set < 15) {
             set = 15;
         }
@@ -115,14 +124,15 @@ struct mongroup {
     }
 };
 
-class MonsterGroupManager {
+class MonsterGroupManager
+{
     public:
         static void LoadMonsterGroup(JsonObject &jo);
         static void LoadMonsterBlacklist(JsonObject &jo);
         static void LoadMonsterWhitelist(JsonObject &jo);
         static void FinalizeMonsterGroups();
         static MonsterGroupResult GetResultFromGroup(std::string,
-                                            int *quantity = 0, int turn = -1);
+                int *quantity = 0, int turn = -1);
         static bool IsMonsterInGroup(std::string, std::string);
         static std::string Monster2Group(std::string);
         static std::vector<std::string> GetMonstersFromGroup(std::string);

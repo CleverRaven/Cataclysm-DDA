@@ -170,6 +170,7 @@
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter" />
+			<Add option="-std=c++11" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
@@ -189,6 +190,7 @@
 		<Unit filename="src/animation_curses.cpp" />
 		<Unit filename="src/animation_tiles.cpp" />
 		<Unit filename="src/armor_layers.cpp" />
+		<Unit filename="src/armor_layers.h" />
 		<Unit filename="src/artifact.cpp" />
 		<Unit filename="src/artifact.h" />
 		<Unit filename="src/auto_pickup.cpp" />
@@ -212,6 +214,8 @@
 		<Unit filename="src/char_validity_check.h" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/character.h" />
+		<Unit filename="src/clzones.cpp" />
+		<Unit filename="src/clzones.h" />
 		<Unit filename="src/color.cpp" />
 		<Unit filename="src/color.h" />
 		<Unit filename="src/computer.cpp" />
@@ -254,9 +258,11 @@
 		<Unit filename="src/file_wrapper.h" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
+		<Unit filename="src/game_constants.h" />
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/get_version.h" />
+		<Unit filename="src/globals.h" />
 		<Unit filename="src/graffiti.cpp" />
 		<Unit filename="src/graffiti.h" />
 		<Unit filename="src/help.cpp" />
@@ -282,6 +288,8 @@
 		<Unit filename="src/itypedef.cpp" />
 		<Unit filename="src/iuse.cpp" />
 		<Unit filename="src/iuse.h" />
+		<Unit filename="src/iuse_actor.cpp" />
+		<Unit filename="src/iuse_actor.h" />
 		<Unit filename="src/iuse_software.cpp" />
 		<Unit filename="src/iuse_software.h" />
 		<Unit filename="src/iuse_software_kitten.cpp" />
@@ -313,11 +321,15 @@
 		<Unit filename="src/mapgenformat.cpp" />
 		<Unit filename="src/mapgenformat.h" />
 		<Unit filename="src/mapitems.h" />
+		<Unit filename="src/mapsharing.cpp" />
+		<Unit filename="src/mapsharing.h" />
 		<Unit filename="src/martialarts.cpp" />
 		<Unit filename="src/martialarts.h" />
 		<Unit filename="src/material.cpp" />
 		<Unit filename="src/material.h" />
 		<Unit filename="src/melee.cpp" />
+		<Unit filename="src/messages.cpp" />
+		<Unit filename="src/messages.h" />
 		<Unit filename="src/mission.cpp" />
 		<Unit filename="src/mission.h" />
 		<Unit filename="src/mission_end.cpp" />
@@ -337,7 +349,6 @@
 		<Unit filename="src/mondefense.h" />
 		<Unit filename="src/mongroup.h" />
 		<Unit filename="src/mongroupdef.cpp" />
-		<Unit filename="src/monitemsdef.cpp" />
 		<Unit filename="src/monmove.cpp" />
 		<Unit filename="src/monster.cpp" />
 		<Unit filename="src/monster.h" />
@@ -368,6 +379,10 @@
 		<Unit filename="src/overmap.h" />
 		<Unit filename="src/overmapbuffer.cpp" />
 		<Unit filename="src/overmapbuffer.h" />
+		<Unit filename="src/path_info.cpp" />
+		<Unit filename="src/path_info.h" />
+		<Unit filename="src/pickup.cpp" />
+		<Unit filename="src/pickup.h" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/player.h" />
 		<Unit filename="src/player_activity.cpp" />
@@ -378,6 +393,8 @@
 		<Unit filename="src/profession.cpp" />
 		<Unit filename="src/profession.h" />
 		<Unit filename="src/ranged.cpp" />
+		<Unit filename="src/requirements.cpp" />
+		<Unit filename="src/requirements.h" />
 		<Unit filename="src/resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
@@ -387,13 +404,17 @@
 		<Unit filename="src/savegame.h" />
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
+    <Unit filename="src/scenario.cpp" />
+    <Unit filename="src/scenario.h" />
 		<Unit filename="src/sdltiles.cpp" />
-		<Unit filename="src/setvector.cpp" />
-		<Unit filename="src/setvector.h" />
+		<Unit filename="src/simplexnoise.cpp" />
+		<Unit filename="src/simplexnoise.h" />
 		<Unit filename="src/skill.cpp" />
 		<Unit filename="src/skill.h" />
 		<Unit filename="src/speech.cpp" />
 		<Unit filename="src/speech.h" />
+		<Unit filename="src/start_location.cpp" />
+		<Unit filename="src/start_location.h" />
 		<Unit filename="src/text_snippets.cpp" />
 		<Unit filename="src/text_snippets.h" />
 		<Unit filename="src/tile_id_data.h" />
@@ -420,6 +441,8 @@
 		<Unit filename="src/weather.cpp" />
 		<Unit filename="src/weather.h" />
 		<Unit filename="src/weather_data.cpp" />
+		<Unit filename="src/weather_gen.cpp" />
+		<Unit filename="src/weather_gen.h" />
 		<Unit filename="src/wincurse.cpp" />
 		<Unit filename="src/wish.cpp" />
 		<Unit filename="src/worldfactory.cpp" />

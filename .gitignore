@@ -3,6 +3,7 @@ cataclysm-tiles
 chkjson
 !src/chkjson
 data/*.template
+templates/
 save/
 graveyard/
 memorial/
@@ -24,11 +25,7 @@ WinDepend/
 *.zip
 
 data/font/
-data/keymap.txt
-data/options.txt
-data/auto_pickup.txt
-data/fontlist.txt
-data/FONTDATA
+config/
 
 doxygen_doc/html/*
 doxygen_doc/latex/*
@@ -43,6 +40,8 @@ data/mods/user-default-mods.json
 Release*/
 Debug*/
 *.opensdf
+*.user
+*.vcxproj.filters
 
 # Temporary and backup files
 *~
@@ -61,3 +60,7 @@ cscope.*
 
 # Compiled binary translations
 lang/mo/
+
+# Netbeans IDE folders
+nbproject/
+
