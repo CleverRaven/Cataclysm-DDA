@@ -3578,6 +3578,22 @@
         "to_hit": 1
    },
    {
+     "id": "fencing_foil",
+     "type": "GENERIC", 
+     "symbol": "/",
+     "color": "light_gray",
+     "name": "fencing foil",
+     "description": "A weapon used for fencing, the most noble of all sports. Unfortunately, due to its flexible shaft and dull tip it is rather useless as a weapon.",
+     "price": 2000,
+     "material": "iron",
+     "weight": 300,
+     "volume": 5,
+     "bashing": 1,
+     "cutting": 2,
+     "to_hit": 2,
+     "flags": ["STAB", "SHEATH_SWORD", "PRECISE", "RAPID" ]
+   },
+   {
    "id": "katana_fake",
     "type": "GENERIC",
     "symbol": "/",
