@@ -124,8 +124,8 @@ public:
  int price() const;
 
     /**
-     * Return the butcher factor, always positive, but lower is better.
-     * If the item can not be used for butcherin it return INT_MAX.
+     * Return the butcher factor (BUTCHER tool quality).
+     * If the item can not be used for butchering it returns INT_MIN.
      */
     int butcher_factor() const;
 

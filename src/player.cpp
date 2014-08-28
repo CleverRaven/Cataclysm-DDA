@@ -7306,19 +7306,17 @@ std::list<item> player::use_charges(itype_id it, long quantity)
 
 int player::butcher_factor() const
 {
-    int lowest_factor = INT_MAX;
+    int result = INT_MIN;
     if (has_bionic("bio_tools")) {
-        lowest_factor = 100;
+        item tmp( "toolset", 0 );
+        result = tmp.butcher_factor();
     }
-    int inv_factor = inv.butcher_factor();
-    if (inv_factor < lowest_factor) {
-        lowest_factor = inv_factor;
-    }
-    lowest_factor = std::min(lowest_factor, weapon.butcher_factor());
+    result = std::max( result, inv.butcher_factor() );
+    result = std::max( result, weapon.butcher_factor() );
     for (std::vector<item>::const_iterator a = worn.begin(); a != worn.end(); ++a) {
-        lowest_factor = std::min(lowest_factor, a->butcher_factor());
+        result = std::max( result, a->butcher_factor() );
     }
-    return lowest_factor;
+    return result;
 }
 
 item* player::pick_usb()

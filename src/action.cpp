@@ -415,7 +415,7 @@ bool can_butcher_at(int x, int y)
     for (std::vector<item>::iterator it = items.begin();
          it != items.end(); ++it) {
         if (it->type->id == "corpse" && it->corpse != NULL) {
-            if (factor != INT_MAX) {
+            if (factor != INT_MIN) {
                 has_corpse = true;
             }
         } else {

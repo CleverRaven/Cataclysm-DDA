@@ -11316,7 +11316,7 @@ void game::butcher()
     inventory crafting_inv = crafting_inventory(&u);
 
     // check if we have a butchering tool
-    if (factor == INT_MAX) {
+    if( factor == INT_MIN ) {
         add_msg(m_info, _("You don't have a sharp item to butcher with."));
         return;
     }
@@ -11415,7 +11415,7 @@ void game::butcher()
         break;
     }
     time_to_cut *= 100; // Convert to movement points
-    time_to_cut += factor * 5; // Penalty for poor tool
+    time_to_cut -= factor * 5; // Penalty for poor tool or benefit for good tool
     if (time_to_cut < 250) {
         time_to_cut = 250;
     }
@@ -11488,8 +11488,8 @@ void game::complete_butcher(int index)
     if (u.str_cur < 4) {
         skill_shift -= rng(0, 5 * (4 - u.str_cur)) / 4;
     }
-    if (factor > 0) {
-        skill_shift -= rng(0, factor / 5);
+    if( factor < 0 ) {
+        skill_shift -= rng( 0, -factor / 5 );
     }
 
     int practice = 4 + pieces;
