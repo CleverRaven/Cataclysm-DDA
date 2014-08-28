@@ -9,6 +9,8 @@ import json
 import re
 from collections import Counter, OrderedDict
 from fnmatch import fnmatch
+from StringIO import StringIO
+
 
 SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
 JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "json"))
@@ -49,10 +51,10 @@ def match_primitive_values(item_value, where_value):
     # Matching interpolation for keyboard constrained input.
     if type(item_value) == str or type(item_value) == unicode:
         # Direct match, and don't convert unicode in Python 2.
-        return bool(re.search(re.escape(where_value), item_value))
+        return bool(re.search(where_value, item_value))
     elif type(item_value) == int or type(item_value) == float:
         # match after string conversion
-        return bool(re.search(re.escape(where_value), str(item_value)))
+        return bool(re.search(where_value, str(item_value)))
     else:
         return False
 
@@ -184,3 +186,83 @@ def ui_counts_to_columns(counts):
     output_template = "%%-%ds: %%s" % key_field_len
     for k_v in key_vals:
         print(output_template % k_v)
+
+
+
+
+class CDDAJSONWriter(object):
+    """Essentially a one-off class used to write CDDA formatted JSON output.
+
+    Probable usage:
+
+        print CDDSJSONWriter(some_json).dumps()
+    """
+    indent = "  "
+    indent_multiplier = 0
+    buf = None
+
+    def __init__(self, d):
+        self.d = d
+        # buf is initialized on a call to dumps
+
+    def indented_write(self, s):
+        self.buf.write(self.indent*self.indent_multiplier + s)
+
+    def write_key(self, k):
+        self.indented_write("\"%s\": " % k)
+
+    def write_primitive_key_val(self, k, v):
+        self.write_key(k)
+        self.buf.write(json.dumps(v))
+
+    def list_of_lists(self, k, lol):
+        self.write_key(k)
+        self.buf.write("[\n")
+        lol = lol[:]
+        while lol:
+            self.indent_multiplier += 1
+            inner = lol.pop(0)[:]
+            self.indented_write("[\n")
+            while inner:
+                self.indent_multiplier += 1
+                item = inner.pop(0)
+                # Print each of these on one line
+                self.indented_write(json.dumps(item))
+                if inner:
+                    self.buf.write(",\n")
+                self.indent_multiplier -= 1
+            self.buf.write("\n")
+            self.indented_write("]")
+            if lol:
+                self.buf.write(",\n")
+            else:
+                self.buf.write("\n")
+            self.indent_multiplier -=1
+        self.indented_write("]")
+
+    def dumps(self):
+        """Format the Cataclysm JSON in as friendly of a JSON way as we can.
+        """
+        if self.buf:
+            self.buf.close()
+            self.buf = None
+
+        self.buf = StringIO()
+        items = self.d.items()
+        global indent_multiplier
+        self.indented_write("{\n")
+        self.indent_multiplier += 1
+        while items:
+            k, v = items.pop(0)
+            # Special cases first.
+            if (k == "tools" or k == "components") and type(v) == list:
+                self.list_of_lists(k, v)
+            else:
+                self.write_primitive_key_val(k, v)
+
+            # Trailing comma or not
+            if items:
+                self.buf.write(",\n")
+        self.indent_multiplier -= 1
+        self.indented_write("\n}\n")
+        return self.buf.getvalue()

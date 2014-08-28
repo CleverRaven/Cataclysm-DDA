@@ -16,7 +16,7 @@ from __future__ import print_function
 import sys
 import os
 import json
-from util import import_data, matches_where
+from util import import_data, matches_where, CDDAJSONWriter
 
 if __name__ == "__main__":
     if len(sys.argv) == 3:
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         if not plucked:
             sys.exit(1)
         else:
-            print(json.dumps(plucked, indent=4))
+            print(CDDAJSONWriter(plucked).dumps())
     elif len(sys.argv) == 4 and sys.argv[3] == "--all":
         # pluck all
         where_key = sys.argv[1]
@@ -51,7 +51,7 @@ if __name__ == "__main__":
         if not plucked:
             sys.exit(1)
         else:
-            print(json.dumps(plucked, indent=4))
+            print(CDDAJSONWriter(plucked).dumps())
     else:
         print("\n%s" % __doc__)
         sys.exit(1)
