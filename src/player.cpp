@@ -7940,7 +7940,9 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
-    if (has_trait("CARNIVORE") && (eaten->made_of("junk")) && (!has_bionic("bio_digestion")) && !is_npc() &&
+    if (has_trait("CARNIVORE") && ((eaten->made_of("junk")) && !(eaten->made_of("flesh") ||
+      eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
+      eaten->made_of("egg")) ) && (!has_bionic("bio_digestion")) && !is_npc() &&
         !query_yn(_("Really eat that %s? It smells completely unappealing."), eaten->tname().c_str()) ) {
         return false;
     }
@@ -8174,7 +8176,9 @@ bool player::eat(item *eaten, it_comest *comest)
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
     }
     // Carnivores CAN eat junk food, but they won't like it much.
-    if (has_trait("CARNIVORE") && (eaten->made_of("junk")) ) {
+    if (has_trait("CARNIVORE") && ((eaten->made_of("junk")) && !(eaten->made_of("flesh") ||
+    eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
+    eaten->made_of("egg")) ) ) {
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_NO_DIGEST, -25, -125, 300, 240);
     }
