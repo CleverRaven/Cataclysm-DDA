@@ -11163,14 +11163,13 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
 
     if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-        // draw an arrow from a worn quiver
-        if (u.weapon.ammo_type() == "arrow") {
             // find worn quivers
             std::vector<item *> quivers;
             for (std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++) {
                 item &worn = *it;
-                if (worn.type->can_use("QUIVER") &&
-                    !worn.contents.empty() && worn.contents[0].is_ammo() && worn.contents[0].charges > 0) {
+                if (worn.type->can_use("QUIVER") && !worn.contents.empty()
+                    && worn.contents[0].is_ammo() && worn.contents[0].charges > 0
+                    && worn.contents[0].ammo_type() == u.weapon.ammo_type() ) {
                     quivers.push_back(&worn);
                 }
             }
@@ -11211,7 +11210,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                     reload_pos = u.get_item_position(worn);
                 }
             }
-        }
         if (reload_pos == INT_MIN) {
             reload_pos = u.weapon.pick_reload_ammo(u, true);
         }
