@@ -68,3 +68,6 @@ lang/json/*
 # Netbeans IDE folders
 nbproject/
 
+# Python runtime files
+*.pyc
+
