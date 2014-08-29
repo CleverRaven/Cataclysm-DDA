@@ -475,7 +475,10 @@ void player::deserialize(JsonIn &jsin)
     if ( data.read("scenario",scen_ident) && scenario::exists(scen_ident) ) {
         g->scen = scenario::scen(scen_ident);
     } else {
-        debugmsg("Tried to use non-existent scenario '%s'", scen_ident.c_str());
+        scenario *generic_scenario = scenario::generic();
+        debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.", 
+                    scen_ident.c_str(), generic_scenario->ident().c_str());
+        g->scen = generic_scenario;
     }
     parray = data.get_array("temp_cur");
     for(int i = 0; i < num_bp; i++) {
