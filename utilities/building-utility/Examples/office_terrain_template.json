@@ -8,7 +8,7 @@
         "mondensity" : 2,
         "sidewalk" : true,
         "_Building_Utility" : {
-                "CELL_NUM" : {
+                "cell_num" : {
                         "string_format" : {
                                 "office_tower_%d" : [
                                         "id"

@@ -1765,7 +1765,9 @@ void map::destroy(const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
-    } else if( t == t_door_c || t == t_door_b || t == t_door_locked || t == t_door_boarded ) {
+    } else if( t == t_door_c || t == t_door_b || t == t_door_locked
+            || t == t_door_boarded || t == t_door_boarded_damaged
+            || t == t_rdoor_boarded || t == t_rdoor_boarded_damaged ) {
   ter_set(x, y, t_door_frame);
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
@@ -1940,7 +1942,10 @@ void map::shoot(const int x, const int y, int &dam,
             g->sound(x, y, 10, _("smash!"));
             ter_set(x, y, t_door_b);
         }
-    } else if( 0 == terrain.id.compare("t_door_boarded") ) {
+    } else if( 0 == terrain.id.compare("t_door_boarded") ||
+               0 == terrain.id.compare("t_door_boarded_damaged") ||
+               0 == terrain.id.compare("t_rdoor_boarded") ||
+               0 == terrain.id.compare("t_rdoor_boarded_damaged") ) {
         dam -= rng(15, 35);
         if (dam > 0) {
             g->sound(x, y, 10, _("crash!"));
@@ -2436,6 +2441,11 @@ itemslice map::i_stacked(std::vector<item>& items)
                         first_item->item_counter = tmpcounter;
                         it->item_counter = tmpcounter;
                     }
+                    else if (first_item->is_food() && first_item->has_flag("COLD")) {
+                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
+                        first_item->item_counter = tmpcounter;
+                        it->item_counter = tmpcounter;
+                    }
 
                     //add it to the existing list
                     curr->push_back(&*it);
@@ -2804,8 +2814,16 @@ static void apply_in_fridge(item &it)
     if (it.is_food() && it.fridge == 0) {
         it.fridge = (int) calendar::turn;
         // cool down of the HOT flag, is unsigned, don't go below 1
-        if (it.item_counter > 10) {
+        if ((it.has_flag("HOT")) && (it.item_counter > 10)) {
             it.item_counter -= 10;
+        }
+        // This sets the COLD flag, and doesn't go above 600
+        if ((it.has_flag("EATEN_COLD")) && (!it.has_flag("COLD"))) {
+            it.item_tags.insert("COLD");
+            it.active = true;
+        }
+		if ((it.has_flag("COLD")) && (it.item_counter <= 590) && it.fridge > 0) {
+            it.item_counter += 10;
         }
     }
     if (it.is_container()) {
@@ -2995,12 +3013,26 @@ bool map::process_active_item(item *it, submap *const current_submap,
                     current_submap->active_item_count--;
                 }
             }
+            else if (it->has_flag("COLD")) {
+                it->item_counter--;
+                if (it->item_counter == 0) {
+                    it->item_tags.erase("COLD");
+                    current_submap->active_item_count--;
+                }
+            }
         } else if (it->is_food_container()) { // food in containers
             it->contents[0].calc_rot(point(gridx * SEEX + i, gridy * SEEY + j));
             if (it->contents[0].has_flag("HOT")) {
                 it->contents[0].item_counter--;
                 if (it->contents[0].item_counter == 0) {
                     it->contents[0].item_tags.erase("HOT");
+                    current_submap->active_item_count--;
+                }
+            }
+            else if (it->contents[0].has_flag("COLD")) {
+                it->contents[0].item_counter--;
+                if (it->contents[0].item_counter == 0) {
+                    it->contents[0].item_tags.erase("COLD");
                     current_submap->active_item_count--;
                 }
             }
@@ -4656,6 +4688,24 @@ void map::spawn_monsters()
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++) {
         for (int gy = 0; gy < my_MAPSIZE; gy++) {
+            auto groups = overmap_buffer.groups_at( abs_sub.x + gx, abs_sub.y + gy, abs_sub.z );
+            for( auto &mgp : groups ) {
+                int group = mgp->population;
+                for( int g = 0; g < group; g++ ) {
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgp->type, &group );
+                    if( spawn_details.name == "mon_null" ) {
+                        continue;
+                    }
+                    // Spawn points can be added everywhere, the actual spawn code
+                    // places the monster at a suitable point.
+                    int monx = rng( 0, SEEX - 1 ) + SEEX * gx;
+                    int mony = rng( 0, SEEY - 1 ) + SEEY * gy;
+                    add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
+                }
+                // indicates the group is empty, and can be removed later
+                mgp->population = 0;
+            }
+
             submap * const current_submap = get_submap_at_grid(gx, gy);
             for (auto &i : current_submap->spawns) {
                 for (int j = 0; j < i.count; j++) {

@@ -1251,6 +1251,8 @@ void show_options(bool ingame)
     }
     if( lang_changed ) {
         set_language(false);
+        g->mmenu_refresh_motd();
+        g->mmenu_refresh_credits();
     }
 #ifdef SDLTILES
     if( used_tiles_changed ) {

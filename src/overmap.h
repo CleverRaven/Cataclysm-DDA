@@ -268,7 +268,7 @@ class overmap
 
   point const& pos() const { return loc; }
 
-  void save();
+  void save() const;
   void first_house(int &x, int &y, const std::string start_location);
 
   void process_mongroups(); // Makes them die out, maybe more

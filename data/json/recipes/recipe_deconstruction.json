@@ -1050,6 +1050,58 @@
         [ [ "scrap", 7 ] ]
     ]
 },{
+	"type" : "recipe",
+  "result": "makeshift_crowbar",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "mechanics",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"SAW_M","level":1,"amount":1}
+   ], "components": [
+        [ [ "scrap", 3 ] ],
+        [ [ "steel_chunk", 1] ]
+    ]
+},{
+	"type" : "recipe",
+  "result": "file",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 3 ] ]
+  ]
+},{
+	"type" : "recipe",
+  "result": "flyer",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 1 ] ]
+  ]
+},{
+	"type" : "recipe",
+  "result": "survnote",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 1 ] ]
+  ]
+},{
         "type" : "recipe",
   "result": "broken_manhack",
   "category": "CC_NONCRAFT",
