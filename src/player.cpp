@@ -1896,8 +1896,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
-    for( size_t i = 0; i < illness.size(); ++i ) {
-      disease next_illness = illness[i];
+    for (auto &next_illness : illness) {
       if(dis_name(next_illness).size() > 0) {
         had_effect = true;
         memorial_file << indent << dis_name(next_illness) << "\n";
@@ -2165,10 +2164,10 @@ void player::disp_info()
     unsigned line;
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
-    for (size_t i = 0; i < illness.size(); i++) {
-        if (dis_name(illness[i]).size() > 0) {
-            effect_name.push_back(dis_name(illness[i]));
-            effect_text.push_back(dis_description(illness[i]));
+    for (auto &next_illness : illness) {
+        if (dis_name(next_illness).size() > 0) {
+            effect_name.push_back(dis_name(next_illness));
+            effect_text.push_back(dis_description(next_illness));
         }
     }
     for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it) {
@@ -2705,13 +2704,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for (size_t i = 0; i < illness.size(); i++) {
-        int move_adjust = disease_speed_boost(illness[i]);
+    for (auto &next_illness : illness) {
+        int move_adjust = disease_speed_boost(next_illness);
         if (move_adjust != 0) {
-            if (dis_combined_name(illness[i]) == "") {
-                dis_text = dis_name(illness[i]);
+            if (dis_combined_name(next_illness) == "") {
+                dis_text = dis_name(next_illness);
             } else {
-                dis_text = dis_combined_name(illness[i]);
+                dis_text = dis_combined_name(next_illness);
             }
             speed_effects[dis_text] += move_adjust;
         }
@@ -5208,14 +5207,10 @@ void player::add_disease(dis_type type, int duration, bool permanent,
 
 void player::rem_disease(dis_type type, body_part part)
 {
-    for (size_t i = 0; i < illness.size();) {
-        if (illness[i].type == type && ( part == num_bp || illness[i].bp == part )) {
-            illness.erase(illness.begin() + i);
-            if(!is_npc()) {
-                dis_remove_memorial(type);
-            }
-        } else {
-            i++;
+    for (auto &next_illness : illness) {
+        if (next_illness.type == type && ( part == num_bp || next_illness.bp == part )) {
+            next_illness.duration = -1;
+            dis_remove_memorial(type);
         }
     }
 
@@ -5225,7 +5220,7 @@ void player::rem_disease(dis_type type, body_part part)
 bool player::has_disease(dis_type type, body_part part) const
 {
     for (auto &i : illness) {
-        if (i.type == type && ( part == num_bp || i.bp == part ) ) {
+        if (i.duration > 0 && i.type == type && ( part == num_bp || i.bp == part ) && i.duration > 0 ) {
             return true;
         }
     }
@@ -5544,25 +5539,34 @@ void player::suffer()
         }
     }
 
-    for( size_t i = 0; i < illness.size(); ++i ) {
+    for( auto it = illness.begin(); it != illness.end(); ++it ) {
+        if( it->duration <= 0 ) {
+            continue;
+        }
         // Note: dis_effect might add or remove disease (DI_LYING_DOWN adds DI_SLEEP).
-        // therefor no iterator, no range-based iteration.
-        dis_effect( *this, illness[i] );
+        // therefor, no range-based iteration.
+        dis_effect( *this, *it );
     }
 
     // Diseases may remove themselves as part of applying (MA buffs do) so do a
     // separate loop through the remaining ones for duration, decay, etc..
-    for (size_t i = 0; i < illness.size(); i++) {
-        if (!illness[i].permanent) {
-            illness[i].duration--;
+    for( auto it = illness.begin(); it != illness.end(); ) {
+        auto &next_illness = *it;
+        if( next_illness.duration < 0 ) {
+            it = illness.erase( it );
+            continue;
         }
-        if (illness[i].decay > 0 && one_in(illness[i].decay)) {
-            illness[i].intensity--;
+        if (!next_illness.permanent) {
+            next_illness.duration--;
         }
-        if (illness[i].duration <= 0 || illness[i].intensity == 0) {
-            dis_end_msg(*this, illness[i]);
-            illness.erase(illness.begin() + i);
-            i--;
+        if (next_illness.decay > 0 && one_in(next_illness.decay)) {
+            next_illness.intensity--;
+        }
+        if (next_illness.duration <= 0 || next_illness.intensity == 0) {
+            dis_end_msg(*this, next_illness);
+            it = illness.erase( it );
+        } else {
+            it++;
         }
     }
 

@@ -994,7 +994,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::unordered_set<std::string> my_traits;
         std::unordered_set<std::string> my_mutations;
         std::vector<bionic> my_bionics;
-        std::vector<disease> illness;
+        std::list<disease> illness;
         bool underwater;
         trap_map known_traps;
 
