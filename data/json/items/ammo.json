@@ -175,7 +175,7 @@
         "description": "These are thin paper strips intended for the rolling of cigarettes.",
         "price": 150,
         "material": "paper",
-        "weight": 10,
+        "weight": 0,
         "volume": 0,
         "bashing": 0,
         "cutting": 0,
