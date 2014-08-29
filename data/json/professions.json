@@ -2077,6 +2077,125 @@
             ]
         }
     },
+	{
+        "type": "profession",
+        "ident": "custodian",
+        "name": {
+            "male": "Janitor",
+            "female": "Janitress"
+        },
+        "description": "It was an emergency call to clean a mess.  You just didn't realize at the time how big it'd be.",
+        "points": 0,
+        "items": {
+            "both": [
+                "mask_dust",
+                "technician_shirt_gray",
+                "jumpsuit",
+                "tool_belt",
+                "gloves_rubber",
+                "socks",
+                "boots_rubber",
+                "hat_ball",
+                "bleach",
+                "towel",
+				"mop"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "it_specialist",
+        "name": "IT Specialist",
+        "description": "What could have been just another ordinary day at the office, turned into a living nightmare.  Screams echoed through the cubicles as creatures attacked the building.  You were among the lucky few who managed to escaped the building, in one piece.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 2,
+                "name": "computer"
+            },
+            {
+                "level": 2,
+                "name": "electronics"
+            },
+			{
+                "level": 2,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "undershirt",
+                "dress_shirt",
+                "wristwatch",
+                "pants",
+                "leather_belt",
+                "socks",
+                "dress_shoes",
+				"pda"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+	{
+        "type": "profession",
+        "ident": "hunter",
+        "name": {
+            "male": "Huntsman",
+            "female": "Huntress"
+        },
+        "description": "The thrill of the hunt has always been an enjoyable experience for you.  But after the cataclysm, you've been finding yourself to be the one who is chased and stalked.  You still have your gun and some bullets left, perhaps now is the time to turn the tables on your hunters!",
+        "points": 2,
+		"skills": [
+            {
+                "level": 2,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+			{
+                "level": 1,
+                "name": "rifle"
+            }
+        ],
+        "items": {
+            "both": [
+                "hat_ball",
+                "longshirt",
+                "jacket_light",
+				"backpack",
+                "gloves_light",
+                "pants_cargo",
+                "socks",
+                "boots_hiking",
+                "ruger_1022",
+                "22_lr",
+                "switchblade",
+				"binoculars"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
     {
         "type": "profession",
         "ident": "postman",
