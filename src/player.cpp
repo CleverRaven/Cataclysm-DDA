@@ -7901,8 +7901,9 @@ bool player::eat(item *eaten, it_comest *comest)
                       add_msg(_("You've begun stockpiling calories and liquid for hibernation. You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW."));
       }
     }
-
-    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) && comest->nutr > 0) {
+    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
+      !(eaten->made_of("flesh") ||eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
+      eaten->made_of("egg")) && comest->nutr > 0) {
         add_msg_if_player(m_info, _("Eww.  Inedible plant stuff!"));
         return false;
     }
@@ -8176,6 +8177,7 @@ bool player::eat(item *eaten, it_comest *comest)
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
     }
     // Carnivores CAN eat junk food, but they won't like it much.
+    // Pizza-scraping happens in consume_effects.
     if (has_trait("CARNIVORE") && ((eaten->made_of("junk")) && !(eaten->made_of("flesh") ||
     eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
     eaten->made_of("egg")) ) ) {
@@ -8245,6 +8247,17 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             stomach_food += ((comest->nutr) *= 0.66);
             stomach_water += ((comest->quench) *= 0.66);
         }
+    } else if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
+      (eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
+      eaten->made_of("egg")) ) {
+          // Carnivore is stripping the good stuff out of that plant crap it's mixed up with.
+          // They WILL eat the Meat Pizza.
+          hunger -= ((comest->nutr) * 0.5);
+          thirst -= ((comest->quench) * 0.5);
+          mod_healthy_mod(comest->healthy * 0.5);
+          stomach_food += ((comest->nutr) *= 0.5);
+          stomach_water += ((comest->quench) *= 0.5);
+          add_msg_if_player(m_good, _("You eat the good parts and leave that indigestible plant stuff behind."));
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
