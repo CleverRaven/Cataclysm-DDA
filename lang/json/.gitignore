@@ -1,5 +1,0 @@
-# ignore everything in this directory
-*
-# except this file and the README
-!.gitignore
-!README
