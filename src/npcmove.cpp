@@ -1084,9 +1084,9 @@ void npc::move_to(int x, int y)
             }
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;
-        } else if (g->m.has_flag("BASHABLE", x, y)) {
-            moves -= 110;
-            int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
+        } else if (g->m.is_bashable(x, y)) {
+            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
+            int smashskill = int(str_cur + weapon.type->melee_dam);
             g->m.bash( x, y, smashskill );
         } else {
             moves -= 100;

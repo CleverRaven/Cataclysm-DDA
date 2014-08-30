@@ -362,6 +362,8 @@ class map
  bool is_bashable_ter_furn(const int x, const int y);
  /** Returns max_str of the furniture or terrain at x,y */
  int bash_strength(const int x, const int y);
+ /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning */
+ int bash_rating(const int str, const int x, const int y);
  
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain

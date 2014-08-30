@@ -1379,6 +1379,11 @@ int map::bash_strength(const int x, const int y)
     return -1;
 }
 
+int map:bash_rating(const int str, const int x, const int y)
+{
+
+}
+
 bool map::is_destructable(const int x, const int y)
 {
  return has_flag("BASHABLE", x, y) || move_cost(x, y) == 0;
