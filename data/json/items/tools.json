@@ -133,7 +133,7 @@
     "price": 50,
     "material": "wood",
     "weight": 10,
-    "volume": 1,
+    "volume": 0,
     "bashing": 0,
     "cutting": 0,
     "to_hit": 0,
