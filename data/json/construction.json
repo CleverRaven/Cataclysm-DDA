@@ -352,7 +352,7 @@
         "post_terrain" : "t_window_empty"
     },{
         "type" : "construction",
-        "description" : "Tape up window",
+        "description" : "Tape Up window",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 2,
@@ -363,7 +363,7 @@
         "post_terrain" : "t_window_taped"
     },{
         "type" : "construction",
-        "description" : "Tape up window",
+        "description" : "Tape Up window",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 2,
@@ -374,7 +374,7 @@
         "post_terrain" : "t_window_domestic_taped"
     },{
         "type" : "construction",
-        "description" : "Tape up window",
+        "description" : "Tape Up window",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 2,
