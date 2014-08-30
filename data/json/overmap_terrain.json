@@ -46,6 +46,7 @@
         "color" : "brown",
         "see_cost" : 2,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 },
         "allow_road" : true
     },{
         "type" : "overmap_terrain",
@@ -55,6 +56,7 @@
         "color" : "green",
         "see_cost" : 3,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 3], "chance": 80 },
         "allow_road" : true
     },{
         "type" : "overmap_terrain",
@@ -64,6 +66,7 @@
         "color" : "green",
         "see_cost" : 4,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 6], "chance": 90 },
         "allow_road" : true,
         "mapgen": [
             { "method": "builtin", "name": "forest" }
@@ -76,6 +79,7 @@
         "color" : "cyan",
         "see_cost" : 4,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_SWAMP", "population": [1, 4], "chance": 100 },
         "allow_road" : true,
         "mapgen": [
             { "method": "builtin", "name": "forest" }
@@ -1263,6 +1267,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1271,6 +1276,7 @@
         "sym" : 76,
         "color" : "blue",
         "see_cost" : 5,
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
         "known_down" : true
     },{
         "type" : "overmap_terrain",
@@ -1278,6 +1284,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 8], "chance": 30 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1285,6 +1292,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "cyan",
+        "spawns" : { "group": "GROUP_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1292,6 +1300,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 5], "chance": 20 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1300,6 +1309,7 @@
         "sym" : 76,
         "color" : "blue",
         "see_cost" : 5,
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 5], "chance": 20 },
         "known_down" : true
     },{
         "type" : "overmap_terrain",
@@ -1307,6 +1317,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 8], "chance": 30 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1314,6 +1325,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "cyan",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -4354,7 +4366,20 @@
         "color" : "green",
         "see_cost" : 5,
         "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sai",
+        "name" : "serving area interface",
+        "sym" : 48,
+        "color" : "i_magenta",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_sub_s",
+        "name" : "small power substation",
+        "sym" : 72,
+        "color" : "light_cyan",
+        "see_cost" : 5,
+        "extras" : "field"
     }
 ]
-
-

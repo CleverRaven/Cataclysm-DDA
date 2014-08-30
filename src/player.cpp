@@ -153,6 +153,7 @@ player::player() : Character(), name("")
  scent = 500;
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
+
  start_location = "shelter";
  moves = 100;
  movecounter = 0;
@@ -246,6 +247,7 @@ player& player::operator= (const player & rhs)
  name = rhs.name;
  male = rhs.male;
  prof = rhs.prof;
+
  start_location = rhs.start_location;
 
  sight_max = rhs.sight_max;
@@ -562,7 +564,7 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id("null");
 
-    if (has_active_bionic("bio_metabolics") && power_level < max_power_level &&
+    if (has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
             hunger < 100 && (int(calendar::turn) % 5 == 0)) {
         hunger += 2;
         power_level += 25;
@@ -880,6 +882,12 @@ Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
 
 void player::update_bodytemp()
 {
+    if (has_trait("DEBUG_NOTEMP")){
+        for (int i = 0 ; i < num_bp ; i++) {
+            temp_cur[i] = BODYTEMP_NORM;
+        }
+        return;
+    }
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
@@ -1189,7 +1197,7 @@ void player::update_bodytemp()
         else if (has_trait("RADIOACTIVE3")) { temp_conv[i] += 1500; }
         // Chemical Imbalance
         // Added line in player::suffer()
-        // FINAL CALCULATION : Increments current body temperature towards convergant.
+        // FINAL CALCULATION : Increments current body temperature towards convergent.
         if ( has_disease("sleep") || has_disease("lying_down")) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
             // Too warm, don't need items on the floor
@@ -1217,7 +1225,7 @@ void player::update_bodytemp()
         }
         if (temp_cur[i] != temp_conv[i])
         {
-            // If you're standing in deep water, you approach convergeant temp fast
+            // If you're standing in deep water, you approach convergent temp fast
             // If you're standing in shallow water, only your feet and legs converge faster
             if      ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool ||
                       ter_at_pos == t_swater_dp) ||
@@ -1888,8 +1896,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
-    for( size_t i = 0; i < illness.size(); ++i ) {
-      disease next_illness = illness[i];
+    for (auto &next_illness : illness) {
       if(dis_name(next_illness).size() > 0) {
         had_effect = true;
         memorial_file << indent << dis_name(next_illness) << "\n";
@@ -2157,10 +2164,10 @@ void player::disp_info()
     unsigned line;
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
-    for (size_t i = 0; i < illness.size(); i++) {
-        if (dis_name(illness[i]).size() > 0) {
-            effect_name.push_back(dis_name(illness[i]));
-            effect_text.push_back(dis_description(illness[i]));
+    for (auto &next_illness : illness) {
+        if (dis_name(next_illness).size() > 0) {
+            effect_name.push_back(dis_name(next_illness));
+            effect_text.push_back(dis_description(next_illness));
         }
     }
     for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it) {
@@ -2697,13 +2704,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for (size_t i = 0; i < illness.size(); i++) {
-        int move_adjust = disease_speed_boost(illness[i]);
+    for (auto &next_illness : illness) {
+        int move_adjust = disease_speed_boost(next_illness);
         if (move_adjust != 0) {
-            if (dis_combined_name(illness[i]) == "") {
-                dis_text = dis_name(illness[i]);
+            if (dis_combined_name(next_illness) == "") {
+                dis_text = dis_name(next_illness);
             } else {
-                dis_text = dis_combined_name(illness[i]);
+                dis_text = dis_combined_name(next_illness);
             }
             speed_effects[dis_text] += move_adjust;
         }
@@ -5200,14 +5207,10 @@ void player::add_disease(dis_type type, int duration, bool permanent,
 
 void player::rem_disease(dis_type type, body_part part)
 {
-    for (size_t i = 0; i < illness.size();) {
-        if (illness[i].type == type && ( part == num_bp || illness[i].bp == part )) {
-            illness.erase(illness.begin() + i);
-            if(!is_npc()) {
-                dis_remove_memorial(type);
-            }
-        } else {
-            i++;
+    for (auto &next_illness : illness) {
+        if (next_illness.type == type && ( part == num_bp || next_illness.bp == part )) {
+            next_illness.duration = -1;
+            dis_remove_memorial(type);
         }
     }
 
@@ -5217,7 +5220,7 @@ void player::rem_disease(dis_type type, body_part part)
 bool player::has_disease(dis_type type, body_part part) const
 {
     for (auto &i : illness) {
-        if (i.type == type && ( part == num_bp || i.bp == part ) ) {
+        if (i.duration > 0 && i.type == type && ( part == num_bp || i.bp == part ) && i.duration > 0 ) {
             return true;
         }
     }
@@ -5536,25 +5539,34 @@ void player::suffer()
         }
     }
 
-    for( size_t i = 0; i < illness.size(); ++i ) {
+    for( auto it = illness.begin(); it != illness.end(); ++it ) {
+        if( it->duration <= 0 ) {
+            continue;
+        }
         // Note: dis_effect might add or remove disease (DI_LYING_DOWN adds DI_SLEEP).
-        // therefor no iterator, no range-based iteration.
-        dis_effect( *this, illness[i] );
+        // therefor, no range-based iteration.
+        dis_effect( *this, *it );
     }
 
     // Diseases may remove themselves as part of applying (MA buffs do) so do a
     // separate loop through the remaining ones for duration, decay, etc..
-    for (size_t i = 0; i < illness.size(); i++) {
-        if (!illness[i].permanent) {
-            illness[i].duration--;
+    for( auto it = illness.begin(); it != illness.end(); ) {
+        auto &next_illness = *it;
+        if( next_illness.duration < 0 ) {
+            it = illness.erase( it );
+            continue;
         }
-        if (illness[i].decay > 0 && one_in(illness[i].decay)) {
-            illness[i].intensity--;
+        if (!next_illness.permanent) {
+            next_illness.duration--;
         }
-        if (illness[i].duration <= 0 || illness[i].intensity == 0) {
-            dis_end_msg(*this, illness[i]);
-            illness.erase(illness.begin() + i);
-            i--;
+        if (next_illness.decay > 0 && one_in(next_illness.decay)) {
+            next_illness.intensity--;
+        }
+        if (next_illness.duration <= 0 || next_illness.intensity == 0) {
+            dis_end_msg(*this, next_illness);
+            it = illness.erase( it );
+        } else {
+            it++;
         }
     }
 
@@ -6183,7 +6195,8 @@ void player::vomit()
 void player::drench(int saturation, int flags)
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if ( (is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy))) ) {
+    if ( (has_trait("DEBUG_NOTEMP")) || ((is_waterproof(flags)) &&
+        (!(g->m.has_flag(TFLAG_DEEP_WATER, posx, posy)))) ) {
         return;
     }
 
@@ -6503,7 +6516,6 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                 // The existing bonus is above the new cap.  Reduce it.
                 i.bonus = max_bonus;
             }
-            
             //Found a match, so no need to check further
             break;
         }
@@ -6716,6 +6728,14 @@ bool player::process_single_active_item(item *it)
                     it->item_tags.erase("HOT");
                 }
             }
+            if (it->has_flag("COLD"))
+            {
+                it->item_counter--;
+                if (it->item_counter == 0)
+                {
+                    it->item_tags.erase("COLD");
+                }
+            }
         }
         else if (it->is_food_container())
         {
@@ -6726,6 +6746,14 @@ bool player::process_single_active_item(item *it)
                 if (it->contents[0].item_counter == 0)
                 {
                     it->contents[0].item_tags.erase("HOT");
+                }
+            }
+            if (it->contents[0].has_flag("COLD"))
+            {
+                it->contents[0].item_counter--;
+                if (it->contents[0].item_counter == 0)
+                {
+                    it->contents[0].item_tags.erase("COLD");
                 }
             }
         }
@@ -6887,7 +6915,7 @@ item player::reduce_charges(int position, long quantity) {
 
         if (quantity > weapon.charges)
         {
-            debugmsg("Charges: Tried to remove charges that does not exist, \
+            debugmsg("Charges: Tried to remove charges that do not exist, \
                       removing maximum available charges instead");
             quantity = weapon.charges;
         }
@@ -7282,19 +7310,17 @@ std::list<item> player::use_charges(itype_id it, long quantity)
 
 int player::butcher_factor() const
 {
-    int lowest_factor = INT_MAX;
+    int result = INT_MIN;
     if (has_bionic("bio_tools")) {
-        lowest_factor = 100;
+        item tmp( "toolset", 0 );
+        result = tmp.butcher_factor();
     }
-    int inv_factor = inv.butcher_factor();
-    if (inv_factor < lowest_factor) {
-        lowest_factor = inv_factor;
-    }
-    lowest_factor = std::min(lowest_factor, weapon.butcher_factor());
+    result = std::max( result, inv.butcher_factor() );
+    result = std::max( result, weapon.butcher_factor() );
     for (std::vector<item>::const_iterator a = worn.begin(); a != worn.end(); ++a) {
-        lowest_factor = std::min(lowest_factor, a->butcher_factor());
+        result = std::max( result, a->butcher_factor() );
     }
-    return lowest_factor;
+    return result;
 }
 
 item* player::pick_usb()
@@ -7877,9 +7903,10 @@ bool player::eat(item *eaten, it_comest *comest)
                       add_msg(_("You've begun stockpiling calories and liquid for hibernation. You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW."));
       }
     }
-
-    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit")) && comest->nutr > 0) {
-        add_msg_if_player(m_info, _("You can't stand the thought of eating veggies."));
+    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
+      !(eaten->made_of("flesh") ||eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
+      eaten->made_of("egg")) && comest->nutr > 0) {
+        add_msg_if_player(m_info, _("Eww.  Inedible plant stuff!"));
         return false;
     }
     if ((!has_trait("SAPIOVORE") && !has_trait("CANNIBAL") && !has_trait("PSYCHOPATH")) && eaten->made_of("hflesh")&&
@@ -7911,8 +7938,15 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
-    if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat") && (!has_bionic("bio_digestion")) && !is_npc() &&
+    if (has_trait("ANTIWHEAT") && eaten->made_of("wheat") &&
+        (!has_bionic("bio_digestion")) && !is_npc() &&
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
+        return false;
+    }
+    if (has_trait("CARNIVORE") && ((eaten->made_of("junk")) && !(eaten->made_of("flesh") ||
+      eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
+      eaten->made_of("egg")) ) && (!has_bionic("bio_digestion")) && !is_npc() &&
+        !query_yn(_("Really eat that %s? It smells completely unappealing."), eaten->tname().c_str()) ) {
         return false;
     }
     if ((has_trait("SAPROPHAGE") && (!spoiled) && (!has_bionic("bio_digestion")) && !is_npc() &&
@@ -8100,7 +8134,10 @@ bool player::eat(item *eaten, it_comest *comest)
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power(rng(75, 300));
     }
-
+    //eating plant fertilizer stops here
+    if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )){
+        return true;
+    }
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
     // Sapiovores don't recognize humans as the same species.
     // It's not cannibalism if you're not eating your own kind.
@@ -8137,9 +8174,17 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg_if_player(m_bad, _("Yuck! How can anybody eat this stuff?"));
         add_morale(MORALE_ANTIJUNK, -75, -400, 300, 240);
     }
-    if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat")) {
+    if (has_trait("ANTIWHEAT") && eaten->made_of("wheat")) {
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
+    }
+    // Carnivores CAN eat junk food, but they won't like it much.
+    // Pizza-scraping happens in consume_effects.
+    if (has_trait("CARNIVORE") && ((eaten->made_of("junk")) && !(eaten->made_of("flesh") ||
+    eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
+    eaten->made_of("egg")) ) ) {
+        add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
+        add_morale(MORALE_NO_DIGEST, -25, -125, 300, 240);
     }
     if (has_trait("SAPROPHAGE") && !(spoiled)) {
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
@@ -8174,6 +8219,9 @@ bool player::eat(item *eaten, it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
+    if (has_trait("THRESH_PLANT") && eaten->type->id == "fertilizer_liquid") {
+    return;
+    }
     if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
@@ -8201,6 +8249,17 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             stomach_food += ((comest->nutr) *= 0.66);
             stomach_water += ((comest->quench) *= 0.66);
         }
+    } else if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
+      (eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
+      eaten->made_of("egg")) ) {
+          // Carnivore is stripping the good stuff out of that plant crap it's mixed up with.
+          // They WILL eat the Meat Pizza.
+          hunger -= ((comest->nutr) * 0.5);
+          thirst -= ((comest->quench) * 0.5);
+          mod_healthy_mod(comest->healthy * 0.5);
+          stomach_food += ((comest->nutr) *= 0.5);
+          stomach_water += ((comest->quench) *= 0.5);
+          add_msg_if_player(m_good, _("You eat the good parts and leave that indigestible plant stuff behind."));
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
@@ -8229,6 +8288,12 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     }
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
+    }
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 3, 60, 30, false, comest);
+    }
+    if (eaten->has_flag("COLD") && eaten->has_flag("EATEN_COLD") && comest->fun <= 0) {
+            comest->fun = 1;
     }
     if (has_trait("GOURMAND")) {
         if (comest->fun < -2) {

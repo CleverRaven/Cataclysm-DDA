@@ -1446,6 +1446,30 @@ int iuse::blech(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::plantblech(player *p, item *it, bool)
+{
+    if (p->has_trait("THRESH_PLANT")) {
+    double multiplier = -1;
+        if (p->has_trait("CHLOROMORPH")) {
+            multiplier = -3;
+            p->add_msg_if_player(m_good, _("The meal is revitalizing."));
+        } else{
+            p->add_msg_if_player(m_good, _("Oddly enough, this doesn't taste so bad."));
+        }
+    it_comest *food = dynamic_cast<it_comest*>(it->type);
+    //reverses the harmful values of drinking fertilizer
+    p->hunger += food->nutr * multiplier;
+    p->thirst -= food->quench * multiplier;
+    p->mod_healthy_mod(food->healthy * multiplier);
+    p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
+    return it->type->charges_to_use();
+    }
+    else {
+    //return it->type->charges_to_use();
+    return blech(p,it,true);
+    }
+}
+
 int iuse::chew(player *p, item *it, bool)
 {
     // TODO: Add more effects?
@@ -2899,59 +2923,6 @@ int iuse::extinguisher(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::hammer(player *p, item *it, bool)
-{
-    g->draw();
-    int x, y;
-    // If anyone other than the player wants to use one of these,
-    // they're going to need to figure out how to aim it.
-    if (!choose_adjacent(_("Pry where?"), x, y)) {
-        return 0;
-    }
-
-    if (x == p->posx && y == p->posy) {
-        p->add_msg_if_player(_("You try to hit yourself with the hammer."));
-        p->add_msg_if_player(_("But you can't touch this."));
-        return 0;
-    }
-
-    int nails = 0, boards = 0;
-    ter_id newter;
-    ter_id type = g->m.ter(x, y);
-    if (type == t_fence_h || type == t_fence_v) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        p->add_msg_if_player(_("You pry out the fence post."));
-    } else if (type == t_window_boarded) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        p->add_msg_if_player(_("You pry the boards from the window."));
-    } else if (type == t_window_boarded_noglass) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        p->add_msg_if_player(_("You pry the boards from the window frame."));
-    } else if (type == t_door_boarded) {
-        nails = 8;
-        boards = 4;
-        // FIXME: boards go across a door FRAME;
-        // the door itself should be as good as it was before it was boarded up.
-        newter = t_door_b;
-        p->add_msg_if_player(_("You pry the boards from the door."));
-    } else {
-        p->add_msg_if_player(m_info, _("Hammers can only remove boards from windows, doors and fences."));
-        p->add_msg_if_player(m_info, _("To board up a window or door, press *"));
-        return 0;
-    }
-    p->moves -= 500;
-    g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
-    g->m.spawn_item(p->posx, p->posy, "2x4", boards);
-    g->m.ter_set(x, y, newter);
-    return it->type->charges_to_use();
-}
-
 int iuse::rm13armor_off(player *p, item *it, bool)
 {
     if (it->charges < it->type->charges_to_use()) {
@@ -3834,6 +3805,75 @@ int iuse::picklock(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+bool pry_nails(player *p, ter_id &type, int dirx, int diry)
+{
+    int nails = 0, boards = 0;
+    ter_id newter;
+    if (type == t_fence_h || type == t_fence_v) {
+        nails = 6;
+        boards = 3;
+        newter = t_fence_post;
+        p->add_msg_if_player(_("You pry out the fence post."));
+    } else if (type == t_window_boarded) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_frame;
+        p->add_msg_if_player(_("You pry the boards from the window."));
+    } else if (type == t_window_boarded_noglass) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_empty;
+        p->add_msg_if_player(_("You pry the boards from the window frame."));
+    } else if ( type == t_door_boarded || type == t_door_boarded_damaged
+            || type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ) {
+        nails = 8;
+        boards = 4;
+        if (type == t_door_boarded) {
+            newter = t_door_c;
+        } else if (type == t_door_boarded_damaged) {
+            newter = t_door_b;
+        } else if (type == t_rdoor_boarded) {
+            newter = t_rdoor_c;
+        } else { // if (type == t_rdoor_boarded_damaged)
+            newter = t_rdoor_b;
+        }
+        p->add_msg_if_player(_("You pry the boards from the door."));
+    } else {
+        return false;
+    }
+    p->practice("carpentry", 1, 1);
+    p->moves -= 500;
+    g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
+    g->m.spawn_item(p->posx, p->posy, "2x4", boards);
+    g->m.ter_set(dirx, diry, newter);
+    return true;
+}
+
+int iuse::hammer(player *p, item *it, bool)
+{
+    g->draw();
+    int x, y;
+    // If anyone other than the player wants to use one of these,
+    // they're going to need to figure out how to aim it.
+    if (!choose_adjacent(_("Pry where?"), x, y)) {
+        return 0;
+    }
+
+    if (x == p->posx && y == p->posy) {
+        p->add_msg_if_player(_("You try to hit yourself with the hammer."));
+        p->add_msg_if_player(_("But you can't touch this."));
+        return 0;
+    }
+
+    ter_id type = g->m.ter(x, y);
+    if (pry_nails(p, type, x, y)) {
+        return it->type->charges_to_use();
+    } else {
+        p->add_msg_if_player(m_info, _("There's nothing to pry there."));
+    }
+    return 0;
+}
+
 int iuse::crowbar(player *p, item *it, bool)
 {
     int dirx, diry;
@@ -3883,41 +3923,11 @@ int iuse::crowbar(player *p, item *it, bool)
         new_type = t_window_open;
         noisy = true;
         difficulty = 6;
-    } else {
-        int nails = 0, boards = 0;
-        ter_id newter;
-        if (type == t_fence_h || type == t_fence_v) {
-            nails = 6;
-            boards = 3;
-            newter = t_fence_post;
-            p->add_msg_if_player(_("You pry out the fence post."));
-        } else if (type == t_window_boarded) {
-            nails = 8;
-            boards = 4;
-            newter = t_window_frame;
-            p->add_msg_if_player(_("You pry the boards from the window."));
-        } else if (type == t_window_boarded_noglass) {
-            nails = 8;
-            boards = 4;
-            newter = t_window_empty;
-            p->add_msg_if_player(_("You pry the boards from the window frame."));
-        } else if (type == t_door_boarded) {
-            nails = 8;
-            boards = 4;
-            // FIXME: boards go across a door FRAME;
-            // the door itself should be as good as it was before it was boarded up.
-            newter = t_door_b;
-            p->add_msg_if_player(_("You pry the boards from the door."));
-        } else {
-            p->add_msg_if_player(m_info, _("There's nothing to pry there."));
-            return 0;
-        }
-        p->practice("carpentry", 1, 1);
-        p->moves -= 500;
-        g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
-        g->m.spawn_item(p->posx, p->posy, "2x4", boards);
-        g->m.ter_set(dirx, diry, newter);
+    } else if (pry_nails(p, type, dirx, diry)) {
         return it->type->charges_to_use();
+    } else {
+        p->add_msg_if_player(m_info, _("There's nothing to pry there."));
+        return 0;
     }
 
     p->practice("mechanics", 1);
@@ -7400,7 +7410,7 @@ static bool heat_item(player *p)
         return false;
     }
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if (target->type->is_food()) {
+    if ((target->type->is_food()) && (target->has_flag("EATEN_HOT"))) {
         p->moves -= 300;
         add_msg(_("You heat up the food."));
         target->item_tags.insert("HOT");

@@ -201,7 +201,15 @@
         "bgcolor": "white",
         "move_cost_mod": 2,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"]
+        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "bash": {
+            "str_min": 12, "str_max": 120, "num_tests": 2,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "rock", "amount": 40, "minamount": 20, "chance": 50 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_shower",

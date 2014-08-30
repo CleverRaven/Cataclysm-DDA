@@ -67,5 +67,9 @@
         "type" : "tool_quality",
         "id" : "SCREW_FINE",
         "name" : "fine screw driving"
+    },{
+        "type" : "tool_quality",
+        "id" : "BUTCHER",
+        "name" : "butchering"
     }
 ]

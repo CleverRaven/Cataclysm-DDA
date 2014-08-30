@@ -31,6 +31,7 @@
         "healthy": 0,
         "fun": 0,
         "stim": 0,
+        "flags" : ["EATEN_COLD"],
         "phase": "liquid"
     },
     {
@@ -60,6 +61,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 0
     },
     {
@@ -89,6 +91,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
     {
@@ -177,6 +180,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
     {
@@ -205,6 +209,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 2
     },
     {
@@ -233,6 +238,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
     {
@@ -261,6 +267,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
     {
@@ -289,6 +296,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : -1
     },
     {
@@ -318,6 +326,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
     {
@@ -347,6 +356,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : -1
     },
     {
@@ -376,6 +386,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
     {
@@ -405,6 +416,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
     {
@@ -433,6 +445,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
     {
@@ -461,6 +474,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
     {
@@ -490,6 +504,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
     {
@@ -518,6 +533,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
     {
@@ -546,6 +562,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 6
     },
     {
@@ -575,6 +592,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 6
     },
     {
@@ -603,6 +621,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
     {
@@ -631,6 +650,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
     {
@@ -687,6 +707,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
     {
@@ -1096,6 +1117,7 @@
         "phase" : "liquid",
         "charges" : 5,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 15
     },
     {
@@ -1125,6 +1147,7 @@
         "phase" : "liquid",
         "charges" : 5,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 15
     },
     {
@@ -1183,6 +1206,7 @@
         "phase" : "liquid",
         "charges" : 5,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 16
     },
     {
@@ -1273,6 +1297,7 @@
         "phase" : "liquid",
         "charges" : 7,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 15
     },
     {
@@ -1332,6 +1357,7 @@
         "phase" : "liquid",
         "charges" : 7,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 15
     },
     {
@@ -1478,6 +1504,7 @@
         "phase" : "liquid",
         "charges" : 7,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 10
     },
     {
@@ -1537,6 +1564,7 @@
         "phase" : "liquid",
         "charges" : 7,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 2
     },
     {
@@ -1655,6 +1683,7 @@
         "phase" : "liquid",
         "charges" : 6,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
     {
@@ -1684,6 +1713,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
     {
@@ -1713,6 +1743,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
     {
@@ -1743,6 +1774,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
     {
@@ -1772,6 +1804,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 10
     },
     {
@@ -1801,6 +1834,7 @@
         "phase" : "liquid",
         "charges" : 7,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
     {
@@ -1860,6 +1894,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 8
     },
     {
@@ -1919,6 +1954,7 @@
         "phase" : "liquid",
         "charges" : 7,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 12
     },
     {
@@ -1979,6 +2015,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 10
     },
     {
@@ -2008,6 +2045,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
     {
@@ -2037,6 +2075,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
     {
@@ -2095,6 +2134,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 14
     },
     {
@@ -2221,14 +2261,14 @@
     {
         "type" : "COMESTIBLE",
         "id" : "fertilizer_liquid",
-        "name" : "plant food",
-        "name_plural" : "plant food",
+        "name" : "liquid fertilizer",
+        "name_plural" : "liquid fertilizer",
         "weight" : 270,
         "color" : "yellow",
         "flags" : ["FERTILIZER"],
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "BLECH",
+        "use_action" : "PLANTBLECH",
         "stim" : 0,
         "container" : "jug_plastic",
         "to_hit" : 0,
@@ -2238,7 +2278,7 @@
         "healthy" : -2,
         "addiction_potential" : 0,
         "nutrition" : 30,
-        "description" : "Don't drink it; feed it to your plants!",
+        "description" : "A nutrient rich elixir for plants.",
         "price" : 1000,
         "material" : "null",
         "tool" : "null",
@@ -3760,7 +3800,7 @@
         "phase" : "liquid",
         "charges" : 12,
         "bashing" : 0,
-        "flags" : [],
+        "flags" : ["EATEN_COLD"],
         "fun" : 8
     },
     {
@@ -3850,6 +3890,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 7
     },
     {
@@ -6524,7 +6565,7 @@
         "nutrition" : 30,
         "description" : "Some peanut butter smothered between two pieces of bread.  Not very filling and will stick to the roof of your mouth like glue.",
         "price" : 1500,
-        "material" : ["fruit", "wheat"],
+        "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -6911,6 +6952,35 @@
         "bashing" : 0,
         "fun" : 0
     },
+    {
+        "type": "COMESTIBLE",
+        "id": "irradiated_blueberries",
+        "name": "irradiated blueberry",
+        "name_plural": "irradiated blueberries",
+        "weight": 200,
+        "color": "blue",
+        "addiction_type": "none",
+        "spoils_in": 0,
+        "stim": 0,
+        "container": "bag_plastic",
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "symbol": "%",
+        "quench": 2,
+        "healthy": 1,
+        "addiction_potential": 0,
+        "nutrition": 16,
+        "description": "An irradiated blueberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price": 2000,
+        "material": "fruit",
+        "tool": "null",
+        "volume": 1,
+        "cutting": 0,
+        "phase": "solid",
+        "charges": 1,
+        "bashing": 0,
+        "fun": 0
+    },
     {   "type" : "AMMO",
         "id" : "seed_blueberries",
         "category": "other",
@@ -6964,6 +7034,35 @@
         "charges" : 1,
         "bashing" : 0,
         "fun" : 0
+    },
+    {
+        "type": "COMESTIBLE",
+        "id": "irradiated_strawberries",
+        "name": "irradiated strawberry",
+        "name_plural": "irradiated strawberries",
+        "weight": 200,
+        "color": "red",
+        "addiction_type": "none",
+        "spoils_in": 0,
+        "stim": 0,
+        "container": "bag_plastic",
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "symbol": "%",
+        "quench": 3,
+        "healthy": 1,
+        "addiction_potential": 0,
+        "nutrition": 18,
+        "description": "An irradiated strawberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price": 1000,
+        "material": "fruit",
+        "tool": "null",
+        "volume": 1,
+        "cutting": 0,
+        "phase": "solid",
+        "charges": 1,
+        "bashing": 0,
+        "fun": 0
     },
     {
         "type" : "COMESTIBLE",
@@ -12671,7 +12770,7 @@
         "color": "yellow",
         "name": "honey",
         "name_plural": "honey",
-        "description": "Honey, that stuff the bees make.",
+        "description": "Honey, that stuff bees make. This one is \"forest honey\", a liquid form of honey. This honey won't spoil and is good for your digestion.",
         "price": 8000,
         "material" : ["junk", "honey"],
         "weight": 253,
@@ -12683,15 +12782,44 @@
         "tool": "null",
         "container": "bottle_plastic",
         "quench": 2,
-        "nutrition": 5,
+        "nutrition": 7,
+        "spoils_in": 0,
+        "addiction_potential": 0,
+        "addiction_type" : "none",
+        "charges" : 5,
+        "healthy" : 1,
+        "fun": 0,
+        "stim": 0,
+        "phase": "liquid"
+    },
+    {
+        "id": "honey_glassed",
+        "type": "COMESTIBLE",
+        "symbol": "~",
+        "color": "yellow",
+        "name": "honey",
+        "name_plural": "honey",
+        "description": "Honey, that stuff the bees make. This variant is \"candied honey\", a variant of very thick consistence. This honey won't spoil and is good for your digestion.",
+        "price": 8000,
+        "material" : ["junk", "honey"],
+        "weight": 253,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "tool": "null",
+        "container": "jar_glass",
+        "quench": 1,
+        "nutrition": 8,
         "spoils_in": 0,
         "addiction_potential": 0,
         "addiction_type" : "none",
         "charges": 5,
-        "healthy": 0,
-        "fun": 0,
+        "healthy" : 1,
+        "fun": 2,
         "stim": 0,
-        "phase": "liquid"
+        "phase": "solid"
     },
     {
         "id": "peanutbutter",
@@ -12835,6 +12963,7 @@
         "phase" : "liquid",
         "charges" : 6,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 8
     },
     {
@@ -12865,6 +12994,7 @@
         "phase" : "liquid",
         "charges" : 6,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : -12
     },
     {
@@ -12894,6 +13024,7 @@
         "phase" : "liquid",
         "charges" : 4,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 30
     },
     {
@@ -12954,7 +13085,7 @@
         "charges" : 1,
         "bashing" : 0,
         "fun" : 2,
-        "flags" : ["USE_EAT_VERB"]
+        "flags" : ["USE_EAT_VERB", "EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -12984,7 +13115,7 @@
         "charges" : 1,
         "bashing" : 0,
         "fun" : 2,
-        "flags" : ["USE_EAT_VERB"]
+        "flags" : ["USE_EAT_VERB", "EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -13883,7 +14014,7 @@
         "nutrition" : 35,
         "description" : "A citrus fruit, whose taste ranges from sour to semi-sweet.",
         "price" : 1800,
-        "material" : "veggy",
+        "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -13891,6 +14022,34 @@
         "charges" : 1,
         "bashing" : 0,
         "fun" : 2
+    },
+    {
+        "type": "COMESTIBLE",
+        "id": "irradiated_grapefruit",
+        "name": "irradiated grapefruit",
+        "weight": 200,
+        "color": "yellow",
+        "addiction_type": "none",
+        "spoils_in": 0,
+        "stim": 0,
+        "container": "bag_plastic",
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "symbol": "%",
+        "quench": 18,
+        "healthy": 5,
+        "addiction_potential": 0,
+        "nutrition": 35,
+        "description": "An irradiated grapefruit will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price": 1800,
+        "material": "fruit",
+        "tool": "null",
+        "volume": 1,
+        "cutting": 0,
+        "phase": "solid",
+        "charges": 1,
+        "bashing": 0,
+        "fun": 2
     },
     {
         "type" : "COMESTIBLE",
@@ -13978,6 +14137,35 @@
         "fun" : 3
     },
     {
+        "type": "COMESTIBLE",
+        "id": "irradiated_cherries",
+        "name": "irradiated cherry",
+        "name_plural": "irradiated cherries",
+        "weight": 200,
+        "color": "red",
+        "addiction_type": "none",
+        "spoils_in": 0,
+        "stim": 0,
+        "container": "bag_plastic",
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "symbol": "%",
+        "quench": 2,
+        "healthy": 1,
+        "addiction_potential": 0,
+        "nutrition": 14,
+        "description": "An irradiated cherry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price": 1000,
+        "material": "fruit",
+        "tool": "null",
+        "volume": 1,
+        "cutting": 0,
+        "phase": "solid",
+        "charges": 1,
+        "bashing": 0,
+        "fun": 3
+    },
+    {
         "type" : "COMESTIBLE",
         "id" : "plums",
         "name" : "plum",
@@ -14036,7 +14224,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "grapes",
-        "name" : "grapes",
+        "name" : "grape",
         "name_plural" : "grapes",
         "weight" : 300,
         "color" : "light_green",
@@ -14061,6 +14249,35 @@
         "charges" : 2,
         "bashing" : 0,
         "fun" : 4
+    },
+    {
+        "type": "COMESTIBLE",
+        "id": "irradiated_grapes",
+        "name": "irradiated grape",
+        "name_plural": "irradiated grapes",
+        "weight": 300,
+        "color": "light_green",
+        "addiction_type": "none",
+        "spoils_in": 0,
+        "stim": 0,
+        "container": "bag_plastic",
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "symbol": "%",
+        "quench": 11,
+        "healthy": 2,
+        "addiction_potential": 0,
+        "nutrition": 36,
+        "description": "An irradiated grape will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price": 1000,
+        "material": "fruit",
+        "tool": "null",
+        "volume": 1,
+        "cutting": 0,
+        "phase": "solid",
+        "charges": 2,
+        "bashing": 0,
+        "fun": 4
     },
     {
         "type" : "COMESTIBLE",
@@ -14234,6 +14451,35 @@
         "fun" : 0
     },
     {
+        "type": "COMESTIBLE",
+        "id": "irradiated_cranberries",
+        "name": "irradiated cranberry",
+        "name_plural": "irradiated cranberries",
+        "weight": 200,
+        "color": "red",
+        "addiction_type": "none",
+        "spoils_in": 0,
+        "stim": 0,
+        "container": "bag_plastic",
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "symbol": "%",
+        "quench": 5,
+        "healthy": 4,
+        "addiction_potential": 0,
+        "nutrition": 14,
+        "description": "An irradiated cranberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price": 1000,
+        "material": "fruit",
+        "tool": "null",
+        "volume": 1,
+        "cutting": 0,
+        "phase": "solid",
+        "charges": 3,
+        "bashing": 0,
+        "fun": 0
+    },
+    {
         "type" : "COMESTIBLE",
         "id" : "fries",
         "name" : "French fries",
@@ -14374,6 +14620,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : -1
     },
     {
@@ -14402,6 +14649,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 4
     },
     {
@@ -14423,13 +14671,14 @@
         "nutrition" : 15,
         "description" : "A fruit, bigger than your head.  It is very juicy!",
         "price" : 1000,
-        "material" : "veggy",
+        "material" : "fruit",
         "tool" : "null",
         "volume" : 12,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 8,
         "bashing" : 2,
+        "flags" : ["EATEN_COLD"],
         "fun" : 4
     },
     {
@@ -14451,13 +14700,14 @@
         "nutrition" : 18,
         "description" : "A large and very sweet fruit.",
         "price" : 1000,
-        "material" : "veggy",
+        "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 8,
         "bashing" : 1,
+        "flags" : ["EATEN_COLD"],
         "fun" : 4
     },
     {
@@ -14479,7 +14729,7 @@
         "nutrition" : 15,
         "description" : "An irradiated watermelon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 1200,
-        "material" : "veggy",
+        "material" : "fruit",
         "tool" : "null",
         "volume" : 12,
         "cutting" : 0,
@@ -14507,7 +14757,7 @@
         "nutrition" : 18,
         "description" : "An irradiated melon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price" : 1200,
-        "material" : "veggy",
+        "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
@@ -14544,6 +14794,35 @@
         "charges" : 1,
         "bashing" : 0,
         "fun" : 4
+    },
+    {
+        "type": "COMESTIBLE",
+        "id": "irradiated_raspberries",
+        "name": "irradiated raspberry",
+        "name_plural": "irradiated raspberries",
+        "weight": 200,
+        "color": "red",
+        "addiction_type": "none",
+        "spoils_in": 0,
+        "stim": 0,
+        "container": "bag_plastic",
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "symbol": "%",
+        "quench": 3,
+        "healthy": 2,
+        "addiction_potential": 0,
+        "nutrition": 15,
+        "description": "An irradiated raspberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price": 1000,
+        "material": "fruit",
+        "tool": "null",
+        "volume": 1,
+        "cutting": 0,
+        "phase": "solid",
+        "charges": 1,
+        "bashing": 0,
+        "fun": 4
     },
     {
         "type" : "COMESTIBLE",
@@ -14603,6 +14882,35 @@
         "fun" : 4
     },
     {
+        "type": "COMESTIBLE",
+        "id": "irradiated_blackberries",
+        "name": "irradiated blackberry",
+        "name_plural": "irradiated blackberries",
+        "weight": 200,
+        "color": "blue",
+        "addiction_type": "none",
+        "spoils_in": 0,
+        "stim": 0,
+        "container": "bag_plastic",
+        "to_hit": 0,
+        "comestible_type": "FOOD",
+        "symbol": "%",
+        "quench": 3,
+        "healthy": 5,
+        "addiction_potential": 0,
+        "nutrition": 15,
+        "description": "An irradiated blackberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price": 1000,
+        "material": "fruit",
+        "tool": "null",
+        "volume": 1,
+        "cutting": 0,
+        "phase": "solid",
+        "charges": 1,
+        "bashing": 0,
+        "fun": 4
+    },
+    {
         "type" : "COMESTIBLE",
         "id" : "fruit_cooked",
         "name" : "cooked fruit",
@@ -14629,7 +14937,7 @@
         "charges" : 1,
         "bashing" : 0,
         "fun" : 2,
-        "flags" : ["USE_EAT_VERB"]
+        "flags" : ["USE_EAT_VERB", "EATEN_COLD"]
     },
     {
         "type" : "COMESTIBLE",
@@ -14716,6 +15024,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["EATEN_COLD"],
         "fun" : 3
     },
     {
@@ -15631,6 +15940,195 @@
         "stack_size" : 100,
         "bashing" : 0,
         "fun" : 8
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "veggy_salad",
+        "name" : "vegetable salad",
+        "weight" : 320,
+        "color" : "green",
+        "addiction_type" : "none",
+        "spoils_in" : 140,
+        "stim" : 0,
+        "container" : "bowl_plastic",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 15,
+        "healthy" : 2,
+        "addiction_potential" : 0,
+        "nutrition" : 45,
+        "description" : "Salad with all kind of vegetables.",
+        "price" : 3500,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 1
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "dried_salad",
+        "name" : "dried salad",
+        "weight" : 100,
+        "color" : "green",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "stim" : 0,
+        "container" : "box_small",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : -2,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 40,
+        "description" : "Dried salad packed in a box with mayonnaise and ketchup. Add water to enjoy.",
+        "price" : 4200,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : -2
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "insta_salad",
+        "name" : "insta salad",
+        "weight" : 330,
+        "color" : "green",
+        "addiction_type" : "none",
+        "spoils_in" : 140,
+        "stim" : 0,
+        "container" : "bowl_plastic",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 16,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 40,
+        "description" : "Dried salad with water added, not very tasty but still a decent substitution for real salad.",
+        "price" : 4000,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 0
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "cucumber",
+        "name" : "cucumber",
+        "weight" : 150,
+        "color" : "green",
+        "addiction_type" : "none",
+        "spoils_in" : 150,
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 7,
+        "healthy" : 1,
+        "addiction_potential" : 0,
+        "nutrition" : 11,
+        "description" : "Come from the gourd family, not tasty but very juicy.",
+        "price" : 500,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 0
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_cucumber",
+        "name" : "irradiated cucumber",
+        "weight" : 150,
+        "color" : "green",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "stim" : 0,
+        "container" : "bag_plastic",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 7,
+        "healthy" : 1,
+        "addiction_potential" : 0,
+        "nutrition" : 11,
+        "description" : "An irradiated cucumber will remain edible nearly forever. Sterilized using radiation, so it's safe to eat..",
+        "price" : 2500,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 0
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "celery",
+        "name" : "celery",
+        "weight" : 80,
+        "color" : "light_green",
+        "addiction_type" : "none",
+        "spoils_in" : 150,
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 3,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 5,
+        "description" : "Neither tasty nor very nutritious, but it goes well with salad.",
+        "price" : 200,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 0
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_celery",
+        "name" : "irradiated celery",
+        "weight" : 80,
+        "color" : "light_green",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "stim" : 0,
+        "container" : "bag_plastic",
+        "to_hit" : 0,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 3,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 5,
+        "description" : "An irradiated cluster of celery will remain edible nearly forever. Sterilized using radiation, so it's safe to eat..",
+        "price" : 1800,
+        "material" : "veggy",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "bashing" : 0,
+        "fun" : 0
     }
-    
+
 ]
