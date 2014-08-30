@@ -52,7 +52,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         monster();
         monster(mtype *t);
         monster(mtype *t, int x, int y);
-        ~monster();
+        monster(const monster &) = default;
+        monster(monster &&) = default;
+        virtual ~monster() override;
+        monster &operator=(const monster &) = default;
+        monster &operator=(monster &&) = default;
         void poly(mtype *t);
         void spawn(int x, int y); // All this does is moves the monster to x,y
 

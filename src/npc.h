@@ -476,8 +476,10 @@ class npc : public player
 public:
 
  npc();
- //npc(npc& rhs);
- npc(const npc &rhs);
+ npc(const npc &) = default;
+ npc(npc &&) = default;
+ npc &operator=(const npc &) = default;
+ npc &operator=(npc &&) = default;
  virtual ~npc();
  virtual bool is_player() const { return false; }
  virtual bool is_npc() const { return true; }
@@ -485,8 +487,6 @@ public:
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
  void load_npc_template(std::string ident);
-
- npc& operator= (const npc &rhs);
 
 // Generating our stats, etc.
  void randomize(npc_class type = NC_NONE);

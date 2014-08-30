@@ -5,16 +5,9 @@ Character::Character()
     Creature::set_speed_base(100);
 };
 
-Character::Character(const Creature &)
+Character::~Character()
 {
-    Creature::set_speed_base(100);
 };
-
-Character &Character::operator= (const Character &rhs)
-{
-    Creature::operator=(rhs);
-    return (*this);
-}
 
 field_id Character::bloodType() const
 {

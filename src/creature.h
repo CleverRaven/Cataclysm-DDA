@@ -20,9 +20,7 @@ class game;
 class Creature
 {
     public:
-        // TODO: fill these in
-        Creature();
-        Creature(const Creature &rhs);
+        virtual ~Creature();
 
         virtual std::string disp_name(bool possessive = false) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
@@ -365,7 +363,11 @@ class Creature
 
         bool fake;
 
-        Creature &operator= (const Creature &rhs);
+        Creature();
+        Creature(const Creature &) = default;
+        Creature(Creature &&) = default;
+        Creature &operator=(const Creature &) = default;
+        Creature &operator=(Creature &&) = default;
 
         body_part select_body_part(Creature *source, int hit_roll);
 };

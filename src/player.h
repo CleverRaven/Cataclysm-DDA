@@ -107,10 +107,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
     public:
         player();
-        player(const player &rhs);
-        virtual ~player();
-
-        player &operator= (const player &rhs);
+        player(const player &) = default;
+        player(player &&) = default;
+        virtual ~player() override;
+        player &operator=(const player &) = default;
+        player &operator=(player &&) = default;
 
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
