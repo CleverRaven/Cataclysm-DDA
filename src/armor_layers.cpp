@@ -13,12 +13,12 @@ void player::sort_armor()
     * + 3 - horizontal lines;
     * + 1 - caption line;
     * + 2 - innermost/outermost string lines;
-    * + 12 - sub-categories (torso, head, eyes, etc.);
+    * + num_bp - sub-categories (torso, head, eyes, etc.);
     * + 1 - gap;
     * number of lines required for displaying all items is calculated dynamically,
     * because some items can have multiple entries (i.e. cover a few parts of body).
     */
-    int req_arrangement_h = 3 + 1 + 2 + 12 + 1;
+    int req_arrangement_h = 3 + 1 + 2 + num_bp + 1;
 
     for (int cover = 0; cover < num_bp; cover++) {
         for (auto it = worn.begin(); it != worn.end(); ++it) {
@@ -44,7 +44,7 @@ void player::sort_armor()
     const int win_y = TERMY / 2 - win_h / 2;
 
     int content_h   = win_h - 6;
-    int obsolete_w   = 8;
+    int obsolete_w   = 6;
     int arrangement_w  = (win_w - 3) * 3 / 5;
     int description_w = (win_w - 3) - obsolete_w - arrangement_w;
 
@@ -56,9 +56,9 @@ void player::sort_armor()
     int obsoleteListOffset = 0;
     int selected       = -1;
 
-    int arrangementListSize;
-    int arrangementListIndex  = 0;
-    int arrangementListOffset = 0;
+    int list_size;
+    int index  = 0;
+    int offset = 0;
 
     item tmp_item;
     std::vector<item *> tmp_worn;
@@ -106,7 +106,7 @@ void player::sort_armor()
 
         // Create ptr list of items to display
         tmp_worn.clear();
-        if (tabindex == 12) { // All
+        if (tabindex == num_bp) { // All
             for (auto it = worn.begin(); it != worn.end(); ++it) {
                 tmp_worn.push_back(&*it);
             }
@@ -128,20 +128,16 @@ void player::sort_armor()
                 mvwprintz(w_obsolete, drawindex, 0, c_yellow, ">");
             }
 
-            if (itemindex == selected) {
-                mvwprintz(w_obsolete, drawindex, 2, c_dkgray, each_armor->nname(1).c_str());
-            } else {
-                mvwprintz(w_obsolete, drawindex, 1, c_dkgray, each_armor->nname(1).c_str());
-            }
+            mvwprintz(w_obsolete, drawindex, 1 + (int)(itemindex == selected), c_dkgray, each_armor->nname(1).c_str());
         }
 
 
         tmp_arr.clear();
 
         // arrangement list
-        arrangementListSize = 0;
+        list_size = 0;
         for (int cover = 0, pos = 0; cover < num_bp; cover++) {
-            if (arrangementListSize >= arrangementListOffset && pos <= content_h - 2) {
+            if (list_size >= offset && pos < content_h) {
 
                 // Category Name
                 mvwprintz(w_arrangement, pos, 2, (cover == tabindex) ? c_yellow : c_white,
@@ -161,16 +157,16 @@ void player::sort_armor()
                                                         enc - armorenc, armorenc);
                 nc_color text_color = ( (enc > 0) ? c_white : c_ltgray);
 
-                //Components of encumbrance
+                // Components of encumbrance
                 mvwprintz(w_arrangement, pos, arrangement_w - utf8_width(enc_details.c_str()) - 1,
                           text_color, enc_details.c_str());
 
-                //Total encumbrance
+                // Total encumbrance
                 mvwprintz(w_arrangement, pos, arrangement_w - utf8_width(enc_details.c_str()) - 3,
                           encumb_color(enc), "%2d", enc);
                 pos++;
             }
-            arrangementListSize++;
+            list_size++;
 
             // Print all items for current bodypart
             for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it) {
@@ -178,12 +174,12 @@ void player::sort_armor()
                 if (it->covers.test(bp_order[cover])) {
                     tmp_arr.push_back(&*it);
 
-                    if (arrangementListSize >= arrangementListOffset && pos <= content_h - 1) {
+                    if (list_size >= offset && pos <= content_h - 1) {
 
                         int lvl = it->clothing_lvl() + 2;
 
                         // TODO: update the condition
-                        if (arrangementListIndex == 0) {
+                        if (index == 0) {
                             mvwhline(w_arrangement, pos, 1, '>', lvl/*, c_yellow*/);
                         }
 
@@ -204,7 +200,7 @@ void player::sort_armor()
 
                         pos++;
                     }
-                    arrangementListSize++;
+                    list_size++;
                 }
             }
         }
@@ -217,15 +213,15 @@ void player::sort_armor()
         }
 
         // ScrollBar
-        draw_scrollbar(w_arrangement, arrangementListOffset /*<--temp*/, content_h, arrangementListSize, 0, 0);
+        draw_scrollbar(w_arrangement, offset /*<--temp*/, content_h, list_size, 0, 0);
 
         // Scroll-up is available
-        if (arrangementListOffset > 0) {
+        if (offset > 0) {
             mvwprintz(w_arrangement, content_h - 1, arrangement_w - 6, c_yellow, "^");
         }
 
         // Scroll-down is available
-        if (arrangementListSize > content_h - 2) {
+        if (list_size > content_h - 1) {
             mvwprintz(w_arrangement, content_h - 1, arrangement_w - 5, c_yellow, "v");
         }
 
@@ -237,6 +233,12 @@ void player::sort_armor()
 
         const std::string action = ctxt.handle_input();
         if (action == "UP" && obsoleteListSize > 0) {
+            offset--;
+            if (offset < 0) {
+                offset = 0;
+            }
+
+
             obsoleteListIndex--;
             if (obsoleteListIndex < 0) {
                 obsoleteListIndex = tmp_worn.size() - 1;
@@ -267,6 +269,13 @@ void player::sort_armor()
                 selected = obsoleteListIndex;
             }
         } else if (action == "DOWN" && obsoleteListSize > 0) {
+            offset++;
+            if (offset + content_h > list_size) {
+                offset = list_size - content_h;
+            }
+
+
+
             obsoleteListIndex = (obsoleteListIndex + 1) % tmp_worn.size();
 
             // Scrolling logic
@@ -303,15 +312,11 @@ void player::sort_armor()
             obsoleteListIndex = obsoleteListOffset = 0;
             selected = -1;
         } else if (action == "NEXT_TAB") {
-            arrangementListOffset++;
-            if (arrangementListOffset + content_h - 1 > arrangementListSize) {
-                arrangementListOffset = arrangementListSize - content_h + 1;
-            }
+            // back-up for mode switches
+
         } else if (action == "PREV_TAB") {
-            arrangementListOffset--;
-            if (arrangementListOffset < 0) {
-                arrangementListOffset = 0;
-            }
+            // back-up for mode switches
+
         } else if (action == "MOVE_ARMOR") {
             if (selected >= 0) {
                 selected = -1;
@@ -338,31 +343,32 @@ void player::sort_armor()
         } else if (action == "HELP") {
             /* Not enough space in Help window for this:
 \n\
+[Encumbrance]: \n\
+Total value of encumbrance is shown in the left side of equation. \n\
+The first component of equation is the encumbrance caused by the number of clothing on that bodypart, \
+and the second one is the summed encumbrance from all clothing on that bodypart.
+            */
+            popup_getkey(_("\
+[General Description]: \n\
 Indention of name of the item represents the clothing layer: \n\
 >>underwear\n\
 >>>regular layer\n\
 >>>>outerwear\n\
 >>>>>belted layer\n\
-            */
-            popup_getkey(_("\
-[General Description]: \n\
+ \n\
 Color of the item represents its condition: \
 green color means it's a brand new item, red color - a torn one.\n\
  \n\
 Order of the items in the list for each bodypart is important: upper in the list means it closer to the body.\n\
  \n\
 [Keybinding]: \n\
-Use the arrow- or keypad keys to navigate the list of items, use %s / %s to scroll it rapidly. \n\
+Use the arrow- or keypad keys to navigate the list of items. \n\
 Press %s to select highlighted armor for reordering.\n\
-Press %s to assign special inventory letters to clothing.\n\
- \n\
-[Encumbrance]: \n\
-Total value of encumbrance is shown in the left side of equation. \n\
-The first component of equation is the encumbrance caused by the number of clothing on that bodypart, \
-and the second one is the summed encumbrance from all clothing on that bodypart."),
+Press %s / %s to switch types of represented information. \n\
+Press %s to assign special inventory letters to clothing.\n"),
+                         ctxt.get_desc("MOVE_ARMOR").c_str(),
                          ctxt.get_desc("PREV_TAB").c_str(),
                          ctxt.get_desc("NEXT_TAB").c_str(),
-                         ctxt.get_desc("MOVE_ARMOR").c_str(),
                          ctxt.get_desc("ASSIGN_INVLETS").c_str()
                         );
             draw_background(w_main, arrangement_w);
