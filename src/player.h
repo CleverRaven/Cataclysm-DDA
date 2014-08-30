@@ -171,11 +171,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void json_save_common_variables(JsonOut &json) const;
         using JsonSerializer::serialize;
         // by default save all contained info
-        void serialize(JsonOut &jsout) const
-        {
-            serialize(jsout, true);
-        }
-        virtual void serialize(JsonOut &jsout, bool save_contents) const;
+        virtual void serialize(JsonOut &jsout) const override;
 
         /** Prints out the player's memorial file */
         void memorial( std::ofstream &memorial_file, std::string epitaph );

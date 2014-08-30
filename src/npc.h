@@ -522,7 +522,7 @@ public:
     using player::deserialize;
     virtual void deserialize(JsonIn &jsin);
     using player::serialize;
-    virtual void serialize(JsonOut &jsout, bool save_contents) const;
+    virtual void serialize(JsonOut &jsout) const override;
 
 // Display
     virtual nc_color basic_symbol_color() const;

@@ -109,11 +109,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void load_info(std::string data);
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const
-        {
-            serialize(jsout, true);
-        }
-        virtual void serialize(JsonOut &jsout, bool save_contents) const;
+        virtual void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
         virtual void deserialize(JsonIn &jsin);
 

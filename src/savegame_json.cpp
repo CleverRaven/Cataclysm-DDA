@@ -217,6 +217,18 @@ void player::json_load_common_variables(JsonObject &data)
         const std::string t = pmap.get_string("trap");
         known_traps.insert(trap_map::value_type(p, t));
     }
+
+    inv.clear();
+    if ( data.has_member( "inv" ) ) {
+        JsonIn *invin = data.get_raw( "inv" );
+        inv.json_load_items( *invin );
+    }
+
+    worn.clear();
+    data.read( "worn", worn );
+
+    weapon = item( "null", 0 );
+    data.read( "weapon", weapon );
 }
 
 /*
@@ -324,6 +336,15 @@ void player::json_save_common_variables(JsonOut &json) const
         json.end_object();
     }
     json.end_array();
+
+    json.member( "worn", worn ); // also saves contents
+
+    json.member( "inv" );
+    inv.json_save_items( json );
+
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -332,7 +353,7 @@ void player::json_save_common_variables(JsonOut &json) const
  * Prepare a json object for player, including player specific data, and data common to
    players and npcs ( which json_save_actor_data() handles ).
  */
-void player::serialize(JsonOut &json, bool save_contents) const
+void player::serialize(JsonOut &json) const
 {
     json.start_object();
 
@@ -396,25 +417,15 @@ void player::serialize(JsonOut &json, bool save_contents) const
 
     json.member( "player_stats", get_stats() );
 
-    if ( save_contents ) {
-        json.member( "worn", worn ); // also saves contents
-
-        json.member("inv");
-        inv.json_save_items(json);
-
         json.member("invcache");
         inv.json_save_invcache(json);
 
-        if (!weapon.is_null()) {
-            json.member( "weapon", weapon ); // also saves contents
-        }
         //FIXME: seperate function, better still another file
         /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
                   ptmpvect.push_back(pv(memorial_log[i]));
               }
               json.member("memorial",ptmpvect);
         */
-    }
 
     json.end_object();
 }
@@ -520,21 +531,10 @@ void player::deserialize(JsonIn &jsin)
     stats &pstats = *lifetime_stats();
     data.read("player_stats", pstats);
 
-    inv.clear();
-    if ( data.has_member("inv") ) {
-        JsonIn *jip = data.get_raw("inv");
-        inv.json_load_items( *jip );
-    }
     if ( data.has_member("invcache") ) {
         JsonIn *jip = data.get_raw("invcache");
         inv.json_load_invcache( *jip );
     }
-
-    worn.clear();
-    data.read("worn", worn);
-
-    weapon.contents.clear();
-    data.read("weapon", weapon);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -733,18 +733,6 @@ void npc::deserialize(JsonIn &jsin)
         attitude = npc_attitude(atttmp);
     }
 
-    inv.clear();
-    if ( data.has_member("inv") ) {
-        JsonIn *invin = data.get_raw("inv");
-        inv.json_load_items( *invin );
-    }
-
-    worn.clear();
-    data.read("worn", worn);
-
-    weapon.contents.clear();
-    data.read("weapon", weapon);
-
     data.read("op_of_u", op_of_u);
     data.read("chatbin", chatbin);
     data.read("combat_rules", combat_rules);
@@ -753,7 +741,7 @@ void npc::deserialize(JsonIn &jsin)
 /*
  * save npc
  */
-void npc::serialize(JsonOut &json, bool save_contents) const
+void npc::serialize(JsonOut &json) const
 {
     json.start_object();
 
@@ -788,17 +776,6 @@ void npc::serialize(JsonOut &json, bool save_contents) const
     json.member("op_of_u", op_of_u);
     json.member("chatbin", chatbin);
     json.member("combat_rules", combat_rules);
-
-    if ( save_contents ) {
-        json.member( "worn", worn ); // also saves contents
-
-        json.member("inv");
-        inv.json_save_items(json);
-
-        if (!weapon.is_null()) {
-            json.member( "weapon", weapon ); // also saves contents
-        }
-    }
 
     json.end_object();
 }
@@ -942,7 +919,7 @@ void monster::deserialize(JsonIn &jsin)
 /*
  * Save, json ed; serialization that won't break as easily. In theory.
  */
-void monster::serialize(JsonOut &json, bool save_contents) const
+void monster::serialize(JsonOut &json) const
 {
     json.start_object();
 
@@ -972,14 +949,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member( "effects", effects );
     json.member( "values", values );
 
-    if ( save_contents ) {
-        json.member("inv");
-        json.start_array();
-        for(size_t i = 0; i < inv.size(); i++) {
-            inv[i].serialize(json, true);
-        }
-        json.end_array();
-    }
+    json.member( "inv", inv );
 
     json.end_object();
 }
