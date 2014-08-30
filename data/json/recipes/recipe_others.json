@@ -660,9 +660,13 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "components": [
     [
-      [ "skewer", 2 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "string_6", 1 ]
