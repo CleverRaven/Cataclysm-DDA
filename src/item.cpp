@@ -446,36 +446,29 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
         dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(contents[0].charges))));
 
-    } else if (is_ammo()) {
-        // added charge display for debugging
-        it_ammo* ammo = dynamic_cast<it_ammo*>(type);
-
+    }
+    const it_ammo* ammo = nullptr;
+    if( is_ammo() ) {
+        ammo = dynamic_cast<const it_ammo*>( type );
+    } else if( is_ammo_container() ) {
+        ammo = dynamic_cast<const it_ammo*>( contents[0].type );
+    }
+    if( ammo != nullptr ) {
         if (ammo->type != "NULL") {
             dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
         }
-        dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, true));
+        dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, false));
         dump->push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "",
-                                 ammo->pierce, true, "", true, true));
+                                 ammo->pierce, true, "", true, false));
         dump->push_back(iteminfo("AMMO", _("Range: "), "",
-                                 ammo->range, true, "", false, true));
+                                 ammo->range, true, "", false, false));
         dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
                                  ammo->dispersion, true, "", true, true));
         dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Count: "), "", ammo->count));
-    } else if (is_ammo_container()) {
-        it_ammo* ammo = dynamic_cast<it_ammo*>(contents[0].type);
+        dump->push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->count, true, "", false, false));
+    }
 
-        dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
-        dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, true));
-        dump->push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "",
-                                 ammo->pierce, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range, true, "", false, true));
-        dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
-                                 ammo->dispersion, true, "", false, true));
-        dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
-        dump->push_back(iteminfo("AMMO", _("Count: "), "", contents[0].charges));
-
-    } else if (is_gun()) {
+    if (is_gun()) {
         it_gun* gun = dynamic_cast<it_gun*>(type);
         int ammo_dam = 0;
         int ammo_range = 0;
@@ -539,9 +532,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             temp1 << (ammo_range >= 0 ? "+" : "" );
             // ammo_dispersion and sum_of_dispersion don't need to translate.
             dump->push_back(iteminfo("GUN", "ammo_dispersion", "",
-                                     ammo_dispersion, true, temp1.str(), false, false, false));
+                                     ammo_dispersion, true, temp1.str(), false, true, false));
             dump->push_back(iteminfo("GUN", "sum_of_dispersion", _(" = <num>"),
-                                     dispersion() + ammo_dispersion, true, "", true, false, false));
+                                     dispersion() + ammo_dispersion, true, "", true, true, false));
         }
 
         //recoil of gun
@@ -816,25 +809,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     }
 
     if (!components.empty()) {
-        typedef std::map<std::string, int> t_count_map;
-        t_count_map counts;
-        for(t_item_vector::const_iterator a = components.begin(); a != components.end(); ++a) {
-            const std::string name = a->display_name();
-            counts[name]++;
-        }
-        std::ostringstream buffer;
-        buffer << _("Made from: ");
-        for(t_count_map::const_iterator a = counts.begin(); a != counts.end(); ++a) {
-            if (a != counts.begin()) {
-                buffer << _(", ");
+        dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Made from: %s"), components_to_string().c_str() ) ) );
+    } else {
+        recipe *dis_recipe = g->get_disassemble_recipe( type->id );
+        if( dis_recipe != nullptr ) {
+            std::ostringstream buffer;
+            for( auto it = dis_recipe->components.begin(); it != dis_recipe->components.end(); ++it ) {
+                if( it != dis_recipe->components.begin() ) {
+                    buffer << _(", ");
+                }
+                buffer << it->front().to_string();
             }
-            if (a->second != 1) {
-                buffer << string_format(_("%d x %s"), a->second, a->first.c_str());
-            } else {
-                buffer << a->first;
-            }
+            dump->push_back( iteminfo( "DESCRIPTION", string_format( _("Dissasembing this item might yield %s"),
+                                                                     buffer.str().c_str() ) ) );
         }
-        dump->push_back(iteminfo("DESCRIPTION", buffer.str()));
     }
 
     if ( !type->qualities.empty()){
@@ -1271,8 +1259,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 ret << _(" (fresh)");
             }
         }
-        if (food->has_flag("HOT"))
+        if (food->has_flag("HOT")) {
             ret << _(" (hot)");
+            }
+        if (food->has_flag("COLD")) {
+            ret << _(" (cold)");
+            }
     }
 
     if (has_flag("FIT")) {
@@ -3495,17 +3487,14 @@ int item::max_charges_from_flag(std::string flagName)
 
 int item::butcher_factor() const
 {
-    int butcher_factor = INT_MAX;
-    if (has_quality("CUT") && !has_flag("SPEAR")) {
-        int butcher_factor = volume() * 5 - weight() / 75 - damage_cut();
-        if (damage_cut() <= 20) {
-            butcher_factor *= 2;
-        }
-        return butcher_factor;
-    } else {
-        for(std::vector<item>::const_iterator a = contents.begin(); a != contents.end(); ++a) {
-            butcher_factor = std::min(butcher_factor, a->butcher_factor());
-        }
+    static const std::string BUTCHER_QUALITY_ID( "BUTCHER" );
+    const auto it = type->qualities.find( BUTCHER_QUALITY_ID );
+    if( it != type->qualities.end() ) {
+        return it->second;
+    }
+    int butcher_factor = INT_MIN;
+    for( auto &itm : contents ) {
+        butcher_factor = std::max( butcher_factor, itm.butcher_factor() );
     }
     return butcher_factor;
 }
@@ -3533,4 +3522,26 @@ void item::mark_as_used_by_player(const player &p)
     }
     // and always end with a ';'
     used_by_ids += string_format( "%d;", p.getID() );
+}
+
+std::string item::components_to_string() const
+{
+    typedef std::map<std::string, int> t_count_map;
+    t_count_map counts;
+    for(t_item_vector::const_iterator a = components.begin(); a != components.end(); ++a) {
+        const std::string name = a->display_name();
+        counts[name]++;
+    }
+    std::ostringstream buffer;
+    for(t_count_map::const_iterator a = counts.begin(); a != counts.end(); ++a) {
+        if (a != counts.begin()) {
+            buffer << _(", ");
+        }
+        if (a->second != 1) {
+            buffer << string_format(_("%d x %s"), a->second, a->first.c_str());
+        } else {
+            buffer << a->first;
+        }
+    }
+    return buffer.str();
 }

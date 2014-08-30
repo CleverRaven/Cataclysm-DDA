@@ -1,6 +1,7 @@
 #include "weather_gen.h"
 #include "options.h"
 #include "enums.h"
+#include "game.h"
 
 #include <cmath>
 #include <iostream>
@@ -26,6 +27,7 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
 //        initial_season = 3;
 //    }
     const double z( double( t.get_turn() + DAYS(t.season_length()) ) / 2000.0); // Integer turn / widening factor of the Perlin function.
+    
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
     // Noise factors

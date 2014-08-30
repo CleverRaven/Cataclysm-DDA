@@ -1523,6 +1523,10 @@ void player::load_legacy(std::stringstream & dump)
          underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
+         // Bionic power scale has been changed.
+         max_power_level *= 25;
+         power_level *= 25;
+
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
  } else {

@@ -357,10 +357,9 @@ ma_buff::ma_buff()
 
 }
 
-void ma_buff::apply_buff(std::vector<disease> &dVec)
+void ma_buff::apply_buff(std::list<disease> &dVec)
 {
-    for (std::vector<disease>::iterator it = dVec.begin();
-         it != dVec.end(); ++it) {
+    for (auto it = dVec.begin(); it != dVec.end(); ++it) {
         if (it->is_mabuff() && it->buff_id == id) {
             it->duration = buff_duration;
             it->intensity++;
@@ -470,11 +469,10 @@ martialart::martialart()
 
 // simultaneously check and add all buffs. this is so that buffs that have
 // buff dependencies added by the same event trigger correctly
-void simultaneous_add(player &u, std::vector<ma_buff> &buffs, std::vector<disease> &dVec)
+void simultaneous_add(player &u, std::vector<ma_buff> &buffs, std::list<disease> &dVec)
 {
     std::vector<ma_buff> buffer; // hey get it because it's for buffs????
-    for (std::vector<ma_buff>::iterator it = buffs.begin();
-         it != buffs.end(); ++it) {
+    for (auto it = buffs.begin(); it != buffs.end(); ++it) {
         if (it->is_valid_player(u)) {
             buffer.push_back(*it);
         }
@@ -485,37 +483,37 @@ void simultaneous_add(player &u, std::vector<ma_buff> &buffs, std::vector<diseas
     }
 }
 
-void martialart::apply_static_buffs(player &u, std::vector<disease> &dVec)
+void martialart::apply_static_buffs(player &u, std::list<disease> &dVec)
 {
     simultaneous_add(u, static_buffs, dVec);
 }
 
-void martialart::apply_onmove_buffs(player &u, std::vector<disease> &dVec)
+void martialart::apply_onmove_buffs(player &u, std::list<disease> &dVec)
 {
     simultaneous_add(u, onmove_buffs, dVec);
 }
 
-void martialart::apply_onhit_buffs(player &u, std::vector<disease> &dVec)
+void martialart::apply_onhit_buffs(player &u, std::list<disease> &dVec)
 {
     simultaneous_add(u, onhit_buffs, dVec);
 }
 
-void martialart::apply_onattack_buffs(player &u, std::vector<disease> &dVec)
+void martialart::apply_onattack_buffs(player &u, std::list<disease> &dVec)
 {
     simultaneous_add(u, onattack_buffs, dVec);
 }
 
-void martialart::apply_ondodge_buffs(player &u, std::vector<disease> &dVec)
+void martialart::apply_ondodge_buffs(player &u, std::list<disease> &dVec)
 {
     simultaneous_add(u, ondodge_buffs, dVec);
 }
 
-void martialart::apply_onblock_buffs(player &u, std::vector<disease> &dVec)
+void martialart::apply_onblock_buffs(player &u, std::list<disease> &dVec)
 {
     simultaneous_add(u, onblock_buffs, dVec);
 }
 
-void martialart::apply_ongethit_buffs(player &u, std::vector<disease> &dVec)
+void martialart::apply_ongethit_buffs(player &u, std::list<disease> &dVec)
 {
     simultaneous_add(u, ongethit_buffs, dVec);
 }
@@ -665,8 +663,7 @@ void player::ma_ongethit_effects()
 int player::mabuff_tohit_bonus()
 {
     int ret = 0;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             ret += ma_buffs[it->buff_id].hit_bonus(*this);
@@ -677,8 +674,7 @@ int player::mabuff_tohit_bonus()
 int player::mabuff_dodge_bonus()
 {
     int ret = 0;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             ret += it->intensity * ma_buffs[it->buff_id].dodge_bonus(*this);
@@ -689,8 +685,7 @@ int player::mabuff_dodge_bonus()
 int player::mabuff_block_bonus()
 {
     int ret = 0;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             ret += it->intensity * ma_buffs[it->buff_id].block_bonus(*this);
@@ -701,8 +696,7 @@ int player::mabuff_block_bonus()
 int player::mabuff_speed_bonus()
 {
     int ret = 0;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             ret += it->intensity * ma_buffs[it->buff_id].speed_bonus(*this);
@@ -713,8 +707,7 @@ int player::mabuff_speed_bonus()
 int player::mabuff_arm_bash_bonus()
 {
     int ret = 0;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             ret += it->intensity * ma_buffs[it->buff_id].arm_bash_bonus(*this);
@@ -725,8 +718,7 @@ int player::mabuff_arm_bash_bonus()
 int player::mabuff_arm_cut_bonus()
 {
     int ret = 0;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             ret += it->intensity * ma_buffs[it->buff_id].arm_cut_bonus(*this);
@@ -737,8 +729,7 @@ int player::mabuff_arm_cut_bonus()
 float player::mabuff_bash_mult()
 {
     float ret = 1.f;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
@@ -751,8 +742,7 @@ float player::mabuff_bash_mult()
 int player::mabuff_bash_bonus()
 {
     int ret = 0;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             ret += it->intensity * ma_buffs[it->buff_id].bash_bonus(*this);
@@ -763,8 +753,7 @@ int player::mabuff_bash_bonus()
 float player::mabuff_cut_mult()
 {
     float ret = 1.f;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
@@ -777,8 +766,7 @@ float player::mabuff_cut_mult()
 int player::mabuff_cut_bonus()
 {
     int ret = 0;
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             ret += it->intensity * ma_buffs[it->buff_id].cut_bonus(*this);
@@ -788,8 +776,7 @@ int player::mabuff_cut_bonus()
 }
 bool player::is_throw_immune()
 {
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             if (ma_buffs[it->buff_id].is_throw_immune()) {
@@ -801,8 +788,7 @@ bool player::is_throw_immune()
 }
 bool player::is_quiet()
 {
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             if (ma_buffs[it->buff_id].is_quiet()) {
@@ -815,8 +801,7 @@ bool player::is_quiet()
 
 bool player::can_melee()
 {
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() &&
             ma_buffs.find(it->buff_id) != ma_buffs.end()) {
             if (ma_buffs[it->buff_id].can_melee()) {
@@ -829,8 +814,7 @@ bool player::can_melee()
 
 bool player::has_mabuff(mabuff_id id)
 {
-    for (std::vector<disease>::iterator it = illness.begin();
-         it != illness.end(); ++it) {
+    for (auto it = illness.begin(); it != illness.end(); ++it) {
         if (it->is_mabuff() && it->buff_id == id) {
             return true;
         }

@@ -1229,7 +1229,7 @@ void worldfactory::draw_modselection_borders(WINDOW *win, input_context *ctxtp)
 void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current,
                                       std::vector<std::string> tabs)
 {
-    wclear(w);
+    werase(w);
 
     for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
         mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);

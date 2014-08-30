@@ -1625,17 +1625,25 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
     return have_all_tools;
 }
 
+bool query_dissamble(const item &dis_item)
+{
+    if( OPTIONS["QUERY_DISASSEMBLE"] ) {
+        return query_yn( _("Really disassemble the %s?"), dis_item.tname().c_str() );
+    }
+    return true;
+}
+
 void game::disassemble(int pos)
 {
     if (pos == INT_MAX) {
         pos = inv(_("Disassemble item:"));
     }
     item *dis_item = &u.i_at(pos);
-    recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
     if (!u.has_item(pos)) {
         add_msg(m_info, _("You don't have that item!"), pos);
         return;
     }
+    recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
 
     //checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item->is_food() && dis_item->goes_bad()) ||
@@ -1651,8 +1659,7 @@ void game::disassemble(int pos)
     if (cur_recipe != NULL) {
         inventory crafting_inv = crafting_inventory(&u);
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
-            if (OPTIONS["QUERY_DISASSEMBLE"] &&
-                !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str()))) {
+            if( !query_dissamble( *dis_item ) ) {
                 return;
             }
             u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);

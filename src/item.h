@@ -124,8 +124,8 @@ public:
  int price() const;
 
     /**
-     * Return the butcher factor, always positive, but lower is better.
-     * If the item can not be used for butcherin it return INT_MAX.
+     * Return the butcher factor (BUTCHER tool quality).
+     * If the item can not be used for butchering it returns INT_MIN.
      */
     int butcher_factor() const;
 
@@ -297,6 +297,9 @@ public:
  int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
+    /** List of all @ref components in printable form, empty if this item has
+     * no components */
+    std::string components_to_string() const;
 
  itype_id typeId() const;
  itype* type;

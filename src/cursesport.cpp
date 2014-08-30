@@ -578,8 +578,8 @@ int wclear(WINDOW *win)
 
 int clearok(WINDOW *win)
 {
-    for (int i = 0; i < win->y; i++) {
-        win->line[i].touched = true;
+    for (int i = 0; i < win->y && i < stdscr->height; i++) {
+        stdscr->line[i].touched = true;
     }
     return 1;
 }

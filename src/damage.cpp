@@ -85,6 +85,7 @@ resistances::resistances(item &armor) : resist_vals(NUM_DT, 0)
         set_resist(DT_BASH, armor.bash_resist());
         set_resist(DT_CUT, armor.cut_resist());
         set_resist(DT_STAB, 0.8 * armor.cut_resist()); // stab dam cares less bout armor
+        set_resist(DT_ACID, armor.acid_resist());
     }
 }
 resistances::resistances(monster &monster) : resist_vals(NUM_DT, 0)
@@ -114,7 +115,10 @@ float resistances::get_effective_resist(const damage_unit &du)
     case DT_STAB:
         effective_resist = std::max(type_resist(DT_STAB) - du.res_pen, 0) * du.res_mult;
         break;
-    default: // TODO: DT_ACID/HEAT vs env protection, DT_COLD vs warmth
+    case DT_ACID:
+        effective_resist = std::max(type_resist(DT_ACID) - du.res_pen, 0) * du.res_mult;
+        break;
+    default: // TODO: DT_HEAT vs env protection, DT_COLD vs warmth
         effective_resist = 0;
     }
     return effective_resist;

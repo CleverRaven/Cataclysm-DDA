@@ -115,6 +115,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool create(character_type type, std::string tempname = "");
         /** Returns the set "my_traits" */
         std::unordered_set<std::string> get_traits() const;
+        /** Empties the trait list */
+        void empty_traits();
         /** Returns the id of a random starting trait that costs >= 0 points */
         std::string random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
@@ -765,7 +767,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item &i_of_type(itype_id type); // Returns the first item with this type
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the player does not have such an item with that invlet. Don't use this on npcs.
-         * Only use the invelt in the user interface, otherwise always use the item position. */
+         * Only use the invlet in the user interface, otherwise always use the item position. */
         int invlet_to_position(char invlet) const;
         int get_item_position(item *it);  // looks up an item (via pointer comparison)
         const martialart &get_combat_style() const; // Returns the combat style object
@@ -865,6 +867,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string name;
         bool male;
         profession *prof;
+        
         std::string start_location;
 
         std::map<std::string, int> mutation_category_level;
@@ -991,7 +994,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::unordered_set<std::string> my_traits;
         std::unordered_set<std::string> my_mutations;
         std::vector<bionic> my_bionics;
-        std::vector<disease> illness;
+        std::list<disease> illness;
         bool underwater;
         trap_map known_traps;
 

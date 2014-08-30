@@ -95,31 +95,26 @@ void map::generate(const int x, const int y, const int z, const int turn)
         add_extra( random_map_extra( ex ));
     }
 
-    for( int i = 0; i < my_MAPSIZE; i++ ) {
-        for( int j = 0; j < my_MAPSIZE; j++ ) {
-            auto groups = overmap_buffer.groups_at( x + i, y + j, z );
-            for( auto &mgp : groups ) {
-                mongroup &mg = *mgp;
-                // place_spawns does not work here as it requires a "chance", not a
-                // specific monster count.
-                int group = mg.population;
-                for( int g = 0; g < group; g++ ) {
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mg.type, &group );
-                    if( spawn_details.name == "mon_null" ) {
-                        continue;
-                    }
-                    int tries = 10;
-                    int monx = 0;
-                    int mony = 0;
-                    do {
-                        monx = rng( 0, SEEX - 1 ) + SEEX * i;
-                        mony = rng( 0, SEEY - 1 ) + SEEY * j;
-                        tries--;
-                    } while( move_cost( monx, mony ) == 0 && tries > 0 );
-                    add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
-                }
-                // indicates the group is empty, and can be removed later
-                mg.population = 0;
+    const overmap_spawns &spawns = terrain_type.t().static_spawns;
+    if( spawns.group != "GROUP_NULL" && x_in_y( spawns.chance, 100 ) ) {
+        int pop = rng( spawns.min_population, spawns.max_population );
+        // place_spawns currently depends on the STATIC_SPAWN world option, this
+        // must bypass it.
+        for( ; pop > 0; pop-- ) {
+            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+            if( spawn_details.name == "mon_null" ) {
+                continue;
+            }
+            int tries = 10;
+            int monx = 0;
+            int mony = 0;
+            do {
+                monx = rng( 0, SEEX * 2 - 1 );
+                mony = rng( 0, SEEY * 2 - 1 );
+                tries--;
+            } while( move_cost( monx, mony ) == 0 && tries > 0 );
+            if( tries > 0 ) {
+                add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
             }
         }
     }
@@ -411,6 +406,9 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         jmapgen_int tmp_repeat(1,1);
         int tmp_chance = 1;
         int tmp_rotation = 0;
+        int tmp_fuel = -1;
+        int tmp_status = -1;
+
         if ( ! load_jmapgen_int(pjo, "x", tmp_x.val, tmp_x.valmax) ) {
             err = string_format("set %s: bad/missing value for 'x'",tmpval.c_str() ); throw err;
         }
@@ -467,7 +465,9 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         load_jmapgen_int(pjo, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
         pjo.read("chance", tmp_chance );
         pjo.read("rotation", tmp_rotation );
-        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat, tmp_rotation );
+        pjo.read("fuel", tmp_fuel );
+        pjo.read("status", tmp_status );
+        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back(tmp);
         tmpval = "";
@@ -493,6 +493,9 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          int tmp_chance = 1;
          float tmp_density = -1.0;
          int tmp_rotation = 0;
+         int tmp_fuel = -1;
+         int tmp_status = -1;
+
          if ( jsi.read("item", tmpval ) ) {
              tmpop = JMAPGEN_PLACEGROUP_ITEM;
              if ( item_controller->id_from(tmpval) == "MISSING_ITEM" ) {
@@ -520,13 +523,19 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          if ( ! jsi.read("rotation", tmp_rotation ) ) {
              err = string_format("place_group: missing \"x\": int (%s)", tmpop == JMAPGEN_PLACEGROUP_ITEM ? "percent chance" : "one_in int chance" );
          }
+         if ( ! jsi.read("fuel", tmp_fuel ) ) {
+             err = string_format("place_group: missing \"x\": int (%s)", tmpop == JMAPGEN_PLACEGROUP_ITEM ? "percent chance" : "one_in int chance" );
+         }
+         if ( ! jsi.read("status", tmp_status ) ) {
+             err = string_format("place_group: missing \"x\": int (%s)", tmpop == JMAPGEN_PLACEGROUP_ITEM ? "percent chance" : "one_in int chance" );
+         }
          if ( tmpop == JMAPGEN_PLACEGROUP_MONSTER && jsi.has_float("density") ) {
               tmp_density = jsi.get_float("density");
          }
 
          load_jmapgen_int(jsi, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
 
-         jmapgen_place_group new_placegroup( tmp_x, tmp_y, tmpval, tmpop, tmp_chance, tmp_density, tmp_repeat, tmp_rotation);
+         jmapgen_place_group new_placegroup( tmp_x, tmp_y, tmpval, tmpop, tmp_chance, tmp_density, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status);
          place_groups.push_back( new_placegroup );
          tmpval = "";
      }
@@ -838,7 +847,7 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
         case JMAPGEN_PLACEGROUP_VEHICLE: {
             for (int i = 0; i < trepeat; i++) {
                 if (x_in_y(chance, 100)) {
-                    m->add_vehicle (gid, x.val, y.val, rotation);
+                    m->add_vehicle (gid, x.val, y.val, rotation, fuel, status);
                 }
             }
         } break;
@@ -12531,7 +12540,8 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
         m->place_items("fridge",  80, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1, false, 0);
 
         m->furn_set(cx_hi + 2, cy_hi, f_oven);
-
+        m->place_items("oven", 70,  cx_hi + 2, cy_hi, cx_hi + 2, cy_hi, false, 0);
+        
         line_furn(m, f_rack, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1);
         m->place_items("cannedfood",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
         m->place_items("pasta",  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
@@ -12867,7 +12877,7 @@ void map::add_extra(map_extra type)
             add_vehicle("policecar", 16, SEEY * 2 - 5, 145);
             add_spawn("mon_turret", 1, 1, 12);
             add_spawn("mon_turret", 1, SEEX * 2 - 1, 12);
-            
+
             int num_bodies = dice(1, 6);
         for (int i = 0; i < num_bodies; i++) {
             int x, y, tries = 0;;

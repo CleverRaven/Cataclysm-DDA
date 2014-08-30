@@ -39,6 +39,7 @@
       ["mag_comic", 20],
       ["candycigarette", 10],
       ["radio_car_box", 1],
+      ["basketball", 8],
       ["radiocontrol", 5]
     ]
   },{
@@ -417,6 +418,7 @@
       ["ketchup", 35],
       ["mustard", 35],
       ["honey_bottled", 35],
+      ["honey_glassed", 35],
       ["peanutbutter", 35],
       ["jar_glass", 50],
       ["jar_3l_glass", 40],
@@ -486,6 +488,9 @@
       ["milk", 50],
       ["yoghurt", 50],
       ["pudding", 60],
+      ["veggy_salad", 25],
+      ["insta_salad", 40],
+      ["dried_salad", 50],
       ["V8", 15],
       ["apple", 70],
       ["irradiated_apple", 35],
@@ -495,11 +500,17 @@
       ["sandwich_pbh", 30],
       ["mushroom", 4],
       ["blueberries", 3],
+      ["irradiated_blueberries", 1],
       ["strawberries", 2],
+      ["irradiated_strawberries", 1],
       ["lettuce", 11],
       ["irradiated_lettuce", 5],
       ["tomato", 9],
       ["irradiated_tomato", 4],
+      ["cucumber", 10],
+      ["irradiated_cucumber", 4],
+      ["celery", 3],
+      ["irradiated_celery", 1],
       ["broccoli", 9],
       ["irradiated_broccoli", 4],
       ["zucchini", 7],
@@ -552,20 +563,25 @@
       ["grapefruit", 5],
       ["irradiated_grapefruit", 2],
       ["cherries", 10],
+      ["irradiated_cherries", 5],
       ["plums", 10],
       ["irradiated_plums", 5],
       ["grapes", 20],
+      ["irradiated_grapes", 10],
       ["pineapple", 5],
       ["irradiated_pineapple", 2],
       ["peach", 10],
       ["irradiated_peach", 5],
       ["cranberries", 7],
+      ["irradiated_cranberries", 3],
       ["watermelon", 5],
       ["irradiated_watermelon", 2],
       ["melon", 5],
       ["irradiated_melon", 2],
       ["raspberries", 7],
+      ["irradiated_raspberries", 3],
       ["blackberries", 7],
+      ["irradiated_blackberries", 3],
       ["mango", 10],
       ["irradiated_mango", 5],
       ["pomegranate", 5],
@@ -1047,7 +1063,8 @@
       ["maid_dress", 3],
       ["maid_hat", 3],
       ["knitting_needles", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["b_shorts", 15]
     ]
   },{
     "type" : "item_group",
@@ -1192,6 +1209,7 @@
       ["sandwich_pbh", 30],
       ["frozen_dinner", 50],
       ["frozen_burrito", 60],
+      ["dried_salad", 6],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
       ["cheeseburger", 8],
@@ -1598,7 +1616,9 @@
       ["strawberries", 2],
       ["tomato", 9],
       ["broccoli", 9],
+      ["cucumber", 10],
       ["zucchini", 7],
+      ["celery", 5],
       ["wheat", 3],
       ["onion", 3],
       ["carrot", 3]
@@ -1680,7 +1700,6 @@
       ["apron_leather", 10],
       ["tool_belt", 30],
       ["knee_pads", 20],
-      ["roller_blades", 20],
       ["cu_pipe", 50],
       ["fungicide", 5],
       ["charcoal", 5],
@@ -1868,6 +1887,7 @@
       ["headgear", 35],
       ["jersey", 30],
       ["puck", 30],
+      ["basketball", 25],
       ["golf_club", 35],
       ["glasses_safety", 40],
       ["armguard_soft", 40],
@@ -1900,6 +1920,7 @@
       ["elbow_pads", 40],
       ["knee_pads", 40],
       ["roller_blades", 20],
+      ["rollerskates", 10],
       ["manual_throw", 12],
       ["protein_powder", 15],
       ["airhorn", 40],
@@ -2045,6 +2066,7 @@
       ["football_armor", 10],
       ["helmet_football", 10],
       ["football", 30],
+      ["basketball", 20],
       ["sneakers", 80],
       ["socks", 70],
       ["tshirt", 80],
@@ -2093,6 +2115,7 @@
       ["pastaextruder", 10],
       ["binoculars", 20],
       ["roller_blades", 20],
+      ["rollerskates", 10],
       ["hotplate", 10],
       ["knife_combat", 14],
       ["throwing_knife", 7],
@@ -2659,7 +2682,8 @@
       ["boots_western", 10],
       ["clogs", 1],
       ["leathersandals", 10],
-      ["roller_blades", 20]
+      ["rollerskates", 1],
+      ["roller_blades", 5]
     ]
   },{
     "type" : "item_group",
@@ -2681,7 +2705,8 @@
       ["dress", 70],
       ["sundress", 50],
       ["dress_wedding", 1],
-      ["postman_shorts", 5]
+      ["postman_shorts", 5],
+      ["b_shorts", 15]
     ]
   },{
     "type" : "item_group",
@@ -4057,6 +4082,8 @@
       ["mouthpiece", 5],
       ["football", 5],
       ["roller_blades", 20],
+      ["rollerskates", 10],
+      ["rollerskates", 10],
       ["survnote", 3],
       ["radio_car_box", 3],
       ["radiocontrol", 10]
@@ -4492,6 +4519,7 @@
       ["boots_combat", 10],
       ["boots_hiking", 10],
       ["roller_blades", 20],
+      ["rollerskates", 10],
       ["runner_bag", 5],
       ["gloves_tactical", 1],
       ["glasses_bal", 5],
@@ -5059,9 +5087,11 @@
       ["seed_hops", 1],
       ["tomato", 9],
       ["broccoli", 9],
+      ["cucumber", 10],
       ["zucchini", 7],
       ["potato_raw", 10],
       ["corn", 7],
+      ["celery", 4],
       ["onion", 3],
       ["carrot", 3],
       ["withered", 60],
@@ -5381,7 +5411,7 @@
       ["bio_torsionratchet", 10]
     ]
   },{
-      "type" : "item_group",
+    "type" : "item_group",
     "id" : "bionics_sci",
     "note" : "High-tech bionics, handy for the harried researcher. They get access to classified toys too.",
     "items":[
@@ -6481,9 +6511,11 @@
       ["mushroom", 4],
       ["blueberries", 3],
       ["strawberries", 2],
+      ["cucumber", 8],
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
+      ["celery", 2],
       ["onion", 3],
       ["carrot", 3],
       ["potato_raw", 10],
@@ -8428,6 +8460,34 @@
       { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
       { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
       { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_shirts",
+    "items":[
+      ["technician_shirt_blue", 20],
+      ["technician_shirt_ltblue", 15],
+      ["technician_shirt_gray", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_pants",
+    "items":[
+      ["technician_pants_blue", 20],
+      ["technician_pants_ltblue", 15],
+      ["technician_pants_gray", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bionics_tech",
+    "note" : "Bionics used by technicians.",
+    "items":[
+      ["bio_torsionratchet", 20],
+      ["bio_memory", 20],
+      ["bio_sunglasses", 20],
+      ["bio_heatsink", 20],
+      ["bio_watch", 20],
+      ["bio_faraday", 20]
     ]
   }
 ]
