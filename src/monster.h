@@ -123,7 +123,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool wander(); // Returns true if we have no plans
 
         /**
-         * Checks whether we can move to/through (x, y).
+         * Checks whether we can move to/through (x, y). This does not account for bashing.
          *
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
@@ -186,6 +186,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @return 1 if we destroyed something, 0 otherwise.
          */
         int bash_at(int x, int y);
+        
+        /** Returns innate monster bash skill, without calculating additional from helpers */
+        int bash_skill();
 
         void stumble(bool moved);
         void knock_back_from(int posx, int posy);

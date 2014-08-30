@@ -46,7 +46,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["BASHABLE", "FLAMMABLE", "NOITEM", "ORGANIC"],
+        "flags": ["FLAMMABLE", "NOITEM", "ORGANIC"],
         "examine_action": "bulletin_board",
         "deconstruct": {
             "items": [
@@ -73,7 +73,7 @@
         "move_cost_mod": 2,
         "required_str": 5,
         "max_volume": 2000,
-        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
+        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
         "bash": {
             "str_min": 2, "str_max": 18,
             "sound": "smash!",
@@ -119,7 +119,7 @@
         "color": "white",
         "move_cost_mod": 2,
         "required_str": 18,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE"],
         "examine_action": "toilet",
         "bash": {
             "str_min": 6, "str_max": 20,
@@ -145,7 +145,7 @@
             ]
         },
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
         "bash": {
             "str_min": 8, "str_max": 30,
             "sound": "crunch!",
@@ -165,7 +165,7 @@
         "color": "white",
         "move_cost_mod": 2,
         "required_str": 18,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "bash": {
             "str_min": 6, "str_max": 20,
             "sound": "porcelain breaking!",
@@ -184,7 +184,7 @@
         "color": "dkgray",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["BASHABLE", "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE"],
+        "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "sheet_metal", "amount": 6, "minamount": 2 },
@@ -252,7 +252,7 @@
         "color": "white",
         "move_cost_mod": 0,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
             "str_min": 6, "str_max": 30,
             "sound": "porcelain breaking!",
@@ -269,7 +269,7 @@
         "color": "white",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "bash": {
             "str_min": 6, "str_max": 30,
             "sound": "porcelain breaking!",
@@ -395,7 +395,7 @@
         "move_cost_mod": 1,
         "required_str": 5,
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "bash": {
             "str_min": 8, "str_max": 30,
             "sound": "smash!",
@@ -438,7 +438,7 @@
         "color": "dkgray",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "BASHABLE"],
+        "flags": ["TRANSPARENT"],
         "deconstruct": {
             "items": [
                 { "item": "pipe", "amount": 1 },
@@ -464,7 +464,7 @@
         "color": "dkgray",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "BASHABLE"],
+        "flags": ["TRANSPARENT"],
         "bash": {
             "str_min": 18, "str_max": 60,
             "sound": "metal screeching!",
@@ -633,7 +633,7 @@
         "color": "ltcyan",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
             "items": [
                 { "item": "scrap", "amount": 8, "minamount": 2 },
@@ -662,7 +662,7 @@
         "color": "ltcyan",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
             "items": [
                 { "item": "scrap", "amount": 6, "minamount": 2 },
@@ -693,7 +693,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "BASHABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 6 },
@@ -719,7 +719,7 @@
         "color": "ltgray",
         "move_cost_mod": -1,
         "required_str": 9,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
             "items": [
                 { "item": "sheet_metal", "amount": 2, "minamount": 1 },
@@ -745,7 +745,7 @@
         "color": "ltgray",
         "move_cost_mod": -1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "pipe", "amount": 12, "minamount": 6 }
@@ -770,7 +770,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": 9,
-        "flags": ["FLAMMABLE", "BASHABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR"],
+        "flags": ["FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 12 },
@@ -797,7 +797,7 @@
         "move_cost_mod": -1,
         "required_str": 16,
         "max_volume": 4000,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
             "items": [
                 { "item": "pipe", "amount": 1 },
@@ -830,7 +830,7 @@
         "move_cost_mod": -1,
         "required_str": 16,
         "max_volume": 4000,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "deconstruct": {
             "items": [
                 { "item": "scrap", "amount": 6, "minamount": 2 },
@@ -860,7 +860,7 @@
         "color": "ltcyan",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
+        "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
         "examine_action": "vending",
         "bash": {
             "str_min": 6, "str_max": 20,
@@ -879,7 +879,7 @@
         "color": "dkgray",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
+        "flags": ["PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
             "str_min": 18, "str_max": 50,
             "sound": "metal screeching!",
@@ -899,7 +899,7 @@
         "color": "green",
         "move_cost_mod": -1,
         "required_str": 16,
-        "flags": ["CONTAINER", "BASHABLE", "PLACE_ITEM", "BLOCKSDOOR"],
+        "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
             "str_min": 8, "str_max": 45,
             "sound": "metal screeching!",
@@ -936,7 +936,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 14,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 4 },
@@ -961,7 +961,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 12,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 4 },
@@ -986,7 +986,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM"],
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",
@@ -996,7 +996,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM"],
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",
@@ -1006,7 +1006,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1028,7 +1028,7 @@
         "color": "blue",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM"],
         "open": "f_canvas_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1092,7 +1092,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM"],
         "comment": "No bash info due to special handling"
     },{
         "type" : "furniture",
@@ -1102,7 +1102,7 @@
         "color": "white",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["FLAMMABLE_HARD", "BASHABLE", "NOITEM"],
+        "flags": ["FLAMMABLE_HARD", "NOITEM"],
         "open": "f_skin_door_o",
         "comment": "No bash info due to special handling"
     },{
@@ -1165,7 +1165,7 @@
         "bgcolor": "dkgray",
         "move_cost_mod": -10,
         "required_str": -1,
-        "flags": ["BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE"],
+        "flags": ["CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE"],
         "bash": {
             "str_min": 6, "str_max":30,
             "sound": "poof.",
@@ -1179,7 +1179,7 @@
         "bgcolor": "ltgray",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE"],
         "bash": {
             "str_min": 6, "str_max":20,
             "sound": "poof.",
@@ -1194,7 +1194,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
         "open": "f_safe_o",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -1214,7 +1214,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
         "examine_action": "safe",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -1234,7 +1234,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "max_volume": 1000,
-        "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
         "close": "f_safe_c",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -1371,7 +1371,7 @@
         "color": "yellow",
         "move_cost_mod": 2,
         "required_str": 5,
-        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
+        "flags": ["CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
         "bash": {
             "str_min": 2, "str_max": 18,
             "sound": "smash!",
@@ -1388,7 +1388,7 @@
         "color": "dkgray",
         "move_cost_mod": 2,
         "required_str": 10,
-        "flags": ["BASHABLE","PLACE_ITEM","BLOCKSDOOR"],
+        "flags": ["PLACE_ITEM","BLOCKSDOOR"],
         "bash": {
             "str_min": 16, "str_max": 40,
             "sound": "smash!",
@@ -1566,7 +1566,7 @@
         "color": "light_red",
         "move_cost_mod": -1,
         "required_str": 30,
-        "flags": ["BASHABLE", "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD"],
+        "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD"],
         "examine_action": "vending",
         "bash": {
             "str_min": 40, "str_max": 200,
@@ -1585,7 +1585,7 @@
         "color": "red",
         "move_cost_mod": -1,
         "required_str": 12,
-        "flags": ["BASHABLE", "BLOCKSDOOR", "TRANSPARENT"],
+        "flags": ["BLOCKSDOOR", "TRANSPARENT"],
         "deconstruct": {
             "items": [
                 { "item": "television", "amount": 1},
@@ -1621,7 +1621,7 @@
         "color": "red",
         "move_cost_mod": -1,
         "required_str": 8,
-        "flags": ["BASHABLE", "BLOCKSDOOR", "TRANSPARENT"],
+        "flags": ["BLOCKSDOOR", "TRANSPARENT"],
         "deconstruct": {
             "items": [
                 { "item": "scrap", "amount": 6, "minamount": 4},
@@ -1664,7 +1664,7 @@
         "color": "dkgray",
         "move_cost_mod": 2,
         "required_str": 8,
-        "flags": ["BASHABLE", "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
+        "flags": ["BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "foot_crank", "amount": 1, "minamount": 1},
@@ -1706,7 +1706,7 @@
         "color": "dkgray",
         "move_cost_mod": 1,
         "required_str": 12,
-        "flags": ["BASHABLE", "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
+        "flags": ["BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "plastic_chunk", "amount": 14, "minamount": 10 },
@@ -1738,7 +1738,7 @@
         "color": "ltcyan",
         "move_cost_mod": 2,
         "required_str": 9,
-        "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM"],
+        "flags": ["TRANSPARENT", "SEALED", "PLACE_ITEM"],
         "bash": {
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking",

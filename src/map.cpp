@@ -1095,7 +1095,7 @@ std::string map::features(const int x, const int y)
     // FIXME: can't control length of localized text.
     // Make the caller wrap properly, if it does not already.
     std::string ret;
-    if (has_flag("BASHABLE", x, y)) {
+    if (is_bashable(x, y)) {
         ret += _("Smashable. ");
     }
     if (has_flag("DIGGABLE", x, y)) {
@@ -1220,14 +1220,12 @@ bool map::trans(const int x, const int y)
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const
 {
-    static const std::string flag_str_BASHABLE("BASHABLE"); // construct once per runtime, slash delay 90%
     static const std::string flag_str_REDUCE_SCENT("REDUCE_SCENT"); // construct once per runtime, slash delay 90%
     if (!INBOUNDS(x, y)) {
         return false;
     }
     // veh_at const no bueno
-    if (veh_in_active_range && veh_exists_at[x][y] &&
-        (flag_str_BASHABLE == flag || flag_str_REDUCE_SCENT == flag)) {
+    if (veh_in_active_range && veh_exists_at[x][y] && flag_str_REDUCE_SCENT == flag) {
         std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
         if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
             const int vpart = it->second.second;
@@ -1282,8 +1280,7 @@ bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
         return false;
     }
     // veh_at const no bueno
-    if (veh_in_active_range && veh_exists_at[x][y] &&
-        (flag == TFLAG_BASHABLE || flag == TFLAG_REDUCE_SCENT)) {
+    if (veh_in_active_range && veh_exists_at[x][y] && flag == TFLAG_REDUCE_SCENT) {
         std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
         if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
             const int vpart = it->second.second;
@@ -1379,19 +1376,50 @@ int map::bash_strength(const int x, const int y)
     return -1;
 }
 
-int map:bash_rating(const int str, const int x, const int y)
+int map::bash_resistance(const int x, const int y)
 {
-
+    if ( has_furn(x, y) && furn_at(x, y).bash.str_min != -1 ) {
+        return furn_at(x, y).bash.str_min;
+    } else if ( ter_at(x, y).bash.str_min != -1 ) {
+        return ter_at(x, y).bash.str_min;
+    }
+    return -1;
 }
 
-bool map::is_destructable(const int x, const int y)
+int map::bash_rating(const int str, const int x, const int y)
 {
- return has_flag("BASHABLE", x, y) || move_cost(x, y) == 0;
-}
-
-bool map::is_destructable_ter_furn(const int x, const int y)
-{
- return has_flag_ter_or_furn("BASHABLE", x, y) || move_cost_ter_furn(x, y) == 0;
+    if (!is_bashable(x,y)) {
+        return -1;
+    }
+    bool furn_smash = false;
+    bool ter_smash = false;
+    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
+        furn_smash = true;
+    } else if ( ter_at(x, y).bash.str_max != -1 ) {
+        ter_smash = true;
+    }
+    
+    if (!furn_smash && !ter_smash) {
+    //There must be a vehicle there!
+        return 10;
+    }
+    
+    int bash_min = 0;
+    int bash_max = 0;
+    if (furn_smash) {
+        bash_min = furn_at(x, y).bash.str_min;
+        bash_max = furn_at(x, y).bash.str_max;
+    } else {
+        bash_min = ter_at(x, y).bash.str_min;
+        bash_max = ter_at(x, y).bash.str_max;
+    }
+    if (str < bash_min) {
+        return 0;
+    } else if (str >= bash_max) {
+        return 10;
+    }
+    
+    return (10 * (str - bash_min)) / (bash_max - bash_min);
 }
 
 /**
@@ -1667,6 +1695,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
         sound = _("crash!");
         sound_volume = 18;
         smashed_something = true;
+        success = true;
     } else {
         // Else smash furniture or terrain
         bool smash_furn = false;
@@ -1722,10 +1751,14 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                     }
                 }
                 
-                sound_volume = std::min(int(smin * 1.5), smax);
+                if (destroy) {
+                    sound_volume = smax;
+                } else {
+                    sound_volume = std::min(int(smin * 1.5), smax);
+                }
                 sound = _(bash->sound.c_str());
                 // Set this now in case the ter_set below changes this
-                bool collapses = has_flag("COLLAPSES", x, y);
+                bool collapses = has_flag("COLLAPSES", x, y) && smash_ter;
                 if (smash_furn == true) {
                     furn_set(x, y, bash->furn_set);
                     // Hack alert.
@@ -1886,7 +1919,6 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
     }
 }
 
-// map::destroy is only called (?) if the terrain is NOT bashable.
 void map::destroy(const int x, const int y, const bool silent)
 {
     while (bash(x, y, 999, silent, true).second);
@@ -4336,7 +4368,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                 done = true;
                 parent[x][y] = open[index];
             } else if (x >= startx && x <= endx && y >= starty && y <= endy &&
-                        (move_cost(x, y) > 0 || (can_bash && has_flag("BASHABLE", x, y)))) {
+                        (move_cost(x, y) > 0 || (can_bash && is_bashable(x, y)))) {
                 if (list[x][y] == ASL_NONE) { // Not listed, so make it open
                     list[x][y] = ASL_OPEN;
                     open.push_back(point(x, y));
@@ -4344,7 +4376,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                     gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
                     if (ter(x, y) == t_door_c) {
                         gscore[x][y] += 4; // A turn to open it and a turn to move there
-                    } else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y))) {
+                    } else if (move_cost(x, y) == 0 && (can_bash && is_bashable(x, y))) {
                         gscore[x][y] += 18; // Worst case scenario with damage penalty
                     }
                     score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
@@ -4352,7 +4384,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
                     int newg = gscore[open[index].x][open[index].y] + move_cost(x, y) + ((open[index].x - x != 0 && open[index].y - y != 0) ? 1 : 0);
                     if (ter(x, y) == t_door_c) {
                         newg += 4; // A turn to open it and a turn to move there
-                    } else if (move_cost(x, y) == 0 && (can_bash && has_flag("BASHABLE", x, y))) {
+                    } else if (move_cost(x, y) == 0 && (can_bash && is_bashable(x, y))) {
                         newg += 18; // Worst case scenario with damage penalty
                     }
                     if (newg < gscore[x][y]) {

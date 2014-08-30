@@ -418,9 +418,6 @@ void player::activate_bionic(int b)
                 g->m.bash( i, j, 40 );
                 g->m.bash( i, j, 40 ); // Multibash effect, so that doors &c will fall
                 g->m.bash( i, j, 40 );
-                if (g->m.is_destructable(i, j) && rng(1, 10) >= 4) {
-                    g->m.ter_set(i, j, t_rubble);
-                }
             }
         }
     } else if (bio.id == "bio_time_freeze") {

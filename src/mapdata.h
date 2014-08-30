@@ -76,7 +76,6 @@ struct map_deconstruct_info {
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
  * FLAT - Player can build and move furniture on
- * BASHABLE - Players + Monsters can bash this
  * CONTAINER - Items on this square are hidden until looted by the player
  * PLACE_ITEM - Valid terrain for place_item() to put items on
  * DOOR - Can be opened (used for NPC pathfinding)
@@ -134,7 +133,6 @@ enum ter_bitflags {
     TFLAG_NONE,
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
-    TFLAG_BASHABLE,
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,
     TFLAG_SUPPORTS_ROOF,

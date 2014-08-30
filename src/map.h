@@ -362,11 +362,12 @@ class map
  bool is_bashable_ter_furn(const int x, const int y);
  /** Returns max_str of the furniture or terrain at x,y */
  int bash_strength(const int x, const int y);
- /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning */
+ /** Returns min_str of the furniture or terrain at x,y */
+ int bash_resistance(const int x, const int y);
+ /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning 
+  *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
  int bash_rating(const int str, const int x, const int y);
- 
- bool is_destructable(const int x, const int y);        // checks terrain and vehicles
- bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
+
  bool is_divable(const int x, const int y);
  bool is_outside(const int x, const int y);
  bool flammable_items_at(const int x, const int y);
@@ -410,6 +411,7 @@ void add_corpse(int x, int y);
  std::pair<bool, bool> bash(const int x, const int y, const int str, bool silent = false, bool destroy = false);
  // spawn items from the list, see map_bash_item_drop
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
+ /** Keeps bashing a square until it can't be bashed anymore */
  void destroy(const int x, const int y, const bool silent);
  void crush(const int x, const int y);
  void shoot(const int x, const int y, int &dam, const bool hit_items,

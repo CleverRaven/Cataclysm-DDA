@@ -72,7 +72,6 @@ void init_ter_bitflags_map() {
     ter_bitflags_map["FLAMMABLE_HARD"]          = TFLAG_FLAMMABLE_HARD; // fire
     ter_bitflags_map["COLLAPSES"]               = TFLAG_COLLAPSES;      // building "remodeling"
     ter_bitflags_map["FLAMMABLE"]               = TFLAG_FLAMMABLE;      // fire bad! fire SLOW!
-    ter_bitflags_map["BASHABLE"]                = TFLAG_BASHABLE;       // half the game uses this
     ter_bitflags_map["REDUCE_SCENT"]            = TFLAG_REDUCE_SCENT;   // ...and the other half is update_scent
     ter_bitflags_map["SEALED"]                  = TFLAG_SEALED;         // item list
     ter_bitflags_map["INDOORS"]                 = TFLAG_INDOORS;        // vehicle gain_moves, weather

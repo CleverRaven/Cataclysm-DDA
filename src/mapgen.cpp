@@ -12720,7 +12720,7 @@ void map::add_extra(map_extra type)
                 if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
                     if (!one_in(5)) {
                         ter_set(x, y, t_wreckage);
-                    } else if (has_flag("BASHABLE", x, y)) {
+                    } else if (is_bashable(x, y)) {
                         bash(x, y, 500, true); // Smash the fuck out of it
                         bash(x, y, 500, true); // Smash the fuck out of it some more
                     }

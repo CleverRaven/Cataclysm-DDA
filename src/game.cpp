@@ -6520,9 +6520,6 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             }
             m.bash(i, j, dam);
             m.bash(i, j, dam); // Double up for tough doors, etc.
-            if (m.is_destructable(i, j) && rng(25, 100) < dam) {
-                m.destroy(i, j, true);
-            }
 
             int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
             if (mon_hit != -1) {
@@ -7598,7 +7595,6 @@ void game::smash()
         }
     }
     didit = m.bash(smashx, smashy, smashskill).first;
-
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
@@ -7619,6 +7615,15 @@ void game::smash()
                 u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
             }
             u.remove_weapon();
+        }
+        if (smashskill < m.bash_resistance(smashx, smashy) && one_in(10)) {
+            if (m.has_furn(smashx, smashy) && m.furn_at(smashx, smashy).bash.str_min != -1) {
+                // %s is the smashed furniture
+                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.furnname(smashx, smashy).c_str());
+            } else {
+                // %s is the smashed terrain
+                add_msg(m_neutral, _("You don't seem to be damaging the %s."), m.tername(smashx, smashy).c_str());
+            }
         }
     } else {
         add_msg(_("There's nothing there to smash!"));
@@ -13240,7 +13245,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             int vpart;
             vehicle *veh = m.veh_at(x, y, vpart);
             dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
-            if (m.has_flag("BASHABLE", x, y)) {
+            if (m.is_bashable(x, y)) {
                 // Only go through if we successfully destroy what we hit
                 thru = m.bash(x, y, flvel).second;
             } else {

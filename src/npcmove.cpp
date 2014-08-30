@@ -1004,7 +1004,8 @@ void npc::update_path(int x, int y)
 
 bool npc::can_move_to(int x, int y) const
 {
-    return ((g->m.move_cost(x, y) > 0 || g->m.has_flag("BASHABLE", x, y)) &&
+    //Space is considered good with a 20% chance of bashing successfully
+    return ((g->m.move_cost(x, y) > 0 || g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2) &&
             rl_dist(posx, posy, x, y) <= 1);
 }
 
@@ -1084,9 +1085,9 @@ void npc::move_to(int x, int y)
             }
         } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor))) {
             moves -= 100;
-        } else if (g->m.is_bashable(x, y)) {
+        } else if (g->m.is_bashable(x, y) && g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) > 0) {
             moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
-            int smashskill = int(str_cur + weapon.type->melee_dam);
+            int smashskill = str_cur + weapon.type->melee_dam;
             g->m.bash( x, y, smashskill );
         } else {
             moves -= 100;
@@ -2245,7 +2246,8 @@ void npc::go_to_destination()
             for (int dx = 0 - i; dx <= i; dx++) {
                 for (int dy = 0 - i; dy <= i; dy++) {
                     if ((g->m.move_cost(x + dx, y + dy) > 0 ||
-                         g->m.has_flag("BASHABLE", x + dx, y + dy) ||
+                         //Needs 20% chance of bashing success to be considered for pathing
+                         g->m.bash_rating(str_cur + weapon.type->melee_dam, x, y) >= 2 ||
                          g->m.ter(x + dx, y + dy) == t_door_c) &&
                         g->m.sees(posx, posy, x + dx, y + dy, light, linet)) {
                         path = g->m.route(posx, posy, x + dx, y + dy);

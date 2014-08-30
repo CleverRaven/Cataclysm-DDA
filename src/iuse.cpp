@@ -4582,7 +4582,7 @@ int iuse::jackhammer(player *p, item *it, bool)
         p->add_msg_if_player(_("Don't do anything rash.."));
         return 0;
     }
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
         g->m.destroy(dirx, diry, true);
         p->moves -= 500;
@@ -4627,7 +4627,7 @@ int iuse::jacqueshammer(player *p, item *it, bool)
     }
     dirx += p->posx;
     diry += p->posy;
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
         g->m.destroy(dirx, diry, true);
         // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
@@ -4665,7 +4665,7 @@ int iuse::pickaxe(player *p, item *it, bool)
         return 0;
     }
     int turns;
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         turns = (100000 - 3000 * p->skillLevel("carpentry"));
@@ -4698,7 +4698,7 @@ void on_finish_activity_pickaxe(player *p)
     const int dirx = p->activity.placement.x;
     const int diry = p->activity.placement.y;
     item *it = &p->i_at(p->activity.position);
-    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
@@ -7137,8 +7137,8 @@ int iuse::artifact(player *p, item *it, bool)
                         g->m.bash(x, y, 40);
                         g->m.bash(x, y, 40);  // Multibash effect, so that doors &c will fall
                         g->m.bash(x, y, 40);
-                        if (g->m.is_destructable(x, y) && rng(1, 10) >= 3) {
-                            g->m.ter_set(x, y, t_rubble);
+                        if (g->m.is_bashable(x, y) && rng(1, 10) >= 3) {
+                            g->m.bash(x, y, 999, false, true);
                         }
                     }
                 }
