@@ -3273,7 +3273,7 @@
     "price": 600,
     "material": "steel",
     "weight": 10,
-    "volume": 1,
+    "volume": 0,
     "bashing": 0,
     "cutting": 1,
     "to_hit": 0
