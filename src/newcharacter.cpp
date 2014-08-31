@@ -1704,7 +1704,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                       ctxt.get_desc("CHANGE_GENDER").c_str());
         wrefresh(w_gender);
         werase(w_location);
-        mvwprintz( w_location, 0, 1, c_ltgray, _("Starting location:") );
+        mvwprintz( w_location, 0, 0, c_ltgray, _("Starting location:") );
         mvwprintz( w_location, 0, utf8_width(_("Starting location:")) + 2,
                    c_ltgray, _(select_location.entries[select_location.selected].txt.c_str()) );
         wrefresh(w_location);
