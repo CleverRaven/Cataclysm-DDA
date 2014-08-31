@@ -221,7 +221,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
     return bFoundSomething;
 }
 
-void Pickup::do_pickup( point pickup_target, bool from_vehicle, int &offset,
+void Pickup::do_pickup( point pickup_target, bool from_vehicle,
                         std::list<int> &indices, std::list<int> &quantities )
 {
     int moves_taken = 100;
@@ -245,13 +245,18 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle, int &offset,
         g->m.i_at( pickup_target.x, pickup_target.y );
 
     while( g->u.moves >= 0 && !indices.empty() ) {
+        // Pulling from the back of the (in-order) list of indices insures
+        // that we pull from the end of the vector.
+        int current_index = indices.back();
+        int current_quantity = quantities.back();
+        // Whether we pick the item up or not, we're done trying to do so,
+        // so remove it from the list.
+        indices.pop_back();
+        quantities.pop_back();
+
         bool picked_up = false;
-        int current_index = indices.front() + offset;
-        int current_quantity = quantities.front();
         item &newit = here[ current_index ];
         item leftovers = newit.clone();
-        indices.pop_front();
-        quantities.pop_front();
 
         if( current_quantity != 0 ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.
@@ -333,8 +338,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle, int &offset,
 
         if(picked_up) {
             pickup_obj.remove_from_map_or_vehicle(pickup_target.x, pickup_target.y, veh, cargo_part,
-                                                  moves_taken, 0);
-            offset--;
+                                                  moves_taken, current_index);
         }
         if( current_quantity != 0 ) {
             bool to_map = !from_vehicle;
@@ -445,9 +449,8 @@ void Pickup::pick_up(int posx, int posy, int min)
         quantities.push_back( 0 );
         point pickup_target( posx, posy );
         bool from_vehicle = pickup_obj.from_veh;
-        int offset = 0;
 
-        do_pickup( pickup_target, from_vehicle, offset, indices, quantities );
+        do_pickup( pickup_target, from_vehicle, indices, quantities );
         return;
     }
 
@@ -732,7 +735,6 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     // At this point we've selected our items, now we add them to our inventory
-    int offset = 0;
     std::list<int> indices;
     std::list<int> quantities;
     point pickup_target( posx, posy );
@@ -747,7 +749,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     // Wacky hack until I turn this into an activity.
     int moves_spent = 0;
     while( !indices.empty() ) {
-        do_pickup( pickup_target, from_vehicle, offset, indices, quantities );
+        do_pickup( pickup_target, from_vehicle, indices, quantities );
         moves_spent += 100;
         g->u.moves += 100;
     }

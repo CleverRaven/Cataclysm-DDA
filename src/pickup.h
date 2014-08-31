@@ -12,7 +12,7 @@ class Pickup
             from_veh = false;
         }
 
-        static void do_pickup( point pickup_target, bool from_vehicle, int &offset,
+        static void do_pickup( point pickup_target, bool from_vehicle,
                                std::list<int> &indices, std::list<int> &quantities );
         static void pick_up(int posx, int posy, int min); // Pick up items; ',' or via examine()
 
