@@ -575,7 +575,7 @@
             [ [ "log", 2 ] ],
             [ [ "stick", 3 ], [ "2x4", 6 ] ]
         ],
-        "pre_terrain" : "t_pit",
+        "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "t_wall_log_half"
     },{
         "type" : "construction",
