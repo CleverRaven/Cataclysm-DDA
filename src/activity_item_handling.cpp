@@ -3,6 +3,7 @@
 #include "player_activity.h"
 #include "enums.h"
 #include "creature.h"
+#include "pickup.h"
 #include <list>
 #include <vector>
 
@@ -256,5 +257,31 @@ void game::activity_on_turn_stash()
 
 void game::activity_on_turn_pickup()
 {
-    // Pickup activity has source square, indices of items on map, and quantities of same.
+    // Pickup activity has source square, bool indicating source type,
+    // indices of items on map, and quantities of same.
+    bool from_vehicle = g->u.activity.values.front();
+    point pickup_target = g->u.activity.placement;
+    std::list<int> indices;
+    std::list<int> quantities;
+    // Note i = 1, skipping first element.
+    for( size_t i = 1; i < g->u.activity.values.size(); i += 2 ) {
+        indices.push_back( g->u.activity.values[i] );
+        quantities.push_back( g->u.activity.values[ i + 1 ] );
+    }
+    g->u.cancel_activity();
+
+    Pickup::do_pickup( pickup_target, from_vehicle, indices, quantities );
+
+    // If there are items left, we ran out of moves, so make a new activity with the remainder.
+    if( !indices.empty() ) {
+        u.assign_activity( ACT_PICKUP, 0 );
+        u.activity.placement = pickup_target;
+        u.activity.values.push_back( from_vehicle );
+        while( !indices.empty() ) {
+            u.activity.values.push_back( indices.front() );
+            indices.pop_front();
+            u.activity.values.push_back( quantities.front() );
+            quantities.pop_front();
+        }
+    }
 }
