@@ -26,7 +26,7 @@ class Pickup
                                            bool &picked_up);
         void remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int cargo_part,
                                         int &moves_taken, int curmit);
-        static void show_pickup_message(std::map<std::string, int> mapPickup);
+        static void show_pickup_message(std::map<std::string, int> &mapPickup);
 };
 
 

@@ -800,10 +800,11 @@ void Pickup::remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int ca
 }
 
 //helper function for Pickup::pick_up
-void Pickup::show_pickup_message(std::map<std::string, int> mapPickup)
+void Pickup::show_pickup_message(std::map<std::string, int> &mapPickup)
 {
     for (std::map<std::string, int>::iterator iter = mapPickup.begin();
          iter != mapPickup.end(); ++iter) {
+        // FIXME: i18n
         add_msg(ngettext("You pick up: %d %s", "You pick up: %d %ss", iter->second),
                 iter->second, iter->first.c_str());
     }
