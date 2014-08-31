@@ -117,6 +117,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::unordered_set<std::string> get_traits() const;
         /** Empties the trait list */
         void empty_traits();
+        void add_traits();
         /** Returns the id of a random starting trait that costs >= 0 points */
         std::string random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
@@ -867,7 +868,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string name;
         bool male;
         profession *prof;
-        
+
         std::string start_location;
 
         std::map<std::string, int> mutation_category_level;

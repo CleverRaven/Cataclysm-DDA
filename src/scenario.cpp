@@ -61,7 +61,7 @@ void scenario::load_scenario(JsonObject &jsobj)
     const std::string stame = jsobj.get_string("start_name").c_str();
     scen._start_name = pgettext("start_name", stame.c_str());
 
-   
+
     scen._point_cost = jsobj.get_int("points");
 
     JsonObject items_obj=jsobj.get_object("items");
@@ -81,6 +81,10 @@ void scenario::load_scenario(JsonObject &jsobj)
     jsarr = jsobj.get_array("forced_traits");
     while (jsarr.has_more()) {
         scen._forced_traits.insert(jsarr.next_string());
+    }
+    jsarr = jsobj.get_array("forbidden_traits");
+    while (jsarr.has_more()) {
+        scen._forbidden_traits.insert(jsarr.next_string());
     }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
@@ -277,6 +281,10 @@ bool scenario::traitquery(std::string trait) const
 bool scenario::locked_traits(std::string trait) const
 {
     return _forced_traits.count(trait) != 0;
+}
+bool scenario::forbidden_traits(std::string trait) const
+{
+    return _forbidden_traits.count(trait) != 0;
 }
 int scenario::profsize() const
 {

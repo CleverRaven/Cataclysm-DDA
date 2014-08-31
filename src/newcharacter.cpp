@@ -971,8 +971,14 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         popup(_("Your profession of %s prevents you from removing this trait."),
                               u->prof->gender_appropriate_name(u->male).c_str());
                     }
+                    if(g->scen->locked_traits(cur_trait)){
+                        inc_type = 0;
+                        popup(_("The scenario you picked prevents you from removing this trait!"));
+                    }
                 } else if(u->has_conflicting_trait(cur_trait)) {
                     popup(_("You already picked a conflicting trait!"));
+                }else if(g->scen->forbidden_traits(cur_trait)) {
+                    popup(_("The scenario you picked prevents you from taking this trait!"));
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
                     popup(ngettext("Sorry, but you can only take %d point of advantages.", "Sorry, but you can only take %d points of advantages.", max_trait_points),
@@ -1519,9 +1525,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
 		u->dex_max = 8;
 		u->int_max = 8;
 		u->per_max = 8;
-		u->empty_traits();
-		points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
+		u->empty_traits();
+		u->add_traits();
+		points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
+
 
         }else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
             delwin(w_description);
@@ -1835,7 +1843,14 @@ void player::empty_traits()
 	if (has_trait(iter->first)){toggle_trait(iter->first);}
 	}
 }
-
+void player::add_traits()
+{
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if (g->scen->locked_traits(iter->first)){
+            toggle_trait(iter->first);
+        }
+    }
+}
 std::string player::random_good_trait()
 {
     std::vector<std::string> vTraitsGood;

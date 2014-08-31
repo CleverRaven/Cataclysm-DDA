@@ -29,11 +29,13 @@
     "type": "scenario",
     "ident": "lab_chal",
     "name": "Challenge-Lab",
-    "points" : -8,
+    "points" : -7,
     "description": "You've been locked in a lab with no way out! Survive as long as you can! Brag about it on the forums! (Pics or it didn't happen)",
     "start_location": "lab_stairs",
     "start_name": "Locked Lab",
-    "professions" : ["unemployed"]
+    "professions" : ["unemployed"],
+    "forced_traits" : ["MASOCHIST"],
+    "forbidden_traits" : ["LIGHTEATER"]
   },{
     "type": "scenario",
     "ident": "ambushed",
