@@ -67,10 +67,13 @@ void trapfunc::beartrap(Creature *c, int x, int y)
             z->add_item(beartrap);
             z->apply_damage( nullptr, one_in( 2 ) ? bp_leg_l : bp_leg_r, 35);
         } else if (n != NULL) {
+            damage_instance d;
+            d.add_damage( DT_BASH, 10 );
+            d.add_damage( DT_CUT, 16 );
             if(one_in(2)) {
-                n->hit(NULL, bp_leg_l, 10, 16);
+                n->deal_damage( nullptr, bp_leg_l, d );
             } else {
-                n->hit(NULL, bp_leg_r, 10, 16);
+                n->deal_damage( nullptr, bp_leg_r, d );
             }
             n->add_disease("beartrap", 1, true);
               if ((n->has_trait("INFRESIST")) && (one_in(512))) {
@@ -105,8 +108,8 @@ void trapfunc::board(Creature *c, int, int)
             z->apply_damage( nullptr, bp_foot_l, rng( 3, 5 ) );
             z->apply_damage( nullptr, bp_foot_r, rng( 3, 5 ) );
         } else {
-            c->hit(NULL, bp_foot_l, 0, rng(6, 10));
-            c->hit(NULL, bp_foot_r, 0, rng(6, 10));
+            c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 6, 10 ) ) );
+            c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 6, 10 ) ) );
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
                   n->add_disease("tetanus",1,true);
               }
@@ -134,8 +137,8 @@ void trapfunc::caltrops(Creature *c, int, int)
             c->apply_damage( nullptr, bp_foot_l, rng( 9, 15 ) );
             c->apply_damage( nullptr, bp_foot_r, rng( 9, 15 ) );
         } else {
-            c->hit(NULL, bp_foot_l, 0, rng(9, 30));
-            c->hit(NULL, bp_foot_r, 0, rng(9, 30));
+            c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 9, 30 ) ) );
+            c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 9, 30 ) ) );
         }
     }
 }
@@ -203,7 +206,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                         if(one_in(2)) {
                             hit = bp_foot_l;
                         } else {
-                            hit = bp_foot_l;
+                            hit = bp_foot_r;
                         }
                         break;
                     case  2:
@@ -212,7 +215,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                         if(one_in(2)) {
                             hit = bp_leg_l;
                         } else {
-                            hit = bp_leg_l;
+                            hit = bp_leg_r;
                         }
                         break;
                     case  5:
@@ -228,7 +231,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit).c_str());
-                n->hit(NULL, hit, 0, rng(20, 30));
+                c->deal_damage( nullptr, hit, damage_instance( DT_CUT, rng( 20, 30 ) ) );
                 add_bolt = !one_in(10);
             } else {
                 n->add_msg_player_or_npc(m_neutral, _("You dodge the shot!"),
@@ -297,7 +300,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                         if(one_in(2)) {
                             hit = bp_foot_l;
                         } else {
-                            hit = bp_foot_l;
+                            hit = bp_foot_r;
                         }
                         break;
                     case  2:
@@ -306,7 +309,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                         if(one_in(2)) {
                             hit = bp_leg_l;
                         } else {
-                            hit = bp_leg_l;
+                            hit = bp_leg_r;
                         }
                         break;
                     case  5:
@@ -322,7 +325,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player(m_bad, _("Your %s is hit!"), body_part_name(hit).c_str());
-                n->hit(NULL, hit, 0, rng(40 * shots, 60 * shots));
+                c->deal_damage( nullptr, hit, damage_instance( DT_CUT, rng( 40 * shots, 60 * shots ) ) );
             } else {
                 n->add_msg_player_or_npc(m_neutral, _("You dodge the shot!"),
                                          _("<npcname> dodges the shot!"));
@@ -377,7 +380,10 @@ void trapfunc::blade(Creature *c, int, int)
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
-            n->hit(NULL, bp_torso, 12, 30);
+            damage_instance d;
+            d.add_damage( DT_BASH, 12 );
+            d.add_damage( DT_CUT, 30 );
+            n->deal_damage( nullptr, bp_torso, d );
         } else if (z != NULL) {
             int cutdam = std::max(0, 30 - z->get_armor_cut(bp_torso));
             int bashdam = std::max(0, 12 - z->get_armor_bash(bp_torso));
@@ -459,7 +465,10 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
     monster *z = dynamic_cast<monster *>(c);
     player *n = dynamic_cast<player *>(c);
     if (n != NULL) {
-        n->hit(NULL, hit, 15, 20);
+        damage_instance d;
+        d.add_damage( DT_BASH, 15 );
+        d.add_damage( DT_CUT, 20 );
+        n->deal_damage( nullptr, bp_torso, d );
         n->add_disease("heavysnare", rng(20, 30));
     } else if (z != NULL) {
         int damage;
@@ -573,8 +582,8 @@ void trapfunc::goo(Creature *c, int x, int y)
             n->infect("slimed", bp_foot_r, 6, 20);
             if (one_in(3)) {
                 n->add_msg_if_player(m_bad, _("The acidic goo eats away at your feet."));
-                n->hit(NULL, bp_foot_l, 0, 5);
-                n->hit(NULL, bp_foot_r, 0, 5);
+                n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 5 ) );
+                n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 5 ) );
             }
         } else if (z != NULL) {
             if (z->type->id == "mon_blob") {
@@ -602,16 +611,16 @@ void trapfunc::dissector(Creature *c, int x, int y)
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
-            n->hit(NULL, bp_head,   0, 15);
-            n->hit(NULL, bp_torso,  0, 20);
-            n->hit(NULL, bp_arm_r,  0, 12);
-            n->hit(NULL, bp_arm_l,  0, 12);
-            n->hit(NULL, bp_hand_r, 0, 10);
-            n->hit(NULL, bp_hand_l, 0, 10);
-            n->hit(NULL, bp_leg_r,  0, 12);
-            n->hit(NULL, bp_leg_r,  0, 12);
-            n->hit(NULL, bp_foot_l, 0, 10);
-            n->hit(NULL, bp_foot_r, 0, 10);
+            n->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+            n->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+            n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+            n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+            n->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+            n->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+            n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+            n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
         } else if (z != NULL) {
             z->apply_damage( nullptr, bp_torso, 60 );
             if( z->is_dead() ) {
@@ -643,8 +652,8 @@ void trapfunc::pit(Creature *c, int x, int y)
                 if (damage > 0) {
                     n->add_msg_if_player(m_bad, _("You hurt yourself!"));
                     n->hurtall(rng(int(damage / 2), damage));
-                    n->hit(NULL, bp_leg_l, damage, 0);
-                    n->hit(NULL, bp_leg_r, damage, 0);
+                    n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, damage ) );
+                    n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, damage ) );
                 } else {
                     n->add_msg_if_player(_("You land nimbly."));
                 }
@@ -702,7 +711,7 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                         break;
                 }
                 n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name_accusative(hit).c_str());
-                n->hit(NULL, hit, 0, damage);
+                n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
                   n->add_disease("tetanus",1,true);
               }
@@ -740,10 +749,10 @@ void trapfunc::lava(Creature *c, int x, int y)
         monster *z = dynamic_cast<monster *>(c);
         player *n = dynamic_cast<player *>(c);
         if (n != NULL) {
-            n->hit(NULL, bp_foot_l, 0, 20);
-            n->hit(NULL, bp_foot_r, 0, 20);
-            n->hit(NULL, bp_leg_l, 0, 20);
-            n->hit(NULL, bp_leg_r, 0, 20);
+            n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 20 ) );
+            n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 20 ) );
+            n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_CUT, 20 ) );
+            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 20 ) );
         } else if (z != NULL) {
             // MATERIALS-TODO: use fire resistance
             int dam = 30;

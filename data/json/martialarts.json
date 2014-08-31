@@ -147,7 +147,7 @@
         "type" : "martial_art",
         "id" : "style_capoeira",
         "name" : "Capoeira",
-        "description" : "A dance-like style with its roots in Brazilian slavery, capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
+        "description" : "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
         "onhit_buffs" : [
             {
                 "id" : "capoeira_hit_buff",
@@ -762,7 +762,7 @@
         "type" : "martial_art",
         "id" : "style_venom_snake",
         "name" : "Viper Kung Fu",
-        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a uniqe three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
+        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
         "static_buffs" : [
             {
                 "id" : "venom_snake_static",

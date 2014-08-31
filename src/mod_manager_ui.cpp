@@ -85,10 +85,10 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     std::string dependency_string = "";
     if (!dependencies.empty()) {
         DebugLog( D_PEDANTIC_INFO, DC_ALL ) << mod->name << " Dependencies --";
-        for (int i = 0; i < dependencies.size(); ++i) {
+        for (size_t i = 0; i < dependencies.size(); ++i) {
             if (i > 0) {
                 //~ delimiter for mod dependency enumeration
-                dependency_string += pgettext("mod manager",", ");
+                dependency_string += pgettext("mod manager", ", ");
             }
             DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\t" << dependencies[i];
             if (active_manager->mod_map.find(dependencies[i]) != active_manager->mod_map.end()) {
@@ -101,26 +101,28 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     }
     std::string author_string = "";
     if (!authors.empty()) {
-        for (int i = 0; i < authors.size(); ++i) {
+        for (size_t i = 0; i < authors.size(); ++i) {
             if (i > 0) {
                 //~ delimiter for mod author enumeration
-                author_string += pgettext("mod manager",", ");
+                author_string += pgettext("mod manager", ", ");
             }
             author_string += authors[i];
         }
-        info << string_format(ngettext("Author: %s\n","Authors: %s\n",authors.size()), author_string.c_str());
+        info << string_format(ngettext("Author: %s\n", "Authors: %s\n", authors.size()),
+                              author_string.c_str());
     } else {
         info << _("Authors: [UNKNOWN]\n");
     }
 
     if(!dependencies.empty()) {
-        info << string_format(ngettext("Dependency: %s\n","Dependencies: %s\n",dependencies.size()), dependency_string.c_str());
+        info << string_format(ngettext("Dependency: %s\n", "Dependencies: %s\n", dependencies.size()),
+                              dependency_string.c_str());
     } else {
         info << _("Dependencies: [NONE]\n");
     }
 
     if(!description.empty()) {
-        info << string_format("Description: %s\n", description.c_str());
+        info << string_format(_("Description: %s\n"), description.c_str());
     } else {
         info << _("Description: [NONE]\n");
     }
@@ -173,13 +175,13 @@ void mod_ui::try_add(const std::string &mod_to_add,
         // now check dependencies and add them as necessary
         std::vector<std::string> mods_to_add;
         bool new_core = false;
-        for (int i = 0; i < dependencies.size(); ++i) {
-            if(std::find(active_list.begin(), active_list.end(), dependencies[i]) == active_list.end()) {
-                if (active_manager->mod_map[dependencies[i]]->_type == MT_CORE) {
-                    mods_to_add.insert(mods_to_add.begin(), dependencies[i]);
+        for (auto &i : dependencies) {
+            if(std::find(active_list.begin(), active_list.end(), i) == active_list.end()) {
+                if (active_manager->mod_map[i]->_type == MT_CORE) {
+                    mods_to_add.insert(mods_to_add.begin(), i);
                     new_core = true;
                 } else {
-                    mods_to_add.push_back(dependencies[i]);
+                    mods_to_add.push_back(i);
                 }
             }
         }
@@ -190,8 +192,8 @@ void mod_ui::try_add(const std::string &mod_to_add,
             mods_to_add.erase(mods_to_add.begin());
         }
         // now add the rest of the dependencies serially to the end
-        for (int i = 0; i < mods_to_add.size(); ++i) {
-            active_list.push_back(mods_to_add[i]);
+        for (auto &i : mods_to_add) {
+            active_list.push_back(i);
         }
         // and finally add the one we are trying to add!
         active_list.push_back(mod.ident);
@@ -201,7 +203,7 @@ void mod_ui::try_add(const std::string &mod_to_add,
 void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 {
     // first make sure that what we are looking for exists in the list
-    if (selection >= active_list.size()) {
+    if (selection >= (int)active_list.size()) {
         // trying to access an out of bounds value! quit early
         return;
     }
@@ -213,9 +215,8 @@ void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 
     // search through the rest of the active list for mods that depend on this one
     if (!dependents.empty()) {
-        for (int i = 0; i < dependents.size(); ++i) {
-            std::vector<std::string>::iterator rem = std::find(active_list.begin(), active_list.end(),
-                    dependents[i]);
+        for (auto &i : dependents) {
+            auto rem = std::find(active_list.begin(), active_list.end(), i);
             if (rem != active_list.end()) {
                 active_list.erase(rem);
             }
@@ -231,7 +232,7 @@ void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> &active_list)
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= active_list.size()) {
+    if (selection < 0 || selection >= (int)active_list.size()) {
         return;
     }
 
@@ -275,7 +276,7 @@ void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> 
 bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= active_list.size()) {
+    if (selection < 0 || selection >= (int)active_list.size()) {
         return false;
     }
     // dependencies of this active element
@@ -312,7 +313,7 @@ bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
 bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= active_list.size()) {
+    if (selection < 0 || selection >= (int)active_list.size()) {
         return false;
     }
     std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings(
@@ -324,7 +325,7 @@ bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
     std::string modstring;
 
     // figure out if we can move down!
-    if (selection == active_list.size() - 1) {
+    if (selection == (int)active_list.size() - 1) {
         // can't move down, don't bother trying
         return false;
     }

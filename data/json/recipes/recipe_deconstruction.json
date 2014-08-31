@@ -1034,6 +1034,75 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pipe",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "mechanics",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+    
+    ], "components": [
+        [ [ "scrap", 7 ] ]
+    ]
+},{
+	"type" : "recipe",
+  "result": "makeshift_crowbar",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "mechanics",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"SAW_M","level":1,"amount":1}
+   ], "components": [
+        [ [ "scrap", 3 ] ],
+        [ [ "steel_chunk", 1] ]
+    ]
+},{
+	"type" : "recipe",
+  "result": "file",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 3 ] ]
+  ]
+},{
+	"type" : "recipe",
+  "result": "flyer",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 1 ] ]
+  ]
+},{
+	"type" : "recipe",
+  "result": "survnote",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+  	[ [ "paper", 1 ] ]
+  ]
+},{
+        "type" : "recipe",
   "result": "broken_manhack",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -1125,6 +1194,30 @@
         [ [ "solar_cell", 2 ] ],
         [ [ "motor", 1 ] ],
         [ [ "tazer", 1 ] ],
+        [ [ "e_scrap", 3 ] ],
+        [ [ "steel_chunk", 12 ] ]
+    ]
+},{
+    "type" : "recipe",
+    "result": "broken_riotbot",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": 120000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
+        [ [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
+    ], "components": [
+        [ [ "power_supply", 4 ] ],
+        [ [ "solar_cell", 2 ] ],
+        [ [ "motor", 1 ] ],
+        [ [ "canister_empty", 1 ] ],
         [ [ "e_scrap", 3 ] ],
         [ [ "steel_chunk", 12 ] ]
     ]
@@ -1665,8 +1758,7 @@
     ],
 	  [[ "char_kiln", 1 ]]
   ]
-},
-{
+},{
   "type" : "recipe",
   "result": "multi_cooker",
   "id_suffix": "uncraft",
@@ -1803,5 +1895,83 @@
       [ "holster", 1 ]
     ]
   ]
-}
+},{
+    "type" : "recipe",
+    "result": "eink_tablet_pc",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "e_scrap", 2 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "camera",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "lens", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "camera_pro",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap", 5 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "lens", 2 ] ]
+    ]
+  },
+  {
+  "type" : "recipe",
+  "result": "radio_car_box",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [
+      [ "radio_car", 1 ]
+    ],
+    [
+      [ "radiocontrol", 1 ]
+    ],
+    [
+      [ "battery", 200 ]
+    ]
+  ]
+  }
 ]

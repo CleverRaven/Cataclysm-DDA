@@ -136,7 +136,7 @@ void Creature_tracker::rebuild_cache()
     }
 }
 
-const std::vector<monster>& Creature_tracker::list() const
+const std::vector<monster> &Creature_tracker::list() const
 {
     static std::vector<monster> for_now;
     for_now.clear();

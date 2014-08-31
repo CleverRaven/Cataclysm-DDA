@@ -148,7 +148,7 @@ void monster::plan(const std::vector<int> &friendlies)
         }
     }
 
-    for (int i = 0; i < g->active_npc.size(); i++) {
+    for (size_t i = 0; i < g->active_npc.size(); i++) {
         npc *me = (g->active_npc[i]);
         int medist = rl_dist(posx(), posy(), me->posx, me->posy);
         if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
@@ -339,10 +339,9 @@ void monster::move()
         if (plans.back().x == g->u.posx && plans.back().y == g->u.posy) {
             current_attitude = attitude(&(g->u));
         } else {
-            for (int i = 0; i < g->active_npc.size(); i++) {
-                if (plans.back().x == g->active_npc[i]->posx &&
-                      plans.back().y == g->active_npc[i]->posy) {
-                    current_attitude = attitude((g->active_npc[i]));
+            for (auto &i : g->active_npc) {
+                if (plans.back().x == i->posx && plans.back().y == i->posy) {
+                    current_attitude = attitude(i);
                 }
             }
         }
@@ -469,53 +468,50 @@ void monster::friendly_move()
 
 point monster::scent_move()
 {
- std::vector<point> smoves;
+    std::vector<point> smoves;
 
- int maxsmell = 10; // Squares with smell 0 are not eligible targets.
- int smell_threshold = 200; // Squares at or above this level are ineligible.
- if (has_flag(MF_KEENNOSE)) {
-     maxsmell = 1;
-     smell_threshold = 400;
- }
- int minsmell = 9999;
- point pbuff, next(-1, -1);
- unsigned int smell;
- const bool fleeing = is_fleeing(g->u);
- if( !fleeing && g->scent( posx(), posy() ) > smell_threshold ) {
-     return next;
- }
- for (int x = -1; x <= 1; x++) {
-  for (int y = -1; y <= 1; y++) {
-   const int nx = posx() + x;
-   const int ny = posy() + y;
-   smell = g->scent(nx, ny);
-   int mon = g->mon_at(nx, ny);
-   if ((mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-       (can_move_to(nx, ny) ||
-        (nx == g->u.posx && ny == g->u.posy) ||
-        (g->m.has_flag("BASHABLE", nx, ny) && has_flag(MF_BASHES)))) {
-    if ((!fleeing && smell > maxsmell ) ||
-        ( fleeing && smell < minsmell )   ) {
-     smoves.clear();
-     pbuff.x = nx;
-     pbuff.y = ny;
-     smoves.push_back(pbuff);
-     maxsmell = smell;
-     minsmell = smell;
-    } else if ((!fleeing && smell == maxsmell ) ||
-               ( fleeing && smell == minsmell )   ) {
-     pbuff.x = nx;
-     pbuff.y = ny;
-     smoves.push_back(pbuff);
+    int maxsmell = 10; // Squares with smell 0 are not eligible targets.
+    int smell_threshold = 200; // Squares at or above this level are ineligible.
+    if (has_flag(MF_KEENNOSE)) {
+        maxsmell = 1;
+        smell_threshold = 400;
     }
-   }
-  }
- }
- if (!smoves.empty()) {
-  int nextsq = rng(0, smoves.size() - 1);
-  next = smoves[nextsq];
- }
- return next;
+    int minsmell = 9999;
+    point pbuff, next(-1, -1);
+    int smell;
+    const bool fleeing = is_fleeing(g->u);
+    if( !fleeing && g->scent( posx(), posy() ) > smell_threshold ) {
+        return next;
+    }
+    for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
+            const int nx = posx() + x;
+            const int ny = posy() + y;
+            smell = g->scent(nx, ny);
+            int mon = g->mon_at(nx, ny);
+            if ((mon == -1 || g->zombie(mon).friendly != 0 || has_flag(MF_ATTACKMON)) &&
+                  (can_move_to(nx, ny) || (nx == g->u.posx && ny == g->u.posy) ||
+                  (g->m.has_flag("BASHABLE", nx, ny) && has_flag(MF_BASHES)))) {
+                if ((!fleeing && smell > maxsmell) || (fleeing && smell < minsmell)) {
+                    smoves.clear();
+                    pbuff.x = nx;
+                    pbuff.y = ny;
+                    smoves.push_back(pbuff);
+                    maxsmell = smell;
+                    minsmell = smell;
+                } else if ((!fleeing && smell == maxsmell) || (fleeing && smell == minsmell)) {
+                    pbuff.x = nx;
+                    pbuff.y = ny;
+                    smoves.push_back(pbuff);
+                }
+            }
+        }
+    }
+    if (!smoves.empty()) {
+        int nextsq = rng(0, smoves.size() - 1);
+        next = smoves[nextsq];
+    }
+    return next;
 }
 
 point monster::wander_next()
@@ -971,7 +967,7 @@ void monster::knock_back_from(int x, int y)
   npc *p = g->active_npc[npcdex];
   apply_damage( p, bp_torso, 3 );
   add_effect("stunned", 1);
-  p->hit(this, bp_torso, type->size, 0);
+  p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
   if (u_see)
    add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
@@ -1049,18 +1045,20 @@ bool monster::will_reach(int x, int y)
 
 int monster::turns_to_reach(int x, int y)
 {
- std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
- if (path.empty())
-  return 999;
+    std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
+    if (path.empty())
+        return 999;
 
- double turns = 0.;
- for (int i = 0; i < path.size(); i++) {
-  if (g->m.move_cost(path[i].x, path[i].y) == 0) // We have to bash through
-   turns += 5;
-  else if (i == 0)
-   turns += double(calc_movecost(posx(), posy(), path[i].x, path[i].y)) / speed;
-  else
-   turns += double(calc_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / speed;
- }
- return int(turns + .9); // Round up
+    double turns = 0.;
+    for (size_t i = 0; i < path.size(); i++) {
+        if (g->m.move_cost(path[i].x, path[i].y) == 0) {
+            // We have to bash through
+            turns += 5;
+        } else if (i == 0) {
+            turns += double(calc_movecost(posx(), posy(), path[i].x, path[i].y)) / speed;
+        } else {
+            turns += double(calc_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / speed;
+        }
+    }
+    return int(turns + .9); // Round up
 }

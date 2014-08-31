@@ -451,7 +451,7 @@ size_t utf8_wrapper::byte_start_display(size_t bstart, size_t start) const
             continue;
         }
         const int width = mk_wcwidth(ch);
-        if(start >= width) {
+        if((int)start >= width) {
             // If width is 0, include the code point (might be combination character)
             // Same when width is actually smaller than start
             start -= width;
@@ -482,7 +482,8 @@ utf8_wrapper utf8_wrapper::substr_display(size_t start, size_t length) const
     return substr_byte(byte_start_display(0, start), length, true);
 }
 
-utf8_wrapper utf8_wrapper::substr_byte(size_t bytestart, size_t length, bool use_display_width) const
+utf8_wrapper utf8_wrapper::substr_byte(size_t bytestart, size_t length,
+                                       bool use_display_width) const
 {
     if(length == 0 || bytestart >= _data.length()) {
         return utf8_wrapper();

@@ -2,16 +2,24 @@
 
 #include "overmapbuffer.h"
 #include "game.h"
+#include "monster.h"
 
 #include <fstream>
 #include <sstream>
+#include <cassert>
 
 overmapbuffer overmap_buffer;
 
-// Cached result of previous call to overmapbuffer::get_existing
-static const overmap *last_requested_overmap = NULL;
+inline int modulo(int v, int m);
+inline int divide(int v, int m);
+inline int divide(int v, int m, int &r);
+
+bool operator==(const std::unique_ptr<overmap> &a, const point &b) {
+    return a && a->pos() == b;
+}
 
 overmapbuffer::overmapbuffer()
+: last_requested_overmap( nullptr )
 {
 }
 
@@ -42,34 +50,63 @@ std::string overmapbuffer::player_filename(int const x, int const y)
 
 overmap &overmapbuffer::get( const int x, const int y )
 {
-    // Check list first
-    for(std::list<overmap>::iterator candidate = overmap_list.begin();
-        candidate != overmap_list.end(); ++candidate)
-    {
-        if(candidate->pos().x == x && candidate->pos().y == y)
-        {
-            return *candidate;
-        }
+    auto it = std::find( overmaps.begin(), overmaps.end(), point( x, y ) );
+    if( it != overmaps.end() ) {
+        return **it;
     }
-    // If we don't have one, make it, stash it in the list, and return it.
-    overmap new_overmap(x, y);
-    overmap_list.push_back( new_overmap );
-    return overmap_list.back();
+    // That constructor loads an existing overmap or creates a new one.
+    std::unique_ptr<overmap> new_om( new overmap( x, y ) );
+    overmap &result = *new_om;
+    overmaps.push_back( std::move( new_om ) );
+    // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
+    // necessarily the overmap at (x,y)
+    fix_mongroups( result );
+    return result;
+}
+
+void overmapbuffer::fix_mongroups(overmap &new_overmap)
+{
+    for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
+        auto &mg = it->second;
+        // spawn related code simply sets population to 0 when they have been
+        // transformed into spawn points on a submap, the group can then be removed
+        if( mg.population <= 0 ) {
+            new_overmap.zg.erase( it++ );
+            continue;
+        }
+        // Inside the bounds of the overmap?
+        if( mg.posx >= 0 && mg.posy >= 0 && mg.posx < OMAPX * 2 && mg.posy < OMAPY * 2 ) {
+            ++it;
+            continue;
+        }
+        point smabs( mg.posx + new_overmap.pos().x * OMAPX * 2,
+                     mg.posy + new_overmap.pos().y * OMAPY * 2 );
+        point omp = sm_to_om_remain( smabs );
+        if( !has( omp.x, omp.y ) ) {
+            // Don't generate new overmaps, as this can be called from the
+            // overmap-generating code.
+            ++it;
+            continue;
+        }
+        overmap &om = get( omp.x, omp.y );
+        mg.posx = smabs.x;
+        mg.posy = smabs.y;
+        om.add_mon_group( mg );
+        new_overmap.zg.erase( it++ );
+    }
 }
 
 void overmapbuffer::save()
 {
-    for(std::list<overmap>::iterator current_map = overmap_list.begin();
-        current_map != overmap_list.end(); ++current_map)
-    {
+    for( auto &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
-        current_map->save();
+        omp->save();
     }
 }
 
 void overmapbuffer::clear()
 {
-    overmap_list.clear();
+    overmaps.clear();
     known_non_existing.clear();
     last_requested_overmap = NULL;
 }
@@ -94,18 +131,14 @@ void overmapbuffer::delete_note(int x, int y, int z)
     }
 }
 
-const overmap *overmapbuffer::get_existing(int x, int y) const
+overmap *overmapbuffer::get_existing(int x, int y)
 {
     if (last_requested_overmap != NULL && last_requested_overmap->pos().x == x && last_requested_overmap->pos().y == y) {
         return last_requested_overmap;
     }
-    for(std::list<overmap>::const_iterator candidate = overmap_list.begin();
-        candidate != overmap_list.end(); ++candidate)
-    {
-        if(candidate->pos().x == x && candidate->pos().y == y)
-        {
-            return last_requested_overmap = &*candidate;
-        }
+    auto it = std::find( overmaps.begin(), overmaps.end(), point( x, y ) );
+    if( it != overmaps.end() ) {
+        return last_requested_overmap = it->get();
     }
     if (known_non_existing.count(point(x, y)) > 0) {
         // This overmap does not exist on disk (this has already been
@@ -113,23 +146,12 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
         return NULL;
     }
     // Check if the overmap exist on disk,
-    // overmap(0,0) should always exist, we need it for the proper
-    // overmap file name.
-    std::stringstream filename;
-    filename << world_generator->active_world->world_path << "/";
-
-    if (g->has_gametype()) {
-        filename << special_game_name(g->gametype()) << ".";
-    }
-
-    filename << "o." << x << "." << y;
-
-    std::ifstream tmp(filename.str().c_str(), std::ios::in);
+    std::ifstream tmp(terrain_filename( x, y ).c_str(), std::ios::in);
     if(tmp.is_open()) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         tmp.close();
-        return &const_cast<overmapbuffer*>(this)->get(x, y);
+        return &get( x, y );
     }
     // File does not exist (or not readable which is essentially
     // the same for our usage). A second call of this function with
@@ -141,12 +163,12 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
     return NULL;
 }
 
-bool overmapbuffer::has(int x, int y) const
+bool overmapbuffer::has(int x, int y)
 {
     return get_existing(x, y) != NULL;
 }
 
-const overmap *overmapbuffer::get_existing_om_global(int &x, int &y) const
+overmap *overmapbuffer::get_existing_om_global(int &x, int &y)
 {
     const point om_pos = omt_to_om_remain(x, y);
     return get_existing(om_pos.x, om_pos.y);
@@ -158,19 +180,19 @@ overmap &overmapbuffer::get_om_global(int &x, int &y)
     return get(om_pos.x, om_pos.y);
 }
 
-const overmap *overmapbuffer::get_existing_om_global(const point& p) const
+overmap *overmapbuffer::get_existing_om_global(const point& p)
 {
     const point om_pos = omt_to_om_copy(p);
     return get_existing(om_pos.x, om_pos.y);
 }
 
-bool overmapbuffer::has_note(int x, int y, int z) const
+bool overmapbuffer::has_note(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
     return (om != NULL) && om->has_note(x, y, z);
 }
 
-const std::string& overmapbuffer::note(int x, int y, int z) const
+const std::string& overmapbuffer::note(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
     if (om == NULL) {
@@ -185,7 +207,7 @@ bool overmapbuffer::has_npc(int x, int y, int z)
     return !get_npcs_near_omt(x, y, z, 0).empty();
 }
 
-bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda) const
+bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
 {
     const overmap *om = get_existing_om_global(x, y);
     return (om != NULL) && om->has_vehicle(x, y, z, require_pda);
@@ -193,9 +215,37 @@ bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda) const
 
 std::vector<mongroup*> overmapbuffer::monsters_at(int x, int y, int z)
 {
-    const overmap* om = overmap_buffer.get_existing_om_global(x, y);
-    point p = omt_to_sm_copy(x, y);
-    return const_cast<overmap*>(om)->monsters_at(p.x, p.y, z);
+    // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,
+    // but monster groups are defined with submap coordinates.
+    std::vector<mongroup *> result, tmp;
+    tmp = groups_at( x * 2, y * 2 , z );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+    tmp = groups_at( x * 2, y * 2 + 1, z );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+    tmp = groups_at( x * 2 + 1, y * 2 + 1, z );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+    tmp = groups_at( x * 2 + 1, y * 2 , z );
+    result.insert( result.end(), tmp.begin(), tmp.end() );
+    return result;
+}
+
+std::vector<mongroup*> overmapbuffer::groups_at(int x, int y, int z)
+{
+    std::vector<mongroup *> result;
+    const point omp = sm_to_om_remain( x, y );
+    if( !has( omp.x, omp.y ) ) {
+        return result;
+    }
+    const tripoint dpos( x, y, z );
+    overmap &om = get( omp.x, omp.y );
+    for( auto it = om.zg.lower_bound( dpos ), end = om.zg.upper_bound( dpos ); it != end; ++it ) {
+        auto &mg = it->second;
+        if( mg.population <= 0 ) {
+            continue;
+        }
+        result.push_back( &mg );
+    }
+    return result;
 }
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
@@ -238,7 +288,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     veh->om_id = id;
 }
 
-bool overmapbuffer::seen(int x, int y, int z) const
+bool overmapbuffer::seen(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
     return (om != NULL) && const_cast<overmap*>(om)->seen(x, y, z);
@@ -351,7 +401,7 @@ std::vector<point> overmapbuffer::find_all(const tripoint& origin, const std::st
 }
 
 npc* overmapbuffer::find_npc(int id) {
-    for (std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it) {
+    for( auto &it : overmaps ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             if (it->npcs[i]->getID() == id) {
                 return it->npcs[i];
@@ -363,7 +413,7 @@ npc* overmapbuffer::find_npc(int id) {
 
 void overmapbuffer::remove_npc(int id)
 {
-    for (std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it) {
+    for( auto &it : overmaps ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             if (p->getID() == id) {
@@ -390,8 +440,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
-    for(std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it)
-    {
+    for( auto &it : overmaps ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             // Global position of NPC, in submap coordiantes
@@ -411,8 +460,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
-    for(std::list<overmap>::iterator it = overmap_list.begin(); it != overmap_list.end(); ++it)
-    {
+    for( auto &it : overmaps ) {
         for (size_t i = 0; i < it->npcs.size(); i++) {
             npc *p = it->npcs[i];
             // Global position of NPC, in submap coordiantes
@@ -429,13 +477,64 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
     return result;
 }
 
+void overmapbuffer::spawn_monster(const int x, const int y, const int z)
+{
+    // Create a copy, so we can reuse x and y later
+    point sm( x, y );
+    const point omp = sm_to_om_remain( sm );
+    overmap &om = get( omp.x, omp.y );
+    for( auto it = om.monsters.begin(); it != om.monsters.end(); ) {
+        auto &mdata = *it;
+        if( sm.x == mdata.x && sm.y == mdata.y && z == mdata.z ) {
+            monster &critter = mdata.mon;
+            // The absolute position in map squares, (x,y) is already global, but it's a
+            // submap coordinate, so translate it and add the exact monster position on
+            // the submap. modulo because the zombies position might be negative, as it
+            // is stored *after* it has gone out of bounds during shifting. When reloading
+            // we only need the part that tells where on the sumap to put it.
+            point ms( modulo( critter.posx(), SEEX ), modulo( critter.posy(), SEEY ) );
+            if( ms.x < 0 ) {
+                ms.x += SEEX;
+            }
+            if( ms.y < 0 ) {
+                ms.y += SEEY;
+            }
+            assert( ms.x >= 0 && ms.x < SEEX );
+            assert( ms.y >= 0 && ms.y < SEEX );
+            ms.x += x * SEEX;
+            ms.y += y * SEEY;
+            // The monster position must be local to the main map when added via game::add_zombie
+            const point local = g->m.getlocal( ms.x, ms.y );
+            assert( g->m.inbounds( local.x, local.y ) );
+            critter.spawn( local.x, local.y );
+            g->add_zombie( critter );
+            it = om.monsters.erase( it );
+        } else {
+            ++it;
+        }
+    }
+}
+
+void overmapbuffer::despawn_monster(const monster &critter)
+{
+    overmap::monster_data mdata;
+    // Get absolute coordinates of the monster in map squares, translate to submap position
+    point sm = ms_to_sm_copy( g->m.getabs( critter.posx(), critter.posy() ) );
+    // Get the overmap coordinates and get the overmap, sm is now local to that overmap
+    const point omp = sm_to_om_remain( sm );
+    overmap &om = get( omp.x, omp.y );
+    mdata.x = sm.x; // Local to the overmap
+    mdata.y = sm.y;
+    mdata.z = g->levz; // TODO: with Z-levels this should probably be taken from the critter
+    mdata.mon = critter; // the exact position is retained in here
+    om.monsters.push_back( mdata );
+}
+
 extern bool lcmatch(const std::string& text, const std::string& pattern);
-overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern) const
+overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern)
 {
     t_notes_vector result;
-    for(std::list<overmap>::const_iterator it = overmap_list.begin();
-        it != overmap_list.end(); ++it)
-    {
+    for( auto &it : overmaps ) {
         const overmap &om = *it;
         const int offset_x = om.pos().x * OMAPX;
         const int offset_y = om.pos().y * OMAPY;

@@ -124,7 +124,7 @@ public:
 
     const item_category *category; // category pointer or NULL for automatic selection
 
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "misc";
     }
@@ -136,27 +136,27 @@ public:
         return ngettext(name.c_str(), name_plural.c_str(), quantity);
     }
 
-    virtual bool is_food()
+    virtual bool is_food() const
     {
         return false;
     }
-    virtual bool is_ammo()
+    virtual bool is_ammo() const
     {
         return false;
     }
-    virtual bool is_gun()
+    virtual bool is_gun() const
     {
         return false;
     }
-    virtual bool is_gunmod()
+    virtual bool is_gunmod() const
     {
         return false;
     }
-    virtual bool is_bionic()
+    virtual bool is_bionic() const
     {
         return false;
     }
-    virtual bool is_armor()
+    virtual bool is_armor() const
     {
         return false;
     }
@@ -164,43 +164,43 @@ public:
     {
         return false;
     }
-    virtual bool is_book()
+    virtual bool is_book() const
     {
         return false;
     }
-    virtual bool is_tool()
+    virtual bool is_tool() const
     {
         return false;
     }
-    virtual bool is_container()
+    virtual bool is_container() const
     {
         return false;
     }
-    virtual bool is_software()
+    virtual bool is_software() const
     {
         return false;
     }
-    virtual bool is_macguffin()
+    virtual bool is_macguffin() const
     {
         return false;
     }
-    virtual bool is_stationary()
+    virtual bool is_stationary() const
     {
         return false;
     }
-    virtual bool is_artifact()
+    virtual bool is_artifact() const
     {
         return false;
     }
-    virtual bool is_var_veh_part()
+    virtual bool is_var_veh_part() const
     {
         return false;
     }
-    virtual bool is_engine()
+    virtual bool is_engine() const
     {
         return false;
     }
-    virtual bool is_wheel()
+    virtual bool is_wheel() const
     {
         return false;
     }
@@ -208,21 +208,21 @@ public:
     {
         return false;
     }
-    virtual int charges_to_use()
+    virtual int charges_to_use() const
     {
         return 1;
     }
-    virtual int maximum_charges()
+    virtual int maximum_charges() const
     {
 	return 1;
     }
 
-    bool has_use();
-    bool can_use( std::string iuse_name );
+    bool has_use() const;
+    bool can_use( std::string iuse_name ) const;
     /** Returns true if is_armor() and covers bp */
-    bool is_covering(body_part bp);
+    bool is_covering(body_part bp) const;
     /** Returns true if is_armor() and is sided on bp */
-    bool is_sided(body_part bp);
+    bool is_sided(body_part bp) const;
     int invoke( player *p, item *it, bool active );
 
     std::string dmg_adj(int dam)
@@ -269,11 +269,11 @@ struct it_comest : public virtual itype {
     itype_id container; // The container it comes in
     itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 
-    virtual bool is_food()
+    virtual bool is_food() const
     {
         return true;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "FOOD";
     }
@@ -310,19 +310,19 @@ struct it_var_veh_part: public virtual itype {
     {
     }
 
-    virtual bool is_var_veh_part()
+    virtual bool is_var_veh_part() const
     {
         return true;
     }
-    virtual bool is_wheel()
+    virtual bool is_wheel() const
     {
         return false;
     }
-    virtual bool is_engine()
+    virtual bool is_engine() const
     {
         return engine;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "VEHICLE_PART";
     }
@@ -348,7 +348,7 @@ struct it_ammo : public virtual itype {
     {
     }
 
-    virtual bool is_ammo()
+    virtual bool is_ammo() const
     {
         return true;
     }
@@ -357,7 +357,7 @@ struct it_ammo : public virtual itype {
     {
         return true;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "AMMO";
     }
@@ -366,24 +366,24 @@ struct it_ammo : public virtual itype {
 struct it_gun : public virtual itype {
     ammotype ammo;
     Skill *skill_used;
-    signed int dmg_bonus;
-    signed int pierce;
-    signed int range;
-    signed int dispersion;
-    signed int recoil;
-    signed int durability;
-    unsigned int burst;
+    int dmg_bonus;
+    int pierce;
+    int range;
+    int dispersion;
+    int recoil;
+    int durability;
+    int burst;
     int clip;
     int reload_time;
 
     std::set<std::string> ammo_effects;
     std::map<std::string, int> valid_mod_locations;
 
-    virtual bool is_gun()
+    virtual bool is_gun() const
     {
         return true;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "GUN";
     }
@@ -409,7 +409,7 @@ struct it_gunmod : public virtual itype {
     Skill *skill_used;
     std::string location;
 
-    virtual bool is_gunmod()
+    virtual bool is_gunmod() const
     {
         return true;
     }
@@ -439,7 +439,7 @@ struct it_armor : public virtual itype {
     {
     }
 
-    virtual bool is_armor()
+    virtual bool is_armor() const
     {
         return true;
     }
@@ -447,11 +447,11 @@ struct it_armor : public virtual itype {
     {
         return power_armor;
     }
-    virtual bool is_artifact()
+    virtual bool is_artifact() const
     {
         return false;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "ARMOR";
     }
@@ -482,11 +482,11 @@ struct it_book : public virtual itype {
     // "To read" means getting 1 skill point, not all of em
     int chapters; //Fun books have chapters; after all are read, the book is less fun
     std::map<recipe *, int> recipes; //what recipes can be learned from this book
-    virtual bool is_book()
+    virtual bool is_book() const
     {
         return true;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "BOOK";
     }
@@ -497,12 +497,12 @@ struct it_book : public virtual itype {
 };
 
 struct it_container : public virtual itype {
-    unsigned int contains; // Internal volume
-    virtual bool is_container()
+    int contains; // Internal volume
+    virtual bool is_container() const
     {
         return true;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "CONTAINER";
     }
@@ -521,23 +521,23 @@ struct it_tool : public virtual itype {
     itype_id revert_to;
     itype_id subtype;
 
-    virtual bool is_tool()
+    virtual bool is_tool() const
     {
         return true;
     }
-    virtual bool is_artifact()
+    virtual bool is_artifact() const
     {
         return false;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "TOOL";
     }
-    int charges_to_use()
+    int charges_to_use() const
     {
         return charges_per_use;
     }
-    int maximum_charges()
+    int maximum_charges() const
     {
 	return max_charges;
     }
@@ -548,11 +548,11 @@ struct it_tool : public virtual itype {
 };
 
 struct it_tool_armor : public virtual it_tool, public virtual it_armor {
-    virtual bool is_artifact()
+    virtual bool is_artifact() const
     {
         return false;
     }
-    virtual bool is_armor()
+    virtual bool is_armor() const
     {
         return true;
     }
@@ -560,15 +560,15 @@ struct it_tool_armor : public virtual it_tool, public virtual it_armor {
     {
         return it_armor::is_power_armor();
     }
-    virtual int charges_to_use()
+    virtual int charges_to_use() const
     {
         return it_tool::charges_to_use();
     }
-    virtual int maximum_charges()
+    virtual int maximum_charges() const
     {
 	return it_tool::maximum_charges();
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "ARMOR";
     }
@@ -581,11 +581,11 @@ struct it_bionic : public virtual itype {
     {
     }
 
-    virtual bool is_bionic()
+    virtual bool is_bionic() const
     {
         return true;
     }
-    virtual std::string get_item_type_string()
+    virtual std::string get_item_type_string() const
     {
         return "BIONIC";
     }
@@ -594,7 +594,7 @@ struct it_bionic : public virtual itype {
 struct it_macguffin : public virtual itype {
     bool readable; // If true, activated with 'R'
 
-    virtual bool is_macguffin()
+    virtual bool is_macguffin() const
     {
         return true;
     }
@@ -615,7 +615,7 @@ struct it_software : public virtual itype {
     software_type swtype;
     int power;
 
-    virtual bool is_software()
+    virtual bool is_software() const
     {
         return true;
     }
@@ -633,7 +633,7 @@ struct it_software : public virtual itype {
 };
 
 struct it_stationary : public virtual itype {
-    virtual bool is_stationary()
+    virtual bool is_stationary() const
     {
         return true;
     }

@@ -42,9 +42,11 @@ struct component {
     // 0 means they have item but not enough for both tool and component
     mutable available_status available;
 
-    component() : type("null") , count(0) , available(a_false) {
+    component() : type("null") , count(0) , available(a_false)
+    {
     }
-    component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(a_false) {
+    component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(a_false)
+    {
     }
     void check_consistency(const std::string &display_name) const;
 };
@@ -75,9 +77,12 @@ struct quality_requirement {
     int level;
     mutable available_status available;
 
-    quality_requirement() : type("UNKNOWN"), count(0), level(0), available(a_false) {
+    quality_requirement() : type("UNKNOWN"), count(0), level(0), available(a_false)
+    {
     }
-    quality_requirement(const quality_id &TYPE, int COUNT, int LEVEL) : type(TYPE), count(COUNT), level(LEVEL), available(a_false) {
+    quality_requirement(const quality_id &TYPE, int COUNT, int LEVEL) : type(TYPE), count(COUNT),
+        level(LEVEL), available(a_false)
+    {
     }
 
     void load(JsonArray &jarr);
@@ -117,69 +122,74 @@ struct quality_requirement {
  *   std::string get_color(bool has_one, const inventory &crafting_inv) const;
 */
 struct requirements {
-    typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
-    typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
-    typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
+        typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
+        typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
+        typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
 
-    alter_tool_comp_vector tools;
-    alter_quali_req_vector qualities;
-    alter_item_comp_vector components;
+        alter_tool_comp_vector tools;
+        alter_quali_req_vector qualities;
+        alter_item_comp_vector components;
 
-    /**
-     * Time in movement points (100 movement points per turns) required
-     * to do the task.
-     */
-    int time;
-    /**
-     * Load @ref tools, @ref qualities and @ref components from
-     * the json object. Assumes them to be in sub-objects.
-     */
-    void load(JsonObject &jsobj);
-    /**
-     * Returns a list of components/tools/qualities that are not available,
-     * nicely formatted for popup window or similar.
-     */
-    std::string list_missing() const;
-    /**
-     * Consistency checking
-     * @param display_name the string is used when displaying a error about
-     * inconsistent data (unknown item id, ...).
-     */
-    void check_consistency(const std::string &display_name) const;
-    /**
-     * Remove components (tools/items) of the given item type. Qualities are not
-     * changed.
-     * @returns true if any the last requirement in a list of alternatives has
-     * been removed. This requirement can never be fulfilled and should be discarded.
-     */
-    bool remove_item(const std::string &type);
+        /**
+         * Time in movement points (100 movement points per turns) required
+         * to do the task.
+         */
+        int time;
+        /**
+         * Load @ref tools, @ref qualities and @ref components from
+         * the json object. Assumes them to be in sub-objects.
+         */
+        void load(JsonObject &jsobj);
+        /**
+         * Returns a list of components/tools/qualities that are not available,
+         * nicely formatted for popup window or similar.
+         */
+        std::string list_missing() const;
+        /**
+         * Consistency checking
+         * @param display_name the string is used when displaying a error about
+         * inconsistent data (unknown item id, ...).
+         */
+        void check_consistency(const std::string &display_name) const;
+        /**
+         * Remove components (tools/items) of the given item type. Qualities are not
+         * changed.
+         * @returns true if any the last requirement in a list of alternatives has
+         * been removed. This requirement can never be fulfilled and should be discarded.
+         */
+        bool remove_item(const std::string &type);
 
-    bool can_make_with_inventory(const inventory& crafting_inv) const;
+        bool can_make_with_inventory(const inventory &crafting_inv) const;
 
-    int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col, const inventory &crafting_inv) const;
-    int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col, const inventory &crafting_inv) const;
-    int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
+        int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                             const inventory &crafting_inv) const;
+        int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                        const inventory &crafting_inv) const;
+        int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
 
-private:
-    bool check_enough_materials(const inventory& crafting_inv) const;
-    bool check_enough_materials(const item_comp& comp, const inventory& crafting_inv) const;
+    private:
+        bool check_enough_materials(const inventory &crafting_inv) const;
+        bool check_enough_materials(const item_comp &comp, const inventory &crafting_inv) const;
 
-    template<typename T>
-    static void check_consistency(const std::vector< std::vector<T> > &vec, const std::string &display_name);
-    template<typename T>
-    static std::string print_missing_objs(const std::string &header, const std::vector< std::vector<T> > &objs);
-    template<typename T>
-    static bool has_comps(const inventory &crafting_inv, const std::vector< std::vector<T> > &vec);
-    template<typename T>
-    static int print_list(WINDOW *w, int ypos, int xpos, int width, nc_color col, const inventory &crafting_inv, const std::vector< std::vector<T> > &objs);
-    template<typename T>
-    static bool remove_item(const std::string &type, std::vector< std::vector<T> > &vec);
-    template<typename T>
-    static bool any_marked_available(const std::vector<T> &comps);
-    template<typename T>
-    static void load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> > &objs);
-    template<typename T>
-    static const T *find_by_type(const std::vector< std::vector<T> > &vec, const std::string &type);
+        template<typename T>
+        static void check_consistency(const std::vector< std::vector<T> > &vec,
+                                      const std::string &display_name);
+        template<typename T>
+        static std::string print_missing_objs(const std::string &header,
+                                              const std::vector< std::vector<T> > &objs);
+        template<typename T>
+        static bool has_comps(const inventory &crafting_inv, const std::vector< std::vector<T> > &vec);
+        template<typename T>
+        static int print_list(WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs);
+        template<typename T>
+        static bool remove_item(const std::string &type, std::vector< std::vector<T> > &vec);
+        template<typename T>
+        static bool any_marked_available(const std::vector<T> &comps);
+        template<typename T>
+        static void load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> > &objs);
+        template<typename T>
+        static const T *find_by_type(const std::vector< std::vector<T> > &vec, const std::string &type);
 };
 
 #endif

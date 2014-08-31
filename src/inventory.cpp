@@ -26,7 +26,7 @@ const_invslice inventory::const_slice() const
 
 const std::list<item> &inventory::const_stack(int i) const
 {
-    if (i < 0 || i >= items.size()) {
+    if (i < 0 || i >= (int)items.size()) {
         debugmsg("Attempted to access stack %d in an inventory (size %d)", i, items.size());
         return nullstack;
     }
@@ -38,7 +38,7 @@ const std::list<item> &inventory::const_stack(int i) const
     return *iter;
 }
 
-int inventory::size() const
+size_t inventory::size() const
 {
     return items.size();
 }
@@ -64,7 +64,7 @@ inventory &inventory::operator= (inventory &rhs)
     }
 
     clear();
-    for (int i = 0; i < rhs.size(); i++) {
+    for (size_t i = 0; i < rhs.size(); i++) {
         items.push_back(rhs.const_stack(i));
     }
     return *this;
@@ -77,7 +77,7 @@ inventory &inventory::operator= (const inventory &rhs)
     }
 
     clear();
-    for (int i = 0; i < rhs.size(); i++) {
+    for (size_t i = 0; i < rhs.size(); i++) {
         items.push_back(rhs.const_stack(i));
     }
     return *this;
@@ -85,7 +85,7 @@ inventory &inventory::operator= (const inventory &rhs)
 
 inventory &inventory::operator+= (const inventory &rhs)
 {
-    for (int i = 0; i < rhs.size(); i++) {
+    for (size_t i = 0; i < rhs.size(); i++) {
         add_stack(rhs.const_stack(i));
     }
     return *this;
@@ -404,6 +404,11 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
                     it_ref->item_counter = tmpcounter;
                     newit.item_counter = tmpcounter;
                 }
+                if (it_ref->is_food() && it_ref->has_flag("COLD")) {
+                    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
+                    it_ref->item_counter = tmpcounter;
+                    newit.item_counter = tmpcounter;
+                }
                 newit.invlet = it_ref->invlet;
                 iter->push_back(newit);
                 return iter->back();
@@ -515,9 +520,9 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             if(g->m.accessable_items(origin.x, origin.y, x, y, range)) {
                 continue;
             }
-            for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
-                if (!g->m.i_at(x, y)[i].made_of(LIQUID)) {
-                    add_item(g->m.i_at(x, y)[i], false, assign_invlet);
+            for (auto &i : g->m.i_at(x, y)) {
+                if (!i.made_of(LIQUID)) {
+                    add_item(i, false, assign_invlet);
                 }
             }
             // Kludges for now!
@@ -550,7 +555,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 // get water charges at location
                 std::vector<item> toiletitems = g->m.i_at(x, y);
                 int waterindex = -1;
-                for (int i = 0; i < toiletitems.size(); ++i) {
+                for (size_t i = 0; i < toiletitems.size(); ++i) {
                     if (toiletitems[i].typeId() == "water") {
                         waterindex = i;
                         break;
@@ -564,9 +569,10 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             // keg-kludge
             if (furnlist[g->m.furn(x, y)].examine == &iexamine::keg) {
                 std::vector<item> liq_contained = g->m.i_at(x, y);
-                for (int i = 0; i < liq_contained.size(); ++i)
-                    if (liq_contained[i].made_of(LIQUID))
-                        add_item(liq_contained[i]);
+                for (auto &i : liq_contained)
+                    if (i.made_of(LIQUID)) {
+                        add_item(i);
+                    }
             }
 
             int vpart = -1;
@@ -587,7 +593,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                     *this += std::list<item>(veh->parts[cargo].items.begin(), veh->parts[cargo].items.end());
                 }
 
-                if(faupart >= 0 ){
+                if(faupart >= 0 ) {
                     item water("water_clean", 0);
                     water.charges = veh->fuel_left("water");
                     add_item(water);
@@ -666,7 +672,7 @@ std::list<item> inventory::reduce_stack_internal(const Locator &locator, int qua
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (item_matches_locator(iter->front(), locator, pos)) {
-            if(quantity >= iter->size() || quantity < 0) {
+            if(quantity >= (int)iter->size() || quantity < 0) {
                 ret = *iter;
                 items.erase(iter);
             } else {
@@ -799,7 +805,7 @@ std::vector<item> inventory::remove_mission_items(int mission_id)
                 ret.push_back(remove_item(&*stack_iter));
                 stack_iter = iter->begin();
             } else {
-                for (int k = 0; k < stack_iter->contents.size() && stack_iter != iter->end(); ++k) {
+                for (size_t k = 0; k < stack_iter->contents.size() && stack_iter != iter->end(); ++k) {
                     if (stack_iter->contents[k].mission_id == mission_id) {
                         ret.push_back(remove_item(&*stack_iter));
                         stack_iter = iter->begin();
@@ -826,7 +832,7 @@ void inventory::dump(std::vector<item *> &dest)
 
 item &inventory::find_item(int position)
 {
-    if (position < 0 || position >= items.size()) {
+    if (position < 0 || position >= (int)items.size()) {
         return nullitem;
     }
     invstack::iterator iter = items.begin();
@@ -923,19 +929,18 @@ std::vector<item *> inventory::all_items_with_flag( const std::string flag )
 {
     std::vector<item *> ret;
 
-  for (invstack::iterator istack = items.begin(); istack != items.end(); ++istack) {
-    for (std::list<item>::iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
-      if (iitem->has_flag(flag)) {
-        ret.push_back(&*iitem);
-      }
-      else if (!iitem->contents.empty())
-        for (int k = 0; k < iitem->contents.size(); k++) {
-            if (iitem->contents[k].has_flag(flag)) {
-                ret.push_back(&iitem->contents[k]);
-            }
+    for (invstack::iterator istack = items.begin(); istack != items.end(); ++istack) {
+        for (std::list<item>::iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
+            if (iitem->has_flag(flag)) {
+                ret.push_back(&*iitem);
+            } else if (!iitem->contents.empty())
+                for (auto &k : iitem->contents) {
+                    if (k.has_flag(flag)) {
+                        ret.push_back(&k);
+                    }
+                }
         }
     }
-  }
     return ret;
 }
 
@@ -955,22 +960,22 @@ std::vector<item *> inventory::all_ammo(const ammotype &type)
     return ret;
 }
 
-std::vector<item*> inventory::all_drinks() {
-  std::vector<item*> ret;
+std::vector<item *> inventory::all_drinks()
+{
+    std::vector<item *> ret;
 
-  for (invstack::iterator istack = items.begin(); istack != items.end(); ++istack) {
-    for (std::list<item>::iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
-      if (iitem->is_drink()) {
-        ret.push_back(&*iitem);
-      }
-      else if (!iitem->contents.empty())
-        if (iitem->contents[0].is_drink()) {
-            ret.push_back(&iitem->contents[0]);
+    for (invstack::iterator istack = items.begin(); istack != items.end(); ++istack) {
+        for (std::list<item>::iterator iitem = istack->begin(); iitem != istack->end(); ++iitem) {
+            if (iitem->is_drink()) {
+                ret.push_back(&*iitem);
+            } else if (!iitem->contents.empty())
+                if (iitem->contents[0].is_drink()) {
+                    ret.push_back(&iitem->contents[0]);
+                }
         }
     }
-  }
 
-  return ret;
+    return ret;
 }
 
 int inventory::amount_of(itype_id it) const
@@ -1094,8 +1099,8 @@ bool inventory::has_item(item *it) const
             if (it == &(*stack_iter)) {
                 return true;
             }
-            for (int k = 0; k < stack_iter->contents.size(); k++) {
-                if (it == &(stack_iter->contents[k])) {
+            for (auto &k : stack_iter->contents) {
+                if (it == &k) {
                     return true;
                 }
             }
@@ -1178,8 +1183,8 @@ bool inventory::has_mission_item(int mission_id) const
             if (iter->mission_id == mission_id) {
                 return true;
             }
-            for (int k = 0; k < iter->contents.size(); k++) {
-                if (iter->contents[k].mission_id == mission_id) {
+            for (auto &k : iter->contents) {
+                if (k.mission_id == mission_id) {
                     return true;
                 }
             }
@@ -1190,16 +1195,16 @@ bool inventory::has_mission_item(int mission_id) const
 
 int inventory::butcher_factor() const
 {
-    int lowest_factor = INT_MAX;
+    int result = INT_MIN;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter) {
             const item &cur_item = *stack_iter;
-            lowest_factor = std::min(lowest_factor, cur_item.butcher_factor());
+            result = std::max( result, cur_item.butcher_factor() );
         }
     }
-    return lowest_factor;
+    return result;
 }
 
 bool inventory::has_artifact_with(art_effect_passive effect) const
@@ -1236,11 +1241,9 @@ bool inventory::has_liquid(itype_id type) const
 
 bool inventory::has_drink() const
 {
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        const item& it = iter->front();
-        if (it.is_container() && !it.contents.empty())
-        {
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
+        const item &it = iter->front();
+        if (it.is_container() && !it.contents.empty()) {
             return it.contents[0].is_drink();
         }
     }
@@ -1286,7 +1289,7 @@ bool inventory::has_enough_painkiller(int pain) const
     return false;
 }
 
-item* inventory::most_appropriate_painkiller(int pain)
+item *inventory::most_appropriate_painkiller(int pain)
 {
     int difference = 9999;
     item *ret = &nullitem;
@@ -1313,9 +1316,9 @@ item* inventory::most_appropriate_painkiller(int pain)
     return ret;
 }
 
-item* inventory::best_for_melee(player *p)
+item *inventory::best_for_melee(player *p)
 {
-    item* ret = &nullitem;
+    item *ret = &nullitem;
     int best = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         int score = iter->front().melee_value(p);
@@ -1327,7 +1330,7 @@ item* inventory::best_for_melee(player *p)
     return ret;
 }
 
-item* inventory::most_loaded_gun()
+item *inventory::most_loaded_gun()
 {
     item *ret = &nullitem;
     int max = 0;
@@ -1419,7 +1422,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     std::set<char> cur_inv = p->allocated_invlets();
     if (cur_inv.size() < inv_chars.size()) {
         for (std::string::const_iterator newinvlet = inv_chars.begin();
-            newinvlet != inv_chars.end(); newinvlet++) {
+             newinvlet != inv_chars.end(); newinvlet++) {
             if (cur_inv.find(*newinvlet) == cur_inv.end()) {
                 it.invlet = *newinvlet;
                 return;
@@ -1442,7 +1445,8 @@ void inventory::assign_empty_invlet(item &it, bool force)
     debugmsg("could not find a hotkey for %s", it.tname().c_str());
 }
 
-std::set<char> inventory::allocated_invlets() const {
+std::set<char> inventory::allocated_invlets() const
+{
     std::set<char> invlets;
     for( const auto &stack : items ) {
         const char invlet = stack.front().invlet;

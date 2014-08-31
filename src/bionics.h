@@ -31,19 +31,22 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     char invlet;
     bool powered;
     int charge;
-    bionic() : id("bio_batteries") {
+    bionic() : id("bio_batteries")
+    {
         invlet = 'a';
         powered = false;
         charge = 0;
     }
-    bionic(bionic_id pid, char pinvlet) : id(pid) {
+    bionic(bionic_id pid, char pinvlet) : id(pid)
+    {
         id = pid;
         invlet = pinvlet;
         powered = false;
         charge = 0;
     };
     using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const {
+    void serialize(JsonOut &json) const
+    {
         json.start_object();
         json.member("id", id);
         json.member("invlet", (int)invlet);
@@ -52,7 +55,8 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
         json.end_object();
     }
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) {
+    void deserialize(JsonIn &jsin)
+    {
         JsonObject jo = jsin.get_object();
         id = jo.get_string("id");
         invlet = jo.get_int("invlet");

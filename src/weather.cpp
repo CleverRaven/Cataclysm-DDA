@@ -7,8 +7,7 @@
 #include "messages.h"
 
 /**
- * @defgroup Weather
- * Weather and its implications.
+ * \defgroup Weather "Weather and its implications."
  * @{
  */
 
@@ -27,7 +26,8 @@ std::map<weather_type, clWeatherAnim> mapWeatherAnim;
  */
 void weather_effect::glare()
 {
- if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
+    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) &&
+        !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_effect("glare")) {
             g->u.add_env_effect("glare", bp_eyes, 2, 2);
         } else {
@@ -41,7 +41,8 @@ void weather_effect::glare()
  * Retroactively determine weather-related rotting effects.
  * Applies rot based on the temperatures incurred between a turn range.
  */
-int get_rot_since( const int since, const int endturn, const point &location ) {
+int get_rot_since( const int since, const int endturn, const point &location )
+{
     int ret = 0;
     for (calendar i(since); i.get_turn() < endturn; i += 600) {
         w_point w = g->weatherGen.get_weather(location, i);
@@ -72,7 +73,8 @@ std::pair<int, int> rain_or_acid_level( const int wt )
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &endturn, const point &location )
+void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &endturn,
+                                     const point &location )
 {
     const calendar startturn = calendar( it->bday > 0 ? it->bday - 1 : 0 );
     if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
@@ -85,26 +87,26 @@ void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &
     int acid_turns = 0;
     for( calendar turn(startturn); turn >= endturn; turn += 10) {
         switch(g->weatherGen.get_weather_conditions(location, turn)) {
-            case WEATHER_DRIZZLE:
-                rain_amount += 4;
-                rain_turns++;
-                break;
-            case WEATHER_RAINY:
-            case WEATHER_THUNDER:
-            case WEATHER_LIGHTNING:
-                rain_amount += 8;
-                rain_turns++;
-                break;
-            case WEATHER_ACID_DRIZZLE:
-                acid_amount += 4;
-                acid_turns++;
-                break;
-            case WEATHER_ACID_RAIN:
-                acid_amount += 8;
-                acid_turns++;
-                break;
-            default:
-                break;
+        case WEATHER_DRIZZLE:
+            rain_amount += 4;
+            rain_turns++;
+            break;
+        case WEATHER_RAINY:
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+            rain_amount += 8;
+            rain_turns++;
+            break;
+        case WEATHER_ACID_DRIZZLE:
+            acid_amount += 4;
+            acid_turns++;
+            break;
+        case WEATHER_ACID_RAIN:
+            acid_amount += 8;
+            acid_turns++;
+            break;
+        default:
+            break;
         }
     }
     int rain = rain_turns / traplist[t]->funnel_turns_per_charge( rain_amount );
@@ -122,7 +124,7 @@ void item::add_rain_to_container(bool acid, int charges)
         return;
     }
     const char *typeId = acid ? "water_acid" : "water";
-    long max = dynamic_cast<it_container*>(type)->contains;
+    long max = dynamic_cast<it_container *>(type)->contains;
     long orig = 0;
     long added = charges;
     if (contents.empty()) {
@@ -157,7 +159,7 @@ void item::add_rain_to_container(bool acid, int charges)
             // equivalently, 1/4th weak acid (the rest being water). A
             // stochastic approach gives the liquid a 1 in 4 (or 2 in
             // liquid.charges) chance of becoming weak acid.
-            const bool transmute = x_in_y(2*added, liq.charges);
+            const bool transmute = x_in_y(2 * added, liq.charges);
 
             if (transmute) {
                 item transmuted("water_acid_weak", 0);
@@ -167,7 +169,7 @@ void item::add_rain_to_container(bool acid, int charges)
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
-                long total_poison = liq.poison * (orig) + (5*added);
+                long total_poison = liq.poison * (orig) + (5 * added);
                 liq.poison = total_poison / liq.charges;
                 long leftover_poison = total_poison - liq.poison * liq.charges;
                 if (leftover_poison > rng(0, liq.charges)) {
@@ -178,7 +180,8 @@ void item::add_rain_to_container(bool acid, int charges)
     }
 }
 
-double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const {
+double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
+{
     // 1mm rain on 1m^2 == 1 liter water == 1000ml
     // 1 liter == 4 volume
     // 1 volume == 250ml: containers
@@ -213,9 +216,9 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
     std::set<point>::const_iterator i;
     for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
         item *c = NULL;
-        unsigned int maxcontains = 0;
+        int maxcontains = 0;
         point loc = *i;
-        std::vector<item>& items = g->m.i_at(loc.x, loc.y);
+        std::vector<item> &items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
@@ -255,8 +258,9 @@ void decay_fire_and_scent(int fire_amount)
         for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
             if (g->m.is_outside(x, y)) {
                 g->m.adjust_field_age(point(x, y), fd_fire, fire_amount);
-                if (g->scent(x, y) > 0)
-                g->scent(x, y)--;
+                if (g->scent(x, y) > 0) {
+                    g->scent(x, y)--;
+                }
             }
         }
     }
@@ -276,19 +280,18 @@ void decay_fire_and_scent(int fire_amount)
 void generic_wet(bool acid)
 {
     if ((!g->u.worn_with_flag("RAINPROOF") || one_in(100)) &&
-         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(20)) && !g->u.has_trait("FEATHERS") &&
-         (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
-         one_in(2)) {
-            if (g->u.weapon.has_flag("RAIN_PROTECT")) {
+        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(20)) && !g->u.has_trait("FEATHERS") &&
+        (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
+        one_in(2)) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT")) {
             // Umbrellas tend to protect one's head and torso pretty well
-                g->u.drench(30 - (g->u.warmth(bp_leg_l) + (g->u.warmth(bp_leg_r)) * 2/5 +
-                                    (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
-                     mfb(bp_leg_l)|mfb(bp_leg_r));
-            }
-            else {
-                g->u.drench(30 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
-                     mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|mfb(bp_head));
-            }
+            g->u.drench(30 - (g->u.warmth(bp_leg_l) + (g->u.warmth(bp_leg_r)) * 2 / 5 +
+                              (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
+                        mfb(bp_leg_l) | mfb(bp_leg_r));
+        } else {
+            g->u.drench(30 - (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5),
+                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head));
+        }
     }
 
     fill_water_collectors(4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
@@ -305,18 +308,17 @@ void generic_wet(bool acid)
 void generic_very_wet(bool acid)
 {
     if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
-         (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
-         (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
-            if (g->u.weapon.has_flag("RAIN_PROTECT")) {
+        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
+        (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT")) {
             // Umbrellas tend to protect one's head and torso pretty well
-                g->u.drench(60 - ((g->u.warmth(bp_leg_l) + g->u.warmth(bp_leg_r)) * 2/5 +
-                                    (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
-                     mfb(bp_leg_l)|mfb(bp_leg_r));
-            }
-            else {
-                g->u.drench(60 - (g->u.warmth(bp_torso) * 4/5 + g->u.warmth(bp_head) / 5),
-                     mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|mfb(bp_head));
-            }
+            g->u.drench(60 - ((g->u.warmth(bp_leg_l) + g->u.warmth(bp_leg_r)) * 2 / 5 +
+                              (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
+                        mfb(bp_leg_l) | mfb(bp_leg_r));
+        } else {
+            g->u.drench(60 - (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5),
+                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head));
+        }
     }
 
     fill_water_collectors(8, acid);
@@ -471,10 +473,11 @@ std::string weather_forecast(radio_tower tower)
     city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
     // Current time
     weather_report << string_format(
-        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
-        calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(), closest_city->name.c_str(),
-        weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
-    );
+                       _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
+                       calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(),
+                       closest_city->name.c_str(),
+                       weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
+                   );
 
     //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
     //weather_report << "The wind was <direction> at ? mi/km an hour.  ";
@@ -518,10 +521,10 @@ std::string weather_forecast(radio_tower tower)
             day = c.day_of_week();
         }
         weather_report << string_format(
-            _("%s... %s. Highs of %s. Lows of %s. "),
-            day.c_str(), weather_data[forecast].name.c_str(),
-            print_temperature(high).c_str(),print_temperature(low).c_str()
-        );
+                           _("%s... %s. Highs of %s. Lows of %s. "),
+                           day.c_str(), weather_data[forecast].name.c_str(),
+                           print_temperature(high).c_str(), print_temperature(low).c_str()
+                       );
     }
     return weather_report.str();
 }
@@ -535,13 +538,10 @@ std::string print_temperature(float fahrenheit, int decimals)
     ret.precision(decimals);
     ret << std::fixed;
 
-    if(OPTIONS["USE_CELSIUS"] == "celsius")
-    {
-        ret << ((fahrenheit-32) * 5 / 9);
+    if(OPTIONS["USE_CELSIUS"] == "celsius") {
+        ret << ((fahrenheit - 32) * 5 / 9);
         return rmp_format(_("<Celsius>%sC"), ret.str().c_str());
-    }
-    else
-    {
+    } else {
         ret << fahrenheit;
         return rmp_format(_("<Fahrenheit>%sF"), ret.str().c_str());
     }

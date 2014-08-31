@@ -36,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 20;
+const int savegame_version = 21;
 const int savegame_minver_game = 11;
 
 /*
@@ -238,7 +238,6 @@ void game::unserialize(std::ifstream & fin)
         while (vdata.has_more()) {
             monster montmp;
             vdata.read_next(montmp);
-            montmp.setkeep(true);
             add_zombie(montmp);
         }
 
@@ -376,13 +375,27 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             ty = 0;
             intr = 0;
             buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
-            zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
-            zg.back().diffuse = cd;
-            zg.back().dying = cdying;
-            zg.back().horde = horde;
-            zg.back().set_target(tx,ty);
-            zg.back().interest=intr;
+            mongroup mg( cstr, cx, cy, cz, cs, cp );
+            // Bugfix for old saves: population of 2147483647 is far too much and will
+            // crash the game. This specific number was caused by a bug in
+            // overmap::add_mon_group.
+            if( mg.population == 2147483647ul ) {
+                mg.population = rng( 1, 10 );
+            }
+            mg.diffuse = cd;
+            mg.dying = cdying;
+            mg.horde = horde;
+            mg.set_target( tx, ty );
+            mg.interest = intr;
+            add_mon_group( mg );
             nummg++;
+        } else if( datatype == 'M' ) {
+            monster_data mdata;
+            fin >> mdata.x >> mdata.y >> mdata.z;
+            std::string data;
+            getline( fin, data );
+            mdata.mon.deserialize( data );
+            monsters.push_back( std::move( mdata ) );
         } else if (datatype == 't') { // City
             fin >> cx >> cy >> cs;
             tmp.x = cx; tmp.y = cy; tmp.s = cs;
@@ -529,13 +542,8 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 }
 
 // Note: this may throw io errors from std::ofstream
-void overmap::save()
+void overmap::save() const
 {
-    if (layer == NULL) {
-        debugmsg("Tried to save a null overmap");
-        return;
-    }
-
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
@@ -568,9 +576,8 @@ void overmap::save()
         fout << count;
         fout << std::endl;
 
-        for (int i = 0; i < layer[z].notes.size(); i++) {
-            fout << "N " << layer[z].notes[i].x << " " << layer[z].notes[i].y << " " <<
-                layer[z].notes[i].num << std::endl << layer[z].notes[i].text << std::endl;
+        for (auto &i : layer[z].notes) {
+            fout << "N " << i.x << " " << i.y << " " << i.num << std::endl << i.text << std::endl;
         }
     }
     fout.close();
@@ -615,18 +622,24 @@ void overmap::save()
     }
     fout << std::endl;
 
-    for (int i = 0; i < zg.size(); i++)
-        fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<
-            zg[i].posz << " " << int(zg[i].radius) << " " << zg[i].population << " " <<
-            zg[i].diffuse << " " << zg[i].dying << " " <<
-            zg[i].horde << " " << zg[i].tx << " " << zg[i].ty << " " << zg[i].interest << std::endl;
-    for (int i = 0; i < cities.size(); i++)
-        fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s << std::endl;
-    for (int i = 0; i < roads_out.size(); i++)
-        fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
-    for (int i = 0; i < radios.size(); i++)
-        fout << "T " << radios[i].x << " " << radios[i].y << " " << radios[i].strength <<
-            " " << radios[i].type << " " << std::endl << radios[i].message << std::endl;
+    for( auto &mgv : zg ) {
+        auto &mg = mgv.second;
+        fout << "Z " << mg.type << " " << mg.posx << " " << mg.posy << " " <<
+            mg.posz << " " << int(mg.radius) << " " << mg.population << " " <<
+            mg.diffuse << " " << mg.dying << " " <<
+            mg.horde << " " << mg.tx << " " << mg.ty << " " << mg.interest << std::endl;
+    }
+    for (auto &i : cities)
+        fout << "t " << i.x << " " << i.y << " " << i.s << std::endl;
+    for (auto &i : roads_out)
+        fout << "R " << i.x << " " << i.y << std::endl;
+    for (auto &i : radios)
+        fout << "T " << i.x << " " << i.y << " " << i.strength <<
+            " " << i.type << " " << std::endl << i.message << std::endl;
+
+    for( const auto &mdata : monsters ) {
+        fout << "M " << mdata.x << " " << mdata.y << " " << mdata.z << " " << mdata.mon.serialize() << std::endl;
+    }
 
     // store tracked vehicle locations and names
     for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
@@ -638,8 +651,8 @@ void overmap::save()
     }
 
     //saving the npcs
-    for (int i = 0; i < npcs.size(); i++)
-        fout << "n " << npcs[i]->save_info() << std::endl;
+    for (auto &i : npcs)
+        fout << "n " << i->save_info() << std::endl;
 
     fclose_exclusive(fout, terfilename.c_str());
 }
@@ -708,15 +721,15 @@ void game::serialize_master(std::ofstream &fout) {
 
         json.member("active_missions");
         json.start_array();
-        for (int i = 0; i < active_missions.size(); ++i) {
-            active_missions[i].serialize(json);
+        for (auto &i : active_missions) {
+            i.serialize(json);
         }
         json.end_array();
 
         json.member("factions");
         json.start_array();
-        for (int i = 0; i < factions.size(); ++i) {
-            factions[i].serialize(json);
+        for (auto &i : factions) {
+            i.serialize(json);
         }
         json.end_array();
 

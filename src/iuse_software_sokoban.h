@@ -15,14 +15,16 @@ class sokoban_game
                 int iOldX;
                 std::string sTileOld;
 
-                cUndo() {
+                cUndo()
+                {
                     iOldY = 0;
                     iOldX = 0;
 
                     sTileOld = " ";
                 }
 
-                cUndo(const int arg_y, const int arg_x, const std::string arg_tile) {
+                cUndo(const int arg_y, const int arg_x, const std::string arg_tile)
+                {
                     iOldY = arg_y;
                     iOldX = arg_x;
                     sTileOld = arg_tile;

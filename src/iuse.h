@@ -58,6 +58,7 @@ public:
     int flusleep            (player*, item*, bool);
     int inhaler             (player*, item*, bool);
     int blech               (player*, item*, bool);
+    int plantblech          (player*, item*, bool);
     int chew                (player*, item*, bool);
     int mutagen             (player*, item*, bool);
     int mut_iv              (player*, item*, bool);
@@ -208,6 +209,9 @@ public:
     int pack_item           (player *, item *, bool);
     int radglove            (player *, item *, bool);
     int robotcontrol        (player *, item *, bool);
+    int einktabletpc        (player *, item *, bool);
+    int camera              (player *, item *, bool);
+    int ehandcuffs          (player *, item *, bool);
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 

@@ -7,6 +7,7 @@
 #include "overmap.h"
 #include "monstergenerator.h"
 #include "options.h"
+#include "game.h"
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
@@ -902,6 +903,10 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
     if(sidewalks) {
         m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        // 1 per 10 overmaps
+        if (one_in(10000)) {
+            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+        }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
@@ -998,6 +1003,10 @@ ssss.......yy.......ssss\n",
     }
     if(sidewalks) {
         m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        // 1 per 10 overmaps
+        if (one_in(10000)) {
+            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+        }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
@@ -1098,6 +1107,10 @@ ssss....................\n\
     }
     if(sidewalks) {
         m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        // 1 per 10 overmaps
+        if (one_in(10000)) {
+            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+        }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
@@ -1142,6 +1155,10 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
     }
     if(sidewalks) {
         m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        // 1 per 10 overmaps
+        if (one_in(10000)) {
+            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+        }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
@@ -1220,6 +1237,10 @@ t   t\n\
     }
     if(sidewalks) {
         m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        // 1 per 10 overmaps
+        if (one_in(10000)) {
+            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+        }
     }
     if (terrain_type == "road_nesw_manhole") {
         m->ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
@@ -3576,7 +3597,7 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                                    mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
         computer * tmpcomp = m->add_computer(SEEX + 6, 5, _("Evac shelter computer"), 0);
         tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
-        if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"]) {
+        if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START")) {
             //place zombies outside
             m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
             m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
@@ -5863,8 +5884,8 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                     hermx = rng(SEEX - 6, SEEX + 5),
                     hermy = rng(SEEX - 6, SEEY + 5);
                 std::vector<point> bloodline = line_to(origx, origy, hermx, hermy, 0);
-                for (int ii = 0; ii < bloodline.size(); ii++) {
-                    m->add_field(bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
+                for (auto &ii : bloodline) {
+                    m->add_field(ii.x, ii.y, fd_blood, 2);
                 }
                 body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
                 m->add_item_or_charges(hermx, hermy, body);
@@ -5900,9 +5921,9 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 pathy = rng(SEEY - 6, SEEY + 5);
             }
             std::vector<point> pathline = line_to(pathx, pathy, SEEX - 1, SEEY - 1, 0);
-            for (int ii = 0; ii < pathline.size(); ii++) {
-                square(m, t_dirt, pathline[ii].x, pathline[ii].y,
-                       pathline[ii].x + 1, pathline[ii].y + 1);
+            for (auto &ii : pathline) {
+                square(m, t_dirt, ii.x, ii.y,
+                       ii.x + 1, ii.y + 1);
             }
             while (!one_in(8)) {
                 m->ter_set(rng(SEEX - 6, SEEX + 5), rng(SEEY - 6, SEEY + 5), t_dirt);
@@ -5961,9 +5982,9 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
             do {
                 int tox = (one_in(2) ? 2 : SEEX * 2 - 3), toy = rng(2, SEEY * 2 - 3);
                 std::vector<point> path = line_to(centerx, SEEY - 1, tox, toy, 0);
-                for (int i = 0; i < path.size(); i++) {
-                    for (int cx = path[i].x - 1; cx <= path[i].x + 1; cx++) {
-                        for (int cy = path[i].y - 1; cy <= path[i].y + 1; cy++) {
+                for (auto &i : path) {
+                    for (int cx = i.x - 1; cx <= i.x + 1; cx++) {
+                        for (int cy = i.y - 1; cy <= i.y + 1; cy++) {
                             m->ter_set(cx, cy, t_rock_floor);
                             if (one_in(10)) {
                                 m->add_field(cx, cy, fd_blood, rng(1, 3));

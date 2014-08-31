@@ -278,14 +278,14 @@ bool WinCreate()
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
         renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
-                                       SDL_RENDERER_PRESENTVSYNC );
+                                       SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE );
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
             software_renderer = true;
         }
     }
     if( software_renderer ) {
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE );
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE );
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;
@@ -1806,7 +1806,7 @@ void musicFinished() {
     current_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if(current_playlist_at >= playlists[current_playlist].files.size()) {
+    if(current_playlist_at >= (int)playlists[current_playlist].files.size()) {
         current_playlist_at = 0;
     }
 
@@ -1847,7 +1847,7 @@ void load_soundset() {
         JsonObject config = json.get_object();
         JsonArray playlists_ = config.get_array("playlists");
 
-        for(int i=0; i < playlists_.size(); i++) {
+        for(int i=0; i < (int)playlists_.size(); i++) {
             JsonObject playlist = playlists_.get_object(i);
 
             std::string playlist_id = playlist.get_string("id");
@@ -1855,7 +1855,7 @@ void load_soundset() {
             playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
 
             JsonArray playlist_files = playlist.get_array("files");
-            for(int j=0; j < playlist_files.size(); j++) {
+            for(int j=0; j < (int)playlist_files.size(); j++) {
                 JsonObject entry = playlist_files.get_object(j);
                 playlist_to_load.files.push_back(entry.get_string("file"));
                 playlist_to_load.volumes.push_back(entry.get_int("volume"));

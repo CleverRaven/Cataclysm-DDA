@@ -139,6 +139,7 @@
   "components": [
     [
       [ "tallow", 2 ],
+      [ "lard", 2 ],
       [ "cooking_oil", 5 ]
     ],
     [
@@ -407,7 +408,7 @@
     ],
     [
       [ "acid", 1 ],
-      [ "datura_seed", 2 ]
+      [ "datura_seed", 8 ]
     ],
     [
       [ "bleach", 1 ],
@@ -443,7 +444,7 @@
       [ "charcoal", 1 ]
     ],
     [
-      [ "datura_seed", 2 ]
+      [ "datura_seed", 8 ]
     ],
     [
       [ "salt_water", 1 ],
@@ -576,7 +577,7 @@
   ],
   "components": [
     [
-      [ "datura_seed", 1 ]
+      [ "datura_seed", 2 ]
     ],
     [
       [ "acid", 1 ]
@@ -689,7 +690,7 @@
     [
       [ "veggy_tainted", 3 ],
       [ "biollante_bud", 1 ],
-      [ "datura_seed", 4 ]
+      [ "datura_seed", 16 ]
     ],
     [
       [ "ammonia", 1 ],

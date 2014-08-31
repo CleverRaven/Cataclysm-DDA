@@ -34,7 +34,7 @@ std::vector<int> original_recipe_values;
 int caravan_price(player &u, int price);
 
 void draw_caravan_borders(WINDOW *w, int current_window);
-void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
+void draw_caravan_categories(WINDOW *w, int category_selected, unsigned total_price,
                              unsigned long cash);
 void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
                         std::vector<int> *counts, int offset,
@@ -156,7 +156,7 @@ void defense_game::pre_action(action_id &act)
                                    (g->u.posx == SEEX * int(MAPSIZE / 2) &&
                                     g->levx <=  93)))) {
         add_msg(m_info, _("You cannot leave the %s behind!"),
-                   defense_location_name(location).c_str());
+                defense_location_name(location).c_str());
         act = ACTION_NULL;
     }
 }
@@ -186,12 +186,14 @@ void defense_game::game_over()
 void defense_game::reset_mtypes()
 {
     // Reset mtype changes
-    std::map<std::string, mtype*> montemplates = MonsterGenerator::generator().get_all_mtypes();
-    for (std::map<std::string, mtype*>::iterator it = montemplates.begin(); it != montemplates.end(); ++it){
+    std::map<std::string, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
+    for (std::map<std::string, mtype *>::iterator it = montemplates.begin(); it != montemplates.end();
+         ++it) {
         defense_game_monchanges change = montype_changes[it->first];
 
         it->second->difficulty = change.original_difficulty;
-        for (std::set<m_flag>::iterator fit = change.added_flags.begin(); fit != change.added_flags.end(); ++fit){
+        for (std::set<m_flag>::iterator fit = change.added_flags.begin(); fit != change.added_flags.end();
+             ++fit) {
             it->second->flags.erase(*fit);
         }
     }
@@ -249,13 +251,15 @@ void defense_game::init_mtypes()
     std::map<std::string, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
     std::pair<std::set<m_flag>::iterator, bool> ret;
 
-    for (std::map<std::string, mtype*>::iterator it = montemplates.begin(); it != montemplates.end(); ++it){
+    for (std::map<std::string, mtype *>::iterator it = montemplates.begin(); it != montemplates.end();
+         ++it) {
         defense_game_monchanges change;
         change.original_difficulty = it->second->difficulty;
 
         it->second->difficulty *= 1.5;
         it->second->difficulty += int(it->second->difficulty / 5);
-        for (std::set<m_flag>::iterator fit = monflags_to_add.begin(); fit != monflags_to_add.end(); ++fit){
+        for (std::set<m_flag>::iterator fit = monflags_to_add.begin(); fit != monflags_to_add.end();
+             ++fit) {
             ret = it->second->flags.insert(*fit);
             if (ret.second) {
                 change.added_flags.insert(*fit);
@@ -971,7 +975,7 @@ void defense_game::caravan()
         }
     }
 
-    int total_price = 0;
+    unsigned total_price = 0;
 
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
 
@@ -1001,10 +1005,10 @@ Start by selecting a category using your favorite up/down keys.\n\
 Switch between category selection and item selecting by pressing %s.\n\
 Pick an item with the up/down keys, press left/right to buy 1 less/more.\n\
 Press %s to buy everything in your cart, %s to buy nothing."),
-                ctxt.get_desc("NEXT_TAB").c_str(),
-                ctxt.get_desc("CONFIRM").c_str(),
-                ctxt.get_desc("QUIT").c_str()
-            );
+                      ctxt.get_desc("NEXT_TAB").c_str(),
+                      ctxt.get_desc("CONFIRM").c_str(),
+                      ctxt.get_desc("QUIT").c_str()
+                     );
             draw_caravan_categories(w, category_selected, total_price, g->u.cash);
             draw_caravan_items(w, &(items[category_selected]),
                                &(item_count[category_selected]), offset, item_selected);
@@ -1023,7 +1027,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
                                    item_selected);
                 draw_caravan_borders(w, current_window);
             } else if (!items[category_selected].empty()) { // Items
-                if (item_selected < items[category_selected].size() - 1) {
+                if (item_selected < (int)items[category_selected].size() - 1) {
                     item_selected++;
                 } else {
                     item_selected = 0;
@@ -1210,7 +1214,7 @@ std::string caravan_category_name(caravan_category cat)
     case CARAVAN_TOOLS:
         return _("Tools, Traps & Grenades");
     case NUM_CARAVAN_CATEGORIES:
-        break; // error message below 
+        break; // error message below
     }
     return "BUG (defense.cpp:caravan_category_name)";
 }
@@ -1225,7 +1229,8 @@ std::vector<itype_id> caravan_items(caravan_category cat)
     case CARAVAN_MELEE:
         ret = {   "hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
                   "knife_combat", "rapier", "machete", "katana", "spear_knife",
-                  "pike", "chainsaw_off" };
+                  "pike", "chainsaw_off"
+              };
         break;
 
     case CARAVAN_GUNS:
@@ -1234,26 +1239,30 @@ std::vector<itype_id> caravan_items(caravan_category cat)
                   "44magnum", "m1911", "hk_ump45", "45_acp", "fn_p90", "57mm",
                   "remington_870", "shot_00", "shot_slug", "browning_blr", "3006",
                   "ak47", "762_m87", "m4a1", "556", "savage_111f", "hk_g3",
-                  "762_51", "hk_g80", "12mm", "plasma_rifle", "plasma" };
+                  "762_51", "hk_g80", "12mm", "plasma_rifle", "plasma"
+              };
         break;
 
     case CARAVAN_COMPONENTS:
         ret = {   "rag", "fur", "leather", "superglue", "string_36", "chain",
                   "processor", "RAM", "power_supply", "motor", "hose", "pot",
-                  "2x4", "battery", "nail", "gasoline" };
+                  "2x4", "battery", "nail", "gasoline"
+              };
         break;
 
     case CARAVAN_FOOD:
         ret = {   "1st_aid", "water", "energy_drink", "whiskey", "can_beans",
                   "mre_beef", "flour", "inhaler", "codeine", "oxycodone", "adderall",
-                  "cig", "meth", "royal_jelly", "mutagen", "purifier" };
+                  "cig", "meth", "royal_jelly", "mutagen", "purifier"
+              };
         break;
 
     case CARAVAN_CLOTHES:
         ret = {   "backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
                   "gloves_fingerless", "mask_filter", "mask_gas", "glasses_eye",
                   "glasses_safety", "goggles_ski", "goggles_nv", "helmet_ball",
-                  "helmet_riot" };
+                  "helmet_riot"
+              };
         break;
 
     case CARAVAN_TOOLS:
@@ -1261,7 +1270,8 @@ std::vector<itype_id> caravan_items(caravan_category cat)
                   "scissors", "extinguisher", "flashlight", "hotplate",
                   "soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",
                   "grenade", "flashbang", "EMPbomb", "smokebomb", "bot_manhack",
-                  "bot_turret", "UPS_off", "mininuke" };
+                  "bot_turret", "UPS_off", "mininuke"
+              };
         break;
     case NUM_CARAVAN_CATEGORIES:
         DebugLog( D_ERROR, D_GAME ) << "invalid caravan category: " << cat;
@@ -1325,7 +1335,7 @@ void draw_caravan_borders(WINDOW *w, int current_window)
     wrefresh(w);
 }
 
-void draw_caravan_categories(WINDOW *w, int category_selected, int total_price,
+void draw_caravan_categories(WINDOW *w, int category_selected, unsigned total_price,
                              unsigned long cash)
 {
     // Clear the window
@@ -1354,7 +1364,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
         mvwprintz(w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
     // THEN print it--if item_selected is valid
-    if (item_selected < items->size()) {
+    if (item_selected < (int)items->size()) {
         item tmp( (*items)[item_selected] , 0); // Dummy item to get info
         fold_and_print(w, 12, 1, 38, c_white, tmp.info());
     }
@@ -1363,12 +1373,12 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
         mvwprintz(w, i, 40, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
     // Finally, print the item list on the right
-    for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < items->size(); i++) {
+    for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 && i < (int)items->size(); i++) {
         mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
                   itypes[ (*items)[i] ]->nname((*counts)[i]).c_str());
         wprintz(w, c_white, " x %2d", (*counts)[i]);
         if ((*counts)[i] > 0) {
-            int price = caravan_price(g->u, itypes[(*items)[i]]->price * (*counts)[i]);
+            unsigned price = caravan_price(g->u, itypes[(*items)[i]]->price * (*counts)[i]);
             wprintz(w, (price > g->u.cash ? c_red : c_green), "($%6d)", price);
         }
     }

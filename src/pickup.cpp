@@ -18,7 +18,6 @@ void Pickup::pick_up(int posx, int posy, int min)
         return;
     }
 
-    g->write_msg();
     if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
         return;
     }
@@ -213,7 +212,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     std::map<direction, int> vItemIndex;
 
     vItemIndex[CENTER] = 0;
-    for (int i=0; i < here.size(); ++i) {
+    for (size_t i = 0; i < here.size(); ++i) {
         vItemDir.push_back(CENTER);
     }
 
@@ -225,7 +224,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         if (OPTIONS["AUTO_PICKUP_ADJACENT"]) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
-            for (int i=0; i < 8; i++) {
+            for (int i = 0; i < 8; i++) {
                 vItemIndex[adjacentDir[i]] = 0;
 
                 point apos = direction_XY(adjacentDir[i]);
@@ -240,16 +239,16 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
                 const std::vector<item> &hereTemp = g->m.i_at( apos.x, apos.y );
 
-                    for (int j=0; j < hereTemp.size(); j++) {
-                        vItemDir.push_back(adjacentDir[i]);
-                        here.push_back(hereTemp[j]);
-                    }
+                for (auto &j : hereTemp) {
+                    vItemDir.push_back(adjacentDir[i]);
+                    here.push_back(j);
+                }
             }
         }
     }
 
     // Not many items, just grab them
-    if (here.size() <= min && min != -1) {
+    if ((int)here.size() <= min && min != -1) {
         item newit = here[0];
         int moves_taken = 100;
         bool picked_up = false;
@@ -282,9 +281,10 @@ void Pickup::pick_up(int posx, int posy, int min)
                         if (g->u.wear_item(&newit)) {
                             picked_up = true;
                         }
-                    } else if (query_yn(_("Drop your %s and pick up %s?"),
-                                        g->u.weapon.display_name().c_str(),
-                                        newit.display_name().c_str())) {
+                    } else if ( g->u.weapon.type->id != newit.type->id
+                            && query_yn(_("No space for %s; wield instead? (drops %s)"),
+                                        newit.display_name().c_str(),
+                                        g->u.weapon.display_name().c_str()) ) {
                         picked_up = true;
                         g->m.add_item_or_charges(posx, posy, g->u.remove_weapon(), 1);
                         g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
@@ -393,7 +393,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         for(size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
             for (size_t i = 0; i < here.size(); i++) {
                 bPickup = false;
-                if (here[i].volume() == iVol) {
+                if (here[i].volume() == (int)iVol) {
                     iNumChecked++;
 
                     //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
@@ -432,14 +432,13 @@ void Pickup::pick_up(int posx, int posy, int min)
     } else {
         if(g->was_fullscreen) {
             g->draw_ter();
-            g->write_msg();
         }
         // Now print the two lists; those on the ground and about to be added to inv
         // Continue until we hit return or space
         do {
             static const std::string pickup_chars =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
-            size_t idx = -1;
+            int idx = -1;
             for (int i = 1; i < pickupH; i++) {
                 mvwprintw(w_pickup, i, 0,
                           "                                                ");
@@ -452,7 +451,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 start -= maxitems;
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-            } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
+            } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < (int)here.size()) {
                 start += maxitems;
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
@@ -461,7 +460,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 if ( selected < 0 ) {
                     selected = here.size() - 1;
                     start = (int)( here.size() / maxitems ) * maxitems;
-                    if (start >= here.size()) {
+                    if (start >= (int)here.size()) {
                         start -= maxitems;
                     }
                 } else if ( selected < start ) {
@@ -469,7 +468,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
             } else if ( ch == KEY_DOWN ) {
                 selected++;
-                if ( selected >= here.size() ) {
+                if ( selected >= (int)here.size() ) {
                     selected = 0;
                     start = 0;
                 } else if ( selected >= start + maxitems ) {
@@ -482,7 +481,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 idx = selected;
             } else if ( ch == '`' ) {
                 std::string ext = string_input_popup(
-                    _("Enter 2 letters (case sensitive):"), 3, "", "", "", 2);
+                                      _("Enter 2 letters (case sensitive):"), 3, "", "", "", 2);
                 if(ext.size() == 2) {
                     int p1 = pickup_chars.find(ext.at(0));
                     int p2 = pickup_chars.find(ext.at(1));
@@ -494,17 +493,15 @@ void Pickup::pick_up(int posx, int posy, int min)
                 idx = pickup_chars.find(ch);
             }
 
-            if ( idx < here.size()) {
-                if (idx != -1) {
-                    if (itemcount != 0 || pickup_count[idx] == 0) {
-                        if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
-                            // Ignore the count if we pickup the whole stack anyway
-                            // or something that is not counted by charges (tools)
-                            itemcount = 0;
-                        }
-                        pickup_count[idx] = itemcount;
+            if( idx >= 0 && idx < (int)here.size()) {
+                if (itemcount != 0 || pickup_count[idx] == 0) {
+                    if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
+                        // Ignore the count if we pickup the whole stack anyway
+                        // or something that is not counted by charges (tools)
                         itemcount = 0;
                     }
+                    pickup_count[idx] = itemcount;
+                    itemcount = 0;
                 }
 
                 getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
@@ -515,7 +512,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
                 if (getitem[idx]) {
                     if (pickup_count[idx] != 0 &&
-                        pickup_count[idx] < here[idx].charges) {
+                        (int)pickup_count[idx] < here[idx].charges) {
                         item temp = here[idx].clone();
                         temp.charges = pickup_count[idx];
                         new_weight += temp.weight();
@@ -525,7 +522,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                         new_volume += here[idx].volume();
                     }
                 } else if (pickup_count[idx] != 0 &&
-                           pickup_count[idx] < here[idx].charges) {
+                           (int)pickup_count[idx] < here[idx].charges) {
                     item temp = here[idx].clone();
                     temp.charges = pickup_count[idx];
                     new_weight -= temp.weight();
@@ -541,7 +538,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             if ( selected != last_selected ) {
                 last_selected = selected;
                 werase(w_item_info);
-                if ( selected >= 0 && selected <= here.size() - 1 ) {
+                if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
                     std::vector<iteminfo> vThisItem, vDummy;
                     here[selected].info(true, &vThisItem);
 
@@ -563,7 +560,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                     }
                     getitem[i] = true;
                 }
-                if (count == here.size()) {
+                if (count == (int)here.size()) {
                     for (size_t i = 0; i < here.size(); i++) {
                         getitem[i] = false;
                     }
@@ -576,13 +573,13 @@ void Pickup::pick_up(int posx, int posy, int min)
             for (cur_it = start; cur_it < start + maxitems; cur_it++) {
                 mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
                           "                                        ");
-                if (cur_it < here.size()) {
+                if (cur_it < (int)here.size()) {
                     nc_color icolor = here[cur_it].color(&g->u);
                     if (cur_it == selected) {
                         icolor = hilite(icolor);
                     }
 
-                    if (cur_it < pickup_chars.size() ) {
+                    if (cur_it < (int)pickup_chars.size() ) {
                         mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor,
                                  char(pickup_chars[cur_it]));
                     } else {
@@ -619,7 +616,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 mvwprintw(w_pickup, maxitems + 2, 0, prev);
             }
             mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
-            if (cur_it < here.size()) {
+            if (cur_it < (int)here.size()) {
                 mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
             }
 
@@ -716,15 +713,16 @@ void Pickup::pick_up(int posx, int posy, int min)
                                 picked_up = true;
                             }
                         } else if (!offered_swap) {
-                            if (query_yn(_("Drop your %s and pick up %s?"),
-                                         g->u.weapon.display_name().c_str(),
-                                         here[i].display_name().c_str())) {
+                            if ( g->u.weapon.type->id != here[i].type->id
+                                    && query_yn(_("No space for %s; wield instead? (drops %s)"),
+                                         here[i].display_name().c_str(),
+                                         g->u.weapon.display_name().c_str() ) ) {
                                 picked_up = true;
                                 g->m.add_item_or_charges(posx, posy, g->u.remove_weapon(), 1);
                                 g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                                 g->u.wield(&(g->u.i_add(here[i])));
                                 mapPickup[here[i].tname()] += (here[i].count_by_charges()) ?
-                                    here[i].charges : 1;
+                                                              here[i].charges : 1;
                                 add_msg(m_info, _("Wielding %c - %s"), g->u.weapon.invlet,
                                         g->u.weapon.display_name().c_str());
                             }
@@ -762,7 +760,8 @@ void Pickup::pick_up(int posx, int posy, int min)
 
             if (picked_up) {
                 point pairDir = direction_XY(dirThisItem);
-                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.x, posy + pairDir.y, veh, cargo_part, moves_taken, vItemIndex[dirThisItem]);
+                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.x, posy + pairDir.y, veh, cargo_part,
+                                                      moves_taken, vItemIndex[dirThisItem]);
                 vItemIndex[dirThisItem]--;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !pickup_obj.from_veh;
@@ -805,7 +804,8 @@ void Pickup::pick_up(int posx, int posy, int min)
 
 //helper function for Pickup::pick_up
 //return value is amount of ammo added to quiver
-int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement, bool &picked_up)
+int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement,
+                                    bool &picked_up)
 {
     //add ammo to quiver
     int quivered = here.add_ammo_to_quiver(&g->u, true);
@@ -829,7 +829,7 @@ int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_
 
 //helper function for Pickup::pick_up (singular item)
 void Pickup::remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int cargo_part,
-                                int &moves_taken, int curmit)
+                                        int &moves_taken, int curmit)
 {
     if (pickup_obj.from_veh) {
         veh->remove_item (cargo_part, curmit);

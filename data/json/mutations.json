@@ -2366,7 +2366,6 @@
         "points" : 6,
         "description" : "Your muscles are perfectly developed.",
         "valid" : false,
-        "purifiable" : false,
         "prereqs" : ["STR_UP_2"],
         "threshreq" : ["THRESH_ALPHA"],
         "category" : ["MUTCAT_ALPHA"]
@@ -2412,7 +2411,6 @@
         "points" : 6,
         "description" : "You're perfectly coordinated.",
         "valid" : false,
-        "purifiable" : false,
         "prereqs" : ["DEX_UP"],
         "threshreq" : ["THRESH_ALPHA"],
         "category" : ["MUTCAT_ALPHA"]
@@ -2461,7 +2459,6 @@
         "points" : 6,
         "description" : "You understand almost everything about which you think, with minimal effort.",
         "valid" : false,
-        "purifiable" : false,
         "prereqs" : ["INT_UP"],
         "threshreq" : ["THRESH_ALPHA"],
         "category" : ["MUTCAT_ALPHA"]
@@ -2522,7 +2519,6 @@
         "points" : 6,
         "description" : "Your senses are keenly honed.",
         "valid" : false,
-        "purifiable" : false,
         "prereqs" : ["PER_UP_2"],
         "threshreq" : ["THRESH_ALPHA"],
         "category" : ["MUTCAT_ALPHA"]
@@ -3786,6 +3782,38 @@
         "points" : 99,
         "valid" : false,
         "description" : "If you see this, you'd best be debugging something.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_LS",
+        "name" : "Debug Life Support",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Holds hunger, thirst, and fatigue stable.  You can debug all year long with this one!",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_NOSCENT",
+        "name" : "Debug Deodorizer",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Smell that bug?  Smell's certainly not coming from you!",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_SILENT",
+        "name" : "Debug Silent Walk",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Be vewwy vewwy quiet.  We're hunting bugs.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_NOTEMP",
+        "name" : "Debug HVAC",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Temperature and weather won't bug you.",
         "threshold" : true
     }
 ]

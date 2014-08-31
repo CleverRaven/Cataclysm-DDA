@@ -74,9 +74,9 @@ class calendar
 
         void increment();   // Add one turn / 6 seconds
 
-        void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
-
         int getHour(); // return hour
+        
+        void sync(); // Synchronize all variables to the turn_number
 
         // Sunlight and day/night calcuations
         int minutes_past_midnight() const; // Useful for sunrise/set calculations
@@ -87,37 +87,51 @@ class calendar
         int sunlight() const;     // Current amount of sun/moonlight; uses preceding funcs
 
         // Basic accessors
-        int seconds() const {
+        int seconds() const
+        {
             return second;
         }
-        int minutes() const {
+        int minutes() const
+        {
             return minute;
         }
-        int hours() const {
+        int hours() const
+        {
             return hour;
         }
-        int days() const {
+        int days() const
+        {
             return day;
         }
-        season_type get_season() const {
+        season_type get_season() const
+        {
             return season;
         }
-        int years() const {
+        int years() const
+        {
             return year;
-        }
-
-        void set_season(season_type new_season) {
-            season = new_season;
         }
 
         // Season and year lenght stuff
 
-        static int year_turns() { return DAYS(year_length()); }
-        static int year_length() { return season_length() * 4; }
-        static int season_length();
+        static int year_turns()
+        {
+            return DAYS(year_length());
+        }
+        static int year_length() // In days
+        {
+            return season_length() * 4;
+        }
+        static int season_length(); // In days
 
-        int turn_of_year() const { return turn_number % year_turns(); }
-        int day_of_year() const { return day + season_length() * season; }
+        int turn_of_year() const
+        {
+            return turn_number % year_turns();
+        }
+        int day_of_year() const
+        {
+            return day + season_length() * season;
+        }
 
         // Print-friendly stuff
         std::string print_time(bool just_hour = false) const;

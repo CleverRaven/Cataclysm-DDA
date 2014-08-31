@@ -85,7 +85,7 @@ void SkillLevel::serialize(JsonOut &json) const
     json.end_object();
 }
 
-void SkillLevel::deserialize(JsonIn & jsin)
+void SkillLevel::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int lastpractice = 0;
@@ -107,86 +107,99 @@ void SkillLevel::deserialize(JsonIn & jsin)
  * Do not overload; NPC or player specific stuff should go to player::json_save or npc::json_save.
  */
 
-void player::json_load_common_variables(JsonObject & data)
+void player::json_load_common_variables(JsonObject &data)
 {
     JsonArray parray;
     int tmpid = 0;
 
-// todo/maybe:
-// std::map<std::string, int*> strmap_common_variables;
-// void player::init_strmap_common_variables() {
-//     strmap_common_variables["posx"]=&posx; // + all this below and in save_common_variables
-// }
-// load:
-// for(std::map<std::string, int*>::iterator it...
-//     data.read(it->first,it->second);
-// save:
-// for(...
-//     json.member( it->first, it->second );
-    if(!data.read("posx",posx) ) { // uh-oh.
-         debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
+    // todo/maybe:
+    // std::map<std::string, int*> strmap_common_variables;
+    // void player::init_strmap_common_variables() {
+    //     strmap_common_variables["posx"]=&posx; // + all this below and in save_common_variables
+    // }
+    // load:
+    // for(std::map<std::string, int*>::iterator it...
+    //     data.read(it->first,it->second);
+    // save:
+    // for(...
+    //     json.member( it->first, it->second );
+    if(!data.read("posx", posx) ) { // uh-oh.
+        debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
-    data.read("posy",posy);
-    data.read("str_cur",str_cur);      data.read("str_max",str_max);
-    data.read("dex_cur",dex_cur);      data.read("dex_max",dex_max);
-    data.read("int_cur",int_cur);      data.read("int_max",int_max);
-    data.read("per_cur",per_cur);      data.read("per_max",per_max);
-    data.read("healthy",healthy);      data.read("healthy_mod",healthy_mod);
-    data.read("hunger",hunger);        data.read("thirst",thirst);
-    data.read("fatigue",fatigue);      data.read("stim",stim);
-    data.read("pain",pain);            data.read("pkill",pkill);
-    data.read("radiation",radiation);
-    data.read("scent",scent);
-    data.read("moves",moves);
-    data.read("dodges_left",num_dodges);
-    data.read("underwater",underwater);
-    data.read("oxygen",oxygen);
-    data.read("male",male);
-    data.read("cash",cash);
-    data.read("recoil",recoil);
-    data.read("in_vehicle",in_vehicle);
+    data.read("posy", posy);
+    data.read("str_cur", str_cur);
+    data.read("str_max", str_max);
+    data.read("dex_cur", dex_cur);
+    data.read("dex_max", dex_max);
+    data.read("int_cur", int_cur);
+    data.read("int_max", int_max);
+    data.read("per_cur", per_cur);
+    data.read("per_max", per_max);
+    data.read("healthy", healthy);
+    data.read("healthy_mod", healthy_mod);
+    data.read("hunger", hunger);
+    data.read("thirst", thirst);
+    data.read("fatigue", fatigue);
+    data.read("stim", stim);
+    data.read("pain", pain);
+    data.read("pkill", pkill);
+    data.read("radiation", radiation);
+    data.read("scent", scent);
+    data.read("moves", moves);
+    data.read("dodges_left", num_dodges);
+    data.read("underwater", underwater);
+    data.read("oxygen", oxygen);
+    data.read("male", male);
+    data.read("cash", cash);
+    data.read("recoil", recoil);
+    data.read("in_vehicle", in_vehicle);
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
     }
 
     parray = data.get_array("hp_cur");
     if ( parray.size() == num_hp_parts ) {
-        for(int i=0; i < num_hp_parts; i++) {
+        for(int i = 0; i < num_hp_parts; i++) {
             hp_cur[i] = parray.get_int(i);
         }
     } else {
-        debugmsg("Error, incompatible hp_cur in save file '%s'",parray.str().c_str());
+        debugmsg("Error, incompatible hp_cur in save file '%s'", parray.str().c_str());
     }
 
     parray = data.get_array("hp_max");
     if ( parray.size() == num_hp_parts ) {
-        for(int i=0; i < num_hp_parts; i++) {
+        for(int i = 0; i < num_hp_parts; i++) {
             hp_max[i] = parray.get_int(i);
         }
     } else {
-        debugmsg("Error, incompatible hp_max in save file '%s'",parray.str().c_str());
+        debugmsg("Error, incompatible hp_max in save file '%s'", parray.str().c_str());
     }
 
-    data.read("power_level",power_level);
-    data.read("max_power_level",max_power_level);
-    data.read("traits",my_traits);
+    data.read("power_level", power_level);
+    data.read("max_power_level", max_power_level);
+    // Bionic power scale has been changed, savegame version 21 has the new scale
+    if( savegame_loading_version <= 20 ) {
+        power_level *= 25;
+        max_power_level *= 25;
+    }
+    data.read("traits", my_traits);
 
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
-        for( std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+        for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
              aSkill != Skill::skills.end(); ++aSkill ) {
             if ( pmap.has_object( (*aSkill)->ident() ) ) {
                 pmap.read( (*aSkill)->ident(), skillLevel(*aSkill) );
             } else {
-                 debugmsg("Load (%s) Missing skill %s","",(*aSkill)->ident().c_str() );
+                debugmsg("Load (%s) Missing skill %s", "", (*aSkill)->ident().c_str() );
             }
         }
     } else {
         debugmsg("Skills[] no bueno");
     }
 
-    data.read("ma_styles",ma_styles);
-    data.read("illness",illness);
+    data.read("ma_styles", ma_styles);
+    data.read("illness", illness);
 
     if( data.has_array( "effects" ) ) {
         // effects started out as a vector, then changed to an unordered map.
@@ -221,23 +234,32 @@ void player::json_save_common_variables(JsonOut &json) const
 {
     // assumes already in player object
     // positional data
-    json.member( "posx", posx );            json.member( "posy", posy );
+    json.member( "posx", posx );
+    json.member( "posy", posy );
 
     // attributes, current / max levels
-    json.member( "str_cur", str_cur );      json.member( "str_max", str_max );
-    json.member( "dex_cur", dex_cur );      json.member( "dex_max", dex_max );
-    json.member( "int_cur", int_cur );      json.member( "int_max", int_max );
-    json.member( "per_cur", per_cur );      json.member( "per_max", per_max );
-    
+    json.member( "str_cur", str_cur );
+    json.member( "str_max", str_max );
+    json.member( "dex_cur", dex_cur );
+    json.member( "dex_max", dex_max );
+    json.member( "int_cur", int_cur );
+    json.member( "int_max", int_max );
+    json.member( "per_cur", per_cur );
+    json.member( "per_max", per_max );
+
     // Healthy values
-    json.member( "healthy", healthy );      json.member( "healthy_mod", healthy_mod );
+    json.member( "healthy", healthy );
+    json.member( "healthy_mod", healthy_mod );
 
     // om-noms or lack thereof
-    json.member( "hunger", hunger );        json.member( "thirst", thirst );
+    json.member( "hunger", hunger );
+    json.member( "thirst", thirst );
     // energy
-    json.member( "fatigue", fatigue );      json.member( "stim", stim );
+    json.member( "fatigue", fatigue );
+    json.member( "stim", stim );
     // pain
-    json.member( "pain", pain );            json.member( "pkill", pkill );
+    json.member( "pain", pain );
+    json.member( "pkill", pkill );
     // misc levels
     json.member( "radiation", radiation );
     json.member( "scent", int(scent) );
@@ -273,7 +295,7 @@ void player::json_save_common_variables(JsonOut &json) const
     // skills
     json.member( "skills" );
     json.start_object();
-    for( std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+    for( std::vector<Skill *>::iterator aSkill = Skill::skills.begin();
          aSkill != Skill::skills.end(); ++aSkill ) {
         SkillLevel sk = get_skill_level(*aSkill);
         json.member((*aSkill)->ident(), sk);
@@ -327,7 +349,9 @@ void player::serialize(JsonOut &json, bool save_contents) const
     if ( prof != NULL ) {
         json.member( "profession", prof->ident() );
     }
-
+    if ( g->scen != NULL ) {
+	json.member( "scenario", g->scen->ident() );
+    }
     // someday, npcs may drive
     json.member( "driving_recoil", int(driving_recoil) );
     json.member( "controlling_vehicle", controlling_vehicle );
@@ -391,12 +415,12 @@ void player::serialize(JsonOut &json, bool save_contents) const
         if (!weapon.is_null()) {
             json.member( "weapon", weapon ); // also saves contents
         }
-//FIXME: seperate function, better still another file
-  /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
-            ptmpvect.push_back(pv(memorial_log[i]));
-        }
-        json.member("memorial",ptmpvect);
-*/
+        //FIXME: seperate function, better still another file
+        /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
+                  ptmpvect.push_back(pv(memorial_log[i]));
+              }
+              json.member("memorial",ptmpvect);
+        */
     }
 
     json.end_object();
@@ -412,21 +436,21 @@ void player::deserialize(JsonIn &jsin)
 
     json_load_common_variables( data );
 
-    std::string prof_ident="(null)";
-    if ( data.read("profession",prof_ident) && profession::exists(prof_ident) ) {
+    std::string prof_ident = "(null)";
+    if ( data.read("profession", prof_ident) && profession::exists(prof_ident) ) {
         prof = profession::prof(prof_ident);
     } else {
         debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
     }
 
-    data.read("activity",activity);
-    data.read("backlog",backlog);
+    data.read("activity", activity);
+    data.read("backlog", backlog);
 
-    data.read("driving_recoil",driving_recoil);
-    data.read("controlling_vehicle",controlling_vehicle);
+    data.read("driving_recoil", driving_recoil);
+    data.read("controlling_vehicle", controlling_vehicle);
 
     data.read("grab_point", grab_point);
-    std::string grab_typestr="OBJECT_NONE";
+    std::string grab_typestr = "OBJECT_NONE";
     if( grab_point.x != 0 || grab_point.y != 0 ) {
         grab_typestr = "OBJECT_VEHICLE";
         data.read( "grab_type", grab_typestr);
@@ -447,13 +471,21 @@ void player::deserialize(JsonIn &jsin)
 
     set_highest_cat_level();
     drench_mut_calc();
-
+    std::string scen_ident="(null)";
+    if ( data.read("scenario",scen_ident) && scenario::exists(scen_ident) ) {
+        g->scen = scenario::scen(scen_ident);
+    } else {
+        scenario *generic_scenario = scenario::generic();
+        debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.", 
+                    scen_ident.c_str(), generic_scenario->ident().c_str());
+        g->scen = generic_scenario;
+    }
     parray = data.get_array("temp_cur");
     for(int i = 0; i < num_bp; i++) {
         temp_cur[i] = 5000;
     }
     for(int i = 0; i < parray.size(); i++) {
-        temp_cur[i]=parray.get_int(i);
+        temp_cur[i] = parray.get_int(i);
     }
 
 
@@ -462,7 +494,7 @@ void player::deserialize(JsonIn &jsin)
         temp_conv[i] = 5000;
     }
     for(int i = 0; i < parray.size(); i++) {
-        temp_conv[i]=parray.get_int(i);
+        temp_conv[i] = parray.get_int(i);
     }
 
     parray = data.get_array("frostbite_timer");
@@ -470,12 +502,12 @@ void player::deserialize(JsonIn &jsin)
         frostbite_timer[i] = 0;
     }
     for(int i = 0; i < parray.size(); i++) {
-        frostbite_timer[i]=parray.get_int(i);
+        frostbite_timer[i] = parray.get_int(i);
     }
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
-        std::string pstr="";
+        std::string pstr = "";
         learned_recipes.clear();
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
@@ -495,16 +527,16 @@ void player::deserialize(JsonIn &jsin)
     data.read( "failed_missions", failed_missions );
     data.read( "completed_missions", completed_missions );
 
-    stats & pstats = *lifetime_stats();
-    data.read("player_stats",pstats);
+    stats &pstats = *lifetime_stats();
+    data.read("player_stats", pstats);
 
     inv.clear();
     if ( data.has_member("inv") ) {
-        JsonIn* jip = data.get_raw("inv");
+        JsonIn *jip = data.get_raw("inv");
         inv.json_load_items( *jip );
     }
     if ( data.has_member("invcache") ) {
-        JsonIn* jip = data.get_raw("invcache");
+        JsonIn *jip = data.get_raw("invcache");
         inv.json_load_invcache( *jip );
     }
 
@@ -545,7 +577,8 @@ void npc_chatbin::serialize(JsonOut &json) const
     json.start_object();
     json.member( "first_topic", (int)first_topic );
     json.member( "mission_selected", mission_selected );
-    json.member( "tempvalue", tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.
+    json.member( "tempvalue",
+                 tempvalue );     //No clue what this value does, but it is used all over the place. So it is NOT temp.
     if ( skill ) {
         json.member("skill", skill->ident() );
     }
@@ -563,7 +596,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     data.read("first_topic", tmptopic);
     first_topic = talk_topic(tmptopic);
 
-    if ( data.read("skill",skill_ident) ) {
+    if ( data.read("skill", skill_ident) ) {
         skill = Skill::skill(skill_ident);
     }
 
@@ -578,13 +611,13 @@ void npc_personality::deserialize(JsonIn &jsin)
     JsonObject data = jsin.get_object();
     int tmpagg, tmpbrav, tmpcol, tmpalt;
     if ( data.read("aggression", tmpagg) &&
-            data.read("bravery", tmpbrav) &&
-            data.read("collector", tmpcol) &&
-            data.read("altruism", tmpalt) ) {
-        aggression=(signed char)tmpagg;
-        bravery=(signed char)tmpbrav;
-        collector=(signed char)tmpcol;
-        altruism=(signed char)tmpalt;
+         data.read("bravery", tmpbrav) &&
+         data.read("collector", tmpcol) &&
+         data.read("altruism", tmpalt) ) {
+        aggression = (signed char)tmpagg;
+        bravery = (signed char)tmpbrav;
+        collector = (signed char)tmpcol;
+        altruism = (signed char)tmpalt;
     } else {
         debugmsg("npc_personality: bad data");
     }
@@ -603,12 +636,12 @@ void npc_personality::serialize(JsonOut &json) const
 void npc_opinion::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    data.read("trust",trust);
-    data.read("fear",fear);
-    data.read("value",value);
-    data.read("anger",anger);
-    data.read("owed",owed);
-    data.read("favors",favors);
+    data.read("trust", trust);
+    data.read("fear", fear);
+    data.read("value", value);
+    data.read("anger", anger);
+    data.read("owed", owed);
+    data.read("favors", favors);
 }
 
 void npc_opinion::serialize(JsonOut &json) const
@@ -661,7 +694,7 @@ void npc::deserialize(JsonIn &jsin)
     int misstmp, classtmp, flagstmp, atttmp;
     std::string facID;
 
-    data.read("name",name);
+    data.read("name", name);
     data.read("marked_for_death", marked_for_death);
     data.read("dead", dead);
     if ( data.read( "myclass", classtmp) ) {
@@ -670,31 +703,31 @@ void npc::deserialize(JsonIn &jsin)
 
     data.read("personality", personality);
 
-    data.read("wandx",wandx);
-    data.read("wandy",wandy);
-    data.read("wandf",wandf);
+    data.read("wandx", wandx);
+    data.read("wandy", wandy);
+    data.read("wandf", wandf);
 
-    data.read("mapx",mapx);
-    data.read("mapy",mapy);
-    if(!data.read("mapz",mapz)) {
-        data.read("omz",mapz); // was renamed to match mapx,mapy
+    data.read("mapx", mapx);
+    data.read("mapy", mapy);
+    if(!data.read("mapz", mapz)) {
+        data.read("omz", mapz); // was renamed to match mapx,mapy
     }
     int o;
-    if(data.read("omx",o)) {
+    if(data.read("omx", o)) {
         mapx += o * OMAPX * 2;
     }
-    if(data.read("omy",o)) {
+    if(data.read("omy", o)) {
         mapy += o * OMAPY * 2;
     }
 
-    data.read("plx",plx);
-    data.read("ply",ply);
+    data.read("plx", plx);
+    data.read("ply", ply);
 
-    data.read("goalx",goal.x);
-    data.read("goaly",goal.y);
-    data.read("goalz",goal.z);
+    data.read("goalx", goal.x);
+    data.read("goaly", goal.y);
+    data.read("goalz", goal.z);
 
-    if ( data.read("mission",misstmp) ) {
+    if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
     }
 
@@ -717,14 +750,14 @@ void npc::deserialize(JsonIn &jsin)
     }
 
     worn.clear();
-    data.read("worn",worn);
+    data.read("worn", worn);
 
     weapon.contents.clear();
-    data.read("weapon",weapon);
+    data.read("weapon", weapon);
 
-    data.read("op_of_u",op_of_u);
-    data.read("chatbin",chatbin);
-    data.read("combat_rules",combat_rules);
+    data.read("op_of_u", op_of_u);
+    data.read("chatbin", chatbin);
+    data.read("combat_rules", combat_rules);
 }
 
 /*
@@ -788,12 +821,13 @@ void npc::serialize(JsonOut &json, bool save_contents) const
 void inventory::json_save_invcache(JsonOut &json) const
 {
     json.start_array();
-    for( std::map<std::string, std::vector<char> >::const_iterator invlet_id =  invlet_cache.begin(); invlet_id != invlet_cache.end(); ++invlet_id ) {
+    for( std::map<std::string, std::vector<char> >::const_iterator invlet_id =  invlet_cache.begin();
+         invlet_id != invlet_cache.end(); ++invlet_id ) {
         json.start_object();
         json.member( invlet_id->first );
         json.start_array();
         for( std::vector<char>::const_iterator sym = invlet_id->second.begin();
-                sym != invlet_id->second.end(); ++sym ) {
+             sym != invlet_id->second.end(); ++sym ) {
             json.write( int(*sym) );
         }
         json.end_array();
@@ -813,7 +847,7 @@ void inventory::json_load_invcache(JsonIn &jsin)
             JsonObject jo = ja.next_object();
             std::set<std::string> members = jo.get_member_names();
             for (std::set<std::string>::iterator it = members.begin();
-                    it != members.end(); ++it) {
+                 it != members.end(); ++it) {
                 std::vector<char> vect;
                 JsonArray pvect = jo.get_array(*it);
                 while ( pvect.has_more() ) {
@@ -851,8 +885,8 @@ void inventory::json_load_items(JsonIn &jsin)
             JsonObject jo = ja.next_object();
             add_item(item( jo ), false, false);
         }
-    } catch (std::string& jsonerr) {
-         debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
+    } catch (std::string &jsonerr) {
+        debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
     }
 }
 
@@ -891,7 +925,6 @@ void monster::deserialize(JsonIn &jsin)
     data.read("anger", anger);
     data.read("morale", morale);
     data.read("hallucination", hallucination);
-    data.read("onstairs", onstairs);
     data.read("stairscount", staircount); // really?
 
     data.read("plans", plans);
@@ -911,7 +944,9 @@ void monster::deserialize(JsonIn &jsin)
 
     data.read( "values", values );
     data.read("inv", inv);
-    if (!data.read("ammo", ammo)) { ammo = 100; }
+    if (!data.read("ammo", ammo)) {
+        ammo = 100;
+    }
 }
 
 /*
@@ -922,25 +957,24 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.start_object();
 
     json.member( "typeid", type->id );
-    json.member("posx",_posx);
-    json.member("posy",_posy);
-    json.member("wandx",wandx);
-    json.member("wandy",wandy);
-    json.member("wandf",wandf);
-    json.member("moves",moves);
+    json.member("posx", _posx);
+    json.member("posy", _posy);
+    json.member("wandx", wandx);
+    json.member("wandy", wandy);
+    json.member("wandf", wandf);
+    json.member("moves", moves);
     json.member("speed", get_speed());
-    json.member("hp",hp);
-    json.member("sp_timeout",sp_timeout);
-    json.member("friendly",friendly);
-    json.member("faction_id",faction_id);
-    json.member("mission_id",mission_id);
+    json.member("hp", hp);
+    json.member("sp_timeout", sp_timeout);
+    json.member("friendly", friendly);
+    json.member("faction_id", faction_id);
+    json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
-    json.member("dead",dead);
-    json.member("anger",anger);
-    json.member("morale",morale);
-    json.member("hallucination",hallucination);
-    json.member("onstairs",onstairs);
-    json.member("stairscount",staircount);
+    json.member("dead", dead);
+    json.member("anger", anger);
+    json.member("morale", morale);
+    json.member("hallucination", hallucination);
+    json.member("stairscount", staircount);
     json.member("plans", plans);
     json.member("ammo", ammo);
 
@@ -951,7 +985,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     if ( save_contents ) {
         json.member("inv");
         json.start_array();
-        for(size_t i=0; i < inv.size(); i++) {
+        for(size_t i = 0; i < inv.size(); i++) {
             inv[i].serialize(json, true);
         }
         json.end_array();
@@ -968,8 +1002,8 @@ void item::deserialize(JsonObject &data)
     init();
     clear();
 
-    std::string idtmp="";
-    std::string ammotmp="null";
+    std::string idtmp = "";
+    std::string ammotmp = "null";
     int lettmp = 0;
     std::string corptmp = "null";
     int damtmp = 0;
@@ -982,7 +1016,7 @@ void item::deserialize(JsonObject &data)
 
     data.read( "charges", charges );
     data.read( "burnt", burnt );
-    
+
     data.read( "poison", poison );
     data.read( "owned", owned );
 
@@ -1010,7 +1044,7 @@ void item::deserialize(JsonObject &data)
     JsonObject pvars = data.get_object("item_vars");
     std::set<std::string> members = pvars.get_member_names();
     for ( std::set<std::string>::iterator pvarsit = members.begin();
-            pvarsit != members.end(); ++pvarsit ) {
+          pvarsit != members.end(); ++pvarsit ) {
         if ( pvars.has_string( *pvarsit ) ) {
             item_vars[ *pvarsit ] = pvars.get_string( *pvarsit );
         }
@@ -1035,14 +1069,14 @@ void item::deserialize(JsonObject &data)
 
     data.read( "curammo", ammotmp );
     if ( ammotmp != "null" ) {
-        curammo = dynamic_cast<it_ammo*>(itypes[ammotmp]);
+        curammo = dynamic_cast<it_ammo *>(itypes[ammotmp]);
     } else {
         curammo = NULL;
     }
-    
+
     data.read( "covers", tmp_covers );
     if (is_armor() && tmp_covers.none()) {
-        it_armor* armor = dynamic_cast<it_armor*>(itypes[idtmp]);
+        it_armor *armor = dynamic_cast<it_armor *>(itypes[idtmp]);
         covers = armor->covers;
         if (armor->sided.any()) {
             bool left = one_in(2);
@@ -1083,14 +1117,14 @@ void item::deserialize(JsonObject &data)
 
 
     int tmplum = 0;
-    if ( data.read("light",tmplum) ) {
+    if ( data.read("light", tmplum) ) {
 
         light = nolight;
         int tmpwidth = 0;
         int tmpdir = 0;
 
-        data.read("light_width",tmpwidth);
-        data.read("light_dir",tmpdir);
+        data.read("light_width", tmpwidth);
+        data.read("light_dir", tmpdir);
         light.luminance = tmplum;
         light.width = (short)tmpwidth;
         light.direction = (short)tmpdir;
@@ -1123,25 +1157,57 @@ void item::serialize(JsonOut &json, bool save_contents) const
     json.member( "typeid", typeId() );
     json.member( "bday", bday );
 
-    if ( charges != -1 )     json.member( "charges", long(charges) );
-    if ( damage != 0 )       json.member( "damage", int(damage) );
-    if ( burnt != 0 )        json.member( "burnt", burnt );
-    if ( covers != 0 )       json.member( "covers", covers );    
-    if ( poison != 0 )       json.member( "poison", poison );
-    if ( ammotmp != "null" ) json.member( "curammo", ammotmp );
-    if ( mode != "NULL" )    json.member( "mode", mode );
-    if ( active == true )    json.member( "active", true );
-    if ( item_counter != 0)  json.member( "item_counter", item_counter );
+    if ( charges != -1 ) {
+        json.member( "charges", long(charges) );
+    }
+    if ( damage != 0 ) {
+        json.member( "damage", int(damage) );
+    }
+    if ( burnt != 0 ) {
+        json.member( "burnt", burnt );
+    }
+    if ( covers != 0 ) {
+        json.member( "covers", covers );
+    }
+    if ( poison != 0 ) {
+        json.member( "poison", poison );
+    }
+    if ( ammotmp != "null" ) {
+        json.member( "curammo", ammotmp );
+    }
+    if ( mode != "NULL" ) {
+        json.member( "mode", mode );
+    }
+    if ( active == true ) {
+        json.member( "active", true );
+    }
+    if ( item_counter != 0) {
+        json.member( "item_counter", item_counter );
+    }
     // bug? // if ( fridge == true )    json.member( "fridge", true );
-    if ( fridge != 0 )       json.member( "fridge", fridge );
-    if ( rot != 0 )          json.member( "rot", rot );
-    if ( last_rot_check != 0 )    json.member( "last_rot_check", last_rot_check );
+    if ( fridge != 0 ) {
+        json.member( "fridge", fridge );
+    }
+    if ( rot != 0 ) {
+        json.member( "rot", rot );
+    }
+    if ( last_rot_check != 0 ) {
+        json.member( "last_rot_check", last_rot_check );
+    }
 
-    if ( corpse != NULL )    json.member( "corpse", corpse->id );
+    if ( corpse != NULL ) {
+        json.member( "corpse", corpse->id );
+    }
 
-    if ( owned != -1 )       json.member( "owned", owned );
-    if ( player_id != -1 )   json.member( "player_id", player_id );
-    if ( mission_id != -1 )  json.member( "mission_id", mission_id );
+    if ( owned != -1 ) {
+        json.member( "owned", owned );
+    }
+    if ( player_id != -1 ) {
+        json.member( "player_id", player_id );
+    }
+    if ( mission_id != -1 ) {
+        json.member( "mission_id", mission_id );
+    }
 
     if ( ! item_tags.empty() ) {
         json.member( "item_tags", item_tags );
@@ -1195,7 +1261,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     if ( data.read("id_enum", intpid) && intpid < 74 ) {
         pid = legacy_vpart_id[intpid];
     } else {
-        data.read("id",pid);
+        data.read("id", pid);
     }
     // if we don't know what type of part it is, it'll cause problems later.
     if (vehicle_part_types.find(pid) == vehicle_part_types.end()) {
@@ -1289,14 +1355,14 @@ void vehicle::deserialize(JsonIn &jsin)
 
     face.init (fdir);
     move.init (mdir);
-    data.read("name",name);
+    data.read("name", name);
 
     data.read("parts", parts);
-/*
-    for(int i=0;i < parts.size();i++ ) {
-       parts[i].setid(parts[i].id);
-    }
-*/
+    /*
+        for(int i=0;i < parts.size();i++ ) {
+           parts[i].setid(parts[i].id);
+        }
+    */
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
     if ( savegame_loading_version < 11 ) {
@@ -1304,7 +1370,7 @@ void vehicle::deserialize(JsonIn &jsin)
     }
     refresh();
 
-    data.read("tags",tags);
+    data.read("tags", tags);
     data.read("labels", labels);
 
     // Note that it's possible for a vehicle to be loaded midway
@@ -1335,7 +1401,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "turn_dir", turn_dir );
     json.member( "velocity", velocity );
     json.member( "cruise_velocity", cruise_velocity );
-    json.member( "music_id",music_id);
+    json.member( "music_id", music_id);
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "has_pedals", has_pedals );
@@ -1422,7 +1488,7 @@ void faction::deserialize(JsonIn &jsin)
 
     jo.read("id", id);
     jo.read("name", name);
-    if ( !jo.read( "description", desc )){
+    if ( !jo.read( "description", desc )) {
         desc = "";
     }
     goal = faction_goal(jo.get_int("goal", goal));

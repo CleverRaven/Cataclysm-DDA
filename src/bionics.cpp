@@ -105,7 +105,7 @@ void player::power_bionics()
     * TOTAL: TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5
     */
     int HEIGHT = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
-                 TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5));
+                                          TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5));
     int WIDTH = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 2;
     int START_X = (TERMX - WIDTH) / 2;
     int START_Y = (TERMY - HEIGHT) / 2;
@@ -123,7 +123,8 @@ void player::power_bionics()
     WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
 
     int scroll_position = 0;
-    int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) / 4; // X-coordinate of the list of active bionics
+    int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) /
+                        4; // X-coordinate of the list of active bionics
 
     input_context ctxt("BIONICS");
     ctxt.register_updown();
@@ -182,7 +183,7 @@ void player::power_bionics()
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
                     if (list_start_y + static_cast<int>(i) ==
-                        (menu_mode == "examining" ?DESCRIPTION_LINE_Y : HEIGHT - 1)) {
+                        (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
                     if (active[i]->powered && !bionics[active[i]->id]->power_source) {
@@ -613,12 +614,12 @@ void player::activate_bionic(int b)
             weapon = ret_null;
         } else if (weapon.has_flag ("NO_UNWIELD")) {
             add_msg(m_info, _("Deactivate your %s first!"),
-                       weapon.tname().c_str());
+                    weapon.tname().c_str());
             power_level += bionics[bio.id]->power_cost;
             return;
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
-                       weapon.tname().c_str());
+                    weapon.tname().c_str());
             g->m.add_item_or_charges(posx, posy, weapon);
             weapon = item("bio_claws_weapon", 0);
             weapon.invlet = '#';
@@ -633,12 +634,12 @@ void player::activate_bionic(int b)
             weapon = ret_null;
         } else if (weapon.has_flag ("NO_UNWIELD")) {
             add_msg(m_info, _("Deactivate your %s first!"),
-                       weapon.tname().c_str());
+                    weapon.tname().c_str());
             power_level += bionics[bio.id]->power_cost;
             return;
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
-                       weapon.tname().c_str());
+                    weapon.tname().c_str());
             g->m.add_item_or_charges(posx, posy, weapon);
             weapon = item("bio_blade_weapon", 0);
             weapon.invlet = '#';
@@ -686,7 +687,7 @@ void player::activate_bionic(int b)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for (std::vector<item>::iterator it = g->m.i_at(posx,posy).begin();
+        for (std::vector<item>::iterator it = g->m.i_at(posx, posy).begin();
              it != g->m.i_at(posx, posy).end(); ++it) {
             if (it->type->id == "corpse" ) {
                 int avail = 0;
@@ -740,7 +741,7 @@ void player::activate_bionic(int b)
                             } else if (it != traj.begin() && g->m.move_cost(it->x, it->y) == 0) {
                                 g->m.bash( it->x, it->y, tmp_item.weight() / 225 );
                                 if (g->m.move_cost(it->x, it->y) == 0) {
-                                    g->m.add_item_or_charges((it-1)->x, (it-1)->y, tmp_item);
+                                    g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
                                     break;
                                 }
                             }
@@ -762,20 +763,20 @@ void player::activate_bionic(int b)
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
-                                 door_name.c_str());
+                              door_name.c_str());
             g->m.ter_set(dirx, diry, t_door_c);
             // Locked metal doors are the Lab and Bunker entries.  Those need to stay locked.
         } else if(type == t_door_bar_locked) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
             add_msg_if_player(m_neutral, _("The %s swings open..."),
-                                 door_name.c_str()); //Could better copy the messages from lockpick....
+                              door_name.c_str()); //Could better copy the messages from lockpick....
             g->m.ter_set(dirx, diry, t_door_bar_o);
         } else if(type == t_chaingate_l) {
             moves -= 40;
             std::string gate_name = rm_prefix (_("<door_name>gate"));
             add_msg_if_player(m_neutral, _("With a satisfying click, the lock on the %s opens."),
-                                 gate_name.c_str());
+                              gate_name.c_str());
             g->m.ter_set(dirx, diry, t_chaingate_c);
         } else if(type == t_door_c) {
             add_msg(m_info, _("That door isn't locked."));
@@ -879,7 +880,7 @@ bool player::uninstall_bionic(bionic_id b_id)
         popup(_("Removing bionics requires a cutting tool and a first aid kit."));
         return false;
     }
-    
+
     if ( b_id == "bio_blaster" ) {
         popup(_("Removing your Fusion Blaster Arm would leave you with a useless stump."));
         return false;
@@ -1101,7 +1102,8 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
 
 void reset_bionics()
 {
-    for (std::map<bionic_id, bionic_data*>::iterator bio = bionics.begin(); bio != bionics.end(); ++bio){
+    for (std::map<bionic_id, bionic_data *>::iterator bio = bionics.begin(); bio != bionics.end();
+         ++bio) {
         delete bio->second;
     }
     bionics.clear();

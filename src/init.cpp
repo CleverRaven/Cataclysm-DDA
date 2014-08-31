@@ -31,6 +31,7 @@
 #include "debug.h"
 #include "path_info.h"
 #include "start_location.h"
+#include "scenario.h"
 #include "omdata.h"
 #include "options.h"
 #include "game.h"
@@ -120,6 +121,7 @@ void DynamicDataLoader::initialize()
     type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
     type_function_map["ammunition_type"] = new StaticFunctionAccessor(
         &ammunition_type::load_ammunition_type);
+    type_function_map["scenario"] = new StaticFunctionAccessor(&scenario::load_scenario);
     type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
@@ -196,7 +198,7 @@ void DynamicDataLoader::initialize()
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
     type_function_map["BULLET_PULLING"] = new StaticFunctionAccessor(&iuse::load_bullet_pulling);
-    
+
     type_function_map["faction"] = new StaticFunctionAccessor(
         &faction::load_faction);
     type_function_map["npc"] = new StaticFunctionAccessor(
@@ -255,7 +257,6 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
 void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
 {
     char ch;
-    std::string type = "";
     jsin.eat_whitespace();
     // examine first non-whitespace char
     ch = jsin.peek();
@@ -302,7 +303,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
 void init_names()
 {
     const std::string filename = PATH_INFO::find_translated_file( "namesdir",
-                                                                  ".json", "names" );
+                                 ".json", "names" );
     load_names_from_file(filename);
 }
 
@@ -355,7 +356,8 @@ void DynamicDataLoader::unload_data()
 
 extern void calculate_mapgen_weights();
 extern void init_data_mappings();
-void DynamicDataLoader::finalize_loaded_data() {
+void DynamicDataLoader::finalize_loaded_data()
+{
     g->init_missions(); // Needs overmap terrain.
     init_data_mappings();
     finalize_overmap_terrain();
@@ -368,7 +370,8 @@ void DynamicDataLoader::finalize_loaded_data() {
     check_consistency();
 }
 
-void DynamicDataLoader::check_consistency() {
+void DynamicDataLoader::check_consistency()
+{
     item_controller->check_itype_definitions();
     item_controller->check_items_of_groups_exist();
     MonsterGenerator::generator().check_monster_definitions();
@@ -377,6 +380,7 @@ void DynamicDataLoader::check_consistency() {
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();
+    scenario::check_definitions();
     check_martialarts();
     ammunition_type::check_consistency();
 }

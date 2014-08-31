@@ -284,7 +284,7 @@ enum map_extra {
  mx_helicopter,
  mx_military,
  mx_science,
- mx_stash,
+ mx_roadblock,
  mx_drugdeal,
  mx_supplydrop,
  mx_portal,
@@ -298,7 +298,7 @@ enum map_extra {
 
 //Classic Extras is for when you have special zombies turned off.
 const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
-  mfb(mx_stash) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
+  mfb(mx_roadblock) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
   mfb(mx_crater);
 
 
@@ -306,7 +306,7 @@ struct map_extras {
  unsigned int chance;
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
-            int sci = 0, int stash = 0, int drug = 0, int supply = 0,
+            int sci = 0, int roadblock = 0, int drug = 0, int supply = 0,
             int portal = 0, int minefield = 0,
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
@@ -315,7 +315,7 @@ struct map_extras {
   chances[ 1] = helicopter;
   chances[ 2] = mili;
   chances[ 3] = sci;
-  chances[ 4] = stash;
+  chances[ 4] = roadblock;
   chances[ 5] = drug;
   chances[ 6] = supply;
   chances[ 7] = portal;
@@ -480,8 +480,8 @@ struct id_or_id {
  * It's a terrain! No, it's a furniture! Wait it's both!
  */
 struct ter_furn_id {
-   short ter;
-   short furn;
+   unsigned short ter;
+   unsigned short furn;
    ter_furn_id() : ter(0), furn(0) {};
 };
 
@@ -522,7 +522,8 @@ extern ter_id t_null,
     t_bars,
     t_door_c, t_door_b, t_door_o,
     t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
-    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
+    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+    t_door_boarded, t_door_boarded_damaged, t_rdoor_boarded, t_rdoor_boarded_damaged,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
     t_door_glass_c, t_door_glass_o,
@@ -572,7 +573,7 @@ extern ter_id t_null,
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
-    t_window_enhanced, t_window_enhanced_noglass, t_open_air,
+    t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     num_terrain_types;
 
 

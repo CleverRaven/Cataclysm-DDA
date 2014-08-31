@@ -3,17 +3,19 @@
 #include "enums.h"
 #include "string.h"
 #include "omdata.h"
+#include "mapdata.h"
 #include "mongroup.h"
 #include "output.h"
 #include "debug.h"
-#include <vector>
-#include <iosfwd>
-#include <string>
-#include <stdlib.h>
 #include "cursesdef.h"
 #include "name.h"
 #include "input.h"
 #include "json.h"
+#include <vector>
+#include <iosfwd>
+#include <string>
+#include <stdlib.h>
+#include <array>
 
 class overmapbuffer;
 class npc;
@@ -257,16 +259,16 @@ struct node
 class overmap
 {
  public:
-  overmap();
-  overmap(overmap const&);
+    overmap(const overmap&) = default;
+    overmap(overmap &&) = default;
   overmap(int x, int y);
   ~overmap();
 
-  overmap& operator=(overmap const&);
+  overmap& operator=(overmap const&) = default;
 
   point const& pos() const { return loc; }
 
-  void save();
+  void save() const;
   void first_house(int &x, int &y, const std::string start_location);
 
   void process_mongroups(); // Makes them die out, maybe more
@@ -281,7 +283,6 @@ class overmap
   oter_id& ter(const int x, const int y, const int z);
   const oter_id get_ter(const int x, const int y, const int z) const;
   bool&   seen(int x, int y, int z);
-  std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
   bool is_road_or_highway(int x, int y, int z);
 
@@ -344,7 +345,6 @@ class overmap
   /** Get the y coordinate of the bottom border of this overmap. */
   int get_bottom_border();
 
-  regional_settings settings;
   const regional_settings& get_settings(const int x, const int y, const int z) {
      (void)x;
      (void)y;
@@ -352,8 +352,11 @@ class overmap
 
      return settings;
   }
+    void clear_mon_groups() { zg.clear(); }
+private:
+    std::multimap<tripoint, mongroup> zg;
+public:
   // TODO: make private
-  std::vector<mongroup> zg;
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
@@ -363,15 +366,28 @@ class overmap
  private:
   friend class overmapbuffer;
   point loc;
-  std::string prefix;
-  std::string name;
 
-  //map_layer layer[OVERMAP_LAYERS];
-  map_layer *layer;
+    std::array<map_layer, OVERMAP_LAYERS> layer;
 
   oter_id nullret;
   bool nullbool;
   std::string nullstr;
+
+    struct monster_data {
+        // relative to the position of this overmap,
+        // in submap coordinates.
+        int x;
+        int y;
+        int z;
+        monster mon;
+    };
+    /**
+     * When monsters despawn during map-shifting they will be added here.
+     * map::spawn_monsters will load them and place them into the reality bubble
+     * (adding it to the creature tracker and putting it onto the map).
+     */
+    std::vector<monster_data> monsters;
+    regional_settings settings;
 
   // Initialise
   void init_layers();
@@ -439,6 +455,9 @@ class overmap
   static void print_npcs(WINDOW *w, int const x, int const y, int const z);
   bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
   void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
+    void add_mon_group(const mongroup &group);
+    // not available because *every* overmap needs location, so use the other constructor.
+    overmap() = delete;
 };
 
 // TODO: readd the stream operators

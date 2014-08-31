@@ -7,6 +7,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "translations.h"
+#include "overmapbuffer.h"
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
@@ -30,10 +31,6 @@ monster::monster()
  moves = 0;
  sp_timeout = 0;
  def_chance = 0;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = 0;
  morale = 2;
@@ -45,7 +42,6 @@ monster::monster()
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- keep = 0;
  ammo = 100;
 }
 
@@ -63,10 +59,6 @@ monster::monster(mtype *t)
  hp = type->hp;
  sp_timeout = rng(0, type->sp_freq);
  def_chance = type->def_chance;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = t->agro;
  morale = t->morale;
@@ -95,10 +87,6 @@ monster::monster(mtype *t, int x, int y)
  hp = type->hp;
  sp_timeout = type->sp_freq;
  def_chance = type->def_chance;
- spawnmapx = -1;
- spawnmapy = -1;
- spawnposx = -1;
- spawnposy = -1;
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
@@ -429,23 +417,23 @@ void monster::load_info(std::string data)
 
 void monster::debug(player &u)
 {
- debugmsg("monster::debug %s has %d steps planned.", name().c_str(), plans.size());
- debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
- for (int i = 0; i < plans.size(); i++) {
+    debugmsg("monster::debug %s has %d steps planned.", name().c_str(), plans.size());
+    debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
+    for (size_t i = 0; i < plans.size(); i++) {
         const int digit = '0' + (i % 10);
         mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, digit);
- }
- getch();
+    }
+    getch();
 }
 
 void monster::shift(int sx, int sy)
 {
- _posx -= sx * SEEX;
- _posy -= sy * SEEY;
- for (int i = 0; i < plans.size(); i++) {
-  plans[i].x -= sx * SEEX;
-  plans[i].y -= sy * SEEY;
- }
+    _posx -= sx * SEEX;
+    _posy -= sy * SEEY;
+    for (auto &i : plans) {
+        i.x -= sx * SEEX;
+        i.y -= sy * SEEY;
+    }
 }
 
 point monster::move_target()
@@ -563,72 +551,75 @@ void monster::process_trigger(monster_trigger trig, int amount)
 
 int monster::trigger_sum(std::set<monster_trigger> *triggers) const
 {
- int ret = 0;
- bool check_terrain = false, check_meat = false, check_fire = false;
- for (auto trig = triggers->begin(); trig != triggers->end(); ++trig)
- {
-     switch (*trig){
-      case MTRIG_STALK:
-       if (anger > 0 && one_in(20))
-        ret++;
-       break;
+    int ret = 0;
+    bool check_terrain = false, check_meat = false, check_fire = false;
+    for (auto trig = triggers->begin(); trig != triggers->end(); ++trig){
+        switch (*trig) {
+            case MTRIG_STALK:
+                if (anger > 0 && one_in(20)) {
+                    ret++;
+                }
+                break;
 
-      case MTRIG_MEAT:
-       check_terrain = true;
-       check_meat = true;
-       break;
+            case MTRIG_MEAT:
+                check_terrain = true;
+                check_meat = true;
+                break;
 
-      case MTRIG_PLAYER_CLOSE:
-       if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5)
-        ret += 5;
-       for (int i = 0; i < g->active_npc.size(); i++) {
-        if (rl_dist(_posx, _posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
-         ret += 5;
-       }
-       break;
+            case MTRIG_PLAYER_CLOSE:
+                if (rl_dist(_posx, _posy, g->u.posx, g->u.posy) <= 5) {
+                    ret += 5;
+                }
+                for (auto &i : g->active_npc) {
+                    if (rl_dist(_posx, _posy, i->posx, i->posy) <= 5) {
+                        ret += 5;
+                    }
+                }
+                break;
 
-      case MTRIG_FIRE:
-       check_terrain = true;
-       check_fire = true;
-       break;
+            case MTRIG_FIRE:
+                check_terrain = true;
+                check_fire = true;
+                break;
 
-      case MTRIG_PLAYER_WEAK:
-       if (g->u.hp_percentage() <= 70)
-        ret += 10 - int(g->u.hp_percentage() / 10);
-       break;
+            case MTRIG_PLAYER_WEAK:
+                if (g->u.hp_percentage() <= 70) {
+                    ret += 10 - int(g->u.hp_percentage() / 10);
+                }
+                break;
 
-      default:
-       break; // The rest are handled when the impetus occurs
+            default:
+                break; // The rest are handled when the impetus occurs
+        }
     }
- }
 
- if (check_terrain) {
-  for (int x = _posx - 3; x <= _posx + 3; x++) {
-   for (int y = _posy - 3; y <= _posy + 3; y++) {
-    if (check_meat) {
-     std::vector<item> *items = &(g->m.i_at(x, y));
-     for (int n = 0; n < items->size(); n++) {
-      if ((*items)[n].type->id == "corpse" ||
-          (*items)[n].type->id == "meat" ||
-          (*items)[n].type->id == "meat_cooked" ||
-          (*items)[n].type->id == "human_flesh") {
-       ret += 3;
-       check_meat = false;
-      }
-     }
+    if (check_terrain) {
+        for (int x = _posx - 3; x <= _posx + 3; x++) {
+            for (int y = _posy - 3; y <= _posy + 3; y++) {
+                if (check_meat) {
+                    std::vector<item> *items = &(g->m.i_at(x, y));
+                    for (size_t n = 0; n < items->size(); n++) {
+                        if ((*items)[n].type->id == "corpse" || (*items)[n].type->id == "meat" ||
+                              (*items)[n].type->id == "meat_cooked" ||
+                              (*items)[n].type->id == "human_flesh") {
+                            ret += 3;
+                            check_meat = false;
+                        }
+                    }
+                }
+                if (check_fire) {
+                    ret += ( 5 * g->m.get_field_strength( point(x, y), fd_fire) );
+                }
+            }
+        }
+        if (check_fire) {
+            if (g->u.has_amount("torch_lit", 1)) {
+                ret += 49;
+            }
+        }
     }
-    if (check_fire) {
-      ret += ( 5 * g->m.get_field_strength( point(x, y), fd_fire) );
-    }
-   }
-  }
-  if (check_fire) {
-   if (g->u.has_amount("torch_lit", 1))
-    ret += 49;
-  }
- }
 
- return ret;
+    return ret;
 }
 
 bool monster::is_underwater() const {
@@ -780,7 +771,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     if (anger_adjust != 0 && morale_adjust != 0)
     {
-        for (int i = 0; i < g->num_zombies(); i++)
+        for (size_t i = 0; i < g->num_zombies(); i++)
         {
             g->zombie(i).morale += morale_adjust;
             g->zombie(i).anger += anger_adjust;
@@ -881,10 +872,15 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     case DT_NULL:
         debugmsg("monster::deal_damage_handle_type: illegal damage type DT_NULL");
         break;
+    case DT_ACID:
+        if( has_flag( MF_ACIDPROOF ) ) {
+            damage += 0; // immunity
+            pain += 0;
+            return;
+        }
     case DT_TRUE: // typeless damage, should always go through
     case DT_BIOLOGICAL: // internal damage, like from smoke or poison
     case DT_CUT:
-    case DT_ACID:
     case DT_STAB:
     case DT_HEAT:
     default:
@@ -912,33 +908,36 @@ void monster::die_in_explosion(Creature* source)
     die( source );
 }
 
-int monster::get_armor_cut(body_part bp)
+int monster::get_armor_cut(body_part bp) const
 {
     (void) bp;
     // TODO: Add support for worn armor?
     return int(type->armor_cut) + armor_bash_bonus;
 }
 
-int monster::get_armor_bash(body_part bp)
+int monster::get_armor_bash(body_part bp) const
 {
     (void) bp;
     return int(type->armor_bash) + armor_cut_bonus;
 }
 
-int monster::hit_roll() {
+int monster::hit_roll() const {
     return 0;
 }
 
-int monster::get_dodge()
+int monster::get_dodge() const
 {
- if (has_effect("downed"))
-  return 0;
- int ret = type->sk_dodge;
- if (has_effect("beartrap") || has_effect("tied"))
-  ret /= 2;
- if (moves <= 0 - 100 - type->speed)
-  ret = rng(0, ret);
- return ret + get_dodge_bonus();
+    if (has_effect("downed")) {
+        return 0;
+    }
+    int ret = type->sk_dodge;
+    if (has_effect("beartrap") || has_effect("tied")) {
+        ret /= 2;
+    }
+    if (moves <= 0 - 100 - (int)type->speed) {
+        ret = rng(0, ret);
+    }
+    return ret + get_dodge_bonus();
 }
 
 int monster::get_melee() const
@@ -962,7 +961,7 @@ int monster::dodge_roll()
  return dice(numdice, 10);
 }
 
-int monster::fall_damage()
+int monster::fall_damage() const
 {
  if (has_flag(MF_FLIES))
   return 0;
@@ -986,7 +985,8 @@ void monster::explode()
     // Send body parts and blood all over!
     const itype_id meat = type->get_meat_itype();
     const field_id type_blood = bloodType();
-    if( meat != "null" || type_blood != fd_null ) {
+    const field_id type_gib = gibType();
+    if( meat != "null" || type_blood != fd_null || type_gib != fd_null ) {
         // Only create chunks if we know what kind to make.
         int num_chunks = 0;
         switch( type->size ) {
@@ -1011,26 +1011,32 @@ void monster::explode()
             int tarx = _posx + rng( -3, 3 ), tary = _posy + rng( -3, 3 );
             std::vector<point> traj = line_to( _posx, _posy, tarx, tary, 0 );
 
-            bool done = false;
-            for( size_t j = 0; j < traj.size() && !done; j++ ) {
+            for( size_t j = 0; j < traj.size(); j++ ) {
                 tarx = traj[j].x;
                 tary = traj[j].y;
-                if( type_blood != fd_null ) {
+                if( one_in( 2 ) && type_blood != fd_null ) {
                     g->m.add_field( tarx, tary, type_blood, 1 );
+                } else if( type_gib != fd_null ) {
+                    g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
                 }
-                g->m.add_field( tarx + rng( -1, 1 ), tary + rng( -1, 1 ), gibType(), rng( 1, j + 1 ) );
 
                 if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tarx, tary, 3 ) ) {
+                    g->m.bash( tarx, tary, 3 );
+                    if( g->m.move_cost( tarx, tary ) == 0 ) {
+                        // Target is obstacle, not destroyed by bashing,
+                        // stop trajectory in front of it, if this is the first
+                        // point (e.g. wall adjacent to monster) , make it invalid.
                         if( j > 0 ) {
                             tarx = traj[j - 1].x;
                             tary = traj[j - 1].y;
+                        } else {
+                            tarx = -1;
                         }
-                        done = true;
+                        break;
                     }
                 }
             }
-            if( meat != "null" ) {
+            if( meat != "null" && tarx != -1 ) {
                 g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
             }
         }
@@ -1075,70 +1081,72 @@ void monster::die(Creature* nkiller) {
         g->m.add_item_or_charges( posx(), posy(), it );
     }
 
-// If we're a queen, make nearby groups of our type start to die out
- if (has_flag(MF_QUEEN)) {
-// Do it for overmap above/below too
-  for(int z = 0; z >= -1; --z) {
-      for (int x = -MAPSIZE/2; x <= MAPSIZE/2; x++)
-      {
-          for (int y = -MAPSIZE/2; y <= MAPSIZE/2; y++)
-          {
-                 std::vector<mongroup*> groups =
-                     g->cur_om->monsters_at(g->levx+x, g->levy+y, z);
-                 for (int i = 0; i < groups.size(); i++) {
-                     if (MonsterGroupManager::IsMonsterInGroup
-                         (groups[i]->type, (type->id)))
-                         groups[i]->dying = true;
-                 }
-          }
-      }
-  }
- }
-// If we're a mission monster, update the mission
- if (mission_id != -1) {
-  mission_type *misstype = g->find_mission_type(mission_id);
-  if (misstype->goal == MGOAL_FIND_MONSTER)
-   g->fail_mission(mission_id);
-  if (misstype->goal == MGOAL_KILL_MONSTER)
-   g->mission_step_complete(mission_id, 1);
- }
-// Also, perform our death function
- mdeath md;
- if(is_hallucination()) {
-   //Hallucinations always just disappear
-   md.disappear(this);
-   return;
- } else {
-   //Not a hallucination, go process the death effects.
-   std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
-   void (mdeath::*func)(monster *);
-   for (int i = 0; i < deathfunctions.size(); i++) {
-     func = deathfunctions.at(i);
-     (md.*func)(this);
-   }
- }
-// If our species fears seeing one of our own die, process that
- int anger_adjust = 0, morale_adjust = 0;
- if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
-    anger_adjust += 15;
- }
- if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
-    morale_adjust -= 15;
- }
- if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
-    anger_adjust -= 15;
- }
+    // If we're a queen, make nearby groups of our type start to die out
+    if( has_flag( MF_QUEEN ) ) {
+        // The submap coordinates of this monster, monster groups coordinates are
+        // submap coordinates.
+        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( _posx, _posy ) );
+        // Do it for overmap above/below too
+        for( int z = 1; z >= -1; --z ) {
+            for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {
+                for( int y = -MAPSIZE / 2; y <= MAPSIZE / 2; y++ ) {
+                    std::vector<mongroup*> groups = overmap_buffer.groups_at( abssub.x + x, abssub.y + y, g->levz + z );
+                    for( auto &mgp : groups ) {
+                        if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
+                            mgp->dying = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // If we're a mission monster, update the mission
+    if (mission_id != -1) {
+        mission_type *misstype = g->find_mission_type(mission_id);
+        if (misstype->goal == MGOAL_FIND_MONSTER) {
+            g->fail_mission(mission_id);
+        }
+        if (misstype->goal == MGOAL_KILL_MONSTER) {
+            g->mission_step_complete(mission_id, 1);
+        }
+    }
+    // Also, perform our death function
+    mdeath md;
+    if(is_hallucination()) {
+        //Hallucinations always just disappear
+        md.disappear(this);
+        return;
+    } else {
+        //Not a hallucination, go process the death effects.
+        std::vector<void (mdeath::*)(monster *)> deathfunctions = type->dies;
+        void (mdeath::*func)(monster *);
+        for (size_t i = 0; i < deathfunctions.size(); i++) {
+            func = deathfunctions.at(i);
+            (md.*func)(this);
+        }
+    }
+    // If our species fears seeing one of our own die, process that
+    int anger_adjust = 0, morale_adjust = 0;
+    if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
+        anger_adjust += 15;
+    }
+    if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
+        morale_adjust -= 15;
+    }
+    if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
+        anger_adjust -= 15;
+    }
 
- if (anger_adjust != 0 && morale_adjust != 0) {
-  int light = g->light_level();
-  for (int i = 0; i < g->num_zombies(); i++) {
-   int t = 0;
-   if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t)) {
-    g->zombie(i).morale += morale_adjust;
-    g->zombie(i).anger += anger_adjust;
-   }
-  }
- }
+    if (anger_adjust != 0 && morale_adjust != 0) {
+        int light = g->light_level();
+        for (size_t i = 0; i < g->num_zombies(); i++) {
+            int t = 0;
+            if (g->m.sees(g->zombie(i).posx(), g->zombie(i).posy(), _posx, _posy, light, t)) {
+                g->zombie(i).morale += morale_adjust;
+                g->zombie(i).anger += anger_adjust;
+            }
+        }
+    }
 }
 
 void monster::drop_items_on_death()
@@ -1231,39 +1239,10 @@ bool monster::is_hallucination() const
 }
 
 field_id monster::bloodType() const {
-    if (has_flag(MF_ACID_BLOOD))
-        //A monster that has the death effect "ACID" does not need to have acid blood.
-        return fd_acid;
-    if (has_flag(MF_BILE_BLOOD))
-        return fd_bile;
-    if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD))
-        return fd_blood_invertebrate;
-    if (made_of("veggy"))
-        return fd_blood_veggy;
-    if (made_of("iflesh"))
-        return fd_blood_insect;
-    if (has_flag(MF_WARM))
-        return fd_blood;
-    return fd_null; //Please update the corpse blood type code at mtypedef.cpp modifying these rules!
+    return type->bloodType();
 }
 field_id monster::gibType() const {
-    if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))
-        return fd_gibs_invertebrate;
-    if (made_of("veggy"))
-        return fd_gibs_veggy;
-    if (made_of("iflesh"))
-        return fd_gibs_insect;
-    return fd_gibs_flesh; //Please update the corpse gib type code at mtypedef.cpp modifying these rules!
-}
-
-bool monster::getkeep() const
-{
-    return keep;
-}
-
-void monster::setkeep(bool r)
-{
-    keep = r;
+    return type->gibType();
 }
 
 m_size monster::get_size() const {

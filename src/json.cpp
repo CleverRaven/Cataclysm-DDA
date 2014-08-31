@@ -26,9 +26,10 @@ bool is_whitespace(char ch)
 }
 
 // for parsing \uxxxx escapes
-std::string utf16_to_utf8(unsigned ch) {
+std::string utf16_to_utf8(unsigned ch)
+{
     char out[5];
-    char* buf = out;
+    char *buf = out;
     static const unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
     int utf8Bytes;
     if (ch < 0x80) {
@@ -47,17 +48,17 @@ std::string utf16_to_utf8(unsigned ch) {
 
     buf += utf8Bytes;
     switch (utf8Bytes) {
-        case 4:
-            *--buf = (ch|0x80)&0xBF;
-            ch >>= 6;
-        case 3:
-            *--buf = (ch|0x80)&0xBF;
-            ch >>= 6;
-        case 2:
-            *--buf = (ch|0x80)&0xBF;
-            ch >>= 6;
-        case 1:
-            *--buf = ch|utf8FirstByte[utf8Bytes];
+    case 4:
+        *--buf = (ch | 0x80) & 0xBF;
+        ch >>= 6;
+    case 3:
+        *--buf = (ch | 0x80) & 0xBF;
+        ch >>= 6;
+    case 2:
+        *--buf = (ch | 0x80) & 0xBF;
+        ch >>= 6;
+    case 1:
+        *--buf = ch | utf8FirstByte[utf8Bytes];
     }
     out[utf8Bytes] = '\0';
     return out;
@@ -106,8 +107,14 @@ void JsonObject::finish()
     }
 }
 
-size_t JsonObject::size() { return positions.size(); }
-bool JsonObject::empty() { return positions.empty(); }
+size_t JsonObject::size()
+{
+    return positions.size();
+}
+bool JsonObject::empty()
+{
+    return positions.empty();
+}
 
 int JsonObject::verify_position(const std::string &name,
                                 const bool throw_exception)
@@ -134,7 +141,7 @@ bool JsonObject::has_member(const std::string &name)
 std::set<std::string> JsonObject::get_member_names()
 {
     std::set<std::string> ret;
-    for (std::map<std::string,int>::iterator it = positions.begin();
+    for (std::map<std::string, int>::iterator it = positions.begin();
          it != positions.end(); ++it) {
         ret.insert(it->first);
     }
@@ -150,34 +157,38 @@ std::string JsonObject::line_number()
 std::string JsonObject::str()
 {
     if (jsin) {
-        return jsin->substr(start,end-start);
+        return jsin->substr(start, end - start);
     } else {
         return "{}";
     }
 }
 
 
-void JsonObject::throw_error(std::string err, const std::string & name) {
-    jsin->seek(verify_position(name,false));
+void JsonObject::throw_error(std::string err, const std::string &name)
+{
+    jsin->seek(verify_position(name, false));
     jsin->error(err);
 }
 
-void JsonArray::throw_error(std::string err) {
+void JsonArray::throw_error(std::string err)
+{
     jsin->error(err);
 }
 
-void JsonArray::throw_error(std::string err, int idx) {
-    if (idx >= 0 && idx < positions.size() ) {
+void JsonArray::throw_error(std::string err, int idx)
+{
+    if (idx >= 0 && size_t(idx) < positions.size() ) {
         jsin->seek( positions[idx] );
     }
     jsin->error(err);
 }
 
-void JsonObject::throw_error(std::string err) {
+void JsonObject::throw_error(std::string err)
+{
     jsin->error(err);
 }
 
-JsonIn* JsonObject::get_raw(const std::string &name)
+JsonIn *JsonObject::get_raw(const std::string &name)
 {
     int pos = verify_position(name);
     jsin->seek(pos);
@@ -453,14 +464,23 @@ void JsonArray::finish()
     }
 }
 
-bool JsonArray::has_more() { return (index >= 0 && index < positions.size()); }
-int JsonArray::size() { return positions.size(); }
-bool JsonArray::empty() { return positions.empty(); }
+bool JsonArray::has_more()
+{
+    return (index >= 0 && size_t(index) < positions.size());
+}
+int JsonArray::size()
+{
+    return positions.size();
+}
+bool JsonArray::empty()
+{
+    return positions.empty();
+}
 
 std::string JsonArray::str()
 {
     if (jsin) {
-        return jsin->substr(start,end-start);
+        return jsin->substr(start, end - start);
     } else {
         return "[]";
     }
@@ -470,7 +490,7 @@ void JsonArray::verify_index(int i)
 {
     if (!jsin) {
         throw (std::string)"tried to access empty array.";
-    } else if (i < 0 || i >= positions.size()) {
+    } else if (i < 0 || size_t(i) >= positions.size()) {
         jsin->seek(start);
         std::stringstream err;
         err << "bad index value: " << i;
@@ -706,9 +726,18 @@ JsonIn::JsonIn(std::istream &s, bool strict) :
 {
 }
 
-int JsonIn::tell() { return stream->tellg(); }
-char JsonIn::peek() { return (char)stream->peek(); }
-bool JsonIn::good() { return stream->good(); }
+int JsonIn::tell()
+{
+    return stream->tellg();
+}
+char JsonIn::peek()
+{
+    return (char)stream->peek();
+}
+bool JsonIn::good()
+{
+    return stream->good();
+}
 
 void JsonIn::seek(int pos)
 {
@@ -828,23 +857,23 @@ void JsonIn::skip_value()
     // it's either a string '"'
     if (ch == '"') {
         skip_string();
-    // or an object '{'
+        // or an object '{'
     } else if (ch == '{') {
         skip_object();
-    // or an array '['
+        // or an array '['
     } else if (ch == '[') {
         skip_array();
-    // or a number (-0123456789)
+        // or a number (-0123456789)
     } else if (ch == '-' || (ch >= '0' && ch <= '9')) {
         skip_number();
-    // or "true", "false" or "null"
+        // or "true", "false" or "null"
     } else if (ch == 't') {
         skip_true();
     } else if (ch == 'f') {
         skip_false();
     } else if (ch == 'n') {
         skip_null();
-    // or an error.
+        // or an error.
     } else {
         std::stringstream err;
         err << "expected JSON value but got '" << ch << "'";
@@ -918,7 +947,7 @@ void JsonIn::skip_number()
     while (stream->good()) {
         stream->get(ch);
         if (ch != '+' && ch != '-' && (ch < '0' || ch > '9') &&
-                ch != 'e' && ch != 'E' && ch != '.') {
+            ch != 'e' && ch != 'E' && ch != '.') {
             stream->unget();
             break;
         }
@@ -981,7 +1010,7 @@ std::string JsonIn::get_string()
                 stream->get(unihex, 5);
                 // insert the appropriate unicode character in utf8
                 // TODO: verify that unihex is in fact 4 hex digits.
-                char** endptr = 0;
+                char **endptr = 0;
                 unsigned u = (unsigned)strtoul(unihex, endptr, 16);
                 s += utf16_to_utf8(u);
             } else {
@@ -1126,8 +1155,14 @@ bool JsonIn::get_bool()
     throw (std::string)"warnings are silly";
 }
 
-JsonObject JsonIn::get_object() { return JsonObject(*this); }
-JsonArray JsonIn::get_array() { return JsonArray(*this); }
+JsonObject JsonIn::get_object()
+{
+    return JsonObject(*this);
+}
+JsonArray JsonIn::get_array()
+{
+    return JsonArray(*this);
+}
 
 void JsonIn::start_array()
 {
@@ -1372,7 +1407,7 @@ std::string JsonIn::line_number(int offset_modifier)
     int offset = 1;
     char ch;
     seek(0);
-    for (int i=0; i < pos; ++i) {
+    for (int i = 0; i < pos; ++i) {
         stream->get(ch);
         if (ch == '\r') {
             offset = 1;
@@ -1408,8 +1443,8 @@ void JsonIn::error(std::string message, int offset)
     rewind(3, 240);
     size_t startpos = tell();
     char buffer[241];
-    stream->read(&buffer[0], pos-startpos);
-    buffer[pos-startpos] = '\0';
+    stream->read(&buffer[0], pos - startpos);
+    buffer[pos - startpos] = '\0';
     err << buffer;
     if (!is_whitespace(peek())) {
         err << peek();
@@ -1432,13 +1467,13 @@ void JsonIn::error(std::string message, int offset)
     } else if (ch == '\n') {
         // pass
     } else if (peek() != '\r' && peek() != '\n') {
-        for (int i=0; i < pos-startpos; ++i) {
+        for (size_t i = 0; i < pos - startpos; ++i) {
             err << ' ';
         }
     }
     // print the next couple lines as well
     int line_count = 0;
-    for (int i=0; i < 240; ++i) {
+    for (int i = 0; i < 240; ++i) {
         stream->get(ch);
         err << ch;
         if (ch == '\r') {
@@ -1468,7 +1503,7 @@ void JsonIn::rewind(int max_lines, int max_chars)
     }
     int lines_found = 0;
     stream->seekg(-1, std::istream::cur);
-    for (int i=0; i < max_chars; ++i) {
+    for (int i = 0; i < max_chars; ++i) {
         size_t tellpos = tell();
         if (peek() == '\n') {
             ++lines_found;
@@ -1503,7 +1538,7 @@ std::string JsonIn::substr(size_t pos, size_t len)
     }
     ret.resize(len);
     stream->seekg(pos);
-    stream->read(&ret[0],len);
+    stream->read(&ret[0], len);
     return ret;
 }
 
@@ -1682,8 +1717,8 @@ void JsonOut::write(const std::string &s)
     }
     unsigned char ch;
     stream->put('"');
-    for (int i = 0; i < s.size(); ++i) {
-        ch = s[i];
+    for (auto &i : s) {
+        ch = i;
         if (ch == '"') {
             stream->write("\\\"", 2);
         } else if (ch == '\\') {
@@ -1727,8 +1762,8 @@ void JsonOut::write(const std::bitset<13> &b)
     std::string converted = b.to_string();
     unsigned char ch;
     stream->put('"');
-    for (int i = 0; i < converted.size(); ++i) {
-        ch = converted[i];
+    for (auto &i : converted) {
+        ch = i;
         stream->put(ch);
     }
     stream->put('"');
@@ -1756,23 +1791,27 @@ void JsonOut::null_member(const std::string &name)
     write_null();
 }
 
-std::string JsonSerializer::serialize() const {
+std::string JsonSerializer::serialize() const
+{
     std::ostringstream s;
     serialize(s);
     return s.str();
 }
 
-void JsonSerializer::serialize(std::ostream &o) const {
+void JsonSerializer::serialize(std::ostream &o) const
+{
     JsonOut jout(o);
     serialize(jout);
 }
 
-void JsonDeserializer::deserialize(const std::string &json_string) {
+void JsonDeserializer::deserialize(const std::string &json_string)
+{
     std::istringstream s(json_string);
     deserialize(s);
 }
 
-void JsonDeserializer::deserialize(std::istream &i) {
+void JsonDeserializer::deserialize(std::istream &i)
+{
     JsonIn jin(i);
     deserialize(jin);
 }

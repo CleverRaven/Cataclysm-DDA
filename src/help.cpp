@@ -16,7 +16,8 @@ void help_draw_dir(WINDOW *win, int line_y)
 {
     action_id movearray[] = {ACTION_MOVE_NW, ACTION_MOVE_N, ACTION_MOVE_NE,
                              ACTION_MOVE_W,  ACTION_PAUSE,  ACTION_MOVE_E,
-                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE};
+                             ACTION_MOVE_SW, ACTION_MOVE_S, ACTION_MOVE_SE
+                            };
     mvwprintz(win, line_y + 1, 0, c_white, _("\
   \\ | /     \\ | /\n\
    \\|/       \\|/ \n\
@@ -408,7 +409,12 @@ tool set. All recipes require one or more ingredients. These ARE used up in craf
 To craft items, press %s. There are seven categories: \
 Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category \
 are several smaller sub-categories. While a few items require no particular skill \
-to create, the majority require you to have some knowledge:\n"),
+to create, the majority require you to have some knowledge. Sometimes a skilled \
+survivor will work out a given recipe from her or his knowledge of the skill, but \
+more often you will need reference material, commonly a book of some sort. Reading \
+such references gives a chance to memorize recipes outright, and you can also craft \
+while referring to the book: just have it handy when crafting. Different knowledge is \
+useful for different applications:\n"),
                                  press_x(ACTION_CRAFT, "", "").c_str()));
 
     text.push_back(_("\

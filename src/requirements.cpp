@@ -94,7 +94,8 @@ void item_comp::load( JsonArray &ja )
 }
 
 template<typename T>
-void requirements::load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> > &objs) {
+void requirements::load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> > &objs)
+{
     while (jsarr.has_more()) {
         if(jsarr.test_array()) {
             std::vector<T> choices;
@@ -130,7 +131,7 @@ void requirements::load( JsonObject &jsobj )
 template<typename T>
 bool requirements::any_marked_available( const std::vector<T> &comps )
 {
-    for( const auto & comp : comps ) {
+    for( const auto &comp : comps ) {
         if( comp.available == a_true ) {
             return true;
         }
@@ -139,10 +140,11 @@ bool requirements::any_marked_available( const std::vector<T> &comps )
 }
 
 template<typename T>
-std::string requirements::print_missing_objs(const std::string &header, const std::vector< std::vector<T> > &objs)
+std::string requirements::print_missing_objs(const std::string &header,
+        const std::vector< std::vector<T> > &objs)
 {
     std::ostringstream buffer;
-    for( const auto & list : objs ) {
+    for( const auto &list : objs ) {
         if( any_marked_available( list ) ) {
             continue;
         }
@@ -189,8 +191,8 @@ template<typename T>
 void requirements::check_consistency( const std::vector< std::vector<T> > &vec,
                                       const std::string &display_name )
 {
-    for( const auto & list : vec ) {
-        for( const auto & comp : list ) {
+    for( const auto &list : vec ) {
+        for( const auto &comp : list ) {
             comp.check_consistency( display_name );
         }
     }
@@ -218,7 +220,7 @@ int requirements::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color
                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs )
 {
     const int oldy = ypos;
-    for( const auto & comp_list : objs ) {
+    for( const auto &comp_list : objs ) {
         const bool has_one = any_marked_available( comp_list );
         std::ostringstream buffer;
         for( auto a = comp_list.begin(); a != comp_list.end(); ++a ) {
@@ -293,9 +295,9 @@ bool requirements::has_comps( const inventory &crafting_inv,
                               const std::vector< std::vector<T> > &vec )
 {
     bool retval = true;
-    for( const auto & set_of_tools : vec ) {
+    for( const auto &set_of_tools : vec ) {
         bool has_tool_in_set = false;
-        for( const auto & tool : set_of_tools ) {
+        for( const auto &tool : set_of_tools ) {
             if( tool.has( crafting_inv ) ) {
                 tool.available = a_true;
             } else {
@@ -315,7 +317,7 @@ bool quality_requirement::has( const inventory &crafting_inv ) const
     return crafting_inv.has_items_with_quality( type, level, count );
 }
 
-std::string quality_requirement::get_color( bool, const inventory & ) const
+std::string quality_requirement::get_color( bool, const inventory &) const
 {
     return available == a_true ? "green" : "red";
 }
@@ -392,10 +394,11 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv ) 
 }
 
 template<typename T>
-const T *requirements::find_by_type(const std::vector< std::vector<T> > &vec, const std::string &type)
+const T *requirements::find_by_type(const std::vector< std::vector<T> > &vec,
+                                    const std::string &type)
 {
-    for( const auto & list : vec) {
-        for( const auto & comp : list) {
+    for( const auto &list : vec) {
+        for( const auto &comp : list) {
             if( comp.type == type ) {
                 return &comp;
             }
@@ -407,9 +410,9 @@ const T *requirements::find_by_type(const std::vector< std::vector<T> > &vec, co
 bool requirements::check_enough_materials( const inventory &crafting_inv ) const
 {
     bool retval = true;
-    for( const auto & component_choices : components ) {
+    for( const auto &component_choices : components ) {
         bool atleast_one_available = false;
-        for( const auto & comp : component_choices ) {
+        for( const auto &comp : component_choices ) {
             if( check_enough_materials( comp, crafting_inv ) ) {
                 atleast_one_available = true;
             }
@@ -421,7 +424,8 @@ bool requirements::check_enough_materials( const inventory &crafting_inv ) const
     return retval;
 }
 
-bool requirements::check_enough_materials( const item_comp& comp, const inventory& crafting_inv ) const
+bool requirements::check_enough_materials( const item_comp &comp,
+        const inventory &crafting_inv ) const
 {
     if( comp.available != a_true ) {
         return false;

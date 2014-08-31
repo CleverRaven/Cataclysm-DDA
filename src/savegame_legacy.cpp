@@ -886,9 +886,10 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                     }
                 } else if (datatype == 'Z') { // Monster group
                     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
-                    zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
-                    zg.back().diffuse = cd;
-                    zg.back().dying = cdying;
+                    mongroup mg(cstr, cx, cy, cz, cs, cp);
+                    mg.diffuse = cd;
+                    mg.dying = cdying;
+                    add_mon_group( mg );
                     nummg++;
                 } else if (datatype == 't') { // City
                     fin >> cx >> cy >> cs;
@@ -1521,6 +1522,10 @@ void player::load_legacy(std::stringstream & dump)
          inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
          underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
+
+         // Bionic power scale has been changed.
+         max_power_level *= 25;
+         power_level *= 25;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);

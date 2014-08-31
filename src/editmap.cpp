@@ -43,7 +43,7 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
     int linepos = width;
     int linestart = 0;
     int crpos = -2;
-    while( linepos < str.length() || crpos != -1 ) {
+    while( linepos < (int)str.length() || crpos != -1 ) {
         crpos = str.find('\n', linestart);
         if (crpos != -1 && crpos <= linepos) {
             lines.push_back( str.substr( linestart, crpos-linestart ) );
@@ -54,7 +54,7 @@ std::vector<std::string> fld_string ( std::string str, int width ) {
             if ( spacepos == -1 ) spacepos = str.find(',', linepos);
             if ( spacepos < linestart ) {
                 spacepos = linestart + width;
-                if( spacepos < str.length() ) {
+                if( spacepos < (int)str.length() ) {
                     lines.push_back( str.substr( linestart, width ) );
                     linepos = spacepos + width;
                     linestart = spacepos;
@@ -138,7 +138,7 @@ void edit_json( SAVEOBJ *it )
 
 void editmap_hilight::draw( editmap * hm, bool update ) {
     cur_blink++;
-    if ( cur_blink >= blink_interval.size() ) {
+    if ( cur_blink >= (int)blink_interval.size() ) {
         cur_blink = 0;
     }
     if ( blink_interval[ cur_blink ] == true || update == true ) {
@@ -1208,7 +1208,7 @@ int editmap::edit_itm()
     ilmenu.addentry(-10, true, 'q', _("Cancel"));
     do {
         ilmenu.query();
-        if ( ilmenu.ret >= 0 && ilmenu.ret < items.size() ) {
+        if ( ilmenu.ret >= 0 && ilmenu.ret < (int)items.size() ) {
             item *it = &items[ilmenu.ret];
             uimenu imenu;
             imenu.w_x = ilmenu.w_x;
@@ -1650,7 +1650,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             submap *destsm = g->m.get_submap_at_grid(target_sub.x + x, target_sub.y + y);
                             submap *srcsm = tmpmap.get_submap_at_grid(x, y);
 
-                            for (int i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
+                            for (size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                                 s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
                                 vehicle *veh1 = srcsm->vehicles[i];
                                 // vehicle *veh1 = veh;   // fixme: is this required?
@@ -1663,9 +1663,9 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             g->m.update_vehicle_list(destsm); // update real map's vcaches
 
                             int spawns_todo = 0;
-                            for (int i = 0; i < srcsm->spawns.size(); i++) { // copy spawns
+                            for (size_t i = 0; i < srcsm->spawns.size(); i++) { // copy spawns
                                 int mx = srcsm->spawns[i].posx, my = srcsm->spawns[i].posy;
-                                s += string_format("  copying monster %d/%d pos %d,%d\n", i,srcsm->spawns.size(), mx, my );
+                                s += string_format("  copying monster %d/%d pos %d,%d\n", i, srcsm->spawns.size(), mx, my );
                                 destsm->spawns.push_back( srcsm->spawns[i] );
                                 spawns_todo++;
                             }
@@ -1814,7 +1814,7 @@ int editmap::edit_mapgen()
     broken_oter_blacklist["nuke_plant"] = true;
     broken_oter_blacklist["temple_core"] = true;
 
-    for (int i = 0; i < oterlist.size(); i++) {
+    for (size_t i = 0; i < oterlist.size(); i++) {
         oter_id id = oter_id(i);
         gmenu.addentry(-1, true, 0, "[%3d] %s", (int)id, std::string(id).c_str() );
         if ( broken_oter_blacklist.find(id) != broken_oter_blacklist.end() ) {

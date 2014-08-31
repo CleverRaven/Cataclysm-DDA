@@ -6,6 +6,7 @@
 #include "map.h"
 #include "lightmap.h"
 #include "player.h"
+#include "scenario.h"
 #include "overmap.h"
 #include "omdata.h"
 #include "mapitems.h"
@@ -120,12 +121,16 @@ class game
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
         void cleanup_at_end();
+	void determine_starting_season();
         bool do_turn();
         void draw();
         void draw_ter(int posx = -999, int posy = -999);
         void draw_veh_dir_indicator(void);
         /**
          * Add an entry to @ref events. For further information see event.h
+         * @param type Type of event.
+         * @param on_turn On which turn event should be happened.
+         * @param faction_id Faction of event.
          * @param x,y global submap coordinates.
          */
         void add_event(event_type type, int on_turn, int faction_id = -1,
@@ -133,6 +138,9 @@ class game
         bool event_queued(event_type type);
         /**
          * Sound at (x, y) of intensity (vol)
+         * @param x x-position of sound.
+         * @param y y-position of sound.
+         * @param vol Volume of sound.
          * @param description Description of the sound for the player,
          * if non-empty string a message is generated.
          * @param ambient If false, the sound interrupts player activities.
@@ -229,7 +237,7 @@ class game
         void plswim(int x, int y); // Called by plmove.  Handles swimming
         // when player is thrown (by impact or something)
         void fling_creature(Creature *c, const int &dir, float flvel,
-                                     bool controlled = false);
+                            bool controlled = false);
 
         /**
          * Nuke the area at (x,y) - global overmap terrain coordinates!
@@ -319,7 +327,10 @@ class game
         point find_item(item *it);
         void remove_item(item *it);
 
-        recipe_map list_recipes(){ return recipes; };
+        recipe_map list_recipes()
+        {
+            return recipes;
+        };
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
         std::list<item> consume_items(player *p, const std::vector<item_comp> &components);
         void consume_tools(player *p, const std::vector<tool_comp> &tools);
@@ -373,6 +384,7 @@ class game
         int get_abs_levy() const;
         int get_abs_levz() const;
         player u;
+	scenario* scen;
         std::vector<monster> coming_to_stairs;
         int monstairx, monstairy, monstairz;
         std::vector<npc *> active_npc;
@@ -466,12 +478,13 @@ class game
                             bool bite = true, bool infect = true);
 
         bool opening_screen();// Warn about screen size, then present the main menu
+        void mmenu_refresh_motd();
+        void mmenu_refresh_credits();
 
         const int dangerous_proximity;
         bool narrow_sidebar;
         bool fullscreen;
         bool was_fullscreen;
-        void write_msg();        // Prints the messages in the messages list
         void exam_vehicle(vehicle &veh, int examx, int examy, int cx = 0,
                           int cy = 0); // open vehicle interaction screen
 
@@ -532,6 +545,7 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove(int dx, int dy);
+        void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
         void close(int closex = -1, int closey = -1); // Close a door  'c'
@@ -644,10 +658,22 @@ class game
         // Map updating and monster spawning
         void replace_stair_monsters();
         void update_stair_monsters();
-        void despawn_monsters(const int shiftx = 0, const int shifty = 0);
-        void force_save_monster(monster &critter);
+        /**
+         * Shift all active monsters, the shift vector (x,y,z) is the number of
+         * shifted submaps. Monsters that are outside of the reality bubble after
+         * shifting are despawned.
+         * Note on z-levels: this works with vertical shifts, but currently all
+         * monsters are despawned upon a vertical shift.
+         */
+        void shift_monsters(const int shiftx, const int shifty, const int shiftz);
+        /**
+         * Despawn a specific monster, it's stored on the overmap. Also removes
+         * it from the creature tracker. Keep in mind that mondex points to a
+         * different monster after calling this (or to no monster at all).
+         */
+        void despawn_monster(int mondex);
+
         void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
-        int valid_group(std::string type, int x, int y, int z);// Picks a group from cur_om
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
@@ -672,6 +698,8 @@ class game
         void msg_buffer();       // Opens a window with old messages in it
         void draw_minimap();     // Draw the 5x5 minimap
         void draw_HP();          // Draws the player's HP and Power level
+        /** Draws the sidebar (if it's visible), including all windows there */
+        void draw_sidebar();
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
