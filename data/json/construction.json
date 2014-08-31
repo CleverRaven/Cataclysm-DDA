@@ -986,7 +986,7 @@
         "type" : "construction",
         "description" : "Build Makeshift Bed",
         "category" : "FURN",
-        "difficulty" : 5,
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
