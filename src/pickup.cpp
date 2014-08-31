@@ -258,6 +258,13 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
         item &newit = here[ current_index ];
         item leftovers = newit.clone();
 
+        if( here[current_index].invlet != '\0' &&
+            g->u.invlet_to_position( here[current_index].invlet ) != INT_MIN ) {
+            // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
+            // add a new invlet, otherwise keep the (usable) invlet.
+            here[current_index].invlet = '\0';
+        }
+
         if( current_quantity != 0 ) {
             // Reinserting leftovers happens after item removal to avoid stacking issues.
             int leftover_charges = newit.charges - current_quantity;
