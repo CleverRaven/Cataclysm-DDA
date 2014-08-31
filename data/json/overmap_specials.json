@@ -652,6 +652,36 @@
         "spawns" : { "group" : "GROUP_FUNGI", "population":[600,1200], "radius":[30,50] }
     },{
         "type" : "overmap_special",
+        "id" : "Fungal Tower",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fungal_tower"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [5, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 3], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[50,100], "radius":[1,3] }
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Flowers",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fungal_flowers"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [5, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 3], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,100], "radius":[1,3] }
+    },{
+        "type" : "overmap_special",
         "id" : "Triffid Grove",
         "overmaps" :
         [

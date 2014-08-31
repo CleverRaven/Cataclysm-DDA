@@ -489,6 +489,30 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_FUNGI_TOWER",
+    "default" : "mon_fungal_tendril",
+    "monsters" : [
+      { "monster" : "mon_fungaloid", "freq" : 10, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungaloid_young", "freq" : 30, "cost_multiplier" : 0 },
+      { "monster" : "mon_zombie_fungus", "freq" : 75, "cost_multiplier" : 0 },
+      { "monster" : "mon_boomer_fungus", "freq" : 50, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungal_wall", "freq" : 0, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungaloid_queen", "freq" : 0, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_FUNGI_FLOWERS",
+    "default" : "mon_fungal_blossom",
+    "monsters" : [
+      { "monster" : "mon_fungaloid", "freq" : 20, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungaloid_young", "freq" : 50, "cost_multiplier" : 0 },
+      { "monster" : "mon_zombie_fungus", "freq" : 100, "cost_multiplier" : 0 },
+      { "monster" : "mon_boomer_fungus", "freq" : 50, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungal_wall", "freq" : 0, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungaloid_queen", "freq" : 0, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_GOO",
     "default" : "mon_blob",
     "monsters" : [
