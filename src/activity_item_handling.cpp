@@ -75,8 +75,15 @@ static point get_item_pointers_from_activity(
             int items_dropped = 0;
             for( auto it = stack.begin(); it != stack.end(); ++it ) {
                 selected_items.push_back( &*it );
-                item_quantities.push_back( 1 );
-                if( ++items_dropped >= quantity ) {
+                if( it->count_by_charges() ) {
+                    const int qty_to_drop = std::min( quantity - items_dropped, (int)it->charges );
+                    item_quantities.push_back( qty_to_drop );
+                    items_dropped += qty_to_drop;
+                } else {
+                    item_quantities.push_back( 1 );
+                    items_dropped++;
+                }
+                if( items_dropped >= quantity ) {
                     break;
                 }
             }
