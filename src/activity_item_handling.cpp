@@ -179,6 +179,13 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
         // Whether it succeeds or fails, we're done processing it.
         selected_worn_items.pop_front();
         worn_item_quantities.pop_front();
+        if( taken_off ) {
+            // Move cost for taking off worn item.
+            g->u.moves -= 250;
+        } else {
+            // If we failed to take off the item, bail out.
+            return;
+        }
     } else { // Unworn items.
         if( selected_items.front()->count_by_charges() ) {
             dropped_items.push_back(
@@ -192,16 +199,6 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
                 selected_items.pop_front();
                 item_quantities.pop_front();
             }
-        }
-    }
-
-    if( type == DROP_WORN || type == STASH_WORN ) {
-        if( taken_off ) {
-            // Move cost for taking off worn item.
-            g->u.moves -= 250;
-        } else {
-            // If we failed to take off the item, bail out.
-            return;
         }
     }
 
