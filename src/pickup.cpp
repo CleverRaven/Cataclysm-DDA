@@ -450,14 +450,13 @@ void Pickup::pick_up(int posx, int posy, int min)
 
     // Not many items, just grab them
     if ((int)here.size() <= min && min != -1) {
-        std::list<int> indices;
-        indices.push_back( 0 );
-        std::list<int> quantities;
-        quantities.push_back( 0 );
-        point pickup_target( posx, posy );
-        bool from_vehicle = pickup_obj.from_veh;
-
-        do_pickup( pickup_target, from_vehicle, indices, quantities );
+        g->u.assign_activity( ACT_PICKUP, 0 );
+        g->u.activity.placement = point( posx, posy );
+        g->u.activity.values.push_back( pickup_obj.from_veh );
+        // Only one item means index is 0.
+        g->u.activity.values.push_back( 0 );
+        // auto-pickup means pick up all.
+        g->u.activity.values.push_back( 0 );
         return;
     }
 
@@ -741,26 +740,16 @@ void Pickup::pick_up(int posx, int posy, int min)
         }
     }
 
-    // At this point we've selected our items, now we add them to our inventory
-    std::list<int> indices;
-    std::list<int> quantities;
-    point pickup_target( posx, posy );
-    bool from_vehicle = pickup_obj.from_veh;
-
+    // At this point we've selected our items, register an activity to pick them up.
+    g->u.assign_activity( ACT_PICKUP, 0 );
+    g->u.activity.placement = point( posx, posy );
+    g->u.activity.values.push_back( pickup_obj.from_veh );
     for (size_t i = 0; i < here.size(); i++) {
         if( getitem[i] ) {
-            indices.push_back( i );
-            quantities.push_back( pickup_count[i] );
+            g->u.activity.values.push_back( i );
+            g->u.activity.values.push_back( pickup_count[i] );
         }
     }
-    // Wacky hack until I turn this into an activity.
-    int moves_spent = 0;
-    while( !indices.empty() ) {
-        do_pickup( pickup_target, from_vehicle, indices, quantities );
-        moves_spent += 100;
-        g->u.moves += 100;
-    }
-    g->u.moves -= moves_spent;
 
     g->reenter_fullscreen();
     werase(w_pickup);
@@ -800,10 +789,10 @@ int Pickup::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_
 void Pickup::remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int cargo_part,
                                         int &moves_taken, int curmit)
 {
-    if (pickup_obj.from_veh) {
-        veh->remove_item (cargo_part, curmit);
+    if( veh != nullptr ) {
+        veh->remove_item( cargo_part, curmit );
     } else {
-        g->m.i_rem(posx, posy, curmit);
+        g->m.i_rem( posx, posy, curmit );
     }
     g->u.moves -= moves_taken;
 }
