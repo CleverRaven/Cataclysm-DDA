@@ -1287,6 +1287,21 @@
         "flags": ["TRANSPARENT"],
         "examine_action": "flower_datura"
     },{
+        "type" : "terrain",
+        "id" : "f_marloss",
+        "name": "marloss flower",
+        "symbol": "f",
+        "color": "dkgray",
+        "move_cost": 8,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS"],
+        "bash": {
+            "str_min": 0, "str_max": 40,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_fungus"
+        },
+        "examine_action": "flower_marloss"
+    },{
         "type" : "furniture",
         "id" : "f_forge",
         "name": "forge",
