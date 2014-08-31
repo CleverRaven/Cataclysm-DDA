@@ -103,7 +103,7 @@
         "type" : "construction",
         "description" : "Chop Tree Trunk Into Logs",
         "category" : "FARM_WOOD",
-        "difficulty" : 0,
+        "difficulty" : 1,
         "time" : 20,
         "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
         "pre_terrain" : "t_trunk",
@@ -113,7 +113,7 @@
         "type" : "construction",
         "description" : "Chop Tree Trunk Into Planks",
         "category" : "FARM_WOOD",
-        "difficulty" : 0,
+        "difficulty" : 2,
         "time" : 23,
         "qualities": [ [
             { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 }
@@ -140,7 +140,7 @@
         "type" : "construction",
         "description" : "Build Door",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "difficulty" : 3,
         "time" : 15,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -303,7 +303,7 @@
         "type" : "construction",
         "description" : "Build Window",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "difficulty" : 4,
         "time" : 10,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -318,7 +318,7 @@
         "type" : "construction",
         "description" : "Build Window",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "difficulty" : 5,
         "time" : 5,
         "components" : [
             [ [ "glass_sheet", 1 ] ]
@@ -568,7 +568,7 @@
         "type" : "construction",
         "description" : "Build Log Wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -581,7 +581,7 @@
         "type" : "construction",
         "description" : "Build Log Wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -625,7 +625,7 @@
         "type" : "construction",
         "description" : "Build Palisade Wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "difficulty" : 4,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -683,7 +683,7 @@
         "type" : "construction",
         "description" : "Build Log & Sod Roof",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "difficulty" : 4,
         "time" : 40,
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components" : [
@@ -696,7 +696,7 @@
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "difficulty" : 6,
         "time" : 5,
         "components" : [
             [ [ "rope_30", 1 ] ],
@@ -708,7 +708,7 @@
         "type" : "construction",
         "description" : "Build Palisade Gate",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "difficulty" : 4,
         "time" : 20,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -847,7 +847,7 @@
         "type" : "construction",
         "description" : "Build Dresser",
         "category" : "FURN",
-        "difficulty" : 1,
+        "difficulty" : 2,
         "time" : 20,
         "qualities": [
 		    [
@@ -887,7 +887,7 @@
         "type" : "construction",
         "description" : "Build Locker",
         "category" : "FURN",
-        "difficulty" : 1,
+        "difficulty" : 4,
         "time" : 20,
         "qualities": [
 		    [
@@ -907,7 +907,7 @@
         "type" : "construction",
         "description" : "Build Metal Rack",
         "category" : "FURN",
-        "difficulty" : 1,
+        "difficulty" : 2,
         "time" : 20,
         "qualities": [
 		    [
@@ -926,7 +926,7 @@
         "type" : "construction",
         "description" : "Build Cupboard",
         "category" : "FURN",
-        "difficulty" : 0,
+        "difficulty" : 4,
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -941,7 +941,7 @@
         "type" : "construction",
         "description" : "Build Counter",
         "category" : "FURN",
-        "difficulty" : 0,
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -956,7 +956,7 @@
         "type" : "construction",
         "description" : "Build Table",
         "category" : "FURN",
-        "difficulty" : 0,
+        "difficulty" : 2,
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -971,7 +971,7 @@
         "type" : "construction",
         "description" : "Build Chair",
         "category" : "FURN",
-        "difficulty" : 0,
+        "difficulty" : 2,
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -986,7 +986,7 @@
         "type" : "construction",
         "description" : "Build Makeshift Bed",
         "category" : "FURN",
-        "difficulty" : 0,
+        "difficulty" : 5,
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1002,7 +1002,7 @@
         "type" : "construction",
         "description" : "Build Armchair",
         "category" : "FURN",
-        "difficulty" : 2,
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [
 		    [
@@ -1023,7 +1023,7 @@
         "type" : "construction",
         "description" : "Build Sofa",
         "category" : "FURN",
-        "difficulty" : 3,
+        "difficulty" : 6,
         "time" : 20,
         "qualities": [
 		    [
@@ -1057,24 +1057,9 @@
         "post_terrain" : "f_sign"
     },{
         "type" : "construction",
-        "description" : "Build Wood Stove",
-        "category" : "FURN",
-        "difficulty" : 0,
-        "time" : 10,
-        "qualities": [ [
-            { "id": "SAW_M", "level": 1 }
-        ] ],
-        "components" : [
-            [ [ "metal_tank", 1 ] ],
-            [ [ "pipe", 1 ] ]
-        ],
-        "pre_special" : "check_empty",
-        "post_terrain" : "f_woodstove"
-    },{
-        "type" : "construction",
         "description" : "Build Stone Fireplace",
         "category" : "FURN",
-        "difficulty" : 0,
+        "difficulty" : 2,
         "time" : 40,
         "qualities": [
 		    [
@@ -1091,9 +1076,24 @@
         "post_terrain" : "f_fireplace"
     },{
         "type" : "construction",
+        "description" : "Build Wood Stove",
+        "category" : "FURN",
+        "difficulty" : 5,
+        "time" : 10,
+        "qualities": [ [
+            { "id": "SAW_M", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "metal_tank", 1 ] ],
+            [ [ "pipe", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_woodstove"
+    },{
+        "type" : "construction",
         "description" : "Build Fermenting Vat",
         "category" : "FURN",
-        "difficulty" : 0,
+        "difficulty" : 2,
         "time" : 20,
         "qualities": [
 		    [
@@ -1106,6 +1106,7 @@
         "components" : [
             [ [ "2x4", 14 ] ],
             [ [ "nail", 12 ] ],
+            [ [ "scrap", 6 ], [ "sheet_metal", 2 ] ],
             [ [ "water_faucet", 1 ] ]
         ],
         "pre_special" : "check_empty",
@@ -1114,7 +1115,7 @@
         "type" : "construction",
         "description" : "Build Wooden Keg",
         "category" : "FURN",
-        "difficulty" : 0,
+        "difficulty" : 3,
         "time" : 20,
         "qualities": [
 		    [
@@ -1127,6 +1128,7 @@
         "components" : [
             [ [ "2x4", 18 ] ],
             [ [ "nail", 14 ] ],
+            [ [ "scrap", 8 ], [ "sheet_metal", 3 ] ],
             [ [ "water_faucet", 1 ] ]
         ],
         "pre_special" : "check_empty",
@@ -1388,7 +1390,7 @@
         "type" : "construction",
         "description" : "Carpet Floor Red",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "difficulty" : 1,
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1403,7 +1405,7 @@
         "type" : "construction",
         "description" : "Carpet Floor Purple",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "difficulty" : 1,
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1418,7 +1420,7 @@
         "type" : "construction",
         "description" : "Carpet Floor Yellow",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "difficulty" : 1,
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1433,7 +1435,7 @@
         "type" : "construction",
         "description" : "Carpet Floor Green",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "difficulty" : 1,
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
