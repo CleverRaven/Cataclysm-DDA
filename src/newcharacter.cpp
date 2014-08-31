@@ -1568,6 +1568,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("CHOOSE_LOCATION");
     ctxt.register_action("ANY_INPUT");
 
     uimenu select_location;
@@ -1703,9 +1704,14 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_gender, 1, 0, c_ltgray, _("Press %s to switch gender"),
                       ctxt.get_desc("CHANGE_GENDER").c_str());
         wrefresh(w_gender);
+
+        const std::string location_prompt = string_format(_("Press %s to select location."),
+                                                          ctxt.get_desc("CHOOSE_LOCATION").c_str() );
+        const int prompt_offset = utf8_width( location_prompt.c_str() );
         werase(w_location);
-        mvwprintz( w_location, 0, 1, c_ltgray, _("Starting location:") );
-        mvwprintz( w_location, 0, utf8_width(_("Starting location:")) + 2,
+        mvwprintz( w_location, 0, 0, c_ltgray, location_prompt.c_str() );
+        mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
+        mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
                    c_ltgray, _(select_location.entries[select_location.selected].txt.c_str()) );
         wrefresh(w_location);
 
