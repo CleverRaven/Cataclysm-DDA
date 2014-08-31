@@ -1288,7 +1288,7 @@
         "examine_action": "flower_datura"
     },{
         "type" : "terrain",
-        "id" : "f_marloss",
+        "id" : "f_flower_marloss",
         "name": "marloss flower",
         "symbol": "f",
         "color": "dkgray",

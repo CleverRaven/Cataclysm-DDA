@@ -1121,18 +1121,25 @@ void iexamine::flower_marloss(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("This flower is still alive, desipte the harsh conditions..."));
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
-        p->moves -= 50; // Takes 30 seconds
-        add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+         ((p->hunger) > 0) ) {
+            if (!(p->wearing_something_on(bp_mouth))) {
+                if (!query_yn(_("You feel out of place as you explore the %s. Drink?"), m->furnname(examx,
+                      examy).c_str())) {
+            return;
+        }
+            p->moves -= 50; // Takes 30 seconds
+            add_msg(m_bad, _("This flower tastes very wrong..."));
+            // If you can drink flowers, you're post-thresh and the Mycus does not want you.
+            p->add_disease("teleglow", 100);
+        }
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examx, examy).c_str())) {
         none(p, m, examx, examy);
         return;
     }
     m->furn_set(examx, examy, f_null);
-    m->spawn_item(examx, examy, "dahlia_flower");
-    m->spawn_item(examx, examy, "dahlia_bud");
+    m->spawn_item(examx, examy, "marloss_seed", 1, 3);
+}
 
 void iexamine::egg_sack_generic( player *p, map *m, int examx, int examy,
                                  const std::string &montype )
@@ -2649,6 +2656,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     }
     if ("flower_datura" == function_name) {
         return &iexamine::flower_datura;
+    }
+    if ("flower_marloss" == function_name) {
+        return &iexamine::flower_marloss;
     }
     if ("egg_sackbw" == function_name) {
         return &iexamine::egg_sackbw;
