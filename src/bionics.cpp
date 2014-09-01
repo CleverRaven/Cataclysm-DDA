@@ -573,8 +573,7 @@ void player::activate_bionic(int b)
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
         water.charges = water_charges;
-        if (water_charges == 0)
-        {
+        if (water_charges == 0) {
             add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
         }
         if (g->handle_liquid(water, true, false)) {
@@ -583,7 +582,7 @@ void player::activate_bionic(int b)
             inv.push_back(water);
             consume(inv.position_by_type(water.typeId()));
             moves -= 350;
-        } else {
+        } else if (water.charges == water_charges) {
             power_level += bionics["bio_evap"]->power_cost;
         }
     } else if(bio.id == "bio_lighter") {
