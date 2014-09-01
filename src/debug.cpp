@@ -30,6 +30,8 @@ static int debugLevel = D_ERROR;
 static int debugClass = D_MAIN;
 #endif
 
+bool debug_mode = false;
+
 void realDebugmsg( const char *filename, const char *line, const char *mes, ... )
 {
     va_list ap;

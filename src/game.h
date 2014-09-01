@@ -394,7 +394,6 @@ class game
         ter_id dragging;
         std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
-        bool debugmon;
 
         std::map<int, std::map<int, bool> > mapRain;
 

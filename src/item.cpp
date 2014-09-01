@@ -358,7 +358,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     std::stringstream temp1, temp2;
     std::string space="   ";
     if( g != NULL && debug == false &&
-        ( g->debugmon == true || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) {
+        ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) {
         debug = true;
     }
     if( !is_null() ) {
@@ -1688,9 +1688,7 @@ void item::calc_rot(const point &location)
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
             int old = rot;
             rot += get_rot_since( since, until, location );
-            if (g->debugmon) {
-                add_msg(m_info, "r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
-            }
+            add_msg( m_debug, "r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
         }
         last_rot_check = now;
 
