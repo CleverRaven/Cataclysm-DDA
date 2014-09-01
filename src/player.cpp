@@ -8246,19 +8246,22 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             hunger -= ((comest->nutr) * 0.66);
             thirst -= ((comest->quench) * 0.66);
             mod_healthy_mod(comest->healthy * 0.66);
-            stomach_food += ((comest->nutr) *= 0.66);
-            stomach_water += ((comest->quench) *= 0.66);
+            stomach_food += ((comest->nutr) * 0.66);
+            stomach_water += ((comest->quench) * 0.66);
         }
     } else if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
       (eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
       eaten->made_of("egg")) ) {
           // Carnivore is stripping the good stuff out of that plant crap it's mixed up with.
           // They WILL eat the Meat Pizza.
-          hunger -= ((comest->nutr) * 0.5);
-          thirst -= ((comest->quench) * 0.5);
-          mod_healthy_mod(comest->healthy * 0.5);
-          stomach_food += ((comest->nutr) *= 0.5);
-          stomach_water += ((comest->quench) *= 0.5);
+          int carn_nutr = (comest->nutr) * 0.5;
+          int carn_quench = (comest->quench) * 0.5;
+          int carn_healthy = (comest->healthy) * 0.5;
+          hunger -= (carn_nutr);
+          thirst -= (carn_quench);
+          mod_healthy_mod(carn_healthy);
+          stomach_food += (carn_nutr);
+          stomach_water += (carn_quench);
           add_msg_if_player(m_good, _("You eat the good parts and leave that indigestible plant stuff behind."));
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
