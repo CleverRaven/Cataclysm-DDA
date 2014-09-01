@@ -96,10 +96,8 @@ class advanced_inventory
             isdrag(11)
         {
         }
-        void display(player *pp);
+        void display();
     private:
-        player *p;
-
         const int head_height;
         const int min_w_height;
         const int min_w_width;
@@ -121,10 +119,6 @@ class advanced_inventory
         int headstart;
         int colstart;
 
-        //    itemsPerPage=getmaxy(left_window)-ADVINVOFS;
-        // todo: awaiting ui::menu // last_tmpdest=-1;
-        bool exit;// = false;
-        bool redraw;// = true;
         bool recalc;// = true;
         int lastCh;// = 0;
 
@@ -141,7 +135,7 @@ class advanced_inventory
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(int i);
         void redraw_pane(int i);
-        void init(player *pp);
+        void init();
         bool isDirectionalDragged(int area1, int area2);
 };
 
