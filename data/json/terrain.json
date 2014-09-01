@@ -2911,23 +2911,5 @@
                 { "item": "steel_chunk", "amount": 6, "minamount": 4}
             ]
         }
-    },{
-        "type" : "terrain",
-        "id" : "t_primary_trans",
-        "name": "primary transformer",
-        "symbol": "9",
-        "color": "i_ltgray",
-        "move_cost": 0,
-        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
-        "bash": {
-            "str_min": 12, "str_max": 100, "num_tests": 2,
-            "explosive" : 6,
-            "ter_set": "t_concrete",
-            "sound_fail": "clang!",
-            "items": [
-                { "item": "scrap", "amount": 14, "minamount": 10},
-                { "item": "steel_chunk", "amount": 8, "minamount": 4}
-            ]
-        }
     }
 ]
