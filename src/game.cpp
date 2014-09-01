@@ -11645,6 +11645,37 @@ void game::complete_butcher(int index)
         }
     }
 
+    // Substation mini-boss bionics
+    if (corpse->has_flag(MF_CBM_SUBS)) {
+        if (skill_shift >= 0) {
+            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str());
+            //To see if it spawns a battery
+            if (rng(0, 1) == 1) { //The battery works
+                m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
+            } else { //There is a burnt out CBM
+                m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
+            }
+        }
+        if (skill_shift >= 0) {
+            //To see if it spawns a random additional CBM
+            if (rng(0, 1) == 1) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics_subs");
+                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+            } else { //There is a burnt out CBM
+                m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
+            }
+        }
+        if (skill_shift >= 0) {
+            //To see if it spawns a random additional CBM
+            if (rng(0, 1) == 1) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics_subs");
+                m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
+            } else { //There is a burnt out CBM
+                m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
+            }
+        }
+    }
+
     // Payoff for butchering the zombie bio-op
     if (corpse->has_flag(MF_CBM_OP)) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms

@@ -1158,11 +1158,21 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_POWER_WORKERS",
+    "name" : "GROUP_SMALL_STATION",
     "default" : "mon_zombie_technician",
     "monsters" : [
-      { "monster" : "mon_zombie_technician", "freq" : 50, "cost_multiplier": 5, "pack_size": [2,4]},
       { "monster" : "mon_zombie_electric", "freq" : 55, "cost_multiplier": 4, "pack_size": [1,2]},
+      { "monster" : "mon_zombie_technician", "freq" : 50, "cost_multiplier": 5, "pack_size": [2,4]},
+      { "monster" : "mon_zombie_tough", "freq" : 25, "cost_multiplier" : 0}
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_LARGE_STATION",
+    "default" : "mon_zombie_technician",
+    "monsters" : [
+      { "monster" : "mon_zombie_brute_shocker", "freq" : 100, "cost_multiplier" : 2, "pack_size": [1,2]},
+      { "monster" : "mon_zombie_electric", "freq" : 55, "cost_multiplier": 4, "pack_size": [1,2]},
+      { "monster" : "mon_zombie_technician", "freq" : 50, "cost_multiplier": 5, "pack_size": [2,4]},
       { "monster" : "mon_zombie_tough", "freq" : 25, "cost_multiplier" : 0}
     ]
   }
