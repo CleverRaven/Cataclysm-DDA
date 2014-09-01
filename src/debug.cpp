@@ -8,6 +8,7 @@
 #include <iosfwd>
 #include <fstream>
 #include <streambuf>
+#include <sys/stat.h>
 
 #ifndef _MSC_VER
 #include <sys/time.h>
@@ -28,6 +29,8 @@ static int debugClass = DC_ALL;
 static int debugLevel = D_ERROR;
 static int debugClass = D_MAIN;
 #endif
+
+bool debug_mode = false;
 
 void realDebugmsg( const char *filename, const char *line, const char *mes, ... )
 {
@@ -125,9 +128,22 @@ void DebugFile::deinit()
 void DebugFile::init( std::string filename )
 {
     this->filename = filename;
+    const std::string oldfile = filename + ".prev";
+    bool rename_failed = false;
+    struct stat buffer;
+    if( stat( filename.c_str(), &buffer ) == 0 ) {
+        // Continue with the old log file if it's smaller than 1 MiB
+        if( buffer.st_size >= 1024 * 1024 ) {
+            rename_failed = !rename_file( filename, oldfile );
+        }
+    }
     file.open( filename.c_str(), std::ios::out | std::ios::app );
     file << "\n\n-----------------------------------------\n";
     currentTime() << " : Starting log.";
+    if( rename_failed ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to " << oldfile << " failed.\n" <<
+                                       "Check the file permissions. This program will continue to use the previous log file.";
+    }
 }
 
 void setupDebug()

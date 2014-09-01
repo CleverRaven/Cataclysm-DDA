@@ -64,6 +64,7 @@ enum game_message_type {
                   a miss, a non-critical failure. May also effect for good or bad effects which are
                   just very slight to be notable. This is the default message type. */
 
+    m_debug, /* only shown when debug_mode is true */
     /* custom SCT colors */
     m_headshot,
     m_critical,
