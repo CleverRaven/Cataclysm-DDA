@@ -1260,7 +1260,7 @@
   "subcategory": "CSC_OTHER_MATERIALS",
   "id_suffix": "by hand",
   "difficulty": 0,
-  "time": 36000,
+  "time": 54000,
   "reversible": false,
   "autolearn": true,
   "byproduct": { "id" : "seed_cotton_boll", "amount" : 2 },
