@@ -3066,7 +3066,7 @@
         "name_plural" : ".50 BMG API",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "A variant of the powerful .50 BMG sniper round, incendiary rounds are designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
+        "description" : "An armor-piercing incendiary variant of the powerful .50 BMG sniper round. Incendiary rounds are designed to burn hotly upon impact, piercing armor and igniting flammable substances.",
         "material" : "steel",
         "volume" : 2,
         "weight" : 120,
