@@ -8234,20 +8234,24 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         // Thanks for the warning, i2amroy.
         if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
             int nut = (rng(0, comest->nutr) * 0.66 );
+            int que = (comest->quench) * 0.66;
             hunger -= nut;
-            thirst -= ((comest->quench) * 0.66 );
+            thirst -= que;
             stomach_food += nut;
-            stomach_water += ((comest->quench) * 0.66 );
+            stomach_water += que;
             if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
                 mod_healthy_mod(-30);
             }
         } else {
         // Shorter GI tract, so less nutrients captured.
-            hunger -= ((comest->nutr) * 0.66);
-            thirst -= ((comest->quench) * 0.66);
-            mod_healthy_mod(comest->healthy * 0.66);
-            stomach_food += ((comest->nutr) * 0.66);
-            stomach_water += ((comest->quench) * 0.66);
+            int giz_nutr = (comest->nutr) * 0.66;
+            int giz_quench = (comest->quench) * 0.66;
+            int giz_healthy = (comest->healthy) * 0.66;
+            hunger -= (giz_nutr);
+            thirst -= (giz_quench);
+            mod_healthy_mod(giz_healthy);
+            stomach_food += (giz_nutr);
+            stomach_water += (giz_quench);
         }
     } else if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
       (eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
