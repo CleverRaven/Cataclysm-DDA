@@ -15,7 +15,8 @@
 #include <stdio.h>
 #include <map>
 #include <vector>
-#include "json.h"
+#include <array>
+#include <string>
 typedef int chtype;
 typedef unsigned short attr_t;
 typedef unsigned int u_int32_t;
@@ -38,8 +39,7 @@ typedef unsigned int u_int32_t;
 #define __ATTRIBUTES 0x03ffff00 /* All 8-bit attribute bits */          //<---------not used
 
 //a pair of colors[] indexes, foreground and background
-typedef struct
-{
+typedef struct {
     int FG;//foreground index in colors[]
     int BG;//foreground index in colors[]
 } pairs;
@@ -53,27 +53,29 @@ typedef struct
 //} cursechar;
 
 //Individual lines, so that we can track changed lines
-typedef struct{
-bool touched;
-char *chars;
-int width_in_bytes;
-char *FG;
-char *BG;
-//cursechar chars [80];
-} curseline;
+struct cursecell {
+    std::string ch;
+    char FG;
+    char BG;
+    cursecell() : ch(" "), FG(0), BG(0) { }
+};
+struct curseline {
+    bool touched;
+    std::vector<cursecell> chars;
+};
 //The curses window struct
 typedef struct {
-  int x;//left side of window
-  int y;//top side of window
-  int width;//width of the curses window
-  int height;//height of the curses window
-  int FG;//current foreground color from attron
-  int BG;//current background color from attron
-  bool inuse;// Does this window actually exist?
-  bool draw;//Tracks if the window text has been changed
-  int cursorx;//x location of the cursor
-  int cursory;//y location of the cursor
-  curseline *line;
+    int x;//left side of window
+    int y;//top side of window
+    int width;//width of the curses window
+    int height;//height of the curses window
+    int FG;//current foreground color from attron
+    int BG;//current background color from attron
+    bool inuse;// Does this window actually exist?
+    bool draw;//Tracks if the window text has been changed
+    int cursorx;//x location of the cursor
+    int cursory;//y location of the cursor
+    std::vector<curseline> line;
 
 } WINDOW;
 
@@ -112,6 +114,7 @@ typedef struct {
 #define    KEY_RIGHT      0x105    /* right arrow*/
 #define    KEY_HOME       0x106    /* home key */                   //<---------not used
 #define    KEY_BACKSPACE  0x107    /* Backspace */                  //<---------not used
+#define    KEY_DC         0x151    /* Delete Character */
 #define    KEY_F(n)      (0x108+n) /* F1, F2, etc*/
 #define    KEY_NPAGE      0x152    /* page down */
 #define    KEY_PPAGE      0x153    /* page up */
@@ -130,7 +133,8 @@ extern WINDOW *stdscr;
 //Curses Functions
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 int delwin(WINDOW *win);
-int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br);
+int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
+            chtype bl, chtype br);
 
 int hline(chtype ch, int n);
 int vline(chtype ch, int n);
@@ -144,9 +148,9 @@ int mvwvline(WINDOW *win, int y, int x, chtype ch, int n);
 int wrefresh(WINDOW *win);
 int refresh(void);
 int getch(void);
-int wgetch(WINDOW* win);
+int wgetch(WINDOW *win);
 int mvgetch(int y, int x);
-int mvwgetch(WINDOW* win, int y, int x);
+int mvwgetch(WINDOW *win, int y, int x);
 int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 int mvprintw(int y, int x, const char *fmt, ...);
 int werase(WINDOW *win);
@@ -171,7 +175,7 @@ int wattroff(WINDOW *win, int attrs);
 int attron(int attrs);
 int attroff(int attrs);
 int waddch(WINDOW *win, const chtype ch);
-int printw(const char *fmt,...);
+int printw(const char *fmt, ...);
 int getmaxx(WINDOW *win);
 int getmaxy(WINDOW *win);
 int getbegx(WINDOW *win);
@@ -184,15 +188,20 @@ void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
 int echo(void);
 int noecho(void);
 //non-curses functions, Do not call these in the main game code
-extern WINDOW* mainwin;
+extern WINDOW *mainwin;
 extern pairs *colorpairs;
-extern std::map< std::string,std::vector<int> > consolecolors;
-WINDOW* curses_init();
+// key is a color name from main_color_names,
+// value is a color in *BGR*. each vector has exactly 3 values.
+// see load_colors(Json...)
+extern std::map< std::string, std::vector<int> > consolecolors;
+// color names as read from the json file
+extern std::array<std::string, 16> main_color_names;
+WINDOW *curses_init();
 int curses_destroy();
-void curses_drawwindow(WINDOW* win);
+void curses_drawwindow(WINDOW *win);
 void curses_delay(int delay);
 void curses_timeout(int t);
-int curses_getch(WINDOW* win);
+int curses_getch(WINDOW *win);
 int curses_start_color();
 
 // Add interface specific (SDL/ncurses/wincurses) initializations here

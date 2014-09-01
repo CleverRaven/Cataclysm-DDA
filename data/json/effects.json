@@ -13,6 +13,12 @@
     },
     {
         "type":"effect_type",
+        "id":"controlled",
+        "name": "Controlled Monster",
+        "desc": "AI tag for when monsters are being controlled by another. This is a bug if you have it."
+    },
+    {
+        "type":"effect_type",
         "id":"run",
         "name": "Hit-and-run Running",
         "desc": "AI tag for when hit-and-run monsters run away. This is a bug if you have it."
@@ -142,6 +148,8 @@
    {
       "type":"effect_type",
       "id":"boomered",
+      "name": "Boomered",
+      "desc": "Perception - 5\nRange of Sight: 1;   All sight is tinted magenta.",
       "apply_message":"You're covered in bile!",
       "rating": "bad"
    },
@@ -345,6 +353,8 @@
       "remove_message":"Your vision starts to blur.",
       "type":"effect_type",
       "id":"contacts",
+      "name": "Contact Lenses",
+      "desc": "You are wearing contact lenses.",
       "apply_message":"You can see more clearly.",
       "rating": "good"
    },
@@ -457,10 +467,43 @@
    },
    {
       "type":"effect_type",
+      "id":"valium"
+   },
+   {
+      "type":"effect_type",
       "id":"damage_boost"
    },
    {
       "type":"effect_type",
       "id":"attack_boost"
+   },
+   {
+      "type":"effect_type",
+      "id":"pet"
+   },
+   {
+      "type":"effect_type",
+      "id":"pacified"
+   },
+   {
+      "type":"effect_type",
+      "id":"has_bag"
+   },
+   {
+      "type":"effect_type",
+      "id":"tied"
+   },
+   {
+      "type":"effect_type",
+      "id":"music"
+   },
+   {
+      "type":"effect_type",
+      "id":"relax_gas",
+      "name": "Relaxation gas",
+      "desc": "Strength - 3;   Dexterity - 3;   Intelligence - 2;   Perception - 4\nYou are thoroughly relaxed and don't feel like moving.  Fighting? Too much effort.",
+      "apply_message":"You inhale sweetish gas.",
+      "remove_message":"The slackness leaves your muscles.",
+      "rating": "bad"
    }
 ]

@@ -2,7 +2,7 @@
 #include "item_group.h"
 #include "monstergenerator.h"
 #include "rng.h"
-#include "output.h"
+#include "debug.h"
 #include <map>
 #include <algorithm>
 #include <cassert>
@@ -10,10 +10,10 @@
 static const std::string null_item_id("null");
 
 Single_item_creator::Single_item_creator(const std::string &_id, Type _type, int _probability)
-: Item_spawn_data(_probability)
-, id(_id)
-, type(_type)
-, modifier()
+    : Item_spawn_data(_probability)
+    , id(_id)
+    , type(_type)
+    , modifier()
 {
 }
 
@@ -21,7 +21,8 @@ Single_item_creator::~Single_item_creator()
 {
 }
 
-item Single_item_creator::create_single(int birthday, RecursionList &rec) const {
+item Single_item_creator::create_single(int birthday, RecursionList &rec) const
+{
     item tmp;
     if (type == S_ITEM) {
         if (id == "corpse") {
@@ -52,11 +53,13 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const 
     return tmp;
 }
 
-Item_spawn_data::ItemList Single_item_creator::create(int birthday, RecursionList &rec) const {
+Item_spawn_data::ItemList Single_item_creator::create(int birthday, RecursionList &rec) const
+{
     ItemList result;
     int cnt = 1;
     if (modifier.get() != NULL) {
-        cnt = (modifier->count.first == modifier->count.second) ? modifier->count.first : rng(modifier->count.first, modifier->count.second);
+        cnt = (modifier->count.first == modifier->count.second) ? modifier->count.first : rng(
+                  modifier->count.first, modifier->count.second);
     }
     for( ; cnt > 0; cnt--) {
         if (type == S_ITEM) {
@@ -84,7 +87,8 @@ Item_spawn_data::ItemList Single_item_creator::create(int birthday, RecursionLis
     return result;
 }
 
-void Single_item_creator::check_consistency() const {
+void Single_item_creator::check_consistency() const
+{
     if (type == S_ITEM) {
         if (!item_controller->has_template(id)) {
             debugmsg("item id %s is unknown", id.c_str());
@@ -133,18 +137,20 @@ bool Single_item_creator::has_item(const Item_tag &itemid) const
 
 
 Item_modifier::Item_modifier()
-: damage(0, 0)
-, count(1, 1)
-, charges(-1, -1)
-, ammo()
-, container()
+    : damage(0, 0)
+    , count(1, 1)
+    , charges(-1, -1)
+    , ammo()
+    , container()
 {
 }
 
-Item_modifier::~Item_modifier() {
+Item_modifier::~Item_modifier()
+{
 }
 
-void Item_modifier::modify(item &new_item) const {
+void Item_modifier::modify(item &new_item) const
+{
     if(new_item.is_null()) {
         return;
     }
@@ -154,8 +160,8 @@ void Item_modifier::modify(item &new_item) const {
     }
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
     if(ch != -1) {
-        it_tool *t = dynamic_cast<it_tool*>(new_item.type);
-        it_gun *g = dynamic_cast<it_gun*>(new_item.type);
+        it_tool *t = dynamic_cast<it_tool *>(new_item.type);
+        it_gun *g = dynamic_cast<it_gun *>(new_item.type);
         if(new_item.count_by_charges()) {
             // food, ammo
             new_item.charges = ch;
@@ -163,7 +169,7 @@ void Item_modifier::modify(item &new_item) const {
             new_item.charges = std::min(ch, t->max_charges);
         } else if(g != NULL && ammo.get() != NULL) {
             item am = ammo->create_single(new_item.bday);
-            it_ammo *a = dynamic_cast<it_ammo*>(am.type);
+            it_ammo *a = dynamic_cast<it_ammo *>(am.type);
             if(!am.is_null() && a != NULL) {
                 new_item.curammo = a;
                 new_item.charges = std::min<long>(am.charges, new_item.clip_size());
@@ -192,7 +198,8 @@ void Item_modifier::modify(item &new_item) const {
     }
 }
 
-void Item_modifier::check_consistency() const {
+void Item_modifier::check_consistency() const
+{
     if (ammo.get() != NULL) {
         ammo->check_consistency();
     }
@@ -220,15 +227,16 @@ bool Item_modifier::remove_item(const Item_tag &itemid)
 
 
 Item_group::Item_group(Type t, int probability)
-: Item_spawn_data(probability)
-, type(t)
-, sum_prob(0)
-, items()
-, with_ammo(false)
+    : Item_spawn_data(probability)
+    , type(t)
+    , sum_prob(0)
+    , items()
+    , with_ammo(false)
 {
 }
 
-Item_group::~Item_group() {
+Item_group::~Item_group()
+{
     for(prop_list::iterator a = items.begin(); a != items.end(); ++a) {
         delete *a;
     }
@@ -237,13 +245,15 @@ Item_group::~Item_group() {
 
 void Item_group::add_item_entry(const Item_tag &itemid, int probability)
 {
-    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(itemid, Single_item_creator::S_ITEM, probability));
+    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(itemid, Single_item_creator::S_ITEM,
+                                         probability));
     add_entry(ptr);
 }
 
 void Item_group::add_group_entry(const Group_tag &groupid, int probability)
 {
-    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(groupid, Single_item_creator::S_ITEM_GROUP, probability));
+    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(groupid,
+                                         Single_item_creator::S_ITEM_GROUP, probability));
     add_entry(ptr);
 }
 

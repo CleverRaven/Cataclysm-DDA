@@ -2,7 +2,6 @@
 #define _EFFECT_H_
 
 #include "pldata.h"
-#include "creature.h"
 #include "json.h"
 #include "messages.h"
 
@@ -12,10 +11,10 @@ class Creature;
 extern std::map<std::string, effect_type> effect_types;
 
 enum effect_rating {
-    e_good,	// the effect is good for the one who has it.
+    e_good, // the effect is good for the one who has it.
     e_neutral,  // there is no effect or the effect is very nominal. This is the default.
     e_bad,      // the effect is bad for the one who has it
-    e_mixed     // the effect has good and bad parts to the one who has it 
+    e_mixed     // the effect has good and bad parts to the one who has it
 };
 
 class effect_type
@@ -32,17 +31,19 @@ class effect_type
         std::string get_name();
         std::string get_desc();
 
-        effect_rating get_rating();
+        effect_rating get_rating() const;
 
-        game_message_type gain_game_message_type(); // appropriate game_message_type when effect is optained
-        game_message_type lose_game_message_type(); // appropriate game_message_type when effect is lost
+        // Appropriate game_message_type when effect is optained.
+        game_message_type gain_game_message_type() const;
+        // Appropriate game_message_type when effect is lost.
+        game_message_type lose_game_message_type() const;
 
-        std::string get_apply_message();
-        std::string get_apply_memorial_log();
-        std::string get_remove_message();
-        std::string get_remove_memorial_log();
+        std::string get_apply_message() const;
+        std::string get_apply_memorial_log() const;
+        std::string get_remove_message() const;
+        std::string get_remove_memorial_log() const;
 
-        int get_max_intensity();
+        int get_max_intensity() const;
 
     protected:
         int max_intensity;
@@ -85,24 +86,29 @@ class effect : public JsonSerializer, public JsonDeserializer
         void set_intensity(int nintensity);
         void mod_intensity(int nintensity);
 
-        efftype_id get_id() {
+        efftype_id get_id()
+        {
             return eff_type->id;
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const {
+        void serialize(JsonOut &json) const
+        {
             json.start_object();
             json.member("eff_type", eff_type != NULL ? eff_type->id : "");
             json.member("duration", duration);
             json.member("intensity", intensity);
+            json.member("permanent", permanent);
             json.end_object();
         }
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) {
+        void deserialize(JsonIn &jsin)
+        {
             JsonObject jo = jsin.get_object();
             eff_type = &effect_types[jo.get_string("eff_type")];
             duration = jo.get_int("duration");
             intensity = jo.get_int("intensity");
+            permanent = jo.get_bool("permanent");
         }
 
     protected:

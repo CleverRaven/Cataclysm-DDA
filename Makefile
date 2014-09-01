@@ -45,11 +45,15 @@
 # we don't check in code with new warnings, but we also have to disable some classes of warnings
 # for now as we get rid of them.  In non-release builds we want to show all the warnings,
 # even the ones we're allowing in release builds so they're visible to developers.
-RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
+RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
-DEBUG = -g
+ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+  DEBUG = -g
+else
+  DEBUG = -g -D_GLIBCXX_DEBUG
+endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
@@ -103,10 +107,10 @@ RC  = $(CROSS)windres
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
-    OTHERS += -O3
+    CXXFLAGS += -O3
   else
-    OTHERS += -Os
-    OTHERS += -s
+    CXXFLAGS += -Os
+    LDFLAGS += -s
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
@@ -120,7 +124,7 @@ ifdef CLANG
   endif
   CXX = $(CROSS)clang++
   LD  = $(CROSS)clang++
-  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
+  WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
 
 OTHERS += --std=c++11
@@ -160,9 +164,12 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+  WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
+    ifeq ($(MACPORTS), 1)
+      LDFLAGS += -L$(shell ncursesw5-config --libdir)
+    endif
   endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), Linux)
@@ -241,7 +248,7 @@ ifdef LUA
   BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
-ifdef SDL 
+ifdef SDL
   TILES = 1
 endif
 
@@ -362,7 +369,7 @@ all: version $(TARGET) $(L10N)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) \
           $(OBJS) $(LDFLAGS)
 
 .PHONY: version json-verify

@@ -7,11 +7,6 @@
 #include <vector>
 #include <map>
 
-// mfb(n) converts a flag to its appropriate position in covers's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
-
 std::vector<dream> dreams;
 std::map<std::string, std::vector<std::string> > mutations_category;
 std::map<std::string, mutation_branch> mutation_data;

@@ -7,19 +7,18 @@
 #include <map>
 #include <set>
 
-typedef void (mdeath::*MonDeathFunction)(monster*);
-typedef void (mattack::*MonAttackFunction)(monster*);
-typedef void (mdefense::*MonDefenseFunction)(monster*, const projectile*);
+typedef void (mdeath::*MonDeathFunction)(monster *);
+typedef void (mattack::*MonAttackFunction)(monster *);
+typedef void (mdefense::*MonDefenseFunction)(monster *, const projectile *);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
 
-struct species_type
-{
+struct species_type {
     std::string id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
-    species_type():id("null_species")
+    species_type(): id("null_species")
     {
 
     }
@@ -40,7 +39,8 @@ struct species_type
 class MonsterGenerator
 {
     public:
-        static MonsterGenerator &generator(){
+        static MonsterGenerator &generator()
+        {
             static MonsterGenerator generator;
 
             return generator;
@@ -62,9 +62,9 @@ class MonsterGenerator
 
         mtype *get_mtype(std::string mon);
         mtype *get_mtype(int mon);
-        bool has_mtype(const std::string& mon) const;
-        bool has_species(const std::string& species) const;
-        std::map<std::string, mtype*> get_all_mtypes() const;
+        bool has_mtype(const std::string &mon) const;
+        bool has_species(const std::string &species) const;
+        std::map<std::string, mtype *> get_all_mtypes() const;
         std::vector<std::string> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
         friend struct mtype;
@@ -85,11 +85,13 @@ class MonsterGenerator
 
         // data acquisition
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
-        std::vector<void (mdeath::*)(monster*)> get_death_functions(JsonObject &jo, std::string member);
+        std::vector<void (mdeath::*)(monster *)> get_death_functions(JsonObject &jo, std::string member);
         MonAttackFunction get_attack_function(JsonObject &jo, std::string member);
         MonDefenseFunction get_defense_function(JsonObject &jo, std::string member);
-        template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags, std::map<std::string, T> conversion_map, T fallback);
-        template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map, T fallback);
+        template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags,
+                std::map<std::string, T> conversion_map, T fallback);
+        template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map,
+                                                T fallback);
 
         // finalization
         void apply_species_attributes(mtype *mon);
@@ -97,8 +99,8 @@ class MonsterGenerator
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
-        std::map<std::string, mtype*> mon_templates;
-        std::map<std::string, species_type*> mon_species;
+        std::map<std::string, mtype *> mon_templates;
+        std::map<std::string, species_type *> mon_species;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, m_size> size_map;

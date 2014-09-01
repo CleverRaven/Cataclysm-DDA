@@ -11,7 +11,8 @@
 #include <sstream>
 #include <algorithm>
 
-std::string trim_to(const std::string &text, size_t length) {
+std::string trim_to(const std::string &text, size_t length)
+{
     const size_t width = utf8_width(text.c_str());
     if(width <= length) {
         return text;
@@ -40,138 +41,143 @@ struct itemstack_or_category {
      * is used by the drop map in inventory_selector. */
     int item_pos;
     itemstack_or_category(const indexed_invslice::value_type &a)
-    : it(&(a.first->front())), slice(a.first), category(&it->get_category()), item_pos(a.second)
+        : it(&(a.first->front())), slice(a.first), category(&it->get_category()), item_pos(a.second)
     {
     }
     itemstack_or_category(const item *a, int b)
-    : it(a), slice(NULL), category(&it->get_category()), item_pos(b)
+        : it(a), slice(NULL), category(&it->get_category()), item_pos(b)
     {
     }
     itemstack_or_category(const item_category *a = NULL)
-    : it(NULL), slice(NULL), category(a), item_pos(INT_MIN)
+        : it(NULL), slice(NULL), category(a), item_pos(INT_MIN)
     {
     }
     // used for searching the category header, only the item pointer and the category are important there
-    bool operator==(const itemstack_or_category &other) const {
+    bool operator==(const itemstack_or_category &other) const
+    {
         return category == other.category && it == other.it;
     }
 };
 
-class inventory_selector {
-public:
-typedef std::vector<itemstack_or_category> itemstack_vector;
-/**
- * Extracts @ref slice into @ref items, adding category entries.
- * For each item in the slice an entry that points to it is added to @ref items.
- * For a consecutive sequence of items of the same category a single
- * category entry is added in front of them.
- */
-void make_item_list(const indexed_invslice &slice, const item_category *def_cat = NULL);
-/**
- * Inserts additional category entries on top of each page,
- * When the last entry of a page is a category entry, inserts an empty entry
- * right before that one. The category entry goes now on the next page.
- * This is done for both list (@ref items and @ref worn).
- */
-void prepare_paging();
-/**
- * What has been selected for dropping/comparing. The key is the item position,
- * the value is the count, or -1 for dropping all. The class makes sure that
- * the count is never 0, and it is -1 only if all items should be dropped.
- * Any value > 0 means at least one item will remain after dropping.
- */
-typedef std::map<int, int> drop_map;
-drop_map dropping;
-/** when comparing: the first item to be compared, or NULL */
-item *first_item;
-/** when comparing: the second item or NULL */
-item *second_item;
-/** The input context for navigation, already contains some actions for movement.
- * See @ref handle_movement */
-input_context ctxt;
-/** Return the char plus a space that should be shown in front of an item name,
- * to indicate that this item is selected for dropping (or comparing). */
-std::string get_drop_icon(drop_map::const_iterator dit) const;
-/** Given an action from the input_context, try to act according to it:
- * move selection around (next/previous page/item).
- * If not handle by this class it return false, otherwise true (caller should
- * ignore the action in this case). */
-bool handle_movement(const std::string &action);
-/** Update the @ref w_inv window, including wrefresh */
-void display() const;
-/** Returns the item positions of the currently selected entry, or ITEM_MIN
- * if no entry is selected. */
-int get_selected_item_position() const;
-/** Set/toggle dropping count items of currently selected item stack, see @ref set_drop_count */
-void set_selected_to_drop(int count);
-/** Starts the inventory screen
- * @param m sets @ref multidrop
- * @param c sets @ref compare
- * @param t sets @ref title
- */
-inventory_selector(bool m, bool c, const std::string &t);
-~inventory_selector();
+class inventory_selector
+{
+    public:
+        typedef std::vector<itemstack_or_category> itemstack_vector;
+        /**
+         * Extracts <B>slice</B> into @ref items, adding category entries.
+         * For each item in the slice an entry that points to it is added to @ref items.
+         * For a consecutive sequence of items of the same category a single
+         * category entry is added in front of them.
+         */
+        void make_item_list(const indexed_invslice &slice, const item_category *def_cat = NULL);
+        /**
+         * Inserts additional category entries on top of each page,
+         * When the last entry of a page is a category entry, inserts an empty entry
+         * right before that one. The category entry goes now on the next page.
+         * This is done for both list (@ref items and @ref worn).
+         */
+        void prepare_paging();
+        /**
+         * What has been selected for dropping/comparing. The key is the item position,
+         * the value is the count, or -1 for dropping all. The class makes sure that
+         * the count is never 0, and it is -1 only if all items should be dropped.
+         * Any value > 0 means at least one item will remain after dropping.
+         */
+        typedef std::map<int, int> drop_map;
+        drop_map dropping;
+        /** when comparing: the first item to be compared, or NULL */
+        item *first_item;
+        /** when comparing: the second item or NULL */
+        item *second_item;
+        /** The input context for navigation, already contains some actions for movement.
+         * See @ref handle_movement */
+        input_context ctxt;
+        /** Return the char plus a space that should be shown in front of an item name,
+         * to indicate that this item is selected for dropping (or comparing). */
+        std::string get_drop_icon(drop_map::const_iterator dit) const;
+        /** Given an action from the input_context, try to act according to it:
+         * move selection around (next/previous page/item).
+         * If not handle by this class it return false, otherwise true (caller should
+         * ignore the action in this case). */
+        bool handle_movement(const std::string &action);
+        /** Update the @ref w_inv window, including wrefresh */
+        void display() const;
+        /** Returns the item positions of the currently selected entry, or ITEM_MIN
+         * if no entry is selected. */
+        int get_selected_item_position() const;
+        /** Set/toggle dropping count items of currently selected item stack, see @ref set_drop_count */
+        void set_selected_to_drop(int count);
+        /** Select the item at position and set the correct in_inventory and current_page_offset value */
+        void select_item_by_position(const int &position);
+        /** Starts the inventory screen
+         * @param m sets @ref multidrop
+         * @param c sets @ref compare
+         * @param t sets @ref title
+         */
+        inventory_selector(bool m, bool c, const std::string &t);
+        ~inventory_selector();
 
-std::vector<item> remove_dropping_items( player &u ) const;
+        std::vector<item> remove_dropping_items( player &u ) const;
 
-private:
-    /** All the items that should be shown in the left column */
-    itemstack_vector items;
-    itemstack_vector worn;
-    /** Number of rows that we have for printing the @ref items */
-    size_t items_per_page;
-    WINDOW *w_inv;
-    const std::string title;
-    /** Index of the first entry in @ref items on the currently shown page */
-    size_t current_page_offset_i;
-    /** Index of the first entry in @ref worn on the currently shown page */
-    size_t current_page_offset_w;
-    /** Index of the currently selected entry of @ref items */
-    size_t selected_i;
-    /** Index of the currently selected entry of @ref worn */
-    size_t selected_w;
-    /** Width and offsets of display columns: left (items in inventory),
-     * middle (worn and weapon), right (items selected for dropping, optional)
-     * the width of the right column can be 0 if it should not be shown. */
-    size_t left_column_width;
-    size_t left_column_offset;
-    size_t middle_column_width;
-    size_t middle_column_offset;
-    size_t right_column_width;
-    size_t right_column_offset;
-    bool inCategoryMode;
-    /** Allow selecting several items for dropping. And show selected items in the
-     * right column. */
-    const bool multidrop;
-    /** Comparing items. Allow only two items to be selected. */
-    const bool compare;
-    bool warned_about_bionic;
-    bool in_inventory;
-    const item_category weapon_cat;
-    const item_category worn_cat;
+    private:
+        /** All the items that should be shown in the left column */
+        itemstack_vector items;
+        itemstack_vector worn;
+        /** Number of rows that we have for printing the @ref items */
+        size_t items_per_page;
+        WINDOW *w_inv;
+        const std::string title;
+        /** Index of the first entry in @ref items on the currently shown page */
+        size_t current_page_offset_i;
+        /** Index of the first entry in @ref worn on the currently shown page */
+        size_t current_page_offset_w;
+        /** Index of the currently selected entry of @ref items */
+        size_t selected_i;
+        /** Index of the currently selected entry of @ref worn */
+        size_t selected_w;
+        /** Width and offsets of display columns: left (items in inventory),
+         * middle (worn and weapon), right (items selected for dropping, optional)
+         * the width of the right column can be 0 if it should not be shown. */
+        size_t left_column_width;
+        size_t left_column_offset;
+        size_t middle_column_width;
+        size_t middle_column_offset;
+        size_t right_column_width;
+        size_t right_column_offset;
+        bool inCategoryMode;
+        /** Allow selecting several items for dropping. And show selected items in the
+         * right column. */
+        const bool multidrop;
+        /** Comparing items. Allow only two items to be selected. */
+        const bool compare;
+        bool warned_about_bionic;
+        bool in_inventory;
+        const item_category weapon_cat;
+        const item_category worn_cat;
 
-    void print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const;
-    void print_left_column() const;
-    void print_middle_column() const;
-    void print_right_column() const;
-public:
-    /** Toggle item dropping for item position it_pos:
-     * If count is > 0: set dropping to count
-     * If the item is already marked for dropping: deactivate dropping,
-     * If the item is not marked for dropping: set dropping to -1
-     * The item reference is used to update @ref first_item / @ref second_item
-     */
-    void set_drop_count(int it_pos, int count, const item& it);
-    /**
-     * Same as @ref set_drop_count with single item,
-     * if count is > 0: set count to -1 if it reaches/exceeds the maximal
-     * droppable items of this stack (if stack.size() == 4 and count == 4, set
-     * count to -1 because that means drop all).
-     */
-    void set_drop_count(int it_pos, int count, const std::list<item>& stack);
-    void set_to_drop(int it_pos, int count);
-    void print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected, size_t current_page_offset) const;
-    void prepare_paging(itemstack_vector &items);
+        void print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const;
+        void print_left_column() const;
+        void print_middle_column() const;
+        void print_right_column() const;
+    public:
+        /** Toggle item dropping for item position it_pos:
+         * If count is > 0: set dropping to count
+         * If the item is already marked for dropping: deactivate dropping,
+         * If the item is not marked for dropping: set dropping to -1
+         * The item reference is used to update @ref first_item / @ref second_item
+         */
+        void set_drop_count(int it_pos, int count, const item &it);
+        /**
+         * Same as @ref set_drop_count with single item,
+         * if count is > 0: set count to -1 if it reaches/exceeds the maximal
+         * droppable items of this stack (if stack.size() == 4 and count == 4, set
+         * count to -1 because that means drop all).
+         */
+        void set_drop_count(int it_pos, int count, const std::list<item> &stack);
+        void set_to_drop(int it_pos, int count);
+        void print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected,
+                          size_t current_page_offset) const;
+        void prepare_paging(itemstack_vector &items);
 };
 
 void inventory_selector::make_item_list(const indexed_invslice &slice, const item_category *def_cat)
@@ -234,7 +240,8 @@ void inventory_selector::prepare_paging(itemstack_vector &items)
     }
 }
 
-void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const
+void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carried,
+        int vol_capacity) const
 {
     // Print weight
     mvwprintw(w_inv, 0, 32, _("Weight (%s): "),
@@ -256,7 +263,8 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
     wprintw(w_inv, "/%-3d", vol_capacity - 2);
 }
 
-char invlet_or_space(const item &it) {
+char invlet_or_space(const item &it)
+{
     return (it.invlet == 0) ? ' ' : it.invlet;
 }
 
@@ -283,7 +291,8 @@ void inventory_selector::print_left_column() const
     print_column(items, left_column_offset, left_column_width, selected_i, current_page_offset_i);
 }
 
-void inventory_selector::print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected, size_t current_page_offset) const
+void inventory_selector::print_column(const itemstack_vector &items, size_t y, size_t w,
+                                      size_t selected, size_t current_page_offset) const
 {
     nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
     if ((&items == &this->items) != in_inventory) {
@@ -301,14 +310,14 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             continue;
         }
         const item &it = *cur_entry.it;
-        std::string item_name = const_cast<item&>(it).display_name();
+        std::string item_name = it.display_name();
         if (cur_entry.slice != NULL) {
             const size_t count = cur_entry.slice->size();
             if (count > 1) {
-                item_name = string_format("%d %s", count, const_cast<item&>(it).display_name(count).c_str());
+                item_name = string_format("%d %s", count, it.display_name(count).c_str());
             }
         }
-        nc_color name_color = const_cast<item&>(it).color_in_inventory();
+        nc_color name_color = it.color_in_inventory();
         nc_color invlet_color = c_white;
         if (a + current_page_offset == selected) {
             name_color = selected_line_color;
@@ -349,7 +358,8 @@ void inventory_selector::print_right_column() const
             continue;
         }
         const char invlet = invlet_or_space(u.worn[k]);
-        std::string item_name = trim_to(u.worn[k].display_name(), right_column_width - 4); // 2 for the invlet '+' &  2 space
+        std::string item_name = trim_to(u.worn[k].display_name(),
+                                        right_column_width - 4); // 2 for the invlet '+' &  2 space
         mvwprintz(w_inv, drp_line, right_column_offset, c_cyan, "%c + %s", invlet, item_name.c_str());
         drp_line++;
     }
@@ -361,8 +371,8 @@ void inventory_selector::print_right_column() const
         const item &it = stack.front();
         const char invlet = invlet_or_space(it);
         const int count = a->second;
-        const nc_color col = const_cast<item&>(it).color_in_inventory();
-        std::string item_name = const_cast<item&>(it).display_name(count);
+        const nc_color col = it.color_in_inventory();
+        std::string item_name = it.display_name(count);
         if (stack.size() > 1) {
             item_name = string_format("%d %s", stack.size(), item_name.c_str());
         }
@@ -395,13 +405,14 @@ void inventory_selector::display() const
         msg_color = h_white;
     }
     mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str.c_str()),
-                msg_color, msg_str.c_str());
+              msg_color, msg_str.c_str());
     print_left_column();
     print_middle_column();
     print_right_column();
     const size_t max_size = in_inventory ? items.size() : worn.size();
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
-    mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1, max_pages);
+    mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
+              max_pages);
     if (multidrop) {
         // Make copy, remove to be dropped items from that
         // copy and let the copy recalculate the volume capacity
@@ -429,26 +440,26 @@ void inventory_selector::display() const
 }
 
 inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
-: dropping()
-, first_item(NULL)
-, second_item(NULL)
-, ctxt("INVENTORY")
-, items()
-, worn()
-, items_per_page(TERMY - 5) // gives us 5 lines for messages/help text/status/...
-, w_inv(NULL)
-, title(t)
-, current_page_offset_i(0)
-, current_page_offset_w(0)
-, selected_i(1) // first is the category header
-, selected_w(1) // ^^
-, inCategoryMode(false)
-, multidrop(m)
-, compare(c)
-, warned_about_bionic(false)
-, in_inventory(true)
-, weapon_cat("WEAPON", _("WEAPON:"), 0)
-, worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
+    : dropping()
+    , first_item(NULL)
+    , second_item(NULL)
+    , ctxt("INVENTORY")
+    , items()
+    , worn()
+    , items_per_page(TERMY - 5) // gives us 5 lines for messages/help text/status/...
+    , w_inv(NULL)
+    , title(t)
+    , current_page_offset_i(0)
+    , current_page_offset_w(0)
+    , selected_i(1) // first is the category header
+    , selected_w(1) // ^^
+    , inCategoryMode(false)
+    , multidrop(m)
+    , compare(c)
+    , warned_about_bionic(false)
+    , in_inventory(true)
+    , weapon_cat("WEAPON", _("WEAPON:"), 0)
+    , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
 {
     w_inv = newwin(TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X);
     if (compare || multidrop) {
@@ -571,10 +582,46 @@ bool inventory_selector::handle_movement(const std::string &action)
     return true;
 }
 
+void inventory_selector::select_item_by_position(const int &position)
+{
+    if (position != INT_MIN) {
+        int pos = position;
+
+        if (pos == -1) {
+            //weapon
+            in_inventory = false;
+            return;
+
+        } else if (pos < -1) {
+            //worn
+            in_inventory = false;
+            pos = abs(position) - ((g->u.weapon.is_null()) ? 2 : 1);
+        }
+
+        const itemstack_vector &items = in_inventory ? this->items : this->worn;
+        size_t &selected = in_inventory ? selected_i : selected_w;
+        size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
+
+        //skip headers
+        int iHeaderOffset = 0;
+        for (size_t i = 0; i < items.size(); ++i) {
+            if (items[i].it == NULL) {
+                iHeaderOffset++;
+
+            } else if (items[i].item_pos == pos) {
+                break;
+            }
+        }
+
+        selected = pos + iHeaderOffset;
+        current_page_offset = selected - (selected % items_per_page);
+    }
+}
+
 int inventory_selector::get_selected_item_position() const
 {
     const itemstack_vector &items = in_inventory ? this->items : this->worn;
-    const size_t &selected = in_inventory ? selected_i: selected_w;
+    const size_t &selected = in_inventory ? selected_i : selected_w;
     if (selected < items.size() && items[selected].it != NULL) {
         return items[selected].item_pos;
     }
@@ -584,7 +631,7 @@ int inventory_selector::get_selected_item_position() const
 void inventory_selector::set_selected_to_drop(int count)
 {
     const itemstack_vector &items = in_inventory ? this->items : this->worn;
-    const size_t &selected = in_inventory ? selected_i: selected_w;
+    const size_t &selected = in_inventory ? selected_i : selected_w;
     if (selected >= items.size()) {
         return;
     }
@@ -592,6 +639,9 @@ void inventory_selector::set_selected_to_drop(int count)
     if (cur_entry.it != NULL && cur_entry.slice != NULL) {
         set_drop_count(cur_entry.item_pos, count, *cur_entry.slice);
     } else if (cur_entry.it != NULL) {
+        if (count > 0 && (!cur_entry.it->count_by_charges() || count >= cur_entry.it->charges)) {
+            count = -1;
+        }
         set_drop_count(cur_entry.item_pos, count, *cur_entry.it);
     }
 }
@@ -606,6 +656,8 @@ void inventory_selector::set_to_drop(int it_pos, int count)
         if (count > 0 && (!u.weapon.count_by_charges() || count >= u.weapon.charges)) {
             count = -1; // drop whole item, because it can not be separated, or the requested count means all
         }
+        // Must bypass the set_drop_count() that takes a stack,
+        // because it must get a direct reference to weapon.
         set_drop_count(it_pos, count, u.weapon);
     } else if (it_pos < -1) { // worn
         const size_t wpos = player::worn_position_to_index(it_pos);
@@ -640,7 +692,7 @@ void inventory_selector::set_drop_count(int it_pos, int count, const std::list<i
     set_drop_count(it_pos, count, stack.front());
 }
 
-void inventory_selector::set_drop_count(int it_pos, int count, const item& it)
+void inventory_selector::set_drop_count(int it_pos, int count, const item &it)
 {
     // "dropping" when comparing means select for comparison, valid for bionics
     if (it_pos == -1 && g->u.weapon.has_flag("NO_UNWIELD") && !compare) {
@@ -664,9 +716,9 @@ void inventory_selector::set_drop_count(int it_pos, int count, const item& it)
         // allow only -1 or anything > 0
         dropping[it_pos] = (count <= 0) ? -1 : count;
         if (first_item == NULL || first_item == &it) {
-            first_item = const_cast<item*>(&it);
+            first_item = const_cast<item *>(&it);
         } else {
-            second_item = const_cast<item*>(&it);
+            second_item = const_cast<item *>(&it);
         }
     }
 }
@@ -701,11 +753,13 @@ std::vector<item> inventory_selector::remove_dropping_items( player &u ) const
     return ret;
 }
 
-int game::display_slice(indexed_invslice &slice, const std::string &title)
+int game::display_slice(indexed_invslice &slice, const std::string &title, const int &position)
 {
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(slice);
     inv_s.prepare_paging();
+    inv_s.select_item_by_position(position);
+
     while(true) {
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
@@ -726,12 +780,12 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
 }
 
 // Display current inventory.
-int game::inv(const std::string &title)
+int game::inv(const std::string &title, const int &position)
 {
     u.inv.restack(&u);
     u.inv.sort();
     indexed_invslice slice = u.inv.slice_filter();
-    return display_slice(slice , title);
+    return display_slice(slice, title, position);
 }
 
 int game::inv_activatable(std::string title)
@@ -762,6 +816,85 @@ int game::inv_for_liquid(const item &liquid, const std::string title, bool auto_
         }
     }
     return display_slice(reduced_inv, title);
+}
+
+item *game::inv_map_for_liquid(const item &liquid, const std::string title)
+{
+    std::vector <item> &here = m.i_at(g->u.posx, g->u.posy);
+    typedef std::vector< std::list<item> > pseudo_inventory;
+    pseudo_inventory grounditems;
+    indexed_invslice grounditems_slice;
+    std::vector<item *> ground_containers;
+
+    LIQUID_FILL_ERROR error;
+
+    std::set<std::string> dups;
+    for( auto item_iter = here.begin(); item_iter != here.end(); ++item_iter ) {
+        if( item_iter->get_remaining_capacity_for_liquid(liquid, error) > 0 ) {
+            if( dups.count( item_iter->tname()) == 0 ) {
+                grounditems.push_back( std::list<item>(1, *item_iter) );
+
+                if( grounditems.size() <= 10 ) {
+                    grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+                } else {
+                    grounditems.back().front().invlet = ' ';
+                }
+                dups.insert( item_iter->tname() );
+
+                ground_containers.push_back( &*item_iter );
+            }
+        }
+    }
+
+    for (size_t a = 0; a < grounditems.size(); a++) {
+        // avoid INT_MIN, as it can be confused with "no item at all"
+        grounditems_slice.push_back(indexed_invslice::value_type(&grounditems[a], INT_MIN + a + 1));
+    }
+    static const item_category category_on_ground(
+        "GROUND:",
+        _("GROUND:"),
+        -1000
+    );
+
+    u.inv.restack(&u);
+    u.inv.sort();
+    const indexed_invslice stacks = u.inv.slice_filter_by_capacity_for_liquid(liquid);
+
+    inventory_selector inv_s(false, true, title);
+    inv_s.make_item_list(grounditems_slice, &category_on_ground);
+    inv_s.make_item_list(stacks);
+    inv_s.prepare_paging();
+
+    inventory_selector::drop_map prev_droppings;
+    while (true) {
+        inv_s.display();
+        const std::string action = inv_s.ctxt.handle_input();
+        const long ch = inv_s.ctxt.get_raw_input().get_first_input();
+        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+
+        if (item_pos != INT_MIN) {
+            inv_s.set_to_drop(item_pos, 0);
+            return inv_s.first_item;
+        } else if (ch >= '0' && ch <= '9' && (size_t)(ch - '0') < grounditems_slice.size()) {
+            const int ip = ch - '0';
+            return ground_containers[ip];
+        } else if (inv_s.handle_movement(action)) {
+            // continue with comparison below
+        } else if (action == "QUIT") {
+            return NULL;
+        } else if (action == "RIGHT" || action == "CONFIRM") {
+
+            inv_s.set_selected_to_drop(0);
+
+            for( size_t i = 0; i < grounditems_slice.size(); i++) {
+                if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
+                    return ground_containers[i];
+                }
+            }
+
+            return inv_s.first_item;
+        }
+    }
 }
 
 int game::inv_for_flag(const std::string flag, const std::string title, bool auto_choose_single)
@@ -842,17 +975,12 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
             continue;
         }
         const it_armor *ita = dynamic_cast<const it_armor *>( u.worn[k].type );
-        const char invlet = u.worn[k].invlet; // TODO: might be 0
-        if( !u.takeoff( wornpos, true ) ) {
+        if( !u.takeoff( wornpos, true, &dropped_worn ) ) {
             continue;
         }
         u.moves -= 250; // same as in game::takeoff
         if( ita != NULL ) {
             freed_volume_capacity += ita->storage;
-        }
-        // Item could have been dropped after taking it off
-        if( !u.inv.item_by_letter( invlet ).is_null() ) {
-            dropped_worn.push_back( u.i_rem( invlet ) );
         }
     }
 
@@ -912,15 +1040,15 @@ void game::compare(int iCompareX, int iCompareY)
         const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
         if (item_pos != INT_MIN) {
             inv_s.set_to_drop(item_pos, 0);
+        } else if (ch >= '0' && ch <= '9' && (size_t) (ch - '0') < grounditems_slice.size()) {
+            const int ip = ch - '0';
+            inv_s.set_drop_count(INT_MIN + 1 + ip, 0, grounditems_slice[ip].first->front());
         } else if (inv_s.handle_movement(action)) {
             // continue with comparison below
         } else if (action == "QUIT") {
             break;
         } else if (action == "RIGHT") {
             inv_s.set_selected_to_drop(0);
-        } else if (ch >= '0' && ch <= '9' && (size_t) (ch - '0') < grounditems_slice.size()) {
-            const int ip = ch - '0';
-            inv_s.set_drop_count(INT_MIN + 1 + ip, 0, grounditems_slice[ip].first->front());
         }
         if (inv_s.second_item != NULL) {
             std::vector<iteminfo> vItemLastCh, vItemCh;

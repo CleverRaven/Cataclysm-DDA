@@ -511,10 +511,6 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"S"
-            },
-            {
-                "input_method":"keyboard",
                 "key":"s"
             }
         ]
@@ -551,7 +547,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"?"
+                "key":"*"
             }
         ]
     },
@@ -606,6 +602,30 @@
     },
     {
         "type" : "keybinding",
+        "id":"TOGGLE_BLINKING",
+        "category":"OVERMAP",
+        "name":"Toggle Blinking",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"B"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TOGGLE_OVERLAYS",
+        "category":"OVERMAP",
+        "name":"Toggle Overlays",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"O"
+            }
+        ]
+    },    
+    {
+        "type" : "keybinding",
         "id":"SEARCH",
         "name":"Search",
         "bindings":[
@@ -634,7 +654,7 @@
             },
             {
                 "input_method":"keyboard",
-                "key":" "
+                "key":"SPACE"
             },
             {
                 "input_method":"gamepad",
@@ -815,7 +835,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"TAB"
+                "key":"@"
             }
         ]
     },
@@ -863,7 +883,7 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"?"
+                "key":"*"
             }
         ]
     },
@@ -949,6 +969,15 @@
         "name": "Drain from tank",
         "bindings":[
             { "input_method":"keyboard", "key":"d" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RELABEL",
+        "category": "VEH_INTERACT",
+        "name": "Relabel a portion of a vehicle",
+        "bindings":[
+            { "input_method":"keyboard", "key":"a" }
         ]
     },
     {
@@ -1126,6 +1155,7 @@
     { "type":"keybinding", "name": "Look Around", "category":"DEFAULTMODE", "id":"look", "bindings":[ { "input_method":"keyboard", "key":";" }, { "input_method":"keyboard", "key":"x" } ] },
     { "type":"keybinding", "name": "Peek Around Corners", "category":"DEFAULTMODE", "id":"peek", "bindings":[ { "input_method":"keyboard", "key":"X" } ] },
     { "type":"keybinding", "name": "List all items around the player", "category":"DEFAULTMODE", "id":"listitems", "bindings":[ { "input_method":"keyboard", "key":"V" } ] },
+    { "type":"keybinding", "name": "Manage zones", "category":"DEFAULTMODE", "id":"zones", "bindings":[ { "input_method":"keyboard", "key":"Y" } ] },
     { "type":"keybinding", "name": "Open Inventory", "category":"DEFAULTMODE", "id":"inventory", "bindings":[ { "input_method":"keyboard", "key":"i" } ] },
     { "type":"keybinding", "name": "Compare two Items", "category":"DEFAULTMODE", "id":"compare", "bindings":[ { "input_method":"keyboard", "key":"I" } ] },
     { "type":"keybinding", "name": "Swap Inventory Letters", "category":"DEFAULTMODE", "id":"organize", "bindings":[ { "input_method":"keyboard", "key":"=" } ] },
@@ -1338,6 +1368,438 @@
             {
                 "input_method":"keyboard",
                 "key":"="
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ADD_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Add zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Remove zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ZONE_UP",
+        "category": "ZONES_MANAGER",
+        "name": "Move zone up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ZONE_DOWN",
+        "category": "ZONES_MANAGER",
+        "name": "Move zone down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SHOW_ZONE_ON_MAP",
+        "category": "ZONES_MANAGER",
+        "name": "Show zone on map",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ENABLE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Enable zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DISABLE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Disable zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"UP",
+        "category": "ADVANCED_INVENTORY",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"k"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category": "ADVANCED_INVENTORY",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"j"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"LEFT",
+        "category":"ADVANCED_INVENTORY",
+        "name":"Select left inventory",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"h"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"LEFT"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_LEFT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"RIGHT",
+        "category":"ADVANCED_INVENTORY",
+        "name":"Select right inventory",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"l"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RIGHT"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_RIGHT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "TOGGLE_TAB",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Toggle tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "TOGGLE_AUTO_PICKUP",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Toggle auto-pickup for item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"p"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EXAMINE",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Examine",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SORT",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Change sorting mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"S"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_SINGLE_ITEM",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Move item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ITEM_STACK",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Move item stack",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"M"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ALL_ITEMS",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Move all items",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":","
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CATEGORY_SELECTION",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Toggle category selection mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_NW",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ North-West",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"1"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_N",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ North",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"2"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_NE",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ North-East",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"3"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_W",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ West",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"4"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_CE",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ center",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"5"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_E",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ East",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"6"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_SW",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ South-West",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"7"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_S",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ South",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"8"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_SE",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ South-East",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"9"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_INVENTORY",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items in inventory",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"i"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"I"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"0"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_AROUND",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items @ all 9 fields",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"A"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_CONTAINER",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items in container",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"D"
             }
         ]
     }

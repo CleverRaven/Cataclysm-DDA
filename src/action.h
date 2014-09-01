@@ -42,6 +42,7 @@ enum action_id {
     ACTION_LOOK,
     ACTION_PEEK,
     ACTION_LIST_ITEMS,
+    ACTION_ZONES,
     // Inventory Interaction (including quasi-inventories like bionics)
     ACTION_INVENTORY,
     ACTION_ADVANCEDINV,
@@ -102,7 +103,8 @@ enum action_id {
 };
 
 // Load keybindings from disk
-void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from, std::set<action_id> &unbound_keymap);
+void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from,
+                            std::set<action_id> &unbound_keymap);
 std::string default_keymap_txt();
 // All keys bound to act
 std::vector<char> keys_bound_to(action_id act);

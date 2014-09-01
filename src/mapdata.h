@@ -221,7 +221,6 @@ void set_furn_ids();
  */
 extern std::vector<ter_t> terlist;
 extern std::map<std::string, ter_t> termap;
-extern std::map<int,int> reverse_legacy_ter_id;
 ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
 
@@ -273,8 +272,8 @@ struct furn_t {
 
 extern std::vector<furn_t> furnlist;
 extern std::map<std::string, furn_t> furnmap;
-extern std::map<int,int> reverse_legacy_furn_id;
 furn_id furnfind(const std::string & id); // lookup, carp and return null on error
+
 
 /*
 enum: map_extra
@@ -285,7 +284,7 @@ enum map_extra {
  mx_helicopter,
  mx_military,
  mx_science,
- mx_stash,
+ mx_roadblock,
  mx_drugdeal,
  mx_supplydrop,
  mx_portal,
@@ -299,33 +298,15 @@ enum map_extra {
 
 //Classic Extras is for when you have special zombies turned off.
 const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
-  mfb(mx_stash) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
+  mfb(mx_roadblock) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
   mfb(mx_crater);
 
-// Chances are relative to eachother; e.g. a 200 chance is twice as likely
-// as a 100 chance to appear.
-const int map_extra_chance[num_map_extras + 1] = {
-  0, // Null - 0 chance
- 40, // Helicopter
- 50, // Military
-120, // Science
-200, // Stash
- 20, // Drug deal
- 10, // Supply drop
-  5, // Portal
- 70, // Minefield
- 10, // Crater
-  8, // Fumarole
-  7, // One-way portal into this world
- 10, // Anomaly
-  0  // Just a cap value; leave this as the last one
-};
 
 struct map_extras {
  unsigned int chance;
  int chances[num_map_extras + 1];
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
-            int sci = 0, int stash = 0, int drug = 0, int supply = 0,
+            int sci = 0, int roadblock = 0, int drug = 0, int supply = 0,
             int portal = 0, int minefield = 0,
             int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
             : chance(embellished)
@@ -334,7 +315,7 @@ struct map_extras {
   chances[ 1] = helicopter;
   chances[ 2] = mili;
   chances[ 3] = sci;
-  chances[ 4] = stash;
+  chances[ 4] = roadblock;
   chances[ 5] = drug;
   chances[ 6] = supply;
   chances[ 7] = portal;
@@ -399,6 +380,32 @@ struct submap {
         graf[x][y] = value;
     }
 
+    // Signage is a pretend union between furniture on a square and stored
+    // writing on the square. When both are present, we have signage.
+    // Its effect is meant to be cosmetic and atmospheric only.
+    inline bool has_signage(int x, int y) {
+        furn_id f = frn[x][y];
+        if (furnlist[f].id == "f_sign") {
+            return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
+        }
+        return false;
+    }
+    // Dependent on furniture + cosmetics.
+    inline const std::string get_signage(int x, int y) {
+        if (has_signage(x, y)) {
+            return cosmetics[x][y]["SIGNAGE"];
+        }
+        return "";
+    }
+    // Can be used anytime (prevents code from needing to place sign first.)
+    inline void set_signage(int x, int y, std::string s) {
+        cosmetics[x][y]["SIGNAGE"] = s;
+    }
+    // Can be used anytime (prevents code from needing to place sign first.)
+    inline void delete_signage(int x, int y) {
+        cosmetics[x][y].erase("SIGNAGE");
+    }
+
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
@@ -408,19 +415,26 @@ struct submap {
     field              fld[SEEX][SEEY];  // Field on each square
     int                rad[SEEX][SEEY];  // Irradiation of each square
     graffiti           graf[SEEX][SEEY]; // Graffiti on each square
+    std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
 
     int active_item_count;
     int field_count;
     int turn_last_touched;
     int temperature;
     std::vector<spawn_point> spawns;
+    /**
+     * Vehicles on this submap (their (0,0) point is on this submap).
+     * This vehicle objects are deletes by this submap when it gets
+     * deleted.
+     */
     std::vector<vehicle*> vehicles;
     computer comp;
     basecamp camp;  // only allowing one basecamp per submap
 
-    submap() : ter(), frn(), trp(), rad(),
-        active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
-    }
+    submap();
+    ~submap();
+    // delete vehicles and clear the vehicles vector
+    void delete_vehicles();
 };
 
 std::ostream & operator<<(std::ostream &, const submap *);
@@ -466,8 +480,8 @@ struct id_or_id {
  * It's a terrain! No, it's a furniture! Wait it's both!
  */
 struct ter_furn_id {
-   short ter;
-   short furn;
+   unsigned short ter;
+   unsigned short furn;
    ter_furn_id() : ter(0), furn(0) {};
 };
 
@@ -496,7 +510,7 @@ extern ter_id t_null,
     t_bridge,
     t_covered_well,
     // Lighting related
-    t_skylight, t_emergency_light_flicker, t_emergency_light,
+    t_skylight, t_emergency_light_flicker, t_emergency_light, t_utility_light,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
@@ -508,7 +522,8 @@ extern ter_id t_null,
     t_bars,
     t_door_c, t_door_b, t_door_o,
     t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
-    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
+    t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+    t_door_boarded, t_door_boarded_damaged, t_rdoor_boarded, t_rdoor_boarded_damaged,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
     t_door_glass_c, t_door_glass_o,
@@ -558,7 +573,7 @@ extern ter_id t_null,
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
-    t_window_enhanced, t_window_enhanced_noglass,
+    t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
     num_terrain_types;
 
 
@@ -569,6 +584,7 @@ about ter_id above.
 */
 extern furn_id f_null,
     f_hay,
+    f_barricade_road,
     f_bulletin,
     f_indoor_plant,
     f_bed, f_toilet, f_makeshift_bed,
@@ -581,8 +597,8 @@ extern furn_id f_null,
     f_washer, f_dryer,
     f_vending_c, f_vending_o, f_dumpster, f_dive_block,
     f_crate_c, f_crate_o,
-    f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
-    f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
+    f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet, f_large_groundsheet,
+    f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
     f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
@@ -592,106 +608,6 @@ extern furn_id f_null,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
-
-enum old_ter_id {
-old_t_null = 0,
-old_t_hole, // Real nothingness; makes you fall a z-level
-// Ground
-old_t_dirt, old_t_sand, old_t_dirtmound, old_t_pit_shallow, old_t_pit,
-old_t_pit_corpsed, old_t_pit_covered, old_t_pit_spiked, old_t_pit_spiked_covered,
-old_t_rock_floor, old_t_rubble, old_t_ash, old_t_metal, old_t_wreckage,
-old_t_grass,
-old_t_metal_floor,
-old_t_pavement, old_t_pavement_y, old_t_sidewalk, old_t_concrete,
-old_t_floor,
-old_t_dirtfloor,//Dirt floor(Has roof)
-old_t_grate,
-old_t_slime,
-old_t_bridge,
-// Lighting related
-old_t_skylight, old_t_emergency_light_flicker, old_t_emergency_light,
-// Walls
-old_t_wall_log_half, old_t_wall_log, old_t_wall_log_chipped, old_t_wall_log_broken, old_t_palisade, old_t_palisade_gate, old_t_palisade_gate_o,
-old_t_wall_half, old_t_wall_wood, old_t_wall_wood_chipped, old_t_wall_wood_broken,
-old_t_wall_v, old_t_wall_h, old_t_concrete_v, old_t_concrete_h,
-old_t_wall_metal_v, old_t_wall_metal_h,
-old_t_wall_glass_v, old_t_wall_glass_h,
-old_t_wall_glass_v_alarm, old_t_wall_glass_h_alarm,
-old_t_reinforced_glass_v, old_t_reinforced_glass_h,
-old_t_bars,
-old_t_door_c, old_t_door_b, old_t_door_o, old_t_rdoor_c,
-old_t_door_locked_interior, old_t_door_locked, old_t_door_locked_alarm, old_t_door_frame,
-old_t_chaingate_l, old_t_fencegate_c, old_t_fencegate_o, old_t_chaingate_c, old_t_chaingate_o, old_t_door_boarded,
-old_t_door_metal_c, old_t_door_metal_o, old_t_door_metal_locked,
-old_t_door_bar_c, old_t_door_bar_o, old_t_door_bar_locked,
-old_t_door_glass_c, old_t_door_glass_o,
-old_t_portcullis,
-old_t_recycler, old_t_window, old_t_window_taped, old_t_window_domestic, old_t_window_domestic_taped, old_t_window_open, old_t_curtains,
-old_t_window_alarm, old_t_window_alarm_taped, old_t_window_empty, old_t_window_frame, old_t_window_boarded,
-old_t_window_stained_green, old_t_window_stained_red, old_t_window_stained_blue,
-old_t_rock, old_t_fault,
-old_t_paper,
-// Tree
-old_t_tree, old_t_tree_young, old_t_tree_apple, old_t_underbrush, old_t_shrub, old_t_shrub_blueberry, old_t_shrub_strawberry, old_t_trunk,
-old_t_root_wall,
-old_t_wax, old_t_floor_wax,
-old_t_fence_v, old_t_fence_h, old_t_chainfence_v, old_t_chainfence_h, old_t_chainfence_posts,
-old_t_fence_post, old_t_fence_wire, old_t_fence_barbed, old_t_fence_rope,
-old_t_railing_v, old_t_railing_h,
-// Nether
-old_t_marloss, old_t_fungus, old_t_tree_fungal,
-// Water, lava, etc.
-old_t_water_sh, old_t_water_dp, old_t_swater_sh, old_t_swater_dp, old_t_water_pool, old_t_sewage,
-old_t_lava,
-// More embellishments than you can shake a stick at.
-old_t_sandbox, old_t_slide, old_t_monkey_bars, old_t_backboard,
-old_t_gas_pump, old_t_gas_pump_smashed,
-old_t_generator_broken,
-old_t_missile, old_t_missile_exploded,
-old_t_radio_tower, old_t_radio_controls,
-old_t_console_broken, old_t_console, old_t_gates_mech_control, old_t_gates_control_concrete, old_t_barndoor, old_t_palisade_pulley,
-old_t_sewage_pipe, old_t_sewage_pump,
-old_t_centrifuge,
-old_t_column,
-old_t_vat,
-// Staircases etc.
-old_t_stairs_down, old_t_stairs_up, old_t_manhole, old_t_ladder_up, old_t_ladder_down, old_t_slope_down,
- old_t_slope_up, old_t_rope_up,
-old_t_manhole_cover,
-// Special
-old_t_card_science, old_t_card_military, old_t_card_reader_broken, old_t_slot_machine,
- old_t_elevator_control, old_t_elevator_control_off, old_t_elevator, old_t_pedestal_wyrm,
- old_t_pedestal_temple,
-// Temple tiles
-old_t_rock_red, old_t_rock_green, old_t_rock_blue, old_t_floor_red, old_t_floor_green, old_t_floor_blue,
- old_t_switch_rg, old_t_switch_gb, old_t_switch_rb, old_t_switch_even,
-old_t_rdoor_b, old_t_rdoor_o, old_t_mdoor_frame, old_t_window_reinforced, old_t_window_reinforced_noglass,
- old_t_window_enhanced, old_t_window_enhanced_noglass,
-old_num_terrain_types,
-};
-
-enum old_furn_id {
-old_f_null,
-old_f_hay,
-old_f_bulletin,
-old_f_indoor_plant,
-old_f_bed, old_f_toilet, old_f_makeshift_bed,
-old_f_sink, old_f_oven, old_f_woodstove, old_f_fireplace, old_f_bathtub,
-old_f_chair, old_f_armchair, old_f_sofa, old_f_cupboard, old_f_trashcan, old_f_desk, old_f_exercise,
-old_f_bench, old_f_table, old_f_pool_table,
-old_f_counter,
-old_f_fridge, old_f_glass_fridge, old_f_dresser, old_f_locker,
-old_f_rack, old_f_bookcase,
-old_f_washer, old_f_dryer,
-old_f_dumpster, old_f_dive_block,
-old_f_crate_c, old_f_crate_o,
-old_f_canvas_wall, old_f_canvas_door, old_f_canvas_door_o, old_f_groundsheet, old_f_fema_groundsheet,
-old_f_skin_wall, old_f_skin_door, old_f_skin_door_o, old_f_skin_groundsheet,
-old_f_mutpoppy,
-old_f_safe_c, old_f_safe_l, old_f_safe_o,
-old_f_plant_seed, old_f_plant_seedling, old_f_plant_mature, old_f_plant_harvest,
-old_num_furniture_types
-};
 
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();

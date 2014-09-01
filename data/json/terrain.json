@@ -270,6 +270,16 @@
         ]
     },{
         "type" : "terrain",
+        "id" : "t_utility_light",
+        "name": "Utility Light",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
         "id" : "t_wall_log_half",
         "name": "half-built wall",
         "symbol": "#",
@@ -621,7 +631,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_DAMAGED"
         ],
         "bash": {
             "str_min": 5, "str_max": 30, "str_min_blocked": 7, "str_max_blocked": 40,
@@ -662,7 +672,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR_REINFORCED"
         ],
         "open": "t_rdoor_o",
         "deconstruct": {
@@ -687,7 +697,7 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE_ASH", "NOITEM",
-            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+            "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_DOOR_REINFORCED_DAMAGED"
         ],
         "bash": {
             "str_min": 15, "str_max": 50, "str_min_blocked": 25, "str_max_blocked": 60,
@@ -709,7 +719,7 @@
         "move_cost": 2,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
-            "FLAT", "BARRICADABLE_DOOR"
+            "FLAT", "BARRICADABLE_DOOR_REINFORCED"
         ],
         "deconstruct": {
             "ter_set": "t_door_c",
@@ -726,10 +736,7 @@
         "symbol": "+",
         "color": "brown",
         "move_cost": 0,
-        "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
-            "REDUCE_SCENT", "BARRICADABLE_DOOR"
-        ],
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
         "bash": {
             "str_min": 5, "str_max": 30, "str_min_blocked": 7, "str_max_blocked": 40,
             "sound": "crash!",
@@ -750,7 +757,7 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF",
-            "OPENCLOSE_INSIDE", "REDUCE_SCENT", "BARRICADABLE_DOOR"
+            "OPENCLOSE_INSIDE", "REDUCE_SCENT"
         ],
         "open": "t_door_o",
         "bash": {
@@ -767,7 +774,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR", "REDUCE_SCENT"],
+            "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT"],
         "bash": {
             "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
             "sound": "smash!",
@@ -880,8 +887,65 @@
             "sound_fail": "wham!",
             "ter_set": "t_door_b",
             "items": [
-                { "item": "2x4", "amount": 6, "minamount": 1},
-                { "item": "nail", "amount": 12, "minamount": 2},
+                { "item": "2x4", "amount": 4, "minamount": 1},
+                { "item": "nail", "amount": 8, "minamount": 1},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_boarded_damaged",
+        "name": "boarded up damaged door",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 10, "str_max": 40, "str_min_blocked": 9, "str_max_blocked": 50,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "amount": 8, "minamount": 1},
+                { "item": "nail", "amount": 20, "minamount": 2},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_boarded",
+        "name": "boarded up reinforced door",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 25, "str_max": 60, "str_min_blocked": 32, "str_max_blocked": 70,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_rdoor_b",
+            "items": [
+                { "item": "2x4", "amount": 4, "minamount": 1},
+                { "item": "nail", "amount": 8, "minamount": 1},
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rdoor_boarded_damaged",
+        "name": "boarded up damaged reinforced door",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 20, "str_max": 50, "str_min_blocked": 24, "str_max_blocked": 60,
+            "sound": "crash!",
+            "sound_fail": "wham!",
+            "ter_set": "t_door_b",
+            "items": [
+                { "item": "2x4", "amount": 16, "minamount": 2},
+                { "item": "nail", "amount": 54, "minamount": 6},
                 { "item": "splinter", "amount": 1 }
             ]
         }
@@ -1106,7 +1170,7 @@
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
         "open": "t_window_domestic",
-	"examine_action" : "curtains",
+        "examine_action" : "curtains",
         "deconstruct": {
             "ter_set": "t_window_empty",
             "items": [
@@ -2451,7 +2515,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
     },{
-	    "type" : "terrain",
+        "type" : "terrain",
         "id" : "t_linoleum_white",
         "name": "linoleum tile",
         "symbol": ".",
@@ -2616,19 +2680,254 @@
         "examine_action": "water_source"
     },{
         "type" : "terrain",
-        "id" : "t_vine_wall_v",
-        "name": "vine covered wall",
-        "symbol": "LINE_XOXO",
-        "color": "green",
-        "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "id" : "t_open_air",
+        "name": "open air",
+        "symbol": " ",
+        "color": "i_cyan",
+        "move_cost": 2,
+        "trap": "tr_ledge",
+        "flags": ["TRANSPARENT", "NOITEM"]
     },{
         "type" : "terrain",
-        "id" : "t_vine_wall_h",
-        "name": "vine covered wall",
-        "symbol": "LINE_OXOX",
-        "color": "green",
+        "id" : "t_flat_roof",
+        "name": "flat roof",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    }, {
+        "type" : "terrain",
+        "id" : "t_plut_generator",
+        "name": "plutonium generator",
+        "symbol": "4",
+        "color": "h_brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+        "flags": ["TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 16, "str_max": 90, "num_tests": 2,
+            "explosive" : 3,
+            "ter_set": "t_floor",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 4},
+                { "item": "steel_chunk", "amount": 6, "minamount": 1},
+                { "item": "plut_cell", "amount": 3, "minamount": 0}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_sai_box",
+        "name": "telecom cabinet",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 8, "str_max": 80,
+            "sound": "whack!",
+            "sound_fail": "clang!",
+            "ter_set": "t_sai_box_damaged"
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_sai_box_damaged",
+        "name": "damaged telecom cabinet",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 6, "str_max": 80,
+            "sound": "whack!",
+            "sound_fail": "clang!",
+            "ter_set": "t_concrete",
+            "items": [
+                { "item": "cable", "amount": 8, "minamount": 4, "chance": 80 },
+                { "item": "e_scrap", "amount": 8, "minamount": 2, "chance": 60  },
+                { "item": "circuit", "amount": 6, "minamount": 1, "chance": 50 },
+                { "item": "amplifier", "amount": 4, "minamount": 1, "chance": 50 },
+                { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_support_l",
+        "name": "large metal support",
+        "symbol": "T",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_oil_circ_brkr_l",
+        "name": "HV oil circuit breaker",
+        "symbol": "B",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 6,
+            "sound": "pow!",
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 16, "minamount": 8},
+                { "item": "steel_chunk", "amount": 6, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_support_s",
+        "name": "small metal support",
+        "symbol": "l",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_oil_circ_brkr_s",
+        "name": "small HV oil circuit breaker",
+        "symbol": "b",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 4,
+            "sound": "pow!",
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 6},
+                { "item": "steel_chunk", "amount": 3, "minamount": 1}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_switchgear_l",
+        "name": "large switchgear",
+        "symbol": "H",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 3,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 10, "minamount": 5},
+                { "item": "steel_chunk", "amount": 4, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_pwr_sb_switchgear_s",
+        "name": "small switchgear",
+        "symbol": "L",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 2,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 4},
+                { "item": "steel_chunk", "amount": 2, "minamount": 1}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_lgtn_arrest",
+        "name": "lightning arrester",
+        "symbol": "}",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 4,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 8},
+                { "item": "steel_chunk", "amount": 4, "minamount": 4}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_station_disc",
+        "name": "disconnect switch",
+        "symbol": "h",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 3,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 4},
+                { "item": "steel_chunk", "amount": 4, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_current_trans",
+        "name": "current transformer",
+        "symbol": "{",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 5,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 10},
+                { "item": "steel_chunk", "amount": 6, "minamount": 4}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_potential_trans",
+        "name": "potential transformer",
+        "symbol": "8",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 5,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 12, "minamount": 10},
+                { "item": "steel_chunk", "amount": 6, "minamount": 4}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_primary_trans",
+        "name": "primary transformer",
+        "symbol": "9",
+        "color": "i_ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "bash": {
+            "str_min": 12, "str_max": 100, "num_tests": 2,
+            "explosive" : 6,
+            "ter_set": "t_concrete",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 14, "minamount": 10},
+                { "item": "steel_chunk", "amount": 8, "minamount": 4}
+            ]
+        }
     }
 ]

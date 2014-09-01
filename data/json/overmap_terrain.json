@@ -16,6 +16,21 @@
         "allow_road" : false
     },{
         "type" : "overmap_terrain",
+        "id" : "open_air",
+        "name" : "open air",
+        "rotate" : false,
+        "line_drawing" : false,
+        "sym" : 46,
+        "color" : "blue",
+        "see_cost" : 0,
+        "extras" : "none",
+        "known_down" : false,
+        "known_up" : false,
+        "mondensity" : 0,
+        "sidewalk" : false,
+        "allow_road" : false
+    },{
+        "type" : "overmap_terrain",
         "id" : "crater",
         "name" : "crater",
         "sym" : 79,
@@ -31,6 +46,7 @@
         "color" : "brown",
         "see_cost" : 2,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 },
         "allow_road" : true
     },{
         "type" : "overmap_terrain",
@@ -40,6 +56,7 @@
         "color" : "green",
         "see_cost" : 3,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 3], "chance": 80 },
         "allow_road" : true
     },{
         "type" : "overmap_terrain",
@@ -49,6 +66,7 @@
         "color" : "green",
         "see_cost" : 4,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 6], "chance": 90 },
         "allow_road" : true,
         "mapgen": [
             { "method": "builtin", "name": "forest" }
@@ -61,6 +79,7 @@
         "color" : "cyan",
         "see_cost" : 4,
         "extras" : "field",
+        "spawns" : { "group": "GROUP_SWAMP", "population": [1, 4], "chance": 100 },
         "allow_road" : true,
         "mapgen": [
             { "method": "builtin", "name": "forest" }
@@ -1248,6 +1267,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1256,6 +1276,7 @@
         "sym" : 76,
         "color" : "blue",
         "see_cost" : 5,
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 5], "chance": 20 },
         "known_down" : true
     },{
         "type" : "overmap_terrain",
@@ -1263,6 +1284,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_LAB", "population": [0, 8], "chance": 30 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1270,6 +1292,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "cyan",
+        "spawns" : { "group": "GROUP_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1277,6 +1300,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 5], "chance": 20 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1285,6 +1309,7 @@
         "sym" : 76,
         "color" : "blue",
         "see_cost" : 5,
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 5], "chance": 20 },
         "known_down" : true
     },{
         "type" : "overmap_terrain",
@@ -1292,6 +1317,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "light_blue",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [0, 8], "chance": 30 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1299,6 +1325,7 @@
         "name" : "science lab",
         "sym" : 76,
         "color" : "cyan",
+        "spawns" : { "group": "GROUP_ICE_LAB", "population": [4, 12], "chance": 90 },
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
@@ -1703,25 +1730,28 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_1",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194412, 4194411, 4194410, 4194413],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_2",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_3",
-        "name" : "Mall - Loading Bay",
+        "name" : "mall - loading bay",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_ltred",
         "see_cost" : 5,
@@ -1730,7 +1760,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_4",
-        "name" : "Mall - Utilities",
+        "name" : "mall - utilities",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1739,7 +1770,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_5",
-        "name" : "Mall - Utilities",
+        "name" : "mall - utilities",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1748,52 +1780,58 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_6",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_7",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_8",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_9",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_10",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_11",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1802,7 +1840,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_12",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1811,7 +1850,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_13",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1820,7 +1860,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_14",
-        "name" : "Mall - Entrance",
+        "name" : "mall - entrance",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_ltred",
         "see_cost" : 5,
@@ -1829,52 +1870,58 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_15",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [ 4194413, 4194412, 4194411, 4194410],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_16",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_17",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_18",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [ 4194411, 4194410, 4194413, 4194412],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_19",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_20",
-        "name" : "Mall - Food Court",
+        "name" : "mall - food court",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_ltred",
         "see_cost" : 5,
@@ -1883,7 +1930,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_21",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1892,7 +1940,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_22",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1901,7 +1950,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_23",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1910,7 +1960,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_24",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1919,7 +1970,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_25",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1928,7 +1980,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_26",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1937,25 +1990,28 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_27",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_28",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_29",
-        "name" : "Mall - Food Court",
+        "name" : "mall - food court",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_ltred",
         "see_cost" : 5,
@@ -1964,7 +2020,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_30",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1973,7 +2030,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_31",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1982,7 +2040,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_32",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -1991,7 +2050,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_33",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2000,7 +2060,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_34",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2009,7 +2070,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_35",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2018,25 +2080,28 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_36",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_37",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_38",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2045,7 +2110,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_39",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2054,7 +2120,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_40",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2063,7 +2130,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_41",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2072,7 +2140,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_42",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2081,7 +2150,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_43",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2090,7 +2160,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_44",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2099,25 +2170,28 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_45",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_46",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_47",
-        "name" : "Mall - Entrance",
+        "name" : "mall - entrance",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_ltred",
         "see_cost" : 5,
@@ -2126,7 +2200,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_48",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2135,7 +2210,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_49",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2144,7 +2220,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_50",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2153,7 +2230,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_51",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2162,7 +2240,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_52",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2171,7 +2250,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_53",
-        "name" : "Mall - Entrance",
+        "name" : "mall - entrance",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_ltred",
         "see_cost" : 5,
@@ -2180,25 +2260,28 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_54",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_55",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_56",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2207,7 +2290,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_57",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2216,7 +2300,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_58",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2225,7 +2310,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_59",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2234,7 +2320,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_60",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2243,7 +2330,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_61",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2252,7 +2340,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_62",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2261,25 +2350,28 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_63",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_64",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_65",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2288,7 +2380,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_66",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2297,7 +2390,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_67",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2306,7 +2400,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_68",
-        "name" : "Mall - Entrance",
+        "name" : "mall - entrance",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_ltred",
         "see_cost" : 5,
@@ -2315,7 +2410,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_69",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2324,7 +2420,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_70",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2333,7 +2430,8 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_71",
-        "name" : "Mall",
+        "name" : "mall",
+        "rotate" : true,
         "sym" : 77,
         "color" : "i_red",
         "see_cost" : 5,
@@ -2342,92 +2440,1946 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_72",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_73",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [ 4194413, 4194412, 4194411, 4194410],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_74",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_75",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_76",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_77",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194423, 4194421, 4194422, 4194420],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_78",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_79",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_80",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_81",
-        "name" : "Mall",
-        "sym" : 109,
-        "color" : "red",
+        "name" : "road",
+        "rotate" : true,
+        "sym" : [ 4194410, 4194413, 4194412, 4194411],
+        "color" : "dark_gray",
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_1",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_2",
+        "name" : "house",
+        "sym" : [118, 60, 94, 62],
+        "color" : "light_green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_3",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_4",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_5",
+        "name" : "abandoned store",
+        "sym" : [62, 118, 60, 94],
+        "color" : "h_dkgray",
+        "see_cost" : 5,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_6",
+        "name" : "road",
+        "color" : "dark_gray",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "see_cost" : 5,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_7",
+        "name" : "pump station",
+        "sym" : 80,
+        "color" : "red",
+        "known_down" : true,
+        "see_cost" : 5,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_8",
+        "name" : "pump station",
+        "sym" : 80,
+        "color" : "red",
+        "known_down" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_9",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_10",
+        "name" : "house",
+        "sym" : [62, 118, 60, 94],
+        "color" : "light_green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_11",
+        "name" : "road",
+        "color" : "dark_gray",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true,
+        "extras" : "road",
+        "rotate" : true,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_12",
+        "name" : "gardening store",
+        "sym" : [60, 94, 62, 118],
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_13",
+        "name" : "salon",
+        "sym" : 83,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_14",
+        "name" : "crater",
+        "sym" : 79,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_15",
+        "name" : "road",
+        "mondensity" : 2,
+        "see_cost" : 5,
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "rotate" : true,
+        "color" : "dark_gray"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_16",
+        "name" : "police station",
+        "sym" : [60, 94, 62, 118],
+        "color" : "h_yellow",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_17",
+        "name" : "police station",
+        "sym" : [118, 60, 94, 62],
+        "color" : "h_yellow",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_18",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_19",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_20",
+        "name" : "road",
+        "sym" : [4194413, 4194412, 4194411, 4194410],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_21",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_22",
+        "name" : "road",
+        "sym" : [4194423, 4194421, 4194422, 4194420],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_23",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_24",
+        "name" : "road",
+        "sym" : [4194422, 4194420, 4194423, 4194421],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_25",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_26",
+        "name" : "road",
+        "sym" : [4194411, 4194410, 4194413, 4194412],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_27",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_28",
+        "name" : "grocery store",
+        "sym" : [94, 62, 118, 60],
+        "color" : "green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_29",
+        "name" : "grocery store",
+        "sym" : [94, 62, 118, 60],
+        "color" : "green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_30",
+        "name" : "park",
+        "sym" : 79,
+        "color" : "green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_31",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_32",
+        "name" : "church",
+        "sym" : 67,
+        "color" : "light_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_33",
+        "name" : "church",
+        "sym" : 67,
+        "color" : "light_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_34",
+        "name" : "pawn shop",
+        "sym" : [94, 62, 118, 60],
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_35",
+        "name" : "crater",
+        "sym" : 79,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_36",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_37",
+        "name" : "furniture store",
+        "sym" : [62, 118, 60, 94],
+        "color" : "i_brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_38",
+        "name" : "crater",
+        "sym" : 79,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_39",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_40",
+        "name" : "road",
+        "sym" : [4194422, 4194420, 4194423, 4194421],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_41",
+        "name" : "road",
+        "sym" : [4194423, 4194421, 4194422, 4194420],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_42",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_43",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_44",
+        "name" : "road",
+        "sym" : [4194421, 4194422, 4194420, 4194423],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_45",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_46",
+        "name" : "clothing store",
+        "sym" : [62, 118, 60, 94],
+        "color" : "blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_47",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_48",
+        "name" : "motel",
+        "sym" : 109,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_49",
+        "name" : "motel",
+        "sym" : 109,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_50",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_51",
+        "name" : "restaurant",
+        "sym" : [60, 94, 62, 118],
+        "color" : "pink",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_52",
+        "name" : "bank",
+        "sym" : 36,
+        "color" : "light_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_53",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_54",
+        "name" : "house",
+        "sym" : [60, 94, 62, 118],
+        "color" : "light_green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_55",
+        "name" : "motel",
+        "sym" : 109,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_56",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_57",
+        "name" : "motel",
+        "sym" : 109,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_58",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_59",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_60",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_61",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_62",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_63",
+        "name" : "house",
+        "sym" : [60, 94, 62, 118],
+        "color" : "light_green",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_64",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_65",
+        "name" : "road",
+        "sym" : [4194422, 4194420, 4194423, 4194421],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_66",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_67",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_68",
+        "name" : "road",
+        "sym" : 4194414,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_69",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_70",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_71",
+        "name" : "road",
+        "sym" : [4194410, 4194413, 4194412, 4194411],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_72",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_73",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_74",
+        "name" : "bar",
+        "sym" : [94, 62, 118, 60],
+        "color" : "i_magenta",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_75",
+        "name" : "fast food",
+        "sym" : [94, 62, 118, 60],
+        "color" : "yellow_magenta",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_76",
+        "name" : "lot",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_77",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_78",
+        "name" : "gas station",
+        "sym" : [94, 62, 118, 60],
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_79",
+        "name" : "garage",
+        "sym" : 79,
+        "color" : "white",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_80",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_a_81",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "rotate" : true,
+        "sidewalk" : true
+
+    },{
+        "comment" : "xxx Bookmark for necropolis sewers",
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_1",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_2",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_3",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_4",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_5",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_6",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_7",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_8",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_9",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_10",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_11",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_12",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_13",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_14",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_15",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_16",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_17",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_18",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_19",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_20",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_21",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_22",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_23",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_24",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_25",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_26",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_27",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_28",
+        "name" : "cavern",
+        "sym" : 48,
+        "color" : "light_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_29",
+        "name" : "sewer?",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_30",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_31",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_32",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_33",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_34",
+        "name" : "basement",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_35",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_36",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_37",
+        "name" : "cavern",
+        "sym" : 48,
+        "color" : "light_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_38",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_39",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_40",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_41",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_42",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_43",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_44",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_45",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_46",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_47",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_48",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_49",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_50",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_51",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_52",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_53",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_54",
+        "name" : "basement",
+        "sym" : 79,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_55",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_56",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_57",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_58",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_59",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_60",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_61",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_62",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_63",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_64",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_65",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_66",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_67",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_68",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_69",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_70",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_71",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_72",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_73",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_74",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_75",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_76",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_77",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_78",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_79",
+        "name" : "sewer",
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_80",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_b_81",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_1",
+        "name" : "road",
+        "sym" : [4194412, 4194411, 4194410, 4194413],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_2",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_3",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_4",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_5",
+        "name" : "road",
+        "sym" : [ 4194411, 4194410, 4194413, 4194412],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_6",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_7",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_8",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_9",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_10",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_11",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_12",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_13",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_14",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_15",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_16",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_17",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_18",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_19",
+        "name" : "refugee center",
+        "sym" : 4194414,
+        "color" : "white",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_20",
+        "name" : "road",
+        "sym" : [4194424, 4194417, 4194424, 4194417],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_21",
+        "name" : "road",
+        "sym" : [ 4194413, 4194412, 4194411, 4194410],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_22",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_23",
+        "name" : "road",
+        "sym" : [4194423, 4194421, 4194422, 4194420],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_24",
+        "name" : "road",
+        "sym" : [4194417, 4194424, 4194417, 4194424],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "evac_center_25",
+        "name" : "road",
+        "rotate" : true,
+        "sym" : [ 4194410, 4194413, 4194412, 4194411],
+        "color" : "dark_gray",
+        "extras" : "build",
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_cabin",
+        "name" : "bandit cabin",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_1",
+        "name" : "bandit camp",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_2",
+        "name" : "bandit camp",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_3",
+        "name" : "bandit camp",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_4",
+        "name" : "bandit camp",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "sai",
+        "name" : "serving area interface",
+        "sym" : 48,
+        "color" : "i_magenta",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_sub_s",
+        "name" : "small power substation",
+        "sym" : 72,
+        "color" : "light_cyan",
+        "see_cost" : 5,
+        "extras" : "field"
     }
 ]

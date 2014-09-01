@@ -15849,7 +15849,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
-msgid "Ganz-Rustung"
+msgid "heavy crossbow"
 msgstr ""
 
 #: lang/json/GUN_from_json.py

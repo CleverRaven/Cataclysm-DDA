@@ -16,7 +16,7 @@
     {
         "type" : "item_group",
         "subtype": "distribution",
-        "comment": "items that an average zombie carries around and rops on death",
+        "comment": "items that an average zombie carries around and drops on death",
         "id": "default_zombie_items",
         "groups": [
             [ "livingroom", 5 ],
@@ -265,6 +265,36 @@
                 { "group": "mil_surplus", "prob": 6 }
             ] },
             { "item": "cash_card" }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "jackson_drops",
+        "entries":
+        [
+            { "item": "jacket_leather_red", "prob": 100 },
+            { "item": "jeans_red", "prob": 100 },
+            { "item": "socks", "prob": 100 },
+            { "item": "dance_shoes", "prob": 100 },
+            { "item": "glove_jackson", "prob": 100 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_technician_death_drops",
+        "entries":
+        [
+            { "group": "technician_shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "technician_pants", "damage-min": 1, "damage-max": 4 },
+            {
+                "distribution": [
+                    { "group": "underwear" }
+                ],
+                "damage-min": 1, "damage-max": 4
+            },
+            { "item": "hat_hard" }
         ]
     }
 ]

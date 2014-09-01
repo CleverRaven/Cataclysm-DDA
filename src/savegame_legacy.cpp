@@ -42,6 +42,8 @@
 #include "vehicle.h"
 #include "file_finder.h"
 
+#define ARRAY_SIZE(array) ( sizeof( array ) / sizeof( array[0] ) )
+
 //
 #include "mission.h"
 #include "faction.h"
@@ -101,7 +103,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -138,7 +140,6 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kscrap;
             if ( linein.peek() == '{' ) {
                 try {
                     JsonIn kjin(linein);
@@ -147,13 +148,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                     debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
                 }
             } else {
-                for (int kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                    if ( kk < 126 ) { // see legacy_mon_id
+                for (size_t kk = 0; kk < ARRAY_SIZE(legacy_mon_id) && !linein.eof(); kk++) {
                         // load->int->str->int (possibly shifted)
                         linein >> kills[legacy_mon_id[kk]];
-                    } else {
-                        linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
-                    }
                 }
             }
 
@@ -189,7 +186,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -234,15 +231,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk; int kscrap;
-            for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                if ( kk < 126 ) { // see legacy_mon_id
+            for (size_t kk = 0; kk < ARRAY_SIZE(legacy_mon_id) && !linein.eof(); kk++) {
                     // load->int->str->int (possibly shifted)
-                    //kk = monster_ints[ legacy_mon_id[ kk ] ];
                     linein >> kills[legacy_mon_id[kk]];
-                } else {
-                    linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
-                }
             }
 
             // Finally, the data on the player.
@@ -307,7 +298,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz);
+            m.load(levx, levy, levz, true, cur_om);
 
             run_mode = tmprun;
             if (OPTIONS["SAFEMODE"] && run_mode == 0) {
@@ -352,15 +343,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk; int kscrap;
-            for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
-                if ( kk < 126 ) { // see legacy_mon_id
+            for (size_t kk = 0; kk < ARRAY_SIZE(legacy_mon_id) && !linein.eof(); kk++) {
                     // load->int->str->int (possibly shifted)
-                    //kk = monster_ints[ legacy_mon_id[ kk ] ];
                     linein >> kills[legacy_mon_id[kk]];
-                } else {
-                    linein >> kscrap; // mon_id int exceeds number of monsters made prior to save switching to str mon_id.
-                }
             }
 
             // Finally, the data on the player.
@@ -424,7 +409,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          nextspawn = tmpspawn;
 
          cur_om = &overmap_buffer.get(comx, comy);
-         m.load(levx, levy, levz);
+         m.load(levx, levy, levz, true, cur_om);
 
          run_mode = tmprun;
          if (OPTIONS["SAFEMODE"] && run_mode == 0)
@@ -466,7 +451,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
         // And the kill counts;
          if (fin.peek() == '\n')
           fin.get(junk); // Chomp that pesky endline
-         for (int i = 0; i < num_monsters; i++)
+         for (size_t i = 0; i < ARRAY_SIZE(legacy_mon_id); i++)
           fin >> kills[legacy_mon_id[i]];
         // Finally, the data on the player.
          if (fin.peek() == '\n')
@@ -901,9 +886,10 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                     }
                 } else if (datatype == 'Z') { // Monster group
                     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
-                    zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
-                    zg.back().diffuse = cd;
-                    zg.back().dying = cdying;
+                    mongroup mg(cstr, cx, cy, cz, cs, cp);
+                    mg.diffuse = cd;
+                    mg.dying = cdying;
+                    add_mon_group( mg );
                     nummg++;
                 } else if (datatype == 't') { // City
                     fin >> cx >> cy >> cs;
@@ -1090,7 +1076,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
            popup_nowait(_("Please wait as the map loads [%d/%d]"),
                         num_loaded, num_submaps);
           int locx, locy, locz, turn, temperature;
-          submap* sm = new submap();
+          std::unique_ptr<submap> sm(new submap());
           fin >> locx >> locy >> locz >> turn >> temperature;
           if(fin.eof()) {
               break;
@@ -1343,10 +1329,9 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
         }
 
         int locx, locy, locz, turn, temperature;
-        submap *sm = new submap();
+        std::unique_ptr<submap> sm(new submap());
         fin >> locx >> locy >> locz >> turn >> temperature;
         if(fin.eof()) {
-            delete sm;
             break;
         }
         sm->turn_last_touched = turn;
@@ -1399,7 +1384,6 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 // file has ended, but the submap-separator string
                 // "----" has not been read, something's wrong, skip
                 // this probably damaged/invalid submap.
-                delete sm;
                 return;
             }
             fin >> string_identifier; // "----" indicates end of this submap
@@ -1537,7 +1521,11 @@ void player::load_legacy(std::stringstream & dump)
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
          underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
-         focus_pool >> male >> prof_ident >> health >> styletmp;
+         focus_pool >> male >> prof_ident >> healthy >> styletmp;
+
+         // Bionic power scale has been changed.
+         max_power_level *= 25;
+         power_level *= 25;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1607,7 +1595,7 @@ void player::load_legacy(std::stringstream & dump)
  dump >> numill;
  for (int i = 0; i < numill; i++) {
      dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart >> illtmp.side;
+          >> temp_bpart;
      illtmp.bp = (body_part)temp_bpart;
      illness.push_back(illtmp);
  }
@@ -1782,9 +1770,12 @@ void npc::load_legacy(std::stringstream & dump) {
  }
 // Special NPC stuff
  int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
+ int omx, omy;
  dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
-         omz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
+         mapz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
          flagstmp >> fac_id >> tmpatt;
+ mapx += omx * OMAPX * 2;
+ mapy += omy * OMAPY * 2;
  personality.aggression = agg;
  personality.bravery = bra;
  personality.collector = col;

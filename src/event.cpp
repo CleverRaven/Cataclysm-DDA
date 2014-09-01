@@ -5,44 +5,89 @@
 #include "options.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "overmapbuffer.h"
 #include "messages.h"
+#include <climits>
+
+event::event()
+{
+    type = EVENT_NULL;
+    turn = 0;
+    faction_id = -1;
+    map_point.x = INT_MIN;
+    map_point.y = INT_MIN;
+}
+
+event::event( event_type e_t, int t, int f_id, int x, int y )
+{
+    type = e_t;
+    turn = t;
+    faction_id = f_id;
+    map_point.x = x;
+    map_point.y = y;
+}
 
 void event::actualize()
 {
- switch (type) {
-
-  case EVENT_HELP: {
-   npc tmp;
-   int num = 1;
-   if (faction_id >= 0)
-    num = rng(1, 6);
-   for (int i = 0; i < num; i++) {
-    if (faction_id != -1) {
-     faction* fac = g->faction_by_id(faction_id);
-     if (fac)
-      tmp.randomize_from_faction(fac);
-     else
-      debugmsg("EVENT_HELP run with invalid faction_id");
-    } else
-     tmp.randomize();
-    tmp.attitude = NPCATT_DEFEND;
-    tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
-    tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
-    g->active_npc.push_back(&tmp);
-   }
-  } break;
+    switch( type ) {
+        case EVENT_HELP:
+            debugmsg("Currently disabled while NPC and monster factions are being rewritten.");
+        /*
+        {
+            int num = 1;
+            if( faction_id >= 0 ) {
+                num = rng( 1, 6 );
+            }
+            for( int i = 0; i < num; i++ ) {
+                npc *temp = new npc();
+                temp->normalize();
+                if( faction_id != -1 ) {
+                    faction *fac = g->faction_by_id( faction_id );
+                    if( fac ) {
+                        temp->randomize_from_faction( fac );
+                    } else {
+                        debugmsg( "EVENT_HELP run with invalid faction_id" );
+                        temp->randomize();
+                    }
+                } else {
+                    temp->randomize();
+                }
+                temp->attitude = NPCATT_DEFEND;
+                // important: npc::spawn_at must be called to put the npc into the overmap
+                temp->spawn_at( g->get_abs_levx(), g->get_abs_levy(), g->get_abs_levz() );
+                // spawn at the border of the reality bubble, outside of the players view
+                if( one_in( 2 ) ) {
+                    temp->posx = rng( 0, SEEX * MAPSIZE - 1 );
+                    temp->posy = rng( 0, 1 ) * SEEY * MAPSIZE;
+                } else {
+                    temp->posx = rng( 0, 1 ) * SEEX * MAPSIZE;
+                    temp->posy = rng( 0, SEEY * MAPSIZE - 1 );
+                }
+                // And tell the npc to go to the player.
+                temp->goal.x = g->om_global_location().x;
+                temp->goal.y = g->om_global_location().y;
+                // The npcs will be loaded later by game::load_npcs()
+            }
+        }
+        */
+        break;
 
   case EVENT_ROBOT_ATTACK: {
-   if (rl_dist(g->levx, g->levy, map_point.x, map_point.y) <= 4) {
+   if (rl_dist(g->get_abs_levx(), g->get_abs_levy(), map_point.x, map_point.y) <= 4) {
     mtype *robot_type = GetMType("mon_tripod");
     if (faction_id == 0) { // The cops!
-     robot_type = GetMType("mon_copbot");
+     if (one_in(2)) {
+         robot_type = GetMType("mon_copbot");
+     } else {
+         robot_type = GetMType("mon_riotbot");
+     }
+
      g->u.add_memorial_log(pgettext("memorial_male", "Became wanted by the police!"),
                            pgettext("memorial_female", "Became wanted by the police!"));
     }
     monster robot(robot_type);
-    int robx = (g->levx > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
-        roby = (g->levy > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
+    int robx = (g->get_abs_levx() > map_point.x ? 0 - SEEX * 2 : SEEX * 4),
+        roby = (g->get_abs_levy() > map_point.y ? 0 - SEEY * 2 : SEEY * 4);
     robot.spawn(robx, roby);
     g->add_zombie(robot);
    }
@@ -63,7 +108,7 @@ void event::actualize()
      mony = rng(0, SEEY * MAPSIZE);
      tries++;
     } while (tries < 10 && !g->is_empty(monx, mony) &&
-             rl_dist(g->u.posx, g->u.posx, monx, mony) <= 2);
+             rl_dist(g->u.posx, g->u.posy, monx, mony) <= 2);
     if (tries < 10) {
      wyrm.spawn(monx, mony);
      g->add_zombie(wyrm);

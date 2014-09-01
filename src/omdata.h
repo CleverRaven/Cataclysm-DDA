@@ -1,21 +1,18 @@
 #ifndef _OMDATA_H_
 #define _OMDATA_H_
 
+#include "color.h"
+#include "json.h"
+#include "enums.h"
 #include <string>
 #include <vector>
-#include <bitset>
-#include "mtype.h"
-#include "itype.h"
-#include "output.h"
-#include "mongroup.h"
-#include "mapdata.h"
-#include "json.h"
+#include <list>
+#include <set>
 
 #define OMAPX 180
 #define OMAPY 180
 
 class overmap;
-
 
 // Overmap "Zones"
 // Areas which have special post-generation processing attached to them
@@ -44,12 +41,21 @@ struct overmap_zone {
     std::set<tripoint> points;
     int size;
     int distance_from_center(tripoint p) {return rl_dist(center, p);}
-    bool contains_tripoint(tripoint p) {return (points.find(p) != points.end());}
+    bool contains_tripoint(tripoint p) {return (points.find(p) != points.end());
+}
+
+struct overmap_spawns {
+    overmap_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+        chance(0) {};
+    std::string group;
+    int min_population;
+    int max_population;
+    int chance;
 };
 
 struct oter_t {
     std::string id;      // definitive identifier
-    int loadid;          // position in termap / terlist
+    unsigned loadid;          // position in termap / terlist
     std::string name;
     long sym; // This is a long, so we can support curses linedrawing
     nc_color color;
@@ -64,75 +70,55 @@ struct oter_t {
     bool is_road;
     // bool disable_default_mapgen;
     // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
-    std::string id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
-    int loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
+    std::string
+    id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
+    unsigned loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
     std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
     bool rotates; // lazy for; directional_peers.size() == 4
     bool line_drawing; // lazy for; directional_peers.size() == 8
     std::string id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
 
-    oter_t& operator=(const oter_t right){
-        id = right.id;
-        loadid = right.loadid;
-        name = right.name;
-        id_base = right.id_base;
-        sym = right.sym;
-        color = right.color;
-        see_cost = right.see_cost;
-        extras = right.extras;
-        known_down = right.known_down;
-        known_up = right.known_up;
-        mondensity = right.mondensity;
-        sidewalk = right.sidewalk;
-        allow_road = right.allow_road;
-        is_river = right.is_river;
-        is_road = right.is_road;
-        //disable_default_mapgen = right.disable_default_mapgen;
-        loadid_base = right.loadid_base;
-        directional_peers = right.directional_peers;
-        rotates = right.rotates;
-        line_drawing = right.line_drawing;
-        id_mapgen = right.id_mapgen;
-        return *this;
-    }
+    // Spawns are added to the submaps *once* upon mapgen of the submaps
+    overmap_spawns static_spawns;
 };
 
 struct oter_id {
-   int _val; // just numeric index of oter_t, but typically invoked as string
+    unsigned _val; // just numeric index of oter_t, but typically invoked as string
 
-   // Hi, I'm an
-   operator int() const;
-   // pretending to be a
-   operator std::string() const;
-   // in order to map
-   operator oter_t() const;
+    // Hi, I'm an
+    operator int() const;
+    // pretending to be a
+    operator std::string() const;
+    // in order to map
+    operator oter_t() const;
 
-const oter_t & t() const;
+    const oter_t &t() const;
 
-   // set and compare by string
-   const int& operator=(const int& i);
-   bool operator!=(const char * v) const;
-   bool operator==(const char * v) const;
-   bool operator>=(const char * v) const;
-   bool operator<=(const char * v) const;
+    // set and compare by string
+    const unsigned &operator=(const int &i);
+    bool operator!=(const char *v) const;
+    bool operator==(const char *v) const;
+    bool operator>=(const char *v) const;
+    bool operator<=(const char *v) const;
 
-   // or faster, with another oter_id
-   bool operator!=(const oter_id& v) const;
-   bool operator==(const oter_id& v) const;
+    // or faster, with another oter_id
+    bool operator!=(const oter_id &v) const;
+    bool operator==(const oter_id &v) const;
 
-   // initialize as raw value
-   oter_id() : _val(0) { };
-   oter_id(int i) : _val(i) { };
-   // or as "something" by consulting otermap
-   oter_id(const std::string& v);
-   oter_id(const char * v);
 
-   // these std::string functions are provided for convenience, for others,
-   //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
-   const char * c_str() const;
-   int size() const;
-   int find(const std::string &v, const int start, const int end) const;
-   int compare(size_t pos, size_t len, const char* s, size_t n=0) const;
+    // initialize as raw value
+    oter_id() : _val(0) { };
+    oter_id(int i) : _val(i) { };
+    // or as "something" by consulting otermap
+    oter_id(const std::string &v);
+    oter_id(const char *v);
+
+    // these std::string functions are provided for convenience, for others,
+    //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
+    const char *c_str() const;
+    size_t size() const;
+    int find(const std::string &v, const int start, const int end) const;
+    int compare(size_t pos, size_t len, const char *s, size_t n = 0) const;
 };
 
 
@@ -153,10 +139,9 @@ typedef oter_id oter_iid;
 // into 900 squares; lots of space for interesting stuff!
 #define OMSPEC_FREQ 15
 
-struct overmap_special_spawns
-{
-    overmap_special_spawns():group("GROUP_NULL"),min_population(0),max_population(0),
-        min_radius(0), max_radius(0){};
+struct overmap_special_spawns {
+    overmap_special_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+        min_radius(0), max_radius(0) {};
     std::string group;
     int min_population;
     int max_population;
@@ -164,8 +149,7 @@ struct overmap_special_spawns
     int max_radius;
 };
 
-struct overmap_special_terrain
-{
+struct overmap_special_terrain {
     tripoint p;
     std::string connect;
     std::string terrain;
@@ -175,22 +159,22 @@ struct overmap_special_terrain
 class overmap_special
 {
     public:
-    bool operator<(const overmap_special& right) const
-    {
-        return (this->id.compare(right.id) < 0);
-    }
-    std::string id;
-    std::list<overmap_special_terrain> terrains;
-    int min_city_size, max_city_size;
-    int min_city_distance, max_city_distance;
-    int min_occurrences, max_occurrences;
-    int height, width;
-    bool rotatable;
-    bool unique;
-    bool required;
-    overmap_special_spawns spawns;
-    std::list<std::string> locations;
-    std::set<std::string> flags;
+        bool operator<(const overmap_special &right) const
+        {
+            return (this->id.compare(right.id) < 0);
+        }
+        std::string id;
+        std::list<overmap_special_terrain> terrains;
+        int min_city_size, max_city_size;
+        int min_city_distance, max_city_distance;
+        int min_occurrences, max_occurrences;
+        int height, width;
+        bool rotatable;
+        bool unique;
+        bool required;
+        overmap_special_spawns spawns;
+        std::list<std::string> locations;
+        std::set<std::string> flags;
 };
 
 extern std::vector<overmap_special> overmap_specials;
@@ -199,16 +183,15 @@ void load_overmap_specials(JsonObject &jo);
 
 void clear_overmap_specials();
 
-
 //////////////////////////////////
 ///// convenience definitions for hard-coded functions.
 extern oter_iid ot_null,
-     ot_crater,
-     ot_field,
-     ot_forest,
-     ot_forest_thick,
-     ot_forest_water,
-     ot_river_center;
+       ot_crater,
+       ot_field,
+       ot_forest,
+       ot_forest_thick,
+       ot_forest_water,
+       ot_river_center;
 
 void set_oter_ids();
 

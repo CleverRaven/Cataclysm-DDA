@@ -74,8 +74,10 @@ nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = fal
 int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = false);
 
 std::vector<std::string> foldstring (std::string str, int width);
-int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
-int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const std::string &text);
+int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,
+                   ...);
+int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
+                   const std::string &text);
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const char *mes, ...);
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
@@ -87,13 +89,19 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption = "
 std::string name_and_value(std::string name, int value, int field_width);
 std::string name_and_value(std::string name, std::string value, int field_width);
 
-void mvputch(int y, int x, nc_color FG, long ch);
+void mvputch(int y, int x, nc_color FG, const std::string &ch);
 void wputch(WINDOW *w, nc_color FG, long ch);
+// Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch(WINDOW *w, int y, int x, nc_color FG, long ch);
-void mvputch_inv(int y, int x, nc_color FG, long ch);
+void mvwputch(WINDOW *w, int y, int x, nc_color FG, const std::string &ch);
+void mvputch_inv(int y, int x, nc_color FG, const std::string &ch);
+// Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, long ch);
-void mvputch_hi(int y, int x, nc_color FG, long ch);
+void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, const std::string &ch);
+void mvputch_hi(int y, int x, nc_color FG, const std::string &ch);
+// Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, long ch);
+void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, const std::string &ch);
 void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
@@ -106,13 +114,6 @@ std::string word_rewrap (const std::string &ins, int width);
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
 
-#define STRING2(x) #x
-#define STRING(x) STRING2(x)
-
-// classy
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __VA_ARGS__)
-
-void realDebugmsg(const char *name, const char *line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 
@@ -146,7 +147,8 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    const int selected = -1, const bool without_getch = false, const bool without_border = false);
 
-int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight, const std::string sItemName,
+int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight,
+                   const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    const int selected = -1, const bool without_getch = false, const bool without_border = false);
 
@@ -165,11 +167,13 @@ std::string vstring_format(const std::string pattern, va_list argptr);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const std::string &fmt);
+size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
+                      const std::string &fmt);
 size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
-void hit_animation(int iX, int iY, nc_color cColor, char cTile);
+// cTile is a UTF-8 strings, and must be a single cell wide!
+void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
 void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
                 std::string &health_bar, const bool bMonster = false);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
@@ -181,7 +185,8 @@ void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
 
-class scrollingcombattext {
+class scrollingcombattext
+{
     private:
 
     public:
@@ -190,7 +195,8 @@ class scrollingcombattext {
         scrollingcombattext() : iMaxSteps(8) {};
         ~scrollingcombattext() {};
 
-        class cSCT {
+        class cSCT
+        {
             private:
                 int iPosX;
                 int iPosY;
@@ -212,16 +218,40 @@ class scrollingcombattext {
                      const std::string p_sType = "");
                 ~cSCT() {};
 
-                int getStep() { return iStep; }
-                int getStepOffset() { return iStepOffset; }
-                int advanceStep() { return ++iStep; }
-                int advanceStepOffset() { return ++iStepOffset; }
+                int getStep()
+                {
+                    return iStep;
+                }
+                int getStepOffset()
+                {
+                    return iStepOffset;
+                }
+                int advanceStep()
+                {
+                    return ++iStep;
+                }
+                int advanceStepOffset()
+                {
+                    return ++iStepOffset;
+                }
                 int getPosX();
                 int getPosY();
-                direction getDirecton() { return oDir; }
-                int getInitPosX() { return iPosX; }
-                int getInitPosY() { return iPosY; }
-                std::string getType() { return sType; }
+                direction getDirecton()
+                {
+                    return oDir;
+                }
+                int getInitPosX()
+                {
+                    return iPosX;
+                }
+                int getInitPosY()
+                {
+                    return iPosY;
+                }
+                std::string getType()
+                {
+                    return sType;
+                }
                 std::string getText(std::string sType = "full");
                 game_message_type getMsgType(std::string sType = "first");
         };

@@ -32,6 +32,7 @@ std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
+std::map<std::string, int> mOptionsSort;
 std::map<std::string, std::string> optionNames;
 int iWorldOptPage;
 
@@ -53,16 +54,19 @@ cOpt::cOpt()
 {
     sType = "VOID";
     sPage = "";
+    hide = COPT_NO_HIDE;
 }
 
 //string constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const std::string sItemsIn, std::string sDefaultIn)
+           const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "string";
+
+    hide = opt_hide;
 
     std::stringstream ssTemp(sItemsIn);
     std::string sItem;
@@ -76,29 +80,37 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
     sDefault = sDefaultIn;
     sSet = sDefaultIn;
+
+    setSortPos(sPageIn);
 }
 
 //bool constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const bool bDefaultIn)
+           const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "bool";
 
+    hide = opt_hide;
+
     bDefault = bDefaultIn;
     bSet = bDefaultIn;
+
+    setSortPos(sPageIn);
 }
 
 //int constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const int iMinIn, int iMaxIn, int iDefaultIn)
+           const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "int";
+
+    hide = opt_hide;
 
     if (iMinIn > iMaxIn) {
         iMaxIn = iMinIn;
@@ -113,16 +125,21 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
     iDefault = iDefaultIn;
     iSet = iDefaultIn;
+
+    setSortPos(sPageIn);
 }
 
 //float constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn)
+           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn,
+           copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
     sType = "float";
+
+    hide = opt_hide;
 
     if (fMinIn > fMaxIn) {
         fMaxIn = fMinIn;
@@ -138,9 +155,60 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
     fDefault = fDefaultIn;
     fSet = fDefaultIn;
+
+    setSortPos(sPageIn);
 }
 
 //helper functions
+bool cOpt::is_hidden()
+{
+    switch(hide) {
+    case COPT_NO_HIDE:
+        return false;
+
+    case COPT_SDL_HIDE:
+#ifdef SDLTILES
+        return true;
+#else
+        return false;
+#endif
+
+    case COPT_CURSES_HIDE:
+#ifndef SDLTILES // If not defined. it's curses interface.
+        return true;
+#else
+        return false;
+#endif
+
+    case COPT_POSIX_CURSES_HIDE:
+        // Check if we on windows and using wincuses.
+#if ((defined TILES && defined SDLTILES) || defined _WIN32 || defined WINDOWS)
+        return false;
+#else
+        return true;
+#endif
+
+    default:
+        return false; // No hide on default
+    }
+}
+
+void cOpt::setSortPos(const std::string sPageIn)
+{
+    if (!is_hidden()) {
+        mOptionsSort[sPageIn]++;
+        iSortPos = mOptionsSort[sPageIn] - 1;
+
+    } else {
+        iSortPos = -1;
+    }
+}
+
+int cOpt::getSortPos()
+{
+    return iSortPos;
+}
+
 std::string cOpt::getPage()
 {
     return sPage;
@@ -198,17 +266,18 @@ std::string cOpt::getValueName()
     return getValue();
 }
 
-std::string cOpt::getDefaultText()
+std::string cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string") {
         std::string sItems = "";
-        for (int i = 0; i < vItems.size(); i++) {
+        for (size_t i = 0; i < vItems.size(); i++) {
             if (sItems != "") {
                 sItems += _(", ");
             }
-            sItems += optionNames[vItems[i]];
+            sItems += (bTranslated) ? optionNames[vItems[i]] : vItems[i];
         }
-        return string_format(_("Default: %s - Values: %s"), optionNames[sDefault].c_str(), sItems.c_str());
+        return string_format(_("Default: %s - Values: %s"),
+                             (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
 
     } else if (sType == "bool") {
         return (bDefault) ? _("Default: True") : _("Default: False");
@@ -226,7 +295,7 @@ std::string cOpt::getDefaultText()
 int cOpt::getItemPos(const std::string sSearch)
 {
     if (sType == "string") {
-        for (int i = 0; i < vItems.size(); i++) {
+        for (size_t i = 0; i < vItems.size(); i++) {
             if (vItems[i] == sSearch) {
                 return i;
             }
@@ -241,7 +310,7 @@ void cOpt::setNext()
 {
     if (sType == "string") {
         int iNext = getItemPos(sSet) + 1;
-        if (iNext >= vItems.size()) {
+        if (iNext >= (int)vItems.size()) {
             iNext = 0;
         }
 
@@ -369,7 +438,13 @@ bool cOpt::operator!=(const std::string sCompare) const
 
 void initOptions()
 {
+    OPTIONS.clear();
+    ACTIVE_WORLD_OPTIONS.clear();
     vPages.clear();
+    mPageItems.clear();
+    mOptionsSort.clear();
+    optionNames.clear();
+
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("graphics", _("Graphics")));
@@ -383,90 +458,54 @@ void initOptions()
         vPages.push_back(std::make_pair("world_default", _("World Defaults")));
     }
 
-    OPTIONS.clear();
-
     std::string tileset_names;
     tileset_names = get_tileset_names(
-                        FILENAMES["gfxdir"]);      //get the tileset names and set the optionNames
+                        FILENAMES["gfxdir"]); //get the tileset names and set the optionNames
 
-    // TODO: scan for languages like we do for tilesets.
-    optionNames[""] = _("System language");
-    optionNames["cs"] = _("Czech");
-    optionNames["en"] = _("English");
-    optionNames["fr_FR"] = _("French");
-    optionNames["de_DE"] = _("German");
-    optionNames["it"] = _("Italian");
-    optionNames["ja"] = _("Japanese");
-    optionNames["ko"] = _("Korean");
-    optionNames["pl"] = _("Polish");
-    optionNames["pt_BR"] = _("Brazilian Portuguese");
-    optionNames["pt_PT"] = _("Portuguese, Portugal");
-    optionNames["ru"] = _("Russian");
-    optionNames["sr"] = _("Serbian");
-    optionNames["vi"] = _("Vietnamese");
-    optionNames["zh_CN"] = _("Simplified Chinese");
-    optionNames["zh_TW"] = _("Traditional Chinese");
-    OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
-                               "" );
+    ////////////////////////////GENERAL//////////////////////////
+    OPTIONS["AUTO_PICKUP"] = cOpt("general", _("Auto pickup enabled"),
+                                  _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
+                                  false
+                                 );
 
-    optionNames["fahrenheit"] = _("Fahrenheit");
-    optionNames["celsius"] = _("Celsius");
-    OPTIONS["USE_CELSIUS"] = cOpt("interface", _("Temperature units"),
-                                  _("Switch between Celsius and Fahrenheit."),
-                                  "fahrenheit,celsius", "fahrenheit" );
+    OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
+                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your homebase."),
+                                           false
+                                          );
 
-    optionNames["mph"] = _("mph");
-    optionNames["km/h"] = _("km/h");
-    OPTIONS["USE_METRIC_SPEEDS"] = cOpt("interface", _("Speed units"),
-                                        _("Switch between km/h and mph."), "mph,km/h", "mph" );
+    OPTIONS["AUTO_PICKUP_ZERO"] = cOpt("general", _("Auto pickup 0 vol light items"),
+                                       _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
+                                       0, 20, 0
+                                      );
 
-    optionNames["lbs"] = _("lbs");
-    optionNames["kg"] = _("kg");
-    OPTIONS["USE_METRIC_WEIGHTS"] = cOpt("interface", _("Mass units"),
-                                         _("Switch between kg and lbs."), "lbs,kg", "lbs" );
+    OPTIONS["AUTO_PICKUP_SAFEMODE"] = cOpt("general", _("Auto pickup safemode"),
+                                           _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by Safemode proximity distance."),
+                                           false
+                                          );
 
-    OPTIONS["FORCE_CAPITAL_YN"] = cOpt("interface", _("Force Y/N in prompts"),
-                                       _("If true, Y/N prompts are case-sensitive and y and n are not accepted."), true );
+    mOptionsSort["general"]++;
 
-    OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
-                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
-                                            false );
+    OPTIONS["DANGEROUS_PICKUPS"] = cOpt("general", _("Dangerous pickups"),
+                                        _("If false will cause player to drop new items that cause them to exceed the weight limit."),
+                                        false
+                                       );
 
-    //~ 12h time, e.g. 11:59pm
-    optionNames["12h"] = _("12h");
-    //~ Military time, e.g. 2359
-    optionNames["military"] = _("Military");
-    //~ 24h time, e.g. 23:59
-    optionNames["24h"] = _("24h");
-    OPTIONS["24_HOUR"] = cOpt("interface", _("Time format"),
-                              _("12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31"),
-                              "12h,military,24h", "12h"
-                             );
+    mOptionsSort["general"]++;
 
-    OPTIONS["SNAP_TO_TARGET"] = cOpt("interface", _("Snap to target"),
-                                     _("If true, automatically follow the crosshair when firing/throwing."),
-                                     false
-                                    );
+    OPTIONS["AUTOSAFEMODE"] = cOpt("general", _("Auto-safemode on by default"),
+                                   _("If true, auto-safemode will be on after starting a new game or loading."),
+                                   false
+                                  );
+
+    OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to reenable safemode"),
+                                        _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance."),
+                                        1, 100, 50
+                                       );
 
     OPTIONS["SAFEMODE"] = cOpt("general", _("Safemode on by default"),
                                _("If true, safemode will be on after starting a new game or loading."),
                                true
                               );
-
-    OPTIONS["VEHICLE_ARMOR_COLOR"] = cOpt("interface", _("Vehicle plating changes part color"),
-                                          _("If true, vehicle parts will change color if they are armor plated"),
-                                          true
-                                         );
-    OPTIONS["DRIVING_VIEW_OFFSET"] = cOpt("interface", _("Auto-shift the view while driving"),
-                                          _("If true, view will automatically shift towards the driving direction"),
-                                          true
-                                         );
-
-    OPTIONS["VEHICLE_DIR_INDICATOR"] = cOpt("interface", _("Draw vehicle facing indicator"),
-                                            _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
-                                            false
-                                           );
 
     OPTIONS["SAFEMODEPROXIMITY"] = cOpt("general", _("Safemode proximity distance"),
                                         _("If safemode is enabled, distance to hostiles when safemode should show a warning. 0 = Max player viewdistance."),
@@ -478,16 +517,7 @@ void initOptions()
                                   false
                                  );
 
-    OPTIONS["AUTOSAFEMODE"] = cOpt("general", _("Auto-safemode on by default"),
-                                   _("If true, auto-safemode will be on after starting a new game or loading."),
-                                   false
-                                  );
-
-
-    OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to reenable safemode"),
-                                        _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance."),
-                                        1, 100, 50
-                                       );
+    mOptionsSort["general"]++;
 
     OPTIONS["AUTOSAVE"] = cOpt("general", _("Periodically autosave"),
                                _("If true, game will periodically save the map."),
@@ -504,23 +534,101 @@ void initOptions()
                                        0, 127, 5
                                       );
 
-    OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
-                                 _("If true, will display enabled animations."),
-                                 true
-                                );
-
-    OPTIONS["ANIMATION_RAIN"] = cOpt("graphics", _("Rain animation"),
-                                     _("If true, will display weather animations."),
-                                     true
-                                    );
-
-    OPTIONS["ANIMATION_SCT"] = cOpt("graphics", _("SCT animation"),
-                                    _("If true, will display scrolling combat text animations."),
-                                    true
-                                   );
+    mOptionsSort["general"]++;
 
     OPTIONS["CIRCLEDIST"] = cOpt("general", _("Circular distances"),
                                  _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
+                                 false
+                                );
+
+    optionNames["no"] = _("No");
+    //~ containers
+    optionNames["watertight"] = _("Watertight");
+    optionNames["all"] = _("All");
+    OPTIONS["DROP_EMPTY"] = cOpt("general", _("Drop empty containers"),
+                                 _("Set to drop empty containers after use. No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers."),
+                                 "no,watertight,all", "no"
+                                );
+
+    OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
+                                 _("If true automatically sets notes on places that have stairs that go up or down"),
+                                 false
+                                );
+
+    ////////////////////////////INTERFACE////////////////////////
+    // TODO: scan for languages like we do for tilesets.
+    optionNames[""] = _("System language");
+    // Note: language names are in their own language and are *not* translated at all.
+    optionNames["cs"] = "Čeština";
+    optionNames["en"] = "English";
+    optionNames["fi"] = "Suomi";
+    optionNames["fr_FR"] =  "Français (France)";
+    optionNames["de_DE"] = "Deutsch (Deutschland)";
+    optionNames["it"] = "Italiano";
+    optionNames["es_ES"] = "Español (España)";
+    optionNames["ja"] = "日本語";
+    optionNames["ko"] = "한국어";
+    optionNames["pl"] = "polski";
+    optionNames["pt_BR"] = "Português (Brasil)";
+    optionNames["pt_PT"] = "Português (Portugal)";
+    optionNames["ru"] = "Русский";
+    optionNames["sr"] = "Srpski";
+    optionNames["vi"] = "Tiếng Việt";
+    optionNames["zh_CN"] = "中文(中华人民共和国)";
+    optionNames["zh_TW"] = "中文(台灣)";
+    OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
+                               ",cs,en,fi,fr_FR,de_DE,it,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
+                               ""
+                              );
+
+    mOptionsSort["interface"]++;
+
+    optionNames["fahrenheit"] = _("Fahrenheit");
+    optionNames["celsius"] = _("Celsius");
+    OPTIONS["USE_CELSIUS"] = cOpt("interface", _("Temperature units"),
+                                  _("Switch between Celsius and Fahrenheit."),
+                                  "fahrenheit,celsius", "fahrenheit"
+                                 );
+
+    optionNames["mph"] = _("mph");
+    optionNames["km/h"] = _("km/h");
+    OPTIONS["USE_METRIC_SPEEDS"] = cOpt("interface", _("Speed units"),
+                                        _("Switch between km/h and mph."),
+                                        "mph,km/h", "mph"
+                                       );
+
+    optionNames["lbs"] = _("lbs");
+    optionNames["kg"] = _("kg");
+    OPTIONS["USE_METRIC_WEIGHTS"] = cOpt("interface", _("Mass units"),
+                                         _("Switch between kg and lbs."),
+                                         "lbs,kg", "lbs"
+                                        );
+
+    //~ 12h time, e.g. 11:59pm
+    optionNames["12h"] = _("12h");
+    //~ Military time, e.g. 2359
+    optionNames["military"] = _("Military");
+    //~ 24h time, e.g. 23:59
+    optionNames["24h"] = _("24h");
+    OPTIONS["24_HOUR"] = cOpt("interface", _("Time format"),
+                              _("12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31"),
+                              "12h,military,24h", "12h"
+                             );
+
+    mOptionsSort["interface"]++;
+
+    OPTIONS["FORCE_CAPITAL_YN"] = cOpt("interface", _("Force Y/N in prompts"),
+                                       _("If true, Y/N prompts are case-sensitive and y and n are not accepted."),
+                                       true
+                                      );
+
+    OPTIONS["SNAP_TO_TARGET"] = cOpt("interface", _("Snap to target"),
+                                     _("If true, automatically follow the crosshair when firing/throwing."),
+                                     false
+                                    );
+
+    OPTIONS["SAVE_SLEEP"] = cOpt("interface", _("Ask to save before sleeping"),
+                                 _("If true, game will ask to save the map before sleeping."),
                                  false
                                 );
 
@@ -540,14 +648,170 @@ void initOptions()
                                     false
                                    );
 
-    optionNames["no"] = _("No");
-    //~ containers
-    optionNames["watertight"] = _("Watertight");
-    optionNames["all"] = _("All");
-    OPTIONS["DROP_EMPTY"] = cOpt("general", _("Drop empty containers"),
-                                 _("Set to drop empty containers after use. No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers."),
-                                 "no,watertight,all", "no"
+    mOptionsSort["interface"]++;
+
+    OPTIONS["VEHICLE_ARMOR_COLOR"] = cOpt("interface", _("Vehicle plating changes part color"),
+                                          _("If true, vehicle parts will change color if they are armor plated"),
+                                          true
+                                         );
+
+    OPTIONS["DRIVING_VIEW_OFFSET"] = cOpt("interface", _("Auto-shift the view while driving"),
+                                          _("If true, view will automatically shift towards the driving direction"),
+                                          true
+                                         );
+
+    OPTIONS["VEHICLE_DIR_INDICATOR"] = cOpt("interface", _("Draw vehicle facing indicator"),
+                                            _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
+                                            false
+                                           );
+
+    mOptionsSort["interface"]++;
+
+    //~ sidebar style
+    optionNames["wider"] = _("Wider");
+    optionNames["narrow"] = _("Narrow");
+    OPTIONS["SIDEBAR_STYLE"] = cOpt("interface", _("Sidebar style"),
+                                    _("Switch between a narrower or wider sidebar. Requires restart."),
+                                    "wider,narrow", "narrow"
+                                   );
+
+    //~ style of vehicle interaction menu; vertical is old one.
+    optionNames["vertical"] = _("Vertical");
+    optionNames["horizontal"] = _("Horizontal");
+    optionNames["hybrid"] = _("Hybrid");
+    OPTIONS["VEH_MENU_STYLE"] = cOpt("interface", _("Vehicle menu style"),
+                                     _("Switch between two different styles of vehicle interaction menu or combination of them."),
+                                     "vertical,horizontal,hybrid", "vertical"
+                                    );
+
+    mOptionsSort["interface"]++;
+
+    OPTIONS["MOVE_VIEW_OFFSET"] = cOpt("interface", _("Move view offset"),
+                                       _("Move view by how many squares per keypress."),
+                                       1, 50, 1
+                                      );
+
+    OPTIONS["MENU_SCROLL"] = cOpt("interface", _("Centered menu scrolling"),
+                                  _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
+                                  true
+                                 );
+
+    optionNames["false"] = _("False");
+    optionNames["centered"] = _("Centered");
+    optionNames["edge"] = _("To edge");
+    OPTIONS["SHIFT_LIST_ITEM_VIEW"] = cOpt("interface", _("Shift list item view"),
+                                           _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
+                                           "false,centered,edge",  "centered"
+                                          );
+
+    mOptionsSort["interface"]++;
+
+    OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),
+                                      _("Enable input from joystick."),
+                                      true, COPT_CURSES_HIDE
+                                     );
+
+    //~ show mouse cursor
+    optionNames["show"] = _("Show");
+    //~ hide mouse cursor
+    optionNames["hide"] = _("Hide");
+    //~ hide mouse cursor when keyboard is used
+    optionNames["hidekb"] = _("HideKB");
+    OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
+                                  _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
+                                  "show,hide,hidekb", "show", COPT_CURSES_HIDE
+                                 );
+
+    ////////////////////////////GRAPHICS/////////////////////////
+    OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
+                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
+                                            false
+                                           );
+
+    mOptionsSort["graphics"]++;
+
+    OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
+                                 _("If true, will display enabled animations."),
+                                 true
                                 );
+
+    OPTIONS["ANIMATION_RAIN"] = cOpt("graphics", _("Rain animation"),
+                                     _("If true, will display weather animations."),
+                                     true
+                                    );
+
+    OPTIONS["ANIMATION_SCT"] = cOpt("graphics", _("SCT animation"),
+                                    _("If true, will display scrolling combat text animations."),
+                                    true
+                                   );
+
+    OPTIONS["ANIMATION_DELAY"] = cOpt("graphics", _("Animation delay"),
+                                      _("The amount of time to pause between animation frames in ms."),
+                                      0, 100, 10
+                                     );
+
+    mOptionsSort["graphics"]++;
+
+    OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
+                                 _("Set the size of the terminal along the X axis. Requires restart."),
+                                 80, 242, 80, COPT_POSIX_CURSES_HIDE
+                                );
+
+    OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
+                                 _("Set the size of the terminal along the Y axis. Requires restart."),
+                                 24, 187, 24, COPT_POSIX_CURSES_HIDE
+                                );
+
+    mOptionsSort["graphics"]++;
+
+    OPTIONS["USE_TILES"] = cOpt("graphics", _("Use tiles"),
+                                _("If true, replaces some TTF rendered text with tiles."),
+                                true, COPT_CURSES_HIDE
+                               );
+
+    OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
+                            _("Choose the tileset you want to use."),
+                            tileset_names, "hoder", COPT_CURSES_HIDE
+                           ); // populate the options dynamically
+
+    mOptionsSort["graphics"]++;
+
+    OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
+                                 _("Starts Cataclysm in fullscreen-mode. Requires Restart."),
+                                 false, COPT_CURSES_HIDE
+                                );
+
+    OPTIONS["SOFTWARE_RENDERING"] = cOpt("graphics", _("Software rendering"),
+                                         _("Use software renderer instead of graphics card acceleration."),
+                                         false, COPT_CURSES_HIDE
+                                        );
+
+    mOptionsSort["graphics"]++;
+
+    OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
+                                   _("Adjust the volume of the music being played in the background."),
+                                   0, 200, 100, COPT_CURSES_HIDE
+                                  );
+
+    ////////////////////////////DEBUG////////////////////////////
+    OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
+            _("Determines the scope, which is known in the beginning of the game."),
+            3, 20, 15
+                                                 );
+
+    mOptionsSort["debug"]++;
+
+    OPTIONS["INITIAL_POINTS"] = cOpt("debug", _("Initial points"),
+                                     _("Initial points available on character generation."),
+                                     0, 1000, 6
+                                    );
+
+    OPTIONS["MAX_TRAIT_POINTS"] = cOpt("debug", _("Maximum trait points"),
+                                       _("Maximum trait points available for character generation."),
+                                       0, 1000, 12
+                                      );
+
+    mOptionsSort["debug"]++;
 
     //~ plain, default, normal
     optionNames["vanilla"] = _("Vanilla");
@@ -560,9 +824,10 @@ void initOptions()
     optionNames["off"] = _("Off");
     OPTIONS["SKILL_RUST"] = cOpt("debug", _("Skill rust"),
                                  _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
-                                 "vanilla,capped,int,intcap,off", "vanilla"
+                                 "vanilla,capped,int,intcap,off", "int"
                                 );
 
+    ////////////////////////////WORLD DEFAULT////////////////////
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
@@ -571,15 +836,12 @@ void initOptions()
                                    "no,yes,query", "no"
                                   );
 
-    OPTIONS["INITIAL_POINTS"] = cOpt("debug", _("Initial points"),
-                                     _("Initial points available on character generation."),
-                                     0, 1000, 6
-                                    );
+    mOptionsSort["world_default"]++;
 
-    OPTIONS["MAX_TRAIT_POINTS"] = cOpt("debug", _("Maximum trait points"),
-                                       _("Maximum trait points available for character generation."),
-                                       0, 1000, 12
-                                      );
+    OPTIONS["CITY_SIZE"] = cOpt("world_default", _("Size of cities"),
+                                _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
+                                1, 16, 4
+                               );
 
     OPTIONS["SPAWN_DENSITY"] = cOpt("world_default", _("Spawn rate scaling factor"),
                                     _("A scaling factor that determines density of monster spawns."),
@@ -590,18 +852,17 @@ void initOptions()
                                      _("A scaling factor that determines density of item spawns."),
                                      0.01, 10.0, 1.0, 0.01
                                     );
+
+    mOptionsSort["world_default"]++;
+
     std::string region_ids("default");
     optionNames["default"] = "default";
-
     OPTIONS["DEFAULT_REGION"] = cOpt("world_default", _("Default region type"),
                                      _("(WIP feature) Determines terrain, shops, plants, and more."),
                                      region_ids, "default"
                                     );
 
-    OPTIONS["CITY_SIZE"] = cOpt("world_default", _("Size of cities"),
-                                _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
-                                1, 16, 4
-                               );
+    mOptionsSort["world_default"]++;
 
     OPTIONS["INITIAL_TIME"] = cOpt("world_default", _("Initial time"),
                                    _("Initial starting time of day on character generation."),
@@ -616,41 +877,18 @@ void initOptions()
                                      _("Initial starting season of day on character generation."),
                                      "spring,summer,autumn,winter", "spring");
 
-    OPTIONS["TERMINAL_X"] = cOpt("graphics", _("Terminal width"),
-                                 _("SDL ONLY: Set the size of the terminal along the X axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 80, 242, 80
-                                );
-
-    OPTIONS["TERMINAL_Y"] = cOpt("graphics", _("Terminal height"),
-                                 _("SDL ONLY: Set the size of the terminal along the Y axis. Requires restart. POSIX systems will use terminal size at startup."),
-                                 24, 187, 24
-                                );
-
-    optionNames["wider"] = _("Wider");
-    //~ sidebar style
-    optionNames["narrow"] = _("Narrow");
-    OPTIONS["SIDEBAR_STYLE"] = cOpt("interface", _("Sidebar style"),
-                                    _("Switch between a narrower or wider sidebar. Requires restart."),
-                                    "wider,narrow", "narrow"
+    OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
+                                    _("Season length, in days."),
+                                    14, 127, 14
                                    );
-    //~ style of vehicle interaction menu; vertical is old one.
-    optionNames["vertical"] = _("Vertical");
-    optionNames["horizontal"] = _("Horizontal");
-    optionNames["hybrid"] = _("Hybrid");
-    OPTIONS["VEH_MENU_STYLE"] = cOpt("interface", _("Vehicle menu style"),
-                                     _("Switch between two different styles of vehicle interaction menu or combination of them."),
-                                     "vertical,horizontal,hybrid", "vertical"
-                                    );
 
-    OPTIONS["MOVE_VIEW_OFFSET"] = cOpt("interface", _("Move view offset"),
-                                       _("Move view by how many squares per keypress."),
-                                       1, 50, 1
-                                      );
+    mOptionsSort["world_default"]++;
 
     OPTIONS["STATIC_SPAWN"] = cOpt("world_default", _("Static spawn"),
                                    _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                    true
                                   );
+
     OPTIONS["WANDER_SPAWNS"] = cOpt("world_default", _("Wander spawns"),
                                     _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise"),
                                     false
@@ -666,10 +904,7 @@ void initOptions()
                                  false
                                 );
 
-    OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
-                                    _("Season length, in days."),
-                                    14, 127, 14
-                                   );
+    mOptionsSort["world_default"]++;
 
     OPTIONS["STATIC_NPC"] = cOpt("world_default", _("Static npcs"),
                                  _("If true, the game will spawn static NPC at the start of the game, requires world reset."),
@@ -681,102 +916,48 @@ void initOptions()
                                  false
                                 );
 
+    mOptionsSort["world_default"]++;
+
     OPTIONS["RAD_MUTATION"] = cOpt("world_default", _("Mutations by radiation"),
                                    _("If true, radiation causes the player to mutate."),
                                    true
                                   );
 
-    OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
-            _("Determines the scope, which is known in the beginning of the game."),
-            3, 20, 15
-                                                 );
+    for (unsigned i = 0; i < vPages.size(); ++i) {
+        mPageItems[i].resize(mOptionsSort[vPages[i].first]);
+    }
 
-    OPTIONS["SAVE_SLEEP"] = cOpt("interface", _("Ask to save before sleeping"),
-                                 _("If true, game will ask to save the map before sleeping."),
-                                 false
-                                );
-
-    //~ show mouse cursor
-    optionNames["show"] = _("Show");
-    //~ hide mouse cursor
-    optionNames["hide"] = _("Hide");
-    //~ hide mouse cursor when keyboard is used
-    optionNames["hidekb"] = _("HideKB");
-    OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
-                                  _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
-                                  "show,hide,hidekb", "show"
-                                 );
-
-    OPTIONS["MENU_SCROLL"] = cOpt("interface", _("Centered menu scrolling"),
-                                  _("If true, menus will start scrolling in the center of the list, and keep the list centered."),
-                                  true
-                                 );
-
-    OPTIONS["AUTO_PICKUP"] = cOpt("general", _("Auto pickup enabled"),
-                                  _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
-                                  false
-                                 );
-
-    OPTIONS["AUTO_PICKUP_ZERO"] = cOpt("general", _("Auto pickup 0 vol light items"),
-                                       _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
-                                       0, 20, 0
-                                      );
-
-    OPTIONS["AUTO_PICKUP_SAFEMODE"] = cOpt("general", _("Auto pickup safemode"),
-                                           _("Auto pickup is disabled as long as you can see monsters nearby. This is affected by Safemode proximity distance."),
-                                           false
-                                          );
-
-    OPTIONS["DANGEROUS_PICKUPS"] = cOpt("general", _("Dangerous pickups"),
-                                        _("If false will cause player to drop new items that cause them to exceed the weight limit."),
-                                        false
-                                       );
-
-    optionNames["false"] = _("False");
-    optionNames["centered"] = _("Centered");
-    optionNames["edge"] = _("To edge");
-    OPTIONS["SHIFT_LIST_ITEM_VIEW"] = cOpt("interface", _("Shift list item view"),
-                                           _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
-                                           "false,centered,edge",  "centered"
-                                          );
-
-    OPTIONS["USE_TILES"] = cOpt("graphics", _("Use tiles"),
-                                _("If true, replaces some TTF rendered text with tiles. Only applicable on SDL builds."),
-                                true
-                               );
-
-    OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
-                            _("Choose the tileset you want to use. Only applicable on SDL builds."),
-                            tileset_names, "hoder"
-                           );
-
-    OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
-                                 _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
-                                 false
-                                );
-
-    OPTIONS["SOFTWARE_RENDERING"] = cOpt("graphics", _("Software rendering"),
-                                         _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
-                                         false
-                                        );  // populate the options dynamically
-
-    OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
-                                   _("SDL ONLY: Adjust the volume of the music being played in the background."),
-                                   0, 200, 100
-                                  );  // populate the options dynamically
-
-    OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
-                                 _("If true automatically sets notes on places that have stairs that go up or down"),
-                                 false
-                                );
-
-    std::map<std::string, cOpt> OPTIONS_ORDERED(OPTIONS.begin(), OPTIONS.end());
-    for( auto iter = OPTIONS_ORDERED.begin(); iter != OPTIONS_ORDERED.end(); ++iter ) {
+    for( auto iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
-            if (vPages[i].first == (iter->second).getPage()) {
-                mPageItems[i].push_back(iter->first);
+            if (vPages[i].first == (iter->second).getPage() && (iter->second).getSortPos() > -1) {
+                mPageItems[i][(iter->second).getSortPos()] = iter->first;
                 break;
             }
+        }
+    }
+
+    //Sort out possible double empty lines after options are hidden
+    for (unsigned i = 0; i < vPages.size(); ++i) {
+        bool bLastLineEmpty = false;
+        while (mPageItems[i][0] == "") {
+            //delete empty lines at the beginning
+            mPageItems[i].erase(mPageItems[i].begin());
+        }
+
+        while (mPageItems[i][mPageItems[i].size() - 1] == "") {
+            //delete empty lines at the end
+            mPageItems[i].erase(mPageItems[i].end() - 1);
+        }
+
+        for (unsigned j = mPageItems[i].size() - 1; j > 0; --j) {
+            bool bThisLineEmpty = (mPageItems[i][j] == "");
+
+            if (bLastLineEmpty == true && bThisLineEmpty == true) {
+                //delete empty lines in between
+                mPageItems[i].erase(mPageItems[i].begin() + j);
+            }
+
+            bLastLineEmpty = bThisLineEmpty;
         }
     }
 }
@@ -796,7 +977,7 @@ void show_options(bool ingame)
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     std::map<int, bool> mapLines;
-    mapLines[3] = true;
+    mapLines[4] = true;
     mapLines[60] = true;
 
     WINDOW *w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
@@ -869,29 +1050,34 @@ void show_options(bool ingame)
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iCurrentPage].size());
 
         //Draw options
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > mPageItems[iCurrentPage].size()) ?
-                mPageItems[iCurrentPage].size() : iContentHeight); i++) {
+        size_t iBlankOffset = 0; // Offset when blank line is printed.
+        for (int i = iStartPos; i < iStartPos + ((iContentHeight > (int)mPageItems[iCurrentPage].size()) ?
+                (int)mPageItems[iCurrentPage].size() : iContentHeight); i++) {
+
+            int line_pos; // Current line position in window.
             nc_color cLineColor = c_ltgreen;
+            cOpt *current_opt = &(cOPTIONS[mPageItems[iCurrentPage][i]]);
+
+            line_pos = i - iStartPos;
 
             sTemp.str("");
-            sTemp << i + 1;
-            mvwprintz(w_options, i - iStartPos, 0, c_white, sTemp.str().c_str());
-            mvwprintz(w_options, i - iStartPos, 4, c_white, "");
+            sTemp << i + 1 - iBlankOffset;
+            mvwprintz(w_options, line_pos, 1, c_white, sTemp.str().c_str());
+            mvwprintz(w_options, line_pos, 5, c_white, "");
 
             if (iCurrentLine == i) {
                 wprintz(w_options, c_yellow, ">> ");
             } else {
                 wprintz(w_options, c_yellow, "   ");
             }
-            wprintz(w_options, c_white, "%s",
-                    (cOPTIONS[mPageItems[iCurrentPage][i]].getMenuText()).c_str());
+            wprintz(w_options, c_white, "%s", current_opt->getMenuText().c_str());
 
-            if (cOPTIONS[mPageItems[iCurrentPage][i]].getValue() == "false") {
+            if (current_opt->getValue() == "false") {
                 cLineColor = c_ltred;
             }
 
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", (cOPTIONS[mPageItems[iCurrentPage][i]].getValueName()).c_str());
+            mvwprintz(w_options, line_pos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
+                      cLineColor, "%s", current_opt->getValueName().c_str());
         }
 
         //Draw Scrollbar
@@ -900,7 +1086,7 @@ void show_options(bool ingame)
 
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
-        for (unsigned i = 0; i < vPages.size(); i++) {
+        for (int i = 0; i < (int)vPages.size(); i++) {
             if (!mPageItems[i].empty()) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
@@ -970,15 +1156,20 @@ void show_options(bool ingame)
 
         bool bChangedSomething = false;
         if (action == "DOWN") {
-            iCurrentLine++;
-            if (iCurrentLine >= mPageItems[iCurrentPage].size()) {
-                iCurrentLine = 0;
-            }
+            do {
+                iCurrentLine++;
+                if (iCurrentLine >= (int)mPageItems[iCurrentPage].size()) {
+                    iCurrentLine = 0;
+                }
+            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == ""));
         } else if (action == "UP") {
-            iCurrentLine--;
-            if (iCurrentLine < 0) {
-                iCurrentLine = mPageItems[iCurrentPage].size() - 1;
-            }
+            do {
+                iCurrentLine--;
+                if (iCurrentLine < 0) {
+                    iCurrentLine = mPageItems[iCurrentPage].size() - 1;
+                }
+            } while( (cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getMenuText() == "")
+                   );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
             bChangedSomething = true;
@@ -989,7 +1180,7 @@ void show_options(bool ingame)
             iCurrentLine = 0;
             iStartPos = 0;
             iCurrentPage++;
-            if (iCurrentPage >= vPages.size()) {
+            if (iCurrentPage >= (int)vPages.size()) {
                 iCurrentPage = 0;
             }
         } else if (action == "PREV_TAB") {
@@ -1059,13 +1250,15 @@ void show_options(bool ingame)
         }
     }
     if( lang_changed ) {
-        setlocale( LC_ALL, OPTIONS["USE_LANG"].getValue().c_str() );
+        set_language(false);
+        g->mmenu_refresh_motd();
+        g->mmenu_refresh_credits();
     }
 #ifdef SDLTILES
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
-            tilecontext->reinit( "gfx" );
+            tilecontext->reinit( FILENAMES["gfxdir"] );
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
@@ -1096,7 +1289,7 @@ void load_options()
             save_options();
             fin.open(FILENAMES["options"].c_str());
             if(!fin.is_open()) {
-                DebugLog() << "Could neither read nor create" << FILENAMES["options"].c_str() << "\n";
+                DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create" << FILENAMES["options"];
                 return;
             }
         } else {
@@ -1133,7 +1326,7 @@ void load_options()
 std::string options_header()
 {
     return "\
-# This is the options file.  It works similarly to keymap.txt: the format is\n\
+# This is the options file.  The format is\n\
 # <option name> <option value>\n\
 # <option value> may be any number, positive or negative.  If you use a\n\
 # negative sign, do not put a space between it and the number.\n\
@@ -1158,14 +1351,16 @@ void save_options(bool ingame)
     fout << options_header() << std::endl;
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
-        bool update_wopt = (ingame && j == iWorldOptPage );
+        bool update_wopt = (ingame && (int)j == iWorldOptPage );
         for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
-            fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
-            fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
-            fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
-            if ( update_wopt ) {
-                world_generator->active_world->world_options[ mPageItems[j][i] ] =
-                    ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+            if (OPTIONS[mPageItems[j][i]].getDefaultText() != "") {
+                fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
+                fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText(false) << std::endl;
+                fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;
+                if ( update_wopt ) {
+                    world_generator->active_world->world_options[ mPageItems[j][i] ] =
+                        ACTIVE_WORLD_OPTIONS[ mPageItems[j][i] ];
+                }
             }
         }
     }
@@ -1199,7 +1394,7 @@ std::string get_tileset_names(std::string dir_path)
         fin.open(it->c_str());
         if(!fin.is_open()) {
             fin.close();
-            DebugLog() << "\tCould not read ." << *it;
+            DebugLog( D_ERROR, DC_ALL ) << "Could not read " << *it;
             optionNames["deon"] = _("Deon's");          // just setting some standards
             optionNames["hoder"] = _("Hoder's");
             return defaultTilesets;
@@ -1211,14 +1406,10 @@ std::string get_tileset_names(std::string dir_path)
             std::string sOption;
             fin >> sOption;
 
-            //DebugLog() << "\tCurrent: " << sOption << " -- ";
-
             if(sOption == "") {
                 getline(fin, sOption);    // Empty line, chomp it
-                //DebugLog() << "Empty line, skipping\n";
             } else if(sOption[0] == '#') { // # indicates a comment
                 getline(fin, sOption);
-                //DebugLog() << "Comment line, skipping\n";
             } else {
                 if (sOption.find("NAME") != std::string::npos) {
                     tileset_name = "";

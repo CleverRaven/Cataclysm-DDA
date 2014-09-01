@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <bitset>
 #include "itype.h"
 #include "mtype.h"
 
@@ -62,8 +63,9 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true );
- void make_corpse(const std::string new_type, mtype* mt, unsigned int turn); // Corpse
+ item(const std::string new_type, unsigned int turn, bool rand = true, int handed = 0);
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn);
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name);
  item(std::string itemdata);
  item(JsonObject &jo);
  virtual ~item();
@@ -75,9 +77,9 @@ public:
  item in_its_container();
 
     nc_color color(player *u) const;
-    nc_color color_in_inventory();
-    std::string tname(unsigned int quantity = 1, bool with_prefix = true); // item name (includes damage, freshness, etc)
-    std::string display_name(unsigned int quantity = 1); // name for display (includes charges, etc)
+    nc_color color_in_inventory() const;
+    std::string tname(unsigned int quantity = 1, bool with_prefix = true) const; // item name (includes damage, freshness, etc)
+    std::string display_name(unsigned int quantity = 1) const; // name for display (includes charges, etc)
     void use();
     bool burn(int amount = 1); // Returns true if destroyed
 
@@ -111,7 +113,6 @@ public:
         deserialize(jo);
     }
 
- std::string save_info() const; // Formatted for save files
  //
  void load_legacy(std::stringstream & dump);
  void load_info(std::string data);
@@ -123,8 +124,8 @@ public:
  int price() const;
 
     /**
-     * Return the butcher factor, always positive, but lower is better.
-     * If the item can not be used for butcherin it return INT_MAX.
+     * Return the butcher factor (BUTCHER tool quality).
+     * If the item can not be used for butchering it returns INT_MIN.
      */
     int butcher_factor() const;
 
@@ -193,8 +194,11 @@ public:
   * Consume a specific amount of items of a specific type.
   * This includes this item, and any of its contents (recursively).
   * @see item::use_charges - this is similar for items, not charges.
+  * @param it Type of consumable item.
+  * @param quantity How much to consumed.
   * @param use_container If the contents of an item are used, also use the
   * container it was in.
+  * @param On success all consumed items will be stored here.
   */
  bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
 
@@ -212,7 +216,8 @@ public:
  bool craft_has_charges();
  long num_charges();
  bool rotten();
- void calc_rot();
+ bool is_rotten;
+ void calc_rot(const point &);
  int brewing_time();
  bool ready_to_revive(); // used for corpses
  void detonate(point p) const;
@@ -238,6 +243,17 @@ public:
  bool made_of(phase_id phase) const;
  bool conductive() const; // Electricity
  bool flammable() const;
+
+    /**
+     * Check whether the item has been marked (by calling mark_as_used_by_player)
+     * as used by this specific player.
+     */
+    bool already_used_by_player(const player &p) const;
+    /**
+     * Marks the item as being used by this specific player, it remains unmarked
+     * for other players. The player is identified by its id.
+     */
+    void mark_as_used_by_player(const player &p);
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
@@ -265,7 +281,9 @@ public:
  bool is_book() const;
  bool is_container() const;
  bool is_watertight_container() const;
- bool is_funnel_container(unsigned int &bigger_than) const;
+ bool is_container_empty() const;
+ bool is_container_full() const;
+ bool is_funnel_container(int &bigger_than) const;
 
  bool is_tool() const;
  bool is_software() const;
@@ -276,8 +294,12 @@ public:
  bool is_artifact() const;
 
  int get_remaining_capacity_for_liquid(const item &liquid, LIQUID_FILL_ERROR &error) const;
+ int get_remaining_capacity() const;
 
  bool operator<(const item& other) const;
+    /** List of all @ref components in printable form, empty if this item has
+     * no components */
+    std::string components_to_string() const;
 
  itype_id typeId() const;
  itype* type;
@@ -286,17 +308,20 @@ public:
 
  std::vector<item> contents;
 
+private:
  std::string name;
- char invlet;           // Inventory letter
+public:
+ char invlet;             // Inventory letter
  long charges;
- bool active;           // If true, it has active effects to be processed
- int fridge;            // The turn we entered a fridge.
- int rot;               // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
- int last_rot_check;    // last turn we calculated rot
- signed char damage;    // How much damage it's sustained; generally, max is 5
- int burnt;             // How badly we're burnt
- int bday;              // The turn on which it was created
- int owned;             // UID of NPC owner; 0 = player, -1 = unowned
+ bool active;             // If true, it has active effects to be processed
+ int fridge;              // The turn we entered a fridge.
+ int rot;                 // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
+ int last_rot_check;      // last turn we calculated rot
+ signed char damage;      // How much damage it's sustained; generally, max is 5
+ int burnt;               // How badly we're burnt
+ std::bitset<13> covers;  // What body parts it covers
+ int bday;                // The turn on which it was created
+ int owned;               // UID of NPC owner; 0 = player, -1 = unowned
  light_emission light;
  union{
    int poison;          // How badly poisoned is it?
@@ -390,7 +415,6 @@ class map_item_stack
 // The item's position is optional, if not passed in we expect the item to fail position match.
 bool item_matches_locator(const item& it, const itype_id& id, int item_pos = INT_MIN);
 bool item_matches_locator(const item& it, int locator_pos, int item_pos = INT_MIN);
-bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);

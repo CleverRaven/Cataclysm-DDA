@@ -152,35 +152,48 @@ class cata_tiles
          *  float inaccuracies. */
         void set_draw_scale(int scale);
     protected:
-        /** Load tileset, R,G,B, are the color components of the transparent color */
+        /** Load tileset, R,G,B, are the color components of the transparent color
+         * throws std::string on errors. Returns the number of tiles that have
+         * been loaded from this tileset image
+         */
         int load_tileset(std::string path, int R, int G, int B);
+
         /**
          * Load tileset config file (json format).
          * If the tileset uses the old system (one image per tileset) the image
-         * path @ref imagepath is used to load the tileset image.
+         * path <B>imagepath</B> is used to load the tileset image.
          * Otherwise (the tileset uses the new system) the image pathes
          * are loaded from the json entries.
+         * throws std::string on errors.
          */
         void load_tilejson(std::string path, const std::string &imagepath);
-        void load_tilejson_from_file(std::ifstream &f, const std::string &imagepath);
+
         /**
-         * Load tiles from json data. This expects a "tiles" array in
-         * @ref config. That array should contain all the tile definition that
+         * throws std::string on errors.
+         */
+        void load_tilejson_from_file(std::ifstream &f, const std::string &imagepath);
+
+        /**
+         * Load tiles from json data.This expects a "tiles" array in
+         * <B>config</B>. That array should contain all the tile definition that
          * should be taken from an tileset image.
          * Because the function only loads tile definitions for a single tileset
-         * image, only tile inidizes (tile_type::fg/tile_type::bg) in the interval
-         * [0,size).
-         * The @ref offset is automatically added to the tile index.
+         * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
+         * [0,size].
+         * The <B>offset</B> is automatically added to the tile index.
+         * throws std::string on errors.
          */
         void load_tilejson_from_file(JsonObject &config, int offset, int size);
+
         /**
-         * Create a new tile_type, add it to tile_ids (uusing @ref id).
+         * Create a new tile_type, add it to tile_ids (using <B>id</B>).
          * Set the fg and bg properties of it (loaded from the json object).
          * Makes sure each is either -1, or in the interval [0,size).
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
         tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size);
+
         void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
         void load_ascii_set(JsonObject &entry, int offset, int size);
         void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);
@@ -253,11 +266,15 @@ class cata_tiles
         void draw_sct_frame();
         void void_sct();
 
+        void init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void draw_zones_frame();
+        void void_zones();
+
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
     public:
-        /* initialize from an outside file */
+        /* initialize from an outside file, throws std::string on errors. */
         void init(std::string load_file_path);
         /* Reinitializes the tile context using the original screen information, throws std::string on errors  */
         void reinit(std::string load_file_path);
@@ -290,6 +307,7 @@ class cata_tiles
         bool do_draw_line;
         bool do_draw_weather;
         bool do_draw_sct;
+        bool do_draw_zones;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
@@ -306,6 +324,10 @@ class cata_tiles
 
         weather_printable anim_weather;
         std::string weather_name;
+
+        point pStartZone;
+        point pEndZone;
+        point pZoneOffset;
 
         // offset values, in tile coordinates, not pixels
         int o_x, o_y;

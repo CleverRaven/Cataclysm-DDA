@@ -8,7 +8,8 @@
 #include "translations.h"
 #include "rng.h"
 
-NameGenerator::NameGenerator() {
+NameGenerator::NameGenerator()
+{
 
 }
 
@@ -44,8 +45,7 @@ void NameGenerator::load_name(JsonObject &jo)
     }
 
     // Gender is optional
-    if(jo.has_member("gender"))
-    {
+    if(jo.has_member("gender")) {
         std::string gender = jo.get_string("gender");
 
         if (gender == "male") {
@@ -62,59 +62,68 @@ void NameGenerator::load_name(JsonObject &jo)
     names.push_back(aName);
 }
 
-std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {
+std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags)
+{
 
-  std::vector<std::string> retval;
+    std::vector<std::string> retval;
 
-  for (std::vector<Name>::const_iterator aName = names.begin(); aName != names.end(); ++aName) {
-    if ((aName->flags() & searchFlags) == searchFlags)
-      retval.push_back(aName->value());
-  }
-  return retval;
+    for (std::vector<Name>::const_iterator aName = names.begin(); aName != names.end(); ++aName) {
+        if ((aName->flags() & searchFlags) == searchFlags) {
+            retval.push_back(aName->value());
+        }
+    }
+    return retval;
 }
 
-std::string NameGenerator::getName(uint32_t searchFlags) {
-  std::vector<std::string> theseNames = filteredNames(searchFlags);
-  if( theseNames.empty() ) {
-      return std::string( _("Tom") );
-  }
-  return theseNames[ rng( 0, theseNames.size() - 1 ) ];
+std::string NameGenerator::getName(uint32_t searchFlags)
+{
+    std::vector<std::string> theseNames = filteredNames(searchFlags);
+    if( theseNames.empty() ) {
+        return std::string( _("Tom") );
+    }
+    return theseNames[ rng( 0, theseNames.size() - 1 ) ];
 }
 
-std::string NameGenerator::generateName(bool male) {
-  uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
-  //One in four chance to pull from the backer list, otherwise generate a name from the parts list
-  if (one_in(4)){
-    return getName(baseSearchFlags | nameIsFullName);
-  } else {
-    //~ used for constructing names. swapping these will put family name first.
-    return string_format(pgettext("Full Name", "%1$s %2$s"),
-        getName(baseSearchFlags | nameIsGivenName).c_str(),
-        getName(baseSearchFlags | nameIsFamilyName).c_str()
-        );
-  }
+std::string NameGenerator::generateName(bool male)
+{
+    uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
+    //One in four chance to pull from the backer list, otherwise generate a name from the parts list
+    if (one_in(4)) {
+        return getName(baseSearchFlags | nameIsFullName);
+    } else {
+        //~ used for constructing names. swapping these will put family name first.
+        return string_format(pgettext("Full Name", "%1$s %2$s"),
+                             getName(baseSearchFlags | nameIsGivenName).c_str(),
+                             getName(baseSearchFlags | nameIsFamilyName).c_str()
+                            );
+    }
 }
 
-NameGenerator& Name::generator() {
-  return NameGenerator::generator();
+NameGenerator &Name::generator()
+{
+    return NameGenerator::generator();
 }
 
-std::string Name::generate(bool male) {
-  return NameGenerator::generator().generateName(male);
+std::string Name::generate(bool male)
+{
+    return NameGenerator::generator().generateName(male);
 }
 
-std::string Name::get(uint32_t searchFlags) {
-  return NameGenerator::generator().getName(searchFlags);
+std::string Name::get(uint32_t searchFlags)
+{
+    return NameGenerator::generator().getName(searchFlags);
 }
 
-Name::Name() {
-  _value = _("Tom");
-  _flags = 15;
+Name::Name()
+{
+    _value = _("Tom");
+    _flags = 15;
 }
 
-Name::Name(std::string name, uint32_t flags) {
-  _value = name;
-  _flags = flags;
+Name::Name(std::string name, uint32_t flags)
+{
+    _value = name;
+    _flags = flags;
 }
 
 void load_names_from_file(const std::string &filename)

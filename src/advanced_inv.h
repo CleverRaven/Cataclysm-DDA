@@ -2,6 +2,9 @@
 #define _ADVANCED_INV_H_
 #include "output.h"
 #include <string>
+
+typedef std::vector< std::list<item *> > itemslice;
+
 struct advanced_inv_area {
     int id;
     int hscreenx;
@@ -55,7 +58,8 @@ class advanced_inventory_pane
         bool recalc;
         bool redraw;
         std::map<std::string, bool> filtercache;
-        advanced_inventory_pane() {
+        advanced_inventory_pane()
+        {
             offx = 0;
             offy = 0;
             size = 0;
@@ -126,8 +130,10 @@ class advanced_inventory
             right(1),
             isinventory(0),
             isall(10),
-            isdrag(11) {
+            isdrag(11)
+        {
         }
+        std::string get_sortname(int sortby);
         bool move_all_items();
         void display(player *pp);
         void print_items(advanced_inventory_pane &pane, bool active);

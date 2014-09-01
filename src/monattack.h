@@ -30,6 +30,8 @@ class mattack
         void disappear          (monster *z);
         void formblob           (monster *z);
         void callblobs          (monster *z);
+        void jackson            (monster *z);
+        void dance              (monster *z);
         void dogthing           (monster *z);
         void tentacle           (monster *z);
         void vortex             (monster *z);
@@ -43,9 +45,14 @@ class mattack
         void smg                (monster *z); // Automated MP5
         void laser              (monster *z);
         void rifle_tur          (monster *z); // Automated M4
+        void frag_tur           (monster *z); // Automated MGL
+        void bmg_tur            (monster *z); // Automated M107 >:-D
+        void tank_tur           (monster *z); // Tankbot primary.
+        void searchlight        (monster *z);
         void flamethrower       (monster *z);
         void copbot             (monster *z);
-        void multi_robot        (monster *z); // Pick from tazer, smg, flame
+        void chickenbot         (monster *z); // Pick from tazer, M4, MGL
+        void multi_robot        (monster *z); // Tazer, flame, M4, MGL, or 120mm!
         void ratking            (monster *z);
         void generator          (monster *z);
         void upgrade            (monster *z);
@@ -53,12 +60,15 @@ class mattack
         void bite               (monster *z);
         void brandish           (monster *z);
         void flesh_golem        (monster *z);
+        void lunge              (monster *z);
+        void longswipe          (monster *z);
         void parrot             (monster *z);
         void darkman            (monster *z);
         void slimespring        (monster *z);
         void bio_op_takedown    (monster *z);
         void suicide            (monster *z);
         bool thrown_by_judo     (monster *z); //handles zombie getting thrown when u.is_throw_immune()
+        void riotbot            (monster *z);
 };
 
 #endif

@@ -50,7 +50,7 @@
     },{
         "type" : "snippet",
         "category" : "flier",
-        "text" : "This is an advertisement for Robert's Universal Robotics brand law enforcement robots. It shows a picture of tripod robot incinerating a mob of looters and stepping over charred and smoking corpses. The caption reads: \"R.U.R. Technology you can Trust.\""
+        "text" : "This is an advertisement for Robert's Universal Robotics brand law enforcement robots. It shows a picture of a tribot incinerating a mob of looters and stepping over charred and smoking corpses. The caption reads: \"R.U.R. Technology you can Trust.\""
     },{
         "type" : "snippet",
         "category" : "flier",
@@ -103,6 +103,38 @@
         "type" : "snippet",
         "category" : "flier",
         "text" : "This is an advertisement for Rivtech brand ammunition. It shows a picture of an armored steel plate with a gaping hole blasted through the middle. Sitting beside the plate is a block of brightly colored caseless ammunition. The caption reads:  \"Rivtech 8x40mm caseless. Nothing else comes close.\""
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is an advertisement for Leadworks LLC's Home Frontier Starter Pack.  It shows a picture of a young suburban parent, equipped with rifle and revolver, keeping a steely eye on the neighborhood from the front porch.  Similarly-armed parents are visible in front of every house on the street.  Young children are at play and older ones tend a large vegetable garden.  The caption reads: \"A well-armed community is a SAFE community.  Leadworks, LLC.\""
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is a public notice from the Centers for Disease Control.  Its message, repeated in several languages, reads: Due to the rising threat of so-called \"Green Fever\" the CDC would like to remind the public to cover your nose and mouth with a tissue when you cough or sneeze and wash your hands frequently with soap and water.  In light of recent events, the CDC also recommends an annual flu vaccine for everyone 6 months of age and older."
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is a public message from the Federal Emergency Management Agency.  Its message, repeated in several languages, reads: STAY IN YOUR HOMES!  The US government is taking steps to halt the current epidemic of \"Green Fever\" and help is currently on its way to afflicted areas.  In the name of public safety you are hereby ordered to remain in your homes until evacuated to a treatment camp by authorized agents of the United States military.  Thank you for your compliance."
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is a public warning from an unnamed source.  Its rambling message, poorly-photocopied onto both sides of the page, reads: Don't believe the lies!  The Army is rounding up people in death camps while the Green Fever spreads like wildfire.  Do not believe what the mainstream news-media is reporting.  All official evacuation points are death-traps.  Secure supplies and escape the cities while there is still time."
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is a public message from an unnamed source.  Its message, photocopied from a scrawled handwritten copy, reads: REPENT YOUR SINS O BABYLON FOR THE TIME OF HIS JUDGEMENT IS NIGH!  LOOK UPON YOUR DESTRUCTION AND KNOW THAT IT IS JUST!  YOU WILL BE DIVIDED FATHER AGAINST SON AND MOTHER AGAINST CHILD UNTO THE VERY LAST SINNER!"
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is a public warning from the United States Army.  Its brief message, repeated in several languages, reads:  The President of the United States has declared unilateral martial law affecting the entire nation.  Shelter in place until evacuated to an appropriate emergency management camp by authorized military personnel.  This curfew will remain in effect until further notice.  Stay indoors.  Violators will be shot on sight."
+    },{
+        "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is an advertisement for Rivtech's 'ATOMIC POWER THIRST' energy drink.  While intended to advertise a new flavor called Isotope RU-238 'FRUIT', most of the text is dedicated to a long list of possible side effects: anxiety, insomnia, severe insomnia, dizziness, tremors, nausea, headache, vomiting, delusions, hallucinations, rhabdomyolysis, internal burns, thyroid cancer, extensive internal bleeding, upper gastrointestinal bleeding, diarrhea, cardiac dysrhythmia, cardiovascular collapse, suicidal ideation, seizures, ataxia, amnesia, mania, stroke, neurodegeneration, malignalitaloptereosis, necrotizing fasciitis, recurrent flu, and pinkeye."
+    },{
+        "type" : "snippet",
+        "category" : "note",
+        "text" : "The Green Fever shall purge the land for His Chosen children.  I have seen His black fire shining in the eyes of the afflicted and eagerly await the day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn."
     },{
 	        "type" : "snippet",
         "category" : "note",
@@ -183,6 +215,10 @@
 			"type" : "snippet",
         "category" : "note",
         "text" : "\"Gas mask is nice and all, but I can hardly run with it on.\""
+    },{
+      "type" : "snippet",
+        "category" : "note",
+        "text" : "\"One of those robot tanks was blocking the way out.  Got some sort of sweetspot, though, where it can't decide what to shoot with, maybe 30 yards or so?  Made it to the truck and just drove.\""
     },{
 			"type" : "snippet",
         "category" : "note",

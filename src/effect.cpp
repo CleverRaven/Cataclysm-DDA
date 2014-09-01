@@ -11,53 +11,63 @@ effect_type::effect_type(const effect_type &) {}
 
 std::string effect_type::get_name()
 {
-    return name;
+    return _(name.c_str());
 }
 std::string effect_type::get_desc()
 {
-    return desc;
+    return _(desc.c_str());
 }
-effect_rating effect_type::get_rating()
+effect_rating effect_type::get_rating() const
 {
     return rating;
 }
-game_message_type effect_type::gain_game_message_type()
+game_message_type effect_type::gain_game_message_type() const
 {
     switch(rating) {
-        case e_good: return m_good;
-        case e_bad: return m_bad;
-        case e_neutral: return m_neutral;
-        case e_mixed: return m_mixed;
-        default: return m_neutral;  // should never happen
+    case e_good:
+        return m_good;
+    case e_bad:
+        return m_bad;
+    case e_neutral:
+        return m_neutral;
+    case e_mixed:
+        return m_mixed;
+    default:
+        return m_neutral;  // should never happen
     }
 }
-game_message_type effect_type::lose_game_message_type()
+game_message_type effect_type::lose_game_message_type() const
 {
     switch(rating) {
-        case e_good: return m_bad;
-        case e_bad: return m_good;
-        case e_neutral: return m_neutral;
-        case e_mixed: return m_mixed;
-        default: return m_neutral;  // should never happen
+    case e_good:
+        return m_bad;
+    case e_bad:
+        return m_good;
+    case e_neutral:
+        return m_neutral;
+    case e_mixed:
+        return m_mixed;
+    default:
+        return m_neutral;  // should never happen
     }
 }
-std::string effect_type::get_apply_message()
+std::string effect_type::get_apply_message() const
 {
     return apply_message;
 }
-std::string effect_type::get_apply_memorial_log()
+std::string effect_type::get_apply_memorial_log() const
 {
     return apply_memorial_log;
 }
-std::string effect_type::get_remove_message()
+std::string effect_type::get_remove_message() const
 {
     return remove_message;
 }
-std::string effect_type::get_remove_memorial_log()
+std::string effect_type::get_remove_memorial_log() const
 {
     return remove_memorial_log;
 }
-int effect_type::get_max_intensity()
+int effect_type::get_max_intensity() const
 {
     return max_intensity;
 }
@@ -168,11 +178,17 @@ void load_effect_type(JsonObject &jo)
     new_etype.desc = jo.get_string("desc", "");
     if(jo.has_member("rating")) {
         std::string r = jo.get_string("rating");
-        if(r == "good") { new_etype.rating = e_good; }
-        else if(r == "neutral" ) { new_etype.rating = e_neutral; }
-        else if(r == "bad" ) { new_etype.rating = e_bad; }
-        else if(r == "mixed" ) { new_etype.rating = e_mixed; }
-        else { new_etype.rating = e_neutral; }
+        if(r == "good") {
+            new_etype.rating = e_good;
+        } else if(r == "neutral" ) {
+            new_etype.rating = e_neutral;
+        } else if(r == "bad" ) {
+            new_etype.rating = e_bad;
+        } else if(r == "mixed" ) {
+            new_etype.rating = e_mixed;
+        } else {
+            new_etype.rating = e_neutral;
+        }
     } else {
         new_etype.rating = e_neutral;
     }

@@ -1,6 +1,9 @@
 [
     {
         "type" : "lab_note",
+        "text" : "General Carlsberg wanted us to figure out what's going on with the bot AI.  Apparently the fat-cat defense contractors' toy tank has ranging issues or something: 31-34 meters and it's apparently impotent.  The Director sent 'em back with a note that we're scientists, not firmware devs."
+    },{
+        "type" : "lab_note",
         "text" : "Our chemical department has made great strides in the production of a concentrated mutagen, derived from samples of PE012."
     },{
         "type" : "lab_note",

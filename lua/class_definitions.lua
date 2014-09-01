@@ -26,10 +26,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            health = {
-                type = "int",
-                writable = false
-            },
 
             name = {
                 type = "string",
@@ -106,7 +102,7 @@ classes = {
                 rval = "int"
             },
             weight_capacity = {
-                args = { "bool" },
+                args = {},
                 rval = "int"
             },
             volume_carried = {
@@ -471,9 +467,10 @@ classes = {
     },
     itype = {
         attributes = {
-            name = {
+            id = {
                 type = "string",
-                writable = true
+                writable = false,
+                desc = "The unique string identifier of the item type, as defined in the JSON."
             },
             description = {
                 type = "string",
@@ -522,6 +519,12 @@ classes = {
             }
         },
         functions = {
+            nname = {
+                args = { "int" },
+                argnames = { "quantity" },
+                rval = "string",
+                desc = "Get a translated name for the item with the given quantity."
+            }
         }
     },
     it_comest = {
@@ -799,11 +802,6 @@ global_functions = {
         args = { },
         rval = "overmap"
     },
-    create_monster_group = {
-        cpp_name = "create_monster_group",
-        args = {"overmap", "string", "int", "int", "int", "int", "int"},
-        rval = "mongroup"
-    },
     add_item_to_group = {
         cpp_name = "item_controller->add_item_to_group",
         args = { "string", "string", "int" },
@@ -833,5 +831,20 @@ global_functions = {
         cpp_name = "get_armor_type",
         args = { "string" },
         rval = "it_armor"
+    },
+    create_monster = {
+        cpp_name = "create_monster",
+        args = { "string", "int", "int" },
+        argnames = { "monster_type", "x", "y" },
+        rval = "monster",
+        desc = "Spawns a monster of the given type at the given location within the current reality bubble. Returns nil if something is blocking that location."
+    },
+    is_empty = {
+        cpp_name = "g->is_empty",
+        args = { "int", "int" },
+        argnames = { "x", "y" },
+        rval = "bool",
+        desc = "Check if the given location in the current reality bubble is empty."
     }
+
 }

@@ -3,22 +3,25 @@
 #include "enums.h"
 #include "string.h"
 #include "omdata.h"
+#include "mapdata.h"
 #include "mongroup.h"
 #include "output.h"
-#include <vector>
-#include <iosfwd>
-#include <string>
-#include <stdlib.h>
+#include "debug.h"
 #include "cursesdef.h"
 #include "name.h"
 #include "input.h"
 #include "json.h"
+#include <vector>
+#include <iosfwd>
+#include <string>
+#include <stdlib.h>
+#include <array>
 
 class overmapbuffer;
 class npc;
 
 #define OVERMAP_DEPTH 10
-#define OVERMAP_HEIGHT 0
+#define OVERMAP_HEIGHT 10
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
@@ -42,14 +45,15 @@ struct oter_weight_list {
     }
 
     void setup() { // populate iid's for faster generation and sanity check.
-        for( size_t i = 0; i < items.size(); ++i ) {
-            if ( items[i].ot_iid == -1 ) {
-                std::map<std::string, oter_t>::const_iterator it = obasetermap.find(items[i].ot_sid);
+        for(std::vector<oter_weight>::iterator item_it = items.begin();
+            item_it != items.end(); ++item_it ) {
+            if ( item_it->ot_iid == -1 ) {
+                std::map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
                 if ( it == obasetermap.end() ) {
-                    debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", items[i].ot_sid.c_str() );
-                    items[i].ot_iid = 0;
+                    debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", item_it->ot_sid.c_str() );
+                    item_it->ot_iid = 0;
                 } else {
-                    items[i].ot_iid = it->second.loadid;
+                    item_it->ot_iid = it->second.loadid;
                 }
             }
         }
@@ -256,17 +260,16 @@ struct node
 class overmap
 {
  public:
-  overmap();
-  overmap(overmap const&);
+    overmap(const overmap&) = default;
+    overmap(overmap &&) = default;
   overmap(int x, int y);
   ~overmap();
 
-  overmap& operator=(overmap const&);
+  overmap& operator=(overmap const&) = default;
 
   point const& pos() const { return loc; }
 
-  void save();
-  void make_tutorial();
+  void save() const;
   void first_house(int &x, int &y, const std::string start_location);
 
   void process_mongroups(); // Makes them die out, maybe more
@@ -284,7 +287,6 @@ class overmap
   oter_id& ter(const int x, const int y, const int z);
   const oter_id get_ter(const int x, const int y, const int z) const;
   bool&   seen(int x, int y, int z);
-  std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
   bool is_road_or_highway(int x, int y, int z);
 
@@ -322,17 +324,18 @@ class overmap
      */
     static tripoint draw_overmap();
     /**
-     * Same as @ref draw_overmap() but starts at center
-     * instead of players location.
+     * Same as @ref draw_overmap() but starts at select if set.
+     * Otherwise on players location.
      */
-    static tripoint draw_overmap(const tripoint& center, bool debug_mongroup = false);
+    static tripoint draw_overmap(const tripoint& center,
+                                 bool debug_mongroup = false,
+                                 const tripoint& select = tripoint(-1, -1, -1),
+                                 const int iZoneIndex = -1);
     /**
      * Same as above but start at z-level z instead of players
      * current z-level, x and y are taken from the players position.
      */
     static tripoint draw_overmap(int z);
-  void remove_vehicle(int id);
-  int add_vehicle(vehicle *veh);
 
   /** Get the x coordinate of the left border of this overmap. */
   int get_left_border();
@@ -346,7 +349,6 @@ class overmap
   /** Get the y coordinate of the bottom border of this overmap. */
   int get_bottom_border();
 
-  regional_settings settings;
   const regional_settings& get_settings(const int x, const int y, const int z) {
      (void)x;
      (void)y;
@@ -354,8 +356,11 @@ class overmap
 
      return settings;
   }
+    void clear_mon_groups() { zg.clear(); }
+private:
+    std::multimap<tripoint, mongroup> zg;
+public:
   // TODO: make private
-  std::vector<mongroup> zg;
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
@@ -366,15 +371,28 @@ class overmap
  private:
   friend class overmapbuffer;
   point loc;
-  std::string prefix;
-  std::string name;
 
-  //map_layer layer[OVERMAP_LAYERS];
-  map_layer *layer;
+    std::array<map_layer, OVERMAP_LAYERS> layer;
 
   oter_id nullret;
   bool nullbool;
   std::string nullstr;
+
+    struct monster_data {
+        // relative to the position of this overmap,
+        // in submap coordinates.
+        int x;
+        int y;
+        int z;
+        monster mon;
+    };
+    /**
+     * When monsters despawn during map-shifting they will be added here.
+     * map::spawn_monsters will load them and place them into the reality bubble
+     * (adding it to the creature tracker and putting it onto the map).
+     */
+    std::vector<monster_data> monsters;
+    regional_settings settings;
 
   // Initialise
   void init_layers();
@@ -399,7 +417,9 @@ class overmap
    */
   static void draw(WINDOW *w, const tripoint &center,
             const tripoint &orig, bool blink,
-            input_context* inp_ctxt, bool debug_monstergroups = false);
+            input_context* inp_ctxt, bool debug_monstergroups = false,
+            const int iZoneIndex = -1);
+
   // Overmap zones
   void place_zones();
   // Overall terrain
@@ -442,6 +462,9 @@ class overmap
   static void print_npcs(WINDOW *w, int const x, int const y, int const z);
   bool has_vehicle(int const x, int const y, int const z, bool require_pda = true) const;
   void print_vehicles(WINDOW *w, int const x, int const y, int const z) const;
+    void add_mon_group(const mongroup &group);
+    // not available because *every* overmap needs location, so use the other constructor.
+    overmap() = delete;
 };
 
 // TODO: readd the stream operators
