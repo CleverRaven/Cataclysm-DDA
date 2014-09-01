@@ -64,6 +64,7 @@ class iexamine
         void pick_plant(player *p, map *m, int examx, int examy, std::string itemType, int new_ter,
                         bool seeds = false);
         void tree_apple (player *p, map *m, int examx, int examy);
+        void tree_pine (player *p, map *m, int examx, int examy);
         void shrub_blueberry (player *p, map *m, int examx, int examy);
         void shrub_strawberry (player *p, map *m, int examx, int examy);
         void shrub_marloss (player *p, map *m, int examx, int examy);

@@ -1435,6 +1435,23 @@
         "examine_action": "tree_apple"
     },{
         "type" : "terrain",
+        "id" : "t_tree_pine",
+        "name": "pine tree",
+        "symbol": "4",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_pine"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_deadpine",
+        "name": "dead pine tree",
+        "symbol": "4",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
         "id" : "t_underbrush",
         "name": "underbrush",
         "symbol": "#",

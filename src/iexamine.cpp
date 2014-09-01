@@ -1718,6 +1718,12 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy)
     pick_plant(p, m, examx, examy, "apple", t_tree);
 }
 
+void iexamine::tree_pine(player *p, map *m, int examx, int examy)
+{
+    m->spawn_item( examx, examy, "pine_bough", rng( 1, 8 ) );
+    pick_plant(p, m, examx, examy, "pinecone", t_tree_deadpine);
+}
+
 void iexamine::shrub_blueberry(player *p, map *m, int examx, int examy)
 {
     if (calendar::turn.get_season() != SUMMER) {
@@ -2667,6 +2673,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     //pick_plant deliberately missing due to different function signature
     if ("tree_apple" == function_name) {
         return &iexamine::tree_apple;
+    }
+    if ("tree_pine" == function_name) {
+        return &iexamine::tree_pine;
     }
     if ("shrub_blueberry" == function_name) {
         return &iexamine::shrub_blueberry;

@@ -3382,6 +3382,30 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pine_nuts",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      ["hotplate", 5],
+      [ "char_smoker", 1 ],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["pinecone", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "granola",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -5613,7 +5637,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1] ] ],
-  "components": [ [ ["wheat", 2], ["buckheat", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckwheat", 2] ] ]
 },{
         "type" : "recipe",
   "result": "cornmeal",
