@@ -874,7 +874,7 @@ void initOptions()
     optionNames["autumn"] = _("Autumn");
     optionNames["winter"] = _("Winter");
     OPTIONS["INITIAL_SEASON"] = cOpt("world_default", _("Initial season"),
-                                     _("Initial starting season of day on character generation."),
+                                     _("Season the player starts in.  Options other than the default delay spawn of the character, so food decay and monster spawns will be more advanced."),
                                      "spring,summer,autumn,winter", "spring");
 
     OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
