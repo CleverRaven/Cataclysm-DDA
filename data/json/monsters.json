@@ -5873,7 +5873,7 @@
     "special_when_hit_freq":75,
     "special_attack":"SHOCKSTORM",
     "special_when_hit":"ZAPBACK",
-    "description":"A huge body covered in visible scarring from what you can only guess was 'reserach'. It's body crackles with electrical energy. Being near it, you can hear a slight humming, like that of an electrical transformer.",
+    "description":"A huge beast covered in visible scarring from what you can only guess was 'reserach'. Being near it, you can hear a slight humming, like that of an electrical transformer.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM_SUBS", "NO_BREATHE", "VIS40", "REVIVES"]
     }
 ]
