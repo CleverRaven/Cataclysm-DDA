@@ -2584,6 +2584,39 @@
         }
     },
     {
+        "type": "profession",
+        "ident": "national_guard",
+        "name": "National Guard",
+        "description": "Your National Guard unit was activated when the epidemic struck.  Despite your best efforts you did not manage to meet up with them before all communications ceased and you found yourself alone amongst the dead.",
+        "points": 4,
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "shorts",
+                "tshirt",
+                "socks",
+                "lowtops",
+                "gobag"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
 	"type": "profession",
 	"ident": "winter_survivor",
 	"name" : "Hardened Survivor",
