@@ -2680,6 +2680,22 @@
         "examine_action": "water_source"
     },{
         "type" : "terrain",
+        "id" : "t_vine_wall_v",
+        "name": "vine covered wall",
+        "symbol": "LINE_XOXO",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_vine_wall_h",
+        "name": "vine covered wall",
+        "symbol": "LINE_OXOX",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+	},{
+        "type" : "terrain",
         "id" : "t_open_air",
         "name": "open air",
         "symbol": " ",

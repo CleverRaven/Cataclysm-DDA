@@ -78,6 +78,7 @@ enum field_id {
  fd_bees,
  fd_incendiary,
  fd_relax_gas,
+ fd_vines,
  num_fields
 };
 

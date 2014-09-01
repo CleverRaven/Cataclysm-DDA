@@ -278,8 +278,13 @@ void game::init_fields()
             {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
             { c_white, c_pink, c_cyan }, { true, true, true }, { false, true, true }, 500,
             {0,0,0}
+        },
+        {
+            "fd_vines",
+            {_("vine covering"), _("overgrown vines"), _("thick vines")}, '$', 7,
+            {c_green, c_green, c_green}, {true, true, false}, {false, false, false}, 0,
+            {0,0,0}
         }
-
     };
     for(int i = 0; i < num_fields; i++) {
         fieldlist[i] = tmp_fields[i];
@@ -1268,7 +1273,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             spread_gas( this, cur, x, y, curtype, 66, 40 );
                         }
                         break;
-
+                    case fd_vines: {
+                        if(one_in(1000)){
+                            // TODO: tweak numbers
+                            spread_gas( this, cur, x, y, curtype, 200, 60 );
+                        }
+                        break;
+                    }
                     default:
                         //Suppress warnings
                         break;
@@ -1641,6 +1652,9 @@ void map::step_in_field(int x, int y)
                 g->u.hurtall(rng(2, 6));
             }
             break;
+        // TODO: smash the vines automatically? chance for hurt (thorns)?
+        case fd_vines:
+            break;
 
         default:
             //Suppress warnings
@@ -1925,7 +1939,8 @@ void map::mon_in_field(int x, int y, monster *z)
                 }
             }
             break;
-
+        case fd_vines:
+            break;
         default:
             //Suppress warnings
             break;
