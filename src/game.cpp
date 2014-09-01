@@ -1565,6 +1565,10 @@ void game::activity_on_turn()
     case ACT_PICKUP:
         activity_on_turn_pickup();
         break;
+    case ACT_ADV_INVENTORY:
+        u.cancel_activity();
+        advanced_inv();
+        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;

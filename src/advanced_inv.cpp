@@ -470,6 +470,9 @@ void advanced_inventory::init()
         advanced_inv_update_area(squares[i]);
     }
 
+    src = left;
+    dest = right;
+
     panes[left].pos = 0;
     panes[left].area = 10;
     panes[right].pos = 1;
@@ -481,6 +484,10 @@ void advanced_inventory::init()
     panes[right].area = uistate.adv_inv_rightarea;
     bool moved = ( uistate.adv_inv_last_coords.x != g->u.posx ||
                    uistate.adv_inv_last_coords.y != g->u.posy );
+    if( !moved ) {
+        src = uistate.adv_inv_src;
+        dest = uistate.adv_inv_dest;
+    }
     if( !moved || panes[left].area == isinventory ) {
         panes[left].index = uistate.adv_inv_leftindex;
         panes[left].page = uistate.adv_inv_leftpage;
@@ -505,8 +512,6 @@ void advanced_inventory::init()
     recalc = true;
     lastCh = 0;
 
-    src = left; // the active screen , 0 for left , 1 for right.
-    dest = right;
     examineScroll = false;
     filter_edit = false;
 }
@@ -1176,6 +1181,10 @@ void advanced_inventory::display()
     bool redraw = true;
 
     while( !exit ) {
+        if( g->u.moves < 0 ) {
+            g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
+            break;
+        }
         dest = (src == left ? right : left);
         // recalc and redraw
         if ( recalc ) {
@@ -1814,15 +1823,22 @@ void advanced_inventory::display()
     uistate.adv_inv_leftpage = panes[left].page;
     uistate.adv_inv_rightindex = panes[right].index;
     uistate.adv_inv_rightpage = panes[right].page;
+    uistate.adv_inv_src = src;
+    uistate.adv_inv_dest = dest;
 
     uistate.adv_inv_leftfilter = panes[left].filter;
     uistate.adv_inv_rightfilter = panes[right].filter;
 
-    werase(head);
-    werase(panes[left].window);
-    werase(panes[right].window);
+    // Only refresh if we exited manually, otherwise we're going to be right back
+    if( exit ) {
+        werase(head);
+        werase(panes[left].window);
+        werase(panes[right].window);
+    }
     delwin(head);
     delwin(panes[left].window);
     delwin(panes[right].window);
-    g->refresh_all();
+    if( exit ) {
+        g->refresh_all();
+    }
 }
