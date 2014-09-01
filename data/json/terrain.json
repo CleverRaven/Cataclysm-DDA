@@ -2764,7 +2764,7 @@
         "symbol": "B",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["BASHABLE", "TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 100, "num_tests": 2,
             "explosive" : 6,
@@ -2791,7 +2791,7 @@
         "symbol": "b",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["BASHABLE", "TRANSPARENT", "FLAMMABLE", "EXPLODES", "NOITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 100, "num_tests": 2,
             "explosive" : 4,
@@ -2810,7 +2810,7 @@
         "symbol": "H",
         "color": "i_ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
+        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 100, "num_tests": 2,
             "explosive" : 3,
@@ -2828,7 +2828,7 @@
         "symbol": "L",
         "color": "i_ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "WALL"],
+        "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 100, "num_tests": 2,
             "explosive" : 2,
@@ -2846,7 +2846,7 @@
         "symbol": "}",
         "color": "i_ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 100, "num_tests": 2,
             "explosive" : 4,
@@ -2864,7 +2864,7 @@
         "symbol": "h",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 100, "num_tests": 2,
             "explosive" : 3,
@@ -2882,7 +2882,7 @@
         "symbol": "{",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 100, "num_tests": 2,
             "explosive" : 5,
@@ -2900,7 +2900,7 @@
         "symbol": "8",
         "color": "i_ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
+        "flags": ["BASHABLE", "TRANSPARENT", "EXPLODES", "NOITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 100, "num_tests": 2,
             "explosive" : 5,
