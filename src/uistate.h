@@ -21,6 +21,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int adv_inv_leftindex;
         int adv_inv_rightindex;
         int adv_inv_leftpage;
+        int adv_inv_src;
+        int adv_inv_dest;
         int adv_inv_rightpage;
         int adv_inv_last_popup_dest;
         int ags_pay_gas_selected_pump;
@@ -62,6 +64,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             adv_inv_rightindex = 0;
             adv_inv_leftpage = 0;
             adv_inv_rightpage = 0;
+            adv_inv_src = 0;
+            adv_inv_dest = 1;
             adv_inv_last_popup_dest = 0;
             adv_inv_last_coords.x = -999;
             adv_inv_last_coords.y = -999;
@@ -100,6 +104,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("adv_inv_rightsort", adv_inv_rightsort);
             json.member("adv_inv_leftarea", adv_inv_leftarea);
             json.member("adv_inv_rightarea", adv_inv_rightarea);
+            json.member("adv_inv_src", adv_inv_src);
+            json.member("adv_inv_dest", adv_inv_dest);
             json.member("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
             json.member("editmap_nsa_viewmode", editmap_nsa_viewmode);
             json.member("overmap_blinking", overmap_blinking);
@@ -138,6 +144,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("adv_inv_rightsort", adv_inv_rightsort);
             jo.read("adv_inv_leftarea", adv_inv_leftarea);
             jo.read("adv_inv_rightarea", adv_inv_rightarea);
+            jo.read("adv_inv_src", adv_inv_src);
+            jo.read("adv_inv_dest", adv_inv_dest);
             jo.read("adv_inv_last_popup_dest", adv_inv_last_popup_dest);
             jo.read("overmap_blinking", overmap_blinking);
             jo.read("overmap_show_overlays", overmap_show_overlays);
