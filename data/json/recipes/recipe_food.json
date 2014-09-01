@@ -3353,6 +3353,35 @@
   ]
 },{
         "type" : "recipe",
+  "result": "buckwheat_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "granola",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -5584,7 +5613,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1] ] ],
-  "components": [ [ ["wheat", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckheat", 2] ] ]
 },{
         "type" : "recipe",
   "result": "cornmeal",
@@ -5788,7 +5817,7 @@
       [ "water", 3 ], [ "water_clean", 3 ]
     ],
     [
-      [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ]
+      [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ], [ "buckwheat", 1 ]
     ],
     [
       [ "sugar", 8 ]
@@ -5820,7 +5849,7 @@
     ],
     [
       [ "molasses", 2 ], [ "potato_raw", 2 ], [ "potato_irradiated", 2 ], [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ],
-      [ "wheat", 1 ], [ "barley", 1 ], [ "sugar_beet", 1 ]
+      [ "wheat", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "sugar_beet", 1 ]
     ],
     [
       [ "yeast", 1 ]
@@ -5878,7 +5907,7 @@
       [ "water", 15 ], [ "water_clean", 15 ]
     ],
     [
-      [ "cornmeal", 12 ]
+      [ "cornmeal", 12 ], [ "buckwheat", 2 ]
     ],
     [
       [ "sugar", 8 ]
@@ -6012,7 +6041,7 @@
       [ "water", 15 ], [ "water_clean", 15 ]
     ],
     [
-      [ "barley", 3 ]
+      [ "barley", 3 ], [ "buckwheat", 3 ]
     ],
     [
       [ "hops", 1 ]
