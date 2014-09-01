@@ -149,6 +149,7 @@ int utf8_width(const char *s)
 // should be a different value.
 int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
 {
+    int utf8strlen = utf8_width(line) - 1;
     int dummy;
     int i = 0, c = 0, *p = prevpos ? prevpos : &dummy;
     *p = 0;
@@ -166,6 +167,9 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
             break;
         }
         i += len;
+        if (utf8strlen < i) {
+            break;
+        }
         if( cw <= 0 ) {
             cw = 1;
         }
