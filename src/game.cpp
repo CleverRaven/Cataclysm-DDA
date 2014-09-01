@@ -525,7 +525,6 @@ void game::setup()
     last_target = -1;  // We haven't targeted any monsters yet
     last_target_was_npc = false;
     uquit = QUIT_NO;   // We haven't quit the game
-    debugmon = false;  // We're not printing debug messages
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
@@ -672,11 +671,9 @@ void game::load_npcs()
         if (temp->is_active()) {
             continue;
         }
-        if (debugmon) {
             const tripoint p = temp->global_sm_location();
-            debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
+            add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
                      levx, levy, p.x, p.y);
-        }
         temp->place_on_map();
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
@@ -3642,15 +3639,15 @@ bool game::handle_action()
         display_scent();
         break;
 
-    case ACTION_TOGGLE_DEBUGMON:
+    case ACTION_TOGGLE_DEBUG_MODE:
         if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
             break;    //don't do anything when sharing and not debugger
         }
-        debugmon = !debugmon;
-        if (debugmon) {
-            add_msg(m_info, _("Debug messages ON!"));
+        debug_mode = !debug_mode;
+        if( debug_mode ) {
+            add_msg( m_info, _("Debug mode ON!") );
         } else {
-            add_msg(m_info, _("Debug messages OFF!"));
+            add_msg( m_info, _("Debug mode OFF!") );
         }
         break;
 
@@ -6224,14 +6221,12 @@ void game::monmove()
         monster *critter = &critter_tracker.find(i);
         while (!critter->is_dead() && !critter->can_move_to(critter->posx(), critter->posy())) {
             // If we can't move to our current position, assign us to a new one
-            if (debugmon) {
                 dbg(D_ERROR) << "game:monmove: " << critter->name().c_str()
                              << " can't move to its location! (" << critter->posx()
                              << ":" << critter->posy() << "), "
                              << m.tername(critter->posx(), critter->posy()).c_str();
-                debugmsg("%s can't move to its location! (%d:%d), %s", critter->name().c_str(),
+                add_msg( m_debug, "%s can't move to its location! (%d:%d), %s", critter->name().c_str(),
                          critter->posx(), critter->posy(), m.tername(critter->posx(), critter->posy()).c_str());
-            }
             bool okay = false;
             int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
             int startx = critter->posx() - 3 * xdir, endx = critter->posx() + 3 * xdir;
@@ -10781,10 +10776,8 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
         return;
     }
     const int drop_move_cost = calculate_drop_cost(dropped, dropped_worn, freed_volume_capacity);
-    if (g->debugmon) {
-        debugmsg("Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
+    add_msg( m_debug, "Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
                  drop_move_cost);
-    }
 
     dropped.insert(dropped.end(), dropped_worn.begin(), dropped_worn.end());
 
