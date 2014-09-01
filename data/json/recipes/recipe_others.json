@@ -1262,6 +1262,7 @@
   "time": 9000,
   "reversible": false,
   "autolearn": true,
+  "byproduct": { "id" : "seed_cotton_boll", "amount" : 2 },
   "tools": [
     [
       [ "carding_paddles", -1 ]
