@@ -1,13 +1,11 @@
+#include "pickup.h"
+
 #include "auto_pickup.h"
 #include "game.h"
 #include "messages.h"
-#include "pickup.h"
 
 #include <map>
 #include <vector>
-
-//Pickup object
-static Pickup pickup_obj;
 
 // Handles interactions with a vehicle in the examine menu.
 // Returns the part number that wil accept items if any, or -1 to indicate no cargo part.

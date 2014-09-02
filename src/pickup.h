@@ -1,19 +1,27 @@
 #ifndef _PICKUP_H_
 #define _PICKUP_H_
 
+#include "enums.h"
+
 #include <map>
+#include <list>
+#include <vector>
 #include <string>
+
+class vehicle;
+class item;
 
 class Pickup
 {
     public:
-        Pickup() {}
-
         static void do_pickup( point pickup_target, bool from_vehicle,
                                std::list<int> &indices, std::list<int> &quantities );
         static void pick_up(int posx, int posy, int min); // Pick up items; ',' or via examine()
 
     private:
+        // No instances of Pickup allowed.
+        Pickup() {}
+
         // Pickup helper functions
         static int interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part );
 
