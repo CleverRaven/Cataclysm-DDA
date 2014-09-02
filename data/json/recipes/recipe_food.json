@@ -6328,8 +6328,8 @@
   "time": 80000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [ ["brewing_cookbook", 2] , ["family_cookbook", 2], ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["manual_survival", 1] ],
+  "book_learn": [ ["brewing_cookbook", 3] , ["family_cookbook", 2], ["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3] ],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -6339,6 +6339,36 @@
     ],
     [
       [ "raw_dandelion", 20 ]
+    ],
+    [
+      [ "sugar", 1 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_pine_wine",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3] ],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "pine_bough", 10 ]
     ],
     [
       [ "sugar", 1 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
