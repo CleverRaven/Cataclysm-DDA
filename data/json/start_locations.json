@@ -17,6 +17,12 @@
 
   },{
     "type" : "start_location",
+    "ident" : "s_grocery",
+    "name" : "Grocery Store",
+    "target" : "s_grocery"
+
+  },{
+    "type" : "start_location",
     "ident" : "lab_stairs",
     "name" : "science lab",
     "target" : "lab_stairs"
