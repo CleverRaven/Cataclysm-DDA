@@ -759,6 +759,7 @@ class game
         void activity_on_turn_drop();
         void activity_on_turn_stash();
         void activity_on_turn_pickup();
+        void activity_on_turn_move_items();
         void activity_on_turn_vibe();
         void activity_on_turn_refill_vehicle();
         void activity_on_turn_pulp();

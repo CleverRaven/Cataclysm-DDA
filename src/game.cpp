@@ -1565,6 +1565,9 @@ void game::activity_on_turn()
     case ACT_PICKUP:
         activity_on_turn_pickup();
         break;
+    case ACT_MOVE_ITEMS:
+        activity_on_turn_move_items();
+        break;
     case ACT_ADV_INVENTORY:
         u.cancel_activity();
         advanced_inv();

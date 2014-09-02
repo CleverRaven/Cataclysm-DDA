@@ -285,3 +285,102 @@ void game::activity_on_turn_pickup()
         }
     }
 }
+
+// I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
+// but I don't see a clean way to do that.
+static void move_items( point source, point destination,
+                        std::list<int> &indices, std::list<int> &quantities )
+{
+    int veh_root_part = -1;
+    vehicle *veh = g->m.veh_at( source.x, source.y, veh_root_part );
+    int cargo_part = -1;
+    if( veh != nullptr ) {
+        cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+    }
+
+    std::vector<item> &here = (cargo_part >= 0) ?
+        veh->parts[cargo_part].items : g->m.i_at( source.x, source.y );
+
+    std::vector<item> dropped_items;
+    std::vector<item> dropped_worn;
+    while( g->u.moves > 0 && !indices.empty() ) {
+        int index = indices.back();
+        int quantity = quantities.back();
+        indices.pop_back();
+        quantities.pop_back();
+
+        item &temp_item = here[index];
+        item leftovers = temp_item.clone();
+
+        if( quantity != 0 ) {
+            // Reinserting leftovers happens after item removal to avoid stacking issues.
+            int leftover_charges = temp_item.charges - quantity;
+            if (leftover_charges > 0) {
+                leftovers.charges = leftover_charges;
+                here[index].charges = quantity;
+            }
+        }
+
+        // Check that we can pick it up.
+        if( !temp_item.made_of(LIQUID) && g->u.can_pickWeight(temp_item.weight(), false) &&
+            g->u.can_pickVolume(temp_item.volume()) ) {
+            // Drop it first since we're going to delete the original.
+            dropped_items.push_back( temp_item );
+            g->drop( dropped_items, dropped_worn, 0, destination.x, destination.y );
+
+            // Remove from map.
+            if( veh != nullptr ) {
+                veh->remove_item( cargo_part, index );
+            } else {
+                g->m.i_rem( source.x, source.y, index );
+            }
+            g->u.moves -= 100;
+
+        }
+
+        // If we didn't pick up a whole stack, put the remainder back where it came from.
+        if( quantity != 0 ) {
+            bool to_map = veh != nullptr;
+            if( !to_map ) {
+                to_map = !veh->add_item( cargo_part, leftovers );
+            }
+            if( to_map ){
+                g->m.add_item_or_charges( source.x, source.y, leftovers );
+            }
+        }
+
+        dropped_items.clear();
+    }
+}
+
+void game::activity_on_turn_move_items()
+{
+    // Move activity has source square, target square,
+    // indices of items on map, and quantities of same.
+    point source = u.activity.placement;
+    point destination = point( u.activity.values[0], u.activity.values[1] );
+    std::list<int> indices;
+    std::list<int> quantities;
+    // Note i = 2, skipping first few elements.
+    for( size_t i = 2; i < u.activity.values.size(); i += 2 ) {
+        indices.push_back( u.activity.values[i] );
+        quantities.push_back( u.activity.values[ i + 1 ] );
+    }
+    // Nuke the current activity, leaving the backlog alone.
+    u.activity = player_activity();
+
+    move_items( source, destination, indices, quantities );
+
+    if( !indices.empty() ) {
+        u.assign_activity( ACT_MOVE_ITEMS, 0 );
+        u.activity.placement = source;
+        u.activity.values.push_back( destination.x );
+        u.activity.values.push_back( destination.y );
+        while( !indices.empty() ) {
+            u.activity.values.push_back( indices.front() );
+            indices.pop_front();
+            u.activity.values.push_back( quantities.front() );
+            quantities.pop_front();
+        }
+    }
+}
