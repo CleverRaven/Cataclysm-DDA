@@ -1100,6 +1100,9 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy)
     m->furn_set(examx, examy, f_null);
     m->spawn_item(examx, examy, "dahlia_flower");
     m->spawn_item(examx, examy, "dahlia_bud");
+    if (p->has_amount("shovel", 1) || p->has_amount("e_tool", 1)) {
+    m->spawn_item(examx, examy, "dahlia_root");
+    }
 }
 
 void iexamine::flower_datura(player *p, map *m, int examx, int examy)

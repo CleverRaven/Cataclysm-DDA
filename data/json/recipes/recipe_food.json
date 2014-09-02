@@ -663,6 +663,7 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
+      [ "dahlia_baked", 1 ],
       [ "wild_herbs", 40 ]
     ]
   ]
@@ -1018,6 +1019,33 @@
   "components": [
     [
       [ "veggy_wild", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dahlia_baked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
+  ["survival_book", 1]],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dahlia_root", 1 ]
     ]
   ]
 },{
@@ -2507,7 +2535,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "irradiated_tomato", 2 ],
@@ -2558,7 +2587,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "meat", 2 ],
@@ -2614,7 +2644,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -2712,7 +2743,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "human_flesh", 2 ]
@@ -2751,7 +2783,8 @@
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "irradiated_onion", 1 ],
-      [ "onion", 1 ]
+      [ "onion", 1 ],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "milk", 1 ],
@@ -3071,7 +3104,8 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1]
+      ["carrot", 1],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "sugar", 1 ],
@@ -3191,7 +3225,8 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1]
+      ["carrot", 1],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "cooking_oil", 1 ],
@@ -3321,7 +3356,8 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1]
+      ["carrot", 1],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "salt", 1 ],
@@ -7004,7 +7040,8 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1]
+      ["carrot", 1],
+      [ "dahlia_baked", 1 ]
     ],
     [
       [ "vinegar", 1 ]
