@@ -1819,6 +1819,10 @@ void game::activity_on_finish()
         // Make sure data of previous activity is cleared
         u.activity = player_activity();
     }
+    if( !u.backlog.empty() ) {
+        u.activity = u.backlog.front();
+        u.backlog.pop_front();
+    }
 }
 
 void game::activity_on_finish_reload()

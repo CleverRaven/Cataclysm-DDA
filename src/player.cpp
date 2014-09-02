@@ -11131,6 +11131,9 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
         activity = backlog.front();
         backlog.pop_front();
     } else {
+        if( activity.type != ACT_NULL ) {
+            backlog.push_front( activity );
+        }
         activity = player_activity(type, moves, index, pos, name);
     }
     if (this->moves <= activity.moves_left) {
@@ -11151,7 +11154,15 @@ bool player::has_activity(const activity_type type) const
 
 void player::cancel_activity()
 {
-    if (activity.is_suspendable()) {
+    // Clear any backlog items that can't resume.
+    for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
+        if( backlog_item->is_suspendable() ) {
+            backlog_item++;
+        } else {
+            backlog_item = backlog.erase( backlog_item );
+        }
+    }
+    if( activity.is_suspendable() ) {
         backlog.push_front( activity );
     }
     activity = player_activity();
