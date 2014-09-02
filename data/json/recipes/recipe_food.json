@@ -1619,7 +1619,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["survival_book", 1] , ["mag_survival", 1] , ["cookbook_italian", 1] , ["family_cookbook", 1]],
+  ["survival_book", 1] , ["mag_survival", 1] , ["family_cookbook", 1]],
   "qualities":[
      {"id":"CUT","level":1,"amount":1},
     {"id":"BOIL","level":1,"amount":1}
@@ -2618,7 +2618,8 @@
   "components": [
     [
       [ "broth", 1 ],
-      [ "broth_bone", 1 ]
+      [ "broth_bone", 1 ],
+      [ "pine_tea", 1 ]
     ],
     [
       [ "meat", 1 ],
