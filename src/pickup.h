@@ -23,6 +23,11 @@ class Pickup
         Pickup() {}
 
         // Pickup helper functions
+        static void pick_one_up( const point &pickup_target, std::vector<item> &here,
+                                 vehicle *veh, int cargo_part, int index, int quantity,
+                                 bool &got_water, bool &offered_swap,
+                                 std::map<std::string, int> &mapPickup );
+
         static int interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part );
 
         static int handle_quiver_insertion( item &here, bool inv_on_fail, int &moves_to_decrement,
