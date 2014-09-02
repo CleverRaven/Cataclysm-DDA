@@ -1583,8 +1583,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     select_location.text = _("Select a starting location.");
     int offset = 0;
     for( location_map::iterator loc = start_location::begin();
-         loc != start_location::end(); ++loc, ++offset ) {
-        select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
+         loc != start_location::end(); ++loc, ++offset) {
+            select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
         if( loc->second.ident() == u->start_location ) {
             select_location.selected = offset;
         }
@@ -1720,7 +1720,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz( w_location, 0, 0, c_ltgray, location_prompt.c_str() );
         mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
-                   c_ltgray, _(select_location.entries[select_location.selected].txt.c_str()) );
+                   c_ltgray, _(u->start_location.c_str()));
         wrefresh(w_location);
 
         werase(w_profession);
@@ -1803,8 +1803,12 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                  loc != start_location::end(); ++loc ) {
                 if( 0 == strcmp( _( loc->second.name().c_str() ),
                                  select_location.entries[ select_location.selected ].txt.c_str() ) ) {
-                    u->start_location = loc->second.ident();
-
+                    if (g->scen->allowed_start(loc->second.ident()) || g->scen->has_flag("ALL_STARTS")){
+                        u->start_location = loc->second.ident();
+                    }
+                    else{
+                        popup(_("Your chosen scenario prevents you from choosing this location!"));
+                    }
                 }
             }
             werase(select_location.window);

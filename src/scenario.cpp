@@ -13,7 +13,7 @@
 #include "game.h"
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),
-     _description_male("null"), _description_female("null"), _start_location("null")
+     _description_male("null"), _description_female("null")
 {
 }
 scenario::scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission)
@@ -23,10 +23,8 @@ scenario::scenario(std::string ident, std::string name, std::string description,
     _name_female = name;
     _description_male = description;
     _description_female = description;
-    _start_location = start_location;
     _profession = prof;
     _mission = mission;
-    _start_name = start_location;
     _point_cost = 0;
 }
 
@@ -56,8 +54,6 @@ void scenario::load_scenario(JsonObject &jsobj)
     scen._description_male = pgettext("scen_desc_male", desc.c_str());
     scen._description_female = pgettext("scen_desc_female", desc.c_str());
 
-    const std::string start = jsobj.get_string("start_location").c_str();
-    scen._start_location = pgettext("start_location", start.c_str());
     const std::string stame = jsobj.get_string("start_name").c_str();
     scen._start_name = pgettext("start_name", stame.c_str());
 
@@ -85,6 +81,16 @@ void scenario::load_scenario(JsonObject &jsobj)
     jsarr = jsobj.get_array("forbidden_traits");
     while (jsarr.has_more()) {
         scen._forbidden_traits.insert(jsarr.next_string());
+    }
+    jsarr = jsobj.get_array("allowed_locs");
+    while (jsarr.has_more()) {
+        if (scen._default_loc.size() < 1){
+            scen._default_loc = jsarr.next_string();
+            scen._allowed_locs.insert(scen._default_loc);
+        }
+        else{
+            scen._allowed_locs.insert(jsarr.next_string());
+        }
     }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
@@ -246,7 +252,12 @@ signed int scenario::point_cost() const
 
 std::string scenario::start_location() const
 {
-    return _start_location;
+    if( has_flag("ALL_STARTS")){
+        return scenario::generic()->ident();
+    }
+    else{
+        return _default_loc;
+    }
 }
 std::string scenario::start_name() const
 {
@@ -294,7 +305,10 @@ bool scenario::has_flag(std::string flag) const
 {
     return flags.count(flag) != 0;
 }
-
+bool scenario::allowed_start(std::string loc) const
+{
+    return _allowed_locs.count(loc) != 0;
+}
 bool scenario::can_pick(int points) const
 {
     if (point_cost() - g->scen->point_cost() > points) {

@@ -11,6 +11,46 @@
     "target" : "house"
   },{
     "type" : "start_location",
+    "ident" : "s_grocery",
+    "name" : "Grocery Store",
+    "target" : "s_grocery"
+  },{
+    "type" : "start_location",
+    "ident" : "s_gun",
+    "name" : "Gun Store",
+    "target" : "s_gun"
+  },{
+    "type" : "start_location",
+    "ident" : "s_garage",
+    "name" : "Garage",
+    "target" : "s_garage"
+  },{
+    "type" : "start_location",
+    "ident" : "pawn",
+    "name" : "Pawn Shop",
+    "target" : "pawn"
+  },{
+    "type" : "start_location",
+    "ident" : "bank",
+    "name" : "Bank",
+    "target" : "bank"
+  },{
+    "type" : "start_location",
+    "ident" : "mil_surplus",
+    "name" : "Military Surplus",
+    "target" : "mil_surplus"
+  },{
+    "type" : "start_location",
+    "ident" : "furniture",
+    "name" : "Furniture Store",
+    "target" : "furniture"
+  },{
+    "type" : "start_location",
+    "ident" : "s_library",
+    "name" : "Library",
+    "target" : "s_library"
+  },{
+    "type" : "start_location",
     "ident" : "cabin",
     "name" : "Cabin",
     "target" : "cabin"
