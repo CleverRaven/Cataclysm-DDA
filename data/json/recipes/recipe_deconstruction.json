@@ -1973,5 +1973,175 @@
       [ "battery", 200 ]
     ]
   ]
-  }
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal1",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal2",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal3",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal4",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal5",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal6",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal7",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal8",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal9",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+  },
+  {
+	"type" : "recipe",
+  "result": "stuffed_animal10",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 400,
+  "reversible": true,
+  "autolearn": false,
+  "qualities": [
+   {"id":"CUT","level":1,"amount":1}
+   ], "components": [
+        [ [ "rag", 2 ] ],
+        [ [ "cotton_ball", 2] ]
+    ]
+}
 ]
