@@ -909,7 +909,7 @@ int game::inv_for_flag(const std::string flag, const std::string title, bool aut
     return display_slice(reduced_inv, title);
 }
 
-int num_items_at_position( int position )
+int inventory::num_items_at_position( int position )
 {
     if( position < -1 ) {
         return g->u.worn[ player::worn_position_to_index(position) ].count_by_charges() ?
@@ -964,7 +964,7 @@ std::list<std::pair<int, int>> game::multidrop()
     for( auto drop_pair : inv_s.dropping ) {
         int num_to_drop = drop_pair.second;
         if( num_to_drop == -1 ) {
-            num_to_drop = num_items_at_position( drop_pair.first );
+            num_to_drop = inventory::num_items_at_position( drop_pair.first );
         }
         dropped_pos_and_qty.push_back( std::make_pair( drop_pair.first, num_to_drop ) );
     }

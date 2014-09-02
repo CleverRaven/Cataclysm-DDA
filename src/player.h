@@ -869,7 +869,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string name;
         bool male;
         profession *prof;
-        
+
         std::string start_location;
 
         std::map<std::string, int> mutation_category_level;
