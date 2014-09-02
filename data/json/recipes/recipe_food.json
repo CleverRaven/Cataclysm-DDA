@@ -663,7 +663,6 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
-      [ "dahlia_baked", 1 ],
       [ "wild_herbs", 40 ]
     ]
   ]
@@ -1032,7 +1031,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["survival_book", 1]],
+  ["manual_survival", 1], ["survival_book", 1]],
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
   ], "tools": [
@@ -1059,7 +1058,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["survival_book", 1] , ["mag_survival", 1] , ["family_cookbook", 1] , ["cookbook", 1]],
+  ["manual_survival", 1], ["mag_survival", 1] , ["family_cookbook", 1] , ["cookbook", 1]],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
@@ -1077,6 +1076,52 @@
     [
       [ "water", 2 ],
       [ "water_clean", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dandelion_fried",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["pocket_survival", 2] , ["textbook_survival", 1] ,
+  ["manual_survival", 1], ["survival_book", 1] , ["family_cookbook", 1] , ["cookbook", 1]],
+   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the dandelions",
+  "qualities" : [
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "tongs", -1 ],
+      [ "skewer", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ],
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "raw_dandelion", 2 ]
+    ],
+    [
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+      [ "hardtack", 1 ],
+      [ "crackers", 1 ]
     ]
   ]
 },{
@@ -1678,7 +1723,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["survival_book", 1] , ["mag_survival", 1] , ["family_cookbook", 1]],
+  ["manual_survival", 1], ["mag_survival", 1] , ["family_cookbook", 1]],
   "qualities":[
      {"id":"CUT","level":1,"amount":1},
     {"id":"BOIL","level":1,"amount":1}
@@ -1695,6 +1740,39 @@
   "components": [
     [
       [ "pine_bough", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "dandelion_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
+  ["manual_survival", 1], ["mag_survival", 1] , ["family_cookbook", 1]],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "raw_dandelion", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -2535,8 +2613,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "dahlia_baked", 1 ]
+      [ "dry_rice", 1 ]
     ],
     [
       [ "irradiated_tomato", 2 ],
@@ -2587,8 +2664,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "dahlia_baked", 1 ]
+      [ "dry_rice", 1 ]
     ],
     [
       [ "meat", 2 ],
@@ -2644,8 +2720,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "dahlia_baked", 1 ]
+      [ "dry_rice", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -2743,8 +2818,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "dahlia_baked", 1 ]
+      [ "dry_rice", 1 ]
     ],
     [
       [ "human_flesh", 2 ]
@@ -2783,8 +2857,7 @@
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "irradiated_onion", 1 ],
-      [ "onion", 1 ],
-      [ "dahlia_baked", 1 ]
+      [ "onion", 1 ]
     ],
     [
       [ "milk", 1 ],
@@ -3104,8 +3177,7 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1],
-      [ "dahlia_baked", 1 ]
+      ["carrot", 1]
     ],
     [
       [ "sugar", 1 ],
@@ -3225,8 +3297,7 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1],
-      [ "dahlia_baked", 1 ]
+      ["carrot", 1]
     ],
     [
       [ "cooking_oil", 1 ],
@@ -3356,8 +3427,7 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1],
-      [ "dahlia_baked", 1 ]
+      ["carrot", 1]
     ],
     [
       [ "salt", 1 ],
@@ -3494,7 +3564,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["survival_book", 1] , ["cookbook_italian", 3] , ["family_cookbook", 1] , ["cookbook", 2]],
+  ["manual_survival", 1], ["cookbook_italian", 3] , ["family_cookbook", 1] , ["cookbook", 2]],
   "tools": [
     [
       ["hotplate", 5],
@@ -7040,8 +7110,7 @@
       ["potato_raw", 1],
       ["corn", 1],
       ["onion", 1],
-      ["carrot", 1],
-      [ "dahlia_baked", 1 ]
+      ["carrot", 1]
     ],
     [
       [ "vinegar", 1 ]
