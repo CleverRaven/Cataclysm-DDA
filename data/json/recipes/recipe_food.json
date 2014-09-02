@@ -5087,6 +5087,7 @@
   ],
   "components": [
     [
+      [ "pine_bough", 6 ],
       [ "2x4", 8 ],
       [ "stick", 8 ],
       [ "splinter", 16 ]
