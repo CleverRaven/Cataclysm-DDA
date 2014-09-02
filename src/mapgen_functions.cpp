@@ -512,9 +512,9 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
                 if (one_in(250)) {
                     m->ter_set(i, j, t_tree_apple);
-                } else if (one_in(100)){
+                } else if (one_in(128)){
                     m->ter_set(i, j, t_tree_deadpine);
-                } else if (one_in(20)){
+                } else if (one_in(16)){
                     m->ter_set(i, j, t_tree_pine);
                 } else {
                     m->ter_set(i, j, t_tree);

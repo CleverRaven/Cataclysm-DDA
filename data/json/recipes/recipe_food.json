@@ -3427,7 +3427,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["survival_book", 1] , ["mag_survival", 1] , ["cookbook_italian", 1] , ["family_cookbook", 1]],
+  ["survival_book", 1] , ["cookbook_italian", 3] , ["family_cookbook", 1] , ["cookbook", 2]],
   "tools": [
     [
       ["hotplate", 5],
