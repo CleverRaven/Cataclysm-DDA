@@ -1377,10 +1377,19 @@ std::string vstring_format(const char *pattern, va_list argptr)
         va_copy(cur_argptr, argptr);
         returned_length = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
         va_end(cur_argptr);
-        if (returned_length >= 0) {
+        if( returned_length >= 0 && returned_length <= buffer_size ) {
+            // Buffer size was sufficient, string has been printed, all is well
             break;
+        } else if( returned_length > 0 ) {
+            // For some reason (is this a mingw build with mingws own vsnprintf?)
+            // vsnprintf seems to be POSIX compatible and returns the required
+            // size of the buffer instead of -1
+            // Note that buffer_size is always > 0 and therefor the case returned_length==0
+            // is handled above.
+            buffer_size = returned_length + 1;
+        } else {
+            buffer_size *= 2;
         }
-        buffer_size *= 2;
     }
 #else
     va_copy(cur_argptr, argptr);
