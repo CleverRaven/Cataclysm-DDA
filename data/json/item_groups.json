@@ -54,6 +54,8 @@
     "items":[
       ["rock", 40],
       ["stick", 95],
+      ["pine_bough", 20],
+      ["pinecone", 5],
       ["bottle_plastic", 1],
       ["bottle_glass", 1],
       ["syringe", 1],
@@ -8014,6 +8016,8 @@
     "items":[
       ["rock", 5],
       ["stick", 5],
+      ["pine_bough", 2],
+      ["pinecone", 3],
       ["flyer", 1],
       ["bag_plastic", 3],
       ["bottle_plastic", 2],
