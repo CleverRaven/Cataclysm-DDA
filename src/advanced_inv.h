@@ -108,8 +108,6 @@ class advanced_inventory
         const int isall;
         const int isdrag;
 
-        bool checkshowmsg;
-        bool showmsg;
         bool inCategoryMode;
 
         int itemsPerPage;
