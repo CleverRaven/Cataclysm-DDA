@@ -5,9 +5,8 @@
     "name": "Evacuee",
     "points" : 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": ["shelter"],
-    "start_name": "Anywhere",
-    "flags" : ["ALL_STARTS"]
+    "allowed_locs": ["shelter","house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","cabin","lmoe"],
+    "start_name": "Anywhere"
   },{
     "type": "scenario",
     "ident": "missed",
@@ -23,6 +22,7 @@
     "points" : -4,
     "description": "In the chaos and panic of evacuation, you got bitten by something! You didn't get proper medical care, and now the wound has started turning green.",
     "start_name": "Anywhere",
+    "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
     "professions" : ["unemployed", "bionic_prepper", "tailor", "chef", "labtech", "mechanic", "scoundrel", "beekeeper", "cyclist", "soldier", "specops", "maid", "gangster", "security", "survivalist", "smoker", "crackhead", "homeless", "tweaker", "cop", "salesman", "bow_hunter", "construction_worker", "lumberjack", "backpacker", "fastfoodcook", "electrician", "hacker", "student", "svictim", "biker", "dancer", "bionic_thief", "bionic_patient", "bionic_worker", "bionic_athlete", "bionic_cop", "bionic_firefighter", "bionic_mentat", "bio_soldier", "bionic_spy", "bionic_hitman", "faulty_bionic", "bionic_customer", "hitchhiker", "trapper", "blacksmith", "clown", "lost_sub", "senior", "cosplay", "goalie", "batter", "linebacker", "golfer", "spouse", "punkrockgirl", "firefighter", "skaboy", "postman", "convict", "razorgirl", "cyberjunkie", "cykotic", "lawyer", "blackbelt_novice", "blackbelt_intermediate", "blackbelt", "pizzaboy", "archaeologist", "rollerderby", "farmer"],
     "flags" : ["INFECTED","ALL_STARTS"]
   },{
@@ -58,7 +58,7 @@
     "type": "scenario",
     "ident": "patient",
     "name": "Challenge-Abandoned",
-    "points" : -7,
+    "points" : -8,
     "description": "Sickly and frail, you have spent most of your life in the patient's ward of the hospital. When yours was evacuated, you were left behind because you were a lost cause. You awaken to the sound of movement around the hospital.",
     "allowed_locs": ["hospital"],
     "start_name": "Hospital",
@@ -69,10 +69,11 @@
     "type": "scenario",
     "ident" : "mutant",
     "name" : "Experiment",
-    "points" : 3,
-    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not. Now that the apocalypse has struck, it's time to see if it did you any good.",
-    "start_name" : "Anywhere",
-    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"],
-    "flags" : ["ALL_STARTS"]
+    "points" : 2,
+    "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not. Once the cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
+    "start_name" : "Forest",
+    "allowed_locs" : ["forest"],
+    "professions" : ["unemployed","mutant_patient","mutant_volunteer"],
+    "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"]
   }
 ]

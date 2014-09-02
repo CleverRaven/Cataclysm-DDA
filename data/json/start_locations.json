@@ -71,6 +71,12 @@
 
   },{
     "type" : "start_location",
+    "ident" : "forest",
+    "name" : "Middle of Nowhere",
+    "target" : "forest"
+
+  },{
+    "type" : "start_location",
     "ident" : "lab_stairs",
     "name" : "science lab",
     "target" : "lab_stairs"

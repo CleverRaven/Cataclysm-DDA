@@ -1331,6 +1331,62 @@
     },
     {
         "type" : "profession",
+        "ident": "mutant_patient",
+        "name": "Unwilling Mutant",
+        "description": "During the panic of the cataclysm, one of the lab technicians, guilty for the forced experimentation on your genetic code, gave you some clothes and set you free.",
+        "points": -1,
+        "items":{
+            "both": [
+                "jeans",
+                "coat_lab"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type" : "profession",
+        "ident": "mutant_volunteer",
+        "name": "Volunteer Mutant",
+        "description": "Your dreams of becoming a super-human mutant through genetic alteration may have fallen a bit short, but when the Cataclysm struck, you and the scientists were ready to put your new body to the test.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 2,
+                "name": "electronics"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "pants",
+                "socks",
+                "boots",
+                "coat_lab",
+                "glasses_safety"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type" : "profession",
         "ident": "bionic_worker",
         "name": "Industrial Cyborg",
         "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",
