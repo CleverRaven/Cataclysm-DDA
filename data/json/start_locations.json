@@ -55,6 +55,13 @@
     "name" : "Cabin",
     "target" : "cabin"
 
+  },
+  {
+    "type" : "start_location",
+    "ident" : "lmoe",
+    "name" : "LMOE",
+    "target" : "lmoe"
+
   },{
     "type" : "start_location",
     "ident" : "lab_stairs",

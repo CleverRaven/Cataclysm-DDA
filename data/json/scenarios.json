@@ -46,6 +46,16 @@
     "professions" : ["winter_survivor","winter_scavenger","unemployed"]
   },{
     "type": "scenario",
+    "ident": "alone",
+    "name": "Sheltered",
+    "points" : -3,
+    "description": "When the apocalypse broke out, you were funneled into a nearby shelter. Here you have lived, never leaving, lest the unknowns of the outside world hurt you. Supplies are running low, and for the first time since the cataclysm, you will be forced to face the outside world.",
+    "allowed_locs": ["lmoe","shelter"],
+    "start_name": "Enclosed Shelter",
+    "flags" : ["WIN_START"],
+    "professions" : ["sheltered_survivor","unemployed"]
+  },{
+    "type": "scenario",
     "ident" : "mutant",
     "name" : "Experiment",
     "points" : 3,
