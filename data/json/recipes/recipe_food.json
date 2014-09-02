@@ -1610,6 +1610,38 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pine_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "pine_bough", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "kompot",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
