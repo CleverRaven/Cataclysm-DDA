@@ -219,10 +219,118 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
     return bFoundSomething;
 }
 
+void Pickup::pick_one_up( const point &pickup_target, std::vector<item> &here,
+                          vehicle *veh, int cargo_part, int index, int quantity,
+                          bool &got_water, bool &offered_swap, std::map<std::string, int> &mapPickup )
+{
+    int moves_taken = 100;
+    bool picked_up = false;
+    item &newit = here[ index ];
+    item leftovers = newit.clone();
+
+    if( here[index].invlet != '\0' &&
+        g->u.invlet_to_position( here[index].invlet ) != INT_MIN ) {
+        // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
+        // add a new invlet, otherwise keep the (usable) invlet.
+        here[index].invlet = '\0';
+    }
+
+    if( quantity != 0 ) {
+        // Reinserting leftovers happens after item removal to avoid stacking issues.
+        int leftover_charges = newit.charges - quantity;
+        if (leftover_charges > 0) {
+            leftovers.charges = leftover_charges;
+            here[index].charges = quantity;
+        }
+    }
+
+    if( newit.made_of(LIQUID) ) {
+        got_water = true;
+    } else if (!g->u.can_pickWeight(newit.weight(), false)) {
+        add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
+    } else if (!g->u.can_pickVolume(newit.volume())) {
+        if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+            int quivered = handle_quiver_insertion(newit, false, moves_taken, picked_up);
+            if (newit.charges > 0) {
+                if(quivered > 0) {
+                    //update the charges for the item that gets re-added to the game map
+                    quantity = quivered;
+                    leftovers.charges = newit.charges;
+                }
+                add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
+                                         "There's no room in your inventory for the %s.",
+                                         newit.charges), newit.tname(newit.charges).c_str());
+            }
+        } else if (g->u.is_armed()) {
+            if (!g->u.weapon.has_flag("NO_UNWIELD")) {
+                // Armor can be instantly worn
+                if (newit.is_armor() &&
+                    query_yn(_("Put on the %s?"),
+                             newit.display_name().c_str())) {
+                    if (g->u.wear_item(&newit)) {
+                        picked_up = true;
+                    }
+                } else if( !offered_swap ) {
+                    offered_swap = true;
+                    if ( g->u.weapon.type->id != newit.type->id &&
+                         query_yn(_("No space for %s; wield instead? (drops %s)"),
+                                  newit.display_name().c_str(),
+                                  g->u.weapon.display_name().c_str()) ) {
+                        picked_up = true;
+                        g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
+                                                  g->u.remove_weapon(), 1 );
+                        g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
+                        g->u.wield( &( g->u.i_add(newit) ) );
+                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
+                                newit.display_name().c_str());
+                    }
+                }
+            } else {
+                add_msg(m_info, _("There's no room in your inventory for the %s, "
+                                  "and you can't unwield your %s."),
+                        newit.display_name().c_str(),
+                        g->u.weapon.display_name().c_str());
+            }
+        } else {
+            g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
+            g->u.wield(&(g->u.i_add(newit)));
+            picked_up = true;
+            add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
+        }
+    } else if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+        //add ammo to quiver
+        handle_quiver_insertion(newit, true, moves_taken, picked_up);
+    } else if (!g->u.is_armed() &&
+               (g->u.volume_carried() + newit.volume() > g->u.volume_capacity() - 2 ||
+                g->u.is_suitable_weapon(newit))) {
+        g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
+        g->u.weapon = newit;
+        picked_up = true;
+        add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
+    } else {
+        newit = g->u.i_add(newit);
+        picked_up = true;
+        mapPickup[ newit.tname() ] += (newit.count_by_charges()) ? newit.charges : 1;
+    }
+
+    if(picked_up) {
+        Pickup::remove_from_map_or_vehicle(pickup_target.x, pickup_target.y,
+                                           veh, cargo_part, moves_taken, index);
+    }
+    if( quantity != 0 ) {
+        bool to_map = veh != nullptr;
+        if( !to_map ) {
+            to_map = !veh->add_item( cargo_part, leftovers );
+        }
+        if( to_map ){
+            g->m.add_item_or_charges( pickup_target.x, pickup_target.y, leftovers );
+        }
+    }
+}
+
 void Pickup::do_pickup( point pickup_target, bool from_vehicle,
                         std::list<int> &indices, std::list<int> &quantities )
 {
-    int moves_taken = 100;
     bool got_water = false;
     int cargo_part = -1;
     vehicle *veh = nullptr;
@@ -245,116 +353,15 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     while( g->u.moves >= 0 && !indices.empty() ) {
         // Pulling from the back of the (in-order) list of indices insures
         // that we pull from the end of the vector.
-        int current_index = indices.back();
-        int current_quantity = quantities.back();
+        int index = indices.back();
+        int quantity = quantities.back();
         // Whether we pick the item up or not, we're done trying to do so,
         // so remove it from the list.
         indices.pop_back();
         quantities.pop_back();
 
-        bool picked_up = false;
-        item &newit = here[ current_index ];
-        item leftovers = newit.clone();
-
-        if( here[current_index].invlet != '\0' &&
-            g->u.invlet_to_position( here[current_index].invlet ) != INT_MIN ) {
-            // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
-            // add a new invlet, otherwise keep the (usable) invlet.
-            here[current_index].invlet = '\0';
-        }
-
-        if( current_quantity != 0 ) {
-            // Reinserting leftovers happens after item removal to avoid stacking issues.
-            int leftover_charges = newit.charges - current_quantity;
-            if (leftover_charges > 0) {
-                leftovers.charges = leftover_charges;
-                here[current_index].charges = current_quantity;
-            }
-        }
-
-        if( newit.made_of(LIQUID) ) {
-            got_water = true;
-        } else if (!g->u.can_pickWeight(newit.weight(), false)) {
-            add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
-        } else if (!g->u.can_pickVolume(newit.volume())) {
-            if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
-                int quivered = handle_quiver_insertion(newit, false, moves_taken, picked_up);
-                if (newit.charges > 0) {
-                    if(quivered > 0) {
-                        //update the charges for the item that gets re-added to the game map
-                        current_quantity = quivered;
-                        leftovers.charges = newit.charges;
-                    }
-                    add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                             "There's no room in your inventory for the %s.",
-                                             newit.charges), newit.tname(newit.charges).c_str());
-                }
-            } else if (g->u.is_armed()) {
-                if (!g->u.weapon.has_flag("NO_UNWIELD")) {
-                    // Armor can be instantly worn
-                    if (newit.is_armor() &&
-                        query_yn(_("Put on the %s?"),
-                                 newit.display_name().c_str())) {
-                        if (g->u.wear_item(&newit)) {
-                            picked_up = true;
-                        }
-                    } else if( !offered_swap ) {
-                        offered_swap = true;
-                        if ( g->u.weapon.type->id != newit.type->id &&
-                             query_yn(_("No space for %s; wield instead? (drops %s)"),
-                                      newit.display_name().c_str(),
-                                      g->u.weapon.display_name().c_str()) ) {
-                            picked_up = true;
-                            g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
-                                                      g->u.remove_weapon(), 1 );
-                            g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
-                            g->u.wield( &( g->u.i_add(newit) ) );
-                            add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
-                                    newit.display_name().c_str());
-                        }
-                    }
-                } else {
-                    add_msg(m_info, _("There's no room in your inventory for the %s, "
-                                      "and you can't unwield your %s."),
-                            newit.display_name().c_str(),
-                            g->u.weapon.display_name().c_str());
-                }
-            } else {
-                g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-                g->u.wield(&(g->u.i_add(newit)));
-                picked_up = true;
-                add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
-            }
-        } else if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
-            //add ammo to quiver
-            handle_quiver_insertion(newit, true, moves_taken, picked_up);
-        } else if (!g->u.is_armed() &&
-                   (g->u.volume_carried() + newit.volume() > g->u.volume_capacity() - 2 ||
-                    g->u.is_suitable_weapon(newit))) {
-            g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-            g->u.weapon = newit;
-            picked_up = true;
-            add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
-        } else {
-            newit = g->u.i_add(newit);
-            picked_up = true;
-            mapPickup[ newit.tname() ] += (newit.count_by_charges()) ? newit.charges : 1;
-        }
-
-        if(picked_up) {
-            pickup_obj.remove_from_map_or_vehicle(pickup_target.x, pickup_target.y, veh, cargo_part,
-                                                  moves_taken, current_index);
-        }
-        if( current_quantity != 0 ) {
-            bool to_map = !from_vehicle;
-
-            if( from_vehicle ) {
-                to_map = !veh->add_item( cargo_part, leftovers );
-            }
-            if( to_map ) {
-                g->m.add_item_or_charges( pickup_target.x, pickup_target.y, leftovers );
-            }
-        }
+        pick_one_up( pickup_target, here, veh, cargo_part, index, quantity,
+                     got_water, offered_swap, mapPickup );
     }
 
     if( !mapPickup.empty() ) {
