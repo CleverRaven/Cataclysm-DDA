@@ -29,7 +29,7 @@
     "type": "scenario",
     "ident": "lab_chal",
     "name": "Challenge-Lab",
-    "points" : -7,
+    "points" : -8,
     "description": "You've been locked in a lab with no way out! Survive as long as you can! Brag about it on the forums! (Pics or it didn't happen)",
     "start_name": "Locked Lab",
     "professions" : ["unemployed"],
