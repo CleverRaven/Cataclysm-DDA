@@ -1720,7 +1720,7 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy)
 
 void iexamine::tree_pine(player *p, map *m, int examx, int examy)
 {
-    m->spawn_item( examx, examy, "pine_bough", rng( 1, 8 ) );
+    m->spawn_item( examx, examy, "pine_bough", rng( 2, 12 ) );
     pick_plant(p, m, examx, examy, "pinecone", t_tree_deadpine);
 }
 

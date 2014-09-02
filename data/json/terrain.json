@@ -2697,6 +2697,26 @@
         "examine_action": "water_source"
     },{
         "type" : "terrain",
+        "id" : "t_improvised_shelter",
+        "name": "improvised shelter",
+        "symbol": "#",
+        "color": "ltgreen_green",
+        "move_cost": 6,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 30, "num_tests": 2, "chance": 50,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_pit_shallow",
+            "items": [
+                { "item": "stick", "amount": 6, "minamount": 3},
+                { "item": "pine_bough", "amount": 24, "minamount": 12}
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_open_air",
         "name": "open air",
         "symbol": " ",
