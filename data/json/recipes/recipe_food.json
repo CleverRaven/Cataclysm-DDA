@@ -1130,11 +1130,10 @@
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 1,
+  "skills_required": [ "survival", 1 ],
   "time": 6000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["manual_survival", 1], ["mag_survival", 1] , ["family_cookbook", 1] , ["cookbook", 1]],
+  "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2,"amount":1},
     {"id":"CUT","level":1,"amount":1}
@@ -1162,11 +1161,10 @@
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 3,
+  "skills_required": [ "survival", 1 ],
   "time": 8000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [["pocket_survival", 2] , ["textbook_survival", 1] ,
-  ["manual_survival", 1], ["survival_book", 1] , ["family_cookbook", 1] , ["cookbook", 1]],
+  "autolearn": true,
    "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the dandelions",
   "qualities" : [
     {"id":"COOK","level":2,"amount":1},
@@ -1200,6 +1198,37 @@
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "acorns_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "skills_required": [ "survival", 1 ],
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "acorns", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -2696,7 +2725,8 @@
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "dry_rice", 1 ],
-      [ "dandelion_cooked", 1 ]
+      [ "dandelion_cooked", 1 ],
+      [ "acorns_cooked", 1 ]
     ],
     [
       [ "irradiated_tomato", 2 ],
@@ -2748,7 +2778,8 @@
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "dry_rice", 1 ],
-      [ "dandelion_cooked", 1 ]
+      [ "dandelion_cooked", 1 ],
+      [ "acorns_cooked", 1 ]
     ],
     [
       [ "meat", 2 ],
@@ -2806,7 +2837,8 @@
       [ "dry_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
-      [ "dry_mushroom", 1 ]
+      [ "dry_mushroom", 1 ],
+      [ "acorns_cooked", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -2867,7 +2899,8 @@
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
       [ "dry_rice", 1 ],
-      [ "dandelion_cooked", 1 ]
+      [ "dandelion_cooked", 1 ],
+      [ "acorns_cooked", 1 ]
     ]
   ]
 },{
@@ -2906,7 +2939,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "acorns_cooked", 1 ]
     ],
     [
       [ "human_flesh", 2 ]
@@ -5931,7 +5965,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1] ] ],
-  "components": [ [ ["wheat", 2], ["buckwheat", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["acorns_cooked", 2] ] ]
 },{
         "type" : "recipe",
   "result": "cornmeal",
