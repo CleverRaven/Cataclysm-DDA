@@ -44,17 +44,13 @@ void player::sort_armor()
     const int win_y = TERMY / 2 - win_h / 2;
 
     int content_h   = win_h - 6;
-    int obsolete_w   = 6;
-    int arrangement_w  = (win_w - 3) * 3 / 5;
-    int description_w = (win_w - 3) - obsolete_w - arrangement_w;
+    int arrangement_w  = win_w * 3 / 5;
+    int description_w = (win_w - 2) - arrangement_w;
 
     int tabindex = num_bp;
     int tabcount = num_bp + 1;
 
-    int obsoleteListSize;
-    int obsoleteListIndex  = 0;
-    int obsoleteListOffset = 0;
-    int selected       = -1;
+    int selected = -1;
 
     int list_size;
     int index  = 0;
@@ -62,7 +58,6 @@ void player::sort_armor()
 
     item tmp_item;
     std::vector<item *> tmp_worn;
-    std::vector<item *> tmp_arr;
     std::string tmp_str;
 
     std::string  armor_cat[] = { _("Head"), _("Eyes"), _("Mouth"), _("Torso"),
@@ -77,9 +72,8 @@ void player::sort_armor()
 
     // Subwindows (between lines)
     WINDOW *w_title       = newwin(1, win_w - 4, win_y + 1, win_x + 2);
-    WINDOW *w_description = newwin(content_h, description_w, win_y + 3, win_x + arrangement_w + 1);
     WINDOW *w_arrangement = newwin(content_h, arrangement_w, win_y + 4, win_x);
-    WINDOW *w_obsolete    = newwin(content_h, obsolete_w, win_y + 4, win_x + arrangement_w + description_w + 2);
+    WINDOW *w_description = newwin(content_h + 2, description_w, win_y + 3, win_x + arrangement_w + 1);
 
     input_context ctxt("SORT_ARMOR");
     ctxt.register_cardinal();
@@ -93,7 +87,6 @@ void player::sort_armor()
 
     for (bool sorting = true; sorting; ) {
         werase(w_title);
-        werase(w_obsolete);
         werase(w_description);
         werase(w_arrangement);
 
@@ -117,24 +110,8 @@ void player::sort_armor()
                 }
             }
         }
-        obsoleteListSize = ((int)tmp_worn.size() < content_h - 2) ? (int)tmp_worn.size() : content_h - 2;
 
-        // obsolete list
-        for (int drawindex = 0; drawindex < obsoleteListSize; drawindex++) {
-            int itemindex = obsoleteListOffset + drawindex;
-            each_armor = dynamic_cast<it_armor *>(tmp_worn[itemindex]->type);
-
-            if (itemindex == obsoleteListIndex) {
-                mvwprintz(w_obsolete, drawindex, 0, c_yellow, ">");
-            }
-
-            mvwprintz(w_obsolete, drawindex, 1 + (int)(itemindex == selected), c_dkgray, each_armor->nname(1).c_str());
-        }
-
-
-        tmp_arr.clear();
-
-        // arrangement list
+        // List
         list_size = 0;
         for (int cover = 0, pos = 0; cover < num_bp; cover++) {
             if (list_size >= offset && pos < content_h) {
@@ -169,17 +146,14 @@ void player::sort_armor()
             list_size++;
 
             // Print all items for current bodypart
-            for (std::vector<item>::iterator it = worn.begin(); it != worn.end(); ++it) {
+            for (auto it = worn.begin(); it != worn.end(); ++it) {
                 each_armor = dynamic_cast<it_armor *>(it->type);
                 if (it->covers.test(bp_order[cover])) {
-                    tmp_arr.push_back(&*it);
-
                     if (list_size >= offset && pos <= content_h - 1) {
-
                         int lvl = it->clothing_lvl() + 2;
 
                         // TODO: update the condition
-                        if (index == 0) {
+                        if (index == pos) {
                             mvwhline(w_arrangement, pos, 1, '>', lvl/*, c_yellow*/);
                         }
 
@@ -207,55 +181,35 @@ void player::sort_armor()
 
         // Items stats
         if (!tmp_worn.empty()) {
-            draw_description_pane(w_description, tmp_worn[obsoleteListIndex]);
+            draw_description_pane(w_description, tmp_worn[index]);
         } else {
             mvwprintz(w_description, 0, 1, c_white, _("Nothing to see here!"));
         }
 
         // ScrollBar
-        draw_scrollbar(w_arrangement, offset /*<--temp*/, content_h, list_size, 0, 0);
-
-        // Scroll-up is available
-        if (offset > 0) {
-            mvwprintz(w_arrangement, content_h - 1, arrangement_w - 6, c_yellow, "^");
-        }
-
-        // Scroll-down is available
-        if (list_size > content_h - 1) {
-            mvwprintz(w_arrangement, content_h - 1, arrangement_w - 5, c_yellow, "v");
-        }
+        draw_scrollbar(w_arrangement, index, content_h, list_size, 0, 0);
 
         // F5
         wrefresh(w_title);
-        wrefresh(w_obsolete);
         wrefresh(w_description);
         wrefresh(w_arrangement);
 
         const std::string action = ctxt.handle_input();
-        if (action == "UP" && obsoleteListSize > 0) {
+        if (action == "UP" && list_size > 0) {
             offset--;
             if (offset < 0) {
                 offset = 0;
             }
 
-
-            obsoleteListIndex--;
-            if (obsoleteListIndex < 0) {
-                obsoleteListIndex = tmp_worn.size() - 1;
+            index--;
+            if (index < 0) {
+                index = tmp_worn.size() - 1;
             }
-
-            // Scrolling logic
-            obsoleteListOffset = (obsoleteListIndex < obsoleteListOffset) ? obsoleteListIndex : obsoleteListOffset;
-            if (!((obsoleteListIndex >= obsoleteListOffset) && (obsoleteListIndex < obsoleteListOffset + obsoleteListSize))) {
-                obsoleteListOffset = obsoleteListIndex - obsoleteListSize + 1;
-                obsoleteListOffset = (obsoleteListOffset > 0) ? obsoleteListOffset : 0;
-            }
-
             // move selected item
             if (selected >= 0) {
-                tmp_item = *tmp_worn[obsoleteListIndex];
+                tmp_item = *tmp_worn[index];
                 for (auto it = worn.begin(); it != worn.end(); ++it) {
-                    if (&*it == tmp_worn[obsoleteListIndex]) {
+                    if (&*it == tmp_worn[index]) {
                         *it = *tmp_worn[selected];
                     }
                 }
@@ -266,29 +220,22 @@ void player::sort_armor()
                     }
                 }
 
-                selected = obsoleteListIndex;
+                selected = index;
             }
-        } else if (action == "DOWN" && obsoleteListSize > 0) {
+
+        } else if (action == "DOWN" && list_size > 0) {
             offset++;
             if (offset + content_h > list_size) {
                 offset = list_size - content_h;
             }
 
-
-
-            obsoleteListIndex = (obsoleteListIndex + 1) % tmp_worn.size();
-
-            // Scrolling logic
-            if (!((obsoleteListIndex >= obsoleteListOffset) && (obsoleteListIndex < obsoleteListOffset + obsoleteListSize))) {
-                obsoleteListOffset = obsoleteListIndex - obsoleteListSize + 1;
-                obsoleteListOffset = (obsoleteListOffset > 0) ? obsoleteListOffset : 0;
-            }
+            index = (index + 1) % tmp_worn.size();
 
             // move selected item
             if (selected >= 0) {
-                tmp_item = *tmp_worn[obsoleteListIndex];
+                tmp_item = *tmp_worn[index];
                 for (auto it = worn.begin(); it != worn.end(); ++it) {
-                    if (&*it == tmp_worn[obsoleteListIndex]) {
+                    if (&*it == tmp_worn[index]) {
                         *it = *tmp_worn[selected];
                     }
                 }
@@ -298,19 +245,22 @@ void player::sort_armor()
                         *it = tmp_item;
                     }
                 }
-                selected = obsoleteListIndex;
+                selected = index;
             }
+
         } else if (action == "LEFT") {
             tabindex--;
             if (tabindex < 0) {
                 tabindex = tabcount - 1;
             }
-            obsoleteListIndex = obsoleteListOffset = 0;
+            index = offset = 0;
             selected = -1;
+
         } else if (action == "RIGHT") {
             tabindex = (tabindex + 1) % tabcount;
-            obsoleteListIndex = obsoleteListOffset = 0;
+            index = offset = 0;
             selected = -1;
+
         } else if (action == "NEXT_TAB") {
             // back-up for mode switches
 
@@ -321,8 +271,9 @@ void player::sort_armor()
             if (selected >= 0) {
                 selected = -1;
             } else {
-                selected = obsoleteListIndex;
+                selected = index;
             }
+
         } else if (action == "ASSIGN_INVLETS") {
             // Start with last armor (the most unimportant one?)
             int worn_index = worn.size() - 1;
@@ -340,12 +291,14 @@ void player::sort_armor()
                     invlet_index--;
                 }
             }
+
         } else if (action == "HELP") {
             /* Not enough space in Help window for this:
 \n\
 [Encumbrance]: \n\
 Total value of encumbrance is shown in the left side of equation. \n\
-The first component of equation is the encumbrance caused by the number of clothing on that bodypart, \
+The first component of equation is the encumbrance \
+caused by the number of clothing on that bodypart, \
 and the second one is the summed encumbrance from all clothing on that bodypart.
             */
             popup_getkey(_("\
@@ -359,7 +312,8 @@ Indention of name of the item represents the clothing layer: \n\
 Color of the item represents its condition: \
 green color means it's a brand new item, red color - a torn one.\n\
  \n\
-Order of the items in the list for each bodypart is important: upper in the list means it closer to the body.\n\
+Order of the items in the list for each bodypart is important: \
+upper in the list means it closer to the body.\n\
  \n\
 [Keybinding]: \n\
 Use the arrow- or keypad keys to navigate the list of items. \n\
@@ -379,7 +333,6 @@ Press %s to assign special inventory letters to clothing.\n"),
     }
 
     delwin(w_title);
-    delwin(w_obsolete);
     delwin(w_description);
     delwin(w_arrangement);
     delwin(w_main);
@@ -418,7 +371,8 @@ void draw_description_pane(WINDOW *w_description, item *worn_item)
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
 
     // Item Name
-    mvwprintz(w_description, 0, 1, dam_color[int(worn_item->damage + 1)], each_armor->nname(1).c_str());
+    mvwprintz(w_description, 0, 1, dam_color[int(worn_item->damage + 1)],
+              each_armor->nname(1).c_str());
 
     // Layer
     mvwprintz(w_description, 1, 2, c_white, worn_item->clothing_lvl_description(true).c_str());
@@ -465,8 +419,6 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
 {
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
     std::vector<std::string> props;
-    props.push_back(name_and_value(_("Coverage:"),
-                                   string_format("%3d", int(each_armor->coverage)), width));
     props.push_back(name_and_value(_("Encumbrance:"), string_format("%3d",
                                    (worn_item->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1) :
                                    int(each_armor->encumber)), width));
@@ -474,6 +426,8 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
                                    string_format("%3d", int(each_armor->warmth)), width));
     props.push_back(name_and_value(_("Storage:"),
                                    string_format("%3d", int(each_armor->storage)), width));
+    props.push_back(name_and_value(_("Coverage (%):"),
+                                   string_format("%3d", int(each_armor->coverage)), width));
     props.push_back("");
     props.push_back("Protection:");
     props.push_back(name_and_value(_(" - Bash:"),
