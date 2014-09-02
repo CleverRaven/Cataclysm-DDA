@@ -39,7 +39,17 @@
       ["mag_comic", 20],
       ["candycigarette", 10],
       ["radio_car_box", 1],
-      ["radiocontrol", 5]
+      ["radiocontrol", 5],
+      ["stuffed_animal1," 8],
+      ["stuffed_animal2," 8],
+      ["stuffed_animal3," 8],
+      ["stuffed_animal4," 8],
+      ["stuffed_animal5," 8],
+      ["stuffed_animal6," 8],
+      ["stuffed_animal7," 8],
+      ["stuffed_animal8," 8],
+      ["stuffed_animal9," 8],
+      ["stuffed_animal10," 8]
     ]
   },{
     "type" : "item_group",
@@ -270,7 +280,18 @@
       ["phonebook", 5],
       ["survnote", 1],
       ["radio_car_box", 2],
-      ["radiocontrol", 5]
+      ["radiocontrol", 5],
+      ["stuffed_animal1," 5],
+      ["stuffed_animal2," 5],
+      ["stuffed_animal3," 5],
+      ["stuffed_animal4," 5],
+      ["stuffed_animal5," 5],
+      ["stuffed_animal6," 5],
+      ["stuffed_animal7," 5],
+      ["stuffed_animal8," 5],
+      ["stuffed_animal9," 5],
+      ["stuffed_animal10," 5]
+      
     ]
   },{
     "type" : "item_group",
@@ -3776,7 +3797,17 @@
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
       ["recipe_medicalmut", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["stuffed_animal1," 8],
+      ["stuffed_animal2," 8],
+      ["stuffed_animal3," 8],
+      ["stuffed_animal4," 8],
+      ["stuffed_animal5," 8],
+      ["stuffed_animal6," 8],
+      ["stuffed_animal7," 8],
+      ["stuffed_animal8," 8],
+      ["stuffed_animal9," 8],
+      ["stuffed_animal10," 8]
     ]
   },{
     "type" : "item_group",
@@ -4759,7 +4790,17 @@
       ["razor_blade", 5],
       ["sheath", 5],
       ["holster", 4],
-      ["survnote", 2]
+      ["survnote", 2],
+      ["stuffed_animal1," 4],
+      ["stuffed_animal2," 4],
+      ["stuffed_animal3," 4],
+      ["stuffed_animal4," 4],
+      ["stuffed_animal5," 4],
+      ["stuffed_animal6," 4],
+      ["stuffed_animal7," 4],
+      ["stuffed_animal8," 4],
+      ["stuffed_animal9," 4],
+      ["stuffed_animal10," 4]
     ]
   },{
     "type" : "item_group",
@@ -8151,7 +8192,17 @@
       ["jedi_cloak", 5],
       ["glowstick", 15],
       ["clown_suit", 5],
-      ["clownshoes", 5]
+      ["clownshoes", 5],
+      ["stuffed_animal1," 10],
+      ["stuffed_animal2," 10],
+      ["stuffed_animal3," 10],
+      ["stuffed_animal4," 10],
+      ["stuffed_animal5," 10],
+      ["stuffed_animal6," 10],
+      ["stuffed_animal7," 10],
+      ["stuffed_animal8," 10],
+      ["stuffed_animal9," 10],
+      ["stuffed_animal10," 10]
     ]
   },{
 "type" : "item_group",
