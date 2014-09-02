@@ -443,7 +443,8 @@
   ],
   "components": [
     [
-      [ "mushroom", 4 ]
+      [ "mushroom", 4 ],
+      [ "mushroom_morel", 4 ]
     ]
   ]
 },{
@@ -1019,6 +1020,80 @@
   "components": [
     [
       [ "veggy_wild", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "morel_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "skills_required": [ "survival", 1 ],
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "mushroom_morel", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "morel_fried",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the dandelions",
+  "qualities" : [
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "tongs", -1 ],
+      [ "skewer", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ],
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mushroom_morel", 1 ]
+    ],
+    [
+      [ "flour", 1 ],
+      [ "cornmeal", 1 ],
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+      [ "hardtack", 1 ],
+      [ "crackers", 1 ]
     ]
   ]
 },{
@@ -2477,6 +2552,7 @@
     [
       [ "dry_veggy", 2 ],
       [ "dry_fruit", 2 ],
+      [ "dry_mushroom", 2 ],
       [ "juice_pulp", 4 ],
       [ "strawberries", 1 ],
       [ "blueberries", 1 ],
@@ -2552,7 +2628,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_veggy", 1 ],
-      [ "dandelion_cooked", 1 ]
+      [ "dandelion_cooked", 1 ],
+      [ "dry_mushroom", 1 ]
     ]
   ]
 },{
@@ -2728,7 +2805,8 @@
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
       [ "dry_rice", 1 ],
-      [ "dandelion_cooked", 1 ]
+      [ "dandelion_cooked", 1 ],
+      [ "dry_mushroom", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -2779,7 +2857,8 @@
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
-      [ "egg_reptile", 2 ]
+      [ "egg_reptile", 2 ],
+      [ "dry_mushroom", 2 ]
     ],
     [
       [ "veggy_wild", 1 ],
@@ -5136,7 +5215,8 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "rehydrated_veggy", 2 ],
-      [ "dry_veggy", 2 ]
+      [ "dry_veggy", 2 ],
+      [ "dry_mushroom", 2 ]
     ]
   ]
 },{
@@ -6358,8 +6438,7 @@
   "time": 80000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [ ["survival_book", 3] , ["textbook_survival", 3] ,
-  ["manual_survival", 3] ],
+  "book_learn": [ ["survival_book", 3] , ["textbook_survival", 3] , ["manual_survival", 3] ],
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
