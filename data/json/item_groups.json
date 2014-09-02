@@ -1175,6 +1175,7 @@
       ["popcorn3", 35],
       ["fruit_leather", 25],
       ["kernels", 25],
+      ["pine_nuts", 5],
       ["candycigarette", 20]
     ]
   },{
@@ -1349,6 +1350,7 @@
       ["restaurantmap", 5],
       ["touristmap", 2],
       ["salt", 10],
+      ["pine_nuts", 10],
       ["brioche", 50]
     ]
   },{
@@ -1623,6 +1625,7 @@
       ["celery", 5],
       ["wheat", 3],
       ["onion", 3],
+      ["pine_nuts", 2],
       ["carrot", 3]
     ]
   },{
