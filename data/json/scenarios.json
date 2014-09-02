@@ -17,6 +17,14 @@
     "start_name": "Your House"
   },{
     "type": "scenario",
+    "ident": "groceries",
+    "name": "Shopping Spree",
+    "points" : 0,
+    "description": "You were at the grocery store when suddenly everything went awry. You better grab a shopping cart and as much stuff it can hold, and start running.",
+    "start_location": "s_grocery",
+    "start_name": "Grocery Store"
+  },{
+    "type": "scenario",
     "ident": "infected",
     "name": "Infected",
     "points" : -4,
