@@ -1920,6 +1920,9 @@
       ["fencing_jacket", 8],
       ["fencing_mask", 8],
       ["fencing_pants", 8],
+      ["fencing_foil", 8],
+      ["fencing_sabre", 8],
+      ["fencing_epee", 8],
       ["survnote", 1]
     ]
   },{
@@ -2218,6 +2221,9 @@
       ["fencing_jacket", 10],
       ["fencing_mask", 10],
       ["fencing_pants", 10],
+      ["fencing_foil", 10],
+      ["fencing_sabre", 10],
+      ["fencing_epee", 10],
       ["survnote", 1]
     ]
   },{
