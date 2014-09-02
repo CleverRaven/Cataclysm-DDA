@@ -663,6 +663,7 @@
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
+      [ "dandelion_cooked", 2 ],
       [ "wild_herbs", 40 ]
     ]
   ]
@@ -2550,7 +2551,8 @@
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
-      [ "dry_veggy", 1 ]
+      [ "dry_veggy", 1 ],
+      [ "dandelion_cooked", 1 ]
     ]
   ]
 },{
@@ -2616,7 +2618,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dandelion_cooked", 1 ]
     ],
     [
       [ "irradiated_tomato", 2 ],
@@ -2667,7 +2670,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dandelion_cooked", 1 ]
     ],
     [
       [ "meat", 2 ],
@@ -2723,7 +2727,8 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dandelion_cooked", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -2782,7 +2787,8 @@
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
-      [ "dry_rice", 1 ]
+      [ "dry_rice", 1 ],
+      [ "dandelion_cooked", 1 ]
     ]
   ]
 },{
@@ -4801,6 +4807,32 @@
     ],
     [
       [ "chocolate", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sauce_pesto",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_italian", 2 ]],
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "pine_nuts", 1 ]
+    ],
+    [
+      [ "seasoning_italian", 5 ],
+      [ "wild_herbs", 10 ]
     ]
   ]
 },{
@@ -7496,6 +7528,7 @@
       [ "tomato", 1],
       [ "irradiated_tomato", 1],
       [ "broccoli", 1],
+      [ "dandelion_cooked", 1 ],
       [ "irradiated_broccoli", 1]
     ],
     [
