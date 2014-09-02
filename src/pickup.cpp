@@ -14,7 +14,7 @@ static Pickup pickup_obj;
 // Returns -2 if a special interaction was performed and the menu should exit.
 int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part )
 {
-    pickup_obj.from_veh = false;
+    bool from_vehicle = false;
 
     int k_part = 0;
     int wtr_part = 0;
@@ -35,7 +35,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
         chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
         cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
         ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
-        pickup_obj.from_veh = veh && cargo_part >= 0 && !veh->parts[cargo_part].items.empty();
+        from_vehicle = veh && cargo_part >= 0 && !veh->parts[cargo_part].items.empty();
 
         menu_items.push_back(_("Examine vehicle"));
         options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
@@ -44,7 +44,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             options_message.push_back(uimenu_entry(_("Control vehicle"), 'v'));
         }
 
-        if (pickup_obj.from_veh) {
+        if( from_vehicle ) {
             menu_items.push_back(_("Get items"));
             options_message.push_back(uimenu_entry(_("Get items"), 'g'));
         }
@@ -170,10 +170,10 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
         }
 
         if(menu_items[choice] == _("Get items on the ground")) {
-            pickup_obj.from_veh = false;
+            from_vehicle = false;
         }
     }
-    return cargo_part;
+    return from_vehicle ? cargo_part : -1;
 }
 
 static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> &getitem )
@@ -391,15 +391,17 @@ void Pickup::pick_up(int posx, int posy, int min)
     int cargo_part = -1;
 
     vehicle *veh = g->m.veh_at (posx, posy, veh_root_part);
+    bool from_vehicle = false;
 
     if( min != -1 ) {
         cargo_part = interact_with_vehicle( veh, posx, posy, veh_root_part );
+        from_vehicle = cargo_part >= 0;
         if( cargo_part == -2 ) {
             return;
         }
     }
 
-    if (!pickup_obj.from_veh) {
+    if( from_vehicle ) {
         bool isEmpty = (g->m.i_at(posx, posy).empty());
 
         // Hide the pickup window if this is a toilet and there's nothing here
@@ -419,7 +421,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     // which items are we grabbing?
-    std::vector<item> here = (pickup_obj.from_veh) ?
+    std::vector<item> here = (from_vehicle) ?
         veh->parts[cargo_part].items : g->m.i_at(posx, posy);
 
     if (min == -1) {
@@ -452,7 +454,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     if ((int)here.size() <= min && min != -1) {
         g->u.assign_activity( ACT_PICKUP, 0 );
         g->u.activity.placement = point( posx, posy );
-        g->u.activity.values.push_back( pickup_obj.from_veh );
+        g->u.activity.values.push_back( from_vehicle );
         // Only one item means index is 0.
         g->u.activity.values.push_back( 0 );
         // auto-pickup means pick up all.
@@ -743,7 +745,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( ACT_PICKUP, 0 );
     g->u.activity.placement = point( posx, posy );
-    g->u.activity.values.push_back( pickup_obj.from_veh );
+    g->u.activity.values.push_back( from_vehicle );
     for (size_t i = 0; i < here.size(); i++) {
         if( getitem[i] ) {
             g->u.activity.values.push_back( i );
