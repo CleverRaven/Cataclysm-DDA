@@ -58,6 +58,13 @@
   },
   {
     "type" : "start_location",
+    "ident" : "hospital",
+    "name" : "Hospital",
+    "target" : "hospital"
+
+  },
+  {
+    "type" : "start_location",
     "ident" : "lmoe",
     "name" : "LMOE",
     "target" : "lmoe"

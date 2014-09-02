@@ -1309,6 +1309,28 @@
     },
     {
         "type" : "profession",
+        "ident": "patient",
+        "name": "Patient",
+        "description": "When the diagnosis came back positive, you were willing to fight to keep living. Now, you must renew your vow of tenacity in these new times.",
+        "points": -2,
+        "items":{
+            "both": [
+                "jeans",
+                "tshirt",
+                "socks",
+                "sneakers"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type" : "profession",
         "ident": "bionic_worker",
         "name": "Industrial Cyborg",
         "description": "For better or for worse, bionic augmentation has turned you into a walking power tool.  Upgraded with a standard industrial-grade manual labor surgery and training package, you are augmented with bionic muscles and an integrated toolset, both powered by standard batteries.",

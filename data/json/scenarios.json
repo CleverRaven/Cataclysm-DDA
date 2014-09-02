@@ -56,6 +56,17 @@
     "professions" : ["sheltered_survivor","unemployed"]
   },{
     "type": "scenario",
+    "ident": "patient",
+    "name": "Challenge-Abandoned",
+    "points" : -7,
+    "description": "Sickly and frail, you have spent most of your life in the patient's ward of the hospital. When yours was evacuated, you were left behind because you were a lost cause. You awaken to the sound of movement around the hospital.",
+    "allowed_locs": ["hospital"],
+    "start_name": "Hospital",
+    "forced_traits" : ["FLIMSY2"],
+    "forbidden_traits" : ["TOUGH","DISRESISTANT"],
+    "professions" : ["unemployed","bionic_patient","patient"]
+  },{
+    "type": "scenario",
     "ident" : "mutant",
     "name" : "Experiment",
     "points" : 3,
