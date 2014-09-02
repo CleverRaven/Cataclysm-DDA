@@ -252,12 +252,7 @@ signed int scenario::point_cost() const
 
 std::string scenario::start_location() const
 {
-    if( has_flag("ALL_STARTS")){
-        return scenario::generic()->ident();
-    }
-    else{
         return _default_loc;
-    }
 }
 std::string scenario::start_name() const
 {

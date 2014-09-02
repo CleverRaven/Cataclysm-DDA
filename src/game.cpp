@@ -641,7 +641,14 @@ void game::start_game(std::string worldname)
     u.set_highest_cat_level();
     //Calc mutation drench protection stats
     u.drench_mut_calc();
-
+    if (g->scen->has_flag("FIRE_START")){
+            g->m.add_field(u.pos().x + 1, u.pos().y + 1, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x, u.pos().y + 1, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x - 1, u.pos().y + 1, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x + 5, u.pos().y + 3, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
+    }
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
