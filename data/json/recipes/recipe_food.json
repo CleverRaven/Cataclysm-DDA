@@ -1022,6 +1022,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "dandelion_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
+  ["survival_book", 1] , ["mag_survival", 1] , ["family_cookbook", 1] , ["cookbook", 1]],
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "raw_dandelion", 2 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "spaghetti_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
@@ -3419,7 +3450,7 @@
         "type" : "recipe",
   "result": "pine_nuts",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
+  "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "skills_required": [ "survival", 1 ],
   "difficulty": 1,
