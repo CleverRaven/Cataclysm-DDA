@@ -23,7 +23,6 @@ scenario::scenario(std::string ident, std::string name, std::string description,
     _name_female = name;
     _description_male = description;
     _description_female = description;
-    _profession = prof;
     _mission = mission;
     _point_cost = 0;
 }
@@ -65,10 +64,17 @@ void scenario::load_scenario(JsonObject &jsobj)
     scen.add_items_from_jsonarray(items_obj.get_array("male"), "male");
     scen.add_items_from_jsonarray(items_obj.get_array("female"), "female");
 
-
+    bool first = false;
     jsarr = jsobj.get_array("professions");
     while (jsarr.has_more()) {
-        scen._allowed_professions.insert(jsarr.next_string());
+        if (first == true){
+            scen._allowed_professions.insert(jsarr.next_string());
+        }
+        else{
+            scen._profession = profession::prof(jsarr.next_string());
+            scen._allowed_professions.insert(scen._profession->ident());
+            first = true;
+        }
     }
     jsarr = jsobj.get_array("traits");
     while (jsarr.has_more()) {
@@ -253,6 +259,10 @@ signed int scenario::point_cost() const
 std::string scenario::start_location() const
 {
         return _default_loc;
+}
+profession* scenario::get_profession() const
+{
+        return _profession;
 }
 std::string scenario::start_name() const
 {

@@ -78,6 +78,7 @@ public:
     std::string gender_req() const;
     std::string start_location() const;
     std::string start_name() const;
+    profession* get_profession() const;
     bool profquery(const profession* proff) const;
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;

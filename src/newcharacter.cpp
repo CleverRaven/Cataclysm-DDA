@@ -1520,12 +1520,12 @@ int set_scenario(WINDOW *w, player *u, int &points)
                 }
         } else if (action == "CONFIRM") {
 		u->start_location = sorted_scens[cur_id]->start_location();
-		u->prof = profession::generic();
 		u->str_max = 8;
 		u->dex_max = 8;
 		u->int_max = 8;
 		u->per_max = 8;
 		g->scen = scenario::scen(sorted_scens[cur_id]->ident());
+		u->prof = g->scen->get_profession();
 		u->empty_traits();
 		u->add_traits();
 		points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();

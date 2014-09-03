@@ -38,9 +38,9 @@
   },{
     "type": "scenario",
     "ident": "bad_day",
-    "name": "Really Bad Day",
-    "points" : -8,
-    "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu. This day went downhill really fast.",
+    "name": "Challenge-Really Bad Day",
+    "points" : -10,
+    "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, naked, and sick with the flu. This day went downhill really fast.",
     "start_name": "Anywhere",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library"],
     "professions" : ["svictim"],
