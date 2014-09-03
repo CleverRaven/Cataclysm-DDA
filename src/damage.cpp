@@ -31,7 +31,7 @@ void damage_instance::mult_damage(double multiplier)
 {
     for (std::vector<damage_unit>::iterator it = damage_units.begin();
          it != damage_units.end(); ++it) {
-        it->amount *= multiplier;
+        it->damage_multiplier *= multiplier;
     }
 }
 float damage_instance::type_damage(damage_type dt) const
