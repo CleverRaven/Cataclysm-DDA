@@ -906,8 +906,9 @@
         "category" : "FURN",
         "difficulty" : 0,
         "time" : 10,
+        "//": "You can re-use the lid and most of the nails",
         "components" : [
-        [ ["nail", 6] ] "//": "You can re-use the lid and most of the nails",
+        [ ["nail", 6] ]
         ],
         "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
         "pre_terrain" : "f_crate_o",
