@@ -86,10 +86,10 @@ struct quality_requirement {
     }
 
     void load(JsonArray &jarr);
-    bool has(const inventory &crafting_inv, int batch = 1) const;
-    std::string to_string(int batch = 1) const;
+    bool has(const inventory &crafting_inv, int = 0) const;
+    std::string to_string(int = 0) const;
     void check_consistency(const std::string &display_name) const;
-    std::string get_color(bool has_one, const inventory &crafting_inv, int batch = 1) const;
+    std::string get_color(bool has_one, const inventory &crafting_inv, int = 0) const;
 };
 
 /**

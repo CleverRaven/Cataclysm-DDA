@@ -38,7 +38,7 @@ bool quality::has( const std::string &id )
     return qualities.count( id ) > 0;
 }
 
-std::string quality_requirement::to_string(int batch) const
+std::string quality_requirement::to_string(int) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
                                     "%d tools with %s of %d or more.", count ),
@@ -249,7 +249,7 @@ int requirements::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_colo
         ypos++;
         return ypos - oldy;
     }
-    ypos += print_list(w, ypos, xpos, width, col, crafting_inv, qualities, batch);
+    ypos += print_list(w, ypos, xpos, width, col, crafting_inv, qualities);
     ypos += print_list(w, ypos, xpos, width, col, crafting_inv, tools, batch);
     return ypos - oldy;
 }
@@ -284,7 +284,7 @@ bool requirements::can_make_with_inventory( const inventory &crafting_inv, int b
     bool retval = true;
     // Doing this in several steps avoids C++ Short-circuit evaluation
     // and makes sure that the available value is set for every entry
-    retval &= has_comps(crafting_inv, qualities, batch);
+    retval &= has_comps(crafting_inv, qualities);
     retval &= has_comps(crafting_inv, tools, batch);
     retval &= has_comps(crafting_inv, components, batch);
     retval &= check_enough_materials(crafting_inv, batch);
@@ -314,12 +314,12 @@ bool requirements::has_comps( const inventory &crafting_inv,
     return retval;
 }
 
-bool quality_requirement::has( const inventory &crafting_inv, int batch ) const
+bool quality_requirement::has( const inventory &crafting_inv, int ) const
 {
     return crafting_inv.has_items_with_quality( type, level, count );
 }
 
-std::string quality_requirement::get_color( bool, const inventory &, int batch) const
+std::string quality_requirement::get_color( bool, const inventory &, int ) const
 {
     return available == a_true ? "green" : "red";
 }
