@@ -263,6 +263,11 @@ void game::activity_on_turn_pickup()
     point pickup_target = g->u.activity.placement;
     std::list<int> indices;
     std::list<int> quantities;
+    
+    if (g->m.i_at(pickup_target.x, pickup_target.y).size() <= 0) {
+        g->u.cancel_activity();
+        return;
+    }
     // Note i = 1, skipping first element.
     for( size_t i = 1; i < g->u.activity.values.size(); i += 2 ) {
         indices.push_back( g->u.activity.values[i] );
