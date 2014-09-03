@@ -10612,7 +10612,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
     }
 }
 
-
+// TODO: move the ONE caller of this in player::hitall to call absorb_hit() instead and
+// get rid of this.
 void player::absorb(body_part bp, int &dam, int &cut)
 {
     it_armor* tmp;
@@ -10621,22 +10622,21 @@ void player::absorb(body_part bp, int &dam, int &cut)
     int bash_absorb = 0;      // to determine if lower layers of armour get damaged
 
     // CBMS absorb damage first before hitting armour
-    if (has_active_bionic("bio_ads"))
-    {
-        if (dam > 0 && power_level > 24)
-        {
+    if (has_active_bionic("bio_ads")) {
+        if (dam > 0 && power_level > 24) {
             dam -= rng(1, 8);
             power_level -= 25;
         }
-        if (cut > 0 && power_level > 24)
-        {
+        if (cut > 0 && power_level > 24) {
             cut -= rng(0, 4);
             power_level -= 25;
         }
-        if (dam < 0)
+        if (dam < 0) {
             dam = 0;
-        if (cut < 0)
+        }
+        if (cut < 0) {
             cut = 0;
+        }
     }
 
     // determines how much damage is absorbed by armour
@@ -10645,11 +10645,9 @@ void player::absorb(body_part bp, int &dam, int &cut)
     int cut_reduction = 0;
 
     // See, we do it backwards, iterating inwards
-    for (int i = worn.size() - 1; i >= 0; i--)
-    {
+    for (int i = worn.size() - 1; i >= 0; i--) {
         tmp = dynamic_cast<it_armor*>(worn[i].type);
-        if (worn[i].covers.test(bp))
-        {
+        if (worn[i].covers.test(bp)) {
             // first determine if damage is at a covered part of the body
             // probability given by coverage
             if (rng(0, 100) <= tmp->coverage) {
@@ -10662,16 +10660,12 @@ void player::absorb(body_part bp, int &dam, int &cut)
                 cut_reduction = arm_cut / 3;
 
                 // power armour first  - to depreciate eventually
-                if (worn[i].type->is_power_armor())
-                {
-                    if (cut > arm_cut * 2 || dam > arm_bash * 2)
-                    {
+                if (worn[i].type->is_power_armor()) {
+                    if (cut > arm_cut * 2 || dam > arm_bash * 2) {
                         add_msg_if_player(m_bad, _("Your %s is damaged!"), worn[i].tname().c_str());
                         worn[i].damage++;
                     }
-                }
-                else // normal armour
-                {
+                } else { // normal armour
                     // determine how much the damage exceeds the armour absorption
                     // bash damage takes into account preceding layers
                     int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
@@ -10682,31 +10676,27 @@ void player::absorb(body_part bp, int &dam, int &cut)
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
                     if ((dam > arm_bash && !one_in(diff_bash)) ||
-                        (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50)))
-                    {
+                        (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50))) {
                         armor_damaged = true;
                         worn[i].damage++;
                     }
                     bash_absorb += arm_bash;
 
                     // cut damage falls through to inner layers only if preceding layer was damaged
-                    if (cut_through)
-                    {
+                    if (cut_through) {
                         if ((cut > arm_cut && !one_in(diff_cut)) ||
-                            (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50)))
-                        {
+                            (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50))) {
                             armor_damaged = true;
                             worn[i].damage++;
-                        }
-                        else // layer of clothing was not damaged, so stop cutting damage from penetrating
-                        {
+                        } else {
+                            // layer of clothing was not damaged,
+                            // so stop cutting damage from penetrating
                             cut_through = false;
                         }
                     }
 
                     // now check if armour was completely destroyed and display relevant messages
-                    if (worn[i].damage >= 5)
-                    {
+                    if (worn[i].damage >= 5) {
                       //~ %s is armor name
                       add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
                                        pgettext("memorial_female", "Worn %s was completely destroyed."),
@@ -10722,6 +10712,8 @@ void player::absorb(body_part bp, int &dam, int &cut)
                                                   damage_verb.c_str());
                     }
                 } // end of armour damage code
+            } else {
+                add_msg( "Armor bypassed" );
             }
         }
         // reduce damage accordingly
@@ -10729,33 +10721,23 @@ void player::absorb(body_part bp, int &dam, int &cut)
         cut -= cut_reduction;
     }
     // now account for CBMs and mutations
-    if (has_bionic("bio_carbon"))
-    {
+    if (has_bionic("bio_carbon")) {
         dam -= 2;
         cut -= 4;
     }
-    if (bp == bp_head && has_bionic("bio_armor_head"))
-    {
+    if (bp == bp_head && has_bionic("bio_armor_head")) {
         dam -= 3;
         cut -= 3;
-    }
-    else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms"))
-    {
+    } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
         dam -= 3;
         cut -= 3;
-    }
-    else if (bp == bp_torso && has_bionic("bio_armor_torso"))
-    {
+    } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
         dam -= 3;
         cut -= 3;
-    }
-    else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs"))
-    {
+    } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
         dam -= 3;
         cut -= 3;
-    }
-    else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
-    {
+    } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
         dam -= 3;
         cut -= 3;
     }
@@ -10826,10 +10808,12 @@ void player::absorb(body_part bp, int &dam, int &cut)
     dam -= mabuff_arm_bash_bonus();
     cut -= mabuff_arm_cut_bonus();
 
-    if (dam < 0)
+    if (dam < 0) {
         dam = 0;
-    if (cut < 0)
+    }
+    if (cut < 0) {
         cut = 0;
+    }
 }
 
 int player::get_env_resist(body_part bp) const
