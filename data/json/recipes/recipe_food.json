@@ -1062,7 +1062,7 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
-   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the dandelions",
+   "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the morel",
   "qualities" : [
     {"id":"COOK","level":2,"amount":1}
   ],
