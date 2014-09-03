@@ -1,0 +1,9 @@
+#COLEEN'S TILESET 
+#Name of the tileset
+NAME: Coleen24
+#Viewing (Option) name of the tileset
+VIEW: Coleen's24px
+#JSON Path - Default of tile_config.json
+JSON: Coleen24Tileset/tile_config.json
+#Tileset Path - Default of tinytile.png
+TILESET: Coleen24Tileset/Coleen.png
