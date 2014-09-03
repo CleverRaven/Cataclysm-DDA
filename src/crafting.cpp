@@ -523,9 +523,9 @@ recipe *game::select_crafting_recipe()
                       _("Press <ENTER> to attempt to craft object."));
             wprintz(w_data, c_white, "  ");
             if (filterstring != "") {
-                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode, [b]atch [?] keybindings"));
+                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
             } else {
-                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode, [b]atch [?] keybindings"));
+                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode, %s [?] keybindings"), (batch) ? _("cancel [b]atch") : _("[b]atch"));
             }
         } else {
             if (filterstring != "") {
