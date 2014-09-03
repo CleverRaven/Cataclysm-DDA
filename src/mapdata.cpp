@@ -109,6 +109,8 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         
         explosive = j.get_int("explosive", -1);
         
+        destroy_only = j.get_bool("destroy_only", false);
+        
         sound = j.get_string("sound", _("smash!"));
         sound_fail = j.get_string("sound_fail", _("thump!"));
         

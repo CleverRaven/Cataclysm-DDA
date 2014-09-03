@@ -44,21 +44,22 @@ struct map_bash_item_drop {
     map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
 };
 struct map_bash_info {
-    int str_min;          // min str(*) required to bash
-    int str_max;          // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
-    int str_min_blocked;  // same as above; alternate values for has_adjacent_furniture(...) == true
+    int str_min;            // min str(*) required to bash
+    int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
+    int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;
-    int str_min_roll;     // lower bound of success check; defaults to str_min
-    int str_max_roll;     // upper bound of success check; defaults to str_max
-    int explosive;        // Explosion on destruction
+    int str_min_roll;       // lower bound of success check; defaults to str_min
+    int str_max_roll;       // upper bound of success check; defaults to str_max
+    int explosive;          // Explosion on destruction
+    bool destroy_only;      // Only used for destroying, not normally bashable
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
-    std::string sound;    // sound made on success ('You hear a "smash!"')
+    std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
-    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
+    std::string furn_set;   // furniture to set (only used by furniture, not terrain)
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
-                      str_min_roll(-1), str_max_roll(-1), explosive(0), sound(""), sound_fail(""),
-                      ter_set(""), furn_set("") {};
+                      str_min_roll(-1), str_max_roll(-1), explosive(0), destroy_only(false), 
+                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
