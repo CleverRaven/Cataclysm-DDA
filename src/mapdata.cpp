@@ -172,6 +172,8 @@ ter_t null_terrain_t() {
   new_terrain.sym = ' ';
   new_terrain.color = c_white;
   new_terrain.movecost = 2;
+  new_terrain.trap = tr_null;
+  new_terrain.trap_id_str = "";
   new_terrain.transparent = true;
   new_terrain.bitflags = 0;
   new_terrain.set_flag("TRANSPARENT");
