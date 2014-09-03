@@ -405,6 +405,8 @@ void add_corpse(int x, int y);
  bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
  /** Makes spores at the respective x and y. source is used for kill counting */
  void create_spores(const int x, const int y, Creature* source = NULL);
+ /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
+ int collapse_check(const int x, const int y);
  /** Causes a collapse at (x, y), such as from destroying a wall */
  void collapse_at(const int x, const int y);
  /** Returns a pair where first is whether something was smashed and second is if it was a success */

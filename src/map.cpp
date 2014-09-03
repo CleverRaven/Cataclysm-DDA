@@ -1623,33 +1623,39 @@ void map::create_spores(const int x, const int y, Creature* source)
     }
 }
 
+int map::collapse_check(const int x, const int y)
+{
+    int num_supports = 0;
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            if (i == x && j == y) {
+                continue;
+            }
+            if (has_flag("COLLAPSES", x, y)) {
+                if (has_flag("COLLAPSES", i, j)) {
+                    num_supports++;
+                } else if (has_flag("SUPPORTS_ROOF", i, j)) {
+                    num_supports += 2;
+                }
+            } else if (has_flag("SUPPORTS_ROOF", x, y)) {
+                if (has_flag("SUPPORTS_ROOF", i, j) && !has_flag("COLLAPSES", i, j)) {
+                    num_supports += 3;
+                }
+            }
+        }
+    }
+    return num_supports;
+}
+
 void map::collapse_at(const int x, const int y)
 {
     crush(x, y);
     for (int i = x - 1; i <= x + 1; i++) {
         for (int j = y - 1; j <= y + 1; j++) {
-            if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j))
+            if ((i == x && j == y) || !has_flag("SUPPORTS_ROOF", i, j)) {
                 continue;
-            int num_supports = 0;
-            for (int k = i - 1; k <= i + 1; k++) {
-                for (int l = j - 1; l <= j + 1; l++) {
-                    if (k == i && l == j) {
-                        continue;
-                    }
-                    if (has_flag("COLLAPSES", i, j)) {
-                        if (has_flag("COLLAPSES", k, l)) {
-                            num_supports++;
-                        } else if (has_flag("SUPPORTS_ROOF", k, l)) {
-                            num_supports += 2;
-                        }
-                    } else if (has_flag("SUPPORTS_ROOF", i, j)) {
-                        if (has_flag("SUPPORTS_ROOF", k, l) && !has_flag("COLLAPSES", k, l)) {
-                            num_supports += 3;
-                        }
-                    }
-                }
             }
-            if (one_in(num_supports)) {
+            if (one_in(collapse_check(i, j))) {
                 destroy (i, j, false);
             }
         }
@@ -1716,7 +1722,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
 
-        if ( bash != NULL && (!bash->destroy_only || destroy) {
+        if ( bash != NULL && (!bash->destroy_only || destroy)) {
             int smin = bash->str_min;
             int smax = bash->str_max;
             if (!destroy) {
@@ -1761,6 +1767,7 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                 sound = _(bash->sound.c_str());
                 // Set this now in case the ter_set below changes this
                 bool collapses = has_flag("COLLAPSES", x, y) && smash_ter;
+                bool supports = has_flag("SUPPORTS_ROOF", x, y) && smash_ter;
                 if (smash_furn == true) {
                     furn_set(x, y, bash->furn_set);
                     // Hack alert.
@@ -1783,6 +1790,18 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
                 
                 if (collapses) {
                     collapse_at(x, y);
+                }
+                if (supports) {
+                    for (int i = x - 1; i <= x + 1; i++) {
+                        for (int j = y - 1; j <= y + 1; j++) {
+                            if ((i == x && j == y) || !has_flag("COLLAPSES", i, j)) {
+                                continue;
+                            }
+                            if (one_in(collapse_check(i, j))) {
+                                collapse_at(i, j);
+                            }
+                        }
+                    }
                 }
                 smashed_something = true;
             } else {

@@ -190,7 +190,15 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ]
+        ],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_dirt",
+            "destroy_only": true,
+            "items": [
+                { "item": "splinter", "amount": 8, "minamount": 2 }
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_floor_waxed",
