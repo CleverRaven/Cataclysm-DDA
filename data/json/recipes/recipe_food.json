@@ -3681,13 +3681,11 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "skills_required": [ "survival", 1 ],
+  "skills_required": [ "survival", 2 ],
   "difficulty": 1,
   "time": 3000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [["pocket_survival", 1] , ["survival_book", 1] , ["textbook_survival", 1] ,
-  ["manual_survival", 1], ["cookbook_italian", 3] , ["family_cookbook", 1] , ["cookbook", 2]],
+  "autolearn": true,
   "tools": [
     [
       ["hotplate", 5],
