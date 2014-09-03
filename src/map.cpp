@@ -1716,21 +1716,23 @@ std::pair<bool, bool> map::bash(const int x, const int y, const int str, bool si
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->get_abs_levx(), g->get_abs_levy());
         }
 
-        if ( bash != NULL && bash->str_min != -1 ) {
+        if ( bash != NULL && (!bash->destroy_only || destroy) {
             int smin = bash->str_min;
             int smax = bash->str_max;
-            if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
-                if( has_adjacent_furniture(x, y) ) {
-                    if ( bash->str_min_blocked != -1 ) {
-                        smin = bash->str_min_blocked;
-                    }
-                    if ( bash->str_max_blocked != -1 ) {
-                        smax = bash->str_max_blocked;
+            if (!destroy) {
+                if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
+                    if( has_adjacent_furniture(x, y) ) {
+                        if ( bash->str_min_blocked != -1 ) {
+                            smin = bash->str_min_blocked;
+                        }
+                        if ( bash->str_max_blocked != -1 ) {
+                            smax = bash->str_max_blocked;
+                        }
                     }
                 }
-            }
-            if ( str >= smin && str >= rng(bash->str_min_roll, bash->str_max_roll)) {
-                success = true;
+                if ( str >= smin && str >= rng(bash->str_min_roll, bash->str_max_roll)) {
+                    success = true;
+                }
             }
             
             if (success || destroy) {

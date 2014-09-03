@@ -99,7 +99,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
         str_min = j.get_int("str_min", 0);
-        str_max = j.get_int("str_max");
+        str_max = j.get_int("str_max", 0);
         
         str_min_blocked = j.get_int("str_min_blocked", -1);
         str_max_blocked = j.get_int("str_max_blocked", -1);
