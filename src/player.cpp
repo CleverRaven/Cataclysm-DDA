@@ -10712,8 +10712,6 @@ void player::absorb(body_part bp, int &dam, int &cut)
                                                   damage_verb.c_str());
                     }
                 } // end of armour damage code
-            } else {
-                add_msg( "Armor bypassed" );
             }
         }
         // reduce damage accordingly
