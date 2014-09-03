@@ -1356,14 +1356,25 @@ bool map::is_bashable(const int x, const int y)
     return false;
 }
 
-bool map::is_bashable_ter_furn(const int x, const int y)
+bool map::is_bashable_ter(const int x, const int y)
 {
-    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
-        return true;
-    } else if ( ter_at(x, y).bash.str_max != -1 ) {
+    if ( ter_at(x, y).bash.str_max != -1 ) {
         return true;
     }
     return false;
+}
+
+bool map::is_bashable_furn(const int x, const int y)
+{
+    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
+        return true;
+    }
+    return false;
+}
+
+bool map::is_bashable_ter_furn(const int x, const int y)
+{
+    return is_bashable_furn(x, y) || is_bashable_ter(x, y);
 }
 
 int map::bash_strength(const int x, const int y)
@@ -1420,6 +1431,29 @@ int map::bash_rating(const int str, const int x, const int y)
     }
     
     return (10 * (str - bash_min)) / (bash_max - bash_min);
+}
+
+void map::make_rubble(const int x, const int y, ter_id floor_type, bool overwrite)
+{
+    if (overwrite) {
+        ter_set(x, y, floor_type);
+        furn_set(x, y, f_rubble);
+    } else {
+        // First see if there is existing furniture to destroy
+        if (is_bashable_furn(x, y)) {
+            destroy_furn(x, y, true);
+        }
+        // Leave the terrain alone unless it interferes with furniture placement
+        if (move_cost(x, y) <= 0 && is_bashable_ter(x, y)) {
+            destroy(x, y, true);
+        }
+        // Check again for new terrain after potential destruction
+        if (move_cost(x, y) <= 0) {
+            ter_set(x, y, floor_type);
+        }
+        
+        furn_set(x, y, f_rubble);
+    }
 }
 
 /**
@@ -1942,7 +1976,22 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
 
 void map::destroy(const int x, const int y, const bool silent)
 {
-    while (bash(x, y, 999, silent, true).second);
+    // Break if it takes more than 25 destructions to remove to prevent infinite loops
+    // Example: A bashes to B, B bashes to A leads to A->B->A->...
+    int count = 0;
+    while (count <= 25 && bash(x, y, 999, silent, true).second) {
+        count++;
+    }
+}
+
+void map::destroy_furn(const int x, const int y, const bool silent)
+{
+    // Break if it takes more than 25 destructions to remove to prevent infinite loops
+    // Example: A bashes to B, B bashes to A leads to A->B->A->...
+    int count = 0;
+    while (count <= 25 && furn(x, y) != f_null && bash(x, y, 999, silent, true).second) {
+        count++;
+    }
 }
 
 void map::crush(const int x, const int y)
@@ -5334,6 +5383,19 @@ void map::draw_rough_circle(ter_id type, int x, int y, int rad) {
 }
 void map::draw_rough_circle(std::string type, int x, int y, int rad) {
     draw_rough_circle(find_ter_id(type), x, y, rad);
+}
+
+void map::draw_rough_circle_furn(furn_id type, int x, int y, int rad) {
+    for (int i = x - rad; i <= x + rad; i++) {
+        for (int j = y - rad; j <= y + rad; j++) {
+            if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
+                furn_set(i, j, type);
+            }
+        }
+    }
+}
+void map::draw_rough_circle_furn(std::string type, int x, int y, int rad) {
+    draw_rough_circle(find_furn_id(type), x, y, rad);
 }
 
 void map::add_corpse(int x, int y) {

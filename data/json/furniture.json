@@ -15,6 +15,16 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_rubble",
+        "name": "pile of rubble",
+        "symbol": "^",
+        "color": "ltgray",
+        "move_cost_mod": 8,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "MOUNTABLE"],
+        "examine_action": "rubble"
+    },{
+        "type" : "furniture",
         "id" : "f_barricade_road",
         "name": "road barricade",
         "symbol": "#",

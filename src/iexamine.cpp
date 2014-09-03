@@ -531,13 +531,13 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
-    std::string xname = m->tername(examx, examy);
+    std::string xname = m->furnname(examx, examy);
     if (query_yn(_("Clear up that %s?"), xname.c_str())) {
         // "Remove"
         p->moves -= 200;
 
         // "Replace"
-        if(m->ter(examx, examy) == t_rubble) {
+        if(m->furn(examx, examy) == f_rubble) {
             item rock("rock", calendar::turn);
             int rock_count = rng(1,3);
             for (int i = 0; i < rock_count; i++) {
@@ -545,12 +545,7 @@ void iexamine::rubble(player *p, map *m, int examx, int examy)
             }
         }
 
-        // "Refloor"
-        if (g->levz < 0) {
-            m->ter_set(examx, examy, t_rock_floor);
-        } else {
-            m->ter_set(examx, examy, t_dirt);
-        }
+        m->furn_set(examx, examy, f_null);
 
         // "Remind"
         add_msg(_("You clear up that %s."), xname.c_str());

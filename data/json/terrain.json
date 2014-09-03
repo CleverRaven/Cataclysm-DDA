@@ -98,15 +98,6 @@
         "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
     },{
         "type" : "terrain",
-        "id" : "t_rubble",
-        "name": "pile of rubble",
-        "symbol": "^",
-        "color": "ltgray",
-        "move_cost": 8,
-        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "DIGGABLE", "MOUNTABLE"],
-        "examine_action": "rubble"
-    },{
-        "type" : "terrain",
         "id" : "t_ash",
         "name": "pile of ash",
         "symbol": "#",
@@ -2607,7 +2598,7 @@
             "str_min": 20, "str_max": 150,
             "sound": "metal screeching",
             "sound_fail": "clang!",
-            "ter_set": "t_rubble",
+            "ter_set": "t_metal_floor",
             "items": [
                 { "item": "steel_lump", "amount": 2, "minamount": 0 },
                 { "item": "steel_chunk", "amount": 3, "minamount": 1 },
