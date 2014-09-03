@@ -16,7 +16,7 @@ scenario::scenario()
      _description_male("null"), _description_female("null")
 {
 }
-scenario::scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission)
+scenario::scenario(std::string ident, std::string name, std::string description, int mission)
 {
     _ident = ident;
     _name_male = name;
