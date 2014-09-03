@@ -10246,9 +10246,10 @@
         "price" : 0,
         "material" : "null",
         "tool" : "null",
-        "volume" : 0,
+        "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
+        "charges" : 2,
         "bashing" : 0,
         "fun" : -20
     },
