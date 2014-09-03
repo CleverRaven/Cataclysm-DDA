@@ -394,6 +394,7 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
        for (int j = 0; j < SEEY * 2; j++) {
            if (rng(0, dat.w_fac) <= i && rng(0, dat.e_fac) <= SEEX * 2 - 1 - i &&
                rng(0, dat.n_fac) <= j && rng(0, dat.s_fac) <= SEEX * 2 - 1 - j ) {
+               m->ter_set(i, j, dat.groundcover());
                m->furn_set(i, j, f_rubble);
                m->set_radiation(i, j, rng(0, 4) * rng(0, 2));
            } else {
@@ -1311,6 +1312,7 @@ void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, f
                 if (i < dat.w_fac || i > dat.e_fac) {
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(90)) {
+                    m->ter_set(i, j, t_rock_floor);
                     m->furn_set(i, j, f_rubble);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
@@ -1333,6 +1335,7 @@ void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, flo
                 if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
+                    m->ter_set(i, j, t_rock_floor);
                     m->furn_set(i, j, f_rubble);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
@@ -1361,6 +1364,7 @@ void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
                 if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
+                    m->ter_set(i, j, t_rock_floor);
                     m->furn_set(i, j, f_rubble);
                 } else {
                     m->ter_set(i, j, t_rock_floor);
@@ -1391,6 +1395,7 @@ void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
                     (j < 4 || j >= SEEY * 2 - 4)) {
                     m->ter_set(i, j, t_rock);
                 } else if (one_in(30)) {
+                    m->ter_set(i, j, t_rock_floor);
                     m->furn_set(i, j, f_rubble);
                 } else {
                     m->ter_set(i, j, t_rock_floor);

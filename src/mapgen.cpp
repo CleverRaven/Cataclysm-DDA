@@ -3838,10 +3838,9 @@ ff.......|....|WWWWWWWW|\n\
                         (i > rw &&          (!one_in(3) || (j > SEEY - 6 && j < SEEY + 5))) ||
                         (j > tw &&          (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5))) ||
                         (j < SEEY * 2 - bw && (!one_in(3) || (i > SEEX - 6 && i < SEEX + 5)))) {
+                        ter_set(i, j, t_rock_floor);
                         if (one_in(5)) {
                             make_rubble(i, j, t_rock_floor);
-                        } else {
-                            ter_set(i, j, t_rock_floor);
                         }
                     }
                 }
