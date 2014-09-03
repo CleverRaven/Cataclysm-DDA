@@ -123,6 +123,22 @@
         "post_special" : "done_trunk_plank"
     },{
         "type" : "construction",
+        "description" : "Build Improvised Shelter",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 120,
+        "qualities": [ [
+            { "id": "CUT", "level": 1 },
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "stick", 12 ], [ "2x4", 6 ] ],
+            [ [ "pine_bough", 24 ] ]
+        ],
+        "pre_terrain" : "t_pit_shallow",
+        "post_terrain" : "t_improvised_shelter"
+    },{
+        "type" : "construction",
         "description" : "Build Door", "//": "Step 1: door frame",
         "category" : "CONSTRUCT",
         "difficulty" : 2,

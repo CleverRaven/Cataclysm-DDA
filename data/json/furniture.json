@@ -1288,6 +1288,16 @@
         "examine_action": "flower_datura"
     },{
         "type" : "furniture",
+        "id" : "f_dandelion",
+        "name": "dandelion",
+        "symbol": "f",
+        "color": "yellow",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_dandelion"
+    },{
+        "type" : "furniture",
         "id" : "f_forge",
         "name": "forge",
         "symbol": "^",

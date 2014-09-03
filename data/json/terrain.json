@@ -1435,6 +1435,23 @@
         "examine_action": "tree_apple"
     },{
         "type" : "terrain",
+        "id" : "t_tree_pine",
+        "name": "pine tree",
+        "symbol": "4",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_pine"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_deadpine",
+        "name": "dead pine tree",
+        "symbol": "4",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
         "id" : "t_underbrush",
         "name": "underbrush",
         "symbol": "#",
@@ -2678,6 +2695,26 @@
             ]
         },
         "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_improvised_shelter",
+        "name": "improvised shelter",
+        "symbol": "#",
+        "color": "brown_green",
+        "move_cost": 6,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE"
+        ],
+        "bash": {
+            "str_min": 0, "str_max": 30, "num_tests": 2, "chance": 50,
+            "sound": "crunch.",
+            "sound_fail": "brush.",
+            "ter_set": "t_pit_shallow",
+            "items": [
+                { "item": "stick", "amount": 6, "minamount": 3},
+                { "item": "pine_bough", "amount": 18, "minamount": 6}
+            ]
+        }
     },{
         "type" : "terrain",
         "id" : "t_open_air",
