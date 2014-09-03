@@ -841,6 +841,97 @@
         "post_terrain" : "t_chaingate_c"
     },{
         "type" : "construction",
+        "description" : "Build Roof",
+        "category" : "CONSTRUCT",
+        "difficulty" : 3,
+        "time" : 40,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 40 ] ]
+        ],
+        "pre_special" : "check_support",
+        "post_terrain" : "t_floor"
+    },{
+        "type" : "construction",
+        "description" : "Build Log & Sod Roof",
+        "category" : "CONSTRUCT",
+        "difficulty" : 3,
+        "time" : 40,
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components" : [
+            [ [ "log", 2 ] ],
+            [ [ "stick", 4 ], [ "2x4", 8 ] ]
+        ],
+        "pre_special" : "check_support",
+        "post_terrain" : "t_floor"
+    },{
+        "type" : "construction",
+        "description" : "Tape up window",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 2,
+        "components" : [
+            [ [ "duct_tape", 50 ] ]
+        ],
+        "pre_terrain" : "t_window",
+        "post_terrain" : "t_window_taped"
+    },{
+        "type" : "construction",
+        "description" : "Tape up window",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 2,
+        "components" : [
+            [ [ "duct_tape", 50 ] ]
+        ],
+        "pre_terrain" : "t_window_domestic",
+        "post_terrain" : "t_window_domestic_taped"
+    },{
+        "type" : "construction",
+        "description" : "Tape up window",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 2,
+        "components" : [
+            [ [ "duct_tape", 50 ] ]
+        ],
+        "pre_terrain" : "t_window_alarm",
+        "post_terrain" : "t_window_alarm_taped"
+    },{
+        "type" : "construction",
+        "description" : "Seal Crate",
+        "category" : "FURN",
+        "difficulty" : 0,
+        "time" : 10,
+	"components" : [
+	    [ [ "2x4", 4], ["nail", 12] ]
+	],
+        "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+        "pre_terrain" : "f_crate_o",
+        "post_terrain" : "f_crate_c"
+    },{
+        "type" : "construction",
+        "description" : "Build Crate",
+        "category" : "FURN",
+        "difficulty" : 1,
+        "time" : 20,
+        "qualities": [
+		    [
+            { "id": "HAMMER", "level": 2 }
+            ]
+
+			],
+        "components" : [
+            [ [ "2x4", 8 ] ],
+            [ [ "nail", 24 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_crate_o"
+    },{
+        "type" : "construction",
         "description" : "Build Bulletin board",
         "category" : "FURN",
         "difficulty" : 0,
