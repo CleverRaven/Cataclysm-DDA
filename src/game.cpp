@@ -595,6 +595,11 @@ void game::start_game(std::string worldname)
     player_start.translate( t_window_domestic, t_curtains );
     player_start.save();
     if (g->scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
+    if (g->scen->has_flag("BAD_DAY")){
+        u.add_disease("flu", 10000);
+        u.add_disease("drunk", 2700 - (12 * u.str_max));
+        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
+    }
     levx -= int(int(MAPSIZE / 2) / 2);
     levy -= int(int(MAPSIZE / 2) / 2);
     levz = 0;
@@ -640,7 +645,14 @@ void game::start_game(std::string worldname)
     u.set_highest_cat_level();
     //Calc mutation drench protection stats
     u.drench_mut_calc();
-
+    if (g->scen->has_flag("FIRE_START")){
+            g->m.add_field(u.pos().x + 1, u.pos().y + 1, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x, u.pos().y + 1, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x - 1, u.pos().y + 1, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x + 5, u.pos().y + 3, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
+    }
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),

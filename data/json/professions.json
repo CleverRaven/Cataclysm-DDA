@@ -80,6 +80,63 @@
     },
     {
         "type": "profession",
+        "ident": "sheltered_survivor",
+        "name": "Sheltered Survivor",
+        "description": "At the start of the cataclysm, you hunkered down in a bomb shelter. Now, it is winter, and you hope the rag-tag collection of skills you learned from all those books can help you survive.",
+        "points": 4,
+        "skills": [
+            {
+                "level": 2,
+                "name": "tailor"
+            },
+            {
+                "level": 2,
+                "name": "computer"
+            },
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 2,
+                "name": "mechanics"
+            },
+            {
+                "level": 2,
+                "name": "firstaid"
+            },
+            {
+                "level": 2,
+                "name": "electronics"
+            },
+            {
+                "level": 2,
+                "name": "carpentry"
+            }
+        ],
+        "items": {
+            "both": [
+                "jeans",
+                "tshirt",
+                "socks",
+                "sweater",
+                "sneakers",
+                "pockknife",
+                "water_clean",
+                "matches"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
         "ident": "tailor",
         "name": "Tailor",
         "description": "Tailoring may not seem like the most useful skill when the world has ended.  Most people wouldn't expect a simple tailor to live long.  This is your opportunity to prove them wrong.",
@@ -296,7 +353,7 @@
 		"honey_bottled",
 		"honey_bottled"
 
-                
+
             ],
             "male": [
                 "briefs"
@@ -1249,6 +1306,83 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type" : "profession",
+        "ident": "patient",
+        "name": "Patient",
+        "description": "When the diagnosis came back positive, you were willing to fight to keep living. Now, you must renew your vow of tenacity in these new times.",
+        "points": -2,
+        "items":{
+            "both": [
+                "jeans",
+                "tshirt",
+                "socks",
+                "sneakers"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type" : "profession",
+        "ident": "mutant_patient",
+        "name": "Unwilling Mutant",
+        "description": "During the panic of the cataclysm, one of the lab technicians, guilty for the forced experimentation on your genetic code, gave you some clothes and set you free.",
+        "points": -1,
+        "items":{
+            "both": [
+                "subsuit_xl"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type" : "profession",
+        "ident": "mutant_volunteer",
+        "name": "Volunteer Mutant",
+        "description": "Your dreams of becoming a super-human mutant through genetic alteration may have fallen a bit short, but when the Cataclysm struck, you and the scientists were ready to put your new body to the test.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 2,
+                "name": "electronics"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "pants",
+                "socks",
+                "boots",
+                "coat_lab",
+                "glasses_safety"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
     },
     {
         "type" : "profession",
@@ -2550,7 +2684,7 @@
             ]
         }
     },
-    
+
     {
         "type": "profession",
         "ident": "farmer",
