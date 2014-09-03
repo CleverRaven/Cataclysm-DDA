@@ -406,7 +406,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         }
     }
 
-    if( from_vehicle ) {
+    if( !from_vehicle ) {
         bool isEmpty = (g->m.i_at(posx, posy).empty());
 
         // Hide the pickup window if this is a toilet and there's nothing here
