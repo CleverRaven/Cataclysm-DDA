@@ -2153,6 +2153,50 @@
   ]
 },{
         "type" : "recipe",
+  "result": "knit_scarf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 40000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "thread", 600 ],
+      [ "sinew", 600 ],
+      [ "plant_fibre", 600 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "long_knit_scarf",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "thread", 900 ],
+      [ "sinew", 900 ],
+      [ "plant_fibre", 900 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "scarf_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
