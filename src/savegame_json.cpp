@@ -474,9 +474,10 @@ void player::deserialize(JsonIn &jsin)
     std::string scen_ident="(null)";
     if ( data.read("scenario",scen_ident) && scenario::exists(scen_ident) ) {
         g->scen = scenario::scen(scen_ident);
+        start_location = g->scen->start_location();
     } else {
         scenario *generic_scenario = scenario::generic();
-        debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.", 
+        debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
                     scen_ident.c_str(), generic_scenario->ident().c_str());
         g->scen = generic_scenario;
     }
