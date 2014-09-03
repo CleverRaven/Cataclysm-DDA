@@ -116,16 +116,6 @@
         "examine_action": "wreckage"
     },{
         "type" : "terrain",
-        "id" : "t_wreckage",
-        "name": "metal wreckage",
-        "symbol": "#",
-        "color": "cyan",
-        "move_cost": 8,
-        "max_volume": 3000,
-        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE"],
-        "examine_action": "wreckage"
-    },{
-        "type" : "terrain",
         "id" : "t_grass",
         "name": "grass",
         "symbol": ".",

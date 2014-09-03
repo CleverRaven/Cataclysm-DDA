@@ -19,10 +19,22 @@
         "name": "pile of rubble",
         "symbol": "^",
         "color": "ltgray",
-        "move_cost_mod": 8,
+        "move_cost_mod": 6,
+        "max_volume": 3000,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE"],
         "examine_action": "rubble"
+    },{
+        "type" : "furniture",
+        "id" : "f_wreckage",
+        "name": "metal wreckage",
+        "symbol": "#",
+        "color": "cyan",
+        "move_cost_mod": 6,
+        "max_volume": 3000,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE"],
+        "examine_action": "wreckage"
     },{
         "type" : "furniture",
         "id" : "f_barricade_road",

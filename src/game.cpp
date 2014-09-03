@@ -14181,7 +14181,7 @@ void game::nuke(int x, int y)
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             if (!one_in(10)) {
-                tmpmap.make_rubble(i, j, t_dirt, true);
+                tmpmap.make_rubble(i, j, f_rubble, t_dirt, true);
             }
             if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);

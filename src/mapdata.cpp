@@ -328,7 +328,7 @@ ter_id t_null,
     // Ground
     t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered,
-    t_rock_floor, t_ash, t_metal, t_wreckage,
+    t_rock_floor, t_ash, t_metal,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
@@ -422,7 +422,6 @@ void set_ter_ids() {
     t_rock_floor=terfind("t_rock_floor");
     t_ash=terfind("t_ash");
     t_metal=terfind("t_metal");
-    t_wreckage=terfind("t_wreckage");
     t_grass=terfind("t_grass");
     t_metal_floor=terfind("t_metal_floor");
     t_pavement=terfind("t_pavement");
@@ -643,7 +642,8 @@ furn_id furnfind(const std::string & id) {
 };
 
 furn_id f_null,
-    f_hay, f_rubble,
+    f_hay,
+    f_rubble, f_wreckage,
     f_barricade_road,
     f_bulletin,
     f_indoor_plant,f_indoor_plant_y,
@@ -672,6 +672,7 @@ void set_furn_ids() {
     f_null=furnfind("f_null");
     f_hay=furnfind("f_hay");
     f_rubble=furnfind("f_rubble");
+    f_wreckage=furnfind("f_wreckage");
     f_barricade_road=furnfind("f_barricade_road");
     f_bulletin=furnfind("f_bulletin");
     f_indoor_plant=furnfind("f_indoor_plant");

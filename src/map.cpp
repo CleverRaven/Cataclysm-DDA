@@ -1433,11 +1433,11 @@ int map::bash_rating(const int str, const int x, const int y)
     return (10 * (str - bash_min)) / (bash_max - bash_min);
 }
 
-void map::make_rubble(const int x, const int y, ter_id floor_type, bool overwrite)
+void map::make_rubble(const int x, const int y, furn_id rubble_type, ter_id floor_type, bool overwrite)
 {
     if (overwrite) {
         ter_set(x, y, floor_type);
-        furn_set(x, y, f_rubble);
+        furn_set(x, y, rubble_type);
     } else {
         // First see if there is existing furniture to destroy
         if (is_bashable_furn(x, y)) {
@@ -1452,7 +1452,7 @@ void map::make_rubble(const int x, const int y, ter_id floor_type, bool overwrit
             ter_set(x, y, floor_type);
         }
         
-        furn_set(x, y, f_rubble);
+        furn_set(x, y, rubble_type);
     }
 }
 
