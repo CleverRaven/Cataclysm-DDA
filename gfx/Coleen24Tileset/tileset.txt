@@ -2,7 +2,7 @@
 #Name of the tileset
 NAME: Coleen24
 #Viewing (Option) name of the tileset
-VIEW: Coleen's24px
+VIEW: Coleen/Mshock21
 #JSON Path - Default of tile_config.json
 JSON: Coleen24Tileset/tile_config.json
 #Tileset Path - Default of tinytile.png
