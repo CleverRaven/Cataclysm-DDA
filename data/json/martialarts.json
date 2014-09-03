@@ -455,7 +455,10 @@
             "broadfire_off",
             "broadfire_on",
             "sword_forged",
-            "rapier"
+            "rapier",
+            "fencing_foil",
+            "fencing_sabre",
+            "fencing_epee"
         ]
     },{
         "type" : "martial_art",

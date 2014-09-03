@@ -795,6 +795,11 @@ item inventory::reduce_charges(const itype_id &type, long quantity)
     return reduce_charges_internal(type, quantity);
 }
 
+item inventory::reduce_charges(const item *ptr, long quantity)
+{
+    return reduce_charges_internal(ptr, quantity);
+}
+
 std::vector<item> inventory::remove_mission_items(int mission_id)
 {
     std::vector<item> ret;

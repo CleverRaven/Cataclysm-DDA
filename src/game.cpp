@@ -525,7 +525,6 @@ void game::setup()
     last_target = -1;  // We haven't targeted any monsters yet
     last_target_was_npc = false;
     uquit = QUIT_NO;   // We haven't quit the game
-    debugmon = false;  // We're not printing debug messages
 
     weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
@@ -596,6 +595,11 @@ void game::start_game(std::string worldname)
     player_start.translate( t_window_domestic, t_curtains );
     player_start.save();
     if (g->scen->has_flag("INFECTED")){u.add_disease("infected", 14401, false, 1, 1, 0, 0, random_body_part(), true);}
+    if (g->scen->has_flag("BAD_DAY")){
+        u.add_disease("flu", 10000);
+        u.add_disease("drunk", 2700 - (12 * u.str_max));
+        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
+    }
     levx -= int(int(MAPSIZE / 2) / 2);
     levy -= int(int(MAPSIZE / 2) / 2);
     levz = 0;
@@ -641,7 +645,11 @@ void game::start_game(std::string worldname)
     u.set_highest_cat_level();
     //Calc mutation drench protection stats
     u.drench_mut_calc();
-
+    if (g->scen->has_flag("FIRE_START")){
+            g->m.add_field(u.pos().x + 5, u.pos().y + 3, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x + 7, u.pos().y + 6, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(u.pos().x + 3, u.pos().y + 4, field_from_ident("fd_fire"), 3 );
+    }
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
@@ -672,11 +680,9 @@ void game::load_npcs()
         if (temp->is_active()) {
             continue;
         }
-        if (debugmon) {
             const tripoint p = temp->global_sm_location();
-            debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
+            add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
                      levx, levy, p.x, p.y);
-        }
         temp->place_on_map();
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
@@ -1559,6 +1565,22 @@ void game::activity_on_turn()
         u.activity.moves_left -= u.moves;
         u.moves = 0;
         break;
+    case ACT_DROP:
+        activity_on_turn_drop();
+        break;
+    case ACT_STASH:
+        activity_on_turn_stash();
+        break;
+    case ACT_PICKUP:
+        activity_on_turn_pickup();
+        break;
+    case ACT_MOVE_ITEMS:
+        activity_on_turn_move_items();
+        break;
+    case ACT_ADV_INVENTORY:
+        u.cancel_activity();
+        advanced_inv();
+        break;
     default:
         // Based on speed, not time
         u.activity.moves_left -= u.moves;
@@ -1808,6 +1830,10 @@ void game::activity_on_finish()
     if (u.activity.type == ACT_NULL) {
         // Make sure data of previous activity is cleared
         u.activity = player_activity();
+    }
+    if( !u.backlog.empty() ) {
+        u.activity = u.backlog.front();
+        u.backlog.pop_front();
     }
 }
 
@@ -3642,15 +3668,15 @@ bool game::handle_action()
         display_scent();
         break;
 
-    case ACTION_TOGGLE_DEBUGMON:
+    case ACTION_TOGGLE_DEBUG_MODE:
         if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
             break;    //don't do anything when sharing and not debugger
         }
-        debugmon = !debugmon;
-        if (debugmon) {
-            add_msg(m_info, _("Debug messages ON!"));
+        debug_mode = !debug_mode;
+        if( debug_mode ) {
+            add_msg( m_info, _("Debug mode ON!") );
         } else {
-            add_msg(m_info, _("Debug messages OFF!"));
+            add_msg( m_info, _("Debug mode OFF!") );
         }
         break;
 
@@ -6224,14 +6250,12 @@ void game::monmove()
         monster *critter = &critter_tracker.find(i);
         while (!critter->is_dead() && !critter->can_move_to(critter->posx(), critter->posy())) {
             // If we can't move to our current position, assign us to a new one
-            if (debugmon) {
                 dbg(D_ERROR) << "game:monmove: " << critter->name().c_str()
                              << " can't move to its location! (" << critter->posx()
                              << ":" << critter->posy() << "), "
                              << m.tername(critter->posx(), critter->posy()).c_str();
-                debugmsg("%s can't move to its location! (%d:%d), %s", critter->name().c_str(),
+                add_msg( m_debug, "%s can't move to its location! (%d:%d), %s", critter->name().c_str(),
                          critter->posx(), critter->posy(), m.tername(critter->posx(), critter->posy()).c_str());
-            }
             bool okay = false;
             int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
             int startx = critter->posx() - 3 * xdir, endx = critter->posx() + 3 * xdir;
@@ -6687,8 +6711,8 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
         }
     }
     if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player &&
-          (!g->u.has_trait("LEG_TENT_BRACE") || g->u.footwear_factor() == 1 ||
-          (g->u.footwear_factor() == .5 && one_in(2)))) {
+          (!u.has_trait("LEG_TENT_BRACE") || u.footwear_factor() == 1 ||
+          (u.footwear_factor() == .5 && one_in(2)))) {
         add_msg(m_bad, _("You're caught in the shockwave!"));
         knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
     }
@@ -6903,8 +6927,8 @@ void game::knockback(std::vector<point> &traj, int force, int stun, int dam_mult
                                 targ->name.c_str());
                     }
                 } else if (u.posx == traj.front().x && u.posy == traj.front().y &&
-                           (g->u.has_trait("LEG_TENT_BRACE") && (!g->u.footwear_factor() ||
-                            (g->u.footwear_factor() == .5 && one_in(2))))) {
+                           (u.has_trait("LEG_TENT_BRACE") && (!u.footwear_factor() ||
+                            (u.footwear_factor() == .5 && one_in(2))))) {
                     add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
                     force_remaining = 1;
                 } else if (u.posx == traj.front().x && u.posy == traj.front().y) {
@@ -8091,7 +8115,7 @@ void game::open_gate(const int examx, const int examy, const ter_id handle_type)
     }
 
     add_msg(pull_message);
-    g->u.moves -= 900;
+    u.moves -= 900;
 
     bool open = false;
     bool close = false;
@@ -8390,41 +8414,11 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        int dummy;
-        std::vector<item> dropped_worn;
-        std::vector<item> result = g->multidrop(dropped_worn, dummy);
-        result.insert(result.end(), dropped_worn.begin(), dropped_worn.end());
-
-        if (result.size() == 0) {
-            add_msg(_("Never mind."));
-        } else {
-            add_msg(_("You stash some gear in your %s's %s."),
-                    pet_name.c_str(), it->tname(1).c_str() );
-            for (auto &i : result) {
-
-                int vol = i.volume();
-                int weight = i.weight();
-                bool too_heavy = max_weight - weight < 0;
-                bool too_big = max_cap - vol < 0;
-
-                if( !too_heavy && !too_big ) {
-                    z->inv.push_back(i);
-                    max_cap -= vol;
-                    max_weight -= weight;
-                } else {
-                    g->m.add_item_or_charges(z->xpos(), z->ypos(), i, 1);
-                    if( too_big ) {
-                        g->u.add_msg_if_player(m_bad, _("%s did not fit and fell to the ground!"),
-                                               i.display_name().c_str());
-                    } else {
-                        g->u.add_msg_if_player(m_bad, _("%s is too heavy and fell to the ground!"),
-                                               i.display_name().c_str());
-                    }
-                }
-            }
+        bool success = g->make_drop_activity( ACT_STASH, z->pos() );
+        if( success ) {
+            z->add_effect("controlled", 5);
         }
-
-        return true;
+        return success;
     }
 
     if (pheromone == choice && query_yn(_("Really kill the zombie slave?"))) {
@@ -8563,7 +8557,7 @@ void game::examine(int examx, int examy)
 void game::advanced_inv()
 {
     advanced_inventory advinv;
-    advinv.display(&u);
+    advinv.display();
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -10705,23 +10699,24 @@ int game::move_liquid(item &liquid)
 
 void game::drop(int pos)
 {
-    std::vector<item> dropped;
-    std::vector<item> dropped_worn;
-    int freed_volume_capacity = 0;
     if (pos == INT_MIN) {
-        dropped = multidrop(dropped_worn, freed_volume_capacity);
-    } else if (pos <= -2) {
-        if (!u.takeoff(pos, false, &dropped_worn)) {
-            return;
-        }
-        u.moves -= 250; // same as game::takeoff
+        make_drop_activity( ACT_DROP, u.pos() );
     } else if (pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot drop your %s."), u.weapon.tname().c_str());
         return;
     } else {
-        dropped.push_back(u.i_rem(pos));
+        std::vector<item> dropped;
+        std::vector<item> dropped_worn;
+        if (pos <= -2) {
+            if (!u.takeoff(pos, false, &dropped_worn)) {
+                return;
+            }
+            u.moves -= 250; // same as game::takeoff
+        } else {
+            dropped.push_back(u.i_rem(pos));
+        }
+        drop(dropped, dropped_worn, 0, u.posx, u.posy);
     }
-    drop(dropped, dropped_worn, freed_volume_capacity, u.posx, u.posy);
 }
 
 void game::drop_in_direction()
@@ -10736,10 +10731,7 @@ void game::drop_in_direction()
         return;
     }
 
-    int freed_volume_capacity = 0;
-    std::vector<item> dropped_worn;
-    std::vector<item> dropped = multidrop(dropped_worn, freed_volume_capacity);
-    drop(dropped, dropped_worn, freed_volume_capacity, dirx, diry);
+    make_drop_activity( ACT_DROP, point(dirx, diry) );
 }
 
 bool compare_items_by_lesser_volume(const item &a, const item &b)
@@ -10781,10 +10773,8 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
         return;
     }
     const int drop_move_cost = calculate_drop_cost(dropped, dropped_worn, freed_volume_capacity);
-    if (g->debugmon) {
-        debugmsg("Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
+    add_msg( m_debug, "Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
                  drop_move_cost);
-    }
 
     dropped.insert(dropped.end(), dropped_worn.begin(), dropped_worn.end());
 
@@ -11163,14 +11153,13 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     }
 
     if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-        // draw an arrow from a worn quiver
-        if (u.weapon.ammo_type() == "arrow") {
             // find worn quivers
             std::vector<item *> quivers;
             for (std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++) {
                 item &worn = *it;
-                if (worn.type->can_use("QUIVER") &&
-                    !worn.contents.empty() && worn.contents[0].is_ammo() && worn.contents[0].charges > 0) {
+                if (worn.type->can_use("QUIVER") && !worn.contents.empty()
+                    && worn.contents[0].is_ammo() && worn.contents[0].charges > 0
+                    && worn.contents[0].ammo_type() == u.weapon.ammo_type() ) {
                     quivers.push_back(&worn);
                 }
             }
@@ -11211,7 +11200,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                     reload_pos = u.get_item_position(worn);
                 }
             }
-        }
         if (reload_pos == INT_MIN) {
             reload_pos = u.weapon.pick_reload_ammo(u, true);
         }

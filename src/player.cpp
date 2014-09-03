@@ -1896,8 +1896,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
-    for( size_t i = 0; i < illness.size(); ++i ) {
-      disease next_illness = illness[i];
+    for (auto &next_illness : illness) {
       if(dis_name(next_illness).size() > 0) {
         had_effect = true;
         memorial_file << indent << dis_name(next_illness) << "\n";
@@ -2165,10 +2164,10 @@ void player::disp_info()
     unsigned line;
     std::vector<std::string> effect_name;
     std::vector<std::string> effect_text;
-    for (size_t i = 0; i < illness.size(); i++) {
-        if (dis_name(illness[i]).size() > 0) {
-            effect_name.push_back(dis_name(illness[i]));
-            effect_text.push_back(dis_description(illness[i]));
+    for (auto &next_illness : illness) {
+        if (dis_name(next_illness).size() > 0) {
+            effect_name.push_back(dis_name(next_illness));
+            effect_text.push_back(dis_description(next_illness));
         }
     }
     for( auto effect_it = effects.begin(); effect_it != effects.end(); ++effect_it) {
@@ -2705,13 +2704,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for (size_t i = 0; i < illness.size(); i++) {
-        int move_adjust = disease_speed_boost(illness[i]);
+    for (auto &next_illness : illness) {
+        int move_adjust = disease_speed_boost(next_illness);
         if (move_adjust != 0) {
-            if (dis_combined_name(illness[i]) == "") {
-                dis_text = dis_name(illness[i]);
+            if (dis_combined_name(next_illness) == "") {
+                dis_text = dis_name(next_illness);
             } else {
-                dis_text = dis_combined_name(illness[i]);
+                dis_text = dis_combined_name(next_illness);
             }
             speed_effects[dis_text] += move_adjust;
         }
@@ -5208,14 +5207,10 @@ void player::add_disease(dis_type type, int duration, bool permanent,
 
 void player::rem_disease(dis_type type, body_part part)
 {
-    for (size_t i = 0; i < illness.size();) {
-        if (illness[i].type == type && ( part == num_bp || illness[i].bp == part )) {
-            illness.erase(illness.begin() + i);
-            if(!is_npc()) {
-                dis_remove_memorial(type);
-            }
-        } else {
-            i++;
+    for (auto &next_illness : illness) {
+        if (next_illness.type == type && ( part == num_bp || next_illness.bp == part )) {
+            next_illness.duration = -1;
+            dis_remove_memorial(type);
         }
     }
 
@@ -5225,7 +5220,7 @@ void player::rem_disease(dis_type type, body_part part)
 bool player::has_disease(dis_type type, body_part part) const
 {
     for (auto &i : illness) {
-        if (i.type == type && ( part == num_bp || i.bp == part ) ) {
+        if (i.duration > 0 && i.type == type && ( part == num_bp || i.bp == part ) && i.duration > 0 ) {
             return true;
         }
     }
@@ -5544,25 +5539,34 @@ void player::suffer()
         }
     }
 
-    for( size_t i = 0; i < illness.size(); ++i ) {
+    for( auto it = illness.begin(); it != illness.end(); ++it ) {
+        if( it->duration <= 0 ) {
+            continue;
+        }
         // Note: dis_effect might add or remove disease (DI_LYING_DOWN adds DI_SLEEP).
-        // therefor no iterator, no range-based iteration.
-        dis_effect( *this, illness[i] );
+        // therefor, no range-based iteration.
+        dis_effect( *this, *it );
     }
 
     // Diseases may remove themselves as part of applying (MA buffs do) so do a
     // separate loop through the remaining ones for duration, decay, etc..
-    for (size_t i = 0; i < illness.size(); i++) {
-        if (!illness[i].permanent) {
-            illness[i].duration--;
+    for( auto it = illness.begin(); it != illness.end(); ) {
+        auto &next_illness = *it;
+        if( next_illness.duration < 0 ) {
+            it = illness.erase( it );
+            continue;
         }
-        if (illness[i].decay > 0 && one_in(illness[i].decay)) {
-            illness[i].intensity--;
+        if (!next_illness.permanent) {
+            next_illness.duration--;
         }
-        if (illness[i].duration <= 0 || illness[i].intensity == 0) {
-            dis_end_msg(*this, illness[i]);
-            illness.erase(illness.begin() + i);
-            i--;
+        if (next_illness.decay > 0 && one_in(next_illness.decay)) {
+            next_illness.intensity--;
+        }
+        if (next_illness.duration <= 0 || next_illness.intensity == 0) {
+            dis_end_msg(*this, next_illness);
+            it = illness.erase( it );
+        } else {
+            it++;
         }
     }
 
@@ -6929,6 +6933,11 @@ item player::reduce_charges(int position, long quantity) {
     }
 }
 
+item player::reduce_charges( item *it, long quantity )
+{
+    return reduce_charges( get_item_position( it ), quantity );
+}
+
 item player::i_rem(int pos)
 {
  item tmp;
@@ -8230,31 +8239,38 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         // Thanks for the warning, i2amroy.
         if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
             int nut = (rng(0, comest->nutr) * 0.66 );
+            int que = (comest->quench) * 0.66;
             hunger -= nut;
-            thirst -= ((comest->quench) * 0.66 );
+            thirst -= que;
             stomach_food += nut;
-            stomach_water += ((comest->quench) * 0.66 );
+            stomach_water += que;
             if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
                 mod_healthy_mod(-30);
             }
         } else {
         // Shorter GI tract, so less nutrients captured.
-            hunger -= ((comest->nutr) * 0.66);
-            thirst -= ((comest->quench) * 0.66);
-            mod_healthy_mod(comest->healthy * 0.66);
-            stomach_food += ((comest->nutr) *= 0.66);
-            stomach_water += ((comest->quench) *= 0.66);
+            int giz_nutr = (comest->nutr) * 0.66;
+            int giz_quench = (comest->quench) * 0.66;
+            int giz_healthy = (comest->healthy) * 0.66;
+            hunger -= (giz_nutr);
+            thirst -= (giz_quench);
+            mod_healthy_mod(giz_healthy);
+            stomach_food += (giz_nutr);
+            stomach_water += (giz_quench);
         }
     } else if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
       (eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
       eaten->made_of("egg")) ) {
           // Carnivore is stripping the good stuff out of that plant crap it's mixed up with.
           // They WILL eat the Meat Pizza.
-          hunger -= ((comest->nutr) * 0.5);
-          thirst -= ((comest->quench) * 0.5);
-          mod_healthy_mod(comest->healthy * 0.5);
-          stomach_food += ((comest->nutr) *= 0.5);
-          stomach_water += ((comest->quench) *= 0.5);
+          int carn_nutr = (comest->nutr) * 0.5;
+          int carn_quench = (comest->quench) * 0.5;
+          int carn_healthy = (comest->healthy) * 0.5;
+          hunger -= (carn_nutr);
+          thirst -= (carn_quench);
+          mod_healthy_mod(carn_healthy);
+          stomach_food += (carn_nutr);
+          stomach_water += (carn_quench);
           add_msg_if_player(m_good, _("You eat the good parts and leave that indigestible plant stuff behind."));
     } else {
     // Saprophages get the same boost from rotten food that others get from fresh.
@@ -9076,6 +9092,11 @@ hint_rating player::rate_action_takeoff(item *it) {
     }
 
     return HINT_IFFY;
+}
+
+bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
+{
+    return takeoff( get_item_position( target ), autodrop, items );
 }
 
 bool player::takeoff(int pos, bool autodrop, std::vector<item> *items)
@@ -10507,7 +10528,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     std::string pre_damage_name = armor.tname();
     std::string pre_damage_adj = armor_type->dmg_adj(armor.damage);
 
-    if (rng(0,100) < armor_type->coverage) {
+    if (rng(0,100) <= armor_type->coverage) {
         if (armor_type->is_power_armor()) { // TODO: add some check for power armor
         }
 
@@ -10591,7 +10612,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
     }
 }
 
-
+// TODO: move the ONE caller of this in player::hitall to call absorb_hit() instead and
+// get rid of this.
 void player::absorb(body_part bp, int &dam, int &cut)
 {
     it_armor* tmp;
@@ -10600,22 +10622,21 @@ void player::absorb(body_part bp, int &dam, int &cut)
     int bash_absorb = 0;      // to determine if lower layers of armour get damaged
 
     // CBMS absorb damage first before hitting armour
-    if (has_active_bionic("bio_ads"))
-    {
-        if (dam > 0 && power_level > 24)
-        {
+    if (has_active_bionic("bio_ads")) {
+        if (dam > 0 && power_level > 24) {
             dam -= rng(1, 8);
             power_level -= 25;
         }
-        if (cut > 0 && power_level > 24)
-        {
+        if (cut > 0 && power_level > 24) {
             cut -= rng(0, 4);
             power_level -= 25;
         }
-        if (dam < 0)
+        if (dam < 0) {
             dam = 0;
-        if (cut < 0)
+        }
+        if (cut < 0) {
             cut = 0;
+        }
     }
 
     // determines how much damage is absorbed by armour
@@ -10624,15 +10645,12 @@ void player::absorb(body_part bp, int &dam, int &cut)
     int cut_reduction = 0;
 
     // See, we do it backwards, iterating inwards
-    for (int i = worn.size() - 1; i >= 0; i--)
-    {
+    for (int i = worn.size() - 1; i >= 0; i--) {
         tmp = dynamic_cast<it_armor*>(worn[i].type);
-        if (worn[i].covers.test(bp))
-        {
+        if (worn[i].covers.test(bp)) {
             // first determine if damage is at a covered part of the body
             // probability given by coverage
-            if (rng(0, 100) < tmp->coverage)
-            {
+            if (rng(0, 100) <= tmp->coverage) {
                 // hit a covered part of the body, so now determine if armour is damaged
                 arm_bash = worn[i].bash_resist();
                 arm_cut  = worn[i].cut_resist();
@@ -10642,16 +10660,12 @@ void player::absorb(body_part bp, int &dam, int &cut)
                 cut_reduction = arm_cut / 3;
 
                 // power armour first  - to depreciate eventually
-                if (worn[i].type->is_power_armor())
-                {
-                    if (cut > arm_cut * 2 || dam > arm_bash * 2)
-                    {
+                if (worn[i].type->is_power_armor()) {
+                    if (cut > arm_cut * 2 || dam > arm_bash * 2) {
                         add_msg_if_player(m_bad, _("Your %s is damaged!"), worn[i].tname().c_str());
                         worn[i].damage++;
                     }
-                }
-                else // normal armour
-                {
+                } else { // normal armour
                     // determine how much the damage exceeds the armour absorption
                     // bash damage takes into account preceding layers
                     int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
@@ -10662,31 +10676,27 @@ void player::absorb(body_part bp, int &dam, int &cut)
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
                     if ((dam > arm_bash && !one_in(diff_bash)) ||
-                        (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50)))
-                    {
+                        (!worn[i].has_flag ("STURDY") && diff_bash == -1 && one_in(50))) {
                         armor_damaged = true;
                         worn[i].damage++;
                     }
                     bash_absorb += arm_bash;
 
                     // cut damage falls through to inner layers only if preceding layer was damaged
-                    if (cut_through)
-                    {
+                    if (cut_through) {
                         if ((cut > arm_cut && !one_in(diff_cut)) ||
-                            (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50)))
-                        {
+                            (!worn[i].has_flag ("STURDY") && diff_cut == -1 && one_in(50))) {
                             armor_damaged = true;
                             worn[i].damage++;
-                        }
-                        else // layer of clothing was not damaged, so stop cutting damage from penetrating
-                        {
+                        } else {
+                            // layer of clothing was not damaged,
+                            // so stop cutting damage from penetrating
                             cut_through = false;
                         }
                     }
 
                     // now check if armour was completely destroyed and display relevant messages
-                    if (worn[i].damage >= 5)
-                    {
+                    if (worn[i].damage >= 5) {
                       //~ %s is armor name
                       add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
                                        pgettext("memorial_female", "Worn %s was completely destroyed."),
@@ -10709,33 +10719,23 @@ void player::absorb(body_part bp, int &dam, int &cut)
         cut -= cut_reduction;
     }
     // now account for CBMs and mutations
-    if (has_bionic("bio_carbon"))
-    {
+    if (has_bionic("bio_carbon")) {
         dam -= 2;
         cut -= 4;
     }
-    if (bp == bp_head && has_bionic("bio_armor_head"))
-    {
+    if (bp == bp_head && has_bionic("bio_armor_head")) {
         dam -= 3;
         cut -= 3;
-    }
-    else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms"))
-    {
+    } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
         dam -= 3;
         cut -= 3;
-    }
-    else if (bp == bp_torso && has_bionic("bio_armor_torso"))
-    {
+    } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
         dam -= 3;
         cut -= 3;
-    }
-    else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs"))
-    {
+    } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
         dam -= 3;
         cut -= 3;
-    }
-    else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
-    {
+    } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
         dam -= 3;
         cut -= 3;
     }
@@ -10806,10 +10806,12 @@ void player::absorb(body_part bp, int &dam, int &cut)
     dam -= mabuff_arm_bash_bonus();
     cut -= mabuff_arm_cut_bonus();
 
-    if (dam < 0)
+    if (dam < 0) {
         dam = 0;
-    if (cut < 0)
+    }
+    if (cut < 0) {
         cut = 0;
+    }
 }
 
 int player::get_env_resist(body_part bp) const
@@ -11104,12 +11106,15 @@ void player::learn_recipe(recipe *rec)
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
-    if (backlog.type == type && backlog.index == index && backlog.position == pos &&
-        backlog.name == name) {
+    if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
+        backlog.front().position == pos && backlog.front().name == name ) {
         add_msg_if_player( _("You resume your task."));
-        activity = backlog;
-        backlog = player_activity();
+        activity = backlog.front();
+        backlog.pop_front();
     } else {
+        if( activity.type != ACT_NULL ) {
+            backlog.push_front( activity );
+        }
         activity = player_activity(type, moves, index, pos, name);
     }
     if (this->moves <= activity.moves_left) {
@@ -11130,10 +11135,18 @@ bool player::has_activity(const activity_type type) const
 
 void player::cancel_activity()
 {
-    if (activity.is_suspendable()) {
-        backlog = activity;
+    // Clear any backlog items that can't resume.
+    for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
+        if( backlog_item->is_suspendable() ) {
+            backlog_item++;
+        } else {
+            backlog_item = backlog.erase( backlog_item );
+        }
     }
-    activity.type = ACT_NULL;
+    if( activity.is_suspendable() ) {
+        backlog.push_front( activity );
+    }
+    activity = player_activity();
 }
 
 std::vector<item*> player::has_ammo(ammotype at)
