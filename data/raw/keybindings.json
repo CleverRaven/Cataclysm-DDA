@@ -424,6 +424,20 @@
     },
     {
         "type" : "keybinding",
+        "id" : "CYCLE_BATCH",
+        "category" : "CRAFTING",
+        "name": "Batch crafting",
+        "bindings" : [
+            {
+                "input_method" : "keyboard",
+                "key" : [
+                    "b"
+                ]
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"CENTER",
         "category":"OVERMAP",
         "name":"Center On Character",

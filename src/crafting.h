@@ -16,6 +16,12 @@
 typedef std::string craft_cat;
 typedef std::string craft_subcat;
 
+enum TAB_MODE {
+    NORMAL,
+    FILTERED,
+    BATCH
+};
+
 struct byproduct {
     itype_id result;
     int charges_mult;
@@ -49,6 +55,7 @@ struct recipe : public requirements {
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
     int result_mult; // used by certain batch recipes that create more than one stack of the result
     bool paired;
+    int batch; // Size of batch for crafting, 1 is default
 
     // only used during loading json data: books and the skill needed
     // to learn this recipe from.
@@ -69,6 +76,7 @@ struct recipe : public requirements {
         learn_by_disassembly = -1;
         result_mult = 1;
         paired = false;
+        batch = 1;
     }
 
     recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat,
@@ -96,16 +104,17 @@ struct recipe : public requirements {
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
     item create_result(int handed = NONE) const;
+    std::vector<item> create_results(int batch = 1, int handed = NONE) const;
 
     // Create byproduct instances as if the recipe was just finished
-    std::vector<item> create_byproducts() const;
+    std::vector<item> create_byproducts(int batch = 1) const;
 
     bool has_byproducts() const;
 
-    bool can_make_with_inventory(const inventory &crafting_inv) const;
+    bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
 
-    int print_items(WINDOW *w, int ypos, int xpos, nc_color col);
-    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp);
+    int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1);
+    void print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp, int batch = 1);
 };
 
 typedef std::vector<recipe *> recipe_list;
