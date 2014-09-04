@@ -846,14 +846,6 @@
     },
     {
       "rotates": false,
-      "id": "antifungal"
-    },
-    {
-      "rotates": false,
-      "id": "antiparasitic"
-    },
-    {
-      "rotates": false,
       "id": "anvil",
       "fg": 127,
       "bg": 2
@@ -17362,7 +17354,9 @@
     },
     {
       "rotates": false,
-      "id": "wheel_armor"
+      "id": "wheel_armor",
+      "fg": 2219,
+      "bg": 2
     },
     {
       "rotates": false,
@@ -18399,6 +18393,18 @@
       "rotates": false,
       "id": "vibrator",
       "fg": 2331,
+      "bg": 2
+    },
+    {
+      "rotates": false,
+      "id": "antifungal",
+      "fg": 2332,
+      "bg": 2
+    },
+    {
+      "rotates": false,
+      "id": "antiparasitic",
+      "fg": 2333,
       "bg": 2
     },
     {
