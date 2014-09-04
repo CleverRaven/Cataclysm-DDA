@@ -13,6 +13,37 @@ void mutation_loss_effect(player &p, std::string mut);
 
 std::vector<std::string> unpowered_traits;
 
+void player::activate_mutation(int b)
+{
+    std::string mut = my_traits[b];
+    int cost = traits[mut].cost;
+    if (power_level < cost) { //TODO: Change this to use hunger/fatigue/that crap
+        if (traits[my_mutations[b]].powered) {
+            add_msg(m_neutral, _("Your %s powers down."), traits[mut].name.c_str());
+            traits[my_mutations[b]].powered = false;
+        } else {
+            add_msg(m_info, _("You cannot power your %s"), traits[mut].name.c_str());
+        }
+        return;
+    }
+
+    if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
+        // Already-on units just lose a bit of charge
+        traits[my_mutations[b]].charge--;
+    } else {
+        // Not-on units, or those with zero charge, have to pay the power cost
+        if (traits[mut].cooldown > 0) {
+            traits[my_mutations[b]].powered = true;
+            traits[my_mutations[b]].charge = traits[mut].cooldown - 1;
+        }
+        power_level -= cost;
+    }
+
+    std::vector<point> traj;
+    std::vector<std::string> good;
+    std::vector<std::string> bad;
+}
+
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
 {
     werase(window);
@@ -46,7 +77,7 @@ void player::power_mutations()
 {
     std::vector <std::string> passive;
     std::vector <std::string> active;
-    for (std::unordered_set<std::string>::iterator it = my_traits.begin();
+    for (std::vector<std::string>::iterator it = my_traits.begin();
          it != my_traits.end(); ++it) {
         if (!traits[*it].activated) {
             passive.push_back(*it);

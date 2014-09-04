@@ -532,10 +532,7 @@ bool player::create(character_type type, std::string tempname)
     }
 
     // make sure we have no mutations
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
-        if (!has_base_trait(iter->first)) {
-            my_mutations.erase(iter->first);
-        }
+    empty_traits();
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
@@ -1618,11 +1615,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::unordered_set<std::string> current_traits = u->get_traits();
+            std::vector<std::string> current_traits = u->get_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::unordered_set<std::string>::iterator i = current_traits.begin();
+                for (std::vector<std::string>::iterator i = current_traits.begin();
                      i != current_traits.end(); ++i) {
                     wprintz(w_traits, c_ltgray, "\n");
                     wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
@@ -1825,7 +1822,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::unordered_set<std::string> player::get_traits() const
+std::vector<std::string> player::get_traits() const
 {
     return my_traits;
 }

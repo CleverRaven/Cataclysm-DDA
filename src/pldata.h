@@ -200,6 +200,7 @@ struct trait {
     bool hunger;
     bool thirst;
     int cost;
+    int charge;
     char invlet;
     bool powered;
     int cooldown;

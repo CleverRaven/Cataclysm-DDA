@@ -114,7 +114,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
         /** Returns the set "my_traits" */
-        std::unordered_set<std::string> get_traits() const;
+        std::vector<std::string> get_traits() const;
         /** Empties the trait list */
         void empty_traits();
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -997,8 +997,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load_zones();
 
     protected:
-        std::unordered_set<std::string> my_traits;
-        std::unordered_set<std::string> my_mutations;
+        std::vector<std::string> my_traits;
+        std::vector<std::string> my_mutations;
         std::vector<bionic> my_bionics;
         std::list<disease> illness;
         bool underwater;
