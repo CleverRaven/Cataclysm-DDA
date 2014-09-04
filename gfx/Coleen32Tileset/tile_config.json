@@ -18409,6 +18409,36 @@
     },
     {
       "rotates": false,
+      "id": "mon_zombie_brute_shocker",
+      "fg": 2334,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "mon_irradiated_wanderer_1",
+      "fg": 2335,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "mon_irradiated_wanderer_2",
+      "fg": 2335,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "mon_irradiated_wanderer_3",
+      "fg": 2335,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "mon_irradiated_wanderer_4",
+      "fg": 2335,
+      "bg": 460
+    },
+    {
+      "rotates": false,
       "id": "zweihander",
       "fg": 1893,
       "bg": 2
