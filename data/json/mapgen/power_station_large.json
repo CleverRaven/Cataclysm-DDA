@@ -55,7 +55,29 @@
             },
             "furniture": {
             "c": "f_counter"
-            }
+            },
+            "add": [
+                { "item": "hat_hard", "x": 10, "y": 17, "chance": 6 },
+                { "item": "boots", "x": 10, "y": 17, "chance": 6 },
+                { "item": "cable", "x": 10, "y": 17, "chance": 2 },
+                { "item": "power_supply", "x": 10, "y": 17, "chance": 4 },
+                { "item": "hat_hard", "x": 8, "y": 17, "chance": 4 },
+                { "item": "boots", "x": 8, "y": 17, "chance": 4 },
+                { "item": "glasses_safety", "x": 8, "y": 17, "chance": 4 },
+                { "item": "flashlight", "x": 8, "y": 17, "chance": 4 },
+                { "item": "wrench", "x": 8, "y": 17, "chance": 6 },
+                { "item": "screwdriver", "x": 8, "y": 17, "chance": 4 },
+                { "item": "amplifier", "x": 8, "y": 17, "chance": 2 },
+                { "item": "hat_hard", "x": 7, "y": 17, "chance": 2 },
+                { "item": "screwdriver", "x": 7, "y": 17, "chance": 8},
+                { "item": "cable", "x": 7, "y": 17, "chance": 6 },
+                { "item": "amplifier", "x": 7, "y": 17, "chance": 8 },
+                { "item": "hat_hard", "x": 5, "y": 17, "chance": 4 },
+                { "item": "glasses_safety", "x": 5, "y": 17, "chance": 4 },
+                { "item": "flashlight", "x": 5, "y": 17, "chance": 6 },
+                { "item": "wrench", "x": 5, "y": 17, "chance": 4 },
+                { "item": "power_supply", "x": 5, "y": 17, "chance": 2 }
+            ]
         }
     },{
         "type" : "mapgen",
@@ -110,7 +132,27 @@
             },
             "furniture": {
             "c": "f_counter"
-            }
+            },
+            "add": [
+                { "item": "hat_hard", "x": 17, "y": 17, "chance": 8 },
+                { "item": "glasses_safety", "x": 17, "y": 17, "chance": 6 },
+                { "item": "power_supply", "x": 17, "y": 17, "chance": 2 },
+                { "item": "hat_hard", "x": 18, "y": 17, "chance": 6 },
+                { "item": "boots", "x": 18, "y": 17, "chance": 6 },
+                { "item": "glasses_safety", "x": 18, "y": 17, "chance": 2 },
+                { "item": "cable", "x": 18, "y": 17, "chance": 8 },
+                { "item": "amplifier", "x": 18, "y": 17, "chance": 6 },
+                { "item": "hat_hard", "x": 20, "y": 17, "chance": 4 },
+                { "item": "wrench", "x": 20, "y": 17, "chance": 4 },
+                { "item": "cable", "x": 20, "y": 17, "chance": 2 },
+                { "item": "power_supply", "x": 20, "y": 17, "chance": 4 },
+                { "item": "hat_hard", "x": 22, "y": 17, "chance": 4 },
+                { "item": "flashlight", "x": 22, "y": 17, "chance": 2 },
+                { "item": "wrench", "x": 22, "y": 17, "chance": 4 },
+                { "item": "screwdriver", "x": 22, "y": 17, "chance": 4 },
+                { "item": "cable", "x": 22, "y": 17, "chance": 2 },
+                { "item": "amplifier", "x": 22, "y": 17, "chance": 2 }
+                ]
         }
     },{
         "type" : "mapgen",
