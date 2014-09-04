@@ -43,7 +43,10 @@ void player::activate_mutation(int b)
     std::vector<std::string> good;
     std::vector<std::string> bad;
 }
-
+void player::deactivate_mutation(int b)
+{
+    std::string mut = my_mutations[b];
+}
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
 {
     werase(window);

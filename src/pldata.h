@@ -205,6 +205,19 @@ struct trait {
     bool powered;
     int cooldown;
     std::string description;
+    trait() : name("NULL_TRAIT")
+    {
+        invlet = 'a';
+        powered = false;
+        charge = 0;
+    }
+    trait(std::string pid, char pinvlet) : name(pid)
+    {
+        name = pid;
+        invlet = pinvlet;
+        powered = false;
+        charge = 0;
+    };
 };
 
 extern std::map<std::string, trait> traits;

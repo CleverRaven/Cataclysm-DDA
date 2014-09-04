@@ -177,10 +177,7 @@ player::player() : Character(), name("")
  next_expected_position.x = -1;
  next_expected_position.y = -1;
 
- for ( auto iter = traits.begin(); iter != traits.end(); ++iter) {
-    my_traits.erase(iter->first);
-    my_mutations.erase(iter->first);
- }
+ empty_traits();
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
@@ -3595,16 +3592,26 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
  }
 }
 
-bool player::has_trait(const std::string &flag) const
+bool player::has_trait(const std::string &b) const
 {
     // Look for active mutations and traits
-    return (flag != "") && (my_mutations.find(flag) != my_mutations.end());
+    for (auto &i : my_mutations) {
+        if (traits[i].name == b) {
+            return true;
+        }
+    }
+    return false;
 }
 
-bool player::has_base_trait(const std::string &flag) const
+bool player::has_base_trait(const std::string &b) const
 {
     // Look only at base traits
-    return (flag != "") && (my_traits.find(flag) != my_traits.end());
+    for (auto &i : my_traits) {
+        if (traits[i].name == b) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool player::has_conflicting_trait(const std::string &flag) const
@@ -3673,13 +3680,22 @@ bool player::purifiable(const std::string &flag) const
     return false;
 }
 
-void toggle_str_set( std::unordered_set< std::string > &set, const std::string &str )
+void toggle_str_set( std::vector< std::string > &set, const std::string &str )
 {
-    auto i = set.find(str);
-    if (i == set.end()) {
-        set.insert(str);
-    } else {
-        set.erase(i);
+    for (auto &i : set) {
+        if (traits[i].name == str) {
+            if (i == set.back()) {
+                set.push_back(str);
+            } else {
+                std::vector<std::string> new_set;
+                for(auto &i : set) {
+                    if (!(traits[i].name == str)) {
+                        new_set.push_back(trait(traits[i].name, traits[i].invlet).name);
+                    }
+                }
+                set = new_set;
+            }
+        }
     }
 }
 
@@ -3895,6 +3911,14 @@ bionic* player::bionic_by_invlet(char ch) {
     for (size_t i = 0; i < my_bionics.size(); i++) {
         if (my_bionics[i].invlet == ch) {
             return &my_bionics[i];
+        }
+    }
+    return 0;
+}
+std::string* player::mutation_by_invlet(char ch) {
+    for (size_t i = 0; i < my_mutations.size(); i++) {
+        if (traits[my_mutations[i]].invlet == ch) {
+            return &my_mutations[i];
         }
     }
     return 0;
