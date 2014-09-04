@@ -3411,9 +3411,12 @@ bool game::handle_action()
     case ACTION_DIR_DROP:
         drop_in_direction();
         break;
-
     case ACTION_BIONICS:
         u.power_bionics();
+        refresh_all();
+        break;
+    case ACTION_MUTATIONS:
+        u.power_mutations();
         refresh_all();
         break;
 
