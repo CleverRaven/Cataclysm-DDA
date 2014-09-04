@@ -265,10 +265,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void power_mutations();
         /** Handles bionic activation effects of the entered bionic */
         void activate_bionic(int b);
-        void activate_mutation(int b); //TODO
+        void activate_mutation(int b);
         /** Handles bionic deactivation effects of the entered bionic */
         void deactivate_bionic(int b);
-        void deactivate_mutation(int b);//TODO
+        void deactivate_mutation(int b);
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */
@@ -279,7 +279,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string &mutation_at_index(int i); //TODO
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
-        std::string *mutation_by_invlet(char ch); //TODO
+        std::string *mutation_by_invlet(char ch);
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light();
 
