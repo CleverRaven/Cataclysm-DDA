@@ -66,6 +66,18 @@
     ]
 },{
         "type" : "recipe",
+  "result": "meal_chitin_piece",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock_quern", -1] ] ],
+  "components": [ [ ["chitin_piece", 1] ] ]
+},{
+        "type" : "recipe",
   "result": "reinforced_glass_sheet",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -3943,7 +3955,8 @@
   ],
   "components": [
     [
-      [ "chitin_piece", 6 ]
+      [ "chitin_piece", 6 ],
+      [ "meal_chitin_piece", 6 ]
     ],
     [
       [ "ammonia", 1 ],
