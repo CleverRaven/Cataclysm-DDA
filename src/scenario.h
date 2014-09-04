@@ -27,7 +27,7 @@ private:
     std::string _gender_req;
     std::string _start_name;
     std::string _default_loc;
-    profession* _profession;
+    std::string _profession;
     std::set<std::string> _allowed_professions;
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
