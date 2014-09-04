@@ -3680,30 +3680,14 @@ bool player::purifiable(const std::string &flag) const
     return false;
 }
 
-void toggle_str_set( std::vector< std::string > &set, const std::string &str )
+void player::toggle_str_set( std::vector< std::string > &set, const std::string &str )
 {
-    /*for (auto &i : set) {
-        if (traits[i].id == str) {
-            if (i == set.back()) {
-                set.push_back(str);
-            } else {
-                std::vector<std::string> new_set;
-                for(auto &i : set) {
-                    if (!(traits[i].id == str)) {
-                        new_set.push_back(trait(traits[i].id, traits[i].invlet).id);
-                    }
-                }
-                set = new_set;
-            }
-        }
-    }*/
     bool ck = false;
     for (auto &i : set){
         if (i == str){
             ck = true;
         }
     }
-    debugmsg(trait(traits[str].id,traits[str].invlet).id.c_str());
     if(ck == true){
         std::vector<std::string> new_set;
                 for(auto &i : set) {
@@ -3712,11 +3696,16 @@ void toggle_str_set( std::vector< std::string > &set, const std::string &str )
                     }
                 }
                 set = new_set;
-                debugmsg("REMOVING TRAIT");
     }
     else{
-        set.push_back(trait(traits[str].id,traits[str].invlet).id);
-        debugmsg("ADDING TRAIT");
+        char newinv = ' ';
+        for( size_t i = 0; i < inv_chars.size(); i++ ) {
+            if( mutation_by_invlet( inv_chars[i] ) == 0 ) {
+                newinv = inv_chars[i];
+                break;
+            }
+        }
+        set.push_back(trait(traits[str].id, newinv).id);
     }
 }
 

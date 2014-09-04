@@ -906,7 +906,6 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                             }
                         }
                     } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
-                        debugmsg(vStartingTraits[iCurrentPage][i].c_str());
                         cLine = col_on_pas;
 
                     } else if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {

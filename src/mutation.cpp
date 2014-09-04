@@ -64,7 +64,7 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
     int desc_length = getmaxx(window) - cap_offset - pwr_length;
 
     if(menu_mode == "reassigning") {
-        desc = _("Reassigning.\nSelect a bionic to reassign or press SPACE to cancel.");
+        desc = _("Reassigning.\nSelect a mutation to reassign or press SPACE to cancel.");
     } else if(menu_mode == "activating") {
         desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
     } else if(menu_mode == "removing") {
@@ -80,8 +80,8 @@ void player::power_mutations()
 {
     std::vector <std::string> passive;
     std::vector <std::string> active;
-    for (std::vector<std::string>::iterator it = my_traits.begin();
-         it != my_traits.end(); ++it) {
+    for (std::vector<std::string>::iterator it = my_mutations.begin();
+         it != my_mutations.end(); ++it) {
         if (!traits[*it].activated) {
             passive.push_back(*it);
         } else {
@@ -173,7 +173,7 @@ void player::power_mutations()
                     }
                     type = c_cyan;
                     mvwprintz(wBio, list_start_y + i, 2, type, "%c %s", traits[passive[i]].invlet,
-                              traits[passive[i]].id.c_str());
+                              traits[passive[i]].name.c_str());
                 }
             }
 

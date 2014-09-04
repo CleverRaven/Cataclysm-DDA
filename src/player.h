@@ -234,6 +234,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void toggle_trait(const std::string &flag);
         /** Toggles a mutation on the player */
         void toggle_mutation(const std::string &flag);
+        void toggle_str_set( std::vector< std::string > &set, const std::string &str );
         /** Modifies mutation_category_level[] based on the entered trait */
         void set_cat_level_rec(const std::string &sMut);
         /** Recalculates mutation_category_level[] values for the player */
