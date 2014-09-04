@@ -96,7 +96,7 @@
         "difficulty" : 0,
         "time" : 10,
         "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
-        "pre_terrain" : "t_tree",
+        "pre_flags" : "TREE",
         "post_terrain" : "t_dirt",
         "post_special" : "done_tree"
     },{
