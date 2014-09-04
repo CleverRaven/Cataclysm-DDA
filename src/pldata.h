@@ -195,6 +195,9 @@ struct trait {
     bool mixed_effect; // Wheather it has positive as well as negative effects.
     bool startingtrait; // Starting Trait True/False
     bool purifiable; // Whether it's vulnerable to Purifier
+    bool activated;
+    int cost;
+    char invlet;
     std::string description;
 };
 

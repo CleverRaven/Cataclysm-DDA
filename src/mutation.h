@@ -47,6 +47,9 @@ struct mutation_branch {
     };
 };
 
+extern std::vector<std::string> faulty_traits;
+extern std::vector<std::string> unpowered_traits;
+
 void init_mutation_parts();
 void load_mutation(JsonObject &jsobj);
 void load_dream(JsonObject &jsobj);

@@ -9,6 +9,9 @@ void mutation_effect(player &p, std::string mut);
 // mutation_loss_effect handles what happens when you lose a mutation
 void mutation_loss_effect(player &p, std::string mut);
 
+std::vector<std::string> faulty_traits;
+std::vector<std::string> unpowered_traits;
+
 bool player::mutation_ok(std::string mutation, bool force_good, bool force_bad)
 {
     if (has_trait(mutation) || has_child_flag(mutation)) {
