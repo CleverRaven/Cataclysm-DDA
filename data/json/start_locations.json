@@ -83,7 +83,12 @@
   },{
     "type" : "start_location",
     "ident" : "mall_a_12",
-    "name" : "mall",
+    "name" : "mall loading area",
     "target" : "mall_a_12"
+  },{
+    "type" : "start_location",
+    "ident" : "mall_a_30",
+    "name" : "mall food court",
+    "target" : "mall_a_30"
   }
 ]

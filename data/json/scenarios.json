@@ -103,6 +103,6 @@
     "description": "You've survived for as long as you could inside of the mall you worked at as a security guard. Find a way out and try your best to survive.",
     "start_name": "Mall",
     "professions" : ["mall_cop"],
-    "allowed_locs" : ["mall_a_12"]
+    "allowed_locs" : ["mall_a_12", "mall_a_30"]
   }
 ]
