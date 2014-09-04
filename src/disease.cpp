@@ -985,7 +985,7 @@ void dis_effect(player &p, disease &dis)
                 p.mod_per_bonus(-1);
             }
 
-            if (one_in(300)) {
+            if (!p.has_disease("took_flumed") && one_in(300)) {
                 handle_cough(p);
             }
             break;
@@ -1010,7 +1010,7 @@ void dis_effect(player &p, disease &dis)
                         p.mod_pain(1);
                     }
                 }
-            if (one_in(300)) {
+            if (!p.has_disease("took_flumed") && one_in(300)) {
                 handle_cough(p);
             }
             if (!p.has_disease("took_flumed") || one_in(2)) {

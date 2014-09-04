@@ -213,7 +213,7 @@
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
@@ -660,12 +660,44 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "components": [
     [
-      [ "skewer", 2 ]
+      [ "stick", 2 ],
+      [ "2x4", 1 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "skewer", 1 ]
+    ],
+    [
+      [ "string_6", 3 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "fire_drill_large",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 4 ],
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "rock", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
     ]
   ]
 },{
@@ -1226,10 +1258,27 @@
   "result": "cotton_ball",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
+  "id_suffix": "by hand",
+  "difficulty": 0,
+  "time": 54000,
+  "reversible": false,
+  "autolearn": true,
+  "byproduct": { "id" : "seed_cotton_boll", "amount" : 2 },
+  "components": [
+    [
+      [ "cotton_boll", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cotton_ball",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
   "difficulty": 0,
   "time": 9000,
   "reversible": false,
   "autolearn": true,
+  "byproduct": { "id" : "seed_cotton_boll", "amount" : 2 },
   "tools": [
     [
       [ "carding_paddles", -1 ]
@@ -4069,6 +4118,7 @@
       [ "2x4", 3 ],
       [ "stick", 5 ],
       [ "bone", 40 ],
+      [ "pine_bough", 40 ],
       [ "log", 1 ]
     ],
 	  [[ "char_kiln", 1 ]]

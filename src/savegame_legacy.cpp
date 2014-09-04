@@ -1535,7 +1535,9 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  activity.load_legacy(dump);
- backlog.load_legacy(dump);
+ player_activity temp_backlog;
+ temp_backlog.load_legacy(dump);
+ backlog.push_front( temp_backlog );
 
  in_vehicle = inveh != 0;
  controlling_vehicle = vctrl != 0;

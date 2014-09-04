@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-18 09:19+0400\n"
-"PO-Revision-Date: 2014-08-13 07:13+0000\n"
+"POT-Creation-Date: 2014-08-25 09:29+0400\n"
+"PO-Revision-Date: 2014-08-24 10:27+0000\n"
 "Last-Translator: indejeC <s203258@naver.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "Language: ko\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2014-08-20 05:58+0000\n"
-"X-Generator: Launchpad (build 17163)\n"
+"X-Launchpad-Export-Date: 2014-08-28 05:30+0000\n"
+"X-Generator: Launchpad (build 17174)\n"
 
 #: lang/json/AMMO_from_json.py
 msgid ".20 DREAD Pellet"
@@ -253,6 +253,12 @@ msgstr[0] "00 shot"
 msgid "10mm Auto"
 msgid_plural "10mm Auto"
 msgstr[0] "10mm Auto"
+
+#: lang/json/AMMO_from_json.py
+msgid "120mm HEAT"
+msgid_plural "120mm HEATs"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "20x66mm beanbag"
@@ -679,6 +685,11 @@ msgid_plural "9mm casings"
 msgstr[0] "9mm 탄피(casing)"
 
 #: lang/json/AMMO_from_json.py
+msgid ""
+"A 120mm High Explosive Anti Tank round.  It could ruin anyone's whole day."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "A 40mm beanbag that deals massive non lethal force."
 msgstr "강력한 비살상 제압력을 가진 40mm 빈백 탄환입니다."
 
@@ -829,7 +840,10 @@ msgstr "못이 들어있는 박스입니다. 주로 망치와 함께 쓰입니�
 #: lang/json/AMMO_from_json.py
 msgid "A box of small steel balls.  They deal virtually no damage."
 msgstr ""
-"작은 쇠구슬 한 박스입니다. 탄환으로 사용해도 거의 피해를 주지 못합니다."
+"작은 쇠구슬 한 박스입니다. 탄환으로 사용해도 피해를 거의 주지 못합니다.\r\n"
+"(역주: 미국에서 사용하는 BB탄은 금속으로 만듭니다. 이러한 BB탄이 일본에 전래"
+"되면서 안전상의 이유로 규제를 받아 플라스틱으로 만들게 된 것이 한국에서도 흔"
+"히 보이는 플라스틱 BB탄입니다.)"
 
 #: lang/json/AMMO_from_json.py
 msgid "A brass-jacketed .22 caliber round with superior penetration capacity."
@@ -1263,8 +1277,7 @@ msgid ""
 "A single capacitor charged with current to be used by a laser weapon or "
 "similar armament."
 msgstr ""
-"전력이 충전된 단일 콘덴서 입니다. 레이저 무기나 그와 유사한 무기에 사용됩니"
-"다."
+"전력이 충전된 단일 콘덴서입니다. 레이저 무기나 그와 유사한 무기에 사용됩니다."
 
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1831,7 +1844,7 @@ msgid ""
 "delivering bolts of superheated gas at near light speed with no recoil."
 msgstr ""
 "21세기 중반, 군사 강국들은 에너지 무기에 관심을 보이기 시작했습니다. 그 결과 "
-"초고온 가스탄을 아광속으로 날리면서도 반동은 전혀 없는, 규격화된 핵융합 전지"
+"초고온 가스탄을 아광속으로 날리면서도 반동은 전혀 없는 규격화된 핵융합 전지"
 "가 만들어졌습니다."
 
 #: lang/json/AMMO_from_json.py
@@ -1842,7 +1855,7 @@ msgid ""
 "This one has been hand-crafted from spare parts."
 msgstr ""
 "21세기 중반, 군사 강국들은 에너지 무기에 관심을 보이기 시작했습니다. 그 결과 "
-"초고온 가스탄을 아광속으로 날리면서도 반동은 전혀 없는, 규격화된 핵융합 전지"
+"초고온 가스탄을 아광속으로 날리면서도 반동은 전혀 없는 규격화된 핵융합 전지"
 "가 만들어졌습니다.\r\n"
 "이것은 예비 부품으로 만든 수제품입니다."
 
@@ -2231,6 +2244,8 @@ msgid ""
 "huge game, like elephants, with ease.  It's designed to be used with the "
 "Taurus Raging Bull."
 msgstr ""
+".454 Casull탄은 코끼리 같은 대형 사냥감을 잡는데 사용되는 매우 강력한 리볼버"
+"용 탄입니다. 타우러스 레이징 불(Taurus Raging Bull) 리볼버에 사용됩니다."
 
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -3395,6 +3410,12 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
+"A beekeeping hood. Keeps the bees out, but lets fresh air in. Rather "
+"cumbersome to wear, as it is rather bulky and hinders vision."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
 "A belt worn by martial arts practitioners, advertising a fresh intermediate."
 msgstr "무술 수련자가 착용하는 띠로, 갓 중급자가 되었다는 것을 알려줍니다."
 
@@ -3761,7 +3782,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A full-body neoprene wetsuit."
-msgstr "합성고무로 만들어진, 몸 전체를 감싸는 잠수복 입니다."
+msgstr "몸 전체를 감싸는 합성고무 잠수복입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A full-body tuxedo.  Makes the apocalypse feel a little more classy."
@@ -3792,16 +3813,16 @@ msgid ""
 "A fuzzy tawny tail weighted down with tiny beads of plastic.  Sways behind "
 "you when you walk."
 msgstr ""
-"털이 많이 달려있는 꼬리 입니다. 끝부분에 작은 플라스틱 구슬이 달려있어서, 걸"
-"을 때 바닥에 끌립니다."
+"털이 많이 달려있는 꼬리입니다. 끝 부분에 작은 플라스틱 구슬이 달려있어서 걸"
+"을 때마다 좌우로 흔들립니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A glossy black leather tail weighted down with tiny beads of plastic.  Sways "
 "behind you when you walk."
 msgstr ""
-"광이 많이 나는 검은 가죽 꼬리입니다. 끝부분에 작은 플라스틱 구슬이 달려있어"
-"서, 걸을 때 바닥에 끌립니다."
+"광이 많이 나는 검은 가죽 꼬리입니다. 끝 부분에 작은 플라스틱 구슬이 달려있어"
+"서 걸을 때마다 좌우로 흔들립니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -3852,7 +3873,7 @@ msgstr "동물의 모피로 만든 모자입니다. 무척 따뜻합니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A heavy cloak that is thrown over your body."
-msgstr "몸 전체를 덮는, 크고 무거운 망토입니다."
+msgstr "몸 전체를 덮는 크고 무거운 망토입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A heavy duty hauling frame designed to interface with power armor."
@@ -3866,18 +3887,20 @@ msgstr "몸 대부분을 덮을 수 있는 무거운 털 담요입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A heavy fur cloak that is thrown over your body."
-msgstr "몸 전체를 덮는, 크고 무거운 털 망토입니다."
+msgstr "몸 전체를 덮는 크고 무거운 털 망토입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A heavy helmet that provides excellent protection from all sorts of damage."
-msgstr "모든 종류의 피해에 상당히 높은 보호력을 제공하는, 무거운 헬멧입니다."
+msgstr "모든 종류의 피해에 우수한 보호력을 제공하는 무거운 헬멧입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A heavy helmet that provides excellent protection from all sorts of damage.  "
 "It has a tail coming off the back that provides protection to your neck."
-msgstr "모든 종류의 피해에 상당히 높은 보호력을 제공하는, 무거운 헬멧입니다."
+msgstr ""
+"모든 종류의 피해에 우수한 보호력을 제공하는 무거운 헬멧입니다. 뒤쪽에는 목을 "
+"보호해주는 꼬리가 달려있습니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -3905,7 +3928,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A heavy plastic helmet normally worn by football players."
-msgstr "미식축구 선수들이 착용하는, 무거운 플라스틱 헬멧입니다."
+msgstr "미식축구 선수들이 착용하는 무거운 플라스틱 헬멧입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -4269,8 +4292,8 @@ msgid ""
 "A medieval helmet that provides excellent protection for the head, with a Y "
 "shaped opening for the face."
 msgstr ""
-"얼굴 부분이 Y 자 모양으로 뚫려 있는, 중세의 투구입니다. 높은 보호력을 머리에 "
-"제공합니다."
+"얼굴 부분이 Y자 모양으로 뚫려 있는 중세의 투구입니다. 훌륭한 머리 방어력을 가"
+"지고 있습니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -4553,7 +4576,7 @@ msgstr "카키색 반바지입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of knee pads made of stout plastic and cloth."
-msgstr "천과 플라스틱으로 만들어진, 무릎 보호용 패드 한 쌍 입니다."
+msgstr "천과 플라스틱으로 만들어진, 무릎 보호용 패드 한 쌍입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -4660,8 +4683,8 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of soft neoprene arm sleeves, often used in contact sports."
 msgstr ""
-"부드러운 합성 고무인 네오프렌으로 만들어진 한쌍의 팔 보호대 입니다. 스포츠 용"
-"으로 주로 사용됩니다."
+"부드러운 합성고무로 만들어진 한 쌍의 팔 보호대입니다. 주로 스포츠용으로 사용"
+"됩니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -4717,6 +4740,10 @@ msgstr ""
 msgid "A pair of warm mittens.  They are extremely cumbersome."
 msgstr ""
 "한 쌍의 방한용 벙어리 장갑입니다. 착용하면 손을 거의 움직일 수 없게 됩니다."
+
+#: lang/json/ARMOR_from_json.py
+msgid "A pair of white beekeeping gloves made out of smooth leather."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of white tabi, as used by martial arts practitioners."
@@ -4924,7 +4951,7 @@ msgstr "평범한 짧은 가죽 바지 입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "A simple pair of short shorts."
-msgstr "평범한 짧은 바지입니다."
+msgstr "평범한 짧은 가죽 바지입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -5347,8 +5374,8 @@ msgid ""
 "A traditional chef's hat, standing tall and proud against the vulgarities of "
 "the world."
 msgstr ""
-"고전적인 디자인의 주방장 모자입니다. 세상의 모든 악에 저항하는, 길고 아름다"
-"운 자신감이 돋보입니다."
+"고전적인 디자인의 주방장 모자입니다. 세상의 모든 악에 저항하는 길고 아름다운 "
+"자신감이 돋보입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -5419,7 +5446,14 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid "A white button-down shirt with long sleeves.  Looks professional!"
 msgstr ""
-"단추 달린 하얀색 긴 소매 셔츠 입니다. 입으면 전문직 느낌을 낼 수 있습니다!"
+"단추 달린 하얀색 긴 소매 셔츠입니다. 입으면 전문직 느낌을 낼 수 있습니다!"
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A white suit commonly worn by professional beekeepers with straps on your "
+"ankles and wrists to prevent bees from flying in. It's not very tough "
+"fabric, but light and has plenty of storage thanks to a chest pocket."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "A wool shirt.  Provides warmth."
@@ -5474,7 +5508,7 @@ msgid ""
 "An armored, impermeable full-body suit that functions as body armor, as well "
 "as protecting from nuclear, biological, and chemical hazards."
 msgstr ""
-"모든 종류의 위험으로부터 몸 전체를 지켜주는, 튼튼한 방호슈트입니다. 갑옷의 기"
+"모든 종류의 위험으로부터 몸 전체를 지켜주는 튼튼한 방호슈트입니다. 갑옷의 기"
 "능은 기본이며, 화학적, 생물학적, 방사능적 피해로부터 몸을 보호받을 수 있습니"
 "다."
 
@@ -5530,12 +5564,18 @@ msgstr ""
 "기도 쉽지만, 주변의 방사선에 대해 완벽한 방호력을 제공합니다."
 
 #: lang/json/ARMOR_from_json.py
+msgid ""
+"An old-fashioned pair of leather rollerskates with steel frames.  While "
+"quite fast on flat floors, they make it difficult to move on rough terrain."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "An old-fashioned, copper bracelet."
 msgstr "고풍스러운 동팔찌입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "An ornamental suit of Japanese samurai armor."
-msgstr "장식이 붙어있는, 일본 사무라이들의 갑옷입니다."
+msgstr "장식용 일본 사무라이 갑옷입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -5717,7 +5757,7 @@ msgid ""
 "provide small amounts of protection while punching and performing other "
 "general mischief."
 msgstr ""
-"손에 둘둘 말아서 사용하는, 긴 천 조각입니다. 주먹질을 하거나 다른 행동을 할 "
+"손에 둘둘 말아서 사용하는 긴 천 조각입니다. 주먹질을 하거나 다른 행동을 할 "
 "때 약간의 보호력을 제공합니다."
 
 #: lang/json/ARMOR_from_json.py
@@ -6044,6 +6084,8 @@ msgstr "주방에서의 열을 막기 위해 상체 부분을 이중으로 만�
 #: lang/json/ARMOR_from_json.py
 msgid "This goes inside a helmet to help keep your head warm in cold climates."
 msgstr ""
+"추운 날씨로부터 머리를 따뜻하게 유지하기 위해 헬멧 안에 착용하는 속모자입니"
+"다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Tough leather boots.  Very durable."
@@ -6075,7 +6117,7 @@ msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "Warm socks made of wool."
-msgstr "양모로 만든 따뜻한 양말 한짝 입니다."
+msgstr "양모로 만든 따뜻한 양말 한 켤레입니다."
 
 #: lang/json/ARMOR_from_json.py
 msgid "Waterproof plastic fishing waders with a single large front pocket."
@@ -6213,6 +6255,18 @@ msgstr[0] "기본형 파워 아머(power armor)"
 msgid "basic power armor helmet"
 msgid_plural "basic power armor helmets"
 msgstr[0] "기본형 파워 아머 헬멧(helmet)"
+
+#: lang/json/ARMOR_from_json.py
+msgid "beekeeping hood"
+msgid_plural "beekeeping hoods"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "beekeeping suit"
+msgid_plural "beekeeping suits"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "beret"
@@ -7116,6 +7170,12 @@ msgid_plural "pairs of ballistic glasses"
 msgstr[0] "전술사격용 보안경(glasses)"
 
 #: lang/json/ARMOR_from_json.py
+msgid "pair of beekeeping gloves"
+msgid_plural "pairs of beekeeping gloves"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "pair of bifocal glasses"
 msgid_plural "pairs of bifocal glasses"
 msgstr[0] "이중 초점 안경(bifocal glasses)"
@@ -7415,6 +7475,12 @@ msgstr[0] "원시용 안경(reading glasses)"
 msgid "pair of rollerblades"
 msgid_plural "pairs of rollerblades"
 msgstr[0] "롤러 블레이드(rollerblades)"
+
+#: lang/json/ARMOR_from_json.py
+msgid "pair of rollerskates"
+msgid_plural "pairs of rollerskates"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of rubber boots"
@@ -9657,7 +9723,7 @@ msgid ""
 "A gripping tale of two friends struggling to survive on the streets of New "
 "York City."
 msgstr ""
-"두 친구가 뉴욕의 길거리에서 살아남기 위해 고군분투하는, 눈을 떼지 못할 이야기"
+"두 친구가 뉴욕의 길거리에서 살아남기 위해 고군분투하는 눈을 떼지 못할 이야기"
 "입니다."
 
 #: lang/json/BOOK_from_json.py
@@ -11116,8 +11182,8 @@ msgid ""
 "The stirring tale of a race against time, in search of a lost city located "
 "in the dark heart of the African continent."
 msgstr ""
-"아프리카 대륙의 어두운 심장부에 있는, 잊혀진 도시를 찾기 위해 한시가 바쁘게 "
-"뛰어다니는 이야기입니다."
+"아프리카 대륙의 어두운 심장부에 있는 잊혀진 도시를 찾기 위해 한시가 바쁘게 뛰"
+"어다니는 이야기입니다."
 
 #: lang/json/BOOK_from_json.py
 msgid ""
@@ -11893,6 +11959,8 @@ msgid ""
 "A (rather bright) green super-concentrated mutagen.  You need a syringe to "
 "inject it...  if you really want to?"
 msgstr ""
+"극도로 농축된 녹색 (더 정확히 말하자면 초록색) 뮤타젠입니다. 이것을 주입하기 "
+"위해서는 주사기가 필요합니다... 정말로 주사하고 싶은 마음이 드십니까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A bacon, lettuce, and tomato sandwich on toasted bread."
@@ -11908,24 +11976,25 @@ msgid ""
 "chocolate, wintergreen, cinnamon, and licorice.  Yum!"
 msgstr ""
 "사탕 크기의 와퍼들이 담긴 봉투입니다. 오렌지, 레몬, 라임, 정향, 초콜릿, 노루"
-"발풀, 계피, 감초 맛으로 이루어져있습니다. 맛있습니다!\r\n"
+"발풀, 계피, 감초 맛으로 이루어져있습니다. 냠!\r\n"
 "(역주: 네코 와퍼는 캔디나 초콜릿을 만드는 외국의 대형 업체 이름입니다.)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A big bag of colorful chocolate filled candies."
-msgstr "다양한 색깔의 초콜릿이 채워진 캔디 한 봉지입니다."
+msgstr "다양한 색깔의 초콜릿이 채워진 사탕 한 봉지입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A big bag of colorful fruit-flavored chewy candy."
-msgstr "다양한 색깔의 과일맛 씹는 캔디 한 봉지입니다."
+msgstr "다양한 색깔의 과일맛 씹어먹는 사탕 한 봉지입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A big bag of peanut butter cups...  your favorite!"
 msgstr ""
+"큰 포장지 안에 땅콩버터 맛 사탕이 들어있습니다... 제일 좋아하는 맛입니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A big bag of soft chocolate-covered peppermint patties...  yum!"
-msgstr ""
+msgstr "초콜릿이 덮힌 박하 초콜릿 한 봉지입니다... 냠!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A big bag of squishy, fluffy, puffy, delicious marshmallows."
@@ -11942,6 +12011,8 @@ msgid ""
 "A blend of spices meant to be used in some South Asian dishes.  Could be "
 "eaten raw, but why would you do that?"
 msgstr ""
+"남아시아 요리에 쓰이는 향신료 혼합물을 말합니다. 날것으로도 먹을 수 있긴 하겠"
+"지만, 왜 굳이 그렇게 할까요?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A block of yellow processed cheese."
@@ -11952,6 +12023,8 @@ msgid ""
 "A bone from some creature or other.  Could be eaten or used to make some "
 "stuff, like needles."
 msgstr ""
+"생물이나 다른 것으로부터 얻어낸 뼈입니다. 먹을 수도 있고, 바늘 같은 것을 만"
+"들 때에도 쓰입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A box of cornflakes.  They're not that good, but it beats nothing."
@@ -11987,12 +12060,16 @@ msgid ""
 "A brown goo that tastes very little like its namesake.  It's not bad, but "
 "it'll stick to the roof of your mouth."
 msgstr ""
+"이름과 달리 땅콩이나 버터 같은 맛은 거의 느껴지지 않는 갈색의 찐득거리는 땅콩"
+"버터입니다. 사실 그다지 나쁜 맛은 아니지만, 당신의 입천장에 들러붙습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A cake coated in the thickest icing you've ever seen.  Someone has written "
 "guff in quotation marks on it..."
 msgstr ""
+"당신이 여태까지 본 것 중에서 가장 두꺼운 아이싱이 코팅된 케이크입니다. 누군가"
+"가 큰따옴표를 그려 넣고 그 안에 시답잖은 이야기를 써놓았습니다..."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A can of processed cheese spread."
@@ -12004,6 +12081,8 @@ msgid ""
 "tasty, this SPAM remains quite filling.  Completely unappetizing, but quite "
 "filling."
 msgstr ""
+"부자연스러운 분홍빛이 돌고, 그다지 맛도 안 나는 이상한 식감의 돼지고기 통조"
+"림 식품입니다. 하지만 먹으면 꽤 배부릅니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A carbonated drink, flavored with vanilla."
@@ -12014,12 +12093,15 @@ msgid ""
 "A chocolate flavored beverage made of artificial flavoring and milk "
 "byproducts.  Shelf stable and vaguely appetizing even when lukewarm."
 msgstr ""
+"유제품과 인공향을 첨가한 초코맛 음료수입니다. 상온에서 보관이 가능하며 따끈하"
+"게 데워도 별로 맛이 없습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A chunk of meat with a coat of royal jelly over it.  It's a lot like a honey-"
 "baked ham."
 msgstr ""
+"로얄 젤리를 끼얹은 고기 덩어리입니다. 이것은 마치 꿀과 함께 구운 햄 같습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A citrus fruit, whose taste ranges from sour to semi-sweet."
@@ -12050,6 +12132,9 @@ msgid ""
 "food.  Composed of meat, tallow, and edible plants, it provides excellent "
 "nutrition in an easy to carry form."
 msgstr ""
+"영양가 있는 고에너지 음식으로 쓰이는 지방과 단백질의 농축 혼합물입니다. 고"
+"기, 우지, 식용 식물들로 구성된 이 음식은 영양분을 훌륭하게 제공하며 휴대하기 "
+"좋습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A crisp head of iceberg lettuce."
@@ -12064,6 +12149,8 @@ msgid ""
 "A deformed human fetus.  Eating this would be the most vile thing you can "
 "think of, and might just cause you to mutate."
 msgstr ""
+"끔찍하게 변형된 태아입니다. 이것을 먹는다는 행위는 당신이 생각할 수 있는 가"
+"장 끔찍한 행위로, 먹으면 신체에 변이가 일어나게 될 것입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A delicious baked pie with a delicious meat filling."
@@ -12075,7 +12162,7 @@ msgstr "과일로 채워져 맛있게 구워진 파이입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A delicious baked potato.  Got any sour cream?"
-msgstr ""
+msgstr "맛있는 구운 감자입니다. 사우어 크림 가지고 있나요?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A delicious fish sandwich."
@@ -12086,12 +12173,16 @@ msgid ""
 "A delicious fruit-filled pastry that you can cook in your toaster.  It even "
 "comes with frosting!  Cook it to make it tasty."
 msgstr ""
+"맛있는 과일로 가득한 페이스트리이며, 토스터기로 구울 수 있습니다. 심지어 설"
+"탕 코팅까지 되어있습니다! 구우면 더 맛있을 겁니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A delicious fruit-filled pastry that you've cooked.  It even comes with "
 "frosting!"
 msgstr ""
+"맛있는 과일로 가득한 구워진 페이스트리입니다. 심지어 설탕 코팅까지 되어있습니"
+"다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A delicious golden brown serving of crispy fried fish."
@@ -12102,6 +12193,8 @@ msgid ""
 "A delicious peanut butter and jelly sandwich.  It reminds you of the times "
 "your mother would make you lunch."
 msgstr ""
+"땅콩버터와 젤리가 들어간 맛있는 샌드위치입니다. 당신의 어머니가 점심을 만들어"
+"주시던 순간이 떠오르게 합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A dense, sweet creamy sauce, often used in curries."
@@ -12138,7 +12231,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A fist sized egg from from a giant spider.  Incredibly gross."
-msgstr ""
+msgstr "주먹 크기의 거대 거미 알입니다. 대단히 역겹습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12157,6 +12250,8 @@ msgid ""
 "A fluid bladder from a plant based lifeform.  Not very nutritious, but fine "
 "to eat anyway."
 msgstr ""
+"식물 기반 생명체에게서 얻은 액체 주머니입니다. 영양가가 높지는 않지만, 어쨌"
+"든 먹을 수는 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A fragrant mix of dried oregano, basil, thyme and other spices."
@@ -12168,7 +12263,7 @@ msgstr "신선하게 요리된 식물 덩어리입니다. 맛과 영양가가 �
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A freshly cooked slice of some unpleasant person.  Tastes great."
-msgstr ""
+msgstr "갓 요리된 인육입니다. 무척 맛있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12193,6 +12288,8 @@ msgid ""
 "A full medical kit, with bandages, local anesthetics, and rapid healing "
 "agents.  Used for healing large amounts of damage."
 msgstr ""
+"붕대, 국소 마취제, 그리고 신속한 치료에 필요한 의료 자재 등 모든 것이 들어있"
+"는 상자입니다. 부상을 많이 회복시켜줍니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12205,6 +12302,9 @@ msgid ""
 "A habit-forming tranquilizer with a variety of psychoactive side effects.  "
 "Used in the treatment of insomnia."
 msgstr ""
+"다양한 부작용이 있는 수면 유도 진정제입니다. 불면증 치료에 주로 사용됩니다."
+"\r\n"
+"(역주: 몽유병 유발, 폭력성 증가 등으로 악명이 높은 불면증 치료제입니다.)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A handful of large, purple plums.  Healthy and good for your digestion."
@@ -12220,7 +12320,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A healthy root vegetable.  Rich in vitamin A!"
-msgstr ""
+msgstr "건강에 좋은 뿌리 채소입니다. 비타민 A가 풍부합니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hearty serving of cooked great northern beans."
@@ -12235,30 +12335,39 @@ msgid ""
 "A heavily processed sausage, commonplace at baseball games before the "
 "cataclysm.  It would taste much better prepared."
 msgstr ""
+"많은 가공을 거친 소시지로 대격변 이전에는 야구 경기장에서 자주 보였습니다. 요"
+"리되면 훨씬 맛있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A heavily processed sausage, dipped in batter and deep fried.  Cooked, this "
 "corn dog now tastes much better, but will spoil."
 msgstr ""
+"많은 가공을 거친 소시지로, 튀김옷을 입히고 튀겼습니다. 이 요리된 핫도그는 훨"
+"씬 맛있지만, 금방 상할 것입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A heavily processed sausage, dipped in batter and deep fried.  It would "
 "taste much better prepared."
 msgstr ""
+"많은 가공을 거친 소시지로, 튀김옷을 입히고 튀겼습니다. 요리되면 훨씬 맛있습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A heavily smoked portion of human flesh.  Lasts for a very long time and "
 "tastes pretty good, if you like that sort of thing."
 msgstr ""
+"훈제한 인육입니다. 인육 섭취에 거부감만 없다면 아주 맛있고, 장기 보존까지 가"
+"능한 고기입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A hefty long pork sausage that has been cured for long term storage.  Very "
 "tasty, if you're in the market for human flesh."
 msgstr ""
+"보존 처리된 묵직한 인육 소시지입니다. 인육을 좋아한다면 아주 맛있을 것입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hefty sausage that has been cured for long term storage."
@@ -12267,18 +12376,23 @@ msgstr "보존 처리된 묵직한 소시지입니다."
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hot dog, served with chili con carne as a topping.  Yum!"
 msgstr ""
+"칠리소스(chili con carne)를 토핑으로 사용한 핫도그입니다. 냠냠!\r\n"
+"(역주: 칠리소스, 즉 칠리 콘 카르네(chili con carne)는 칠리고추와 고기를 넣고 "
+"끓인 매콤한 스튜입니다.)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A hot dog, served with chili con humano as a topping.  Delightful."
 msgstr ""
+"인육 칠리소스(chili con humano)를 토핑으로 사용한 핫도그입니다. 기분이 최고입"
+"니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A jar of fish fillets pickled in some sort of tangy white sauce."
-msgstr "병에 담긴 저민 생선살. 일종의 화이트 소스에 절였습니다."
+msgstr "병에 담긴 저민 생선살로, 일종의 화이트 소스에 절였습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A juicy, bell-shaped pear.  Yum!"
-msgstr ""
+msgstr "과즙이 풍부한 종 모양의 서양배입니다. 냠!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A large and very sweet fruit."
@@ -12289,16 +12403,20 @@ msgid ""
 "A large chunk of beeswax.  Not very tasty or nourishing, but okay in an "
 "emergency."
 msgstr ""
+"큰 밀랍 덩어리입니다. 그다지 맛있지도 않고, 영양소도 풍부하지 않지만, 배가 고"
+"프다면 이런 음식이라도 괜찮을 것 같습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A large chunk of wax filled with honey.  Very tasty."
-msgstr ""
+msgstr "꿀로 채워진 큰 밀랍 덩어리입니다. 아주 맛있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A large white ant egg, the size of a softball.  Extremely nutritious, but "
 "incredibly gross."
 msgstr ""
+"소프트볼에 쓰이는 공만큼 커다란 하얀색 개미알입니다. 영양가가 무척 높지만, 대"
+"단히 역겹습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12322,6 +12440,8 @@ msgid ""
 "A long, curved yellow fruit in a peel.  Some people like using them in "
 "desserts.  Those people are probably dead."
 msgstr ""
+"껍질에 싸인, 길고 휘어진 노란색 과일입니다. 몇몇 사람들은 후식으로 이걸 먹기"
+"를 좋아합니다. 아마도 지금은 죽었겠지만."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12407,21 +12527,25 @@ msgstr ""
 "습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "A nutrient rich elixir for plants."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "A nutritious and delicious hearty fish soup."
-msgstr "영양과 맛을 가득 담은 생선 수프입니다."
+msgstr "맛있고 따뜻하며 영양가 있는 생선 수프입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A nutritious and delicious hearty meat soup."
-msgstr "영양과 맛이 풍부한 고기 수프 입니다."
+msgstr "맛있고 따뜻하며 영양가 있는 고기 수프입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A nutritious and delicious hearty vegetable soup."
-msgstr "영양과 맛이 풍부한 야채 수프 입니다."
+msgstr "맛있고 따뜻하며 영양가 있는 야채 수프입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A nutritious and delicious soup, made of gifts of nature."
 msgstr ""
-"영양과 맛이 있는 수프 입니다, 숲에서 나는 자연의 선물로 만들어졌습니다."
+"맛있고 영양가 있는 수프입니다. 숲에서 나는 자연의 선물로 만들어졌습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12448,7 +12572,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A paper bucket of deep fried chicken.  So bad it's good."
-msgstr ""
+msgstr "닭고기 튀김이 든 종이통입니다. 형편없으면서도 나름 괜찮습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12520,7 +12644,7 @@ msgstr "돌연변이와 기타 유전자 결함을 없애주는 희귀한 줄기
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A rare substance of uncertain origins.  Causes you to mutate."
-msgstr ""
+msgstr "기원이 불확실한 희귀한 물질입니다. 마시면 변이가 발생합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A red, sweet fruit that grows in trees."
@@ -12584,12 +12708,18 @@ msgid ""
 "A small, microwaveable steak & cheese burrito, like those found at gas "
 "stations.  It's tastier and more filling, but will also spoil quickly."
 msgstr ""
+"전자레인지에 돌릴 수 있는 작은 치즈 스테이크 버리토로, 주유소에서 찾아볼 수 "
+"있는 것과 같은 것입니다. 맛이 더 좋아지고 배도 더 부르게 되었지만, 더 빨리 상"
+"하게 되었습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A small, microwaveable steak & cheese burrito, like those found at gas "
 "stations.  Not as appetizing or nutritious as it would be if heated up."
 msgstr ""
+"전자레인지에 돌릴 수 있는 작은 치즈 스테이크 버리토로, 주유소에서 찾아볼 수 "
+"있는 것과 같은 것입니다. 가열하면 식욕을 돋구거나 영양을 보충하는데 있어서 최"
+"고입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12597,6 +12727,8 @@ msgid ""
 "edible for a very long time, and can be used as an ingredient in many foods "
 "and projects."
 msgstr ""
+"정제된 동물성 지방으로 이루어진 부드러운 흰색의 사각형 덩어리입니다. 이것은 "
+"오랫동안 썩지 않고, 많은 음식과 물건의 재료로 사용될 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12617,7 +12749,7 @@ msgstr "정맥 주사나 눈의 이물질을 세척할 때 쓰이는 살균된 �
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A soup made from someone who is a far better meal than person."
-msgstr "사람보다 더 잘먹는 누군가로 부터 만들어진 수프 입니다."
+msgstr "사람보단 훨씬 나은 식품으로 만든 수프입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12652,18 +12784,24 @@ msgid ""
 "A super-concentrated blood-red mutagen.  You need a syringe to inject it...  "
 "if you really want to?"
 msgstr ""
+"극도로 농축된 선홍색 뮤타젠입니다. 이것을 주입하기 위해서는 주사기가 필요합니"
+"다... 정말로 주사하고 싶은 마음이 드십니까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated mutagen strongly resembling blood.  You need a syringe "
 "to inject it...  if you really want to?"
 msgstr ""
+"극도로 농축된 뮤타젠으로 혈액과 거의 흡사하게 보입니다. 이것을 주입하기 위해"
+"서는 주사기가 필요합니다... 정말로 주사하고 싶은 마음이 드십니까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated mutagen strongly resembling tree sap.  You need a "
 "syringe to inject it...  if you really want to?"
 msgstr ""
+"극도로 농축된 뮤타젠으로 나무수액과 거의 흡사하게 보입니다. 이것을 주입하기 "
+"위해서는 주사기가 필요합니다... 정말로 주사하고 싶은 마음이 드십니까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12671,45 +12809,61 @@ msgid ""
 "it-is in the zombies' eyes.  You need a syringe to inject it...  if you "
 "really want to?"
 msgstr ""
+"극도로 농축된 뮤타젠으로 오물이나 좀비의 눈과 거의 흡사하게 보입니다. 이것을 "
+"주입하기 위해서는 주사기가 필요합니다... 정말로 주사하고 싶은 마음이 드십니"
+"까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated mutagen that reminds you of the forests.  You need a "
 "syringe to inject it...  if you really want to?"
 msgstr ""
+"극도로 농축된 뮤타젠으로 바라보면 숲이 떠오릅니다. 이것을 주입하기 위해서는 "
+"주사기가 필요합니다... 정말로 주사하고 싶은 마음이 드십니까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated mutagen the color of grass.  You need a syringe to "
 "inject it...  if you really want to?"
 msgstr ""
+"극도로 농축된 뮤타젠으로 풀 같아 보이는 색입니다. 이것을 주입하기 위해서는 주"
+"사기가 필요합니다... 정말로 주사하고 싶은 마음이 드십니까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated mutagen the color of the pre-cataclysmic skies.  You "
 "need a syringe to inject it...  if you really want to?"
 msgstr ""
+"극도로 농축된 뮤타젠으로 대격변 이전의 하늘 같아 보이는 색입니다. 이것을 주입"
+"하기 위해서는 주사기가 필요합니다... 정말로 주사하고 싶은 마음이 드십니까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A super-concentrated mutagen.  You need a syringe to inject it."
 msgstr ""
+"극도로 농축된 뮤타젠입니다. 이것을 주입하기 위해서는 주사기가 필요합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated mutagen.  You need a syringe to inject it...  if you "
 "really want to?"
 msgstr ""
+"극도로 농축된 뮤타젠입니다. 이것을 주입하기 위해서는 주사기가 필요합니다... "
+"정말로 주사하고 싶은 마음이 드십니까?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated stem cell treatment.  You need a syringe to inject it."
 msgstr ""
+"극도로 농축된 줄기세포 치료제입니다. 이것을 주입하기 위해서는 주사기가 필요합"
+"니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A super-concentrated substance.  Judging by the amount, it should be "
 "delivered via injection.  You'd need a syringe."
 msgstr ""
+"극도로 농축된 물질입니다. 투여량에 따라 효과가 달라지며, 주사 방식으로 투여해"
+"야 합니다. 투여를 위해서는 주사기가 필요합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A sweet red berry."
@@ -12721,6 +12875,8 @@ msgid ""
 "stimulant when you inject yourself with it.  Asthmatics can use it in an "
 "emergency to clear their asthma."
 msgstr ""
+"아드레날린이 든 주사입니다. 몸에 주입하면 강력한 각성제 효과를 볼 수 있습니"
+"다. 천식이 심할 때 사용할 수도 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12782,12 +12938,16 @@ msgid ""
 "A thick slab of salty cured bacon.  Shelf stable, precooked and ready-to-"
 "eat, it tastes better when reheated."
 msgstr ""
+"염장 처리된 베이컨 조각입니다. 상온에서도 상하지 않으며, 바로 먹을 수 있도록 "
+"조리되었습니다만, 데워먹는 편이 더 맛있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A thick syrup made of water and sugar strained through coffee grounds.  Can "
 "be used to flavor many foods and beverages."
 msgstr ""
+"커피가루와 설탕을 졸여 만든 진한 시럽입니다. 여러 가지 음식이나 음료수에 잘 "
+"어울립니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12814,18 +12974,31 @@ msgid ""
 "Delicious, and rich with the most beneficial substances the hive can "
 "produce, it is useful for curing all sorts of afflictions."
 msgstr ""
+"빽빽하게 젤리가 들어차 있는 반투명한 육각형 벌집입니다. 아주 맛있고, 벌집이 "
+"만들어낼 수 있는 가장 좋은 물질들이 가득 들어있습니다. 각종 질병을 치료할 때 "
+"유용하게 쓰입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A type of lunch meat made out of human flesh that comes pre-sliced.  Its "
 "first name may have been Oscar.  Can be eaten cold."
 msgstr ""
+"런천 미트의 일종으로, 인육으로 만들어졌으며 잘라진 상태입니다. 어쩌면 이 소시"
+"지의 이름이 오스카(Oscar)일지도 모릅니다. 차가워도 먹을만합니다.\r\n"
+"(역주: Oscar Mayer사의 창립자가 Oscar F. Mayer인 것과 볼로냐 소시지의 위쪽에 "
+"적힌 Oscar Mayer를 소시지 이름으로 착각한다는 점을 합친 유머. 간단히 설명하자"
+"면, 어쩌면 이 소시지에 들어간 사람의 이름이 Oscar일지도 모르겠다는 소리.)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A type of lunch meat that comes pre-sliced.  Its first name isn't Oscar.  "
 "Can be eaten cold."
 msgstr ""
+"런천 미트의 일종으로, 잘라진 상태입니다. 오스카(Oscar)는 이 소시지 이름의 첫"
+"부분이 아닙니다. 차가워도 먹을만합니다.\r\n"
+"(역주: Oscar는 미국의 햄 제조사인 Oscar Mayer사를 말함. 제품에 붙어있는 스티"
+"커에 써진 Bologna의 위쪽에 Oscar Mayer가 적혀있는걸 보고 Oscar Mayer Bologna"
+"가 소시지 이름이라고 착각하는 사람이 있어서 농담으로 써놓은듯.)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12866,6 +13039,8 @@ msgid ""
 "A very old type of pasta made with several layers of lasagne sheets "
 "alternated with sauces and meats.  Made better with human flesh."
 msgstr ""
+"얇은 라자냐와 소스, 그리고 고기가 교차로 만든 층으로 된 파스타로 아주 오래된 "
+"음식입니다. 인육으로 만들어서 더 맛있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A very sweet and soft tropical fruit."
@@ -12886,7 +13061,7 @@ msgstr ""
 msgid ""
 "Acetylsalicylic acid, a mild anti-inflammatory.  Take to relieve pain and "
 "swelling."
-msgstr ""
+msgstr "약한 진통제인 아세틸살리실산입니다. 발열과 통증 완화에 사용됩니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Adderall"
@@ -12920,8 +13095,7 @@ msgstr "미국에서 가장 인기있는 와인입니다, 인기가 좋은데는
 #: lang/json/COMESTIBLE_from_json.py
 msgid "American pale ale"
 msgid_plural "American pale ales"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "아메리칸 페일 에일(american pale ale)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "An apple a day keeps the doctor away."
@@ -12931,7 +13105,7 @@ msgstr "매일 사과를 먹으면 의사와 만날 일이 점점 적어진다�
 msgid ""
 "An aromatic onion used in cooking.  Cutting these up can make your eyes "
 "sting!"
-msgstr ""
+msgstr "양파의 향미는 요리에 이용됩니다. 이걸 자르면 눈물이 날걸요!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -12970,24 +13144,32 @@ msgid ""
 "An irradiated banana will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 바나나로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선으"
+"로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "An irradiated bundle of carrots will remain edible nearly forever.  "
 "Sterilized using radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 당근 묶음으로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방"
+"사선으로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "An irradiated cluster of broccoli will remain edible nearly forever.  "
 "Sterilized using radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 브로콜리로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선"
+"으로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "An irradiated ear of corn will remain edible nearly forever.  Sterilized "
 "using radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 옥수숫대로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선"
+"으로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13000,6 +13182,8 @@ msgid ""
 "An irradiated head of lettuce will remain edible nearly forever.  Sterilized "
 "using radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 상추로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선으"
+"로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13012,6 +13196,8 @@ msgid ""
 "An irradiated lemon will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 레몬으로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선으"
+"로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13030,12 +13216,16 @@ msgid ""
 "An irradiated onion will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 양파로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선으"
+"로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "An irradiated orange will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 오렌지로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선으"
+"로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13072,6 +13262,8 @@ msgid ""
 "An irradiated potato will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 감자로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선으"
+"로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13084,6 +13276,8 @@ msgid ""
 "An irradiated tomato will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 토마토로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방사선으"
+"로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13096,6 +13290,8 @@ msgid ""
 "An irradiated zucchini will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"방사선에 조사된 서양 호박으로, 거의 영원히 상하지 않고 그대로 보존됩니다. 방"
+"사선으로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "An orange flavored liquor used in many mixed drinks."
@@ -13135,8 +13331,7 @@ msgstr "송아지를 위한 식품입니다만, 성인에게도 잘 맞습니다
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Belgian ale"
 msgid_plural "Belgian ales"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "벨기안 에일(belgian ale)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13167,7 +13362,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Blood, possibly that of a human.  Disgusting!"
-msgstr ""
+msgstr "인간의 것으로 보이는 혈액입니다. 역겹네요!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Bread and human flesh, surprise!"
@@ -13187,7 +13382,7 @@ msgstr "연분홍색 생선살 통조림입니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Bright white chicken-paste in a can!"
-msgstr "밝은 하얀색의 닭고기 반죽이 캔 안에 들어있다!"
+msgstr "밝은 하얀색의 닭고기 반죽이 캔 안에 들어있습니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13207,14 +13402,16 @@ msgid ""
 "Canned beans.  A staple among canned goods, these are reputedly good for "
 "one's coronary health."
 msgstr ""
+"통조림 콩입니다. 통조림 식품 중에서도 콩은 보통 건강에 좋은 것으로 알려졌습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Canned corn in water.  Eat up!"
-msgstr ""
+msgstr "통조림 안에 옥수수와 물이 들어있습니다. 먹어버리세요!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Canned pineapple rings in water.  Quite tasty."
-msgstr ""
+msgstr "통조림 안에 링 모양으로 썰어져 있는 파인애플과 물이 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Canned, chopped quahog clams in water."
@@ -13244,11 +13441,14 @@ msgid ""
 "Chilly P, Yo!  Not very good on its own, but it might help if you use it "
 "properly, or in meth."
 msgstr ""
+"Chilly P Yo! 이것 자체로는 그다지 먹기 좋지 않습니다만, 올바르게 사용한다면 "
+"굉장히 유용합니다.\\n\r\n"
+"(역주: Chilly P Yo!는 병맛 만화를 그리는 사람의 닉네임. 사실 칠리와는 무관.)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Chocolate isn't very healthy, but it does make a delicious treat."
 msgstr ""
-"초콜렛 자체는 건강에 대단히 좋은 먹을거리가 아닙니다만, 그 맛이 건강에 좋습니"
+"초콜릿 자체는 건강에 크게 좋은 먹을거리가 아닙니다만, 그 맛이 건강에 좋습니"
 "다."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -13258,6 +13458,8 @@ msgstr "많은 양의 물에 과일을 넣고 익혀서 얻은 깨끗한 주스�
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Coffee.  The morning ritual of the pre-apocalyptic world."
 msgstr ""
+"커피입니다. 종말이 오기 전의 아침에는 일어나서 이것을 마시는게 일종의 의식과"
+"도 같았습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Concentrated acid.  Don't drink it."
@@ -13318,6 +13520,8 @@ msgid ""
 "Dehydrated fish flakes.  With proper storage, this dried food will remain "
 "edible for an incredibly long time."
 msgstr ""
+"말린 생선 조각입니다. 적당한 저장공간을 차지하면서, 이 말린 음식은 아주 오랫"
+"동안 썩지 않습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13351,7 +13555,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Dehydrated milk powder.  Mix with water to make drinkable milk."
-msgstr ""
+msgstr "우유 분말입니다. 물과 섞으면 마실만한 우유가 됩니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13366,11 +13570,11 @@ msgstr "이 홈메이드 비스킷은 정말로 맛있습니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Delicious chocolate cake.  It has all the icing.  All of it."
-msgstr ""
+msgstr "맛있는 초콜릿 케이크입니다. 케이크 전체가 아이싱으로 장식되어있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Delicious fermented dairy.  It tastes of vanilla."
-msgstr ""
+msgstr "맛있는 발효 유제품입니다. 바닐라맛이 납니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Delicious fried rice with meat.  Tasty and very filling."
@@ -13386,7 +13590,7 @@ msgstr "맛있는 황금 알갱이입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Delicious lunch meat.  Can be eaten cold."
-msgstr ""
+msgstr "맛있는 런천 미트입니다. 차가워도 먹을만합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13400,6 +13604,8 @@ msgid ""
 "Delicious, lumpy, white soup made of clams and potatoes.  A taste of the "
 "lost glory of New England."
 msgstr ""
+"뉴잉글랜드의 잃어버린 영광이 담긴 맛을 자랑하는 맛있는 하얀 스프입니다. 조개"
+"와 감자가 들어있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Deluxe beans and rice"
@@ -13416,10 +13622,6 @@ msgstr ""
 "학적 상태에 부정적인 영향을 줍니다."
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "Don't drink it; feed it to your plants!"
-msgstr "먹지 마세요, 식물에게 양보하세요!"
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "Don't eat the worm!  Wait, there's no worm in this bottle."
 msgstr ""
 "벌레가 든 술 따위는 먹지 마세요! 잠깐, 이 병에는 벌레가 없네요.\r\n"
@@ -13430,12 +13632,16 @@ msgid ""
 "Dried kernels from a particular type of corn.  Practically inedible raw, "
 "they can be cooked to make a tasty snack."
 msgstr ""
+"특수한 품종의 옥수수에서 얻은 건조된 낟알입니다. 날것으로 먹기는 거의 불가능"
+"하지만, 조리해서 맛있는 간식을 만들 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Dried leaves of a tropical plant.  You can boil them into tea, or you can "
 "just eat them raw.  They aren't too filling though."
 msgstr ""
+"말린 열대 식물의 잎입니다. 끓여서 차로 먹을 수도 있고, 생으로 먹을 수도 있습"
+"니다. 어느 쪽이건 배를 채워주지는 못합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Dried mushrooms are a tasty and healthy addition to many meals."
@@ -13466,24 +13672,32 @@ msgid ""
 "Dry flakes of flattened grain.  Tasty and nutritious when cooked, it also "
 "doubles as food for horses while dry."
 msgstr ""
+"곡물을 갈아서 말린 가루입니다. 맛있고 영양가가 풍부한 요리 재료이며, 말 먹이"
+"로도 쓰입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Dry toaster pastries usually coated with solid frosting and what luck!  "
 "These are strawberry flavored!"
 msgstr ""
+"건조된 토스터 페이스트리(toaster pastries)는 보통 설탕과 뭔가 행운같은 것으"
+"로 코팅되어있습니다! 이건 딸기맛입니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Dry toaster pastries, usually coated with solid frosting, these are "
 "blueberry flavored!"
 msgstr ""
+"건조된 토스터 페이스트리(toaster pastries)는 보통 설탕으로 코팅되어있습니다. "
+"이건 블루베리맛입니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Dry toaster pastries, usually coated with solid frosting.  Sadly, these are "
 "not."
 msgstr ""
+"건조된 토스터 페이스트리(toaster pastries)는 보통 설탕으로 코팅되어있습니다. "
+"슬프게도 이건 아무 맛도 아닙니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13496,8 +13710,7 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "European pilsner"
 msgid_plural "European pilsners"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "유러피안 필스너(european pilsner)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13515,6 +13728,8 @@ msgstr "배를 채워주는 빵으로, 일요일 아침식사로 차와 함께 �
 msgid ""
 "Fish fillets cured in brine and vacuum-packed.  Salty but tasty in a pinch.  "
 msgstr ""
+"생선을 잘라서 소금에 절인 다음, 진공포장한 음식입니다. 심하게 짭짤하지만, 맛"
+"은 먹을만 합니다.  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13573,10 +13788,12 @@ msgstr "설탕을 넣고 졸여, 장기보관이 가능한 딸기입니다."
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fresh wet lasagne.  Fairly bland, but fills you up."
 msgstr ""
+"신선하고 촉촉한 라자냐입니다. 단조로운 메뉴지만, 배불리 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fresh wet noodles.  Fairly bland, but fills you up."
 msgstr ""
+"신선하고 촉촉한 면발입니다. 단조로운 메뉴지만, 배불리 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Fresh, clean water.  Truly the best thing to quench your thirst."
@@ -13587,6 +13804,8 @@ msgid ""
 "Freshly butchered fat.  You could eat it raw, but it is better used as an "
 "ingredient in other foods or projects."
 msgstr ""
+"갓 잘라낸 신선한 지방입니다. 날것으로 먹을 수 있긴 하지만, 다른 음식이나 물건"
+"의 재료로 사용하는 편이 더 좋습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Freshly butchered from a human body."
@@ -13596,18 +13815,20 @@ msgstr "인간의 몸에서 잘라낸 신선한 살코기입니다."
 msgid ""
 "Freshly butchered meat.  You could eat it raw, but cooking it is better."
 msgstr ""
+"갓 잘라낸 신선한 고기입니다. 날것으로 먹을 수 있긴 하지만, 요리해서 먹는 편"
+"이 더 좋습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Freshly caught fish.  Makes a passable meal raw."
-msgstr ""
+msgstr "갓 잡아올린 신선한 물고기입니다. 무난한 음식 재료로 쓰입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Freshly cooked fish.  Very nutritious."
-msgstr ""
+msgstr "갓 요리된 생선입니다. 영양가가 아주 높습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Freshly cooked meat.  Very nutritious."
-msgstr ""
+msgstr "갓 요리된 고기입니다. 영양가가 아주 높습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Freshly-squeezed from real fruit!  Tasty and nutritious."
@@ -13637,12 +13858,17 @@ msgstr "전통적인 머스타드입니다. 햄버거에 넣어 먹으면 맛있
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Grainy cereal used for malting.  A staple of brewing everywhere."
-msgstr ""
+msgstr "맥아 제조에 쓰이는 거친 곡물으로, 양조 전반에 중요하게 쓰입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Greasy Prospector improved pork and beans with hickory smoked pig fat chunks."
 msgstr ""
+"Greasy Prospector는 포크 앤 빈스를 개선시켰다. 히코리 나무로 훈제한 돼지 지"
+"방 덩어리를 사용해서.\r\n"
+"(역주: 'Greasy Prospector improved pork and beans.'는 폴아웃에 나오는 포크 "
+"앤 빈스 캔에 쓰여진 문구. Greasy Prospector는 폴아웃 세계관에서 포크 앤 빈스"
+"를 만들던 회사.)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Ground black spice berries with a pungent aroma."
@@ -13653,6 +13879,8 @@ msgid ""
 "Ground coffee beans.  You can boil it into a mediocre stimulant, or swallow "
 "it raw for a lesser stimulative boost."
 msgstr ""
+"갈아낸 커피 원두입니다. 무난하게 각성제 용으로 끓여 마시거나, 생으로 먹어서 "
+"각성효과가 덜하게 섭취할 수도 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Having been fried, this SPAM is actually pretty tasty."
@@ -13683,6 +13911,8 @@ msgid ""
 "Human flesh slices cured in brine and vacuum-packed.  Salty but tasty in a "
 "pinch.  "
 msgstr ""
+"인육을 잘라서 소금에 절인 다음, 진공포장한 음식입니다. 심하게 짭짤하지만, 맛"
+"은 먹을만 합니다.  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "In Soviet Russia, vodka drinks you!"
@@ -13691,8 +13921,7 @@ msgstr "소비에트 러시아에서는 보드카가 당신을 마십니다!"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "India pale ale"
 msgid_plural "India pale ales"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "인디아 페일 에일(india pale ale)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13755,6 +13984,8 @@ msgid ""
 "Juicy red tomato.  It gained popularity in Italy after being brought back "
 "from the New World."
 msgstr ""
+"과즙 많은 빨간 토마토입니다. 신대륙에서 이탈리아로 넘어온 후 인기를 끌기 시작"
+"했습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13766,7 +13997,7 @@ msgstr ""
 msgid ""
 "Lemon juice mixed with water and sugar to dull the sourness.  Delicious and "
 "refreshing."
-msgstr ""
+msgstr "물과 설탕을 섞어 신 맛을 줄인 레몬 주스입니다. 맛있고 신선합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Like apple cider, only with vodka."
@@ -13791,18 +14022,24 @@ msgid ""
 "Low-sodium preserved fish.  It was boiled and canned.  Contains all of the "
 "nutrition, but little of the savor of cooked fish.  "
 msgstr ""
+"삶은 다음, 저 나트륨으로 보존처리되어 통조림으로 만들어진 생선입니다. 영양소"
+"가 모두 포함되어 있지만, 익힌 생선 맛은 조금밖에 나지 않습니다.  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Low-sodium preserved human meat.  It was boiled and canned.  Contains all of "
 "the nutrition, but little of the savor of cooked meat.  "
 msgstr ""
+"삶은 다음, 저 나트륨으로 보존처리되어 통조림으로 만들어진 인육입니다. 영양소"
+"가 모두 포함되어 있지만, 익힌 고기 맛은 조금밖에 나지 않습니다.  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Low-sodium preserved meat.  It was boiled and canned.  Contains all of the "
 "nutrition, but little of the savor of cooked meat.  "
 msgstr ""
+"삶은 다음, 저 나트륨으로 보존처리되어 통조림으로 만들어진 고기입니다. 영양소"
+"가 모두 포함되어 있지만, 익힌 고기 맛은 조금밖에 나지 않습니다.  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Luigi lasagne"
@@ -13815,6 +14052,9 @@ msgid ""
 "soap-like yet highly nutritious, it is reminiscent of the afterbirth of a "
 "dog or the world's largest chunk of phlegm."
 msgstr ""
+"루테피스크는 잿물에서 건조되어 보존처리된 생선을 말합니다. 불쾌하고 마치 비누"
+"같지만, 영양가가 높은 이 음식은 개의 태반조직이나 세계에서 가장 거대한 가래 "
+"덩어리를 연상시킵니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Made from real Massachusetts cranberries.  Delicious and nutritious."
@@ -13835,6 +14075,7 @@ msgid ""
 "Mannwurst covered in a curry ketchup sauce.  Fairly spicy and impressive at "
 "the same time!"
 msgstr ""
+"카레 케첩 소스로 덮인 인육 소시지입니다. 몹시 매우며 동시에 인상적입니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Mannwurst gravy"
@@ -13849,17 +14090,19 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Meat encased in little dough satchels.  Tastes fine raw."
-msgstr ""
+msgstr "작게 반죽된 고기로 속을 채운 파스타입니다. 생으로 먹어도 맛있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch.  "
 msgstr ""
+"고기를 잘라서 소금에 절인 다음, 진공포장한 음식입니다. 심하게 짭짤하지만, 맛"
+"은 먹을만 합니다.  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Meat that's obviously unhealthy.  You could eat it, but it will poison you."
-msgstr ""
+msgstr "확실히 몸에 해로운 고기입니다. 먹을 수는 있지만, 중독될 겁니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13872,6 +14115,7 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Mildly toxic and not very tasty raw.  When cooked, it is delicious."
 msgstr ""
+"가벼운 독성이 있고, 생으로는 그다지 맛이 없습니다. 요리하면 맛있어집니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13893,12 +14137,16 @@ msgid ""
 "Mmm, irradiated.  Will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat."
 msgstr ""
+"으음, 방사선에 조사되었습니다. 거의 영원히 상하지 않고 그대로 보존됩니다. 방"
+"사선으로 살균했고, 안전하며 먹을 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Mushrooms are tasty, but be careful.  Some can poison you, while others are "
 "hallucinogenic."
 msgstr ""
+"버섯은 맛있습니다만, 조심해야 합니다. 몇몇 종류는 독이나 환각 물질을 가지고 "
+"있기도 합니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Necco wafer"
@@ -13911,6 +14159,9 @@ msgid ""
 "disgusting thing you've ever eaten.  Sterilized using radiation, so it's "
 "safe to eat.  Exposed to the atmosphere, it has started to go bad."
 msgstr ""
+"군대에서 붙인 '죽음의 네 손가락'이라는 별명을 가진 이것은 아마도 당신이 여태"
+"까지 먹어본 것들 중에서 가장 역겨운 음식일 것입니다. 방사선으로 살균했고, 안"
+"전하며 먹을 수 있습니다. 대기에 노출되었기에 상하기 시작했습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13923,6 +14174,9 @@ msgid ""
 "No-doz brand caffeine pills, maximum strength.  Useful in pulling an all-"
 "nighter, one pill is about equivalent to a strong cup of coffee."
 msgstr ""
+"최고의 효과를 자랑하는 노-도즈 브랜드의 카페인 알약입니다. 밤을 샐 필요가 있"
+"을 때 유용합니다. 한 알에 큰 컵에 든 커피와 동일한 양의 카페인이 들어있습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Not the finest drink you've had, but hey, it's alcohol by the gallon."
@@ -13931,18 +14185,27 @@ msgstr "그다지 질이 높지는 않지만, 알코올은 충분합니다."
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Now with 95 percent fewer dolphins!"
 msgstr ""
+"지금은 그 수가 95% 이하가 된 돌고래와 함께!\r\n"
+"(역주: 참치 통조림에 새겨진 Dolphin Safe 라벨을 말하는 것입니다. 그물 등을 사"
+"용하여 참치를 잡을 경우, 돌고래가 같이 잡혀서 피해를 보는 경우가 생기는데 미"
+"국에서 이를 방지하는 법안이 도입되면서 법을 준수하며 어획한 참치를 사용해 만"
+"든 통조림에는 이 라벨이 새겨지게 되었습니다.)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Now with ONE POUND of meat and ONE POUND of carbs!  Nice and heated up.  "
 "It's tastier and more filling, but will also spoil quickly."
 msgstr ""
+"450 그램의 고기와 탄수화물이 들어있습니다! 잘 데워졌습니다. 좀더 맛있고 배를 "
+"채울 수 있지만, 금방 썩어버립니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Now with ONE POUND of meat and ONE POUND of carbs!  Not as appetizing or "
 "nutritious as it would be if heated up."
 msgstr ""
+"450 그램의 고기와 탄수화물이 들어있습니다! 데우지 않으면 맛과 영양가가 적습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Nutritious egg laid by a bird."
@@ -13950,11 +14213,13 @@ msgstr "영양가있는 새알입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Oh man, you love these chips!  Score!"
-msgstr ""
+msgstr "오 이런! 감자칩이여, 사랑한다! 제 점수는요!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Olive oil, basil, garlic, pine nuts.  Simple and delicious."
 msgstr ""
+"올리브 오일, 바질, 마늘, 견과류 등이 들어있는 소스입니다. 간단하고 맛있습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Only the finest whiskey straight from the bung."
@@ -13991,12 +14256,16 @@ msgid ""
 "Pharmaceutical flu shot designed for mass vaccinations, still in the "
 "packaging.  Purported to provide some kind of immunity."
 msgstr ""
+"대량 예방접종을 위해 제작된 독감용 약제 주사입니다. 포장된 상태이며, 특정 종"
+"류의 면역력을 줍니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Plain and unseasoned popcorn.  Not as tasty as other kinds, but healthier as "
 "a result."
 msgstr ""
+"양념이 되지 않은 팝콘입니다. 다른 종류만큼 맛있지는 않지만, 몸에는 더 좋습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Popcorn with a light covering of butter for extra flavor."
@@ -14015,6 +14284,8 @@ msgid ""
 "Potassium iodide tablets.  They might help mitigate some of the detrimental "
 "effects caused by irradiation."
 msgstr ""
+"포타슘 요오드 알약입니다. 방사능으로 유발되는 몇 가지 해로운 증상을 완화시키"
+"는 효과가 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14035,7 +14306,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Pressed from fresh apples.  Tasty and nutritious."
-msgstr ""
+msgstr "신선한 사과에서 추출했습니다. 맛있고 영양가가 높습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14120,10 +14391,13 @@ msgstr "비밀스러운 조미료와 허브 가루들을 섞어 만든 소금입
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salted corn chips with ground meat and smothered in cheese.  Delicious."
 msgstr ""
+"소금에 절여진 옥수수칩에 다진 고기를 더하고 치즈를 듬뿍 발랐습니다. 맛있습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salted corn chips with human flesh and smothered in cheese.  Delicious."
 msgstr ""
+"소금에 절여진 옥수수칩에 인육을 더하고 치즈를 듬뿍 발랐습니다. 맛있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salted corn chips, could really use some cheese, maybe some beef."
@@ -14134,16 +14408,22 @@ msgstr ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salted corn chips, now with cheese.  Could stand to have some meat."
 msgstr ""
+"소금에 절여진 옥수수칩으로, 치즈가 더해졌습니다. 고기 약간을 더할 수도 있습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Salted corn chips, now with meat.  Could probably use some cheese, though."
 msgstr ""
+"소금에 절여진 옥수수칩으로, 고기가 더해졌습니다. 치즈 약간을 더할 수도 있습니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Salted corn chips, with human flesh.  Some cheese might make it even better"
 msgstr ""
+"소금에 절여진 옥수수칩으로, 인육이 더해졌습니다. 치즈 약간을 더하면 훨씬 맛있"
+"을겁니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salty dried fish that never goes bad, but will make you thirsty."
@@ -14162,17 +14442,17 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salty dried pork.  Tastes good, but it will make you thirsty."
-msgstr ""
+msgstr "짭짤한 건조된 돼지고기입니다. 맛은 좋지만 먹다보면 목이 마를 것입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Salty little fish.  They'll make you thirsty."
-msgstr ""
+msgstr "짭잘한 작은 물고기입니다. 먹으면 목이 말라집니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Sausage covered in a curry ketchup sauce.  Fairly spicy and impressive at "
 "the same time!"
-msgstr ""
+msgstr "카레 케첩 소스로 덮인 소시지입니다. 몹시 매우며 동시에 인상적입니다!"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14192,7 +14472,7 @@ msgstr "아주 시큼한 백식초입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Simple cloth bandages.  Used for healing small amounts of damage."
-msgstr ""
+msgstr "천으로 만들어진 단순한 붕대입니다. 부상을 약간 회복시켜줍니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14233,25 +14513,27 @@ msgid ""
 "Some damned fool put honey on this peanut butter sandwich, who in their "
 "right mind- oh wait this is pretty good."
 msgstr ""
-"어떤 빌어먹을 멍청이가 이 땅콩 버터 샌드위치에 꿀을 넣어놨는데 제정신으로 "
-"한- 오, 잠깐만. 이거 꽤 괜찮은데?"
+"어떤 빌어먹을 멍청이가 이 땅콩버터 샌드위치에 꿀을 넣어놨는데 제정신으로 한- "
+"오, 잠깐만. 이거 꽤 괜찮은데?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Some mac and cheese with ground human flesh added.  So good it's like murder."
-msgstr ""
+msgstr "다진 인육이 더해진 치즈와 마카로니는 살인만큼 기분 좋습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Some mac and cheese with ground meat added, enhancing the flavor and the "
 "nutritional value."
-msgstr ""
+msgstr "다진 고기가 더해진 치즈와 마카로니는 요리의 맛과 영양도를 더해줍니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Some peanut butter smothered between two pieces of bread.  Not very filling "
 "and will stick to the roof of your mouth like glue."
 msgstr ""
+"빵 두 조각 사이에 땅콩버터가 듬뿍 발라져있습니다. 먹어도 많이 배부르지는 않으"
+"며 접착제처럼 입 천장에 달라붙습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Sour red berries.  Good for your health."
@@ -14266,14 +14548,16 @@ msgid ""
 "Spaghetti covered with a thick human flesh sauce.  Tastes great if you enjoy "
 "that kind of thing.  "
 msgstr ""
+"스파게티 위에 인육 소스가 풍부하게 뿌려져 있습니다. 당신이 이런 종류의 요리"
+"를 즐긴다면 최고의 맛일겁니다.  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Spaghetti covered with a thick meat sauce.  Yum!  "
-msgstr ""
+msgstr "스파게티 위에 진한 고기 소스가 뿌려져 있습니다. 냠!  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Spaghetti, with a generous helping of pesto on top.  Yum!  "
-msgstr ""
+msgstr "스파게티 위에 페스토 소스가 풍부하게 뿌려져 있습니다. 냠!  "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Sparkling white wine, made from the world's noblest grape."
@@ -14298,7 +14582,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Sugary, fermented dairy.  A wonderful treat."
-msgstr ""
+msgstr "달달한 발효 유제품입니다. 훌륭한 먹거리입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Suitable for tropical retreats and Canadian artists alike."
@@ -14309,6 +14593,8 @@ msgid ""
 "Surprisingly, not made from dog.  Cooked, this hot dog now tastes much "
 "better, but will spoil."
 msgstr ""
+"놀랍게도 개로 만들어지지 않았습니다. 이 요리된 핫도그는 훨씬 맛있지만, 금방 "
+"상할 것입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Sweet and delicious cookies, just like grandma used to bake."
@@ -14320,13 +14606,15 @@ msgstr "달달한 진짜 버몬트 메이플 시럽입니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Sweet citrus fruit.  Also comes in juice form."
-msgstr ""
+msgstr "달콤한 감귤류의 과일입니다. 주스로 만들어 먹을 수도 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on "
 "its own."
 msgstr ""
+"달콤한, 정말 달콤한 설탕입니다. 치아 건강에 좋지 않고, 놀랍게도 이것 자체는 "
+"그다지 맛이 없습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14344,6 +14632,8 @@ msgstr "장기보존을 위해 오래 훈제한 맛있는 고기입니다."
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Tasty, juicy berry.  Often found growing wild in fields."
 msgstr ""
+"맛있는 과즙이 들어있는 열매입니다. 종종 들판에서 자라나는 것을 발견할 수 있습"
+"니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Tea, the beverage of gentlemen everywhere."
@@ -14368,12 +14658,16 @@ msgid ""
 "The irradiated beef main course from an MRE.  Sterilized using radiation, so "
 "it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
 msgstr ""
+"방사선에 조사된 비프 메인 코스요리로 MRE에서 나왔습니다. 방사선으로 살균했"
+"고, 안전하며 먹을 수 있습니다. 대기에 노출되었기에 상하기 시작했습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "The irradiated chicken main course from an MRE.  Sterilized using radiation, "
 "so it's safe to eat.  Exposed to the atmosphere, it has started to go bad."
 msgstr ""
+"방사선에 조사된 닭고기 메인 코스요리로 MRE에서 나왔습니다. 방사선으로 살균했"
+"고, 안전하며 먹을 수 있습니다. 대기에 노출되었기에 상하기 시작했습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14381,6 +14675,8 @@ msgid ""
 "radiation, so it's safe to eat.  Exposed to the atmosphere, it has started "
 "to go bad."
 msgstr ""
+"방사선에 조사된 채식위주의 메인 코스요리로 MRE에서 나왔습니다. 방사선으로 살"
+"균했고, 안전하며 먹을 수 있습니다. 대기에 노출되었기에 상하기 시작했습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14388,6 +14684,9 @@ msgid ""
 "Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, "
 "it has started to go bad."
 msgstr ""
+"라비올리 MRE에서 나온 메인 코스요리로, 소스가 맛을 제대로 살려줍니다. 방사선"
+"으로 살균했고, 안전하며 먹을 수 있습니다. 대기에 노출되었기에 상하기 시작했습"
+"니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14410,6 +14709,8 @@ msgstr ""
 msgid ""
 "Thin paper tubes of sweet & sour candy powder.  Who thinks of this stuff?"
 msgstr ""
+"새콤달콤한 사탕 가루가 들어있는 얇은 종이 튜브입니다. 대체 누가 이걸 발명했을"
+"까요?"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Thin yellow vegetable oil used for cooking."
@@ -14453,6 +14754,8 @@ msgid ""
 "This fleshy root is ripe and flowing with sugars; just takes some processing "
 "to extract them."
 msgstr ""
+"이 두꺼운 뿌리식물은 당분을 함유하고 있기에 몇몇 공정을 거치면 설탕을 추출해"
+"낼 수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This fruit's large pit is surrounded by its tasty flesh."
@@ -14470,6 +14773,7 @@ msgstr ""
 msgid ""
 "This is a serving of crisply brined and canned fish.  Tasty and nutritious."
 msgstr ""
+"소금에 절인 생선을 통조림으로 만든 식품입니다. 맛있고 영양가가 높습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14493,6 +14797,8 @@ msgid ""
 "This is ammonium hydroxide, a common household cleaning agent.  It is highly "
 "unsafe to drink."
 msgstr ""
+"일반적으로 가정용 세척제로 사용되는 수산화암모늄입니다. 마시면 매우 위험합니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This is definitely not how grandma used to bake them."
@@ -14510,12 +14816,17 @@ msgid ""
 "has a strong but delicious aroma, but is clearly either mutated or of alien "
 "origin."
 msgstr ""
+"블루베리와 비슷해보이며, 크기는 주먹 정도입니다만, 색은 분홍빛이 돕니다. 맛있"
+"는 향기가 강하게 나지만, 이 열매는 분명히 변이된 것이거나 외계에서 왔을 겁니"
+"다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "This mushy pile of vegetable matter was boiled and canned in an earlier "
 "life.  Better eat it before it oozes through your fingers."
 msgstr ""
+"세계가 멸망하기 전에 삶아서 통조림으로 만들어진, 야채 먹거리입니다. 썩기 전"
+"에 먹는게 좋습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14523,6 +14834,9 @@ msgid ""
 "NUCLEAR brewing cycle.  Every possible microgram of caffeine and flavor has "
 "been carefully extracted for your enjoyment, using the power of the atom."
 msgstr ""
+"이 커피 한 잔은 원자력 커피 포트의 풀 뉴클리어 브류잉 사이클을 이용하여 만들"
+"어졌습니다. 최대한 줄인 마이크로그램 단위의 카페인과 깊은 풍미는 원자의 힘을 "
+"사용하여 당신의 즐거움을 위해 신중을 기해서 추출하였습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "This yellow cornmeal is useful for baking."
@@ -14541,7 +14855,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Tomato sauce, yum yum."
-msgstr "토마토 소스 입니다. 얌 얌."
+msgstr "토마토 소스입니다. 냠냠."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Under this pomegranate's spongy skin lies hundreds of fleshy seeds."
@@ -14641,17 +14955,20 @@ msgstr "야채가 주를 이룹니다. 맛있고 영양가가 높습니다."
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Vegetable that looks poisonous.  You could eat it, but it will poison you."
-msgstr ""
+msgstr "독성이 있어 보이는 야채류입니다. 먹을 수는 있지만, 중독될 겁니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Very sour citrus.  Can be eaten if you really want."
 msgstr ""
+"매우 시큼한 감귤류 과일입니다. 꼭 먹어야만 하겠다면 먹을 수는 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Water collected during an acid rainstorm.  Don't drink it.  Boiling it "
 "concentrates the acid."
 msgstr ""
+"산성비가 내리는 동안에 수집되었습니다. 마시지 마세요. 끓여서 산성액으로 만들 "
+"수 있습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Water with salt added.  Not good for drinking."
@@ -14734,6 +15051,8 @@ msgid ""
 "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat "
 "and cooking, though."
 msgstr ""
+"웩! 이걸 그냥 먹고 싶지는 않을 것입니다. 음식을 요리하거나 보존할 때 사용하"
+"면 좋습니다."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "acid water"
@@ -15002,7 +15321,7 @@ msgstr[0] "브랜디(brandy)"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "brat bologna"
 msgid_plural "brat bolognas"
-msgstr[0] "브랫 볼로냐 소시지(brat bologna)"
+msgstr[0] "인육 볼로냐 소시지(brat bologna)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "bread"
@@ -15197,8 +15516,7 @@ msgstr[0] "씹는 담배(chewing tobacco)"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chewy candy"
 msgid_plural "chewy candies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "츄잉캔디(chewy candy)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chicken and dumplings"
@@ -15248,13 +15566,12 @@ msgstr[0] "키틴질 가루(chitin powder)"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chocolate bar"
 msgid_plural "chocolate bars"
-msgstr[0] "초콜렛 바(chocolate bar)"
+msgstr[0] "초콜릿 바(chocolate bar)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chocolate candy"
 msgid_plural "chocolate candies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "초콜릿 캔디(candy)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chocolate covered pretzels"
@@ -15792,6 +16109,12 @@ msgid_plural "granolas"
 msgstr[0] "그래놀라(granola)"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "grape"
+msgid_plural "grapes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "grape drink"
 msgid_plural "grape drinks"
 msgstr[0] "포도 음료수(grape drink)"
@@ -15800,11 +16123,6 @@ msgstr[0] "포도 음료수(grape drink)"
 msgid "grapefruit"
 msgid_plural "grapefruits"
 msgstr[0] "자몽(grapefruit)"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "grapes"
-msgid_plural "grapes"
-msgstr[0] "포도(grapes)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "hamburger"
@@ -16123,6 +16441,12 @@ msgid_plural "lettuces"
 msgstr[0] "상추(lettuce)"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "liquid fertilizer"
+msgid_plural "liquid fertilizer"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "lizard mutagen"
 msgid_plural "lizard mutagens"
 msgstr[0] "파충류 뮤타젠(lizard mutagen)"
@@ -16421,18 +16745,17 @@ msgstr[0] "복숭아(peach)"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peanut butter"
 msgid_plural "peanut butters"
-msgstr[0] "땅콩 버터(peanut butter)"
+msgstr[0] "땅콩버터(peanut butter)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peanut butter candy"
 msgid_plural "peanut butter candies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "땅콩버터 사탕(candy)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peanut butter sandwich"
 msgid_plural "peanut butter sandwiches"
-msgstr[0] "땅콩 버터 샌드위치(peanut butter sandwich)"
+msgstr[0] "땅콩버터 샌드위치(peanut butter sandwich)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pear"
@@ -16498,11 +16821,6 @@ msgstr[0] "분홍 알약(pink tablet)"
 msgid "pinot noir"
 msgid_plural "pinot noirs"
 msgstr[0] "피노 누아(pinot noir)"
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "plant food"
-msgid_plural "plant food"
-msgstr[0] "비료(plant food)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "plant marrow"
@@ -18385,7 +18703,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A smallish patch of leather, could be used to make tough clothing."
-msgstr "작은 가죽 조각 입니다. 거친 옷을 만들 때 사용할 수 있습니다."
+msgstr "작은 가죽 조각입니다. 거친 옷을 만들 때 사용할 수 있습니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -19028,6 +19346,9 @@ msgid ""
 "It looks like the preferred weapon of gentlemen and swashbucklers.  Light "
 "and quick, it makes any battle a stylish battle."
 msgstr ""
+"화려하게 장식된 핸드가드가 달린 얇은 검의 무디고 저렴한 모형입니다. 허세부리"
+"길 좋아하는 사람이나 신사가 선호하는 무기입니다. 가볍고 빠른 무기로, 어떤 전"
+"투라도 우아하게 바꿔줄 것입니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -19042,12 +19363,16 @@ msgid ""
 "This is a dull, cheap replica of the more common wakizashi.  Smaller and "
 "lighter than a katana, but still effective in combat."
 msgstr ""
+"일반적인 와키자시의 무디고 저렴한 모형입니다. 일본도보다 작고 가볍지만, 여전"
+"히 전투에 효과적입니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "This is a dull, cheaply made replica of a huge two-handed sword from "
 "Germany.  It still packs a whallop."
 msgstr ""
+"독일에서 전래된 거대한 양손검을 본떠 만든 무디고 저렴한 모형입니다. 모형이지"
+"만 타격력은 실물과 마찬가지입니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -19064,6 +19389,8 @@ msgid ""
 "the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the "
 "slimmer rapiers."
 msgstr ""
+"근대 초기, 즉 16~18세기까지 사용되었던 검의 무디고 저렴한 모형입니다. '넓다"
+"(Broad)'라는 말은 얇은 레이피어에 비해서 넓다는 의미입니다."
 
 #: lang/json/GENERIC_from_json.py
 msgid "This is a spent magnesium flare.  It is essentially trash."
@@ -20516,7 +20843,7 @@ msgid ""
 msgstr ""
 "총구 윗부분에 가스 배출구를 내어, 사격시 총구 들림 현상을 완화시키는 부품입니"
 "다. 반동이 개선되지만 소음이 증가하고 정확도가 약간 감소합니다.\r\n"
-"(역주 : 정확하게는 컴펜세이터가 아니지만, 비슷하기 때문에 사용했습니다)"
+"(역주: 정확하게는 컴펜세이터가 아니지만, 비슷하기 때문에 사용했습니다.)"
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -22112,8 +22439,12 @@ msgstr[0] "PPSH-41"
 msgid ""
 "Popular among children.  It's fairly accurate, but BBs deal nearly no damage."
 msgstr ""
-"아이들 사이에서 유명한 물건입니다. 꽤 정확하지만, BB탄은 거의 피해를 주지 못"
-"합니다."
+"아이들에게 인기 있는 물건입니다. 상당히 정확하지만, BB탄은 피해를 거의 주지 "
+"못합니다.\r\n"
+"(역주: 미국에서 사용하는 BB탄 총은 상당히 강력한 편입니다. 애초에 한국이나 일"
+"본 등지에서 말하는 BB탄 총과는 다른 부류로, 금속 BB탄을 사용합니다. 보통 한국"
+"에서 BB탄 총이라고 말하는 것의 정확한 명칭은 '에어소프트건'이며, 진짜 BB탄 총"
+"에 비해 월등히 약한 편입니다.)"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -22294,6 +22625,12 @@ msgid_plural "TX-5LR Laser Cannons"
 msgstr[0] "TX-5LR 레이저 캐논(Laser Cannon)"
 
 #: lang/json/GUN_from_json.py
+msgid "Tankbot Main Gun"
+msgid_plural "Tankbot Main Gun"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
 msgid "Taurus Pro .38"
 msgid_plural "Taurus Pro .38"
 msgstr[0] "타우러스 프로 .38(Taurus Pro)"
@@ -22302,6 +22639,11 @@ msgstr[0] "타우러스 프로 .38(Taurus Pro)"
 msgid "Taurus Raging Bull"
 msgid_plural "Taurus Raging Bull"
 msgstr[0] "타우러스 레이징 불(Taurus Bull)"
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!"
+msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -24386,6 +24728,14 @@ msgstr "몸 전체가 부풀어오른 근육과 상처로 가득한 인간 형�
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
+"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel "
+"rifle.  Credited with forestalling countless car-bombing attempts, it has "
+"always been kept under extremely tight control, so as to itself maintain "
+"extremely tight control of its area.  And then the Cataclysm struck."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
 "Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General "
 "Atomics' TX-1 9mm model and an automated M4 carbine."
 msgstr ""
@@ -24640,24 +24990,19 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a "
-"pair of reverse-jointed legs.  Armed with a 40 mm Bofors gun, it is an "
-"effective automated sentry, though production was limited due to a legal "
-"dispute."
+"pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade "
+"launcher, 5.56 anti-personnel gun, and the ability to electrify itself "
+"against attackers, it is an effective automated sentry, though production "
+"was limited due to a legal dispute."
 msgstr ""
-"역관절인 두 다리로 걸어다니는 Northrop ATSV 모델 중장갑 로봇입니다. 40mm "
-"Bofors 총기류로 무장하고 있으며, 효과적인 자동 보초병이지만 법률 상의 갈등으"
-"로 인해 많이 생산되지 못했습니다."
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"The Northrop Emancipator is the first and only model of automated tank, made "
-"shortly after the split-up of Northrup Grumman.  Clad in depleted uranium "
-"plating, and armed with advanced munitions and a 120-mm gun, it is capable "
-"of delivering extraordinary firepower."
+"The Northrop Emancipator is the first and only automated tank ever produced, "
+"made shortly after the split-up of Northrup Grumman.  Clad in depleted "
+"uranium plating, and armed with advanced munitions and a 120-mm gun, it is "
+"capable of delivering extraordinary firepower."
 msgstr ""
-"이 Northrop Emancipator 모델은 처음이자 마지막 자동형 전차로, Northrup "
-"Grumman 모델의 분리 이후 만들어졌습니다. 우라늄 장갑과 고급 군수 장비, 그리"
-"고 120mm 구경을 사용하는 총기로 무장한 최강의 로봇입니다."
 
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -24968,6 +25313,12 @@ msgstr[0] "아메바(amoebic mold)"
 msgid "ant larva"
 msgid_plural "ant larvas"
 msgstr[0] "개미 유충(ant larva)"
+
+#: lang/json/MONSTER_from_json.py
+msgid "antimateriel turret"
+msgid_plural "antimateriel turrets"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bat"
@@ -25977,6 +26328,8 @@ msgid ""
 "A blanket made of space-age material that covers your most important body "
 "parts.  Use it to fold for storage."
 msgstr ""
+"우주 시대 재료로 만들어진 담요로 중요 신체 부위를 덮을 수 있습니다. 사용하면 "
+"보관하기 쉽게 접습니다."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -26026,6 +26379,7 @@ msgstr ""
 msgid ""
 "A lightweight plastic rain poncho with a hood.  Use it to fold for storage."
 msgstr ""
+"후드가 달린 경량형 비닐 판초 우의입니다. 사용하면 보관하기 쉽게 접습니다."
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -26476,12 +26830,15 @@ msgid ""
 "A folded blanket made of space-age materials that covers your most important "
 "body parts.  Use it to unfold for use."
 msgstr ""
+"우주 시대 재료로 만들어진 담요로 중요 신체 부위를 덮을 수 있으며, 접혀져 있습"
+"니다. 사용하면 펼칩니다."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
 "A folded lightweight plastic rain poncho with a hood.  Use it to unfold for "
 "use."
 msgstr ""
+"후드가 달린 경량형 비닐 판초 우의로 접혀져 있습니다. 사용하면 펼칩니다."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -26605,6 +26962,12 @@ msgid ""
 "A self-contained camping mess kit, containing everything you might need for "
 "wilderness cooking. This model relies on a battery-operated hotplate, rather "
 "than the more commonplace chemical-fueled Esbit stove."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A sharp, knife-like tool used in harvesting honey from beehives. Makes a "
+"passable melee weapon."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -27355,6 +27718,8 @@ msgid ""
 "This is a dull, cheaply made replica of a huge, curved, two-handed sword "
 "from Japan.  It is surprisingly light for its size."
 msgstr ""
+"일본에서 온 거대하고 구부러진 양손검을 본떠 만든 무디고 저렴한 모형입니다. "
+"그 크기에 비하면 놀라울 정도로 가볍습니다."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -27534,6 +27899,8 @@ msgid ""
 "it's not THAT hot, but getting hit with it still stings like the dickens.  "
 "Use to shut off the gas."
 msgstr ""
+"태양과도 같은 열기를 내뿜는 불붙은 일본도입니다. 아, 물론 태양 수준의 열기를 "
+"내뿜는건 아니지만, 명중하면 적에게 상당한 피해를 줍니다."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -28411,6 +28778,8 @@ msgid ""
 "This is an early modern sword seeing use in the 16th, 17th, and 18th "
 "centuries.  Called 'broad' to contrast with the slimmer rapiers."
 msgstr ""
+"근대 초기, 즉 16~18세기까지 사용되었던 검입니다. '넓다(Broad)'라는 말은 얇은 "
+"레이피어에 비해서 넓다는 의미입니다."
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -29521,6 +29890,12 @@ msgid_plural "hoes"
 msgstr[0] "괭이(hoe)"
 
 #: lang/json/TOOL_from_json.py
+msgid "honey scraper"
+msgid_plural "honey scrapers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "hotplate"
 msgid_plural "hotplates"
 msgstr[0] "핫플레이트(hotplate)"
@@ -30451,6 +30826,14 @@ msgstr "넓은 군용 바퀴입니다."
 msgid "A wide wheel.  \\o/ This wide."
 msgstr ""
 
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "A wooden cart wheel with medal bands for durability, hand made."
+msgstr ""
+
+#: lang/json/VAR_VEH_PART_from_json.py
+msgid "A wooden cart wheel, hand made."
+msgstr ""
+
 #: lang/json/VAR_VEH_PART_from_json.py lang/json/vehicle_part_from_json.py
 msgid "Inline-4 engine"
 msgid_plural "Inline-4 engines"
@@ -30480,6 +30863,12 @@ msgstr[0] "8-기통 엔진(V8 engine)"
 msgid "armored wheel"
 msgid_plural "armored wheels"
 msgstr[0] "장갑차 바퀴(armored wheel)"
+
+#: lang/json/VAR_VEH_PART_from_json.py lang/json/vehicle_part_from_json.py
+msgid "banded wooden cart wheel"
+msgid_plural "banded wooden cart wheels"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/VAR_VEH_PART_from_json.py lang/json/vehicle_part_from_json.py
 msgid "bicycle wheel"
@@ -30533,6 +30922,12 @@ msgstr[0] "바퀴(wheel)"
 msgid "wide wheel"
 msgid_plural "wide wheels"
 msgstr[0] "넓은 바퀴(wide wheel)"
+
+#: lang/json/VAR_VEH_PART_from_json.py lang/json/vehicle_part_from_json.py
+msgid "wooden cart wheel"
+msgid_plural "wooden cart wheels"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid ".20 DREAD Pellets"
@@ -31378,12 +31773,24 @@ msgid "Board Up Broken Window Frame"
 msgstr "부서진 창틀 덧대기"
 
 #: lang/json/construction_from_json.py
+msgid "Board Up Damaged Door"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Board Up Damaged Reinforced Door"
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Board Up Door"
 msgstr "문 덧대기"
 
 #: lang/json/construction_from_json.py
 msgid "Board Up Empty Window"
 msgstr "빈 창문에 나무판 덧대기"
+
+#: lang/json/construction_from_json.py
+msgid "Board Up Reinforced Door"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Board Up Window"
@@ -33014,6 +33421,11 @@ msgstr "계산대"
 msgid "crate"
 msgstr "상자"
 
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: src/iuse.cpp
+msgid "crunch!"
+msgstr "우지끈!"
+
 #: lang/json/furniture_from_json.py
 msgid "cupboard"
 msgstr "찬장"
@@ -34118,6 +34530,10 @@ msgid "Change gender"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Change sorting mode"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Change tire"
 msgstr ""
 
@@ -34374,6 +34790,18 @@ msgid "Move View West"
 msgstr "시점 이동-서쪽"
 
 #: lang/json/keybinding_from_json.py
+msgid "Move all items"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Move item"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Move item stack"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Move rule down"
 msgstr ""
 
@@ -34578,6 +35006,62 @@ msgid "Select armor for moving"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Select items @ East"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ North"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ North-East"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ North-West"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ South"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ South-East"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ South-West"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ West"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ all 9 fields"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items @ center"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items in container"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select items in inventory"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select left inventory"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Select right inventory"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Select shape"
 msgstr ""
 
@@ -34646,6 +35130,10 @@ msgid "Toggle Auto-Safemode"
 msgstr "안전 모드 자동실행 토글하기"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle Blinking"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle Debug Messages"
 msgstr "디버그 메시지 토글하기"
 
@@ -34656,6 +35144,10 @@ msgstr "빠른 스크롤으로 전환"
 #: lang/json/keybinding_from_json.py
 msgid "Toggle Fullscreen mode"
 msgstr "전체화면 모드 전환"
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle Overlays"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle Safemode"
@@ -34670,7 +35162,15 @@ msgid "Toggle attack mode of Wielded Item"
 msgstr "장비한 물품의 공격모드 토글"
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle auto-pickup for item"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle category selection mode"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle tab"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -34957,6 +35457,14 @@ msgid ""
 msgstr ""
 "실험 피험체 T3D의 방사선 노출은 내부 XE037 축적의 촉진과 일시적으로 포유류 정"
 "체 상태를 해제한다고 나타났습니다."
+
+#: lang/json/lab_note_from_json.py
+msgid ""
+"General Carlsberg wanted us to figure out what's going on with the bot AI.  "
+"Apparently the fat-cat defense contractors' toy tank has ranging issues or "
+"something: 31-34 meters and it's apparently impotent.  The Director sent 'em "
+"back with a note that we're scientists, not firmware devs."
+msgstr ""
 
 #: lang/json/lab_note_from_json.py
 msgid ""
@@ -36443,6 +36951,10 @@ msgid "Bat Wings"
 msgstr "박쥐 날개"
 
 #: lang/json/mutation_from_json.py
+msgid "Be vewwy vewwy quiet.  We're hunting bugs."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Beak"
 msgstr "부리"
 
@@ -36575,7 +37087,23 @@ msgid "Deadened"
 msgstr "통증 무감각"
 
 #: lang/json/mutation_from_json.py
+msgid "Debug Deodorizer"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Debug HVAC"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Debug Invisibility"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Debug Life Support"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Debug Silent Walk"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -36935,6 +37463,12 @@ msgstr "쉭쉭거리는 목소리"
 #: lang/json/mutation_from_json.py src/player.cpp
 msgid "Hoarder"
 msgstr "저장 강박증"
+
+#: lang/json/mutation_from_json.py
+msgid ""
+"Holds hunger, thirst, and fatigue stable.  You can debug all year long with "
+"this one!"
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Hollow Bones"
@@ -37695,6 +38229,10 @@ msgid "Smart"
 msgstr "지능"
 
 #: lang/json/mutation_from_json.py
+msgid "Smell that bug?  Smell's certainly not coming from you!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Smelly"
 msgstr "냄새남"
 
@@ -37856,6 +38394,10 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid "Tail Fin"
 msgstr "지느러미 꼬리"
+
+#: lang/json/mutation_from_json.py
+msgid "Temperature and weather won't bug you."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Tentacle Arms"
@@ -41044,6 +41586,16 @@ msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
+msgid "Beekeeper"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Beekeeper"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
 msgid "Biker"
 msgstr ""
 
@@ -41885,6 +42437,16 @@ msgid "Razor Girl"
 msgstr ""
 
 #: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Roller Derby Player"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Roller Derby Player"
+msgstr ""
+
+#: lang/json/professions_from_json.py
 msgctxt "profession_male"
 msgid "Rude Boy"
 msgstr ""
@@ -42390,6 +42952,24 @@ msgid ""
 "skills to save your life."
 msgstr ""
 
+#. ~ Profession (female Beekeeper) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You used to be a professional beekeeper. You had to abandon your precious "
+"bees when the cataclysm struck, but at least you managed to grab some "
+"utensils and honey."
+msgstr ""
+
+#. ~ Profession (male Beekeeper) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You used to be a professional beekeeper. You had to abandon your precious "
+"bees when the cataclysm struck, but at least you managed to grab some "
+"utensils and honey."
+msgstr ""
+
 #. ~ Profession (female Fast Food Cook) description
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
@@ -42576,6 +43156,26 @@ msgid ""
 "You were going through your community college's metalsmithing program when "
 "the world ended.  You ran into trouble coming out of class - but managed to "
 "keep ahold of the equipment you were carrying at the time."
+msgstr ""
+
+#. ~ Profession (female Roller Derby Player) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were hell on wheels prior to the apocalypse.  Now the rest of your team "
+"is dead, and you probably wouldn't have lived this long if not for your "
+"penchant for high-speed violence.  Things are looking grim; how long can you "
+"race laps around the undead before you get blocked for good?"
+msgstr ""
+
+#. ~ Profession (male Roller Derby Player) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were hell on wheels prior to the apocalypse.  Now the rest of your team "
+"is dead, and you probably wouldn't have lived this long if not for your "
+"penchant for high-speed violence.  Things are looking grim; how long can you "
+"race laps around the undead before you get blocked for good?"
 msgstr ""
 
 #. ~ Profession (female Shower Victim) description
@@ -43484,6 +44084,13 @@ msgid ""
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid ""
+"\"One of those robot tanks was blocking the way out.  Got some sort of "
+"sweetspot, though, where it can't decide what to shoot with, maybe 30 yards "
+"or so?  Made it to the truck and just drove.\""
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "\"PINK TALL ONES RUN RUN RUN RUN RUN\""
 msgstr ""
 
@@ -43884,6 +44491,19 @@ msgstr ""
 "리브텍 브랜드 소총 광고입니다. 웃고 있는 군인이 멋져보이는 소총을 어깨에 매"
 "고 보는 사람에게 경례를 하고 있습니다. \"리브텍 무탄피 총기는 우리 군을 지원"
 "하는 것이 자랑스럽습니다!\" 라고 쓰여져 있습니다."
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"This is an advertisement for Rivtech's 'ATOMIC POWER THIRST' energy drink.  "
+"While intended to advertise a new flavor called Isotope RU-238 'FRUIT', most "
+"of the text is dedicated to a long list of possible side effects: anxiety, "
+"insomnia, severe insomnia, dizziness, tremors, nausea, headache, vomiting, "
+"delusions, hallucinations, rhabdomyolysis, internal burns, thyroid cancer, "
+"extensive internal bleeding, upper gastrointestinal bleeding, diarrhea, "
+"cardiac dysrhythmia, cardiovascular collapse, suicidal ideation, seizures, "
+"ataxia, amnesia, mania, stroke, neurodegeneration, malignalitaloptereosis, "
+"necrotizing fasciitis, recurrent flu, and pinkeye."
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -46349,8 +46969,20 @@ msgid "blueberry bush"
 msgstr "블루베리 덤불"
 
 #: lang/json/terrain_from_json.py
+msgid "boarded up damaged door"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "boarded up damaged reinforced door"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "boarded up door"
 msgstr "판자로 막은 문"
+
+#: lang/json/terrain_from_json.py
+msgid "boarded up reinforced door"
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "boarded up window"
@@ -46479,10 +47111,6 @@ msgstr ""
 #: lang/json/terrain_from_json.py src/map.cpp src/vehicle.cpp
 msgid "crash!"
 msgstr "꽈지직!"
-
-#: lang/json/terrain_from_json.py src/iuse.cpp
-msgid "crunch!"
-msgstr "우지끈!"
 
 #: lang/json/terrain_from_json.py
 msgid "crunch."
@@ -48326,17 +48954,8 @@ msgid "%s is too heavy."
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid ""
-"1-9 to select square for active tab, 0 for inventory, D for dragged item,"
-msgstr "[숫자키]현재 탭의 선택된 칸을 변경, [0]인벤토리, [D]붙잡은 차량 선택,"
-
-#: src/advanced_inv.cpp
 msgid "< [?] show help >"
 msgstr "< [?] 도움말 >"
-
-#: src/advanced_inv.cpp
-msgid "< [?] show log >"
-msgstr "< [?] 기록 보기 >"
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -48532,14 +49151,6 @@ msgid "[down / page down] next"
 msgstr "[down / page down] 다음"
 
 #: src/advanced_inv.cpp
-msgid "[e]xamine, [s]ort, toggle auto[p]ickup, [,] to move all items, [q]uit."
-msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "[space] toggles selection modes."
-msgstr "[space] 선택 모드 전환"
-
-#: src/advanced_inv.cpp
 msgid "[up / page up] previous"
 msgstr "[up / page up] 이전"
 
@@ -48559,12 +49170,6 @@ msgstr "충전량"
 #: src/advanced_inv.cpp
 msgid "damage"
 msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "hjkl or arrow keys to move cursor, [m]ove item between panes ([M]: all)"
-msgstr ""
-"hjkl키와 방향키로 커서를 이동, [m]반대쪽 탭으로 물건 이동 ([M]: 선택한 물품 "
-"한번에 이동)"
 
 #: src/advanced_inv.cpp
 msgid "name"
@@ -48603,7 +49208,7 @@ msgstr "<empty>"
 msgid "<more>"
 msgstr "<more>"
 
-#: src/armor_layers.cpp src/options.cpp
+#: src/armor_layers.cpp src/construction.cpp src/options.cpp
 msgid "All"
 msgstr "전부"
 
@@ -50293,7 +50898,7 @@ msgid ""
 "  samples from each operational leache system to the following\n"
 "  addresses:\n"
 "  \n"
-"  CDC Bioterrism Lab \n"
+"  CDC Bioterrorism Lab \n"
 "  Building 10\n"
 "  Corporate Square Boulevard\n"
 "  Atlanta, GA 30329\n"
@@ -50306,27 +50911,6 @@ msgid ""
 "  incompetencies will result in charges of Federal Corruption\n"
 "  and potentially Treason.\n"
 msgstr ""
-"\n"
-"  제목: EPA: 모든 돌파 가능성이 있는 봉쇄구역은 보고하시오 3873643\n"
-"  받는이: 모든 SRCF 관계자\n"
-"  보낸이:  로버트 셰인, EPA 책임자\n"
-"  \n"
-"  모든 유해 폐기물 매립지와 석관은 각각의 가동 중인 침출\n"
-"  시스템에서 아래 주소로 세 개의 표본을 제출해야 합니다.\n"
-"  주소:\n"
-"  \n"
-"  CDC 생물 테러 연구소 \n"
-"  10번 건물\n"
-"  코퍼레이트 스퀘어 대로\n"
-"  애틀랜타, 조지아 30329\n"
-"  \n"
-"  EPA 구역 8 연구실\n"
-"  16194 W. 45번 도로\n"
-"  골든, 콜로라도 80403\n"
-"  \n"
-"  이 표본들은 정확해야하고 잘못을 덮고자 손을 대서는 안되며\n"
-"  만일 표본에 손을 댈 경우 연방 수사국에 기소될 것이며\n"
-"  어쩌면 반역죄를 뒤집어 쓸지도 모름.\n"
 
 #: src/computer.cpp
 msgid ""
@@ -51127,7 +51711,7 @@ msgstr ""
 msgid "The console shuts down."
 msgstr "콘솔이 작동을 멈췄습니다."
 
-#: src/computer.cpp src/field.cpp
+#: src/computer.cpp src/field.cpp src/iuse.cpp
 msgid "The electricity flows around you."
 msgstr "전기가 몸 주변을 흐릅니다."
 
@@ -51157,7 +51741,7 @@ msgstr ""
 "경고: 해당 노드에서 변칙적인 접속 시도가 감지되었습니다. 아무 키나 눌러주세"
 "요..."
 
-#: src/computer.cpp src/field.cpp
+#: src/computer.cpp src/field.cpp src/iuse.cpp
 msgid "Your armor safely grounds the electrical discharge."
 msgstr ""
 
@@ -51177,10 +51761,22 @@ msgstr ""
 msgid "Construct where?"
 msgstr ""
 
+#: src/construction.cpp
+msgid "Constructions"
+msgstr ""
+
+#: src/construction.cpp
+msgid "Decorative"
+msgstr ""
+
 #: src/construction.cpp src/crafting.cpp
 #, c-format
 msgid "Difficulty: %d"
 msgstr "난이도 : %d"
+
+#: src/construction.cpp
+msgid "Digging and Mining"
+msgstr ""
 
 #: src/construction.cpp
 msgctxt "memorial_female"
@@ -51195,6 +51791,14 @@ msgstr ""
 #: src/construction.cpp src/veh_interact.cpp
 msgid "Enter new vehicle name:"
 msgstr "차량의 새로운 이름을 입력하세요:"
+
+#: src/construction.cpp
+msgid "Farming and Woodcutting"
+msgstr ""
+
+#: src/construction.cpp
+msgid "Furniture"
+msgstr ""
 
 #: src/construction.cpp
 msgid "Lashing your lumber together, you make a stable platform."
@@ -51223,6 +51827,18 @@ msgid "Move cursor up"
 msgstr ""
 
 #: src/construction.cpp
+msgid "Move tab left"
+msgstr ""
+
+#: src/construction.cpp
+msgid "Move tab right"
+msgstr ""
+
+#: src/construction.cpp
+msgid "Others"
+msgstr ""
+
+#: src/construction.cpp
 #, c-format
 msgid "Press %s to toggle unavailable constructions."
 msgstr ""
@@ -51235,6 +51851,14 @@ msgstr ""
 #: src/construction.cpp
 msgid "Press a direction for the tree to fall in:"
 msgstr "나무를 넘어뜨릴 방향을 눌러주세요."
+
+#: src/construction.cpp
+msgid "Reinforcing"
+msgstr ""
+
+#: src/construction.cpp
+msgid "Repairing"
+msgstr ""
 
 #: src/construction.cpp
 #, c-format
@@ -51610,8 +52234,8 @@ msgstr "원거리무기"
 
 #: src/crafting.cpp
 #, c-format
-msgid "Really disassemble your %s?"
-msgstr "정말 %s을(를) 분해하시겠습니까?"
+msgid "Really disassemble the %s?"
+msgstr ""
 
 #: src/crafting.cpp
 #, c-format
@@ -57695,11 +58319,6 @@ msgid "Really attack %s?"
 msgstr "정말로 %s을(를) 공격합니까?"
 
 #: src/game.cpp
-#, c-format
-msgid "Really disassemble the %s?"
-msgstr ""
-
-#: src/game.cpp
 msgid "Really kill the zombie slave?"
 msgstr ""
 
@@ -58131,6 +58750,11 @@ msgstr "이 %s은(는) EMP블래스터의 영향을 받지 않았습니다."
 #, c-format
 msgid "The %s lets out a whirring noise and starts to follow you."
 msgstr "%s이(가) 윙윙거리는 소음을 내며 당신을 따라가기 시작합니다."
+
+#: src/game.cpp
+#, c-format
+msgid "The %s on your wrists spark briefly, then release your hands!"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -59747,7 +60371,7 @@ msgstr "새로 설정한 키는 "
 
 #: src/game.cpp
 msgid "new default binding is '^'."
-msgstr "새 지정은 '^' 입니다."
+msgstr "새 지정은 '^'입니다."
 
 #: src/game.cpp
 msgid "pistol"
@@ -60825,7 +61449,13 @@ msgid ""
 "To craft items, press %s. There are seven categories: Weapons, Ammo, Food, "
 "Chemicals, Electronics, Armor, and Other. In each major category are several "
 "smaller sub-categories. While a few items require no particular skill to "
-"create, the majority require you to have some knowledge:\n"
+"create, the majority require you to have some knowledge. Sometimes a skilled "
+"survivor will work out a given recipe from her or his knowledge of the "
+"skill, but more often you will need reference material, commonly a book of "
+"some sort. Reading such references gives a chance to memorize recipes "
+"outright, and you can also craft while referring to the book: just have it "
+"handy when crafting. Different knowledge is useful for different "
+"applications:\n"
 msgstr ""
 
 #: src/help.cpp
@@ -62247,6 +62877,10 @@ msgid "  fridge: "
 msgstr "  냉장: "
 
 #: src/item.cpp
+msgid " (cold)"
+msgstr ""
+
+#: src/item.cpp
 msgid " (fits)"
 msgstr " -몸에 맞음"
 
@@ -62497,6 +63131,11 @@ msgid "Dispersion: "
 msgstr "확산도 : "
 
 #: src/item.cpp
+#, c-format
+msgid "Dissasembing this item might yield %s"
+msgstr ""
+
+#: src/item.cpp
 msgid "Encumberment: "
 msgstr "방해율 : "
 
@@ -62533,7 +63172,8 @@ msgid "Location: "
 msgstr "장착 위치: "
 
 #: src/item.cpp
-msgid "Made from: "
+#, c-format
+msgid "Made from: %s"
 msgstr ""
 
 #: src/item.cpp
@@ -63881,10 +64521,6 @@ msgid "Ha-ha! An amusing cat photo."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Hammers can only remove boards from windows, doors and fences."
-msgstr "창문, 문, 울타리에 설치한 나무판은 망치가 있어야만 제거할 수 있습니다."
-
-#: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Hatched."
 msgstr "부화했습니다."
@@ -64184,6 +64820,10 @@ msgstr ""
 #: src/iuse.cpp
 msgid "OHOHOHOHOHOHOHOHO!"
 msgstr "오오오오오오오오오!"
+
+#: src/iuse.cpp
+msgid "Oddly enough, this doesn't taste so bad."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Oh, yeah! That's the stuff!"
@@ -64674,6 +65314,12 @@ msgstr "이 물에는 물고기가 살지 않습니다. 강에서 다시 시도�
 
 #: src/iuse.cpp
 #, c-format
+msgid ""
+"The %s crackle with electricity from your bionic, then come off your hands!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
 msgid "The %s flashes brightly!"
 msgstr "%s이(가) 밝게 번쩍입니다!"
 
@@ -64904,6 +65550,10 @@ msgstr "잠금 장치를 열려고 했지만, 장치가 닳아버렸습니다."
 #: src/iuse.cpp
 msgid "The manhack flies from your hand and surveys the area!"
 msgstr "맨핵이 당신의 손에서 날아올라 주변을 수색합니다!"
+
+#: src/iuse.cpp
+msgid "The meal is revitalizing."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "The medication does nothing to help the spasms."
@@ -65171,10 +65821,6 @@ msgstr ""
 #: src/iuse.cpp
 msgid "Time stands still."
 msgstr "시간은 그대로다."
-
-#: src/iuse.cpp
-msgid "To board up a window or door, press *"
-msgstr "문, 혹은 창문에 나무판을 설치하려면 * 키를 누르세요."
 
 #: src/iuse.cpp
 msgid "Torch something!"
@@ -71484,6 +72130,10 @@ msgid "He's brandishing a knife!"
 msgstr ""
 
 #: src/monattack.cpp
+msgid "Hostile detected."
+msgstr ""
+
+#: src/monattack.cpp
 msgid ""
 "If you do not understand these rights, an officer will explain them in "
 "greater detail when taking you into custody."
@@ -71498,6 +72148,10 @@ msgstr "더마틱 알에 감염되었습니다."
 msgctxt "memorial_male"
 msgid "Injected with dermatik eggs."
 msgstr "더마틱 알에 감염되었습니다."
+
+#: src/monattack.cpp
+msgid "Interdicting target."
+msgstr ""
 
 #: src/monattack.cpp
 msgid "Please stay in place, citizen, do not make any movements!"
@@ -71535,6 +72189,10 @@ msgid "Spores are released from the %s!"
 msgstr "포자가 %s에서 뿜어져나옵니다!"
 
 #: src/monattack.cpp
+msgid "Targeting."
+msgstr ""
+
+#: src/monattack.cpp
 msgid "The "
 msgstr ". "
 
@@ -71566,6 +72224,11 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s sinks its ovipositor into your %2$s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s aims and fires!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -71825,6 +72488,11 @@ msgstr "(%s) 어린 트리피드가 성장했습니다!"
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %s's 120mm cannon fires!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %s's barrel spins and fires!"
 msgstr "%s의 총열이 회전하면서 총탄을 발사합니다!"
 
@@ -71832,6 +72500,11 @@ msgstr "%s의 총열이 회전하면서 총탄을 발사합니다!"
 #, c-format
 msgid "The %s's barrel spins but nothing happens!"
 msgstr "%s의 총열이 회전했지만 아무 일도 일어나지 않았습니다!"
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s's grenade launcher fires!"
+msgstr ""
 
 #: src/monattack.cpp
 #, c-format
@@ -71918,6 +72591,11 @@ msgstr "발밑의 덤불이 자라나, %s을(를) 관통했습니다!"
 msgid "The zombie kicks your %1$s for %2$d damage..."
 msgstr ""
 
+#. ~Potential grenading detected.
+#: src/monattack.cpp
+msgid "Those laser dots don't seem very friendly..."
+msgstr ""
+
 #: src/monattack.cpp
 #, c-format
 msgid "Underbrush forms into a tree, and it pierces the %s!"
@@ -71929,6 +72607,11 @@ msgstr "얕은 덤불이 나무로 변해, %s을(를) 관통했습니다!"
 msgid "Underbrush grows into a tree, and it pierces %1$s's %2$s!"
 msgstr ""
 
+#. ~There will be a .50BMG shell sent at high speed to your location next turn.
+#: src/monattack.cpp
+msgid "Why is there a laser dot on your torso..?"
+msgstr ""
+
 #: src/monattack.cpp
 msgid ""
 "You are under arrest, citizen.  You have the right to remain silent.  If you "
@@ -71938,6 +72621,12 @@ msgstr ""
 
 #: src/monattack.cpp
 msgid "You deftly maintain your footing!"
+msgstr ""
+
+#: src/monattack.cpp
+msgid ""
+"You deftly slip out of the handcuffs just as the robot closes them.  The "
+"robot didn't seem to notice!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -72006,6 +72695,11 @@ msgstr "%s을(를) 들이받았습니다."
 #, c-format
 msgid "You swat at the %s with your tail!"
 msgstr "꼬리로 %s을(를) 때려잡았습니다!"
+
+#. ~ There will be a 120mm HEAT shell sent at high speed to your location next turn.
+#: src/monattack.cpp
+msgid "You're not sure why you've got a laser dot on you..."
+msgstr ""
 
 #: src/monattack.cpp
 msgid "You're shoved away as a fungal wall grows!"
@@ -72118,6 +72812,10 @@ msgstr ""
 msgid "but you grab its arm and flip it to the ground!"
 msgstr ""
 
+#: src/monattack.cpp
+msgid "clank!"
+msgstr ""
+
 #. ~ Sound of a riotbot using its blinding flash
 #: src/monattack.cpp
 msgid "fzzzzzt"
@@ -72126,6 +72824,11 @@ msgstr ""
 #: src/monattack.cpp
 msgid "thu-THUMP."
 msgstr "쿠-쿵."
+
+#. ~ Sound of a tank turret swiveling into place
+#: src/monattack.cpp
+msgid "whirrrrrclick."
+msgstr ""
 
 #. ~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it will be pluralized with a number of 100.
 #: src/mondeath.cpp
@@ -77728,6 +78431,14 @@ msgid " - Search"
 msgstr ""
 
 #: src/overmap.cpp
+msgid " - Toggle Blinking"
+msgstr ""
+
+#: src/overmap.cpp
+msgid " - Toggle Overlays"
+msgstr ""
+
+#: src/overmap.cpp
 msgid "# Unexplored"
 msgstr "# 조사되지 않음"
 
@@ -77805,9 +78516,9 @@ msgid ""
 "food, water, and bedding.  This is FEMA camp %d%d.  A designated long-term "
 "emergency shelter."
 msgstr ""
-"이곳은 FEMA 캠프 %d%d 입니다. 물자는 한정되어 있으니, 추가적인 식품, 음료, 잠"
-"자리를 가져오시기 바랍니다. 이곳은 FEMA 캠프 %d%d 입니다. 국가지정 지정 장기 "
-"피난처입니다."
+"이곳은 FEMA 캠프 %d%d입니다. 물자는 한정되어 있으니 추가적인 식품, 음료, 잠자"
+"리를 가져오시기 바랍니다. 이곳은 FEMA 캠프 %d%d입니다. 국가지정 지정 장기 피"
+"난처입니다."
 
 #: src/overmap.cpp
 #, c-format
@@ -77815,8 +78526,8 @@ msgid ""
 "This is automated emergency shelter beacon %d%d.  Supplies, amenities and "
 "shelter are stocked."
 msgstr ""
-"여기는 자동화 긴급 피난처 발신기 %d%d 입니다. 물자, 편의시설과 피난처가 있습"
-"니다."
+"여기는 자동화 긴급 피난처 발신기 %d%d입니다. 물자, 편의시설과 피난처가 있습니"
+"다."
 
 #: src/overmap.cpp
 #, c-format
@@ -77824,7 +78535,7 @@ msgid ""
 "This is emergency broadcast station %d%d.  Please proceed quickly and calmly "
 "to your designated evacuation point."
 msgstr ""
-"여기는 긴급 방송국 %d%d 입니다. 신속히 이동해서 지정된 피난처에 대기해주세요."
+"여기는 긴급 방송국 %d%d입니다. 신속히 이동해서 지정된 피난처에 대기해주세요."
 
 #: src/overmap.cpp
 msgid "Use movement keys to pan."
@@ -79179,6 +79890,11 @@ msgstr "%s은(는) 너무 작아서 당신의 거대한 신체에 맞지 않습�
 #, c-format
 msgid "The %s isn't as much fun now that you've finished it."
 msgstr "%s은(는) 그다지 재미있지 않았습니다."
+
+#: src/player.cpp
+#, c-format
+msgid "The %s seems to be affected by the discharge."
+msgstr ""
 
 #: src/player.cpp
 #, c-format

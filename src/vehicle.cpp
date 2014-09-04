@@ -1931,7 +1931,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
             int indf = (amnt / 20) % 5;
             mvwprintz(win, y + yofs, x + indf, fcs[i], "%c", fsyms[indf]);
             if (verbose) {
-                if (g->debugmon) {
+                if( debug_mode ) {
                     mvwprintz(win, y + yofs, x + 6, fcs[i], "%d/%d", fuel_left(fuel_types[i]), cap);
                 } else {
                     mvwprintz(win, y + yofs, x + 6, fcs[i], "%d", (fuel_left(fuel_types[i]) * 100) / cap);

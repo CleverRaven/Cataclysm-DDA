@@ -25,12 +25,14 @@ private:
     std::string _description_male;
     std::string _description_female;
     std::string _gender_req;
-    std::string _start_location;
     std::string _start_name;
+    std::string _default_loc;
     profession* _profession;
     std::set<std::string> _allowed_professions;
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
+    std::set<std::string> _forbidden_traits;
+    std::set<std::string> _allowed_locs;
     int _mission;
     std::vector<std::string> traits;
     int _point_cost;
@@ -49,7 +51,7 @@ public:
     //these three aren't meant for external use, but had to be made public regardless
     scenario();
     scenario(std::string ident, std::string name, std::string description);
-    scenario(std::string ident, std::string name, std::string description, std::string start_location, profession* prof, int mission);
+    scenario(std::string ident, std::string name, std::string description, int mission);
     static void load_scenario(JsonObject &jsobj);
 
     // these should be the only ways used to get at scenario
@@ -76,9 +78,12 @@ public:
     std::string gender_req() const;
     std::string start_location() const;
     std::string start_name() const;
+    profession* get_profession() const;
     bool profquery(const profession* proff) const;
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;
+    bool forbidden_traits(std::string trait) const;
+    bool allowed_start(std::string loc) const;
     int profsize() const;
     int mission() const;
     signed int point_cost() const;
@@ -95,7 +100,7 @@ public:
     bool has_flag(std::string flag) const;
 
     /**
-     * 
+     *
      */
     bool can_pick(int points) const;
 

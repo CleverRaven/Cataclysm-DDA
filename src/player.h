@@ -117,6 +117,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::unordered_set<std::string> get_traits() const;
         /** Empties the trait list */
         void empty_traits();
+        void add_traits();
         /** Returns the id of a random starting trait that costs >= 0 points */
         std::string random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
@@ -650,7 +651,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool wear_item(item *to_wear, bool interactive = true);
         /** Takes off an item, returning false on fail, if an item vector
          is given, stores the items in that vector and not in the inventory */
-        bool takeoff(int pos, bool autodrop = false, std::vector<item> *items = nullptr);
+        bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
+        bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
         /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
@@ -763,6 +765,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item remove_weapon();
         void remove_mission_items(int mission_id);
         item reduce_charges(int position, long quantity);
+        item reduce_charges(item *it, long quantity);
         item &i_at(int position);  // Returns the item with a given inventory position.
         item &i_of_type(itype_id type); // Returns the first item with this type
         /** Return the item position of the item with given invlet, return INT_MIN if
@@ -856,7 +859,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         point grab_point;
         object_type grab_type;
         player_activity activity;
-        player_activity backlog;
+        std::list<player_activity> backlog;
         // _missions vectors are of mission IDs
         std::vector<int> active_missions;
         std::vector<int> completed_missions;
@@ -867,7 +870,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string name;
         bool male;
         profession *prof;
-        
+
         std::string start_location;
 
         std::map<std::string, int> mutation_category_level;
@@ -994,7 +997,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::unordered_set<std::string> my_traits;
         std::unordered_set<std::string> my_mutations;
         std::vector<bionic> my_bionics;
-        std::vector<disease> illness;
+        std::list<disease> illness;
         bool underwater;
         trap_map known_traps;
 

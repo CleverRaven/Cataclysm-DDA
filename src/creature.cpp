@@ -531,40 +531,43 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {
+    // Apply damage multiplier from critical hits or grazes after all other modifications.
+    const int adjusted_damage = du.amount * du.damage_multiplier;
     switch (du.type) {
     case DT_BASH:
-        damage += du.amount;
-        pain += du.amount / 4; // add up pain before using mod_pain since certain traits modify that
+        damage += adjusted_damage;
+        // add up pain before using mod_pain since certain traits modify that
+        pain += adjusted_damage / 4;
         mod_moves(-rng(0, damage * 2)); // bashing damage reduces moves
         break;
     case DT_CUT:
-        damage += du.amount;
-        pain += (du.amount + sqrt(double(du.amount))) / 4;
+        damage += adjusted_damage;
+        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
         break;
     case DT_STAB: // stab differs from cut in that it ignores some armor
-        damage += du.amount;
-        pain += (du.amount + sqrt(double(du.amount))) / 4;
+        damage += adjusted_damage;
+        pain += (adjusted_damage + sqrt(double(adjusted_damage))) / 4;
         break;
     case DT_HEAT: // heat damage sets us on fire sometimes
-        damage += du.amount;
-        pain += du.amount / 4;
-        if (rng(0, 100) > (100 - 400 / (du.amount + 3))) {
+        damage += adjusted_damage;
+        pain += adjusted_damage / 4;
+        if (rng(0, 100) > (100 - 400 / (adjusted_damage + 3))) {
             add_effect("onfire", rng(1, 3));
         }
         break;
     case DT_ELECTRIC: // electrical damage slows us a lot
-        damage += du.amount;
-        pain += du.amount / 4;
-        mod_moves(-du.amount * 100);
+        damage += adjusted_damage;
+        pain += adjusted_damage / 4;
+        mod_moves(-adjusted_damage * 100);
         break;
     case DT_COLD: // cold damage slows us a bit and hurts less
-        damage += du.amount;
-        pain += du.amount / 6;
-        mod_moves(-du.amount * 80);
+        damage += adjusted_damage;
+        pain += adjusted_damage / 6;
+        mod_moves(-adjusted_damage * 80);
         break;
     default:
-        damage += du.amount;
-        pain += du.amount / 4;
+        damage += adjusted_damage;
+        pain += adjusted_damage / 4;
     }
 }
 
@@ -654,9 +657,7 @@ void Creature::process_effects()
     for( auto it = effects.begin(); it != effects.end(); ++it ) {
         if( !it->second.is_permanent() ) {
             it->second.mod_duration( -1 );
-            if (g->debugmon) {
-                debugmsg("Duration %d", it->second.get_duration());
-            }
+            add_msg( m_debug, "Duration %d", it->second.get_duration() );
         }
     }
     for( auto it = effects.begin(); it != effects.end(); ) {
@@ -693,9 +694,7 @@ void Creature::update_health(int base_threshold)
     }
     set_healthy_mod(get_healthy_mod() * 3 / 4);
 
-    if (g->debugmon) {
-        debugmsg("Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
-    }
+    add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
 }
 
 // Methods for setting/getting misc key/value pairs.
@@ -1186,11 +1185,9 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
         szdif = 1;
     }
 
-    if(g->debugmon) {
-        add_msg(m_info, "source size = %d", source->get_size());
-        add_msg(m_info, "target size = %d", get_size());
-        add_msg(m_info, "difference = %d", szdif);
-    }
+    add_msg( m_debug, "source size = %d", source->get_size() );
+    add_msg( m_debug, "target size = %d", get_size() );
+    add_msg( m_debug, "difference = %d", szdif );
 
     std::map<body_part, double> hit_weights = default_hit_weights[szdif];
     std::map<body_part, double>::iterator iter;
@@ -1214,15 +1211,13 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
 
     // Debug for seeing weights.
-    if(g->debugmon) {
-        add_msg(m_info, "eyes = %f", hit_weights.at(bp_eyes));
-        add_msg(m_info, "head = %f", hit_weights.at(bp_head));
-        add_msg(m_info, "torso = %f", hit_weights.at(bp_torso));
-        add_msg(m_info, "arm_l = %f", hit_weights.at(bp_arm_l));
-        add_msg(m_info, "arm_r = %f", hit_weights.at(bp_arm_r));
-        add_msg(m_info, "leg_l = %f", hit_weights.at(bp_leg_l));
-        add_msg(m_info, "leg_r = %f", hit_weights.at(bp_leg_r));
-    }
+    add_msg( m_debug, "eyes = %f", hit_weights.at( bp_eyes ) );
+    add_msg( m_debug, "head = %f", hit_weights.at( bp_head ) );
+    add_msg( m_debug, "torso = %f", hit_weights.at( bp_torso ) );
+    add_msg( m_debug, "arm_l = %f", hit_weights.at( bp_arm_l ) );
+    add_msg( m_debug, "arm_r = %f", hit_weights.at( bp_arm_r ) );
+    add_msg( m_debug, "leg_l = %f", hit_weights.at( bp_leg_l ) );
+    add_msg( m_debug, "leg_r = %f", hit_weights.at( bp_leg_r ) );
 
     double totalWeight = 0;
     std::set<std::pair<body_part, double>, weight_compare> adjusted_weights;

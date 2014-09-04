@@ -526,8 +526,9 @@ void player::fire_gun(int tarx, int tary, bool burst)
         int mtary = tary;
 
         int adjusted_damage = used_weapon->gun_damage();
+        int armor_penetration = used_weapon->gun_pierce();
 
-        proj.impact = damage_instance::physical(0, adjusted_damage, 0);
+        proj.impact = damage_instance::physical(0, adjusted_damage, 0, armor_penetration);
 
         double missed_by = projectile_attack(proj, mtarx, mtary, total_dispersion);
         if (missed_by <= .1) { // TODO: check head existence for headshot

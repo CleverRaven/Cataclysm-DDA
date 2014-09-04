@@ -56,6 +56,7 @@ class iexamine
         void flower_blubell (player *p, map *m, int examx, int examy);
         void flower_dahlia (player *p, map *m, int examx, int examy);
         void flower_datura (player *p, map *m, int examx, int examy);
+        void flower_dandelion (player *p, map *m, int examx, int examy);
         void egg_sackbw(player *p, map *m, int examx, int examy);
         void egg_sackws(player *p, map *m, int examx, int examy);
         void fungus (player *p, map *m, int examx, int examy);
@@ -64,6 +65,7 @@ class iexamine
         void pick_plant(player *p, map *m, int examx, int examy, std::string itemType, int new_ter,
                         bool seeds = false);
         void tree_apple (player *p, map *m, int examx, int examy);
+        void tree_pine (player *p, map *m, int examx, int examy);
         void shrub_blueberry (player *p, map *m, int examx, int examy);
         void shrub_strawberry (player *p, map *m, int examx, int examy);
         void shrub_marloss (player *p, map *m, int examx, int examy);

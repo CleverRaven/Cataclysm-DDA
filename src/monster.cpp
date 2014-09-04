@@ -651,9 +651,8 @@ bool monster::block_hit(Creature *, body_part &, damage_instance &) {
 
 void monster::absorb_hit(body_part, damage_instance &dam) {
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
-            it != dam.damage_units.end(); ++it) {
-        it->amount -= std::min(resistances(*this).get_effective_resist(*it),
-                it->amount);
+         it != dam.damage_units.end(); ++it) {
+        it->amount -= std::min(resistances(*this).get_effective_resist(*it), it->amount);
     }
 }
 

@@ -628,6 +628,7 @@ private:
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
+ void add_light_from_items( const int x, const int y, const std::vector<item> &items );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
  void forget_traps(int gridx, int gridy);
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
