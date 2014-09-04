@@ -49,6 +49,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "placement", placement );
     json.member( "values", values );
     json.member( "str_values", str_values );
+    json.member( "auto_resume", auto_resume );
     json.end_object();
 }
 
@@ -71,6 +72,7 @@ void player_activity::deserialize(JsonIn &jsin)
     data.read( "placement", placement );
     values = data.get_int_array("values");
     str_values = data.get_string_array("str_values");
+    data.read( "auto_resume", auto_resume );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

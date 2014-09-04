@@ -11138,9 +11138,9 @@ bool player::has_activity(const activity_type type) const
 
 void player::cancel_activity()
 {
-    // Clear any backlog items that can't resume.
+    // Clear any backlog items that aren't auto-resume.
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
-        if( backlog_item->is_suspendable() ) {
+        if( backlog_item->auto_resume ) {
             backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
