@@ -1744,6 +1744,127 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy)
     pick_plant(p, m, examx, examy, "apple", t_tree);
 }
 
+
+void iexamine::tree_pear(player *p, map *m, int examx, int examy)
+{
+    if (calendar::turn.get_season() == WINTER) {
+        add_msg( m_info, _("The tree is dormant and uninteresting."));
+        return;
+    }
+    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
+         (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
+        p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
+        add_msg(_("You find a flower and drink some nectar."));
+        p->hunger -= 15;
+    }
+    if (calendar::turn.get_season() != AUTUMN) {
+        add_msg( m_info, _("The fruits ripen in autumn."));
+        return;
+    }
+    if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    pick_plant(p, m, examx, examy, "pear", t_tree);
+}
+
+void iexamine::tree_cherry(player *p, map *m, int examx, int examy)
+{
+    if (calendar::turn.get_season() == WINTER) {
+        add_msg( m_info, _("The tree is dormant and uninteresting."));
+        return;
+    }
+    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
+         (calendar::turn.get_season() == AUTUMN || calendar::turn.get_season() == SPRING) ) {
+        p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
+        add_msg(_("You find a flower and drink some nectar."));
+        p->hunger -= 15;
+    }
+    if (calendar::turn.get_season() != SUMMER) {
+        add_msg( m_info, _("The fruits ripen in summer."));
+        return;
+    }
+    if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    pick_plant(p, m, examx, examy, "cherries", t_tree);
+}
+
+void iexamine::tree_peach(player *p, map *m, int examx, int examy)
+{
+    if (calendar::turn.get_season() == WINTER) {
+        add_msg( m_info, _("The tree is dormant and uninteresting."));
+        return;
+    }
+    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
+         (calendar::turn.get_season() == AUTUMN || calendar::turn.get_season() == SPRING) ) {
+        p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
+        add_msg(_("You find a flower and drink some nectar."));
+        p->hunger -= 15;
+    }
+    if (calendar::turn.get_season() != SUMMER) {
+        add_msg( m_info, _("The fruits ripen in summer."));
+        return;
+    }
+    if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    pick_plant(p, m, examx, examy, "peach", t_tree);
+}
+
+void iexamine::tree_apricot(player *p, map *m, int examx, int examy)
+{
+    if (calendar::turn.get_season() == WINTER) {
+        add_msg( m_info, _("The tree is dormant and uninteresting."));
+        return;
+    }
+    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
+         (calendar::turn.get_season() == AUTUMN || calendar::turn.get_season() == SPRING) ) {
+        p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
+        add_msg(_("You find a flower and drink some nectar."));
+        p->hunger -= 15;
+    }
+    if (calendar::turn.get_season() != SUMMER) {
+        add_msg( m_info, _("The fruits ripen in summer."));
+        return;
+    }
+    if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    pick_plant(p, m, examx, examy, "apricot", t_tree);
+}
+
+void iexamine::tree_plum(player *p, map *m, int examx, int examy)
+{
+    if (calendar::turn.get_season() == WINTER) {
+        add_msg( m_info, _("The tree is dormant and uninteresting."));
+        return;
+    }
+    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
+         (calendar::turn.get_season() == AUTUMN || calendar::turn.get_season() == SPRING) ) {
+        p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
+        add_msg(_("You find a flower and drink some nectar."));
+        p->hunger -= 15;
+    }
+    if (calendar::turn.get_season() != SUMMER) {
+        add_msg( m_info, _("The fruits ripen in summer."));
+        return;
+    }
+    if(!query_yn(_("Harvest from the %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
+    pick_plant(p, m, examx, examy, "plum", t_tree);
+}
+
 void iexamine::tree_pine(player *p, map *m, int examx, int examy)
 {
     m->spawn_item( examx, examy, "pine_bough", rng( 2, 12 ) );
@@ -2702,6 +2823,21 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     //pick_plant deliberately missing due to different function signature
     if ("tree_apple" == function_name) {
         return &iexamine::tree_apple;
+    }
+    if ("tree_pear" == function_name) {
+        return &iexamine::tree_pear;
+    }
+    if ("tree_cherry" == function_name) {
+        return &iexamine::tree_cherry;
+    }
+    if ("tree_peach" == function_name) {
+        return &iexamine::tree_peach;
+    }
+    if ("tree_apricot" == function_name) {
+        return &iexamine::tree_apricot;
+    }
+    if ("tree_plum" == function_name) {
+        return &iexamine::tree_plum;
     }
     if ("tree_pine" == function_name) {
         return &iexamine::tree_pine;
