@@ -1147,7 +1147,7 @@
        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [5, 16], "//":"how far from a city it should be",
         "city_sizes" : [4, 14], "//":"what city sizes should it spawn in",
-        "occurrences" : [9, 10], "//":"how many per overmap",
+        "occurrences" : [6, 7], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : true, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
