@@ -173,7 +173,7 @@ void player::power_mutations()
                     }
                     type = c_cyan;
                     mvwprintz(wBio, list_start_y + i, 2, type, "%c %s", traits[passive[i]].invlet,
-                              traits[passive[i]].name.c_str());
+                              traits[passive[i]].id.c_str());
                 }
             }
 

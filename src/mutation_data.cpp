@@ -16,7 +16,7 @@ void load_mutation(JsonObject &jsobj)
     trait new_trait;
     JsonArray jsarr;
     std::string id = jsobj.get_string("id");
-
+    new_trait.id = id;
     new_trait.name = _(jsobj.get_string("name").c_str());
     new_trait.description = _(jsobj.get_string("description").c_str());
     new_trait.points = jsobj.get_int("points");

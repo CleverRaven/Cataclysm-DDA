@@ -531,9 +531,6 @@ bool player::create(character_type type, std::string tempname)
         inv.push_back(tmp);
     }
 
-    // make sure we have no mutations
-    empty_traits();
-
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
     return true;
@@ -895,7 +892,6 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         cLine = col_off_act;
                         if (iCurrentLine[iCurrentPage] == (int)i) {
                             cLine = hi_off;
-
                             if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
                                 cLine = hilite(c_dkgray);
                             } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
@@ -910,6 +906,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                             }
                         }
                     } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                        debugmsg(vStartingTraits[iCurrentPage][i].c_str());
                         cLine = col_on_pas;
 
                     } else if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {

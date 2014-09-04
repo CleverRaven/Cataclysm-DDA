@@ -189,6 +189,7 @@ class addiction : public JsonSerializer, public JsonDeserializer
 
 struct trait {
     std::string name;
+    std::string id;
     int points; // How many points it costs in character creation
     int visibility; // How visible it is
     int ugliness; // How ugly it is
@@ -213,7 +214,7 @@ struct trait {
     }
     trait(std::string pid, char pinvlet) : name(pid)
     {
-        name = pid;
+        id = pid;
         invlet = pinvlet;
         powered = false;
         charge = 0;

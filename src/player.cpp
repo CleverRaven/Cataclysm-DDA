@@ -3596,7 +3596,7 @@ bool player::has_trait(const std::string &b) const
 {
     // Look for active mutations and traits
     for (auto &i : my_mutations) {
-        if (traits[i].name == b) {
+        if (traits[i].id == b) {
             return true;
         }
     }
@@ -3607,7 +3607,7 @@ bool player::has_base_trait(const std::string &b) const
 {
     // Look only at base traits
     for (auto &i : my_traits) {
-        if (traits[i].name == b) {
+        if (traits[i].id == b) {
             return true;
         }
     }
@@ -3682,20 +3682,41 @@ bool player::purifiable(const std::string &flag) const
 
 void toggle_str_set( std::vector< std::string > &set, const std::string &str )
 {
-    for (auto &i : set) {
-        if (traits[i].name == str) {
+    /*for (auto &i : set) {
+        if (traits[i].id == str) {
             if (i == set.back()) {
                 set.push_back(str);
             } else {
                 std::vector<std::string> new_set;
                 for(auto &i : set) {
-                    if (!(traits[i].name == str)) {
-                        new_set.push_back(trait(traits[i].name, traits[i].invlet).name);
+                    if (!(traits[i].id == str)) {
+                        new_set.push_back(trait(traits[i].id, traits[i].invlet).id);
                     }
                 }
                 set = new_set;
             }
         }
+    }*/
+    bool ck = false;
+    for (auto &i : set){
+        if (i == str){
+            ck = true;
+        }
+    }
+    debugmsg(trait(traits[str].id,traits[str].invlet).id.c_str());
+    if(ck == true){
+        std::vector<std::string> new_set;
+                for(auto &i : set) {
+                    if (!(traits[i].id == str)) {
+                        new_set.push_back(trait(traits[i].id, traits[i].invlet).id);
+                    }
+                }
+                set = new_set;
+                debugmsg("REMOVING TRAIT");
+    }
+    else{
+        set.push_back(trait(traits[str].id,traits[str].invlet).id);
+        debugmsg("ADDING TRAIT");
     }
 }
 
