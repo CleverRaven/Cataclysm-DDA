@@ -2510,11 +2510,15 @@
     },
     {
       "rotates": false,
-      "id": "bunker_coat"
+      "id": "bunker_coat",
+      "fg": 2336,
+      "bg": 2
     },
     {
       "rotates": false,
-      "id": "bunker_pants"
+      "id": "bunker_pants",
+      "fg": 2337,
+      "bg": 2
     },
     {
       "rotates": false,
