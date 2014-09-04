@@ -2856,5 +2856,32 @@
             ]
         },
 	"flags" : ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "mall_cop",
+        "name": "Mall Security",
+        "description": "A mall security guard. You don't have any useful skills, other than some basic training for your job. You do however have your trusty tazer, baton, and pocket knife.",
+        "points": 0,
+        "items": {
+            "both": [
+                "pants",
+                "socks",
+                "boots",
+                "flashlight",
+                "longshirt",
+                "jacket_light",
+                "baton",
+                "tazer",
+                "battery",
+                "pockknife"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     }
 ]

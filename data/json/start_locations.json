@@ -80,5 +80,10 @@
     "ident" : "lab_stairs",
     "name" : "science lab",
     "target" : "lab_stairs"
+  },{
+    "type" : "start_location",
+    "ident" : "mall_a_12",
+    "name" : "mall",
+    "target" : "mall_a_12"
   }
 ]
