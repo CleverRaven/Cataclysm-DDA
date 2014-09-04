@@ -196,8 +196,13 @@ struct trait {
     bool startingtrait; // Starting Trait True/False
     bool purifiable; // Whether it's vulnerable to Purifier
     bool activated;
+    bool fatigue; //IF any of the three are true, it drains that as the "cost"
+    bool hunger;
+    bool thirst;
     int cost;
     char invlet;
+    bool powered;
+    int cooldown;
     std::string description;
 };
 

@@ -262,18 +262,24 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
+        void power_mutations();
         /** Handles bionic activation effects of the entered bionic */
         void activate_bionic(int b);
+        void activate_mutation(int b); //TODO
         /** Handles bionic deactivation effects of the entered bionic */
         void deactivate_bionic(int b);
+        void deactivate_mutation(int b);//TODO
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
+        int num_mutations() const; //TODO
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index(int i);
+        std::string &mutation_at_index(int i); //TODO
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
+        std::string *mutation_by_invlet(char ch); //TODO
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light();
 
@@ -867,7 +873,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string name;
         bool male;
         profession *prof;
-        
+
         std::string start_location;
 
         std::map<std::string, int> mutation_category_level;
