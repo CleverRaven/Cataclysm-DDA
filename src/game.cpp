@@ -1831,7 +1831,7 @@ void game::activity_on_finish()
         // Make sure data of previous activity is cleared
         u.activity = player_activity();
     }
-    if( !u.backlog.empty() ) {
+    if( !u.backlog.empty() && u.backlog.front().auto_resume ) {
         u.activity = u.backlog.front();
         u.backlog.pop_front();
     }

@@ -811,6 +811,7 @@ bool advanced_inventory::move_all_items()
         if(query_yn(_("Really move everything from your inventory?"))) {
             if( OPTIONS["CLOSE_ADV_INV"] != true) {
                 g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
+                g->u.activity.auto_resume = true;
             }
             g->u.assign_activity( ACT_DROP, 0 );
             g->u.activity.placement = point( g->u.posx + panes[dest].offx,
@@ -832,6 +833,7 @@ bool advanced_inventory::move_all_items()
     } else {
         if( OPTIONS["CLOSE_ADV_INV"] != true) {
             g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
+            g->u.activity.auto_resume = true;
         }
         int p_x = g->u.posx + panes[src].offx;
         int p_y = g->u.posy + panes[src].offy;
@@ -925,6 +927,7 @@ void advanced_inventory::display()
     while( !exit ) {
         if( g->u.moves < 0 ) {
             g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
+            g->u.activity.auto_resume = true;
             break;
         }
         dest = (src == left ? right : left);
