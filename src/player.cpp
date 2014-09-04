@@ -941,7 +941,7 @@ void player::update_bodytemp()
         {
             floor_bedding_warmth += 500;
         }
-        else if (trap_at_pos == tr_cot)
+        else if (trap_at_pos == tr_cot || ter_at_pos == t_improvised_shelter)
         {
             floor_bedding_warmth -= 500;
         }
@@ -10025,7 +10025,7 @@ void player::try_to_sleep()
     if( (furn_at_pos == f_bed || furn_at_pos == f_makeshift_bed ||
          trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
          trap_at_pos == tr_fur_rollmat || furn_at_pos == f_armchair ||
-         furn_at_pos == f_sofa || furn_at_pos == f_hay ||
+         furn_at_pos == f_sofa || furn_at_pos == f_hay || ter_at_pos == t_improvised_shelter ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) &&
         (!(plantsleep)) ) {
@@ -10065,7 +10065,7 @@ bool player::can_sleep()
  }
  else if ( ((veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
       trap_at_pos == tr_rollmat || trap_at_pos == tr_fur_rollmat ||
-      furn_at_pos == f_armchair) && (!(plantsleep)) ) {
+      furn_at_pos == f_armchair || ter_at_pos == t_improvised_shelter) && (!(plantsleep)) ) {
     sleepy += 3;
  }
  else if ( (furn_at_pos == f_bed) && (!(plantsleep)) ) {
