@@ -294,7 +294,8 @@
                 ],
                 "damage-min": 1, "damage-max": 4
             },
-            { "item": "hat_hard" }
+            { "item": "hat_hard" },
+            { "item": "boots" }
         ]
     }
 ]
