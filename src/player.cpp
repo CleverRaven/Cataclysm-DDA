@@ -6697,11 +6697,14 @@ void player::process_active_items()
         ch_UPS_used++;
         weapon.charges++;
     }
-    for( auto worn_item : worn ) {
+
+    for( size_t i = 0; i < worn.size() && ch_UPS_used < ch_UPS; ++i ) {
+        item& worn_item = worn[i];
+
         if( !worn_item.has_flag( "USE_UPS" ) ) {
             continue;
         }
-        if( worn_item.charges < worn_item.type->charges_to_use() ) {
+        if( worn_item.charges < worn_item.type->maximum_charges() ) {
             ch_UPS_used++;
             worn_item.charges++;
         }
