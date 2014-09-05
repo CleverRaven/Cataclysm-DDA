@@ -1685,7 +1685,10 @@
         "prereqs" : ["HERBIVORE"],
         "changes_to" : ["GRAZER"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
-        "category" : ["MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_CATTLE"],
+        "active"     :   true,
+        "cost"       :    0,
+        "turns"      :   100
     },{
         "type" : "mutation",
         "id" : "GRAZER",
@@ -1695,7 +1698,10 @@
         "prereqs" : ["RUMINANT"],
         "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
-        "category" : ["MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_CATTLE"],
+        "active"     :   true,
+        "cost"       :    0,
+        "turns"      :   100
     },{
         "type" : "mutation",
         "id" : "EATPOISON",
