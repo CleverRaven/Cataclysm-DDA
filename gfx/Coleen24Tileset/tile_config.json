@@ -9035,7 +9035,9 @@
     },
     {
       "rotates": false,
-      "id": "mon_duck"
+      "id": "mon_duck",
+      "fg": 2338,
+      "bg": 460
     },
     {
       "rotates": false,
@@ -18440,6 +18442,89 @@
       "id": "mon_irradiated_wanderer_4",
       "fg": 2335,
       "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_pine",
+      "fg": 2339,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "f_dandelion",
+      "fg": 2340
+    },
+    {
+      "rotates": false,
+      "id": "mon_zombie_technician",
+      "fg": 2341,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "t_sai_box",
+      "fg": 2342,
+      "bg": 1471
+    },
+    {
+      "rotates": false,
+      "id": "t_oil_circ_brkr_l",
+      "fg": 2343,
+      "bg": 1471
+    },
+    {
+      "rotates": false,
+      "id": "t_sai_box_damaged",
+      "fg": 2344,
+      "bg": 1471
+    },
+    {
+      "rotates": false,
+      "id": "t_pwr_sb_switchgear_l",
+      "fg": 2345,
+      "bg": 1471
+    },
+    {
+      "rotates": false,
+      "id": "t_pwr_sb_switchgear_s",
+      "fg": 2346,
+      "bg": 1471
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_deadpine",
+      "fg": 2347,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_peach",
+      "fg": 2348,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_pear",
+      "fg": 2349,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_apricot",
+      "fg": 2350,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_cherry",
+      "fg": 2351,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_plum",
+      "fg": 2352,
+      "bg": 420
     },
     {
       "rotates": false,
