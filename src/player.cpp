@@ -5168,7 +5168,6 @@ void player::add_disease(dis_type type, int duration, bool permanent,
             if (i.bp == part) {
                 if (additive > 0) {
                     i.duration += duration;
-                    debugmsg("ADDING DURATION");
                 } else if (additive < 0) {
                     i.duration -= duration;
                     if (i.duration <= 0) {
