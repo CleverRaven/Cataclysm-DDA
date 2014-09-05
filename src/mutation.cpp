@@ -27,7 +27,6 @@ void player::activate_mutation(int b)
         }
         return;
     }
-    //debugmsg("GET HERE");
     if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
         // Already-on units just lose a bit of charge
         traits[my_mutations[b]].charge--;
@@ -153,7 +152,6 @@ void player::power_mutations()
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("TOOGLE_EXAMINE");
     ctxt.register_action("REASSIGN");
-    ctxt.register_action("REMOVE");
     ctxt.register_action("HELP_KEYBINDINGS");
 
     bool redraw = true;
@@ -279,10 +277,7 @@ void player::power_mutations()
             werase(w_description);
             draw_exam_window(wBio, DESCRIPTION_LINE_Y, false);
             redraw = true;
-        } else if (action == "REMOVE") {
-            menu_mode = "removing";
-            redraw = true;
-        } else if (action == "HELP_KEYBINDINGS") {
+        }else if (action == "HELP_KEYBINDINGS") {
             redraw = true;
         } else {
             tmp = mutation_by_invlet(ch);
@@ -293,10 +288,6 @@ void player::power_mutations()
             }
             std::string mut_id = *tmp;
             const trait mut_data = traits[mut_id];
-            if (menu_mode == "removing") {
-                remove_mutation(mut_id);
-                break;
-            }
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
                     itype_id weapon_id = weapon.type->id;

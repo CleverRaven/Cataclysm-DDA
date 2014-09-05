@@ -1362,18 +1362,6 @@
     },
     {
         "type" : "keybinding",
-        "id":"REMOVE",
-        "category":"MUTATIONS",
-        "name":"remove bionic",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"-"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id":"UP",
         "category":"MUTATIONS",
         "name":"Pan up",
