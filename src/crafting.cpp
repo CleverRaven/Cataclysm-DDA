@@ -31,6 +31,18 @@ static craft_subcat last_craft_subcat(const craft_cat cat);
 static craft_subcat next_craft_subcat(const craft_cat cat, const craft_subcat subcat);
 static craft_subcat prev_craft_subcat(const craft_cat cat, const craft_subcat subcat);
 
+const recipe *find_recipe( std::string id )
+{
+    for( auto recipe_list : recipes ) {
+        for( auto recipe : recipe_list.second ) {
+            if( recipe->ident == id ) {
+                return recipe;
+            }
+        }
+    }
+    return nullptr;
+}
+
 void load_recipe_category(JsonObject &jsobj)
 {
     JsonArray subcats;

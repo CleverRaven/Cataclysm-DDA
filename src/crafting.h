@@ -130,6 +130,7 @@ bool query_dissamble(const item &dis_item);
 
 extern recipe_map recipes; // The list of valid recipes
 
+const recipe *find_recipe( std::string id );
 void check_recipe_definitions();
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);
