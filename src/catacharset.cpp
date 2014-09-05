@@ -155,12 +155,12 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
     while(c < cursorx) {
         const char *utf8str = line + i;
         int len = ANY_LENGTH;
-        unsigned ch = UTF8_getch(&utf8str, &len);
-        int cw = mk_wcwidth(ch);
-        len = ANY_LENGTH - len;
         if ( utf8str[0] == 0 ) {
             break;
         }
+        unsigned ch = UTF8_getch(&utf8str, &len);
+        int cw = mk_wcwidth(ch);
+        len = ANY_LENGTH - len;
         if( len <= 0 ) {
             len = 1;
         }
