@@ -514,15 +514,15 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                     m->ter_set(i, j, t_tree_apple);
                 } else if (one_in(300)){
                     m->ter_set(i, j, t_tree_pear);
-                }else if (one_in(300)){
+                } else if (one_in(300)){
                     m->ter_set(i, j, t_tree_cherry);
-                }else if (one_in(350)){
+                } else if (one_in(350)){
                     m->ter_set(i, j, t_tree_peach);
-                }else if (one_in(350)){
+                } else if (one_in(350)){
                     m->ter_set(i, j, t_tree_apricot);
-                }else if (one_in(350)){
+                } else if (one_in(350)){
                     m->ter_set(i, j, t_tree_plum);
-                }else if (one_in(128)){
+                } else if (one_in(128)){
                     m->ter_set(i, j, t_tree_deadpine);
                 } else if (one_in(16)){
                     m->ter_set(i, j, t_tree_pine);
