@@ -3701,11 +3701,13 @@ void player::toggle_str_set( std::vector< std::string > &set, const std::string 
         char newinv = ' ';
         for( size_t i = 0; i < inv_chars.size(); i++ ) {
             if( mutation_by_invlet( inv_chars[i] ) == nullptr ) {
+                debugmsg("SETTING INVLET");
                 newinv = inv_chars[i];
                 break;
             }
         }
         set.push_back(trait(traits[str].id, newinv).id);
+        traits[str].invlet = newinv;
     }
 }
 

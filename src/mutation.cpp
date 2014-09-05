@@ -20,11 +20,11 @@ void player::activate_mutation(int b)
     int cost = traits[mut].cost;
     if ((traits[mut].hunger && hunger >= 400) || (traits[mut].thirst && thirst >= 400) || (traits[mut].fatigue && fatigue >= 400)) { //TODO: Change this to use hunger/fatigue/that crap
         if (traits[my_mutations[0]].powered) {
-            add_msg(m_neutral, _("Your %s powers down."), traits[mut].name.c_str());
+            add_msg(m_neutral, _("Your stop using %s."), traits[mut].name.c_str());
             traits[my_mutations[0]].powered = false;
             traits[my_mutations[0]].cooldown = traits[my_mutations[0]].cost;
         } else {
-            add_msg(m_info, _("You cannot power your %s"), traits[mut].name.c_str());
+            add_msg(m_info, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
         }
         return;
     }
