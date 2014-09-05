@@ -18492,6 +18492,42 @@
     },
     {
       "rotates": false,
+      "id": "t_tree_deadpine",
+      "fg": 2347,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_peach",
+      "fg": 2348,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_pear",
+      "fg": 2349,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_apricot",
+      "fg": 2350,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_cherry",
+      "fg": 2351,
+      "bg": 420
+    },
+    {
+      "rotates": false,
+      "id": "t_tree_plum",
+      "fg": 2352,
+      "bg": 420
+    },
+    {
+      "rotates": false,
       "id": "zweihander",
       "fg": 1893,
       "bg": 2
