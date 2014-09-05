@@ -8483,7 +8483,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             recipe *r = candidates[rng(0, candidates.size() - 1)];
             const std::string rident = r->ident;
 
-            const item dummy(r->ident, 0);
+            const item dummy(r->result, 0);
 
             if (eink->item_vars["EIPC_RECIPES"] == "") {
                 something_downloaded = true;
