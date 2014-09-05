@@ -277,6 +277,8 @@ bool game::check_eligible_containers_for_crafting(recipe *making, int batch)
                         if (charges_to_store <= 0) {
                             break;
                         }
+                    } else {
+                        iter++;
                     }
                 }
             }
