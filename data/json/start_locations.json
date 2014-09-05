@@ -80,5 +80,17 @@
     "ident" : "lab_stairs",
     "name" : "science lab",
     "target" : "lab_stairs"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "fire_station",
+    "name" : "Fire Station",
+    "target" : "fire_station"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "police",
+    "name" : "Police Station",
+    "target" : "police"
   }
 ]

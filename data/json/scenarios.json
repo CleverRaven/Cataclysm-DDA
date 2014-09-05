@@ -95,5 +95,25 @@
     "allowed_locs" : ["forest"],
     "professions" : ["unemployed","mutant_patient","mutant_volunteer"],
     "traits" : ["ELFAEYES","URSINE_EYE","FANGS","GILLS","SPINES","PLANTSKIN","NAILS","RADIOGENIC","PADDED_FEET","RAP_TALONS","HOOVES","CANINE_EARS","WEB_WALKER","WHISKERS","SLIT_NOSTRILS","TROGLO","WEBBED","BEAK","UNSTABLE","RADIOACTIVE1","SLIMY","HERBIVORE","CARNIVORE","PONDEROUS1","SUNLIGHT_DEPENDENT","COLDBLOOD","GROWL","ARM_FEATHERS","ARM_TENTACLES","LEG_TENTACLES"]
+  },{
+    "type": "scenario",
+    "ident": "last_firefighter",
+    "name": "The Last Firefighter",
+    "points" : 0,
+    "description": "Against all odds, you managed to make it back to the station house in one piece.  Now the reanimated husks of your former comrades want to make sure you never leave it again.",
+    "allowed_locs" : ["fire_station"],
+    "professions" : ["firefighter","bionic_firefighter"],
+    "start_name": "Fire Station",
+    "flags" : ["SUR_START"]
+  },{
+    "type": "scenario",
+    "ident": "precinct_zero",
+    "name": "Assault on Precinct Z",
+    "points" : 0,
+    "description": "You knew the day was going to be bad when it started with your partner getting eaten by a perp before you even had coffee.  The scene back at the station house looks bad, real bad.  This is going to be an all-nighter.",
+    "allowed_locs" : ["police"],
+    "professions" : ["cop","bionic_cop"],
+    "start_name": "Police Station",
+    "flags" : ["SUR_START"]
   }
 ]
