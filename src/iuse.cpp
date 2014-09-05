@@ -8490,17 +8490,17 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
                 eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     dummy.tname().c_str());
+                                     dummy.type->nname(1).c_str());
             } else {
                 if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 }
             }
         }
@@ -8762,7 +8762,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 auto recipe = find_recipe( s );
                 if( recipe ) {
                     const item dummy( recipe->result, 0 );
-                    rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+                    rmenu.addentry(k++, true, -1, dummy.type->nname(1).c_str());
                 }
             }
 
@@ -8780,7 +8780,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                     const item dummy( recipe->result, 0 );
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 }
             }
 
