@@ -54,27 +54,21 @@
     "ident" : "cabin",
     "name" : "Cabin",
     "target" : "cabin"
-
-  },
-  {
+  },{
     "type" : "start_location",
     "ident" : "hospital",
     "name" : "Hospital",
     "target" : "hospital"
-
-  },
-  {
+  },{
     "type" : "start_location",
     "ident" : "lmoe",
     "name" : "LMOE",
     "target" : "lmoe"
-
   },{
     "type" : "start_location",
     "ident" : "forest",
     "name" : "Middle of Nowhere",
     "target" : "forest"
-
   },{
     "type" : "start_location",
     "ident" : "lab_stairs",
@@ -90,5 +84,15 @@
     "ident" : "mall_a_30",
     "name" : "mall food court",
     "target" : "mall_a_30"
+  },{
+    "type" : "start_location",
+    "ident" : "fire_station",
+    "name" : "Fire Station",
+    "target" : "fire_station"
+  },{
+    "type" : "start_location",
+    "ident" : "police",
+    "name" : "Police Station",
+    "target" : "police"
   }
 ]
