@@ -3701,7 +3701,6 @@ void player::toggle_str_set( std::vector< std::string > &set, const std::string 
         char newinv = ' ';
         for( size_t i = 0; i < inv_chars.size(); i++ ) {
             if( mutation_by_invlet( inv_chars[i] ) == nullptr ) {
-                debugmsg("SETTING INVLET");
                 newinv = inv_chars[i];
                 break;
             }
@@ -3876,6 +3875,15 @@ bool player::has_active_bionic(const bionic_id & b) const
     for (auto &i : my_bionics) {
         if (i.id == b) {
             return (i.powered);
+        }
+    }
+    return false;
+}
+bool player::has_active_mutation(const std::string & b) const
+{
+    for (auto &i : my_mutations) {
+        if (traits[i].id == b) {
+            return (traits[i].powered);
         }
     }
     return false;
@@ -4244,12 +4252,6 @@ void player::pause()
             recoil = int(recoil / 2);
         }
     }
-
-    //Web Weavers...weave web
-    if (has_trait("WEB_WEAVER") && !in_vehicle) {
-      g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
-      add_msg(_("You spin some webbing."));
-     }
 
     // Meditation boost for Toad Style, obsolete
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
@@ -5907,6 +5909,11 @@ void player::suffer()
     if (has_trait("SLIMY") && !in_vehicle) {
         g->m.add_field(posx, posy, fd_slime, 1);
     }
+        //Web Weavers...weave web
+    if (has_active_mutation("WEB_WEAVER") && !in_vehicle) {
+      g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
+
+     }
 
     if (has_trait("VISCOUS") && !in_vehicle) {
         if (one_in(3)){
@@ -7929,7 +7936,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     int temp_nutr = comest->nutr;
     int temp_quench = comest->quench;
-    if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60))){
+    if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
        if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
         return false;
        }

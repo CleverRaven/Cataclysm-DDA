@@ -251,6 +251,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_bionic(const bionic_id &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic(const bionic_id &b) const;
+        bool has_active_mutation(const std::string &b) const;
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */

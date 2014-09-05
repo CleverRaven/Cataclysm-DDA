@@ -1934,7 +1934,10 @@
         "prereqs" : ["HEAVYSLEEPER2"],
         "prereqs2" : ["FAT"],
         "threshreq" : ["THRESH_URSINE"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "active"     :    true,
+        "cost"       :    0,
+        "time"       :    100
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH",
@@ -1961,7 +1964,7 @@
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH3",
-        "name" : "TAAANK",
+        "name" : "TANK",
         "points" : 7,
         "description" : "You can simply take the punishment from lesser beings and keep going. You get a 40% bonus to all hit points. Stacks with Tough, etc.",
         "valid" : false,
@@ -2228,7 +2231,12 @@
         "prereqs" : ["WEB_SPINNER"],
         "threshreq" : ["THRESH_SPIDER"],
         "cancels" : ["SLIMY"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "active"     :    true,
+        "cost"       :    30,
+        "time"       :    100,
+        "hunger"     :    true,
+        "fatigue"    :    true
     },{
         "type" : "mutation",
         "id" : "WEB_RAPPEL",
@@ -3185,7 +3193,12 @@
         "prereqs" : ["INT_SLIME"],
         "prereqs2" : ["PER_SLIME_OK"],
         "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "active"     :    true,
+        "cost"       :    75,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "HERBIVORE",
@@ -3420,22 +3433,13 @@
         "description" : "You frequently let out a piercing howl.",
         "prereqs" : ["SHOUT2"],
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
-    },
-    {
-        "type" : "mutation",
-        "id" : "SHOUT3",
-        "name" : "Howler",
-        "points" : -5,
-        "description" : "You frequently let out a piercing howl.",
-        "prereqs" : ["SHOUT2"],
-        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
         "id" : "SHOUT4",
         "name" : "DEBUG HOWLING!",
-        "points" : -5,
+        "points" : 99,
+        "valid" : false,
         "description" : "Your howls do crazy-ass things.",
-        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
         "active"     :    true,
         "cost"       :    75,
         "time"       :    0,

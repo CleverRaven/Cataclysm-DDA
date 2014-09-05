@@ -16,8 +16,6 @@ std::vector<std::string> unpowered_traits;
 void player::activate_mutation(int b)
 {
     std::string mut = my_mutations[b];
-    debugmsg(mut.c_str());
-    //debugmsg("GET HERE");
     int cost = traits[mut].cost;
     if ((traits[mut].hunger && hunger >= 400) || (traits[mut].thirst && thirst >= 400) || (traits[mut].fatigue && fatigue >= 400)) { //TODO: Change this to use hunger/fatigue/that crap
         if (traits[my_mutations[b]].powered) {
@@ -58,7 +56,11 @@ void player::activate_mutation(int b)
             g->m.add_field(pos().x + 5, pos().y + 3, field_from_ident("fd_fire"), 3 );
             g->m.add_field(pos().x + 7, pos().y + 6, field_from_ident("fd_fire"), 3 );
             g->m.add_field(pos().x + 3, pos().y + 4, field_from_ident("fd_fire"), 3 );
-        }
+    }
+    else if (traits[mut].id == "WEB_WEAVER"){
+        g->m.add_field(posx, posy, fd_web, 1);
+        add_msg(_("You start spinning web with your spinnerets!"));
+    }
 }
 void player::deactivate_mutation(int b)
 {
