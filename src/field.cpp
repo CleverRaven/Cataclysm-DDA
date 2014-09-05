@@ -1367,7 +1367,7 @@ void map::step_in_field(int x, int y)
             //Moving through multiple webs stacks the effect.
             if (!g->u.has_trait("WEB_WALKER") && !g->u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
-                int web = cur->getFieldDensity() * 5 - g->u.disease_duration("webbed");
+                int web = cur->getFieldDensity() * 5;
                 if (web > 0) { g->u.add_disease("webbed", web); }
                 field_list_it = curfield.removeField( fd_web ); //Its spent.
                 continue;
