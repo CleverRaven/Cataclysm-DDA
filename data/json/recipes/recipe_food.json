@@ -5992,18 +5992,6 @@
   "components": [ [ ["bone", 1] ] ]
 },{
         "type" : "recipe",
-  "result": "meal_chitin_piece",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 60000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [ [ ["rock_quern", -1] ] ],
-  "components": [ [ ["chitin_piece", 1] ] ]
-},{
-        "type" : "recipe",
   "result": "spaghetti_raw",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_PASTA",
