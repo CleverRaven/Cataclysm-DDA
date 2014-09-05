@@ -2033,6 +2033,7 @@ void game::update_weather()
         w_point w = weatherGen.get_weather(u.pos(), calendar::turn);
         weather_type old_weather = weather;
         weather = weatherGen.get_weather_conditions(w);
+        if (weather == WEATHER_SUNNY && calendar::turn.is_night()) { weather = WEATHER_CLEAR; }
         temperature = w.temperature;
         g->lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
