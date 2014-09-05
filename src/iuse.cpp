@@ -8747,7 +8747,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             rmenu.text = _("Choose recipe to view:");
             rmenu.addentry(0, true, 'q', _("Cancel"));
 
-            std::vector<std::string> recipes;
+            std::vector<std::string> candidate_recipes;
             std::istringstream f(it->item_vars["EIPC_RECIPES"]);
             std::string s;
             int k = 1;
@@ -8757,10 +8757,13 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                     continue;
                 }
 
-                recipes.push_back(s);
+                candidate_recipes.push_back(s);
 
-                const item dummy(s, 0);
-                rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+                auto recipe = find_recipe( s );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+                }
             }
 
             rmenu.query();
@@ -8770,10 +8773,15 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             } else {
                 it->item_tags.insert("HAS_RECIPE");
-                it->item_vars["RECIPE"] = recipes[rchoice - 1];
+                it->item_vars["RECIPE"] = candidate_recipes[rchoice - 1];
 
-                const item dummy(it->item_vars["RECIPE"], 0);
-                p->add_msg_if_player(m_info, _("You change the e-ink screen to show a recipe for %s."), dummy.tname().c_str());
+                auto recipe = find_recipe( it->item_vars["RECIPE"] );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    p->add_msg_if_player(m_info,
+                        _("You change the e-ink screen to show a recipe for %s."),
+                                         dummy.tname().c_str());
+                }
             }
 
             return it->type->charges_to_use();
