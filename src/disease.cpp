@@ -1498,7 +1498,7 @@ void dis_effect(player &p, disease &dis)
                                               body_part_name_accusative(dis.bp).c_str());
                      g->cancel_activity();
                 } else if (g->u_see(p.posx, p.posy)) {
-                    //~ 1$s is NPC name, 2$s is bodypart in accusative. 
+                    //~ 1$s is NPC name, 2$s is bodypart in accusative.
                     add_msg(_("%1$s starts scratching their %2$s!"), p.name.c_str(),
                                        body_part_name_accusative(dis.bp).c_str());
                 }
@@ -1886,7 +1886,7 @@ int disease_speed_boost(disease dis)
         case DI_SLIMED:     return -25;
         case DI_BADPOISON:  return -10;
         case DI_FOODPOISON: return -20;
-        case DI_WEBBED:     return -25;
+        case DI_WEBBED:     return (dis.duration / 5 ) * -25;
         case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
@@ -2193,7 +2193,7 @@ std::string dis_name(disease& dis)
     case DI_METH:
         if (dis.duration > 200) return _("High on Meth");
         else return _("Meth Comedown");
-		
+
     case DI_DATURA: return _("Experiencing Datura");
 
 
@@ -2811,7 +2811,7 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         return _("Intelligence - 1;   Perception - 1");
 
     case DI_VISUALS: return _("You can't trust everything that you see.");
-	
+
     case DI_DATURA: return _("Buy the ticket, take the ride.  The datura has you now.");
 
     case DI_ADRENALINE:
@@ -2830,7 +2830,7 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
         else
             return _(
             "Strength - 1;   Dexterity - 2;   Intelligence - 1;   Perception - 2");
-			
+
     case DI_ASTHMA:
         return string_format(_("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
 
@@ -3057,7 +3057,7 @@ void manage_sleep(player& p, disease& dis)
                 p.healall(1);
             }
         }
-        
+
         if (p.fatigue <= 0 && p.fatigue > -20) {
             p.fatigue = -25;
             add_msg(m_good, _("You feel well rested."));
