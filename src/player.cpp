@@ -1549,7 +1549,7 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 1.15f;
     }
     if (has_trait("PADDED_FEET") && !footwear_factor()) {
-        movecost *= (1 - footwear_factor());
+        movecost *= .9f;
     }
     if (has_trait("LIGHT_BONES")) {
         movecost *= .9f;
