@@ -1435,6 +1435,51 @@
         "examine_action": "tree_apple"
     },{
         "type" : "terrain",
+        "id" : "t_tree_pear",
+        "name": "pear tree",
+        "symbol": "7",
+        "color": "ltgreen",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_pear"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_cherry",
+        "name": "cherry tree",
+        "symbol": "7",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_cherry"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_peach",
+        "name": "peach tree",
+        "symbol": "7",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_peach"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_apricot",
+        "name": "apricot tree",
+        "symbol": "7",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_apricot"
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_plum",
+        "name": "plum tree",
+        "symbol": "7",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_plum"
+    },{
+        "type" : "terrain",
         "id" : "t_tree_pine",
         "name": "pine tree",
         "symbol": "4",
