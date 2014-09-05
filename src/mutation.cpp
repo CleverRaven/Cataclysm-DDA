@@ -84,9 +84,7 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
     if(menu_mode == "reassigning") {
         desc = _("Reassigning.\nSelect a mutation to reassign or press SPACE to cancel.");
     } else if(menu_mode == "activating") {
-        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
-    } else if(menu_mode == "removing") {
-        desc = _("<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign.");
     } else if(menu_mode == "examining") {
         desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
     }
