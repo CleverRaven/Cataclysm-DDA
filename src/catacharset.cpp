@@ -158,7 +158,9 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
         unsigned ch = UTF8_getch(&utf8str, &len);
         int cw = mk_wcwidth(ch);
         len = ANY_LENGTH - len;
-
+        if ( utf8str[0] == 0 ) {
+            break;
+        }
         if( len <= 0 ) {
             len = 1;
         }
@@ -167,7 +169,7 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
         }
         i += len;
         if( cw <= 0 ) {
-            cw = 1;
+            cw = 0;
         }
         c += cw;
         if( c <= cursorx ) {
