@@ -27,6 +27,10 @@ void load_mutation(JsonObject &jsobj)
     new_trait.activated = jsobj.get_bool("active", false);
     new_trait.cost = jsobj.get_int("cost", 0);
     new_trait.cooldown = jsobj.get_int("time",0);
+    new_trait.hunger = jsobj.get_bool("hunger",false);
+    new_trait.thirst = jsobj.get_bool("thirst",false);
+    new_trait.fatigue = jsobj.get_bool("fatigue",false);
+    new_trait.charge = 0;
 
 
     traits[id] = new_trait;

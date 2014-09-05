@@ -3437,7 +3437,11 @@
         "description" : "Your howls do crazy-ass things.",
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
         "active"     :    true,
-        "cost"       :    75
+        "cost"       :    75,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
 
         "type" : "mutation",

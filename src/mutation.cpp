@@ -18,28 +18,36 @@ void player::activate_mutation(int b)
     std::string mut = my_mutations[0];
     //debugmsg("GET HERE");
     int cost = traits[mut].cost;
-    if (power_level < cost) { //TODO: Change this to use hunger/fatigue/that crap
-        if (traits[my_mutations[b]].powered) {
+    if ((traits[mut].hunger && hunger >= 400) || (traits[mut].thirst && thirst >= 400) || (traits[mut].fatigue && fatigue >= 400)) { //TODO: Change this to use hunger/fatigue/that crap
+        if (traits[my_mutations[0]].powered) {
             add_msg(m_neutral, _("Your %s powers down."), traits[mut].name.c_str());
-            traits[my_mutations[b]].powered = false;
+            traits[my_mutations[0]].powered = false;
+            traits[my_mutations[0]].cooldown = traits[my_mutations[0]].cost;
         } else {
             add_msg(m_info, _("You cannot power your %s"), traits[mut].name.c_str());
         }
         return;
     }
     //debugmsg("GET HERE");
-    /*if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
+    if (traits[my_mutations[0]].powered && traits[my_mutations[0]].charge > 0) {
         // Already-on units just lose a bit of charge
-        traits[my_mutations[b]].charge--;
+        traits[my_mutations[0]].charge--;
     } else {
         // Not-on units, or those with zero charge, have to pay the power cost
         if (traits[mut].cooldown > 0) {
-            traits[my_mutations[b]].powered = true;
-            traits[my_mutations[b]].charge = traits[mut].cooldown - 1;
+            traits[my_mutations[0]].powered = true;
+            traits[my_mutations[0]].charge = traits[mut].cooldown - 1;
         }
-        power_level -= cost;
-    }*/ //Weird block of code breaking everything and I don't need it yet.
-    debugmsg("GET HERE");
+        if (traits[mut].hunger){
+            hunger += cost;
+        }
+        if (traits[mut].thirst){
+            thirst += cost;
+        }
+        if (traits[mut].fatigue){
+            fatigue += cost;
+        }
+    }
     std::vector<point> traj;
     std::vector<std::string> good;
     std::vector<std::string> bad;
@@ -295,7 +303,7 @@ void player::power_mutations()
                         add_msg(m_neutral, _("%s powered off."), mut_data.name.c_str());
 
                         deactivate_mutation(b);
-                    } else if (power_level >= mut_data.cost){
+                    } else if ((!traits[*tmp].hunger || (traits[*tmp].hunger && hunger <= 400)) || (!traits[*tmp].thirst || (traits[*tmp].thirst && thirst <= 400)) || (!traits[*tmp].fatigue || (traits[*tmp].fatigue && fatigue <= 400))){
 
                         // this will clear the bionics menu for targeting purposes
                         werase(wBio);
