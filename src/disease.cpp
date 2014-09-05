@@ -2754,8 +2754,18 @@ Your right foot is blistering from the intense heat. It is extremely painful.");
     }
 
     case DI_WEBBED:
-        return _(
+        if (dis.duration <= 5){
+                    return _(
         "Strength - 1;   Dexterity - 4;   Speed - 25");
+        }
+        else if (dis.duration <= 10){
+                    return _(
+        "Strength - 1;   Dexterity - 4;   Speed - 50");
+        }
+        else{
+                    return _(
+        "Strength - 1;   Dexterity - 4;   Speed - 75");
+        }
 
     case DI_RAT:
     {
