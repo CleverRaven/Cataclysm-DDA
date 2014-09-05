@@ -15,28 +15,29 @@ std::vector<std::string> unpowered_traits;
 
 void player::activate_mutation(int b)
 {
-    std::string mut = my_mutations[0];
+    std::string mut = my_mutations[b];
+    debugmsg(mut.c_str());
     //debugmsg("GET HERE");
     int cost = traits[mut].cost;
     if ((traits[mut].hunger && hunger >= 400) || (traits[mut].thirst && thirst >= 400) || (traits[mut].fatigue && fatigue >= 400)) { //TODO: Change this to use hunger/fatigue/that crap
-        if (traits[my_mutations[0]].powered) {
+        if (traits[my_mutations[b]].powered) {
             add_msg(m_neutral, _("Your stop using %s."), traits[mut].name.c_str());
-            traits[my_mutations[0]].powered = false;
-            traits[my_mutations[0]].cooldown = traits[my_mutations[0]].cost;
+            traits[my_mutations[b]].powered = false;
+            traits[my_mutations[b]].cooldown = traits[my_mutations[b]].cost;
         } else {
             add_msg(m_info, _("You feel like using your %s would kill you!"), traits[mut].name.c_str());
         }
         return;
     }
     //debugmsg("GET HERE");
-    if (traits[my_mutations[0]].powered && traits[my_mutations[0]].charge > 0) {
+    if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
         // Already-on units just lose a bit of charge
-        traits[my_mutations[0]].charge--;
+        traits[my_mutations[b]].charge--;
     } else {
         // Not-on units, or those with zero charge, have to pay the power cost
         if (traits[mut].cooldown > 0) {
-            traits[my_mutations[0]].powered = true;
-            traits[my_mutations[0]].charge = traits[mut].cooldown - 1;
+            traits[my_mutations[b]].powered = true;
+            traits[my_mutations[b]].charge = traits[mut].cooldown - 1;
         }
         if (traits[mut].hunger){
             hunger += cost;
@@ -297,7 +298,7 @@ void player::power_mutations()
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
                     itype_id weapon_id = weapon.type->id;
-                    int b = traits[*tmp].invlet;
+                    int b = tmp - &my_mutations[0];
                     if (traits[*tmp].powered) {
                         traits[*tmp].powered = false;
                         add_msg(m_neutral, _("%s powered off."), mut_data.name.c_str());
