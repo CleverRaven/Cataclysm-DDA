@@ -2510,11 +2510,15 @@
     },
     {
       "rotates": false,
-      "id": "bunker_coat"
+      "id": "bunker_coat",
+      "fg": 2336,
+      "bg": 2
     },
     {
       "rotates": false,
-      "id": "bunker_pants"
+      "id": "bunker_pants",
+      "fg": 2337,
+      "bg": 2
     },
     {
       "rotates": false,
@@ -18406,6 +18410,36 @@
       "id": "antiparasitic",
       "fg": 2333,
       "bg": 2
+    },
+    {
+      "rotates": false,
+      "id": "mon_zombie_brute_shocker",
+      "fg": 2334,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "mon_irradiated_wanderer_1",
+      "fg": 2335,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "mon_irradiated_wanderer_2",
+      "fg": 2335,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "mon_irradiated_wanderer_3",
+      "fg": 2335,
+      "bg": 460
+    },
+    {
+      "rotates": false,
+      "id": "mon_irradiated_wanderer_4",
+      "fg": 2335,
+      "bg": 460
     },
     {
       "rotates": false,
