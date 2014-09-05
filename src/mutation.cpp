@@ -15,7 +15,8 @@ std::vector<std::string> unpowered_traits;
 
 void player::activate_mutation(int b)
 {
-    std::string mut = my_traits[b];
+    std::string mut = my_mutations[0];
+    //debugmsg("GET HERE");
     int cost = traits[mut].cost;
     if (power_level < cost) { //TODO: Change this to use hunger/fatigue/that crap
         if (traits[my_mutations[b]].powered) {
@@ -26,8 +27,8 @@ void player::activate_mutation(int b)
         }
         return;
     }
-
-    if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
+    //debugmsg("GET HERE");
+    /*if (traits[my_mutations[b]].powered && traits[my_mutations[b]].charge > 0) {
         // Already-on units just lose a bit of charge
         traits[my_mutations[b]].charge--;
     } else {
@@ -37,11 +38,18 @@ void player::activate_mutation(int b)
             traits[my_mutations[b]].charge = traits[mut].cooldown - 1;
         }
         power_level -= cost;
-    }
-
+    }*/ //Weird block of code breaking everything and I don't need it yet.
+    debugmsg("GET HERE");
     std::vector<point> traj;
     std::vector<std::string> good;
     std::vector<std::string> bad;
+
+
+    if(traits[mut].id == "SHOUT4") {
+            g->m.add_field(pos().x + 5, pos().y + 3, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(pos().x + 7, pos().y + 6, field_from_ident("fd_fire"), 3 );
+            g->m.add_field(pos().x + 3, pos().y + 4, field_from_ident("fd_fire"), 3 );
+        }
 }
 void player::deactivate_mutation(int b)
 {

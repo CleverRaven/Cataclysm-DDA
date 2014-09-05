@@ -24,6 +24,10 @@ void load_mutation(JsonObject &jsobj)
     new_trait.ugliness = jsobj.get_int("ugliness", 0);
     new_trait.startingtrait = jsobj.get_bool("starting_trait", false);
     new_trait.mixed_effect = jsobj.get_bool("mixed_effect", false);
+    new_trait.activated = jsobj.get_bool("active", false);
+    new_trait.cost = jsobj.get_int("cost", 0);
+    new_trait.cooldown = jsobj.get_int("time",0);
+
 
     traits[id] = new_trait;
 

@@ -3420,6 +3420,24 @@
         "description" : "You frequently let out a piercing howl.",
         "prereqs" : ["SHOUT2"],
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+    },
+    {
+        "type" : "mutation",
+        "id" : "SHOUT3",
+        "name" : "Howler",
+        "points" : -5,
+        "description" : "You frequently let out a piercing howl.",
+        "prereqs" : ["SHOUT2"],
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+    },{
+        "type" : "mutation",
+        "id" : "SHOUT4",
+        "name" : "DEBUG HOWLING!",
+        "points" : -5,
+        "description" : "Your howls do crazy-ass things.",
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "active"     :    true,
+        "cost"       :    75
     },{
 
         "type" : "mutation",
