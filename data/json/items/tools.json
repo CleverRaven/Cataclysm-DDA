@@ -7001,7 +7001,7 @@
     "color": "brown",
     "name": "lit charcoal kiln",
     "description": "A kiln full of wood that has been lit; better drop it!",
-	"flags": ["LIGHT_15"],
+	"flags": ["LIGHT_4"],
     "price": 100,
     "material": ["steel", "wood"],
     "weight": 15142,
