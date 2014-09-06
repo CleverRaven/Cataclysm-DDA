@@ -754,6 +754,10 @@ void Pickup::pick_up(int posx, int posy, int min)
     g->u.assign_activity( ACT_PICKUP, 0 );
     g->u.activity.placement = point( posx, posy );
     g->u.activity.values.push_back( from_vehicle );
+    if( min == -1 ) {
+        // Auto pickup will need to auto resume since there can be several of them on the stack.
+        g->u.activity.auto_resume = true;
+    }
     for (size_t i = 0; i < here.size(); i++) {
         if( getitem[i] ) {
             g->u.activity.values.push_back( i );
