@@ -263,7 +263,7 @@ void game::activity_on_turn_pickup()
     point pickup_target = g->u.activity.placement;
     std::list<int> indices;
     std::list<int> quantities;
-    
+
     if (!from_vehicle && g->m.i_at(pickup_target.x, pickup_target.y).size() <= 0) {
         g->u.cancel_activity();
         return;

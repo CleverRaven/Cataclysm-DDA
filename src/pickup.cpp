@@ -350,6 +350,9 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     std::vector<item> &here = from_vehicle ? veh->parts[cargo_part].items :
         g->m.i_at( pickup_target.x, pickup_target.y );
 
+    // Grow here vector if needed to avoid resize operations invalidating pointers during operation.
+    here.reserve( here.size() + 1 );
+
     while( g->u.moves >= 0 && !indices.empty() ) {
         // Pulling from the back of the (in-order) list of indices insures
         // that we pull from the end of the vector.
