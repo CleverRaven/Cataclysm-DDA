@@ -114,7 +114,7 @@ profession *profession::weighted_random()
             for (int i = rng(0, _all_profs.size() - 1); i > 0; --i) {
                 ++iter;
             }
-            if (x_in_y(2, abs(iter->second.point_cost()) + 2)) {
+            if (x_in_y(2, abs(iter->second.point_cost()) + 2) && !(iter->second.has_flag("SCEN_ONLY"))) {
                 retval = &(iter->second);
             }  // else reroll in the while loop.
         }
