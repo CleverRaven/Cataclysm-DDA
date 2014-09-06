@@ -521,9 +521,8 @@ recipe *game::select_crafting_recipe()
             current.clear();
             available.clear();
             if (batch) {
-                batch_recipes(crafting_inv, current, available, current[batch_line]);
-            }
-            else {
+                batch_recipes(crafting_inv, current, available, chosen);
+            } else {
                 // Set current to all recipes in the current tab; available are possible to make
                 pick_recipes(crafting_inv, current, available, tab, subtab, filterstring);
             }
@@ -726,6 +725,7 @@ recipe *game::select_crafting_recipe()
                                               _("Search tools or component using prefix t. \nSearch skills using prefix s, or S for skill used only. \n (i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"));
             redraw = true;
         } else if (action == "QUIT") {
+            chosen = nullptr;
             done = true;
         } else if (action == "RESET_FILTER") {
             filterstring = "";
@@ -737,6 +737,7 @@ recipe *game::select_crafting_recipe()
                 batch = !batch;
                 if (batch) {
                     batch_line = line;
+                    chosen = current[batch_line];
                 } else {
                     line = batch_line;
                     keepline = true;
