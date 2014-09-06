@@ -3201,7 +3201,7 @@
         "threshreq" : ["THRESH_SLIME"],
         "category" : ["MUTCAT_SLIME"],
         "active"     :    true,
-        "cost"       :    75,
+        "cost"       :    40,
         "time"       :    0,
         "hunger"     :    true,
         "thirst"     :    true

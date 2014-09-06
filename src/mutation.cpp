@@ -3,6 +3,9 @@
 #include "game.h"
 #include "translations.h"
 #include "messages.h"
+#include "monster.h"
+#include "monstergenerator.h"
+#include "overmapbuffer.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -59,6 +62,27 @@ void player::activate_mutation(int b)
     else if (traits[mut].id == "WEB_WEAVER"){
         g->m.add_field(posx, posy, fd_web, 1);
         add_msg(_("You start spinning web with your spinnerets!"));
+    }
+    else if (traits[mut].id == "SLIMESPAWNER"){
+        std::vector<point> valid;
+        for (int x = posx - 1; x <= posx + 1; x++) {
+            for (int y = posy - 1; y <= posy + 1; y++) {
+                if (g->is_empty(x, y)) {
+                    valid.push_back( point(x, y) );
+                }
+            }
+        }
+        add_msg(m_warning, _("Slime is torn from you, and moves on its own!"));
+        int numslime = 1;
+        monster slime(GetMType("mon_player_blob"));
+        for (int i = 0; i < numslime; i++) {
+            int index = rng(0, valid.size() - 1);
+            point sp = valid[index];
+            valid.erase(valid.begin() + index);
+            slime.spawn(sp.x, sp.y);
+            slime.friendly = -1;
+            g->add_zombie(slime);
+        }
     }
 }
 void player::deactivate_mutation(int b)

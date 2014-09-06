@@ -1129,7 +1129,7 @@
         "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
-        "name":"Toogle activate/examine",
+        "name":"Toggle activate/examine",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1139,9 +1139,9 @@
     },
     {
         "type" : "keybinding",
-        "id":"TOOGLE_EXAMINE",
+        "id":"TOGGLE_EXAMINE",
         "category":"MUTATIONS",
-        "name":"Toogle activate/examine",
+        "name":"Toggle activate/examine",
         "bindings":[
             {
                 "input_method":"keyboard",
