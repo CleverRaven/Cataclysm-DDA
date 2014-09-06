@@ -7924,7 +7924,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
-    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));
+    bool hiberfood = (has_active_mutation("HIBERNATE") && (hunger > -60 && thirst > -60 ));
     eaten->calc_rot(pos()); // check if it's rotten before eating!
     bool spoiled = eaten->rotten();
 
@@ -8014,7 +8014,7 @@ bool player::eat(item *eaten, it_comest *comest)
     int temp_hunger = hunger - comest->nutr;
     int temp_thirst = thirst - comest->quench;
     int capacity = has_trait("GOURMAND") ? -60 : -20;
-    if( has_trait("HIBERNATE") && !is_npc() &&
+    if( has_active_mutation("HIBERNATE") && !is_npc() &&
         // If BOTH hunger and thirst are above the capacity...
         ( hunger > capacity && thirst > capacity ) &&
         // ...and EITHER of them crosses under the capacity...
@@ -8028,7 +8028,7 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if ( has_trait("HIBERNATE") ) {
+    if ( has_active_mutation("HIBERNATE") ) {
         capacity = -620;
     }
     if ( has_trait("GIZZARD") ) {
@@ -8103,7 +8103,7 @@ bool player::eat(item *eaten, it_comest *comest)
         consume_effects(eaten, comest, spoiled);
     } else {
         consume_effects(eaten, comest);
-        if (!(has_trait("GOURMAND") || has_trait("HIBERNATE") || has_trait("EATHEALTH"))) {
+        if (!(has_trait("GOURMAND") || has_active_mutation("HIBERNATE") || has_trait("EATHEALTH"))) {
             if ((overeating && rng(-200, 0) > hunger)) {
                 vomit();
             }
@@ -8344,7 +8344,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
         }
-        if (has_trait("GOURMAND") && !(has_trait("HIBERNATE"))) {
+        if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
             add_msg_if_player(_("You can't finish it all!"));
         }
@@ -8355,7 +8355,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             thirst = -60;
         }
     }
-    } if (has_trait("HIBERNATE")) {
+    } if (has_active_mutation("HIBERNATE")) {
          if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
             add_msg_if_player(_("You gorge yourself, preparing to hibernate."));
             if (one_in(2)) {
