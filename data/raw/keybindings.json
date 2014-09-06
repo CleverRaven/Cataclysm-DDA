@@ -623,7 +623,7 @@
                 "key":"O"
             }
         ]
-    },    
+    },
     {
         "type" : "keybinding",
         "id":"SEARCH",
@@ -1129,7 +1129,19 @@
         "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
-        "name":"Toogle activate/examine",
+        "name":"Toggle activate/examine",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"!"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TOGGLE_EXAMINE",
+        "category":"MUTATIONS",
+        "name":"Toggle activate/examine",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1175,6 +1187,7 @@
     { "type":"keybinding", "name": "Drop Item", "category":"DEFAULTMODE", "id":"drop", "bindings":[ { "input_method":"keyboard", "key":"d" } ] },
     { "type":"keybinding", "name": "Drop Item to Adjacent Tile", "category":"DEFAULTMODE", "id":"drop_adj", "bindings":[ { "input_method":"keyboard", "key":"D" } ] },
     { "type":"keybinding", "name": "View/Activate Bionics", "category":"DEFAULTMODE", "id":"bionics", "bindings":[ { "input_method":"keyboard", "key":"p" } ] },
+    { "type":"keybinding", "name": "View/Activate Mutations", "category":"DEFAULTMODE", "id":"mutations", "bindings":[ { "input_method":"keyboard", "key":"[" } ] },
     { "type":"keybinding", "name": "Re-layer armour/clothing", "category":"DEFAULTMODE", "id":"sort_armor", "bindings":[ { "input_method":"keyboard", "key":"+" } ] },
     { "type":"keybinding", "name": "Wait for Several Minutes", "category":"DEFAULTMODE", "id":"wait", "bindings":[ { "input_method":"keyboard", "key":"|" } ] },
     { "type":"keybinding", "name": "Craft Items", "category":"DEFAULTMODE", "id":"craft", "bindings":[ { "input_method":"keyboard", "key":"&" } ] },
@@ -1319,6 +1332,58 @@
         "type" : "keybinding",
         "id":"DOWN",
         "category":"BIONICS",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"2"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"REASSIGN",
+        "category":"MUTATIONS",
+        "name":"reassign invlet",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"="
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"UP",
+        "category":"MUTATIONS",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"8"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category":"MUTATIONS",
         "name":"Pan down",
         "bindings":[
             {

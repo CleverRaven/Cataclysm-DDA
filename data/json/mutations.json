@@ -1685,7 +1685,10 @@
         "prereqs" : ["HERBIVORE"],
         "changes_to" : ["GRAZER"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
-        "category" : ["MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_CATTLE"],
+        "active"     :   true,
+        "cost"       :    0,
+        "turns"      :   100
     },{
         "type" : "mutation",
         "id" : "GRAZER",
@@ -1695,7 +1698,10 @@
         "prereqs" : ["RUMINANT"],
         "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
-        "category" : ["MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_CATTLE"],
+        "active"     :   true,
+        "cost"       :    0,
+        "turns"      :   100
     },{
         "type" : "mutation",
         "id" : "EATPOISON",
@@ -1934,7 +1940,10 @@
         "prereqs" : ["HEAVYSLEEPER2"],
         "prereqs2" : ["FAT"],
         "threshreq" : ["THRESH_URSINE"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "active"     :    true,
+        "cost"       :    0,
+        "time"       :    100
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH",
@@ -2228,7 +2237,12 @@
         "prereqs" : ["WEB_SPINNER"],
         "threshreq" : ["THRESH_SPIDER"],
         "cancels" : ["SLIMY"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "active"     :    true,
+        "cost"       :    8,
+        "time"       :    100,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "WEB_RAPPEL",
@@ -3185,7 +3199,12 @@
         "prereqs" : ["INT_SLIME"],
         "prereqs2" : ["PER_SLIME_OK"],
         "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "active"     :    true,
+        "cost"       :    40,
+        "time"       :    0,
+        "hunger"     :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "HERBIVORE",
@@ -3402,7 +3421,12 @@
         "points" : -2,
         "description" : "You occasionally shout uncontrollably.",
         "changes_to" : ["SHOUT2"],
-        "category" : ["MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_RAPTOR"],
+        "active"     :    true,
+        "cost"       :    3,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "SHOUT2",
@@ -3411,7 +3435,12 @@
         "description" : "You sometimes scream uncontrollably.",
         "prereqs" : ["SHOUT1"],
         "changes_to" : ["SHOUT3"],
-        "category" : ["MUTCAT_BEAST"]
+        "category" : ["MUTCAT_BEAST"],
+        "active"     :    true,
+        "cost"       :    4,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "SHOUT3",
@@ -3419,7 +3448,12 @@
         "points" : -5,
         "description" : "You frequently let out a piercing howl.",
         "prereqs" : ["SHOUT2"],
-        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "active"     :    true,
+        "cost"       :    6,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
 
         "type" : "mutation",

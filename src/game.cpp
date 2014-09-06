@@ -2725,6 +2725,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("drop");
     ctxt.register_action("drop_adj");
     ctxt.register_action("bionics");
+    ctxt.register_action("mutations");
     ctxt.register_action("sort_armor");
     ctxt.register_action("wait");
     ctxt.register_action("craft");
@@ -3438,9 +3439,12 @@ bool game::handle_action()
     case ACTION_DIR_DROP:
         drop_in_direction();
         break;
-
     case ACTION_BIONICS:
         u.power_bionics();
+        refresh_all();
+        break;
+    case ACTION_MUTATIONS:
+        u.power_mutations();
         refresh_all();
         break;
 
@@ -11801,7 +11805,7 @@ void game::forage()
 
 void game::eat(int pos)
 {
-    if ((u.has_trait("RUMINANT") || u.has_trait("GRAZER")) &&
+    if ((u.has_active_mutation("RUMINANT") || u.has_active_mutation("GRAZER")) &&
         m.ter(u.posx, u.posy) == t_underbrush && query_yn(_("Eat underbrush?"))) {
         u.moves -= 400;
         u.hunger -= 10;
@@ -11809,7 +11813,7 @@ void game::eat(int pos)
         add_msg(_("You eat the underbrush."));
         return;
     }
-    if (u.has_trait("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
+    if (u.has_active_mutation("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
         query_yn(_("Graze?"))) {
         u.moves -= 400;
         if ((u.hunger < 10) || one_in(20 - u.int_cur)) {

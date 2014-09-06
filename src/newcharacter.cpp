@@ -531,12 +531,6 @@ bool player::create(character_type type, std::string tempname)
         inv.push_back(tmp);
     }
 
-    // make sure we have no mutations
-    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter)
-        if (!has_base_trait(iter->first)) {
-            my_mutations.erase(iter->first);
-        }
-
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
     return true;
@@ -898,7 +892,6 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         cLine = col_off_act;
                         if (iCurrentLine[iCurrentPage] == (int)i) {
                             cLine = hi_off;
-
                             if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
                                 cLine = hilite(c_dkgray);
                             } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
@@ -1629,11 +1622,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::unordered_set<std::string> current_traits = u->get_traits();
+            std::vector<std::string> current_traits = u->get_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::unordered_set<std::string>::iterator i = current_traits.begin();
+                for (std::vector<std::string>::iterator i = current_traits.begin();
                      i != current_traits.end(); ++i) {
                     wprintz(w_traits, c_ltgray, "\n");
                     wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
@@ -1835,7 +1828,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::unordered_set<std::string> player::get_traits() const
+std::vector<std::string> player::get_traits() const
 {
     return my_traits;
 }

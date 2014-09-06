@@ -177,10 +177,7 @@ player::player() : Character(), name("")
  next_expected_position.x = -1;
  next_expected_position.y = -1;
 
- for ( auto iter = traits.begin(); iter != traits.end(); ++iter) {
-    my_traits.erase(iter->first);
-    my_mutations.erase(iter->first);
- }
+ empty_traits();
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
@@ -3595,16 +3592,26 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
  }
 }
 
-bool player::has_trait(const std::string &flag) const
+bool player::has_trait(const std::string &b) const
 {
     // Look for active mutations and traits
-    return (flag != "") && (my_mutations.find(flag) != my_mutations.end());
+    for (auto &i : my_mutations) {
+        if (traits[i].id == b) {
+            return true;
+        }
+    }
+    return false;
 }
 
-bool player::has_base_trait(const std::string &flag) const
+bool player::has_base_trait(const std::string &b) const
 {
     // Look only at base traits
-    return (flag != "") && (my_traits.find(flag) != my_traits.end());
+    for (auto &i : my_traits) {
+        if (traits[i].id == b) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool player::has_conflicting_trait(const std::string &flag) const
@@ -3673,13 +3680,33 @@ bool player::purifiable(const std::string &flag) const
     return false;
 }
 
-void toggle_str_set( std::unordered_set< std::string > &set, const std::string &str )
+void player::toggle_str_set( std::vector< std::string > &set, const std::string &str )
 {
-    auto i = set.find(str);
-    if (i == set.end()) {
-        set.insert(str);
-    } else {
-        set.erase(i);
+    bool ck = false;
+    for (auto &i : set){
+        if (i == str){
+            ck = true;
+        }
+    }
+    if(ck == true){
+        std::vector<std::string> new_set;
+                for(auto &i : set) {
+                    if (!(traits[i].id == str)) {
+                        new_set.push_back(trait(traits[i].id, traits[i].invlet).id);
+                    }
+                }
+                set = new_set;
+    }
+    else{
+        char newinv = ' ';
+        for( size_t i = 0; i < inv_chars.size(); i++ ) {
+            if( mutation_by_invlet( inv_chars[i] ) == nullptr ) {
+                newinv = inv_chars[i];
+                break;
+            }
+        }
+        set.push_back(trait(traits[str].id, newinv).id);
+        traits[str].invlet = newinv;
     }
 }
 
@@ -3852,6 +3879,15 @@ bool player::has_active_bionic(const bionic_id & b) const
     }
     return false;
 }
+bool player::has_active_mutation(const std::string & b) const
+{
+    for (auto &i : my_mutations) {
+        if (traits[i].id == b) {
+            return (traits[i].powered);
+        }
+    }
+    return false;
+}
 
 void player::add_bionic( bionic_id b )
 {
@@ -3895,6 +3931,14 @@ bionic* player::bionic_by_invlet(char ch) {
     for (size_t i = 0; i < my_bionics.size(); i++) {
         if (my_bionics[i].invlet == ch) {
             return &my_bionics[i];
+        }
+    }
+    return 0;
+}
+std::string* player::mutation_by_invlet(char ch) {
+    for (size_t i = 0; i < my_mutations.size(); i++) {
+        if (traits[my_mutations[i]].invlet == ch) {
+            return &my_mutations[i];
         }
     }
     return 0;
@@ -4208,12 +4252,6 @@ void player::pause()
             recoil = int(recoil / 2);
         }
     }
-
-    //Web Weavers...weave web
-    if (has_trait("WEB_WEAVER") && !in_vehicle) {
-      g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
-      add_msg(_("You spin some webbing."));
-     }
 
     // Meditation boost for Toad Style, obsolete
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
@@ -5871,6 +5909,11 @@ void player::suffer()
     if (has_trait("SLIMY") && !in_vehicle) {
         g->m.add_field(posx, posy, fd_slime, 1);
     }
+        //Web Weavers...weave web
+    if (has_active_mutation("WEB_WEAVER") && !in_vehicle) {
+      g->m.add_field(posx, posy, fd_web, 1); //this adds density to if its not already there.
+
+     }
 
     if (has_trait("VISCOUS") && !in_vehicle) {
         if (one_in(3)){
@@ -7889,7 +7932,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
-    bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));
+    bool hiberfood = (has_active_mutation("HIBERNATE") && (hunger > -60 && thirst > -60 ));
     eaten->calc_rot(pos()); // check if it's rotten before eating!
     bool spoiled = eaten->rotten();
 
@@ -7901,7 +7944,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     int temp_nutr = comest->nutr;
     int temp_quench = comest->quench;
-    if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60))){
+    if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60)) && has_active_mutation("HIBERNATE")){
        if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
         return false;
        }
@@ -7979,7 +8022,7 @@ bool player::eat(item *eaten, it_comest *comest)
     int temp_hunger = hunger - comest->nutr;
     int temp_thirst = thirst - comest->quench;
     int capacity = has_trait("GOURMAND") ? -60 : -20;
-    if( has_trait("HIBERNATE") && !is_npc() &&
+    if( has_active_mutation("HIBERNATE") && !is_npc() &&
         // If BOTH hunger and thirst are above the capacity...
         ( hunger > capacity && thirst > capacity ) &&
         // ...and EITHER of them crosses under the capacity...
@@ -7993,7 +8036,7 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if ( has_trait("HIBERNATE") ) {
+    if ( has_active_mutation("HIBERNATE") ) {
         capacity = -620;
     }
     if ( has_trait("GIZZARD") ) {
@@ -8068,7 +8111,7 @@ bool player::eat(item *eaten, it_comest *comest)
         consume_effects(eaten, comest, spoiled);
     } else {
         consume_effects(eaten, comest);
-        if (!(has_trait("GOURMAND") || has_trait("HIBERNATE") || has_trait("EATHEALTH"))) {
+        if (!(has_trait("GOURMAND") || has_active_mutation("HIBERNATE") || has_trait("EATHEALTH"))) {
             if ((overeating && rng(-200, 0) > hunger)) {
                 vomit();
             }
@@ -8316,7 +8359,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
         }
-        if (has_trait("GOURMAND") && !(has_trait("HIBERNATE"))) {
+        if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
             add_msg_if_player(_("You can't finish it all!"));
         }
@@ -8327,7 +8370,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             thirst = -60;
         }
     }
-    } if (has_trait("HIBERNATE")) {
+    } if (has_active_mutation("HIBERNATE")) {
          if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
             add_msg_if_player(_("You gorge yourself, preparing to hibernate."));
             if (one_in(2)) {

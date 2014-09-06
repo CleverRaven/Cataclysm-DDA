@@ -114,7 +114,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
         /** Returns the set "my_traits" */
-        std::unordered_set<std::string> get_traits() const;
+        std::vector<std::string> get_traits() const;
         /** Empties the trait list */
         void empty_traits();
         void add_traits();
@@ -235,6 +235,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void toggle_trait(const std::string &flag);
         /** Toggles a mutation on the player */
         void toggle_mutation(const std::string &flag);
+        void toggle_str_set( std::vector< std::string > &set, const std::string &str );
         /** Modifies mutation_category_level[] based on the entered trait */
         void set_cat_level_rec(const std::string &sMut);
         /** Recalculates mutation_category_level[] values for the player */
@@ -251,6 +252,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_bionic(const bionic_id &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic(const bionic_id &b) const;
+        bool has_active_mutation(const std::string &b) const;
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
@@ -263,10 +265,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
+        void power_mutations();
         /** Handles bionic activation effects of the entered bionic */
         void activate_bionic(int b);
+        void activate_mutation(int b);
         /** Handles bionic deactivation effects of the entered bionic */
         void deactivate_bionic(int b);
+        void deactivate_mutation(int b);
         /** Randomly removes a bionic from my_bionics[] */
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */
@@ -275,6 +280,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
+        std::string *mutation_by_invlet(char ch);
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light();
 
@@ -994,8 +1000,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load_zones();
 
     protected:
-        std::unordered_set<std::string> my_traits;
-        std::unordered_set<std::string> my_mutations;
+        std::vector<std::string> my_traits;
+        std::vector<std::string> my_mutations;
         std::vector<bionic> my_bionics;
         std::list<disease> illness;
         bool underwater;
