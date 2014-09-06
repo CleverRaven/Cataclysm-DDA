@@ -3421,7 +3421,12 @@
         "points" : -2,
         "description" : "You occasionally shout uncontrollably.",
         "changes_to" : ["SHOUT2"],
-        "category" : ["MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_RAPTOR"],
+        "active"     :    true,
+        "cost"       :    3,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "SHOUT2",
@@ -3430,7 +3435,12 @@
         "description" : "You sometimes scream uncontrollably.",
         "prereqs" : ["SHOUT1"],
         "changes_to" : ["SHOUT3"],
-        "category" : ["MUTCAT_BEAST"]
+        "category" : ["MUTCAT_BEAST"],
+        "active"     :    true,
+        "cost"       :    4,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "SHOUT3",
@@ -3438,7 +3448,12 @@
         "points" : -5,
         "description" : "You frequently let out a piercing howl.",
         "prereqs" : ["SHOUT2"],
-        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
+        "active"     :    true,
+        "cost"       :    6,
+        "time"       :    0,
+        "fatigue"    :    true,
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "SHOUT4",

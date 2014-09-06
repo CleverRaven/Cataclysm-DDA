@@ -84,6 +84,15 @@ void player::activate_mutation(int b)
             g->add_zombie(slime);
         }
     }
+    else if (traits[mut].id == "SHOUT1"){
+        g->sound(posx, posy, 10 + 2 * str_cur, _("You shout loudly!"));
+    }
+    else if (traits[mut].id == "SHOUT2"){
+        g->sound(posx, posy, 15 + 3 * str_cur, _("You scream loudly!"));
+    }
+    else if (traits[mut].id == "SHOUT3"){
+        g->sound(posx, posy, 20 + 4 * str_cur, _("You let out a piercing howl!"));
+    }
 }
 void player::deactivate_mutation(int b)
 {
