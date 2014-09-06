@@ -77,7 +77,7 @@ void scenario::load_scenario(JsonObject &jsobj)
         }
     }
     if (scen._allowed_professions.size() < 1){
-        scen._profession = profession::generic();
+        scen._profession = profession::generic()->ident();
     }
     jsarr = jsobj.get_array("traits");
     while (jsarr.has_more()) {
