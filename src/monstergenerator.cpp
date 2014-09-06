@@ -318,6 +318,7 @@ void MonsterGenerator::init_flags()
     flag_map["CBM_SCI"] = MF_CBM_SCI;
     flag_map["CBM_OP"] = MF_CBM_OP;
     flag_map["CBM_TECH"] = MF_CBM_TECH;
+    flag_map["CBM_SUBS"] = MF_CBM_SUBS;
 }
 
 

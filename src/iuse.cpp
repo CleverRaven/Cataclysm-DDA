@@ -5173,8 +5173,11 @@ int iuse::pipebomb_act(player *, item *it, bool t)
         add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
         return 0;
     } else { // The timer has run down
-        if (one_in(10) && g->u_see(pos.x, pos.y)) {
-            add_msg(_("The pipe bomb fizzles out."));
+        if (one_in(10)) {
+            // Fizzled, but we may not have seen it to know that
+            if (g->u_see(pos.x, pos.y)) {
+                add_msg(_("The pipe bomb fizzles out."));
+            }
         } else {
             g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
         }
@@ -8561,24 +8564,24 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
             recipe *r = candidates[rng(0, candidates.size() - 1)];
             const std::string rident = r->ident;
 
-            const item dummy(r->ident, 0);
+            const item dummy(r->result, 0);
 
             if (eink->item_vars["EIPC_RECIPES"] == "") {
                 something_downloaded = true;
                 eink->item_vars["EIPC_RECIPES"] = "," + rident + ",";
 
                 p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                     dummy.tname().c_str());
+                                     dummy.type->nname(1).c_str());
             } else {
                 if (eink->item_vars["EIPC_RECIPES"].find("," + rident + ",") == std::string::npos) {
                     something_downloaded = true;
                     eink->item_vars["EIPC_RECIPES"] += rident + ",";
 
                     p->add_msg_if_player(m_good, _("You download a recipe for %s into the tablet's memory."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 } else {
                     p->add_msg_if_player(m_good, _("Your tablet already has a recipe for %s."),
-                                         dummy.tname().c_str());
+                                         dummy.type->nname(1).c_str());
                 }
             }
         }
@@ -8825,7 +8828,7 @@ int iuse::einktabletpc(player *p, item *it, bool t)
             rmenu.text = _("Choose recipe to view:");
             rmenu.addentry(0, true, 'q', _("Cancel"));
 
-            std::vector<std::string> recipes;
+            std::vector<std::string> candidate_recipes;
             std::istringstream f(it->item_vars["EIPC_RECIPES"]);
             std::string s;
             int k = 1;
@@ -8835,10 +8838,13 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                     continue;
                 }
 
-                recipes.push_back(s);
+                candidate_recipes.push_back(s);
 
-                const item dummy(s, 0);
-                rmenu.addentry(k++, true, -1, dummy.tname().c_str());
+                auto recipe = find_recipe( s );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    rmenu.addentry(k++, true, -1, dummy.type->nname(1).c_str());
+                }
             }
 
             rmenu.query();
@@ -8848,10 +8854,15 @@ int iuse::einktabletpc(player *p, item *it, bool t)
                 return it->type->charges_to_use();
             } else {
                 it->item_tags.insert("HAS_RECIPE");
-                it->item_vars["RECIPE"] = recipes[rchoice - 1];
+                it->item_vars["RECIPE"] = candidate_recipes[rchoice - 1];
 
-                const item dummy(it->item_vars["RECIPE"], 0);
-                p->add_msg_if_player(m_info, _("You change the e-ink screen to show a recipe for %s."), dummy.tname().c_str());
+                auto recipe = find_recipe( it->item_vars["RECIPE"] );
+                if( recipe ) {
+                    const item dummy( recipe->result, 0 );
+                    p->add_msg_if_player(m_info,
+                        _("You change the e-ink screen to show a recipe for %s."),
+                                         dummy.type->nname(1).c_str());
+                }
             }
 
             return it->type->charges_to_use();

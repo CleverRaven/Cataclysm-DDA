@@ -4397,5 +4397,37 @@
         "color" : "light_cyan",
         "see_cost" : 5,
         "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_large_entrance",
+        "name" : "large power substation",
+        "sym" : 72,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_large_2",
+        "name" : "large power substation",
+        "sym" : 72,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_large_3",
+        "name" : "large power substation",
+        "sym" : 72,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pwr_large_4",
+        "name" : "large power substation",
+        "sym" : 72,
+        "color" : "cyan",
+        "see_cost" : 5,
+        "extras" : "field"
     }
 ]

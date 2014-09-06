@@ -16,7 +16,7 @@ void load_mutation(JsonObject &jsobj)
     trait new_trait;
     JsonArray jsarr;
     std::string id = jsobj.get_string("id");
-
+    new_trait.id = id;
     new_trait.name = _(jsobj.get_string("name").c_str());
     new_trait.description = _(jsobj.get_string("description").c_str());
     new_trait.points = jsobj.get_int("points");
@@ -24,6 +24,14 @@ void load_mutation(JsonObject &jsobj)
     new_trait.ugliness = jsobj.get_int("ugliness", 0);
     new_trait.startingtrait = jsobj.get_bool("starting_trait", false);
     new_trait.mixed_effect = jsobj.get_bool("mixed_effect", false);
+    new_trait.activated = jsobj.get_bool("active", false);
+    new_trait.cost = jsobj.get_int("cost", 0);
+    new_trait.cooldown = jsobj.get_int("time",0);
+    new_trait.hunger = jsobj.get_bool("hunger",false);
+    new_trait.thirst = jsobj.get_bool("thirst",false);
+    new_trait.fatigue = jsobj.get_bool("fatigue",false);
+    new_trait.charge = 0;
+
 
     traits[id] = new_trait;
 

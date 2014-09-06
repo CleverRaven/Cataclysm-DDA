@@ -82,45 +82,8 @@ class advanced_inventory_pane
 
 class advanced_inventory
 {
+
     public:
-        player *p;
-
-        const int head_height;
-        const int min_w_height;
-        const int min_w_width;
-        const int max_w_width;
-        const int left;
-        const int right;
-        const int isinventory;
-        const int isall;
-        const int isdrag;
-
-        bool checkshowmsg;
-        bool showmsg;
-        bool inCategoryMode;
-
-        int itemsPerPage;
-        int w_height;
-        int w_width;
-
-        int headstart;
-        int colstart;
-
-        //    itemsPerPage=getmaxy(left_window)-ADVINVOFS;
-        // todo: awaiting ui::menu // last_tmpdest=-1;
-        bool exit;// = false;
-        bool redraw;// = true;
-        bool recalc;// = true;
-        int lastCh;// = 0;
-
-        int src;// = left; // the active screen , 0 for left , 1 for right.
-        int dest;// = right;
-        bool examineScroll;// = false;
-        bool filter_edit;
-
-        advanced_inventory_pane panes[2];
-        advanced_inv_area squares[12];
-
         advanced_inventory() :
             head_height(5),
             min_w_height(10),
@@ -133,14 +96,44 @@ class advanced_inventory
             isdrag(11)
         {
         }
+        void display();
+    private:
+        const int head_height;
+        const int min_w_height;
+        const int min_w_width;
+        const int max_w_width;
+        const int left;
+        const int right;
+        const int isinventory;
+        const int isall;
+        const int isdrag;
+
+        bool inCategoryMode;
+
+        int itemsPerPage;
+        int w_height;
+        int w_width;
+
+        int headstart;
+        int colstart;
+
+        bool recalc;// = true;
+        int lastCh;// = 0;
+
+        int src;// = left; // the active screen , 0 for left , 1 for right.
+        int dest;// = right;
+        bool examineScroll;// = false;
+        bool filter_edit;
+
+        advanced_inventory_pane panes[2];
+        advanced_inv_area squares[12];
+
         std::string get_sortname(int sortby);
         bool move_all_items();
-        void display(player *pp);
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(int i);
         void redraw_pane(int i);
-        void init(player *pp);
-    private:
+        void init();
         bool isDirectionalDragged(int area1, int area2);
 };
 

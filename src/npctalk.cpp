@@ -981,7 +981,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
 
         case TALK_TRAIN:
             {
-            if (g->u.backlog.type == ACT_TRAIN) {
+                if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
                 return _("Shall we resume?");
             }
             std::vector<Skill*> trainable = p->skills_offered_to(&(g->u));
@@ -2180,13 +2180,14 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
             break;
 
         case TALK_TRAIN: {
-            if (g->u.backlog.type == ACT_TRAIN) {
+            if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
+                player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
-                Skill *skillt = Skill::skill(g->u.backlog.name);
+                Skill *skillt = Skill::skill(backlog.name);
                 if(skillt == NULL) {
-                    resume << martialarts[g->u.backlog.name].name;
-                    SELECT_STYLE(resume.str(), g->u.backlog.name);
+                    resume << martialarts[backlog.name].name;
+                    SELECT_STYLE(resume.str(), backlog.name);
                 } else {
                     resume << skillt->name();
                     SELECT_SKIL(resume.str(), skillt);

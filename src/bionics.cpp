@@ -568,13 +568,21 @@ void player::activate_bionic(int b)
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
-        if (g->handle_liquid(water, true, true)) {
+        int humidity = g->weatherGen.get_weather(pos(), calendar::turn).humidity;
+        int water_charges = (humidity * 3.0) / 100.0 + 0.5;
+        // At 50% relative humidity or more, the player will draw 2 units of water
+        // At 16% relative humidity or less, the player will draw 0 units of water
+        water.charges = water_charges;
+        if (water_charges == 0) {
+            add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
+        }
+        if (g->handle_liquid(water, true, false)) {
             moves -= 100;
         } else if (query_yn(_("Drink from your hands?"))) {
             inv.push_back(water);
             consume(inv.position_by_type(water.typeId()));
             moves -= 350;
-        } else {
+        } else if (water.charges == water_charges && water_charges != 0) {
             power_level += bionics["bio_evap"]->power_cost;
         }
     } else if(bio.id == "bio_lighter") {
