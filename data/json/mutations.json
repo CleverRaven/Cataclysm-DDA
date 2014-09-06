@@ -1970,7 +1970,7 @@
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH3",
-        "name" : "TANK",
+        "name" : "TAAANK",
         "points" : 7,
         "description" : "You can simply take the punishment from lesser beings and keep going. You get a 40% bonus to all hit points. Stacks with Tough, etc.",
         "valid" : false,
@@ -2239,10 +2239,10 @@
         "cancels" : ["SLIMY"],
         "category" : ["MUTCAT_SPIDER"],
         "active"     :    true,
-        "cost"       :    30,
+        "cost"       :    8,
         "time"       :    100,
         "hunger"     :    true,
-        "fatigue"    :    true
+        "thirst"     :    true
     },{
         "type" : "mutation",
         "id" : "WEB_RAPPEL",
