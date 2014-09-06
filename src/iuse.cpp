@@ -5095,8 +5095,11 @@ int iuse::pipebomb_act(player *, item *it, bool t)
         add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
         return 0;
     } else { // The timer has run down
-        if (one_in(10) && g->u_see(pos.x, pos.y)) {
-            add_msg(_("The pipe bomb fizzles out."));
+        if (one_in(10)) {
+            // Fizzled, but we may not have seen it to know that
+            if (g->u_see(pos.x, pos.y)) {
+                add_msg(_("The pipe bomb fizzles out."));
+            }
         } else {
             g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
         }
