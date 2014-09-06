@@ -109,7 +109,6 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
     std::stringstream pwr;
     pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
     int pwr_length = utf8_width(pwr.str().c_str()) + 1;
-    mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
     std::string desc;
     int desc_length = getmaxx(window) - cap_offset - pwr_length;
