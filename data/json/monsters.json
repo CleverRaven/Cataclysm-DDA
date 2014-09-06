@@ -5756,7 +5756,7 @@
     "name": "zombie dancer",
     "species":"ZOMBIE",
     "symbol":"Z",
-    "color":"blue_magenta",
+    "color":"white_magenta",
     "size":"HUGE",
     "material":"flesh",
     "diff":50,
