@@ -322,8 +322,8 @@ class game
             return recipes;
         };
         inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
-        std::list<item> consume_items(player *p, const std::vector<item_comp> &components);
-        void consume_tools(player *p, const std::vector<tool_comp> &tools);
+        std::list<item> consume_items(player *p, const std::vector<item_comp> &components, int batch = 1);
+        void consume_tools(player *p, const std::vector<tool_comp> &tools, int batch = 1);
         /**
          * Returns the recipe that is used to disassemble the given item type.
          * Returns NULL if there is no recipe to disassemble the item type.
@@ -555,7 +555,7 @@ class game
         bool making_would_work(recipe *r);   // See crafting.cpp
         bool is_container_eligible_for_crafting(item &cont); // See crafting.cpp
         std::vector<item> get_eligible_containers_for_crafting();    // See crafting.cpp
-        bool check_eligible_containers_for_crafting(recipe *r);  // See crafting.cpp
+        bool check_eligible_containers_for_crafting(recipe *r, int batch = 1);  // See crafting.cpp
         bool can_make(recipe *r);            // See crafting.cpp
         void make_craft(recipe *making);     // See crafting.cpp
         void make_all_craft(recipe *making); // See crafting.cpp
@@ -563,6 +563,8 @@ class game
         void pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
                           std::vector<bool> &available, craft_cat tab, craft_subcat subtab,
                           std::string filter);// crafting.cpp
+        void batch_recipes(const inventory &crafting_inv, std::vector<recipe *> &current,
+                          std::vector<bool> &available, recipe* r);// crafting.cpp
         void disassemble(int pos = INT_MAX);       // See crafting.cpp
         void complete_disassemble();         // See crafting.cpp
         recipe *recipe_by_index(int index);  // See crafting.cpp
