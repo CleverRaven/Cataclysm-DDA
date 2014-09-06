@@ -8071,7 +8071,7 @@ bool player::eat(item *eaten, it_comest *comest)
             thirst += 40;
             //~slimespawns have *small voices* which may be the Nice equivalent
             //~of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
-            add_msg(_("hey, you look like me! let's work together!"));
+            add_msg(m_good, _("hey, you look like me! let's work together!"));
         }
     }
 

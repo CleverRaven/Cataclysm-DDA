@@ -67,7 +67,7 @@ void player::activate_mutation(int b)
                 }
             }
         }
-        add_msg(m_warning, _("Slime is torn from you, and moves on its own!"));
+        add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
         monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
@@ -77,6 +77,14 @@ void player::activate_mutation(int b)
             slime.spawn(sp.x, sp.y);
             slime.friendly = -1;
             g->add_zombie(slime);
+        }
+        //~ Usual enthusiastic slimespring small voices! :D
+        if (one_in(3)) {
+            add_msg(m_good, _("wow! you look just like me! we should look out for each other!"));
+        } else if (one_in(2)) {
+            add_msg(m_good, _("come on, big me, let's go!"));
+        } else {
+            add_msg(m_good, _("we're a team, we've got this!"));
         }
     }
     else if (traits[mut].id == "SHOUT1"){
