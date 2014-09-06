@@ -407,25 +407,26 @@ void iexamine::toilet(player *p, map *m, int examx, int examy)
     if (waterIndex < 0) {
         add_msg(m_info, _("This toilet is empty."));
     } else {
-        bool drained = false;
-
         item &water = items[waterIndex];
+        int initial_charges = water.charges;
         // Use a different poison value each time water is drawn from the toilet.
         water.poison = one_in(3) ? 0 : rng(1, 3);
 
-        // First try handling/bottling, then try drinking.
-        if (g->handle_liquid(water, true, false)) {
+        // First try handling/bottling, then try drinking, but only try
+        // drinking if we don't handle or bottle.
+        bool drained = g->handle_liquid(water, true, false);
+        if (drained || initial_charges != water.charges) {
+            // The bottling happens in handle_liquid, but delay of action
+            // does not.
             p->moves -= 100;
-            drained = true;
-        } else {
+        } else if (!drained && initial_charges == water.charges){
             int charges_consumed = p->drink_from_hands(water);
+            // Drink_from_hands handles moves, but doesn't decrease water
+            // charges.
             water.charges -= charges_consumed;
-            if (water.charges <= 0) {
-                drained = true;
-            }
         }
 
-        if (drained) {
+        if (drained || water.charges <= 0) {
             items.erase(items.begin() + waterIndex);
         }
     }
