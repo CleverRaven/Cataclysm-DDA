@@ -6561,7 +6561,7 @@
         "type" : "COMESTIBLE",
         "id" : "jerky",
         "name" : "meat jerky",
-        "name_plural" : "meat jerkies",
+        "name_plural" : "meat jerky",
         "weight" : 40,
         "color" : "brown",
         "addiction_type" : "none",
