@@ -275,10 +275,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
-        int num_mutations() const; //TODO
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index(int i);
-        std::string &mutation_at_index(int i); //TODO
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
         bionic *bionic_by_invlet(char ch);
         std::string *mutation_by_invlet(char ch);

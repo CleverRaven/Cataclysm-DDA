@@ -54,12 +54,7 @@ void player::activate_mutation(int b)
     std::vector<std::string> bad;
 
 
-    if(traits[mut].id == "SHOUT4") {
-            g->m.add_field(pos().x + 5, pos().y + 3, field_from_ident("fd_fire"), 3 );
-            g->m.add_field(pos().x + 7, pos().y + 6, field_from_ident("fd_fire"), 3 );
-            g->m.add_field(pos().x + 3, pos().y + 4, field_from_ident("fd_fire"), 3 );
-    }
-    else if (traits[mut].id == "WEB_WEAVER"){
+    if (traits[mut].id == "WEB_WEAVER"){
         g->m.add_field(posx, posy, fd_web, 1);
         add_msg(_("You start spinning web with your spinnerets!"));
     }
@@ -148,12 +143,12 @@ void player::power_mutations()
     * top frame line:                                         + 1
     * height of title window:                                 + TITLE_HEIGHT
     * line after the title:                                   + 1
-    * line with active/passive bionic captions:               + 1
-    * height of the biggest list of active/passive bionics:   + mutations_count
-    * line before bionic description:                         + 1
+    * line with active/passive mutation captions:               + 1
+    * height of the biggest list of active/passive mutations:   + mutations_count
+    * line before mutation description:                         + 1
     * height of description window:                           + DESCRIPTION_HEIGHT
     * bottom frame line:                                      + 1
-    * TOTAL: TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5
+    * TOTAL: TITLE_HEIGHT + mutations_count + DESCRIPTION_HEIGHT + 5
     */
     int HEIGHT = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
                                           TITLE_HEIGHT + mutations_count + DESCRIPTION_HEIGHT + 5));
@@ -175,7 +170,7 @@ void player::power_mutations()
 
     int scroll_position = 0;
     int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) /
-                        4; // X-coordinate of the list of active bionics
+                        4; // X-coordinate of the list of active mutations
 
     input_context ctxt("MUTATIONS");
     ctxt.register_updown();
@@ -188,8 +183,8 @@ void player::power_mutations()
     std::string menu_mode = "activating";
 
     while(true) {
-        // offset for display: bionic with index i is drawn at y=list_start_y+i
-        // drawing the bionics starts with bionic[scroll_position]
+        // offset for display: mutation with index i is drawn at y=list_start_y+i
+        // drawing the mutation starts with mutation[scroll_position]
         const int list_start_y = HEADER_LINE_Y + 2 - scroll_position;
         int max_scroll_position = HEADER_LINE_Y + 2 + mutations_count -
                                   ((menu_mode == "examining") ? DESCRIPTION_LINE_Y : (HEIGHT - 1));
@@ -266,7 +261,7 @@ void player::power_mutations()
             menu_mode = "activating";
             tmp = mutation_by_invlet(ch);
             if(tmp == 0) {
-                // Selected an non-existing bionic (or escape, or ...)
+                // Selected an non-existing mutation (or escape, or ...)
                 continue;
             }
             redraw = true;
@@ -277,10 +272,10 @@ void player::power_mutations()
                 continue;
             }
             std::string *otmp = mutation_by_invlet(newch);
-            // if there is already a bionic with the new invlet, the invlet
+            // if there is already a mutation with the new invlet, the invlet
             // is considered valid.
             if(otmp == 0 && inv_chars.find(newch) == std::string::npos) {
-                // TODO separate list of letters for bionics
+                // TODO separate list of letters for mutations
                 popup(_("%c is not a valid inventory letter."), newch);
                 continue;
             }
@@ -312,7 +307,7 @@ void player::power_mutations()
         } else {
             tmp = mutation_by_invlet(ch);
             if(tmp == 0) {
-                // entered a key that is not mapped to any bionic,
+                // entered a key that is not mapped to any mutation,
                 // -> leave screen
                 break;
             }
@@ -329,7 +324,7 @@ void player::power_mutations()
                         deactivate_mutation(b);
                     } else if ((!traits[*tmp].hunger || (traits[*tmp].hunger && hunger <= 400)) || (!traits[*tmp].thirst || (traits[*tmp].thirst && thirst <= 400)) || (!traits[*tmp].fatigue || (traits[*tmp].fatigue && fatigue <= 400))){
 
-                        // this will clear the bionics menu for targeting purposes
+                        // this will clear the mutations menu for targeting purposes
                         werase(wBio);
                         wrefresh(wBio);
                         delwin(w_title);
@@ -351,7 +346,7 @@ You can not activate %s!  To read a description of \
                     redraw = true;
                 }
             }
-            if (menu_mode == "examining") { // Describing bionics, not activating them!
+            if (menu_mode == "examining") { // Describing mutations, not activating them!
                 draw_exam_window(wBio, DESCRIPTION_LINE_Y, true);
                 // Clear the lines first
                 werase(w_description);
@@ -360,7 +355,7 @@ You can not activate %s!  To read a description of \
             }
         }
     }
-    //if we activated a bionic, already killed the windows
+    //if we activated a mutations, already killed the windows
     if(!(menu_mode == "activating")) {
         werase(wBio);
         wrefresh(wBio);

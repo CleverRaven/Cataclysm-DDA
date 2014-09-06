@@ -3455,19 +3455,6 @@
         "fatigue"    :    true,
         "thirst"     :    true
     },{
-        "type" : "mutation",
-        "id" : "SHOUT4",
-        "name" : "DEBUG HOWLING!",
-        "points" : 99,
-        "valid" : false,
-        "description" : "Your howls do crazy-ass things.",
-        "active"     :    true,
-        "cost"       :    75,
-        "time"       :    0,
-        "fatigue"    :    true,
-        "hunger"     :    true,
-        "thirst"     :    true
-    },{
 
         "type" : "mutation",
         "id" : "ARM_FEATHERS",
